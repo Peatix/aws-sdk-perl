@@ -57,9 +57,9 @@ ignored. Properties from the target action configuration can be
 included as placeholders in this value by surrounding the action
 configuration key with curly brackets. For example, if the value
 supplied here is "refs/heads/{Branch}" and the target action has an
-action configuration property called "Branch" with a value of "master",
-the C<MatchEquals> value is evaluated as "refs/heads/master". For a
-list of action configuration properties for built-in action types, see
+action configuration property called "Branch" with a value of "main",
+the C<MatchEquals> value is evaluated as "refs/heads/main". For a list
+of action configuration properties for built-in action types, see
 Pipeline Structure Reference Action Requirements
 (https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements).
 

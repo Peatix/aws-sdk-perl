@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-The settings for source failover
+The settings for source failover.
 
 =head1 ATTRIBUTES
 
@@ -51,7 +51,7 @@ streams.
 
 =head2 RecoveryWindow => Int
 
-Recovery window time to look for dash-7 packets
+Recovery window time to look for dash-7 packets.
 
 
 =head2 SourcePriority => L<Paws::MediaConnect::SourcePriority>
@@ -62,7 +62,9 @@ stream and a backup stream or two equally prioritized streams.
 
 =head2 State => Str
 
-
+The state of source failover on the flow. If the state is inactive, the
+flow can have only one source. If the state is active, the flow can
+have one or two sources.
 
 
 

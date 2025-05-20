@@ -52,27 +52,42 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 AllowExternalPrincipals => Bool
 
-Indicates whether principals outside your AWS organization can be
-associated with a resource share.
+Specifies whether principals outside your organization in Organizations
+can be associated with a resource share.
 
 
 
 =head2 ClientToken => Str
 
-A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+Specifies a unique, case-sensitive identifier that you provide to
+ensure the idempotency of the request. This lets you safely retry the
+request without accidentally performing the same operation a second
+time. Passing the same value to a later call to an operation requires
+that you also pass the same value for all other parameters. We
+recommend that you use a UUID type of value.
+(https://wikipedia.org/wiki/Universally_unique_identifier).
+
+If you don't provide this value, then Amazon Web Services generates a
+random one for you.
+
+If you retry the operation with the same C<ClientToken>, but with
+different parameters, the retry fails with an
+C<IdempotentParameterMismatch> error.
 
 
 
 =head2 Name => Str
 
-The name of the resource share.
+If specified, the new name that you want to attach to the resource
+share.
 
 
 
 =head2 B<REQUIRED> ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share that you want to modify.
 
 
 

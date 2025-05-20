@@ -48,8 +48,8 @@ information, see Connection Draining
 
 =head2 ExecutionTimeout => Int
 
-The time, in seconds, that AWS OpsWorks Stacks will wait after
-triggering a Shutdown event before shutting down an instance.
+The time, in seconds, that OpsWorks Stacks waits after triggering a
+Shutdown event before shutting down an instance.
 
 
 

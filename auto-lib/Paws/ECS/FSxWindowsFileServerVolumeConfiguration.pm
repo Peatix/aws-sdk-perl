@@ -35,13 +35,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::FSxWin
 
 =head1 DESCRIPTION
 
-This parameter is specified when you are using Amazon FSx for Windows
+This parameter is specified when you're using Amazon FSx for Windows
 File Server
 (https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html) file
 system for task storage.
 
 For more information and the input format, see Amazon FSx for Windows
-File Server Volumes
+File Server volumes
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 

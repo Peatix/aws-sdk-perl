@@ -44,7 +44,7 @@ indexing.
 
 =head2 DocumentId => Str
 
-The unique identifier of the document.
+The identifier of the document.
 
 
 =head2 DocumentStatus => Str

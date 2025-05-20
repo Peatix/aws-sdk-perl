@@ -1,7 +1,8 @@
 
 package Paws::RAM::TagResource;
   use Moose;
-  has ResourceShareArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceShareArn', required => 1);
+  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceArn');
+  has ResourceShareArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceShareArn');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RAM::Tag]', traits => ['NameInRequest'], request_name => 'tags', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,15 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ram = Paws->service('RAM');
     my $TagResourceResponse = $ram->TagResource(
-      ResourceShareArn => 'MyString',
-      Tags             => [
+      Tags => [
         {
           Key   => 'MyTagKey',      # OPTIONAL
           Value => 'MyTagValue',    # OPTIONAL
         },
         ...
       ],
-
+      ResourceArn      => 'MyString',    # OPTIONAL
+      ResourceShareArn => 'MyString',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -47,15 +48,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ResourceShareArn => Str
+=head2 ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the managed permission that you want to add tags to. You must
+specify I<either> C<resourceArn>, or C<resourceShareArn>, but not both.
+
+
+
+=head2 ResourceShareArn => Str
+
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share that you want to add tags to. You must specify
+I<either> C<resourceShareArn>, or C<resourceArn>, but not both.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::RAM::Tag>]
 
-One or more tags.
+A list of one or more tag key and value pairs. The tag key must be
+present and not be an empty string. The tag value must be present but
+can be an empty string.
 
 
 

@@ -4,6 +4,7 @@ package Paws::FraudDetector::ModelVersionDetail;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has CreatedTime => (is => 'ro', isa => 'Str', request_name => 'createdTime', traits => ['NameInRequest']);
   has ExternalEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::ExternalEventsDetail', request_name => 'externalEventsDetail', traits => ['NameInRequest']);
+  has IngestedEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::IngestedEventsDetail', request_name => 'ingestedEventsDetail', traits => ['NameInRequest']);
   has LastUpdatedTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedTime', traits => ['NameInRequest']);
   has ModelId => (is => 'ro', isa => 'Str', request_name => 'modelId', traits => ['NameInRequest']);
   has ModelType => (is => 'ro', isa => 'Str', request_name => 'modelType', traits => ['NameInRequest']);
@@ -12,6 +13,7 @@ package Paws::FraudDetector::ModelVersionDetail;
   has TrainingDataSchema => (is => 'ro', isa => 'Paws::FraudDetector::TrainingDataSchema', request_name => 'trainingDataSchema', traits => ['NameInRequest']);
   has TrainingDataSource => (is => 'ro', isa => 'Str', request_name => 'trainingDataSource', traits => ['NameInRequest']);
   has TrainingResult => (is => 'ro', isa => 'Paws::FraudDetector::TrainingResult', request_name => 'trainingResult', traits => ['NameInRequest']);
+  has TrainingResultV2 => (is => 'ro', isa => 'Paws::FraudDetector::TrainingResultV2', request_name => 'trainingResultV2', traits => ['NameInRequest']);
 
 1;
 
@@ -32,7 +34,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::FraudDetector::ModelVersionDetail object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., TrainingResult => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., TrainingResultV2 => $value  });
 
 =head3 Results returned from an API call
 
@@ -60,7 +62,16 @@ The timestamp when the model was created.
 
 =head2 ExternalEventsDetail => L<Paws::FraudDetector::ExternalEventsDetail>
 
-The event details.
+The external events data details. This will be populated if the
+C<trainingDataSource> for the model version is specified as
+C<EXTERNAL_EVENTS>.
+
+
+=head2 IngestedEventsDetail => L<Paws::FraudDetector::IngestedEventsDetail>
+
+The ingested events data details. This will be populated if the
+C<trainingDataSource> for the model version is specified as
+C<INGESTED_EVENTS>.
 
 
 =head2 LastUpdatedTime => Str
@@ -101,6 +112,12 @@ The model version training data source.
 =head2 TrainingResult => L<Paws::FraudDetector::TrainingResult>
 
 The training results.
+
+
+=head2 TrainingResultV2 => L<Paws::FraudDetector::TrainingResultV2>
+
+The training result details. The details include the relative
+importance of the variables.
 
 
 

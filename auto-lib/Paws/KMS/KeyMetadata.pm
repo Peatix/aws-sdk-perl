@@ -12,16 +12,20 @@ package Paws::KMS::KeyMetadata;
   has Enabled => (is => 'ro', isa => 'Bool');
   has EncryptionAlgorithms => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ExpirationModel => (is => 'ro', isa => 'Str');
+  has KeyAgreementAlgorithms => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
   has KeyManager => (is => 'ro', isa => 'Str');
+  has KeySpec => (is => 'ro', isa => 'Str');
   has KeyState => (is => 'ro', isa => 'Str');
   has KeyUsage => (is => 'ro', isa => 'Str');
+  has MacAlgorithms => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has MultiRegion => (is => 'ro', isa => 'Bool');
   has MultiRegionConfiguration => (is => 'ro', isa => 'Paws::KMS::MultiRegionConfiguration');
   has Origin => (is => 'ro', isa => 'Str');
   has PendingDeletionWindowInDays => (is => 'ro', isa => 'Int');
   has SigningAlgorithms => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ValidTo => (is => 'ro', isa => 'Str');
+  has XksKeyConfiguration => (is => 'ro', isa => 'Paws::KMS::XksKeyConfigurationType');
 
 1;
 
@@ -42,7 +46,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::KMS::KeyMetadata object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., ValidTo => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., XksKeyConfiguration => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,60 +57,67 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KMS::KeyMet
 
 =head1 DESCRIPTION
 
-Contains metadata about a customer master key (CMK).
+Contains metadata about a KMS key.
 
-This data type is used as a response element for the CreateKey and
-DescribeKey operations.
+This data type is used as a response element for the CreateKey,
+DescribeKey, and ReplicateKey operations.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the CMK. For examples, see AWS Key
-Management Service (AWS KMS)
+The Amazon Resource Name (ARN) of the KMS key. For examples, see Key
+Management Service (KMS)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms)
-in the Example ARNs section of the I<AWS General Reference>.
+in the Example ARNs section of the I<Amazon Web Services General
+Reference>.
 
 
 =head2 AWSAccountId => Str
 
-The twelve-digit account ID of the AWS account that owns the CMK.
+The twelve-digit account ID of the Amazon Web Services account that
+owns the KMS key.
 
 
 =head2 CloudHsmClusterId => Str
 
-The cluster ID of the AWS CloudHSM cluster that contains the key
-material for the CMK. When you create a CMK in a custom key store
+The cluster ID of the CloudHSM cluster that contains the key material
+for the KMS key. When you create a KMS key in an CloudHSM custom key
+store
 (https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html),
-AWS KMS creates the key material for the CMK in the associated AWS
-CloudHSM cluster. This value is present only when the CMK is created in
-a custom key store.
+KMS creates the key material for the KMS key in the associated CloudHSM
+cluster. This field is present only when the KMS key is created in an
+CloudHSM key store.
 
 
 =head2 CreationDate => Str
 
-The date and time when the CMK was created.
+The date and time when the KMS key was created.
 
 
 =head2 CustomerMasterKeySpec => Str
 
-Describes the type of key material in the CMK.
+Instead, use the C<KeySpec> field.
+
+The C<KeySpec> and C<CustomerMasterKeySpec> fields have the same value.
+We recommend that you use the C<KeySpec> field in your code. However,
+to avoid breaking changes, KMS supports both fields.
 
 
 =head2 CustomKeyStoreId => Str
 
 A unique identifier for the custom key store
 (https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html)
-that contains the CMK. This value is present only when the CMK is
-created in a custom key store.
+that contains the KMS key. This field is present only when the KMS key
+is created in a custom key store.
 
 
 =head2 DeletionDate => Str
 
-The date and time after which AWS KMS deletes this CMK. This value is
-present only when the CMK is scheduled for deletion, that is, when its
-C<KeyState> is C<PendingDeletion>.
+The date and time after which KMS deletes this KMS key. This value is
+present only when the KMS key is scheduled for deletion, that is, when
+its C<KeyState> is C<PendingDeletion>.
 
 When the primary key in a multi-Region key is scheduled for deletion
 but still has replica keys, its key state is C<PendingReplicaDeletion>
@@ -116,97 +127,117 @@ C<PendingDeletionWindowInDays> field.
 
 =head2 Description => Str
 
-The description of the CMK.
+The description of the KMS key.
 
 
 =head2 Enabled => Bool
 
-Specifies whether the CMK is enabled. When C<KeyState> is C<Enabled>
-this value is true, otherwise it is false.
+Specifies whether the KMS key is enabled. When C<KeyState> is
+C<Enabled> this value is true, otherwise it is false.
 
 
 =head2 EncryptionAlgorithms => ArrayRef[Str|Undef]
 
-The encryption algorithms that the CMK supports. You cannot use the CMK
-with other encryption algorithms within AWS KMS.
+The encryption algorithms that the KMS key supports. You cannot use the
+KMS key with other encryption algorithms within KMS.
 
-This value is present only when the C<KeyUsage> of the CMK is
+This value is present only when the C<KeyUsage> of the KMS key is
 C<ENCRYPT_DECRYPT>.
 
 
 =head2 ExpirationModel => Str
 
-Specifies whether the CMK's key material expires. This value is present
-only when C<Origin> is C<EXTERNAL>, otherwise this value is omitted.
+Specifies whether the KMS key's key material expires. This value is
+present only when C<Origin> is C<EXTERNAL>, otherwise this value is
+omitted.
+
+
+=head2 KeyAgreementAlgorithms => ArrayRef[Str|Undef]
+
+The key agreement algorithm used to derive a shared secret.
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-The globally unique identifier for the CMK.
+The globally unique identifier for the KMS key.
 
 
 =head2 KeyManager => Str
 
-The manager of the CMK. CMKs in your AWS account are either customer
-managed or AWS managed. For more information about the difference, see
-Customer Master Keys
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys)
-in the I<AWS Key Management Service Developer Guide>.
+The manager of the KMS key. KMS keys in your Amazon Web Services
+account are either customer managed or Amazon Web Services managed. For
+more information about the difference, see KMS keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#kms_keys)
+in the I<Key Management Service Developer Guide>.
+
+
+=head2 KeySpec => Str
+
+Describes the type of key material in the KMS key.
 
 
 =head2 KeyState => Str
 
-The current status of the CMK.
+The current status of the KMS key.
 
-For more information about how key state affects the use of a CMK, see
-Key state: Effect on your CMK
+For more information about how key state affects the use of a KMS key,
+see Key states of KMS keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 =head2 KeyUsage => Str
 
 The cryptographic operations
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations)
-for which you can use the CMK.
+for which you can use the KMS key.
+
+
+=head2 MacAlgorithms => ArrayRef[Str|Undef]
+
+The message authentication code (MAC) algorithm that the HMAC KMS key
+supports.
+
+This value is present only when the C<KeyUsage> of the KMS key is
+C<GENERATE_VERIFY_MAC>.
 
 
 =head2 MultiRegion => Bool
 
-Indicates whether the CMK is a multi-Region (C<True>) or regional
+Indicates whether the KMS key is a multi-Region (C<True>) or regional
 (C<False>) key. This value is C<True> for multi-Region primary and
-replica CMKs and C<False> for regional CMKs.
+replica keys and C<False> for regional KMS keys.
 
-For more information about multi-Region keys, see Using multi-Region
-keys
+For more information about multi-Region keys, see Multi-Region keys in
+KMS
 (https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 =head2 MultiRegionConfiguration => L<Paws::KMS::MultiRegionConfiguration>
 
-Lists the primary and replica CMKs in same multi-Region CMK. This field
+Lists the primary and replica keys in same multi-Region key. This field
 is present only when the value of the C<MultiRegion> field is C<True>.
 
-For more information about any listed CMK, use the DescribeKey
+For more information about any listed KMS key, use the DescribeKey
 operation.
 
 =over
 
 =item *
 
-C<MultiRegionKeyType> indicates whether the CMK is a C<PRIMARY> or
+C<MultiRegionKeyType> indicates whether the KMS key is a C<PRIMARY> or
 C<REPLICA> key.
 
 =item *
 
 C<PrimaryKey> displays the key ARN and Region of the primary key. This
-field displays the current CMK if it is the primary key.
+field displays the current KMS key if it is the primary key.
 
 =item *
 
 C<ReplicaKeys> displays the key ARNs and Regions of all replica keys.
-This field includes the current CMK if it is a replica key.
+This field includes the current KMS key if it is a replica key.
 
 =back
 
@@ -214,24 +245,23 @@ This field includes the current CMK if it is a replica key.
 
 =head2 Origin => Str
 
-The source of the CMK's key material. When this value is C<AWS_KMS>,
-AWS KMS created the key material. When this value is C<EXTERNAL>, the
-key material was imported from your existing key management
-infrastructure or the CMK lacks key material. When this value is
-C<AWS_CLOUDHSM>, the key material was created in the AWS CloudHSM
-cluster associated with a custom key store.
+The source of the key material for the KMS key. When this value is
+C<AWS_KMS>, KMS created the key material. When this value is
+C<EXTERNAL>, the key material was imported or the KMS key doesn't have
+any key material. When this value is C<AWS_CLOUDHSM>, the key material
+was created in the CloudHSM cluster associated with a custom key store.
 
 
 =head2 PendingDeletionWindowInDays => Int
 
 The waiting period before the primary key in a multi-Region key is
 deleted. This waiting period begins when the last of its replica keys
-is deleted. This value is present only when the C<KeyState> of the CMK
-is C<PendingReplicaDeletion>. That indicates that the CMK is the
-primary key in a multi-Region key, it is scheduled for deletion, and it
-still has existing replica keys.
+is deleted. This value is present only when the C<KeyState> of the KMS
+key is C<PendingReplicaDeletion>. That indicates that the KMS key is
+the primary key in a multi-Region key, it is scheduled for deletion,
+and it still has existing replica keys.
 
-When a regional CMK or a replica key in a multi-Region key is scheduled
+When a single-Region KMS key or a multi-Region replica key is scheduled
 for deletion, its deletion date is displayed in the C<DeletionDate>
 field. However, when the primary key in a multi-Region key is scheduled
 for deletion, its waiting period doesn't begin until all of its replica
@@ -244,20 +274,30 @@ field.
 
 =head2 SigningAlgorithms => ArrayRef[Str|Undef]
 
-The signing algorithms that the CMK supports. You cannot use the CMK
-with other signing algorithms within AWS KMS.
+The signing algorithms that the KMS key supports. You cannot use the
+KMS key with other signing algorithms within KMS.
 
-This field appears only when the C<KeyUsage> of the CMK is
+This field appears only when the C<KeyUsage> of the KMS key is
 C<SIGN_VERIFY>.
 
 
 =head2 ValidTo => Str
 
 The time at which the imported key material expires. When the key
-material expires, AWS KMS deletes the key material and the CMK becomes
-unusable. This value is present only for CMKs whose C<Origin> is
+material expires, KMS deletes the key material and the KMS key becomes
+unusable. This value is present only for KMS keys whose C<Origin> is
 C<EXTERNAL> and whose C<ExpirationModel> is C<KEY_MATERIAL_EXPIRES>,
 otherwise this value is omitted.
+
+
+=head2 XksKeyConfiguration => L<Paws::KMS::XksKeyConfigurationType>
+
+Information about the external key that is associated with a KMS key in
+an external key store.
+
+For more information, see External key
+(https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html#concept-external-key)
+in the I<Key Management Service Developer Guide>.
 
 
 

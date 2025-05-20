@@ -54,14 +54,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The cluster name that the identity provider configuration is associated
-to.
+The name of your cluster.
 
 
 
 =head2 B<REQUIRED> IdentityProviderConfig => L<Paws::EKS::IdentityProviderConfig>
 
-An object that represents an identity provider configuration.
+An object representing an identity provider configuration.
 
 
 

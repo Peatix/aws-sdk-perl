@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> DatasetName => Str
 
-The name of the data set whose information is retrieved.
+The name of the dataset whose information is retrieved.
 
 
 

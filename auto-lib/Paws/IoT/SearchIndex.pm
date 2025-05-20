@@ -61,7 +61,11 @@ The search index name.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return at one time.
+The maximum number of results to return per page at one time. This
+maximum number cannot exceed 100. The response might contain fewer
+results but will never contain more. You can use C<nextToken>
+(https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken)
+to retrieve the next set of results until C<nextToken> returns C<NULL>.
 
 
 
@@ -74,7 +78,9 @@ no additional results.
 
 =head2 B<REQUIRED> QueryString => Str
 
-The search query string.
+The search query string. For more information about the search query
+syntax, see Query syntax
+(https://docs.aws.amazon.com/iot/latest/developerguide/query-syntax.html).
 
 
 

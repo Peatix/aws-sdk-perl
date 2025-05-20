@@ -84,7 +84,7 @@ provisioned and managed infrastructure.
 
 =head2 RecommendedVersion => Str
 
-The ID of the recommended version of the environment template.
+The recommended version of the environment template.
 
 
 

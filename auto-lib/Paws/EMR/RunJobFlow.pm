@@ -5,10 +5,13 @@ package Paws::EMR::RunJobFlow;
   has AmiVersion => (is => 'ro', isa => 'Str');
   has Applications => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Application]');
   has AutoScalingRole => (is => 'ro', isa => 'Str');
+  has AutoTerminationPolicy => (is => 'ro', isa => 'Paws::EMR::AutoTerminationPolicy');
   has BootstrapActions => (is => 'ro', isa => 'ArrayRef[Paws::EMR::BootstrapActionConfig]');
   has Configurations => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Configuration]');
   has CustomAmiId => (is => 'ro', isa => 'Str');
+  has EbsRootVolumeIops => (is => 'ro', isa => 'Int');
   has EbsRootVolumeSize => (is => 'ro', isa => 'Int');
+  has EbsRootVolumeThroughput => (is => 'ro', isa => 'Int');
   has Instances => (is => 'ro', isa => 'Paws::EMR::JobFlowInstancesConfig', required => 1);
   has JobFlowRole => (is => 'ro', isa => 'Str');
   has KerberosAttributes => (is => 'ro', isa => 'Paws::EMR::KerberosAttributes');
@@ -17,6 +20,7 @@ package Paws::EMR::RunJobFlow;
   has ManagedScalingPolicy => (is => 'ro', isa => 'Paws::EMR::ManagedScalingPolicy');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has NewSupportedProducts => (is => 'ro', isa => 'ArrayRef[Paws::EMR::SupportedProductConfig]');
+  has OSReleaseLabel => (is => 'ro', isa => 'Str');
   has PlacementGroupConfigs => (is => 'ro', isa => 'ArrayRef[Paws::EMR::PlacementGroupConfig]');
   has ReleaseLabel => (is => 'ro', isa => 'Str');
   has RepoUpgradeOnBoot => (is => 'ro', isa => 'Str');
@@ -45,7 +49,7 @@ Paws::EMR::RunJobFlow - Arguments for method RunJobFlow on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method RunJobFlow on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method RunJobFlow.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to RunJobFlow.
@@ -73,6 +77,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         InstanceFleets                => [
           {
             InstanceFleetType   => 'MASTER',    # values: MASTER, CORE, TASK
+            Context             => 'MyXmlStringMaxLen256',    # max: 256
             InstanceTypeConfigs => [
               {
                 InstanceType => 'MyInstanceType',            # min: 1, max: 256
@@ -88,6 +93,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   },
                   ...
                 ],    # OPTIONAL
+                CustomAmiId      => 'MyXmlStringMaxLen256',    # max: 256
                 EbsConfiguration => {
                   EbsBlockDeviceConfigs => [
                     {
@@ -95,6 +101,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                         SizeInGB   => 1,             # OPTIONAL
                         VolumeType => 'MyString',    # OPTIONAL
                         Iops       => 1,             # OPTIONAL
+                        Throughput => 1,             # OPTIONAL
                       },
                       VolumesPerInstance => 1,       # OPTIONAL
                     },
@@ -102,16 +109,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   ],    # OPTIONAL
                   EbsOptimized => 1,    # OPTIONAL
                 },    # OPTIONAL
+                Priority         => 1,    # OPTIONAL
                 WeightedCapacity => 1,    # OPTIONAL
               },
               ...
             ],    # OPTIONAL
             LaunchSpecifications => {
               OnDemandSpecification => {
-                AllocationStrategy => 'lowest-price',    # values: lowest-price
+                AllocationStrategy =>
+                  'lowest-price',    # values: lowest-price, prioritized
                 CapacityReservationOptions => {
                   CapacityReservationPreference =>
-                    'open',    # values: open, none; OPTIONAL
+                    'open',          # values: open, none; OPTIONAL
                   CapacityReservationResourceGroupArn =>
                     'MyXmlStringMaxLen256',    # max: 256
                   UsageStrategy => 'use-capacity-reservations-first'
@@ -121,15 +130,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               SpotSpecification => {
                 TimeoutAction => 'SWITCH_TO_ON_DEMAND'
                 ,    # values: SWITCH_TO_ON_DEMAND, TERMINATE_CLUSTER
-                TimeoutDurationMinutes => 1,    # OPTIONAL
-                AllocationStrategy     =>
-                  'capacity-optimized',   # values: capacity-optimized; OPTIONAL
+                TimeoutDurationMinutes => 1,                     # OPTIONAL
+                AllocationStrategy     => 'capacity-optimized'
+                , # values: capacity-optimized, price-capacity-optimized, lowest-price, diversified, capacity-optimized-prioritized; OPTIONAL
                 BlockDurationMinutes => 1,    # OPTIONAL
               },    # OPTIONAL
             },    # OPTIONAL
-            Name                   => 'MyXmlStringMaxLen256',    # max: 256
-            TargetOnDemandCapacity => 1,                         # OPTIONAL
-            TargetSpotCapacity     => 1,                         # OPTIONAL
+            Name                 => 'MyXmlStringMaxLen256',    # max: 256
+            ResizeSpecifications => {
+              OnDemandResizeSpecification => {
+                AllocationStrategy =>
+                  'lowest-price',    # values: lowest-price, prioritized
+                CapacityReservationOptions => {
+                  CapacityReservationPreference =>
+                    'open',          # values: open, none; OPTIONAL
+                  CapacityReservationResourceGroupArn =>
+                    'MyXmlStringMaxLen256',    # max: 256
+                  UsageStrategy => 'use-capacity-reservations-first'
+                  ,    # values: use-capacity-reservations-first; OPTIONAL
+                },    # OPTIONAL
+                TimeoutDurationMinutes => 1,    # OPTIONAL
+              },    # OPTIONAL
+              SpotResizeSpecification => {
+                AllocationStrategy => 'capacity-optimized'
+                , # values: capacity-optimized, price-capacity-optimized, lowest-price, diversified, capacity-optimized-prioritized; OPTIONAL
+                TimeoutDurationMinutes => 1,    # OPTIONAL
+              },    # OPTIONAL
+            },    # OPTIONAL
+            TargetOnDemandCapacity => 1,    # OPTIONAL
+            TargetSpotCapacity     => 1,    # OPTIONAL
           },
           ...
         ],    # OPTIONAL
@@ -196,6 +225,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
               ...
             ],    # OPTIONAL
+            CustomAmiId      => 'MyXmlStringMaxLen256',    # max: 256
             EbsConfiguration => {
               EbsBlockDeviceConfigs => [
                 {
@@ -203,6 +233,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     SizeInGB   => 1,             # OPTIONAL
                     VolumeType => 'MyString',    # OPTIONAL
                     Iops       => 1,             # OPTIONAL
+                    Throughput => 1,             # OPTIONAL
                   },
                   VolumesPerInstance => 1,       # OPTIONAL
                 },
@@ -226,6 +257,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ServiceAccessSecurityGroup => 'MyXmlStringMaxLen256', # max: 256
         SlaveInstanceType          => 'MyInstanceType',       # min: 1, max: 256
         TerminationProtected       => 1,                      # OPTIONAL
+        UnhealthyNodeReplacement   => 1,                      # OPTIONAL
       },
       Name           => 'MyXmlStringMaxLen256',
       AdditionalInfo => 'MyXmlString',                        # OPTIONAL
@@ -243,7 +275,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      AutoScalingRole  => 'MyXmlString',    # OPTIONAL
+      AutoScalingRole       => 'MyXmlString',    # OPTIONAL
+      AutoTerminationPolicy => {
+        IdleTimeout => 1,                        # OPTIONAL
+      },    # OPTIONAL
       BootstrapActions => [
         {
           Name                  => 'MyXmlStringMaxLen256',    # max: 256
@@ -267,10 +302,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      CustomAmiId        => 'MyXmlStringMaxLen256',    # OPTIONAL
-      EbsRootVolumeSize  => 1,                         # OPTIONAL
-      JobFlowRole        => 'MyXmlString',             # OPTIONAL
-      KerberosAttributes => {
+      CustomAmiId             => 'MyXmlStringMaxLen256',    # OPTIONAL
+      EbsRootVolumeIops       => 1,                         # OPTIONAL
+      EbsRootVolumeSize       => 1,                         # OPTIONAL
+      EbsRootVolumeThroughput => 1,                         # OPTIONAL
+      JobFlowRole             => 'MyXmlString',             # OPTIONAL
+      KerberosAttributes      => {
         KdcAdminPassword                 => 'MyXmlStringMaxLen256',   # max: 256
         Realm                            => 'MyXmlStringMaxLen256',   # max: 256
         ADDomainJoinPassword             => 'MyXmlStringMaxLen256',   # max: 256
@@ -288,6 +325,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           MaximumCoreCapacityUnits     => 1,    # OPTIONAL
           MaximumOnDemandCapacityUnits => 1,    # OPTIONAL
         },    # OPTIONAL
+        ScalingStrategy => 'DEFAULT',    # values: DEFAULT, ADVANCED; OPTIONAL
+        UtilizationPerformanceIndex => 1,    # min: 1, max: 100; OPTIONAL
       },    # OPTIONAL
       NewSupportedProducts => [
         {
@@ -298,6 +337,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      OSReleaseLabel        => 'MyXmlStringMaxLen256',    # OPTIONAL
       PlacementGroupConfigs => [
         {
           InstanceRole      => 'MASTER',    # values: MASTER, CORE, TASK
@@ -378,7 +418,7 @@ AMI, use C<CustomAmiID>.
 Applies to Amazon EMR releases 4.0 and later. A case-insensitive list
 of applications for Amazon EMR to install and configure when launching
 the cluster. For a list of applications available for each Amazon EMR
-release version, see the Amazon EMR Release Guide
+release version, see the Amazon EMRRelease Guide
 (https://docs.aws.amazon.com/emr/latest/ReleaseGuide/).
 
 
@@ -387,8 +427,14 @@ release version, see the Amazon EMR Release Guide
 
 An IAM role for automatic scaling policies. The default role is
 C<EMR_AutoScaling_DefaultRole>. The IAM role provides permissions that
-the automatic scaling feature requires to launch and terminate EC2
-instances in an instance group.
+the automatic scaling feature requires to launch and terminate Amazon
+EC2 instances in an instance group.
+
+
+
+=head2 AutoTerminationPolicy => L<Paws::EMR::AutoTerminationPolicy>
+
+
 
 
 
@@ -402,20 +448,20 @@ nodes.
 =head2 Configurations => ArrayRef[L<Paws::EMR::Configuration>]
 
 For Amazon EMR releases 4.0 and later. The list of configurations
-supplied for the EMR cluster you are creating.
+supplied for the Amazon EMR cluster that you are creating.
 
 
 
 =head2 CustomAmiId => Str
 
-Available only in Amazon EMR version 5.7.0 and later. The ID of a
+Available only in Amazon EMR releases 5.7.0 and later. The ID of a
 custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this
-AMI when it launches cluster EC2 instances. For more information about
-custom AMIs in Amazon EMR, see Using a Custom AMI
+AMI when it launches cluster Amazon EC2 instances. For more information
+about custom AMIs in Amazon EMR, see Using a Custom AMI
 (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-custom-ami.html)
 in the I<Amazon EMR Management Guide>. If omitted, the cluster uses the
 base Linux AMI for the C<ReleaseLabel> specified. For Amazon EMR
-versions 2.x and 3.x, use C<AmiVersion> instead.
+releases 2.x and 3.x, use C<AmiVersion> instead.
 
 For information about creating a custom AMI, see Creating an Amazon
 EBS-Backed Linux AMI
@@ -426,11 +472,27 @@ For information about finding an AMI ID, see Finding a Linux AMI
 
 
 
+=head2 EbsRootVolumeIops => Int
+
+The IOPS, of the Amazon EBS root device volume of the Linux AMI that is
+used for each Amazon EC2 instance. Available in Amazon EMR releases
+6.15.0 and later.
+
+
+
 =head2 EbsRootVolumeSize => Int
 
 The size, in GiB, of the Amazon EBS root device volume of the Linux AMI
-that is used for each EC2 instance. Available in Amazon EMR version 4.x
-and later.
+that is used for each Amazon EC2 instance. Available in Amazon EMR
+releases 4.x and later.
+
+
+
+=head2 EbsRootVolumeThroughput => Int
+
+The throughput, in MiB/s, of the Amazon EBS root device volume of the
+Linux AMI that is used for each Amazon EC2 instance. Available in
+Amazon EMR releases 6.15.0 and later.
 
 
 
@@ -442,10 +504,11 @@ A specification of the number and type of Amazon EC2 instances.
 
 =head2 JobFlowRole => Str
 
-Also called instance profile and EC2 role. An IAM role for an EMR
-cluster. The EC2 instances of the cluster assume this role. The default
-role is C<EMR_EC2_DefaultRole>. In order to use the default role, you
-must have already created it using the CLI or console.
+Also called instance profile and Amazon EC2 role. An IAM role for an
+Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this
+role. The default role is C<EMR_EC2_DefaultRole>. In order to use the
+default role, you must have already created it using the CLI or
+console.
 
 
 
@@ -461,10 +524,9 @@ in the I<Amazon EMR Management Guide>.
 
 =head2 LogEncryptionKmsKeyId => Str
 
-The AWS KMS customer master key (CMK) used for encrypting log files. If
-a value is not provided, the logs remain encrypted by AES-256. This
-attribute is only available with Amazon EMR version 5.30.0 and later,
-excluding Amazon EMR 6.0.0.
+The KMS key used for encrypting log files. If a value is not provided,
+the logs remain encrypted by AES-256. This attribute is only available
+with Amazon EMR releases 5.30.0 and later, excluding Amazon EMR 6.0.0.
 
 
 
@@ -493,10 +555,11 @@ For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and
 later, use Applications.
 
 A list of strings that indicates third-party software to use with the
-job flow that accepts a user argument list. EMR accepts and forwards
-the argument list to the corresponding installation script as bootstrap
-action arguments. For more information, see "Launch a Job Flow on the
-MapR Distribution for Hadoop" in the Amazon EMR Developer Guide
+job flow that accepts a user argument list. Amazon EMR accepts and
+forwards the argument list to the corresponding installation script as
+bootstrap action arguments. For more information, see "Launch a Job
+Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer
+Guide
 (https://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf).
 Supported values are:
 
@@ -539,6 +602,14 @@ installed.
 
 =back
 
+
+
+
+=head2 OSReleaseLabel => Str
+
+Specifies a particular Amazon Linux release for all nodes in a cluster
+launch RunJobFlow request. If a release is not specified, Amazon EMR
+uses the latest validated Amazon Linux release for cluster launch.
 
 
 
@@ -587,7 +658,7 @@ terminating the Amazon EC2 instances, regardless of the instance-hour
 boundary. With either behavior, Amazon EMR removes the least active
 nodes first and blocks instance termination if it could lead to HDFS
 corruption. C<TERMINATE_AT_TASK_COMPLETION> available only in Amazon
-EMR version 4.1.0 and later, and is the default for versions of Amazon
+EMR releases 4.1.0 and later, and is the default for releases of Amazon
 EMR earlier than 5.1.0.
 
 Valid values are: C<"TERMINATE_AT_INSTANCE_HOUR">, C<"TERMINATE_AT_TASK_COMPLETION">
@@ -600,8 +671,10 @@ The name of a security configuration to apply to the cluster.
 
 =head2 ServiceRole => Str
 
-The IAM role that will be assumed by the Amazon EMR service to access
-AWS resources on your behalf.
+The IAM role that Amazon EMR assumes in order to access Amazon Web
+Services resources on your behalf. If you've created a custom service
+role path, you must specify it for the service role when you launch
+your cluster.
 
 
 
@@ -652,10 +725,24 @@ instances.
 
 =head2 VisibleToAllUsers => Bool
 
-A value of C<true> indicates that all IAM users in the AWS account can
-perform cluster actions if they have the proper IAM policy permissions.
-This is the default. A value of C<false> indicates that only the IAM
-user who created the cluster can perform actions.
+The VisibleToAllUsers parameter is no longer supported. By default, the
+value is set to C<true>. Setting it to C<false> now has no effect.
+
+Set this value to C<true> so that IAM principals in the Amazon Web
+Services account associated with the cluster can perform Amazon EMR
+actions on the cluster that their IAM policies allow. This value
+defaults to C<true> for clusters created using the Amazon EMR API or
+the CLI create-cluster
+(https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html)
+command.
+
+When set to C<false>, only the IAM principal that created the cluster
+and the Amazon Web Services account root user can perform Amazon EMR
+actions for the cluster, regardless of the IAM permissions policies
+attached to other IAM principals. For more information, see
+Understanding the Amazon EMR cluster VisibleToAllUsers setting
+(https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users)
+in the I<Amazon EMR Management Guide>.
 
 
 

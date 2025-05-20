@@ -2,9 +2,9 @@
 package Paws::EC2::DisassociateTransitGatewayMulticastDomain;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
-  has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has TransitGatewayAttachmentId => (is => 'ro', isa => 'Str');
-  has TransitGatewayMulticastDomainId => (is => 'ro', isa => 'Str');
+  has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has TransitGatewayAttachmentId => (is => 'ro', isa => 'Str', required => 1);
+  has TransitGatewayMulticastDomainId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $DisassociateTransitGatewayMulticastDomainResult =
       $ec2->DisassociateTransitGatewayMulticastDomain(
-      DryRun                     => 1,                                # OPTIONAL
-      SubnetIds                  => [ 'MySubnetId', ... ],            # OPTIONAL
-      TransitGatewayAttachmentId => 'MyTransitGatewayAttachmentId',   # OPTIONAL
-      TransitGatewayMulticastDomainId =>
-        'MyTransitGatewayMulticastDomainId',                          # OPTIONAL
+      SubnetIds                       => [ 'MySubnetId', ... ],
+      TransitGatewayAttachmentId      => 'MyTransitGatewayAttachmentId',
+      TransitGatewayMulticastDomainId => 'MyTransitGatewayMulticastDomainId',
+      DryRun                          => 1,    # OPTIONAL
       );
 
     # Results:
@@ -60,19 +59,19 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 SubnetIds => ArrayRef[Str|Undef]
+=head2 B<REQUIRED> SubnetIds => ArrayRef[Str|Undef]
 
 The IDs of the subnets;
 
 
 
-=head2 TransitGatewayAttachmentId => Str
+=head2 B<REQUIRED> TransitGatewayAttachmentId => Str
 
 The ID of the attachment.
 
 
 
-=head2 TransitGatewayMulticastDomainId => Str
+=head2 B<REQUIRED> TransitGatewayMulticastDomainId => Str
 
 The ID of the transit gateway multicast domain.
 

@@ -93,13 +93,12 @@ template values.
 
 =item *
 
-C<IN_SYNC>: The resources's actual configuration matches its expected
+C<IN_SYNC>: The resource's actual configuration matches its expected
 template configuration.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation does not currently return this
-value.
+C<NOT_CHECKED>: CloudFormation doesn't currently return this value.
 
 =back
 

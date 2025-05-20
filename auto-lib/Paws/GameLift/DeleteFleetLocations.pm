@@ -59,7 +59,7 @@ either the fleet ID or ARN value.
 =head2 B<REQUIRED> Locations => ArrayRef[Str|Undef]
 
 The list of fleet locations to delete. Specify locations in the form of
-an AWS Region code, such as C<us-west-2>.
+an Amazon Web Services Region code, such as C<us-west-2>.
 
 
 

@@ -3,6 +3,7 @@ package Paws::EC2::ModifyHosts;
   use Moose;
   has AutoPlacement => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'autoPlacement' );
   has HostIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'hostId' , required => 1);
+  has HostMaintenance => (is => 'ro', isa => 'Str');
   has HostRecovery => (is => 'ro', isa => 'Str');
   has InstanceFamily => (is => 'ro', isa => 'Str');
   has InstanceType => (is => 'ro', isa => 'Str');
@@ -32,11 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $ModifyHostsResult = $ec2->ModifyHosts(
-      HostIds        => [ 'MyDedicatedHostId', ... ],
-      AutoPlacement  => 'on',                           # OPTIONAL
-      HostRecovery   => 'on',                           # OPTIONAL
-      InstanceFamily => 'MyString',                     # OPTIONAL
-      InstanceType   => 'MyString',                     # OPTIONAL
+      HostIds         => [ 'MyDedicatedHostId', ... ],
+      AutoPlacement   => 'on',                           # OPTIONAL
+      HostMaintenance => 'on',                           # OPTIONAL
+      HostRecovery    => 'on',                           # OPTIONAL
+      InstanceFamily  => 'MyString',                     # OPTIONAL
+      InstanceType    => 'MyString',                     # OPTIONAL
     );
 
     # Results:
@@ -62,6 +64,15 @@ Valid values are: C<"on">, C<"off">
 The IDs of the Dedicated Hosts to modify.
 
 
+
+=head2 HostMaintenance => Str
+
+Indicates whether to enable or disable host maintenance for the
+Dedicated Host. For more information, see Host maintenance
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-maintenance.html)
+in the I<Amazon EC2 User Guide>.
+
+Valid values are: C<"on">, C<"off">
 
 =head2 HostRecovery => Str
 

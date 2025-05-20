@@ -2,8 +2,13 @@
 package Paws::IVS::CreateChannel;
   use Moose;
   has Authorized => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'authorized');
+  has ContainerFormat => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'containerFormat');
+  has InsecureIngest => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'insecureIngest');
   has LatencyMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'latencyMode');
+  has MultitrackInputConfiguration => (is => 'ro', isa => 'Paws::IVS::MultitrackInputConfiguration', traits => ['NameInRequest'], request_name => 'multitrackInputConfiguration');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
+  has PlaybackRestrictionPolicyArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'playbackRestrictionPolicyArn');
+  has Preset => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'preset');
   has RecordingConfigurationArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'recordingConfigurationArn');
   has Tags => (is => 'ro', isa => 'Paws::IVS::Tags', traits => ['NameInRequest'], request_name => 'tags');
   has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type');
@@ -34,11 +39,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ivs = Paws->service('IVS');
     my $CreateChannelResponse = $ivs->CreateChannel(
-      Authorized                => 1,                  # OPTIONAL
-      LatencyMode               => 'NORMAL',           # OPTIONAL
-      Name                      => 'MyChannelName',    # OPTIONAL
+      Authorized                   => 1,           # OPTIONAL
+      ContainerFormat              => 'TS',        # OPTIONAL
+      InsecureIngest               => 1,           # OPTIONAL
+      LatencyMode                  => 'NORMAL',    # OPTIONAL
+      MultitrackInputConfiguration => {
+        Enabled           => 1,          # OPTIONAL
+        MaximumResolution => 'SD',       # values: SD, HD, FULL_HD; OPTIONAL
+        Policy            => 'ALLOW',    # values: ALLOW, REQUIRE; OPTIONAL
+      },    # OPTIONAL
+      Name                         => 'MyChannelName',    # OPTIONAL
+      PlaybackRestrictionPolicyArn =>
+        'MyChannelPlaybackRestrictionPolicyArn',          # OPTIONAL
+      Preset                    => 'HIGHER_BANDWIDTH_DELIVERY',    # OPTIONAL
       RecordingConfigurationArn =>
-        'MyChannelRecordingConfigurationArn',          # OPTIONAL
+        'MyChannelRecordingConfigurationArn',                      # OPTIONAL
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -64,14 +79,37 @@ Default: C<false>.
 
 
 
+=head2 ContainerFormat => Str
+
+Indicates which content-packaging format is used (MPEG-TS or fMP4). If
+C<multitrackInputConfiguration> is specified and C<enabled> is C<true>,
+then C<containerFormat> is required and must be set to
+C<FRAGMENTED_MP4>. Otherwise, C<containerFormat> may be set to C<TS> or
+C<FRAGMENTED_MP4>. Default: C<TS>.
+
+Valid values are: C<"TS">, C<"FRAGMENTED_MP4">
+
+=head2 InsecureIngest => Bool
+
+Whether the channel allows insecure RTMP and SRT ingest. Default:
+C<false>.
+
+
+
 =head2 LatencyMode => Str
 
 Channel latency mode. Use C<NORMAL> to broadcast and deliver live video
 up to Full HD. Use C<LOW> for near-real-time interaction with viewers.
-(Note: In the Amazon IVS console, C<LOW> and C<NORMAL> correspond to
-Ultra-low and Standard, respectively.) Default: C<LOW>.
+Default: C<LOW>.
 
 Valid values are: C<"NORMAL">, C<"LOW">
+
+=head2 MultitrackInputConfiguration => L<Paws::IVS::MultitrackInputConfiguration>
+
+Object specifying multitrack input configuration. Default: no
+multitrack input configuration is specified.
+
+
 
 =head2 Name => Str
 
@@ -79,45 +117,53 @@ Channel name.
 
 
 
+=head2 PlaybackRestrictionPolicyArn => Str
+
+Playback-restriction-policy ARN. A valid ARN value here both specifies
+the ARN and enables playback restriction. Default: "" (empty string, no
+playback restriction policy is applied).
+
+
+
+=head2 Preset => Str
+
+Optional transcode preset for the channel. This is selectable only for
+C<ADVANCED_HD> and C<ADVANCED_SD> channel types. For those channel
+types, the default C<preset> is C<HIGHER_BANDWIDTH_DELIVERY>. For other
+channel types (C<BASIC> and C<STANDARD>), C<preset> is the empty string
+(C<"">).
+
+Valid values are: C<"HIGHER_BANDWIDTH_DELIVERY">, C<"CONSTRAINED_BANDWIDTH_DELIVERY">
+
 =head2 RecordingConfigurationArn => Str
 
-Recording-configuration ARN. Default: "" (empty string, recording is
+Recording-configuration ARN. A valid ARN value here both specifies the
+ARN and enables recording. Default: "" (empty string, recording is
 disabled).
 
 
 
 =head2 Tags => L<Paws::IVS::Tags>
 
-Array of 1-50 maps, each of the form C<string:string (key:value)>.
+Array of 1-50 maps, each of the form C<string:string (key:value)>. See
+Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
 
 
 
 =head2 Type => Str
 
 Channel type, which determines the allowable resolution and bitrate.
-I<If you exceed the allowable resolution or bitrate, the stream
-probably will disconnect immediately.> Default: C<STANDARD>. Valid
-values:
+I<If you exceed the allowable input resolution or bitrate, the stream
+probably will disconnect immediately.> Default: C<STANDARD>. For
+details, see Channel Types
+(https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
 
-=over
-
-=item *
-
-C<STANDARD>: Multiple qualities are generated from the original input,
-to automatically give viewers the best experience for their devices and
-network conditions. Vertical resolution can be up to 1080 and bitrate
-can be up to 8.5 Mbps.
-
-=item *
-
-C<BASIC>: Amazon IVS delivers the original input to viewers. The
-viewerE<rsquo>s video-quality choice is limited to the original input.
-Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.
-
-=back
-
-
-Valid values are: C<"BASIC">, C<"STANDARD">
+Valid values are: C<"BASIC">, C<"STANDARD">, C<"ADVANCED_SD">, C<"ADVANCED_HD">
 
 
 =head1 SEE ALSO

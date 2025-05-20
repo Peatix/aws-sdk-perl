@@ -2,17 +2,20 @@ package Paws::EC2::Host;
   use Moose;
   has AllocationTime => (is => 'ro', isa => 'Str', request_name => 'allocationTime', traits => ['NameInRequest']);
   has AllowsMultipleInstanceTypes => (is => 'ro', isa => 'Str', request_name => 'allowsMultipleInstanceTypes', traits => ['NameInRequest']);
+  has AssetId => (is => 'ro', isa => 'Str', request_name => 'assetId', traits => ['NameInRequest']);
   has AutoPlacement => (is => 'ro', isa => 'Str', request_name => 'autoPlacement', traits => ['NameInRequest']);
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
   has AvailabilityZoneId => (is => 'ro', isa => 'Str', request_name => 'availabilityZoneId', traits => ['NameInRequest']);
   has AvailableCapacity => (is => 'ro', isa => 'Paws::EC2::AvailableCapacity', request_name => 'availableCapacity', traits => ['NameInRequest']);
   has ClientToken => (is => 'ro', isa => 'Str', request_name => 'clientToken', traits => ['NameInRequest']);
   has HostId => (is => 'ro', isa => 'Str', request_name => 'hostId', traits => ['NameInRequest']);
+  has HostMaintenance => (is => 'ro', isa => 'Str', request_name => 'hostMaintenance', traits => ['NameInRequest']);
   has HostProperties => (is => 'ro', isa => 'Paws::EC2::HostProperties', request_name => 'hostProperties', traits => ['NameInRequest']);
   has HostRecovery => (is => 'ro', isa => 'Str', request_name => 'hostRecovery', traits => ['NameInRequest']);
   has HostReservationId => (is => 'ro', isa => 'Str', request_name => 'hostReservationId', traits => ['NameInRequest']);
   has Instances => (is => 'ro', isa => 'ArrayRef[Paws::EC2::HostInstance]', request_name => 'instances', traits => ['NameInRequest']);
   has MemberOfServiceLinkedResourceGroup => (is => 'ro', isa => 'Bool', request_name => 'memberOfServiceLinkedResourceGroup', traits => ['NameInRequest']);
+  has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has ReleaseTime => (is => 'ro', isa => 'Str', request_name => 'releaseTime', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
@@ -65,6 +68,12 @@ supports multiple instance types in the instance family. If the value
 is C<off>, the Dedicated Host supports a single instance type only.
 
 
+=head2 AssetId => Str
+
+The ID of the Outpost hardware asset on which the Dedicated Host is
+allocated.
+
+
 =head2 AutoPlacement => Str
 
 Whether auto-placement is on or off.
@@ -99,6 +108,12 @@ Idempotency
 The ID of the Dedicated Host.
 
 
+=head2 HostMaintenance => Str
+
+Indicates whether host maintenance is enabled or disabled for the
+Dedicated Host.
+
+
 =head2 HostProperties => L<Paws::EC2::HostProperties>
 
 The hardware specifications of the Dedicated Host.
@@ -129,9 +144,15 @@ B<memberOfServiceLinkedResourceGroup> is C<true>, the host is in a host
 resource group; otherwise, it is not.
 
 
+=head2 OutpostArn => Str
+
+The Amazon Resource Name (ARN) of the Amazon Web Services Outpost on
+which the Dedicated Host is allocated.
+
+
 =head2 OwnerId => Str
 
-The ID of the account that owns the Dedicated Host.
+The ID of the Amazon Web Services account that owns the Dedicated Host.
 
 
 =head2 ReleaseTime => Str

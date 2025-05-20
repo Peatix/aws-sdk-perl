@@ -1,6 +1,7 @@
 
 package Paws::ECS::CreateService;
   use Moose;
+  has AvailabilityZoneRebalancing => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'availabilityZoneRebalancing' );
   has CapacityProviderStrategy => (is => 'ro', isa => 'ArrayRef[Paws::ECS::CapacityProviderStrategyItem]', traits => ['NameInRequest'], request_name => 'capacityProviderStrategy' );
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken' );
   has Cluster => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'cluster' );
@@ -19,10 +20,13 @@ package Paws::ECS::CreateService;
   has PropagateTags => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'propagateTags' );
   has Role => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'role' );
   has SchedulingStrategy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'schedulingStrategy' );
+  has ServiceConnectConfiguration => (is => 'ro', isa => 'Paws::ECS::ServiceConnectConfiguration', traits => ['NameInRequest'], request_name => 'serviceConnectConfiguration' );
   has ServiceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceName' , required => 1);
   has ServiceRegistries => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ServiceRegistry]', traits => ['NameInRequest'], request_name => 'serviceRegistries' );
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
   has TaskDefinition => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'taskDefinition' );
+  has VolumeConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ServiceVolumeConfiguration]', traits => ['NameInRequest'], request_name => 'volumeConfigurations' );
+  has VpcLatticeConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ECS::VpcLatticeConfiguration]', traits => ['NameInRequest'], request_name => 'vpcLatticeConfigurations' );
 
   use MooseX::ClassAttribute;
 
@@ -93,6 +97,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 =head1 ATTRIBUTES
 
 
+=head2 AvailabilityZoneRebalancing => Str
+
+Indicates whether to use Availability Zone rebalancing for the service.
+
+For more information, see Balancing an Amazon ECS service across
+Availability Zones
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html)
+in the I< I<Amazon Elastic Container Service Developer Guide> >.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
+
 =head2 CapacityProviderStrategy => ArrayRef[L<Paws::ECS::CapacityProviderStrategyItem>]
 
 The capacity provider strategy to use for the service.
@@ -102,19 +117,23 @@ parameter must be omitted. If no C<capacityProviderStrategy> or
 C<launchType> is specified, the C<defaultCapacityProviderStrategy> for
 the cluster is used.
 
+A capacity provider strategy can contain a maximum of 20 capacity
+providers.
+
 
 
 =head2 ClientToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. Up to 32 ASCII characters are allowed.
+An identifier that you provide to ensure the idempotency of the
+request. It must be unique and is case sensitive. Up to 36 ASCII
+characters in the range of 33-126 (inclusive) are allowed.
 
 
 
 =head2 Cluster => Str
 
-The short name or full Amazon Resource Name (ARN) of the cluster on
-which to run your service. If you do not specify a cluster, the default
+The short name or full Amazon Resource Name (ARN) of the cluster that
+you run your service on. If you do not specify a cluster, the default
 cluster is assumed.
 
 
@@ -136,70 +155,73 @@ controller is specified, the default value of C<ECS> is used.
 =head2 DesiredCount => Int
 
 The number of instantiations of the specified task definition to place
-and keep running on your cluster.
+and keep running in your service.
 
-This is required if C<schedulingStrategy> is C<REPLICA> or is not
-specified. If C<schedulingStrategy> is C<DAEMON> then this is not
+This is required if C<schedulingStrategy> is C<REPLICA> or isn't
+specified. If C<schedulingStrategy> is C<DAEMON> then this isn't
 required.
 
 
 
 =head2 EnableECSManagedTags => Bool
 
-Specifies whether to enable Amazon ECS managed tags for the tasks
-within the service. For more information, see Tagging Your Amazon ECS
-Resources
+Specifies whether to turn on Amazon ECS managed tags for the tasks
+within the service. For more information, see Tagging your Amazon ECS
+resources
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
+
+When you use Amazon ECS managed tags, you need to set the
+C<propagateTags> request parameter.
 
 
 
 =head2 EnableExecuteCommand => Bool
 
-Whether or not the execute command functionality is enabled for the
-service. If C<true>, this enables execute command functionality on all
-containers in the service tasks.
+Determines whether the execute command functionality is turned on for
+the service. If C<true>, this enables execute command functionality on
+all containers in the service tasks.
 
 
 
 =head2 HealthCheckGracePeriodSeconds => Int
 
 The period of time, in seconds, that the Amazon ECS service scheduler
-should ignore unhealthy Elastic Load Balancing target health checks
-after a task has first started. This is only used when your service is
-configured to use a load balancer. If your service has a load balancer
-defined and you don't specify a health check grace period value, the
-default value of C<0> is used.
+ignores unhealthy Elastic Load Balancing, VPC Lattice, and container
+health checks after a task has first started. If you don't specify a
+health check grace period value, the default value of C<0> is used. If
+you don't use any of the health checks, then
+C<healthCheckGracePeriodSeconds> is unused.
 
-If your service's tasks take a while to start and respond to Elastic
-Load Balancing health checks, you can specify a health check grace
-period of up to 2,147,483,647 seconds. During that time, the Amazon ECS
-service scheduler ignores health check status. This grace period can
-prevent the service scheduler from marking tasks as unhealthy and
+If your service's tasks take a while to start and respond to health
+checks, you can specify a health check grace period of up to
+2,147,483,647 seconds (about 69 years). During that time, the Amazon
+ECS service scheduler ignores health check status. This grace period
+can prevent the service scheduler from marking tasks as unhealthy and
 stopping them before they have time to come up.
 
 
 
 =head2 LaunchType => Str
 
-The infrastructure on which to run your service. For more information,
+The infrastructure that you run your service on. For more information,
 see Amazon ECS launch types
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-The C<FARGATE> launch type runs your tasks on AWS Fargate On-Demand
+The C<FARGATE> launch type runs your tasks on Fargate On-Demand
 infrastructure.
 
 Fargate Spot infrastructure is available for use but a capacity
-provider strategy must be used. For more information, see AWS Fargate
+provider strategy must be used. For more information, see Fargate
 capacity providers
-(https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html)
-in the I<Amazon ECS User Guide for AWS Fargate>.
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html)
+in the I<Amazon ECS Developer Guide>.
 
 The C<EC2> launch type runs your tasks on Amazon EC2 instances
 registered to your cluster.
 
-The C<EXTERNAL> launch type runs your tasks on your on-premise server
+The C<EXTERNAL> launch type runs your tasks on your on-premises server
 or virtual machine (VM) capacity registered to your cluster.
 
 A service can use either a launch type or a capacity provider strategy.
@@ -211,59 +233,56 @@ Valid values are: C<"EC2">, C<"FARGATE">, C<"EXTERNAL">
 =head2 LoadBalancers => ArrayRef[L<Paws::ECS::LoadBalancer>]
 
 A load balancer object representing the load balancers to use with your
-service. For more information, see Service Load Balancing
+service. For more information, see Service load balancing
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-If the service is using the rolling update (C<ECS>) deployment
-controller and using either an Application Load Balancer or Network
-Load Balancer, you must specify one or more target group ARNs to attach
-to the service. The service-linked role is required for services that
-make use of multiple target groups. For more information, see Using
-service-linked roles for Amazon ECS
+If the service uses the rolling update (C<ECS>) deployment controller
+and using either an Application Load Balancer or Network Load Balancer,
+you must specify one or more target group ARNs to attach to the
+service. The service-linked role is required for services that use
+multiple target groups. For more information, see Using service-linked
+roles for Amazon ECS
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-If the service is using the C<CODE_DEPLOY> deployment controller, the
+If the service uses the C<CODE_DEPLOY> deployment controller, the
 service is required to use either an Application Load Balancer or
-Network Load Balancer. When creating an AWS CodeDeploy deployment
-group, you specify two target groups (referred to as a
-C<targetGroupPair>). During a deployment, AWS CodeDeploy determines
-which task set in your service has the status C<PRIMARY> and associates
-one target group with it, and then associates the other target group
-with the replacement task set. The load balancer can also have up to
-two listeners: a required listener for production traffic and an
-optional listener that allows you perform validation tests with Lambda
+Network Load Balancer. When creating an CodeDeploy deployment group,
+you specify two target groups (referred to as a C<targetGroupPair>).
+During a deployment, CodeDeploy determines which task set in your
+service has the status C<PRIMARY>, and it associates one target group
+with it. Then, it also associates the other target group with the
+replacement task set. The load balancer can also have up to two
+listeners: a required listener for production traffic and an optional
+listener that you can use to perform validation tests with Lambda
 functions before routing production traffic to it.
 
-After you create a service using the C<ECS> deployment controller, the
-load balancer name or target group ARN, container name, and container
-port specified in the service definition are immutable. If you are
-using the C<CODE_DEPLOY> deployment controller, these values can be
-changed when updating the service.
+If you use the C<CODE_DEPLOY> deployment controller, these values can
+be changed when updating the service.
 
 For Application Load Balancers and Network Load Balancers, this object
-must contain the load balancer target group ARN, the container name (as
-it appears in a container definition), and the container port to access
-from the load balancer. The load balancer name parameter must be
-omitted. When a task from this service is placed on a container
-instance, the container instance and port combination is registered as
-a target in the target group specified here.
+must contain the load balancer target group ARN, the container name,
+and the container port to access from the load balancer. The container
+name must be as it appears in a container definition. The load balancer
+name parameter must be omitted. When a task from this service is placed
+on a container instance, the container instance and port combination is
+registered as a target in the target group that's specified here.
 
 For Classic Load Balancers, this object must contain the load balancer
-name, the container name (as it appears in a container definition), and
-the container port to access from the load balancer. The target group
-ARN parameter must be omitted. When a task from this service is placed
-on a container instance, the container instance is registered with the
-load balancer specified here.
+name, the container name , and the container port to access from the
+load balancer. The container name must be as it appears in a container
+definition. The target group ARN parameter must be omitted. When a task
+from this service is placed on a container instance, the container
+instance is registered with the load balancer that's specified here.
 
 Services with tasks that use the C<awsvpc> network mode (for example,
 those with the Fargate launch type) only support Application Load
-Balancers and Network Load Balancers. Classic Load Balancers are not
+Balancers and Network Load Balancers. Classic Load Balancers aren't
 supported. Also, when you create any target groups for these services,
-you must choose C<ip> as the target type, not C<instance>, because
-tasks that use the C<awsvpc> network mode are associated with an
-elastic network interface, not an Amazon EC2 instance.
+you must choose C<ip> as the target type, not C<instance>. This is
+because tasks that use the C<awsvpc> network mode are associated with
+an elastic network interface, not an Amazon EC2 instance.
 
 
 
@@ -271,7 +290,7 @@ elastic network interface, not an Amazon EC2 instance.
 
 The network configuration for the service. This parameter is required
 for task definitions that use the C<awsvpc> network mode to receive
-their own elastic network interface, and it is not supported for other
+their own elastic network interface, and it isn't supported for other
 network modes. For more information, see Task networking
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
@@ -281,16 +300,16 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 =head2 PlacementConstraints => ArrayRef[L<Paws::ECS::PlacementConstraint>]
 
 An array of placement constraint objects to use for tasks in your
-service. You can specify a maximum of 10 constraints per task (this
-limit includes constraints in the task definition and those specified
-at runtime).
+service. You can specify a maximum of 10 constraints for each task.
+This limit includes constraints in the task definition and those
+specified at runtime.
 
 
 
 =head2 PlacementStrategy => ArrayRef[L<Paws::ECS::PlacementStrategy>]
 
 The placement strategy objects to use for tasks in your service. You
-can specify a maximum of five strategy rules per service.
+can specify a maximum of 5 strategy rules for each service.
 
 
 
@@ -298,8 +317,8 @@ can specify a maximum of five strategy rules per service.
 
 The platform version that your tasks in the service are running on. A
 platform version is specified only for tasks using the Fargate launch
-type. If one isn't specified, the C<LATEST> platform version is used by
-default. For more information, see AWS Fargate platform versions
+type. If one isn't specified, the C<LATEST> platform version is used.
+For more information, see Fargate platform versions
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -307,31 +326,39 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head2 PropagateTags => Str
 
-Specifies whether to propagate the tags from the task definition or the
-service to the tasks in the service. If no value is specified, the tags
-are not propagated. Tags can only be propagated to the tasks within the
-service during service creation. To add tags to a task after service
-creation, use the TagResource API action.
+Specifies whether to propagate the tags from the task definition to the
+task. If no value is specified, the tags aren't propagated. Tags can
+only be propagated to the task during task creation. To add tags to a
+task after task creation, use the TagResource
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html)
+API action.
 
-Valid values are: C<"TASK_DEFINITION">, C<"SERVICE">
+You must set this to a value other than C<NONE> when you use Cost
+Explorer. For more information, see Amazon ECS usage reports
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/usage-reports.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+The default is C<NONE>.
+
+Valid values are: C<"TASK_DEFINITION">, C<"SERVICE">, C<"NONE">
 
 =head2 Role => Str
 
 The name or full Amazon Resource Name (ARN) of the IAM role that allows
 Amazon ECS to make calls to your load balancer on your behalf. This
 parameter is only permitted if you are using a load balancer with your
-service and your task definition does not use the C<awsvpc> network
+service and your task definition doesn't use the C<awsvpc> network
 mode. If you specify the C<role> parameter, you must also specify a
 load balancer object with the C<loadBalancers> parameter.
 
 If your account has already created the Amazon ECS service-linked role,
-that role is used by default for your service unless you specify a role
-here. The service-linked role is required if your task definition uses
-the C<awsvpc> network mode or if the service is configured to use
-service discovery, an external deployment controller, multiple target
-groups, or Elastic Inference accelerators in which case you should not
-specify a role here. For more information, see Using service-linked
-roles for Amazon ECS
+that role is used for your service unless you specify a role here. The
+service-linked role is required if your task definition uses the
+C<awsvpc> network mode or if the service is configured to use service
+discovery, an external deployment controller, multiple target groups,
+or Elastic Inference accelerators in which case you don't specify a
+role here. For more information, see Using service-linked roles for
+Amazon ECS
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -361,8 +388,8 @@ C<REPLICA>-The replica scheduling strategy places and maintains the
 desired number of tasks across your cluster. By default, the service
 scheduler spreads tasks across Availability Zones. You can use task
 placement strategies and constraints to customize task placement
-decisions. This scheduler strategy is required if the service is using
-the C<CODE_DEPLOY> or C<EXTERNAL> deployment controller types.
+decisions. This scheduler strategy is required if the service uses the
+C<CODE_DEPLOY> or C<EXTERNAL> deployment controller types.
 
 =item *
 
@@ -370,7 +397,7 @@ C<DAEMON>-The daemon scheduling strategy deploys exactly one task on
 each active container instance that meets all of the task placement
 constraints that you specify in your cluster. The service scheduler
 also evaluates the task placement constraints for running tasks and
-will stop tasks that do not meet the placement constraints. When you're
+will stop tasks that don't meet the placement constraints. When you're
 using this strategy, you don't need to specify a desired number of
 tasks, a task placement strategy, or use Service Auto Scaling policies.
 
@@ -382,6 +409,23 @@ scheduling strategy.
 
 
 Valid values are: C<"REPLICA">, C<"DAEMON">
+
+=head2 ServiceConnectConfiguration => L<Paws::ECS::ServiceConnectConfiguration>
+
+The configuration for this service to discover and connect to services,
+and be discovered by, and connected from, other services within a
+namespace.
+
+Tasks that run in a namespace can use short names to connect to
+services in the namespace. Tasks can connect to services across all of
+the clusters in the namespace. Tasks connect through a managed proxy
+container that collects logs and metrics for increased visibility. Only
+the tasks that Amazon ECS services create are supported with Service
+Connect. For more information, see Service Connect
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+
 
 =head2 B<REQUIRED> ServiceName => Str
 
@@ -399,7 +443,7 @@ service. For more information, see Service discovery
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
 
 Each service may be associated with one service registry. Multiple
-service registries per service isn't supported.
+service registries for each service isn't supported.
 
 
 
@@ -446,10 +490,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -459,11 +503,29 @@ limit.
 =head2 TaskDefinition => Str
 
 The C<family> and C<revision> (C<family:revision>) or full ARN of the
-task definition to run in your service. If a C<revision> is not
+task definition to run in your service. If a C<revision> isn't
 specified, the latest C<ACTIVE> revision is used.
 
-A task definition must be specified if the service is using either the
+A task definition must be specified if the service uses either the
 C<ECS> or C<CODE_DEPLOY> deployment controllers.
+
+For more information about deployment types, see Amazon ECS deployment
+types
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html).
+
+
+
+=head2 VolumeConfigurations => ArrayRef[L<Paws::ECS::ServiceVolumeConfiguration>]
+
+The configuration for a volume specified in the task definition as a
+volume that is configured at launch time. Currently, the only supported
+volume type is an Amazon EBS volume.
+
+
+
+=head2 VpcLatticeConfigurations => ArrayRef[L<Paws::ECS::VpcLatticeConfiguration>]
+
+The VPC Lattice configuration for the service being created.
 
 
 

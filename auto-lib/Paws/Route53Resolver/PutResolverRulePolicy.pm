@@ -54,8 +54,8 @@ another account.
 
 =head2 B<REQUIRED> ResolverRulePolicy => Str
 
-An AWS Identity and Access Management policy statement that lists the
-rules that you want to share with another AWS account and the
+An Identity and Access Management policy statement that lists the rules
+that you want to share with another Amazon Web Services account and the
 operations that you want the account to be able to perform. You can
 specify the following operations in the C<Action> section of the
 statement:

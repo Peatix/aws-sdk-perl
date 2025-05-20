@@ -35,17 +35,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DataExchang
 =head1 DESCRIPTION
 
 Encryption configuration of the export job. Includes the encryption
-type as well as the AWS KMS key. The KMS key is only necessary if you
-chose the KMS encryption type.
+type in addition to the AWS KMS key. The KMS key is only necessary if
+you chose the KMS encryption type.
 
 =head1 ATTRIBUTES
 
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the the AWS KMS key you want to use
-to encrypt the Amazon S3 objects. This parameter is required if you
-choose aws:kms as an encryption type.
+The Amazon Resource Name (ARN) of the AWS KMS key you want to use to
+encrypt the Amazon S3 objects. This parameter is required if you choose
+aws:kms as an encryption type.
 
 
 =head2 B<REQUIRED> Type => Str

@@ -17,8 +17,8 @@ Paws::EFS::LifecycleConfigurationDescription
 
 =head2 LifecyclePolicies => ArrayRef[L<Paws::EFS::LifecyclePolicy>]
 
-An array of lifecycle management policies. Currently, EFS supports a
-maximum of one policy per file system.
+An array of lifecycle management policies. EFS supports a maximum of
+one policy per file system.
 
 
 =head2 _request_id => Str

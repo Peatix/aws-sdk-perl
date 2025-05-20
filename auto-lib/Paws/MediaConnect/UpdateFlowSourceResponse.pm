@@ -18,12 +18,12 @@ Paws::MediaConnect::UpdateFlowSourceResponse
 
 =head2 FlowArn => Str
 
-The ARN of the flow that you want to update.
+The ARN of the flow that you was updated.
 
 
 =head2 Source => L<Paws::MediaConnect::Source>
 
-The settings for the source of the flow.
+The details of the sources that are assigned to the flow.
 
 
 =head2 _request_id => Str

@@ -37,6 +37,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $LastFailureMessage         = $LoggingStatus->LastFailureMessage;
     my $LastFailureTime            = $LoggingStatus->LastFailureTime;
     my $LastSuccessfulDeliveryTime = $LoggingStatus->LastSuccessfulDeliveryTime;
+    my $LogDestinationType         = $LoggingStatus->LogDestinationType;
+    my $LogExports                 = $LoggingStatus->LogExports;
     my $LoggingEnabled             = $LoggingStatus->LoggingEnabled;
     my $S3KeyPrefix                = $LoggingStatus->S3KeyPrefix;
 

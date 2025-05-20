@@ -53,7 +53,7 @@ Describes a device.
 
 =head2 AWSLocation => L<Paws::NetworkManager::AWSLocation>
 
-The AWS location of the device.
+The Amazon Web Services location of the device.
 
 
 =head2 CreatedAt => Str

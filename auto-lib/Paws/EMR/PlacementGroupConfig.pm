@@ -39,7 +39,7 @@ configuration specifies the placement strategy that can be applied to
 instance roles during cluster creation.
 
 To use this configuration, consider attaching managed policy
-AmazonElasticMapReducePlacementGroupPolicy to the EMR role.
+AmazonElasticMapReducePlacementGroupPolicy to the Amazon EMR role.
 
 =head1 ATTRIBUTES
 
@@ -48,15 +48,15 @@ AmazonElasticMapReducePlacementGroupPolicy to the EMR role.
 
 Role of the instance in the cluster.
 
-Starting with Amazon EMR version 5.23.0, the only supported instance
+Starting with Amazon EMR release 5.23.0, the only supported instance
 role is C<MASTER>.
 
 
 =head2 PlacementStrategy => Str
 
-EC2 Placement Group strategy associated with instance role.
+Amazon EC2 Placement Group strategy associated with instance role.
 
-Starting with Amazon EMR version 5.23.0, the only supported placement
+Starting with Amazon EMR release 5.23.0, the only supported placement
 strategy is C<SPREAD> for the C<MASTER> instance role.
 
 

@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::IotAna
 
 =head1 DESCRIPTION
 
-Sends message data to an AWS IoT Analytics channel.
+Sends message data to an IoT Analytics channel.
 
 =head1 ATTRIBUTES
 
@@ -50,8 +50,8 @@ When C<batchMode> is C<true> and the rule SQL statement evaluates to an
 Array, each Array element is delivered as a separate message when
 passed by C<BatchPutMessage>
 (https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_BatchPutMessage.html)
-to the AWS IoT Analytics channel. The resulting array can't have more
-than 100 messages.
+to the IoT Analytics channel. The resulting array can't have more than
+100 messages.
 
 
 =head2 ChannelArn => Str

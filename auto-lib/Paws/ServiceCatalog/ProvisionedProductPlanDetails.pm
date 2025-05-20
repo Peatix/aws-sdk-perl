@@ -128,7 +128,7 @@ One or more tags.
 
 =head2 UpdatedTime => Str
 
-The time when the plan was last updated.
+The UTC time stamp when the plan was last updated.
 
 
 

@@ -32,18 +32,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ecs = Paws->service('ECS');
+    # To view your effective account settings
+    # This example displays the effective account settings for your account.
+    my $ListAccountSettingsResponse =
+      $ecs->ListAccountSettings( 'EffectiveSettings' => 1 );
+
+    # Results:
+    my $settings = $ListAccountSettingsResponse->settings;
+
+# Returns a L<Paws::ECS::ListAccountSettingsResponse> object.
+# To view the effective account settings for a specific IAM user or IAM role
+# This example displays the effective account settings for the specified user or
+# role.
     my $ListAccountSettingsResponse = $ecs->ListAccountSettings(
-      EffectiveSettings => 1,                         # OPTIONAL
-      MaxResults        => 1,                         # OPTIONAL
-      Name              => 'serviceLongArnFormat',    # OPTIONAL
-      NextToken         => 'MyString',                # OPTIONAL
-      PrincipalArn      => 'MyString',                # OPTIONAL
-      Value             => 'MyString',                # OPTIONAL
+      'EffectiveSettings' => 1,
+      'PrincipalArn'      => 'arn:aws:iam::<aws_account_id>:user/principalName'
     );
 
     # Results:
-    my $NextToken = $ListAccountSettingsResponse->NextToken;
-    my $Settings  = $ListAccountSettingsResponse->Settings;
+    my $settings = $ListAccountSettingsResponse->settings;
 
     # Returns a L<Paws::ECS::ListAccountSettingsResponse> object.
 
@@ -55,10 +62,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 EffectiveSettings => Bool
 
-Specifies whether to return the effective settings. If C<true>, the
+Determines whether to return the effective settings. If C<true>, the
 account settings for the root user or the default setting for the
 C<principalArn> are returned. If C<false>, the account settings for the
-C<principalArn> are returned if they are set. Otherwise, no account
+C<principalArn> are returned if they're set. Otherwise, no account
 settings are returned.
 
 
@@ -71,7 +78,7 @@ used, C<ListAccountSettings> only returns C<maxResults> results in a
 single page along with a C<nextToken> response element. The remaining
 results of the initial request can be seen by sending another
 C<ListAccountSettings> request with the returned C<nextToken> value.
-This value can be between 1 and 10. If this parameter is not used, then
+This value can be between 1 and 10. If this parameter isn't used, then
 C<ListAccountSettings> returns up to 10 results and a C<nextToken>
 value if applicable.
 
@@ -81,13 +88,13 @@ value if applicable.
 
 The name of the account setting you want to list the settings for.
 
-Valid values are: C<"serviceLongArnFormat">, C<"taskLongArnFormat">, C<"containerInstanceLongArnFormat">, C<"awsvpcTrunking">, C<"containerInsights">
+Valid values are: C<"serviceLongArnFormat">, C<"taskLongArnFormat">, C<"containerInstanceLongArnFormat">, C<"awsvpcTrunking">, C<"containerInsights">, C<"fargateFIPSMode">, C<"tagResourceAuthorization">, C<"fargateTaskRetirementWaitPeriod">, C<"guardDutyActivate">, C<"defaultLogDriverMode">
 
 =head2 NextToken => Str
 
 The C<nextToken> value returned from a C<ListAccountSettings> request
 indicating that more results are available to fulfill the request and
-further calls will be needed. If C<maxResults> was provided, it is
+further calls will be needed. If C<maxResults> was provided, it's
 possible the number of results to be fewer than C<maxResults>.
 
 This token should be treated as an opaque identifier that is only used
@@ -98,9 +105,12 @@ purposes.
 
 =head2 PrincipalArn => Str
 
-The ARN of the principal, which can be an IAM user, IAM role, or the
-root user. If this field is omitted, the account settings are listed
-only for the authenticated user.
+The ARN of the principal, which can be a user, role, or the root user.
+If this field is omitted, the account settings are listed only for the
+authenticated user.
+
+In order to use this parameter, you must be the root user, or the
+principal.
 
 Federated users assume the account setting of the root user and can't
 have explicit account settings set for them.
@@ -109,8 +119,8 @@ have explicit account settings set for them.
 
 =head2 Value => Str
 
-The value of the account settings with which to filter results. You
-must also specify an account setting name to use this parameter.
+The value of the account settings to filter results with. You must also
+specify an account setting name to use this parameter.
 
 
 

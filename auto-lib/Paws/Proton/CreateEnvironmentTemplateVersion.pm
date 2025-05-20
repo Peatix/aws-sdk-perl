@@ -69,9 +69,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 ClientToken => Str
 
-When included, if two identicial requests are made with the same client
-token, AWS Proton returns the environment template version that the
-first request created.
+When included, if two identical requests are made with the same client
+token, Proton returns the environment template version that the first
+request created.
 
 
 
@@ -83,11 +83,11 @@ A description of the new version of an environment template.
 
 =head2 MajorVersion => Str
 
-To create a new minor version of the environment template, include a
-C<majorVersion>.
+To create a new minor version of the environment template, include
+C<major Version>.
 
 To create a new major and minor version of the environment template,
-exclude C<majorVersion>.
+exclude C<major Version>.
 
 
 
@@ -100,7 +100,12 @@ the new version of an template.
 
 =head2 Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-Create tags for a new version of an environment template.
+An optional list of metadata items that you can associate with the
+Proton environment template version. A tag is a key-value pair.
+
+For more information, see Proton resources and tagging
+(https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in
+the I<Proton User Guide>.
 
 
 

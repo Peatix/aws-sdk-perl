@@ -3,6 +3,7 @@ package Paws::CodeArtifact::RepositoryDescription;
   use Moose;
   has AdministratorAccount => (is => 'ro', isa => 'Str', request_name => 'administratorAccount', traits => ['NameInRequest']);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has CreatedTime => (is => 'ro', isa => 'Str', request_name => 'createdTime', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has DomainName => (is => 'ro', isa => 'Str', request_name => 'domainName', traits => ['NameInRequest']);
   has DomainOwner => (is => 'ro', isa => 'Str', request_name => 'domainOwner', traits => ['NameInRequest']);
@@ -40,26 +41,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeArtifac
 
 =head1 DESCRIPTION
 
-The details of a repository stored in AWS CodeArtifact. A CodeArtifact
+The details of a repository stored in CodeArtifact. A CodeArtifact
 repository contains a set of package versions, each of which maps to a
 set of assets. Repositories are polyglotE<mdash>a single repository can
 contain packages of any supported type. Each repository exposes
 endpoints for fetching and publishing packages using tools like the
 C<npm> CLI, the Maven CLI (C<mvn>), and C<pip>. You can create up to
-100 repositories per AWS account.
+100 repositories per Amazon Web Services account.
 
 =head1 ATTRIBUTES
 
 
 =head2 AdministratorAccount => Str
 
-The 12-digit account number of the AWS account that manages the
-repository.
+The 12-digit account number of the Amazon Web Services account that
+manages the repository.
 
 
 =head2 Arn => Str
 
 The Amazon Resource Name (ARN) of the repository.
+
+
+=head2 CreatedTime => Str
+
+A timestamp that represents the date and time the repository was
+created.
 
 
 =head2 Description => Str
@@ -74,8 +81,9 @@ The name of the domain that contains the repository.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain
-that contains the repository. It does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain that contains the repository. It does not include
+dashes or spaces.
 
 
 =head2 ExternalConnections => ArrayRef[L<Paws::CodeArtifact::RepositoryExternalConnectionInfo>]
@@ -92,8 +100,8 @@ The name of the repository.
 
 A list of upstream repositories to associate with the repository. The
 order of the upstream repositories in the list determines their
-priority order when AWS CodeArtifact looks for a requested package
-version. For more information, see Working with upstream repositories
+priority order when CodeArtifact looks for a requested package version.
+For more information, see Working with upstream repositories
 (https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 
 

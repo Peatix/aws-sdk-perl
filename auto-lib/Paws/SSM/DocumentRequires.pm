@@ -2,7 +2,9 @@
 package Paws::SSM::DocumentRequires;
   use Moose;
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has RequireType => (is => 'ro', isa => 'Str');
   has Version => (is => 'ro', isa => 'Str');
+  has VersionName => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SSM::DocumentRequires object:
 
-  $service_obj->Method(Att1 => { Name => $value, ..., Version => $value  });
+  $service_obj->Method(Att1 => { Name => $value, ..., VersionName => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,9 +47,21 @@ The name of the required SSM document. The name can be an Amazon
 Resource Name (ARN).
 
 
+=head2 RequireType => Str
+
+The document type of the required SSM document.
+
+
 =head2 Version => Str
 
 The document version required by the current document.
+
+
+=head2 VersionName => Str
+
+An optional field specifying the version of the artifact associated
+with the document. For example, 12.6. This value is unique across all
+versions of a document, and can't be changed.
 
 
 

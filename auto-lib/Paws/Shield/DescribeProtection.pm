@@ -46,18 +46,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/shi
 
 =head2 ProtectionId => Str
 
-The unique identifier (ID) for the Protection object that is described.
-When submitting the C<DescribeProtection> request you must provide
-either the C<ResourceArn> or the C<ProtectionID>, but not both.
+The unique identifier (ID) for the Protection object to describe. You
+must provide either the C<ResourceArn> of the protected resource or the
+C<ProtectionID> of the protection, but not both.
 
 
 
 =head2 ResourceArn => Str
 
-The ARN (Amazon Resource Name) of the AWS resource for the Protection
-object that is described. When submitting the C<DescribeProtection>
-request you must provide either the C<ResourceArn> or the
-C<ProtectionID>, but not both.
+The ARN (Amazon Resource Name) of the protected Amazon Web Services
+resource. You must provide either the C<ResourceArn> of the protected
+resource or the C<ProtectionID> of the protection, but not both.
 
 
 

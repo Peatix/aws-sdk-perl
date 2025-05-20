@@ -41,6 +41,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Application
 Represents a target tracking scaling policy configuration to use with
 Application Auto Scaling.
 
+For more information, see Target tracking scaling policies
+(https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
+in the I<Application Auto Scaling User Guide>.
+
 =head1 ATTRIBUTES
 
 
@@ -69,165 +73,19 @@ customized metric.
 =head2 ScaleInCooldown => Int
 
 The amount of time, in seconds, after a scale-in activity completes
-before another scale-in activity can start.
-
-With the I<scale-in cooldown period>, the intention is to scale in
-conservatively to protect your applicationE<rsquo>s availability, so
-scale-in activities are blocked until the cooldown period has expired.
-However, if another alarm triggers a scale-out activity during the
-scale-in cooldown period, Application Auto Scaling scales out the
-target immediately. In this case, the scale-in cooldown period stops
-and doesn't complete.
-
-Application Auto Scaling provides a default value of 300 for the
-following scalable targets:
-
-=over
-
-=item *
-
-ECS services
-
-=item *
-
-Spot Fleet requests
-
-=item *
-
-EMR clusters
-
-=item *
-
-AppStream 2.0 fleets
-
-=item *
-
-Aurora DB clusters
-
-=item *
-
-Amazon SageMaker endpoint variants
-
-=item *
-
-Custom resources
-
-=back
-
-For all other scalable targets, the default value is 0:
-
-=over
-
-=item *
-
-DynamoDB tables
-
-=item *
-
-DynamoDB global secondary indexes
-
-=item *
-
-Amazon Comprehend document classification and entity recognizer
-endpoints
-
-=item *
-
-Lambda provisioned concurrency
-
-=item *
-
-Amazon Keyspaces tables
-
-=item *
-
-Amazon MSK broker storage
-
-=back
-
+before another scale-in activity can start. For more information and
+for default values, see Define cooldown periods
+(https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown)
+in the I<Application Auto Scaling User Guide>.
 
 
 =head2 ScaleOutCooldown => Int
 
 The amount of time, in seconds, to wait for a previous scale-out
-activity to take effect.
-
-With the I<scale-out cooldown period>, the intention is to continuously
-(but not excessively) scale out. After Application Auto Scaling
-successfully scales out using a target tracking scaling policy, it
-starts to calculate the cooldown time. The scaling policy won't
-increase the desired capacity again unless either a larger scale out is
-triggered or the cooldown period ends. While the cooldown period is in
-effect, the capacity added by the initiating scale-out activity is
-calculated as part of the desired capacity for the next scale-out
-activity.
-
-Application Auto Scaling provides a default value of 300 for the
-following scalable targets:
-
-=over
-
-=item *
-
-ECS services
-
-=item *
-
-Spot Fleet requests
-
-=item *
-
-EMR clusters
-
-=item *
-
-AppStream 2.0 fleets
-
-=item *
-
-Aurora DB clusters
-
-=item *
-
-Amazon SageMaker endpoint variants
-
-=item *
-
-Custom resources
-
-=back
-
-For all other scalable targets, the default value is 0:
-
-=over
-
-=item *
-
-DynamoDB tables
-
-=item *
-
-DynamoDB global secondary indexes
-
-=item *
-
-Amazon Comprehend document classification and entity recognizer
-endpoints
-
-=item *
-
-Lambda provisioned concurrency
-
-=item *
-
-Amazon Keyspaces tables
-
-=item *
-
-Amazon MSK broker storage
-
-=back
-
+activity to take effect. For more information and for default values,
+see Define cooldown periods
+(https://docs.aws.amazon.com/autoscaling/application/userguide/target-tracking-scaling-policy-overview.html#target-tracking-cooldown)
+in the I<Application Auto Scaling User Guide>.
 
 
 =head2 B<REQUIRED> TargetValue => Num
@@ -238,6 +96,10 @@ large. Values must be in the range of -2^360 to 2^360. The value must
 be a valid number based on the choice of metric. For example, if the
 metric is CPU utilization, then the target value is a percent value
 that represents how much of the CPU can be used before scaling out.
+
+If the scaling policy specifies the C<ALBRequestCountPerTarget>
+predefined metric, specify the target utilization as the optimal
+average request count per target during any one-minute interval.
 
 
 

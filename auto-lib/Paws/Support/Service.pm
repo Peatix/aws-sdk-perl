@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Support::Se
 
 =head1 DESCRIPTION
 
-Information about an AWS service returned by the DescribeServices
-operation.
+Information about an Amazon Web Services service returned by the
+DescribeServices operation.
 
 =head1 ATTRIBUTES
 
@@ -45,20 +45,21 @@ operation.
 
 A list of categories that describe the type of support issue a case
 describes. Categories consist of a category name and a category code.
-Category names and codes are passed to AWS Support when you call
-CreateCase.
+Category names and codes are passed to Amazon Web Services Support when
+you call CreateCase.
 
 
 =head2 Code => Str
 
-The code for an AWS service returned by the DescribeServices response.
-The C<name> element contains the corresponding friendly name.
+The code for an Amazon Web Services service returned by the
+DescribeServices response. The C<name> element contains the
+corresponding friendly name.
 
 
 =head2 Name => Str
 
-The friendly name for an AWS service. The C<code> element contains the
-corresponding code.
+The friendly name for an Amazon Web Services service. The C<code>
+element contains the corresponding code.
 
 
 

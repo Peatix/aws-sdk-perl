@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Agg
 
 =head1 DESCRIPTION
 
-The details that identify a resource that is collected by AWS Config
+The details that identify a resource that is collected by Config
 aggregator, including the resource type, ID, (if available) the custom
 resource name, the source account, and source region.
 
@@ -46,17 +46,17 @@ resource name, the source account, and source region.
 
 =head2 B<REQUIRED> ResourceId => Str
 
-The ID of the AWS resource.
+The ID of the Amazon Web Services resource.
 
 
 =head2 ResourceName => Str
 
-The name of the AWS resource.
+The name of the Amazon Web Services resource.
 
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The type of the AWS resource.
+The type of the Amazon Web Services resource.
 
 
 =head2 B<REQUIRED> SourceAccountId => Str

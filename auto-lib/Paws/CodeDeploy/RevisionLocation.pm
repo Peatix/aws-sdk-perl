@@ -44,9 +44,8 @@ Information about the location of an application revision.
 
 =head2 AppSpecContent => L<Paws::CodeDeploy::AppSpecContent>
 
-The content of an AppSpec file for an AWS Lambda or Amazon ECS
-deployment. The content is formatted as JSON or YAML and stored as a
-RawString.
+The content of an AppSpec file for an Lambda or Amazon ECS deployment.
+The content is formatted as JSON or YAML and stored as a RawString.
 
 
 =head2 GitHubLocation => L<Paws::CodeDeploy::GitHubLocation>
@@ -72,14 +71,14 @@ deployments only).
 
 =item *
 
-String: A YAML-formatted or JSON-formatted string (AWS Lambda
-deployments only).
+String: A YAML-formatted or JSON-formatted string (Lambda deployments
+only).
 
 =item *
 
 AppSpecContent: An C<AppSpecContent> object that contains the contents
-of an AppSpec file for an AWS Lambda or Amazon ECS deployment. The
-content is formatted as JSON or YAML stored as a RawString.
+of an AppSpec file for an Lambda or Amazon ECS deployment. The content
+is formatted as JSON or YAML stored as a RawString.
 
 =back
 
@@ -92,8 +91,8 @@ Information about the location of a revision stored in Amazon S3.
 
 =head2 String => L<Paws::CodeDeploy::RawString>
 
-Information about the location of an AWS Lambda deployment revision
-stored as a RawString.
+Information about the location of an Lambda deployment revision stored
+as a RawString.
 
 
 

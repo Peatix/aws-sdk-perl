@@ -71,7 +71,7 @@ The sum.
 
 =head2 Timestamp => Str
 
-The timestamp (e.g., C<1479816991.349>).
+The timestamp (C<1479816991.349>).
 
 
 =head2 Unit => Str

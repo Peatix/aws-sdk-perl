@@ -1,6 +1,7 @@
 
 package Paws::SageMaker::CreateEndpoint;
   use Moose;
+  has DeploymentConfig => (is => 'ro', isa => 'Paws::SageMaker::DeploymentConfig');
   has EndpointConfigName => (is => 'ro', isa => 'Str', required => 1);
   has EndpointName => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
@@ -32,7 +33,53 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateEndpointOutput = $api . sagemaker->CreateEndpoint(
       EndpointConfigName => 'MyEndpointConfigName',
       EndpointName       => 'MyEndpointName',
-      Tags               => [
+      DeploymentConfig   => {
+        AutoRollbackConfiguration => {
+          Alarms => [
+            {
+              AlarmName => 'MyAlarmName',    # min: 1, max: 255; OPTIONAL
+            },
+            ...
+          ],    # min: 1, max: 10; OPTIONAL
+        },    # OPTIONAL
+        BlueGreenUpdatePolicy => {
+          TrafficRoutingConfiguration => {
+            Type => 'ALL_AT_ONCE',    # values: ALL_AT_ONCE, CANARY, LINEAR
+            WaitIntervalInSeconds => 1,    # max: 3600
+            CanarySize            => {
+              Type =>
+                'INSTANCE_COUNT',    # values: INSTANCE_COUNT, CAPACITY_PERCENT
+              Value => 1,            # min: 1
+
+            },    # OPTIONAL
+            LinearStepSize => {
+              Type =>
+                'INSTANCE_COUNT',    # values: INSTANCE_COUNT, CAPACITY_PERCENT
+              Value => 1,            # min: 1
+
+            },    # OPTIONAL
+          },
+          MaximumExecutionTimeoutInSeconds =>
+            1,    # min: 600, max: 28800; OPTIONAL
+          TerminationWaitInSeconds => 1,    # max: 3600; OPTIONAL
+        },    # OPTIONAL
+        RollingUpdatePolicy => {
+          MaximumBatchSize => {
+            Type => 'INSTANCE_COUNT', # values: INSTANCE_COUNT, CAPACITY_PERCENT
+            Value => 1,               # min: 1
+
+          },    # OPTIONAL
+          WaitIntervalInSeconds            => 1,    # max: 3600
+          MaximumExecutionTimeoutInSeconds =>
+            1,    # min: 600, max: 28800; OPTIONAL
+          RollbackMaximumBatchSize => {
+            Type => 'INSTANCE_COUNT', # values: INSTANCE_COUNT, CAPACITY_PERCENT
+            Value => 1,               # min: 1
+
+          },    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -53,10 +100,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head1 ATTRIBUTES
 
 
+=head2 DeploymentConfig => L<Paws::SageMaker::DeploymentConfig>
+
+
+
+
+
 =head2 B<REQUIRED> EndpointConfigName => Str
 
 The name of an endpoint configuration. For more information, see
-CreateEndpointConfig.
+CreateEndpointConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpointConfig.html).
 
 
 
@@ -65,7 +119,8 @@ CreateEndpointConfig.
 The name of the endpoint.The name must be unique within an Amazon Web
 Services Region in your Amazon Web Services account. The name is
 case-insensitive in C<CreateEndpoint>, but the case is preserved and
-must be matched in .
+must be matched in InvokeEndpoint
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html).
 
 
 

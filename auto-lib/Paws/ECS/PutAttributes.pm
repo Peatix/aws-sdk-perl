@@ -56,8 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 =head2 B<REQUIRED> Attributes => ArrayRef[L<Paws::ECS::Attribute>]
 
 The attributes to apply to your resource. You can specify up to 10
-custom attributes per resource. You can specify up to 10 attributes in
-a single call.
+custom attributes for each resource. You can specify up to 10
+attributes in a single call.
 
 
 

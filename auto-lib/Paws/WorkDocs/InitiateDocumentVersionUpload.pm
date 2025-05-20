@@ -8,7 +8,7 @@ package Paws::WorkDocs::InitiateDocumentVersionUpload;
   has DocumentSizeInBytes => (is => 'ro', isa => 'Int');
   has Id => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
-  has ParentFolderId => (is => 'ro', isa => 'Str', required => 1);
+  has ParentFolderId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -37,7 +37,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workdocs = Paws->service('WorkDocs');
     my $InitiateDocumentVersionUploadResponse =
       $workdocs->InitiateDocumentVersionUpload(
-      ParentFolderId           => 'MyResourceIdType',
       AuthenticationToken      => 'MyAuthenticationHeaderType',    # OPTIONAL
       ContentCreatedTimestamp  => '1970-01-01T01:00:00',           # OPTIONAL
       ContentModifiedTimestamp => '1970-01-01T01:00:00',           # OPTIONAL
@@ -45,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DocumentSizeInBytes      => 1,                               # OPTIONAL
       Id                       => 'MyResourceIdType',              # OPTIONAL
       Name                     => 'MyResourceNameType',            # OPTIONAL
+      ParentFolderId           => 'MyResourceIdType',              # OPTIONAL
       );
 
     # Results:
@@ -61,8 +61,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 AuthenticationToken => Str
 
-Amazon WorkDocs authentication token. Not required when using AWS
-administrator credentials to access the API.
+Amazon WorkDocs authentication token. Not required when using Amazon
+Web Services administrator credentials to access the API.
 
 
 
@@ -102,7 +102,7 @@ The name of the document.
 
 
 
-=head2 B<REQUIRED> ParentFolderId => Str
+=head2 ParentFolderId => Str
 
 The ID of the parent folder.
 

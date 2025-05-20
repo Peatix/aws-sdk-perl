@@ -9,8 +9,9 @@ package Paws::LakeFormation::ListLFTags;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListLFTags');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/ListLFTags');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LakeFormation::ListLFTagsResponse');
-  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -54,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lak
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
 
@@ -73,11 +74,11 @@ list.
 
 =head2 ResourceShareType => Str
 
-If resource share type is C<ALL>, returns both in-account tags and
-shared tags that the requester has permission to view. If resource
-share type is C<FOREIGN>, returns all share tags that the requester can
-view. If no resource share type is passed, lists tags in the given
-catalog ID that the requester has permission to view.
+If resource share type is C<ALL>, returns both in-account LF-tags and
+shared LF-tags that the requester has permission to view. If resource
+share type is C<FOREIGN>, returns all share LF-tags that the requester
+can view. If no resource share type is passed, lists LF-tags in the
+given catalog ID that the requester has permission to view.
 
 Valid values are: C<"FOREIGN">, C<"ALL">
 

@@ -3,8 +3,11 @@ package Paws::CloudWatch::AnomalyDetector;
   use Moose;
   has Configuration => (is => 'ro', isa => 'Paws::CloudWatch::AnomalyDetectorConfiguration');
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::Dimension]');
+  has MetricCharacteristics => (is => 'ro', isa => 'Paws::CloudWatch::MetricCharacteristics');
+  has MetricMathAnomalyDetector => (is => 'ro', isa => 'Paws::CloudWatch::MetricMathAnomalyDetector');
   has MetricName => (is => 'ro', isa => 'Str');
   has Namespace => (is => 'ro', isa => 'Str');
+  has SingleMetricAnomalyDetector => (is => 'ro', isa => 'Paws::CloudWatch::SingleMetricAnomalyDetector');
   has Stat => (is => 'ro', isa => 'Str');
   has StateValue => (is => 'ro', isa => 'Str');
 
@@ -39,8 +42,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudWatch:
 =head1 DESCRIPTION
 
 An anomaly detection model associated with a particular CloudWatch
-metric and statistic. You can use the model to display a band of
-expected normal values when the metric is graphed.
+metric, statistic, or metric math expression. You can use the model to
+display a band of expected, normal values when the metric is graphed.
+
+If you have enabled unified cross-account observability, and this
+account is a monitoring account, the metric can be in the same account
+or a source account.
 
 =head1 ATTRIBUTES
 
@@ -57,6 +64,19 @@ training the model, and the time zone to use for the metric.
 The metric dimensions associated with the anomaly detection model.
 
 
+=head2 MetricCharacteristics => L<Paws::CloudWatch::MetricCharacteristics>
+
+This object includes parameters that you can use to provide information
+about your metric to CloudWatch to help it build more accurate anomaly
+detection models. Currently, it includes the C<PeriodicSpikes>
+parameter.
+
+
+=head2 MetricMathAnomalyDetector => L<Paws::CloudWatch::MetricMathAnomalyDetector>
+
+The CloudWatch metric math expression for this anomaly detector.
+
+
 =head2 MetricName => Str
 
 The name of the metric associated with the anomaly detection model.
@@ -68,6 +88,11 @@ The namespace of the metric associated with the anomaly detection
 model.
 
 
+=head2 SingleMetricAnomalyDetector => L<Paws::CloudWatch::SingleMetricAnomalyDetector>
+
+The CloudWatch metric and statistic for this anomaly detector.
+
+
 =head2 Stat => Str
 
 The statistic associated with the anomaly detection model.
@@ -75,8 +100,7 @@ The statistic associated with the anomaly detection model.
 
 =head2 StateValue => Str
 
-The current status of the anomaly detector's training. The possible
-values are C<TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA>
+The current status of the anomaly detector's training.
 
 
 

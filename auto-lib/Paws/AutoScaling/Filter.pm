@@ -35,10 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 =head1 DESCRIPTION
 
 Describes a filter that is used to return a more specific list of
-results when describing tags.
+results from a describe operation.
 
-For more information, see Tagging Auto Scaling groups and instances
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-tagging.html)
+If you specify multiple filters, the filters are automatically
+logically joined with an C<AND>, and the request returns only the
+results that match all of the specified filters.
+
+For more information, see Tag Auto Scaling groups and instances
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
 =head1 ATTRIBUTES
@@ -46,13 +50,82 @@ in the I<Amazon EC2 Auto Scaling User Guide>.
 
 =head2 Name => Str
 
-The name of the filter. The valid values are: C<auto-scaling-group>,
-C<key>, C<value>, and C<propagate-at-launch>.
+The name of the filter.
+
+The valid values for C<Name> depend on which API operation you're using
+with the filter (DescribeAutoScalingGroups
+(https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html)
+or DescribeTags
+(https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html)).
+
+B<DescribeAutoScalingGroups>
+
+Valid values for C<Name> include the following:
+
+=over
+
+=item *
+
+C<tag-key> - Accepts tag keys. The results only include information
+about the Auto Scaling groups associated with these tag keys.
+
+=item *
+
+C<tag-value> - Accepts tag values. The results only include information
+about the Auto Scaling groups associated with these tag values.
+
+=item *
+
+C<tag:E<lt>keyE<gt>> - Accepts the key/value combination of the tag.
+Use the tag key in the filter name and the tag value as the filter
+value. The results only include information about the Auto Scaling
+groups associated with the specified key/value combination.
+
+=back
+
+B<DescribeTags>
+
+Valid values for C<Name> include the following:
+
+=over
+
+=item *
+
+C<auto-scaling-group> - Accepts the names of Auto Scaling groups. The
+results only include information about the tags associated with these
+Auto Scaling groups.
+
+=item *
+
+C<key> - Accepts tag keys. The results only include information about
+the tags associated with these tag keys.
+
+=item *
+
+C<value> - Accepts tag values. The results only include information
+about the tags associated with these tag values.
+
+=item *
+
+C<propagate-at-launch> - Accepts a Boolean value, which specifies
+whether tags propagate to instances at launch. The results only include
+information about the tags associated with the specified Boolean value.
+
+=back
+
 
 
 =head2 Values => ArrayRef[Str|Undef]
 
 One or more filter values. Filter values are case-sensitive.
+
+If you specify multiple values for a filter, the values are
+automatically logically joined with an C<OR>, and the request returns
+all results that match any of the specified values. For example,
+specify "tag:environment" for the filter name and
+"production,development" for the filter values to find Auto Scaling
+groups with the tag "environment=production" or
+"environment=development".
 
 
 

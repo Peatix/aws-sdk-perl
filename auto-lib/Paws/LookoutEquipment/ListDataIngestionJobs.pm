@@ -74,7 +74,7 @@ data ingestion jobs.
 
 Indicates the status of the data ingestion job.
 
-Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">
+Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">, C<"IMPORT_IN_PROGRESS">
 
 
 =head1 SEE ALSO

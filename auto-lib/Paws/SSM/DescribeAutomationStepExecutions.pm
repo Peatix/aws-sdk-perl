@@ -37,7 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Filters               => [
         {
           Key => 'StartTimeBefore'
-          , # values: StartTimeBefore, StartTimeAfter, StepExecutionStatus, StepExecutionId, StepName, Action
+          , # values: StartTimeBefore, StartTimeAfter, StepExecutionStatus, StepExecutionId, StepName, Action, ParentStepExecutionId, ParentStepIteration, ParentStepIteratorValue
           Values => [
             'MyStepExecutionFilterValue', ...    # min: 1, max: 150
           ],    # min: 1, max: 10

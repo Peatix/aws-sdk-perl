@@ -52,14 +52,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 B<REQUIRED> Description => Str
 
-A description for the security group. This is informational only.
+A description for the security group.
 
 Constraints: Up to 255 characters in length
 
-Constraints for EC2-Classic: ASCII characters
-
-Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and
-._-:/()#,@[]+=&;{}!$*
+Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
 
 
 
@@ -74,14 +71,12 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 B<REQUIRED> GroupName => Str
 
-The name of the security group.
+The name of the security group. Names are case-insensitive and must be
+unique within the VPC.
 
-Constraints: Up to 255 characters in length. Cannot start with C<sg->.
+Constraints: Up to 255 characters in length. Can't start with C<sg->.
 
-Constraints for EC2-Classic: ASCII characters
-
-Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and
-._-:/()#,@[]+=&;{}!$*
+Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
 
 
 
@@ -93,7 +88,7 @@ The tags to assign to the security group.
 
 =head2 VpcId => Str
 
-[EC2-VPC] The ID of the VPC. Required for EC2-VPC.
+The ID of the VPC. Required for a nondefault VPC.
 
 
 

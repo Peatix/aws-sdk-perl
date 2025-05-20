@@ -33,9 +33,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ListGroupsOutput = $resource -groups->ListGroups(
       Filters => [
         {
-          Name   => 'resource-type', # values: resource-type, configuration-type
+          Name => 'resource-type'
+          , # values: resource-type, configuration-type, owner, display-name, criticality
           Values => [
-            'MyGroupFilterValue', ...    # min: 1, max: 128
+            'MyGroupFilterValue', ...    # min: 1, max: 300
           ],    # min: 1, max: 5
 
         },
@@ -67,10 +68,11 @@ C<ListGroups> operation.
 
 =item *
 
-C<resource-type> - Filter the results to include only those of the
-specified resource types. Specify up to five resource types in the
-format C<AWS::I<ServiceCode>::I<ResourceType> >. For example,
-C<AWS::EC2::Instance>, or C<AWS::S3::Bucket>.
+C<resource-type> - Filter the results to include only those resource
+groups that have the specified resource type in their
+C<ResourceTypeFilter>. For example, C<AWS::EC2::Instance> would return
+any resource group with a C<ResourceTypeFilter> that includes
+C<AWS::EC2::Instance>.
 
 =item *
 
@@ -82,11 +84,31 @@ supported values are:
 
 =item *
 
-C<AWS:EC2::CapacityReservationPool>
+C<AWS::ResourceGroups::ApplicationGroup>
 
 =item *
 
-C<AWS:EC2::HostManagement>
+C<AWS::AppRegistry::Application>
+
+=item *
+
+C<AWS::AppRegistry::ApplicationResourceGroup>
+
+=item *
+
+C<AWS::CloudFormation::Stack>
+
+=item *
+
+C<AWS::EC2::CapacityReservationPool>
+
+=item *
+
+C<AWS::EC2::HostManagement>
+
+=item *
+
+C<AWS::NetworkFirewall::RuleGroup>
 
 =back
 

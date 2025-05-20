@@ -34,10 +34,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 
 =head1 DESCRIPTION
 
-The inspection criteria and action for a single stateless rule. AWS
-Network Firewall inspects each packet for the specified matching
-criteria. When a packet matches the criteria, Network Firewall performs
-the rule's actions on the packet.
+The inspection criteria and action for a single stateless rule. Network
+Firewall inspects each packet for the specified matching criteria. When
+a packet matches the criteria, Network Firewall performs the rule's
+actions on the packet.
 
 =head1 ATTRIBUTES
 

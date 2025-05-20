@@ -7,6 +7,7 @@ package Paws::ServiceCatalog::ProvisioningArtifactDetail;
   has Guidance => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has SourceRevision => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
 
 1;
@@ -76,6 +77,20 @@ The identifier of the provisioning artifact.
 The name of the provisioning artifact.
 
 
+=head2 SourceRevision => Str
+
+Specifies the revision of the external artifact that was used to
+automatically sync the Service Catalog product and create the
+provisioning artifact. Service Catalog includes this response parameter
+as a high level field to the existing C<ProvisioningArtifactDetail>
+type, which is returned as part of the response for C<CreateProduct>,
+C<UpdateProduct>, C<DescribeProductAsAdmin>,
+C<DescribeProvisioningArtifact>, C<ListProvisioningArtifact>, and
+C<UpdateProvisioningArticat> APIs.
+
+This field only exists for Repo-Synced products.
+
+
 =head2 Type => Str
 
 The type of provisioning artifact.
@@ -84,15 +99,19 @@ The type of provisioning artifact.
 
 =item *
 
-C<CLOUD_FORMATION_TEMPLATE> - AWS CloudFormation template
+C<CLOUD_FORMATION_TEMPLATE> - CloudFormation template
 
 =item *
 
-C<MARKETPLACE_AMI> - AWS Marketplace AMI
+C<TERRAFORM_OPEN_SOURCE> - Terraform Open Source configuration file
 
 =item *
 
-C<MARKETPLACE_CAR> - AWS Marketplace Clusters and AWS Resources
+C<TERRAFORM_CLOUD> - Terraform Cloud configuration file
+
+=item *
+
+C<EXTERNAL> - External configuration file
 
 =back
 

@@ -1,13 +1,13 @@
 
 package Paws::MediaTailor::DescribeVodSource;
   use Moose;
-  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceLocationName', required => 1);
-  has VodSourceName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'vodSourceName', required => 1);
+  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceLocationName', required => 1);
+  has VodSourceName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'VodSourceName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DescribeVodSource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::DescribeVodSourceResponse');
 1;
@@ -36,8 +36,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Arn          = $DescribeVodSourceResponse->Arn;
-    my $CreationTime = $DescribeVodSourceResponse->CreationTime;
+    my $AdBreakOpportunities = $DescribeVodSourceResponse->AdBreakOpportunities;
+    my $Arn                  = $DescribeVodSourceResponse->Arn;
+    my $CreationTime         = $DescribeVodSourceResponse->CreationTime;
     my $HttpPackageConfigurations =
       $DescribeVodSourceResponse->HttpPackageConfigurations;
     my $LastModifiedTime   = $DescribeVodSourceResponse->LastModifiedTime;
@@ -55,13 +56,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> SourceLocationName => Str
 
-The identifier for the source location you are working on.
+The name of the source location associated with this VOD Source.
 
 
 
 =head2 B<REQUIRED> VodSourceName => Str
 
-The identifier for the VOD source you are working on.
+The name of the VOD Source.
 
 
 

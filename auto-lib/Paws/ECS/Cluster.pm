@@ -12,6 +12,7 @@ package Paws::ECS::Cluster;
   has PendingTasksCount => (is => 'ro', isa => 'Int', request_name => 'pendingTasksCount', traits => ['NameInRequest']);
   has RegisteredContainerInstancesCount => (is => 'ro', isa => 'Int', request_name => 'registeredContainerInstancesCount', traits => ['NameInRequest']);
   has RunningTasksCount => (is => 'ro', isa => 'Int', request_name => 'runningTasksCount', traits => ['NameInRequest']);
+  has ServiceConnectDefaults => (is => 'ro', isa => 'Paws::ECS::ClusterServiceConnectDefaults', request_name => 'serviceConnectDefaults', traits => ['NameInRequest']);
   has Settings => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ClusterSetting]', request_name => 'settings', traits => ['NameInRequest']);
   has Statistics => (is => 'ro', isa => 'ArrayRef[Paws::ECS::KeyValuePair]', request_name => 'statistics', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
@@ -47,7 +48,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Cluste
 
 =head1 DESCRIPTION
 
-A regional grouping of one or more container instances on which you can
+A regional grouping of one or more container instances where you can
 run task requests. Each account receives a default cluster the first
 time you use the Amazon ECS service, but you may also create other
 clusters. Clusters may contain more than one instance type
@@ -59,27 +60,27 @@ simultaneously.
 =head2 ActiveServicesCount => Int
 
 The number of services that are running on the cluster in an C<ACTIVE>
-state. You can view these services with ListServices.
+state. You can view these services with PListServices
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html).
 
 
 =head2 Attachments => ArrayRef[L<Paws::ECS::Attachment>]
 
 The resources attached to a cluster. When using a capacity provider
-with a cluster, the Auto Scaling plan that is created will be returned
-as a cluster attachment.
+with a cluster, the capacity provider and associated resources are
+returned as cluster attachments.
 
 
 =head2 AttachmentsStatus => Str
 
 The status of the capacity providers associated with the cluster. The
-following are the states that will be returned:
+following are the states that are returned.
 
 =over
 
 =item UPDATE_IN_PROGRESS
 
-The available capacity providers for the cluster are updating. This
-occurs when the Auto Scaling plan is provisioning or deprovisioning.
+The available capacity providers for the cluster are updating.
 
 =item UPDATE_COMPLETE
 
@@ -100,11 +101,10 @@ The capacity providers associated with the cluster.
 
 =head2 ClusterArn => Str
 
-The Amazon Resource Name (ARN) that identifies the cluster. The ARN
-contains the C<arn:aws:ecs> namespace, followed by the Region of the
-cluster, the AWS account ID of the cluster owner, the C<cluster>
-namespace, and then the cluster name. For example,
-C<arn:aws:ecs:region:012345678910:cluster/test>.
+The Amazon Resource Name (ARN) that identifies the cluster. For more
+information about the ARN format, see Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids)
+in the I<Amazon ECS Developer Guide>.
 
 
 =head2 ClusterName => Str
@@ -114,7 +114,7 @@ A user-generated string that you use to identify your cluster.
 
 =head2 Configuration => L<Paws::ECS::ClusterConfiguration>
 
-The execute command configuration for the cluster.
+The execute command and managed storage configuration for the cluster.
 
 
 =head2 DefaultCapacityProviderStrategy => ArrayRef[L<Paws::ECS::CapacityProviderStrategyItem>]
@@ -141,16 +141,37 @@ includes container instances in both C<ACTIVE> and C<DRAINING> status.
 The number of tasks in the cluster that are in the C<RUNNING> state.
 
 
+=head2 ServiceConnectDefaults => L<Paws::ECS::ClusterServiceConnectDefaults>
+
+Use this parameter to set a default Service Connect namespace. After
+you set a default Service Connect namespace, any new services with
+Service Connect turned on that are created in the cluster are added as
+client services in the namespace. This setting only applies to new
+services that set the C<enabled> parameter to C<true> in the
+C<ServiceConnectConfiguration>. You can set the namespace of each
+service individually in the C<ServiceConnectConfiguration> to override
+this default parameter.
+
+Tasks that run in a namespace can use short names to connect to
+services in the namespace. Tasks can connect to services across all of
+the clusters in the namespace. Tasks connect through a managed proxy
+container that collects logs and metrics for increased visibility. Only
+the tasks that Amazon ECS services create are supported with Service
+Connect. For more information, see Service Connect
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+
 =head2 Settings => ArrayRef[L<Paws::ECS::ClusterSetting>]
 
 The settings for the cluster. This parameter indicates whether
-CloudWatch Container Insights is enabled or disabled for a cluster.
+CloudWatch Container Insights is on or off for a cluster.
 
 
 =head2 Statistics => ArrayRef[L<Paws::ECS::KeyValuePair>]
 
 Additional information about your clusters that are separated by launch
-type, including:
+type. They include the following:
 
 =over
 
@@ -193,7 +214,7 @@ drainingFargateServiceCount
 =head2 Status => Str
 
 The status of the cluster. The following are the possible states that
-will be returned.
+are returned.
 
 =over
 
@@ -204,25 +225,25 @@ container instances with the cluster.
 
 =item PROVISIONING
 
-The cluster has capacity providers associated with it and the resources
-needed for the capacity provider are being created.
+The cluster has capacity providers that are associated with it and the
+resources needed for the capacity provider are being created.
 
 =item DEPROVISIONING
 
-The cluster has capacity providers associated with it and the resources
-needed for the capacity provider are being deleted.
+The cluster has capacity providers that are associated with it and the
+resources needed for the capacity provider are being deleted.
 
 =item FAILED
 
-The cluster has capacity providers associated with it and the resources
-needed for the capacity provider have failed to create.
+The cluster has capacity providers that are associated with it and the
+resources needed for the capacity provider have failed to create.
 
 =item INACTIVE
 
 The cluster has been deleted. Clusters with an C<INACTIVE> status may
 remain discoverable in your account for a period of time. However, this
-behavior is subject to change in the future, so you should not rely on
-C<INACTIVE> clusters persisting.
+behavior is subject to change in the future. We don't recommend that
+you rely on C<INACTIVE> clusters persisting.
 
 =back
 
@@ -231,8 +252,8 @@ C<INACTIVE> clusters persisting.
 =head2 Tags => ArrayRef[L<Paws::ECS::Tag>]
 
 The metadata that you apply to the cluster to help you categorize and
-organize them. Each tag consists of a key and an optional value, both
-of which you define.
+organize them. Each tag consists of a key and an optional value. You
+define both.
 
 The following basic restrictions apply to tags:
 
@@ -270,10 +291,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 

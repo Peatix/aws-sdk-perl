@@ -17,7 +17,8 @@ Paws::Kendra::ListIndicesResponse
 
 =head2 IndexConfigurationSummaryItems => ArrayRef[L<Paws::Kendra::IndexConfigurationSummary>]
 
-An array of summary information for one or more indexes.
+An array of summary information on the configuration of one or more
+indexes.
 
 
 =head2 NextToken => Str

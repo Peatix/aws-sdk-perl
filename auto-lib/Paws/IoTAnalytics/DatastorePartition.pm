@@ -34,19 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-A single partition in a data store.
+A single dimension to partition a data store. The dimension must be an
+C<AttributePartition> or a C<TimestampPartition>.
 
 =head1 ATTRIBUTES
 
 
 =head2 AttributePartition => L<Paws::IoTAnalytics::Partition>
 
-A partition defined by an C<attributeName>.
+A partition dimension defined by an C<attributeName>.
 
 
 =head2 TimestampPartition => L<Paws::IoTAnalytics::TimestampPartition>
 
-A partition defined by an C<attributeName> and a timestamp format.
+A partition dimension defined by a timestamp attribute.
 
 
 

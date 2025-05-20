@@ -65,7 +65,7 @@ either the fleet ID or ARN value.
 =head2 Location => Str
 
 The fleet location to stop fleet actions for. Specify a location in the
-form of an AWS Region code, such as C<us-west-2>.
+form of an Amazon Web Services Region code, such as C<us-west-2>.
 
 
 

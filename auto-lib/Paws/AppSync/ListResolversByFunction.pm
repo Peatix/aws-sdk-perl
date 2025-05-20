@@ -58,13 +58,13 @@ The API ID.
 
 =head2 B<REQUIRED> FunctionId => Str
 
-The Function ID.
+The function ID.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results you want the request to return.
+The maximum number of results that you want the request to return.
 
 
 

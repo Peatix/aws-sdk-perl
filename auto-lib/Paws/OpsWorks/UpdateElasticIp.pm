@@ -47,7 +47,7 @@ The IP address for which you want to update the name.
 
 =head2 Name => Str
 
-The new name.
+The new name, which can be a maximum of 32 characters.
 
 
 

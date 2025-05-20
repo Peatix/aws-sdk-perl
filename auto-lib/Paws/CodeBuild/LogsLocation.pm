@@ -52,15 +52,20 @@ Information about CloudWatch Logs for a build project.
 
 =head2 CloudWatchLogsArn => Str
 
-The ARN of CloudWatch Logs for a build project. Its format is
+The ARN of the CloudWatch Logs stream for a build execution. Its format
+is
 C<arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}>.
-For more information, see Resources Defined by CloudWatch Logs
+The CloudWatch Logs stream is created during the PROVISIONING phase of
+a build and the ARN will not be valid until it is created. For more
+information, see Resources Defined by CloudWatch Logs
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatchlogs.html#amazoncloudwatchlogs-resources-for-iam-policies).
 
 
 =head2 DeepLink => Str
 
-The URL to an individual build log in CloudWatch Logs.
+The URL to an individual build log in CloudWatch Logs. The log stream
+is created during the PROVISIONING phase of a build and the C<deeplink>
+will not be valid until it is created.
 
 
 =head2 GroupName => Str

@@ -4,7 +4,9 @@ package Paws::LexModelsV2::SlotValueElicitationSetting;
   has DefaultValueSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::SlotDefaultValueSpecification', request_name => 'defaultValueSpecification', traits => ['NameInRequest']);
   has PromptSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::PromptSpecification', request_name => 'promptSpecification', traits => ['NameInRequest']);
   has SampleUtterances => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::SampleUtterance]', request_name => 'sampleUtterances', traits => ['NameInRequest']);
+  has SlotCaptureSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SlotCaptureSetting', request_name => 'slotCaptureSetting', traits => ['NameInRequest']);
   has SlotConstraint => (is => 'ro', isa => 'Str', request_name => 'slotConstraint', traits => ['NameInRequest'], required => 1);
+  has SlotResolutionSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SlotResolutionSetting', request_name => 'slotResolutionSetting', traits => ['NameInRequest']);
   has WaitAndContinueSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::WaitAndContinueSpecification', request_name => 'waitAndContinueSpecification', traits => ['NameInRequest']);
 
 1;
@@ -37,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-Settings that you can use for eliciting a slot value.
+Specifies the elicitation setting details eliciting a slot.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +48,7 @@ Settings that you can use for eliciting a slot value.
 
 A list of default values for a slot. Default values are used when
 Amazon Lex hasn't determined a value for a slot. You can specify
-default values from context variables, sesion attributes, and defined
+default values from context variables, session attributes, and defined
 values.
 
 
@@ -63,9 +65,21 @@ improve accuracy. This is optional. In most cases, Amazon Lex is
 capable of understanding user utterances.
 
 
+=head2 SlotCaptureSetting => L<Paws::LexModelsV2::SlotCaptureSetting>
+
+Specifies the settings that Amazon Lex uses when a slot value is
+successfully entered by a user.
+
+
 =head2 B<REQUIRED> SlotConstraint => Str
 
 Specifies whether the slot is required or optional.
+
+
+=head2 SlotResolutionSetting => L<Paws::LexModelsV2::SlotResolutionSetting>
+
+An object containing information about whether assisted slot resolution
+is turned on for the slot or not.
 
 
 =head2 WaitAndContinueSpecification => L<Paws::LexModelsV2::WaitAndContinueSpecification>

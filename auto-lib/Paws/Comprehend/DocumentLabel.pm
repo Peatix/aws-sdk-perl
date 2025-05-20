@@ -2,6 +2,7 @@
 package Paws::Comprehend::DocumentLabel;
   use Moose;
   has Name => (is => 'ro', isa => 'Str');
+  has Page => (is => 'ro', isa => 'Int');
   has Score => (is => 'ro', isa => 'Num');
 
 1;
@@ -43,6 +44,12 @@ analyzed.
 =head2 Name => Str
 
 The name of the label.
+
+
+=head2 Page => Int
+
+Page number where the label occurs. This field is present in the
+response only if your request includes the C<Byte> parameter.
 
 
 =head2 Score => Num

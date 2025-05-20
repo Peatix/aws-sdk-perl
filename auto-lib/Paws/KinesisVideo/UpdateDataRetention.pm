@@ -56,9 +56,12 @@ C<ListStreams> API.
 
 =head2 B<REQUIRED> DataRetentionChangeInHours => Int
 
-The retention period, in hours. The value you specify replaces the
-current value. The maximum value for this parameter is 87600 (ten
-years).
+The number of hours to adjust the current retention by. The value you
+specify is added to or subtracted from the current value, depending on
+the C<operation>.
+
+The minimum value for data retention is 0 and the maximum value is
+87600 (ten years).
 
 
 

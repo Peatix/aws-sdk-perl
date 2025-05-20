@@ -7,7 +7,7 @@ package Paws::LocationService::DescribePlaceIndexResponse;
   has Description => (is => 'ro', isa => 'Str', required => 1);
   has IndexArn => (is => 'ro', isa => 'Str', required => 1);
   has IndexName => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
@@ -32,8 +32,8 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>.
 
 =head2 B<REQUIRED> DataSource => Str
 
-The data provider of geospatial data. Indicates one of the available
-providers:
+The data provider of geospatial data. Values can be one of the
+following:
 
 =over
 
@@ -43,12 +43,16 @@ C<Esri>
 
 =item *
 
+C<Grab>
+
+=item *
+
 C<Here>
 
 =back
 
-For additional details on data providers, see the Amazon Location
-Service data providers page
+For more information about data providers, see Amazon Location Service
+data providers
 (https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
 
 
@@ -65,7 +69,7 @@ The optional description for the place index resource.
 =head2 B<REQUIRED> IndexArn => Str
 
 The Amazon Resource Name (ARN) for the place index resource. Used to
-specify a resource across all AWS.
+specify a resource across Amazon Web Services.
 
 =over
 
@@ -83,13 +87,9 @@ C<arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex>
 The name of the place index resource being described.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan selected for the specified place index resource.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. Always returns C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 =head2 Tags => L<Paws::LocationService::TagMap>

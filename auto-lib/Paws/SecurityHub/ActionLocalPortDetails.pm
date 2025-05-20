@@ -50,6 +50,8 @@ The number of the port.
 
 The port name of the local connection.
 
+Length Constraints: 128.
+
 
 
 =head1 SEE ALSO

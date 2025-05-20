@@ -11,6 +11,7 @@ package Paws::Outposts::Outpost;
   has OwnerId => (is => 'ro', isa => 'Str');
   has SiteArn => (is => 'ro', isa => 'Str');
   has SiteId => (is => 'ro', isa => 'Str');
+  has SupportedHardwareType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::Outposts::TagMap');
 
 1;
@@ -80,7 +81,7 @@ Information about an Outpost.
 
 =head2 OutpostId => Str
 
-
+The ID of the Outpost.
 
 
 =head2 OwnerId => Str
@@ -96,6 +97,11 @@ Information about an Outpost.
 =head2 SiteId => Str
 
 
+
+
+=head2 SupportedHardwareType => Str
+
+The hardware type.
 
 
 =head2 Tags => L<Paws::Outposts::TagMap>

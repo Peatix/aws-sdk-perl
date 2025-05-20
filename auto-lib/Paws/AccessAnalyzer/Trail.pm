@@ -43,7 +43,7 @@ a policy.
 
 =head2 AllRegions => Bool
 
-Possible values are C<true> or C<false>. If set to C<true>, Access
+Possible values are C<true> or C<false>. If set to C<true>, IAM Access
 Analyzer retrieves CloudTrail data from all regions to analyze and
 generate a policy.
 

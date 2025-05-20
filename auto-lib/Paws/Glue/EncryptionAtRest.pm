@@ -2,6 +2,7 @@
 package Paws::Glue::EncryptionAtRest;
   use Moose;
   has CatalogEncryptionMode => (is => 'ro', isa => 'Str', required => 1);
+  has CatalogEncryptionServiceRole => (is => 'ro', isa => 'Str');
   has SseAwsKmsKeyId => (is => 'ro', isa => 'Str');
 
 1;
@@ -42,6 +43,12 @@ Specifies the encryption-at-rest configuration for the Data Catalog.
 =head2 B<REQUIRED> CatalogEncryptionMode => Str
 
 The encryption-at-rest mode for encrypting Data Catalog data.
+
+
+=head2 CatalogEncryptionServiceRole => Str
+
+The role that Glue assumes to encrypt and decrypt the Data Catalog
+objects on the caller's behalf.
 
 
 =head2 SseAwsKmsKeyId => Str

@@ -9,13 +9,16 @@ package Paws::EC2::Volume;
   has Iops => (is => 'ro', isa => 'Int', request_name => 'iops', traits => ['NameInRequest',]);
   has KmsKeyId => (is => 'ro', isa => 'Str', request_name => 'kmsKeyId', traits => ['NameInRequest',]);
   has MultiAttachEnabled => (is => 'ro', isa => 'Bool', request_name => 'multiAttachEnabled', traits => ['NameInRequest',]);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest',]);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest',]);
   has Size => (is => 'ro', isa => 'Int', request_name => 'size', traits => ['NameInRequest',]);
   has SnapshotId => (is => 'ro', isa => 'Str', request_name => 'snapshotId', traits => ['NameInRequest',]);
+  has SseType => (is => 'ro', isa => 'Str', request_name => 'sseType', traits => ['NameInRequest',]);
   has State => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest',]);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest',]);
   has Throughput => (is => 'ro', isa => 'Int', request_name => 'throughput', traits => ['NameInRequest',]);
   has VolumeId => (is => 'ro', isa => 'Str', request_name => 'volumeId', traits => ['NameInRequest',]);
+  has VolumeInitializationRate => (is => 'ro', isa => 'Int', request_name => 'volumeInitializationRate', traits => ['NameInRequest',]);
   has VolumeType => (is => 'ro', isa => 'Str', request_name => 'volumeType', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -31,6 +34,8 @@ Paws::EC2::Volume
 
 
 =head2 Attachments => ArrayRef[L<Paws::EC2::VolumeAttachment>]
+
+This parameter is not returned by CreateVolume.
 
 Information about the volume attachments.
 
@@ -52,6 +57,8 @@ Indicates whether the volume is encrypted.
 
 =head2 FastRestored => Bool
 
+This parameter is not returned by CreateVolume.
+
 Indicates whether the volume was created using fast snapshot restore.
 
 
@@ -66,14 +73,18 @@ I/O credits for bursting.
 
 =head2 KmsKeyId => Str
 
-The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS
-KMS) customer master key (CMK) that was used to protect the volume
-encryption key for the volume.
+The Amazon Resource Name (ARN) of the KMS key that was used to protect
+the volume encryption key for the volume.
 
 
 =head2 MultiAttachEnabled => Bool
 
 Indicates whether Amazon EBS Multi-Attach is enabled.
+
+
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The service provider that manages the volume.
 
 
 =head2 OutpostArn => Str
@@ -91,6 +102,13 @@ The size of the volume, in GiBs.
 The snapshot from which the volume was created, if applicable.
 
 
+=head2 SseType => Str
+
+This parameter is not returned by CreateVolume.
+
+Reserved for future use.
+
+Valid values are: C<"sse-ebs">, C<"sse-kms">, C<"none">
 =head2 State => Str
 
 The volume state.
@@ -109,6 +127,14 @@ The throughput that the volume supports, in MiB/s.
 =head2 VolumeId => Str
 
 The ID of the volume.
+
+
+=head2 VolumeInitializationRate => Int
+
+The Amazon EBS Provisioned Rate for Volume Initialization (volume
+initialization rate) specified for the volume during creation, in
+MiB/s. If no volume initialization rate was specified, the value is
+C<null>.
 
 
 =head2 VolumeType => Str

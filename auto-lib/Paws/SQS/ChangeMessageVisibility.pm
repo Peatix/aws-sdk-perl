@@ -52,9 +52,9 @@ Queue URLs and names are case-sensitive.
 
 =head2 B<REQUIRED> ReceiptHandle => Str
 
-The receipt handle associated with the message whose visibility timeout
-is changed. This parameter is returned by the C< ReceiveMessage >
-action.
+The receipt handle associated with the message, whose visibility
+timeout is changed. This parameter is returned by the C< ReceiveMessage
+> action.
 
 
 

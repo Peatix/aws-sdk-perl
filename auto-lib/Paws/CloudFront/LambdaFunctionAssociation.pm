@@ -35,15 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-A complex type that contains a Lambda function association.
+A complex type that contains a Lambda@Edge function association.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> EventType => Str
 
-Specifies the event type that triggers a Lambda function invocation.
-You can specify the following values:
+Specifies the event type that triggers a Lambda@Edge function
+invocation. You can specify the following values:
 
 =over
 
@@ -81,8 +81,8 @@ function doesn't execute.
 
 =head2 IncludeBody => Bool
 
-A flag that allows a Lambda function to have read access to the body
-content. For more information, see Accessing the Request Body by
+A flag that allows a Lambda@Edge function to have read access to the
+body content. For more information, see Accessing the Request Body by
 Choosing the Include Body Option
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-include-body-access.html)
 in the Amazon CloudFront Developer Guide.
@@ -90,8 +90,8 @@ in the Amazon CloudFront Developer Guide.
 
 =head2 B<REQUIRED> LambdaFunctionARN => Str
 
-The ARN of the Lambda function. You must specify the ARN of a function
-version; you can't specify a Lambda alias or $LATEST.
+The ARN of the Lambda@Edge function. You must specify the ARN of a
+function version; you can't specify an alias or $LATEST.
 
 
 

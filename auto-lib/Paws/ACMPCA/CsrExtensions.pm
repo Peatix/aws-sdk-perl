@@ -51,7 +51,8 @@ the certificate.
 For CA certificates, provides a path to additional information
 pertaining to the CA, such as revocation and policy. For more
 information, see Subject Information Access
-(https://tools.ietf.org/html/rfc5280#section-4.2.2.2) in RFC 5280.
+(https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.2) in RFC
+5280.
 
 
 

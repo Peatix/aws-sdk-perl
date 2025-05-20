@@ -2,8 +2,12 @@
 package Paws::WAFV2::WebACL;
   use Moose;
   has ARN => (is => 'ro', isa => 'Str', required => 1);
+  has AssociationConfig => (is => 'ro', isa => 'Paws::WAFV2::AssociationConfig');
   has Capacity => (is => 'ro', isa => 'Int');
+  has CaptchaConfig => (is => 'ro', isa => 'Paws::WAFV2::CaptchaConfig');
+  has ChallengeConfig => (is => 'ro', isa => 'Paws::WAFV2::ChallengeConfig');
   has CustomResponseBodies => (is => 'ro', isa => 'Paws::WAFV2::CustomResponseBodies');
+  has DataProtectionConfig => (is => 'ro', isa => 'Paws::WAFV2::DataProtectionConfig');
   has DefaultAction => (is => 'ro', isa => 'Paws::WAFV2::DefaultAction', required => 1);
   has Description => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str', required => 1);
@@ -12,7 +16,9 @@ package Paws::WAFV2::WebACL;
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has PostProcessFirewallManagerRuleGroups => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::FirewallManagerRuleGroup]');
   has PreProcessFirewallManagerRuleGroups => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::FirewallManagerRuleGroup]');
+  has RetrofittedByFirewallManager => (is => 'ro', isa => 'Bool');
   has Rules => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::Rule]');
+  has TokenDomains => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VisibilityConfig => (is => 'ro', isa => 'Paws::WAFV2::VisibilityConfig', required => 1);
 
 1;
@@ -46,15 +52,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::WebA
 =head1 DESCRIPTION
 
 A web ACL defines a collection of rules to use to inspect and control
-web requests. Each rule has an action defined (allow, block, or count)
-for requests that match the statement of the rule. In the web ACL, you
-assign a default action to take (allow, block) for any request that
-does not match any of the rules. The rules in a web ACL can be a
-combination of the types Rule, RuleGroup, and managed rule group. You
-can associate a web ACL with one or more Amazon Web Services resources
-to protect. The resources can be an Amazon CloudFront distribution, an
-Amazon API Gateway REST API, an Application Load Balancer, or an
-AppSync GraphQL API.
+web requests. Each rule has a statement that defines what to look for
+in web requests and an action that WAF applies to requests that match
+the statement. In the web ACL, you assign a default action to take
+(allow, block) for any request that does not match any of the rules.
+The rules in a web ACL can be a combination of the types Rule,
+RuleGroup, and managed rule group. You can associate a web ACL with one
+or more Amazon Web Services resources to protect. The resource types
+include Amazon CloudFront distribution, Amazon API Gateway REST API,
+Application Load Balancer, AppSync GraphQL API, Amazon Cognito user
+pool, App Runner service, Amplify application, and Amazon Web Services
+Verified Access instance.
 
 =head1 ATTRIBUTES
 
@@ -63,6 +71,25 @@ AppSync GraphQL API.
 
 The Amazon Resource Name (ARN) of the web ACL that you want to
 associate with the resource.
+
+
+=head2 AssociationConfig => L<Paws::WAFV2::AssociationConfig>
+
+Specifies custom configurations for the associations between the web
+ACL and protected resources.
+
+Use this to customize the maximum size of the request body that your
+protected resources forward to WAF for inspection. You can customize
+this setting for CloudFront, API Gateway, Amazon Cognito, App Runner,
+or Verified Access resources. The default setting is 16 KB (16,384
+bytes).
+
+You are charged additional fees when your protected resources forward
+body sizes that are larger than the default. For more information, see
+WAF Pricing (http://aws.amazon.com/waf/pricing/).
+
+For Application Load Balancer and AppSync, the limit is fixed at 8 KB
+(8,192 bytes).
 
 
 =head2 Capacity => Int
@@ -75,7 +102,24 @@ capacity differently for each rule type, to reflect the relative cost
 of each rule. Simple rules that cost little to run use fewer WCUs than
 more complex rules that use more processing power. Rule group capacity
 is fixed at creation, which helps users plan their web ACL WCU usage
-when they use a rule group. The WCU limit for web ACLs is 1,500.
+when they use a rule group. For more information, see WAF web ACL
+capacity units (WCU)
+(https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html)
+in the I<WAF Developer Guide>.
+
+
+=head2 CaptchaConfig => L<Paws::WAFV2::CaptchaConfig>
+
+Specifies how WAF should handle C<CAPTCHA> evaluations for rules that
+don't have their own C<CaptchaConfig> settings. If you don't specify
+this, WAF uses its default settings for C<CaptchaConfig>.
+
+
+=head2 ChallengeConfig => L<Paws::WAFV2::ChallengeConfig>
+
+Specifies how WAF should handle challenge evaluations for rules that
+don't have their own C<ChallengeConfig> settings. If you don't specify
+this, WAF uses its default settings for C<ChallengeConfig>.
 
 
 =head2 CustomResponseBodies => L<Paws::WAFV2::CustomResponseBodies>
@@ -88,14 +132,24 @@ rules and default actions that you define in the web ACL.
 For information about customizing web requests and responses, see
 Customizing web requests and responses in WAF
 (https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
-in the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+in the I<WAF Developer Guide>.
 
 For information about the limits on count and size for custom request
 and response settings, see WAF quotas
 (https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in
-the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+the I<WAF Developer Guide>.
+
+
+=head2 DataProtectionConfig => L<Paws::WAFV2::DataProtectionConfig>
+
+Specifies data protection to apply to the web request data for the web
+ACL. This is a web ACL level data protection option.
+
+The data protection that you configure for the web ACL alters the data
+that's available for any other data collection activity, including your
+WAF logging destinations, web ACL request sampling, and Amazon Security
+Lake data collection and management. Your other option for data
+protection is in the logging configuration, which only affects logging.
 
 
 =head2 B<REQUIRED> DefaultAction => L<Paws::WAFV2::DefaultAction>
@@ -145,9 +199,12 @@ C<E<lt>label namespaceE<gt>:E<lt>label from ruleE<gt>>
 
 =head2 ManagedByFirewallManager => Bool
 
-Indicates whether this web ACL is managed by Firewall Manager. If true,
-then only Firewall Manager can delete the web ACL or any Firewall
-Manager rule groups in the web ACL.
+Indicates whether this web ACL was created by Firewall Manager and is
+being managed by Firewall Manager. If true, then only Firewall Manager
+can delete the web ACL or any Firewall Manager rule groups in the web
+ACL. See also the properties C<RetrofittedByFirewallManager>,
+C<PreProcessFirewallManagerRuleGroups>, and
+C<PostProcessFirewallManagerRuleGroups>.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -184,12 +241,35 @@ prioritizes the rule groups, to determine their relative processing
 order.
 
 
+=head2 RetrofittedByFirewallManager => Bool
+
+Indicates whether this web ACL was created by a customer account and
+then retrofitted by Firewall Manager. If true, then the web ACL is
+currently being managed by a Firewall Manager WAF policy, and only
+Firewall Manager can manage any Firewall Manager rule groups in the web
+ACL. See also the properties C<ManagedByFirewallManager>,
+C<PreProcessFirewallManagerRuleGroups>, and
+C<PostProcessFirewallManagerRuleGroups>.
+
+
 =head2 Rules => ArrayRef[L<Paws::WAFV2::Rule>]
 
 The Rule statements used to identify the web requests that you want to
-allow, block, or count. Each rule includes one top-level statement that
-WAF uses to identify matching web requests, and parameters that govern
-how WAF handles them.
+manage. Each rule includes one top-level statement that WAF uses to
+identify matching web requests, and parameters that govern how WAF
+handles them.
+
+
+=head2 TokenDomains => ArrayRef[Str|Undef]
+
+Specifies the domains that WAF should accept in a web request token.
+This enables the use of tokens across multiple protected websites. When
+WAF provides a token, it uses the domain of the Amazon Web Services
+resource that the web ACL is protecting. If you don't specify a list of
+token domains, WAF accepts tokens only for the domain of the protected
+resource. With a token domain list, WAF accepts the resource's host
+domain plus all domains in the token domain list, including their
+prefixed subdomains.
 
 
 =head2 B<REQUIRED> VisibilityConfig => L<Paws::WAFV2::VisibilityConfig>

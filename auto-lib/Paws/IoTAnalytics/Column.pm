@@ -49,7 +49,7 @@ The name of the column.
 The type of data. For more information about the supported data types,
 see Common data types
 (https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html)
-in the I<AWS Glue Developer Guide>.
+in the I<Glue Developer Guide>.
 
 
 

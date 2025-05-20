@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Details about an AWS Secrets Manager secret.
+Details about an Secrets Manager secret.
 
 =head1 ATTRIBUTES
 
@@ -57,9 +57,8 @@ The user-provided description of the secret.
 
 =head2 KmsKeyId => Str
 
-The ARN, Key ID, or alias of the AWS KMS customer master key (CMK) used
-to encrypt the C<SecretString> or C<SecretBinary> values for versions
-of this secret.
+The ARN, Key ID, or alias of the KMS key used to encrypt the
+C<SecretString> or C<SecretBinary> values for versions of this secret.
 
 
 =head2 Name => Str

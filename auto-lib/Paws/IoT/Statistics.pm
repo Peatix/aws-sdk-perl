@@ -40,8 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::Statis
 
 =head1 DESCRIPTION
 
-A map of key-value pairs for all supported statistics. Currently, only
-count is supported.
+A map of key-value pairs for all supported statistics. For issues with
+missing or unexpected values for this API, consult Fleet indexing
+troubleshooting guide
+(https://docs.aws.amazon.com/iot/latest/developerguide/fleet-indexing-troubleshooting.html).
 
 =head1 ATTRIBUTES
 
@@ -53,7 +55,8 @@ The average of the aggregated field values.
 
 =head2 Count => Int
 
-The count of things that match the query.
+The count of things that match the query string criteria and contain a
+valid aggregation field value.
 
 
 =head2 Maximum => Num

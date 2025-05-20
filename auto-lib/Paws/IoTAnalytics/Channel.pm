@@ -60,7 +60,7 @@ When the channel was created.
 
 The last time when a new message arrived in the channel.
 
-AWS IoT Analytics updates this value at most once per minute for one
+IoT Analytics updates this value at most once per minute for one
 channel. Hence, the C<lastMessageArrivalTime> value is an
 approximation.
 
@@ -92,7 +92,7 @@ The status of the channel.
 
 Where channel data is stored. You can choose one of C<serviceManagedS3>
 or C<customerManagedS3> storage. If not specified, the default is
-C<serviceManagedS3>. You cannot change this storage option after the
+C<serviceManagedS3>. You can't change this storage option after the
 channel is created.
 
 

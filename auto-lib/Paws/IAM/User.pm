@@ -84,8 +84,9 @@ The date and time, in ISO 8601 date-time format
 
 The date and time, in ISO 8601 date-time format
 (http://www.iso.org/iso/iso8601), when the user's password was last
-used to sign in to an AWS website. For a list of AWS websites that
-capture a user's last sign-in time, see the Credential reports
+used to sign in to an Amazon Web Services website. For a list of Amazon
+Web Services websites that capture a user's last sign-in time, see the
+Credential reports
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html)
 topic in the I<IAM User Guide>. If a password is used more than once in
 a five-minute span, only the first use is returned in this field. If

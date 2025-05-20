@@ -21,6 +21,7 @@ package Paws::Lightsail::LightsailDistribution;
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has SupportCode => (is => 'ro', isa => 'Str', request_name => 'supportCode', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::Tag]', request_name => 'tags', traits => ['NameInRequest']);
+  has ViewerMinimumTlsProtocolVersion => (is => 'ro', isa => 'Str', request_name => 'viewerMinimumTlsProtocolVersion', traits => ['NameInRequest']);
 
 1;
 
@@ -41,7 +42,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Lightsail::LightsailDistribution object:
 
-  $service_obj->Method(Att1 => { AbleToUpdateBundle => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { AbleToUpdateBundle => $value, ..., ViewerMinimumTlsProtocolVersion => $value  });
 
 =head3 Results returned from an API call
 
@@ -133,11 +134,12 @@ Indicates whether the distribution is enabled.
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
 An object that describes the location of the distribution, such as the
-AWS Region and Availability Zone.
+Amazon Web Services Region and Availability Zone.
 
 Lightsail distributions are global resources that can reference an
-origin in any AWS Region, and distribute its content globally. However,
-all distributions are located in the C<us-east-1> Region.
+origin in any Amazon Web Services Region, and distribute its content
+globally. However, all distributions are located in the C<us-east-1>
+Region.
 
 
 =head2 Name => Str
@@ -148,7 +150,7 @@ The name of the distribution.
 =head2 Origin => L<Paws::Lightsail::Origin>
 
 An object that describes the origin resource of the distribution, such
-as a Lightsail instance or load balancer.
+as a Lightsail instance, bucket, or load balancer.
 
 The distribution pulls, caches, and serves content from the origin.
 
@@ -160,7 +162,7 @@ The public DNS of the origin.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<Distribution>).
+The Lightsail resource type (C<Distribution>).
 
 
 =head2 Status => Str
@@ -178,8 +180,14 @@ support team to look up your Lightsail information more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
+
+
+=head2 ViewerMinimumTlsProtocolVersion => Str
+
+The minimum TLS protocol version that the distribution can use to
+communicate with viewers.
 
 
 

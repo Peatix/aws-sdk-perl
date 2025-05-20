@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 MaxResults => Int
 
-Specifies the maximum number of access SIDs to return.
+The maximum number of items to return.
 
 
 

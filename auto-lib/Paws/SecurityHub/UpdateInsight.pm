@@ -37,7 +37,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         AwsAccountId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        AwsAccountName => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -45,7 +53,39 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         CompanyName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ComplianceAssociatedStandardsId => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ComplianceSecurityControlId => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ComplianceSecurityControlParametersName => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ComplianceSecurityControlParametersValue => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -53,7 +93,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ComplianceStatus => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -61,7 +101,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Confidence => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -80,7 +122,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Criticality => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -88,7 +132,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Description => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -96,7 +140,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsConfidence => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -104,7 +150,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsCriticality => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -112,7 +160,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsRelatedFindingsId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -120,7 +168,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsRelatedFindingsProductArn => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -128,7 +176,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsSeverityLabel => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -136,7 +184,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsSeverityOriginal => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -144,7 +192,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         FindingProviderFieldsTypes => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -163,7 +211,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         GeneratorId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -171,7 +219,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Id => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -191,7 +239,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         MalwareName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -199,7 +247,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         MalwarePath => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -207,7 +255,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         MalwareState => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -215,7 +263,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         MalwareType => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -223,7 +271,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkDestinationDomain => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -235,7 +283,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkDestinationPort => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -243,7 +293,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkDirection => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -251,7 +301,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkProtocol => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -259,7 +309,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkSourceDomain => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -271,7 +321,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkSourceMac => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -279,7 +329,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NetworkSourcePort => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -287,7 +339,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NoteText => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -306,7 +358,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         NoteUpdatedBy => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -325,7 +377,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ProcessName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -333,7 +385,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ProcessParentPid => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -341,7 +395,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ProcessPath => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -349,7 +403,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ProcessPid => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -368,23 +424,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ProductArn => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         ProductFields => [
           {
-            Comparison => 'EQUALS',    # values: EQUALS, NOT_EQUALS; OPTIONAL
-            Key        => 'MyNonEmptyString',
-            Value      => 'MyNonEmptyString',
+            Comparison => 'EQUALS'
+            ,    # values: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Key   => 'MyNonEmptyString',
+            Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         ProductName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -392,7 +449,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         RecommendationText => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -400,7 +457,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         RecordState => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        Region => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -408,7 +473,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         RelatedFindingsId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -416,7 +481,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         RelatedFindingsProductArn => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ResourceApplicationArn => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ResourceApplicationName => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -424,7 +505,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsEc2InstanceIamInstanceProfileArn => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -432,7 +513,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsEc2InstanceImageId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -444,7 +525,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsEc2InstanceKeyName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -463,7 +544,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsEc2InstanceSubnetId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -471,7 +552,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsEc2InstanceType => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -479,7 +560,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsEc2InstanceVpcId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -495,10 +576,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
+        ResourceAwsIamAccessKeyPrincipalName => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
         ResourceAwsIamAccessKeyStatus => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -506,7 +595,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsIamAccessKeyUserName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        ResourceAwsIamUserUserName => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -514,7 +611,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsS3BucketOwnerId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -522,7 +619,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceAwsS3BucketOwnerName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -530,7 +627,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceContainerImageId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -538,7 +635,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceContainerImageName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -557,23 +654,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceContainerName => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         ResourceDetailsOther => [
           {
-            Comparison => 'EQUALS',    # values: EQUALS, NOT_EQUALS; OPTIONAL
-            Key        => 'MyNonEmptyString',
-            Value      => 'MyNonEmptyString',
+            Comparison => 'EQUALS'
+            ,    # values: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Key   => 'MyNonEmptyString',
+            Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         ResourceId => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -581,7 +679,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourcePartition => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -589,31 +687,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResourceRegion => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         ResourceTags => [
           {
-            Comparison => 'EQUALS',    # values: EQUALS, NOT_EQUALS; OPTIONAL
-            Key        => 'MyNonEmptyString',
-            Value      => 'MyNonEmptyString',
+            Comparison => 'EQUALS'
+            ,    # values: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Key   => 'MyNonEmptyString',
+            Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         ResourceType => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        Sample => [
+          {
+            Value => 1,    # OPTIONAL
           },
           ...
         ],    # OPTIONAL
         SeverityLabel => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -621,7 +726,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SeverityNormalized => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -629,7 +736,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SeverityProduct => [
           {
             Eq  => 1,    # OPTIONAL
+            Gt  => 1,    # OPTIONAL
             Gte => 1,    # OPTIONAL
+            Lt  => 1,    # OPTIONAL
             Lte => 1,    # OPTIONAL
           },
           ...
@@ -637,7 +746,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SourceUrl => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -645,7 +754,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ThreatIntelIndicatorCategory => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -664,7 +773,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ThreatIntelIndicatorSource => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -672,7 +781,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ThreatIntelIndicatorSourceUrl => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -680,7 +789,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ThreatIntelIndicatorType => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -688,7 +797,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ThreatIntelIndicatorValue => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -696,7 +805,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Title => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -704,7 +813,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Type => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -722,16 +831,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # OPTIONAL
         UserDefinedFields => [
           {
-            Comparison => 'EQUALS',    # values: EQUALS, NOT_EQUALS; OPTIONAL
-            Key        => 'MyNonEmptyString',
-            Value      => 'MyNonEmptyString',
+            Comparison => 'EQUALS'
+            ,    # values: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Key   => 'MyNonEmptyString',
+            Value => 'MyNonEmptyString',
           },
           ...
         ],    # OPTIONAL
         VerificationState => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        VulnerabilitiesExploitAvailable => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
+            Value => 'MyNonEmptyString',
+          },
+          ...
+        ],    # OPTIONAL
+        VulnerabilitiesFixAvailable => [
+          {
+            Comparison => 'EQUALS'
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -739,7 +865,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         WorkflowState => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...
@@ -747,7 +873,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         WorkflowStatus => [
           {
             Comparison => 'EQUALS'
-            ,  # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS; OPTIONAL
+            , # values: EQUALS, PREFIX, NOT_EQUALS, PREFIX_NOT_EQUALS, CONTAINS, NOT_CONTAINS; OPTIONAL
             Value => 'MyNonEmptyString',
           },
           ...

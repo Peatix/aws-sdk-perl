@@ -56,6 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 
 A list of domains to use in the update operation.
 
+There is a limit of 1000 domains per request.
+
 Each domain specification in your domain list must satisfy the
 following requirements:
 

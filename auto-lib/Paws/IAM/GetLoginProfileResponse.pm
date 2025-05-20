@@ -17,8 +17,8 @@ Paws::IAM::GetLoginProfileResponse
 
 =head2 B<REQUIRED> LoginProfile => L<Paws::IAM::LoginProfile>
 
-A structure containing the user name and password create date for the
-user.
+A structure containing the user name and the profile creation date for
+the user.
 
 
 =head2 _request_id => Str

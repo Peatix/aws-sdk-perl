@@ -18,13 +18,13 @@ Paws::KMS::ReplicateKeyResponse
 
 =head2 ReplicaKeyMetadata => L<Paws::KMS::KeyMetadata>
 
-Displays details about the new replica CMK, including its Amazon
+Displays details about the new replica key, including its Amazon
 Resource Name (key ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN))
-and key state
+and Key states of KMS keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html).
-It also includes the ARN and AWS Region of its primary key and other
-replica keys.
+It also includes the ARN and Amazon Web Services Region of its primary
+key and other replica keys.
 
 
 =head2 ReplicaPolicy => Str

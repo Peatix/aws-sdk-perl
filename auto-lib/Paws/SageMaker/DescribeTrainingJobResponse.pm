@@ -17,6 +17,7 @@ package Paws::SageMaker::DescribeTrainingJobResponse;
   has FailureReason => (is => 'ro', isa => 'Str');
   has FinalMetricDataList => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::MetricData]');
   has HyperParameters => (is => 'ro', isa => 'Paws::SageMaker::HyperParameters');
+  has InfraCheckConfig => (is => 'ro', isa => 'Paws::SageMaker::InfraCheckConfig');
   has InputDataConfig => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Channel]');
   has LabelingJobArn => (is => 'ro', isa => 'Str');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
@@ -26,6 +27,7 @@ package Paws::SageMaker::DescribeTrainingJobResponse;
   has ProfilerRuleConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProfilerRuleConfiguration]');
   has ProfilerRuleEvaluationStatuses => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProfilerRuleEvaluationStatus]');
   has ProfilingStatus => (is => 'ro', isa => 'Str');
+  has RemoteDebugConfig => (is => 'ro', isa => 'Paws::SageMaker::RemoteDebugConfig');
   has ResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::ResourceConfig', required => 1);
   has RetryStrategy => (is => 'ro', isa => 'Paws::SageMaker::RetryStrategy');
   has RoleArn => (is => 'ro', isa => 'Str');
@@ -41,6 +43,7 @@ package Paws::SageMaker::DescribeTrainingJobResponse;
   has TrainingTimeInSeconds => (is => 'ro', isa => 'Int');
   has TuningJobArn => (is => 'ro', isa => 'Str');
   has VpcConfig => (is => 'ro', isa => 'Paws::SageMaker::VpcConfig');
+  has WarmPoolStatus => (is => 'ro', isa => 'Paws::SageMaker::WarmPoolStatus');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -71,8 +74,8 @@ wall-clock time.
 
 Multiply C<BillableTimeInSeconds> by the number of instances
 (C<InstanceCount>) in your training cluster to get the total compute
-time Amazon SageMaker will bill you if you run distributed training.
-The formula is as follows: C<BillableTimeInSeconds * InstanceCount> .
+time SageMaker bills you if you run distributed training. The formula
+is as follows: C<BillableTimeInSeconds * InstanceCount> .
 
 You can calculate the savings from using managed spot training using
 the formula C<(1 - BillableTimeInSeconds / TrainingTimeInSeconds) *
@@ -97,13 +100,14 @@ A timestamp that indicates when the training job was created.
 
 =head2 DebugRuleConfigurations => ArrayRef[L<Paws::SageMaker::DebugRuleConfiguration>]
 
-Configuration information for Debugger rules for debugging output
-tensors.
+Configuration information for Amazon SageMaker Debugger rules for
+debugging output tensors.
 
 
 =head2 DebugRuleEvaluationStatuses => ArrayRef[L<Paws::SageMaker::DebugRuleEvaluationStatus>]
 
-Evaluation status of Debugger rules for debugging on a training job.
+Evaluation status of Amazon SageMaker Debugger rules for debugging on a
+training job.
 
 
 =head2 EnableInterContainerTrafficEncryption => Bool
@@ -127,14 +131,21 @@ or not (C<False>).
 If you want to allow inbound or outbound network calls, except for
 calls between peers within a training cluster for distributed training,
 choose C<True>. If you enable network isolation for training jobs that
-are configured to use a VPC, Amazon SageMaker downloads and uploads
-customer data and model artifacts through the specified VPC, but the
-training container does not have network access.
+are configured to use a VPC, SageMaker downloads and uploads customer
+data and model artifacts through the specified VPC, but the training
+container does not have network access.
 
 
 =head2 Environment => L<Paws::SageMaker::TrainingEnvironmentMap>
 
 The environment variables to set in the Docker container.
+
+Do not include any security-sensitive information including account
+access IDs, secrets, or tokens in any environment fields. As part of
+the shared responsibility model, you are responsible for any potential
+exposure, unauthorized access, or compromise of your sensitive data if
+caused by security-sensitive information included in the request
+environment variable or plain text fields.
 
 
 =head2 ExperimentConfig => L<Paws::SageMaker::ExperimentConfig>
@@ -159,6 +170,12 @@ CloudWatch.
 Algorithm-specific parameters.
 
 
+=head2 InfraCheckConfig => L<Paws::SageMaker::InfraCheckConfig>
+
+Contains information about the infrastructure health check
+configuration for the training job.
+
+
 =head2 InputDataConfig => ArrayRef[L<Paws::SageMaker::Channel>]
 
 An array of C<Channel> objects that describes each data input channel.
@@ -166,8 +183,8 @@ An array of C<Channel> objects that describes each data input channel.
 
 =head2 LabelingJobArn => Str
 
-The Amazon Resource Name (ARN) of the Amazon SageMaker Ground Truth
-labeling job that created the transform or training job.
+The Amazon Resource Name (ARN) of the SageMaker Ground Truth labeling
+job that created the transform or training job.
 
 
 =head2 LastModifiedTime => Str
@@ -185,8 +202,7 @@ model artifacts.
 =head2 OutputDataConfig => L<Paws::SageMaker::OutputDataConfig>
 
 The S3 path where model artifacts that you configured when creating the
-job are stored. Amazon SageMaker creates subfolders for model
-artifacts.
+job are stored. SageMaker creates subfolders for model artifacts.
 
 
 =head2 ProfilerConfig => L<Paws::SageMaker::ProfilerConfig>
@@ -196,13 +212,14 @@ artifacts.
 
 =head2 ProfilerRuleConfigurations => ArrayRef[L<Paws::SageMaker::ProfilerRuleConfiguration>]
 
-Configuration information for Debugger rules for profiling system and
-framework metrics.
+Configuration information for Amazon SageMaker Debugger rules for
+profiling system and framework metrics.
 
 
 =head2 ProfilerRuleEvaluationStatuses => ArrayRef[L<Paws::SageMaker::ProfilerRuleEvaluationStatus>]
 
-Evaluation status of Debugger rules for profiling on a training job.
+Evaluation status of Amazon SageMaker Debugger rules for profiling on a
+training job.
 
 
 =head2 ProfilingStatus => Str
@@ -210,6 +227,14 @@ Evaluation status of Debugger rules for profiling on a training job.
 Profiling status of a training job.
 
 Valid values are: C<"Enabled">, C<"Disabled">
+=head2 RemoteDebugConfig => L<Paws::SageMaker::RemoteDebugConfig>
+
+Configuration for remote debugging. To learn more about the remote
+debugging functionality of SageMaker, see Access a training container
+through Amazon Web Services Systems Manager (SSM) for remote debugging
+(https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
+
+
 =head2 B<REQUIRED> ResourceConfig => L<Paws::SageMaker::ResourceConfig>
 
 Resources, including ML compute instances and ML storage volumes, that
@@ -232,10 +257,11 @@ configured for the training job.
 
 Provides detailed information about the state of the training job. For
 detailed information on the secondary status of the training job, see
-C<StatusMessage> under SecondaryStatusTransition.
+C<StatusMessage> under SecondaryStatusTransition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SecondaryStatusTransition.html).
 
-Amazon SageMaker provides primary statuses and secondary statuses that
-apply to each of them:
+SageMaker provides primary statuses and secondary statuses that apply
+to each of them:
 
 =over
 
@@ -344,7 +370,7 @@ C<DownloadingTrainingImage>
 =back
 
 
-Valid values are: C<"Starting">, C<"LaunchingMLInstances">, C<"PreparingTrainingStack">, C<"Downloading">, C<"DownloadingTrainingImage">, C<"Training">, C<"Uploading">, C<"Stopping">, C<"Stopped">, C<"MaxRuntimeExceeded">, C<"Completed">, C<"Failed">, C<"Interrupted">, C<"MaxWaitTimeExceeded">, C<"Updating">, C<"Restarting">
+Valid values are: C<"Starting">, C<"LaunchingMLInstances">, C<"PreparingTrainingStack">, C<"Downloading">, C<"DownloadingTrainingImage">, C<"Training">, C<"Uploading">, C<"Stopping">, C<"Stopped">, C<"MaxRuntimeExceeded">, C<"Completed">, C<"Failed">, C<"Interrupted">, C<"MaxWaitTimeExceeded">, C<"Updating">, C<"Restarting">, C<"Pending">
 =head2 SecondaryStatusTransitions => ArrayRef[L<Paws::SageMaker::SecondaryStatusTransition>]
 
 A history of all of the secondary statuses that the training job has
@@ -355,13 +381,13 @@ transitioned through.
 
 Specifies a limit to how long a model training job can run. It also
 specifies how long a managed Spot training job has to complete. When
-the job reaches the time limit, Amazon SageMaker ends the training job.
-Use this API to cap model training costs.
+the job reaches the time limit, SageMaker ends the training job. Use
+this API to cap model training costs.
 
-To stop a job, Amazon SageMaker sends the algorithm the C<SIGTERM>
-signal, which delays job termination for 120 seconds. Algorithms can
-use this 120-second window to save the model artifacts, so the results
-of training are not lost.
+To stop a job, SageMaker sends the algorithm the C<SIGTERM> signal,
+which delays job termination for 120 seconds. Algorithms can use this
+120-second window to save the model artifacts, so the results of
+training are not lost.
 
 
 =head2 TensorBoardOutputConfig => L<Paws::SageMaker::TensorBoardOutputConfig>
@@ -375,7 +401,7 @@ Indicates the time when the training job ends on training instances.
 You are billed for the time interval between the value of
 C<TrainingStartTime> and this time. For successful jobs and stopped
 jobs, this is the time after model artifacts are uploaded. For failed
-jobs, this is the time when Amazon SageMaker detects a job failure.
+jobs, this is the time when SageMaker detects a job failure.
 
 
 =head2 B<REQUIRED> TrainingJobArn => Str
@@ -392,7 +418,7 @@ Name of the model training job.
 
 The status of the training job.
 
-Amazon SageMaker provides the following training job statuses:
+SageMaker provides the following training job statuses:
 
 =over
 
@@ -445,10 +471,17 @@ job if the training job was launched by a hyperparameter tuning job.
 
 =head2 VpcConfig => L<Paws::SageMaker::VpcConfig>
 
-A VpcConfig object that specifies the VPC that this training job has
-access to. For more information, see Protect Training Jobs by Using an
-Amazon Virtual Private Cloud
+A VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that this training job has access to. For
+more information, see Protect Training Jobs by Using an Amazon Virtual
+Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
+
+
+=head2 WarmPoolStatus => L<Paws::SageMaker::WarmPoolStatus>
+
+The status of the warm pool associated with the training job.
 
 
 =head2 _request_id => Str

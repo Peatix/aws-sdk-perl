@@ -1,6 +1,7 @@
 
 package Paws::Proton::UpdateServiceInstance;
   use Moose;
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken' );
   has DeploymentType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentType' , required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
   has ServiceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceName' , required => 1);
@@ -36,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DeploymentType       => 'NONE',
       Name                 => 'MyResourceName',
       ServiceName          => 'MyResourceName',
+      ClientToken          => 'MyClientToken',            # OPTIONAL
       Spec                 => 'MySpecContents',           # OPTIONAL
       TemplateMajorVersion => 'MyTemplateVersionPart',    # OPTIONAL
       TemplateMinorVersion => 'MyTemplateVersionPart',    # OPTIONAL
@@ -52,12 +54,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 =head1 ATTRIBUTES
 
 
+=head2 ClientToken => Str
+
+The client token of the service instance to update.
+
+
+
 =head2 B<REQUIRED> DeploymentType => Str
 
-The deployment type.
-
-There are four modes for updating a service instance as described in
-the following. The C<deploymentType> field defines the mode.
+The deployment type. It defines the mode for updating a service
+instance, as follows:
 
 =over
 
@@ -70,8 +76,8 @@ metadata parameters are updated.
 
 In this mode, the service instance is deployed and updated with the new
 spec that you provide. Only requested parameters are updated.
-I<DonE<rsquo>t> include minor or major version parameters when you use
-this C<deployment-type>.
+I<DonE<rsquo>t> include major or minor version parameters when you use
+this deployment type.
 
 =item C<MINOR_VERSION>
 
@@ -84,9 +90,8 @@ version of the current major version in use.
 
 In this mode, the service instance is deployed and updated with the
 published, recommended (latest) major and minor version of the current
-template, by default. You can also specify a different major version
-that is higher than the major version in use and a minor version
-(optional).
+template, by default. You can specify a different major version that's
+higher than the major version in use and a minor version.
 
 =back
 

@@ -49,9 +49,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 
 =head2 B<REQUIRED> ServiceName => Str
 
-The name of the AWS service that is to be associated with the
-credentials. The service you specify here is the only service that can
-be accessed using these credentials.
+The name of the Amazon Web Services service that is to be associated
+with the credentials. The service you specify here is the only service
+that can be accessed using these credentials.
 
 
 

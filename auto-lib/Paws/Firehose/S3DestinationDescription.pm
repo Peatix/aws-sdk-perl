@@ -48,7 +48,7 @@ Describes a destination in Amazon S3.
 =head2 B<REQUIRED> BucketARN => Str
 
 The ARN of the S3 bucket. For more information, see Amazon Resource
-Names (ARNs) and AWS Service Namespaces
+Names (ARNs) and Amazon Web Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
@@ -60,7 +60,7 @@ object default values are used.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The Amazon CloudWatch logging options for your delivery stream.
+The Amazon CloudWatch logging options for your Firehose stream.
 
 
 =head2 B<REQUIRED> CompressionFormat => Str
@@ -77,10 +77,10 @@ no encryption.
 
 =head2 ErrorOutputPrefix => Str
 
-A prefix that Kinesis Data Firehose evaluates and adds to failed
-records before writing them to S3. This prefix appears immediately
-following the bucket name. For information about how to specify this
-prefix, see Custom Prefixes for Amazon S3 Objects
+A prefix that Firehose evaluates and adds to failed records before
+writing them to S3. This prefix appears immediately following the
+bucket name. For information about how to specify this prefix, see
+Custom Prefixes for Amazon S3 Objects
 (https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html).
 
 
@@ -94,9 +94,9 @@ described in Custom Prefixes for Amazon S3 Objects
 
 =head2 B<REQUIRED> RoleARN => Str
 
-The Amazon Resource Name (ARN) of the AWS credentials. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+For more information, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 

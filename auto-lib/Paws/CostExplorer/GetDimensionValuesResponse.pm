@@ -43,14 +43,14 @@ C<m4.xlarge>.
 
 =item *
 
-LEGAL_ENTITY_NAME - The name of the organization that sells you AWS
-services, such as Amazon Web Services.
+LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon
+Web Services services, such as Amazon Web Services.
 
 =item *
 
 LINKED_ACCOUNT - The description in the attribute map that includes the
-full name of the member account. The value field contains the AWS ID of
-the member account.
+full name of the member account. The value field contains the Amazon
+Web Services ID of the member account.
 
 =item *
 
@@ -74,7 +74,7 @@ Reserved Instances.
 
 =item *
 
-SERVICE - The AWS service such as Amazon DynamoDB.
+SERVICE - The Amazon Web Services service such as Amazon DynamoDB.
 
 =item *
 
@@ -97,6 +97,8 @@ costs, tax refunds, and credits.
 
 RESOURCE_ID - The unique identifier of the resource. ResourceId is an
 opt-in feature only available for last 14 days for EC2-Compute Service.
+You can opt-in by enabling C<Hourly> and C<Resource Level Data> in Cost
+Management Console preferences.
 
 =back
 
@@ -127,8 +129,8 @@ C<m4.xlarge>.
 =item *
 
 LINKED_ACCOUNT - The description in the attribute map that includes the
-full name of the member account. The value field contains the AWS ID of
-the member account.
+full name of the member account. The value field contains the Amazon
+Web Services ID of the member account.
 
 =item *
 
@@ -137,7 +139,7 @@ Linux.
 
 =item *
 
-REGION - The AWS Region.
+REGION - The Amazon Web Services Region.
 
 =item *
 
@@ -171,7 +173,7 @@ example, All Upfront)
 
 =item *
 
-REGION - The AWS Region.
+REGION - The Amazon Web Services Region.
 
 =item *
 
@@ -180,8 +182,8 @@ INSTANCE_TYPE_FAMILY - The family of instances (For example, C<m5>)
 =item *
 
 LINKED_ACCOUNT - The description in the attribute map that includes the
-full name of the member account. The value field contains the AWS ID of
-the member account.
+full name of the member account. The value field contains the Amazon
+Web Services ID of the member account.
 
 =item *
 
@@ -193,14 +195,14 @@ SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
 
 =head2 NextPageToken => Str
 
-The token for the next set of retrievable results. AWS provides the
-token when the response from a previous call has more results than the
-maximum page size.
+The token for the next set of retrievable results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 =head2 B<REQUIRED> ReturnSize => Int
 
-The number of results that AWS returned at one time.
+The number of results that Amazon Web Services returned at one time.
 
 
 =head2 B<REQUIRED> TotalSize => Int

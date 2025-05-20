@@ -64,8 +64,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
 
             },
-            Enabled => 1,
-
+            Enabled                 => 1,
+            SelectiveLoggingEnabled => 1,    # OPTIONAL
           },
           ...
         ],    # min: 1, max: 1; OPTIONAL
@@ -80,8 +80,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
 
             },
-            Enabled => 1,
-
+            Enabled                 => 1,
+            SelectiveLoggingEnabled => 1,    # OPTIONAL
           },
           ...
         ],    # min: 1, max: 1; OPTIONAL
@@ -143,6 +143,8 @@ The unique identifier of the bot that the alias applies to.
 =head2 BotVersion => Str
 
 The version of the bot that this alias points to. You can use the
+UpdateBotAlias
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_UpdateBotAlias.html)
 operation to change the bot version associated with the alias.
 
 

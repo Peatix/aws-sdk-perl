@@ -77,7 +77,7 @@ The name of the prefix list.
 
 =head2 State => Str
 
-The state of the prefix list.
+The current state of the prefix list.
 
 
 =head2 StateMessage => Str

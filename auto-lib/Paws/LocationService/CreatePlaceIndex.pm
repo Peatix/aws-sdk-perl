@@ -5,7 +5,7 @@ package Paws::LocationService::CreatePlaceIndex;
   has DataSourceConfiguration => (is => 'ro', isa => 'Paws::LocationService::DataSourceConfiguration');
   has Description => (is => 'ro', isa => 'Str');
   has IndexName => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
 
   use MooseX::ClassAttribute;
@@ -36,11 +36,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreatePlaceIndexResponse = $geo->CreatePlaceIndex(
       DataSource              => 'MyString',
       IndexName               => 'MyResourceName',
-      PricingPlan             => 'RequestBasedUsage',
       DataSourceConfiguration => {
         IntendedUse => 'SingleUse',    # values: SingleUse, Storage; OPTIONAL
       },    # OPTIONAL
       Description => 'MyResourceDescription',    # OPTIONAL
+      PricingPlan => 'RequestBasedUsage',        # OPTIONAL
       Tags        => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -61,10 +61,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 
 =head2 B<REQUIRED> DataSource => Str
 
-Specifies the data provider of geospatial data.
+Specifies the geospatial data provider for the new place index.
 
 This field is case-sensitive. Enter the valid values as shown. For
-example, entering C<HERE> will return an error.
+example, entering C<HERE> returns an error.
 
 Valid values include:
 
@@ -72,30 +72,46 @@ Valid values include:
 
 =item *
 
-C<Esri>
+C<Esri> E<ndash> For additional information about Esri
+(https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s
+coverage in your region of interest, see Esri details on geocoding
+coverage
+(https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm).
 
 =item *
 
-C<Here>
+C<Grab> E<ndash> Grab provides place index functionality for Southeast
+Asia. For additional information about GrabMaps
+(https://docs.aws.amazon.com/location/latest/developerguide/grab.html)'
+coverage, see GrabMaps countries and areas covered
+(https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
 
-Place index resources using HERE as a data provider can't be used to
-store
+=item *
+
+C<Here> E<ndash> For additional information about HERE Technologies
+(https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)'
+coverage in your region of interest, see HERE details on goecoding
+coverage
+(https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html).
+
+If you specify HERE Technologies (C<Here>) as the data provider, you
+may not store results
 (https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html)
-results for locations in Japan. For more information, see the AWS
-Service Terms (https://aws.amazon.com/service-terms/) for Amazon
-Location Service.
+for locations in Japan. For more information, see the Amazon Web
+Services Service Terms (http://aws.amazon.com/service-terms/) for
+Amazon Location Service.
 
 =back
 
-For additional details on data providers, see the Amazon Location
-Service data providers page
-(https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+For additional information , see Data providers
+(https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html)
+on the I<Amazon Location Service Developer Guide>.
 
 
 
 =head2 DataSourceConfiguration => L<Paws::LocationService::DataSourceConfiguration>
 
-Specifies the data storage option for requesting Places.
+Specifies the data storage option requesting Places.
 
 
 
@@ -131,21 +147,18 @@ No spaces allowed. For example, C<ExamplePlaceIndex>.
 
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-Specifies the pricing plan for your place index resource.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. If included, the only allowed value is
+C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 
 =head2 Tags => L<Paws::LocationService::TagMap>
 
 Applies one or more tags to the place index resource. A tag is a
-key-value pair helps manage, identify, search, and filter your
-resources by labelling them.
+key-value pair that helps you manage, identify, search, and filter your
+resources.
 
 Format: C<"key" : "value">
 
@@ -155,24 +168,28 @@ Restrictions:
 
 =item *
 
-Maximum 50 tags per resource
+Maximum 50 tags per resource.
 
 =item *
 
-Each resource tag must be unique with a maximum of one value.
+Each tag key must be unique and must have exactly one associated value.
 
 =item *
 
-Maximum key length: 128 Unicode characters in UTF-8
+Maximum key length: 128 Unicode characters in UTF-8.
 
 =item *
 
-Maximum value length: 256 Unicode characters in UTF-8
+Maximum value length: 256 Unicode characters in UTF-8.
 
 =item *
 
 Can use alphanumeric characters (AE<ndash>Z, aE<ndash>z, 0E<ndash>9),
-and the following characters: + - = . _ : / @.
+and the following characters: + - = . _ : / @
+
+=item *
+
+Cannot use "aws:" as a prefix for a key.
 
 =back
 

@@ -1,6 +1,7 @@
 package Paws::EC2::ImportImageTask;
   use Moose;
   has Architecture => (is => 'ro', isa => 'Str', request_name => 'architecture', traits => ['NameInRequest']);
+  has BootMode => (is => 'ro', isa => 'Str', request_name => 'bootMode', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has Encrypted => (is => 'ro', isa => 'Bool', request_name => 'encrypted', traits => ['NameInRequest']);
   has Hypervisor => (is => 'ro', isa => 'Str', request_name => 'hypervisor', traits => ['NameInRequest']);
@@ -15,6 +16,7 @@ package Paws::EC2::ImportImageTask;
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has StatusMessage => (is => 'ro', isa => 'Str', request_name => 'statusMessage', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
+  has UsageOperation => (is => 'ro', isa => 'Str', request_name => 'usageOperation', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -34,7 +36,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::ImportImageTask object:
 
-  $service_obj->Method(Att1 => { Architecture => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { Architecture => $value, ..., UsageOperation => $value  });
 
 =head3 Results returned from an API call
 
@@ -55,6 +57,11 @@ This class has no description
 The architecture of the virtual machine.
 
 Valid values: C<i386> | C<x86_64> | C<arm64>
+
+
+=head2 BootMode => Str
+
+The boot mode of the virtual machine.
 
 
 =head2 Description => Str
@@ -87,8 +94,8 @@ The ID of the import image task.
 
 =head2 KmsKeyId => Str
 
-The identifier for the AWS Key Management Service (AWS KMS) customer
-master key (CMK) that was used to create the encrypted image.
+The identifier for the KMS key that was used to create the encrypted
+image.
 
 
 =head2 LicenseSpecifications => ArrayRef[L<Paws::EC2::ImportImageLicenseConfigurationResponse>]
@@ -130,6 +137,11 @@ A descriptive status message for the import image task.
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
 The tags for the import image task.
+
+
+=head2 UsageOperation => Str
+
+The usage operation value.
 
 
 

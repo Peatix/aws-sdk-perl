@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kinesis::Ta
 
 =head1 DESCRIPTION
 
-Metadata assigned to the stream, consisting of a key-value pair.
+Metadata assigned to the stream or consumer, consisting of a key-value
+pair.
 
 =head1 ATTRIBUTES
 

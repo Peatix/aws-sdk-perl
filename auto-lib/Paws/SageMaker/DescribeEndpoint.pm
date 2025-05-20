@@ -33,16 +33,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AsyncInferenceConfig = $DescribeEndpointOutput->AsyncInferenceConfig;
     my $CreationTime         = $DescribeEndpointOutput->CreationTime;
     my $DataCaptureConfig    = $DescribeEndpointOutput->DataCaptureConfig;
     my $EndpointArn          = $DescribeEndpointOutput->EndpointArn;
     my $EndpointConfigName   = $DescribeEndpointOutput->EndpointConfigName;
     my $EndpointName         = $DescribeEndpointOutput->EndpointName;
     my $EndpointStatus       = $DescribeEndpointOutput->EndpointStatus;
+    my $ExplainerConfig      = $DescribeEndpointOutput->ExplainerConfig;
     my $FailureReason        = $DescribeEndpointOutput->FailureReason;
     my $LastDeploymentConfig = $DescribeEndpointOutput->LastDeploymentConfig;
     my $LastModifiedTime     = $DescribeEndpointOutput->LastModifiedTime;
-    my $ProductionVariants   = $DescribeEndpointOutput->ProductionVariants;
+    my $PendingDeploymentSummary =
+      $DescribeEndpointOutput->PendingDeploymentSummary;
+    my $ProductionVariants = $DescribeEndpointOutput->ProductionVariants;
+    my $ShadowProductionVariants =
+      $DescribeEndpointOutput->ShadowProductionVariants;
 
     # Returns a L<Paws::SageMaker::DescribeEndpointOutput> object.
 

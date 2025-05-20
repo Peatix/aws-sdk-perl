@@ -46,7 +46,7 @@ The status code for the instance.
 
 =head2 Name => Str
 
-The state of the instance (e.g., C<running> or C<pending>).
+The state of the instance (C<running> or C<pending>).
 
 
 

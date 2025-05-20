@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 The maximum number of ResourceCount objects returned on each page. The
 default is 100. You cannot specify a number greater than 100. If you
-specify 0, AWS Config uses the default.
+specify 0, Config uses the default.
 
 
 
@@ -70,16 +70,15 @@ the next page of results in a paginated response.
 =head2 ResourceTypes => ArrayRef[Str|Undef]
 
 The comma-separated list that specifies the resource types that you
-want AWS Config to return (for example, C<"AWS::EC2::Instance">,
+want Config to return (for example, C<"AWS::EC2::Instance">,
 C<"AWS::IAM::User">).
 
-If a value for C<resourceTypes> is not specified, AWS Config returns
-all resource types that AWS Config is recording in the region for your
-account.
+If a value for C<resourceTypes> is not specified, Config returns all
+resource types that Config is recording in the region for your account.
 
-If the configuration recorder is turned off, AWS Config returns an
-empty list of ResourceCount objects. If the configuration recorder is
-not recording a specific resource type (for example, S3 buckets), that
+If the configuration recorder is turned off, Config returns an empty
+list of ResourceCount objects. If the configuration recorder is not
+recording a specific resource type (for example, S3 buckets), that
 resource type is not returned in the list of ResourceCount objects.
 
 

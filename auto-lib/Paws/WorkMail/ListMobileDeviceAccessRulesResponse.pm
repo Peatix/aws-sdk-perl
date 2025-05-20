@@ -17,7 +17,7 @@ Paws::WorkMail::ListMobileDeviceAccessRulesResponse
 =head2 Rules => ArrayRef[L<Paws::WorkMail::MobileDeviceAccessRule>]
 
 The list of mobile device access rules that exist under the specified
-Amazon WorkMail organization.
+WorkMail organization.
 
 
 =head2 _request_id => Str

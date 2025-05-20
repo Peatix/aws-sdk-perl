@@ -16,6 +16,7 @@ package Paws::Route53::HealthCheckConfig;
   has Regions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'Region', traits => ['NameInRequest']);
   has RequestInterval => (is => 'ro', isa => 'Int');
   has ResourcePath => (is => 'ro', isa => 'Str');
+  has RoutingControlArn => (is => 'ro', isa => 'Str');
   has SearchString => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
@@ -185,7 +186,7 @@ If you don't specify a value for C<FullyQualifiedDomainName>, Route 53
 substitutes the value of C<IPAddress> in the C<Host> header in each of
 the preceding cases.
 
-B<If you don't specify a value for C<IPAddress> >:
+B<If you don't specify a value for> C<IPAddress>:
 
 Route 53 sends a DNS request to the domain that you specify for
 C<FullyQualifiedDomainName> at the interval that you specify for
@@ -347,9 +348,9 @@ omit C<IPAddress>.
 =head2 MeasureLatency => Bool
 
 Specify whether you want Amazon Route 53 to measure the latency between
-health checkers in multiple AWS regions and your endpoint, and to
-display CloudWatch latency graphs on the B<Health Checks> page in the
-Route 53 console.
+health checkers in multiple Amazon Web Services regions and your
+endpoint, and to display CloudWatch latency graphs on the B<Health
+Checks> page in the Route 53 console.
 
 You can't change the value of C<MeasureLatency> after you create a
 health check.
@@ -405,6 +406,16 @@ endpoint is healthy, for example, the file
 parameters, for example, C</welcome.html?language=jp&login=y>.
 
 
+=head2 RoutingControlArn => Str
+
+The Amazon Resource Name (ARN) for the Route 53 Application Recovery
+Controller routing control.
+
+For more information about Route 53 Application Recovery Controller,
+see Route 53 Application Recovery Controller Developer Guide.
+(https://docs.aws.amazon.com/r53recovery/latest/dg/what-is-route-53-recovery.html).
+
+
 =head2 SearchString => Str
 
 If the value of Type is C<HTTP_STR_MATCH> or C<HTTPS_STR_MATCH>, the
@@ -440,7 +451,7 @@ Route 53 submits an HTTPS request and waits for an HTTP status code of
 200 or greater and less than 400.
 
 If you specify C<HTTPS> for the value of C<Type>, the endpoint must
-support TLS v1.0 or later.
+support TLS v1.0, v1.1, or v1.2.
 
 =item *
 
@@ -476,6 +487,13 @@ B<CALCULATED>: For health checks that monitor the status of other
 health checks, Route 53 adds up the number of health checks that Route
 53 health checkers consider to be healthy and compares that number with
 the value of C<HealthThreshold>.
+
+=item *
+
+B<RECOVERY_CONTROL>: The health check is associated with a Route53
+Application Recovery Controller routing control. If the routing control
+state is C<ON>, the health check is considered healthy. If the state is
+C<OFF>, the health check is considered unhealthy.
 
 =back
 

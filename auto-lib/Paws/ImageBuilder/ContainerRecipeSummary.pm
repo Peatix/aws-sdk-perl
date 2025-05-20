@@ -72,7 +72,7 @@ The owner of the container recipe.
 
 =head2 ParentImage => Str
 
-The source image for the container recipe.
+The base image for the container recipe.
 
 
 =head2 Platform => Str

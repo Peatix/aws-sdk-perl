@@ -2,14 +2,18 @@
 package Paws::CodePipeline::ActionDeclaration;
   use Moose;
   has ActionTypeId => (is => 'ro', isa => 'Paws::CodePipeline::ActionTypeId', request_name => 'actionTypeId', traits => ['NameInRequest'], required => 1);
+  has Commands => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'commands', traits => ['NameInRequest']);
   has Configuration => (is => 'ro', isa => 'Paws::CodePipeline::ActionConfigurationMap', request_name => 'configuration', traits => ['NameInRequest']);
+  has EnvironmentVariables => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::EnvironmentVariable]', request_name => 'environmentVariables', traits => ['NameInRequest']);
   has InputArtifacts => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::InputArtifact]', request_name => 'inputArtifacts', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Namespace => (is => 'ro', isa => 'Str', request_name => 'namespace', traits => ['NameInRequest']);
   has OutputArtifacts => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::OutputArtifact]', request_name => 'outputArtifacts', traits => ['NameInRequest']);
+  has OutputVariables => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'outputVariables', traits => ['NameInRequest']);
   has Region => (is => 'ro', isa => 'Str', request_name => 'region', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has RunOrder => (is => 'ro', isa => 'Int', request_name => 'runOrder', traits => ['NameInRequest']);
+  has TimeoutInMinutes => (is => 'ro', isa => 'Int', request_name => 'timeoutInMinutes', traits => ['NameInRequest']);
 
 1;
 
@@ -30,7 +34,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CodePipeline::ActionDeclaration object:
 
-  $service_obj->Method(Att1 => { ActionTypeId => $value, ..., RunOrder => $value  });
+  $service_obj->Method(Att1 => { ActionTypeId => $value, ..., TimeoutInMinutes => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,20 +55,31 @@ Represents information about an action declaration.
 Specifies the action type and the provider of the action.
 
 
+=head2 Commands => ArrayRef[Str|Undef]
+
+The shell commands to run with your compute action in CodePipeline. All
+commands are supported except multi-line formats. While CodeBuild logs
+and permissions are used, you do not need to create any resources in
+CodeBuild.
+
+Using compute time for this action will incur separate charges in
+CodeBuild.
+
+
 =head2 Configuration => L<Paws::CodePipeline::ActionConfigurationMap>
 
 The action's configuration. These are key-value pairs that specify
 input values for an action. For more information, see Action Structure
 Requirements in CodePipeline
 (https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements).
-For the list of configuration properties for the AWS CloudFormation
-action type in CodePipeline, see Configuration Properties Reference
+For the list of configuration properties for the CloudFormation action
+type in CodePipeline, see Configuration Properties Reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html)
-in the I<AWS CloudFormation User Guide>. For template snippets with
+in the I<CloudFormation User Guide>. For template snippets with
 examples, see Using Parameter Override Functions with CodePipeline
 Pipelines
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 The values can be represented in either JSON or YAML format. For
 example, the JSON configuration item format is as follows:
@@ -72,6 +87,11 @@ example, the JSON configuration item format is as follows:
 I<JSON:>
 
 C<"Configuration" : { Key : Value },>
+
+
+=head2 EnvironmentVariables => ArrayRef[L<Paws::CodePipeline::EnvironmentVariable>]
+
+The environment variables for the action.
 
 
 =head2 InputArtifacts => ArrayRef[L<Paws::CodePipeline::InputArtifact>]
@@ -97,9 +117,16 @@ The name or ID of the result of the action declaration, such as a test
 or build artifact.
 
 
+=head2 OutputVariables => ArrayRef[Str|Undef]
+
+The list of variables that are to be exported from the compute action.
+This is specifically CodeBuild environment variables as used for that
+action.
+
+
 =head2 Region => Str
 
-The action declaration's AWS Region, such as us-east-1.
+The action declaration's Amazon Web Services Region, such as us-east-1.
 
 
 =head2 RoleArn => Str
@@ -111,6 +138,15 @@ is assumed through the roleArn for the pipeline.
 =head2 RunOrder => Int
 
 The order in which actions are run.
+
+
+=head2 TimeoutInMinutes => Int
+
+A timeout duration in minutes that can be applied against the
+ActionTypeE<rsquo>s default timeout value specified in Quotas for
+CodePipeline
+(https://docs.aws.amazon.com/codepipeline/latest/userguide/limits.html).
+This attribute is available only to the manual approval ActionType.
 
 
 

@@ -55,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> DatasetName => Str
 
-The name of the data set whose contents information you want to list.
+The name of the dataset whose contents information you want to list.
 
 
 
@@ -73,7 +73,7 @@ The token for the next set of results.
 
 =head2 ScheduledBefore => Str
 
-A filter to limit results to those data set contents whose creation is
+A filter to limit results to those dataset contents whose creation is
 scheduled before the given time. See the field C<triggers.schedule> in
 the C<CreateDataset> request. (timestamp)
 
@@ -81,7 +81,7 @@ the C<CreateDataset> request. (timestamp)
 
 =head2 ScheduledOnOrAfter => Str
 
-A filter to limit results to those data set contents whose creation is
+A filter to limit results to those dataset contents whose creation is
 scheduled on or after the given time. See the field
 C<triggers.schedule> in the C<CreateDataset> request. (timestamp)
 

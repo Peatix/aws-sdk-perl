@@ -29,15 +29,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $secretsmanager = Paws->service('SecretsManager');
- # To retrieve the encrypted secret value of a secret
- # The following example shows how to retrieve the secret string value from the
- # version of the secret that has the AWSPREVIOUS staging label attached. If you
- # want to retrieve the AWSCURRENT version of the secret, then you can omit the
- # VersionStage parameter because it defaults to AWSCURRENT.
-    my $GetSecretValueResponse = $secretsmanager->GetSecretValue(
-      'SecretId'     => 'MyTestDatabaseSecret',
-      'VersionStage' => 'AWSPREVIOUS'
-    );
+    # To retrieve the encrypted secret value of a secret
+    # The following example shows how to retrieve a secret string value.
+    my $GetSecretValueResponse =
+      $secretsmanager->GetSecretValue( 'SecretId' => 'MyTestDatabaseSecret' );
 
     # Results:
     my $ARN           = $GetSecretValueResponse->ARN;
@@ -57,40 +52,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> SecretId => Str
 
-Specifies the secret containing the version that you want to retrieve.
-You can specify either the Amazon Resource Name (ARN) or the friendly
-name of the secret.
+The ARN or name of the secret to retrieve. To retrieve a secret from
+another account, you must use an ARN.
 
-If you specify an ARN, we generally recommend that you specify a
-complete ARN. You can specify a partial ARN tooE<mdash>for example, if
-you donE<rsquo>t include the final hyphen and six random characters
-that Secrets Manager adds at the end of the ARN when you created the
-secret. A partial ARN match can work as long as it uniquely matches
-only one secret. However, if your secret has a name that ends in a
-hyphen followed by six characters (before Secrets Manager adds the
-hyphen and six characters to the ARN) and you try to use that as a
-partial ARN, then those characters cause Secrets Manager to assume that
-youE<rsquo>re specifying a complete ARN. This confusion can cause
-unexpected results. To avoid this situation, we recommend that you
-donE<rsquo>t create secret names ending with a hyphen followed by six
-characters.
-
-If you specify an incomplete ARN without the random suffix, and instead
-provide the 'friendly name', you I<must> not include the random suffix.
-If you do include the random suffix added by Secrets Manager, you
-receive either a I<ResourceNotFoundException> or an
-I<AccessDeniedException> error, depending on your permissions.
+For an ARN, we recommend that you specify a complete ARN rather than a
+partial ARN. See Finding a secret from a partial ARN
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 
 
 
 =head2 VersionId => Str
 
-Specifies the unique identifier of the version of the secret that you
-want to retrieve. If you specify both this parameter and
-C<VersionStage>, the two parameters must refer to the same secret
-version. If you don't specify either a C<VersionStage> or C<VersionId>
-then the default is to perform the operation on the version with the
-C<VersionStage> value of C<AWSCURRENT>.
+The unique identifier of the version of the secret to retrieve. If you
+include both this parameter and C<VersionStage>, the two parameters
+must refer to the same secret version. If you don't specify either a
+C<VersionStage> or C<VersionId>, then Secrets Manager returns the
+C<AWSCURRENT> version.
 
 This value is typically a UUID-type
 (https://wikipedia.org/wiki/Universally_unique_identifier) value with
@@ -100,15 +77,13 @@ This value is typically a UUID-type
 
 =head2 VersionStage => Str
 
-Specifies the secret version that you want to retrieve by the staging
-label attached to the version.
+The staging label of the version of the secret to retrieve.
 
-Staging labels are used to keep track of different versions during the
-rotation process. If you specify both this parameter and C<VersionId>,
-the two parameters must refer to the same secret version . If you don't
-specify either a C<VersionStage> or C<VersionId>, then the default is
-to perform the operation on the version with the C<VersionStage> value
-of C<AWSCURRENT>.
+Secrets Manager uses staging labels to keep track of different versions
+during the rotation process. If you include both this parameter and
+C<VersionId>, the two parameters must refer to the same secret version.
+If you don't specify either a C<VersionStage> or C<VersionId>, Secrets
+Manager returns the C<AWSCURRENT> version.
 
 
 

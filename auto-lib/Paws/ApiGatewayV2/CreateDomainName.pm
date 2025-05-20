@@ -39,12 +39,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           CertificateArn       => 'MyArn',                            # OPTIONAL
           CertificateName      => 'MyStringWithLengthBetween1And128', # OPTIONAL
           CertificateUploadDate => '1970-01-01T01:00:00',             # OPTIONAL
-          DomainNameStatus      =>
-            'AVAILABLE',    # values: AVAILABLE, UPDATING; OPTIONAL
+          DomainNameStatus      => 'AVAILABLE'
+          , # values: AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, PENDING_OWNERSHIP_VERIFICATION; OPTIONAL
           DomainNameStatusMessage => 'My__string',    # OPTIONAL
-          EndpointType   => 'REGIONAL',     # values: REGIONAL, EDGE; OPTIONAL
-          HostedZoneId   => 'My__string',   # OPTIONAL
-          SecurityPolicy => 'TLS_1_0',      # values: TLS_1_0, TLS_1_2; OPTIONAL
+          EndpointType  => 'REGIONAL',      # values: REGIONAL, EDGE; OPTIONAL
+          HostedZoneId  => 'My__string',    # OPTIONAL
+          IpAddressType => 'ipv4',          # values: ipv4, dualstack; OPTIONAL
+          OwnershipVerificationCertificateArn => 'MyArn',    # OPTIONAL
+          SecurityPolicy => 'TLS_1_0',    # values: TLS_1_0, TLS_1_2; OPTIONAL
         },
         ...
       ],    # OPTIONAL

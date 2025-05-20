@@ -2,8 +2,11 @@
 package Paws::DynamoDB::ExecuteStatement;
   use Moose;
   has ConsistentRead => (is => 'ro', isa => 'Bool');
+  has Limit => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::AttributeValue]');
+  has ReturnConsumedCapacity => (is => 'ro', isa => 'Str');
+  has ReturnValuesOnConditionCheckFailure => (is => 'ro', isa => 'Str');
   has Statement => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -33,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ExecuteStatementOutput = $dynamodb->ExecuteStatement(
       Statement      => 'MyPartiQLStatement',
       ConsistentRead => 1,                       # OPTIONAL
+      Limit          => 1,                       # OPTIONAL
       NextToken      => 'MyPartiQLNextToken',    # OPTIONAL
       Parameters     => [
         {
@@ -57,11 +61,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      ReturnConsumedCapacity              => 'INDEXES',    # OPTIONAL
+      ReturnValuesOnConditionCheckFailure => 'ALL_OLD',    # OPTIONAL
     );
 
     # Results:
-    my $Items     = $ExecuteStatementOutput->Items;
-    my $NextToken = $ExecuteStatementOutput->NextToken;
+    my $ConsumedCapacity = $ExecuteStatementOutput->ConsumedCapacity;
+    my $Items            = $ExecuteStatementOutput->Items;
+    my $LastEvaluatedKey = $ExecuteStatementOutput->LastEvaluatedKey;
+    my $NextToken        = $ExecuteStatementOutput->NextToken;
 
     # Returns a L<Paws::DynamoDB::ExecuteStatementOutput> object.
 
@@ -79,6 +87,20 @@ used.
 
 
 
+=head2 Limit => Int
+
+The maximum number of items to evaluate (not necessarily the number of
+matching items). If DynamoDB processes the number of items up to the
+limit while processing the results, it stops the operation and returns
+the matching values up to that point, along with a key in
+C<LastEvaluatedKey> to apply in a subsequent operation so you can pick
+up where you left off. Also, if the processed dataset size exceeds 1 MB
+before DynamoDB reaches this limit, it stops the operation and returns
+the matching values up to the limit, and a key in C<LastEvaluatedKey>
+to apply in a subsequent operation to continue the operation.
+
+
+
 =head2 NextToken => Str
 
 Set this value to get remaining results, if C<NextToken> was returned
@@ -91,6 +113,23 @@ in the statement response.
 The parameters for the PartiQL statement, if any.
 
 
+
+=head2 ReturnConsumedCapacity => Str
+
+
+
+Valid values are: C<"INDEXES">, C<"TOTAL">, C<"NONE">
+
+=head2 ReturnValuesOnConditionCheckFailure => Str
+
+An optional parameter that returns the item attributes for an
+C<ExecuteStatement> operation that failed a condition check.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
+Valid values are: C<"ALL_OLD">, C<"NONE">
 
 =head2 B<REQUIRED> Statement => Str
 

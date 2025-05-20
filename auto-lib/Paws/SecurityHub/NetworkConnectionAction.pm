@@ -63,6 +63,8 @@ Information about the port on the EC2 instance.
 
 The protocol used to make the network connection request.
 
+Length Constraints: Minimum length of 1. Maximum length of 64.
+
 
 =head2 RemoteIpDetails => L<Paws::SecurityHub::ActionRemoteIpDetails>
 

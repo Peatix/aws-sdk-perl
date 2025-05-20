@@ -43,7 +43,7 @@ source and destination specifications.
 
 Specify an IP address or a block of IP addresses in Classless
 Inter-Domain Routing (CIDR) notation. Network Firewall supports all
-address ranges for IPv4.
+address ranges for IPv4 and IPv6.
 
 Examples:
 
@@ -58,6 +58,19 @@ specify C<192.0.2.44/32>.
 
 To configure Network Firewall to inspect for IP addresses from
 192.0.2.0 to 192.0.2.255, specify C<192.0.2.0/24>.
+
+=item *
+
+To configure Network Firewall to inspect for the IP address
+1111:0000:0000:0000:0000:0000:0000:0111, specify
+C<1111:0000:0000:0000:0000:0000:0000:0111/128>.
+
+=item *
+
+To configure Network Firewall to inspect for IP addresses from
+1111:0000:0000:0000:0000:0000:0000:0000 to
+1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
 
 =back
 

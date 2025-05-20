@@ -4,6 +4,7 @@ package Paws::CloudWatchLogs::DescribeQueries;
   has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' );
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
+  has QueryLanguage => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'queryLanguage' );
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status' );
 
   use MooseX::ClassAttribute;
@@ -31,10 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $logs = Paws->service('CloudWatchLogs');
     my $DescribeQueriesResponse = $logs->DescribeQueries(
-      LogGroupName => 'MyLogGroupName',    # OPTIONAL
-      MaxResults   => 1,                   # OPTIONAL
-      NextToken    => 'MyNextToken',       # OPTIONAL
-      Status       => 'Scheduled',         # OPTIONAL
+      LogGroupName  => 'MyLogGroupName',    # OPTIONAL
+      MaxResults    => 1,                   # OPTIONAL
+      NextToken     => 'MyNextToken',       # OPTIONAL
+      QueryLanguage => 'CWLI',              # OPTIONAL
+      Status        => 'Scheduled',         # OPTIONAL
     );
 
     # Results:
@@ -66,6 +68,13 @@ Limits the number of returned queries to the specified number.
 
 
 
+
+=head2 QueryLanguage => Str
+
+Limits the returned queries to only the queries that use the specified
+query language.
+
+Valid values are: C<"CWLI">, C<"SQL">, C<"PPL">
 
 =head2 Status => Str
 

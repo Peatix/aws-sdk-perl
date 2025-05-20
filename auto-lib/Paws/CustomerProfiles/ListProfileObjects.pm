@@ -4,6 +4,7 @@ package Paws::CustomerProfiles::ListProfileObjects;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'DomainName', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'max-results');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next-token');
+  has ObjectFilter => (is => 'ro', isa => 'Paws::CustomerProfiles::ObjectFilter');
   has ObjectTypeName => (is => 'ro', isa => 'Str', required => 1);
   has ProfileId => (is => 'ro', isa => 'Str', required => 1);
 
@@ -38,6 +39,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ProfileId      => 'Myuuid',
       MaxResults     => 1,              # OPTIONAL
       NextToken      => 'Mytoken',      # OPTIONAL
+      ObjectFilter   => {
+        KeyName => 'Myname',            # min: 1, max: 64
+        Values  => [
+          'Mystring1To255', ...         # min: 1, max: 255
+        ],
+
+      },    # OPTIONAL
     );
 
     # Results:
@@ -67,6 +75,13 @@ The maximum number of objects returned per page.
 =head2 NextToken => Str
 
 The pagination token from the previous call to ListProfileObjects.
+
+
+
+=head2 ObjectFilter => L<Paws::CustomerProfiles::ObjectFilter>
+
+Applies a filter to the response to include profile objects with the
+specified index values.
 
 
 

@@ -29,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $DescribeFeatureGroupResponse = $api . sagemaker->DescribeFeatureGroup(
-      FeatureGroupName => 'MyFeatureGroupName',
-      NextToken        => 'MyNextToken',          # OPTIONAL
+      FeatureGroupName => 'MyFeatureGroupNameOrArn',
+      NextToken        => 'MyNextToken',               # OPTIONAL
     );
 
     # Results:
@@ -43,13 +43,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $FeatureGroupArn    = $DescribeFeatureGroupResponse->FeatureGroupArn;
     my $FeatureGroupName   = $DescribeFeatureGroupResponse->FeatureGroupName;
     my $FeatureGroupStatus = $DescribeFeatureGroupResponse->FeatureGroupStatus;
+    my $LastModifiedTime   = $DescribeFeatureGroupResponse->LastModifiedTime;
+    my $LastUpdateStatus   = $DescribeFeatureGroupResponse->LastUpdateStatus;
     my $NextToken          = $DescribeFeatureGroupResponse->NextToken;
     my $OfflineStoreConfig = $DescribeFeatureGroupResponse->OfflineStoreConfig;
     my $OfflineStoreStatus = $DescribeFeatureGroupResponse->OfflineStoreStatus;
     my $OnlineStoreConfig  = $DescribeFeatureGroupResponse->OnlineStoreConfig;
+    my $OnlineStoreTotalSizeBytes =
+      $DescribeFeatureGroupResponse->OnlineStoreTotalSizeBytes;
     my $RecordIdentifierFeatureName =
       $DescribeFeatureGroupResponse->RecordIdentifierFeatureName;
-    my $RoleArn = $DescribeFeatureGroupResponse->RoleArn;
+    my $RoleArn          = $DescribeFeatureGroupResponse->RoleArn;
+    my $ThroughputConfig = $DescribeFeatureGroupResponse->ThroughputConfig;
 
     # Returns a L<Paws::SageMaker::DescribeFeatureGroupResponse> object.
 
@@ -61,7 +66,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> FeatureGroupName => Str
 
-The name of the C<FeatureGroup> you want described.
+The name or Amazon Resource Name (ARN) of the C<FeatureGroup> you want
+described.
 
 
 

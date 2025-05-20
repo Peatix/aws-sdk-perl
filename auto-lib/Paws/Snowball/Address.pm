@@ -15,6 +15,7 @@ package Paws::Snowball::Address;
   has Street1 => (is => 'ro', isa => 'Str');
   has Street2 => (is => 'ro', isa => 'Str');
   has Street3 => (is => 'ro', isa => 'Str');
+  has Type => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -35,7 +36,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Snowball::Address object:
 
-  $service_obj->Method(Att1 => { AddressId => $value, ..., Street3 => $value  });
+  $service_obj->Method(Att1 => { AddressId => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -130,6 +131,12 @@ delivered to.
 
 The third line in a street address that a Snow device is to be
 delivered to.
+
+
+=head2 Type => Str
+
+Differentiates between delivery address and pickup address in the
+customer account. Provided at job creation.
 
 
 

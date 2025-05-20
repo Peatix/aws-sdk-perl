@@ -2,6 +2,7 @@
 package Paws::Connect::SuspendContactRecording;
   use Moose;
   has ContactId => (is => 'ro', isa => 'Str', required => 1);
+  has ContactRecordingType => (is => 'ro', isa => 'Str');
   has InitialContactId => (is => 'ro', isa => 'Str', required => 1);
   has InstanceId => (is => 'ro', isa => 'Str', required => 1);
 
@@ -31,10 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $connect = Paws->service('Connect');
     my $SuspendContactRecordingResponse = $connect->SuspendContactRecording(
-      ContactId        => 'MyContactId',
-      InitialContactId => 'MyContactId',
-      InstanceId       => 'MyInstanceId',
-
+      ContactId            => 'MyContactId',
+      InitialContactId     => 'MyContactId',
+      InstanceId           => 'MyInstanceId',
+      ContactRecordingType => 'AGENT',          # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -49,6 +50,12 @@ The identifier of the contact.
 
 
 
+=head2 ContactRecordingType => Str
+
+The type of recording being operated on.
+
+Valid values are: C<"AGENT">, C<"IVR">, C<"SCREEN">
+
 =head2 B<REQUIRED> InitialContactId => Str
 
 The identifier of the contact. This is the identifier of the contact
@@ -59,7 +66,9 @@ associated with the first interaction with the contact center.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

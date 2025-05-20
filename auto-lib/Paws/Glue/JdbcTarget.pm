@@ -2,6 +2,7 @@
 package Paws::Glue::JdbcTarget;
   use Moose;
   has ConnectionName => (is => 'ro', isa => 'Str');
+  has EnableAdditionalMetadata => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Exclusions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Path => (is => 'ro', isa => 'Str');
 
@@ -43,6 +44,16 @@ Specifies a JDBC data store to crawl.
 =head2 ConnectionName => Str
 
 The name of the connection to use to connect to the JDBC target.
+
+
+=head2 EnableAdditionalMetadata => ArrayRef[Str|Undef]
+
+Specify a value of C<RAWTYPES> or C<COMMENTS> to enable additional
+metadata in table responses. C<RAWTYPES> provides the native-level
+datatype. C<COMMENTS> provides comments associated with a column or
+table in the database.
+
+If you do not need additional metadata, keep the field empty.
 
 
 =head2 Exclusions => ArrayRef[Str|Undef]

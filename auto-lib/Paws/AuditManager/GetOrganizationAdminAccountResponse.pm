@@ -18,12 +18,12 @@ Paws::AuditManager::GetOrganizationAdminAccountResponse
 
 =head2 AdminAccountId => Str
 
-The identifier for the specified administrator account.
+The identifier for the administrator account.
 
 
 =head2 OrganizationId => Str
 
-The identifier for the specified organization.
+The identifier for the organization.
 
 
 =head2 _request_id => Str

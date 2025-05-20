@@ -29,7 +29,7 @@ The status of deleting the bot locale. The locale first enters the
 C<Deleting> status. Once the locale is deleted it no longer appears in
 the list of locales for the bot.
 
-Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">
+Valid values are: C<"Creating">, C<"Building">, C<"Built">, C<"ReadyExpressTesting">, C<"Failed">, C<"Deleting">, C<"NotBuilt">, C<"Importing">, C<"Processing">
 =head2 BotVersion => Str
 
 The version of the bot that contained the deleted locale.

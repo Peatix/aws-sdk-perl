@@ -42,12 +42,12 @@ C<UnTagResource> operation.
 
 =head2 Error => L<Paws::LakeFormation::ErrorDetail>
 
-An error that occurred with the attachment or detachment of the tag.
+An error that occurred with the attachment or detachment of the LF-tag.
 
 
 =head2 LFTag => L<Paws::LakeFormation::LFTagPair>
 
-The key-name of the tag.
+The key-name of the LF-tag.
 
 
 

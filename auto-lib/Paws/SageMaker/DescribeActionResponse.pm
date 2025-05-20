@@ -9,6 +9,7 @@ package Paws::SageMaker::DescribeActionResponse;
   has Description => (is => 'ro', isa => 'Str');
   has LastModifiedBy => (is => 'ro', isa => 'Paws::SageMaker::UserContext');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LineageGroupArn => (is => 'ro', isa => 'Str');
   has MetadataProperties => (is => 'ro', isa => 'Paws::SageMaker::MetadataProperties');
   has Properties => (is => 'ro', isa => 'Paws::SageMaker::LineageEntityParameters');
   has Source => (is => 'ro', isa => 'Paws::SageMaker::ActionSource');
@@ -63,6 +64,11 @@ The description of the action.
 =head2 LastModifiedTime => Str
 
 When the action was last modified.
+
+
+=head2 LineageGroupArn => Str
+
+The Amazon Resource Name (ARN) of the lineage group.
 
 
 =head2 MetadataProperties => L<Paws::SageMaker::MetadataProperties>

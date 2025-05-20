@@ -45,11 +45,6 @@ Configuration for a game session placement mechanism that processes
 requests for new game sessions. A queue can be used on its own or as
 part of a matchmaking solution.
 
-B<Related actions>
-
-CreateGameSessionQueue | DescribeGameSessionQueues |
-UpdateGameSessionQueue
-
 =head1 ATTRIBUTES
 
 
@@ -70,20 +65,20 @@ placement preference.
 =head2 FilterConfiguration => L<Paws::GameLift::FilterConfiguration>
 
 A list of locations where a queue is allowed to place new game
-sessions. Locations are specified in the form of AWS Region codes, such
-as C<us-west-2>. If this parameter is not set, game sessions can be
-placed in any queue location.
+sessions. Locations are specified in the form of Amazon Web Services
+Region codes, such as C<us-west-2>. If this parameter is not set, game
+sessions can be placed in any queue location.
 
 
 =head2 GameSessionQueueArn => Str
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift game session queue resource and uniquely
-identifies it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift game session queue resource and
+uniquely identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::gamesessionqueue/E<lt>queue
-nameE<gt>>. In a GameLift game session queue ARN, the resource ID
-matches the I<Name> value.
+nameE<gt>>. In a Amazon GameLift game session queue ARN, the resource
+ID matches the I<Name> value.
 
 
 =head2 Name => Str
@@ -101,13 +96,11 @@ notifications. See Setting up notifications for game session placement
 
 =head2 PlayerLatencyPolicies => ArrayRef[L<Paws::GameLift::PlayerLatencyPolicy>]
 
-A set of policies that act as a sliding cap on player latency. FleetIQ
-works to deliver low latency for most players in a game session. These
-policies ensure that no individual player can be placed into a game
-with unreasonably high latency. Use multiple policies to gradually
-relax latency requirements a step at a time. Multiple policies are
-applied based on their maximum allowed latency, starting with the
-lowest value.
+A set of policies that enforce a sliding cap on player latency when
+processing game sessions placement requests. Use multiple policies to
+gradually relax the cap over time if Amazon GameLift can't make a
+placement. Policies are evaluated in order starting with the lowest
+maximum latency value.
 
 
 =head2 PriorityConfiguration => L<Paws::GameLift::PriorityConfiguration>

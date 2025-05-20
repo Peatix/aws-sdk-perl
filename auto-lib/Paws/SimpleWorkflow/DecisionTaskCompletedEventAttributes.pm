@@ -4,6 +4,8 @@ package Paws::SimpleWorkflow::DecisionTaskCompletedEventAttributes;
   has ExecutionContext => (is => 'ro', isa => 'Str', request_name => 'executionContext', traits => ['NameInRequest']);
   has ScheduledEventId => (is => 'ro', isa => 'Int', request_name => 'scheduledEventId', traits => ['NameInRequest'], required => 1);
   has StartedEventId => (is => 'ro', isa => 'Int', request_name => 'startedEventId', traits => ['NameInRequest'], required => 1);
+  has TaskList => (is => 'ro', isa => 'Paws::SimpleWorkflow::TaskList', request_name => 'taskList', traits => ['NameInRequest']);
+  has TaskListScheduleToStartTimeout => (is => 'ro', isa => 'Str', request_name => 'taskListScheduleToStartTimeout', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SimpleWorkflow::DecisionTaskCompletedEventAttributes object:
 
-  $service_obj->Method(Att1 => { ExecutionContext => $value, ..., StartedEventId => $value  });
+  $service_obj->Method(Att1 => { ExecutionContext => $value, ..., TaskListScheduleToStartTimeout => $value  });
 
 =head3 Results returned from an API call
 
@@ -58,6 +60,17 @@ this event.
 The ID of the C<DecisionTaskStarted> event recorded when this decision
 task was started. This information can be useful for diagnosing
 problems by tracing back the chain of events leading up to this event.
+
+
+=head2 TaskList => L<Paws::SimpleWorkflow::TaskList>
+
+
+
+
+=head2 TaskListScheduleToStartTimeout => Str
+
+The maximum amount of time the decision task can wait to be assigned to
+a worker.
 
 
 

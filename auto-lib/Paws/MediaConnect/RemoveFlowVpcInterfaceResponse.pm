@@ -26,7 +26,7 @@ removed.
 =head2 NonDeletedNetworkInterfaceIds => ArrayRef[Str|Undef]
 
 IDs of network interfaces associated with the removed VPC interface
-that Media Connect was unable to remove.
+that MediaConnect was unable to remove.
 
 
 =head2 VpcInterfaceName => Str

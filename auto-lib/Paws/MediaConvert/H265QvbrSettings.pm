@@ -36,9 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 =head1 DESCRIPTION
 
 Settings for quality-defined variable bitrate encoding with the H.265
-codec. Required when you set Rate control mode to QVBR. Not valid when
-you set Rate control mode to a value other than QVBR, or when you don't
-define Rate control mode.
+codec. Use these settings only when you set QVBR for Rate control mode.
 
 =head1 ATTRIBUTES
 
@@ -55,15 +53,19 @@ you set multiplied by the number of seconds of encoded output.
 
 =head2 QvbrQualityLevel => Int
 
-Required when you use QVBR rate control mode. That is, when you specify
-qvbrSettings within h265Settings. Specify the general target quality
-level for this output, from 1 to 10. Use higher numbers for greater
-quality. Level 10 results in nearly lossless compression. The quality
-level for most broadcast-quality transcodes is between 6 and 9.
-Optionally, to specify a value between whole numbers, also provide a
-value for the setting qvbrQualityLevelFineTune. For example, if you
-want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and
-set qvbrQualityLevelFineTune to .33.
+Use this setting only when you set Rate control mode to QVBR. Specify
+the target quality level for this output. MediaConvert determines the
+right number of bits to use for each part of the video to maintain the
+video quality that you specify. When you keep the default value, AUTO,
+MediaConvert picks a quality level for you, based on characteristics of
+your input video. If you prefer to specify a quality level, specify a
+number from 1 through 10. Use higher numbers for greater quality. Level
+10 results in nearly lossless compression. The quality level for most
+broadcast-quality transcodes is between 6 and 9. Optionally, to specify
+a value between whole numbers, also provide a value for the setting
+qvbrQualityLevelFineTune. For example, if you want your QVBR quality
+level to be 7.33, set qvbrQualityLevel to 7 and set
+qvbrQualityLevelFineTune to .33.
 
 
 =head2 QvbrQualityLevelFineTune => Num

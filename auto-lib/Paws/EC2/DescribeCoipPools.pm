@@ -42,9 +42,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      MaxResults => 1,                          # OPTIONAL
-      NextToken  => 'MyString',                 # OPTIONAL
-      PoolIds    => [ 'MyCoipPoolId', ... ],    # OPTIONAL
+      MaxResults => 1,                              # OPTIONAL
+      NextToken  => 'MyString',                     # OPTIONAL
+      PoolIds    => [ 'MyIpv4PoolCoipId', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -70,21 +70,18 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-The filters. The following are the possible values:
+One or more filters.
 
 =over
 
 =item *
 
-C<coip-pool.pool-id>
-
-=back
-
-=over
+C<coip-pool.local-gateway-route-table-id> - The ID of the local gateway
+route table.
 
 =item *
 
-C<coip-pool.local-gateway-route-table-id>
+C<coip-pool.pool-id> - The ID of the address pool.
 
 =back
 

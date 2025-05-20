@@ -48,7 +48,7 @@ service software.
 =head2 AutomatedUpdateDate => Str
 
 The epoch time when the deployment window closes for required updates.
-After this time, Amazon Elasticsearch Service schedules the software
+After this time, Amazon OpenSearch Service schedules the software
 upgrade automatically.
 
 
@@ -80,7 +80,32 @@ Whether a service software update is available for the domain.
 
 =head2 UpdateStatus => Str
 
-The status of the service software update.
+The status of the service software update. Valid values are as follows:
+
+=over
+
+=item *
+
+C<COMPLETED>
+
+=item *
+
+C<ELIGIBLE>
+
+=item *
+
+C<IN_PROGRESS>
+
+=item *
+
+C<NOT_ELIGIBLE>
+
+=item *
+
+C<PENDING_UPDATE>
+
+=back
+
 
 
 

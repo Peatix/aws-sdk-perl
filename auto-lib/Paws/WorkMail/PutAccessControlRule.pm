@@ -4,9 +4,11 @@ package Paws::WorkMail::PutAccessControlRule;
   has Actions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Description => (is => 'ro', isa => 'Str', required => 1);
   has Effect => (is => 'ro', isa => 'Str', required => 1);
+  has ImpersonationRoleIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has IpRanges => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has NotActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has NotImpersonationRoleIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NotIpRanges => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NotUserIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
@@ -44,11 +46,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Actions        => [
         'MyAccessControlRuleAction', ...    # min: 1, max: 64
       ],    # OPTIONAL
+      ImpersonationRoleIds => [
+        'MyImpersonationRoleId', ...    # min: 1, max: 64
+      ],    # OPTIONAL
       IpRanges => [
         'MyIpRange', ...    # min: 1, max: 18
       ],    # OPTIONAL
       NotActions => [
         'MyAccessControlRuleAction', ...    # min: 1, max: 64
+      ],    # OPTIONAL
+      NotImpersonationRoleIds => [
+        'MyImpersonationRoleId', ...    # min: 1, max: 64
       ],    # OPTIONAL
       NotIpRanges => [
         'MyIpRange', ...    # min: 1, max: 18
@@ -87,6 +95,12 @@ The rule effect.
 
 Valid values are: C<"ALLOW">, C<"DENY">
 
+=head2 ImpersonationRoleIds => ArrayRef[Str|Undef]
+
+Impersonation role IDs to include in the rule.
+
+
+
 =head2 IpRanges => ArrayRef[Str|Undef]
 
 IPv4 CIDR ranges to include in the rule.
@@ -104,6 +118,12 @@ The rule name.
 Access protocol actions to exclude from the rule. Valid values include
 C<ActiveSync>, C<AutoDiscover>, C<EWS>, C<IMAP>, C<SMTP>,
 C<WindowsOutlook>, and C<WebMail>.
+
+
+
+=head2 NotImpersonationRoleIds => ArrayRef[Str|Undef]
+
+Impersonation role IDs to exclude from the rule.
 
 
 

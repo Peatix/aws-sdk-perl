@@ -36,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $cloudfront->CreateOriginRequestPolicy(
       OriginRequestPolicyConfig => {
         CookiesConfig => {
-          CookieBehavior => 'none',    # values: none, whitelist, all
+          CookieBehavior => 'none',    # values: none, whitelist, all, allExcept
           Cookies        => {
             Quantity => 1,
             Items    => [ 'Mystring', ... ],    # OPTIONAL
@@ -44,7 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         HeadersConfig => {
           HeaderBehavior => 'none'
-          , # values: none, whitelist, allViewer, allViewerAndWhitelistCloudFront
+          , # values: none, whitelist, allViewer, allViewerAndWhitelistCloudFront, allExcept
           Headers => {
             Quantity => 1,
             Items    => [ 'Mystring', ... ],    # OPTIONAL
@@ -52,8 +52,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         Name               => 'Mystring',
         QueryStringsConfig => {
-          QueryStringBehavior => 'none',    # values: none, whitelist, all
-          QueryStrings        => {
+          QueryStringBehavior =>
+            'none',    # values: none, whitelist, all, allExcept
+          QueryStrings => {
             Quantity => 1,
             Items    => [ 'Mystring', ... ],    # OPTIONAL
           },    # OPTIONAL

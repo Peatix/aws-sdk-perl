@@ -49,14 +49,6 @@ IDs are as follows:
 
 mainnet = C<1>
 
-=item *
-
-rinkeby = C<4>
-
-=item *
-
-ropsten = C<3>
-
 =back
 
 

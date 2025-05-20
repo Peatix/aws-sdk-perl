@@ -12,6 +12,7 @@ package Paws::CloudWatch::MetricAlarm;
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::Dimension]');
   has EvaluateLowSampleCountPercentile => (is => 'ro', isa => 'Str');
   has EvaluationPeriods => (is => 'ro', isa => 'Int');
+  has EvaluationState => (is => 'ro', isa => 'Str');
   has ExtendedStatistic => (is => 'ro', isa => 'Str');
   has InsufficientDataActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has MetricName => (is => 'ro', isa => 'Str');
@@ -21,6 +22,7 @@ package Paws::CloudWatch::MetricAlarm;
   has Period => (is => 'ro', isa => 'Int');
   has StateReason => (is => 'ro', isa => 'Str');
   has StateReasonData => (is => 'ro', isa => 'Str');
+  has StateTransitionedTimestamp => (is => 'ro', isa => 'Str');
   has StateUpdatedTimestamp => (is => 'ro', isa => 'Str');
   has StateValue => (is => 'ro', isa => 'Str');
   has Statistic => (is => 'ro', isa => 'Str');
@@ -129,6 +131,15 @@ The number of periods over which data is compared to the specified
 threshold.
 
 
+=head2 EvaluationState => Str
+
+If the value of this field is C<PARTIAL_DATA>, the alarm is being
+evaluated based on only partial data. This happens if the query used
+for the alarm returns more than 10,000 metrics. For more information,
+see Create alarms on Metrics Insights queries
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html).
+
+
 =head2 ExtendedStatistic => Str
 
 The percentile statistic for the metric associated with the alarm.
@@ -184,9 +195,15 @@ An explanation for the alarm state, in text format.
 An explanation for the alarm state, in JSON format.
 
 
+=head2 StateTransitionedTimestamp => Str
+
+The date and time that the alarm's C<StateValue> most recently changed.
+
+
 =head2 StateUpdatedTimestamp => Str
 
-The time stamp of the last update to the alarm state.
+The time stamp of the last update to the value of either the
+C<StateValue> or C<EvaluationState> parameters.
 
 
 =head2 StateValue => Str
@@ -213,8 +230,13 @@ C<ANOMALY_DETECTION_BAND> function used as the threshold for the alarm.
 
 =head2 TreatMissingData => Str
 
-Sets how this alarm is to handle missing data points. If this parameter
-is omitted, the default behavior of C<missing> is used.
+Sets how this alarm is to handle missing data points. The valid values
+are C<breaching>, C<notBreaching>, C<ignore>, and C<missing>. For more
+information, see Configuring how CloudWatch alarms treat missing data
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data).
+
+If this parameter is omitted, the default behavior of C<missing> is
+used.
 
 
 =head2 Unit => Str

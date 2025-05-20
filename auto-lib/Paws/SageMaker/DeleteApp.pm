@@ -4,7 +4,8 @@ package Paws::SageMaker::DeleteApp;
   has AppName => (is => 'ro', isa => 'Str', required => 1);
   has AppType => (is => 'ro', isa => 'Str', required => 1);
   has DomainId => (is => 'ro', isa => 'Str', required => 1);
-  has UserProfileName => (is => 'ro', isa => 'Str', required => 1);
+  has SpaceName => (is => 'ro', isa => 'Str');
+  has UserProfileName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -34,8 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AppName         => 'MyAppName',
       AppType         => 'JupyterServer',
       DomainId        => 'MyDomainId',
-      UserProfileName => 'MyUserProfileName',
-
+      SpaceName       => 'MySpaceName',          # OPTIONAL
+      UserProfileName => 'MyUserProfileName',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -54,7 +55,7 @@ The name of the app.
 
 The type of app.
 
-Valid values are: C<"JupyterServer">, C<"KernelGateway">, C<"TensorBoard">
+Valid values are: C<"JupyterServer">, C<"KernelGateway">, C<"DetailedProfiler">, C<"TensorBoard">, C<"CodeEditor">, C<"JupyterLab">, C<"RStudioServerPro">, C<"RSessionGateway">, C<"Canvas">
 
 =head2 B<REQUIRED> DomainId => Str
 
@@ -62,9 +63,17 @@ The domain ID.
 
 
 
-=head2 B<REQUIRED> UserProfileName => Str
+=head2 SpaceName => Str
 
-The user profile name.
+The name of the space. If this value is not set, then
+C<UserProfileName> must be set.
+
+
+
+=head2 UserProfileName => Str
+
+The user profile name. If this value is not set, then C<SpaceName> must
+be set.
 
 
 

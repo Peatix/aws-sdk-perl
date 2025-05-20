@@ -1,7 +1,7 @@
 
 package Paws::RedshiftData::DescribeTable;
   use Moose;
-  has ClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has ClusterIdentifier => (is => 'ro', isa => 'Str');
   has ConnectedDatabase => (is => 'ro', isa => 'Str');
   has Database => (is => 'ro', isa => 'Str', required => 1);
   has DbUser => (is => 'ro', isa => 'Str');
@@ -10,6 +10,7 @@ package Paws::RedshiftData::DescribeTable;
   has Schema => (is => 'ro', isa => 'Str');
   has SecretArn => (is => 'ro', isa => 'Str');
   has Table => (is => 'ro', isa => 'Str');
+  has WorkgroupName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -36,15 +37,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $redshift-data = Paws->service('RedshiftData');
     my $DescribeTableResponse = $redshift -data->DescribeTable(
-      ClusterIdentifier => 'MyLocation',
       Database          => 'MyString',
-      ConnectedDatabase => 'MyString',       # OPTIONAL
-      DbUser            => 'MyString',       # OPTIONAL
-      MaxResults        => 1,                # OPTIONAL
-      NextToken         => 'MyString',       # OPTIONAL
-      Schema            => 'MyString',       # OPTIONAL
-      SecretArn         => 'MySecretArn',    # OPTIONAL
-      Table             => 'MyString',       # OPTIONAL
+      ClusterIdentifier => 'MyClusterIdentifierString',    # OPTIONAL
+      ConnectedDatabase => 'MyString',                     # OPTIONAL
+      DbUser            => 'MyString',                     # OPTIONAL
+      MaxResults        => 1,                              # OPTIONAL
+      NextToken         => 'MyString',                     # OPTIONAL
+      Schema            => 'MyString',                     # OPTIONAL
+      SecretArn         => 'MySecretArn',                  # OPTIONAL
+      Table             => 'MyString',                     # OPTIONAL
+      WorkgroupName     => 'MyWorkgroupNameString',        # OPTIONAL
     );
 
     # Results:
@@ -60,10 +62,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ClusterIdentifier => Str
+=head2 ClusterIdentifier => Str
 
-The cluster identifier. This parameter is required when authenticating
-using either AWS Secrets Manager or temporary credentials.
+The cluster identifier. This parameter is required when connecting to a
+cluster and authenticating using either Secrets Manager or temporary
+credentials.
 
 
 
@@ -84,8 +87,9 @@ connect to with your authentication credentials.
 
 =head2 DbUser => Str
 
-The database user name. This parameter is required when authenticating
-using temporary credentials.
+The database user name. This parameter is required when connecting to a
+cluster as a database user and authenticating using temporary
+credentials.
 
 
 
@@ -118,7 +122,7 @@ matching tables for all schemas are returned.
 =head2 SecretArn => Str
 
 The name or ARN of the secret that enables access to the database. This
-parameter is required when authenticating using AWS Secrets Manager.
+parameter is required when authenticating using Secrets Manager.
 
 
 
@@ -127,6 +131,14 @@ parameter is required when authenticating using AWS Secrets Manager.
 The table name. If no table is specified, then all tables for all
 matching schemas are returned. If no table and no schema is specified,
 then all tables for all schemas in the database are returned
+
+
+
+=head2 WorkgroupName => Str
+
+The serverless workgroup name or Amazon Resource Name (ARN). This
+parameter is required when connecting to a serverless workgroup and
+authenticating using either Secrets Manager or temporary credentials.
 
 
 

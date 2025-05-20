@@ -58,19 +58,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sso
 
 =head2 B<REQUIRED> InstanceAccessControlAttributeConfiguration => L<Paws::SSOAdmin::InstanceAccessControlAttributeConfiguration>
 
-Specifies the AWS SSO identity store attributes to add to your ABAC
-configuration. When using an external identity provider as an identity
-source, you can pass attributes through the SAML assertion as an
-alternative to configuring attributes from the AWS SSO identity store.
-If a SAML assertion passes any of these attributes, AWS SSO will
-replace the attribute value with the value from the AWS SSO identity
-store.
+Specifies the IAM Identity Center identity store attributes to add to
+your ABAC configuration. When using an external identity provider as an
+identity source, you can pass attributes through the SAML assertion.
+Doing so provides an alternative to configuring attributes from the IAM
+Identity Center identity store. If a SAML assertion passes any of these
+attributes, IAM Identity Center will replace the attribute value with
+the value from the IAM Identity Center identity store.
 
 
 
 =head2 B<REQUIRED> InstanceArn => Str
 
-The ARN of the SSO instance under which the operation will be executed.
+The ARN of the IAM Identity Center instance under which the operation
+will be executed.
 
 
 

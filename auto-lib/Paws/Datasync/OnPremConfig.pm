@@ -33,15 +33,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::O
 
 =head1 DESCRIPTION
 
-A list of Amazon Resource Names (ARNs) of agents to use for a Network
-File System (NFS) location.
+The DataSync agents that can connect to your Network File System (NFS)
+file server.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> AgentArns => ArrayRef[Str|Undef]
 
-ARNs of the agents to use for an NFS location.
+The Amazon Resource Names (ARNs) of the DataSync agents that can
+connect to your NFS file server.
+
+You can specify more than one agent. For more information, see Using
+multiple DataSync agents
+(https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents).
 
 
 

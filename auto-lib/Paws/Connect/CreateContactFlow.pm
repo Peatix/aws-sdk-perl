@@ -5,6 +5,7 @@ package Paws::Connect::CreateContactFlow;
   has Description => (is => 'ro', isa => 'Str');
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InstanceId', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has Status => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
@@ -39,14 +40,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Name        => 'MyContactFlowName',
       Type        => 'CONTACT_FLOW',
       Description => 'MyContactFlowDescription',    # OPTIONAL
+      Status      => 'PUBLISHED',                   # OPTIONAL
       Tags        => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
 
     # Results:
-    my $ContactFlowArn = $CreateContactFlowResponse->ContactFlowArn;
-    my $ContactFlowId  = $CreateContactFlowResponse->ContactFlowId;
+    my $ContactFlowArn    = $CreateContactFlowResponse->ContactFlowArn;
+    my $ContactFlowId     = $CreateContactFlowResponse->ContactFlowId;
+    my $FlowContentSha256 = $CreateContactFlowResponse->FlowContentSha256;
 
     # Returns a L<Paws::Connect::CreateContactFlowResponse> object.
 
@@ -58,13 +61,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> Content => Str
 
-The content of the contact flow.
+The JSON string that represents the content of the flow. For an
+example, see Example flow in Amazon Connect Flow language
+(https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+
+Length Constraints: Minimum length of 1. Maximum length of 256000.
 
 
 
 =head2 Description => Str
 
-The description of the contact flow.
+The description of the flow.
 
 
 
@@ -76,24 +83,34 @@ The identifier of the Amazon Connect instance.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the contact flow.
+The name of the flow.
 
 
+
+=head2 Status => Str
+
+Indicates the flow status as either C<SAVED> or C<PUBLISHED>. The
+C<PUBLISHED> status will initiate validation on the content. the
+C<SAVED> status does not initiate validation of the content. C<SAVED> |
+C<PUBLISHED>.
+
+Valid values are: C<"PUBLISHED">, C<"SAVED">
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of the contact flow. For descriptions of the available types,
-see Choose a Contact Flow Type
+The type of the flow. For descriptions of the available types, see
+Choose a flow type
 (https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types)
 in the I<Amazon Connect Administrator Guide>.
 
-Valid values are: C<"CONTACT_FLOW">, C<"CUSTOMER_QUEUE">, C<"CUSTOMER_HOLD">, C<"CUSTOMER_WHISPER">, C<"AGENT_HOLD">, C<"AGENT_WHISPER">, C<"OUTBOUND_WHISPER">, C<"AGENT_TRANSFER">, C<"QUEUE_TRANSFER">
+Valid values are: C<"CONTACT_FLOW">, C<"CUSTOMER_QUEUE">, C<"CUSTOMER_HOLD">, C<"CUSTOMER_WHISPER">, C<"AGENT_HOLD">, C<"AGENT_WHISPER">, C<"OUTBOUND_WHISPER">, C<"AGENT_TRANSFER">, C<"QUEUE_TRANSFER">, C<"CAMPAIGN">
 
 
 =head1 SEE ALSO

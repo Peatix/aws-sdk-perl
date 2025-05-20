@@ -18,14 +18,15 @@ Paws::LocationService::ListPlaceIndexesResponse
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::LocationService::ListPlaceIndexesResponseEntry>]
 
-Lists the place index resources that exist in your AWS account
+Lists the place index resources that exist in your Amazon Web Services
+account
 
 
 =head2 NextToken => Str
 
-A pagination token indicating there are additional pages available. You
-can use the token in a following request to fetch the next set of
-results.
+A pagination token indicating that there are additional pages
+available. You can use the token in a new request to fetch the next
+page of results.
 
 
 =head2 _request_id => Str

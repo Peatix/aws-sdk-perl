@@ -25,19 +25,38 @@ additional items to return, the string is empty.
 
 Each entry in the array is a structure containing:
 
+=over
+
+=item *
+
 Title (string)
+
+=item *
 
 KBId (string)
 
+=item *
+
 Classification (string)
+
+=item *
 
 Severity (string)
 
+=item *
+
 State (string, such as "INSTALLED" or "FAILED")
+
+=item *
 
 InstalledTime (DateTime)
 
+=item *
+
 InstalledBy (string)
+
+=back
+
 
 
 =head2 _request_id => Str

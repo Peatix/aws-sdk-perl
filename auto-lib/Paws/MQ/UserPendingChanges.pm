@@ -3,7 +3,7 @@ package Paws::MQ::UserPendingChanges;
   use Moose;
   has ConsoleAccess => (is => 'ro', isa => 'Bool', request_name => 'consoleAccess', traits => ['NameInRequest']);
   has Groups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'groups', traits => ['NameInRequest']);
-  has PendingChange => (is => 'ro', isa => 'Str', request_name => 'pendingChange', traits => ['NameInRequest']);
+  has PendingChange => (is => 'ro', isa => 'Str', request_name => 'pendingChange', traits => ['NameInRequest'], required => 1);
 
 1;
 
@@ -54,7 +54,7 @@ underscores, and tildes (- . _ ~). This value must be 2-100 characters
 long.
 
 
-=head2 PendingChange => Str
+=head2 B<REQUIRED> PendingChange => Str
 
 Required. The type of change pending for the ActiveMQ user.
 

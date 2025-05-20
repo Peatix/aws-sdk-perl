@@ -6,6 +6,7 @@ package Paws::SimpleWorkflow::PollForDecisionTask;
   has MaximumPageSize => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maximumPageSize' );
   has NextPageToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextPageToken' );
   has ReverseOrder => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'reverseOrder' );
+  has StartAtPreviousStartedEvent => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'startAtPreviousStartedEvent' );
   has TaskList => (is => 'ro', isa => 'Paws::SimpleWorkflow::TaskList', traits => ['NameInRequest'], request_name => 'taskList' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -38,10 +39,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Name => 'MyName',    # min: 1, max: 256
 
       },
-      Identity        => 'MyIdentity',     # OPTIONAL
-      MaximumPageSize => 1,                # OPTIONAL
-      NextPageToken   => 'MyPageToken',    # OPTIONAL
-      ReverseOrder    => 1,                # OPTIONAL
+      Identity                    => 'MyIdentity',     # OPTIONAL
+      MaximumPageSize             => 1,                # OPTIONAL
+      NextPageToken               => 'MyPageToken',    # OPTIONAL
+      ReverseOrder                => 1,                # OPTIONAL
+      StartAtPreviousStartedEvent => 1,                # OPTIONAL
     );
 
     # Results:
@@ -92,8 +94,8 @@ If C<NextPageToken> is returned there are more results available. The
 value of C<NextPageToken> is a unique pagination token for each page.
 Make the call again using the returned token to retrieve the next page.
 Keep all other arguments unchanged. Each pagination token expires after
-60 seconds. Using an expired pagination token will return a C<400>
-error: "C<Specified token has exceeded its maximum lifetime>".
+24 hours. Using an expired pagination token will return a C<400> error:
+"C<Specified token has exceeded its maximum lifetime>".
 
 The configured C<maximumPageSize> determines how many results can be
 returned in a single call.
@@ -114,14 +116,22 @@ the events.
 
 
 
+=head2 StartAtPreviousStartedEvent => Bool
+
+When set to C<true>, returns the events with C<eventTimestamp> greater
+than or equal to C<eventTimestamp> of the most recent
+C<DecisionTaskStarted> event. By default, this parameter is set to
+C<false>.
+
+
+
 =head2 B<REQUIRED> TaskList => L<Paws::SimpleWorkflow::TaskList>
 
 Specifies the task list to poll for decision tasks.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not I<be> the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 

@@ -88,12 +88,8 @@ Reservation reserves capacity.
 
 =item *
 
-C<owner-id> - The ID of the account that owns the Capacity Reservation.
-
-=item *
-
-C<availability-zone-id> - The Availability Zone ID of the Capacity
-Reservation.
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+Capacity Reservation.
 
 =item *
 
@@ -102,7 +98,7 @@ Capacity Reservation reserves capacity.
 
 =item *
 
-C<availability-zone> - The Availability Zone ID of the Capacity
+C<availability-zone> - The Availability Zone of the Capacity
 Reservation.
 
 =item *
@@ -115,12 +111,12 @@ Capacity Reservation can have one of the following tenancy settings:
 =item *
 
 C<default> - The Capacity Reservation is created on hardware that is
-shared with other accounts.
+shared with other Amazon Web Services accounts.
 
 =item *
 
 C<dedicated> - The Capacity Reservation is created on single-tenant
-hardware that is dedicated to a single account.
+hardware that is dedicated to a single Amazon Web Services account.
 
 =back
 
@@ -221,6 +217,11 @@ permitted instances can use the reserved capacity.
 
 =back
 
+=item *
+
+C<placement-group-arn> - The ARN of the cluster placement group in
+which the Capacity Reservation was created.
+
 =back
 
 
@@ -228,11 +229,10 @@ permitted instances can use the reserved capacity.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return for the request in a single
-page. The remaining results can be seen by sending another request with
-the returned C<nextToken> value. This value can be between 5 and 500.
-If C<maxResults> is given a larger value than 500, you receive an
-error.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 

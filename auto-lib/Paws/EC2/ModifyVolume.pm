@@ -74,20 +74,26 @@ The following are the supported values for each volume type:
 
 =item *
 
-C<gp3>: 3,000-16,000 IOPS
+C<gp3>: 3,000 - 16,000 IOPS
 
 =item *
 
-C<io1>: 100-64,000 IOPS
+C<io1>: 100 - 64,000 IOPS
 
 =item *
 
-C<io2>: 100-64,000 IOPS
+C<io2>: 100 - 256,000 IOPS
 
 =back
 
-Default: If no IOPS value is specified, the existing value is retained,
-unless a volume type is modified that supports different values.
+For C<io2> volumes, you can achieve up to 256,000 IOPS on instances
+built on the Nitro System
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html).
+On other instances, you can achieve performance up to 32,000 IOPS.
+
+Default: The existing value is retained if you keep the same volume
+type. If you change the volume type to C<io1>, C<io2>, or C<gp3>, the
+default is 3,000.
 
 
 
@@ -96,12 +102,12 @@ unless a volume type is modified that supports different values.
 Specifies whether to enable Amazon EBS Multi-Attach. If you enable
 Multi-Attach, you can attach the volume to up to 16 Nitro-based
 instances
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html)
 in the same Availability Zone. This parameter is supported with C<io1>
 and C<io2> volumes only. For more information, see Amazon EBS
 Multi-Attach
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes-multi.html)
+in the I<Amazon EBS User Guide>.
 
 
 
@@ -116,23 +122,27 @@ The following are the supported volumes sizes for each volume type:
 
 =item *
 
-C<gp2> and C<gp3>: 1-16,384
+C<gp2> and C<gp3>: 1 - 16,384 GiB
 
 =item *
 
-C<io1> and C<io2>: 4-16,384
+C<io1>: 4 - 16,384 GiB
 
 =item *
 
-C<st1> and C<sc1>: 125-16,384
+C<io2>: 4 - 65,536 GiB
 
 =item *
 
-C<standard>: 1-1,024
+C<st1> and C<sc1>: 125 - 16,384 GiB
+
+=item *
+
+C<standard>: 1 - 1024 GiB
 
 =back
 
-Default: If no size is specified, the existing size is retained.
+Default: The existing size is retained.
 
 
 
@@ -141,8 +151,8 @@ Default: If no size is specified, the existing size is retained.
 The target throughput of the volume, in MiB/s. This parameter is valid
 only for C<gp3> volumes. The maximum value is 1,000.
 
-Default: If no throughput value is specified, the existing value is
-retained.
+Default: The existing value is retained if the source and target volume
+type is C<gp3>. Otherwise, the default value is 125.
 
 Valid Range: Minimum value of 125. Maximum value of 1000.
 
@@ -158,10 +168,10 @@ The ID of the volume.
 
 The target EBS volume type of the volume. For more information, see
 Amazon EBS volume types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html)
+in the I<Amazon EBS User Guide>.
 
-Default: If no type is specified, the existing type is retained.
+Default: The existing type is retained.
 
 Valid values are: C<"standard">, C<"io1">, C<"io2">, C<"gp2">, C<"sc1">, C<"st1">, C<"gp3">
 

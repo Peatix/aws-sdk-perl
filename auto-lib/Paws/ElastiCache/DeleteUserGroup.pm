@@ -33,13 +33,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ARN               = $UserGroup->ARN;
-    my $Engine            = $UserGroup->Engine;
-    my $PendingChanges    = $UserGroup->PendingChanges;
-    my $ReplicationGroups = $UserGroup->ReplicationGroups;
-    my $Status            = $UserGroup->Status;
-    my $UserGroupId       = $UserGroup->UserGroupId;
-    my $UserIds           = $UserGroup->UserIds;
+    my $ARN                  = $UserGroup->ARN;
+    my $Engine               = $UserGroup->Engine;
+    my $MinimumEngineVersion = $UserGroup->MinimumEngineVersion;
+    my $PendingChanges       = $UserGroup->PendingChanges;
+    my $ReplicationGroups    = $UserGroup->ReplicationGroups;
+    my $ServerlessCaches     = $UserGroup->ServerlessCaches;
+    my $Status               = $UserGroup->Status;
+    my $UserGroupId          = $UserGroup->UserGroupId;
+    my $UserIds              = $UserGroup->UserIds;
 
     # Returns a L<Paws::ElastiCache::UserGroup> object.
 

@@ -6,6 +6,7 @@ package Paws::SecurityHub::AwsElbv2LoadBalancerDetails;
   has CreatedTime => (is => 'ro', isa => 'Str');
   has DNSName => (is => 'ro', isa => 'Str');
   has IpAddressType => (is => 'ro', isa => 'Str');
+  has LoadBalancerAttributes => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsElbv2LoadBalancerAttribute]');
   has Scheme => (is => 'ro', isa => 'Str');
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has State => (is => 'ro', isa => 'Paws::SecurityHub::LoadBalancerState');
@@ -62,10 +63,9 @@ balancer.
 
 Indicates when the load balancer was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 DNSName => Str
@@ -78,6 +78,11 @@ The public DNS name of the load balancer.
 The type of IP addresses used by the subnets for your load balancer.
 The possible values are C<ipv4> (for IPv4 addresses) and C<dualstack>
 (for IPv4 and IPv6 addresses).
+
+
+=head2 LoadBalancerAttributes => ArrayRef[L<Paws::SecurityHub::AwsElbv2LoadBalancerAttribute>]
+
+Attributes of the load balancer.
 
 
 =head2 Scheme => Str

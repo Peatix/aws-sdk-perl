@@ -36,6 +36,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::TargetG
 
 Container for granting information.
 
+Buckets that use the bucket owner enforced setting for Object Ownership
+don't support target grants. For more information, see Permissions
+server access log delivery
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general)
+in the I<Amazon S3 User Guide>.
+
 =head1 ATTRIBUTES
 
 

@@ -52,10 +52,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -75,15 +71,92 @@ The portfolio identifier.
 
 =head2 B<REQUIRED> PrincipalARN => Str
 
-The ARN of the principal (IAM user, role, or group).
+The ARN of the principal (user, role, or group). If the
+C<PrincipalType> is C<IAM>, the supported value is a fully defined IAM
+Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+If the C<PrincipalType> is C<IAM_PATTERN>, the supported value is an
+C<IAM> ARN I<without an AccountID> in the following format:
+
+I<arn:partition:iam:::resource-type/resource-id>
+
+The ARN resource-id can be either:
+
+=over
+
+=item *
+
+A fully formed resource-id. For example,
+I<arn:aws:iam:::role/resource-name> or
+I<arn:aws:iam:::role/resource-path/resource-name>
+
+=item *
+
+A wildcard ARN. The wildcard ARN accepts C<IAM_PATTERN> values with a
+"*" or "?" in the resource-id segment of the ARN. For example
+I<arn:partition:service:::resource-type/resource-path/resource-name>.
+The new symbols are exclusive to the B<resource-path> and
+B<resource-name> and cannot replace the B<resource-type> or other ARN
+values.
+
+The ARN path and principal name allow unlimited wildcard characters.
+
+=back
+
+Examples of an B<acceptable> wildcard ARN:
+
+=over
+
+=item *
+
+arn:aws:iam:::role/ResourceName_*
+
+=item *
+
+arn:aws:iam:::role/*/ResourceName_?
+
+=back
+
+Examples of an B<unacceptable> wildcard ARN:
+
+=over
+
+=item *
+
+arn:aws:iam:::*/ResourceName
+
+=back
+
+You can associate multiple C<IAM_PATTERN>s even if the account has no
+principal with that name.
+
+The "?" wildcard character matches zero or one of any character. This
+is similar to ".?" in regular regex context. The "*" wildcard character
+matches any number of any characters. This is similar to ".*" in
+regular regex context.
+
+In the IAM Principal ARN format
+(I<arn:partition:iam:::resource-type/resource-path/resource-name>),
+valid resource-type values include B<user/>, B<group/>, or B<role/>.
+The "?" and "*" characters are allowed only after the resource-type in
+the resource-id segment. You can use special characters anywhere within
+the resource-id.
+
+The "*" character also matches the "/" character, allowing paths to be
+formed I<within> the resource-id. For example,
+I<arn:aws:iam:::role/B<*>/ResourceName_?> matches both
+I<arn:aws:iam:::role/pathA/pathB/ResourceName_1> and
+I<arn:aws:iam:::role/pathA/ResourceName_1>.
 
 
 
 =head2 B<REQUIRED> PrincipalType => Str
 
-The principal type. The supported value is C<IAM>.
+The principal type. The supported value is C<IAM> if you use a fully
+defined Amazon Resource Name (ARN), or C<IAM_PATTERN> if you use an ARN
+with no C<accountID>, with or without wildcard characters.
 
-Valid values are: C<"IAM">
+Valid values are: C<"IAM">, C<"IAM_PATTERN">
 
 
 =head1 SEE ALSO

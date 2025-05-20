@@ -48,13 +48,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 
 =head2 B<REQUIRED> Status => Str
 
-The current status of the specified assessment.
+The current status of the assessment.
 
 Valid values are: C<"ACTIVE">, C<"INACTIVE">
 

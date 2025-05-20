@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Netw
 
 =head1 DESCRIPTION
 
-An object representing the elastic network interface for a multi-node
-parallel job node.
+An object that represents the elastic network interface for a
+multi-node parallel job node.
 
 =head1 ATTRIBUTES
 

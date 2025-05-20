@@ -66,7 +66,7 @@ The maximum items to return in a request.
 
 =head2 NextToken => Str
 
-A token to specify where to start paginating. This is the NextToken
+A token to specify where to start paginating. This is the nextToken
 from a previously truncated response.
 
 

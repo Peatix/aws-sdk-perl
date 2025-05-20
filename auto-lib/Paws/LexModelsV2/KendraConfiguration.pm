@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-Provides configuration information for the AMAZON.KendraSearchIntent
+Provides configuration information for the C<AMAZON.KendraSearchIntent>
 intent. When you use this intent, Amazon Lex searches the specified
 Amazon Kendra index and returns documents from the index that match the
 user's utterance.
@@ -46,7 +46,7 @@ user's utterance.
 =head2 B<REQUIRED> KendraIndex => Str
 
 The Amazon Resource Name (ARN) of the Amazon Kendra index that you want
-the AMAZON.KendraSearchIntent intent to search. The index must be in
+the C<AMAZON.KendraSearchIntent> intent to search. The index must be in
 the same account and Region as the Amazon Lex bot.
 
 
@@ -60,8 +60,8 @@ Kendra. For more information, see Filtering queries
 
 =head2 QueryFilterStringEnabled => Bool
 
-Determines whether the AMAZON.KendraSearchIntent intent uses a custom
-query string to query the Amazon Kendra index.
+Determines whether the C<AMAZON.KendraSearchIntent> intent uses a
+custom query string to query the Amazon Kendra index.
 
 
 

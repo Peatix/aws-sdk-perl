@@ -2,7 +2,7 @@
 package Paws::S3::PutBucketEncryption;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
-  has ContentLength => (is => 'ro', isa => 'Int', header_name => 'Content-Length', traits => ['ParamInHeader']);
+  has ChecksumAlgorithm => (is => 'ro', isa => 'Str', header_name => 'x-amz-sdk-checksum-algorithm', traits => ['ParamInHeader']);
   has ContentMD5 => (is => 'ro', isa => 'Str', header_name => 'Content-MD5', auto => 'MD5', traits => ['AutoInHeader']);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
   has ServerSideEncryptionConfiguration => (is => 'ro', isa => 'Paws::S3::ServerSideEncryptionConfiguration', traits => ['ParamInBody'], required => 1);
@@ -42,7 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Rules => [
           {
             ApplyServerSideEncryptionByDefault => {
-              SSEAlgorithm   => 'AES256',           # values: AES256, aws:kms
+              SSEAlgorithm => 'AES256',  # values: AES256, aws:kms, aws:kms:dsse
               KMSMasterKeyID => 'MySSEKMSKeyId',    # OPTIONAL
             },    # OPTIONAL
             BucketKeyEnabled => 1,    # OPTIONAL
@@ -51,7 +51,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
 
       },
-      ContentLength       => 1,                 # OPTIONAL
+      ChecksumAlgorithm   => 'CRC32',           # OPTIONAL
       ContentMD5          => 'MyContentMD5',    # OPTIONAL
       ExpectedBucketOwner => 'MyAccountId',     # OPTIONAL
     );
@@ -65,35 +65,64 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 =head2 B<REQUIRED> Bucket => Str
 
 Specifies default encryption for a bucket using server-side encryption
-with Amazon S3-managed keys (SSE-S3) or customer master keys stored in
-AWS KMS (SSE-KMS). For information about the Amazon S3 default
-encryption feature, see Amazon S3 Default Bucket Encryption
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html)
+with different key options.
+
+B<Directory buckets > - When you use this operation with a directory
+bucket, you must use path-style requests in the format
+C<https://s3express-control.I<region-code>.amazonaws.com/I<bucket-name>
+>. Virtual-hosted-style requests aren't supported. Directory bucket
+names must be unique in the chosen Zone (Availability Zone or Local
+Zone). Bucket names must also follow the format C<
+I<bucket-base-name>--I<zone-id>--x-s3> (for example, C<
+I<DOC-EXAMPLE-BUCKET>--I<usw2-az1>--x-s3>). For information about
+bucket naming restrictions, see Directory bucket naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>
+
+
+
+=head2 ChecksumAlgorithm => Str
+
+Indicates the algorithm used to create the checksum for the request
+when you use the SDK. This header will not provide any additional
+functionality if you don't use the SDK. When you send this header,
+there must be a corresponding C<x-amz-checksum> or C<x-amz-trailer>
+header sent. Otherwise, Amazon S3 fails the request with the HTTP
+status code C<400 Bad Request>. For more information, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
 in the I<Amazon S3 User Guide>.
 
+If you provide an individual checksum, Amazon S3 ignores any provided
+C<ChecksumAlgorithm> parameter.
 
+For directory buckets, when you use Amazon Web Services SDKs, C<CRC32>
+is the default checksum algorithm that's used for performance.
 
-=head2 ContentLength => Int
-
-Size of the body in bytes.
-
-
+Valid values are: C<"CRC32">, C<"CRC32C">, C<"SHA1">, C<"SHA256">, C<"CRC64NVME">
 
 =head2 ContentMD5 => Str
 
-The base64-encoded 128-bit MD5 digest of the server-side encryption
+The Base64 encoded 128-bit C<MD5> digest of the server-side encryption
 configuration.
 
-For requests made using the AWS Command Line Interface (CLI) or AWS
-SDKs, this field is calculated automatically.
+For requests made using the Amazon Web Services Command Line Interface
+(CLI) or Amazon Web Services SDKs, this field is calculated
+automatically.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
+
+For directory buckets, this header is not supported in this API
+operation. If you specify this header, the request fails with the HTTP
+status code C<501 Not Implemented>.
 
 
 

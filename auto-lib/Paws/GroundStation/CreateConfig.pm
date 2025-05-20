@@ -45,7 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },
             Polarization =>
-              'LEFT_HAND',       # values: LEFT_HAND, NONE, RIGHT_HAND; OPTIONAL
+              'RIGHT_HAND',      # values: RIGHT_HAND, LEFT_HAND, NONE; OPTIONAL
           },
 
         },    # OPTIONAL
@@ -70,7 +70,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },
             Polarization =>
-              'LEFT_HAND',    # values: LEFT_HAND, NONE, RIGHT_HAND; OPTIONAL
+              'RIGHT_HAND',    # values: RIGHT_HAND, LEFT_HAND, NONE; OPTIONAL
           },
 
         },    # OPTIONAL
@@ -82,7 +82,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },
             Polarization =>
-              'LEFT_HAND',       # values: LEFT_HAND, NONE, RIGHT_HAND; OPTIONAL
+              'RIGHT_HAND',      # values: RIGHT_HAND, LEFT_HAND, NONE; OPTIONAL
           },
           TargetEirp => {
             Units => 'dBW',      # values: dBW
@@ -101,12 +101,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Prefix    => 'MyS3KeyPrefix',    # min: 1, max: 900; OPTIONAL
         },    # OPTIONAL
         TrackingConfig => {
-          Autotrack => 'PREFERRED',    # values: PREFERRED, REMOVED, REQUIRED
+          Autotrack => 'REQUIRED',    # values: REQUIRED, PREFERRED, REMOVED
 
         },    # OPTIONAL
         UplinkEchoConfig => {
-          AntennaUplinkConfigArn => 'MyConfigArn',
-          Enabled                => 1,               # OPTIONAL
+          AntennaUplinkConfigArn => 'MyConfigArn',    # min: 82, max: 424
+          Enabled                => 1,                # OPTIONAL
 
         },    # OPTIONAL
       },

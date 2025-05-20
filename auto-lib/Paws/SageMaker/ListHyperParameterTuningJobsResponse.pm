@@ -17,8 +17,10 @@ Paws::SageMaker::ListHyperParameterTuningJobsResponse
 
 =head2 B<REQUIRED> HyperParameterTuningJobSummaries => ArrayRef[L<Paws::SageMaker::HyperParameterTuningJobSummary>]
 
-A list of HyperParameterTuningJobSummary objects that describe the
-tuning jobs that the C<ListHyperParameterTuningJobs> request returned.
+A list of HyperParameterTuningJobSummary
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobSummary.html)
+objects that describe the tuning jobs that the
+C<ListHyperParameterTuningJobs> request returned.
 
 
 =head2 NextToken => Str

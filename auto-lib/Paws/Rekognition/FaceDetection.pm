@@ -48,7 +48,8 @@ The face properties for the detected face.
 =head2 Timestamp => Int
 
 Time, in milliseconds from the start of the video, that the face was
-detected.
+detected. Note that C<Timestamp> is not guaranteed to be accurate to
+the individual frame where the face first appears.
 
 
 

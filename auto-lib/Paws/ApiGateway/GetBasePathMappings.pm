@@ -2,6 +2,7 @@
 package Paws::ApiGateway::GetBasePathMappings;
   use Moose;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domain_name', required => 1);
+  has DomainNameId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domainNameId');
   has Limit => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'limit');
   has Position => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'position');
 
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $apigateway = Paws->service('ApiGateway');
     my $BasePathMappings = $apigateway->GetBasePathMappings(
-      DomainName => 'MyString',
-      Limit      => 1,             # OPTIONAL
-      Position   => 'MyString',    # OPTIONAL
+      DomainName   => 'MyString',
+      DomainNameId => 'MyString',    # OPTIONAL
+      Limit        => 1,             # OPTIONAL
+      Position     => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -50,7 +52,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The domain name of a BasePathMapping resource.
+The domain name of a BasePathMapping resource.
+
+
+
+=head2 DomainNameId => Str
+
+The identifier for the domain name resource. Supported only for private
+custom domain names.
 
 
 

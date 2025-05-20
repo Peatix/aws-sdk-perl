@@ -54,6 +54,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $S3Prefix               = $ExportTask->S3Prefix;
     my $SnapshotTime           = $ExportTask->SnapshotTime;
     my $SourceArn              = $ExportTask->SourceArn;
+    my $SourceType             = $ExportTask->SourceType;
     my $Status                 = $ExportTask->Status;
     my $TaskEndTime            = $ExportTask->TaskEndTime;
     my $TaskStartTime          = $ExportTask->TaskStartTime;
@@ -70,9 +71,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 ExportOnly => ArrayRef[Str|Undef]
 
-The data to be exported from the snapshot. If this parameter is not
-provided, all the snapshot data is exported. Valid values are the
-following:
+The data to be exported from the snapshot or cluster. If this parameter
+isn't provided, all of the data is exported.
+
+Valid Values:
 
 =over
 
@@ -82,15 +84,15 @@ C<database> - Export all the data from a specified database.
 
 =item *
 
-C<database.table> I<table-name> - Export a table of the snapshot. This
-format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora
-MySQL.
+C<database.table> I<table-name> - Export a table of the snapshot or
+cluster. This format is valid only for RDS for MySQL, RDS for MariaDB,
+and Aurora MySQL.
 
 =item *
 
 C<database.schema> I<schema-name> - Export a database schema of the
-snapshot. This format is valid only for RDS for PostgreSQL and Aurora
-PostgreSQL.
+snapshot or cluster. This format is valid only for RDS for PostgreSQL
+and Aurora PostgreSQL.
 
 =item *
 
@@ -105,65 +107,108 @@ PostgreSQL.
 
 =head2 B<REQUIRED> ExportTaskIdentifier => Str
 
-A unique identifier for the snapshot export task. This ID isn't an
-identifier for the Amazon S3 bucket where the snapshot is to be
-exported to.
+A unique identifier for the export task. This ID isn't an identifier
+for the Amazon S3 bucket where the data is to be exported.
 
 
 
 =head2 B<REQUIRED> IamRoleArn => Str
 
 The name of the IAM role to use for writing to the Amazon S3 bucket
-when exporting a snapshot.
+when exporting a snapshot or cluster.
 
-
-
-=head2 B<REQUIRED> KmsKeyId => Str
-
-The ID of the Amazon Web Services KMS customer master key (CMK) to use
-to encrypt the snapshot exported to Amazon S3. The Amazon Web Services
-KMS key identifier is the key ARN, key ID, alias ARN, or alias name for
-the Amazon Web Services KMS customer master key (CMK). The caller of
-this operation must be authorized to execute the following operations.
-These can be set in the Amazon Web Services KMS key policy:
+In the IAM policy attached to your IAM role, include the following
+required actions to allow the transfer of files from Amazon RDS or
+Amazon Aurora to an S3 bucket:
 
 =over
 
 =item *
 
-GrantOperation.Encrypt
+s3:PutObject*
 
 =item *
 
-GrantOperation.Decrypt
+s3:GetObject*
 
 =item *
 
-GrantOperation.GenerateDataKey
+s3:ListBucket
 
 =item *
 
-GrantOperation.GenerateDataKeyWithoutPlaintext
+s3:DeleteObject*
 
 =item *
 
-GrantOperation.ReEncryptFrom
+s3:GetBucketLocation
+
+=back
+
+In the policy, include the resources to identify the S3 bucket and
+objects in the bucket. The following list of resources shows the Amazon
+Resource Name (ARN) format for accessing S3:
+
+=over
 
 =item *
 
-GrantOperation.ReEncryptTo
+C<arn:aws:s3:::I<your-s3-bucket>>
 
 =item *
 
-GrantOperation.CreateGrant
+C<arn:aws:s3:::I<your-s3-bucket>/*>
+
+=back
+
+
+
+
+=head2 B<REQUIRED> KmsKeyId => Str
+
+The ID of the Amazon Web Services KMS key to use to encrypt the data
+exported to Amazon S3. The Amazon Web Services KMS key identifier is
+the key ARN, key ID, alias ARN, or alias name for the KMS key. The
+caller of this operation must be authorized to run the following
+operations. These can be set in the Amazon Web Services KMS key policy:
+
+=over
 
 =item *
 
-GrantOperation.DescribeKey
+kms:Encrypt
 
 =item *
 
-GrantOperation.RetireGrant
+kms:Decrypt
+
+=item *
+
+kms:GenerateDataKey
+
+=item *
+
+kms:GenerateDataKeyWithoutPlaintext
+
+=item *
+
+kms:ReEncryptFrom
+
+=item *
+
+kms:ReEncryptTo
+
+=item *
+
+kms:CreateGrant
+
+=item *
+
+kms:DescribeKey
+
+=item *
+
+kms:RetireGrant
 
 =back
 
@@ -172,20 +217,22 @@ GrantOperation.RetireGrant
 
 =head2 B<REQUIRED> S3BucketName => Str
 
-The name of the Amazon S3 bucket to export the snapshot to.
+The name of the Amazon S3 bucket to export the snapshot or cluster data
+to.
 
 
 
 =head2 S3Prefix => Str
 
 The Amazon S3 bucket prefix to use as the file name and path of the
-exported snapshot.
+exported data.
 
 
 
 =head2 B<REQUIRED> SourceArn => Str
 
-The Amazon Resource Name (ARN) of the snapshot to export to Amazon S3.
+The Amazon Resource Name (ARN) of the snapshot or cluster to export to
+Amazon S3.
 
 
 

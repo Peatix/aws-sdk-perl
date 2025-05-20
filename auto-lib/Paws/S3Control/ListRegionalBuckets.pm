@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID of the Outposts bucket.
+The Amazon Web Services account ID of the Outposts bucket.
 
 
 
@@ -74,9 +74,9 @@ The AWS account ID of the Outposts bucket.
 
 =head2 OutpostId => Str
 
-The ID of the AWS Outposts.
+The ID of the Outposts resource.
 
-This is required by Amazon S3 on Outposts buckets.
+This ID is required by Amazon S3 on Outposts buckets.
 
 
 

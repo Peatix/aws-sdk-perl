@@ -85,7 +85,8 @@ defaults to Python 2.
 
 =head2 AvailabilityZone => Str
 
-The AWS Availability Zone where this C<DevEndpoint> is located.
+The Amazon Web Services Availability Zone where this C<DevEndpoint> is
+located.
 
 
 =head2 CreatedTimestamp => Str

@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A comment posted by a user on a control. This includes the author's
-name, the comment text, and a timestamp.
+A comment that's posted by a user on a control. This includes the
+author's name, the comment text, and a timestamp.
 
 =head1 ATTRIBUTES
 

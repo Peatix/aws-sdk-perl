@@ -2,11 +2,14 @@
 package Paws::CloudFormation::ResourceChange;
   use Moose;
   has Action => (is => 'ro', isa => 'Str');
+  has AfterContext => (is => 'ro', isa => 'Str');
+  has BeforeContext => (is => 'ro', isa => 'Str');
   has ChangeSetId => (is => 'ro', isa => 'Str');
   has Details => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::ResourceChangeDetail]');
   has LogicalResourceId => (is => 'ro', isa => 'Str');
   has ModuleInfo => (is => 'ro', isa => 'Paws::CloudFormation::ModuleInfo');
   has PhysicalResourceId => (is => 'ro', isa => 'Str');
+  has PolicyAction => (is => 'ro', isa => 'Str');
   has Replacement => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
   has Scope => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -42,18 +45,29 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 =head1 DESCRIPTION
 
 The C<ResourceChange> structure describes the resource and the action
-that AWS CloudFormation will perform on it if you execute this change
-set.
+that CloudFormation will perform on it if you execute this change set.
 
 =head1 ATTRIBUTES
 
 
 =head2 Action => Str
 
-The action that AWS CloudFormation takes on the resource, such as
-C<Add> (adds a new resource), C<Modify> (changes a resource), C<Remove>
+The action that CloudFormation takes on the resource, such as C<Add>
+(adds a new resource), C<Modify> (changes a resource), C<Remove>
 (deletes a resource), C<Import> (imports a resource), or C<Dynamic>
-(exact action for the resource cannot be determined).
+(exact action for the resource can't be determined).
+
+
+=head2 AfterContext => Str
+
+An encoded JSON string containing the context of the resource after the
+change is executed.
+
+
+=head2 BeforeContext => Str
+
+An encoded JSON string containing the context of the resource before
+the change is executed.
 
 
 =head2 ChangeSetId => Str
@@ -64,7 +78,7 @@ The change set ID of the nested change set.
 =head2 Details => ArrayRef[L<Paws::CloudFormation::ResourceChangeDetail>]
 
 For the C<Modify> action, a list of C<ResourceChangeDetail> structures
-that describes the changes that AWS CloudFormation will make to the
+that describes the changes that CloudFormation will make to the
 resource.
 
 
@@ -86,26 +100,62 @@ The resource's physical ID (resource name). Resources that you are
 adding don't have physical IDs because they haven't been created.
 
 
+=head2 PolicyAction => Str
+
+The action that will be taken on the physical resource when the change
+set is executed.
+
+=over
+
+=item *
+
+C<Delete> The resource will be deleted.
+
+=item *
+
+C<Retain> The resource will be retained.
+
+=item *
+
+C<Snapshot> The resource will have a snapshot taken.
+
+=item *
+
+C<ReplaceAndDelete> The resource will be replaced and then deleted.
+
+=item *
+
+C<ReplaceAndRetain> The resource will be replaced and then retained.
+
+=item *
+
+C<ReplaceAndSnapshot> The resource will be replaced and then have a
+snapshot taken.
+
+=back
+
+
+
 =head2 Replacement => Str
 
-For the C<Modify> action, indicates whether AWS CloudFormation will
-replace the resource by creating a new one and deleting the old one.
-This value depends on the value of the C<RequiresRecreation> property
-in the C<ResourceTargetDefinition> structure. For example, if the
+For the C<Modify> action, indicates whether CloudFormation will replace
+the resource by creating a new one and deleting the old one. This value
+depends on the value of the C<RequiresRecreation> property in the
+C<ResourceTargetDefinition> structure. For example, if the
 C<RequiresRecreation> field is C<Always> and the C<Evaluation> field is
 C<Static>, C<Replacement> is C<True>. If the C<RequiresRecreation>
 field is C<Always> and the C<Evaluation> field is C<Dynamic>,
-C<Replacement> is C<Conditionally>.
+C<Replacement> is C<Conditional>.
 
 If you have multiple changes with different C<RequiresRecreation>
 values, the C<Replacement> value depends on the change with the most
 impact. A C<RequiresRecreation> value of C<Always> has the most impact,
-followed by C<Conditionally>, and then C<Never>.
+followed by C<Conditional>, and then C<Never>.
 
 
 =head2 ResourceType => Str
 
-The type of AWS CloudFormation resource, such as C<AWS::S3::Bucket>.
+The type of CloudFormation resource, such as C<AWS::S3::Bucket>.
 
 
 =head2 Scope => ArrayRef[Str|Undef]

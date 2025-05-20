@@ -294,20 +294,89 @@ C<TRS> (Trust established in Canada)
 
 C<ES_IDENTIFICATION>
 
-Specify the applicable value:
+The value of C<ES_IDENTIFICATION> depends on the following values:
 
 =over
 
 =item *
 
-B<For contacts inside Spain:> Enter your passport ID.
+The value of C<ES_LEGAL_FORM>
 
 =item *
 
-B<For contacts outside of Spain:> Enter the VAT identification number
-for the company.
+The value of C<ES_IDENTIFICATION_TYPE>
 
-For .es domains, the value of C<ContactType> must be C<PERSON>.
+=back
+
+B<If C<ES_LEGAL_FORM> is any value other than C<INDIVIDUAL>:>
+
+=over
+
+=item *
+
+Specify 1 letter + 8 numbers (CIF [Certificado de
+IdentificaciE<oacute>n Fiscal])
+
+=item *
+
+Example: B12345678
+
+=back
+
+B<If C<ES_LEGAL_FORM> is C<INDIVIDUAL>, the value that you specify for
+C<ES_IDENTIFICATION> depends on the value of
+C<ES_IDENTIFICATION_TYPE>:>
+
+=over
+
+=item *
+
+If C<ES_IDENTIFICATION_TYPE> is C<DNI_AND_NIF> (for Spanish contacts):
+
+=over
+
+=item *
+
+Specify 8 numbers + 1 letter (DNI [Documento Nacional de Identidad],
+NIF [NE<uacute>mero de IdentificaciE<oacute>n Fiscal])
+
+=item *
+
+Example: 12345678M
+
+=back
+
+=item *
+
+If C<ES_IDENTIFICATION_TYPE> is C<NIE> (for foreigners with legal
+residence):
+
+=over
+
+=item *
+
+Specify 1 letter + 7 numbers + 1 letter ( NIE [NE<uacute>mero de
+Identidad de Extranjero])
+
+=item *
+
+Example: Y1234567X
+
+=back
+
+=item *
+
+If C<ES_IDENTIFICATION_TYPE> is C<OTHER> (for contacts outside of
+Spain):
+
+=over
+
+=item *
+
+Specify a passport number, drivers license number, or national identity
+card number
+
+=back
 
 =back
 
@@ -497,6 +566,16 @@ C<WORKER_OWNED_LIMITED_COMPANY>
 
 =back
 
+=item .eu
+
+=over
+
+=item *
+
+C<EU_COUNTRY_OF_CITIZENSHIP>
+
+=back
+
 =item .fi
 
 =over
@@ -568,37 +647,6 @@ C<PUBLIC_COMMUNITY>
 C<TOWNSHIP>
 
 =back
-
-=back
-
-=item .fr
-
-=over
-
-=item *
-
-C<BIRTH_CITY>
-
-=item *
-
-C<BIRTH_COUNTRY>
-
-=item *
-
-C<BIRTH_DATE_IN_YYYY_MM_DD>
-
-=item *
-
-C<BIRTH_DEPARTMENT>: Specify the INSEE code that corresponds with the
-department where the contact was born. If the contact was born
-somewhere other than France or its overseas departments, specify C<99>.
-For more information, including a list of departments and the
-corresponding INSEE numbers, see the Wikipedia entry Departments of
-France (https://en.wikipedia.org/wiki/Departments_of_France).
-
-=item *
-
-C<BRAND_NUMBER>
 
 =back
 
@@ -688,7 +736,7 @@ C<SG_ID_NUMBER>
 
 =back
 
-=item .co.uk, .me.uk, and .org.uk
+=item .uk, .co.uk, .me.uk, and .org.uk
 
 =over
 

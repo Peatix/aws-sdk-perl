@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-The object that provides message text and it's type.
+The object that provides message text and its type.
 
 =head1 ATTRIBUTES
 

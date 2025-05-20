@@ -16,7 +16,7 @@ Paws::Proton::UpdateServicePipelineOutput
 
 =head2 B<REQUIRED> Pipeline => L<Paws::Proton::ServicePipeline>
 
-The pipeline details returned by AWS Proton.
+The pipeline details that are returned by Proton.
 
 
 =head2 _request_id => Str

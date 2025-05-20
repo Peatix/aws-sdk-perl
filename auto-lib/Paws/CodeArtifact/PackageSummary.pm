@@ -3,6 +3,7 @@ package Paws::CodeArtifact::PackageSummary;
   use Moose;
   has Format => (is => 'ro', isa => 'Str', request_name => 'format', traits => ['NameInRequest']);
   has Namespace => (is => 'ro', isa => 'Str', request_name => 'namespace', traits => ['NameInRequest']);
+  has OriginConfiguration => (is => 'ro', isa => 'Paws::CodeArtifact::PackageOriginConfiguration', request_name => 'originConfiguration', traits => ['NameInRequest']);
   has Package => (is => 'ro', isa => 'Str', request_name => 'package', traits => ['NameInRequest']);
 
 1;
@@ -35,34 +36,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeArtifac
 
 =head1 DESCRIPTION
 
-Details about a package, including its format, namespace, and name. The
-ListPackages
-(https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackages.html)
-operation returns a list of C<PackageSummary> objects.
+Details about a package, including its format, namespace, and name.
 
 =head1 ATTRIBUTES
 
 
 =head2 Format => Str
 
-The format of the package. Valid values are:
-
-=over
-
-=item *
-
-C<npm>
-
-=item *
-
-C<pypi>
-
-=item *
-
-C<maven>
-
-=back
-
+The format of the package.
 
 
 =head2 Namespace => Str
@@ -74,19 +55,34 @@ namespace depends on its type. For example:
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+The namespace of a Maven package version is its C<groupId>.
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+The namespace of an npm or Swift package version is its C<scope>.
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 
+
+
+=head2 OriginConfiguration => L<Paws::CodeArtifact::PackageOriginConfiguration>
+
+A PackageOriginConfiguration
+(https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html)
+object that contains a PackageOriginRestrictions
+(https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html)
+object that contains information about the upstream and publish package
+origin restrictions.
 
 
 =head2 Package => Str

@@ -30,12 +30,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To delete a hosted configuration version
+    # The following delete-hosted-configuration-version example deletes a
+    # configuration version hosted in the AWS AppConfig configuration store.
     $appconfig->DeleteHostedConfigurationVersion(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-      VersionNumber          => 1,
-
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f',
+      'VersionNumber'          => 1
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/appconfig/DeleteHostedConfigurationVersion>

@@ -72,15 +72,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 ChangeDescription => Str
 
-The change description of the component. Describes what change has been
-made in this version, or what makes this version different from other
-versions of this component.
+The change description of the component. This description indicates the
+change that has been made in this version, or what makes this version
+different from other versions of the component.
 
 
 
 =head2 B<REQUIRED> ClientToken => Str
 
-The idempotency token of the component.
+Unique, case-sensitive identifier you provide to ensure idempotency of
+the request. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+in the I<Amazon EC2 API Reference>.
 
 
 
@@ -120,13 +123,22 @@ The name of the component.
 
 The platform of the component.
 
-Valid values are: C<"Windows">, C<"Linux">
+Valid values are: C<"Windows">, C<"Linux">, C<"macOS">
 
 =head2 B<REQUIRED> SemanticVersion => Str
 
 The semantic version of the component. This version follows the
-semantic version syntax. For example, major.minor.patch. This could be
-versioned like software (2.0.1) or like a date (2019.12.01).
+semantic version syntax.
+
+The semantic version has four nodes:
+E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>/E<lt>buildE<gt>. You
+can assign values for the first three, and can filter on all of them.
+
+B<Filtering:> With semantic versioning, you have the flexibility to use
+wildcards (x) to specify the most recent versions or nodes when
+selecting the base image or components for your recipe. When you use a
+wildcard in any node, all nodes to the right of the first wildcard must
+also be wildcards.
 
 
 
@@ -139,7 +151,7 @@ The tags of the component.
 =head2 B<REQUIRED> Type => Str
 
 The type of the component denotes whether the component is used to
-build the image or only to test it.
+build the image, or only to test it.
 
 Valid values are: C<"BUILD">, C<"TEST">
 

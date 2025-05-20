@@ -17,8 +17,8 @@ Paws::CloudFormation::ActivateTypeOutput
 
 =head2 Arn => Str
 
-The Amazon Resource Number (ARN) of the activated extension, in this
-account and region.
+The Amazon Resource Name (ARN) of the activated extension, in this
+account and Region.
 
 
 =head2 _request_id => Str

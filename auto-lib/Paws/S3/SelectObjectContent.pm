@@ -110,9 +110,9 @@ The S3 bucket.
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
@@ -188,25 +188,32 @@ C<E<lt>scanrangeE<gt>E<lt>endE<gt>50E<lt>/endE<gt>E<lt>/scanrangeE<gt>>
 
 =head2 SSECustomerAlgorithm => Str
 
-The SSE Algorithm used to encrypt the object. For more information, see
-Server-Side Encryption (Using Customer-Provided Encryption Keys
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html).
+The server-side encryption (SSE) algorithm used to encrypt the object.
+This parameter is needed only when the object was created using a
+checksum algorithm. For more information, see Protecting data using
+SSE-C keys
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
 
 
 
 =head2 SSECustomerKey => Str
 
-The SSE Customer Key. For more information, see Server-Side Encryption
-(Using Customer-Provided Encryption Keys
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html).
+The server-side encryption (SSE) customer managed key. This parameter
+is needed only when the object was created using a checksum algorithm.
+For more information, see Protecting data using SSE-C keys
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
 
 
 
 =head2 SSECustomerKeyMD5 => Str
 
-The SSE Customer Key MD5. For more information, see Server-Side
-Encryption (Using Customer-Provided Encryption Keys
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html).
+The MD5 server-side encryption (SSE) customer managed key. This
+parameter is needed only when the object was created using a checksum
+algorithm. For more information, see Protecting data using SSE-C keys
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
 
 
 

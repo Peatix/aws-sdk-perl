@@ -4,6 +4,7 @@ package Paws::DynamoDB::SourceTableDetails;
   has BillingMode => (is => 'ro', isa => 'Str');
   has ItemCount => (is => 'ro', isa => 'Int');
   has KeySchema => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::KeySchemaElement]', required => 1);
+  has OnDemandThroughput => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
   has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput', required => 1);
   has TableArn => (is => 'ro', isa => 'Str');
   has TableCreationDateTime => (is => 'ro', isa => 'Str', required => 1);
@@ -76,6 +77,11 @@ Number of items in the table. Note that this is an approximate value.
 =head2 B<REQUIRED> KeySchema => ArrayRef[L<Paws::DynamoDB::KeySchemaElement>]
 
 Schema of the table.
+
+
+=head2 OnDemandThroughput => L<Paws::DynamoDB::OnDemandThroughput>
+
+
 
 
 =head2 B<REQUIRED> ProvisionedThroughput => L<Paws::DynamoDB::ProvisionedThroughput>

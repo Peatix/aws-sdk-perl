@@ -45,10 +45,9 @@ A rule for when objects transition to specific storage classes.
 A date on which to transition objects to the specified storage class.
 If you provide C<Date>, you cannot provide C<Days>.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Days => Int
@@ -60,7 +59,33 @@ C<Date>.
 
 =head2 StorageClass => Str
 
-The storage class to transition the object to.
+The storage class to transition the object to. Valid values are as
+follows:
+
+=over
+
+=item *
+
+C<DEEP_ARCHIVE>
+
+=item *
+
+C<GLACIER>
+
+=item *
+
+C<INTELLIGENT_TIERING>
+
+=item *
+
+C<ONEZONE_IA>
+
+=item *
+
+C<STANDARD_IA>
+
+=back
+
 
 
 

@@ -32,14 +32,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $workspaces->ModifyWorkspaceAccessProperties(
       ResourceId                => 'MyDirectoryId',
       WorkspaceAccessProperties => {
-        DeviceTypeAndroid    => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeChromeOs   => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeIos        => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeLinux      => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeOsx        => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeWeb        => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeWindows    => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
-        DeviceTypeZeroClient => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeAndroid  => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeChromeOs => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeIos      => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeLinux    => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeOsx      => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeWeb      => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeWindows  => 'ALLOW',    # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeWorkSpacesThinClient =>
+          'ALLOW',                        # values: ALLOW, DENY; OPTIONAL
+        DeviceTypeZeroClient => 'ALLOW',  # values: ALLOW, DENY; OPTIONAL
       },
 
       );

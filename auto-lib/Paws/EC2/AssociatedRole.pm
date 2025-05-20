@@ -52,15 +52,14 @@ stored.
 
 =head2 CertificateS3ObjectKey => Str
 
-The key of the Amazon S3 object ey where the certificate, certificate
-chain, and encrypted private key bundle is stored. The object key is
-formated as follows: C<role_arn>/C<certificate_arn>.
+The key of the Amazon S3 object where the certificate, certificate
+chain, and encrypted private key bundle are stored. The object key is
+formatted as follows: C<role_arn>/C<certificate_arn>.
 
 
 =head2 EncryptionKmsKeyId => Str
 
-The ID of the KMS customer master key (CMK) used to encrypt the private
-key.
+The ID of the KMS key used to encrypt the private key.
 
 
 

@@ -4,6 +4,7 @@ package Paws::Amplify::CreateDomainAssociation;
   has AppId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'appId', required => 1);
   has AutoSubDomainCreationPatterns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'autoSubDomainCreationPatterns');
   has AutoSubDomainIAMRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'autoSubDomainIAMRole');
+  has CertificateSettings => (is => 'ro', isa => 'Paws::Amplify::CertificateSettings', traits => ['NameInRequest'], request_name => 'certificateSettings');
   has DomainName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domainName', required => 1);
   has EnableAutoSubDomain => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableAutoSubDomain');
   has SubDomainSettings => (is => 'ro', isa => 'ArrayRef[Paws::Amplify::SubDomainSetting]', traits => ['NameInRequest'], request_name => 'subDomainSettings', required => 1);
@@ -49,7 +50,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...    # min: 1, max: 2048
       ],    # OPTIONAL
       AutoSubDomainIAMRole => 'MyAutoSubDomainIAMRole',    # OPTIONAL
-      EnableAutoSubDomain  => 1,                           # OPTIONAL
+      CertificateSettings  => {
+        Type => 'AMPLIFY_MANAGED',    # values: AMPLIFY_MANAGED, CUSTOM
+        CustomCertificateArn => 'MyCertificateArn',    # max: 1000; OPTIONAL
+      },    # OPTIONAL
+      EnableAutoSubDomain => 1,    # OPTIONAL
     );
 
     # Results:
@@ -79,6 +84,14 @@ Sets the branch patterns for automatic subdomain creation.
 
 The required AWS Identity and Access Management (IAM) service role for
 the Amazon Resource Name (ARN) for automatically creating subdomains.
+
+
+
+=head2 CertificateSettings => L<Paws::Amplify::CertificateSettings>
+
+The type of SSL/TLS certificate to use for your custom domain. If you
+don't specify a certificate type, Amplify uses the default certificate
+that it provisions and manages for you.
 
 
 

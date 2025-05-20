@@ -60,14 +60,13 @@ The names of the installed add-ons that have available updates.
 
 =head2 MaxResults => Int
 
-The maximum number of update results returned by C<ListUpdates> in
-paginated output. When you use this parameter, C<ListUpdates> returns
-only C<maxResults> results in a single page along with a C<nextToken>
+The maximum number of results, returned in paginated output. You
+receive C<maxResults> in a single page, along with a C<nextToken>
 response element. You can see the remaining results of the initial
-request by sending another C<ListUpdates> request with the returned
-C<nextToken> value. This value can be between 1 and 100. If you don't
-use this parameter, C<ListUpdates> returns up to 100 results and a
-C<nextToken> value if applicable.
+request by sending another request with the returned C<nextToken>
+value. This value can be between 1 and 100. If you don't use this
+parameter, 100 results and a C<nextToken> value, if applicable, are
+returned.
 
 
 
@@ -79,10 +78,15 @@ The name of the Amazon EKS cluster to list updates for.
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned from a previous paginated
-C<ListUpdates> request where C<maxResults> was used and the results
-exceeded the value of that parameter. Pagination continues from the end
-of the previous results that returned the C<nextToken> value.
+The C<nextToken> value returned from a previous paginated request,
+where C<maxResults> was used and the results exceeded the value of that
+parameter. Pagination continues from the end of the previous results
+that returned the C<nextToken> value. This value is null when there are
+no more results to return.
+
+This token should be treated as an opaque identifier that is used only
+to retrieve the next items in a list and not for other programmatic
+purposes.
 
 
 

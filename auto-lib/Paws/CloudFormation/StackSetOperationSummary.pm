@@ -5,7 +5,10 @@ package Paws::CloudFormation::StackSetOperationSummary;
   has CreationTimestamp => (is => 'ro', isa => 'Str');
   has EndTimestamp => (is => 'ro', isa => 'Str');
   has OperationId => (is => 'ro', isa => 'Str');
+  has OperationPreferences => (is => 'ro', isa => 'Paws::CloudFormation::StackSetOperationPreferences');
   has Status => (is => 'ro', isa => 'Str');
+  has StatusDetails => (is => 'ro', isa => 'Paws::CloudFormation::StackSetOperationStatusDetails');
+  has StatusReason => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -26,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CloudFormation::StackSetOperationSummary object:
 
-  $service_obj->Method(Att1 => { Action => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { Action => $value, ..., StatusReason => $value  });
 
 =head3 Results returned from an API call
 
@@ -48,14 +51,14 @@ operation.
 The type of operation: C<CREATE>, C<UPDATE>, or C<DELETE>. Create and
 delete operations affect only the specified stack instances that are
 associated with the specified stack set. Update operations affect both
-the stack set itself as well as I<all> associated stack set instances.
+the stack set itself and I<all> associated stack set instances.
 
 
 =head2 CreationTimestamp => Str
 
 The time at which the operation was initiated. Note that the creation
 times for the stack set operation might differ from the creation time
-of the individual stacks themselves. This is because AWS CloudFormation
+of the individual stacks themselves. This is because CloudFormation
 needs to perform preparatory work for the operation, such as
 dispatching the work to the requested Regions, before actually creating
 the first stacks.
@@ -74,6 +77,16 @@ or Region.
 The unique ID of the stack set operation.
 
 
+=head2 OperationPreferences => L<Paws::CloudFormation::StackSetOperationPreferences>
+
+The user-specified preferences for how CloudFormation performs a stack
+set operation.
+
+For more information about maximum concurrent accounts and failure
+tolerance, see Stack set operation options
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
+
+
 =head2 Status => Str
 
 The overall status of the operation.
@@ -87,8 +100,8 @@ failure tolerance value that you've set for an operation is applied for
 each Region during stack create and update operations. If the number of
 failed stacks within a Region exceeds the failure tolerance, the status
 of the operation in the Region is set to C<FAILED>. This in turn sets
-the status of the operation as a whole to C<FAILED>, and AWS
-CloudFormation cancels the operation in any remaining Regions.
+the status of the operation as a whole to C<FAILED>, and CloudFormation
+cancels the operation in any remaining Regions.
 
 =item *
 
@@ -96,8 +109,8 @@ C<QUEUED>: [Service-managed permissions] For automatic deployments that
 require a sequence of operations, the operation is queued to be
 performed. For more information, see the stack set operation status
 codes
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes)
-in the AWS CloudFormation User Guide.
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-status-codes)
+in the I<CloudFormation User Guide>.
 
 =item *
 
@@ -105,7 +118,7 @@ C<RUNNING>: The operation is currently being performed.
 
 =item *
 
-C<STOPPED>: The user has cancelled the operation.
+C<STOPPED>: The user has canceled the operation.
 
 =item *
 
@@ -120,6 +133,16 @@ operation.
 
 =back
 
+
+
+=head2 StatusDetails => L<Paws::CloudFormation::StackSetOperationStatusDetails>
+
+Detailed information about the stack set operation.
+
+
+=head2 StatusReason => Str
+
+The status of the operation in details.
 
 
 

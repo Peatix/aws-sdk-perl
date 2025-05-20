@@ -60,10 +60,26 @@ The description for the DB subnet group.
 The name for the DB subnet group. This value is stored as a lowercase
 string.
 
-Constraints: Must contain no more than 255 letters, numbers, periods,
-underscores, spaces, or hyphens. Must not be default.
+Constraints:
 
-Example: C<mySubnetgroup>
+=over
+
+=item *
+
+Must contain no more than 255 letters, numbers, periods, underscores,
+spaces, or hyphens.
+
+=item *
+
+Must not be default.
+
+=item *
+
+First character must be a letter.
+
+=back
+
+Example: C<mydbsubnetgroup>
 
 
 

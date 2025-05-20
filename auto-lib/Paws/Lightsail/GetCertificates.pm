@@ -4,6 +4,7 @@ package Paws::Lightsail::GetCertificates;
   has CertificateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'certificateName' );
   has CertificateStatuses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'certificateStatuses' );
   has IncludeCertificateDetails => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'includeCertificateDetails' );
+  has PageToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pageToken' );
 
   use MooseX::ClassAttribute;
 
@@ -35,11 +36,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'PENDING_VALIDATION',
         ... # values: PENDING_VALIDATION, ISSUED, INACTIVE, EXPIRED, VALIDATION_TIMED_OUT, REVOKED, FAILED
       ],    # OPTIONAL
-      IncludeCertificateDetails => 1,    # OPTIONAL
+      IncludeCertificateDetails => 1,             # OPTIONAL
+      PageToken                 => 'Mystring',    # OPTIONAL
     );
 
     # Results:
-    my $Certificates = $GetCertificatesResult->Certificates;
+    my $Certificates  = $GetCertificatesResult->Certificates;
+    my $NextPageToken = $GetCertificatesResult->NextPageToken;
 
     # Returns a L<Paws::Lightsail::GetCertificatesResult> object.
 
@@ -53,8 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 The name for the certificate for which to return information.
 
-When omitted, the response includes all of your certificates in the AWS
-Region where the request is made.
+When omitted, the response includes all of your certificates in the
+Amazon Web Services Region where the request is made.
 
 
 
@@ -65,8 +68,9 @@ The status of the certificates for which to return information.
 For example, specify C<ISSUED> to return only certificates with an
 C<ISSUED> status.
 
-When omitted, the response includes all of your certificates in the AWS
-Region where the request is made, regardless of their current status.
+When omitted, the response includes all of your certificates in the
+Amazon Web Services Region where the request is made, regardless of
+their current status.
 
 
 
@@ -77,6 +81,16 @@ certificates in the response.
 
 When omitted, the response includes only the certificate names, Amazon
 Resource Names (ARNs), domain names, and tags.
+
+
+
+=head2 PageToken => Str
+
+The token to advance to the next page of results from your request.
+
+To get a page token, perform an initial C<GetCertificates> request. If
+your results are paginated, the response will return a next page token
+that you can specify as the page token in a subsequent request.
 
 
 

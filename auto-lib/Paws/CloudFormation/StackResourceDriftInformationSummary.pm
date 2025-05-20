@@ -43,14 +43,14 @@ configuration.
 
 =head2 LastCheckTimestamp => Str
 
-When AWS CloudFormation last checked if the resource had drifted from
-its expected configuration.
+When CloudFormation last checked if the resource had drifted from its
+expected configuration.
 
 
 =head2 B<REQUIRED> StackResourceDriftStatus => Str
 
 Status of the resource's actual configuration compared to its expected
-configuration
+configuration.
 
 =over
 
@@ -65,23 +65,23 @@ C<MODIFIED>: The resource differs from its expected configuration.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked if the resource
-differs from its expected configuration.
+C<NOT_CHECKED>: CloudFormation hasn't checked if the resource differs
+from its expected configuration.
 
-Any resources that do not currently support drift detection have a
-status of C<NOT_CHECKED>. For more information, see Resources that
-Support Drift Detection
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
+Any resources that don't currently support drift detection have a
+status of C<NOT_CHECKED>. For more information, see Resource type
+support for imports and drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
 If you performed an ContinueUpdateRollback operation on a stack, any
 resources included in C<ResourcesToSkip> will also have a status of
-C<NOT_CHECKED>. For more information on skipping resources during
-rollback operations, see Continue Rolling Back an Update
+C<NOT_CHECKED>. For more information about skipping resources during
+rollback operations, see Continue rolling back an update
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html)
-in the AWS CloudFormation User Guide.
+in the I<CloudFormation User Guide>.
 
 =item *
 
-C<IN_SYNC>: The resources's actual configuration matches its expected
+C<IN_SYNC>: The resource's actual configuration matches its expected
 configuration.
 
 =back

@@ -3,6 +3,7 @@ package Paws::AppMesh::GrpcRouteMatch;
   use Moose;
   has Metadata => (is => 'ro', isa => 'ArrayRef[Paws::AppMesh::GrpcRouteMetadata]', request_name => 'metadata', traits => ['NameInRequest']);
   has MethodName => (is => 'ro', isa => 'Str', request_name => 'methodName', traits => ['NameInRequest']);
+  has Port => (is => 'ro', isa => 'Int', request_name => 'port', traits => ['NameInRequest']);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
 
 1;
@@ -49,6 +50,11 @@ An object that represents the data to match from the request.
 
 The method name to match from the request. If you specify a name, you
 must also specify a C<serviceName>.
+
+
+=head2 Port => Int
+
+The port number to match on.
 
 
 =head2 ServiceName => Str

@@ -41,9 +41,9 @@ Information about a deployment error.
 
 =head2 Code => Str
 
-For more information, see Error Codes for AWS CodeDeploy
+For more information, see Error Codes for CodeDeploy
 (https://docs.aws.amazon.com/codedeploy/latest/userguide/error-codes.html)
-in the AWS CodeDeploy User Guide
+in the CodeDeploy User Guide
 (https://docs.aws.amazon.com/codedeploy/latest/userguide).
 
 The error code:
@@ -102,7 +102,8 @@ OVER_MAX_INSTANCES: The maximum number of instances was exceeded.
 =item *
 
 THROTTLED: The operation was throttled because the calling account
-exceeded the throttling limits of one or more AWS services.
+exceeded the throttling limits of one or more Amazon Web Services
+services.
 
 =item *
 

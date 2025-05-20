@@ -2,6 +2,7 @@
 package Paws::AccessAnalyzer::AnalyzerSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
+  has Configuration => (is => 'ro', isa => 'Paws::AccessAnalyzer::AnalyzerConfiguration', request_name => 'configuration', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest'], required => 1);
   has LastResourceAnalyzed => (is => 'ro', isa => 'Str', request_name => 'lastResourceAnalyzed', traits => ['NameInRequest']);
   has LastResourceAnalyzedAt => (is => 'ro', isa => 'Str', request_name => 'lastResourceAnalyzedAt', traits => ['NameInRequest']);
@@ -51,6 +52,12 @@ Contains information about the analyzer.
 The ARN of the analyzer.
 
 
+=head2 Configuration => L<Paws::AccessAnalyzer::AnalyzerConfiguration>
+
+Specifies whether the analyzer is an external access or unused access
+analyzer.
+
+
 =head2 B<REQUIRED> CreatedAt => Str
 
 A timestamp for the time at which the analyzer was created.
@@ -75,11 +82,11 @@ The name of the analyzer.
 
 The status of the analyzer. An C<Active> analyzer successfully monitors
 supported resources and generates new findings. The analyzer is
-C<Disabled> when a user action, such as removing trusted access for AWS
-IAM Access Analyzer from AWS Organizations, causes the analyzer to stop
-generating new findings. The status is C<Creating> when the analyzer
-creation is in progress and C<Failed> when the analyzer creation has
-failed.
+C<Disabled> when a user action, such as removing trusted access for
+Identity and Access Management Access Analyzer from Organizations,
+causes the analyzer to stop generating new findings. The status is
+C<Creating> when the analyzer creation is in progress and C<Failed>
+when the analyzer creation has failed.
 
 
 =head2 StatusReason => L<Paws::AccessAnalyzer::StatusReason>
@@ -88,8 +95,8 @@ The C<statusReason> provides more details about the current status of
 the analyzer. For example, if the creation for the analyzer fails, a
 C<Failed> status is returned. For an analyzer with organization as the
 type, this failure can be due to an issue with creating the
-service-linked roles required in the member accounts of the AWS
-organization.
+service-linked roles required in the member accounts of the Amazon Web
+Services organization.
 
 
 =head2 Tags => L<Paws::AccessAnalyzer::TagsMap>

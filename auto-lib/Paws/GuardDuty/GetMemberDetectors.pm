@@ -52,13 +52,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 =head2 B<REQUIRED> AccountIds => ArrayRef[Str|Undef]
 
-The account ID of the member account.
+A list of member account IDs.
 
 
 
 =head2 B<REQUIRED> DetectorId => Str
 
 The detector ID for the administrator account.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 

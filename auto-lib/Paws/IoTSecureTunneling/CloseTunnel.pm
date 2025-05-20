@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 Delete => Bool
 
-When set to true, AWS IoT Secure Tunneling deletes the tunnel data
+When set to true, IoT Secure Tunneling deletes the tunnel data
 immediately.
 
 

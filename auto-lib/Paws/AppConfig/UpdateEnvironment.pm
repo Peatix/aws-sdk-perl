@@ -32,25 +32,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+# To update an environment
+# The following update-environment example updates an environment's description.
     my $Environment = $appconfig->UpdateEnvironment(
-      ApplicationId => 'MyId',
-      EnvironmentId => 'MyId',
-      Description   => 'MyDescription',    # OPTIONAL
-      Monitors      => [
-        {
-          AlarmArn     => 'MyArn',        # min: 20, max: 2048; OPTIONAL
-          AlarmRoleArn => 'MyRoleArn',    # min: 20, max: 2048; OPTIONAL
-        },
-        ...
-      ],    # OPTIONAL
-      Name => 'MyName',    # OPTIONAL
+      'ApplicationId' => '339ohji',
+      'Description'   => 'An environment for examples.',
+      'EnvironmentId' => '54j1r29'
     );
 
     # Results:
     my $ApplicationId = $Environment->ApplicationId;
     my $Description   = $Environment->Description;
     my $Id            = $Environment->Id;
-    my $Monitors      = $Environment->Monitors;
     my $Name          = $Environment->Name;
     my $State         = $Environment->State;
 

@@ -5,6 +5,9 @@ package Paws::EKS::DescribeAddonVersions;
   has KubernetesVersion => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'kubernetesVersion');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
+  has Owners => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'owners');
+  has Publishers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'publishers');
+  has Types => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'types');
 
   use MooseX::ClassAttribute;
 
@@ -32,10 +35,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $eks = Paws->service('EKS');
     my $DescribeAddonVersionsResponse = $eks->DescribeAddonVersions(
-      AddonName         => 'MyString',    # OPTIONAL
-      KubernetesVersion => 'MyString',    # OPTIONAL
-      MaxResults        => 1,             # OPTIONAL
-      NextToken         => 'MyString',    # OPTIONAL
+      AddonName         => 'MyString',             # OPTIONAL
+      KubernetesVersion => 'MyString',             # OPTIONAL
+      MaxResults        => 1,                      # OPTIONAL
+      NextToken         => 'MyString',             # OPTIONAL
+      Owners            => [ 'MyString', ... ],    # OPTIONAL
+      Publishers        => [ 'MyString', ... ],    # OPTIONAL
+      Types             => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -60,26 +66,54 @@ by C<ListAddons>
 
 =head2 KubernetesVersion => Str
 
-The Kubernetes versions that the add-on can be used with.
+The Kubernetes versions that you can use the add-on with.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return.
+The maximum number of results, returned in paginated output. You
+receive C<maxResults> in a single page, along with a C<nextToken>
+response element. You can see the remaining results of the initial
+request by sending another request with the returned C<nextToken>
+value. This value can be between 1 and 100. If you don't use this
+parameter, 100 results and a C<nextToken> value, if applicable, are
+returned.
 
 
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned from a previous paginated
-C<DescribeAddonVersionsRequest> where C<maxResults> was used and the
-results exceeded the value of that parameter. Pagination continues from
-the end of the previous results that returned the C<nextToken> value.
+The C<nextToken> value returned from a previous paginated request,
+where C<maxResults> was used and the results exceeded the value of that
+parameter. Pagination continues from the end of the previous results
+that returned the C<nextToken> value. This value is null when there are
+no more results to return.
 
 This token should be treated as an opaque identifier that is used only
 to retrieve the next items in a list and not for other programmatic
 purposes.
+
+
+
+=head2 Owners => ArrayRef[Str|Undef]
+
+The owner of the add-on. For valid C<owners>, don't specify a value for
+this property.
+
+
+
+=head2 Publishers => ArrayRef[Str|Undef]
+
+The publisher of the add-on. For valid C<publishers>, don't specify a
+value for this property.
+
+
+
+=head2 Types => ArrayRef[Str|Undef]
+
+The type of the add-on. For valid C<types>, don't specify a value for
+this property.
 
 
 

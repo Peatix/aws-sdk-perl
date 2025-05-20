@@ -17,7 +17,7 @@ Paws::Kendra::GetQuerySuggestionsResponse
 
 =head2 QuerySuggestionsId => Str
 
-The unique identifier for a list of query suggestions for an index.
+The identifier for a list of query suggestions for an index.
 
 
 =head2 Suggestions => ArrayRef[L<Paws::Kendra::Suggestion>]

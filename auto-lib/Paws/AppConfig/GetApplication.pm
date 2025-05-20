@@ -28,15 +28,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
-    my $Application = $appconfig->GetApplication(
-      ApplicationId => 'MyId',
-
-    );
+    # To list details of an application
+    # The following get-application example lists the details of the specified
+    # application.
+    my $Application =
+      $appconfig->GetApplication( 'ApplicationId' => '339ohji' );
 
     # Results:
-    my $Description = $Application->Description;
-    my $Id          = $Application->Id;
-    my $Name        = $Application->Name;
+    my $Id   = $Application->Id;
+    my $Name = $Application->Name;
 
     # Returns a L<Paws::AppConfig::Application> object.
 

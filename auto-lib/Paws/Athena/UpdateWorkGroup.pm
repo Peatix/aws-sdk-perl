@@ -33,23 +33,45 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateWorkGroupOutput = $athena->UpdateWorkGroup(
       WorkGroup            => 'MyWorkGroupName',
       ConfigurationUpdates => {
-        BytesScannedCutoffPerQuery    => 1,    # min: 10000000; OPTIONAL
-        EnforceWorkGroupConfiguration => 1,    # OPTIONAL
-        EngineVersion                 => {
+        AdditionalConfiguration => 'MyNameString',  # min: 1, max: 128; OPTIONAL
+        BytesScannedCutoffPerQuery             => 1,   # min: 10000000; OPTIONAL
+        CustomerContentEncryptionConfiguration => {
+          KmsKey => 'MyKmsKey',                        # min: 1, max: 2048
+
+        },    # OPTIONAL
+        EnableMinimumEncryptionConfiguration => 1,    # OPTIONAL
+        EnforceWorkGroupConfiguration        => 1,    # OPTIONAL
+        EngineVersion                        => {
           EffectiveEngineVersion => 'MyNameString', # min: 1, max: 128; OPTIONAL
           SelectedEngineVersion  => 'MyNameString', # min: 1, max: 128; OPTIONAL
         },    # OPTIONAL
-        PublishCloudWatchMetricsEnabled  => 1,    # OPTIONAL
-        RemoveBytesScannedCutoffPerQuery => 1,    # OPTIONAL
-        RequesterPaysEnabled             => 1,    # OPTIONAL
-        ResultConfigurationUpdates       => {
+        ExecutionRole => 'MyRoleArn',    # min: 20, max: 2048; OPTIONAL
+        PublishCloudWatchMetricsEnabled         => 1,    # OPTIONAL
+        QueryResultsS3AccessGrantsConfiguration => {
+          AuthenticationType =>
+            'DIRECTORY_IDENTITY',    # values: DIRECTORY_IDENTITY
+          EnableS3AccessGrants  => 1,    # OPTIONAL
+          CreateUserLevelPrefix => 1,    # OPTIONAL
+        },    # OPTIONAL
+        RemoveBytesScannedCutoffPerQuery             => 1,    # OPTIONAL
+        RemoveCustomerContentEncryptionConfiguration => 1,    # OPTIONAL
+        RequesterPaysEnabled                         => 1,    # OPTIONAL
+        ResultConfigurationUpdates                   => {
+          AclConfiguration => {
+            S3AclOption =>
+              'BUCKET_OWNER_FULL_CONTROL',   # values: BUCKET_OWNER_FULL_CONTROL
+
+          },    # OPTIONAL
           EncryptionConfiguration => {
             EncryptionOption => 'SSE_S3',     # values: SSE_S3, SSE_KMS, CSE_KMS
             KmsKey           => 'MyString',   # OPTIONAL
           },    # OPTIONAL
-          OutputLocation                => 'MyString',    # OPTIONAL
-          RemoveEncryptionConfiguration => 1,             # OPTIONAL
-          RemoveOutputLocation          => 1,             # OPTIONAL
+          ExpectedBucketOwner => 'MyAwsAccountId',  # min: 12, max: 12; OPTIONAL
+          OutputLocation                => 'MyResultOutputLocation',  # OPTIONAL
+          RemoveAclConfiguration        => 1,                         # OPTIONAL
+          RemoveEncryptionConfiguration => 1,                         # OPTIONAL
+          RemoveExpectedBucketOwner     => 1,                         # OPTIONAL
+          RemoveOutputLocation          => 1,                         # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
       Description => 'MyWorkGroupDescriptionString',    # OPTIONAL
@@ -64,8 +86,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ath
 
 =head2 ConfigurationUpdates => L<Paws::Athena::WorkGroupConfigurationUpdates>
 
-The workgroup configuration that will be updated for the given
-workgroup.
+Contains configuration updates for an Athena SQL workgroup.
 
 
 

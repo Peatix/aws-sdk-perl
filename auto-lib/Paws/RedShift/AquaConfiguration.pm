@@ -34,56 +34,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RedShift::A
 
 =head1 DESCRIPTION
 
-The AQUA (Advanced Query Accelerator) configuration of the cluster.
+The operation that uses this structure is retired. Amazon Redshift
+automatically determines whether to use AQUA (Advanced Query
+Accelerator).
 
 =head1 ATTRIBUTES
 
 
 =head2 AquaConfigurationStatus => Str
 
-The value represents how the cluster is configured to use AQUA.
-Possible values include the following.
-
-=over
-
-=item *
-
-enabled - Use AQUA if it is available for the current AWS Region and
-Amazon Redshift node type.
-
-=item *
-
-disabled - Don't use AQUA.
-
-=item *
-
-auto - Amazon Redshift determines whether to use AQUA.
-
-=back
-
+This field is retired. Amazon Redshift automatically determines whether
+to use AQUA (Advanced Query Accelerator).
 
 
 =head2 AquaStatus => Str
 
-The value indicates the status of AQUA on the cluster. Possible values
-include the following.
-
-=over
-
-=item *
-
-enabled - AQUA is enabled.
-
-=item *
-
-disabled - AQUA is not enabled.
-
-=item *
-
-applying - AQUA status is being applied.
-
-=back
-
+This field is retired. Amazon Redshift automatically determines whether
+to use AQUA (Advanced Query Accelerator).
 
 
 

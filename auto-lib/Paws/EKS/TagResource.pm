@@ -45,15 +45,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource to which to add tags.
-Currently, the supported resources are Amazon EKS clusters and managed
-node groups.
+The Amazon Resource Name (ARN) of the resource to add tags to.
 
 
 
 =head2 B<REQUIRED> Tags => L<Paws::EKS::TagMap>
 
-The tags to add to the resource. A tag is an array of key-value pairs.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 

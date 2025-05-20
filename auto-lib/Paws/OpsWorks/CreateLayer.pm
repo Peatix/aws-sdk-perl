@@ -170,7 +170,7 @@ A JSON-formatted string containing custom stack configuration and
 deployment attributes to be installed on the layer's instances. For
 more information, see Using Custom JSON
 (https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook-json-override.html).
-This feature is supported as of version 1.7.42 of the AWS CLI.
+This feature is supported as of version 1.7.42 of the CLI.
 
 
 
@@ -216,7 +216,8 @@ disable Elastic Load Balancer connection draining.
 
 =head2 B<REQUIRED> Name => Str
 
-The layer name, which is used by the console.
+The layer name, which is used by the console. Layer names can be a
+maximum of 32 characters.
 
 
 
@@ -229,14 +230,13 @@ An array of C<Package> objects that describes the layer packages.
 =head2 B<REQUIRED> Shortname => Str
 
 For custom layers only, use this parameter to specify the layer's short
-name, which is used internally by AWS OpsWorks Stacks and by Chef
-recipes. The short name is also used as the name for the directory
-where your app files are installed. It can have a maximum of 200
-characters, which are limited to the alphanumeric characters, '-', '_',
-and '.'.
+name, which is used internally by OpsWorks Stacks and by Chef recipes.
+The short name is also used as the name for the directory where your
+app files are installed. It can have a maximum of 32 characters, which
+are limited to the alphanumeric characters, '-', '_', and '.'.
 
-The built-in layers' short names are defined by AWS OpsWorks Stacks.
-For more information, see the Layer Reference
+Built-in layer short names are defined by OpsWorks Stacks. For more
+information, see the Layer Reference
 (https://docs.aws.amazon.com/opsworks/latest/userguide/layers.html).
 
 

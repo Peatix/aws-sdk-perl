@@ -46,8 +46,8 @@ The data section in the inventory result entity JSON.
 
 =head2 Id => Str
 
-ID of the inventory result entity. For example, for managed instance
-inventory the result will be the managed instance ID. For EC2 instance
+ID of the inventory result entity. For example, for managed node
+inventory the result will be the managed node ID. For EC2 instance
 inventory, the result will be the instance ID.
 
 

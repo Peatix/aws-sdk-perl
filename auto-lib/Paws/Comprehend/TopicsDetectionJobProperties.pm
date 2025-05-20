@@ -4,6 +4,7 @@ package Paws::Comprehend::TopicsDetectionJobProperties;
   has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::InputDataConfig');
+  has JobArn => (is => 'ro', isa => 'Str');
   has JobId => (is => 'ro', isa => 'Str');
   has JobName => (is => 'ro', isa => 'Str');
   has JobStatus => (is => 'ro', isa => 'Str');
@@ -51,8 +52,8 @@ Provides information about a topic detection job.
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM)
-role that grants Amazon Comprehend read access to your job data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your job data.
 
 
 =head2 EndTime => Str
@@ -64,6 +65,20 @@ The time that the topic detection job was completed.
 
 The input data configuration supplied when you created the topic
 detection job.
+
+
+=head2 JobArn => Str
+
+The Amazon Resource Name (ARN) of the topics detection job. It is a
+unique, fully qualified identifier for the job. It includes the Amazon
+Web Services account, Amazon Web Services Region, and the job ID. The
+format of the ARN is as follows:
+
+C<arn:E<lt>partitionE<gt>:comprehend:E<lt>regionE<gt>:E<lt>account-idE<gt>:topics-detection-job/E<lt>job-idE<gt>>
+
+The following is an example job ARN:
+
+C<arn:aws:comprehend:us-west-2:111122223333:topics-detection-job/1234abcd12ab34cd56ef1234567890ab>
 
 
 =head2 JobId => Str
@@ -106,10 +121,10 @@ The time that the topic detection job was submitted for processing.
 
 =head2 VolumeKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt data on the storage volume attached to the ML compute
-instance(s) that process the analysis job. The VolumeKmsKeyId can be
-either of the following formats:
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt data on the storage volume attached
+to the ML compute instance(s) that process the analysis job. The
+VolumeKmsKeyId can be either of the following formats:
 
 =over
 

@@ -53,7 +53,7 @@ that you control.
 
 The Amazon Resource Name (ARN) that was returned when you called
 CreateCertificateAuthority
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html).
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html).
 This must be of the form:
 
 C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-1234-1234-123456789012>>
@@ -63,9 +63,10 @@ C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-123
 =head2 CertificateChain => Str
 
 A PEM-encoded file that contains all of your certificates, other than
-the certificate you're importing, chaining up to your root CA. Your ACM
-Private CA-hosted or on-premises root certificate is the last in the
-chain, and each certificate in the chain signs the one preceding.
+the certificate you're importing, chaining up to your root CA. Your
+Amazon Web Services Private CA-hosted or on-premises root certificate
+is the last in the chain, and each certificate in the chain signs the
+one preceding.
 
 This parameter must be supplied when you import a subordinate CA. When
 you import a root CA, there is no chain.

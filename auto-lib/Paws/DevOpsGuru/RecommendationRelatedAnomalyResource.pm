@@ -47,7 +47,13 @@ The name of the resource.
 
 =head2 Type => Str
 
-The type of the resource.
+The type of the resource. Resource types take the same form that is
+used by Amazon Web Services CloudFormation resource type identifiers,
+C<service-provider::service-name::data-type-name>. For example,
+C<AWS::RDS::DBCluster>. For more information, see Amazon Web Services
+resource and property types reference
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+in the I<Amazon Web Services CloudFormation User Guide>.
 
 
 

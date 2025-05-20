@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Org
 =head1 DESCRIPTION
 
 An organization conformance pack that has information about conformance
-packs that AWS Config creates in member accounts.
+packs that Config creates in member accounts.
 
 =head1 ATTRIBUTES
 
@@ -52,7 +52,8 @@ A list of C<ConformancePackInputParameter> objects.
 
 =head2 DeliveryS3Bucket => Str
 
-Amazon S3 bucket where AWS Config stores conformance pack templates.
+The name of the Amazon S3 bucket where Config stores conformance pack
+templates.
 
 This field is optional.
 

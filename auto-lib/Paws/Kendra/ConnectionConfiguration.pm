@@ -37,7 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Con
 
 =head1 DESCRIPTION
 
-Provides the information necessary to connect to a database.
+Provides the configuration information that's required to connect to a
+database.
 
 =head1 ATTRIBUTES
 
@@ -60,14 +61,13 @@ The port that the database uses for connections.
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The Amazon Resource Name (ARN) of credentials stored in AWS Secrets
-Manager. The credentials should be a user/password pair. For more
-information, see Using a Database Data Source
+The Amazon Resource Name (ARN) of an Secrets Manager secret that stores
+the credentials. The credentials should be a user-password pair. For
+more information, see Using a Database Data Source
 (https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html).
-For more information about AWS Secrets Manager, see What Is AWS Secrets
-Manager
+For more information about Secrets Manager, see What Is Secrets Manager
 (https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html)
-in the I<AWS Secrets Manager> user guide.
+in the I<Secrets Manager> user guide.
 
 
 =head2 B<REQUIRED> TableName => Str

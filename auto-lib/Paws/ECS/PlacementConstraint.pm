@@ -35,21 +35,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Placem
 =head1 DESCRIPTION
 
 An object representing a constraint on task placement. For more
-information, see Task Placement Constraints
+information, see Task placement constraints
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-If you are using the Fargate launch type, task placement constraints
-are not supported.
+If you're using the Fargate launch type, task placement constraints
+aren't supported.
 
 =head1 ATTRIBUTES
 
 
 =head2 Expression => Str
 
-A cluster query language expression to apply to the constraint. You
-cannot specify an expression if the constraint type is
-C<distinctInstance>. For more information, see Cluster Query Language
+A cluster query language expression to apply to the constraint. The
+expression can have a maximum length of 2000 characters. You can't
+specify an expression if the constraint type is C<distinctInstance>.
+For more information, see Cluster query language
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 

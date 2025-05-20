@@ -1,8 +1,11 @@
 package Paws::EC2::ReplaceRootVolumeTask;
   use Moose;
   has CompleteTime => (is => 'ro', isa => 'Str', request_name => 'completeTime', traits => ['NameInRequest']);
+  has DeleteReplacedRootVolume => (is => 'ro', isa => 'Bool', request_name => 'deleteReplacedRootVolume', traits => ['NameInRequest']);
+  has ImageId => (is => 'ro', isa => 'Str', request_name => 'imageId', traits => ['NameInRequest']);
   has InstanceId => (is => 'ro', isa => 'Str', request_name => 'instanceId', traits => ['NameInRequest']);
   has ReplaceRootVolumeTaskId => (is => 'ro', isa => 'Str', request_name => 'replaceRootVolumeTaskId', traits => ['NameInRequest']);
+  has SnapshotId => (is => 'ro', isa => 'Str', request_name => 'snapshotId', traits => ['NameInRequest']);
   has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
   has TaskState => (is => 'ro', isa => 'Str', request_name => 'taskState', traits => ['NameInRequest']);
@@ -46,6 +49,17 @@ This class has no description
 The time the task completed.
 
 
+=head2 DeleteReplacedRootVolume => Bool
+
+Indicates whether the original root volume is to be deleted after the
+root volume replacement task completes.
+
+
+=head2 ImageId => Str
+
+The ID of the AMI used to create the replacement root volume.
+
+
 =head2 InstanceId => Str
 
 The ID of the instance for which the root volume replacement task was
@@ -55,6 +69,11 @@ created.
 =head2 ReplaceRootVolumeTaskId => Str
 
 The ID of the root volume replacement task.
+
+
+=head2 SnapshotId => Str
+
+The ID of the snapshot used to create the replacement root volume.
 
 
 =head2 StartTime => Str

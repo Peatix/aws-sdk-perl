@@ -53,7 +53,7 @@ The region where the account is located.
 
 =head2 ResourceType => Str
 
-The type of the AWS resource.
+The type of the Amazon Web Services resource.
 
 
 

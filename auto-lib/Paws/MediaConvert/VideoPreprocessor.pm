@@ -40,9 +40,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Find additional transcoding features under Preprocessors
-(VideoPreprocessors). Enable the features at each output individually.
-These features are disabled by default.
+Find additional transcoding features under Preprocessors. Enable the
+features at each output individually. These features are disabled by
+default.
 
 =head1 ATTRIBUTES
 
@@ -69,22 +69,25 @@ output.
 
 =head2 Hdr10Plus => L<Paws::MediaConvert::Hdr10Plus>
 
-Enable HDR10+ analyis and metadata injection. Compatible with HEVC
+Enable HDR10+ analysis and metadata injection. Compatible with HEVC
 only.
 
 
 =head2 ImageInserter => L<Paws::MediaConvert::ImageInserter>
 
-Enable the Image inserter (ImageInserter) feature to include a graphic
-overlay on your video. Enable or disable this feature for each output
-individually. This setting is disabled by default.
+Enable the Image inserter feature to include a graphic overlay on your
+video. Enable or disable this feature for each output individually.
+This setting is disabled by default.
 
 
 =head2 NoiseReducer => L<Paws::MediaConvert::NoiseReducer>
 
-Enable the Noise reducer (NoiseReducer) feature to remove noise from
-your video output if necessary. Enable or disable this feature for each
-output individually. This setting is disabled by default.
+Enable the Noise reducer feature to remove noise from your video output
+if necessary. Enable or disable this feature for each output
+individually. This setting is disabled by default. When you enable
+Noise reducer, you must also select a value for Noise reducer filter.
+For AVC outputs, when you include Noise reducer, you cannot include the
+Bandwidth reduction filter.
 
 
 =head2 PartnerWatermarking => L<Paws::MediaConvert::PartnerWatermarking>

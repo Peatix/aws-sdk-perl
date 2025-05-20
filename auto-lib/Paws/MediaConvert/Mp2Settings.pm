@@ -35,8 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value MP2.
+Required when you set Codec to the value MP2.
 
 =head1 ATTRIBUTES
 
@@ -49,13 +48,13 @@ Specify the average bitrate in bits per second.
 =head2 Channels => Int
 
 Set Channels to specify the number of channels in this output audio
-track. Choosing Mono in the console will give you 1 output channel;
-choosing Stereo will give you 2. In the API, valid values are 1 and 2.
+track. Choosing Mono in will give you 1 output channel; choosing Stereo
+will give you 2. In the API, valid values are 1 and 2.
 
 
 =head2 SampleRate => Int
 
-Sample rate in hz.
+Sample rate in Hz.
 
 
 

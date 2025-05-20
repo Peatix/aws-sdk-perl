@@ -6,8 +6,10 @@ package Paws::Proton::ServiceInstanceSummary;
   has DeploymentStatus => (is => 'ro', isa => 'Str', request_name => 'deploymentStatus', traits => ['NameInRequest'], required => 1);
   has DeploymentStatusMessage => (is => 'ro', isa => 'Str', request_name => 'deploymentStatusMessage', traits => ['NameInRequest']);
   has EnvironmentName => (is => 'ro', isa => 'Str', request_name => 'environmentName', traits => ['NameInRequest'], required => 1);
+  has LastAttemptedDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastAttemptedDeploymentId', traits => ['NameInRequest']);
   has LastDeploymentAttemptedAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentAttemptedAt', traits => ['NameInRequest'], required => 1);
   has LastDeploymentSucceededAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentSucceededAt', traits => ['NameInRequest'], required => 1);
+  has LastSucceededDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastSucceededDeploymentId', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest'], required => 1);
   has TemplateMajorVersion => (is => 'ro', isa => 'Str', request_name => 'templateMajorVersion', traits => ['NameInRequest'], required => 1);
@@ -44,7 +46,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-A summary of the service instance detail data.
+Summary data of an Proton service instance resource.
 
 =head1 ATTRIBUTES
 
@@ -75,6 +77,11 @@ The name of the environment that the service instance was deployed
 into.
 
 
+=head2 LastAttemptedDeploymentId => Str
+
+The ID of the last attempted deployment of this service instance.
+
+
 =head2 B<REQUIRED> LastDeploymentAttemptedAt => Str
 
 The time when a deployment of the service was last attempted.
@@ -83,6 +90,11 @@ The time when a deployment of the service was last attempted.
 =head2 B<REQUIRED> LastDeploymentSucceededAt => Str
 
 The time when the service was last deployed successfully.
+
+
+=head2 LastSucceededDeploymentId => Str
+
+The ID of the last successful deployment of this service instance.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -97,12 +109,12 @@ The name of the service that the service instance belongs to.
 
 =head2 B<REQUIRED> TemplateMajorVersion => Str
 
-The ID of the major version of a service template.
+The service instance template major version.
 
 
 =head2 B<REQUIRED> TemplateMinorVersion => Str
 
-The ID of the minor version of a service template.
+The service instance template minor version.
 
 
 =head2 B<REQUIRED> TemplateName => Str

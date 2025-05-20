@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-Provided the identity of a the bot that was exported.
+Provides the identity of a the bot that was exported.
 
 =head1 ATTRIBUTES
 

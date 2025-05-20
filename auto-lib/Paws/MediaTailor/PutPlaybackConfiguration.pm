@@ -1,15 +1,17 @@
 
 package Paws::MediaTailor::PutPlaybackConfiguration;
   use Moose;
+  has AdConditioningConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::AdConditioningConfiguration');
   has AdDecisionServerUrl => (is => 'ro', isa => 'Str');
   has AvailSuppression => (is => 'ro', isa => 'Paws::MediaTailor::AvailSuppression');
   has Bumper => (is => 'ro', isa => 'Paws::MediaTailor::Bumper');
   has CdnConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::CdnConfiguration');
   has ConfigurationAliases => (is => 'ro', isa => 'Paws::MediaTailor::ConfigurationAliasesRequest');
   has DashConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::DashConfigurationForPut');
+  has InsertionMode => (is => 'ro', isa => 'Str');
   has LivePreRollConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::LivePreRollConfiguration');
   has ManifestProcessingRules => (is => 'ro', isa => 'Paws::MediaTailor::ManifestProcessingRules');
-  has Name => (is => 'ro', isa => 'Str');
+  has Name => (is => 'ro', isa => 'Str', required => 1);
   has PersonalizationThresholdSeconds => (is => 'ro', isa => 'Int');
   has SlateAdUrl => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::MediaTailor::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
@@ -43,9 +45,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.mediatailor = Paws->service('MediaTailor');
     my $PutPlaybackConfigurationResponse =
       $api . mediatailor->PutPlaybackConfiguration(
+      Name                        => 'My__string',
+      AdConditioningConfiguration => {
+        StreamingMediaFileConditioning => 'TRANSCODE', # values: TRANSCODE, NONE
+
+      },    # OPTIONAL
       AdDecisionServerUrl => 'My__string',    # OPTIONAL
       AvailSuppression    => {
-        Mode  => 'OFF',          # values: OFF, BEHIND_LIVE_EDGE; OPTIONAL
+        FillPolicy =>
+          'FULL_AVAIL_ONLY',  # values: FULL_AVAIL_ONLY, PARTIAL_AVAIL; OPTIONAL
+        Mode =>
+          'OFF',    # values: OFF, BEHIND_LIVE_EDGE, AFTER_LIVE_EDGE; OPTIONAL
         Value => 'My__string',
       },    # OPTIONAL
       Bumper => {
@@ -63,16 +73,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         OriginManifestType =>
           'SINGLE_PERIOD',    # values: SINGLE_PERIOD, MULTI_PERIOD; OPTIONAL
       },    # OPTIONAL
+      InsertionMode            => 'STITCHED_ONLY',    # OPTIONAL
       LivePreRollConfiguration => {
         AdDecisionServerUrl => 'My__string',
-        MaxDurationSeconds  => 1,              # OPTIONAL
+        MaxDurationSeconds  => 1,                     # OPTIONAL
       },    # OPTIONAL
       ManifestProcessingRules => {
         AdMarkerPassthrough => {
           Enabled => 1,    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
-      Name                            => 'My__string',               # OPTIONAL
       PersonalizationThresholdSeconds => 1,                          # OPTIONAL
       SlateAdUrl                      => 'My__string',               # OPTIONAL
       Tags                  => { 'My__string' => 'My__string', },    # OPTIONAL
@@ -81,6 +91,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $AdConditioningConfiguration =
+      $PutPlaybackConfigurationResponse->AdConditioningConfiguration;
     my $AdDecisionServerUrl =
       $PutPlaybackConfigurationResponse->AdDecisionServerUrl;
     my $AvailSuppression = $PutPlaybackConfigurationResponse->AvailSuppression;
@@ -91,8 +103,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DashConfiguration =
       $PutPlaybackConfigurationResponse->DashConfiguration;
     my $HlsConfiguration = $PutPlaybackConfigurationResponse->HlsConfiguration;
+    my $InsertionMode    = $PutPlaybackConfigurationResponse->InsertionMode;
     my $LivePreRollConfiguration =
       $PutPlaybackConfigurationResponse->LivePreRollConfiguration;
+    my $LogConfiguration = $PutPlaybackConfigurationResponse->LogConfiguration;
     my $ManifestProcessingRules =
       $PutPlaybackConfigurationResponse->ManifestProcessingRules;
     my $Name = $PutPlaybackConfigurationResponse->Name;
@@ -117,6 +131,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api.mediatailor/PutPlaybackConfiguration>
 
 =head1 ATTRIBUTES
+
+
+=head2 AdConditioningConfiguration => L<Paws::MediaTailor::AdConditioningConfiguration>
+
+The setting that indicates what conditioning MediaTailor will perform
+on ads that the ad decision server (ADS) returns, and what priority
+MediaTailor uses when inserting ads.
+
 
 
 =head2 AdDecisionServerUrl => Str
@@ -158,7 +180,7 @@ Amazon CloudFront, for content and ad segment management.
 
 The player parameters and aliases used as dynamic variables during
 session initialization. For more information, see Domain Variables
-(https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+(https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
 
 
 
@@ -167,6 +189,17 @@ session initialization. For more information, see Domain Variables
 The configuration for DASH content.
 
 
+
+=head2 InsertionMode => Str
+
+The setting that controls whether players can use stitched or guided ad
+insertion. The default, C<STITCHED_ONLY>, forces all player sessions to
+use stitched (server-side) ad insertion. Choosing C<PLAYER_SELECT>
+allows players to select either stitched or guided ad insertion at
+session-initialization time. The default for players that do not
+specify an insertion mode is stitched.
+
+Valid values are: C<"STITCHED_ONLY">, C<"PLAYER_SELECT">
 
 =head2 LivePreRollConfiguration => L<Paws::MediaTailor::LivePreRollConfiguration>
 
@@ -182,7 +215,7 @@ MediaTailor.
 
 
 
-=head2 Name => Str
+=head2 B<REQUIRED> Name => Str
 
 The identifier for the playback configuration.
 
@@ -216,7 +249,11 @@ audio and video.
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags to assign to the playback configuration.
+The tags to assign to the playback configuration. Tags are key-value
+pairs that you can associate with Amazon resources to help with
+organization, access control, and cost tracking. For more information,
+see Tagging AWS Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 

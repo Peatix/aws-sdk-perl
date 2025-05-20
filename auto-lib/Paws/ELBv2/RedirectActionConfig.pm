@@ -98,7 +98,7 @@ The port. You can specify a value from 1 to 65535 or #{port}.
 =head2 Protocol => Str
 
 The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can
-redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot
+redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You can't
 redirect HTTPS to HTTP.
 
 

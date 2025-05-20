@@ -45,8 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> SecurityPolicyName => Str
 
-Specifies the name of the security policy that is attached to the
-server.
+Specify the text name of the security policy for which you want the
+details.
 
 
 

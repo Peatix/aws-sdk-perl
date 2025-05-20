@@ -102,10 +102,9 @@ in the I<Amazon SWF Developer Guide>.
 
 The C<activityId> of the activity task.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not contain the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 =head2 B<REQUIRED> ActivityType => L<Paws::SimpleWorkflow::ActivityType>
@@ -194,10 +193,9 @@ default for the activity type or through this field. If neither this
 field is set nor a default task list was specified at registration time
 then a fault is returned.
 
-The specified string must not start or end with whitespace. It must not
-contain a C<:> (colon), C</> (slash), C<|> (vertical bar), or any
-control characters (C<\u0000-\u001f> | C<\u007f-\u009f>). Also, it must
-not contain the literal string C<arn>.
+The specified string must not contain a C<:> (colon), C</> (slash),
+C<|> (vertical bar), or any control characters (C<\u0000-\u001f> |
+C<\u007f-\u009f>). Also, it must I<not> be the literal string C<arn>.
 
 
 =head2 TaskPriority => Str

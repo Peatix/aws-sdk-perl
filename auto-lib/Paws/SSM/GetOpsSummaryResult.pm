@@ -17,7 +17,7 @@ Paws::SSM::GetOpsSummaryResult
 
 =head2 Entities => ArrayRef[L<Paws::SSM::OpsEntity>]
 
-The list of aggregated and filtered OpsItems.
+The list of aggregated details and filtered OpsData.
 
 
 =head2 NextToken => Str

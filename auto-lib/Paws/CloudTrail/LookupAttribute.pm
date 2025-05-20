@@ -46,7 +46,11 @@ Specifies an attribute on which to filter the events returned.
 
 =head2 B<REQUIRED> AttributeValue => Str
 
-Specifies a value for the specified AttributeKey.
+Specifies a value for the specified C<AttributeKey>.
+
+The maximum length for the C<AttributeValue> is 2000 characters. The
+following characters ('C<_>', 'C< >', 'C<,>', 'C<\\n>') count as two
+characters towards the 2000 character limit.
 
 
 

@@ -40,19 +40,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-Represents a set of controls in an AWS Audit Manager assessment.
+Represents a set of controls in an Audit Manager assessment.
 
 =head1 ATTRIBUTES
 
 
 =head2 Controls => ArrayRef[L<Paws::AuditManager::AssessmentControl>]
 
-The list of controls contained with the control set.
+The list of controls that's contained with the control set.
 
 
 =head2 Delegations => ArrayRef[L<Paws::AuditManager::Delegation>]
 
-The delegations associated with the control set.
+The delegations that are associated with the control set.
 
 
 =head2 Description => Str
@@ -68,24 +68,24 @@ control set name in a plain string format.
 
 =head2 ManualEvidenceCount => Int
 
-The total number of evidence objects uploaded manually to the control
-set.
+The total number of evidence objects that are uploaded manually to the
+control set.
 
 
 =head2 Roles => ArrayRef[L<Paws::AuditManager::Role>]
 
-The roles associated with the control set.
+The roles that are associated with the control set.
 
 
 =head2 Status => Str
 
-Specifies the current status of the control set.
+The current status of the control set.
 
 
 =head2 SystemEvidenceCount => Int
 
-The total number of evidence objects retrieved automatically for the
-control set.
+The total number of evidence objects that are retrieved automatically
+for the control set.
 
 
 

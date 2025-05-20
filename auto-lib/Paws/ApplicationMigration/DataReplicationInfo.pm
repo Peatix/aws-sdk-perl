@@ -6,6 +6,7 @@ package Paws::ApplicationMigration::DataReplicationInfo;
   has DataReplicationState => (is => 'ro', isa => 'Str', request_name => 'dataReplicationState', traits => ['NameInRequest']);
   has EtaDateTime => (is => 'ro', isa => 'Str', request_name => 'etaDateTime', traits => ['NameInRequest']);
   has LagDuration => (is => 'ro', isa => 'Str', request_name => 'lagDuration', traits => ['NameInRequest']);
+  has LastSnapshotDateTime => (is => 'ro', isa => 'Str', request_name => 'lastSnapshotDateTime', traits => ['NameInRequest']);
   has ReplicatedDisks => (is => 'ro', isa => 'ArrayRef[Paws::ApplicationMigration::DataReplicationInfoReplicatedDisk]', request_name => 'replicatedDisks', traits => ['NameInRequest']);
 
 1;
@@ -65,7 +66,12 @@ Request to query the time when data replication will be complete.
 
 =head2 LagDuration => Str
 
-Request to query data replication lag durating.
+Request to query data replication lag duration.
+
+
+=head2 LastSnapshotDateTime => Str
+
+Request to query data replication last snapshot time.
 
 
 =head2 ReplicatedDisks => ArrayRef[L<Paws::ApplicationMigration::DataReplicationInfoReplicatedDisk>]

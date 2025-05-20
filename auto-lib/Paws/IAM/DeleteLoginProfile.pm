@@ -1,7 +1,7 @@
 
 package Paws::IAM::DeleteLoginProfile;
   use Moose;
-  has UserName => (is => 'ro', isa => 'Str', required => 1);
+  has UserName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -38,9 +38,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> UserName => Str
+=head2 UserName => Str
 
 The name of the user whose password you want to delete.
+
+This parameter is optional. If no user name is included, it defaults to
+the principal making the request. When you make this request with root
+user credentials, you must use an AssumeRoot
+(https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+session to omit the user name.
 
 This parameter allows (through its regex pattern
 (http://wikipedia.org/wiki/regex)) a string of characters consisting of

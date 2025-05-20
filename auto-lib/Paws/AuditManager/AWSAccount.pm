@@ -35,25 +35,26 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The wrapper of AWS account details, such as account ID, email address,
-and so on.
+The wrapper of Amazon Web Services account details, such as account ID
+or email address.
 
 =head1 ATTRIBUTES
 
 
 =head2 EmailAddress => Str
 
-The email address associated with the specified AWS account.
+The email address that's associated with the Amazon Web Services
+account.
 
 
 =head2 Id => Str
 
-The identifier for the specified AWS account.
+The identifier for the Amazon Web Services account.
 
 
 =head2 Name => Str
 
-The name of the specified AWS account.
+The name of the Amazon Web Services account.
 
 
 

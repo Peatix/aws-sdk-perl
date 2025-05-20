@@ -7,6 +7,7 @@ package Paws::DeviceFarm::RemoteAccessSession;
   has Created => (is => 'ro', isa => 'Str', request_name => 'created', traits => ['NameInRequest']);
   has Device => (is => 'ro', isa => 'Paws::DeviceFarm::Device', request_name => 'device', traits => ['NameInRequest']);
   has DeviceMinutes => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceMinutes', request_name => 'deviceMinutes', traits => ['NameInRequest']);
+  has DeviceProxy => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceProxy', request_name => 'deviceProxy', traits => ['NameInRequest']);
   has DeviceUdid => (is => 'ro', isa => 'Str', request_name => 'deviceUdid', traits => ['NameInRequest']);
   has Endpoint => (is => 'ro', isa => 'Str', request_name => 'endpoint', traits => ['NameInRequest']);
   has HostAddress => (is => 'ro', isa => 'Str', request_name => 'hostAddress', traits => ['NameInRequest']);
@@ -22,6 +23,7 @@ package Paws::DeviceFarm::RemoteAccessSession;
   has Started => (is => 'ro', isa => 'Str', request_name => 'started', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Stopped => (is => 'ro', isa => 'Str', request_name => 'stopped', traits => ['NameInRequest']);
+  has VpcConfig => (is => 'ro', isa => 'Paws::DeviceFarm::VpcConfig', request_name => 'vpcConfig', traits => ['NameInRequest']);
 
 1;
 
@@ -42,7 +44,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DeviceFarm::RemoteAccessSession object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Stopped => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., VpcConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -94,6 +96,11 @@ The device (phone or tablet) used in the remote access session.
 
 The number of minutes a device is used in a remote access session
 (including setup and teardown minutes).
+
+
+=head2 DeviceProxy => L<Paws::DeviceFarm::DeviceProxy>
+
+The device proxy configured for the remote access session.
 
 
 =head2 DeviceUdid => Str
@@ -228,7 +235,7 @@ your app again. For public devices, Device Farm always signs your apps
 again.
 
 For more information about how Device Farm re-signs your apps, see Do
-you modify my app? (https://aws.amazon.com/device-farm/faq/) in the
+you modify my app? (http://aws.amazon.com/device-farm/faqs/) in the
 I<AWS Device Farm FAQs>.
 
 
@@ -286,6 +293,11 @@ STOPPING.
 =head2 Stopped => Str
 
 The date and time the remote access session was stopped.
+
+
+=head2 VpcConfig => L<Paws::DeviceFarm::VpcConfig>
+
+The VPC security groups and subnets that are attached to a project.
 
 
 

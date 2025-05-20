@@ -33,19 +33,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+# To update a deployment strategy
+# The following update-deployment-strategy example updates final bake time to 20
+# minutes in the specified deployment strategy. ::
+
     my $DeploymentStrategy = $appconfig->UpdateDeploymentStrategy(
-      DeploymentStrategyId        => 'MyDeploymentStrategyId',
-      DeploymentDurationInMinutes => 1,                          # OPTIONAL
-      Description                 => 'MyDescription',            # OPTIONAL
-      FinalBakeTimeInMinutes      => 1,                          # OPTIONAL
-      GrowthFactor                => 1.0,                        # OPTIONAL
-      GrowthType                  => 'LINEAR',                   # OPTIONAL
+      'DeploymentStrategyId'   => '1225qzk',
+      'FinalBakeTimeInMinutes' => 20
     );
 
     # Results:
     my $DeploymentDurationInMinutes =
       $DeploymentStrategy->DeploymentDurationInMinutes;
-    my $Description            = $DeploymentStrategy->Description;
     my $FinalBakeTimeInMinutes = $DeploymentStrategy->FinalBakeTimeInMinutes;
     my $GrowthFactor           = $DeploymentStrategy->GrowthFactor;
     my $GrowthType             = $DeploymentStrategy->GrowthType;
@@ -81,9 +80,9 @@ A description of the deployment strategy.
 
 =head2 FinalBakeTimeInMinutes => Int
 
-The amount of time AppConfig monitors for alarms before considering the
-deployment to be complete and no longer eligible for automatic roll
-back.
+The amount of time that AppConfig monitors for alarms before
+considering the deployment to be complete and no longer eligible for
+automatic rollback.
 
 
 
@@ -96,8 +95,8 @@ each interval.
 
 =head2 GrowthType => Str
 
-The algorithm used to define how percentage grows over time. AWS
-AppConfig supports the following growth types:
+The algorithm used to define how percentage grows over time. AppConfig
+supports the following growth types:
 
 B<Linear>: For this type, AppConfig processes the deployment by
 increments of the growth factor evenly distributed over the deployment

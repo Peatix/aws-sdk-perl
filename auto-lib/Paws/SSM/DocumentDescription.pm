@@ -4,6 +4,8 @@ package Paws::SSM::DocumentDescription;
   has ApprovedVersion => (is => 'ro', isa => 'Str');
   has AttachmentsInformation => (is => 'ro', isa => 'ArrayRef[Paws::SSM::AttachmentInformation]');
   has Author => (is => 'ro', isa => 'Str');
+  has Category => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has CategoryEnum => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has CreatedDate => (is => 'ro', isa => 'Str');
   has DefaultVersion => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
@@ -60,7 +62,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Docume
 
 =head1 DESCRIPTION
 
-Describes a Systems Manager document.
+Describes an Amazon Web Services Systems Manager document (SSM
+document).
 
 =head1 ATTRIBUTES
 
@@ -82,6 +85,17 @@ sizes, and so on.
 The user in your organization who created the document.
 
 
+=head2 Category => ArrayRef[Str|Undef]
+
+The classification of a document to help you identify and categorize
+its use.
+
+
+=head2 CategoryEnum => ArrayRef[Str|Undef]
+
+The value that identifies a document's category.
+
+
 =head2 CreatedDate => Str
 
 The date when the document was created.
@@ -99,9 +113,9 @@ A description of the document.
 
 =head2 DisplayName => Str
 
-The friendly name of the Systems Manager document. This value can
-differ for each version of the document. If you want to update this
-value, see UpdateDocument.
+The friendly name of the SSM document. This value can differ for each
+version of the document. If you want to update this value, see
+UpdateDocument.
 
 
 =head2 DocumentFormat => Str
@@ -142,12 +156,12 @@ The latest version of the document.
 
 =head2 Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 =head2 Owner => Str
 
-The AWS user account that created the document.
+The Amazon Web Services user that created the document.
 
 
 =head2 Parameters => ArrayRef[L<Paws::SSM::DocumentParameter>]
@@ -162,7 +176,8 @@ The version of the document that is currently under review.
 
 =head2 PlatformTypes => ArrayRef[Str|Undef]
 
-The list of OS platforms compatible with this Systems Manager document.
+The list of operating system (OS) platforms compatible with this SSM
+document.
 
 
 =head2 Requires => ArrayRef[L<Paws::SSM::DocumentRequires>]
@@ -194,15 +209,15 @@ The SHA1 hash of the document, which you can use for verification.
 
 =head2 Status => Str
 
-The status of the Systems Manager document.
+The status of the SSM document.
 
 
 =head2 StatusInformation => Str
 
-A message returned by AWS Systems Manager that explains the C<Status>
-value. For example, a C<Failed> status might be explained by the
-C<StatusInformation> message, "The specified S3 bucket does not exist.
-Verify that the URL of the S3 bucket is correct."
+A message returned by Amazon Web Services Systems Manager that explains
+the C<Status> value. For example, a C<Failed> status might be explained
+by the C<StatusInformation> message, "The specified S3 bucket doesn't
+exist. Verify that the URL of the S3 bucket is correct."
 
 
 =head2 Tags => ArrayRef[L<Paws::SSM::Tag>]
@@ -213,10 +228,11 @@ The tags, or metadata, that have been applied to the document.
 =head2 TargetType => Str
 
 The target type which defines the kinds of resources the document can
-run on. For example, /AWS::EC2::Instance. For a list of valid resource
-types, see AWS resource and property types reference
+run on. For example, C</AWS::EC2::Instance>. For a list of valid
+resource types, see Amazon Web Services resource and property types
+reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 
 =head2 VersionName => Str

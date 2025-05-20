@@ -38,8 +38,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CallAs       => 'SELF',             # OPTIONAL
       Filters      => [
         {
-          Name   => 'DETAILED_STATUS',    # values: DETAILED_STATUS; OPTIONAL
-          Values => 'MyStackInstanceFilterValues',   # min: 6, max: 10; OPTIONAL
+          Name => 'DETAILED_STATUS'
+          , # values: DETAILED_STATUS, LAST_OPERATION_ID, DRIFT_STATUS; OPTIONAL
+          Values => 'MyStackInstanceFilterValues',  # min: 1, max: 128; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -81,11 +82,11 @@ If you are signed in to the management account, specify C<SELF>.
 If you are signed in to a delegated administrator account, specify
 C<DELEGATED_ADMIN>.
 
-Your AWS account must be registered as a delegated administrator in the
-management account. For more information, see Register a delegated
-administrator
+Your Amazon Web Services account must be registered as a delegated
+administrator in the management account. For more information, see
+Register a delegated administrator
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =back
 
@@ -94,7 +95,7 @@ Valid values are: C<"SELF">, C<"DELEGATED_ADMIN">
 
 =head2 Filters => ArrayRef[L<Paws::CloudFormation::StackInstanceFilter>]
 
-The status that stack instances are filtered by.
+The filter to apply to stack instances
 
 
 
@@ -109,7 +110,7 @@ parameter to get the next set of results.
 
 =head2 NextToken => Str
 
-If the previous request didn't return all of the remaining results, the
+If the previous request didn't return all the remaining results, the
 response's C<NextToken> parameter value is set to a token. To retrieve
 the next set of results, call C<ListStackInstances> again and assign
 that token to the request object's C<NextToken> parameter. If there are
@@ -120,7 +121,8 @@ parameter is set to C<null>.
 
 =head2 StackInstanceAccount => Str
 
-The name of the AWS account that you want to list stack instances for.
+The name of the Amazon Web Services account that you want to list stack
+instances for.
 
 
 

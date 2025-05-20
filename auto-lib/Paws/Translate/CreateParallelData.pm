@@ -6,6 +6,7 @@ package Paws::Translate::CreateParallelData;
   has EncryptionKey => (is => 'ro', isa => 'Paws::Translate::EncryptionKey');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has ParallelDataConfig => (is => 'ro', isa => 'Paws::Translate::ParallelDataConfig', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Translate::Tag]');
 
   use MooseX::ClassAttribute;
 
@@ -35,9 +36,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClientToken        => 'MyClientTokenString',
       Name               => 'MyResourceName',
       ParallelDataConfig => {
-        Format => 'TSV',        # values: TSV, CSV, TMX
-        S3Uri  => 'MyS3Uri',    # max: 1024
-
+        Format => 'TSV',        # values: TSV, CSV, TMX; OPTIONAL
+        S3Uri  => 'MyS3Uri',    # max: 1024; OPTIONAL
       },
       Description   => 'MyDescription',    # OPTIONAL
       EncryptionKey => {
@@ -45,6 +45,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Type => 'KMS',                     # values: KMS
 
       },    # OPTIONAL
+      Tags => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -89,6 +97,15 @@ must assign a name that is unique in the account and region.
 =head2 B<REQUIRED> ParallelDataConfig => L<Paws::Translate::ParallelDataConfig>
 
 Specifies the format and S3 location of the parallel data input file.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Translate::Tag>]
+
+Tags to be associated with this resource. A tag is a key-value pair
+that adds metadata to a resource. Each tag key for the resource must be
+unique. For more information, see Tagging your resources
+(https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
 
 
 

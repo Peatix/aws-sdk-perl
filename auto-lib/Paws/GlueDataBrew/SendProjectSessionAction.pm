@@ -42,7 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Operation  => 'MyOperation',           # min: 1, max: 128
           Parameters => {
             'MyParameterName' => 'MyParameterValue'
-            ,    # key: min: 1, max: 128, value: min: 1, max: 12288
+            ,    # key: min: 1, max: 128, value: min: 1, max: 32768
           },    # OPTIONAL
         },
         ConditionExpressions => [
@@ -57,10 +57,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       StepIndex => 1,    # OPTIONAL
       ViewFrame => {
         StartColumnIndex => 1,
-        ColumnRange      => 1,    # max: 20; OPTIONAL
+        Analytics        => 'ENABLE',    # values: ENABLE, DISABLE; OPTIONAL
+        ColumnRange      => 1,           # max: 20; OPTIONAL
         HiddenColumns    => [
-          'MyColumnName', ...     # min: 1, max: 255
+          'MyColumnName', ...            # min: 1, max: 255
         ],    # OPTIONAL
+        RowRange      => 1,    # OPTIONAL
+        StartRowIndex => 1,    # OPTIONAL
       },    # OPTIONAL
     );
 

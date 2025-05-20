@@ -28,10 +28,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $secretsmanager = Paws->service('SecretsManager');
+    # To validate a resource-based policy to a secret
+    # The following example shows how to validate a resource-based policy to a
+    # secret.
     my $ValidateResourcePolicyResponse =
       $secretsmanager->ValidateResourcePolicy(
-      ResourcePolicy => 'MyNonEmptyResourcePolicyType',
-      SecretId       => 'MySecretIdType',                 # OPTIONAL
+      'ResourcePolicy' => '{
+"Version":"2012-10-17",
+"Statement":[{
+"Effect":"Allow",
+"Principal":{
+"AWS":"arn:aws:iam::123456789012:root"
+},
+"Action":"secretsmanager:GetSecretValue",
+"Resource":"*"
+}]
+}',
+      'SecretId' => 'MyTestDatabaseSecret'
       );
 
     # Results:
@@ -49,41 +62,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> ResourcePolicy => Str
 
-A JSON-formatted string constructed according to the grammar and syntax
-for an AWS resource-based policy. The policy in the string identifies
-who can access or manage this secret and its versions. For information
-on how to format a JSON parameter for the various command line tool
-environments, see Using JSON for Parameters
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json)
-in the I<AWS CLI User Guide>.publi
+A JSON-formatted string that contains an Amazon Web Services
+resource-based policy. The policy in the string identifies who can
+access or manage this secret and its versions. For example policies,
+see Permissions policy examples
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html).
 
 
 
 =head2 SecretId => Str
 
-(Optional) The identifier of the secret with the resource-based policy
-you want to validate. You can specify either the Amazon Resource Name
-(ARN) or the friendly name of the secret.
-
-If you specify an ARN, we generally recommend that you specify a
-complete ARN. You can specify a partial ARN tooE<mdash>for example, if
-you donE<rsquo>t include the final hyphen and six random characters
-that Secrets Manager adds at the end of the ARN when you created the
-secret. A partial ARN match can work as long as it uniquely matches
-only one secret. However, if your secret has a name that ends in a
-hyphen followed by six characters (before Secrets Manager adds the
-hyphen and six characters to the ARN) and you try to use that as a
-partial ARN, then those characters cause Secrets Manager to assume that
-youE<rsquo>re specifying a complete ARN. This confusion can cause
-unexpected results. To avoid this situation, we recommend that you
-donE<rsquo>t create secret names ending with a hyphen followed by six
-characters.
-
-If you specify an incomplete ARN without the random suffix, and instead
-provide the 'friendly name', you I<must> not include the random suffix.
-If you do include the random suffix added by Secrets Manager, you
-receive either a I<ResourceNotFoundException> or an
-I<AccessDeniedException> error, depending on your permissions.
+The ARN or name of the secret with the resource-based policy you want
+to validate.
 
 
 

@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Compli
 A summary of the call execution that includes an execution ID, the type
 of execution (for example, C<Command>), and the date/time of the
 execution using a datetime object that is saved in the following
-format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+format: C<yyyy-MM-dd'T'HH:mm:ss'Z'>
 
 =head1 ATTRIBUTES
 
@@ -53,7 +53,7 @@ subsequent calls.
 =head2 B<REQUIRED> ExecutionTime => Str
 
 The time the execution ran as a datetime object that is saved in the
-following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+following format: C<yyyy-MM-dd'T'HH:mm:ss'Z'>
 
 
 =head2 ExecutionType => Str

@@ -16,7 +16,7 @@ Paws::OpsWorks::RegisterInstanceResult
 
 =head2 InstanceId => Str
 
-The registered instance's AWS OpsWorks Stacks ID.
+The registered instance's OpsWorks Stacks ID.
 
 
 =head2 _request_id => Str

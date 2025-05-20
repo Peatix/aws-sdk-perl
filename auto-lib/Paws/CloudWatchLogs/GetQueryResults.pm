@@ -33,9 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Results    = $GetQueryResultsResponse->Results;
-    my $Statistics = $GetQueryResultsResponse->Statistics;
-    my $Status     = $GetQueryResultsResponse->Status;
+    my $EncryptionKey = $GetQueryResultsResponse->EncryptionKey;
+    my $QueryLanguage = $GetQueryResultsResponse->QueryLanguage;
+    my $Results       = $GetQueryResultsResponse->Results;
+    my $Statistics    = $GetQueryResultsResponse->Statistics;
+    my $Status        = $GetQueryResultsResponse->Status;
 
     # Returns a L<Paws::CloudWatchLogs::GetQueryResultsResponse> object.
 

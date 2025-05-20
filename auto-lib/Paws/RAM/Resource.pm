@@ -5,6 +5,7 @@ package Paws::RAM::Resource;
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
   has LastUpdatedTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedTime', traits => ['NameInRequest']);
   has ResourceGroupArn => (is => 'ro', isa => 'Str', request_name => 'resourceGroupArn', traits => ['NameInRequest']);
+  has ResourceRegionScope => (is => 'ro', isa => 'Str', request_name => 'resourceRegionScope', traits => ['NameInRequest']);
   has ResourceShareArn => (is => 'ro', isa => 'Str', request_name => 'resourceShareArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has StatusMessage => (is => 'ro', isa => 'Str', request_name => 'statusMessage', traits => ['NameInRequest']);
@@ -40,40 +41,69 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Resour
 
 =head1 DESCRIPTION
 
-Describes a resource associated with a resource share.
+Describes a resource associated with a resource share in RAM.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the resource.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource.
 
 
 =head2 CreationTime => Str
 
-The time when the resource was associated with the resource share.
+The date and time when the resource was associated with the resource
+share.
 
 
 =head2 LastUpdatedTime => Str
 
-The time when the association was last updated.
+The date an time when the association between the resource and the
+resource share was last updated.
 
 
 =head2 ResourceGroupArn => Str
 
-The ARN of the resource group. This value is returned only if the
-resource is a resource group.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource group. This value is available only if the resource is
+part of a resource group.
+
+
+=head2 ResourceRegionScope => Str
+
+Specifies the scope of visibility of this resource:
+
+=over
+
+=item *
+
+B<REGIONAL> E<ndash> The resource can be accessed only by using
+requests that target the Amazon Web Services Region in which the
+resource exists.
+
+=item *
+
+B<GLOBAL> E<ndash> The resource can be accessed from any Amazon Web
+Services Region.
+
+=back
+
 
 
 =head2 ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share this resource is associated with.
 
 
 =head2 Status => Str
 
-The status of the resource.
+The current status of the resource.
 
 
 =head2 StatusMessage => Str
@@ -83,7 +113,9 @@ A message about the status of the resource.
 
 =head2 Type => Str
 
-The resource type.
+The resource type. This takes the form of:
+C<service-code>:C<resource-code>, and is case-insensitive. For example,
+an Amazon EC2 Subnet would be represented by the string C<ec2:subnet>.
 
 
 

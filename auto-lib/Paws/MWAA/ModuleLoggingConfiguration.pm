@@ -35,9 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Modul
 
 =head1 DESCRIPTION
 
-Defines the type of logs to send for the Apache Airflow log type (e.g.
-C<DagProcessingLogs>). Valid values: C<CloudWatchLogGroupArn>,
-C<Enabled>, C<LogLevel>.
+Describes the Apache Airflow log details for the log type (e.g.
+C<DagProcessingLogs>).
 
 =head1 ATTRIBUTES
 
@@ -52,15 +51,14 @@ C<arn:aws:logs:us-east-1:123456789012:log-group:airflow-MyMWAAEnvironment-MwaaEn
 
 =head2 Enabled => Bool
 
-Indicates whether to enable the Apache Airflow log type (e.g.
-C<DagProcessingLogs>) in CloudWatch Logs.
+Indicates whether the Apache Airflow log type (e.g.
+C<DagProcessingLogs>) is enabled.
 
 
 =head2 LogLevel => Str
 
-Defines the Apache Airflow logs to send for the log type (e.g.
-C<DagProcessingLogs>) to CloudWatch Logs. Valid values: C<CRITICAL>,
-C<ERROR>, C<WARNING>, C<INFO>.
+The Apache Airflow log level for the log type (e.g.
+C<DagProcessingLogs>).
 
 
 

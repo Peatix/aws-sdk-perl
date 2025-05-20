@@ -50,16 +50,17 @@ RTC).
 
 Specify this only in a cross-account scenario (where source and
 destination bucket owners are not the same), and you want to change
-replica ownership to the AWS account that owns the destination bucket.
-If this is not specified in the replication configuration, the replicas
-are owned by same AWS account that owns the source object.
+replica ownership to the Amazon Web Services account that owns the
+destination bucket. If this is not specified in the replication
+configuration, the replicas are owned by same Amazon Web Services
+account that owns the source object.
 
 
 =head2 Account => Str
 
 Destination bucket owner account ID. In a cross-account scenario, if
-you direct Amazon S3 to change replica ownership to the AWS account
-that owns the destination bucket by specifying the
+you direct Amazon S3 to change replica ownership to the Amazon Web
+Services account that owns the destination bucket by specifying the
 C<AccessControlTranslation> property, this is the account ID of the
 destination bucket owner. For more information, see Replication
 Additional Configuration: Changing the Replica Owner

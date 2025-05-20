@@ -1,6 +1,7 @@
 
 package Paws::SSM::StartChangeRequestExecution;
   use Moose;
+  has AutoApprove => (is => 'ro', isa => 'Bool');
   has ChangeDetails => (is => 'ro', isa => 'Str');
   has ChangeRequestName => (is => 'ro', isa => 'Str');
   has ClientToken => (is => 'ro', isa => 'Str');
@@ -52,16 +53,48 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           TargetLocations => [
             {
               Accounts => [ 'MyAccount', ... ],    # min: 1, max: 50; OPTIONAL
+              ExcludeAccounts => [
+                'MyExcludeAccount', ...            # min: 6, max: 68
+              ],    # min: 1, max: 5000; OPTIONAL
               ExecutionRoleName =>
-                'MyExecutionRoleName',             # min: 1, max: 64; OPTIONAL
-              Regions => [ 'MyRegion', ... ],      # min: 1, max: 50; OPTIONAL
+                'MyExecutionRoleName',    # min: 1, max: 64; OPTIONAL
+              IncludeChildOrganizationUnits => 1,    # OPTIONAL
+              Regions => [ 'MyRegion', ... ],        # min: 1, max: 50; OPTIONAL
+              TargetLocationAlarmConfiguration => {
+                Alarms => [
+                  {
+                    Name => 'MyAlarmName',    # min: 1, max: 255
+
+                  },
+                  ...
+                ],    # min: 1, max: 1
+                IgnorePollAlarmFailure => 1,    # OPTIONAL
+              },    # OPTIONAL
               TargetLocationMaxConcurrency =>
-                'MyMaxConcurrency',                # min: 1, max: 7; OPTIONAL
+                'MyMaxConcurrency',    # min: 1, max: 7; OPTIONAL
               TargetLocationMaxErrors =>
-                'MyMaxErrors',                     # min: 1, max: 7; OPTIONAL
+                'MyMaxErrors',         # min: 1, max: 7; OPTIONAL
+              Targets => [
+                {
+                  Key    => 'MyTargetKey',    # min: 1, max: 163; OPTIONAL
+                  Values => [ 'MyTargetValue', ... ],    # max: 50; OPTIONAL
+                },
+                ...
+              ],    # max: 5; OPTIONAL
+              TargetsMaxConcurrency =>
+                'MyMaxConcurrency',    # min: 1, max: 7; OPTIONAL
+              TargetsMaxErrors => 'MyMaxErrors',    # min: 1, max: 7; OPTIONAL
             },
             ...
           ],    # min: 1, max: 100; OPTIONAL
+          TargetMaps => [
+            {
+              'MyTargetMapKey' => [
+                'MyTargetMapValue', ...    # min: 1, max: 50
+              ],    # key: min: 1, max: 50, value: max: 25
+            },
+            ...     # min: 1, max: 20
+          ],    # max: 300; OPTIONAL
           TargetParameterName => 'MyAutomationParameterKey',   # min: 1, max: 50
           Targets             => [
             {
@@ -73,6 +106,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
+      AutoApprove       => 1,                         # OPTIONAL
       ChangeDetails     => 'MyChangeDetailsValue',    # OPTIONAL
       ChangeRequestName => 'MyChangeRequestName',     # OPTIONAL
       ClientToken       => 'MyIdempotencyToken',      # OPTIONAL
@@ -87,7 +121,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags             => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -104,6 +138,23 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm/StartChangeRequestExecution>
 
 =head1 ATTRIBUTES
+
+
+=head2 AutoApprove => Bool
+
+Indicates whether the change request can be approved automatically
+without the need for manual approvals.
+
+If C<AutoApprovable> is enabled in a change template, then setting
+C<AutoApprove> to C<true> in C<StartChangeRequestExecution> creates a
+change request that bypasses approver review.
+
+Change Calendar restrictions are not bypassed in this scenario. If the
+state of an associated calendar is C<CLOSED>, change freeze approvers
+must still grant permission for this change request to run. If they
+don't, the change won't be processed until the calendar state is again
+C<OPEN>.
+
 
 
 =head2 ChangeDetails => Str
@@ -151,8 +202,8 @@ change template document.
 
 =head2 B<REQUIRED> Runbooks => ArrayRef[L<Paws::SSM::Runbook>]
 
-Information about the Automation runbooks (Automation documents) that
-are run during the runbook workflow.
+Information about the Automation runbooks that are run during the
+runbook workflow.
 
 The Automation runbooks specified for the runbook workflow can't run
 until all required approvals for the change request have been received.
@@ -183,8 +234,8 @@ Optional metadata that you assign to a resource. You can specify a
 maximum of five tags for a change request. Tags enable you to
 categorize a resource in different ways, such as by purpose, owner, or
 environment. For example, you might want to tag a change request to
-identify an environment or target AWS Region. In this case, you could
-specify the following key-value pairs:
+identify an environment or target Amazon Web Services Region. In this
+case, you could specify the following key-value pairs:
 
 =over
 
@@ -198,6 +249,11 @@ C<Key=Region,Value=us-east-2>
 
 =back
 
+The C<Array Members> maximum value is reported as 1000. This number
+includes capacity reserved for internal operations. When calling the
+C<StartChangeRequestExecution> action, you can specify a maximum of 5
+tags. You can, however, use the AddTagsToResource action to add up to a
+total of 50 tags to an existing change request configuration.
 
 
 

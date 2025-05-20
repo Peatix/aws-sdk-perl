@@ -35,16 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Glue::Physi
 
 =head1 DESCRIPTION
 
-Specifies the physical requirements for a connection.
+The OAuth client app in GetConnection response.
 
 =head1 ATTRIBUTES
 
 
 =head2 AvailabilityZone => Str
 
-The connection's Availability Zone. This field is redundant because the
-specified subnet implies the Availability Zone to be used. Currently
-the field must be populated, but it will be deprecated in the future.
+The connection's Availability Zone.
 
 
 =head2 SecurityGroupIdList => ArrayRef[Str|Undef]

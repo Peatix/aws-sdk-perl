@@ -4,11 +4,14 @@ package Paws::MediaTailor::ScheduleEntry;
   has ApproximateDurationSeconds => (is => 'ro', isa => 'Int');
   has ApproximateStartTime => (is => 'ro', isa => 'Str');
   has Arn => (is => 'ro', isa => 'Str', required => 1);
+  has Audiences => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ChannelName => (is => 'ro', isa => 'Str', required => 1);
+  has LiveSourceName => (is => 'ro', isa => 'Str');
   has ProgramName => (is => 'ro', isa => 'Str', required => 1);
   has ScheduleAdBreaks => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::ScheduleAdBreak]');
+  has ScheduleEntryType => (is => 'ro', isa => 'Str');
   has SourceLocationName => (is => 'ro', isa => 'Str', required => 1);
-  has VodSourceName => (is => 'ro', isa => 'Str', required => 1);
+  has VodSourceName => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -60,9 +63,19 @@ The approximate time that the program will start playing.
 The ARN of the program.
 
 
+=head2 Audiences => ArrayRef[Str|Undef]
+
+The list of audiences defined in ScheduleEntry.
+
+
 =head2 B<REQUIRED> ChannelName => Str
 
 The name of the channel that uses this schedule.
+
+
+=head2 LiveSourceName => Str
+
+The name of the live source used for the program.
 
 
 =head2 B<REQUIRED> ProgramName => Str
@@ -75,12 +88,17 @@ The name of the program.
 The schedule's ad break properties.
 
 
+=head2 ScheduleEntryType => Str
+
+The type of schedule entry.
+
+
 =head2 B<REQUIRED> SourceLocationName => Str
 
 The name of the source location.
 
 
-=head2 B<REQUIRED> VodSourceName => Str
+=head2 VodSourceName => Str
 
 The name of the VOD source.
 

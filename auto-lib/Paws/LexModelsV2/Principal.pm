@@ -50,8 +50,8 @@ The Amazon Resource Name (ARN) of the principal.
 
 =head2 Service => Str
 
-The name of the AWS service that should allowed or denied access to an
-Amazon Lex action.
+The name of the Amazon Web Services service that should allowed or
+denied access to an Amazon Lex action.
 
 
 

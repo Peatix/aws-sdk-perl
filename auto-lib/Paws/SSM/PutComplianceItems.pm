@@ -78,7 +78,7 @@ State Manager association), Patch, or Custom:C<string>.
 A summary of the call execution that includes an execution ID, the type
 of execution (for example, C<Command>), and the date/time of the
 execution using a datetime object that is saved in the following
-format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+format: C<yyyy-MM-dd'T'HH:mm:ss'Z'>
 
 
 
@@ -100,8 +100,8 @@ about the PatchSeverity, Classification, and so on.
 
 =head2 B<REQUIRED> ResourceId => Str
 
-Specify an ID for this resource. For a managed instance, this is the
-instance ID.
+Specify an ID for this resource. For a managed node, this is the node
+ID.
 
 
 

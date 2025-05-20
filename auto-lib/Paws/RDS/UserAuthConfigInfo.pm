@@ -2,6 +2,7 @@
 package Paws::RDS::UserAuthConfigInfo;
   use Moose;
   has AuthScheme => (is => 'ro', isa => 'Str');
+  has ClientPasswordAuthType => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has IAMAuth => (is => 'ro', isa => 'Str');
   has SecretArn => (is => 'ro', isa => 'Str');
@@ -47,6 +48,11 @@ specific database user.
 
 The type of authentication that the proxy uses for connections from the
 proxy to the underlying database.
+
+
+=head2 ClientPasswordAuthType => Str
+
+The type of authentication the proxy uses for connections from clients.
 
 
 =head2 Description => Str

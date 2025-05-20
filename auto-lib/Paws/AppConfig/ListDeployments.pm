@@ -31,16 +31,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+# To list the available deployments
+# The following list-deployments example lists the available deployments in your
+# AWS account for the specified application and environment.
     my $Deployments = $appconfig->ListDeployments(
-      ApplicationId => 'MyId',
-      EnvironmentId => 'MyId',
-      MaxResults    => 1,                # OPTIONAL
-      NextToken     => 'MyNextToken',    # OPTIONAL
+      'ApplicationId' => '339ohji',
+      'EnvironmentId' => '54j1r29'
     );
 
     # Results:
-    my $Items     = $Deployments->Items;
-    my $NextToken = $Deployments->NextToken;
+    my $Items = $Deployments->Items;
 
     # Returns a L<Paws::AppConfig::Deployments> object.
 
@@ -64,16 +64,18 @@ The environment ID.
 
 =head2 MaxResults => Int
 
-The maximum number of items to return for this call. The call also
-returns a token that you can specify in a subsequent call to get the
-next set of results.
+The maximum number of items that may be returned for this call. If
+there are items that have not yet been returned, the response will
+include a non-null C<NextToken> that you can provide in a subsequent
+call to get the next set of results.
 
 
 
 =head2 NextToken => Str
 
-A token to start the list. Use this token to get the next set of
-results.
+The token returned by a prior call to this operation indicating the
+next set of results to be returned. If not specified, the operation
+will return the first set of results.
 
 
 

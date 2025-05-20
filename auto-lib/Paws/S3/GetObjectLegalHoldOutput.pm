@@ -18,7 +18,7 @@ Paws::S3::GetObjectLegalHoldOutput
 
 =head2 LegalHold => L<Paws::S3::ObjectLockLegalHold>
 
-The current Legal Hold status for the specified object.
+The current legal hold status for the specified object.
 
 
 

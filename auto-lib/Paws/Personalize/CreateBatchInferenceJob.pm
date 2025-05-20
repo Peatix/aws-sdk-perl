@@ -2,6 +2,7 @@
 package Paws::Personalize::CreateBatchInferenceJob;
   use Moose;
   has BatchInferenceJobConfig => (is => 'ro', isa => 'Paws::Personalize::BatchInferenceJobConfig', traits => ['NameInRequest'], request_name => 'batchInferenceJobConfig' );
+  has BatchInferenceJobMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'batchInferenceJobMode' );
   has FilterArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterArn' );
   has JobInput => (is => 'ro', isa => 'Paws::Personalize::BatchInferenceJobInput', traits => ['NameInRequest'], request_name => 'jobInput' , required => 1);
   has JobName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobName' , required => 1);
@@ -9,6 +10,8 @@ package Paws::Personalize::CreateBatchInferenceJob;
   has NumResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'numResults' );
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn' , required => 1);
   has SolutionVersionArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'solutionVersionArn' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
+  has ThemeGenerationConfig => (is => 'ro', isa => 'Paws::Personalize::ThemeGenerationConfig', traits => ['NameInRequest'], request_name => 'themeGenerationConfig' );
 
   use MooseX::ClassAttribute;
 
@@ -38,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       JobInput => {
         S3DataSource => {
           Path      => 'MyS3Location',    # max: 256
-          KmsKeyArn => 'MyKmsKeyArn',     # OPTIONAL
+          KmsKeyArn => 'MyKmsKeyArn',     # max: 2048; OPTIONAL
         },
 
       },
@@ -46,7 +49,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       JobOutput => {
         S3DataDestination => {
           Path      => 'MyS3Location',    # max: 256
-          KmsKeyArn => 'MyKmsKeyArn',     # OPTIONAL
+          KmsKeyArn => 'MyKmsKeyArn',     # max: 2048; OPTIONAL
         },
 
       },
@@ -58,8 +61,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'MyParameterValue',           # key: max: 256, value: max: 1000
         },    # max: 100; OPTIONAL
       },    # OPTIONAL
-      FilterArn  => 'MyArn',    # OPTIONAL
-      NumResults => 1,          # OPTIONAL
+      BatchInferenceJobMode => 'BATCH_INFERENCE',    # OPTIONAL
+      FilterArn             => 'MyArn',              # OPTIONAL
+      NumResults            => 1,                    # OPTIONAL
+      Tags                  => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
+      ThemeGenerationConfig => {
+        FieldsForThemeGeneration => {
+          ItemName => 'MyColumnName',    # max: 150
+
+        },
+
+      },    # OPTIONAL
     );
 
     # Results:
@@ -80,11 +99,23 @@ The configuration details of a batch inference job.
 
 
 
+=head2 BatchInferenceJobMode => Str
+
+The mode of the batch inference job. To generate descriptive themes for
+groups of similar items, set the job mode to C<THEME_GENERATION>. If
+you don't want to generate themes, use the default C<BATCH_INFERENCE>.
+
+When you get batch recommendations with themes, you will incur
+additional costs. For more information, see Amazon Personalize pricing
+(https://aws.amazon.com/personalize/pricing/).
+
+Valid values are: C<"BATCH_INFERENCE">, C<"THEME_GENERATION">
+
 =head2 FilterArn => Str
 
 The ARN of the filter to apply to the batch inference job. For more
-information on using filters, see Filtering Batch Recommendations
-(https://docs.aws.amazon.com/personalize/latest/dg/filter-batch.html)..
+information on using filters, see Filtering batch recommendations
+(https://docs.aws.amazon.com/personalize/latest/dg/filter-batch.html).
 
 
 
@@ -109,7 +140,7 @@ The path to the Amazon S3 bucket where the job's output will be stored.
 
 =head2 NumResults => Int
 
-The number of recommendations to retreive.
+The number of recommendations to retrieve.
 
 
 
@@ -125,6 +156,21 @@ buckets respectively.
 
 The Amazon Resource Name (ARN) of the solution version that will be
 used to generate the batch inference recommendations.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the batch inference job.
+
+
+
+=head2 ThemeGenerationConfig => L<Paws::Personalize::ThemeGenerationConfig>
+
+For theme generation jobs, specify the name of the column in your Items
+dataset that contains each item's name.
 
 
 

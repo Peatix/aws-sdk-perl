@@ -91,7 +91,8 @@ C<available> | C<deleting> | C<deleted>).
 
 =item *
 
-C<owner-id> - The AWS account ID of the owner of the carrier gateway.
+C<owner-id> - The Amazon Web Services account ID of the owner of the
+carrier gateway.
 
 =item *
 

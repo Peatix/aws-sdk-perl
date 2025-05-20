@@ -17,7 +17,7 @@ Paws::EC2::ModifyTransitGatewayResult
 
 =head2 TransitGateway => L<Paws::EC2::TransitGateway>
 
-
+Information about the transit gateway.
 
 
 =head2 _request_id => Str

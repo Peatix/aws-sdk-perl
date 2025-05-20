@@ -24,7 +24,7 @@ additional items to return, the string is empty.
 
 =head2 VpcEndpoints => ArrayRef[L<Paws::EC2::VpcEndpoint>]
 
-Information about the endpoints.
+Information about the VPC endpoints.
 
 
 =head2 _request_id => Str

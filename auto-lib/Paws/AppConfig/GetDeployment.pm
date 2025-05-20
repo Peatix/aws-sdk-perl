@@ -30,11 +30,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+   # To retrieve deployment details
+   # The following get-deployment example lists details of the deployment to the
+   # application in the specified environment and deployment.
     my $Deployment = $appconfig->GetDeployment(
-      ApplicationId    => 'MyId',
-      DeploymentNumber => 1,
-      EnvironmentId    => 'MyId',
-
+      'ApplicationId'    => '339ohji',
+      'DeploymentNumber' => 1,
+      'EnvironmentId'    => '54j1r29'
     );
 
     # Results:
@@ -47,7 +49,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DeploymentDurationInMinutes = $Deployment->DeploymentDurationInMinutes;
     my $DeploymentNumber            = $Deployment->DeploymentNumber;
     my $DeploymentStrategyId        = $Deployment->DeploymentStrategyId;
-    my $Description                 = $Deployment->Description;
     my $EnvironmentId               = $Deployment->EnvironmentId;
     my $EventLog                    = $Deployment->EventLog;
     my $FinalBakeTimeInMinutes      = $Deployment->FinalBakeTimeInMinutes;

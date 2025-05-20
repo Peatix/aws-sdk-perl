@@ -57,12 +57,12 @@ The name of the data store.
 
 =head2 DatastorePartitions => L<Paws::IoTAnalytics::DatastorePartitions>
 
-Contains information about the partitions in a data store.
+Contains information about the partition dimensions in a data store.
 
 
 =head2 DatastoreStorage => L<Paws::IoTAnalytics::DatastoreStorageSummary>
 
-Where data store data is stored.
+Where data in a data store is stored.
 
 
 =head2 FileFormatType => Str
@@ -74,9 +74,9 @@ The file format of the data in the data store.
 
 The last time when a new message arrived in the data store.
 
-AWS IoT Analytics updates this value at most once per minute for one
-data store. Hence, the C<lastMessageArrivalTime> value is an
-approximation.
+IoT Analytics updates this value at most once per minute for Amazon
+Simple Storage Service one data store. Hence, the
+C<lastMessageArrivalTime> value is an approximation.
 
 This feature only applies to messages that arrived in the data store
 after October 23, 2020.

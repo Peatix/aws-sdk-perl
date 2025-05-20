@@ -4,13 +4,14 @@ package Paws::MediaTailor::CreateSourceLocation;
   has AccessConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::AccessConfiguration');
   has DefaultSegmentDeliveryConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::DefaultSegmentDeliveryConfiguration');
   has HttpConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::HttpConfiguration', required => 1);
-  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceLocationName', required => 1);
+  has SegmentDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::SegmentDeliveryConfiguration]');
+  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceLocationName', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::MediaTailor::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'CreateSourceLocation');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{sourceLocationName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{SourceLocationName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::CreateSourceLocationResponse');
 1;
@@ -39,16 +40,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       SourceLocationName  => 'My__string',
       AccessConfiguration => {
-        AccessType =>
-          'S3_SIGV4', # values: S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN; OPTIONAL
+        AccessType => 'S3_SIGV4'
+        , # values: S3_SIGV4, SECRETS_MANAGER_ACCESS_TOKEN, AUTODETECT_SIGV4; OPTIONAL
         SecretsManagerAccessTokenConfiguration => {
           HeaderName      => 'My__string',
           SecretArn       => 'My__string',
           SecretStringKey => 'My__string',
-        },            # OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
       DefaultSegmentDeliveryConfiguration => { BaseUrl => 'My__string', }
-      ,                                             # OPTIONAL
+      ,     # OPTIONAL
+      SegmentDeliveryConfigurations => [
+        {
+          BaseUrl => 'My__string',
+          Name    => 'My__string',
+        },
+        ...
+      ],    # OPTIONAL
       Tags => { 'My__string' => 'My__string', },    # OPTIONAL
     );
 
@@ -59,8 +67,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationTime = $CreateSourceLocationResponse->CreationTime;
     my $DefaultSegmentDeliveryConfiguration =
       $CreateSourceLocationResponse->DefaultSegmentDeliveryConfiguration;
-    my $HttpConfiguration  = $CreateSourceLocationResponse->HttpConfiguration;
-    my $LastModifiedTime   = $CreateSourceLocationResponse->LastModifiedTime;
+    my $HttpConfiguration = $CreateSourceLocationResponse->HttpConfiguration;
+    my $LastModifiedTime  = $CreateSourceLocationResponse->LastModifiedTime;
+    my $SegmentDeliveryConfigurations =
+      $CreateSourceLocationResponse->SegmentDeliveryConfigurations;
     my $SourceLocationName = $CreateSourceLocationResponse->SourceLocationName;
     my $Tags               = $CreateSourceLocationResponse->Tags;
 
@@ -91,15 +101,26 @@ The source's HTTP package configurations.
 
 
 
+=head2 SegmentDeliveryConfigurations => ArrayRef[L<Paws::MediaTailor::SegmentDeliveryConfiguration>]
+
+A list of the segment delivery configurations associated with this
+resource.
+
+
+
 =head2 B<REQUIRED> SourceLocationName => Str
 
-The identifier for the source location you are working on.
+The name associated with the source location.
 
 
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags to assign to the source location.
+The tags to assign to the source location. Tags are key-value pairs
+that you can associate with Amazon resources to help with organization,
+access control, and cost tracking. For more information, see Tagging
+AWS Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 

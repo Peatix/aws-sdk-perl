@@ -44,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 
 =head1 DESCRIPTION
 
-An update that you can apply to your Redis clusters.
+An update that you can apply to your Valkey or Redis OSS clusters.
 
 =head1 ATTRIBUTES
 
@@ -57,14 +57,14 @@ the recommended apply-by date has expired.
 
 =head2 Engine => Str
 
-The Elasticache engine to which the update applies. Either Redis or
-Memcached
+The Elasticache engine to which the update applies. Either Valkey,
+Redis OSS or Memcached.
 
 
 =head2 EngineVersion => Str
 
 The Elasticache engine version to which the update applies. Either
-Redis or Memcached engine version
+Valkey, Redis OSS or Memcached engine version.
 
 
 =head2 EstimatedUpdateTime => Str
@@ -92,7 +92,7 @@ The unique ID of the service update
 The recommendend date to apply the service update in order to ensure
 compliance. For information on compliance, see Self-Service Security
 Updates for Compliance
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/elasticache-compliance.html#elasticache-compliance-self-service).
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-compliance.html#elasticache-compliance-self-service).
 
 
 =head2 ServiceUpdateReleaseDate => Str

@@ -50,16 +50,16 @@ created.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the public registry that contains
-the repository.
+The Amazon Web Services account ID that's associated with the public
+registry that contains the repository.
 
 
 =head2 RepositoryArn => Str
 
 The Amazon Resource Name (ARN) that identifies the repository. The ARN
 contains the C<arn:aws:ecr> namespace, followed by the region of the
-repository, AWS account ID of the repository owner, repository
-namespace, and repository name. For example,
+repository, Amazon Web Services account ID of the repository owner,
+repository namespace, and repository name. For example,
 C<arn:aws:ecr:region:012345678910:repository/test>.
 
 

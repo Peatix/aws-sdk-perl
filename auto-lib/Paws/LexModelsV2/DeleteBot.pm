@@ -54,8 +54,11 @@ The identifier of the bot to delete.
 
 =head2 SkipResourceInUseCheck => Bool
 
-When C<true>, Amazon Lex doesn't check to see if another resource, such
-as an alias, is using the bot before it is deleted.
+By default, Amazon Lex checks if any other resource, such as an alias
+or bot network, is using the bot version before it is deleted and
+throws a C<ResourceInUseException> exception if the bot is being used
+by another resource. Set this parameter to C<true> to skip this check
+and remove the bot even if it is being used by another resource.
 
 
 

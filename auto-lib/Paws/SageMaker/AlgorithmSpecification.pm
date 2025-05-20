@@ -2,9 +2,12 @@
 package Paws::SageMaker::AlgorithmSpecification;
   use Moose;
   has AlgorithmName => (is => 'ro', isa => 'Str');
+  has ContainerArguments => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ContainerEntrypoint => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has EnableSageMakerMetricsTimeSeries => (is => 'ro', isa => 'Bool');
   has MetricDefinitions => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::MetricDefinition]');
   has TrainingImage => (is => 'ro', isa => 'Str');
+  has TrainingImageConfig => (is => 'ro', isa => 'Paws::SageMaker::TrainingImageConfig');
   has TrainingInputMode => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -37,9 +40,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies the training algorithm to use in a CreateTrainingJob request.
+Specifies the training algorithm to use in a CreateTrainingJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)
+request.
 
-For more information about algorithms provided by Amazon SageMaker, see
+SageMaker uses its own SageMaker account credentials to pull and access
+built-in algorithms so built-in algorithms are universally accessible
+across all Amazon Web Services accounts. As a result, built-in
+algorithms have standard, unrestricted access. You cannot restrict
+built-in algorithms using IAM roles. Use custom algorithms if you
+require specific access controls.
+
+For more information about algorithms provided by SageMaker, see
 Algorithms
 (https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For
 information about using your own algorithms, see Using Your Own
@@ -53,8 +65,39 @@ Algorithms with Amazon SageMaker
 
 The name of the algorithm resource to use for the training job. This
 must be an algorithm resource that you created or subscribe to on
-Amazon Web Services Marketplace. If you specify a value for this
-parameter, you can't specify a value for C<TrainingImage>.
+Amazon Web Services Marketplace.
+
+You must specify either the algorithm name to the C<AlgorithmName>
+parameter or the image URI of the algorithm container to the
+C<TrainingImage> parameter.
+
+Note that the C<AlgorithmName> parameter is mutually exclusive with the
+C<TrainingImage> parameter. If you specify a value for the
+C<AlgorithmName> parameter, you can't specify a value for
+C<TrainingImage>, and vice versa.
+
+If you specify values for both parameters, the training job might
+break; if you don't specify any value for both parameters, the training
+job might raise a C<null> error.
+
+
+=head2 ContainerArguments => ArrayRef[Str|Undef]
+
+The arguments for a container used to run a training job. See How
+Amazon SageMaker Runs Your Training Image
+(https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html)
+for additional information.
+
+
+=head2 ContainerEntrypoint => ArrayRef[Str|Undef]
+
+The entrypoint script for a Docker container
+(https://docs.docker.com/engine/reference/builder/) used to run a
+training job. This script takes precedence over the default train
+processing instructions. See How Amazon SageMaker Runs Your Training
+Image
+(https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html)
+for more information.
 
 
 =head2 EnableSageMakerMetricsTimeSeries => Bool
@@ -67,11 +110,11 @@ generated except in the following cases:
 
 =item *
 
-You use one of the Amazon SageMaker built-in algorithms
+You use one of the SageMaker built-in algorithms
 
 =item *
 
-You use one of the following Prebuilt Amazon SageMaker Docker Images
+You use one of the following Prebuilt SageMaker Docker Images
 (https://docs.aws.amazon.com/sagemaker/latest/dg/pre-built-containers-frameworks-deep-learning.html):
 
 =over
@@ -93,6 +136,7 @@ PyTorch (version E<gt>= 1.3)
 =item *
 
 You specify at least one MetricDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_MetricDefinition.html)
 
 =back
 
@@ -101,47 +145,39 @@ You specify at least one MetricDefinition
 =head2 MetricDefinitions => ArrayRef[L<Paws::SageMaker::MetricDefinition>]
 
 A list of metric definition objects. Each object specifies the metric
-name and regular expressions used to parse algorithm logs. Amazon
-SageMaker publishes each metric to Amazon CloudWatch.
+name and regular expressions used to parse algorithm logs. SageMaker
+publishes each metric to Amazon CloudWatch.
 
 
 =head2 TrainingImage => Str
 
 The registry path of the Docker image that contains the training
-algorithm. For information about docker registry paths for built-in
-algorithms, see Algorithms Provided by Amazon SageMaker: Common
-Parameters
-(https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-algo-docker-registry-paths.html).
-Amazon SageMaker supports both C<registry/repository[:tag]> and
-C<registry/repository[@digest]> image path formats. For more
-information, see Using Your Own Algorithms with Amazon SageMaker
+algorithm. For information about docker registry paths for SageMaker
+built-in algorithms, see Docker Registry Paths and Example Code
+(https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-algo-docker-registry-paths.html)
+in the I<Amazon SageMaker developer guide>. SageMaker supports both
+C<registry/repository[:tag]> and C<registry/repository[@digest]> image
+path formats. For more information about using your custom training
+container, see Using Your Own Algorithms with Amazon SageMaker
 (https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
+
+You must specify either the algorithm name to the C<AlgorithmName>
+parameter or the image URI of the algorithm container to the
+C<TrainingImage> parameter.
+
+For more information, see the note in the C<AlgorithmName> parameter
+description.
+
+
+=head2 TrainingImageConfig => L<Paws::SageMaker::TrainingImageConfig>
+
+The configuration to use an image from a private Docker registry for a
+training job.
 
 
 =head2 B<REQUIRED> TrainingInputMode => Str
 
-The input mode that the algorithm supports. For the input modes that
-Amazon SageMaker algorithms support, see Algorithms
-(https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). If an
-algorithm supports the C<File> input mode, Amazon SageMaker downloads
-the training data from S3 to the provisioned ML storage Volume, and
-mounts the directory to docker volume for training container. If an
-algorithm supports the C<Pipe> input mode, Amazon SageMaker streams
-data directly from S3 to the container.
 
-In File mode, make sure you provision ML storage volume with sufficient
-capacity to accommodate the data download from S3. In addition to the
-training data, the ML storage volume also stores the output model. The
-algorithm container use ML storage volume to also store intermediate
-information, if any.
-
-For distributed algorithms using File mode, training data is
-distributed uniformly, and your training duration is predictable if the
-input data objects size is approximately same. Amazon SageMaker does
-not split the files any further for model training. If the object sizes
-are skewed, training won't be optimal as the data distribution is also
-skewed where one host in a training cluster is overloaded, thus
-becoming bottleneck in training.
 
 
 

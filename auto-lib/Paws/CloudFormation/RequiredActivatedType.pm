@@ -40,10 +40,10 @@ For extensions that are modules, a public third-party extension that
 must be activated in your account in order for the module itself to be
 activated.
 
-For more information, see Activating public modules for use in your
-account
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html#module-enabling)
-in the I<AWS CloudFormation User Guide>.
+For more information, see Requirements for activating third-party
+public modules
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/module-versioning.html#requirements-for-modules)
+in the I<CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -53,10 +53,10 @@ in the I<AWS CloudFormation User Guide>.
 The type name of the public extension.
 
 If you specified a C<TypeNameAlias> when enabling the extension in this
-account and region, CloudFormation treats that alias as the extension's
-type name within the account and region, not the type name of the
-public extension. For more information, see Specifying aliases to refer
-to extensions
+account and Region, CloudFormation treats that alias as the extension's
+type name within the account and Region, not the type name of the
+public extension. For more information, see Use aliases to refer to
+extensions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias)
 in the I<CloudFormation User Guide>.
 
@@ -74,9 +74,9 @@ supports.
 
 =head2 TypeNameAlias => Str
 
-An alias assigned to the public extension, in this account and region.
+An alias assigned to the public extension, in this account and Region.
 If you specify an alias for the extension, CloudFormation treats the
-alias as the extension type name within this account and region. You
+alias as the extension type name within this account and Region. You
 must use the alias to refer to the extension in your templates, API
 calls, and CloudFormation console.
 

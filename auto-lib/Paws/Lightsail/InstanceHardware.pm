@@ -52,7 +52,7 @@ The disks attached to the instance.
 
 =head2 RamSizeInGb => Num
 
-The amount of RAM in GB on the instance (e.g., C<1.0>).
+The amount of RAM in GB on the instance (C<1.0>).
 
 
 

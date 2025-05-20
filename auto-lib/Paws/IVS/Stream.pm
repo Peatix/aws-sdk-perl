@@ -6,6 +6,7 @@ package Paws::IVS::Stream;
   has PlaybackUrl => (is => 'ro', isa => 'Str', request_name => 'playbackUrl', traits => ['NameInRequest']);
   has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
+  has StreamId => (is => 'ro', isa => 'Str', request_name => 'streamId', traits => ['NameInRequest']);
   has ViewerCount => (is => 'ro', isa => 'Int', request_name => 'viewerCount', traits => ['NameInRequest']);
 
 1;
@@ -61,18 +62,30 @@ HLS stream.
 
 =head2 StartTime => Str
 
-ISO-8601 formatted timestamp of the streamE<rsquo>s start.
+Time of the streamE<rsquo>s start. This is an ISO 8601 timestamp;
+I<note that this is returned as a string>.
 
 
 =head2 State => Str
 
-The streamE<rsquo>s state.
+The streamE<rsquo>s state. Do not rely on the C<OFFLINE> state, as the
+API may not return it; instead, a "NotBroadcasting" error will indicate
+that the stream is not live.
+
+
+=head2 StreamId => Str
+
+Unique identifier for a live or previously live stream in the specified
+channel.
 
 
 =head2 ViewerCount => Int
 
-Number of current viewers of the stream. A value of -1 indicates that
-the request timed out; in this case, retry.
+A count of concurrent views of the stream. Typically, a new view
+appears in C<viewerCount> within 15 seconds of when video playback
+starts and a view is removed from C<viewerCount> within 1 minute of
+when video playback ends. A value of -1 indicates that the request
+timed out; in this case, retry.
 
 
 

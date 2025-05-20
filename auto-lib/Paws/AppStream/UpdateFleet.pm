@@ -14,9 +14,14 @@ package Paws::AppStream::UpdateFleet;
   has ImageArn => (is => 'ro', isa => 'Str');
   has ImageName => (is => 'ro', isa => 'Str');
   has InstanceType => (is => 'ro', isa => 'Str');
+  has MaxConcurrentSessions => (is => 'ro', isa => 'Int');
+  has MaxSessionsPerInstance => (is => 'ro', isa => 'Int');
   has MaxUserDurationInSeconds => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str');
+  has Platform => (is => 'ro', isa => 'Str');
+  has SessionScriptS3Location => (is => 'ro', isa => 'Paws::AppStream::S3Location');
   has StreamView => (is => 'ro', isa => 'Str');
+  has UsbDeviceFilterStrings => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpcConfig => (is => 'ro', isa => 'Paws::AppStream::VpcConfig');
 
   use MooseX::ClassAttribute;
@@ -46,11 +51,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateFleetResult = $appstream2->UpdateFleet(
       AttributesToDelete => [
         'VPC_CONFIGURATION',
-        ... # values: VPC_CONFIGURATION, VPC_CONFIGURATION_SECURITY_GROUP_IDS, DOMAIN_JOIN_INFO, IAM_ROLE_ARN
+        ... # values: VPC_CONFIGURATION, VPC_CONFIGURATION_SECURITY_GROUP_IDS, DOMAIN_JOIN_INFO, IAM_ROLE_ARN, USB_DEVICE_FILTER_STRINGS, SESSION_SCRIPT_S3_LOCATION, MAX_SESSIONS_PER_INSTANCE
       ],    # OPTIONAL
       ComputeCapacity => {
-        DesiredInstances => 1,
-
+        DesiredInstances => 1,    # OPTIONAL
+        DesiredSessions  => 1,    # OPTIONAL
       },    # OPTIONAL
       DeleteVpcConfig            => 1,                  # OPTIONAL
       Description                => 'MyDescription',    # OPTIONAL
@@ -67,12 +72,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ImageArn                       => 'MyArn',       # OPTIONAL
       ImageName                      => 'MyString',    # OPTIONAL
       InstanceType                   => 'MyString',    # OPTIONAL
+      MaxConcurrentSessions          => 1,             # OPTIONAL
+      MaxSessionsPerInstance         => 1,             # OPTIONAL
       MaxUserDurationInSeconds       => 1,             # OPTIONAL
-      Name                           => 'MyString',    # OPTIONAL
-      StreamView                     => 'APP',         # OPTIONAL
-      VpcConfig                      => {
+      Name                           => 'MyName',      # OPTIONAL
+      Platform                       => 'WINDOWS',     # OPTIONAL
+      SessionScriptS3Location        => {
+        S3Bucket => 'MyS3Bucket',    # min: 3, max: 63
+        S3Key    => 'MyS3Key',       # min: 1, max: 1024; OPTIONAL
+      },    # OPTIONAL
+      StreamView             => 'APP',    # OPTIONAL
+      UsbDeviceFilterStrings => [
+        'MyUsbDeviceFilterString', ...    # max: 100
+      ],    # OPTIONAL
+      VpcConfig => {
         SecurityGroupIds => [
-          'MyString', ...                              # min: 1
+          'MyString', ...    # min: 1
         ],    # max: 5; OPTIONAL
         SubnetIds => [
           'MyString', ...    # min: 1
@@ -99,7 +114,8 @@ The fleet attributes to delete.
 
 =head2 ComputeCapacity => L<Paws::AppStream::ComputeCapacity>
 
-The desired capacity for the fleet.
+The desired capacity for the fleet. This is not allowed for Elastic
+fleets.
 
 
 
@@ -123,7 +139,7 @@ disconnection or network interruption within this time interval, they
 are connected to their previous session. Otherwise, they are connected
 to a new session with a new streaming instance.
 
-Specify a value between 60 and 360000.
+Specify a value between 60 and 36000.
 
 
 
@@ -177,8 +193,8 @@ as user activity. If users continue to be idle after the time interval
 in C<IdleDisconnectTimeoutInSeconds> elapses, they are disconnected.
 
 To prevent users from being disconnected due to inactivity, specify a
-value of 0. Otherwise, specify a value between 60 and 3600. The default
-value is 0.
+value of 0. Otherwise, specify a value between 60 and 36000. The
+default value is 0.
 
 If you enable this feature, we recommend that you specify a value that
 corresponds exactly to a whole number of minutes (for example, 60, 120,
@@ -221,6 +237,14 @@ stream.standard.medium
 =item *
 
 stream.standard.large
+
+=item *
+
+stream.standard.xlarge
+
+=item *
+
+stream.standard.2xlarge
 
 =item *
 
@@ -344,6 +368,45 @@ stream.graphics-pro.16xlarge
 
 =back
 
+The following instance types are available for Elastic fleets:
+
+=over
+
+=item *
+
+stream.standard.small
+
+=item *
+
+stream.standard.medium
+
+=item *
+
+stream.standard.large
+
+=item *
+
+stream.standard.xlarge
+
+=item *
+
+stream.standard.2xlarge
+
+=back
+
+
+
+
+=head2 MaxConcurrentSessions => Int
+
+The maximum number of concurrent sessions for a fleet.
+
+
+
+=head2 MaxSessionsPerInstance => Int
+
+The maximum number of user sessions on an instance. This only applies
+to multi-session fleets.
 
 
 
@@ -355,13 +418,27 @@ minutes before this limit is reached, they are prompted to save any
 open documents before being disconnected. After this time elapses, the
 instance is terminated and replaced by a new instance.
 
-Specify a value between 600 and 360000.
+Specify a value between 600 and 432000.
 
 
 
 =head2 Name => Str
 
 A unique name for the fleet.
+
+
+
+=head2 Platform => Str
+
+The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
+supported for Elastic fleets.
+
+Valid values are: C<"WINDOWS">, C<"WINDOWS_SERVER_2016">, C<"WINDOWS_SERVER_2019">, C<"WINDOWS_SERVER_2022">, C<"AMAZON_LINUX2">, C<"RHEL8">, C<"ROCKY_LINUX8">
+
+=head2 SessionScriptS3Location => L<Paws::AppStream::S3Location>
+
+The S3 location of the session scripts configuration zip file. This
+only applies to Elastic fleets.
 
 
 
@@ -376,9 +453,19 @@ The default value is C<APP>.
 
 Valid values are: C<"APP">, C<"DESKTOP">
 
+=head2 UsbDeviceFilterStrings => ArrayRef[Str|Undef]
+
+The USB device filter strings that specify which USB devices a user can
+redirect to the fleet streaming session, when using the Windows native
+client. This is allowed but not required for Elastic fleets.
+
+
+
 =head2 VpcConfig => L<Paws::AppStream::VpcConfig>
 
-The VPC configuration for the fleet.
+The VPC configuration for the fleet. This is required for Elastic
+fleets, but not required for other fleet types. Elastic fleets require
+that you specify at least two subnets in different availability zones.
 
 
 

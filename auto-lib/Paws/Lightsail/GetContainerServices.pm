@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 The name of the container service for which to return information.
 
 When omitted, the response includes all of your container services in
-the AWS Region where the request is made.
+the Amazon Web Services Region where the request is made.
 
 
 

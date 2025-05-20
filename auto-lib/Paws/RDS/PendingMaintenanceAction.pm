@@ -46,8 +46,43 @@ Provides information about a pending maintenance action for a resource.
 =head2 Action => Str
 
 The type of pending maintenance action that is available for the
-resource. Valid actions are C<system-update>, C<db-upgrade>,
-C<hardware-maintenance>, and C<ca-certificate-rotation>.
+resource.
+
+For more information about maintenance actions, see Maintaining a DB
+instance
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html).
+
+Valid Values:
+
+=over
+
+=item *
+
+C<ca-certificate-rotation>
+
+=item *
+
+C<db-upgrade>
+
+=item *
+
+C<hardware-maintenance>
+
+=item *
+
+C<os-upgrade>
+
+=item *
+
+C<system-update>
+
+=back
+
+For more information about these actions, see Maintenance actions for
+Amazon Aurora
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora)
+or Maintenance actions for Amazon RDS
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
 
 
 =head2 AutoAppliedAfterDate => Str

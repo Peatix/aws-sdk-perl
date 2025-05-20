@@ -16,8 +16,10 @@ Paws::Datasync::CreateAgentResponse
 
 =head2 AgentArn => Str
 
-The Amazon Resource Name (ARN) of the agent. Use the C<ListAgents>
-operation to return a list of agents for your account and AWS Region.
+The ARN of the agent that you just activated. Use the ListAgents
+(https://docs.aws.amazon.com/datasync/latest/userguide/API_ListAgents.html)
+operation to return a list of agents in your Amazon Web Services
+account and Amazon Web Services Region.
 
 
 =head2 _request_id => Str

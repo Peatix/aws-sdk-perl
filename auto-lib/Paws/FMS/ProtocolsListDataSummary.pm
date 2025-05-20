@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Protoc
 
 =head1 DESCRIPTION
 
-Details of the AWS Firewall Manager protocols list.
+Details of the Firewall Manager protocols list.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +58,7 @@ The name of the specified protocols list.
 
 =head2 ProtocolsList => ArrayRef[Str|Undef]
 
-An array of protocols in the AWS Firewall Manager protocols list.
+An array of protocols in the Firewall Manager protocols list.
 
 
 

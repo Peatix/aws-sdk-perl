@@ -38,7 +38,9 @@ This class has no description
 
 =head2 Type => Str
 
-The elastic GPU type.
+Deprecated.
+
+Amazon Elastic Graphics reached end of life on January 8, 2024.
 
 
 

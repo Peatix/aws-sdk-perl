@@ -42,7 +42,7 @@ format of the file, see Access control for S3 data sources
 
 =head2 KeyPath => Str
 
-Path to the AWS S3 bucket that contains the ACL files.
+Path to the Amazon S3 bucket that contains the ACL files.
 
 
 

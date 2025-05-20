@@ -18,8 +18,8 @@ Paws::QLDB::ListJournalS3ExportsForLedgerResponse
 
 =head2 JournalS3Exports => ArrayRef[L<Paws::QLDB::JournalS3ExportDescription>]
 
-The array of journal export job descriptions that are associated with
-the specified ledger.
+The journal export jobs that are currently associated with the
+specified ledger.
 
 
 =head2 NextToken => Str

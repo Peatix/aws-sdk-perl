@@ -59,9 +59,9 @@ default cluster.
 
 =head2 Include => ArrayRef[Str|Undef]
 
-Specifies whether you want to see the resource tags for the service. If
-C<TAGS> is specified, the tags are included in the response. If this
-field is omitted, tags are not included in the response.
+Determines whether you want to see the resource tags for the service.
+If C<TAGS> is specified, the tags are included in the response. If this
+field is omitted, tags aren't included in the response.
 
 
 

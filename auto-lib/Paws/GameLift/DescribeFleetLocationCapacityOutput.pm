@@ -18,7 +18,8 @@ Paws::GameLift::DescribeFleetLocationCapacityOutput
 
 Resource capacity information for the requested fleet location.
 Capacity objects are returned only for fleets and locations that
-currently exist.
+currently exist. Changes in desired instance value can take up to 1
+minute to be reflected.
 
 
 =head2 _request_id => Str

@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ImageBuilde
 
 =head1 DESCRIPTION
 
-Defines a custom source AMI and block device mapping configurations of
-an instance used for building and testing container images.
+Defines a custom base AMI and block device mapping configurations of an
+instance used for building and testing container images.
 
 =head1 ATTRIBUTES
 
@@ -48,9 +48,13 @@ Image Builder AMI.
 
 =head2 Image => Str
 
-The AMI ID to use as the base image for a container build and test
-instance. If not specified, Image Builder will use the appropriate
-ECS-optimized AMI as a base image.
+The base image for a container build and test instance. This can
+contain an AMI ID or it can specify an Amazon Web Services Systems
+Manager (SSM) Parameter Store Parameter, prefixed by C<ssm:>, followed
+by the parameter name or ARN.
+
+If not specified, Image Builder uses the appropriate ECS-optimized AMI
+as a base image.
 
 
 

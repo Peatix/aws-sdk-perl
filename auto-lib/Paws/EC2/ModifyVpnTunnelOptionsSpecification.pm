@@ -2,7 +2,9 @@ package Paws::EC2::ModifyVpnTunnelOptionsSpecification;
   use Moose;
   has DPDTimeoutAction => (is => 'ro', isa => 'Str');
   has DPDTimeoutSeconds => (is => 'ro', isa => 'Int');
+  has EnableTunnelLifecycleControl => (is => 'ro', isa => 'Bool');
   has IKEVersions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IKEVersionsRequestListValue]', request_name => 'IKEVersion', traits => ['NameInRequest']);
+  has LogOptions => (is => 'ro', isa => 'Paws::EC2::VpnTunnelLogOptionsSpecification');
   has Phase1DHGroupNumbers => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Phase1DHGroupNumbersRequestListValue]', request_name => 'Phase1DHGroupNumber', traits => ['NameInRequest']);
   has Phase1EncryptionAlgorithms => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Phase1EncryptionAlgorithmsRequestListValue]', request_name => 'Phase1EncryptionAlgorithm', traits => ['NameInRequest']);
   has Phase1IntegrityAlgorithms => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Phase1IntegrityAlgorithmsRequestListValue]', request_name => 'Phase1IntegrityAlgorithm', traits => ['NameInRequest']);
@@ -65,11 +67,18 @@ Default: C<clear>
 
 =head2 DPDTimeoutSeconds => Int
 
-The number of seconds after which a DPD timeout occurs.
+The number of seconds after which a DPD timeout occurs. A DPD timeout
+of 40 seconds means that the VPN endpoint will consider the peer dead
+30 seconds after the first failed keep-alive.
 
-Constraints: A value between 0 and 30.
+Constraints: A value greater than or equal to 30.
 
-Default: C<30>
+Default: C<40>
+
+
+=head2 EnableTunnelLifecycleControl => Bool
+
+Turn on or off tunnel endpoint lifecycle control feature.
 
 
 =head2 IKEVersions => ArrayRef[L<Paws::EC2::IKEVersionsRequestListValue>]
@@ -77,6 +86,11 @@ Default: C<30>
 The IKE versions that are permitted for the VPN tunnel.
 
 Valid values: C<ikev1> | C<ikev2>
+
+
+=head2 LogOptions => L<Paws::EC2::VpnTunnelLogOptionsSpecification>
+
+Options for logging VPN tunnel activity.
 
 
 =head2 Phase1DHGroupNumbers => ArrayRef[L<Paws::EC2::Phase1DHGroupNumbersRequestListValue>]
@@ -174,13 +188,13 @@ Default: C<100>
 =head2 RekeyMarginTimeSeconds => Int
 
 The margin time, in seconds, before the phase 2 lifetime expires,
-during which the AWS side of the VPN connection performs an IKE rekey.
-The exact time of the rekey is randomly selected based on the value for
-C<RekeyFuzzPercentage>.
+during which the Amazon Web Services side of the VPN connection
+performs an IKE rekey. The exact time of the rekey is randomly selected
+based on the value for C<RekeyFuzzPercentage>.
 
 Constraints: A value between 60 and half of C<Phase2LifetimeSeconds>.
 
-Default: C<540>
+Default: C<270>
 
 
 =head2 ReplayWindowSize => Int
@@ -196,8 +210,8 @@ Default: C<1024>
 
 The action to take when the establishing the tunnel for the VPN
 connection. By default, your customer gateway device must initiate the
-IKE negotiation and bring up the tunnel. Specify C<start> for AWS to
-initiate the IKE negotiation.
+IKE negotiation and bring up the tunnel. Specify C<start> for Amazon
+Web Services to initiate the IKE negotiation.
 
 Valid Values: C<add> | C<start>
 

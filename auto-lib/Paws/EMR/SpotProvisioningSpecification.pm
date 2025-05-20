@@ -41,19 +41,31 @@ which determines the defined duration, provisioning timeout behavior,
 and allocation strategy.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions. Spot Instance
-allocation strategy is available in Amazon EMR version 5.12.1 and
+releases 4.8.0 and later, excluding 5.0.x versions. Spot Instance
+allocation strategy is available in Amazon EMR releases 5.12.1 and
 later.
+
+Spot Instances with a defined duration (also known as Spot blocks) are
+no longer available to new customers from July 1, 2021. For customers
+who have previously used the feature, we will continue to support Spot
+Instances with a defined duration until December 31, 2022.
 
 =head1 ATTRIBUTES
 
 
 =head2 AllocationStrategy => Str
 
-Specifies the strategy to use in launching Spot Instance fleets.
-Currently, the only option is capacity-optimized (the default), which
-launches instances from Spot Instance pools with optimal capacity for
-the number of instances that are launching.
+Specifies one of the following strategies to launch Spot Instance
+fleets: C<capacity-optimized>, C<price-capacity-optimized>,
+C<lowest-price>, or C<diversified>, and
+C<capacity-optimized-prioritized>. For more information on the
+provisioning strategies, see Allocation strategies for Spot Instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html)
+in the I<Amazon EC2 User Guide for Linux Instances>.
+
+When you launch a Spot Instance fleet with the old console, it
+automatically launches with the C<capacity-optimized> strategy. You
+can't change the allocation strategy from the old console.
 
 
 =head2 BlockDurationMinutes => Int
@@ -66,6 +78,11 @@ duration period starts as soon as a Spot Instance receives its instance
 ID. At the end of the duration, Amazon EC2 marks the Spot Instance for
 termination and provides a Spot Instance termination notice, which
 gives the instance a two-minute warning before it terminates.
+
+Spot Instances with a defined duration (also known as Spot blocks) are
+no longer available to new customers from July 1, 2021. For customers
+who have previously used the feature, we will continue to support Spot
+Instances with a defined duration until December 31, 2022.
 
 
 =head2 B<REQUIRED> TimeoutAction => Str
@@ -81,7 +98,7 @@ fulfill any remaining Spot capacity.
 
 =head2 B<REQUIRED> TimeoutDurationMinutes => Int
 
-The spot provisioning timeout period in minutes. If Spot Instances are
+The Spot provisioning timeout period in minutes. If Spot Instances are
 not provisioned within this time period, the C<TimeOutAction> is taken.
 Minimum value is 5 and maximum value is 1440. The timeout applies only
 during initial provisioning, when the cluster is first created.

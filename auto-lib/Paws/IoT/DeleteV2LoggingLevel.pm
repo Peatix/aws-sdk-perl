@@ -52,7 +52,7 @@ The name of the resource for which you are configuring logging.
 The type of resource for which you are configuring logging. Must be
 C<THING_Group>.
 
-Valid values are: C<"DEFAULT">, C<"THING_GROUP">
+Valid values are: C<"DEFAULT">, C<"THING_GROUP">, C<"CLIENT_ID">, C<"SOURCE_IP">, C<"PRINCIPAL_ID">
 
 
 =head1 SEE ALSO

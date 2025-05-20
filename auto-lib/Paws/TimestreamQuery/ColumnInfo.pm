@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamQ
 
 =head1 DESCRIPTION
 
-Contains the meta data for query results such as the column names, data
+Contains the metadata for query results such as the column names, data
 types, and other attributes.
 
 =head1 ATTRIBUTES
@@ -49,7 +49,7 @@ available for columns of all data types except for arrays.
 =head2 B<REQUIRED> Type => L<Paws::TimestreamQuery::Type>
 
 The data type of the result set column. The data type can be a scalar
-or complex. Scalar data types are integers, strings, doubles, booleans,
+or complex. Scalar data types are integers, strings, doubles, Booleans,
 and others. Complex data types are types such as arrays, rows, and
 others.
 

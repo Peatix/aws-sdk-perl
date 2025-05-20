@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $cloudformation->BatchDescribeTypeConfigurations(
       TypeConfigurationIdentifiers => [
         {
-          Type    => 'RESOURCE',           # values: RESOURCE, MODULE; OPTIONAL
-          TypeArn => 'MyTypeArn',          # max: 1024; OPTIONAL
+          Type    => 'RESOURCE',     # values: RESOURCE, MODULE, HOOK; OPTIONAL
+          TypeArn => 'MyTypeArn',    # max: 1024; OPTIONAL
           TypeConfigurationAlias =>
             'MyTypeConfigurationAlias',    # min: 1, max: 256; OPTIONAL
           TypeConfigurationArn =>

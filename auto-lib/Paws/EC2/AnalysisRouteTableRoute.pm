@@ -1,13 +1,17 @@
 package Paws::EC2::AnalysisRouteTableRoute;
   use Moose;
+  has CarrierGatewayId => (is => 'ro', isa => 'Str', request_name => 'carrierGatewayId', traits => ['NameInRequest']);
+  has CoreNetworkArn => (is => 'ro', isa => 'Str', request_name => 'coreNetworkArn', traits => ['NameInRequest']);
   has DestinationCidr => (is => 'ro', isa => 'Str', request_name => 'destinationCidr', traits => ['NameInRequest']);
   has DestinationPrefixListId => (is => 'ro', isa => 'Str', request_name => 'destinationPrefixListId', traits => ['NameInRequest']);
   has EgressOnlyInternetGatewayId => (is => 'ro', isa => 'Str', request_name => 'egressOnlyInternetGatewayId', traits => ['NameInRequest']);
   has GatewayId => (is => 'ro', isa => 'Str', request_name => 'gatewayId', traits => ['NameInRequest']);
   has InstanceId => (is => 'ro', isa => 'Str', request_name => 'instanceId', traits => ['NameInRequest']);
+  has LocalGatewayId => (is => 'ro', isa => 'Str', request_name => 'localGatewayId', traits => ['NameInRequest']);
   has NatGatewayId => (is => 'ro', isa => 'Str', request_name => 'natGatewayId', traits => ['NameInRequest']);
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', request_name => 'networkInterfaceId', traits => ['NameInRequest']);
   has Origin => (is => 'ro', isa => 'Str', request_name => 'origin', traits => ['NameInRequest']);
+  has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has TransitGatewayId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayId', traits => ['NameInRequest']);
   has VpcPeeringConnectionId => (is => 'ro', isa => 'Str', request_name => 'vpcPeeringConnectionId', traits => ['NameInRequest']);
 1;
@@ -29,20 +33,30 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::AnalysisRouteTableRoute object:
 
-  $service_obj->Method(Att1 => { DestinationCidr => $value, ..., VpcPeeringConnectionId => $value  });
+  $service_obj->Method(Att1 => { CarrierGatewayId => $value, ..., VpcPeeringConnectionId => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::AnalysisRouteTableRoute object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->DestinationCidr
+  $result->Att1->CarrierGatewayId
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 CarrierGatewayId => Str
+
+The ID of a carrier gateway.
+
+
+=head2 CoreNetworkArn => Str
+
+The Amazon Resource Name (ARN) of a core network.
 
 
 =head2 DestinationCidr => Str
@@ -52,7 +66,7 @@ The destination IPv4 address, in CIDR notation.
 
 =head2 DestinationPrefixListId => Str
 
-The prefix of the AWS service.
+The prefix of the Amazon Web Services service.
 
 
 =head2 EgressOnlyInternetGatewayId => Str
@@ -71,6 +85,11 @@ gateway.
 The ID of the instance, such as a NAT instance.
 
 
+=head2 LocalGatewayId => Str
+
+The ID of a local gateway.
+
+
 =head2 NatGatewayId => Str
 
 The ID of a NAT gateway.
@@ -83,23 +102,42 @@ The ID of a network interface.
 
 =head2 Origin => Str
 
-Describes how the route was created. The following are possible values:
+Describes how the route was created. The following are the possible
+values:
 
 =over
 
 =item *
 
-C<CreateRouteTable> - The route was automatically created when the
-route table was created.
+CreateRouteTable - The route was automatically created when the route
+table was created.
 
 =item *
 
-C<CreateRoute> - The route was manually added to the route table.
+CreateRoute - The route was manually added to the route table.
 
 =item *
 
-C<EnableVgwRoutePropagation> - The route was propagated by route
+EnableVgwRoutePropagation - The route was propagated by route
 propagation.
+
+=back
+
+
+
+=head2 State => Str
+
+The state. The following are the possible values:
+
+=over
+
+=item *
+
+active
+
+=item *
+
+blackhole
 
 =back
 

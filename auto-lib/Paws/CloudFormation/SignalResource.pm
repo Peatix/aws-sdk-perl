@@ -61,8 +61,8 @@ want to signal.
 =head2 B<REQUIRED> Status => Str
 
 The status of the signal, which is either success or failure. A failure
-signal causes AWS CloudFormation to immediately fail the stack creation
-or update.
+signal causes CloudFormation to immediately fail the stack creation or
+update.
 
 Valid values are: C<"SUCCESS">, C<"FAILURE">
 

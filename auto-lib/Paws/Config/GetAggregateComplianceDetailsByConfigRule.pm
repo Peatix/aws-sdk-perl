@@ -76,16 +76,14 @@ The source region from where the data is aggregated.
 The resource compliance status.
 
 For the C<GetAggregateComplianceDetailsByConfigRuleRequest> data type,
-AWS Config supports only the C<COMPLIANT> and C<NON_COMPLIANT>. AWS
-Config does not support the C<NOT_APPLICABLE> and C<INSUFFICIENT_DATA>
-values.
+Config supports only the C<COMPLIANT> and C<NON_COMPLIANT>. Config does
+not support the C<NOT_APPLICABLE> and C<INSUFFICIENT_DATA> values.
 
 Valid values are: C<"COMPLIANT">, C<"NON_COMPLIANT">, C<"NOT_APPLICABLE">, C<"INSUFFICIENT_DATA">
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule for which you want compliance
-information.
+The name of the Config rule for which you want compliance information.
 
 
 
@@ -99,7 +97,7 @@ The name of the configuration aggregator.
 
 The maximum number of evaluation results returned on each page. The
 default is 50. You cannot specify a number greater than 100. If you
-specify 0, AWS Config uses the default.
+specify 0, Config uses the default.
 
 
 

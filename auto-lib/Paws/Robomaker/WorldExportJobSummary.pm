@@ -3,6 +3,7 @@ package Paws::Robomaker::WorldExportJobSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
+  has OutputLocation => (is => 'ro', isa => 'Paws::Robomaker::OutputLocation', request_name => 'outputLocation', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Worlds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'worlds', traits => ['NameInRequest']);
 
@@ -50,6 +51,11 @@ The Amazon Resource Name (ARN) of the world export job.
 
 The time, in milliseconds since the epoch, when the world export job
 was created.
+
+
+=head2 OutputLocation => L<Paws::Robomaker::OutputLocation>
+
+
 
 
 =head2 Status => Str

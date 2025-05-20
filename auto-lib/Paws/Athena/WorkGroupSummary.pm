@@ -4,6 +4,7 @@ package Paws::Athena::WorkGroupSummary;
   has CreationTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Paws::Athena::EngineVersion');
+  has IdentityCenterApplicationArn => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
 
@@ -58,6 +59,12 @@ The workgroup description.
 The engine version setting for all queries on the workgroup. Queries on
 the C<AmazonAthenaPreviewFunctionality> workgroup run on the preview
 engine regardless of this setting.
+
+
+=head2 IdentityCenterApplicationArn => Str
+
+The ARN of the IAM Identity Center enabled application associated with
+the workgroup.
 
 
 =head2 Name => Str

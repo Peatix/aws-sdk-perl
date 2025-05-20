@@ -52,11 +52,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SnsTopicName               => 'MyString',    # OPTIONAL
       TagsList                   => [
         {
-          Key   => 'MyString',
-          Value => 'MyString',
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
         },
         ...
-      ],                                           # OPTIONAL
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -89,15 +89,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 Specifies a log group name using an Amazon Resource Name (ARN), a
 unique identifier that represents the log group to which CloudTrail
-logs will be delivered. Not required unless you specify
-CloudWatchLogsRoleArn.
+logs will be delivered. You must use a log group that exists in your
+account.
+
+Not required unless you specify C<CloudWatchLogsRoleArn>.
 
 
 
 =head2 CloudWatchLogsRoleArn => Str
 
 Specifies the role for the CloudWatch Logs endpoint to assume to write
-to a user's log group.
+to a user's log group. You must use a role that exists in your account.
 
 
 
@@ -107,7 +109,7 @@ Specifies whether log file integrity validation is enabled. The default
 is false.
 
 When you disable log file integrity validation, the chain of digest
-files is broken after one hour. CloudTrail will not create digest files
+files is broken after one hour. CloudTrail does not create digest files
 for log files that were delivered during a period in which log file
 integrity validation was disabled. For example, if you enable log file
 integrity validation at noon on January 1, disable it at noon on
@@ -127,29 +129,35 @@ such as IAM to the log files.
 
 =head2 IsMultiRegionTrail => Bool
 
-Specifies whether the trail is created in the current region or in all
-regions. The default is false, which creates a trail only in the region
+Specifies whether the trail is created in the current Region or in all
+Regions. The default is false, which creates a trail only in the Region
 where you are signed in. As a best practice, consider creating trails
-that log events in all regions.
+that log events in all Regions.
 
 
 
 =head2 IsOrganizationTrail => Bool
 
 Specifies whether the trail is created for all accounts in an
-organization in AWS Organizations, or only for the current AWS account.
-The default is false, and cannot be true unless the call is made on
-behalf of an AWS account that is the master account for an organization
-in AWS Organizations.
+organization in Organizations, or only for the current Amazon Web
+Services account. The default is false, and cannot be true unless the
+call is made on behalf of an Amazon Web Services account that is the
+management account or delegated administrator account for an
+organization in Organizations.
 
 
 
 =head2 KmsKeyId => Str
 
 Specifies the KMS key ID to use to encrypt the logs delivered by
-CloudTrail. The value can be an alias name prefixed by "alias/", a
+CloudTrail. The value can be an alias name prefixed by C<alias/>, a
 fully specified ARN to an alias, a fully specified ARN to a key, or a
 globally unique identifier.
+
+CloudTrail also supports KMS multi-Region keys. For more information
+about multi-Region keys, see Using multi-Region keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
+in the I<Key Management Service Developer Guide>.
 
 Examples:
 
@@ -157,19 +165,19 @@ Examples:
 
 =item *
 
-alias/MyAliasName
+C<alias/MyAliasName>
 
 =item *
 
-arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
+C<arn:aws:kms:us-east-2:123456789012:alias/MyAliasName>
 
 =item *
 
-arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+C<arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012>
 
 =item *
 
-12345678-1234-1234-1234-123456789012
+C<12345678-1234-1234-1234-123456789012>
 
 =back
 
@@ -199,7 +207,7 @@ Be between 3 and 128 characters
 =item *
 
 Have no adjacent periods, underscores or dashes. Names like
-C<my-_namespace> and C<my--namespace> are invalid.
+C<my-_namespace> and C<my--namespace> are not valid.
 
 =item *
 
@@ -213,8 +221,10 @@ Not be in IP address format (for example, 192.168.5.4)
 =head2 B<REQUIRED> S3BucketName => Str
 
 Specifies the name of the Amazon S3 bucket designated for publishing
-log files. See Amazon S3 Bucket Naming Requirements
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html).
+log files. For information about bucket naming rules, see Bucket naming
+rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html)
+in the I<Amazon Simple Storage Service User Guide>.
 
 
 
@@ -223,15 +233,16 @@ log files. See Amazon S3 Bucket Naming Requirements
 Specifies the Amazon S3 key prefix that comes after the name of the
 bucket you have designated for log file delivery. For more information,
 see Finding Your CloudTrail Log Files
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html).
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
 The maximum length is 200 characters.
 
 
 
 =head2 SnsTopicName => Str
 
-Specifies the name of the Amazon SNS topic defined for notification of
-log file delivery. The maximum length is 256 characters.
+Specifies the name or ARN of the Amazon SNS topic defined for
+notification of log file delivery. The maximum length is 256
+characters.
 
 
 

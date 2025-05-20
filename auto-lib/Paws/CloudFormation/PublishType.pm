@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 Arn => Str
 
-The Amazon Resource Number (ARN) of the extension.
+The Amazon Resource Name (ARN) of the extension.
 
 Conditional: You must specify C<Arn>, or C<TypeName> and C<Type>.
 
@@ -68,8 +68,12 @@ C<MAJOR.MINOR.PATCH>
 For more information, see Semantic Versioning 2.0.0
 (https://semver.org/).
 
-If you do not specify a version number, CloudFormation increments the
+If you don't specify a version number, CloudFormation increments the
 version number by one minor version release.
+
+You cannot specify a version number the first time you publish a type.
+CloudFormation automatically sets the first version number to be
+C<1.0.0>.
 
 
 
@@ -79,7 +83,7 @@ The type of the extension.
 
 Conditional: You must specify C<Arn>, or C<TypeName> and C<Type>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 

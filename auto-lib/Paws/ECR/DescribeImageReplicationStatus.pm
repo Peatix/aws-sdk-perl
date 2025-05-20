@@ -1,0 +1,88 @@
+
+package Paws::ECR::DescribeImageReplicationStatus;
+  use Moose;
+  has ImageId => (is => 'ro', isa => 'Paws::ECR::ImageIdentifier', traits => ['NameInRequest'], request_name => 'imageId' , required => 1);
+  has RegistryId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'registryId' );
+  has RepositoryName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'repositoryName' , required => 1);
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'DescribeImageReplicationStatus');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::ECR::DescribeImageReplicationStatusResponse');
+  class_has _result_key => (isa => 'Str', is => 'ro');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::ECR::DescribeImageReplicationStatus - Arguments for method DescribeImageReplicationStatus on L<Paws::ECR>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method DescribeImageReplicationStatus on the
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
+as arguments to method DescribeImageReplicationStatus.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to DescribeImageReplicationStatus.
+
+=head1 SYNOPSIS
+
+    my $api.ecr = Paws->service('ECR');
+    my $DescribeImageReplicationStatusResponse =
+      $api . ecr->DescribeImageReplicationStatus(
+      ImageId => {
+        ImageDigest => 'MyImageDigest',    # OPTIONAL
+        ImageTag    => 'MyImageTag',       # min: 1, max: 300; OPTIONAL
+      },
+      RepositoryName => 'MyRepositoryName',
+      RegistryId     => 'MyRegistryId',       # OPTIONAL
+      );
+
+    # Results:
+    my $ImageId = $DescribeImageReplicationStatusResponse->ImageId;
+    my $ReplicationStatuses =
+      $DescribeImageReplicationStatusResponse->ReplicationStatuses;
+    my $RepositoryName =
+      $DescribeImageReplicationStatusResponse->RepositoryName;
+
+    # Returns a L<Paws::ECR::DescribeImageReplicationStatusResponse> object.
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api.ecr/DescribeImageReplicationStatus>
+
+=head1 ATTRIBUTES
+
+
+=head2 B<REQUIRED> ImageId => L<Paws::ECR::ImageIdentifier>
+
+
+
+
+
+=head2 RegistryId => Str
+
+The Amazon Web Services account ID associated with the registry. If you
+do not specify a registry, the default registry is assumed.
+
+
+
+=head2 B<REQUIRED> RepositoryName => Str
+
+The name of the repository that the image is in.
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method DescribeImageReplicationStatus in L<Paws::ECR>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

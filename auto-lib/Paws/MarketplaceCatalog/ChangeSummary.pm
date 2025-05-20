@@ -4,6 +4,7 @@ package Paws::MarketplaceCatalog::ChangeSummary;
   has ChangeName => (is => 'ro', isa => 'Str');
   has ChangeType => (is => 'ro', isa => 'Str');
   has Details => (is => 'ro', isa => 'Str');
+  has DetailsDocument => (is => 'ro', isa => 'Paws::MarketplaceCatalog::JsonDocumentType');
   has Entity => (is => 'ro', isa => 'Paws::MarketplaceCatalog::Entity');
   has ErrorDetailList => (is => 'ro', isa => 'ArrayRef[Paws::MarketplaceCatalog::ErrorDetail]');
 
@@ -56,6 +57,12 @@ The type of the change.
 =head2 Details => Str
 
 This object contains details specific to the change type of the
+requested change.
+
+
+=head2 DetailsDocument => L<Paws::MarketplaceCatalog::JsonDocumentType>
+
+The JSON value of the details specific to the change type of the
 requested change.
 
 

@@ -61,14 +61,42 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 ByName => Bool
 
-Returns the list of component build versions for the specified semantic
-version.
+Returns the list of components for the specified name.
 
 
 
 =head2 Filters => ArrayRef[L<Paws::ImageBuilder::Filter>]
 
-The filters.
+Use the following filters to streamline results:
+
+=over
+
+=item *
+
+C<description>
+
+=item *
+
+C<name>
+
+=item *
+
+C<platform>
+
+=item *
+
+C<supportedOsVersion>
+
+=item *
+
+C<type>
+
+=item *
+
+C<version>
+
+=back
+
 
 
 
@@ -80,20 +108,20 @@ The maximum items to return in a request.
 
 =head2 NextToken => Str
 
-A token to specify where to start paginating. This is the NextToken
+A token to specify where to start paginating. This is the nextToken
 from a previously truncated response.
 
 
 
 =head2 Owner => Str
 
-The owner defines which components you want to list. By default, this
-request will only show components owned by your account. You can use
-this field to specify if you want to view components owned by yourself,
-by Amazon, or those components that have been shared with you by other
-customers.
+Filters results based on the type of owner for the component. By
+default, this request returns a list of components that your account
+owns. To see results for other types of owners, you can specify
+components that Amazon manages, third party components, or components
+that other accounts have shared with you.
 
-Valid values are: C<"Self">, C<"Shared">, C<"Amazon">
+Valid values are: C<"Self">, C<"Shared">, C<"Amazon">, C<"ThirdParty">, C<"AWSMarketplace">
 
 
 =head1 SEE ALSO

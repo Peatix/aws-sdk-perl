@@ -4,6 +4,7 @@ package Paws::LexModelsV2::ListImports;
   has BotId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botId');
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botVersion');
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::ImportFilter]', traits => ['NameInRequest'], request_name => 'filters');
+  has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
   has SortBy => (is => 'ro', isa => 'Paws::LexModelsV2::ImportSortBy', traits => ['NameInRequest'], request_name => 'sortBy');
@@ -47,6 +48,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      LocaleId   => 'MyLocaleId',     # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyNextToken',    # OPTIONAL
       SortBy     => {
@@ -60,6 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BotId           = $ListImportsResponse->BotId;
     my $BotVersion      = $ListImportsResponse->BotVersion;
     my $ImportSummaries = $ListImportsResponse->ImportSummaries;
+    my $LocaleId        = $ListImportsResponse->LocaleId;
     my $NextToken       = $ListImportsResponse->NextToken;
 
     # Returns a L<Paws::LexModelsV2::ListImportsResponse> object.
@@ -90,6 +93,14 @@ only specify one filter and one string to filter on.
 
 
 
+=head2 LocaleId => Str
+
+Specifies the locale that should be present in the list. If you don't
+specify a resource type in the C<filters> parameter, the list contains
+both bot locales and custom vocabularies.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of imports to return in each page of results. If
@@ -102,8 +113,12 @@ of results are returned.
 
 If the response from the C<ListImports> operation contains more results
 than specified in the C<maxResults> parameter, a token is returned in
-the response. Use that token in the C<nextToken> parameter to return
-the next page of results.
+the response.
+
+Use the returned token in the C<nextToken> parameter of a
+C<ListImports> request to return the next page of results. For a
+complete set of results, call the C<ListImports> operation until the
+C<nextToken> returned in the response is null.
 
 
 

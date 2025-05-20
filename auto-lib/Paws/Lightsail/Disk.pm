@@ -5,6 +5,7 @@ package Paws::Lightsail::Disk;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has AttachedTo => (is => 'ro', isa => 'Str', request_name => 'attachedTo', traits => ['NameInRequest']);
   has AttachmentState => (is => 'ro', isa => 'Str', request_name => 'attachmentState', traits => ['NameInRequest']);
+  has AutoMountStatus => (is => 'ro', isa => 'Str', request_name => 'autoMountStatus', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has GbInUse => (is => 'ro', isa => 'Int', request_name => 'gbInUse', traits => ['NameInRequest']);
   has Iops => (is => 'ro', isa => 'Int', request_name => 'iops', traits => ['NameInRequest']);
@@ -49,7 +50,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes a system disk or a block storage disk.
+Describes a block storage disk.
 
 =head1 ATTRIBUTES
 
@@ -71,11 +72,20 @@ The resources to which the disk is attached.
 
 =head2 AttachmentState => Str
 
-(Deprecated) The attachment state of the disk.
+(Discontinued) The attachment state of the disk.
 
 In releases prior to November 14, 2017, this parameter returned
-C<attached> for system disks in the API response. It is now deprecated,
-but still included in the response. Use C<isAttached> instead.
+C<attached> for system disks in the API response. It is now
+discontinued, but still included in the response. Use C<isAttached>
+instead.
+
+
+=head2 AutoMountStatus => Str
+
+The status of automatically mounting a storage disk to a virtual
+computer.
+
+This parameter only applies to Lightsail for Research resources.
 
 
 =head2 CreatedAt => Str
@@ -85,10 +95,10 @@ The date when the disk was created.
 
 =head2 GbInUse => Int
 
-(Deprecated) The number of GB in use by the disk.
+(Discontinued) The number of GB in use by the disk.
 
 In releases prior to November 14, 2017, this parameter was not included
-in the API response. It is now deprecated.
+in the API response. It is now discontinued.
 
 
 =head2 Iops => Int
@@ -124,7 +134,7 @@ The disk path.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<Disk>).
+The Lightsail resource type (C<Disk>).
 
 
 =head2 SizeInGb => Int
@@ -148,8 +158,8 @@ more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

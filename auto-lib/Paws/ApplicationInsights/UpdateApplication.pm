@@ -1,11 +1,14 @@
 
 package Paws::ApplicationInsights::UpdateApplication;
   use Moose;
+  has AttachMissingPermission => (is => 'ro', isa => 'Bool');
+  has AutoConfigEnabled => (is => 'ro', isa => 'Bool');
   has CWEMonitorEnabled => (is => 'ro', isa => 'Bool');
   has OpsCenterEnabled => (is => 'ro', isa => 'Bool');
   has OpsItemSNSTopicArn => (is => 'ro', isa => 'Str');
   has RemoveSNSTopic => (is => 'ro', isa => 'Bool');
   has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
+  has SNSNotificationArn => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +35,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $UpdateApplicationResponse = $applicationinsights->UpdateApplication(
-      ResourceGroupName  => 'MyResourceGroupName',
-      CWEMonitorEnabled  => 1,                         # OPTIONAL
-      OpsCenterEnabled   => 1,                         # OPTIONAL
-      OpsItemSNSTopicArn => 'MyOpsItemSNSTopicArn',    # OPTIONAL
-      RemoveSNSTopic     => 1,                         # OPTIONAL
+      ResourceGroupName       => 'MyResourceGroupName',
+      AttachMissingPermission => 1,                         # OPTIONAL
+      AutoConfigEnabled       => 1,                         # OPTIONAL
+      CWEMonitorEnabled       => 1,                         # OPTIONAL
+      OpsCenterEnabled        => 1,                         # OPTIONAL
+      OpsItemSNSTopicArn      => 'MyOpsItemSNSTopicArn',    # OPTIONAL
+      RemoveSNSTopic          => 1,                         # OPTIONAL
+      SNSNotificationArn      => 'MySNSNotificationArn',    # OPTIONAL
     );
 
     # Results:
@@ -48,6 +54,19 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/UpdateApplication>
 
 =head1 ATTRIBUTES
+
+
+=head2 AttachMissingPermission => Bool
+
+If set to true, the managed policies for SSM and CW will be attached to
+the instance roles if they are missing.
+
+
+
+=head2 AutoConfigEnabled => Bool
+
+Turns auto-configuration on or off.
+
 
 
 =head2 CWEMonitorEnabled => Bool
@@ -83,6 +102,13 @@ problems.
 =head2 B<REQUIRED> ResourceGroupName => Str
 
 The name of the resource group.
+
+
+
+=head2 SNSNotificationArn => Str
+
+The SNS topic ARN. Allows you to receive SNS notifications for updates
+and issues with an application.
 
 
 

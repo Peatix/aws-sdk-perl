@@ -18,13 +18,13 @@ Paws::AuditManager::GetEvidenceFoldersByAssessmentResponse
 
 =head2 EvidenceFolders => ArrayRef[L<Paws::AuditManager::AssessmentEvidenceFolder>]
 
-The list of evidence folders returned by the
-C<GetEvidenceFoldersByAssessment> API.
+The list of evidence folders that the C<GetEvidenceFoldersByAssessment>
+API returned.
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 _request_id => Str

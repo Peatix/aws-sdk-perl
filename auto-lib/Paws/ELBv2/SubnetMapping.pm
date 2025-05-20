@@ -4,6 +4,7 @@ package Paws::ELBv2::SubnetMapping;
   has AllocationId => (is => 'ro', isa => 'Str');
   has IPv6Address => (is => 'ro', isa => 'Str');
   has PrivateIPv4Address => (is => 'ro', isa => 'Str');
+  has SourceNatIpv6Prefix => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str');
 
 1;
@@ -56,6 +57,14 @@ for an internet-facing load balancer.
 
 [Network Load Balancers] The private IPv4 address for an internal load
 balancer.
+
+
+=head2 SourceNatIpv6Prefix => Str
+
+[Network Load Balancers with UDP listeners] The IPv6 prefix to use for
+source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR
+block or C<auto_assigned> to use an IPv6 prefix selected at random from
+the subnet CIDR block.
 
 
 =head2 SubnetId => Str

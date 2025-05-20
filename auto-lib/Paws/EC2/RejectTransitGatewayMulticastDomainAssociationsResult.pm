@@ -17,7 +17,7 @@ Paws::EC2::RejectTransitGatewayMulticastDomainAssociationsResult
 
 =head2 Associations => L<Paws::EC2::TransitGatewayMulticastDomainAssociations>
 
-
+Information about the multicast domain associations.
 
 
 =head2 _request_id => Str

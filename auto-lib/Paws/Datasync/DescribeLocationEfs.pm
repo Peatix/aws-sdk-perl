@@ -33,10 +33,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CreationTime = $DescribeLocationEfsResponse->CreationTime;
-    my $Ec2Config    = $DescribeLocationEfsResponse->Ec2Config;
-    my $LocationArn  = $DescribeLocationEfsResponse->LocationArn;
-    my $LocationUri  = $DescribeLocationEfsResponse->LocationUri;
+    my $AccessPointArn = $DescribeLocationEfsResponse->AccessPointArn;
+    my $CreationTime   = $DescribeLocationEfsResponse->CreationTime;
+    my $Ec2Config      = $DescribeLocationEfsResponse->Ec2Config;
+    my $FileSystemAccessRoleArn =
+      $DescribeLocationEfsResponse->FileSystemAccessRoleArn;
+    my $InTransitEncryption = $DescribeLocationEfsResponse->InTransitEncryption;
+    my $LocationArn         = $DescribeLocationEfsResponse->LocationArn;
+    my $LocationUri         = $DescribeLocationEfsResponse->LocationUri;
 
     # Returns a L<Paws::Datasync::DescribeLocationEfsResponse> object.
 
@@ -48,7 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> LocationArn => Str
 
-The Amazon Resource Name (ARN) of the EFS location to describe.
+The Amazon Resource Name (ARN) of the Amazon EFS file system location
+that you want information about.
 
 
 

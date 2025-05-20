@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaTailor
 
 =head1 DESCRIPTION
 
-The ouput configuration for this channel.
+The output configuration for this channel.
 
 =head1 ATTRIBUTES
 
@@ -54,13 +54,13 @@ HLS playlist configuration parameters.
 =head2 B<REQUIRED> ManifestName => Str
 
 The name of the manifest for the channel. The name appears in the
-PlaybackUrl.
+C<PlaybackUrl>.
 
 
 =head2 B<REQUIRED> SourceGroup => Str
 
-A string used to match which HttpPackageConfiguration is used for each
-VodSource.
+A string used to match which C<HttpPackageConfiguration> is used for
+each C<VodSource>.
 
 
 

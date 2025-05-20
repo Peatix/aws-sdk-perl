@@ -4,6 +4,7 @@ package Paws::SageMaker::OfflineStoreConfig;
   has DataCatalogConfig => (is => 'ro', isa => 'Paws::SageMaker::DataCatalogConfig');
   has DisableGlueTableCreation => (is => 'ro', isa => 'Bool');
   has S3StorageConfig => (is => 'ro', isa => 'Paws::SageMaker::S3StorageConfig', required => 1);
+  has TableFormat => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::OfflineStoreConfig object:
 
-  $service_obj->Method(Att1 => { DataCatalogConfig => $value, ..., S3StorageConfig => $value  });
+  $service_obj->Method(Att1 => { DataCatalogConfig => $value, ..., TableFormat => $value  });
 
 =head3 Results returned from an API call
 
@@ -56,12 +57,23 @@ C<OfflineStore> is created.
 =head2 DisableGlueTableCreation => Bool
 
 Set to C<True> to disable the automatic creation of an Amazon Web
-Services Glue table when configuring an C<OfflineStore>.
+Services Glue table when configuring an C<OfflineStore>. If set to
+C<False>, Feature Store will name the C<OfflineStore> Glue table
+following Athena's naming recommendations
+(https://docs.aws.amazon.com/athena/latest/ug/tables-databases-columns-names.html).
+
+The default value is C<False>.
 
 
 =head2 B<REQUIRED> S3StorageConfig => L<Paws::SageMaker::S3StorageConfig>
 
 The Amazon Simple Storage (Amazon S3) location of C<OfflineStore>.
+
+
+=head2 TableFormat => Str
+
+Format for the offline store table. Supported formats are Glue
+(Default) and Apache Iceberg (https://iceberg.apache.org/).
 
 
 

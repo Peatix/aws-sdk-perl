@@ -36,16 +36,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::AwsVPC
 
 =head1 DESCRIPTION
 
-Details of the rule violation in a security group when compared to the
-master security group of the AWS Firewall Manager policy.
+Violation detail for the rule violation in a security group when
+compared to the primary security group of the Firewall Manager policy.
 
 =head1 ATTRIBUTES
 
 
 =head2 PartialMatches => ArrayRef[L<Paws::FMS::PartialMatch>]
 
-List of rules specified in the security group of the AWS Firewall
-Manager policy that partially match the C<ViolationTarget> rule.
+List of rules specified in the security group of the Firewall Manager
+policy that partially match the C<ViolationTarget> rule.
 
 
 =head2 PossibleSecurityGroupRemediationActions => ArrayRef[L<Paws::FMS::SecurityGroupRemediationAction>]

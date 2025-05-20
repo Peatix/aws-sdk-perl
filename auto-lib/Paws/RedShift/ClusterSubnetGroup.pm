@@ -5,6 +5,7 @@ package Paws::RedShift::ClusterSubnetGroup;
   has Description => (is => 'ro', isa => 'Str');
   has SubnetGroupStatus => (is => 'ro', isa => 'Str');
   has Subnets => (is => 'ro', isa => 'ArrayRef[Paws::RedShift::Subnet]', request_name => 'Subnet', traits => ['NameInRequest']);
+  has SupportedClusterIpAddressTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'item', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RedShift::Tag]', request_name => 'Tag', traits => ['NameInRequest']);
   has VpcId => (is => 'ro', isa => 'Str');
 
@@ -62,6 +63,12 @@ C<Complete>, C<Incomplete> and C<Invalid>.
 =head2 Subnets => ArrayRef[L<Paws::RedShift::Subnet>]
 
 A list of the VPC Subnet elements.
+
+
+=head2 SupportedClusterIpAddressTypes => ArrayRef[Str|Undef]
+
+The IP address types supported by this cluster subnet group. Possible
+values are C<ipv4> and C<dualstack>.
 
 
 =head2 Tags => ArrayRef[L<Paws::RedShift::Tag>]

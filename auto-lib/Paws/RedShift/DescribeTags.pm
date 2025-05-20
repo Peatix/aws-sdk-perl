@@ -133,6 +133,14 @@ Parameter group
 
 Snapshot copy grant
 
+=item *
+
+Integration (zero-ETL integration or S3 event integration)
+
+To describe the tags associated with an C<integration>, don't specify
+C<ResourceType>, instead specify the C<ResourceName> of the
+integration.
+
 =back
 
 For more information about Amazon Redshift resource types and

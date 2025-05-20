@@ -12,6 +12,7 @@ package Paws::Lightsail::ContainerService;
   has PowerId => (is => 'ro', isa => 'Str', request_name => 'powerId', traits => ['NameInRequest']);
   has PrincipalArn => (is => 'ro', isa => 'Str', request_name => 'principalArn', traits => ['NameInRequest']);
   has PrivateDomainName => (is => 'ro', isa => 'Str', request_name => 'privateDomainName', traits => ['NameInRequest']);
+  has PrivateRegistryAccess => (is => 'ro', isa => 'Paws::Lightsail::PrivateRegistryAccess', request_name => 'privateRegistryAccess', traits => ['NameInRequest']);
   has PublicDomainNames => (is => 'ro', isa => 'Paws::Lightsail::ContainerServicePublicDomains', request_name => 'publicDomainNames', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
   has Scale => (is => 'ro', isa => 'Int', request_name => 'scale', traits => ['NameInRequest']);
@@ -84,7 +85,7 @@ A Boolean value indicating whether the container service is disabled.
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
 An object that describes the location of the container service, such as
-the AWS Region and Availability Zone.
+the Amazon Web Services Region and Availability Zone.
 
 
 =head2 NextDeployment => L<Paws::Lightsail::ContainerServiceDeployment>
@@ -113,9 +114,9 @@ The ID of the power of the container service.
 The principal ARN of the container service.
 
 The principal ARN can be used to create a trust relationship between
-your standard AWS account and your Lightsail container service. This
-allows you to give your service permission to access resources in your
-standard AWS account.
+your standard Amazon Web Services account and your Lightsail container
+service. This allows you to give your service permission to access
+resources in your standard Amazon Web Services account.
 
 
 =head2 PrivateDomainName => Str
@@ -124,6 +125,18 @@ The private domain name of the container service.
 
 The private domain name is accessible only by other resources within
 the default virtual private cloud (VPC) of your Lightsail account.
+
+
+=head2 PrivateRegistryAccess => L<Paws::Lightsail::PrivateRegistryAccess>
+
+An object that describes the configuration for the container service to
+access private container image repositories, such as Amazon Elastic
+Container Registry (Amazon ECR) private repositories.
+
+For more information, see Configuring access to an Amazon ECR private
+repository for an Amazon Lightsail container service
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access)
+in the I<Amazon Lightsail Developer Guide>.
 
 
 =head2 PublicDomainNames => L<Paws::Lightsail::ContainerServicePublicDomains>
@@ -151,8 +164,7 @@ container service.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type of the container service (i.e.,
-C<ContainerService>).
+The Lightsail resource type of the container service.
 
 
 =head2 Scale => Int
@@ -219,8 +231,8 @@ C<PENDING>, C<DEPLOYING>, or C<UPDATING> state.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 =head2 Url => Str

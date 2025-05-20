@@ -65,8 +65,8 @@ A timestamp that represents the date and time the domain was created.
 
 =head2 EncryptionKey => Str
 
-The ARN of an AWS Key Management Service (AWS KMS) key associated with
-a domain.
+The ARN of an Key Management Service (KMS) key associated with a
+domain.
 
 
 =head2 Name => Str
@@ -76,7 +76,7 @@ The name of the domain.
 
 =head2 Owner => Str
 
-The AWS account ID that owns the domain.
+The Amazon Web Services account ID that owns the domain.
 
 
 =head2 RepositoryCount => Int
@@ -92,20 +92,7 @@ store package assets in the domain.
 
 =head2 Status => Str
 
-The current status of a domain. The valid values are
-
-=over
-
-=item *
-
-C<Active>
-
-=item *
-
-C<Deleted>
-
-=back
-
+The current status of a domain.
 
 
 

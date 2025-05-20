@@ -39,8 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::LinuxP
 
 =head1 DESCRIPTION
 
-Linux-specific options that are applied to the container, such as Linux
-KernelCapabilities.
+The Linux-specific options that are applied to the container, such as
+Linux KernelCapabilities
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
 
 =head1 ATTRIBUTES
 
@@ -58,24 +59,18 @@ supported if using platform version 1.4.0 or later.
 =head2 Devices => ArrayRef[L<Paws::ECS::Device>]
 
 Any host devices to expose to the container. This parameter maps to
-C<Devices> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--device> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+C<Devices> in the docker container create command and the C<--device>
+option to docker run.
 
-If you are using tasks that use the Fargate launch type, the C<devices>
-parameter is not supported.
+If you're using tasks that use the Fargate launch type, the C<devices>
+parameter isn't supported.
 
 
 =head2 InitProcessEnabled => Bool
 
 Run an C<init> process inside the container that forwards signals and
 reaps processes. This parameter maps to the C<--init> option to docker
-run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-This parameter requires version 1.25 of the Docker Remote API or
+run. This parameter requires version 1.25 of the Docker Remote API or
 greater on your container instance. To check the Docker Remote API
 version on your container instance, log in to your container instance
 and run the following command: C<sudo docker version --format
@@ -86,9 +81,7 @@ and run the following command: C<sudo docker version --format
 
 The total amount of swap memory (in MiB) a container can use. This
 parameter will be translated to the C<--memory-swap> option to docker
-run
-(https://docs.docker.com/engine/reference/run/#security-configuration)
-where the value would be the sum of the container memory plus the
+run where the value would be the sum of the container memory plus the
 C<maxSwap> value.
 
 If a C<maxSwap> value of C<0> is specified, the container will not use
@@ -97,15 +90,17 @@ C<maxSwap> parameter is omitted, the container will use the swap
 configuration for the container instance it is running on. A C<maxSwap>
 value must be set for the C<swappiness> parameter to be used.
 
-If you are using tasks that use the Fargate launch type, the C<maxSwap>
-parameter is not supported.
+If you're using tasks that use the Fargate launch type, the C<maxSwap>
+parameter isn't supported.
+
+If you're using tasks on Amazon Linux 2023 the C<swappiness> parameter
+isn't supported.
 
 
 =head2 SharedMemorySize => Int
 
 The value for the size (in MiB) of the C</dev/shm> volume. This
-parameter maps to the C<--shm-size> option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to the C<--shm-size> option to docker run.
 
 If you are using tasks that use the Fargate launch type, the
 C<sharedMemorySize> parameter is not supported.
@@ -120,21 +115,22 @@ to be swapped very aggressively. Accepted values are whole numbers
 between C<0> and C<100>. If the C<swappiness> parameter is not
 specified, a default value of C<60> is used. If a value is not
 specified for C<maxSwap> then this parameter is ignored. This parameter
-maps to the C<--memory-swappiness> option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+maps to the C<--memory-swappiness> option to docker run.
 
-If you are using tasks that use the Fargate launch type, the
-C<swappiness> parameter is not supported.
+If you're using tasks that use the Fargate launch type, the
+C<swappiness> parameter isn't supported.
+
+If you're using tasks on Amazon Linux 2023 the C<swappiness> parameter
+isn't supported.
 
 
 =head2 Tmpfs => ArrayRef[L<Paws::ECS::Tmpfs>]
 
 The container path, mount options, and size (in MiB) of the tmpfs
-mount. This parameter maps to the C<--tmpfs> option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+mount. This parameter maps to the C<--tmpfs> option to docker run.
 
-If you are using tasks that use the Fargate launch type, the C<tmpfs>
-parameter is not supported.
+If you're using tasks that use the Fargate launch type, the C<tmpfs>
+parameter isn't supported.
 
 
 

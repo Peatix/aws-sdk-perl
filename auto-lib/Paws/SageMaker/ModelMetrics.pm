@@ -43,7 +43,7 @@ Contains metrics captured from a model.
 
 =head2 Bias => L<Paws::SageMaker::Bias>
 
-Metrics that measure bais in a model.
+Metrics that measure bias in a model.
 
 
 =head2 Explainability => L<Paws::SageMaker::Explainability>

@@ -37,34 +37,43 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Buc
 =head1 DESCRIPTION
 
 Provides information about the number of S3 buckets that are or aren't
-shared with other Amazon Web Services accounts.
+shared with other Amazon Web Services accounts, Amazon CloudFront
+origin access identities (OAIs), or CloudFront origin access controls
+(OACs). In this data, an I<Amazon Macie organization> is defined as a
+set of Macie accounts that are centrally managed as a group of related
+accounts through Organizations or by Macie invitation.
 
 =head1 ATTRIBUTES
 
 
 =head2 External => Int
 
-The total number of buckets that are shared with an Amazon Web Services
-account that isn't part of the same Amazon Macie organization.
+The total number of buckets that are shared with one or more of the
+following or any combination of the following: an Amazon CloudFront
+OAI, a CloudFront OAC, or an Amazon Web Services account that isn't in
+the same Amazon Macie organization.
 
 
 =head2 Internal => Int
 
-The total number of buckets that are shared with an Amazon Web Services
-account that's part of the same Amazon Macie organization.
+The total number of buckets that are shared with one or more Amazon Web
+Services accounts in the same Amazon Macie organization. These buckets
+aren't shared with Amazon CloudFront OAIs or OACs.
 
 
 =head2 NotShared => Int
 
 The total number of buckets that aren't shared with other Amazon Web
-Services accounts.
+Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
 
 
 =head2 Unknown => Int
 
 The total number of buckets that Amazon Macie wasn't able to evaluate
-shared access settings for. Macie can't determine whether these buckets
-are shared with other Amazon Web Services accounts.
+shared access settings for. For example, the buckets' permissions
+settings or a quota prevented Macie from retrieving the requisite data.
+Macie can't determine whether the buckets are shared with other Amazon
+Web Services accounts, Amazon CloudFront OAIs, or CloudFront OACs.
 
 
 

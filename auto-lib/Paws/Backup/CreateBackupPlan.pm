@@ -42,20 +42,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               {
                 DestinationBackupVaultArn => 'MyARN',
                 Lifecycle                 => {
-                  DeleteAfterDays            => 1,    # OPTIONAL
-                  MoveToColdStorageAfterDays => 1,    # OPTIONAL
+                  DeleteAfterDays                     => 1,    # OPTIONAL
+                  MoveToColdStorageAfterDays          => 1,    # OPTIONAL
+                  OptInToArchiveForSupportedResources => 1,    # OPTIONAL
                 },    # OPTIONAL
               },
               ...
             ],    # OPTIONAL
             EnableContinuousBackup => 1,    # OPTIONAL
-            Lifecycle              => {
-              DeleteAfterDays            => 1,    # OPTIONAL
-              MoveToColdStorageAfterDays => 1,    # OPTIONAL
+            IndexActions           => [
+              {
+                ResourceTypes => [ 'MyResourceType', ... ],    # OPTIONAL
+              },
+              ...
+            ],    # OPTIONAL
+            Lifecycle => {
+              DeleteAfterDays                     => 1,    # OPTIONAL
+              MoveToColdStorageAfterDays          => 1,    # OPTIONAL
+              OptInToArchiveForSupportedResources => 1,    # OPTIONAL
             },    # OPTIONAL
             RecoveryPointTags  => { 'MyTagKey' => 'MyTagValue', },    # OPTIONAL
             ScheduleExpression => 'MyCronExpression',                 # OPTIONAL
-            StartWindowMinutes => 1,                                  # OPTIONAL
+            ScheduleExpressionTimezone => 'MyTimezone',               # OPTIONAL
+            StartWindowMinutes         => 1,                          # OPTIONAL
           },
           ...
         ],
@@ -63,7 +72,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           {
             BackupOptions => { 'MyBackupOptionKey' => 'MyBackupOptionValue', }
             ,                                                         # OPTIONAL
-            ResourceType => 'MyResourceType',                         # OPTIONAL
+            ResourceType => 'MyResourceType',
           },
           ...
         ],    # OPTIONAL
@@ -90,16 +99,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 B<REQUIRED> BackupPlan => L<Paws::Backup::BackupPlanInput>
 
-Specifies the body of a backup plan. Includes a C<BackupPlanName> and
-one or more sets of C<Rules>.
+The body of a backup plan. Includes a C<BackupPlanName> and one or more
+sets of C<Rules>.
 
 
 
 =head2 BackupPlanTags => L<Paws::Backup::Tags>
 
-To help organize your resources, you can assign your own metadata to
-the resources that you create. Each tag is a key-value pair. The
-specified tags are assigned to all backups created with this plan.
+The tags to assign to the backup plan.
 
 
 
@@ -109,6 +116,9 @@ Identifies the request and allows failed requests to be retried without
 the risk of running the operation twice. If the request includes a
 C<CreatorRequestId> that matches an existing backup plan, that plan is
 returned. This parameter is optional.
+
+If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+characters.
 
 
 

@@ -65,8 +65,7 @@ When a function is in the C<DEVELOPMENT> stage, you can test the
 function with C<TestFunction>, and update it with C<UpdateFunction>.
 
 When a function is in the C<LIVE> stage, you can attach the function to
-a distributionE<rsquo>s cache behavior, using the functionE<rsquo>s
-ARN.
+a distribution's cache behavior, using the function's ARN.
 
 
 

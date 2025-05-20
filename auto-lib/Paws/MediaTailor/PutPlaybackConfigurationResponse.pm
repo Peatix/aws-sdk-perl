@@ -1,6 +1,7 @@
 
 package Paws::MediaTailor::PutPlaybackConfigurationResponse;
   use Moose;
+  has AdConditioningConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::AdConditioningConfiguration');
   has AdDecisionServerUrl => (is => 'ro', isa => 'Str');
   has AvailSuppression => (is => 'ro', isa => 'Paws::MediaTailor::AvailSuppression');
   has Bumper => (is => 'ro', isa => 'Paws::MediaTailor::Bumper');
@@ -8,7 +9,9 @@ package Paws::MediaTailor::PutPlaybackConfigurationResponse;
   has ConfigurationAliases => (is => 'ro', isa => 'Paws::MediaTailor::ConfigurationAliasesResponse');
   has DashConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::DashConfiguration');
   has HlsConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::HlsConfiguration');
+  has InsertionMode => (is => 'ro', isa => 'Str');
   has LivePreRollConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::LivePreRollConfiguration');
+  has LogConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::LogConfiguration');
   has ManifestProcessingRules => (is => 'ro', isa => 'Paws::MediaTailor::ManifestProcessingRules');
   has Name => (is => 'ro', isa => 'Str');
   has PersonalizationThresholdSeconds => (is => 'ro', isa => 'Int');
@@ -32,14 +35,21 @@ Paws::MediaTailor::PutPlaybackConfigurationResponse
 =head1 ATTRIBUTES
 
 
+=head2 AdConditioningConfiguration => L<Paws::MediaTailor::AdConditioningConfiguration>
+
+The setting that indicates what conditioning MediaTailor will perform
+on ads that the ad decision server (ADS) returns, and what priority
+MediaTailor uses when inserting ads.
+
+
 =head2 AdDecisionServerUrl => Str
 
 The URL for the ad decision server (ADS). This includes the
 specification of static parameters and placeholders for dynamic
 parameters. AWS Elemental MediaTailor substitutes player-specific and
 session-specific parameters as needed when calling the ADS.
-Alternately, for testing, you can provide a static VAST URL. The
-maximum length is 25,000 characters.
+Alternately, for testing you can provide a static VAST URL. The maximum
+length is 25,000 characters.
 
 
 =head2 AvailSuppression => L<Paws::MediaTailor::AvailSuppression>
@@ -67,7 +77,7 @@ Amazon CloudFront, for content and ad segment management.
 
 The player parameters and aliases used as dynamic variables during
 session initialization. For more information, see Domain Variables
-(https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html).
+(https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domains.html).
 
 
 =head2 DashConfiguration => L<Paws::MediaTailor::DashConfiguration>
@@ -80,9 +90,25 @@ The configuration for DASH content.
 The configuration for HLS content.
 
 
+=head2 InsertionMode => Str
+
+The setting that controls whether players can use stitched or guided ad
+insertion. The default, C<STITCHED_ONLY>, forces all player sessions to
+use stitched (server-side) ad insertion. Choosing C<PLAYER_SELECT>
+allows players to select either stitched or guided ad insertion at
+session-initialization time. The default for players that do not
+specify an insertion mode is stitched.
+
+Valid values are: C<"STITCHED_ONLY">, C<"PLAYER_SELECT">
 =head2 LivePreRollConfiguration => L<Paws::MediaTailor::LivePreRollConfiguration>
 
 The configuration for pre-roll ad insertion.
+
+
+=head2 LogConfiguration => L<Paws::MediaTailor::LogConfiguration>
+
+The configuration that defines where AWS Elemental MediaTailor sends
+logs for the playback configuration.
 
 
 =head2 ManifestProcessingRules => L<Paws::MediaTailor::ManifestProcessingRules>
@@ -112,19 +138,20 @@ Behavior in AWS Elemental MediaTailor
 
 =head2 PlaybackConfigurationArn => Str
 
-The Amazon Resource Name (ARN) for the playback configuration.
+The Amazon Resource Name (ARN) associated with the playback
+configuration.
 
 
 =head2 PlaybackEndpointPrefix => Str
 
-The URL that the player accesses to get a manifest from AWS Elemental
-MediaTailor. This session will use server-side reporting.
+The playback endpoint prefix associated with the playback
+configuration.
 
 
 =head2 SessionInitializationEndpointPrefix => Str
 
-The URL that the player uses to initialize a session that uses
-client-side reporting.
+The session initialization endpoint prefix associated with the playback
+configuration.
 
 
 =head2 SlateAdUrl => Str
@@ -132,15 +159,19 @@ client-side reporting.
 The URL for a high-quality video asset to transcode and use to fill in
 time that's not used by ads. AWS Elemental MediaTailor shows the slate
 to fill in gaps in media content. Configuring the slate is optional for
-non-VPAID playback configurations. For VPAID, the slate is required
-because MediaTailor provides it in the slots designated for dynamic ad
+non-VPAID configurations. For VPAID, the slate is required because
+MediaTailor provides it in the slots that are designated for dynamic ad
 content. The slate must be a high-quality asset that contains both
 audio and video.
 
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags assigned to the playback configuration.
+The tags to assign to the playback configuration. Tags are key-value
+pairs that you can associate with Amazon resources to help with
+organization, access control, and cost tracking. For more information,
+see Tagging AWS Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 =head2 TranscodeProfileName => Str

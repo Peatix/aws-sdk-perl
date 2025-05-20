@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> CodeReviewArn => Str
 
-The Amazon Resource Name (ARN) of the C<CodeReview>
+The Amazon Resource Name (ARN) of the CodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
 object.
 
@@ -69,11 +69,12 @@ recommendations and then to collect the feedback.
 Optional parameter to describe the feedback for a given user. If this
 is not supplied, it defaults to the user making the request.
 
-The C<UserId> is an IAM principal that can be specified as an AWS
-account ID or an Amazon Resource Name (ARN). For more information, see
-Specifying a Principal
+The C<UserId> is an IAM principal that can be specified as an Amazon
+Web Services account ID or an Amazon Resource Name (ARN). For more
+information, see Specifying a Principal
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying)
-in the I<AWS Identity and Access Management User Guide>.
+in the I<Amazon Web Services Identity and Access Management User
+Guide>.
 
 
 

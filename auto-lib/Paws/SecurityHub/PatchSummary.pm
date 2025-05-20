@@ -54,11 +54,15 @@ against a selected compliance standard.
 The number of patches from the compliance standard that failed to
 install.
 
+The value can be an integer from C<0> to C<100000>.
+
 
 =head2 B<REQUIRED> Id => Str
 
 The identifier of the compliance standard that was used to determine
 the patch compliance status.
+
+Length Constraints: Minimum length of 1. Maximum length of 256.
 
 
 =head2 InstalledCount => Int
@@ -66,11 +70,15 @@ the patch compliance status.
 The number of patches from the compliance standard that were installed
 successfully.
 
+The value can be an integer from C<0> to C<100000>.
+
 
 =head2 InstalledOtherCount => Int
 
 The number of installed patches that are not part of the compliance
 standard.
+
+The value can be an integer from C<0> to C<100000>.
 
 
 =head2 InstalledPendingReboot => Int
@@ -78,11 +86,15 @@ standard.
 The number of patches that were applied, but that require the instance
 to be rebooted in order to be marked as installed.
 
+The value can be an integer from C<0> to C<100000>.
+
 
 =head2 InstalledRejectedCount => Int
 
 The number of patches that are installed but are also on a list of
 patches that the customer rejected.
+
+The value can be an integer from C<0> to C<100000>.
 
 
 =head2 MissingCount => Int
@@ -90,36 +102,40 @@ patches that the customer rejected.
 The number of patches that are part of the compliance standard but are
 not installed. The count includes patches that failed to install.
 
+The value can be an integer from C<0> to C<100000>.
+
 
 =head2 Operation => Str
 
 The type of patch operation performed. For Patch Manager, the values
 are C<SCAN> and C<INSTALL>.
 
+Length Constraints: Minimum length of 1. Maximum length of 256.
+
 
 =head2 OperationEndTime => Str
 
 Indicates when the operation completed.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 OperationStartTime => Str
 
 Indicates when the operation started.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 RebootOption => Str
 
 The reboot option specified for the instance.
+
+Length Constraints: Minimum length of 1. Maximum length of 256.
 
 
 

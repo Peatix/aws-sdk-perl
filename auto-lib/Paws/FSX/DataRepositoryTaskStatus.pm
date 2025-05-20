@@ -3,6 +3,7 @@ package Paws::FSX::DataRepositoryTaskStatus;
   use Moose;
   has FailedCount => (is => 'ro', isa => 'Int');
   has LastUpdatedTime => (is => 'ro', isa => 'Str');
+  has ReleasedCapacity => (is => 'ro', isa => 'Int');
   has SucceededCount => (is => 'ro', isa => 'Int');
   has TotalCount => (is => 'ro', isa => 'Int');
 
@@ -51,6 +52,13 @@ A running total of the number of files that the task failed to process.
 =head2 LastUpdatedTime => Str
 
 The time at which the task status was last updated.
+
+
+=head2 ReleasedCapacity => Int
+
+The total amount of data, in GiB, released by an Amazon File Cache
+AUTO_RELEASE_DATA task that automatically releases files from the
+cache.
 
 
 =head2 SucceededCount => Int

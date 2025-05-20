@@ -3,8 +3,8 @@ package Paws::SQS::QueueAttributeMap;
   with 'Paws::API::MapParser';
 
   use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'Name');
-  class_has xml_values =>(is => 'ro', default => 'Value');
+  class_has xml_keys =>(is => 'ro', default => 'key');
+  class_has xml_values =>(is => 'ro', default => 'value');
 
   has All => (is => 'ro', isa => 'Str');
   has ApproximateNumberOfMessages => (is => 'ro', isa => 'Str');
@@ -24,7 +24,9 @@ package Paws::SQS::QueueAttributeMap;
   has Policy => (is => 'ro', isa => 'Str');
   has QueueArn => (is => 'ro', isa => 'Str');
   has ReceiveMessageWaitTimeSeconds => (is => 'ro', isa => 'Str');
+  has RedriveAllowPolicy => (is => 'ro', isa => 'Str');
   has RedrivePolicy => (is => 'ro', isa => 'Str');
+  has SqsManagedSseEnabled => (is => 'ro', isa => 'Str');
   has VisibilityTimeout => (is => 'ro', isa => 'Str');
 1;
 
@@ -115,7 +117,13 @@ This class has no description
 =head2 ReceiveMessageWaitTimeSeconds => Str
 
 
+=head2 RedriveAllowPolicy => Str
+
+
 =head2 RedrivePolicy => Str
+
+
+=head2 SqsManagedSseEnabled => Str
 
 
 =head2 VisibilityTimeout => Str

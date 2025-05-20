@@ -45,8 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/que
 
 =head2 B<REQUIRED> QueryId => Str
 
-The id of the query that needs to be cancelled. C<QueryID> is returned
-as part of QueryResult.
+The ID of the query that needs to be cancelled. C<QueryID> is returned
+as part of the query result.
 
 
 

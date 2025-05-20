@@ -5,7 +5,8 @@ package Paws::Cloud9::CreateEnvironmentEC2;
   has ClientRequestToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientRequestToken' );
   has ConnectionType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectionType' );
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description' );
-  has ImageId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageId' );
+  has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
+  has ImageId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageId' , required => 1);
   has InstanceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'instanceType' , required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
   has OwnerArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ownerArn' );
@@ -43,7 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       'InstanceType'             => 't2.micro',
       'Name'                     => 'my-demo-environment',
       'OwnerArn'                 => 'arn:aws:iam::123456789012:user/MyDemoUser',
-      'SubnetId'                 => 'subnet-1fab8aEX'
+      'SubnetId'                 => 'subnet-6300cd1b'
     );
 
     # Results:
@@ -94,16 +95,31 @@ The description of the environment to create.
 
 
 
-=head2 ImageId => Str
+=head2 DryRun => Bool
+
+Checks whether you have the required permissions for the action,
+without actually making the request, and provides an error response. If
+you have the required permissions, the error response is
+C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
+
+
+
+=head2 B<REQUIRED> ImageId => Str
 
 The identifier for the Amazon Machine Image (AMI) that's used to create
 the EC2 instance. To choose an AMI for the instance, you must specify a
 valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path.
 
-The default AMI is used if the parameter isn't explicitly assigned a
-value in the request. Because Amazon Linux AMI has ended standard
-support as of December 31, 2020, we recommend you choose Amazon Linux
-2, which includes long term support through 2023.
+We recommend using Amazon Linux 2023 as the AMI to create your
+environment as it is fully supported.
+
+From December 16, 2024, Ubuntu 18.04 will be removed from the list of
+available C<imageIds> for Cloud9. This change is necessary as Ubuntu
+18.04 has ended standard support on May 31, 2023. This change will only
+affect direct API consumers, and not Cloud9 console users.
+
+Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we
+recommend you choose Ubuntu 22.04.
 
 B<AMI aliases>
 
@@ -111,15 +127,19 @@ B<AMI aliases>
 
 =item *
 
-B<Amazon Linux (default): C<amazonlinux-1-x86_64>>
-
-=item *
-
 Amazon Linux 2: C<amazonlinux-2-x86_64>
 
 =item *
 
+Amazon Linux 2023 (recommended): C<amazonlinux-2023-x86_64>
+
+=item *
+
 Ubuntu 18.04: C<ubuntu-18.04-x86_64>
+
+=item *
+
+Ubuntu 22.04: C<ubuntu-22.04-x86_64>
 
 =back
 
@@ -129,18 +149,23 @@ B<SSM paths>
 
 =item *
 
-B<Amazon Linux (default):
-C<resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64>>
-
-=item *
-
 Amazon Linux 2:
 C<resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64>
 
 =item *
 
+Amazon Linux 2023 (recommended):
+C<resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64>
+
+=item *
+
 Ubuntu 18.04:
 C<resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64>
+
+=item *
+
+Ubuntu 22.04:
+C<resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64>
 
 =back
 

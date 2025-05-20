@@ -72,8 +72,8 @@ there are no more health checks to get.
 
 The maximum number of health checks that you want C<ListHealthChecks>
 to return in response to the current request. Amazon Route 53 returns a
-maximum of 100 items. If you set C<MaxItems> to a value greater than
-100, Route 53 returns only the first 100 health checks.
+maximum of 1000 items. If you set C<MaxItems> to a value greater than
+1000, Route 53 returns only the first 1000 health checks.
 
 
 

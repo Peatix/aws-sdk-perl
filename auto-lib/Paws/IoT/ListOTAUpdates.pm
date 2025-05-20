@@ -64,7 +64,7 @@ A token used to retrieve the next set of results.
 
 The OTA update job status.
 
-Valid values are: C<"CREATE_PENDING">, C<"CREATE_IN_PROGRESS">, C<"CREATE_COMPLETE">, C<"CREATE_FAILED">
+Valid values are: C<"CREATE_PENDING">, C<"CREATE_IN_PROGRESS">, C<"CREATE_COMPLETE">, C<"CREATE_FAILED">, C<"DELETE_IN_PROGRESS">, C<"DELETE_FAILED">
 
 
 =head1 SEE ALSO

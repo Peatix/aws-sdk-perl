@@ -38,11 +38,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::G
 =head1 DESCRIPTION
 
 Connection information for a new game session that is created in
-response to a StartMatchmaking request. Once a match is made, the
+response to a start matchmaking request. Once a match is made, the
 FlexMatch engine creates a new game session for it. This information,
 including the game session endpoint and player sessions for each player
-in the original matchmaking request, is added to the MatchmakingTicket,
-which can be retrieved by calling DescribeMatchmaking.
+in the original matchmaking request, is added to the matchmaking
+ticket.
 
 =head1 ATTRIBUTES
 
@@ -79,8 +79,8 @@ A unique identifier for the game session. Use the game session ID.
 
 =head2 IpAddress => Str
 
-The IP address of the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number.
+The IP address of the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number.
 
 
 =head2 MatchedPlayerSessions => ArrayRef[L<Paws::GameLift::MatchedPlayerSession>]
@@ -91,8 +91,8 @@ included in the original matchmaking request.
 
 =head2 Port => Int
 
-The port number for the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number.
+The port number for the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number.
 
 
 

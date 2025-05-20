@@ -59,13 +59,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The identifier for the assessment.
 
 
 
 =head2 B<REQUIRED> CreateDelegationRequests => ArrayRef[L<Paws::AuditManager::CreateDelegationRequest>]
 
-The API request to batch create delegations in AWS Audit Manager.
+The API request to batch create delegations in Audit Manager.
 
 
 

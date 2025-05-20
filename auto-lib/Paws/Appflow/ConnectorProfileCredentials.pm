@@ -2,14 +2,17 @@
 package Paws::Appflow::ConnectorProfileCredentials;
   use Moose;
   has Amplitude => (is => 'ro', isa => 'Paws::Appflow::AmplitudeConnectorProfileCredentials');
+  has CustomConnector => (is => 'ro', isa => 'Paws::Appflow::CustomConnectorProfileCredentials');
   has Datadog => (is => 'ro', isa => 'Paws::Appflow::DatadogConnectorProfileCredentials');
   has Dynatrace => (is => 'ro', isa => 'Paws::Appflow::DynatraceConnectorProfileCredentials');
   has GoogleAnalytics => (is => 'ro', isa => 'Paws::Appflow::GoogleAnalyticsConnectorProfileCredentials');
   has Honeycode => (is => 'ro', isa => 'Paws::Appflow::HoneycodeConnectorProfileCredentials');
   has InforNexus => (is => 'ro', isa => 'Paws::Appflow::InforNexusConnectorProfileCredentials');
   has Marketo => (is => 'ro', isa => 'Paws::Appflow::MarketoConnectorProfileCredentials');
+  has Pardot => (is => 'ro', isa => 'Paws::Appflow::PardotConnectorProfileCredentials');
   has Redshift => (is => 'ro', isa => 'Paws::Appflow::RedshiftConnectorProfileCredentials');
   has Salesforce => (is => 'ro', isa => 'Paws::Appflow::SalesforceConnectorProfileCredentials');
+  has SAPOData => (is => 'ro', isa => 'Paws::Appflow::SAPODataConnectorProfileCredentials');
   has ServiceNow => (is => 'ro', isa => 'Paws::Appflow::ServiceNowConnectorProfileCredentials');
   has Singular => (is => 'ro', isa => 'Paws::Appflow::SingularConnectorProfileCredentials');
   has Slack => (is => 'ro', isa => 'Paws::Appflow::SlackConnectorProfileCredentials');
@@ -58,6 +61,11 @@ The connector-specific credentials required by a connector.
 The connector-specific credentials required when using Amplitude.
 
 
+=head2 CustomConnector => L<Paws::Appflow::CustomConnectorProfileCredentials>
+
+
+
+
 =head2 Datadog => L<Paws::Appflow::DatadogConnectorProfileCredentials>
 
 The connector-specific credentials required when using Datadog.
@@ -90,6 +98,12 @@ The connector-specific credentials required when using Infor Nexus.
 The connector-specific credentials required when using Marketo.
 
 
+=head2 Pardot => L<Paws::Appflow::PardotConnectorProfileCredentials>
+
+The connector-specific credentials required when using Salesforce
+Pardot.
+
+
 =head2 Redshift => L<Paws::Appflow::RedshiftConnectorProfileCredentials>
 
 The connector-specific credentials required when using Amazon Redshift.
@@ -98,6 +112,11 @@ The connector-specific credentials required when using Amazon Redshift.
 =head2 Salesforce => L<Paws::Appflow::SalesforceConnectorProfileCredentials>
 
 The connector-specific credentials required when using Salesforce.
+
+
+=head2 SAPOData => L<Paws::Appflow::SAPODataConnectorProfileCredentials>
+
+
 
 
 =head2 ServiceNow => L<Paws::Appflow::ServiceNowConnectorProfileCredentials>

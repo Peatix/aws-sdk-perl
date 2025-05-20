@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains an access policy that defines an identity's access to an AWS
-IoT SiteWise Monitor resource.
+Contains an access policy that defines an identity's access to an IoT
+SiteWise Monitor resource.
 
 =head1 ATTRIBUTES
 
@@ -56,7 +56,8 @@ The ID of the access policy.
 
 =head2 B<REQUIRED> Identity => L<Paws::IoTSiteWise::Identity>
 
-The identity (an AWS SSO user, an AWS SSO group, or an IAM user).
+The identity (an IAM Identity Center user, an IAM Identity Center
+group, or an IAM user).
 
 
 =head2 LastUpdateDate => Str
@@ -72,7 +73,7 @@ C<ADMINISTRATOR> is also known as a project owner.
 
 =head2 B<REQUIRED> Resource => L<Paws::IoTSiteWise::Resource>
 
-The AWS IoT SiteWise Monitor resource (a portal or project).
+The IoT SiteWise Monitor resource (a portal or project).
 
 
 

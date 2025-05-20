@@ -52,31 +52,36 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 MaxResults => Int
 
-The maximum number of vocabularies to return in the response.
+The maximum number of custom medical vocabularies to return in each
+page of results. If there are fewer results than the value that you
+specify, only the actual results are returned. If you do not specify a
+value, a default of 5 is used.
 
 
 
 =head2 NameContains => Str
 
-Returns vocabularies whose names contain the specified string. The
-search is not case sensitive. C<ListMedicalVocabularies> returns both
-"C<vocabularyname>" and "C<VocabularyName>".
+Returns only the custom medical vocabularies that contain the specified
+string. The search is not case sensitive.
 
 
 
 =head2 NextToken => Str
 
-If the result of your previous request to C<ListMedicalVocabularies>
-was truncated, include the C<NextToken> to fetch the next set of
-vocabularies.
+If your C<ListMedicalVocabularies> request returns more results than
+can be displayed, C<NextToken> is displayed in the response with an
+associated string. To get the next page of results, copy this string
+and repeat your request, including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 
 =head2 StateEquals => Str
 
-When specified, returns only vocabularies with the C<VocabularyState>
-equal to the specified vocabulary state. Use this field to see which
-vocabularies are ready for your medical transcription jobs.
+Returns only custom medical vocabularies with the specified state.
+Custom vocabularies are ordered by creation date, with the newest
+vocabulary first. If you do not include C<StateEquals>, all custom
+medical vocabularies are returned.
 
 Valid values are: C<"PENDING">, C<"READY">, C<"FAILED">
 

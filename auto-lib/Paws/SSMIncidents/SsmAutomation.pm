@@ -3,6 +3,7 @@ package Paws::SSMIncidents::SsmAutomation;
   use Moose;
   has DocumentName => (is => 'ro', isa => 'Str', request_name => 'documentName', traits => ['NameInRequest'], required => 1);
   has DocumentVersion => (is => 'ro', isa => 'Str', request_name => 'documentVersion', traits => ['NameInRequest']);
+  has DynamicParameters => (is => 'ro', isa => 'Paws::SSMIncidents::DynamicSsmParameters', request_name => 'dynamicParameters', traits => ['NameInRequest']);
   has Parameters => (is => 'ro', isa => 'Paws::SSMIncidents::SsmParameters', request_name => 'parameters', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest'], required => 1);
   has TargetAccount => (is => 'ro', isa => 'Str', request_name => 'targetAccount', traits => ['NameInRequest']);
@@ -51,6 +52,12 @@ The automation document's name.
 =head2 DocumentVersion => Str
 
 The automation document's version to use when running.
+
+
+=head2 DynamicParameters => L<Paws::SSMIncidents::DynamicSsmParameters>
+
+The key-value pair to resolve dynamic parameter values when processing
+a Systems Manager Automation runbook.
 
 
 =head2 Parameters => L<Paws::SSMIncidents::SsmParameters>

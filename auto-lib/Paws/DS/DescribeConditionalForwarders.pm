@@ -31,7 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeConditionalForwardersResult =
       $ds->DescribeConditionalForwarders(
       DirectoryId       => 'MyDirectoryId',
-      RemoteDomainNames => [ 'MyRemoteDomainName', ... ],    # OPTIONAL
+      RemoteDomainNames => [
+        'MyRemoteDomainName', ...    # max: 1024
+      ],    # OPTIONAL
       );
 
     # Results:

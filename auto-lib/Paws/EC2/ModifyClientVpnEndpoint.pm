@@ -2,14 +2,18 @@
 package Paws::EC2::ModifyClientVpnEndpoint;
   use Moose;
   has ClientConnectOptions => (is => 'ro', isa => 'Paws::EC2::ClientConnectOptions');
+  has ClientLoginBannerOptions => (is => 'ro', isa => 'Paws::EC2::ClientLoginBannerOptions');
+  has ClientRouteEnforcementOptions => (is => 'ro', isa => 'Paws::EC2::ClientRouteEnforcementOptions');
   has ClientVpnEndpointId => (is => 'ro', isa => 'Str', required => 1);
   has ConnectionLogOptions => (is => 'ro', isa => 'Paws::EC2::ConnectionLogOptions');
   has Description => (is => 'ro', isa => 'Str');
+  has DisconnectOnSessionTimeout => (is => 'ro', isa => 'Bool');
   has DnsServers => (is => 'ro', isa => 'Paws::EC2::DnsServersOptionsModifyStructure');
   has DryRun => (is => 'ro', isa => 'Bool');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecurityGroupId' );
   has SelfServicePortal => (is => 'ro', isa => 'Str');
   has ServerCertificateArn => (is => 'ro', isa => 'Str');
+  has SessionTimeoutHours => (is => 'ro', isa => 'Int');
   has SplitTunnel => (is => 'ro', isa => 'Bool');
   has VpcId => (is => 'ro', isa => 'Str');
   has VpnPort => (is => 'ro', isa => 'Int');
@@ -44,15 +48,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Enabled           => 1,             # OPTIONAL
         LambdaFunctionArn => 'MyString',    # OPTIONAL
       },    # OPTIONAL
+      ClientLoginBannerOptions => {
+        BannerText => 'MyString',    # OPTIONAL
+        Enabled    => 1,             # OPTIONAL
+      },    # OPTIONAL
+      ClientRouteEnforcementOptions => {
+        Enforced => 1,    # OPTIONAL
+      },    # OPTIONAL
       ConnectionLogOptions => {
         CloudwatchLogGroup  => 'MyString',    # OPTIONAL
         CloudwatchLogStream => 'MyString',    # OPTIONAL
         Enabled             => 1,             # OPTIONAL
       },    # OPTIONAL
-      Description => 'MyString',    # OPTIONAL
-      DnsServers  => {
+      Description                => 'MyString',    # OPTIONAL
+      DisconnectOnSessionTimeout => 1,             # OPTIONAL
+      DnsServers                 => {
         CustomDnsServers => [
-          'MyString', ...           # OPTIONAL
+          'MyString', ...                          # OPTIONAL
         ],    # OPTIONAL
         Enabled => 1,    # OPTIONAL
       },    # OPTIONAL
@@ -60,6 +72,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SecurityGroupIds     => [ 'MySecurityGroupId', ... ],    # OPTIONAL
       SelfServicePortal    => 'enabled',                       # OPTIONAL
       ServerCertificateArn => 'MyString',                      # OPTIONAL
+      SessionTimeoutHours  => 1,                               # OPTIONAL
       SplitTunnel          => 1,                               # OPTIONAL
       VpcId                => 'MyVpcId',                       # OPTIONAL
       VpnPort              => 1,                               # OPTIONAL
@@ -80,6 +93,30 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 The options for managing connection authorization for new client
 connections.
+
+
+
+=head2 ClientLoginBannerOptions => L<Paws::EC2::ClientLoginBannerOptions>
+
+Options for enabling a customizable text banner that will be displayed
+on Amazon Web Services provided clients when a VPN session is
+established.
+
+
+
+=head2 ClientRouteEnforcementOptions => L<Paws::EC2::ClientRouteEnforcementOptions>
+
+Client route enforcement is a feature of the Client VPN service that
+helps enforce administrator defined routes on devices connected through
+the VPN. T his feature helps improve your security posture by ensuring
+that network traffic originating from a connected client is not
+inadvertently sent outside the VPN tunnel.
+
+Client route enforcement works by monitoring the route table of a
+connected device for routing policy changes to the VPN connection. If
+the feature detects any VPN routing policy modifications, it will
+automatically force an update to the route table, reverting it back to
+the expected route configurations.
 
 
 
@@ -126,6 +163,16 @@ A brief description of the Client VPN endpoint.
 
 
 
+=head2 DisconnectOnSessionTimeout => Bool
+
+Indicates whether the client VPN session is disconnected after the
+maximum timeout specified in C<sessionTimeoutHours> is reached. If
+C<true>, users are prompted to reconnect client VPN. If C<false>,
+client VPN attempts to reconnect automatically. The default value is
+C<true>.
+
+
+
 =head2 DnsServers => L<Paws::EC2::DnsServersOptionsModifyStructure>
 
 Information about the DNS servers to be used by Client VPN connections.
@@ -158,7 +205,17 @@ Valid values are: C<"enabled">, C<"disabled">
 =head2 ServerCertificateArn => Str
 
 The ARN of the server certificate to be used. The server certificate
-must be provisioned in AWS Certificate Manager (ACM).
+must be provisioned in Certificate Manager (ACM).
+
+
+
+=head2 SessionTimeoutHours => Int
+
+The maximum VPN session duration time in hours.
+
+Valid values: C<8 | 10 | 12 | 24>
+
+Default value: C<24>
 
 
 
@@ -166,10 +223,10 @@ must be provisioned in AWS Certificate Manager (ACM).
 
 Indicates whether the VPN is split-tunnel.
 
-For information about split-tunnel VPN endpoints, see Split-Tunnel AWS
-Client VPN Endpoint
+For information about split-tunnel VPN endpoints, see Split-tunnel
+Client VPN endpoint
 (https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html)
-in the I<AWS Client VPN Administrator Guide>.
+in the I<Client VPN Administrator Guide>.
 
 
 

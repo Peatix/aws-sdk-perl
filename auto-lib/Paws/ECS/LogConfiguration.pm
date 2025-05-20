@@ -36,32 +36,31 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::LogCon
 =head1 DESCRIPTION
 
 The log configuration for the container. This parameter maps to
-C<LogConfig> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--log-driver>
-option to C<docker run>
-(https://docs.docker.com/engine/reference/commandline/run/).
+C<LogConfig> in the docker container create command and the
+C<--log-driver> option to docker run.
 
 By default, containers use the same logging driver that the Docker
-daemon uses; however the container may use a different logging driver
-than the Docker daemon by specifying a log driver configuration in the
-container definition. For more information on the options for different
-supported log drivers, see Configure logging drivers
-(https://docs.docker.com/engine/admin/logging/overview/) in the Docker
-documentation.
+daemon uses. However, the container might use a different logging
+driver than the Docker daemon by specifying a log driver configuration
+in the container definition.
 
-The following should be noted when specifying a log configuration for
-your containers:
+Understand the following when specifying a log configuration for your
+containers.
 
 =over
 
 =item *
 
 Amazon ECS currently supports a subset of the logging drivers available
-to the Docker daemon (shown in the valid values below). Additional log
-drivers may be available in future releases of the Amazon ECS container
-agent.
+to the Docker daemon. Additional log drivers may be available in future
+releases of the Amazon ECS container agent.
+
+For tasks on Fargate, the supported log drivers are C<awslogs>,
+C<splunk>, and C<awsfirelens>.
+
+For tasks hosted on Amazon EC2 instances, the supported log drivers are
+C<awslogs>, C<fluentd>, C<gelf>, C<json-file>, C<journald>,C<syslog>,
+C<splunk>, and C<awsfirelens>.
 
 =item *
 
@@ -70,8 +69,8 @@ greater on your container instance.
 
 =item *
 
-For tasks hosted on Amazon EC2 instances, the Amazon ECS container
-agent must register the available logging drivers with the
+For tasks that are hosted on Amazon EC2 instances, the Amazon ECS
+container agent must register the available logging drivers with the
 C<ECS_AVAILABLE_LOGGING_DRIVERS> environment variable before containers
 placed on that instance can use these log configuration options. For
 more information, see Amazon ECS container agent configuration
@@ -80,11 +79,11 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 =item *
 
-For tasks on AWS Fargate, because you do not have access to the
+For tasks that are on Fargate, because you don't have access to the
 underlying infrastructure your tasks are hosted on, any additional
-software needed will have to be installed outside of the task. For
-example, the Fluentd output aggregators or a remote host running
-Logstash to send Gelf logs to.
+software needed must be installed outside of the task. For example, the
+Fluentd output aggregators or a remote host running Logstash to send
+Gelf logs to.
 
 =back
 
@@ -96,45 +95,237 @@ Logstash to send Gelf logs to.
 
 The log driver to use for the container.
 
-For tasks on AWS Fargate, the supported log drivers are C<awslogs>,
+For tasks on Fargate, the supported log drivers are C<awslogs>,
 C<splunk>, and C<awsfirelens>.
 
 For tasks hosted on Amazon EC2 instances, the supported log drivers are
-C<awslogs>, C<fluentd>, C<gelf>, C<json-file>, C<journald>,
-C<logentries>,C<syslog>, C<splunk>, and C<awsfirelens>.
+C<awslogs>, C<fluentd>, C<gelf>, C<json-file>, C<journald>, C<syslog>,
+C<splunk>, and C<awsfirelens>.
 
-For more information about using the C<awslogs> log driver, see Using
-the awslogs log driver
+For more information about using the C<awslogs> log driver, see Send
+Amazon ECS logs to CloudWatch
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
 For more information about using the C<awsfirelens> log driver, see
-Custom log routing
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html)
-in the I<Amazon Elastic Container Service Developer Guide>.
+Send Amazon ECS logs to an Amazon Web Services service or Amazon Web
+Services Partner
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html).
 
-If you have a custom driver that is not listed, you can fork the Amazon
-ECS container agent project that is available on GitHub
+If you have a custom driver that isn't listed, you can fork the Amazon
+ECS container agent project that's available on GitHub
 (https://github.com/aws/amazon-ecs-agent) and customize it to work with
 that driver. We encourage you to submit pull requests for changes that
-you would like to have included. However, we do not currently provide
+you would like to have included. However, we don't currently provide
 support for running modified copies of this software.
 
 
 =head2 Options => L<Paws::ECS::LogConfigurationOptionsMap>
 
-The configuration options to send to the log driver. This parameter
-requires version 1.19 of the Docker Remote API or greater on your
-container instance. To check the Docker Remote API version on your
-container instance, log in to your container instance and run the
-following command: C<sudo docker version --format
+The configuration options to send to the log driver.
+
+The options you can specify depend on the log driver. Some of the
+options you can specify when you use the C<awslogs> log driver to route
+logs to Amazon CloudWatch include the following:
+
+=over
+
+=item awslogs-create-group
+
+Required: No
+
+Specify whether you want the log group to be created automatically. If
+this option isn't specified, it defaults to C<false>.
+
+Your IAM policy must include the C<logs:CreateLogGroup> permission
+before you attempt to use C<awslogs-create-group>.
+
+=item awslogs-region
+
+Required: Yes
+
+Specify the Amazon Web Services Region that the C<awslogs> log driver
+is to send your Docker logs to. You can choose to send all of your logs
+from clusters in different Regions to a single region in CloudWatch
+Logs. This is so that they're all visible in one location. Otherwise,
+you can separate them by Region for more granularity. Make sure that
+the specified log group exists in the Region that you specify with this
+option.
+
+=item awslogs-group
+
+Required: Yes
+
+Make sure to specify a log group that the C<awslogs> log driver sends
+its log streams to.
+
+=item awslogs-stream-prefix
+
+Required: Yes, when using Fargate.Optional when using EC2.
+
+Use the C<awslogs-stream-prefix> option to associate a log stream with
+the specified prefix, the container name, and the ID of the Amazon ECS
+task that the container belongs to. If you specify a prefix with this
+option, then the log stream takes the format
+C<prefix-name/container-name/ecs-task-id>.
+
+If you don't specify a prefix with this option, then the log stream is
+named after the container ID that's assigned by the Docker daemon on
+the container instance. Because it's difficult to trace logs back to
+the container that sent them with just the Docker container ID (which
+is only available on the container instance), we recommend that you
+specify a prefix with this option.
+
+For Amazon ECS services, you can use the service name as the prefix.
+Doing so, you can trace log streams to the service that the container
+belongs to, the name of the container that sent them, and the ID of the
+task that the container belongs to.
+
+You must specify a stream-prefix for your logs to have your logs appear
+in the Log pane when using the Amazon ECS console.
+
+=item awslogs-datetime-format
+
+Required: No
+
+This option defines a multiline start pattern in Python C<strftime>
+format. A log message consists of a line that matches the pattern and
+any following lines that donE<rsquo>t match the pattern. The matched
+line is the delimiter between log messages.
+
+One example of a use case for using this format is for parsing output
+such as a stack dump, which might otherwise be logged in multiple
+entries. The correct pattern allows it to be captured in a single
+entry.
+
+For more information, see awslogs-datetime-format
+(https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format).
+
+You cannot configure both the C<awslogs-datetime-format> and
+C<awslogs-multiline-pattern> options.
+
+Multiline logging performs regular expression parsing and matching of
+all log messages. This might have a negative impact on logging
+performance.
+
+=item awslogs-multiline-pattern
+
+Required: No
+
+This option defines a multiline start pattern that uses a regular
+expression. A log message consists of a line that matches the pattern
+and any following lines that donE<rsquo>t match the pattern. The
+matched line is the delimiter between log messages.
+
+For more information, see awslogs-multiline-pattern
+(https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern).
+
+This option is ignored if C<awslogs-datetime-format> is also
+configured.
+
+You cannot configure both the C<awslogs-datetime-format> and
+C<awslogs-multiline-pattern> options.
+
+Multiline logging performs regular expression parsing and matching of
+all log messages. This might have a negative impact on logging
+performance.
+
+=back
+
+The following options apply to all supported log drivers.
+
+=over
+
+=item mode
+
+Required: No
+
+Valid values: C<non-blocking> | C<blocking>
+
+This option defines the delivery mode of log messages from the
+container to the log driver specified using C<logDriver>. The delivery
+mode you choose affects application availability when the flow of logs
+from container is interrupted.
+
+If you use the C<blocking> mode and the flow of logs is interrupted,
+calls from container code to write to the C<stdout> and C<stderr>
+streams will block. The logging thread of the application will block as
+a result. This may cause the application to become unresponsive and
+lead to container healthcheck failure.
+
+If you use the C<non-blocking> mode, the container's logs are instead
+stored in an in-memory intermediate buffer configured with the
+C<max-buffer-size> option. This prevents the application from becoming
+unresponsive when logs cannot be sent. We recommend using this mode if
+you want to ensure service availability and are okay with some log
+loss. For more information, see Preventing log loss with non-blocking
+mode in the C<awslogs> container log driver
+(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/).
+
+You can set a default C<mode> for all containers in a specific Amazon
+Web Services Region by using the C<defaultLogDriverMode> account
+setting. If you don't specify the C<mode> option or configure the
+account setting, Amazon ECS will default to the C<blocking> mode. For
+more information about the account setting, see Default log driver mode
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+=item max-buffer-size
+
+Required: No
+
+Default value: C<1m>
+
+When C<non-blocking> mode is used, the C<max-buffer-size> log option
+controls the size of the buffer that's used for intermediate message
+storage. Make sure to specify an adequate buffer size based on your
+application. When the buffer fills up, further logs cannot be stored.
+Logs that cannot be stored are lost.
+
+=back
+
+To route logs using the C<splunk> log router, you need to specify a
+C<splunk-token> and a C<splunk-url>.
+
+When you use the C<awsfirelens> log router to route logs to an Amazon
+Web Services Service or Amazon Web Services Partner Network destination
+for log storage and analytics, you can set the
+C<log-driver-buffer-limit> option to limit the number of events that
+are buffered in memory, before being sent to the log router container.
+It can help to resolve potential log loss issue because high throughput
+might result in memory running out for the buffer inside of Docker.
+
+Other options you can specify when using C<awsfirelens> to route logs
+depend on the destination. When you export logs to Amazon Data
+Firehose, you can specify the Amazon Web Services Region with C<region>
+and a name for the log stream with C<delivery_stream>.
+
+When you export logs to Amazon Kinesis Data Streams, you can specify an
+Amazon Web Services Region with C<region> and a data stream name with
+C<stream>.
+
+When you export logs to Amazon OpenSearch Service, you can specify
+options like C<Name>, C<Host> (OpenSearch Service endpoint without
+protocol), C<Port>, C<Index>, C<Type>, C<Aws_auth>, C<Aws_region>,
+C<Suppress_Type_Name>, and C<tls>. For more information, see Under the
+hood: FireLens for Amazon ECS Tasks
+(http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/).
+
+When you export logs to Amazon S3, you can specify the bucket using the
+C<bucket> option. You can also specify C<region>, C<total_file_size>,
+C<upload_timeout>, and C<use_put_object> as options.
+
+This parameter requires version 1.19 of the Docker Remote API or
+greater on your container instance. To check the Docker Remote API
+version on your container instance, log in to your container instance
+and run the following command: C<sudo docker version --format
 '{{.Server.APIVersion}}'>
 
 
 =head2 SecretOptions => ArrayRef[L<Paws::ECS::Secret>]
 
 The secrets to pass to the log configuration. For more information, see
-Specifying Sensitive Data
+Specifying sensitive data
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 

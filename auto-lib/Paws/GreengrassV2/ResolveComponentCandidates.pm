@@ -1,8 +1,8 @@
 
 package Paws::GreengrassV2::ResolveComponentCandidates;
   use Moose;
-  has ComponentCandidates => (is => 'ro', isa => 'ArrayRef[Paws::GreengrassV2::ComponentCandidate]', traits => ['NameInRequest'], request_name => 'componentCandidates', required => 1);
-  has Platform => (is => 'ro', isa => 'Paws::GreengrassV2::ComponentPlatform', traits => ['NameInRequest'], request_name => 'platform', required => 1);
+  has ComponentCandidates => (is => 'ro', isa => 'ArrayRef[Paws::GreengrassV2::ComponentCandidate]', traits => ['NameInRequest'], request_name => 'componentCandidates');
+  has Platform => (is => 'ro', isa => 'Paws::GreengrassV2::ComponentPlatform', traits => ['NameInRequest'], request_name => 'platform');
 
   use MooseX::ClassAttribute;
 
@@ -42,14 +42,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
         },
         ...
-      ],
+      ],    # OPTIONAL
       Platform => {
         Attributes => {
           'MyNonEmptyString' => 'MyNonEmptyString', # key: min: 1, value: min: 1
         },    # OPTIONAL
         Name => 'MyNonEmptyString',    # min: 1
-      },
-
+      },    # OPTIONAL
       );
 
     # Results:
@@ -64,13 +63,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gre
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ComponentCandidates => ArrayRef[L<Paws::GreengrassV2::ComponentCandidate>]
+=head2 ComponentCandidates => ArrayRef[L<Paws::GreengrassV2::ComponentCandidate>]
 
 The list of components to resolve.
 
 
 
-=head2 B<REQUIRED> Platform => L<Paws::GreengrassV2::ComponentPlatform>
+=head2 Platform => L<Paws::GreengrassV2::ComponentPlatform>
 
 The platform to use to resolve compatible components.
 

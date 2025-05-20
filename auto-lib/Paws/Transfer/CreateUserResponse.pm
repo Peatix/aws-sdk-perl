@@ -17,13 +17,12 @@ Paws::Transfer::CreateUserResponse
 
 =head2 B<REQUIRED> ServerId => Str
 
-The ID of the server that the user is attached to.
+The identifier of the server that the user is attached to.
 
 
 =head2 B<REQUIRED> UserName => Str
 
-A unique string that identifies a user account associated with a
-server.
+A unique string that identifies a Transfer Family user.
 
 
 =head2 _request_id => Str

@@ -2,6 +2,8 @@
 package Paws::Forecast::ErrorMetric;
   use Moose;
   has ForecastType => (is => 'ro', isa => 'Str');
+  has MAPE => (is => 'ro', isa => 'Num');
+  has MASE => (is => 'ro', isa => 'Num');
   has RMSE => (is => 'ro', isa => 'Num');
   has WAPE => (is => 'ro', isa => 'Num');
 
@@ -43,7 +45,17 @@ predictor. This object is part of the Metrics object.
 
 =head2 ForecastType => Str
 
-The Forecast type used to compute WAPE and RMSE.
+The Forecast type used to compute WAPE, MAPE, MASE, and RMSE.
+
+
+=head2 MAPE => Num
+
+The Mean Absolute Percentage Error (MAPE)
+
+
+=head2 MASE => Num
+
+The Mean Absolute Scaled Error (MASE)
 
 
 =head2 RMSE => Num

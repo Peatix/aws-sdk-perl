@@ -34,8 +34,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetConnectionsResponse = $glue->GetConnections(
       CatalogId => 'MyCatalogIdString',    # OPTIONAL
       Filter    => {
-        ConnectionType => 'JDBC'
-        , # values: JDBC, SFTP, MONGODB, KAFKA, NETWORK, MARKETPLACE, CUSTOM; OPTIONAL
+        ConnectionSchemaVersion => 1,       # min: 1, max: 2; OPTIONAL
+        ConnectionType          => 'JDBC'
+        , # values: JDBC, SFTP, MONGODB, KAFKA, NETWORK, MARKETPLACE, CUSTOM, SALESFORCE, VIEW_VALIDATION_REDSHIFT, VIEW_VALIDATION_ATHENA, GOOGLEADS, GOOGLESHEETS, GOOGLEANALYTICS4, SERVICENOW, MARKETO, SAPODATA, ZENDESK, JIRACLOUD, NETSUITEERP, HUBSPOT, FACEBOOKADS, INSTAGRAMADS, ZOHOCRM, SALESFORCEPARDOT, SALESFORCEMARKETINGCLOUD, SLACK, STRIPE, INTERCOM, SNAPCHATADS; OPTIONAL
         MatchCriteria => [
           'MyNameString', ...    # min: 1, max: 255
         ],    # max: 10; OPTIONAL
@@ -73,10 +74,10 @@ A filter that controls which connections are returned.
 =head2 HidePassword => Bool
 
 Allows you to retrieve the connection metadata without returning the
-password. For instance, the AWS Glue console uses this flag to retrieve
-the connection, and does not display the password. Set this parameter
-when the caller might not have permission to use the KMS key to decrypt
-the password, but it does have permission to access the rest of the
+password. For instance, the Glue console uses this flag to retrieve the
+connection, and does not display the password. Set this parameter when
+the caller might not have permission to use the KMS key to decrypt the
+password, but it does have permission to access the rest of the
 connection properties.
 
 

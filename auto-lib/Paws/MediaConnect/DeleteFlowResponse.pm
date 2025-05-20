@@ -23,7 +23,7 @@ The ARN of the flow that was deleted.
 
 =head2 Status => Str
 
-The status of the flow when the DeleteFlow process begins.
+The status of the flow when the C<DeleteFlow> process begins.
 
 Valid values are: C<"STANDBY">, C<"ACTIVE">, C<"UPDATING">, C<"DELETING">, C<"STARTING">, C<"STOPPING">, C<"ERROR">
 =head2 _request_id => Str

@@ -39,12 +39,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FIS::Create
 
 Specifies an action for an experiment template.
 
+For more information, see Actions
+(https://docs.aws.amazon.com/fis/latest/userguide/actions.html) in the
+I<Fault Injection Service User Guide>.
+
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ActionId => Str
 
-The ID of the action.
+The ID of the action. The format of the action ID is:
+aws:I<service-name>:I<action-type>.
 
 
 =head2 Description => Str

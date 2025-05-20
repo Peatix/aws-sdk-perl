@@ -3,10 +3,13 @@ package Paws::SageMaker::TrainingJobSummary;
   use Moose;
   has CreationTime => (is => 'ro', isa => 'Str', required => 1);
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has SecondaryStatus => (is => 'ro', isa => 'Str');
   has TrainingEndTime => (is => 'ro', isa => 'Str');
   has TrainingJobArn => (is => 'ro', isa => 'Str', required => 1);
   has TrainingJobName => (is => 'ro', isa => 'Str', required => 1);
   has TrainingJobStatus => (is => 'ro', isa => 'Str', required => 1);
+  has TrainingPlanArn => (is => 'ro', isa => 'Str');
+  has WarmPoolStatus => (is => 'ro', isa => 'Paws::SageMaker::WarmPoolStatus');
 
 1;
 
@@ -27,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::TrainingJobSummary object:
 
-  $service_obj->Method(Att1 => { CreationTime => $value, ..., TrainingJobStatus => $value  });
+  $service_obj->Method(Att1 => { CreationTime => $value, ..., WarmPoolStatus => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,6 +56,11 @@ A timestamp that shows when the training job was created.
 Timestamp when the training job was last modified.
 
 
+=head2 SecondaryStatus => Str
+
+The secondary status of the training job.
+
+
 =head2 TrainingEndTime => Str
 
 A timestamp that shows when the training job ended. This field is set
@@ -73,6 +81,23 @@ The name of the training job that you want a summary for.
 =head2 B<REQUIRED> TrainingJobStatus => Str
 
 The status of the training job.
+
+
+=head2 TrainingPlanArn => Str
+
+The Amazon Resource Name (ARN); of the training plan associated with
+this training job.
+
+For more information about how to reserve GPU capacity for your
+SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see
+C< CreateTrainingPlan
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html)
+>.
+
+
+=head2 WarmPoolStatus => L<Paws::SageMaker::WarmPoolStatus>
+
+The status of the warm pool associated with the training job.
 
 
 

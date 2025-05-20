@@ -4,6 +4,7 @@ package Paws::CloudFormation::StackInstance;
   has Account => (is => 'ro', isa => 'Str');
   has DriftStatus => (is => 'ro', isa => 'Str');
   has LastDriftCheckTimestamp => (is => 'ro', isa => 'Str');
+  has LastOperationId => (is => 'ro', isa => 'Str');
   has OrganizationalUnitId => (is => 'ro', isa => 'Str');
   has ParameterOverrides => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Parameter]');
   has Region => (is => 'ro', isa => 'Str');
@@ -43,22 +44,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 
 =head1 DESCRIPTION
 
-An AWS CloudFormation stack, in a specific account and Region, that's
-part of a stack set operation. A stack instance is a reference to an
+A CloudFormation stack, in a specific account and Region, that's part
+of a stack set operation. A stack instance is a reference to an
 attempted or actual stack in a given account within a given Region. A
 stack instance can exist without a stackE<mdash>for example, if the
 stack couldn't be created for some reason. A stack instance is
 associated with only one stack set. Each stack instance contains the ID
-of its associated stack set, as well as the ID of the actual stack and
-the stack status.
+of its associated stack set, in addition to the ID of the actual stack
+and the stack status.
 
 =head1 ATTRIBUTES
 
 
 =head2 Account => Str
 
-[Self-managed permissions] The name of the AWS account that the stack
-instance is associated with.
+[Self-managed permissions] The name of the Amazon Web Services account
+that the stack instance is associated with.
 
 
 =head2 DriftStatus => Str
@@ -78,8 +79,8 @@ associated stack have drifted.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked if the stack
-instance differs from its expected stack set configuration.
+C<NOT_CHECKED>: CloudFormation hasn't checked if the stack instance
+differs from its expected stack set configuration.
 
 =item *
 
@@ -98,7 +99,13 @@ C<UNKNOWN>: This value is reserved for future use.
 
 Most recent time when CloudFormation performed a drift detection
 operation on the stack instance. This value will be C<NULL> for any
-stack instance on which drift detection has not yet been performed.
+stack instance on which drift detection hasn't yet been performed.
+
+
+=head2 LastOperationId => Str
+
+The last unique ID of a StackSet operation performed on a stack
+instance.
 
 
 =head2 OrganizationalUnitId => Str
@@ -116,7 +123,8 @@ overridden in this stack instance.
 
 =head2 Region => Str
 
-The name of the AWS Region that the stack instance is associated with.
+The name of the Amazon Web Services Region that the stack instance is
+associated with.
 
 
 =head2 StackId => Str
@@ -149,6 +157,11 @@ the stack in an unstable state. Stacks in this state are excluded from
 further C<UpdateStackSet> operations. You might need to perform a
 C<DeleteStackInstances> operation, with C<RetainStacks> set to C<true>,
 to delete the stack instance, and then delete the stack manually.
+C<INOPERABLE> can be returned here when the cause is a failed import.
+If it's due to a failed import, the operation can be retried once the
+failures are fixed. To see if this is due to a failed import, look at
+the C<DetailedStatus> member in the C<StackInstanceSummary> member that
+is a peer to this C<Status> member.
 
 =item *
 
@@ -180,7 +193,7 @@ C<CURRENT>: The stack is currently up to date with the stack set.
 
 =head2 StatusReason => Str
 
-The explanation for the specific status code that is assigned to this
+The explanation for the specific status code that's assigned to this
 stack instance.
 
 

@@ -3,6 +3,7 @@ package Paws::Kinesis::RegisterStreamConsumer;
   use Moose;
   has ConsumerName => (is => 'ro', isa => 'Str', required => 1);
   has StreamARN => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::Kinesis::TagMap');
 
   use MooseX::ClassAttribute;
 
@@ -31,7 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $RegisterStreamConsumerOutput = $kinesis->RegisterStreamConsumer(
       ConsumerName => 'MyConsumerName',
       StreamARN    => 'MyStreamARN',
-
+      Tags         => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -55,9 +58,16 @@ However, consumer names don't have to be unique across data streams.
 =head2 B<REQUIRED> StreamARN => Str
 
 The ARN of the Kinesis data stream that you want to register the
-consumer with. For more info, see Amazon Resource Names (ARNs) and AWS
-Service Namespaces
+consumer with. For more info, see Amazon Resource Names (ARNs) and
+Amazon Web Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
+
+
+
+=head2 Tags => L<Paws::Kinesis::TagMap>
+
+A set of up to 50 key-value pairs. A tag consists of a required key and
+an optional value.
 
 
 

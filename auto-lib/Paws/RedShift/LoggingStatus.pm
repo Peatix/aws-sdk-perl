@@ -5,6 +5,8 @@ package Paws::RedShift::LoggingStatus;
   has LastFailureMessage => (is => 'ro', isa => 'Str');
   has LastFailureTime => (is => 'ro', isa => 'Str');
   has LastSuccessfulDeliveryTime => (is => 'ro', isa => 'Str');
+  has LogDestinationType => (is => 'ro', isa => 'Str');
+  has LogExports => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has LoggingEnabled => (is => 'ro', isa => 'Bool');
   has S3KeyPrefix => (is => 'ro', isa => 'Str');
 
@@ -38,6 +40,18 @@ The last time when logs failed to be delivered.
 =head2 LastSuccessfulDeliveryTime => Str
 
 The last time that logs were delivered.
+
+
+=head2 LogDestinationType => Str
+
+The log destination type. An enum with possible values of C<s3> and
+C<cloudwatch>.
+
+Valid values are: C<"s3">, C<"cloudwatch">
+=head2 LogExports => ArrayRef[Str|Undef]
+
+The collection of exported log types. Possible values are
+C<connectionlog>, C<useractivitylog>, and C<userlog>.
 
 
 =head2 LoggingEnabled => Bool

@@ -2,6 +2,7 @@
 package Paws::Connect::DisassociateLexBot;
   use Moose;
   has BotName => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'botName', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'clientToken');
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InstanceId', required => 1);
   has LexRegion => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'lexRegion', required => 1);
 
@@ -31,10 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $connect = Paws->service('Connect');
     $connect->DisassociateLexBot(
-      BotName    => 'MyBotName',
-      InstanceId => 'MyInstanceId',
-      LexRegion  => 'MyLexRegion',
-
+      BotName     => 'MyBotName',
+      InstanceId  => 'MyInstanceId',
+      LexRegion   => 'MyLexRegion',
+      ClientToken => 'MyClientToken',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -49,16 +50,29 @@ The name of the Amazon Lex bot. Maximum character limit of 50.
 
 
 
+=head2 ClientToken => Str
+
+A unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
+
+
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 B<REQUIRED> LexRegion => Str
 
-The Region in which the Amazon Lex bot has been created.
+The Amazon Web Services Region in which the Amazon Lex bot has been
+created.
 
 
 

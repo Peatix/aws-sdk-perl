@@ -36,11 +36,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CreateTime = $GetGeofenceResponse->CreateTime;
-    my $GeofenceId = $GetGeofenceResponse->GeofenceId;
-    my $Geometry   = $GetGeofenceResponse->Geometry;
-    my $Status     = $GetGeofenceResponse->Status;
-    my $UpdateTime = $GetGeofenceResponse->UpdateTime;
+    my $CreateTime         = $GetGeofenceResponse->CreateTime;
+    my $GeofenceId         = $GetGeofenceResponse->GeofenceId;
+    my $GeofenceProperties = $GetGeofenceResponse->GeofenceProperties;
+    my $Geometry           = $GetGeofenceResponse->Geometry;
+    my $Status             = $GetGeofenceResponse->Status;
+    my $UpdateTime         = $GetGeofenceResponse->UpdateTime;
 
     # Returns a L<Paws::LocationService::GetGeofenceResponse> object.
 

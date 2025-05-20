@@ -46,7 +46,13 @@ The type of encryption.
 
 =head2 B<REQUIRED> KeyId => Str
 
-The identifier of the encryption key.
+The full ARN of the encryption key.
+
+Be sure to provide the full ARN of the encryption key, not just the ID.
+
+Amazon Connect supports only KMS keys with the default key spec of
+C<SYMMETRIC_DEFAULT>
+(https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default).
 
 
 

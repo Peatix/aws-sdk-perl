@@ -8,6 +8,7 @@ package Paws::SSM::UpdateOpsItem;
   has Notifications => (is => 'ro', isa => 'ArrayRef[Paws::SSM::OpsItemNotification]');
   has OperationalData => (is => 'ro', isa => 'Paws::SSM::OpsItemOperationalData');
   has OperationalDataToDelete => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has OpsItemArn => (is => 'ro', isa => 'Str');
   has OpsItemId => (is => 'ro', isa => 'Str', required => 1);
   has PlannedEndTime => (is => 'ro', isa => 'Str');
   has PlannedStartTime => (is => 'ro', isa => 'Str');
@@ -63,6 +64,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       OperationalDataToDelete => [
         'MyString', ...    # OPTIONAL
       ],    # OPTIONAL
+      OpsItemArn       => 'MyOpsItemArn',           # OPTIONAL
       PlannedEndTime   => '1970-01-01T01:00:00',    # OPTIONAL
       PlannedStartTime => '1970-01-01T01:00:00',    # OPTIONAL
       Priority         => 1,                        # OPTIONAL
@@ -106,9 +108,8 @@ Specify a new category for an OpsItem.
 
 =head2 Description => Str
 
-Update the information about the OpsItem. Provide enough information so
-that users reading this OpsItem for the first time understand the
-issue.
+User-defined text that contains information about the OpsItem, in
+Markdown format.
 
 
 
@@ -130,29 +131,36 @@ strings, license keys, troubleshooting tips, or other relevant data.
 You enter operational data as key-value pairs. The key has a maximum
 length of 128 characters. The value has a maximum size of 20 KB.
 
-Operational data keys I<can't> begin with the following: amazon, aws,
-amzn, ssm, /amazon, /aws, /amzn, /ssm.
+Operational data keys I<can't> begin with the following: C<amazon>,
+C<aws>, C<amzn>, C<ssm>, C</amazon>, C</aws>, C</amzn>, C</ssm>.
 
 You can choose to make the data searchable by other users in the
 account or you can restrict search access. Searchable data means that
 all users with access to the OpsItem Overview page (as provided by the
-DescribeOpsItems API action) can view and search on the specified data.
-Operational data that is not searchable is only viewable by users who
-have access to the OpsItem (as provided by the GetOpsItem API action).
+DescribeOpsItems API operation) can view and search on the specified
+data. Operational data that isn't searchable is only viewable by users
+who have access to the OpsItem (as provided by the GetOpsItem API
+operation).
 
 Use the C</aws/resources> key in OperationalData to specify a related
 resource in the request. Use the C</aws/automations> key in
 OperationalData to associate an Automation runbook with the OpsItem. To
-view AWS CLI example commands that use these keys, see Creating
-OpsItems manually
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems)
-in the I<AWS Systems Manager User Guide>.
+view Amazon Web Services CLI example commands that use these keys, see
+Creating OpsItems manually
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 OperationalDataToDelete => ArrayRef[Str|Undef]
 
 Keys that you want to remove from the OperationalData map.
+
+
+
+=head2 OpsItemArn => Str
+
+The OpsItem Amazon Resource Name (ARN).
 
 
 
@@ -200,12 +208,11 @@ Specify a new severity for an OpsItem.
 
 =head2 Status => Str
 
-The OpsItem status. Status can be C<Open>, C<In Progress>, or
-C<Resolved>. For more information, see Editing OpsItem details
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems.html#OpsCenter-working-with-OpsItems-editing-details)
-in the I<AWS Systems Manager User Guide>.
+The OpsItem status. For more information, see Editing OpsItem details
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
-Valid values are: C<"Open">, C<"InProgress">, C<"Resolved">, C<"Pending">, C<"TimedOut">, C<"Cancelling">, C<"Cancelled">, C<"Failed">, C<"CompletedWithSuccess">, C<"CompletedWithFailure">, C<"Scheduled">, C<"RunbookInProgress">, C<"PendingChangeCalendarOverride">, C<"ChangeCalendarOverrideApproved">, C<"ChangeCalendarOverrideRejected">, C<"PendingApproval">, C<"Approved">, C<"Rejected">
+Valid values are: C<"Open">, C<"InProgress">, C<"Resolved">, C<"Pending">, C<"TimedOut">, C<"Cancelling">, C<"Cancelled">, C<"Failed">, C<"CompletedWithSuccess">, C<"CompletedWithFailure">, C<"Scheduled">, C<"RunbookInProgress">, C<"PendingChangeCalendarOverride">, C<"ChangeCalendarOverrideApproved">, C<"ChangeCalendarOverrideRejected">, C<"PendingApproval">, C<"Approved">, C<"Revoked">, C<"Rejected">, C<"Closed">
 
 =head2 Title => Str
 

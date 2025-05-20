@@ -33,14 +33,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-A collection of the names of AWS services.
+A collection of the names of Amazon Web Services services.
 
 =head1 ATTRIBUTES
 
 
 =head2 ServiceNames => ArrayRef[Str|Undef]
 
-An array of strings that each specifies the name of an AWS service.
+An array of strings that each specifies the name of an Amazon Web
+Services service.
 
 
 

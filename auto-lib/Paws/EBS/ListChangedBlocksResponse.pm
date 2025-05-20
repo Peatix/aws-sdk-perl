@@ -21,7 +21,7 @@ Paws::EBS::ListChangedBlocksResponse
 
 =head2 BlockSize => Int
 
-The size of the block.
+The size of the blocks in the snapshot, in bytes.
 
 
 =head2 ChangedBlocks => ArrayRef[L<Paws::EBS::ChangedBlock>]

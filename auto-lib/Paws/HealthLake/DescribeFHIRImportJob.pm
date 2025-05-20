@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/hea
 
 =head2 B<REQUIRED> DatastoreId => Str
 
-The AWS-generated ID of the Data Store.
+The AWS-generated ID of the data store.
 
 
 

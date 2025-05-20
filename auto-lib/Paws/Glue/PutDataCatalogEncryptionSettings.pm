@@ -36,8 +36,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           AwsKmsKeyId => 'MyNameString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         EncryptionAtRest => {
-          CatalogEncryptionMode => 'DISABLED',      # values: DISABLED, SSE-KMS
-          SseAwsKmsKeyId        => 'MyNameString',  # min: 1, max: 255; OPTIONAL
+          CatalogEncryptionMode =>
+            'DISABLED',   # values: DISABLED, SSE-KMS, SSE-KMS-WITH-SERVICE-ROLE
+          CatalogEncryptionServiceRole => 'MyIAMRoleArn',    # OPTIONAL
+          SseAwsKmsKeyId => 'MyNameString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
       },
       CatalogId => 'MyCatalogIdString',    # OPTIONAL

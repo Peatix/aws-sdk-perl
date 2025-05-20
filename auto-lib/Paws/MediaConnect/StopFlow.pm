@@ -1,12 +1,12 @@
 
 package Paws::MediaConnect::StopFlow;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'StopFlow');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/stop/{flowArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/stop/{FlowArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::StopFlowResponse');
 1;
@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $StopFlowResponse = $mediaconnect->StopFlow(
-      FlowArn => 'My__string',
+      FlowArn => 'MyStopFlowRequestFlowArnString',
 
     );
 
@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The ARN of the flow that you want to stop.
+The Amazon Resource Name (ARN) of the flow that you want to stop.
 
 
 

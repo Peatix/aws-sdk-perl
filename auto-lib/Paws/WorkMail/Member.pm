@@ -45,14 +45,12 @@ The representation of a user or group.
 
 =head2 DisabledDate => Str
 
-The date indicating when the member was disabled from Amazon WorkMail
-use.
+The date indicating when the member was disabled from WorkMail use.
 
 
 =head2 EnabledDate => Str
 
-The date indicating when the member was enabled for Amazon WorkMail
-use.
+The date indicating when the member was enabled for WorkMail use.
 
 
 =head2 Id => Str

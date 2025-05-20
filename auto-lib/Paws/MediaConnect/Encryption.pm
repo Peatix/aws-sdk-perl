@@ -75,9 +75,9 @@ provided, the service will use the default setting (static-key).
 
 =head2 Region => Str
 
-The AWS Region that the API Gateway proxy endpoint was created in. This
-parameter is required for SPEKE encryption and is not valid for static
-key encryption.
+The Amazon Web Services Region that the API Gateway proxy endpoint was
+created in. This parameter is required for SPEKE encryption and is not
+valid for static key encryption.
 
 
 =head2 ResourceId => Str
@@ -90,15 +90,15 @@ is not valid for static key encryption.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The ARN of the role that you created during setup (when you set up AWS
-Elemental MediaConnect as a trusted entity).
+The ARN of the role that you created during setup (when you set up
+MediaConnect as a trusted entity).
 
 
 =head2 SecretArn => Str
 
-The ARN of the secret that you created in AWS Secrets Manager to store
-the encryption key. This parameter is required for static key
-encryption and is not valid for SPEKE encryption.
+The ARN of the secret that you created in Secrets Manager to store the
+encryption key. This parameter is required for static key encryption
+and is not valid for SPEKE encryption.
 
 
 =head2 Url => Str

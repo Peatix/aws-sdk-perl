@@ -3,6 +3,7 @@ package Paws::KinesisAnalyticsV2::ApplicationConfiguration;
   use Moose;
   has ApplicationCodeConfiguration => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::ApplicationCodeConfiguration');
   has ApplicationSnapshotConfiguration => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::ApplicationSnapshotConfiguration');
+  has ApplicationSystemRollbackConfiguration => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::ApplicationSystemRollbackConfiguration');
   has EnvironmentProperties => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::EnvironmentProperties');
   has FlinkApplicationConfiguration => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::FlinkApplicationConfiguration');
   has SqlApplicationConfiguration => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::SqlApplicationConfiguration');
@@ -39,34 +40,39 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Specifies the creation parameters for a Kinesis Data Analytics
-application.
+Specifies the creation parameters for a Managed Service for Apache
+Flink application.
 
 =head1 ATTRIBUTES
 
 
 =head2 ApplicationCodeConfiguration => L<Paws::KinesisAnalyticsV2::ApplicationCodeConfiguration>
 
-The code location and type parameters for a Flink-based Kinesis Data
-Analytics application.
+The code location and type parameters for a Managed Service for Apache
+Flink application.
 
 
 =head2 ApplicationSnapshotConfiguration => L<Paws::KinesisAnalyticsV2::ApplicationSnapshotConfiguration>
 
-Describes whether snapshots are enabled for a Flink-based Kinesis Data
-Analytics application.
+Describes whether snapshots are enabled for a Managed Service for
+Apache Flink application.
+
+
+=head2 ApplicationSystemRollbackConfiguration => L<Paws::KinesisAnalyticsV2::ApplicationSystemRollbackConfiguration>
+
+
 
 
 =head2 EnvironmentProperties => L<Paws::KinesisAnalyticsV2::EnvironmentProperties>
 
-Describes execution properties for a Flink-based Kinesis Data Analytics
+Describes execution properties for a Managed Service for Apache Flink
 application.
 
 
 =head2 FlinkApplicationConfiguration => L<Paws::KinesisAnalyticsV2::FlinkApplicationConfiguration>
 
-The creation and update parameters for a Flink-based Kinesis Data
-Analytics application.
+The creation and update parameters for a Managed Service for Apache
+Flink application.
 
 
 =head2 SqlApplicationConfiguration => L<Paws::KinesisAnalyticsV2::SqlApplicationConfiguration>
@@ -83,8 +89,8 @@ application.
 
 =head2 ZeppelinApplicationConfiguration => L<Paws::KinesisAnalyticsV2::ZeppelinApplicationConfiguration>
 
-The configuration parameters for a Kinesis Data Analytics Studio
-notebook.
+The configuration parameters for a Managed Service for Apache Flink
+Studio notebook.
 
 
 

@@ -16,7 +16,7 @@ Paws::Shield::DescribeSubscriptionResponse
 
 =head2 Subscription => L<Paws::Shield::Subscription>
 
-The AWS Shield Advanced subscription details for an account.
+The Shield Advanced subscription details for an account.
 
 
 =head2 _request_id => Str

@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 AdminAccountId => Str
 
-The identifier for the specified administrator account.
+The identifier for the administrator account.
 
 
 

@@ -34,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $CrossAccount  = $DescribeDiscovererResponse->CrossAccount;
     my $Description   = $DescribeDiscovererResponse->Description;
     my $DiscovererArn = $DescribeDiscovererResponse->DiscovererArn;
     my $DiscovererId  = $DescribeDiscovererResponse->DiscovererId;

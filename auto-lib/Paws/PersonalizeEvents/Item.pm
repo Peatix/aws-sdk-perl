@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Represents item metadata added to an Items dataset using the
-C<PutItems> API. For more information see Importing Items Incrementally
+C<PutItems> API. For more information see Importing items individually
 (https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
 
 =head1 ATTRIBUTES

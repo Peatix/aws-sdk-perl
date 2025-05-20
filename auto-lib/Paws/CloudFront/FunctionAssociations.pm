@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 =head1 DESCRIPTION
 
 A list of CloudFront functions that are associated with a cache
-behavior in a CloudFront distribution. CloudFront functions must be
-published to the C<LIVE> stage to associate them with a cache behavior.
+behavior in a CloudFront distribution. Your functions must be published
+to the C<LIVE> stage to associate them with a cache behavior.
 
 =head1 ATTRIBUTES
 
@@ -44,7 +44,7 @@ published to the C<LIVE> stage to associate them with a cache behavior.
 =head2 Items => ArrayRef[L<Paws::CloudFront::FunctionAssociation>]
 
 The CloudFront functions that are associated with a cache behavior in a
-CloudFront distribution. CloudFront functions must be published to the
+CloudFront distribution. Your functions must be published to the
 C<LIVE> stage to associate them with a cache behavior.
 
 

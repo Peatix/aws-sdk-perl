@@ -4,6 +4,7 @@ package Paws::LexModelsV2::BotImportSpecification;
   has BotName => (is => 'ro', isa => 'Str', request_name => 'botName', traits => ['NameInRequest'], required => 1);
   has BotTags => (is => 'ro', isa => 'Paws::LexModelsV2::TagMap', request_name => 'botTags', traits => ['NameInRequest']);
   has DataPrivacy => (is => 'ro', isa => 'Paws::LexModelsV2::DataPrivacy', request_name => 'dataPrivacy', traits => ['NameInRequest'], required => 1);
+  has ErrorLogSettings => (is => 'ro', isa => 'Paws::LexModelsV2::ErrorLogSettings', request_name => 'errorLogSettings', traits => ['NameInRequest']);
   has IdleSessionTTLInSeconds => (is => 'ro', isa => 'Int', request_name => 'idleSessionTTLInSeconds', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest'], required => 1);
   has TestBotAliasTags => (is => 'ro', isa => 'Paws::LexModelsV2::TagMap', request_name => 'testBotAliasTags', traits => ['NameInRequest']);
@@ -58,6 +59,12 @@ update tags, use the C<TagResource> operation.
 =head2 B<REQUIRED> DataPrivacy => L<Paws::LexModelsV2::DataPrivacy>
 
 
+
+
+=head2 ErrorLogSettings => L<Paws::LexModelsV2::ErrorLogSettings>
+
+Allows you to configure destinations where error logs will be published
+during the bot import process.
 
 
 =head2 IdleSessionTTLInSeconds => Int

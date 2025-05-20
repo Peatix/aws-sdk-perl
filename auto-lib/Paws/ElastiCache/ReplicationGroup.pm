@@ -6,24 +6,32 @@ package Paws::ElastiCache::ReplicationGroup;
   has AuthTokenEnabled => (is => 'ro', isa => 'Bool');
   has AuthTokenLastModifiedDate => (is => 'ro', isa => 'Str');
   has AutomaticFailover => (is => 'ro', isa => 'Str');
+  has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has CacheNodeType => (is => 'ro', isa => 'Str');
   has ClusterEnabled => (is => 'ro', isa => 'Bool');
+  has ClusterMode => (is => 'ro', isa => 'Str');
   has ConfigurationEndpoint => (is => 'ro', isa => 'Paws::ElastiCache::Endpoint');
+  has DataTiering => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has Engine => (is => 'ro', isa => 'Str');
   has GlobalReplicationGroupInfo => (is => 'ro', isa => 'Paws::ElastiCache::GlobalReplicationGroupInfo');
+  has IpDiscovery => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LogDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::LogDeliveryConfiguration]', request_name => 'LogDeliveryConfiguration', traits => ['NameInRequest']);
   has MemberClusters => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ClusterId', traits => ['NameInRequest']);
   has MemberClustersOutpostArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ReplicationGroupOutpostArn', traits => ['NameInRequest']);
   has MultiAZ => (is => 'ro', isa => 'Str');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has NodeGroups => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::NodeGroup]', request_name => 'NodeGroup', traits => ['NameInRequest']);
   has PendingModifiedValues => (is => 'ro', isa => 'Paws::ElastiCache::ReplicationGroupPendingModifiedValues');
+  has ReplicationGroupCreateTime => (is => 'ro', isa => 'Str');
   has ReplicationGroupId => (is => 'ro', isa => 'Str');
   has SnapshotRetentionLimit => (is => 'ro', isa => 'Int');
   has SnapshottingClusterId => (is => 'ro', isa => 'Str');
   has SnapshotWindow => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has TransitEncryptionEnabled => (is => 'ro', isa => 'Bool');
+  has TransitEncryptionMode => (is => 'ro', isa => 'Str');
   has UserGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -56,7 +64,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 
 =head1 DESCRIPTION
 
-Contains all of the attributes of a specific Redis replication group.
+Contains all of the attributes of a specific Valkey or Redis OSS
+replication group.
 
 =head1 ATTRIBUTES
 
@@ -75,15 +84,15 @@ cluster is created. To enable encryption at-rest on a cluster you must
 set C<AtRestEncryptionEnabled> to C<true> when you create a cluster.
 
 B<Required:> Only available when creating a replication group in an
-Amazon VPC using redis version C<3.2.6>, C<4.x> or later.
+Amazon VPC using Redis OSS version C<3.2.6>, C<4.x> or later.
 
 Default: C<false>
 
 
 =head2 AuthTokenEnabled => Bool
 
-A flag that enables using an C<AuthToken> (password) when issuing Redis
-commands.
+A flag that enables using an C<AuthToken> (password) when issuing
+Valkey or Redis OSS commands.
 
 Default: C<false>
 
@@ -95,8 +104,16 @@ The date the auth token was last modified
 
 =head2 AutomaticFailover => Str
 
-Indicates the status of automatic failover for this Redis replication
-group.
+Indicates the status of automatic failover for this Valkey or Redis OSS
+replication group.
+
+
+=head2 AutoMinorVersionUpgrade => Bool
+
+If you are running Valkey 7.2 and above, or Redis OSS engine version
+6.0 and above, set this parameter to yes if you want to opt-in to the
+next auto minor version upgrade campaign. This parameter is disabled
+for previous versions.
 
 
 =head2 CacheNodeType => Str
@@ -114,10 +131,28 @@ shards (API/CLI: node groups).
 Valid values: C<true> | C<false>
 
 
+=head2 ClusterMode => Str
+
+Enabled or Disabled. To modify cluster mode from Disabled to Enabled,
+you must first set the cluster mode to Compatible. Compatible mode
+allows your Valkey or Redis OSS clients to connect using both cluster
+mode enabled and cluster mode disabled. After you migrate all Valkey or
+Redis OSS clients to use cluster mode enabled, you can then complete
+cluster mode configuration and set the cluster mode to Enabled.
+
+
 =head2 ConfigurationEndpoint => L<Paws::ElastiCache::Endpoint>
 
 The configuration endpoint for this replication group. Use the
 configuration endpoint to connect to this replication group.
+
+
+=head2 DataTiering => Str
+
+Enables data tiering. Data tiering is only supported for replication
+groups using the r6gd node type. This parameter must be set to true
+when using r6gd nodes. For more information, see Data tiering
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html).
 
 
 =head2 Description => Str
@@ -125,10 +160,25 @@ configuration endpoint to connect to this replication group.
 The user supplied description of the replication group.
 
 
+=head2 Engine => Str
+
+The engine used in a replication group. The options are redis,
+memcached or valkey.
+
+
 =head2 GlobalReplicationGroupInfo => L<Paws::ElastiCache::GlobalReplicationGroupInfo>
 
 The name of the Global datastore and role of this replication group in
 the Global datastore.
+
+
+=head2 IpDiscovery => Str
+
+The network type you choose when modifying a cluster, either C<ipv4> |
+C<ipv6>. IPv6 is supported for workloads using Valkey 7.2 and above,
+Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6
+and above on all instances built on the Nitro system
+(http://aws.amazon.com/ec2/nitro/).
 
 
 =head2 KmsKeyId => Str
@@ -156,21 +206,35 @@ The outpost ARNs of the replication group's member clusters.
 
 A flag indicating if you have Multi-AZ enabled to enhance fault
 tolerance. For more information, see Minimizing Downtime: Multi-AZ
-(http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html)
+(http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html)
+
+
+=head2 NetworkType => Str
+
+Must be either C<ipv4> | C<ipv6> | C<dual_stack>. IPv6 is supported for
+workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to
+7.1 or Memcached engine version 1.6.6 and above on all instances built
+on the Nitro system (http://aws.amazon.com/ec2/nitro/).
 
 
 =head2 NodeGroups => ArrayRef[L<Paws::ElastiCache::NodeGroup>]
 
-A list of node groups in this replication group. For Redis (cluster
-mode disabled) replication groups, this is a single-element list. For
-Redis (cluster mode enabled) replication groups, the list contains an
-entry for each node group (shard).
+A list of node groups in this replication group. For Valkey or Redis
+OSS (cluster mode disabled) replication groups, this is a
+single-element list. For Valkey or Redis OSS (cluster mode enabled)
+replication groups, the list contains an entry for each node group
+(shard).
 
 
 =head2 PendingModifiedValues => L<Paws::ElastiCache::ReplicationGroupPendingModifiedValues>
 
 A group of settings to be applied to the replication group, either
 immediately or during the next maintenance window.
+
+
+=head2 ReplicationGroupCreateTime => Str
+
+The date and time when the cluster was created.
 
 
 =head2 ReplicationGroupId => Str
@@ -219,20 +283,21 @@ C<snapshotting>.
 
 A flag that enables in-transit encryption when set to C<true>.
 
-You cannot modify the value of C<TransitEncryptionEnabled> after the
-cluster is created. To enable in-transit encryption on a cluster you
-must set C<TransitEncryptionEnabled> to C<true> when you create a
-cluster.
-
 B<Required:> Only available when creating a replication group in an
-Amazon VPC using redis version C<3.2.6>, C<4.x> or later.
+Amazon VPC using Redis OSS version C<3.2.6>, C<4.x> or later.
 
 Default: C<false>
 
 
+=head2 TransitEncryptionMode => Str
+
+A setting that allows you to migrate your clients to use in-transit
+encryption, with no downtime.
+
+
 =head2 UserGroupIds => ArrayRef[Str|Undef]
 
-The list of user group IDs that have access to the replication group.
+The ID of the user group associated to the replication group.
 
 
 

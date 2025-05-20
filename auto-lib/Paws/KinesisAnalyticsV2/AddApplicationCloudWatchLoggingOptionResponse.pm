@@ -4,6 +4,7 @@ package Paws::KinesisAnalyticsV2::AddApplicationCloudWatchLoggingOptionResponse;
   has ApplicationARN => (is => 'ro', isa => 'Str');
   has ApplicationVersionId => (is => 'ro', isa => 'Int');
   has CloudWatchLoggingOptionDescriptions => (is => 'ro', isa => 'ArrayRef[Paws::KinesisAnalyticsV2::CloudWatchLoggingOptionDescription]');
+  has OperationId => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -23,15 +24,20 @@ The application's ARN.
 
 =head2 ApplicationVersionId => Int
 
-The new version ID of the Kinesis Data Analytics application. Kinesis
-Data Analytics updates the C<ApplicationVersionId> each time you change
-the CloudWatch logging options.
+The new version ID of the SQL-based Kinesis Data Analytics application.
+Kinesis Data Analytics updates the C<ApplicationVersionId> each time
+you change the CloudWatch logging options.
 
 
 =head2 CloudWatchLoggingOptionDescriptions => ArrayRef[L<Paws::KinesisAnalyticsV2::CloudWatchLoggingOptionDescription>]
 
 The descriptions of the current CloudWatch logging options for the
-Kinesis Data Analytics application.
+SQL-based Kinesis Data Analytics application.
+
+
+=head2 OperationId => Str
+
+Operation ID for tracking AddApplicationCloudWatchLoggingOption request
 
 
 =head2 _request_id => Str

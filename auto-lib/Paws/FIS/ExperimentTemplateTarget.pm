@@ -2,6 +2,7 @@
 package Paws::FIS::ExperimentTemplateTarget;
   use Moose;
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::FIS::ExperimentTemplateTargetFilter]', request_name => 'filters', traits => ['NameInRequest']);
+  has Parameters => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateTargetParameterMap', request_name => 'parameters', traits => ['NameInRequest']);
   has ResourceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'resourceArns', traits => ['NameInRequest']);
   has ResourceTags => (is => 'ro', isa => 'Paws::FIS::TagMap', request_name => 'resourceTags', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
@@ -46,6 +47,11 @@ Describes a target for an experiment template.
 
 The filters to apply to identify target resources using specific
 attributes.
+
+
+=head2 Parameters => L<Paws::FIS::ExperimentTemplateTargetParameterMap>
+
+The resource type parameters.
 
 
 =head2 ResourceArns => ArrayRef[Str|Undef]

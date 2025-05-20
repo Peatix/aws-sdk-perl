@@ -7,6 +7,7 @@ package Paws::CostExplorer::UpdateAnomalySubscription;
   has SubscriptionArn => (is => 'ro', isa => 'Str', required => 1);
   has SubscriptionName => (is => 'ro', isa => 'Str');
   has Threshold => (is => 'ro', isa => 'Num');
+  has ThresholdExpression => (is => 'ro', isa => 'Paws::CostExplorer::Expression');
 
   use MooseX::ClassAttribute;
 
@@ -46,8 +47,44 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      SubscriptionName => 'MyGenericString',    # OPTIONAL
-      Threshold        => 1,                    # OPTIONAL
+      SubscriptionName    => 'MyGenericString',    # OPTIONAL
+      Threshold           => 1,                    # OPTIONAL
+      ThresholdExpression => {
+        And            => [ <Expression>, ... ],    # OPTIONAL
+        CostCategories => {
+          Key          => 'MyCostCategoryName',     # min: 1, max: 50; OPTIONAL
+          MatchOptions => [
+            'EQUALS',
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
+          ],    # OPTIONAL
+          Values => [
+            'MyValue', ...    # max: 1024
+          ],    # OPTIONAL
+        },    # OPTIONAL
+        Dimensions => {
+          Key => 'AZ'
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
+          MatchOptions => [
+            'EQUALS',
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
+          ],    # OPTIONAL
+          Values => [
+            'MyValue', ...    # max: 1024
+          ],    # OPTIONAL
+        },    # OPTIONAL
+        Not  => <Expression>,
+        Or   => [ <Expression>, ... ],    # OPTIONAL
+        Tags => {
+          Key          => 'MyTagKey',     # max: 1024; OPTIONAL
+          MatchOptions => [
+            'EQUALS',
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
+          ],    # OPTIONAL
+          Values => [
+            'MyValue', ...    # max: 1024
+          ],    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -63,7 +100,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ce/
 
 =head2 Frequency => Str
 
-The update to the frequency value at which subscribers will receive
+The update to the frequency value that subscribers receive
 notifications.
 
 Valid values are: C<"DAILY">, C<"IMMEDIATE">, C<"WEEKLY">
@@ -88,13 +125,75 @@ A cost anomaly subscription Amazon Resource Name (ARN).
 
 =head2 SubscriptionName => Str
 
-The subscription's new name.
+The new name of the subscription.
 
 
 
 =head2 Threshold => Num
 
+(deprecated)
+
 The update to the threshold value for receiving notifications.
+
+This field has been deprecated. To update a threshold, use
+ThresholdExpression. Continued use of Threshold will be treated as
+shorthand syntax for a ThresholdExpression.
+
+You can specify either Threshold or ThresholdExpression, but not both.
+
+
+
+=head2 ThresholdExpression => L<Paws::CostExplorer::Expression>
+
+The update to the Expression
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)
+object used to specify the anomalies that you want to generate alerts
+for. This supports dimensions and nested expressions. The supported
+dimensions are C<ANOMALY_TOTAL_IMPACT_ABSOLUTE> and
+C<ANOMALY_TOTAL_IMPACT_PERCENTAGE>, corresponding to an
+anomalyE<rsquo>s TotalImpact and TotalImpactPercentage, respectively
+(see Impact
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html)
+for more details). The supported nested expression types are C<AND> and
+C<OR>. The match option C<GREATER_THAN_OR_EQUAL> is required. Values
+must be numbers between 0 and 10,000,000,000 in string format.
+
+You can specify either Threshold or ThresholdExpression, but not both.
+
+The following are examples of valid ThresholdExpressions:
+
+=over
+
+=item *
+
+Absolute threshold: C<{ "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }>
+
+=item *
+
+Percentage threshold: C<{ "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }>
+
+=item *
+
+C<AND> two thresholds together: C<{ "And": [ { "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": {
+"Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }>
+
+=item *
+
+C<OR> two thresholds together: C<{ "Or": [ { "Dimensions": { "Key":
+"ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions": {
+"Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+"GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }>
+
+=back
+
 
 
 

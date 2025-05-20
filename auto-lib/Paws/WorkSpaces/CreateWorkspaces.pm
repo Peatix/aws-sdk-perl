@@ -43,11 +43,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # OPTIONAL
           UserVolumeEncryptionEnabled => 1,                          # OPTIONAL
           VolumeEncryptionKey         => 'MyVolumeEncryptionKey',    # OPTIONAL
+          WorkspaceName               => 'MyWorkspaceName',          # OPTIONAL
           WorkspaceProperties         => {
             ComputeTypeName => 'VALUE'
-            , # values: VALUE, STANDARD, PERFORMANCE, POWER, GRAPHICS, POWERPRO, GRAPHICSPRO; OPTIONAL
+            , # values: VALUE, STANDARD, PERFORMANCE, POWER, GRAPHICS, POWERPRO, GENERALPURPOSE_4XLARGE, GENERALPURPOSE_8XLARGE, GRAPHICSPRO, GRAPHICS_G4DN, GRAPHICSPRO_G4DN; OPTIONAL
+            GlobalAccelerator => {
+              Mode =>
+                'ENABLED_AUTO',    # values: ENABLED_AUTO, DISABLED, INHERITED
+              PreferredProtocol =>
+                'TCP',             # values: TCP, NONE, INHERITED; OPTIONAL
+            },    # OPTIONAL
+            OperatingSystemName => 'AMAZON_LINUX_2'
+            , # values: AMAZON_LINUX_2, UBUNTU_18_04, UBUNTU_20_04, UBUNTU_22_04, UNKNOWN, WINDOWS_10, WINDOWS_11, WINDOWS_7, WINDOWS_SERVER_2016, WINDOWS_SERVER_2019, WINDOWS_SERVER_2022, RHEL_8, ROCKY_8; OPTIONAL
+            Protocols => [
+              'PCOIP', ...    # values: PCOIP, WSP
+            ],    # OPTIONAL
             RootVolumeSizeGib => 1,    # OPTIONAL
-            RunningMode => 'AUTO_STOP', # values: AUTO_STOP, ALWAYS_ON; OPTIONAL
+            RunningMode       =>
+              'AUTO_STOP',    # values: AUTO_STOP, ALWAYS_ON, MANUAL; OPTIONAL
             RunningModeAutoStopTimeoutInMinutes => 1,    # OPTIONAL
             UserVolumeSizeGib                   => 1,    # OPTIONAL
           },    # OPTIONAL

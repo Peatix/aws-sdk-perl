@@ -1,9 +1,9 @@
 
 package Paws::EC2::DisassociateEnclaveCertificateIamRole;
   use Moose;
-  has CertificateArn => (is => 'ro', isa => 'Str');
+  has CertificateArn => (is => 'ro', isa => 'Str', required => 1);
   has DryRun => (is => 'ro', isa => 'Bool');
-  has RoleArn => (is => 'ro', isa => 'Str');
+  has RoleArn => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -31,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $DisassociateEnclaveCertificateIamRoleResult =
       $ec2->DisassociateEnclaveCertificateIamRole(
-      CertificateArn => 'MyResourceArn',    # OPTIONAL
-      DryRun         => 1,                  # OPTIONAL
-      RoleArn        => 'MyResourceArn',    # OPTIONAL
+      CertificateArn => 'MyCertificateId',
+      RoleArn        => 'MyRoleId',
+      DryRun         => 1,                   # OPTIONAL
       );
 
     # Results:
@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 CertificateArn => Str
+=head2 B<REQUIRED> CertificateArn => Str
 
 The ARN of the ACM certificate from which to disassociate the IAM role.
 
@@ -62,7 +62,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 RoleArn => Str
+=head2 B<REQUIRED> RoleArn => Str
 
 The ARN of the IAM role to disassociate.
 

@@ -52,7 +52,13 @@ Contains custom field names and their data type.
 =head2 ManagedFields => ArrayRef[L<Paws::IoT::Field>]
 
 Contains fields that are indexed and whose types are already known by
-the Fleet Indexing service.
+the Fleet Indexing service. This is an optional field. For more
+information, see Managed fields
+(https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field)
+in the I<Amazon Web Services IoT Core Developer Guide>.
+
+You can't modify managed fields by updating fleet indexing
+configuration.
 
 
 =head2 B<REQUIRED> ThingGroupIndexingMode => Str

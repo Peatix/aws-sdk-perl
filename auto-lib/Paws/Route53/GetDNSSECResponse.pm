@@ -25,7 +25,7 @@ The key-signing keys (KSKs) in your account.
 
 =head2 B<REQUIRED> Status => L<Paws::Route53::DNSSECStatus>
 
-A string repesenting the status of DNSSEC.
+A string representing the status of DNSSEC.
 
 
 

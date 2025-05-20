@@ -34,13 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Instan
 
 =head1 DESCRIPTION
 
-The launch specification for Spot Instances in the fleet, which
-determines the defined duration, provisioning timeout behavior, and
-allocation strategy.
+The launch specification for On-Demand and Spot Instances in the fleet.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot
-Instance allocation strategies are available in Amazon EMR version
+releases 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot
+instance allocation strategies are available in Amazon EMR releases
 5.12.1 and later.
 
 =head1 ATTRIBUTES
@@ -49,19 +47,20 @@ Instance allocation strategies are available in Amazon EMR version
 =head2 OnDemandSpecification => L<Paws::EMR::OnDemandProvisioningSpecification>
 
 The launch specification for On-Demand Instances in the instance fleet,
-which determines the allocation strategy.
+which determines the allocation strategy and capacity reservation
+options.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances
-allocation strategy is available in Amazon EMR version 5.12.1 and
+releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances
+allocation strategy is available in Amazon EMR releases 5.12.1 and
 later.
 
 
 =head2 SpotSpecification => L<Paws::EMR::SpotProvisioningSpecification>
 
-The launch specification for Spot Instances in the fleet, which
-determines the defined duration, provisioning timeout behavior, and
-allocation strategy.
+The launch specification for Spot instances in the fleet, which
+determines the allocation strategy, defined duration, and provisioning
+timeout behavior.
 
 
 

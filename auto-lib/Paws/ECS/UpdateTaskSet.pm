@@ -55,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 =head2 B<REQUIRED> Cluster => Str
 
 The short name or full Amazon Resource Name (ARN) of the cluster that
-hosts the service that the task set exists in.
+hosts the service that the task set is found in.
 
 
 
@@ -69,7 +69,7 @@ keep running in the task set.
 =head2 B<REQUIRED> Service => Str
 
 The short name or full Amazon Resource Name (ARN) of the service that
-the task set exists in.
+the task set is found in.
 
 
 

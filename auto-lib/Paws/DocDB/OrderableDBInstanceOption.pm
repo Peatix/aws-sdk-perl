@@ -6,6 +6,7 @@ package Paws::DocDB::OrderableDBInstanceOption;
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has LicenseModel => (is => 'ro', isa => 'Str');
+  has StorageType => (is => 'ro', isa => 'Str');
   has Vpc => (is => 'ro', isa => 'Bool');
 
 1;
@@ -66,6 +67,11 @@ The engine version of an instance.
 =head2 LicenseModel => Str
 
 The license model for an instance.
+
+
+=head2 StorageType => Str
+
+The storage type to associate with the DB cluster
 
 
 =head2 Vpc => Bool

@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Updat
 
 =head1 DESCRIPTION
 
-An object containing the error encountered with the last update:
-C<ErrorCode>, C<ErrorMessage>.
+Describes the error(s) encountered with the last update of the
+environment.
 
 =head1 ATTRIBUTES
 

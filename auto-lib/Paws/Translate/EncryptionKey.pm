@@ -42,13 +42,13 @@ The encryption key used to encrypt this object.
 =head2 B<REQUIRED> Id => Str
 
 The Amazon Resource Name (ARN) of the encryption key being used to
-encrypt the custom terminology.
+encrypt this object.
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of encryption key used by Amazon Translate to encrypt custom
-terminologies.
+The type of encryption key used by Amazon Translate to encrypt this
+object.
 
 
 

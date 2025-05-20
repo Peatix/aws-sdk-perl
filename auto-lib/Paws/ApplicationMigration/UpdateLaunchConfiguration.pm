@@ -1,11 +1,16 @@
 
 package Paws::ApplicationMigration::UpdateLaunchConfiguration;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
+  has BootMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'bootMode');
   has CopyPrivateIp => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'copyPrivateIp');
   has CopyTags => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'copyTags');
+  has EnableMapAutoTagging => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableMapAutoTagging');
   has LaunchDisposition => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'launchDisposition');
   has Licensing => (is => 'ro', isa => 'Paws::ApplicationMigration::Licensing', traits => ['NameInRequest'], request_name => 'licensing');
+  has MapAutoTaggingMpeID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'mapAutoTaggingMpeID');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
+  has PostLaunchActions => (is => 'ro', isa => 'Paws::ApplicationMigration::PostLaunchActions', traits => ['NameInRequest'], request_name => 'postLaunchActions');
   has SourceServerID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceServerID', required => 1);
   has TargetInstanceTypeRightSizingMethod => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'targetInstanceTypeRightSizingMethod');
 
@@ -35,23 +40,64 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mgn = Paws->service('ApplicationMigration');
     my $LaunchConfiguration = $mgn->UpdateLaunchConfiguration(
-      SourceServerID                      => 'MySourceServerID',
-      CopyPrivateIp                       => 1,                       # OPTIONAL
-      CopyTags                            => 1,                       # OPTIONAL
-      LaunchDisposition                   => 'STOPPED',               # OPTIONAL
-      Licensing                           => { OsByol => 1, },        # OPTIONAL
-      Name                                => 'MySmallBoundedString',  # OPTIONAL
-      TargetInstanceTypeRightSizingMethod => 'NONE',                  # OPTIONAL
+      SourceServerID       => 'MySourceServerID',
+      AccountID            => 'MyAccountID',             # OPTIONAL
+      BootMode             => 'LEGACY_BIOS',             # OPTIONAL
+      CopyPrivateIp        => 1,                         # OPTIONAL
+      CopyTags             => 1,                         # OPTIONAL
+      EnableMapAutoTagging => 1,                         # OPTIONAL
+      LaunchDisposition    => 'STOPPED',                 # OPTIONAL
+      Licensing            => { OsByol => 1, },          # OPTIONAL
+      MapAutoTaggingMpeID  => 'MyTagValue',              # OPTIONAL
+      Name                 => 'MySmallBoundedString',    # OPTIONAL
+      PostLaunchActions    => {
+        CloudWatchLogGroupName =>
+          'MyCloudWatchLogGroupName',    # min: 1, max: 512; OPTIONAL
+        Deployment => 'TEST_AND_CUTOVER'
+        ,    # values: TEST_AND_CUTOVER, CUTOVER_ONLY, TEST_ONLY; OPTIONAL
+        S3LogBucket       => 'MyS3LogBucketName',    # min: 3, max: 63; OPTIONAL
+        S3OutputKeyPrefix => 'MyBoundedString',      # max: 256; OPTIONAL
+        SsmDocuments      => [
+          {
+            ActionName         => 'MyBoundedString',      # max: 256; OPTIONAL
+            SsmDocumentName    => 'MySsmDocumentName',    # min: 3, max: 172
+            ExternalParameters => {
+              'MySsmDocumentParameterName' => {
+                DynamicPath => 'MyJmesPathString', # min: 1, max: 1011; OPTIONAL
+              },    # key: min: 1, max: 1011
+            },    # max: 20; OPTIONAL
+            MustSucceedForCutover => 1,
+            Parameters            => {
+              'MySsmDocumentParameterName' => [
+                {
+                  ParameterName =>
+                    'MySsmParameterStoreParameterName',    # min: 1, max: 1011
+                  ParameterType => 'STRING',               # values: STRING
+
+                },
+                ...
+              ],    # key: min: 1, max: 1011, value: max: 10
+            },    # max: 20; OPTIONAL
+            TimeoutSeconds => 1,    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # max: 10; OPTIONAL
+      },    # OPTIONAL
+      TargetInstanceTypeRightSizingMethod => 'NONE',    # OPTIONAL
     );
 
     # Results:
-    my $CopyPrivateIp       = $LaunchConfiguration->CopyPrivateIp;
-    my $CopyTags            = $LaunchConfiguration->CopyTags;
-    my $Ec2LaunchTemplateID = $LaunchConfiguration->Ec2LaunchTemplateID;
-    my $LaunchDisposition   = $LaunchConfiguration->LaunchDisposition;
-    my $Licensing           = $LaunchConfiguration->Licensing;
-    my $Name                = $LaunchConfiguration->Name;
-    my $SourceServerID      = $LaunchConfiguration->SourceServerID;
+    my $BootMode             = $LaunchConfiguration->BootMode;
+    my $CopyPrivateIp        = $LaunchConfiguration->CopyPrivateIp;
+    my $CopyTags             = $LaunchConfiguration->CopyTags;
+    my $Ec2LaunchTemplateID  = $LaunchConfiguration->Ec2LaunchTemplateID;
+    my $EnableMapAutoTagging = $LaunchConfiguration->EnableMapAutoTagging;
+    my $LaunchDisposition    = $LaunchConfiguration->LaunchDisposition;
+    my $Licensing            = $LaunchConfiguration->Licensing;
+    my $MapAutoTaggingMpeID  = $LaunchConfiguration->MapAutoTaggingMpeID;
+    my $Name                 = $LaunchConfiguration->Name;
+    my $PostLaunchActions    = $LaunchConfiguration->PostLaunchActions;
+    my $SourceServerID       = $LaunchConfiguration->SourceServerID;
     my $TargetInstanceTypeRightSizingMethod =
       $LaunchConfiguration->TargetInstanceTypeRightSizingMethod;
 
@@ -63,6 +109,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn
 =head1 ATTRIBUTES
 
 
+=head2 AccountID => Str
+
+Update Launch configuration Account ID.
+
+
+
+=head2 BootMode => Str
+
+Update Launch configuration boot mode request.
+
+Valid values are: C<"LEGACY_BIOS">, C<"UEFI">, C<"USE_SOURCE">
+
 =head2 CopyPrivateIp => Bool
 
 Update Launch configuration copy Private IP request.
@@ -72,6 +130,12 @@ Update Launch configuration copy Private IP request.
 =head2 CopyTags => Bool
 
 Update Launch configuration copy Tags request.
+
+
+
+=head2 EnableMapAutoTagging => Bool
+
+Enable map auto tagging.
 
 
 
@@ -87,9 +151,21 @@ Update Launch configuration licensing request.
 
 
 
+=head2 MapAutoTaggingMpeID => Str
+
+Launch configuration map auto tagging MPE ID.
+
+
+
 =head2 Name => Str
 
 Update Launch configuration name request.
+
+
+
+=head2 PostLaunchActions => L<Paws::ApplicationMigration::PostLaunchActions>
+
+
 
 
 

@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Configuration of storage locations for the Debugger TensorBoard output
-data.
+Configuration of storage locations for the Amazon SageMaker Debugger
+TensorBoard output data.
 
 =head1 ATTRIBUTES
 

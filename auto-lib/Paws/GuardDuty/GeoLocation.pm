@@ -34,7 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GuardDuty::
 
 =head1 DESCRIPTION
 
-Contains information about the location of the remote IP address.
+Contains information about the location of the remote IP address. By
+default, GuardDuty returns C<Geolocation> with C<Lat> and C<Lon> as
+C<0.0>.
 
 =head1 ATTRIBUTES
 

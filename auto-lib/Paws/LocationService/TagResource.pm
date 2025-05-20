@@ -48,12 +48,57 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 The Amazon Resource Name (ARN) of the resource whose tags you want to
 update.
 
+=over
+
+=item *
+
+Format example:
+C<arn:aws:geo:region:account-id:resourcetype/ExampleResource>
+
+=back
+
+
 
 
 =head2 B<REQUIRED> Tags => L<Paws::LocationService::TagMap>
 
-The mapping from tag key to tag value for each tag associated with the
-specified resource.
+Applies one or more tags to specific resource. A tag is a key-value
+pair that helps you manage, identify, search, and filter your
+resources.
+
+Format: C<"key" : "value">
+
+Restrictions:
+
+=over
+
+=item *
+
+Maximum 50 tags per resource.
+
+=item *
+
+Each tag key must be unique and must have exactly one associated value.
+
+=item *
+
+Maximum key length: 128 Unicode characters in UTF-8.
+
+=item *
+
+Maximum value length: 256 Unicode characters in UTF-8.
+
+=item *
+
+Can use alphanumeric characters (AE<ndash>Z, aE<ndash>z, 0E<ndash>9),
+and the following characters: + - = . _ : / @
+
+=item *
+
+Cannot use "aws:" as a prefix for a key.
+
+=back
+
 
 
 

@@ -47,11 +47,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 IncludeShadowTrails => Bool
 
 Specifies whether to include shadow trails in the response. A shadow
-trail is the replication in a region of a trail that was created in a
-different region, or in the case of an organization trail, the
+trail is the replication in a Region of a trail that was created in a
+different Region, or in the case of an organization trail, the
 replication of an organization trail in member accounts. If you do not
 include shadow trails, organization trails in a member account and
-region replication trails will not be returned. The default is true.
+Region replication trails will not be returned. The default is true.
 
 
 
@@ -63,27 +63,27 @@ describe. The format of a trail ARN is:
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
 
 If an empty list is specified, information for the trail in the current
-region is returned.
+Region is returned.
 
 =over
 
 =item *
 
 If an empty list is specified and C<IncludeShadowTrails> is false, then
-information for all trails in the current region is returned.
+information for all trails in the current Region is returned.
 
 =item *
 
 If an empty list is specified and IncludeShadowTrails is null or true,
-then information for all trails in the current region and any
-associated shadow trails in other regions is returned.
+then information for all trails in the current Region and any
+associated shadow trails in other Regions is returned.
 
 =back
 
 If one or more trail names are specified, information is returned only
 if the names match the names of trails belonging only to the current
-region. To return information about a trail in another region, you must
-specify its trail ARN.
+Region and current account. To return information about a trail in
+another Region, you must specify its trail ARN.
 
 
 

@@ -66,7 +66,8 @@ The timestamp from the producer corresponding to the fragment.
 
 =head2 ServerTimestamp => Str
 
-The timestamp from the AWS server corresponding to the fragment.
+The timestamp from the Amazon Web Services server corresponding to the
+fragment.
 
 
 

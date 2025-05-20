@@ -37,11 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 Ignore this setting unless your input captions format is SCC. To have
 the service compensate for differing frame rates between your input
 captions and input video, specify the frame rate of the captions file.
-Specify this value as a fraction, using the settings Framerate
-numerator (framerateNumerator) and Framerate denominator
-(framerateDenominator). For example, you might specify 24 / 1 for 24
-fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001
-for 29.97 fps.
+Specify this value as a fraction. For example, you might specify 24 / 1
+for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 /
+1001 for 29.97 fps.
 
 =head1 ATTRIBUTES
 
@@ -49,17 +47,15 @@ for 29.97 fps.
 =head2 FramerateDenominator => Int
 
 Specify the denominator of the fraction that represents the frame rate
-for the setting Caption source frame rate (CaptionSourceFramerate). Use
-this setting along with the setting Framerate numerator
-(framerateNumerator).
+for the setting Caption source frame rate. Use this setting along with
+the setting Framerate numerator.
 
 
 =head2 FramerateNumerator => Int
 
 Specify the numerator of the fraction that represents the frame rate
-for the setting Caption source frame rate (CaptionSourceFramerate). Use
-this setting along with the setting Framerate denominator
-(framerateDenominator).
+for the setting Caption source frame rate. Use this setting along with
+the setting Framerate denominator.
 
 
 

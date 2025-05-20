@@ -38,15 +38,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WorkMail::G
 
 =head1 DESCRIPTION
 
-The representation of an Amazon WorkMail group.
+The representation of an WorkMail group.
 
 =head1 ATTRIBUTES
 
 
 =head2 DisabledDate => Str
 
-The date indicating when the group was disabled from Amazon WorkMail
-use.
+The date indicating when the group was disabled from WorkMail use.
 
 
 =head2 Email => Str
@@ -56,7 +55,7 @@ The email of the group.
 
 =head2 EnabledDate => Str
 
-The date indicating when the group was enabled for Amazon WorkMail use.
+The date indicating when the group was enabled for WorkMail use.
 
 
 =head2 Id => Str

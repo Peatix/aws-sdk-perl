@@ -18,7 +18,7 @@ Paws::HealthLake::StartFHIRExportJobResponse
 
 =head2 DatastoreId => Str
 
-The AWS generated ID for the Data Store from which files are being
+The AWS generated ID for the data store from which files are being
 exported for an export job.
 
 
@@ -32,7 +32,7 @@ The AWS generated ID for an export job.
 The status of a FHIR export job. Possible statuses are SUBMITTED,
 IN_PROGRESS, COMPLETED, or FAILED.
 
-Valid values are: C<"SUBMITTED">, C<"IN_PROGRESS">, C<"COMPLETED">, C<"FAILED">
+Valid values are: C<"SUBMITTED">, C<"QUEUED">, C<"IN_PROGRESS">, C<"COMPLETED_WITH_ERRORS">, C<"COMPLETED">, C<"FAILED">, C<"CANCEL_SUBMITTED">, C<"CANCEL_IN_PROGRESS">, C<"CANCEL_COMPLETED">, C<"CANCEL_FAILED">
 =head2 _request_id => Str
 
 

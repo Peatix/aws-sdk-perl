@@ -84,9 +84,9 @@ This identifier is different for each directory owner account.
 =head2 ShareMethod => Str
 
 The method used when sharing a directory to determine whether the
-directory should be shared within your AWS organization
-(C<ORGANIZATIONS>) or with any AWS account by sending a shared
-directory request (C<HANDSHAKE>).
+directory should be shared within your Amazon Web Services organization
+(C<ORGANIZATIONS>) or with any Amazon Web Services account by sending a
+shared directory request (C<HANDSHAKE>).
 
 
 =head2 ShareNotes => Str
@@ -99,8 +99,7 @@ the share invitation.
 
 =head2 ShareStatus => Str
 
-Current directory status of the shared AWS Managed Microsoft AD
-directory.
+Current directory status of the shared Managed Microsoft AD directory.
 
 
 

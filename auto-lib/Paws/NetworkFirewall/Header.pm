@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 
 =head1 DESCRIPTION
 
-The 5-tuple criteria for AWS Network Firewall to use to inspect packet
+The basic rule criteria for Network Firewall to use to inspect packet
 headers in stateful traffic flow inspection. Traffic flows that match
 the criteria are a match for the corresponding StatefulRule.
 
@@ -52,7 +52,7 @@ notation. To match with any address, specify C<ANY>.
 
 Specify an IP address or a block of IP addresses in Classless
 Inter-Domain Routing (CIDR) notation. Network Firewall supports all
-address ranges for IPv4.
+address ranges for IPv4 and IPv6.
 
 Examples:
 
@@ -68,6 +68,19 @@ specify C<192.0.2.44/32>.
 To configure Network Firewall to inspect for IP addresses from
 192.0.2.0 to 192.0.2.255, specify C<192.0.2.0/24>.
 
+=item *
+
+To configure Network Firewall to inspect for the IP address
+1111:0000:0000:0000:0000:0000:0000:0111, specify
+C<1111:0000:0000:0000:0000:0000:0000:0111/128>.
+
+=item *
+
+To configure Network Firewall to inspect for IP addresses from
+1111:0000:0000:0000:0000:0000:0000:0000 to
+1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
+
 =back
 
 For more information about CIDR notation, see the Wikipedia entry
@@ -79,7 +92,7 @@ Classless Inter-Domain Routing
 
 The destination port to inspect for. You can specify an individual
 port, for example C<1994> and you can specify a port range, for example
-C<1990-1994>. To match with any port, specify C<ANY>.
+C<1990:1994>. To match with any port, specify C<ANY>.
 
 
 =head2 B<REQUIRED> Direction => Str
@@ -94,7 +107,7 @@ to the destination.
 =head2 B<REQUIRED> Protocol => Str
 
 The protocol to inspect for. To specify all, you can use C<IP>, because
-all traffic on AWS and on the internet is IP.
+all traffic on Amazon Web Services and on the internet is IP.
 
 
 =head2 B<REQUIRED> Source => Str
@@ -104,7 +117,7 @@ notation. To match with any address, specify C<ANY>.
 
 Specify an IP address or a block of IP addresses in Classless
 Inter-Domain Routing (CIDR) notation. Network Firewall supports all
-address ranges for IPv4.
+address ranges for IPv4 and IPv6.
 
 Examples:
 
@@ -120,6 +133,19 @@ specify C<192.0.2.44/32>.
 To configure Network Firewall to inspect for IP addresses from
 192.0.2.0 to 192.0.2.255, specify C<192.0.2.0/24>.
 
+=item *
+
+To configure Network Firewall to inspect for the IP address
+1111:0000:0000:0000:0000:0000:0000:0111, specify
+C<1111:0000:0000:0000:0000:0000:0000:0111/128>.
+
+=item *
+
+To configure Network Firewall to inspect for IP addresses from
+1111:0000:0000:0000:0000:0000:0000:0000 to
+1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
+
 =back
 
 For more information about CIDR notation, see the Wikipedia entry
@@ -131,7 +157,7 @@ Classless Inter-Domain Routing
 
 The source port to inspect for. You can specify an individual port, for
 example C<1994> and you can specify a port range, for example
-C<1990-1994>. To match with any port, specify C<ANY>.
+C<1990:1994>. To match with any port, specify C<ANY>.
 
 
 

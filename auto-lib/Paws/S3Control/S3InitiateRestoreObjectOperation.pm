@@ -34,9 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 
 =head1 DESCRIPTION
 
-Contains the configuration parameters for an S3 Initiate Restore Object
-job. S3 Batch Operations passes every object to the underlying POST
-Object restore API. For more information about the parameters for this
+Contains the configuration parameters for a POST Object restore job. S3
+Batch Operations passes every object to the underlying C<RestoreObject>
+API operation. For more information about the parameters for this
 operation, see RestoreObject
 (https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request).
 

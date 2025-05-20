@@ -55,8 +55,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 Limit => Int
 
 The maximum number of organization config packs returned on each page.
-If you do no specify a number, AWS Config uses the default. The default
-is 100.
+If you do no specify a number, Config uses the default. The default is
+100.
 
 
 

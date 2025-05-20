@@ -5,7 +5,10 @@ package Paws::FraudDetector::EventType;
   has CreatedTime => (is => 'ro', isa => 'Str', request_name => 'createdTime', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has EntityTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'entityTypes', traits => ['NameInRequest']);
+  has EventIngestion => (is => 'ro', isa => 'Str', request_name => 'eventIngestion', traits => ['NameInRequest']);
+  has EventOrchestration => (is => 'ro', isa => 'Paws::FraudDetector::EventOrchestration', request_name => 'eventOrchestration', traits => ['NameInRequest']);
   has EventVariables => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'eventVariables', traits => ['NameInRequest']);
+  has IngestedEventStatistics => (is => 'ro', isa => 'Paws::FraudDetector::IngestedEventStatistics', request_name => 'ingestedEventStatistics', traits => ['NameInRequest']);
   has Labels => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'labels', traits => ['NameInRequest']);
   has LastUpdatedTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedTime', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
@@ -65,9 +68,27 @@ The event type description.
 The event type entity types.
 
 
+=head2 EventIngestion => Str
+
+If C<Enabled>, Amazon Fraud Detector stores event data when you
+generate a prediction and uses that data to update calculated variables
+in near real-time. Amazon Fraud Detector uses this data, known as
+C<INGESTED_EVENTS>, to train your model and improve fraud predictions.
+
+
+=head2 EventOrchestration => L<Paws::FraudDetector::EventOrchestration>
+
+The event orchestration status.
+
+
 =head2 EventVariables => ArrayRef[Str|Undef]
 
 The event type event variables.
+
+
+=head2 IngestedEventStatistics => L<Paws::FraudDetector::IngestedEventStatistics>
+
+Data about the stored events.
 
 
 =head2 Labels => ArrayRef[Str|Undef]

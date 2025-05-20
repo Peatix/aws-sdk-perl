@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECR::ImageI
 
 =head1 DESCRIPTION
 
-An object with identifying information for an Amazon ECR image.
+An object with identifying information for an image in an Amazon ECR
+repository.
 
 =head1 ATTRIBUTES
 

@@ -75,12 +75,17 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 The IDs of the Spot Fleet requests.
 
+Constraint: You can specify up to 100 IDs in a single request.
+
 
 
 =head2 B<REQUIRED> TerminateInstances => Bool
 
-Indicates whether to terminate instances for a Spot Fleet request if it
-is canceled successfully.
+Indicates whether to terminate the associated instances when the Spot
+Fleet request is canceled. The default is to terminate the instances.
+
+To let the instances continue to run after the Spot Fleet request is
+canceled, specify C<no-terminate-instances>.
 
 
 

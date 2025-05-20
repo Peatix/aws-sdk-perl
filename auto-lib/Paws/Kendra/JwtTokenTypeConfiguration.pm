@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Jwt
 
 =head1 DESCRIPTION
 
-Configuration information for the JWT token type.
+Provides the configuration information for the JWT token type.
 
 =head1 ATTRIBUTES
 

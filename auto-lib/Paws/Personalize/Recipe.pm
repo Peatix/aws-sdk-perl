@@ -43,7 +43,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 Provides information about a recipe. Each recipe provides an algorithm
 that Amazon Personalize uses in model training when you use the
-CreateSolution operation.
+CreateSolution
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)
+operation.
 
 =head1 ATTRIBUTES
 

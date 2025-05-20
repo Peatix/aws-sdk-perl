@@ -95,10 +95,10 @@ A data object containing your Realtime scripts and dependencies as a
 zip file. The zip file can have one or multiple files. Maximum size of
 a zip file is 5 MB.
 
-When using the AWS CLI tool to create a script, this parameter is set
-to the zip file name. It must be prepended with the string "fileb://"
-to indicate that the file data is a binary object. For example:
-C<--zip-file fileb://myRealtimeScript.zip>.
+When using the Amazon Web Services CLI tool to create a script, this
+parameter is set to the zip file name. It must be prepended with the
+string "fileb://" to indicate that the file data is a binary object.
+For example: C<--zip-file fileb://myRealtimeScript.zip>.
 
 
 

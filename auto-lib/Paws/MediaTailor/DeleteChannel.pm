@@ -1,12 +1,12 @@
 
 package Paws::MediaTailor::DeleteChannel;
   use Moose;
-  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'channelName', required => 1);
+  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ChannelName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DeleteChannel');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{channelName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{ChannelName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'DELETE');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::DeleteChannelResponse');
 1;
@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ChannelName => Str
 
-The identifier for the channel you are working on.
+The name of the channel.
 
 
 

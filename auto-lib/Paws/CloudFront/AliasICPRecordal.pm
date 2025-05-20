@@ -34,17 +34,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-AWS services in China customers must file for an Internet Content
-Provider (ICP) recordal if they want to serve content publicly on an
-alternate domain name, also known as a CNAME, that they've added to
-CloudFront. AliasICPRecordal provides the ICP recordal status for
-CNAMEs associated with distributions. The status is returned in the
-CloudFront response; you can't configure it yourself.
+Amazon Web Services services in China customers must file for an
+Internet Content Provider (ICP) recordal if they want to serve content
+publicly on an alternate domain name, also known as a CNAME, that
+they've added to CloudFront. AliasICPRecordal provides the ICP recordal
+status for CNAMEs associated with distributions. The status is returned
+in the CloudFront response; you can't configure it yourself.
 
 For more information about ICP recordals, see Signup, Accounts, and
 Credentials
 (https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html)
-in I<Getting Started with AWS services in China>.
+in I<Getting Started with Amazon Web Services services in China>.
 
 =head1 ATTRIBUTES
 
@@ -57,8 +57,8 @@ A domain name associated with a distribution.
 =head2 ICPRecordalStatus => Str
 
 The Internet Content Provider (ICP) recordal status for a CNAME. The
-ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in
-regions outside of China.
+ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in Amazon
+Web Services Regions outside of China.
 
 The status values returned are the following:
 
@@ -69,8 +69,8 @@ The status values returned are the following:
 B<APPROVED> indicates that the associated CNAME has a valid ICP
 recordal number. Multiple CNAMEs can be associated with a distribution,
 and CNAMEs can correspond to different ICP recordals. To be marked as
-APPROVED, that is, valid to use with China region, a CNAME must have
-one ICP recordal number associated with it.
+APPROVED, that is, valid to use with the China Regions, a CNAME must
+have one ICP recordal number associated with it.
 
 =item *
 

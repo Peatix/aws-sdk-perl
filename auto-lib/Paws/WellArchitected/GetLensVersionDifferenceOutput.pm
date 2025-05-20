@@ -4,6 +4,8 @@ package Paws::WellArchitected::GetLensVersionDifferenceOutput;
   has BaseLensVersion => (is => 'ro', isa => 'Str');
   has LatestLensVersion => (is => 'ro', isa => 'Str');
   has LensAlias => (is => 'ro', isa => 'Str');
+  has LensArn => (is => 'ro', isa => 'Str');
+  has TargetLensVersion => (is => 'ro', isa => 'Str');
   has VersionDifferences => (is => 'ro', isa => 'Paws::WellArchitected::VersionDifferences');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -31,6 +33,16 @@ The latest version of the lens.
 =head2 LensAlias => Str
 
 
+
+
+=head2 LensArn => Str
+
+The ARN for the lens.
+
+
+=head2 TargetLensVersion => Str
+
+The target lens version for the lens.
 
 
 =head2 VersionDifferences => L<Paws::WellArchitected::VersionDifferences>

@@ -45,7 +45,7 @@ Describes a contact method.
 
 A contact method is a way to send you notifications. For more
 information, see Notifications in Amazon Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
 
 =head1 ATTRIBUTES
 
@@ -68,7 +68,8 @@ The timestamp when the contact method was created.
 
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
-
+An object that describes the location of the contact method, such as
+the Amazon Web Services Region and Availability Zone.
 
 
 =head2 Name => Str
@@ -84,7 +85,7 @@ messaging).
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<ContactMethod>).
+The Lightsail resource type of the contact method.
 
 
 =head2 Status => Str

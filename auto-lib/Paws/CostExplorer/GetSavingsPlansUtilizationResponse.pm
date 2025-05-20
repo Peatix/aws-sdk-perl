@@ -17,8 +17,8 @@ Paws::CostExplorer::GetSavingsPlansUtilizationResponse
 
 =head2 SavingsPlansUtilizationsByTime => ArrayRef[L<Paws::CostExplorer::SavingsPlansUtilizationByTime>]
 
-The amount of cost/commitment you used your Savings Plans. This allows
-you to specify date ranges.
+The amount of cost/commitment that you used your Savings Plans. You can
+use it to specify date ranges.
 
 
 =head2 B<REQUIRED> Total => L<Paws::CostExplorer::SavingsPlansUtilizationAggregates>

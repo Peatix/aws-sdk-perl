@@ -49,8 +49,8 @@ register as a delegated administrator.
 
 =head2 B<REQUIRED> ServicePrincipal => Str
 
-The service principal of the AWS service for which you want to make the
-member account a delegated administrator.
+The service principal of the Amazon Web Services service for which you
+want to make the member account a delegated administrator.
 
 
 

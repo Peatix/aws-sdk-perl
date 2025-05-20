@@ -12,6 +12,7 @@ package Paws::Kafka::ClusterOperationInfo;
   has OperationType => (is => 'ro', isa => 'Str', request_name => 'operationType', traits => ['NameInRequest']);
   has SourceClusterInfo => (is => 'ro', isa => 'Paws::Kafka::MutableClusterInfo', request_name => 'sourceClusterInfo', traits => ['NameInRequest']);
   has TargetClusterInfo => (is => 'ro', isa => 'Paws::Kafka::MutableClusterInfo', request_name => 'targetClusterInfo', traits => ['NameInRequest']);
+  has VpcConnectionInfo => (is => 'ro', isa => 'Paws::Kafka::VpcConnectionInfo', request_name => 'vpcConnectionInfo', traits => ['NameInRequest']);
 
 1;
 
@@ -32,7 +33,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Kafka::ClusterOperationInfo object:
 
-  $service_obj->Method(Att1 => { ClientRequestId => $value, ..., TargetClusterInfo => $value  });
+  $service_obj->Method(Att1 => { ClientRequestId => $value, ..., VpcConnectionInfo => $value  });
 
 =head3 Results returned from an API call
 
@@ -101,6 +102,12 @@ Information about cluster attributes before a cluster is updated.
 =head2 TargetClusterInfo => L<Paws::Kafka::MutableClusterInfo>
 
 Information about cluster attributes after a cluster is updated.
+
+
+=head2 VpcConnectionInfo => L<Paws::Kafka::VpcConnectionInfo>
+
+Description of the VPC connection for CreateVpcConnection and
+DeleteVpcConnection operations.
 
 
 

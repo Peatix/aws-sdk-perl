@@ -74,8 +74,8 @@ The name of the metric stream.
 
 =head2 OutputFormat => Str
 
-The output format of this metric stream. Valid values are C<json> and
-C<opentelemetry0.7>.
+The output format of this metric stream. Valid values are C<json>,
+C<opentelemetry1.0>, and C<opentelemetry0.7>.
 
 
 =head2 State => Str

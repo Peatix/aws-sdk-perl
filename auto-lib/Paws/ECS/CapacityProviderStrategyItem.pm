@@ -36,24 +36,42 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Capaci
 =head1 DESCRIPTION
 
 The details of a capacity provider strategy. A capacity provider
-strategy can be set when using the RunTask or CreateCluster APIs or as
-the default capacity provider strategy for a cluster with the
-CreateCluster API.
+strategy can be set when using the RunTask
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html)or
+CreateCluster
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html)
+APIs or as the default capacity provider strategy for a cluster with
+the C<CreateCluster> API.
 
 Only capacity providers that are already associated with a cluster and
 have an C<ACTIVE> or C<UPDATING> status can be used in a capacity
-provider strategy. The PutClusterCapacityProviders API is used to
-associate a capacity provider with a cluster.
+provider strategy. The PutClusterCapacityProviders
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)
+API is used to associate a capacity provider with a cluster.
 
 If specifying a capacity provider that uses an Auto Scaling group, the
 capacity provider must already be created. New Auto Scaling group
-capacity providers can be created with the CreateCapacityProvider API
-operation.
+capacity providers can be created with the
+CreateClusterCapacityProvider
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateClusterCapacityProvider.html)
+API operation.
 
-To use a AWS Fargate capacity provider, specify either the C<FARGATE>
-or C<FARGATE_SPOT> capacity providers. The AWS Fargate capacity
-providers are available to all accounts and only need to be associated
-with a cluster to be used in a capacity provider strategy.
+To use a Fargate capacity provider, specify either the C<FARGATE> or
+C<FARGATE_SPOT> capacity providers. The Fargate capacity providers are
+available to all accounts and only need to be associated with a cluster
+to be used in a capacity provider strategy.
+
+With C<FARGATE_SPOT>, you can run interruption tolerant tasks at a rate
+that's discounted compared to the C<FARGATE> price. C<FARGATE_SPOT>
+runs tasks on spare compute capacity. When Amazon Web Services needs
+the capacity back, your tasks are interrupted with a two-minute
+warning. C<FARGATE_SPOT> supports Linux tasks with the X86_64
+architecture on platform version 1.3.0 or later. C<FARGATE_SPOT>
+supports Linux tasks with the ARM64 architecture on platform version
+1.4.0 or later.
+
+A capacity provider strategy can contain a maximum of 20 capacity
+providers.
 
 =head1 ATTRIBUTES
 
@@ -82,17 +100,17 @@ If no C<weight> value is specified, the default value of C<0> is used.
 When multiple capacity providers are specified within a capacity
 provider strategy, at least one of the capacity providers must have a
 weight value greater than zero and any capacity providers with a weight
-of C<0> will not be used to place tasks. If you specify multiple
-capacity providers in a strategy that all have a weight of C<0>, any
-C<RunTask> or C<CreateService> actions using the capacity provider
-strategy will fail.
+of C<0> can't be used to place tasks. If you specify multiple capacity
+providers in a strategy that all have a weight of C<0>, any C<RunTask>
+or C<CreateService> actions using the capacity provider strategy will
+fail.
 
 An example scenario for using weights is defining a strategy that
 contains two capacity providers and both have a weight of C<1>, then
 when the C<base> is satisfied, the tasks will be split evenly across
 the two capacity providers. Using that same logic, if you specify a
 weight of C<1> for I<capacityProviderA> and a weight of C<4> for
-I<capacityProviderB>, then for every one task that is run using
+I<capacityProviderB>, then for every one task that's run using
 I<capacityProviderA>, four tasks would use I<capacityProviderB>.
 
 

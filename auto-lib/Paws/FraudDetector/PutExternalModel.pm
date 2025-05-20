@@ -36,23 +36,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $PutExternalModelResult = $frauddetector->PutExternalModel(
       InputConfiguration => {
         UseEventVariables => 1,
-        CsvInputTemplate  => 'Mystring',        # OPTIONAL
-        EventTypeName     => 'Myidentifier',    # min: 1, max: 64; OPTIONAL
+        CsvInputTemplate  =>
+          'MymodelInputTemplate',    # min: 1, max: 2000; OPTIONAL
+        EventTypeName => 'Myidentifier',    # min: 1, max: 64; OPTIONAL
         Format => 'TEXT_CSV',    # values: TEXT_CSV, APPLICATION_JSON; OPTIONAL
-        JsonInputTemplate => 'Mystring',    # OPTIONAL
+        JsonInputTemplate =>
+          'MymodelInputTemplate',    # min: 1, max: 2000; OPTIONAL
       },
       InvokeModelEndpointRoleArn => 'Mystring',
       ModelEndpoint              => 'MysageMakerEndpointIdentifier',
       ModelEndpointStatus        => 'ASSOCIATED',
       ModelSource                => 'SAGEMAKER',
       OutputConfiguration        => {
-        Format => 'TEXT_CSV',    # values: TEXT_CSV, APPLICATION_JSONLINES
-        CsvIndexToVariableMap => {
-          'Mystring' => 'Mystring',    # key: OPTIONAL, value: OPTIONAL
-        },    # OPTIONAL
-        JsonKeyToVariableMap => {
-          'Mystring' => 'Mystring',    # key: OPTIONAL, value: OPTIONAL
-        },    # OPTIONAL
+        Format => 'TEXT_CSV',        # values: TEXT_CSV, APPLICATION_JSONLINES
+        CsvIndexToVariableMap => { 'Mystring' => 'Mystring', },    # OPTIONAL
+        JsonKeyToVariableMap  => { 'Mystring' => 'Mystring', },    # OPTIONAL
       },
       Tags => [
         {

@@ -68,17 +68,17 @@ The name that you assign to organization conformance pack.
 =head2 B<REQUIRED> Status => Str
 
 Indicates deployment status of an organization conformance pack. When
-master account calls PutOrganizationConformancePack for the first time,
-conformance pack status is created in all the member accounts. When
-master account calls PutOrganizationConformancePack for the second
-time, conformance pack status is updated in all the member accounts.
-Additionally, conformance pack status is updated when one or more
-member accounts join or leave an organization. Conformance pack status
-is deleted when the master account deletes OrganizationConformancePack
-in all the member accounts and disables service access for
-C<config-multiaccountsetup.amazonaws.com>.
+management account calls PutOrganizationConformancePack for the first
+time, conformance pack status is created in all the member accounts.
+When management account calls PutOrganizationConformancePack for the
+second time, conformance pack status is updated in all the member
+accounts. Additionally, conformance pack status is updated when one or
+more member accounts join or leave an organization. Conformance pack
+status is deleted when the management account deletes
+OrganizationConformancePack in all the member accounts and disables
+service access for C<config-multiaccountsetup.amazonaws.com>.
 
-AWS Config sets the state of the conformance pack to:
+Config sets the state of the conformance pack to:
 
 =over
 

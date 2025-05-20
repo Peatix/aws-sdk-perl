@@ -17,7 +17,7 @@ Paws::CloudFormation::PublishTypeOutput
 
 =head2 PublicTypeArn => Str
 
-The Amazon Resource Number (ARN) assigned to the public extension upon
+The Amazon Resource Name (ARN) assigned to the public extension upon
 publication.
 
 

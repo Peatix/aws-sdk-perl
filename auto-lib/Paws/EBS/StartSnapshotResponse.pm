@@ -7,6 +7,7 @@ package Paws::EBS::StartSnapshotResponse;
   has OwnerId => (is => 'ro', isa => 'Str');
   has ParentSnapshotId => (is => 'ro', isa => 'Str');
   has SnapshotId => (is => 'ro', isa => 'Str');
+  has SseType => (is => 'ro', isa => 'Str');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EBS::Tag]');
@@ -36,13 +37,13 @@ The description of the snapshot.
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS
-KMS) customer master key (CMK) used to encrypt the snapshot.
+The Amazon Resource Name (ARN) of the Key Management Service (KMS) key
+used to encrypt the snapshot.
 
 
 =head2 OwnerId => Str
 
-The AWS account ID of the snapshot owner.
+The Amazon Web Services account ID of the snapshot owner.
 
 
 =head2 ParentSnapshotId => Str
@@ -55,6 +56,11 @@ The ID of the parent snapshot.
 The ID of the snapshot.
 
 
+=head2 SseType => Str
+
+Reserved for future use.
+
+Valid values are: C<"sse-ebs">, C<"sse-kms">, C<"none">
 =head2 StartTime => Str
 
 The timestamp when the snapshot was created.

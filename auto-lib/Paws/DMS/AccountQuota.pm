@@ -35,15 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DMS::Accoun
 
 =head1 DESCRIPTION
 
-Describes a quota for an AWS account, for example, the number of
-replication instances allowed.
+Describes a quota for an Amazon Web Services account, for example the
+number of replication instances allowed.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountQuotaName => Str
 
-The name of the AWS DMS quota for this AWS account.
+The name of the DMS quota for this Amazon Web Services account.
 
 
 =head2 Max => Int

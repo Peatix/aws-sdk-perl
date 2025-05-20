@@ -4,14 +4,18 @@ package Paws::EC2::CreateClientVpnEndpoint;
   has AuthenticationOptions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ClientVpnAuthenticationRequest]', traits => ['NameInRequest'], request_name => 'Authentication' , required => 1);
   has ClientCidrBlock => (is => 'ro', isa => 'Str', required => 1);
   has ClientConnectOptions => (is => 'ro', isa => 'Paws::EC2::ClientConnectOptions');
+  has ClientLoginBannerOptions => (is => 'ro', isa => 'Paws::EC2::ClientLoginBannerOptions');
+  has ClientRouteEnforcementOptions => (is => 'ro', isa => 'Paws::EC2::ClientRouteEnforcementOptions');
   has ClientToken => (is => 'ro', isa => 'Str');
   has ConnectionLogOptions => (is => 'ro', isa => 'Paws::EC2::ConnectionLogOptions', required => 1);
   has Description => (is => 'ro', isa => 'Str');
+  has DisconnectOnSessionTimeout => (is => 'ro', isa => 'Bool');
   has DnsServers => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has DryRun => (is => 'ro', isa => 'Bool');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecurityGroupId' );
   has SelfServicePortal => (is => 'ro', isa => 'Str');
   has ServerCertificateArn => (is => 'ro', isa => 'Str', required => 1);
+  has SessionTimeoutHours => (is => 'ro', isa => 'Int');
   has SplitTunnel => (is => 'ro', isa => 'Bool');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has TransportProtocol => (is => 'ro', isa => 'Str');
@@ -71,19 +75,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Enabled           => 1,               # OPTIONAL
         LambdaFunctionArn => 'MyString',      # OPTIONAL
       },    # OPTIONAL
-      ClientToken => 'MyString',    # OPTIONAL
-      Description => 'MyString',    # OPTIONAL
-      DnsServers  => [
-        'MyString', ...             # OPTIONAL
+      ClientLoginBannerOptions => {
+        BannerText => 'MyString',    # OPTIONAL
+        Enabled    => 1,             # OPTIONAL
+      },    # OPTIONAL
+      ClientRouteEnforcementOptions => {
+        Enforced => 1,    # OPTIONAL
+      },    # OPTIONAL
+      ClientToken                => 'MyString',    # OPTIONAL
+      Description                => 'MyString',    # OPTIONAL
+      DisconnectOnSessionTimeout => 1,             # OPTIONAL
+      DnsServers                 => [
+        'MyString', ...                            # OPTIONAL
       ],    # OPTIONAL
-      DryRun            => 1,                               # OPTIONAL
-      SecurityGroupIds  => [ 'MySecurityGroupId', ... ],    # OPTIONAL
-      SelfServicePortal => 'enabled',                       # OPTIONAL
-      SplitTunnel       => 1,                               # OPTIONAL
-      TagSpecifications => [
+      DryRun              => 1,                               # OPTIONAL
+      SecurityGroupIds    => [ 'MySecurityGroupId', ... ],    # OPTIONAL
+      SelfServicePortal   => 'enabled',                       # OPTIONAL
+      SessionTimeoutHours => 1,                               # OPTIONAL
+      SplitTunnel         => 1,                               # OPTIONAL
+      TagSpecifications   => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',    # OPTIONAL
@@ -126,7 +139,8 @@ The IPv4 address range, in CIDR notation, from which to assign client
 IP addresses. The address range cannot overlap with the local CIDR of
 the VPC in which the associated subnet is located, or the routes that
 you add manually. The address range cannot be changed after the Client
-VPN endpoint has been created. The CIDR block should be /22 or greater.
+VPN endpoint has been created. Client CIDR range must have a size of at
+least /22 and must not be greater than /12.
 
 
 
@@ -137,12 +151,36 @@ connections.
 
 
 
+=head2 ClientLoginBannerOptions => L<Paws::EC2::ClientLoginBannerOptions>
+
+Options for enabling a customizable text banner that will be displayed
+on Amazon Web Services provided clients when a VPN session is
+established.
+
+
+
+=head2 ClientRouteEnforcementOptions => L<Paws::EC2::ClientRouteEnforcementOptions>
+
+Client route enforcement is a feature of the Client VPN service that
+helps enforce administrator defined routes on devices connected through
+the VPN. T his feature helps improve your security posture by ensuring
+that network traffic originating from a connected client is not
+inadvertently sent outside the VPN tunnel.
+
+Client route enforcement works by monitoring the route table of a
+connected device for routing policy changes to the VPN connection. If
+the feature detects any VPN routing policy modifications, it will
+automatically force an update to the route table, reverting it back to
+the expected route configurations.
+
+
+
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+idempotency of the request. For more information, see Ensuring
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 
@@ -183,6 +221,16 @@ A brief description of the Client VPN endpoint.
 
 
 
+=head2 DisconnectOnSessionTimeout => Bool
+
+Indicates whether the client VPN session is disconnected after the
+maximum timeout specified in C<SessionTimeoutHours> is reached. If
+C<true>, users are prompted to reconnect client VPN. If C<false>,
+client VPN attempts to reconnect automatically. The default value is
+C<true>.
+
+
+
 =head2 DnsServers => ArrayRef[Str|Undef]
 
 Information about the DNS servers to be used for DNS resolution. A
@@ -220,23 +268,32 @@ Valid values are: C<"enabled">, C<"disabled">
 
 =head2 B<REQUIRED> ServerCertificateArn => Str
 
-The ARN of the server certificate. For more information, see the AWS
+The ARN of the server certificate. For more information, see the
 Certificate Manager User Guide
 (https://docs.aws.amazon.com/acm/latest/userguide/).
 
 
 
+=head2 SessionTimeoutHours => Int
+
+The maximum VPN session duration time in hours.
+
+Valid values: C<8 | 10 | 12 | 24>
+
+Default value: C<24>
+
+
+
 =head2 SplitTunnel => Bool
 
-Indicates whether split-tunnel is enabled on the AWS Client VPN
-endpoint.
+Indicates whether split-tunnel is enabled on the Client VPN endpoint.
 
 By default, split-tunnel on a VPN endpoint is disabled.
 
-For information about split-tunnel VPN endpoints, see Split-Tunnel AWS
-Client VPN Endpoint
+For information about split-tunnel VPN endpoints, see Split-tunnel
+Client VPN endpoint
 (https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/split-tunnel-vpn.html)
-in the I<AWS Client VPN Administrator Guide>.
+in the I<Client VPN Administrator Guide>.
 
 
 

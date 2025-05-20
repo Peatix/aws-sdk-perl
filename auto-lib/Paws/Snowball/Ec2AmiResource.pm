@@ -35,9 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::E
 =head1 DESCRIPTION
 
 A JSON-formatted object that contains the IDs for an Amazon Machine
-Image (AMI), including the Amazon EC2 AMI ID and the Snow device AMI
-ID. Each AMI has these two IDs to simplify identifying the AMI in both
-the AWS Cloud and on the device.
+Image (AMI), including the Amazon EC2-compatible AMI ID and the Snow
+device AMI ID. Each AMI has these two IDs to simplify identifying the
+AMI in both the Amazon Web Services Cloud and on the device.
 
 =head1 ATTRIBUTES
 

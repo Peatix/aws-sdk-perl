@@ -1,6 +1,7 @@
 
 package Paws::Translate::TranslateText;
   use Moose;
+  has Settings => (is => 'ro', isa => 'Paws::Translate::TranslationSettings');
   has SourceLanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has TargetLanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has TerminologyNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -34,12 +35,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SourceLanguageCode => 'MyLanguageCodeString',
       TargetLanguageCode => 'MyLanguageCodeString',
       Text               => 'MyBoundedLengthString',
-      TerminologyNames   => [
+      Settings           => {
+        Brevity   => 'ON',        # values: ON; OPTIONAL
+        Formality => 'FORMAL',    # values: FORMAL, INFORMAL; OPTIONAL
+        Profanity => 'MASK',      # values: MASK; OPTIONAL
+      },    # OPTIONAL
+      TerminologyNames => [
         'MyResourceName', ...    # min: 1, max: 256
       ],    # OPTIONAL
     );
 
     # Results:
+    my $AppliedSettings      = $TranslateTextResponse->AppliedSettings;
     my $AppliedTerminologies = $TranslateTextResponse->AppliedTerminologies;
     my $SourceLanguageCode   = $TranslateTextResponse->SourceLanguageCode;
     my $TargetLanguageCode   = $TranslateTextResponse->TargetLanguageCode;
@@ -53,11 +60,36 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 =head1 ATTRIBUTES
 
 
+=head2 Settings => L<Paws::Translate::TranslationSettings>
+
+Settings to configure your translation output. You can configure the
+following options:
+
+=over
+
+=item *
+
+Brevity: reduces the length of the translated output for most
+translations.
+
+=item *
+
+Formality: sets the formality level of the output text.
+
+=item *
+
+Profanity: masks profane words and phrases in your translation output.
+
+=back
+
+
+
+
 =head2 B<REQUIRED> SourceLanguageCode => Str
 
-The language code for the language of the source text. The language
-must be a language supported by Amazon Translate. For a list of
-language codes, see what-is-languages.
+The language code for the language of the source text. For a list of
+language codes, see Supported languages
+(https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 
 To have Amazon Translate determine the source language of your text,
 you can specify C<auto> in the C<SourceLanguageCode> field. If you
@@ -65,27 +97,40 @@ specify C<auto>, Amazon Translate will call Amazon Comprehend
 (https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html)
 to determine the source language.
 
+If you specify C<auto>, you must send the C<TranslateText> request in a
+region that supports Amazon Comprehend. Otherwise, the request returns
+an error indicating that autodetect is not supported.
+
 
 
 =head2 B<REQUIRED> TargetLanguageCode => Str
 
-The language code requested for the language of the target text. The
-language must be a language supported by Amazon Translate.
+The language code requested for the language of the target text. For a
+list of language codes, see Supported languages
+(https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
 
 
 
 =head2 TerminologyNames => ArrayRef[Str|Undef]
 
-The name of the terminology list file to be used in the TranslateText
-request. You can use 1 terminology list at most in a C<TranslateText>
-request. Terminology lists can contain a maximum of 256 terms.
+The name of a terminology list file to add to the translation job. This
+file provides source terms and the desired translation for each term. A
+terminology list can contain a maximum of 256 terms. You can use one
+custom terminology resource in your translation request.
+
+Use the ListTerminologies operation to get the available terminology
+lists.
+
+For more information about custom terminology lists, see Custom
+terminology
+(https://docs.aws.amazon.com/translate/latest/dg/how-custom-terminology.html).
 
 
 
 =head2 B<REQUIRED> Text => Str
 
-The text to translate. The text string can be a maximum of 5,000 bytes
-long. Depending on your character set, this may be fewer than 5,000
+The text to translate. The text string can be a maximum of 10,000 bytes
+long. Depending on your character set, this may be fewer than 10,000
 characters.
 
 

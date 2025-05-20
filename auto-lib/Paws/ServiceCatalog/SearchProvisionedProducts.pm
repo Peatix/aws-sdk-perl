@@ -72,10 +72,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -89,7 +85,7 @@ C<zh> - Chinese
 
 =head2 AccessLevelFilter => L<Paws::ServiceCatalog::AccessLevelFilter>
 
-The access level to use to obtain results. The default is C<User>.
+The access level to use to obtain results. The default is C<Account>.
 
 
 
@@ -99,7 +95,7 @@ The search filters.
 
 When the key is C<SearchQuery>, the searchable fields are C<arn>,
 C<createdTime>, C<id>, C<lastRecordId>, C<idempotencyToken>, C<name>,
-C<physicalId>, C<productId>, C<provisioningArtifact>, C<type>,
+C<physicalId>, C<productId>, C<provisioningArtifactId>, C<type>,
 C<status>, C<tags>, C<userArn>, C<userArnSession>,
 C<lastProvisioningRecordId>, C<lastSuccessfulProvisioningRecordId>,
 C<productName>, and C<provisioningArtifactName>.

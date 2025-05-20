@@ -98,7 +98,8 @@ The version number of a public third-party extension.
 
 The publisher ID of the extension publisher.
 
-Extensions provided by Amazon are not assigned a publisher ID.
+Extensions provided by Amazon Web Services are not assigned a publisher
+ID.
 
 
 
@@ -109,7 +110,7 @@ The kind of extension.
 Conditional: You must specify either C<TypeName> and C<Type>, or
 C<Arn>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 

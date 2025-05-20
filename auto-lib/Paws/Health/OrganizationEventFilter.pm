@@ -52,8 +52,8 @@ operation.
 
 =head2 AwsAccountIds => ArrayRef[Str|Undef]
 
-A list of 12-digit AWS account numbers that contains the affected
-entities.
+A list of 12-digit Amazon Web Services account numbers that contains
+the affected entities.
 
 
 =head2 EndTime => L<Paws::Health::DateTimeRange>
@@ -79,8 +79,9 @@ A list of event status codes.
 
 =head2 EventTypeCategories => ArrayRef[Str|Undef]
 
-A list of event type category codes (issue, scheduledChange, or
-accountNotification).
+A list of event type category codes. Possible values are C<issue>,
+C<accountNotification>, or C<scheduledChange>. Currently, the
+C<investigation> value isn't supported at this time.
 
 
 =head2 EventTypeCodes => ArrayRef[Str|Undef]
@@ -96,13 +97,13 @@ C<"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".>
 
 =head2 Regions => ArrayRef[Str|Undef]
 
-A list of AWS Regions.
+A list of Amazon Web Services Regions.
 
 
 =head2 Services => ArrayRef[Str|Undef]
 
-The AWS services associated with the event. For example, C<EC2>,
-C<RDS>.
+The Amazon Web Services services associated with the event. For
+example, C<EC2>, C<RDS>.
 
 
 =head2 StartTime => L<Paws::Health::DateTimeRange>

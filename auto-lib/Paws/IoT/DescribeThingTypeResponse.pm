@@ -44,7 +44,8 @@ The name of the thing type.
 =head2 ThingTypeProperties => L<Paws::IoT::ThingTypeProperties>
 
 The ThingTypeProperties contains information about the thing type
-including description, and a list of searchable thing attribute names.
+including description, a list of searchable thing attribute names, and
+MQTT5 configuration.
 
 
 =head2 _request_id => Str

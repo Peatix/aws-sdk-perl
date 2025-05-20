@@ -11,13 +11,16 @@ package Paws::ElastiCache::ModifyCacheCluster;
   has CacheNodeType => (is => 'ro', isa => 'Str');
   has CacheParameterGroupName => (is => 'ro', isa => 'Str');
   has CacheSecurityGroupNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has IpDiscovery => (is => 'ro', isa => 'Str');
   has LogDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::LogDeliveryConfigurationRequest]');
   has NewAvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NotificationTopicArn => (is => 'ro', isa => 'Str');
   has NotificationTopicStatus => (is => 'ro', isa => 'Str');
   has NumCacheNodes => (is => 'ro', isa => 'Int');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
+  has ScaleConfig => (is => 'ro', isa => 'Paws::ElastiCache::ScaleConfig');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SnapshotRetentionLimit => (is => 'ro', isa => 'Int');
   has SnapshotWindow => (is => 'ro', isa => 'Str');
@@ -122,22 +125,28 @@ must be specified with the C<auth-token> parameter. Possible values:
 
 =item *
 
-Rotate
+ROTATE - default, if no update strategy is provided
 
 =item *
 
-Set
+SET - allowed only after ROTATE
+
+=item *
+
+DELETE - allowed only when transitioning to RBAC
 
 =back
 
-For more information, see Authenticating Users with Redis AUTH
-(http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/auth.html)
+For more information, see Authenticating Users with AUTH
+(http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth.html)
 
 Valid values are: C<"SET">, C<"ROTATE">, C<"DELETE">
 
 =head2 AutoMinorVersionUpgrade => Bool
 
-This parameter is currently disabled.
+If you are running Valkey 7.2 or Redis OSS engine version 6.0 or later,
+set this parameter to yes to opt-in to the next auto minor version
+upgrade campaign. This parameter is disabled for previous versions.
 
 
 
@@ -210,18 +219,35 @@ Must not be "Default".
 
 
 
+=head2 Engine => Str
+
+The engine type used by the cache cluster. The options are valkey,
+memcached or redis.
+
+
+
 =head2 EngineVersion => Str
 
 The upgraded version of the cache engine to be run on the cache nodes.
 
 B<Important:> You can upgrade to a newer engine version (see Selecting
 a Cache Engine and Version
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)),
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)),
 but you cannot downgrade to an earlier engine version. If you want to
 use an earlier engine version, you must delete the existing cluster and
 create it anew with the earlier engine version.
 
 
+
+=head2 IpDiscovery => Str
+
+The network type you choose when modifying a cluster, either C<ipv4> |
+C<ipv6>. IPv6 is supported for workloads using Valkey 7.2 and above,
+Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6
+and above on all instances built on the Nitro system
+(http://aws.amazon.com/ec2/nitro/).
+
+Valid values are: C<"ipv4">, C<"ipv6">
 
 =head2 LogDeliveryConfigurations => ArrayRef[L<Paws::ElastiCache::LogDeliveryConfigurationRequest>]
 
@@ -275,7 +301,7 @@ current Availability Zone. Only newly created nodes can be located in
 different Availability Zones. For guidance on how to move existing
 Memcached nodes to different Availability Zones, see the B<Availability
 Zone Considerations> section of Cache Node Considerations for Memcached
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/mem-ug/CacheNodes.SupportedTypes.html).
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html).
 
 B<Impact of new add/remove requests upon pending requests>
 
@@ -405,8 +431,8 @@ If you are removing cache nodes, you must use the
 C<CacheNodeIdsToRemove> parameter to provide the IDs of the specific
 cache nodes to remove.
 
-For clusters running Redis, this value must be 1. For clusters running
-Memcached, this value must be between 1 and 40.
+For clusters running Valkey or Redis OSS, this value must be 1. For
+clusters running Memcached, this value must be between 1 and 40.
 
 Adding or removing Memcached cache nodes can be applied immediately or
 as a pending operation (see C<ApplyImmediately>).
@@ -473,6 +499,13 @@ C<sat>
 =back
 
 Example: C<sun:23:00-mon:01:30>
+
+
+
+=head2 ScaleConfig => L<Paws::ElastiCache::ScaleConfig>
+
+Configures horizontal or vertical scaling for Memcached clusters,
+specifying the scaling percentage and interval.
 
 
 

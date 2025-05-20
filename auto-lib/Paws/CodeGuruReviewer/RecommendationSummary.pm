@@ -6,6 +6,8 @@ package Paws::CodeGuruReviewer::RecommendationSummary;
   has FilePath => (is => 'ro', isa => 'Str');
   has RecommendationCategory => (is => 'ro', isa => 'Str');
   has RecommendationId => (is => 'ro', isa => 'Str');
+  has RuleMetadata => (is => 'ro', isa => 'Paws::CodeGuruReviewer::RuleMetadata');
+  has Severity => (is => 'ro', isa => 'Str');
   has StartLine => (is => 'ro', isa => 'Int');
 
 1;
@@ -70,6 +72,20 @@ The type of a recommendation.
 
 The recommendation ID that can be used to track the provided
 recommendations. Later on it can be used to collect the feedback.
+
+
+=head2 RuleMetadata => L<Paws::CodeGuruReviewer::RuleMetadata>
+
+Metadata about a rule. Rule metadata includes an ID, a name, a list of
+tags, and a short and long description. CodeGuru Reviewer uses rules to
+analyze code. A rule's recommendation is included in analysis results
+if code is detected that violates the rule.
+
+
+=head2 Severity => Str
+
+The severity of the issue in the code that generated this
+recommendation.
 
 
 =head2 StartLine => Int

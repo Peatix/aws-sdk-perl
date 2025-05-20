@@ -35,22 +35,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Tmpf
 
 =head1 DESCRIPTION
 
-The container path, mount options, and size of the tmpfs mount.
+The container path, mount options, and size of the C<tmpfs> mount.
 
-This object isn't applicable to jobs running on Fargate resources.
+This object isn't applicable to jobs that are running on Fargate
+resources.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ContainerPath => Str
 
-The absolute file path in the container where the tmpfs volume is
+The absolute file path in the container where the C<tmpfs> volume is
 mounted.
 
 
 =head2 MountOptions => ArrayRef[Str|Undef]
 
-The list of tmpfs volume mount options.
+The list of C<tmpfs> volume mount options.
 
 Valid values: "C<defaults>" | "C<ro>" | "C<rw>" | "C<suid>" |
 "C<nosuid>" | "C<dev>" | "C<nodev>" | "C<exec>" | "C<noexec>" |
@@ -65,7 +66,7 @@ Valid values: "C<defaults>" | "C<ro>" | "C<rw>" | "C<suid>" |
 
 =head2 B<REQUIRED> Size => Int
 
-The size (in MiB) of the tmpfs volume.
+The size (in MiB) of the C<tmpfs> volume.
 
 
 

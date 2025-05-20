@@ -3,6 +3,7 @@ package Paws::IoT::UpdateJob;
   use Moose;
   has AbortConfig => (is => 'ro', isa => 'Paws::IoT::AbortConfig', traits => ['NameInRequest'], request_name => 'abortConfig');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has JobExecutionsRetryConfig => (is => 'ro', isa => 'Paws::IoT::JobExecutionsRetryConfig', traits => ['NameInRequest'], request_name => 'jobExecutionsRetryConfig');
   has JobExecutionsRolloutConfig => (is => 'ro', isa => 'Paws::IoT::JobExecutionsRolloutConfig', traits => ['NameInRequest'], request_name => 'jobExecutionsRolloutConfig');
   has JobId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'jobId', required => 1);
   has NamespaceId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'namespaceId');
@@ -49,11 +50,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # min: 1
 
       },    # OPTIONAL
-      Description                => 'MyJobDescription',    # OPTIONAL
+      Description              => 'MyJobDescription',    # OPTIONAL
+      JobExecutionsRetryConfig => {
+        CriteriaList => [
+          {
+            FailureType     => 'FAILED',    # values: FAILED, TIMED_OUT, ALL
+            NumberOfRetries => 1,           # max: 10
+
+          },
+          ...
+        ],    # min: 1, max: 2
+
+      },    # OPTIONAL
       JobExecutionsRolloutConfig => {
         ExponentialRate => {
           BaseRatePerMinute    => 1,    # min: 1, max: 1000
-          IncrementFactor      => 1,    # min: 1, max: 5
+          IncrementFactor      => 1,    # min: 1.1, max: 5
           RateIncreaseCriteria => {
             NumberOfNotifiedThings  => 1,    # min: 1; OPTIONAL
             NumberOfSucceededThings => 1,    # min: 1; OPTIONAL
@@ -90,6 +102,12 @@ A short text description of the job.
 
 
 
+=head2 JobExecutionsRetryConfig => L<Paws::IoT::JobExecutionsRetryConfig>
+
+Allows you to create the criteria to retry a job.
+
+
+
 =head2 JobExecutionsRolloutConfig => L<Paws::IoT::JobExecutionsRolloutConfig>
 
 Allows you to create a staged rollout of the job.
@@ -106,13 +124,15 @@ The ID of the job to be updated.
 
 The namespace used to indicate that a job is a customer-managed job.
 
-When you specify a value for this parameter, AWS IoT Core sends jobs
-notifications to MQTT topics that contain the value in the following
-format.
+When you specify a value for this parameter, Amazon Web Services IoT
+Core sends jobs notifications to MQTT topics that contain the value in
+the following format.
 
 C<$aws/things/I<THING_NAME>/jobs/I<JOB_ID>/notify-namespace-I<NAMESPACE_ID>/>
 
-The C<namespaceId> feature is in public preview.
+The C<namespaceId> feature is only supported by IoT Greengrass at this
+time. For more information, see Setting up IoT Greengrass core devices.
+(https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 
 

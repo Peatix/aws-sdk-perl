@@ -5,6 +5,7 @@ package Paws::EMRContainers::ListVirtualClusters;
   has ContainerProviderType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'containerProviderType');
   has CreatedAfter => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'createdAfter');
   has CreatedBefore => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'createdBefore');
+  has EksAccessEntryIntegrated => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'eksAccessEntryIntegrated');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
   has States => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'states');
@@ -35,13 +36,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $emr-containers = Paws->service('EMRContainers');
     my $ListVirtualClustersResponse = $emr -containers->ListVirtualClusters(
-      ContainerProviderId   => 'MyString1024',           # OPTIONAL
-      ContainerProviderType => 'EKS',                    # OPTIONAL
-      CreatedAfter          => '1970-01-01T01:00:00',    # OPTIONAL
-      CreatedBefore         => '1970-01-01T01:00:00',    # OPTIONAL
-      MaxResults            => 1,                        # OPTIONAL
-      NextToken             => 'MyNextToken',            # OPTIONAL
-      States                => [
+      ContainerProviderId      => 'MyString1024',           # OPTIONAL
+      ContainerProviderType    => 'EKS',                    # OPTIONAL
+      CreatedAfter             => '1970-01-01T01:00:00',    # OPTIONAL
+      CreatedBefore            => '1970-01-01T01:00:00',    # OPTIONAL
+      EksAccessEntryIntegrated => 1,                        # OPTIONAL
+      MaxResults               => 1,                        # OPTIONAL
+      NextToken                => 'MyNextToken',            # OPTIONAL
+      States                   => [
         'RUNNING', ...    # values: RUNNING, TERMINATING, TERMINATED, ARRESTED
       ],    # OPTIONAL
     );
@@ -66,8 +68,8 @@ The container provider ID of the virtual cluster.
 
 =head2 ContainerProviderType => Str
 
-The container provider type of the virtual cluster. EKS is the only
-supported type as of now.
+The container provider type of the virtual cluster. Amazon EKS is the
+only supported type as of now.
 
 Valid values are: C<"EKS">
 
@@ -80,6 +82,15 @@ The date and time after which the virtual clusters are created.
 =head2 CreatedBefore => Str
 
 The date and time before which the virtual clusters are created.
+
+
+
+=head2 EksAccessEntryIntegrated => Bool
+
+Optional Boolean that specifies whether the operation should return the
+virtual clusters that have the access entry integration enabled or
+disabled. If not specified, the operation returns all applicable
+virtual clusters.
 
 
 

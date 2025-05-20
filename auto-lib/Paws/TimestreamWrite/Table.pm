@@ -5,7 +5,9 @@ package Paws::TimestreamWrite::Table;
   has CreationTime => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has LastUpdatedTime => (is => 'ro', isa => 'Str');
+  has MagneticStoreWriteProperties => (is => 'ro', isa => 'Paws::TimestreamWrite::MagneticStoreWriteProperties');
   has RetentionProperties => (is => 'ro', isa => 'Paws::TimestreamWrite::RetentionProperties');
+  has Schema => (is => 'ro', isa => 'Paws::TimestreamWrite::Schema');
   has TableName => (is => 'ro', isa => 'Str');
   has TableStatus => (is => 'ro', isa => 'Str');
 
@@ -39,8 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamW
 
 =head1 DESCRIPTION
 
-Table represents a database table in Timestream. Tables contain one or
-more related time series. You can modify the retention duration of the
+Represents a database table in Timestream. Tables contain one or more
+related time series. You can modify the retention duration of the
 memory store and the magnetic store for a table.
 
 =head1 ATTRIBUTES
@@ -66,9 +68,20 @@ The name of the Timestream database that contains this table.
 The time when the Timestream table was last updated.
 
 
+=head2 MagneticStoreWriteProperties => L<Paws::TimestreamWrite::MagneticStoreWriteProperties>
+
+Contains properties to set on the table when enabling magnetic store
+writes.
+
+
 =head2 RetentionProperties => L<Paws::TimestreamWrite::RetentionProperties>
 
 The retention duration for the memory store and magnetic store.
+
+
+=head2 Schema => L<Paws::TimestreamWrite::Schema>
+
+The schema of the table.
 
 
 =head2 TableName => Str

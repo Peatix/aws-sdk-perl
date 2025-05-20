@@ -3,6 +3,7 @@ package Paws::DLM::LifecyclePolicy;
   use Moose;
   has DateCreated => (is => 'ro', isa => 'Str');
   has DateModified => (is => 'ro', isa => 'Str');
+  has DefaultPolicy => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
   has ExecutionRoleArn => (is => 'ro', isa => 'Str');
   has PolicyArn => (is => 'ro', isa => 'Str');
@@ -42,7 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::Lifecy
 
 =head1 DESCRIPTION
 
-Detailed information about a lifecycle policy.
+Information about a lifecycle policy.
 
 =head1 ATTRIBUTES
 
@@ -55,6 +56,25 @@ The local date and time when the lifecycle policy was created.
 =head2 DateModified => Str
 
 The local date and time when the lifecycle policy was last modified.
+
+
+=head2 DefaultPolicy => Bool
+
+Indicates whether the policy is a default lifecycle policy or a custom
+lifecycle policy.
+
+=over
+
+=item *
+
+C<true> - the policy is a default policy.
+
+=item *
+
+C<false> - the policy is a custom policy.
+
+=back
+
 
 
 =head2 Description => Str

@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Sessio
 
 =head1 DESCRIPTION
 
-The details of the execute command session.
+The details for the execute command session.
 
 =head1 ATTRIBUTES
 
@@ -47,7 +47,7 @@ The ID of the execute command session.
 
 =head2 StreamUrl => Str
 
-A URL back to managed agent on the container that the SSM Session
+A URL to the managed agent on the container that the SSM Session
 Manager client uses to send commands and receive output from the
 container.
 
@@ -55,7 +55,7 @@ container.
 =head2 TokenValue => Str
 
 An encrypted token value containing session and caller information.
-Used to authenticate the connection to the container.
+It's used to authenticate the connection to the container.
 
 
 

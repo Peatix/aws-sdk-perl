@@ -52,10 +52,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 Force => Bool
 
-If the policy you are attempting to set on a repository policy would
-prevent you from setting another policy in the future, you must force
-the SetRepositoryPolicy operation. This is intended to prevent
-accidental repository lock outs.
+If the policy that you want to set on a repository policy would prevent
+you from setting another policy in the future, you must force the
+SetRepositoryPolicy operation. This prevents accidental repository
+lockouts.
 
 
 
@@ -70,9 +70,9 @@ in the I<Amazon Elastic Container Registry User Guide>.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the
-repository. If you do not specify a registry, the default public
-registry is assumed.
+The Amazon Web Services account ID that's associated with the registry
+that contains the repository. If you do not specify a registry, the
+default public registry is assumed.
 
 
 

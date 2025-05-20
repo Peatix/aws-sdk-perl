@@ -16,7 +16,8 @@ Paws::Kendra::ListTagsForResourceResponse
 
 =head2 Tags => ArrayRef[L<Paws::Kendra::Tag>]
 
-A list of tags associated with the index, FAQ, or data source.
+A list of tags associated with the index, FAQ, data source, or other
+resource.
 
 
 =head2 _request_id => Str

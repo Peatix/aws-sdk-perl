@@ -62,21 +62,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> KeyId => Str
 
-[Required] The identifier of the API key associated with the usage plan
-in which a temporary extension is granted to the remaining quota.
+The identifier of the API key associated with the usage plan in which a
+temporary extension is granted to the remaining quota.
 
 
 
 =head2 PatchOperations => ArrayRef[L<Paws::ApiGateway::PatchOperation>]
 
-A list of update operations to be applied to the specified resource and
-in the order specified in this list.
+For more information about supported patch operations, see Patch
+Operations
+(https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 
 
 
 =head2 B<REQUIRED> UsagePlanId => Str
 
-[Required] The Id of the usage plan associated with the usage data.
+The Id of the usage plan associated with the usage data.
 
 
 

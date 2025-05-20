@@ -52,7 +52,8 @@ Information about the maintenance window.
 =head2 Cutoff => Int
 
 The number of hours before the end of the maintenance window that
-Systems Manager stops scheduling new tasks for execution.
+Amazon Web Services Systems Manager stops scheduling new tasks for
+execution.
 
 
 =head2 Description => Str
@@ -97,7 +98,7 @@ expression.
 =head2 ScheduleOffset => Int
 
 The number of days to wait to run a maintenance window after the
-scheduled CRON expression date and time.
+scheduled cron expression date and time.
 
 
 =head2 ScheduleTimezone => Str

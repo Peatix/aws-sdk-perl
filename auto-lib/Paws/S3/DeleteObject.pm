@@ -4,6 +4,9 @@ package Paws::S3::DeleteObject;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
   has BypassGovernanceRetention => (is => 'ro', isa => 'Bool', header_name => 'x-amz-bypass-governance-retention', traits => ['ParamInHeader']);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
+  has IfMatch => (is => 'ro', isa => 'Str', header_name => 'If-Match', traits => ['ParamInHeader']);
+  has IfMatchLastModifiedTime => (is => 'ro', isa => 'Str', header_name => 'x-amz-if-match-last-modified-time', traits => ['ParamInHeader']);
+  has IfMatchSize => (is => 'ro', isa => 'Int', header_name => 'x-amz-if-match-size', traits => ['ParamInHeader']);
   has Key => (is => 'ro', isa => 'Str', uri_name => 'Key', traits => ['ParamInURI'], required => 1);
   has MFA => (is => 'ro', isa => 'Str', header_name => 'x-amz-mfa', traits => ['ParamInHeader']);
   has RequestPayer => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-payer', traits => ['ParamInHeader']);
@@ -63,22 +66,42 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The bucket name of the bucket containing the object.
 
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
+B<Directory buckets> - When you use this operation with a directory
+bucket, you must use virtual-hosted-style requests in the format C<
+I<Bucket-name>.s3express-I<zone-id>.I<region-code>.amazonaws.com>.
+Path-style requests are not supported. Directory bucket names must be
+unique in the chosen Zone (Availability Zone or Local Zone). Bucket
+names must follow the format C< I<bucket-base-name>--I<zone-id>--x-s3>
+(for example, C< I<amzn-s3-demo-bucket>--I<usw2-az1>--x-s3>). For
+information about bucket naming restrictions, see Directory bucket
+naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>.
+
+B<Access points> - When you use this action with an access point for
+general purpose buckets, you must provide the alias of the access point
+in place of the bucket name or specify the access point ARN. When you
+use this action with an access point for directory buckets, you must
+provide the access point name in place of the bucket name. When using
+the access point ARN, you must direct requests to the access point
+hostname. The access point hostname takes the form
 I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
+When using this action with an access point through the Amazon Web
+Services SDKs, you provide the access point ARN in place of the bucket
+name. For more information about access point ARNs, see Using access
+points
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
 in the I<Amazon S3 User Guide>.
 
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
-takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
+Object Lambda access points are not supported by directory buckets.
+
+B<S3 on Outposts> - When you use this action with S3 on Outposts, you
+must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+hostname takes the form C<
+I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com>.
+When you use this action with S3 on Outposts, the destination bucket
+must be the Outposts access point ARN or the access point alias. For
+more information about S3 on Outposts, see What is S3 on Outposts?
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
 in the I<Amazon S3 User Guide>.
 
@@ -87,15 +110,61 @@ in the I<Amazon S3 User Guide>.
 =head2 BypassGovernanceRetention => Bool
 
 Indicates whether S3 Object Lock should bypass Governance-mode
-restrictions to process this operation.
+restrictions to process this operation. To use this header, you must
+have the C<s3:BypassGovernanceRetention> permission.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
+
+
+
+=head2 IfMatch => Str
+
+The C<If-Match> header field makes the request method conditional on
+ETags. If the ETag value does not match, the operation returns a C<412
+Precondition Failed> error. If the ETag matches or if the object
+doesn't exist, the operation will return a C<204 Success (No Content)
+response>.
+
+For more information about conditional requests, see RFC 7232
+(https://tools.ietf.org/html/rfc7232).
+
+This functionality is only supported for directory buckets.
+
+
+
+=head2 IfMatchLastModifiedTime => Str
+
+If present, the object is deleted only if its modification times
+matches the provided C<Timestamp>. If the C<Timestamp> values do not
+match, the operation returns a C<412 Precondition Failed> error. If the
+C<Timestamp> matches or if the object doesnE<rsquo>t exist, the
+operation returns a C<204 Success (No Content)> response.
+
+This functionality is only supported for directory buckets.
+
+
+
+=head2 IfMatchSize => Int
+
+If present, the object is deleted only if its size matches the provided
+size in bytes. If the C<Size> value does not match, the operation
+returns a C<412 Precondition Failed> error. If the C<Size> matches or
+if the object doesnE<rsquo>t exist, the operation returns a C<204
+Success (No Content)> response.
+
+This functionality is only supported for directory buckets.
+
+You can use the C<If-Match>, C<x-amz-if-match-last-modified-time> and
+C<x-amz-if-match-size> conditional headers in conjunction with
+each-other or individually.
 
 
 
@@ -112,6 +181,8 @@ space, and the value that is displayed on your authentication device.
 Required to permanently delete a versioned object if versioning is
 configured with MFA delete enabled.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 RequestPayer => Str
@@ -122,7 +193,10 @@ Valid values are: C<"requester">
 
 =head2 VersionId => Str
 
-VersionId used to reference a specific version of the object.
+Version ID used to reference a specific version of the object.
+
+For directory buckets in this API operation, only the C<null> value of
+the version ID is supported.
 
 
 

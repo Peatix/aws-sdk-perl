@@ -3,8 +3,13 @@ package Paws::Appflow::RedshiftConnectorProfileProperties;
   use Moose;
   has BucketName => (is => 'ro', isa => 'Str', request_name => 'bucketName', traits => ['NameInRequest'], required => 1);
   has BucketPrefix => (is => 'ro', isa => 'Str', request_name => 'bucketPrefix', traits => ['NameInRequest']);
-  has DatabaseUrl => (is => 'ro', isa => 'Str', request_name => 'databaseUrl', traits => ['NameInRequest'], required => 1);
+  has ClusterIdentifier => (is => 'ro', isa => 'Str', request_name => 'clusterIdentifier', traits => ['NameInRequest']);
+  has DataApiRoleArn => (is => 'ro', isa => 'Str', request_name => 'dataApiRoleArn', traits => ['NameInRequest']);
+  has DatabaseName => (is => 'ro', isa => 'Str', request_name => 'databaseName', traits => ['NameInRequest']);
+  has DatabaseUrl => (is => 'ro', isa => 'Str', request_name => 'databaseUrl', traits => ['NameInRequest']);
+  has IsRedshiftServerless => (is => 'ro', isa => 'Bool', request_name => 'isRedshiftServerless', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest'], required => 1);
+  has WorkgroupName => (is => 'ro', isa => 'Str', request_name => 'workgroupName', traits => ['NameInRequest']);
 
 1;
 
@@ -25,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::RedshiftConnectorProfileProperties object:
 
-  $service_obj->Method(Att1 => { BucketName => $value, ..., RoleArn => $value  });
+  $service_obj->Method(Att1 => { BucketName => $value, ..., WorkgroupName => $value  });
 
 =head3 Results returned from an API call
 
@@ -52,14 +57,49 @@ The object key for the destination bucket in which Amazon AppFlow
 places the files.
 
 
-=head2 B<REQUIRED> DatabaseUrl => Str
+=head2 ClusterIdentifier => Str
+
+The unique ID that's assigned to an Amazon Redshift cluster.
+
+
+=head2 DataApiRoleArn => Str
+
+The Amazon Resource Name (ARN) of an IAM role that permits Amazon
+AppFlow to access your Amazon Redshift database through the Data API.
+For more information, and for the polices that you attach to this role,
+see Allow Amazon AppFlow to access Amazon Redshift databases with the
+Data API
+(https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#access-redshift).
+
+
+=head2 DatabaseName => Str
+
+The name of an Amazon Redshift database.
+
+
+=head2 DatabaseUrl => Str
 
 The JDBC URL of the Amazon Redshift cluster.
 
 
+=head2 IsRedshiftServerless => Bool
+
+Indicates whether the connector profile defines a connection to an
+Amazon Redshift Serverless data warehouse.
+
+
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of the IAM role.
+The Amazon Resource Name (ARN) of IAM role that grants Amazon Redshift
+read-only access to Amazon S3. For more information, and for the
+polices that you attach to this role, see Allow Amazon Redshift to
+access your Amazon AppFlow data in Amazon S3
+(https://docs.aws.amazon.com/appflow/latest/userguide/security_iam_service-role-policies.html#redshift-access-s3).
+
+
+=head2 WorkgroupName => Str
+
+The name of an Amazon Redshift workgroup.
 
 
 

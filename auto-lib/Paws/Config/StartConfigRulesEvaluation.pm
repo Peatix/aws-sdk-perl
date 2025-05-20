@@ -42,8 +42,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 ConfigRuleNames => ArrayRef[Str|Undef]
 
-The list of names of AWS Config rules that you want to run evaluations
-for.
+The list of names of Config rules that you want to run evaluations for.
 
 
 

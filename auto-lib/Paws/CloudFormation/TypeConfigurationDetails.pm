@@ -40,10 +40,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 =head1 DESCRIPTION
 
 Detailed information concerning the specification of a CloudFormation
-extension in a given account and region.
+extension in a given account and Region.
 
-For more information, see Configuring extensions at the account level
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration)
+For more information, see Edit configuration data for extensions in
+your account
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html)
 in the I<CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
@@ -58,44 +59,44 @@ the configuration was set.
 =head2 Arn => Str
 
 The Amazon Resource Name (ARN) for the configuration data, in this
-account and region.
+account and Region.
 
 
 =head2 Configuration => Str
 
 A JSON string specifying the configuration data for the extension, in
-this account and region.
+this account and Region.
 
-If a configuration has not been set for a specified extension,
+If a configuration hasn't been set for a specified extension,
 CloudFormation returns C<{}>.
 
 
 =head2 IsDefaultConfiguration => Bool
 
-Whether or not this configuration data is the default configuration for
-the extension.
+Whether this configuration data is the default configuration for the
+extension.
 
 
 =head2 LastUpdated => Str
 
 When the configuration data was last updated for this extension.
 
-If a configuration has not been set for a specified extension,
+If a configuration hasn't been set for a specified extension,
 CloudFormation returns C<null>.
 
 
 =head2 TypeArn => Str
 
 The Amazon Resource Name (ARN) for the extension, in this account and
-region.
+Region.
 
-For public extensions, this will be the ARN assigned when you activate
-the type
+For public extensions, this will be the ARN assigned when you call the
+ActivateType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html)
-in this account and region. For private extensions, this will be the
-ARN assigned when you register the type
+API operation in this account and Region. For private extensions, this
+will be the ARN assigned when you call the RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html)
-in this account and region.
+API operation in this account and Region.
 
 
 =head2 TypeName => Str

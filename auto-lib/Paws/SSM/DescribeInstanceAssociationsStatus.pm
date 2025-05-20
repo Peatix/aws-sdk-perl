@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The instance IDs for which you want association status information.
+The managed node IDs for which you want association status information.
 
 
 

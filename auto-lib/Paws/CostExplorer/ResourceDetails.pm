@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-Details on the resource.
+Details for the resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 EC2ResourceDetails => L<Paws::CostExplorer::EC2ResourceDetails>
 
-Details on the Amazon EC2 resource.
+Details for the Amazon EC2 resource.
 
 
 

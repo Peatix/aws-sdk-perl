@@ -9,6 +9,8 @@ package Paws::ApiGatewayV2::DomainNameConfiguration;
   has DomainNameStatusMessage => (is => 'ro', isa => 'Str', request_name => 'domainNameStatusMessage', traits => ['NameInRequest']);
   has EndpointType => (is => 'ro', isa => 'Str', request_name => 'endpointType', traits => ['NameInRequest']);
   has HostedZoneId => (is => 'ro', isa => 'Str', request_name => 'hostedZoneId', traits => ['NameInRequest']);
+  has IpAddressType => (is => 'ro', isa => 'Str', request_name => 'ipAddressType', traits => ['NameInRequest']);
+  has OwnershipVerificationCertificateArn => (is => 'ro', isa => 'Str', request_name => 'ownershipVerificationCertificateArn', traits => ['NameInRequest']);
   has SecurityPolicy => (is => 'ro', isa => 'Str', request_name => 'securityPolicy', traits => ['NameInRequest']);
 
 1;
@@ -72,10 +74,11 @@ endpoint for this domain name was uploaded.
 
 =head2 DomainNameStatus => Str
 
-The status of the domain name migration. The valid values are AVAILABLE
-and UPDATING. If the status is UPDATING, the domain cannot be modified
-further until the existing operation is complete. If it is AVAILABLE,
-the domain can be updated.
+The status of the domain name migration. The valid values are
+AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, and
+PENDING_OWNERSHIP_VERIFICATION. If the status is UPDATING, the domain
+cannot be modified further until the existing operation is complete. If
+it is AVAILABLE, the domain can be updated.
 
 
 =head2 DomainNameStatusMessage => Str
@@ -92,6 +95,21 @@ The endpoint type.
 =head2 HostedZoneId => Str
 
 The Amazon Route 53 Hosted Zone ID of the endpoint.
+
+
+=head2 IpAddressType => Str
+
+The IP address types that can invoke the domain name. Use ipv4 to allow
+only IPv4 addresses to invoke your domain name, or use dualstack to
+allow both IPv4 and IPv6 addresses to invoke your domain name.
+
+
+=head2 OwnershipVerificationCertificateArn => Str
+
+The ARN of the public certificate issued by ACM to validate ownership
+of your custom domain. Only required when configuring mutual TLS and
+using an ACM imported or private CA certificate ARN as the
+regionalCertificateArn
 
 
 =head2 SecurityPolicy => Str

@@ -42,15 +42,15 @@ This class has no description
 =head2 ErrorCode => Str
 
 The error code that indicates why the instance could not be launched.
-For more information about error codes, see Error Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html).
+For more information about error codes, see Error codes
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
 
 
 =head2 ErrorMessage => Str
 
 The error message that describes why the instance could not be
-launched. For more information about error messages, see Error Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html).
+launched. For more information about error messages, see Error codes
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
 
 
 =head2 LaunchTemplateAndOverrides => L<Paws::EC2::LaunchTemplateAndOverridesResponse>

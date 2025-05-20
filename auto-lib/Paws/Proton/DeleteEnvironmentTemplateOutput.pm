@@ -16,7 +16,7 @@ Paws::Proton::DeleteEnvironmentTemplateOutput
 
 =head2 EnvironmentTemplate => L<Paws::Proton::EnvironmentTemplate>
 
-The environment template detail data that's returned by AWS Proton.
+The detailed data of the environment template being deleted.
 
 
 =head2 _request_id => Str

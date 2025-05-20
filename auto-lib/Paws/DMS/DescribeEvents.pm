@@ -86,7 +86,8 @@ A list of event categories for the source type that you've chosen.
 
 =head2 Filters => ArrayRef[L<Paws::DMS::Filter>]
 
-Filters applied to events.
+Filters applied to events. The only valid filter is
+C<replication-instance-id>.
 
 
 
@@ -119,7 +120,7 @@ The identifier of an event source.
 
 =head2 SourceType => Str
 
-The type of AWS DMS resource that generates events.
+The type of DMS resource that generates events.
 
 Valid values: replication-instance | replication-task
 

@@ -5,6 +5,7 @@ package Paws::AppMesh::HttpGatewayRouteMatch;
   has Hostname => (is => 'ro', isa => 'Paws::AppMesh::GatewayRouteHostnameMatch', request_name => 'hostname', traits => ['NameInRequest']);
   has Method => (is => 'ro', isa => 'Str', request_name => 'method', traits => ['NameInRequest']);
   has Path => (is => 'ro', isa => 'Paws::AppMesh::HttpPathMatch', request_name => 'path', traits => ['NameInRequest']);
+  has Port => (is => 'ro', isa => 'Int', request_name => 'port', traits => ['NameInRequest']);
   has Prefix => (is => 'ro', isa => 'Str', request_name => 'prefix', traits => ['NameInRequest']);
   has QueryParameters => (is => 'ro', isa => 'ArrayRef[Paws::AppMesh::HttpQueryParameter]', request_name => 'queryParameters', traits => ['NameInRequest']);
 
@@ -61,6 +62,11 @@ The method to match on.
 =head2 Path => L<Paws::AppMesh::HttpPathMatch>
 
 The path to match on.
+
+
+=head2 Port => Int
+
+The port number to match on.
 
 
 =head2 Prefix => Str

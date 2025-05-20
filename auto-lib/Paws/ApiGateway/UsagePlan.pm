@@ -44,13 +44,14 @@ The name of a usage plan.
 
 =head2 ProductCode => Str
 
-The AWS Markeplace product identifier to associate with the usage plan
-as a SaaS product on AWS Marketplace.
+The Amazon Web Services Marketplace product identifier to associate
+with the usage plan as a SaaS product on the Amazon Web Services
+Marketplace.
 
 
 =head2 Quota => L<Paws::ApiGateway::QuotaSettings>
 
-The maximum number of permitted requests per a given unit time
+The target maximum number of permitted requests per a given unit time
 interval.
 
 
@@ -62,7 +63,8 @@ resource.
 
 =head2 Throttle => L<Paws::ApiGateway::ThrottleSettings>
 
-The request throttle limits of a usage plan.
+A map containing method level throttling information for API stage in a
+usage plan.
 
 
 =head2 _request_id => Str

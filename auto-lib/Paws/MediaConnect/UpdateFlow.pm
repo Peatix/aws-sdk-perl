@@ -1,13 +1,16 @@
 
 package Paws::MediaConnect::UpdateFlow;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
+  has Maintenance => (is => 'ro', isa => 'Paws::MediaConnect::UpdateMaintenance', traits => ['NameInRequest'], request_name => 'maintenance');
+  has NdiConfig => (is => 'ro', isa => 'Paws::MediaConnect::NdiConfig', traits => ['NameInRequest'], request_name => 'ndiConfig');
   has SourceFailoverConfig => (is => 'ro', isa => 'Paws::MediaConnect::UpdateFailoverConfig', traits => ['NameInRequest'], request_name => 'sourceFailoverConfig');
+  has SourceMonitoringConfig => (is => 'ro', isa => 'Paws::MediaConnect::MonitoringConfig', traits => ['NameInRequest'], request_name => 'sourceMonitoringConfig');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateFlow');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::UpdateFlowResponse');
 1;
@@ -30,12 +33,59 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $UpdateFlowResponse = $mediaconnect->UpdateFlow(
-      FlowArn              => 'My__string',
+      FlowArn     => 'MyUpdateFlowRequestFlowArnString',
+      Maintenance => {
+        MaintenanceDay => 'Monday'
+        , # values: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday; OPTIONAL
+        MaintenanceScheduledDate => 'MyString',    # OPTIONAL
+        MaintenanceStartHour     => 'MyString',    # OPTIONAL
+      },    # OPTIONAL
+      NdiConfig => {
+        MachineName         => 'MyString',    # OPTIONAL
+        NdiDiscoveryServers => [
+          {
+            DiscoveryServerAddress => 'MyString',    # OPTIONAL
+            VpcInterfaceAdapter    => 'MyString',    # OPTIONAL
+            DiscoveryServerPort    => 1,             # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        NdiState => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+      },    # OPTIONAL
       SourceFailoverConfig => {
-        FailoverMode   => 'MERGE',      # values: MERGE, FAILOVER; OPTIONAL
-        RecoveryWindow => 1,            # OPTIONAL
-        SourcePriority => { PrimarySource => 'My__string', },    # OPTIONAL
-        State          => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        FailoverMode   => 'MERGE',    # values: MERGE, FAILOVER; OPTIONAL
+        RecoveryWindow => 1,          # OPTIONAL
+        SourcePriority => {
+          PrimarySource => 'MyString',    # OPTIONAL
+        },    # OPTIONAL
+        State => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+      },    # OPTIONAL
+      SourceMonitoringConfig => {
+        AudioMonitoringSettings => [
+          {
+            SilentAudio => {
+              State => 'ENABLED',       # values: ENABLED, DISABLED; OPTIONAL
+              ThresholdSeconds => 1,    # OPTIONAL
+            },    # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        ContentQualityAnalysisState =>
+          'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        ThumbnailState => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        VideoMonitoringSettings => [
+          {
+            BlackFrames => {
+              State => 'ENABLED',       # values: ENABLED, DISABLED; OPTIONAL
+              ThresholdSeconds => 1,    # OPTIONAL
+            },    # OPTIONAL
+            FrozenFrames => {
+              State => 'ENABLED',       # values: ENABLED, DISABLED; OPTIONAL
+              ThresholdSeconds => 1,    # OPTIONAL
+            },    # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
       },    # OPTIONAL
     );
 
@@ -52,13 +102,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that you want to update.
+The Amazon Resource Name (ARN) of the flow that you want to update.
+
+
+
+=head2 Maintenance => L<Paws::MediaConnect::UpdateMaintenance>
+
+The maintenance setting of the flow.
+
+
+
+=head2 NdiConfig => L<Paws::MediaConnect::NdiConfig>
+
+Specifies the configuration settings for NDI outputs. Required when the
+flow includes NDI outputs.
 
 
 
 =head2 SourceFailoverConfig => L<Paws::MediaConnect::UpdateFailoverConfig>
 
+The settings for source failover.
 
+
+
+=head2 SourceMonitoringConfig => L<Paws::MediaConnect::MonitoringConfig>
+
+The settings for source monitoring.
 
 
 

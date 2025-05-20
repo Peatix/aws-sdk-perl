@@ -38,8 +38,8 @@ A container that describes additional filters for identifying the
 source objects that you want to replicate. You can choose to enable or
 disable the replication of these objects. Currently, Amazon S3 supports
 only the filter that you can specify for objects created with
-server-side encryption using a customer master key (CMK) stored in AWS
-Key Management Service (SSE-KMS).
+server-side encryption using a customer managed key stored in Amazon
+Web Services Key Management Service (SSE-KMS).
 
 =head1 ATTRIBUTES
 
@@ -60,7 +60,7 @@ version, this element is not allowed
 =head2 SseKmsEncryptedObjects => L<Paws::S3::SseKmsEncryptedObjects>
 
 A container for filter information for the selection of Amazon S3
-objects encrypted with AWS KMS. If you include
+objects encrypted with Amazon Web Services KMS. If you include
 C<SourceSelectionCriteria> in the replication configuration, this
 element is required.
 

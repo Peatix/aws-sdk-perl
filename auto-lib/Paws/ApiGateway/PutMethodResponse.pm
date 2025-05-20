@@ -57,13 +57,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] The HTTP verb of the Method resource.
+The HTTP verb of the Method resource.
 
 
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] The Resource identifier for the Method resource.
+The Resource identifier for the Method resource.
 
 
 
@@ -96,13 +96,13 @@ prefix.)
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> StatusCode => Str
 
-[Required] The method response's status code.
+The method response's status code.
 
 
 

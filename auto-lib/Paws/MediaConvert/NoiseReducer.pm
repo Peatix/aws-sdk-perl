@@ -36,24 +36,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Enable the Noise reducer (NoiseReducer) feature to remove noise from
-your video output if necessary. Enable or disable this feature for each
-output individually. This setting is disabled by default. When you
-enable Noise reducer (NoiseReducer), you must also select a value for
-Noise reducer filter (NoiseReducerFilter).
+Enable the Noise reducer feature to remove noise from your video output
+if necessary. Enable or disable this feature for each output
+individually. This setting is disabled by default. When you enable
+Noise reducer, you must also select a value for Noise reducer filter.
+For AVC outputs, when you include Noise reducer, you cannot include the
+Bandwidth reduction filter.
 
 =head1 ATTRIBUTES
 
 
 =head2 Filter => Str
 
-Use Noise reducer filter (NoiseReducerFilter) to select one of the
-following spatial image filtering functions. To use this setting, you
-must also enable Noise reducer (NoiseReducer). * Bilateral preserves
-edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and
-Sharpen (sharpest) do convolution filtering. * Conserve does min/max
-noise reduction. * Spatial does frequency-domain filtering based on JND
-principles. * Temporal optimizes video quality for complex motion.
+Use Noise reducer filter to select one of the following spatial image
+filtering functions. To use this setting, you must also enable Noise
+reducer. * Bilateral preserves edges while reducing noise. * Mean
+(softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution
+filtering. * Conserve does min/max noise reduction. * Spatial does
+frequency-domain filtering based on JND principles. * Temporal
+optimizes video quality for complex motion.
 
 
 =head2 FilterSettings => L<Paws::MediaConvert::NoiseReducerFilterSettings>

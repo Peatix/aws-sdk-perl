@@ -4,6 +4,7 @@ package Paws::Rekognition::ModerationLabel;
   has Confidence => (is => 'ro', isa => 'Num');
   has Name => (is => 'ro', isa => 'Str');
   has ParentName => (is => 'ro', isa => 'Str');
+  has TaxonomyLevel => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Rekognition::ModerationLabel object:
 
-  $service_obj->Method(Att1 => { Confidence => $value, ..., ParentName => $value  });
+  $service_obj->Method(Att1 => { Confidence => $value, ..., TaxonomyLevel => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,10 +36,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Rekognition
 
 =head1 DESCRIPTION
 
-Provides information about a single type of unsafe content found in an
-image or video. Each type of moderated content has a label within a
-hierarchical taxonomy. For more information, see Detecting Unsafe
-Content in the Amazon Rekognition Developer Guide.
+Provides information about a single type of inappropriate, unwanted, or
+offensive content found in an image or video. Each type of moderated
+content has a label within a hierarchical taxonomy. For more
+information, see Content moderation in the Amazon Rekognition Developer
+Guide.
 
 =head1 ATTRIBUTES
 
@@ -62,6 +64,12 @@ The label name for the type of unsafe content detected in the image.
 
 The name for the parent label. Labels at the top level of the hierarchy
 have the parent label C<"">.
+
+
+=head2 TaxonomyLevel => Int
+
+The level of the moderation label with regard to its taxonomy, from 1
+to 3.
 
 
 

@@ -38,10 +38,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       TransmitMode     => 1,
       WirelessMetadata => {
         LoRaWAN => {
-          FPort => 1,    # min: 1, max: 223; OPTIONAL
+          FPort                 => 1,    # min: 1, max: 223; OPTIONAL
+          ParticipatingGateways => {
+            DownlinkMode => 'SEQUENTIAL'
+            ,    # values: SEQUENTIAL, CONCURRENT, USING_UPLINK_GATEWAY
+            GatewayList => [
+              {
+                DownlinkFrequency => 1,    # min: 100000000, max: 1000000000
+                GatewayId         => 'MyWirelessGatewayId',    # max: 256
+
+              },
+              ...
+            ],
+            TransmissionInterval => 1,    # min: 1, max: 604800
+
+          },    # OPTIONAL
         },    # OPTIONAL
         Sidewalk => {
-          MessageType => 'CUSTOM_COMMAND_ID_NOTIFY'
+          AckModeRetryDurationSecs => 1,    # max: 604800; OPTIONAL
+          MessageType              => 'CUSTOM_COMMAND_ID_NOTIFY'
           , # values: CUSTOM_COMMAND_ID_NOTIFY, CUSTOM_COMMAND_ID_GET, CUSTOM_COMMAND_ID_SET, CUSTOM_COMMAND_ID_RESP; OPTIONAL
           Seq => 1,    # max: 16383; OPTIONAL
         },    # OPTIONAL
@@ -67,7 +82,7 @@ The ID of the wireless device to receive the data.
 
 =head2 B<REQUIRED> PayloadData => Str
 
-The message payload to send.
+
 
 
 

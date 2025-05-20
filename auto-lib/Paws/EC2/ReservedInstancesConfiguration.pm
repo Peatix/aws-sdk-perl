@@ -1,6 +1,7 @@
 package Paws::EC2::ReservedInstancesConfiguration;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has AvailabilityZoneId => (is => 'ro', isa => 'Str', request_name => 'availabilityZoneId', traits => ['NameInRequest']);
   has InstanceCount => (is => 'ro', isa => 'Int', request_name => 'instanceCount', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
   has Platform => (is => 'ro', isa => 'Str', request_name => 'platform', traits => ['NameInRequest']);
@@ -45,6 +46,11 @@ This class has no description
 The Availability Zone for the modified Reserved Instances.
 
 
+=head2 AvailabilityZoneId => Str
+
+The ID of the Availability Zone.
+
+
 =head2 InstanceCount => Int
 
 The number of modified Reserved Instances.
@@ -59,8 +65,7 @@ The instance type for the modified Reserved Instances.
 
 =head2 Platform => Str
 
-The network platform of the modified Reserved Instances, which is
-either EC2-Classic or EC2-VPC.
+The network platform of the modified Reserved Instances.
 
 
 =head2 Scope => Str

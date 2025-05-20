@@ -36,16 +36,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The metadata of a framework, such as the name, ID, description, and so
-on.
+The metadata of a framework, such as the name, ID, or description.
 
 =head1 ATTRIBUTES
 
 
 =head2 ComplianceType => Str
 
-The compliance standard associated with the framework, such as PCI-DSS
-or HIPAA.
+The compliance standard that's associated with the framework. For
+example, this could be PCI DSS or HIPAA.
 
 
 =head2 Description => Str
@@ -55,7 +54,7 @@ The description of the framework.
 
 =head2 Logo => Str
 
-The logo associated with the framework.
+The logo that's associated with the framework.
 
 
 =head2 Name => Str

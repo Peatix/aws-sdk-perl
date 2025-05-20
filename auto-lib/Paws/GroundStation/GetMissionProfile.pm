@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $groundstation = Paws->service('GroundStation');
     my $GetMissionProfileResponse = $groundstation->GetMissionProfile(
-      MissionProfileId => 'MyString',
+      MissionProfileId => 'MyUuid',
 
     );
 
@@ -45,6 +45,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $MissionProfileId  = $GetMissionProfileResponse->MissionProfileId;
     my $Name              = $GetMissionProfileResponse->Name;
     my $Region            = $GetMissionProfileResponse->Region;
+    my $StreamsKmsKey     = $GetMissionProfileResponse->StreamsKmsKey;
+    my $StreamsKmsRole    = $GetMissionProfileResponse->StreamsKmsRole;
     my $Tags              = $GetMissionProfileResponse->Tags;
     my $TrackingConfigArn = $GetMissionProfileResponse->TrackingConfigArn;
 

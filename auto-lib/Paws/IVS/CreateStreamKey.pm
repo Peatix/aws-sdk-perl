@@ -55,7 +55,13 @@ ARN of the channel for which to create the stream key.
 
 =head2 Tags => L<Paws::IVS::Tags>
 
-Array of 1-50 maps, each of the form C<string:string (key:value)>.
+Array of 1-50 maps, each of the form C<string:string (key:value)>. See
+Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
 
 
 

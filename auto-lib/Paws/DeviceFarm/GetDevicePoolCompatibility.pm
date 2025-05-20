@@ -4,6 +4,7 @@ package Paws::DeviceFarm::GetDevicePoolCompatibility;
   has AppArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'appArn' );
   has Configuration => (is => 'ro', isa => 'Paws::DeviceFarm::ScheduleRunConfiguration', traits => ['NameInRequest'], request_name => 'configuration' );
   has DevicePoolArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'devicePoolArn' , required => 1);
+  has ProjectArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'projectArn' );
   has Test => (is => 'ro', isa => 'Paws::DeviceFarm::ScheduleRunTest', traits => ['NameInRequest'], request_name => 'test' );
   has TestType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'testType' );
 
@@ -74,6 +75,13 @@ The device pool's ARN.
 
 
 
+=head2 ProjectArn => Str
+
+The ARN of the project for which you want to check device pool
+compatibility.
+
+
+
 =head2 Test => L<Paws::DeviceFarm::ScheduleRunTest>
 
 Information about the uploaded test to be run against the device pool.
@@ -91,12 +99,6 @@ Allowed values include the following:
 =item *
 
 BUILTIN_FUZZ.
-
-=item *
-
-BUILTIN_EXPLORER. For Android, an app explorer that traverses an
-Android app, interacting with it and capturing screenshots at the same
-time.
 
 =item *
 
@@ -140,19 +142,7 @@ APPIUM_WEB_RUBY.
 
 =item *
 
-CALABASH.
-
-=item *
-
 INSTRUMENTATION.
-
-=item *
-
-UIAUTOMATION.
-
-=item *
-
-UIAUTOMATOR.
 
 =item *
 
@@ -165,7 +155,7 @@ XCTEST_UI.
 =back
 
 
-Valid values are: C<"BUILTIN_FUZZ">, C<"BUILTIN_EXPLORER">, C<"WEB_PERFORMANCE_PROFILE">, C<"APPIUM_JAVA_JUNIT">, C<"APPIUM_JAVA_TESTNG">, C<"APPIUM_PYTHON">, C<"APPIUM_NODE">, C<"APPIUM_RUBY">, C<"APPIUM_WEB_JAVA_JUNIT">, C<"APPIUM_WEB_JAVA_TESTNG">, C<"APPIUM_WEB_PYTHON">, C<"APPIUM_WEB_NODE">, C<"APPIUM_WEB_RUBY">, C<"CALABASH">, C<"INSTRUMENTATION">, C<"UIAUTOMATION">, C<"UIAUTOMATOR">, C<"XCTEST">, C<"XCTEST_UI">, C<"REMOTE_ACCESS_RECORD">, C<"REMOTE_ACCESS_REPLAY">
+Valid values are: C<"BUILTIN_FUZZ">, C<"APPIUM_JAVA_JUNIT">, C<"APPIUM_JAVA_TESTNG">, C<"APPIUM_PYTHON">, C<"APPIUM_NODE">, C<"APPIUM_RUBY">, C<"APPIUM_WEB_JAVA_JUNIT">, C<"APPIUM_WEB_JAVA_TESTNG">, C<"APPIUM_WEB_PYTHON">, C<"APPIUM_WEB_NODE">, C<"APPIUM_WEB_RUBY">, C<"INSTRUMENTATION">, C<"XCTEST">, C<"XCTEST_UI">
 
 
 =head1 SEE ALSO

@@ -81,7 +81,7 @@ optional attributes.
 The identifier of the index to add documents to. The index ID is
 returned by the CreateIndex
 (https://docs.aws.amazon.com/kendra/latest/dg/API_CreateIndex.html)
-operation.
+API.
 
 
 

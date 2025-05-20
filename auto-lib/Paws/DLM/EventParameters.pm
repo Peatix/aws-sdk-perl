@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::EventP
 
 =head1 DESCRIPTION
 
-Specifies an event that triggers an event-based policy.
+B<[Event-based policies only]> Specifies an event that activates an
+event-based policy.
 
 =head1 ATTRIBUTES
 
@@ -61,9 +62,10 @@ supported.
 
 =head2 B<REQUIRED> SnapshotOwner => ArrayRef[Str|Undef]
 
-The IDs of the AWS accounts that can trigger policy by sharing
-snapshots with your account. The policy only runs if one of the
-specified AWS accounts shares a snapshot with your account.
+The IDs of the Amazon Web Services accounts that can trigger policy by
+sharing snapshots with your account. The policy only runs if one of the
+specified Amazon Web Services accounts shares a snapshot with your
+account.
 
 
 

@@ -68,48 +68,50 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 =head2 ClientToken => Str
 
 A token that you provide to identify the request to create a thesaurus.
-Multiple calls to the C<CreateThesaurus> operation with the same client
-token will create only one index.
+Multiple calls to the C<CreateThesaurus> API with the same client token
+will create only one thesaurus.
 
 
 
 =head2 Description => Str
 
-The description for the new thesaurus.
+A description for the thesaurus.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The unique identifier of the index for the new thesaurus.
+The identifier of the index for the thesaurus.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name for the new thesaurus.
+A name for the thesaurus.
 
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-An AWS Identity and Access Management (IAM) role that gives Amazon
-Kendra permissions to access thesaurus file specified in
-C<SourceS3Path>.
+The Amazon Resource Name (ARN) of an IAM role with permission to access
+your S3 bucket that contains the thesaurus file. For more information,
+see IAM access roles for Amazon Kendra
+(https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
 
 
 
 =head2 B<REQUIRED> SourceS3Path => L<Paws::Kendra::S3Path>
 
-The thesaurus file Amazon S3 source path.
+The path to the thesaurus file in S3.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Kendra::Tag>]
 
-A list of key-value pairs that identify the thesaurus. You can use the
-tags to identify and organize your resources and to control access to
-resources.
+A list of key-value pairs that identify or categorize the thesaurus.
+You can also use tags to help control access to the thesaurus. Tag keys
+and values can consist of Unicode letters, digits, white space, and any
+of the following symbols: _ . : / = + - @.
 
 
 

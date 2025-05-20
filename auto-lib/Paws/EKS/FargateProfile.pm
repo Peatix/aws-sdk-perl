@@ -5,6 +5,7 @@ package Paws::EKS::FargateProfile;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has FargateProfileArn => (is => 'ro', isa => 'Str', request_name => 'fargateProfileArn', traits => ['NameInRequest']);
   has FargateProfileName => (is => 'ro', isa => 'Str', request_name => 'fargateProfileName', traits => ['NameInRequest']);
+  has Health => (is => 'ro', isa => 'Paws::EKS::FargateProfileHealth', request_name => 'health', traits => ['NameInRequest']);
   has PodExecutionRoleArn => (is => 'ro', isa => 'Str', request_name => 'podExecutionRoleArn', traits => ['NameInRequest']);
   has Selectors => (is => 'ro', isa => 'ArrayRef[Paws::EKS::FargateProfileSelector]', request_name => 'selectors', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
@@ -41,20 +42,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Fargat
 
 =head1 DESCRIPTION
 
-An object representing an AWS Fargate profile.
+An object representing an Fargate profile.
 
 =head1 ATTRIBUTES
 
 
 =head2 ClusterName => Str
 
-The name of the Amazon EKS cluster that the Fargate profile belongs to.
+The name of your cluster.
 
 
 =head2 CreatedAt => Str
 
-The Unix epoch timestamp in seconds for when the Fargate profile was
-created.
+The Unix epoch timestamp at object creation.
 
 
 =head2 FargateProfileArn => Str
@@ -67,18 +67,24 @@ The full Amazon Resource Name (ARN) of the Fargate profile.
 The name of the Fargate profile.
 
 
+=head2 Health => L<Paws::EKS::FargateProfileHealth>
+
+The health status of the Fargate profile. If there are issues with your
+Fargate profile's health, they are listed here.
+
+
 =head2 PodExecutionRoleArn => Str
 
-The Amazon Resource Name (ARN) of the pod execution role to use for
-pods that match the selectors in the Fargate profile. For more
-information, see Pod Execution Role
+The Amazon Resource Name (ARN) of the C<Pod> execution role to use for
+any C<Pod> that matches the selectors in the Fargate profile. For more
+information, see C<Pod> execution role
 (https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html)
 in the I<Amazon EKS User Guide>.
 
 
 =head2 Selectors => ArrayRef[L<Paws::EKS::FargateProfileSelector>]
 
-The selectors to match for pods to use this Fargate profile.
+The selectors to match for a C<Pod> to use this Fargate profile.
 
 
 =head2 Status => Str
@@ -88,16 +94,14 @@ The current status of the Fargate profile.
 
 =head2 Subnets => ArrayRef[Str|Undef]
 
-The IDs of subnets to launch pods into.
+The IDs of subnets to launch a C<Pod> into.
 
 
 =head2 Tags => L<Paws::EKS::TagMap>
 
-The metadata applied to the Fargate profile to assist with
-categorization and organization. Each tag consists of a key and an
-optional value, both of which you define. Fargate profile tags do not
-propagate to any other resources associated with the Fargate profile,
-such as the pods that are scheduled with it.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 

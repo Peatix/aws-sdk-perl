@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMContacts
 
 =head1 DESCRIPTION
 
-The contact or contact channel that is being engaged.
+The contact or contact channel that's being engaged.
 
 =head1 ATTRIBUTES
 

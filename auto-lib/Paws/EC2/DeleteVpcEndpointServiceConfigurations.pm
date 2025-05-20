@@ -57,7 +57,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 B<REQUIRED> ServiceIds => ArrayRef[Str|Undef]
 
-The IDs of one or more services.
+The IDs of the services.
 
 
 

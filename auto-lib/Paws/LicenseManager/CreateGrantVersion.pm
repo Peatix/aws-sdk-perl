@@ -5,6 +5,7 @@ package Paws::LicenseManager::CreateGrantVersion;
   has ClientToken => (is => 'ro', isa => 'Str', required => 1);
   has GrantArn => (is => 'ro', isa => 'Str', required => 1);
   has GrantName => (is => 'ro', isa => 'Str');
+  has Options => (is => 'ro', isa => 'Paws::LicenseManager::Options');
   has SourceVersion => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StatusReason => (is => 'ro', isa => 'Str');
@@ -40,7 +41,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'CreateGrant',
         ... # values: CreateGrant, CheckoutLicense, CheckoutBorrowLicense, CheckInLicense, ExtendConsumptionLicense, ListPurchasedLicenses, CreateToken
       ],    # OPTIONAL
-      GrantName     => 'MyString',                 # OPTIONAL
+      GrantName => 'MyString',    # OPTIONAL
+      Options   => {
+        ActivationOverrideBehavior => 'DISTRIBUTED_GRANTS_ONLY'
+        , # values: DISTRIBUTED_GRANTS_ONLY, ALL_GRANTS_PERMITTED_BY_ISSUER; OPTIONAL
+      },    # OPTIONAL
       SourceVersion => 'MyString',                 # OPTIONAL
       Status        => 'PENDING_WORKFLOW',         # OPTIONAL
       StatusReason  => 'MyStatusReasonMessage',    # OPTIONAL
@@ -84,6 +89,12 @@ Grant name.
 
 
 
+=head2 Options => L<Paws::LicenseManager::Options>
+
+The options specified for the grant.
+
+
+
 =head2 SourceVersion => Str
 
 Current version of the grant.
@@ -98,7 +109,7 @@ Valid values are: C<"PENDING_WORKFLOW">, C<"PENDING_ACCEPT">, C<"REJECTED">, C<"
 
 =head2 StatusReason => Str
 
-
+Grant status reason.
 
 
 

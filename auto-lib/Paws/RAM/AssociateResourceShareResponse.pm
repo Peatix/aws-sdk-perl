@@ -18,13 +18,16 @@ Paws::RAM::AssociateResourceShareResponse
 
 =head2 ClientToken => Str
 
-A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+The idempotency identifier associated with this request. If you want to
+repeat the same operation in an idempotent manner then you must include
+this value in the C<clientToken> request parameter of that later call.
+All other parameters must also have the same values that you used in
+the first call.
 
 
 =head2 ResourceShareAssociations => ArrayRef[L<Paws::RAM::ResourceShareAssociation>]
 
-Information about the associations.
+An array of objects that contain information about the associations.
 
 
 =head2 _request_id => Str

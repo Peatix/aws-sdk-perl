@@ -151,6 +151,11 @@ C<DBClusterSnapshotIdentifier> value must be supplied.
 
 =item *
 
+If the source type is an RDS Proxy, a C<DBProxyName> value must be
+supplied.
+
+=item *
+
 Can't end with a hyphen or contain two consecutive hyphens.
 
 =back
@@ -163,7 +168,7 @@ Can't end with a hyphen or contain two consecutive hyphens.
 The event source to retrieve events for. If no value is specified, all
 events are returned.
 
-Valid values are: C<"db-instance">, C<"db-parameter-group">, C<"db-security-group">, C<"db-snapshot">, C<"db-cluster">, C<"db-cluster-snapshot">
+Valid values are: C<"db-instance">, C<"db-parameter-group">, C<"db-security-group">, C<"db-snapshot">, C<"db-cluster">, C<"db-cluster-snapshot">, C<"custom-engine-version">, C<"db-proxy">, C<"blue-green-deployment">
 
 =head2 StartTime => Str
 

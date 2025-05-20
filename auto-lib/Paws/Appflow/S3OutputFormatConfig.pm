@@ -4,6 +4,7 @@ package Paws::Appflow::S3OutputFormatConfig;
   has AggregationConfig => (is => 'ro', isa => 'Paws::Appflow::AggregationConfig', request_name => 'aggregationConfig', traits => ['NameInRequest']);
   has FileType => (is => 'ro', isa => 'Str', request_name => 'fileType', traits => ['NameInRequest']);
   has PrefixConfig => (is => 'ro', isa => 'Paws::Appflow::PrefixConfig', request_name => 'prefixConfig', traits => ['NameInRequest']);
+  has PreserveSourceDataTyping => (is => 'ro', isa => 'Bool', request_name => 'preserveSourceDataTyping', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::S3OutputFormatConfig object:
 
-  $service_obj->Method(Att1 => { AggregationConfig => $value, ..., PrefixConfig => $value  });
+  $service_obj->Method(Att1 => { AggregationConfig => $value, ..., PreserveSourceDataTyping => $value  });
 
 =head3 Results returned from an API call
 
@@ -57,6 +58,30 @@ bucket.
 Determines the prefix that Amazon AppFlow applies to the folder name in
 the Amazon S3 bucket. You can name folders according to the flow
 frequency and date.
+
+
+=head2 PreserveSourceDataTyping => Bool
+
+If your file output format is Parquet, use this parameter to set
+whether Amazon AppFlow preserves the data types in your source data
+when it writes the output to Amazon S3.
+
+=over
+
+=item *
+
+C<true>: Amazon AppFlow preserves the data types when it writes to
+Amazon S3. For example, an integer or C<1> in your source data is still
+an integer in your output.
+
+=item *
+
+C<false>: Amazon AppFlow converts all of the source data into strings
+when it writes to Amazon S3. For example, an integer of C<1> in your
+source data becomes the string C<"1"> in the output.
+
+=back
+
 
 
 

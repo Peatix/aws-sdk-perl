@@ -77,7 +77,36 @@ The name of the DB parameter group.
 
 =head2 ParameterApplyStatus => Str
 
-The status of parameter updates.
+The status of parameter updates. Valid values are:
+
+=over
+
+=item *
+
+C<applying>: The parameter group change is being applied to the
+database.
+
+=item *
+
+C<failed-to-apply>: The parameter group is in an invalid state.
+
+=item *
+
+C<in-sync>: The parameter group change is synchronized with the
+database.
+
+=item *
+
+C<pending-database-upgrade>: The parameter group change will be applied
+after the DB instance is upgraded.
+
+=item *
+
+C<pending-reboot>: The parameter group change will be applied after the
+DB instance reboots.
+
+=back
+
 
 
 

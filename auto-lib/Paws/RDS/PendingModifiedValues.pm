@@ -2,20 +2,26 @@
 package Paws::RDS::PendingModifiedValues;
   use Moose;
   has AllocatedStorage => (is => 'ro', isa => 'Int');
+  has AutomationMode => (is => 'ro', isa => 'Str');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
   has CACertificateIdentifier => (is => 'ro', isa => 'Str');
   has DBInstanceClass => (is => 'ro', isa => 'Str');
   has DBInstanceIdentifier => (is => 'ro', isa => 'Str');
   has DBSubnetGroupName => (is => 'ro', isa => 'Str');
+  has DedicatedLogVolume => (is => 'ro', isa => 'Bool');
+  has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has IAMDatabaseAuthenticationEnabled => (is => 'ro', isa => 'Bool');
   has Iops => (is => 'ro', isa => 'Int');
   has LicenseModel => (is => 'ro', isa => 'Str');
   has MasterUserPassword => (is => 'ro', isa => 'Str');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has MultiTenant => (is => 'ro', isa => 'Bool');
   has PendingCloudwatchLogsExports => (is => 'ro', isa => 'Paws::RDS::PendingCloudwatchLogsExports');
   has Port => (is => 'ro', isa => 'Int');
   has ProcessorFeatures => (is => 'ro', isa => 'ArrayRef[Paws::RDS::ProcessorFeature]', request_name => 'ProcessorFeature', traits => ['NameInRequest']);
+  has ResumeFullAutomationModeTime => (is => 'ro', isa => 'Str');
+  has StorageThroughput => (is => 'ro', isa => 'Int');
   has StorageType => (is => 'ro', isa => 'Str');
 
 1;
@@ -57,7 +63,16 @@ maintenance window.
 
 =head2 AllocatedStorage => Int
 
-The allocated storage size for the DB instance specified in gibibytes .
+The allocated storage size for the DB instance specified in gibibytes
+(GiB).
+
+
+=head2 AutomationMode => Str
+
+The automation mode of the RDS Custom DB instance: C<full> or
+C<all-paused>. If C<full>, the DB instance automates monitoring and
+instance recovery. If C<all-paused>, the instance pauses automation for
+the duration set by C<--resume-full-automation-mode-minutes>.
 
 
 =head2 BackupRetentionPeriod => Int
@@ -68,6 +83,14 @@ The number of days for which automated backups are retained.
 =head2 CACertificateIdentifier => Str
 
 The identifier of the CA certificate for the DB instance.
+
+For more information, see Using SSL/TLS to encrypt a connection to a DB
+instance
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon RDS User Guide> and Using SSL/TLS to encrypt a
+connection to a DB cluster
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html)
+in the I<Amazon Aurora User Guide>.
 
 
 =head2 DBInstanceClass => Str
@@ -85,6 +108,17 @@ The database identifier for the DB instance.
 The DB subnet group for the DB instance.
 
 
+=head2 DedicatedLogVolume => Bool
+
+Indicates whether the DB instance has a dedicated log volume (DLV)
+enabled.E<gt>
+
+
+=head2 Engine => Str
+
+The database engine of the DB instance.
+
+
 =head2 EngineVersion => Str
 
 The database engine version.
@@ -92,8 +126,8 @@ The database engine version.
 
 =head2 IAMDatabaseAuthenticationEnabled => Bool
 
-Whether mapping of Amazon Web Services Identity and Access Management
-(IAM) accounts to database accounts is enabled.
+Indicates whether mapping of Amazon Web Services Identity and Access
+Management (IAM) accounts to database accounts is enabled.
 
 
 =head2 Iops => Int
@@ -116,8 +150,14 @@ The master credentials for the DB instance.
 
 =head2 MultiAZ => Bool
 
-A value that indicates that the Single-AZ DB instance will change to a
-Multi-AZ deployment.
+Indicates whether the Single-AZ DB instance will change to a Multi-AZ
+deployment.
+
+
+=head2 MultiTenant => Bool
+
+Indicates whether the DB instance will change to the multi-tenant
+configuration (TRUE) or the single-tenant configuration (FALSE).
 
 
 =head2 PendingCloudwatchLogsExports => L<Paws::RDS::PendingCloudwatchLogsExports>
@@ -134,6 +174,18 @@ The port for the DB instance.
 
 The number of CPU cores and the number of threads per core for the DB
 instance class of the DB instance.
+
+
+=head2 ResumeFullAutomationModeTime => Str
+
+The number of minutes to pause the automation. When the time period
+ends, RDS Custom resumes full automation. The minimum value is 60
+(default). The maximum value is 1,440.
+
+
+=head2 StorageThroughput => Int
+
+The storage throughput of the DB instance.
 
 
 =head2 StorageType => Str

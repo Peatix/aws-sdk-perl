@@ -42,15 +42,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SourceFrequency => 'DAILY', # values: DAILY, WEEKLY, MONTHLY; OPTIONAL
           SourceId        => 'MyUUID',    # min: 36, max: 36
           SourceKeyword   => {
-            KeywordInputType =>
-              'SELECT_FROM_LIST',         # values: SELECT_FROM_LIST; OPTIONAL
+            KeywordInputType => 'SELECT_FROM_LIST'
+            ,    # values: SELECT_FROM_LIST, UPLOAD_FILE, INPUT_TEXT; OPTIONAL
             KeywordValue => 'MyKeywordValue',    # min: 1, max: 100; OPTIONAL
           },    # OPTIONAL
-          SourceName        => 'MySourceName',    # min: 1, max: 100; OPTIONAL
+          SourceName        => 'MySourceName',    # min: 1, max: 300; OPTIONAL
           SourceSetUpOption => 'System_Controls_Mapping'
           , # values: System_Controls_Mapping, Procedural_Controls_Mapping; OPTIONAL
           SourceType => 'AWS_Cloudtrail'
-          , # values: AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL; OPTIONAL
+          , # values: AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL, Common_Control, Core_Control; OPTIONAL
           TroubleshootingText => 'MyTroubleshootingText',  # max: 1000; OPTIONAL
         },
         ...
@@ -75,7 +75,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 ActionPlanInstructions => Str
 
-The recommended actions to carry out if the control is not fulfilled.
+The recommended actions to carry out if the control isn't fulfilled.
 
 
 
@@ -87,13 +87,13 @@ The title of the action plan for remediating the control.
 
 =head2 B<REQUIRED> ControlId => Str
 
-The identifier for the specified control.
+The identifier for the control.
 
 
 
 =head2 B<REQUIRED> ControlMappingSources => ArrayRef[L<Paws::AuditManager::ControlMappingSource>]
 
-The data mapping sources for the specified control.
+The data mapping sources for the control.
 
 
 
@@ -105,14 +105,13 @@ The optional description of the control.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the control to be updated.
+The name of the updated control.
 
 
 
 =head2 TestingInformation => Str
 
-The steps that to follow to determine if the control has been
-satisfied.
+The steps that you should follow to determine if the control is met.
 
 
 

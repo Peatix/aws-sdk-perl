@@ -2,6 +2,7 @@
 package Paws::CloudFormation::DescribeChangeSet;
   use Moose;
   has ChangeSetName => (is => 'ro', isa => 'Str', required => 1);
+  has IncludePropertyValues => (is => 'ro', isa => 'Bool');
   has NextToken => (is => 'ro', isa => 'Str');
   has StackName => (is => 'ro', isa => 'Str');
 
@@ -30,22 +31,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $cloudformation = Paws->service('CloudFormation');
     my $DescribeChangeSetOutput = $cloudformation->DescribeChangeSet(
-      ChangeSetName => 'MyChangeSetNameOrId',
-      NextToken     => 'MyNextToken',           # OPTIONAL
-      StackName     => 'MyStackNameOrId',       # OPTIONAL
+      ChangeSetName         => 'MyChangeSetNameOrId',
+      IncludePropertyValues => 1,                       # OPTIONAL
+      NextToken             => 'MyNextToken',           # OPTIONAL
+      StackName             => 'MyStackNameOrId',       # OPTIONAL
     );
 
     # Results:
-    my $Capabilities          = $DescribeChangeSetOutput->Capabilities;
-    my $ChangeSetId           = $DescribeChangeSetOutput->ChangeSetId;
-    my $ChangeSetName         = $DescribeChangeSetOutput->ChangeSetName;
-    my $Changes               = $DescribeChangeSetOutput->Changes;
-    my $CreationTime          = $DescribeChangeSetOutput->CreationTime;
-    my $Description           = $DescribeChangeSetOutput->Description;
-    my $ExecutionStatus       = $DescribeChangeSetOutput->ExecutionStatus;
+    my $Capabilities    = $DescribeChangeSetOutput->Capabilities;
+    my $ChangeSetId     = $DescribeChangeSetOutput->ChangeSetId;
+    my $ChangeSetName   = $DescribeChangeSetOutput->ChangeSetName;
+    my $Changes         = $DescribeChangeSetOutput->Changes;
+    my $CreationTime    = $DescribeChangeSetOutput->CreationTime;
+    my $Description     = $DescribeChangeSetOutput->Description;
+    my $ExecutionStatus = $DescribeChangeSetOutput->ExecutionStatus;
+    my $ImportExistingResources =
+      $DescribeChangeSetOutput->ImportExistingResources;
     my $IncludeNestedStacks   = $DescribeChangeSetOutput->IncludeNestedStacks;
     my $NextToken             = $DescribeChangeSetOutput->NextToken;
     my $NotificationARNs      = $DescribeChangeSetOutput->NotificationARNs;
+    my $OnStackFailure        = $DescribeChangeSetOutput->OnStackFailure;
     my $Parameters            = $DescribeChangeSetOutput->Parameters;
     my $ParentChangeSetId     = $DescribeChangeSetOutput->ParentChangeSetId;
     my $RollbackConfiguration = $DescribeChangeSetOutput->RollbackConfiguration;
@@ -68,6 +73,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 The name or Amazon Resource Name (ARN) of the change set that you want
 to describe.
+
+
+
+=head2 IncludePropertyValues => Bool
+
+If C<true>, the returned changes include detailed changes in the
+property values.
 
 
 

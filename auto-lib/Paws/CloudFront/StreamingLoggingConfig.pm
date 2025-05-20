@@ -44,7 +44,7 @@ streaming distribution.
 =head2 B<REQUIRED> Bucket => Str
 
 The Amazon S3 bucket to store the access logs in, for example,
-C<myawslogbucket.s3.amazonaws.com>.
+C<amzn-s3-demo-bucket.s3.amazonaws.com>.
 
 
 =head2 B<REQUIRED> Enabled => Bool

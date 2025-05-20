@@ -1,8 +1,9 @@
 
 package Paws::SSMIncidents::CreateTimelineEvent;
   use Moose;
-  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
   has EventData => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'eventData', required => 1);
+  has EventReferences => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::EventReference]', traits => ['NameInRequest'], request_name => 'eventReferences');
   has EventTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'eventTime', required => 1);
   has EventType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'eventType', required => 1);
   has IncidentRecordArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'incidentRecordArn', required => 1);
@@ -33,12 +34,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ssm-incidents = Paws->service('SSMIncidents');
     my $CreateTimelineEventOutput = $ssm -incidents->CreateTimelineEvent(
-      ClientToken       => 'MyClientToken',
       EventData         => 'MyEventData',
       EventTime         => '1970-01-01T01:00:00',
       EventType         => 'MyTimelineEventType',
       IncidentRecordArn => 'MyArn',
-
+      ClientToken       => 'MyClientToken',         # OPTIONAL
+      EventReferences   => [
+        {
+          RelatedItemId => 'MyGeneratedId',    # max: 200; OPTIONAL
+          Resource      => 'MyArn',            # max: 1000
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -53,10 +60,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ClientToken => Str
+=head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token that ensures that a client calls the action only once with the
+specified details.
 
 
 
@@ -66,23 +73,39 @@ A short description of the event.
 
 
 
+=head2 EventReferences => ArrayRef[L<Paws::SSMIncidents::EventReference>]
+
+Adds one or more references to the C<TimelineEvent>. A reference is an
+Amazon Web Services resource involved or associated with the incident.
+To specify a reference, enter its Amazon Resource Name (ARN). You can
+also specify a related item associated with a resource. For example, to
+specify an Amazon DynamoDB (DynamoDB) table as a resource, use the
+table's ARN. You can also specify an Amazon CloudWatch metric
+associated with the DynamoDB table as a related item.
+
+
+
 =head2 B<REQUIRED> EventTime => Str
 
-The time that the event occurred.
+The timestamp for when the event occurred.
 
 
 
 =head2 B<REQUIRED> EventType => Str
 
-The type of the event. You can create timeline events of type C<Custom
-Event>.
+The type of event. You can create timeline events of type C<Custom
+Event> and C<Note>.
+
+To make a Note-type event appear on the I<Incident notes> panel in the
+console, specify C<eventType> as C<Note>and enter the Amazon Resource
+Name (ARN) of the incident as the value for C<eventReference>.
 
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str
 
-The Amazon Resource Name (ARN) of the incident record you are adding
-the event to.
+The Amazon Resource Name (ARN) of the incident record that the action
+adds the incident to.
 
 
 

@@ -68,10 +68,10 @@ Must match the name of an existing DB instance.
 
 =head2 DeleteAutomatedBackups => Bool
 
-A value that indicates whether to remove automated backups immediately
-after the DB instance is deleted. This parameter isn't case-sensitive.
-The default is to remove automated backups immediately after the DB
-instance is deleted.
+Specifies whether to remove automated backups immediately after the DB
+instance is deleted. This parameter isn't case-sensitive. The default
+is to remove automated backups immediately after the DB instance is
+deleted.
 
 
 
@@ -80,8 +80,10 @@ instance is deleted.
 The C<DBSnapshotIdentifier> of the new C<DBSnapshot> created when the
 C<SkipFinalSnapshot> parameter is disabled.
 
-Specifying this parameter and also specifying to skip final DB snapshot
-creation in SkipFinalShapshot results in an error.
+If you enable this parameter and also enable SkipFinalShapshot, the
+command results in an error.
+
+This setting doesn't apply to RDS Custom.
 
 Constraints:
 
@@ -110,20 +112,23 @@ Can't be specified when deleting a read replica.
 
 =head2 SkipFinalSnapshot => Bool
 
-A value that indicates whether to skip the creation of a final DB
-snapshot before the DB instance is deleted. If skip is specified, no DB
-snapshot is created. If skip isn't specified, a DB snapshot is created
-before the DB instance is deleted. By default, skip isn't specified,
-and the DB snapshot is created.
+Specifies whether to skip the creation of a final DB snapshot before
+deleting the instance. If you enable this parameter, RDS doesn't create
+a DB snapshot. If you don't enable this parameter, RDS creates a DB
+snapshot before the DB instance is deleted. By default, skip isn't
+enabled, and the DB snapshot is created.
 
-When a DB instance is in a failure state and has a status of 'failed',
-'incompatible-restore', or 'incompatible-network', it can only be
-deleted when skip is specified.
+If you don't enable this parameter, you must specify the
+C<FinalDBSnapshotIdentifier> parameter.
 
-Specify skip when deleting a read replica.
+When a DB instance is in a failure state and has a status of C<failed>,
+C<incompatible-restore>, or C<incompatible-network>, RDS can delete the
+instance only if you enable this parameter.
 
-The FinalDBSnapshotIdentifier parameter must be specified if skip isn't
-specified.
+If you delete a read replica or an RDS Custom instance, you must enable
+this setting.
+
+This setting is required for RDS Custom.
 
 
 

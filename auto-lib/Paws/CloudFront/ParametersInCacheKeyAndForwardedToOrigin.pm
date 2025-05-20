@@ -43,11 +43,11 @@ strings. CloudFront uses the cache key to find an object in its cache
 that it can return to the viewer.
 
 The headers, cookies, and query strings that are included in the cache
-key are automatically included in requests that CloudFront sends to the
-origin. CloudFront sends a request when it canE<rsquo>t find an object
-in its cache that matches the requestE<rsquo>s cache key. If you want
-to send values to the origin but I<not> include them in the cache key,
-use C<OriginRequestPolicy>.
+key are also included in requests that CloudFront sends to the origin.
+CloudFront sends a request when it can't find an object in its cache
+that matches the request's cache key. If you want to send values to the
+origin but I<not> include them in the cache key, use
+C<OriginRequestPolicy>.
 
 =head1 ATTRIBUTES
 
@@ -55,8 +55,8 @@ use C<OriginRequestPolicy>.
 =head2 B<REQUIRED> CookiesConfig => L<Paws::CloudFront::CachePolicyCookiesConfig>
 
 An object that determines whether any cookies in viewer requests (and
-if so, which cookies) are included in the cache key and automatically
-included in requests that CloudFront sends to the origin.
+if so, which cookies) are included in the cache key and in requests
+that CloudFront sends to the origin.
 
 
 =head2 EnableAcceptEncodingBrotli => Bool
@@ -73,7 +73,7 @@ the C<Accept-Encoding> header, then CloudFront does the following:
 
 =item *
 
-Normalizes the value of the viewerE<rsquo>s C<Accept-Encoding> header
+Normalizes the value of the viewer's C<Accept-Encoding> header
 
 =item *
 
@@ -99,10 +99,9 @@ has no effect.
 
 If both of these fields are C<false>, then CloudFront treats the
 C<Accept-Encoding> header the same as any other HTTP header in the
-viewer request. By default, itE<rsquo>s not included in the cache key
-and itE<rsquo>s not included in origin requests. In this case, you can
-manually add C<Accept-Encoding> to the headers whitelist like any other
-HTTP header.
+viewer request. By default, it's not included in the cache key and it's
+not included in origin requests. In this case, you can manually add
+C<Accept-Encoding> to the headers whitelist like any other HTTP header.
 
 
 =head2 B<REQUIRED> EnableAcceptEncodingGzip => Bool
@@ -120,7 +119,7 @@ following:
 
 =item *
 
-Normalizes the value of the viewerE<rsquo>s C<Accept-Encoding> header
+Normalizes the value of the viewer's C<Accept-Encoding> header
 
 =item *
 
@@ -146,25 +145,23 @@ has no effect.
 
 If both of these fields are C<false>, then CloudFront treats the
 C<Accept-Encoding> header the same as any other HTTP header in the
-viewer request. By default, itE<rsquo>s not included in the cache key
-and itE<rsquo>s not included in origin requests. In this case, you can
-manually add C<Accept-Encoding> to the headers whitelist like any other
-HTTP header.
+viewer request. By default, it's not included in the cache key and it's
+not included in origin requests. In this case, you can manually add
+C<Accept-Encoding> to the headers whitelist like any other HTTP header.
 
 
 =head2 B<REQUIRED> HeadersConfig => L<Paws::CloudFront::CachePolicyHeadersConfig>
 
 An object that determines whether any HTTP headers (and if so, which
-headers) are included in the cache key and automatically included in
-requests that CloudFront sends to the origin.
+headers) are included in the cache key and in requests that CloudFront
+sends to the origin.
 
 
 =head2 B<REQUIRED> QueryStringsConfig => L<Paws::CloudFront::CachePolicyQueryStringsConfig>
 
 An object that determines whether any URL query strings in viewer
 requests (and if so, which query strings) are included in the cache key
-and automatically included in requests that CloudFront sends to the
-origin.
+and in requests that CloudFront sends to the origin.
 
 
 

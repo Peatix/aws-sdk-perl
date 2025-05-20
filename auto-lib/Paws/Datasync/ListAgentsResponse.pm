@@ -17,13 +17,15 @@ Paws::Datasync::ListAgentsResponse
 
 =head2 Agents => ArrayRef[L<Paws::Datasync::AgentListEntry>]
 
-A list of agents in your account.
+A list of DataSync agents in your Amazon Web Services account in the
+Amazon Web Services Region specified in the request. The list is
+ordered by the agents' Amazon Resource Names (ARNs).
 
 
 =head2 NextToken => Str
 
-An opaque string that indicates the position at which to begin
-returning the next list of agents.
+The opaque string that indicates the position to begin the next list of
+results in the response.
 
 
 =head2 _request_id => Str

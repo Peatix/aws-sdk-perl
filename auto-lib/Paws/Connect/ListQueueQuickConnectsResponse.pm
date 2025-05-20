@@ -1,6 +1,8 @@
 
 package Paws::Connect::ListQueueQuickConnectsResponse;
   use Moose;
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
   has QuickConnectSummaryList => (is => 'ro', isa => 'ArrayRef[Paws::Connect::QuickConnectSummary]');
 
@@ -14,6 +16,16 @@ package Paws::Connect::ListQueueQuickConnectsResponse;
 Paws::Connect::ListQueueQuickConnectsResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
 
 
 =head2 NextToken => Str

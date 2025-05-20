@@ -40,16 +40,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The notification used to inform a user of an update in AWS Audit
-Manager. For example, this includes the notification that is sent when
-a control set is delegated for review.
+The notification that informs a user of an update in Audit Manager. For
+example, this includes the notification that's sent when a control set
+is delegated for review.
 
 =head1 ATTRIBUTES
 
 
 =head2 AssessmentId => Str
 
-The identifier for the specified assessment.
+The identifier for the assessment.
 
 
 =head2 AssessmentName => Str
@@ -59,7 +59,7 @@ The name of the related assessment.
 
 =head2 ControlSetId => Str
 
-The identifier for the specified control set.
+The identifier for the control set.
 
 
 =head2 ControlSetName => Str

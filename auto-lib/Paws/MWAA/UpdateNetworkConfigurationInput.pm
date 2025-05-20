@@ -33,9 +33,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Updat
 
 =head1 DESCRIPTION
 
-The VPC networking components used to secure and enable network traffic
-between the AWS resources for your environment. To learn more, see
-About networking on Amazon MWAA
+Defines the VPC networking components used to secure and enable network
+traffic between the Amazon Web Services resources for your environment.
+For more information, see About networking on Amazon MWAA
 (https://docs.aws.amazon.com/mwaa/latest/userguide/networking-about.html).
 
 =head1 ATTRIBUTES
@@ -43,9 +43,9 @@ About networking on Amazon MWAA
 
 =head2 B<REQUIRED> SecurityGroupIds => ArrayRef[Str|Undef]
 
-A list of 1 or more security group IDs. Accepts up to 5 security group
-IDs. A security group must be attached to the same VPC as the subnets.
-To learn more, see Security in your VPC on Amazon MWAA
+A list of security group IDs. A security group must be attached to the
+same VPC as the subnets. For more information, see Security in your VPC
+on Amazon MWAA
 (https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-security.html).
 
 

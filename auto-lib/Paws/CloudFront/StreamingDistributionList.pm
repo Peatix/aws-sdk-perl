@@ -54,8 +54,8 @@ more distributions in the list.
 =head2 Items => ArrayRef[L<Paws::CloudFront::StreamingDistributionSummary>]
 
 A complex type that contains one C<StreamingDistributionSummary>
-element for each distribution that was created by the current AWS
-account.
+element for each distribution that was created by the current Amazon
+Web Services account.
 
 
 =head2 B<REQUIRED> Marker => Str
@@ -78,7 +78,7 @@ listing your RTMP distributions where they left off.
 =head2 B<REQUIRED> Quantity => Int
 
 The number of streaming distributions that were created by the current
-AWS account.
+Amazon Web Services account.
 
 
 

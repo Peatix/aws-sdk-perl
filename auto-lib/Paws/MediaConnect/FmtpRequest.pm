@@ -59,7 +59,7 @@ The format that is used for the representation of color.
 The frame rate for the video stream, in frames/second. For example:
 60000/1001. If you specify a whole number, MediaConnect uses a ratio of
 N/1. For example, if you specify 60, MediaConnect uses 60/1 as the
-exactFramerate.
+C<exactFramerate>.
 
 
 =head2 Par => Str

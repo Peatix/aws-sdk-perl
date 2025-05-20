@@ -63,7 +63,7 @@ The ID of the service.
 
 =head2 B<REQUIRED> VpcEndpointIds => ArrayRef[Str|Undef]
 
-The IDs of one or more VPC endpoints.
+The IDs of the VPC endpoints.
 
 
 

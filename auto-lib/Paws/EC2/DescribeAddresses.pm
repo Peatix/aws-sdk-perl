@@ -81,7 +81,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 AllocationIds => ArrayRef[Str|Undef]
 
-[EC2-VPC] Information about the allocation IDs.
+Information about the allocation IDs.
 
 
 
@@ -102,16 +102,11 @@ One or more filters. Filter names and values are case-sensitive.
 
 =item *
 
-C<allocation-id> - [EC2-VPC] The allocation ID for the address.
+C<allocation-id> - The allocation ID for the address.
 
 =item *
 
-C<association-id> - [EC2-VPC] The association ID for the address.
-
-=item *
-
-C<domain> - Indicates whether the address is for use in EC2-Classic
-(C<standard>) or in a VPC (C<vpc>).
+C<association-id> - The association ID for the address.
 
 =item *
 
@@ -126,17 +121,18 @@ addresses.
 
 =item *
 
-C<network-interface-id> - [EC2-VPC] The ID of the network interface
-that the address is associated with, if any.
+C<network-interface-id> - The ID of the network interface that the
+address is associated with, if any.
 
 =item *
 
-C<network-interface-owner-id> - The account ID of the owner.
+C<network-interface-owner-id> - The Amazon Web Services account ID of
+the owner.
 
 =item *
 
-C<private-ip-address> - [EC2-VPC] The private IP address associated
-with the Elastic IP address.
+C<private-ip-address> - The private IP address associated with the
+Elastic IP address.
 
 =item *
 

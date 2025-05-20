@@ -122,7 +122,45 @@ The name of the solution stack that is deployed with the environment.
 
 =head2 Status => Str
 
-The current operational status of the environment.
+The current operational status of the environment. Valid values are as
+follows:
+
+=over
+
+=item *
+
+C<Aborting>
+
+=item *
+
+C<Launching>
+
+=item *
+
+C<LinkingFrom>
+
+=item *
+
+C<LinkingTo>
+
+=item *
+
+C<Ready>
+
+=item *
+
+C<Terminated>
+
+=item *
+
+C<Terminating>
+
+=item *
+
+C<Updating>
+
+=back
+
 
 
 =head2 Tier => L<Paws::SecurityHub::AwsElasticBeanstalkEnvironmentTier>

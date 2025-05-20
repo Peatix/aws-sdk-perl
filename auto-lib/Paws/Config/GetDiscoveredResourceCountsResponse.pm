@@ -30,10 +30,9 @@ descending order by the number of resources.
 
 =head2 TotalDiscoveredResources => Int
 
-The total number of resources that AWS Config is recording in the
-region for your account. If you specify resource types in the request,
-AWS Config returns only the total number of resources for those
-resource types.
+The total number of resources that Config is recording in the region
+for your account. If you specify resource types in the request, Config
+returns only the total number of resources for those resource types.
 
 B<Example>
 
@@ -41,9 +40,9 @@ B<Example>
 
 =item 1.
 
-AWS Config is recording three resource types in the US East (Ohio)
-Region for your account: 25 EC2 instances, 20 IAM users, and 15 S3
-buckets, for a total of 60 resources.
+Config is recording three resource types in the US East (Ohio) Region
+for your account: 25 EC2 instances, 20 IAM users, and 15 S3 buckets,
+for a total of 60 resources.
 
 =item 2.
 
@@ -52,7 +51,7 @@ specify the resource type, C<"AWS::EC2::Instances">, in the request.
 
 =item 3.
 
-AWS Config returns 25 for C<totalDiscoveredResources>.
+Config returns 25 for C<totalDiscoveredResources>.
 
 =back
 

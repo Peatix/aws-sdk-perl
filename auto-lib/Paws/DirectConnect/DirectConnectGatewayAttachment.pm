@@ -97,12 +97,13 @@ The ID of the virtual interface.
 
 =head2 VirtualInterfaceOwnerAccount => Str
 
-The ID of the AWS account that owns the virtual interface.
+The ID of the Amazon Web Services account that owns the virtual
+interface.
 
 
 =head2 VirtualInterfaceRegion => Str
 
-The AWS Region where the virtual interface is located.
+The Amazon Web Services Region where the virtual interface is located.
 
 
 

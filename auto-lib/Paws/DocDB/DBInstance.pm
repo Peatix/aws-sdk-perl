@@ -5,6 +5,8 @@ package Paws::DocDB::DBInstance;
   has AvailabilityZone => (is => 'ro', isa => 'Str');
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
   has CACertificateIdentifier => (is => 'ro', isa => 'Str');
+  has CertificateDetails => (is => 'ro', isa => 'Paws::DocDB::CertificateDetails');
+  has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str');
   has DBInstanceArn => (is => 'ro', isa => 'Str');
   has DBInstanceClass => (is => 'ro', isa => 'Str');
@@ -20,6 +22,8 @@ package Paws::DocDB::DBInstance;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LatestRestorableTime => (is => 'ro', isa => 'Str');
   has PendingModifiedValues => (is => 'ro', isa => 'Paws::DocDB::PendingModifiedValues');
+  has PerformanceInsightsEnabled => (is => 'ro', isa => 'Bool');
+  has PerformanceInsightsKMSKeyId => (is => 'ro', isa => 'Str');
   has PreferredBackupWindow => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PromotionTier => (is => 'ro', isa => 'Int');
@@ -87,6 +91,17 @@ retained.
 The identifier of the CA certificate for this DB instance.
 
 
+=head2 CertificateDetails => L<Paws::DocDB::CertificateDetails>
+
+The details of the DB instance's server certificate.
+
+
+=head2 CopyTagsToSnapshot => Bool
+
+A value that indicates whether to copy tags from the DB instance to
+snapshots of the DB instance. By default, tags are not copied.
+
+
 =head2 DBClusterIdentifier => Str
 
 Contains the name of the cluster that the instance is a member of if
@@ -117,9 +132,9 @@ Specifies the current state of this database.
 
 =head2 DbiResourceId => Str
 
-The Region-unique, immutable identifier for the instance. This
-identifier is found in CloudTrail log entries whenever the KMS key for
-the instance is accessed.
+The Amazon Web Services Region-unique, immutable identifier for the
+instance. This identifier is found in CloudTrail log entries whenever
+the KMS key for the instance is accessed.
 
 
 =head2 DBSubnetGroup => L<Paws::DocDB::DBSubnetGroup>
@@ -172,6 +187,19 @@ point-in-time restore.
 Specifies that changes to the instance are pending. This element is
 included only when changes are pending. Specific changes are identified
 by subelements.
+
+
+=head2 PerformanceInsightsEnabled => Bool
+
+Set to C<true> if Amazon RDS Performance Insights is enabled for the DB
+instance, and otherwise C<false>.
+
+
+=head2 PerformanceInsightsKMSKeyId => Str
+
+The KMS key identifier for encryption of Performance Insights data. The
+KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or
+the KMS key alias for the KMS encryption key.
 
 
 =head2 PreferredBackupWindow => Str

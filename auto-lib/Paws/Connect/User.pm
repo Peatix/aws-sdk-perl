@@ -6,6 +6,8 @@ package Paws::Connect::User;
   has HierarchyGroupId => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
   has IdentityInfo => (is => 'ro', isa => 'Paws::Connect::UserIdentityInfo');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has PhoneConfig => (is => 'ro', isa => 'Paws::Connect::UserPhoneConfig');
   has RoutingProfileId => (is => 'ro', isa => 'Str');
   has SecurityProfileIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -42,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Connect::Us
 
 =head1 DESCRIPTION
 
-Contains information about a user account for a Amazon Connect
+Contains information about a user account for an Amazon Connect
 instance.
 
 =head1 ATTRIBUTES
@@ -72,6 +74,16 @@ The identifier of the user account.
 =head2 IdentityInfo => L<Paws::Connect::UserIdentityInfo>
 
 Information about the user identity.
+
+
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
 
 
 =head2 PhoneConfig => L<Paws::Connect::UserPhoneConfig>

@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::MountP
 
 =head1 DESCRIPTION
 
-Details on a volume mount point that is used in a container definition.
+The details for a volume mount point that's used in a container
+definition.
 
 =head1 ATTRIBUTES
 

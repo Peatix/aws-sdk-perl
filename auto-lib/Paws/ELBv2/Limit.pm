@@ -37,6 +37,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ELBv2::Limi
 Information about an Elastic Load Balancing resource limit for your
 Amazon Web Services account.
 
+For more information, see the following:
+
+=over
+
+=item *
+
+Quotas for your Application Load Balancers
+(https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html)
+
+=item *
+
+Quotas for your Network Load Balancers
+(https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html)
+
+=item *
+
+Quotas for your Gateway Load Balancers
+(https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html)
+
+=back
+
+
 =head1 ATTRIBUTES
 
 

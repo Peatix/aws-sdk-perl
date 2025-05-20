@@ -2,6 +2,7 @@
 package Paws::ServiceCatalogAppRegistry::AttributeGroupSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has CreatedBy => (is => 'ro', isa => 'Str', request_name => 'createdBy', traits => ['NameInRequest']);
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
@@ -38,7 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ServiceCata
 
 =head1 DESCRIPTION
 
-Summary of a Service Catalog AppRegistry attribute group.
+Summary of a Amazon Web Services Service Catalog AppRegistry attribute
+group.
 
 =head1 ATTRIBUTES
 
@@ -47,6 +49,11 @@ Summary of a Service Catalog AppRegistry attribute group.
 
 The Amazon resource name (ARN) that specifies the attribute group
 across services.
+
+
+=head2 CreatedBy => Str
+
+The service principal that created the attribute group.
 
 
 =head2 CreationTime => Str

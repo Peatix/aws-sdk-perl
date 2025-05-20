@@ -5,11 +5,14 @@ package Paws::SSM::Association;
   has AssociationName => (is => 'ro', isa => 'Str');
   has AssociationVersion => (is => 'ro', isa => 'Str');
   has DocumentVersion => (is => 'ro', isa => 'Str');
+  has Duration => (is => 'ro', isa => 'Int');
   has InstanceId => (is => 'ro', isa => 'Str');
   has LastExecutionDate => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Overview => (is => 'ro', isa => 'Paws::SSM::AssociationOverview');
   has ScheduleExpression => (is => 'ro', isa => 'Str');
+  has ScheduleOffset => (is => 'ro', isa => 'Int');
+  has TargetMaps => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetMap]');
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
 
 1;
@@ -42,7 +45,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Associ
 
 =head1 DESCRIPTION
 
-Describes an association of a Systems Manager document and an instance.
+Describes an association of a Amazon Web Services Systems Manager
+document (SSM document) and a managed node.
 
 =head1 ATTRIBUTES
 
@@ -66,12 +70,31 @@ The association version.
 
 =head2 DocumentVersion => Str
 
-The version of the document used in the association.
+The version of the document used in the association. If you change a
+document version for a State Manager association, Systems Manager
+immediately runs the association unless you previously specifed the
+C<apply-only-at-cron-interval> parameter.
+
+State Manager doesn't support running associations that use a new
+version of a document if that document is shared from another account.
+State Manager always runs the C<default> version of a document if
+shared from another account, even though the Systems Manager console
+shows that a new version was processed. If you want to run an
+association using a new version of a document shared form another
+account, you must set the document version to C<default>.
+
+
+=head2 Duration => Int
+
+The number of hours that an association can run on specified targets.
+After the resulting cutoff time passes, associations that are currently
+running are cancelled, and no pending executions are started on
+remaining targets.
 
 
 =head2 InstanceId => Str
 
-The ID of the instance.
+The managed node ID.
 
 
 =head2 LastExecutionDate => Str
@@ -81,7 +104,7 @@ The date on which the association was last run.
 
 =head2 Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 =head2 Overview => L<Paws::SSM::AssociationOverview>
@@ -95,9 +118,22 @@ A cron expression that specifies a schedule when the association runs.
 The schedule runs in Coordinated Universal Time (UTC).
 
 
+=head2 ScheduleOffset => Int
+
+Number of days to wait after the scheduled day to run an association.
+
+
+=head2 TargetMaps => ArrayRef[L<Paws::SSM::TargetMap>]
+
+A key-value mapping of document parameters to target resources. Both
+Targets and TargetMaps can't be specified together.
+
+
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]
 
-The instances targeted by the request to create an association.
+The managed nodes targeted by the request to create an association. You
+can target all managed nodes in an Amazon Web Services account by
+specifying the C<InstanceIds> key with a value of C<*>.
 
 
 

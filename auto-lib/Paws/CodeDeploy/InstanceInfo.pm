@@ -57,7 +57,7 @@ The ARN of the IAM session associated with the on-premises instance.
 
 =head2 IamUserArn => Str
 
-The IAM user ARN associated with the on-premises instance.
+The user ARN associated with the on-premises instance.
 
 
 =head2 InstanceArn => Str

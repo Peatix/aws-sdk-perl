@@ -2,6 +2,7 @@
 package Paws::Personalize::BatchInferenceJobSummary;
   use Moose;
   has BatchInferenceJobArn => (is => 'ro', isa => 'Str', request_name => 'batchInferenceJobArn', traits => ['NameInRequest']);
+  has BatchInferenceJobMode => (is => 'ro', isa => 'Str', request_name => 'batchInferenceJobMode', traits => ['NameInRequest']);
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
   has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
   has JobName => (is => 'ro', isa => 'Str', request_name => 'jobName', traits => ['NameInRequest']);
@@ -39,9 +40,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 =head1 DESCRIPTION
 
-A truncated version of the BatchInferenceJob datatype. The
-ListBatchInferenceJobs operation returns a list of batch inference job
-summaries.
+A truncated version of the BatchInferenceJob
+(https://docs.aws.amazon.com/personalize/latest/dg/API_BatchInferenceJob.html).
+The ListBatchInferenceJobs
+(https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchInferenceJobs.html)
+operation returns a list of batch inference job summaries.
 
 =head1 ATTRIBUTES
 
@@ -49,6 +52,11 @@ summaries.
 =head2 BatchInferenceJobArn => Str
 
 The Amazon Resource Name (ARN) of the batch inference job.
+
+
+=head2 BatchInferenceJobMode => Str
+
+The job's mode.
 
 
 =head2 CreationDateTime => Str

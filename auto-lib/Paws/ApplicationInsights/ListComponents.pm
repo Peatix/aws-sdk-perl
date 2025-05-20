@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::ListComponents;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
@@ -31,6 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $ListComponentsResponse = $applicationinsights->ListComponents(
       ResourceGroupName => 'MyResourceGroupName',
+      AccountId         => 'MyAccountId',           # OPTIONAL
       MaxResults        => 1,                       # OPTIONAL
       NextToken         => 'MyPaginationToken',     # OPTIONAL
     );
@@ -46,6 +48,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/ListComponents>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
+
 
 
 =head2 MaxResults => Int

@@ -17,8 +17,8 @@ Paws::AuditManager::UpdateAssessmentControlResponse
 
 =head2 Control => L<Paws::AuditManager::AssessmentControl>
 
-The name of the updated control set returned by the
-C<UpdateAssessmentControl> API.
+The name of the updated control set that the C<UpdateAssessmentControl>
+API returned.
 
 
 =head2 _request_id => Str

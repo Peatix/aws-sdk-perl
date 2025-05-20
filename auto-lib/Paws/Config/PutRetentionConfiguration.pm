@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> RetentionPeriodInDays => Int
 
-Number of days AWS Config stores your historical information.
+Number of days Config stores your historical information.
 
 Currently, only applicable to the configuration item history.
 

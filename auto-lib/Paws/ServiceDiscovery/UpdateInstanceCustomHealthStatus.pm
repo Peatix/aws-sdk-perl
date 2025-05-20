@@ -29,12 +29,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # UpdateInstanceCustomHealthStatus Example
+    # This example submits a request to change the health status of an instance
+    # associated with a service with a custom health check to HEALTHY.
     $servicediscovery->UpdateInstanceCustomHealthStatus(
-      InstanceId => 'MyResourceId',
-      ServiceId  => 'MyResourceId',
-      Status     => 'HEALTHY',
-
+      'InstanceId' => 'i-abcd1234',
+      'ServiceId'  => 'srv-e4anhexample0004',
+      'Status'     => 'HEALTHY'
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/servicediscovery/UpdateInstanceCustomHealthStatus>

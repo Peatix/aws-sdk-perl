@@ -46,7 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> AccountIds => ArrayRef[Str|Undef]
 
-The list of the account IDs that sent the invitations to delete.
+The list of member account IDs that received the invitations you want
+to delete.
 
 
 

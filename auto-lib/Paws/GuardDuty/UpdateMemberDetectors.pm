@@ -4,6 +4,7 @@ package Paws::GuardDuty::UpdateMemberDetectors;
   has AccountIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'accountIds', required => 1);
   has DataSources => (is => 'ro', isa => 'Paws::GuardDuty::DataSourceConfigurations', traits => ['NameInRequest'], request_name => 'dataSources');
   has DetectorId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'detectorId', required => 1);
+  has Features => (is => 'ro', isa => 'ArrayRef[Paws::GuardDuty::MemberFeaturesConfiguration]', traits => ['NameInRequest'], request_name => 'features');
 
   use MooseX::ClassAttribute;
 
@@ -36,11 +37,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],
       DetectorId  => 'MyDetectorId',
       DataSources => {
+        Kubernetes => {
+          AuditLogs => {
+            Enable => 1,
+
+          },
+
+        },                    # OPTIONAL
+        MalwareProtection => {
+          ScanEc2InstanceWithFindings => { EbsVolumes => 1, },    # OPTIONAL
+        },    # OPTIONAL
         S3Logs => {
           Enable => 1,
 
-        },                    # OPTIONAL
+        },    # OPTIONAL
       },    # OPTIONAL
+      Features => [
+        {
+          AdditionalConfiguration => [
+            {
+              Name => 'EKS_ADDON_MANAGEMENT'
+              , # values: EKS_ADDON_MANAGEMENT, ECS_FARGATE_AGENT_MANAGEMENT, EC2_AGENT_MANAGEMENT; OPTIONAL
+              Status => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          Name => 'S3_DATA_EVENTS'
+          , # values: S3_DATA_EVENTS, EKS_AUDIT_LOGS, EBS_MALWARE_PROTECTION, RDS_LOGIN_EVENTS, EKS_RUNTIME_MONITORING, LAMBDA_NETWORK_LOGS, RUNTIME_MONITORING; OPTIONAL
+          Status => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -70,6 +97,18 @@ Describes which data sources will be updated.
 =head2 B<REQUIRED> DetectorId => Str
 
 The detector ID of the administrator account.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
+
+
+=head2 Features => ArrayRef[L<Paws::GuardDuty::MemberFeaturesConfiguration>]
+
+A list of features that will be updated for the specified member
+accounts.
 
 
 

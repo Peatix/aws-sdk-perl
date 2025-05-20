@@ -1,6 +1,7 @@
 package Paws::EC2::Route;
   use Moose;
   has CarrierGatewayId => (is => 'ro', isa => 'Str', request_name => 'carrierGatewayId', traits => ['NameInRequest']);
+  has CoreNetworkArn => (is => 'ro', isa => 'Str', request_name => 'coreNetworkArn', traits => ['NameInRequest']);
   has DestinationCidrBlock => (is => 'ro', isa => 'Str', request_name => 'destinationCidrBlock', traits => ['NameInRequest']);
   has DestinationIpv6CidrBlock => (is => 'ro', isa => 'Str', request_name => 'destinationIpv6CidrBlock', traits => ['NameInRequest']);
   has DestinationPrefixListId => (is => 'ro', isa => 'Str', request_name => 'destinationPrefixListId', traits => ['NameInRequest']);
@@ -55,6 +56,11 @@ This class has no description
 The ID of the carrier gateway.
 
 
+=head2 CoreNetworkArn => Str
+
+The Amazon Resource Name (ARN) of the core network.
+
+
 =head2 DestinationCidrBlock => Str
 
 The IPv4 CIDR block used for the destination match.
@@ -67,7 +73,7 @@ The IPv6 CIDR block used for the destination match.
 
 =head2 DestinationPrefixListId => Str
 
-The prefix of the AWS service.
+The prefix of the Amazon Web Services service.
 
 
 =head2 EgressOnlyInternetGatewayId => Str
@@ -87,7 +93,7 @@ The ID of a NAT instance in your VPC.
 
 =head2 InstanceOwnerId => Str
 
-The AWS account ID of the owner of the instance.
+The ID of Amazon Web Services account that owns the instance.
 
 
 =head2 LocalGatewayId => Str

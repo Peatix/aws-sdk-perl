@@ -49,7 +49,7 @@ Unicode characters. May not begin with C<aws:>.
 
 The value of the tag.
 
-Constraints: Tag values are case-sensitive and accept a maximum of 255
+Constraints: Tag values are case-sensitive and accept a maximum of 256
 Unicode characters.
 
 

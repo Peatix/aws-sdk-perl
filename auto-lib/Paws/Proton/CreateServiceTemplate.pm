@@ -86,23 +86,23 @@ The name of the service template.
 
 =head2 PipelineProvisioning => Str
 
-AWS Proton includes a service pipeline for your service by default.
-When included, this parameter indicates that an AWS Proton service
-pipeline I<won't> be included for your service. Once specified, this
-parameter I<can't> be changed. For more information, see Service
-template bundles
-(https://docs.aws.amazon.com/proton/latest/adminguide/ag-svc-template-bundles.html)
-in the I<AWS Proton Administration Guide>.
+By default, Proton provides a service pipeline for your service. When
+this parameter is included, it indicates that an Proton service
+pipeline I<isn't> provided for your service. After it's included, it
+I<can't> be changed. For more information, see Template bundles
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles)
+in the I<Proton User Guide>.
 
 Valid values are: C<"CUSTOMER_MANAGED">
 
 =head2 Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-Create tags for your service template. For more information, see I<AWS
-Proton resources and tagging> in the AWS Proton Administration Guide
-(https://docs.aws.amazon.com/proton/latest/adminguide/resources.html)
-or AWS Proton User Guide
-(https://docs.aws.amazon.com/proton/latest/userguide/resources.html).
+An optional list of metadata items that you can associate with the
+Proton service template. A tag is a key-value pair.
+
+For more information, see Proton resources and tagging
+(https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in
+the I<Proton User Guide>.
 
 
 

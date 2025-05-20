@@ -39,14 +39,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Invent
 
 =head1 DESCRIPTION
 
-Status information returned by the C<DeleteInventory> action.
+Status information returned by the C<DeleteInventory> operation.
 
 =head1 ATTRIBUTES
 
 
 =head2 DeletionId => Str
 
-The deletion ID returned by the C<DeleteInventory> action.
+The deletion ID returned by the C<DeleteInventory> operation.
 
 
 =head2 DeletionStartTime => Str
@@ -58,8 +58,8 @@ The UTC timestamp when the delete operation started.
 
 Information about the delete operation. For more information about this
 summary, see Understanding the delete inventory summary
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete)
-in the I<AWS Systems Manager User Guide>.
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-custom.html#delete-custom-inventory)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 LastStatus => Str

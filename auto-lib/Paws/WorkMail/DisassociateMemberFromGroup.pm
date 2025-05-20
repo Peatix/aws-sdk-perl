@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $DisassociateMemberFromGroupResponse =
       $workmail->DisassociateMemberFromGroup(
-      GroupId        => 'MyWorkMailIdentifier',
-      MemberId       => 'MyWorkMailIdentifier',
+      GroupId        => 'MyEntityIdentifier',
+      MemberId       => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
 
       );
@@ -47,11 +47,53 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 The identifier for the group from which members are removed.
 
+The identifier can accept I<GroupId>, I<Groupname>, or I<email>. The
+following identity formats are available:
+
+=over
+
+=item *
+
+Group ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: group@domain.tld
+
+=item *
+
+Group name: group
+
+=back
+
+
 
 
 =head2 B<REQUIRED> MemberId => Str
 
-The identifier for the member to be removed to the group.
+The identifier for the member to be removed from the group.
+
+The member ID can accept I<UserID or GroupId>, I<Username or
+Groupname>, or I<email>.
+
+=over
+
+=item *
+
+Member ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: member@domain.tld
+
+=item *
+
+Member name: member
+
+=back
+
 
 
 

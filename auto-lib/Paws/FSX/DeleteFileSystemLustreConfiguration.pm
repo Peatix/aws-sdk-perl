@@ -56,6 +56,10 @@ the file system you are deleting. By default, Amazon FSx will not take
 a final backup on your behalf when the C<DeleteFileSystem> operation is
 invoked. (Default = true)
 
+The C<fsx:CreateBackup> permission is required if you set
+C<SkipFinalBackup> to C<false> in order to delete the file system and
+take a final backup.
+
 
 
 =head1 SEE ALSO

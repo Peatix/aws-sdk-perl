@@ -1,6 +1,7 @@
 
 package Paws::NetworkFirewall::DescribeRuleGroup;
   use Moose;
+  has AnalyzeRuleGroup => (is => 'ro', isa => 'Bool');
   has RuleGroupArn => (is => 'ro', isa => 'Str');
   has RuleGroupName => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $network-firewall = Paws->service('NetworkFirewall');
     my $DescribeRuleGroupResponse = $network -firewall->DescribeRuleGroup(
-      RuleGroupArn  => 'MyResourceArn',     # OPTIONAL
-      RuleGroupName => 'MyResourceName',    # OPTIONAL
-      Type          => 'STATELESS',         # OPTIONAL
+      AnalyzeRuleGroup => 1,                   # OPTIONAL
+      RuleGroupArn     => 'MyResourceArn',     # OPTIONAL
+      RuleGroupName    => 'MyResourceName',    # OPTIONAL
+      Type             => 'STATELESS',         # OPTIONAL
     );
 
     # Results:
@@ -46,6 +48,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/network-firewall/DescribeRuleGroup>
 
 =head1 ATTRIBUTES
+
+
+=head2 AnalyzeRuleGroup => Bool
+
+Indicates whether you want Network Firewall to analyze the stateless
+rules in the rule group for rule behavior such as asymmetric routing.
+If set to C<TRUE>, Network Firewall runs the analysis.
+
 
 
 =head2 RuleGroupArn => Str

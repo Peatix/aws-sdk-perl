@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sal
 
 =head1 DESCRIPTION
 
-Provides configuration information for indexing Salesforce custom
+Provides the configuration information for indexing Salesforce custom
 articles.
 
 =head1 ATTRIBUTES
@@ -56,8 +56,13 @@ document title.
 
 =head2 FieldMappings => ArrayRef[L<Paws::Kendra::DataSourceToIndexFieldMapping>]
 
-One or more objects that map fields in the custom knowledge article to
-fields in the Amazon Kendra index.
+Maps attributes or field names of the custom knowledge article to
+Amazon Kendra index field names. To create custom fields, use the
+C<UpdateIndex> API before you map to Salesforce fields. For more
+information, see Mapping data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+Salesforce data source field names must exist in your Salesforce custom
+metadata.
 
 
 =head2 B<REQUIRED> Name => Str

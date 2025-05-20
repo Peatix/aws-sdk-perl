@@ -28,8 +28,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To remove tags from a customer master key (CMK)
-    # The following example removes tags from a CMK.
+    # To remove tags from a KMS key
+    # The following example removes tags from a KMS key.
     $kms->UntagResource(
       'KeyId'   => '1234abcd-12ab-34cd-56ef-1234567890ab',
       'TagKeys' => [ 'Purpose', 'CostCenter' ]
@@ -44,9 +44,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies the CMK from which you are removing tags.
+Identifies the KMS key from which you are removing tags.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -63,7 +63,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 

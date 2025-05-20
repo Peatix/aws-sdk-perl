@@ -2,6 +2,7 @@
 package Paws::ConnectContactLens::RealtimeContactAnalysisSegment;
   use Moose;
   has Categories => (is => 'ro', isa => 'Paws::ConnectContactLens::Categories');
+  has PostContactSummary => (is => 'ro', isa => 'Paws::ConnectContactLens::PostContactSummary');
   has Transcript => (is => 'ro', isa => 'Paws::ConnectContactLens::Transcript');
 
 1;
@@ -42,6 +43,11 @@ An analyzed segment for a real-time analysis session.
 =head2 Categories => L<Paws::ConnectContactLens::Categories>
 
 The matched category rules.
+
+
+=head2 PostContactSummary => L<Paws::ConnectContactLens::PostContactSummary>
+
+Information about the post-contact summary.
 
 
 =head2 Transcript => L<Paws::ConnectContactLens::Transcript>

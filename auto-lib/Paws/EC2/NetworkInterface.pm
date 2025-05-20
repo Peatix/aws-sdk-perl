@@ -3,12 +3,19 @@ package Paws::EC2::NetworkInterface;
   has Association => (is => 'ro', isa => 'Paws::EC2::NetworkInterfaceAssociation', request_name => 'association', traits => ['NameInRequest']);
   has Attachment => (is => 'ro', isa => 'Paws::EC2::NetworkInterfaceAttachment', request_name => 'attachment', traits => ['NameInRequest']);
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has ConnectionTrackingConfiguration => (is => 'ro', isa => 'Paws::EC2::ConnectionTrackingConfiguration', request_name => 'connectionTrackingConfiguration', traits => ['NameInRequest']);
+  has DenyAllIgwTraffic => (is => 'ro', isa => 'Bool', request_name => 'denyAllIgwTraffic', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has Groups => (is => 'ro', isa => 'ArrayRef[Paws::EC2::GroupIdentifier]', request_name => 'groupSet', traits => ['NameInRequest']);
   has InterfaceType => (is => 'ro', isa => 'Str', request_name => 'interfaceType', traits => ['NameInRequest']);
+  has Ipv4Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Ipv4PrefixSpecification]', request_name => 'ipv4PrefixSet', traits => ['NameInRequest']);
+  has Ipv6Address => (is => 'ro', isa => 'Str', request_name => 'ipv6Address', traits => ['NameInRequest']);
   has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Paws::EC2::NetworkInterfaceIpv6Address]', request_name => 'ipv6AddressesSet', traits => ['NameInRequest']);
+  has Ipv6Native => (is => 'ro', isa => 'Bool', request_name => 'ipv6Native', traits => ['NameInRequest']);
+  has Ipv6Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Ipv6PrefixSpecification]', request_name => 'ipv6PrefixSet', traits => ['NameInRequest']);
   has MacAddress => (is => 'ro', isa => 'Str', request_name => 'macAddress', traits => ['NameInRequest']);
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', request_name => 'networkInterfaceId', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has PrivateDnsName => (is => 'ro', isa => 'Str', request_name => 'privateDnsName', traits => ['NameInRequest']);
@@ -72,6 +79,25 @@ The network interface attachment.
 The Availability Zone.
 
 
+=head2 ConnectionTrackingConfiguration => L<Paws::EC2::ConnectionTrackingConfiguration>
+
+A security group connection tracking configuration that enables you to
+set the timeout for connection tracking on an Elastic network
+interface. For more information, see Connection tracking timeouts
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts)
+in the I<Amazon EC2 User Guide>.
+
+
+=head2 DenyAllIgwTraffic => Bool
+
+Indicates whether a network interface with an IPv6 address is
+unreachable from the public internet. If the value is C<true>, inbound
+traffic from the internet is dropped and you cannot assign an elastic
+IP address to the network interface. The network interface is reachable
+from peered VPCs and resources connected through a transit gateway,
+including on-premises networks.
+
+
 =head2 Description => Str
 
 A description.
@@ -87,9 +113,29 @@ Any security groups for the network interface.
 The type of network interface.
 
 
+=head2 Ipv4Prefixes => ArrayRef[L<Paws::EC2::Ipv4PrefixSpecification>]
+
+The IPv4 prefixes that are assigned to the network interface.
+
+
+=head2 Ipv6Address => Str
+
+The IPv6 globally unique address associated with the network interface.
+
+
 =head2 Ipv6Addresses => ArrayRef[L<Paws::EC2::NetworkInterfaceIpv6Address>]
 
 The IPv6 addresses associated with the network interface.
+
+
+=head2 Ipv6Native => Bool
+
+Indicates whether this is an IPv6 only network interface.
+
+
+=head2 Ipv6Prefixes => ArrayRef[L<Paws::EC2::Ipv6PrefixSpecification>]
+
+The IPv6 prefixes that are assigned to the network interface.
 
 
 =head2 MacAddress => Str
@@ -102,6 +148,11 @@ The MAC address.
 The ID of the network interface.
 
 
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The service provider that manages the network interface.
+
+
 =head2 OutpostArn => Str
 
 The Amazon Resource Name (ARN) of the Outpost.
@@ -109,7 +160,8 @@ The Amazon Resource Name (ARN) of the Outpost.
 
 =head2 OwnerId => Str
 
-The account ID of the owner of the network interface.
+The Amazon Web Services account ID of the owner of the network
+interface.
 
 
 =head2 PrivateDnsName => Str
@@ -129,8 +181,8 @@ The private IPv4 addresses associated with the network interface.
 
 =head2 RequesterId => Str
 
-The alias or account ID of the principal or service that created the
-network interface.
+The alias or Amazon Web Services account ID of the principal or service
+that created the network interface.
 
 
 =head2 RequesterManaged => Bool

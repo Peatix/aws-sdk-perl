@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 =head1 DESCRIPTION
 
 For a resource with C<Modify> as the action, the C<ResourceChange>
-structure describes the changes AWS CloudFormation will make to that
+structure describes the changes CloudFormation will make to that
 resource.
 
 =head1 ATTRIBUTES
@@ -46,7 +46,7 @@ resource.
 =head2 CausingEntity => Str
 
 The identity of the entity that triggered this change. This entity is a
-member of the group that is specified by the C<ChangeSource> field. For
+member of the group that's specified by the C<ChangeSource> field. For
 example, if you modified the value of the C<KeyPairName> parameter, the
 C<CausingEntity> is the name of the parameter (C<KeyPairName>).
 
@@ -88,10 +88,10 @@ the template.
 
 C<Automatic> entities are C<AWS::CloudFormation::Stack> resource types,
 which are also known as nested stacks. If you made no changes to the
-C<AWS::CloudFormation::Stack> resource, AWS CloudFormation sets the
+C<AWS::CloudFormation::Stack> resource, CloudFormation sets the
 C<ChangeSource> to C<Automatic> because the nested stack's template
 might have changed. Changes to a nested stack's template aren't visible
-to AWS CloudFormation until you run an update on the parent stack.
+to CloudFormation until you run an update on the parent stack.
 
 =back
 
@@ -99,20 +99,19 @@ to AWS CloudFormation until you run an update on the parent stack.
 
 =head2 Evaluation => Str
 
-Indicates whether AWS CloudFormation can determine the target value,
-and whether the target value will change before you execute a change
-set.
+Indicates whether CloudFormation can determine the target value, and
+whether the target value will change before you execute a change set.
 
-For C<Static> evaluations, AWS CloudFormation can determine that the
-target value will change, and its value. For example, if you directly
-modify the C<InstanceType> property of an EC2 instance, AWS
-CloudFormation knows that this property value will change, and its
-value, so this is a C<Static> evaluation.
+For C<Static> evaluations, CloudFormation can determine that the target
+value will change, and its value. For example, if you directly modify
+the C<InstanceType> property of an EC2 instance, CloudFormation knows
+that this property value will change, and its value, so this is a
+C<Static> evaluation.
 
-For C<Dynamic> evaluations, cannot determine the target value because
-it depends on the result of an intrinsic function, such as a C<Ref> or
+For C<Dynamic> evaluations, can't determine the target value because it
+depends on the result of an intrinsic function, such as a C<Ref> or
 C<Fn::GetAtt> intrinsic function, when the stack is updated. For
-example, if your template includes a reference to a resource that is
+example, if your template includes a reference to a resource that's
 conditionally recreated, the value of the reference (the physical ID of
 the resource) might change, depending on if the resource is recreated.
 If the resource is recreated, it will have a new physical ID, so all
@@ -122,8 +121,7 @@ references to that resource will also be updated.
 =head2 Target => L<Paws::CloudFormation::ResourceTargetDefinition>
 
 A C<ResourceTargetDefinition> structure that describes the field that
-AWS CloudFormation will change and whether the resource will be
-recreated.
+CloudFormation will change and whether the resource will be recreated.
 
 
 

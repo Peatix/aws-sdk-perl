@@ -46,7 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyCostCategoryName',     # min: 1, max: 50; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -54,10 +54,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Dimensions => {
           Key => 'AZ'
-          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -69,7 +69,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyTagKey',     # max: 1024; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -180,8 +180,8 @@ Cost category is also supported.
 
 =head2 Granularity => Str
 
-The granularity of the AWS cost data for the reservation. Valid values
-are C<MONTHLY> and C<DAILY>.
+The granularity of the Amazon Web Services cost data for the
+reservation. Valid values are C<MONTHLY> and C<DAILY>.
 
 If C<GroupBy> is set, C<Granularity> can't be set. If C<Granularity>
 isn't set, the response object doesn't include C<Granularity>, either
@@ -220,6 +220,10 @@ INSTANCE_TYPE
 
 =item *
 
+INVOICING_ENTITY
+
+=item *
+
 LINKED_ACCOUNT
 
 =item *
@@ -246,9 +250,9 @@ TENANCY
 =head2 MaxResults => Int
 
 The maximum number of objects that you returned for this request. If
-more objects are available, in the response, AWS provides a
-NextPageToken value that you can use in a subsequent call to get the
-next batch of objects.
+more objects are available, in the response, Amazon Web Services
+provides a NextPageToken value that you can use in a subsequent call to
+get the next batch of objects.
 
 
 
@@ -263,9 +267,9 @@ values in a request.
 
 =head2 NextPageToken => Str
 
-The token to retrieve the next set of results. AWS provides the token
-when the response from a previous call has more results than the
-maximum page size.
+The token to retrieve the next set of results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 

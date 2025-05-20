@@ -33,10 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateCampaignResponse = $personalize->UpdateCampaign(
       CampaignArn    => 'MyArn',
       CampaignConfig => {
-        ItemExplorationConfig => {
+        EnableMetadataWithRecommendations => 1,    # OPTIONAL
+        ItemExplorationConfig             => {
           'MyParameterName' =>
             'MyParameterValue',    # key: max: 256, value: max: 1000
         },    # max: 100; OPTIONAL
+        SyncWithLatestSolutionVersion => 1,    # OPTIONAL
       },    # OPTIONAL
       MinProvisionedTPS  => 1,          # OPTIONAL
       SolutionVersionArn => 'MyArn',    # OPTIONAL
@@ -68,13 +70,29 @@ The configuration details of a campaign.
 =head2 MinProvisionedTPS => Int
 
 Specifies the requested minimum provisioned transactions
-(recommendations) per second that Amazon Personalize will support.
+(recommendations) per second that Amazon Personalize will support. A
+high C<minProvisionedTPS> will increase your bill. We recommend
+starting with 1 for C<minProvisionedTPS> (the default). Track your
+usage using Amazon CloudWatch metrics, and increase the
+C<minProvisionedTPS> as necessary.
 
 
 
 =head2 SolutionVersionArn => Str
 
-The ARN of a new solution version to deploy.
+The Amazon Resource Name (ARN) of a new model to deploy. To specify the
+latest solution version of your solution, specify the ARN of your
+I<solution> in C<SolutionArn/$LATEST> format. You must use this format
+if you set C<syncWithLatestSolutionVersion> to C<True> in the
+CampaignConfig
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CampaignConfig.html).
+
+To deploy a model that isn't the latest solution version of your
+solution, specify the ARN of the solution version.
+
+For more information about automatic campaign updates, see Enabling
+automatic campaign updates
+(https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
 
 
 

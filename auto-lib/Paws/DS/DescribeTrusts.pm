@@ -51,8 +51,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 DirectoryId => Str
 
-The Directory ID of the AWS directory that is a part of the requested
-trust relationship.
+The Directory ID of the Amazon Web Services directory that is a part of
+the requested trust relationship.
 
 
 

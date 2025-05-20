@@ -2,6 +2,7 @@
 package Paws::Athena::GetDataCatalog;
   use Moose;
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has WorkGroup => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -28,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $athena = Paws->service('Athena');
     my $GetDataCatalogOutput = $athena->GetDataCatalog(
-      Name => 'MyCatalogNameString',
-
+      Name      => 'MyCatalogNameString',
+      WorkGroup => 'MyWorkGroupName',       # OPTIONAL
     );
 
     # Results:
@@ -46,6 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ath
 =head2 B<REQUIRED> Name => Str
 
 The name of the data catalog to return.
+
+
+
+=head2 WorkGroup => Str
+
+The name of the workgroup. Required if making an IAM Identity Center
+request.
 
 
 

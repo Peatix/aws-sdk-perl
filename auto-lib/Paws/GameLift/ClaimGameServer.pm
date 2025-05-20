@@ -1,6 +1,7 @@
 
 package Paws::GameLift::ClaimGameServer;
   use Moose;
+  has FilterOption => (is => 'ro', isa => 'Paws::GameLift::ClaimFilterOption');
   has GameServerData => (is => 'ro', isa => 'Str');
   has GameServerGroupName => (is => 'ro', isa => 'Str', required => 1);
   has GameServerId => (is => 'ro', isa => 'Str');
@@ -31,8 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $gamelift = Paws->service('GameLift');
     my $ClaimGameServerOutput = $gamelift->ClaimGameServer(
       GameServerGroupName => 'MyGameServerGroupNameOrArn',
-      GameServerData      => 'MyGameServerData',             # OPTIONAL
-      GameServerId        => 'MyGameServerId',               # OPTIONAL
+      FilterOption        => {
+        InstanceStatuses => [
+          'ACTIVE', ...    # values: ACTIVE, DRAINING
+        ],    # OPTIONAL
+      },    # OPTIONAL
+      GameServerData => 'MyGameServerData',    # OPTIONAL
+      GameServerId   => 'MyGameServerId',      # OPTIONAL
     );
 
     # Results:
@@ -46,27 +52,33 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 =head1 ATTRIBUTES
 
 
+=head2 FilterOption => L<Paws::GameLift::ClaimFilterOption>
+
+Object that restricts how a claimed game server is chosen.
+
+
+
 =head2 GameServerData => Str
 
 A set of custom game server properties, formatted as a single string
 value. This data is passed to a game client or service when it requests
-information on game servers using ListGameServers or ClaimGameServer.
+information on game servers.
 
 
 
 =head2 B<REQUIRED> GameServerGroupName => Str
 
 A unique identifier for the game server group where the game server is
-running. Use either the GameServerGroup name or ARN value. If you are
-not specifying a game server to claim, this value identifies where you
-want GameLift FleetIQ to look for an available game server to claim.
+running. If you are not specifying a game server to claim, this value
+identifies where you want Amazon GameLift FleetIQ to look for an
+available game server to claim.
 
 
 
 =head2 GameServerId => Str
 
 A custom string that uniquely identifies the game server to claim. If
-this parameter is left empty, GameLift FleetIQ searches for an
+this parameter is left empty, Amazon GameLift FleetIQ searches for an
 available game server in the specified game server group.
 
 

@@ -17,7 +17,7 @@ Paws::Config::DescribeConfigRuleEvaluationStatusResponse
 
 =head2 ConfigRulesEvaluationStatus => ArrayRef[L<Paws::Config::ConfigRuleEvaluationStatus>]
 
-Status information about your AWS managed Config rules.
+Status information about your Config managed rules.
 
 
 =head2 NextToken => Str

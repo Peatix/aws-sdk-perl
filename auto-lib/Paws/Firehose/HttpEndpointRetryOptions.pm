@@ -33,21 +33,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::H
 
 =head1 DESCRIPTION
 
-Describes the retry behavior in case Kinesis Data Firehose is unable to
-deliver data to the specified HTTP endpoint destination, or if it
-doesn't receive a valid acknowledgment of receipt from the specified
-HTTP endpoint destination.
+Describes the retry behavior in case Firehose is unable to deliver data
+to the specified HTTP endpoint destination, or if it doesn't receive a
+valid acknowledgment of receipt from the specified HTTP endpoint
+destination.
 
 =head1 ATTRIBUTES
 
 
 =head2 DurationInSeconds => Int
 
-The total amount of time that Kinesis Data Firehose spends on retries.
-This duration starts after the initial attempt to send data to the
-custom destination via HTTPS endpoint fails. It doesn't include the
-periods during which Kinesis Data Firehose waits for acknowledgment
-from the specified destination after each attempt.
+The total amount of time that Firehose spends on retries. This duration
+starts after the initial attempt to send data to the custom destination
+via HTTPS endpoint fails. It doesn't include the periods during which
+Firehose waits for acknowledgment from the specified destination after
+each attempt.
 
 
 

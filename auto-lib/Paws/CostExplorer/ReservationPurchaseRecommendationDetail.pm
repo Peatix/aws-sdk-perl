@@ -3,6 +3,7 @@ package Paws::CostExplorer::ReservationPurchaseRecommendationDetail;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str');
   has AverageNormalizedUnitsUsedPerHour => (is => 'ro', isa => 'Str');
+  has AverageNumberOfCapacityUnitsUsedPerHour => (is => 'ro', isa => 'Str');
   has AverageNumberOfInstancesUsedPerHour => (is => 'ro', isa => 'Str');
   has AverageUtilization => (is => 'ro', isa => 'Str');
   has CurrencyCode => (is => 'ro', isa => 'Str');
@@ -13,12 +14,16 @@ package Paws::CostExplorer::ReservationPurchaseRecommendationDetail;
   has EstimatedReservationCostForLookbackPeriod => (is => 'ro', isa => 'Str');
   has InstanceDetails => (is => 'ro', isa => 'Paws::CostExplorer::InstanceDetails');
   has MaximumNormalizedUnitsUsedPerHour => (is => 'ro', isa => 'Str');
+  has MaximumNumberOfCapacityUnitsUsedPerHour => (is => 'ro', isa => 'Str');
   has MaximumNumberOfInstancesUsedPerHour => (is => 'ro', isa => 'Str');
   has MinimumNormalizedUnitsUsedPerHour => (is => 'ro', isa => 'Str');
+  has MinimumNumberOfCapacityUnitsUsedPerHour => (is => 'ro', isa => 'Str');
   has MinimumNumberOfInstancesUsedPerHour => (is => 'ro', isa => 'Str');
   has RecommendedNormalizedUnitsToPurchase => (is => 'ro', isa => 'Str');
+  has RecommendedNumberOfCapacityUnitsToPurchase => (is => 'ro', isa => 'Str');
   has RecommendedNumberOfInstancesToPurchase => (is => 'ro', isa => 'Str');
   has RecurringStandardMonthlyCost => (is => 'ro', isa => 'Str');
+  has ReservedCapacityDetails => (is => 'ro', isa => 'Paws::CostExplorer::ReservedCapacityDetails');
   has UpfrontCost => (is => 'ro', isa => 'Str');
 
 1;
@@ -58,111 +63,148 @@ Details about your recommended reservation purchase.
 
 =head2 AccountId => Str
 
-The account that this RI recommendation is for.
+The account that this Reserved Instance (RI) recommendation is for.
 
 
 =head2 AverageNormalizedUnitsUsedPerHour => Str
 
 The average number of normalized units that you used in an hour during
-the historical period. AWS uses this to calculate your recommended
-reservation purchases.
+the historical period. Amazon Web Services uses this to calculate your
+recommended reservation purchases.
+
+
+=head2 AverageNumberOfCapacityUnitsUsedPerHour => Str
+
+The average number of provisioned capacity units that you used in an
+hour during the historical period. Amazon Web Services uses this to
+calculate your recommended reservation purchases.
 
 
 =head2 AverageNumberOfInstancesUsedPerHour => Str
 
 The average number of instances that you used in an hour during the
-historical period. AWS uses this to calculate your recommended
-reservation purchases.
+historical period. Amazon Web Services uses this to calculate your
+recommended reservation purchases.
 
 
 =head2 AverageUtilization => Str
 
-The average utilization of your instances. AWS uses this to calculate
-your recommended reservation purchases.
+The average utilization of your instances. Amazon Web Services uses
+this to calculate your recommended reservation purchases.
 
 
 =head2 CurrencyCode => Str
 
-The currency code that AWS used to calculate the costs for this
-instance.
+The currency code that Amazon Web Services used to calculate the costs
+for this instance.
 
 
 =head2 EstimatedBreakEvenInMonths => Str
 
-How long AWS estimates that it takes for this instance to start saving
-you money, in months.
+How long Amazon Web Services estimates that it takes for this instance
+to start saving you money, in months.
 
 
 =head2 EstimatedMonthlyOnDemandCost => Str
 
-How much AWS estimates that you spend on On-Demand Instances in a
-month.
+How much Amazon Web Services estimates that you spend on On-Demand
+Instances in a month.
 
 
 =head2 EstimatedMonthlySavingsAmount => Str
 
-How much AWS estimates that this specific recommendation could save you
-in a month.
+How much Amazon Web Services estimates that this specific
+recommendation might save you in a month.
 
 
 =head2 EstimatedMonthlySavingsPercentage => Str
 
-How much AWS estimates that this specific recommendation could save you
-in a month, as a percentage of your overall costs.
+How much Amazon Web Services estimates that this specific
+recommendation might save you in a month, as a percentage of your
+overall costs.
 
 
 =head2 EstimatedReservationCostForLookbackPeriod => Str
 
-How much AWS estimates that you would have spent for all usage during
-the specified historical period if you had a reservation.
+How much Amazon Web Services estimates that you might spend for all
+usage during the specified historical period if you had a reservation.
 
 
 =head2 InstanceDetails => L<Paws::CostExplorer::InstanceDetails>
 
-Details about the instances that AWS recommends that you purchase.
+Details about the reservations that Amazon Web Services recommends that
+you purchase.
 
 
 =head2 MaximumNormalizedUnitsUsedPerHour => Str
 
 The maximum number of normalized units that you used in an hour during
-the historical period. AWS uses this to calculate your recommended
-reservation purchases.
+the historical period. Amazon Web Services uses this to calculate your
+recommended reservation purchases.
+
+
+=head2 MaximumNumberOfCapacityUnitsUsedPerHour => Str
+
+The maximum number of provisioned capacity units that you used in an
+hour during the historical period. Amazon Web Services uses this to
+calculate your recommended reservation purchases.
 
 
 =head2 MaximumNumberOfInstancesUsedPerHour => Str
 
 The maximum number of instances that you used in an hour during the
-historical period. AWS uses this to calculate your recommended
-reservation purchases.
+historical period. Amazon Web Services uses this to calculate your
+recommended reservation purchases.
 
 
 =head2 MinimumNormalizedUnitsUsedPerHour => Str
 
 The minimum number of normalized units that you used in an hour during
-the historical period. AWS uses this to calculate your recommended
-reservation purchases.
+the historical period. Amazon Web Services uses this to calculate your
+recommended reservation purchases.
+
+
+=head2 MinimumNumberOfCapacityUnitsUsedPerHour => Str
+
+The minimum number of provisioned capacity units that you used in an
+hour during the historical period. Amazon Web Services uses this to
+calculate your recommended reservation purchases.
 
 
 =head2 MinimumNumberOfInstancesUsedPerHour => Str
 
 The minimum number of instances that you used in an hour during the
-historical period. AWS uses this to calculate your recommended
-reservation purchases.
+historical period. Amazon Web Services uses this to calculate your
+recommended reservation purchases.
 
 
 =head2 RecommendedNormalizedUnitsToPurchase => Str
 
-The number of normalized units that AWS recommends that you purchase.
+The number of normalized units that Amazon Web Services recommends that
+you purchase.
+
+
+=head2 RecommendedNumberOfCapacityUnitsToPurchase => Str
+
+The number of reserved capacity units that Amazon Web Services
+recommends that you purchase.
 
 
 =head2 RecommendedNumberOfInstancesToPurchase => Str
 
-The number of instances that AWS recommends that you purchase.
+The number of instances that Amazon Web Services recommends that you
+purchase.
 
 
 =head2 RecurringStandardMonthlyCost => Str
 
 How much purchasing this instance costs you on a monthly basis.
+
+
+=head2 ReservedCapacityDetails => L<Paws::CostExplorer::ReservedCapacityDetails>
+
+Details about the reservations that Amazon Web Services recommends that
+you purchase.
 
 
 =head2 UpfrontCost => Str

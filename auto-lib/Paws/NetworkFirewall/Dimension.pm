@@ -38,7 +38,7 @@ is used in the C<PublishMetrics> CustomAction. A CloudWatch custom
 metric dimension is a name/value pair that's part of the identity of a
 metric.
 
-AWS Network Firewall sets the dimension name to C<CustomAction> and you
+Network Firewall sets the dimension name to C<CustomAction> and you
 provide the dimension value.
 
 For more information about CloudWatch custom metric dimensions, see

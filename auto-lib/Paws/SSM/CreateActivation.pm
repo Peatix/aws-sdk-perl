@@ -6,6 +6,7 @@ package Paws::SSM::CreateActivation;
   has ExpirationDate => (is => 'ro', isa => 'Str');
   has IamRole => (is => 'ro', isa => 'Str', required => 1);
   has RegistrationLimit => (is => 'ro', isa => 'Int');
+  has RegistrationMetadata => (is => 'ro', isa => 'ArrayRef[Paws::SSM::RegistrationMetadataItem]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Tag]');
 
   use MooseX::ClassAttribute;
@@ -33,15 +34,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ssm = Paws->service('SSM');
     my $CreateActivationResult = $ssm->CreateActivation(
-      IamRole             => 'MyIamRole',
-      DefaultInstanceName => 'MyDefaultInstanceName',      # OPTIONAL
-      Description         => 'MyActivationDescription',    # OPTIONAL
-      ExpirationDate      => '1970-01-01T01:00:00',        # OPTIONAL
-      RegistrationLimit   => 1,                            # OPTIONAL
-      Tags                => [
+      IamRole              => 'MyIamRole',
+      DefaultInstanceName  => 'MyDefaultInstanceName',      # OPTIONAL
+      Description          => 'MyActivationDescription',    # OPTIONAL
+      ExpirationDate       => '1970-01-01T01:00:00',        # OPTIONAL
+      RegistrationLimit    => 1,                            # OPTIONAL
+      RegistrationMetadata => [
+        {
+          Key   => 'MyRegistrationMetadataKey',      # min: 1, max: 128
+          Value => 'MyRegistrationMetadataValue',    # min: 1, max: 2048
+
+        },
+        ...
+      ],    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -62,11 +71,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 DefaultInstanceName => Str
 
-The name of the registered, managed instance as it will appear in the
-Systems Manager console or when you use the AWS command line tools to
-list Systems Manager resources.
+The name of the registered, managed node as it will appear in the
+Amazon Web Services Systems Manager console or when you use the Amazon
+Web Services command line tools to list Systems Manager resources.
 
-Do not enter personally identifiable information in this field.
+Don't enter personally identifiable information in this field.
 
 
 
@@ -75,14 +84,14 @@ Do not enter personally identifiable information in this field.
 A user-defined description of the resource that you want to register
 with Systems Manager.
 
-Do not enter personally identifiable information in this field.
+Don't enter personally identifiable information in this field.
 
 
 
 =head2 ExpirationDate => Str
 
 The date by which this activation request should expire, in timestamp
-format, such as "2021-07-07T00:00:00". You can specify a date up to 30
+format, such as "2024-07-07T00:00:00". You can specify a date up to 30
 days in advance. If you don't provide an expiration date, the
 activation code expires in 24 hours.
 
@@ -90,20 +99,30 @@ activation code expires in 24 hours.
 
 =head2 B<REQUIRED> IamRole => Str
 
-The Amazon Identity and Access Management (IAM) role that you want to
-assign to the managed instance. This IAM role must provide AssumeRole
-permissions for the Systems Manager service principal
-C<ssm.amazonaws.com>. For more information, see Create an IAM service
-role for a hybrid environment
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html)
-in the I<AWS Systems Manager User Guide>.
+The name of the Identity and Access Management (IAM) role that you want
+to assign to the managed node. This IAM role must provide AssumeRole
+permissions for the Amazon Web Services Systems Manager service
+principal C<ssm.amazonaws.com>. For more information, see Create the
+IAM service role required for Systems Manager in a hybrid and
+multicloud environments
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-service-role.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+You can't specify an IAM service-linked role for this parameter. You
+must create a unique role.
 
 
 
 =head2 RegistrationLimit => Int
 
-Specify the maximum number of managed instances you want to register.
-The default value is 1 instance.
+Specify the maximum number of managed nodes you want to register. The
+default value is C<1>.
+
+
+
+=head2 RegistrationMetadata => ArrayRef[L<Paws::SSM::RegistrationMetadataItem>]
+
+Reserved for internal use.
 
 
 
@@ -114,7 +133,7 @@ categorize a resource in different ways, such as by purpose, owner, or
 environment. For example, you might want to tag an activation to
 identify which servers or virtual machines (VMs) in your on-premises
 environment you intend to activate. In this case, you could specify the
-following key name/value pairs:
+following key-value pairs:
 
 =over
 
@@ -134,13 +153,13 @@ and code, tags assigned to the activation are automatically applied to
 the on-premises servers or VMs.
 
 You can't add tags to or delete tags from an existing activation. You
-can tag your on-premises servers and VMs after they connect to Systems
-Manager for the first time and are assigned a managed instance ID. This
-means they are listed in the AWS Systems Manager console with an ID
-that is prefixed with "mi-". For information about how to add tags to
-your managed instances, see AddTagsToResource. For information about
-how to remove tags from your managed instances, see
-RemoveTagsFromResource.
+can tag your on-premises servers, edge devices, and VMs after they
+connect to Systems Manager for the first time and are assigned a
+managed node ID. This means they are listed in the Amazon Web Services
+Systems Manager console with an ID that is prefixed with "mi-". For
+information about how to add tags to your managed nodes, see
+AddTagsToResource. For information about how to remove tags from your
+managed nodes, see RemoveTagsFromResource.
 
 
 

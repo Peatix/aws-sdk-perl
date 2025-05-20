@@ -8,6 +8,7 @@ package Paws::Glue::Crawler;
   has CreationTime => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has LakeFormationConfiguration => (is => 'ro', isa => 'Paws::Glue::LakeFormationConfiguration');
   has LastCrawl => (is => 'ro', isa => 'Paws::Glue::LastCrawlInfo');
   has LastUpdated => (is => 'ro', isa => 'Str');
   has LineageConfiguration => (is => 'ro', isa => 'Paws::Glue::LineageConfiguration');
@@ -68,8 +69,8 @@ associated with the crawler.
 
 Crawler configuration information. This versioned JSON string allows
 users to specify aspects of a crawler's behavior. For more information,
-see Include and Exclude Patterns
-(https://docs.aws.amazon.com/glue/latest/dg/define-crawler.html#crawler-data-stores-exclude).
+see Setting crawler configuration options
+(https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html).
 
 
 =head2 CrawlElapsedTime => Int
@@ -97,6 +98,12 @@ The name of the database in which the crawler's output is stored.
 =head2 Description => Str
 
 A description of the crawler.
+
+
+=head2 LakeFormationConfiguration => L<Paws::Glue::LakeFormationConfiguration>
+
+Specifies whether the crawler should use Lake Formation credentials for
+the crawler instead of the IAM role credentials.
 
 
 =head2 LastCrawl => L<Paws::Glue::LastCrawlInfo>

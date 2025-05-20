@@ -45,9 +45,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) that identifies the resource for which
-to list the tags. Currently, the supported resource is an Amazon ECR
-Public repository.
+The Amazon Resource Name (ARN) that identifies the resource to list the
+tags for. Currently, the supported resource is an Amazon ECR Public
+repository.
 
 
 

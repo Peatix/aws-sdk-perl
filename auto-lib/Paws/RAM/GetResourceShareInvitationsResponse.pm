@@ -18,13 +18,17 @@ Paws::RAM::GetResourceShareInvitationsResponse
 
 =head2 NextToken => Str
 
-The token to use to retrieve the next page of results. This value is
-C<null> when there are no more results to return.
+If present, this value indicates that more output is available than is
+included in the current response. Use this value in the C<NextToken>
+request parameter in a subsequent call to the operation to get the next
+part of the output. You should repeat this until the C<NextToken>
+response element comes back as C<null>. This indicates that this is the
+last page of results.
 
 
 =head2 ResourceShareInvitations => ArrayRef[L<Paws::RAM::ResourceShareInvitation>]
 
-Information about the invitations.
+An array of objects that contain the details about the invitations.
 
 
 =head2 _request_id => Str

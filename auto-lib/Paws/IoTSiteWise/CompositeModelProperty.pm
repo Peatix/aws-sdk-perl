@@ -2,6 +2,8 @@
 package Paws::IoTSiteWise::CompositeModelProperty;
   use Moose;
   has AssetProperty => (is => 'ro', isa => 'Paws::IoTSiteWise::Property', request_name => 'assetProperty', traits => ['NameInRequest'], required => 1);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
+  has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest'], required => 1);
 
@@ -43,6 +45,19 @@ Contains information about a composite model property on an asset.
 =head2 B<REQUIRED> AssetProperty => L<Paws::IoTSiteWise::Property>
 
 
+
+
+=head2 ExternalId => Str
+
+The external ID of the composite model that contains the property. For
+more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 Id => Str
+
+The ID of the composite model that contains the property.
 
 
 =head2 B<REQUIRED> Name => Str

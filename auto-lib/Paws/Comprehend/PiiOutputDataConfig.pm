@@ -42,8 +42,9 @@ detection jobs.
 
 =head2 KmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt the output results from an analysis job.
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt the output results from an analysis
+job.
 
 
 =head2 B<REQUIRED> S3Uri => Str
@@ -51,6 +52,10 @@ uses to encrypt the output results from an analysis job.
 When you use the C<PiiOutputDataConfig> object with asynchronous
 operations, you specify the Amazon S3 location where you want to write
 the output data.
+
+For a PII entity detection job, the output file is plain text, not a
+compressed archive. The output file name is the same as the input file,
+with C<.out> appended at the end.
 
 
 

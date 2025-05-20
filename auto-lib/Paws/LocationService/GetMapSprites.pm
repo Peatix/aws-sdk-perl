@@ -2,6 +2,7 @@
 package Paws::LocationService::GetMapSprites;
   use Moose;
   has FileName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FileName', required => 1);
+  has Key => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'key');
   has MapName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'MapName', required => 1);
 
   use MooseX::ClassAttribute;
@@ -32,12 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetMapSpritesResponse = $geo->GetMapSprites(
       FileName => 'MyGetMapSpritesRequestFileNameString',
       MapName  => 'MyResourceName',
-
+      Key      => 'MyApiKey',                               # OPTIONAL
     );
 
     # Results:
-    my $Blob        = $GetMapSpritesResponse->Blob;
-    my $ContentType = $GetMapSpritesResponse->ContentType;
+    my $Blob         = $GetMapSpritesResponse->Blob;
+    my $CacheControl = $GetMapSpritesResponse->CacheControl;
+    my $ContentType  = $GetMapSpritesResponse->ContentType;
 
     # Returns a L<Paws::LocationService::GetMapSpritesResponse> object.
 
@@ -64,7 +66,7 @@ C<sprites@2x.png> for high pixel density displays
 
 =back
 
-For the JSON document contain image offsets. Use the following le
+For the JSON document containing image offsets. Use the following le
 names:
 
 =over
@@ -79,6 +81,14 @@ C<sprites@2x.json> for high pixel density displays
 
 =back
 
+
+
+
+=head2 Key => Str
+
+The optional API key
+(https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
+to authorize the request.
 
 
 

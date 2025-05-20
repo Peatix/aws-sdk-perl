@@ -18,7 +18,7 @@ Paws::ECS::ListClustersResponse
 =head2 ClusterArns => ArrayRef[Str|Undef]
 
 The list of full Amazon Resource Name (ARN) entries for each cluster
-associated with your account.
+that's associated with your account.
 
 
 =head2 NextToken => Str

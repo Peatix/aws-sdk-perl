@@ -47,9 +47,9 @@ C<Event> object.
 
 =head2 Resources => ArrayRef[L<Paws::DevOpsGuru::RecommendationRelatedEventResource>]
 
-A C<ResourceCollection> object that contains arrays of the names of AWS
-CloudFormation stacks. You can specify up to 500 AWS CloudFormation
-stacks.
+A C<ResourceCollection> object that contains arrays of the names of
+Amazon Web Services CloudFormation stacks. You can specify up to 500
+Amazon Web Services CloudFormation stacks.
 
 
 

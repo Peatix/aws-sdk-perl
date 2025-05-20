@@ -3,6 +3,7 @@ package Paws::SSMIncidents::TimelineEvent;
   use Moose;
   has EventData => (is => 'ro', isa => 'Str', request_name => 'eventData', traits => ['NameInRequest'], required => 1);
   has EventId => (is => 'ro', isa => 'Str', request_name => 'eventId', traits => ['NameInRequest'], required => 1);
+  has EventReferences => (is => 'ro', isa => 'ArrayRef[Paws::SSMIncidents::EventReference]', request_name => 'eventReferences', traits => ['NameInRequest']);
   has EventTime => (is => 'ro', isa => 'Str', request_name => 'eventTime', traits => ['NameInRequest'], required => 1);
   has EventType => (is => 'ro', isa => 'Str', request_name => 'eventType', traits => ['NameInRequest'], required => 1);
   has EventUpdatedTime => (is => 'ro', isa => 'Str', request_name => 'eventUpdatedTime', traits => ['NameInRequest'], required => 1);
@@ -53,20 +54,25 @@ A short description of the event.
 The ID of the timeline event.
 
 
+=head2 EventReferences => ArrayRef[L<Paws::SSMIncidents::EventReference>]
+
+A list of references in a C<TimelineEvent>.
+
+
 =head2 B<REQUIRED> EventTime => Str
 
-The time that the event occurred.
+The timestamp for when the event occurred.
 
 
 =head2 B<REQUIRED> EventType => Str
 
 The type of event that occurred. Currently Incident Manager supports
-only the C<Custom Event> type.
+only the C<Custom Event> and C<Note> types.
 
 
 =head2 B<REQUIRED> EventUpdatedTime => Str
 
-The time that the timeline event was last updated.
+The timestamp for when the timeline event was last updated.
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str

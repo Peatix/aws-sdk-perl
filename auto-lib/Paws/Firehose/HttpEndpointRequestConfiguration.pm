@@ -46,9 +46,9 @@ Describes the metadata sent to the HTTP endpoint destination.
 
 =head2 ContentEncoding => Str
 
-Kinesis Data Firehose uses the content encoding to compress the body of
-a request before sending the request to the destination. For more
-information, see Content-Encoding
+Firehose uses the content encoding to compress the body of a request
+before sending the request to the destination. For more information,
+see Content-Encoding
 (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding)
 in MDN Web Docs, the official Mozilla documentation.
 

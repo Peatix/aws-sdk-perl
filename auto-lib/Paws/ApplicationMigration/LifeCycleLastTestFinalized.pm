@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Application
 
 =head1 DESCRIPTION
 
-Lifecycle last Test finlized.
+Lifecycle last Test finalized.
 
 =head1 ATTRIBUTES
 

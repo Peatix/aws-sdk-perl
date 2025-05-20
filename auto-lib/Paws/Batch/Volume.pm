@@ -35,36 +35,36 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Volu
 
 =head1 DESCRIPTION
 
-A data volume used in a job's container properties.
+A data volume that's used in a job's container properties.
 
 =head1 ATTRIBUTES
 
 
 =head2 EfsVolumeConfiguration => L<Paws::Batch::EFSVolumeConfiguration>
 
-This parameter is specified when you are using an Amazon Elastic File
-System file system for job storage. Jobs running on Fargate resources
-must specify a C<platformVersion> of at least C<1.4.0>.
+This parameter is specified when you're using an Amazon Elastic File
+System file system for job storage. Jobs that are running on Fargate
+resources must specify a C<platformVersion> of at least C<1.4.0>.
 
 
 =head2 Host => L<Paws::Batch::Host>
 
 The contents of the C<host> parameter determine whether your data
-volume persists on the host container instance and where it is stored.
+volume persists on the host container instance and where it's stored.
 If the host parameter is empty, then the Docker daemon assigns a host
 path for your data volume. However, the data isn't guaranteed to
-persist after the containers associated with it stop running.
+persist after the containers that are associated with it stop running.
 
-This parameter isn't applicable to jobs running on Fargate resources
-and shouldn't be provided.
+This parameter isn't applicable to jobs that are running on Fargate
+resources and shouldn't be provided.
 
 
 =head2 Name => Str
 
-The name of the volume. Up to 255 letters (uppercase and lowercase),
-numbers, hyphens, and underscores are allowed. This name is referenced
-in the C<sourceVolume> parameter of container definition
-C<mountPoints>.
+The name of the volume. It can be up to 255 characters long. It can
+contain uppercase and lowercase letters, numbers, hyphens (-), and
+underscores (_). This name is referenced in the C<sourceVolume>
+parameter of container definition C<mountPoints>.
 
 
 

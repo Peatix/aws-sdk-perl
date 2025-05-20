@@ -46,7 +46,7 @@ The name of the timer.
 
 =head2 B<REQUIRED> Timestamp => Str
 
-The number of seconds which have elapsed on the timer.
+The expiration time for the timer.
 
 
 

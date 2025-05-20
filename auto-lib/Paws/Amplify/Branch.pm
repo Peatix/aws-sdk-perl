@@ -3,11 +3,13 @@ package Paws::Amplify::Branch;
   use Moose;
   has ActiveJobId => (is => 'ro', isa => 'Str', request_name => 'activeJobId', traits => ['NameInRequest'], required => 1);
   has AssociatedResources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'associatedResources', traits => ['NameInRequest']);
+  has Backend => (is => 'ro', isa => 'Paws::Amplify::Backend', request_name => 'backend', traits => ['NameInRequest']);
   has BackendEnvironmentArn => (is => 'ro', isa => 'Str', request_name => 'backendEnvironmentArn', traits => ['NameInRequest']);
   has BasicAuthCredentials => (is => 'ro', isa => 'Str', request_name => 'basicAuthCredentials', traits => ['NameInRequest']);
   has BranchArn => (is => 'ro', isa => 'Str', request_name => 'branchArn', traits => ['NameInRequest'], required => 1);
   has BranchName => (is => 'ro', isa => 'Str', request_name => 'branchName', traits => ['NameInRequest'], required => 1);
   has BuildSpec => (is => 'ro', isa => 'Str', request_name => 'buildSpec', traits => ['NameInRequest']);
+  has ComputeRoleArn => (is => 'ro', isa => 'Str', request_name => 'computeRoleArn', traits => ['NameInRequest']);
   has CreateTime => (is => 'ro', isa => 'Str', request_name => 'createTime', traits => ['NameInRequest'], required => 1);
   has CustomDomains => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'customDomains', traits => ['NameInRequest'], required => 1);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest'], required => 1);
@@ -18,6 +20,7 @@ package Paws::Amplify::Branch;
   has EnableNotification => (is => 'ro', isa => 'Bool', request_name => 'enableNotification', traits => ['NameInRequest'], required => 1);
   has EnablePerformanceMode => (is => 'ro', isa => 'Bool', request_name => 'enablePerformanceMode', traits => ['NameInRequest']);
   has EnablePullRequestPreview => (is => 'ro', isa => 'Bool', request_name => 'enablePullRequestPreview', traits => ['NameInRequest'], required => 1);
+  has EnableSkewProtection => (is => 'ro', isa => 'Bool', request_name => 'enableSkewProtection', traits => ['NameInRequest']);
   has EnvironmentVariables => (is => 'ro', isa => 'Paws::Amplify::EnvironmentVariables', request_name => 'environmentVariables', traits => ['NameInRequest'], required => 1);
   has Framework => (is => 'ro', isa => 'Str', request_name => 'framework', traits => ['NameInRequest'], required => 1);
   has PullRequestEnvironmentName => (is => 'ro', isa => 'Str', request_name => 'pullRequestEnvironmentName', traits => ['NameInRequest']);
@@ -75,15 +78,26 @@ The ID of the active job for a branch of an Amplify app.
 A list of custom resources that are linked to this branch.
 
 
+=head2 Backend => L<Paws::Amplify::Backend>
+
+
+
+
 =head2 BackendEnvironmentArn => Str
 
 The Amazon Resource Name (ARN) for a backend environment that is part
 of an Amplify app.
 
+This property is available to Amplify Gen 1 apps only. When you deploy
+an application with Amplify Gen 2, you provision the app's backend
+infrastructure using Typescript code.
+
 
 =head2 BasicAuthCredentials => Str
 
-The basic authorization credentials for a branch of an Amplify app.
+The basic authorization credentials for a branch of an Amplify app. You
+must base64-encode the authorization credentials and provide them in
+the format C<user:password>.
 
 
 =head2 B<REQUIRED> BranchArn => Str
@@ -103,9 +117,20 @@ The build specification (build spec) content for the branch of an
 Amplify app.
 
 
+=head2 ComputeRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR
+app. The Compute role allows the Amplify Hosting compute service to
+securely access specific Amazon Web Services resources based on the
+role's permissions. For more information about the SSR Compute role,
+see Adding an SSR Compute role
+(https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+in the I<Amplify User Guide>.
+
+
 =head2 B<REQUIRED> CreateTime => Str
 
-The creation date and time for a branch that is part of an Amplify app.
+A timestamp of when Amplify created the branch.
 
 
 =head2 B<REQUIRED> CustomDomains => ArrayRef[Str|Undef]
@@ -159,6 +184,22 @@ minutes to roll out.
 Enables pull request previews for the branch.
 
 
+=head2 EnableSkewProtection => Bool
+
+Specifies whether the skew protection feature is enabled for the
+branch.
+
+Deployment skew protection is available to Amplify applications to
+eliminate version skew issues between client and servers in web
+applications. When you apply skew protection to a branch, you can
+ensure that your clients always interact with the correct version of
+server-side assets, regardless of when a deployment occurs. For more
+information about skew protection, see Skew protection for Amplify
+deployments
+(https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html)
+in the I<Amplify User Guide>.
+
+
 =head2 B<REQUIRED> EnvironmentVariables => L<Paws::Amplify::EnvironmentVariables>
 
 The environment variables specific to a branch of an Amplify app.
@@ -206,8 +247,7 @@ The content Time to Live (TTL) for the website in seconds.
 
 =head2 B<REQUIRED> UpdateTime => Str
 
-The last updated date and time for a branch that is part of an Amplify
-app.
+A timestamp for the last updated time for a branch.
 
 
 

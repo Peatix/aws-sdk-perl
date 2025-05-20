@@ -47,9 +47,9 @@ completed.
 =head2 LatencyInMs => L<Paws::GameLift::LatencyMap>
 
 A set of values, expressed in milliseconds, that indicates the amount
-of latency that a player experiences when connected to AWS Regions. If
-this property is present, FlexMatch considers placing the match only in
-Regions for which latency is reported.
+of latency that a player experiences when connected to Amazon Web
+Services Regions. If this property is present, FlexMatch considers
+placing the match only in Regions for which latency is reported.
 
 If a matchmaker has a rule that evaluates player latency, players must
 report latency in order to be matched. If no latency is reported in
@@ -64,6 +64,8 @@ in matchmaking. Player attribute keys must match the
 I<playerAttributes> used in a matchmaking rule set. Example:
 C<"PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S":
 "deathmatch"}}>.
+
+You can provide up to 10 C<PlayerAttributes>.
 
 
 =head2 PlayerId => Str

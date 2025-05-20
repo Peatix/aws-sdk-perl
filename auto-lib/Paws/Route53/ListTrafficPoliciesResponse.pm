@@ -47,7 +47,8 @@ traffic policies.
 =head2 B<REQUIRED> TrafficPolicySummaries => ArrayRef[L<Paws::Route53::TrafficPolicySummary>]
 
 A list that contains one C<TrafficPolicySummary> element for each
-traffic policy that was created by the current AWS account.
+traffic policy that was created by the current Amazon Web Services
+account.
 
 
 

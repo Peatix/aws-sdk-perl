@@ -17,7 +17,7 @@ Paws::AuditManager::ListTagsForResourceResponse
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
 
-The list of tags returned by the C<ListTagsForResource> API.
+The list of tags that the C<ListTagsForResource> API returned.
 
 
 =head2 _request_id => Str

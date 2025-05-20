@@ -17,7 +17,7 @@ Paws::Proton::ListServicesOutput
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next service in the array of
+A token that indicates the location of the next service in the array of
 services, after the current requested list of services.
 
 

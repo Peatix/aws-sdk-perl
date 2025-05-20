@@ -51,19 +51,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/org
 
 The ID of the resource to add a tag to.
 
-
-
-=head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Organizations::Tag>]
-
-A list of tags to add to the specified resource.
-
 You can specify any of the following taggable resources.
 
 =over
 
 =item *
 
-AWS account E<ndash> specify the account ID number.
+Amazon Web Services account E<ndash> specify the account ID number.
 
 =item *
 
@@ -82,13 +76,18 @@ similar to: C<p-I<12abcdefg3>>
 
 =back
 
-For each tag in the list, you must specify both a tag key and a value.
-You can set the value to an empty string, but you can't set it to
-C<null>.
 
-If any one of the tags is invalid or if you exceed the allowed number
-of tags for an account user, then the entire request fails and the
-account is not created.
+
+
+=head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Organizations::Tag>]
+
+A list of tags to add to the specified resource.
+
+For each tag in the list, you must specify both a tag key and a value.
+The value can be an empty string, but you can't set it to C<null>.
+
+If any one of the tags is not valid or if you exceed the maximum
+allowed number of tags for a resource, then the entire request fails.
 
 
 

@@ -7,6 +7,9 @@ package Paws::DataExchange::UpdateRevisionResponse;
   has DataSetId => (is => 'ro', isa => 'Str');
   has Finalized => (is => 'ro', isa => 'Bool');
   has Id => (is => 'ro', isa => 'Str');
+  has RevocationComment => (is => 'ro', isa => 'Str');
+  has Revoked => (is => 'ro', isa => 'Bool');
+  has RevokedAt => (is => 'ro', isa => 'Str');
   has SourceId => (is => 'ro', isa => 'Str');
   has UpdatedAt => (is => 'ro', isa => 'Str');
 
@@ -39,7 +42,8 @@ The date and time that the revision was created, in ISO 8601 format.
 
 =head2 DataSetId => Str
 
-The unique identifier for the data set associated with this revision.
+The unique identifier for the data set associated with the data set
+revision.
 
 
 =head2 Finalized => Bool
@@ -48,7 +52,6 @@ To publish a revision to a data set in a product, the revision must
 first be finalized. Finalizing a revision tells AWS Data Exchange that
 changes to the assets in the revision are complete. After it's in this
 read-only state, you can publish the revision to your products.
-
 Finalized revisions can be published through the AWS Data Exchange
 console or the AWS Marketplace Catalog API, using the StartChangeSet
 AWS Marketplace Catalog API action. When using the API, revisions are
@@ -58,6 +61,23 @@ uniquely identified by their ARN.
 =head2 Id => Str
 
 The unique identifier for the revision.
+
+
+=head2 RevocationComment => Str
+
+A required comment to inform subscribers of the reason their access to
+the revision was revoked.
+
+
+=head2 Revoked => Bool
+
+A status indicating that subscribers' access to the revision was
+revoked.
+
+
+=head2 RevokedAt => Str
+
+The date and time that the revision was revoked, in ISO 8601 format.
 
 
 =head2 SourceId => Str

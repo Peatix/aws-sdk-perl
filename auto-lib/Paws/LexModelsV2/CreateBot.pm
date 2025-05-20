@@ -1,10 +1,13 @@
 
 package Paws::LexModelsV2::CreateBot;
   use Moose;
+  has BotMembers => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::BotMember]', traits => ['NameInRequest'], request_name => 'botMembers');
   has BotName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botName', required => 1);
   has BotTags => (is => 'ro', isa => 'Paws::LexModelsV2::TagMap', traits => ['NameInRequest'], request_name => 'botTags');
+  has BotType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botType');
   has DataPrivacy => (is => 'ro', isa => 'Paws::LexModelsV2::DataPrivacy', traits => ['NameInRequest'], request_name => 'dataPrivacy', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has ErrorLogSettings => (is => 'ro', isa => 'Paws::LexModelsV2::ErrorLogSettings', traits => ['NameInRequest'], request_name => 'errorLogSettings');
   has IdleSessionTTLInSeconds => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'idleSessionTTLInSeconds', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn', required => 1);
   has TestBotAliasTags => (is => 'ro', isa => 'Paws::LexModelsV2::TagMap', traits => ['NameInRequest'], request_name => 'testBotAliasTags');
@@ -42,10 +45,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       IdleSessionTTLInSeconds => 1,
       RoleArn                 => 'MyRoleArn',
-      BotTags                 => {
+      BotMembers              => [
+        {
+          BotMemberAliasId   => 'MyBotAliasId',      # min: 10, max: 10
+          BotMemberAliasName => 'MyBotAliasName',    # min: 1, max: 100
+          BotMemberId        => 'MyId',              # min: 10, max: 10
+          BotMemberName      => 'MyName',            # min: 1, max: 100
+          BotMemberVersion   => 'MyBotVersion',      # min: 1, max: 5
+
+        },
+        ...
+      ],    # OPTIONAL
+      BotTags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
+      BotType          => 'Bot',              # OPTIONAL
       Description      => 'MyDescription',    # OPTIONAL
+      ErrorLogSettings => {
+        Enabled => 1,
+
+      },                                      # OPTIONAL
       TestBotAliasTags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -53,12 +72,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $BotId                   = $CreateBotResponse->BotId;
+    my $BotMembers              = $CreateBotResponse->BotMembers;
     my $BotName                 = $CreateBotResponse->BotName;
     my $BotStatus               = $CreateBotResponse->BotStatus;
     my $BotTags                 = $CreateBotResponse->BotTags;
+    my $BotType                 = $CreateBotResponse->BotType;
     my $CreationDateTime        = $CreateBotResponse->CreationDateTime;
     my $DataPrivacy             = $CreateBotResponse->DataPrivacy;
     my $Description             = $CreateBotResponse->Description;
+    my $ErrorLogSettings        = $CreateBotResponse->ErrorLogSettings;
     my $IdleSessionTTLInSeconds = $CreateBotResponse->IdleSessionTTLInSeconds;
     my $RoleArn                 = $CreateBotResponse->RoleArn;
     my $TestBotAliasTags        = $CreateBotResponse->TestBotAliasTags;
@@ -69,6 +91,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/models-v2-lex/CreateBot>
 
 =head1 ATTRIBUTES
+
+
+=head2 BotMembers => ArrayRef[L<Paws::LexModelsV2::BotMember>]
+
+The list of bot members in a network to be created.
+
 
 
 =head2 B<REQUIRED> BotName => Str
@@ -86,6 +114,12 @@ update tags, use the C<TagResource> operation.
 
 
 
+=head2 BotType => Str
+
+The type of a bot to create.
+
+Valid values are: C<"Bot">, C<"BotNetwork">
+
 =head2 B<REQUIRED> DataPrivacy => L<Paws::LexModelsV2::DataPrivacy>
 
 Provides information on additional privacy protections Amazon Lex
@@ -97,6 +131,12 @@ should use with the bot's data.
 
 A description of the bot. It appears in lists to help you identify a
 particular bot.
+
+
+
+=head2 ErrorLogSettings => L<Paws::LexModelsV2::ErrorLogSettings>
+
+Specifies the configuration for error logging during bot creation.
 
 
 

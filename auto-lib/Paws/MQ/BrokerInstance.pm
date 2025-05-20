@@ -42,7 +42,7 @@ Returns information about all brokers.
 
 =head2 ConsoleURL => Str
 
-The URL of the broker's Web Console.
+The brokers web console URL.
 
 
 =head2 Endpoints => ArrayRef[Str|Undef]
@@ -53,7 +53,7 @@ The broker's wire-level protocol endpoints.
 =head2 IpAddress => Str
 
 The IP address of the Elastic Network Interface (ENI) attached to the
-broker. Does not apply to RabbitMQ brokers
+broker. Does not apply to RabbitMQ brokers.
 
 
 

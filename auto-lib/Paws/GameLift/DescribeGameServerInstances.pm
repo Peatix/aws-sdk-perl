@@ -55,17 +55,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 =head2 B<REQUIRED> GameServerGroupName => Str
 
-A unique identifier for the game server group. Use either the
-GameServerGroup name or ARN value.
+A unique identifier for the game server group. Use either the name or
+ARN value.
 
 
 
 =head2 InstanceIds => ArrayRef[Str|Undef]
 
-The EC2 instance IDs that you want to retrieve status on. EC2 instance
-IDs use a 17-character format, for example: C<i-1234567890abcdef0>. To
-retrieve all instances in the game server group, leave this parameter
-empty.
+The Amazon EC2 instance IDs that you want to retrieve status on. Amazon
+EC2 instance IDs use a 17-character format, for example:
+C<i-1234567890abcdef0>. To retrieve all instances in the game server
+group, leave this parameter empty.
 
 
 

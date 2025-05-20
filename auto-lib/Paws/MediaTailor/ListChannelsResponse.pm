@@ -18,7 +18,7 @@ Paws::MediaTailor::ListChannelsResponse
 
 =head2 Items => ArrayRef[L<Paws::MediaTailor::Channel>]
 
-An array of channels that are associated with this account.
+A list of channels that are associated with this account.
 
 
 =head2 NextToken => Str

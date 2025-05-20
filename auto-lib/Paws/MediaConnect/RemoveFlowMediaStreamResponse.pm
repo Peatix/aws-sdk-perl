@@ -18,7 +18,7 @@ Paws::MediaConnect::RemoveFlowMediaStreamResponse
 
 =head2 FlowArn => Str
 
-The Amazon Resource Name (ARN) of the flow.
+The ARN of the flow that was updated.
 
 
 =head2 MediaStreamName => Str

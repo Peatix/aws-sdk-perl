@@ -35,10 +35,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::DataRe
 =head1 DESCRIPTION
 
 (Optional) An array of filter objects you can use to filter the
-response of data repository tasks you will see in the the response. You
-can filter the tasks returned in the response by one or more file
-system IDs, task lifecycles, and by task type. A filter object consists
-of a filter C<Name>, and one or more C<Values> for the filter.
+response of data repository tasks you will see in the response. You can
+filter the tasks returned in the response by one or more file system
+IDs, task lifecycles, and by task type. A filter object consists of a
+filter C<Name>, and one or more C<Values> for the filter.
 
 =head1 ATTRIBUTES
 

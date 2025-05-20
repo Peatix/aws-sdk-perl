@@ -34,10 +34,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains the configuration information of an alarm created in an AWS
-IoT SiteWise Monitor portal. You can use the alarm to monitor an asset
+Contains the configuration information of an alarm created in an IoT
+SiteWise Monitor portal. You can use the alarm to monitor an asset
 property and get notified when the asset property value is outside a
-specified range. For more information, see .
+specified range. For more information, see Monitoring with alarms
+(https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
+in the I<IoT SiteWise Application Guide>.
 
 =head1 ATTRIBUTES
 
@@ -46,18 +48,18 @@ specified range. For more information, see .
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the IAM role that allows the alarm to perform actions and access AWS
-resources, including AWS IoT Events.
+of the IAM role that allows the alarm to perform actions and access
+Amazon Web Services resources and services, such as IoT Events.
 
 
 =head2 NotificationLambdaArn => Str
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the AWS Lambda function that manages alarm notifications. For more
+of the Lambda function that manages alarm notifications. For more
 information, see Managing alarm notifications
-(https://docs.aws.amazon.com/) in the I<AWS IoT Events Developer
-Guide>.
+(https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html)
+in the I<IoT Events Developer Guide>.
 
 
 

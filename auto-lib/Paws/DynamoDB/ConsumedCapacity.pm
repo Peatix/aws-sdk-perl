@@ -43,8 +43,8 @@ The capacity units consumed by an operation. The data returned includes
 the total provisioned throughput consumed, along with statistics for
 the table and any indexes involved in the operation.
 C<ConsumedCapacity> is only returned if the request asked for it. For
-more information, see Provisioned Throughput
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html)
+more information, see Provisioned capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html)
 in the I<Amazon DynamoDB Developer Guide>.
 
 =head1 ATTRIBUTES
@@ -80,7 +80,9 @@ operation.
 
 =head2 TableName => Str
 
-The name of the table that was affected by the operation.
+The name of the table that was affected by the operation. If you had
+specified the Amazon Resource Name (ARN) of a table in the input,
+you'll see the table ARN in the response.
 
 
 =head2 WriteCapacityUnits => Num

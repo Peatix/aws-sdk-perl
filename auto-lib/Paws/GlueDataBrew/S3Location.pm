@@ -2,6 +2,7 @@
 package Paws::GlueDataBrew::S3Location;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', required => 1);
+  has BucketOwner => (is => 'ro', isa => 'Str');
   has Key => (is => 'ro', isa => 'Str');
 
 1;
@@ -34,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlueDataBre
 
 =head1 DESCRIPTION
 
-Represents an Amazon S3 location (bucket name and object key) where
-DataBrew can read input data, or write output from a job.
+Represents an Amazon S3 location (bucket name, bucket owner, and object
+key) where DataBrew can read input data, or write output from a job.
 
 =head1 ATTRIBUTES
 
@@ -43,6 +44,11 @@ DataBrew can read input data, or write output from a job.
 =head2 B<REQUIRED> Bucket => Str
 
 The Amazon S3 bucket name.
+
+
+=head2 BucketOwner => Str
+
+The Amazon Web Services account ID of the bucket owner.
 
 
 =head2 Key => Str

@@ -1,9 +1,12 @@
 
 package Paws::Proton::ListServiceInstances;
   use Moose;
+  has Filters => (is => 'ro', isa => 'ArrayRef[Paws::Proton::ListServiceInstancesFilter]', traits => ['NameInRequest'], request_name => 'filters' );
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has ServiceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceName' );
+  has SortBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sortBy' );
+  has SortOrder => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sortOrder' );
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +33,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $proton = Paws->service('Proton');
     my $ListServiceInstancesOutput = $proton->ListServiceInstances(
+      Filters => [
+        {
+          Key => 'name'
+          , # values: name, deploymentStatus, templateName, serviceName, deployedTemplateVersionStatus, environmentName, lastDeploymentAttemptedAtBefore, lastDeploymentAttemptedAtAfter, createdAtBefore, createdAtAfter; OPTIONAL
+          Value => 'MyListServiceInstancesFilterValue',    # OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       MaxResults  => 1,                   # OPTIONAL
       NextToken   => 'MyNextToken',       # OPTIONAL
       ServiceName => 'MyResourceName',    # OPTIONAL
+      SortBy      => 'name',              # OPTIONAL
+      SortOrder   => 'ASCENDING',         # OPTIONAL
     );
 
     # Results:
@@ -47,6 +60,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 =head1 ATTRIBUTES
 
 
+=head2 Filters => ArrayRef[L<Paws::Proton::ListServiceInstancesFilter>]
+
+An array of filtering criteria that scope down the result list. By
+default, all service instances in the Amazon Web Services account are
+returned.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of service instances to list.
@@ -55,7 +76,7 @@ The maximum number of service instances to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next service in the array of
+A token that indicates the location of the next service in the array of
 service instances, after the list of service instances that was
 previously requested.
 
@@ -66,6 +87,25 @@ previously requested.
 The name of the service that the service instance belongs to.
 
 
+
+=head2 SortBy => Str
+
+The field that the result list is sorted by.
+
+When you choose to sort by C<serviceName>, service instances within
+each service are sorted by service instance name.
+
+Default: C<serviceName>
+
+Valid values are: C<"name">, C<"deploymentStatus">, C<"templateName">, C<"serviceName">, C<"environmentName">, C<"lastDeploymentAttemptedAt">, C<"createdAt">
+
+=head2 SortOrder => Str
+
+Result list sort order.
+
+Default: C<ASCENDING>
+
+Valid values are: C<"ASCENDING">, C<"DESCENDING">
 
 
 =head1 SEE ALSO

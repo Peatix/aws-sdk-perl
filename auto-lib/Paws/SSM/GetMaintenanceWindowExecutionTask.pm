@@ -36,6 +36,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $AlarmConfiguration =
+      $GetMaintenanceWindowExecutionTaskResult->AlarmConfiguration;
     my $EndTime = $GetMaintenanceWindowExecutionTaskResult->EndTime;
     my $MaxConcurrency =
       $GetMaintenanceWindowExecutionTaskResult->MaxConcurrency;
@@ -50,6 +52,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $GetMaintenanceWindowExecutionTaskResult->TaskExecutionId;
     my $TaskParameters =
       $GetMaintenanceWindowExecutionTaskResult->TaskParameters;
+    my $TriggeredAlarms =
+      $GetMaintenanceWindowExecutionTaskResult->TriggeredAlarms;
     my $Type = $GetMaintenanceWindowExecutionTaskResult->Type;
     my $WindowExecutionId =
       $GetMaintenanceWindowExecutionTaskResult->WindowExecutionId;

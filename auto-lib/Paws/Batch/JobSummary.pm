@@ -5,6 +5,7 @@ package Paws::Batch::JobSummary;
   has Container => (is => 'ro', isa => 'Paws::Batch::ContainerSummary', request_name => 'container', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Int', request_name => 'createdAt', traits => ['NameInRequest']);
   has JobArn => (is => 'ro', isa => 'Str', request_name => 'jobArn', traits => ['NameInRequest']);
+  has JobDefinition => (is => 'ro', isa => 'Str', request_name => 'jobDefinition', traits => ['NameInRequest']);
   has JobId => (is => 'ro', isa => 'Str', request_name => 'jobId', traits => ['NameInRequest'], required => 1);
   has JobName => (is => 'ro', isa => 'Str', request_name => 'jobName', traits => ['NameInRequest'], required => 1);
   has NodeProperties => (is => 'ro', isa => 'Paws::Batch::NodePropertiesSummary', request_name => 'nodeProperties', traits => ['NameInRequest']);
@@ -43,29 +44,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::JobS
 
 =head1 DESCRIPTION
 
-An object representing summary details of a job.
+An object that represents summary details of a job.
 
 =head1 ATTRIBUTES
 
 
 =head2 ArrayProperties => L<Paws::Batch::ArrayPropertiesSummary>
 
-The array properties of the job, if it is an array job.
+The array properties of the job, if it's an array job.
 
 
 =head2 Container => L<Paws::Batch::ContainerSummary>
 
-An object representing the details of the container that's associated
-with the job.
+An object that represents the details of the container that's
+associated with the job.
 
 
 =head2 CreatedAt => Int
 
-The Unix timestamp for when the job was created. For non-array jobs and
-parent array jobs, this is when the job entered the C<SUBMITTED> state
-(at the time SubmitJob was called). For array child jobs, this is when
-the child job was spawned by its parent and entered the C<PENDING>
-state.
+The Unix timestamp (in milliseconds) for when the job was created. For
+non-array jobs and parent array jobs, this is when the job entered the
+C<SUBMITTED> state (at the time SubmitJob
+(https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html)
+was called). For array child jobs, this is when the child job was
+spawned by its parent and entered the C<PENDING> state.
 
 
 =head2 JobArn => Str
@@ -73,27 +75,33 @@ state.
 The Amazon Resource Name (ARN) of the job.
 
 
+=head2 JobDefinition => Str
+
+The Amazon Resource Name (ARN) of the job definition.
+
+
 =head2 B<REQUIRED> JobId => Str
 
-The ID of the job.
+The job ID.
 
 
 =head2 B<REQUIRED> JobName => Str
 
-The name of the job.
+The job name.
 
 
 =head2 NodeProperties => L<Paws::Batch::NodePropertiesSummary>
 
 The node properties for a single node in a job summary list.
 
-This isn't applicable to jobs running on Fargate resources.
+This isn't applicable to jobs that are running on Fargate resources.
 
 
 =head2 StartedAt => Int
 
-The Unix timestamp for when the job was started (when the job
-transitioned from the C<STARTING> state to the C<RUNNING> state).
+The Unix timestamp for when the job was started. More specifically,
+it's when the job transitioned from the C<STARTING> state to the
+C<RUNNING> state.
 
 
 =head2 Status => Str
@@ -103,15 +111,15 @@ The current status for the job.
 
 =head2 StatusReason => Str
 
-A short, human-readable string to provide additional details about the
-current status of the job.
+A short, human-readable string to provide more details for the current
+status of the job.
 
 
 =head2 StoppedAt => Int
 
-The Unix timestamp for when the job was stopped (when the job
-transitioned from the C<RUNNING> state to a terminal state, such as
-C<SUCCEEDED> or C<FAILED>).
+The Unix timestamp for when the job was stopped. More specifically,
+it's when the job transitioned from the C<RUNNING> state to a terminal
+state, such as C<SUCCEEDED> or C<FAILED>.
 
 
 

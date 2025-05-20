@@ -24,7 +24,7 @@ Indicates the job ID of the data ingestion job.
 
 Indicates the status of the C<StartDataIngestionJob> operation.
 
-Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">
+Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">, C<"IMPORT_IN_PROGRESS">
 =head2 _request_id => Str
 
 

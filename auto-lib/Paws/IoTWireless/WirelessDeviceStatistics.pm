@@ -3,9 +3,12 @@ package Paws::IoTWireless::WirelessDeviceStatistics;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str');
   has DestinationName => (is => 'ro', isa => 'Str');
+  has FuotaDeviceStatus => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
   has LastUplinkReceivedAt => (is => 'ro', isa => 'Str');
   has LoRaWAN => (is => 'ro', isa => 'Paws::IoTWireless::LoRaWANListDevice');
+  has McGroupId => (is => 'ro', isa => 'Int');
+  has MulticastDeviceStatus => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Sidewalk => (is => 'ro', isa => 'Paws::IoTWireless::SidewalkListDevice');
   has Type => (is => 'ro', isa => 'Str');
@@ -55,6 +58,11 @@ The Amazon Resource Name of the resource.
 The name of the destination to which the device is assigned.
 
 
+=head2 FuotaDeviceStatus => Str
+
+
+
+
 =head2 Id => Str
 
 The ID of the wireless device reporting the data.
@@ -64,10 +72,22 @@ The ID of the wireless device reporting the data.
 
 The date and time when the most recent uplink was received.
 
+Theis value is only valid for 3 months.
+
 
 =head2 LoRaWAN => L<Paws::IoTWireless::LoRaWANListDevice>
 
 LoRaWAN device info.
+
+
+=head2 McGroupId => Int
+
+
+
+
+=head2 MulticastDeviceStatus => Str
+
+The status of the wireless device in the multicast group.
 
 
 =head2 Name => Str

@@ -35,9 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ServiceCata
 
 =head1 DESCRIPTION
 
-An AWS CloudFormation stack, in a specific account and region, that's
-part of a stack set operation. A stack instance is a reference to an
-attempted or actual stack in a given account within a given region. A
+An CloudFormation stack, in a specific account and Region, that's part
+of a stack set operation. A stack instance is a reference to an
+attempted or actual stack in a given account within a given Region. A
 stack instance can exist without a stackE<mdash>for example, if the
 stack couldn't be created for some reason. A stack instance is
 associated with only one stack set. Each stack instance contains the ID
@@ -49,12 +49,14 @@ the stack status.
 
 =head2 Account => Str
 
-The name of the AWS account that the stack instance is associated with.
+The name of the Amazon Web Services account that the stack instance is
+associated with.
 
 
 =head2 Region => Str
 
-The name of the AWS region that the stack instance is associated with.
+The name of the Amazon Web Services Region that the stack instance is
+associated with.
 
 
 =head2 StackInstanceStatus => Str

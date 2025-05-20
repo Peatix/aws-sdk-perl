@@ -35,16 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value AIFF.
+Required when you set Codec to the value AIFF.
 
 =head1 ATTRIBUTES
 
 
 =head2 BitDepth => Int
 
-Specify Bit depth (BitDepth), in bits per sample, to choose the
-encoding quality for this audio track.
+Specify Bit depth, in bits per sample, to choose the encoding quality
+for this audio track.
 
 
 =head2 Channels => Int
@@ -56,7 +55,7 @@ to 64.
 
 =head2 SampleRate => Int
 
-Sample rate in hz.
+Sample rate in Hz.
 
 
 

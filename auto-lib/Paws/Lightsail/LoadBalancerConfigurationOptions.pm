@@ -7,8 +7,10 @@ package Paws::Lightsail::LoadBalancerConfigurationOptions;
   class_has xml_values =>(is => 'ro', default => 'value');
 
   has HealthCheckPath => (is => 'ro', isa => 'Str');
+  has HttpsRedirectionEnabled => (is => 'ro', isa => 'Str');
   has SessionStickiness_LB_CookieDurationSeconds => (is => 'ro', isa => 'Str');
   has SessionStickinessEnabled => (is => 'ro', isa => 'Str');
+  has TlsPolicyName => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###
@@ -28,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Lightsail::LoadBalancerConfigurationOptions object:
 
-  $service_obj->Method(Att1 => { HealthCheckPath => $value, ..., SessionStickinessEnabled => $value  });
+  $service_obj->Method(Att1 => { HealthCheckPath => $value, ..., TlsPolicyName => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,10 +49,16 @@ This class has no description
 =head2 HealthCheckPath => Str
 
 
+=head2 HttpsRedirectionEnabled => Str
+
+
 =head2 SessionStickiness_LB_CookieDurationSeconds => Str
 
 
 =head2 SessionStickinessEnabled => Str
+
+
+=head2 TlsPolicyName => Str
 
 
 

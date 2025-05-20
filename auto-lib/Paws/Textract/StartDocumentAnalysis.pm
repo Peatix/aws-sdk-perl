@@ -1,6 +1,7 @@
 
 package Paws::Textract::StartDocumentAnalysis;
   use Moose;
+  has AdaptersConfig => (is => 'ro', isa => 'Paws::Textract::AdaptersConfig');
   has ClientRequestToken => (is => 'ro', isa => 'Str');
   has DocumentLocation => (is => 'ro', isa => 'Paws::Textract::DocumentLocation', required => 1);
   has FeatureTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
@@ -8,6 +9,7 @@ package Paws::Textract::StartDocumentAnalysis;
   has KMSKeyId => (is => 'ro', isa => 'Str');
   has NotificationChannel => (is => 'ro', isa => 'Paws::Textract::NotificationChannel');
   has OutputConfig => (is => 'ro', isa => 'Paws::Textract::OutputConfig');
+  has QueriesConfig => (is => 'ro', isa => 'Paws::Textract::QueriesConfig');
 
   use MooseX::ClassAttribute;
 
@@ -42,8 +44,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
       },
       FeatureTypes => [
-        'TABLES', ...    # values: TABLES, FORMS
+        'TABLES', ...    # values: TABLES, FORMS, QUERIES, SIGNATURES, LAYOUT
       ],
+      AdaptersConfig => {
+        Adapters => [
+          {
+            AdapterId => 'MyAdapterId',         # min: 12, max: 1011
+            Version   => 'MyAdapterVersion',    # min: 1, max: 128
+            Pages     => [
+              'MyAdapterPage', ...              # min: 1, max: 9
+            ],    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # min: 1, max: 100
+
+      },    # OPTIONAL
       ClientRequestToken  => 'MyClientRequestToken',    # OPTIONAL
       JobTag              => 'MyJobTag',                # OPTIONAL
       KMSKeyId            => 'MyKMSKeyId',              # OPTIONAL
@@ -56,6 +71,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         S3Bucket => 'MyS3Bucket',        # min: 3, max: 255; OPTIONAL
         S3Prefix => 'MyS3ObjectName',    # min: 1, max: 1024; OPTIONAL
       },    # OPTIONAL
+      QueriesConfig => {
+        Queries => [
+          {
+            Text  => 'MyQueryInput',    # min: 1, max: 200
+            Alias => 'MyQueryInput',    # min: 1, max: 200
+            Pages => [
+              'MyQueryPage', ...        # min: 1, max: 9
+            ],    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # min: 1
+
+      },    # OPTIONAL
     );
 
     # Results:
@@ -67,6 +95,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/textract/StartDocumentAnalysis>
 
 =head1 ATTRIBUTES
+
+
+=head2 AdaptersConfig => L<Paws::Textract::AdaptersConfig>
+
+Specifies the adapter to be used when analyzing a document.
+
 
 
 =head2 ClientRequestToken => Str
@@ -128,6 +162,12 @@ completion status of the operation to.
 Sets if the output will go to a customer defined bucket. By default,
 Amazon Textract will save the results internally to be accessed by the
 GetDocumentAnalysis operation.
+
+
+
+=head2 QueriesConfig => L<Paws::Textract::QueriesConfig>
+
+
 
 
 

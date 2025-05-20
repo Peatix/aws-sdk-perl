@@ -3,6 +3,7 @@ package Paws::Connect::MediaConcurrency;
   use Moose;
   has Channel => (is => 'ro', isa => 'Str', required => 1);
   has Concurrency => (is => 'ro', isa => 'Int', required => 1);
+  has CrossChannelBehavior => (is => 'ro', isa => 'Paws::Connect::CrossChannelBehavior');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Connect::MediaConcurrency object:
 
-  $service_obj->Method(Att1 => { Channel => $value, ..., Concurrency => $value  });
+  $service_obj->Method(Att1 => { Channel => $value, ..., CrossChannelBehavior => $value  });
 
 =head3 Results returned from an API call
 
@@ -54,6 +55,14 @@ Valid Range for C<VOICE>: Minimum value of 1. Maximum value of 1.
 Valid Range for C<CHAT>: Minimum value of 1. Maximum value of 10.
 
 Valid Range for C<TASK>: Minimum value of 1. Maximum value of 10.
+
+
+=head2 CrossChannelBehavior => L<Paws::Connect::CrossChannelBehavior>
+
+Defines the cross-channel routing behavior for each channel that is
+enabled for this Routing Profile. For example, this allows you to offer
+an agent a different contact from another channel when they are
+currently working with a contact from a Voice channel.
 
 
 

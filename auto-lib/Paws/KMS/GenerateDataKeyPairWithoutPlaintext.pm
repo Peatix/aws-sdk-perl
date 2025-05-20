@@ -1,6 +1,7 @@
 
 package Paws::KMS::GenerateDataKeyPairWithoutPlaintext;
   use Moose;
+  has DryRun => (is => 'ro', isa => 'Bool');
   has EncryptionContext => (is => 'ro', isa => 'Paws::KMS::EncryptionContextType');
   has GrantTokens => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
@@ -30,15 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
+ # To generate an asymmetric data key pair without a plaintext key
+ # This example returns an asymmetric elliptic curve (ECC) data key pair. The
+ # private key is encrypted under the symmetric encryption KMS key that you
+ # specify. This operation doesn't return a plaintext (unencrypted) private key.
     my $GenerateDataKeyPairWithoutPlaintextResponse =
       $kms->GenerateDataKeyPairWithoutPlaintext(
-      KeyId             => 'MyKeyIdType',
-      KeyPairSpec       => 'RSA_2048',
-      EncryptionContext =>
-        { 'MyEncryptionContextKey' => 'MyEncryptionContextValue', },  # OPTIONAL
-      GrantTokens => [
-        'MyGrantTokenType', ...    # min: 1, max: 8192
-      ],    # OPTIONAL
+      'KeyId' =>
+'arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab',
+      'KeyPairSpec' => 'ECC_NIST_P521'
       );
 
     # Results:
@@ -56,21 +57,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head1 ATTRIBUTES
 
 
+=head2 DryRun => Bool
+
+Checks if your request will succeed. C<DryRun> is an optional
+parameter.
+
+To learn more about how to use this parameter, see Testing your KMS API
+calls
+(https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
+in the I<Key Management Service Developer Guide>.
+
+
+
 =head2 EncryptionContext => L<Paws::KMS::EncryptionContextType>
 
 Specifies the encryption context that will be used when encrypting the
 private key in the data key pair.
 
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
+
 An I<encryption context> is a collection of non-secret key-value pairs
-that represents additional authenticated data. When you use an
+that represent additional authenticated data. When you use an
 encryption context to encrypt data, you must specify the same (an exact
 case-sensitive match) encryption context to decrypt the data. An
-encryption context is optional when encrypting with a symmetric CMK,
-but it is highly recommended.
+encryption context is supported only on operations with symmetric
+encryption KMS keys. On operations with symmetric encryption KMS keys,
+an encryption context is optional, but it is strongly recommended.
 
-For more information, see Encryption Context
+For more information, see Encryption context
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 
@@ -81,21 +99,24 @@ A list of grant tokens.
 Use a grant token when your permission to call this operation comes
 from a new grant that has not yet achieved I<eventual consistency>. For
 more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-Specifies the CMK that encrypts the private key in the data key pair.
-You must specify a symmetric CMK. You cannot use an asymmetric CMK or a
-CMK in a custom key store. To get the type and origin of your CMK, use
-the DescribeKey operation.
+Specifies the symmetric encryption KMS key that encrypts the private
+key in the data key pair. You cannot specify an asymmetric KMS key or a
+KMS key in a custom key store. To get the type and origin of your KMS
+key, use the DescribeKey operation.
 
-To specify a CMK, use its key ID, key ARN, alias name, or alias ARN.
-When using an alias name, prefix it with C<"alias/">. To specify a CMK
-in a different AWS account, you must use the key ARN or alias ARN.
+To specify a KMS key, use its key ID, key ARN, alias name, or alias
+ARN. When using an alias name, prefix it with C<"alias/">. To specify a
+KMS key in a different Amazon Web Services account, you must use the
+key ARN or alias ARN.
 
 For example:
 
@@ -120,8 +141,8 @@ Alias ARN: C<arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-To get the alias name and alias ARN, use ListAliases.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey. To get the alias name and alias ARN, use ListAliases.
 
 
 
@@ -129,12 +150,13 @@ To get the alias name and alias ARN, use ListAliases.
 
 Determines the type of data key pair that is generated.
 
-The AWS KMS rule that restricts the use of asymmetric RSA CMKs to
-encrypt and decrypt or to sign and verify (but not both), and the rule
-that permits you to use ECC CMKs only to sign and verify, are not
-effective outside of AWS KMS.
+The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys
+to encrypt and decrypt or to sign and verify (but not both), and the
+rule that permits you to use ECC KMS keys only to sign and verify, are
+not effective on data key pairs, which are used outside of KMS. The SM2
+key spec is only available in China Regions.
 
-Valid values are: C<"RSA_2048">, C<"RSA_3072">, C<"RSA_4096">, C<"ECC_NIST_P256">, C<"ECC_NIST_P384">, C<"ECC_NIST_P521">, C<"ECC_SECG_P256K1">
+Valid values are: C<"RSA_2048">, C<"RSA_3072">, C<"RSA_4096">, C<"ECC_NIST_P256">, C<"ECC_NIST_P384">, C<"ECC_NIST_P521">, C<"ECC_SECG_P256K1">, C<"SM2">
 
 
 =head1 SEE ALSO

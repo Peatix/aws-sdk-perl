@@ -33,19 +33,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::T
 
 =head1 DESCRIPTION
 
-Settings for a target-based scaling policy (see ScalingPolicy. A
-target-based policy tracks a particular fleet metric specifies a target
-value for the metric. As player usage changes, the policy triggers
-Amazon GameLift to adjust capacity so that the metric returns to the
-target value. The target configuration specifies settings as needed for
-the target based policy, including the target value.
-
-B<Related actions>
-
-DescribeFleetCapacity | UpdateFleetCapacity | DescribeEC2InstanceLimits
-| PutScalingPolicy | DescribeScalingPolicies | DeleteScalingPolicy |
-StopFleetActions | StartFleetActions | All APIs by task
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+Settings for a target-based scaling policy. A target-based policy
+tracks a particular fleet metric specifies a target value for the
+metric. As player usage changes, the policy triggers Amazon GameLift to
+adjust capacity so that the metric returns to the target value. The
+target configuration specifies settings as needed for the target based
+policy, including the target value.
 
 =head1 ATTRIBUTES
 

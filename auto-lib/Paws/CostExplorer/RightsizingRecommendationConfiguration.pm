@@ -34,11 +34,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-Enables you to customize recommendations across two attributes. You can
-choose to view recommendations for instances within the same instance
-families or across different instance families. You can also choose to
-view your estimated savings associated with recommendations with
-consideration of existing Savings Plans or RI benefits, or neither.
+You can use C<RightsizingRecommendationConfiguration> to customize
+recommendations across two attributes. You can choose to view
+recommendations for instances within the same instance families or
+across different instance families. You can also choose to view your
+estimated savings that are associated with recommendations with
+consideration of existing Savings Plans or Reserved Instance (RI)
+benefits, or neither.
 
 =head1 ATTRIBUTES
 
@@ -51,7 +53,7 @@ savings calculation. The default value is C<TRUE>.
 
 =head2 B<REQUIRED> RecommendationTarget => Str
 
-The option to see recommendations within the same instance family, or
+The option to see recommendations within the same instance family or
 recommendations for instances across other families. The default value
 is C<SAME_INSTANCE_FAMILY>.
 

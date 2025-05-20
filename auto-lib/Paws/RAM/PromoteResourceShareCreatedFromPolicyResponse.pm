@@ -17,7 +17,8 @@ Paws::RAM::PromoteResourceShareCreatedFromPolicyResponse
 
 =head2 ReturnValue => Bool
 
-Indicates whether the request succeeded.
+A return value of C<true> indicates that the request succeeded. A value
+of C<false> indicates that the request failed.
 
 
 =head2 _request_id => Str

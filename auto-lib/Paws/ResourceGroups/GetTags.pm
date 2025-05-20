@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $GetTagsOutput = $resource -groups->GetTags(
-      Arn => 'MyGroupArn',
+      Arn => 'MyGroupArnV2',
 
     );
 
@@ -47,7 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 B<REQUIRED> Arn => Str
 
-The ARN of the resource group whose tags you want to retrieve.
+The Amazon resource name (ARN) of the resource group whose tags you
+want to retrieve.
 
 
 

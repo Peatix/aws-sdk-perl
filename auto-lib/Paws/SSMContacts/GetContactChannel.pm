@@ -27,10 +27,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $GetContactChannelResult = $ssm -contacts->GetContactChannel(
-      ContactChannelId => 'MySsmContactsArn',
-
-    );
+    # To list the details of a contact channel
+    # The following get-contact-channel example lists the details of a contact
+    # channel.
+    my $GetContactChannelResult =
+      $ssm -
+      contacts->GetContactChannel( 'ContactChannelId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:contact-channel/akuam/fc7405c4-46b2-48b7-87b2-93e2f225b90d'
+      );
 
     # Results:
     my $ActivationStatus  = $GetContactChannelResult->ActivationStatus;

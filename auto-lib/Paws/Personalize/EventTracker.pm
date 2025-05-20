@@ -47,7 +47,7 @@ Provides information about an event tracker.
 
 =head2 AccountId => Str
 
-The Amazon AWS account that owns the event tracker.
+The Amazon Web Services account that owns the event tracker.
 
 
 =head2 CreationDateTime => Str

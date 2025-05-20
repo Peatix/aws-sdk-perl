@@ -38,6 +38,7 @@ return. To request the first page, leave nextToken empty.
 =head2 Users => ArrayRef[L<Paws::MQ::UserSummary>]
 
 Required. The list of all ActiveMQ usernames for the specified broker.
+Does not apply to RabbitMQ brokers.
 
 
 =head2 _request_id => Str

@@ -5,6 +5,8 @@ package Paws::S3::CreateMultipartUploadOutput;
   has AbortRuleId => (is => 'ro', isa => 'Str', header_name => 'x-amz-abort-rule-id', traits => ['ParamInHeader']);
   has Bucket => (is => 'ro', isa => 'Str');
   has BucketKeyEnabled => (is => 'ro', isa => 'Bool', header_name => 'x-amz-server-side-encryption-bucket-key-enabled', traits => ['ParamInHeader']);
+  has ChecksumAlgorithm => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-algorithm', traits => ['ParamInHeader']);
+  has ChecksumType => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-type', traits => ['ParamInHeader']);
   has Key => (is => 'ro', isa => 'Str');
   has RequestCharged => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-charged', traits => ['ParamInHeader']);
   has ServerSideEncryption => (is => 'ro', isa => 'Str', header_name => 'x-amz-server-side-encryption', traits => ['ParamInHeader']);
@@ -34,12 +36,16 @@ incomplete multipart uploads and the prefix in the lifecycle rule
 matches the object name in the request, the response includes this
 header. The header indicates when the initiated multipart upload
 becomes eligible for an abort operation. For more information, see
-Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config).
+Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle
+Configuration
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config)
+in the I<Amazon S3 User Guide>.
 
 The response also includes the C<x-amz-abort-rule-id> header that
-provides the ID of the lifecycle configuration rule that defines this
-action.
+provides the ID of the lifecycle configuration rule that defines the
+abort action.
+
+This functionality is not supported for directory buckets.
 
 
 
@@ -49,39 +55,41 @@ This header is returned along with the C<x-amz-abort-date> header. It
 identifies the applicable lifecycle configuration rule that defines the
 action to abort incomplete multipart uploads.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 Bucket => Str
 
 The name of the bucket to which the multipart upload was initiated.
+Does not return the access point ARN or access point alias if used.
 
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
-I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
-(https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
-in the I<Amazon S3 User Guide>.
-
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
-takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
-(https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
-in the I<Amazon S3 User Guide>.
+Access points are not supported by directory buckets.
 
 
 
 =head2 BucketKeyEnabled => Bool
 
 Indicates whether the multipart upload uses an S3 Bucket Key for
-server-side encryption with AWS KMS (SSE-KMS).
+server-side encryption with Key Management Service (KMS) keys
+(SSE-KMS).
 
 
+
+=head2 ChecksumAlgorithm => Str
+
+The algorithm that was used to create a checksum of the object.
+
+Valid values are: C<"CRC32">, C<"CRC32C">, C<"SHA1">, C<"SHA256">, C<"CRC64NVME">
+
+=head2 ChecksumType => Str
+
+Indicates the checksum type that you want Amazon S3 to use to calculate
+the objectE<rsquo>s checksum value. For more information, see Checking
+object integrity in the Amazon S3 User Guide
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
+
+Valid values are: C<"COMPOSITE">, C<"FULL_OBJECT">
 
 =head2 Key => Str
 
@@ -97,40 +105,45 @@ Valid values are: C<"requester">
 
 =head2 ServerSideEncryption => Str
 
-The server-side encryption algorithm used when storing this object in
-Amazon S3 (for example, AES256, aws:kms).
+The server-side encryption algorithm used when you store this object in
+Amazon S3 (for example, C<AES256>, C<aws:kms>).
 
-Valid values are: C<"AES256">, C<"aws:kms">
+Valid values are: C<"AES256">, C<"aws:kms">, C<"aws:kms:dsse">
 
 =head2 SSECustomerAlgorithm => Str
 
 If server-side encryption with a customer-provided encryption key was
-requested, the response will include this header confirming the
-encryption algorithm used.
+requested, the response will include this header to confirm the
+encryption algorithm that's used.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSECustomerKeyMD5 => Str
 
 If server-side encryption with a customer-provided encryption key was
-requested, the response will include this header to provide round-trip
-message integrity verification of the customer-provided encryption key.
+requested, the response will include this header to provide the
+round-trip message integrity verification of the customer-provided
+encryption key.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSEKMSEncryptionContext => Str
 
-If present, specifies the AWS KMS Encryption Context to use for object
-encryption. The value of this header is a base64-encoded UTF-8 string
-holding JSON with the encryption context key-value pairs.
+If present, indicates the Amazon Web Services KMS Encryption Context to
+use for object encryption. The value of this header is a Base64 encoded
+string of a UTF-8 encoded JSON, which contains the encryption context
+as key-value pairs.
 
 
 
 =head2 SSEKMSKeyId => Str
 
-If present, specifies the ID of the AWS Key Management Service (AWS
-KMS) symmetric customer managed customer master key (CMK) that was used
-for the object.
+If present, indicates the ID of the KMS key that was used for object
+encryption.
 
 
 

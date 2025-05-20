@@ -50,11 +50,10 @@ settings for you, based on characteristics of your input video.
 
 =head2 CustomName => Str
 
-Use Custom Group Name (CustomName) to specify a name for the output
-group. This value is displayed on the console and can make your job
-settings JSON more human-readable. It does not affect your outputs. Use
-up to twelve characters that are either letters, numbers, spaces, or
-underscores.
+Use Custom Group Name to specify a name for the output group. This
+value is displayed on the console and can make your job settings JSON
+more human-readable. It does not affect your outputs. Use up to twelve
+characters that are either letters, numbers, spaces, or underscores.
 
 
 =head2 Name => Str

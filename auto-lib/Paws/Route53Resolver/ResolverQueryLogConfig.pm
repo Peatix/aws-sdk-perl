@@ -99,16 +99,16 @@ The name of the query logging configuration.
 
 =head2 OwnerId => Str
 
-The AWS account ID for the account that created the query logging
-configuration.
+The Amazon Web Services account ID for the account that created the
+query logging configuration.
 
 
 =head2 ShareStatus => Str
 
 An indication of whether the query logging configuration is shared with
-other AWS accounts, or was shared with the current account by another
-AWS account. Sharing is configured through AWS Resource Access Manager
-(AWS RAM).
+other Amazon Web Services accounts, or was shared with the current
+account by another Amazon Web Services account. Sharing is configured
+through Resource Access Manager (RAM).
 
 
 =head2 Status => Str

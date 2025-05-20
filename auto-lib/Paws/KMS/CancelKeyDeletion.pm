@@ -27,8 +27,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To cancel deletion of a customer master key (CMK)
-    # The following example cancels deletion of the specified CMK.
+    # To cancel deletion of a KMS key
+    # The following example cancels deletion of the specified KMS key.
     my $CancelKeyDeletionResponse = $kms->CancelKeyDeletion(
       'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab' );
 
@@ -45,10 +45,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies the customer master key (CMK) whose deletion is being
-canceled.
+Identifies the KMS key whose deletion is being canceled.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -65,7 +64,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 

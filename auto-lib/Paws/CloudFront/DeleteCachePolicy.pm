@@ -54,7 +54,7 @@ get the identifier, you can use C<ListCachePolicies>.
 =head2 IfMatch => Str
 
 The version of the cache policy that you are deleting. The version is
-the cache policyE<rsquo>s C<ETag> value, which you can get using
+the cache policy's C<ETag> value, which you can get using
 C<ListCachePolicies>, C<GetCachePolicy>, or C<GetCachePolicyConfig>.
 
 

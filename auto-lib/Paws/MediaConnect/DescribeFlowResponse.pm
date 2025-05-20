@@ -18,12 +18,13 @@ Paws::MediaConnect::DescribeFlowResponse
 
 =head2 Flow => L<Paws::MediaConnect::Flow>
 
-
+The flow that you requested a description of.
 
 
 =head2 Messages => L<Paws::MediaConnect::Messages>
 
-
+Any errors that apply currently to the flow. If there are no errors,
+MediaConnect will not include this field in the response.
 
 
 =head2 _request_id => Str

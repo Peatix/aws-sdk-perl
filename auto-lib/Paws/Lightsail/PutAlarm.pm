@@ -91,12 +91,12 @@ notifications are enabled for the alarm, and when the alarm is
 triggered.
 
 A notification is not sent if a contact protocol is not specified, if
-the specified contact protocol is not configured in the AWS Region, or
-if notifications are not enabled for the alarm using the
-C<notificationEnabled> paramater.
+the specified contact protocol is not configured in the Amazon Web
+Services Region, or if notifications are not enabled for the alarm
+using the C<notificationEnabled> paramater.
 
 Use the C<CreateContactMethod> action to configure a contact protocol
-in an AWS Region.
+in an Amazon Web Services Region.
 
 
 
@@ -162,7 +162,7 @@ and C<NetworkTransmitThroughput>.
 
 For more information about these metrics, see Metrics available in
 Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-resource-health-metrics#available-metrics).
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-resource-health-metrics#available-metrics).
 
 Valid values are: C<"CPUUtilization">, C<"NetworkIn">, C<"NetworkOut">, C<"StatusCheckFailed">, C<"StatusCheckFailed_Instance">, C<"StatusCheckFailed_System">, C<"ClientTLSNegotiationErrorCount">, C<"HealthyHostCount">, C<"UnhealthyHostCount">, C<"HTTPCode_LB_4XX_Count">, C<"HTTPCode_LB_5XX_Count">, C<"HTTPCode_Instance_2XX_Count">, C<"HTTPCode_Instance_3XX_Count">, C<"HTTPCode_Instance_4XX_Count">, C<"HTTPCode_Instance_5XX_Count">, C<"InstanceResponseTime">, C<"RejectedConnectionCount">, C<"RequestCount">, C<"DatabaseConnections">, C<"DiskQueueDepth">, C<"FreeStorageSpace">, C<"NetworkReceiveThroughput">, C<"NetworkTransmitThroughput">, C<"BurstCapacityTime">, C<"BurstCapacityPercentage">
 

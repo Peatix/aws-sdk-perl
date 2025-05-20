@@ -2,12 +2,12 @@
 package Paws::MediaConnect::GrantFlowEntitlements;
   use Moose;
   has Entitlements => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::GrantEntitlementRequest]', traits => ['NameInRequest'], request_name => 'entitlements', required => 1);
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'GrantFlowEntitlements');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/entitlements');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/entitlements');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::GrantFlowEntitlementsResponse');
 1;
@@ -32,27 +32,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GrantFlowEntitlementsResponse = $mediaconnect->GrantFlowEntitlements(
       Entitlements => [
         {
-          Subscribers                      => [ 'My__string', ... ],
-          DataTransferSubscriberFeePercent => 1,                      # OPTIONAL
-          Description                      => 'My__string',
+          Subscribers                      => [ 'MyString', ... ],
+          DataTransferSubscriberFeePercent => 1,                     # OPTIONAL
+          Description                      => 'MyString',
           Encryption                       => {
-            RoleArn   => 'My__string',
+            RoleArn   => 'MyString',
             Algorithm => 'aes128',    # values: aes128, aes192, aes256; OPTIONAL
-            ConstantInitializationVector => 'My__string',
-            DeviceId                     => 'My__string',
+            ConstantInitializationVector => 'MyString',
+            DeviceId                     => 'MyString',
             KeyType                      =>
               'speke',    # values: speke, static-key, srt-password; OPTIONAL
-            Region     => 'My__string',
-            ResourceId => 'My__string',
-            SecretArn  => 'My__string',
-            Url        => 'My__string',
+            Region     => 'MyString',
+            ResourceId => 'MyString',
+            SecretArn  => 'MyString',
+            Url        => 'MyString',
           },    # OPTIONAL
           EntitlementStatus => 'ENABLED',  # values: ENABLED, DISABLED; OPTIONAL
-          Name              => 'My__string',
+          Name              => 'MyString',
         },
         ...
       ],
-      FlowArn => 'My__string',
+      FlowArn => 'MyGrantFlowEntitlementsRequestFlowArnString',
 
     );
 
@@ -76,7 +76,8 @@ The list of entitlements that you want to grant.
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that you want to grant entitlements on.
+The Amazon Resource Name (ARN) of the flow that you want to grant
+entitlements on.
 
 
 

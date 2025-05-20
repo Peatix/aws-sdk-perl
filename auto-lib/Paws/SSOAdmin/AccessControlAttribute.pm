@@ -34,12 +34,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSOAdmin::A
 
 =head1 DESCRIPTION
 
-These are AWS SSO identity store attributes that you can configure for
-use in attributes-based access control (ABAC). You can create
-permission policies that determine who can access your AWS resources
-based upon the configured attribute value(s). When you enable ABAC and
-specify AccessControlAttributes, AWS SSO passes the attribute(s) value
-of the authenticated user into IAM for use in policy evaluation.
+These are IAM Identity Center identity store attributes that you can
+configure for use in attributes-based access control (ABAC). You can
+create permissions policies that determine who can access your Amazon
+Web Services resources based upon the configured attribute values. When
+you enable ABAC and specify C<AccessControlAttributes>, IAM Identity
+Center passes the attribute values of the authenticated user into IAM
+for use in policy evaluation.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +49,7 @@ of the authenticated user into IAM for use in policy evaluation.
 
 The name of the attribute associated with your identities in your
 identity source. This is used to map a specified attribute in your
-identity source with an attribute in AWS SSO.
+identity source with an attribute in IAM Identity Center.
 
 
 =head2 B<REQUIRED> Value => L<Paws::SSOAdmin::AccessControlAttributeValue>

@@ -2,6 +2,7 @@
 package Paws::Datasync::TaskSchedule;
   use Moose;
   has ScheduleExpression => (is => 'ro', isa => 'Str', required => 1);
+  has Status => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Datasync::TaskSchedule object:
 
-  $service_obj->Method(Att1 => { ScheduleExpression => $value, ..., ScheduleExpression => $value  });
+  $service_obj->Method(Att1 => { ScheduleExpression => $value, ..., Status => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,17 +34,46 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::T
 
 =head1 DESCRIPTION
 
-Specifies the schedule you want your task to use for repeated
-executions. For more information, see Schedule Expressions for Rules
-(https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html).
+Configures your DataSync task to run on a schedule
+(https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html)
+(at a minimum interval of 1 hour).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ScheduleExpression => Str
 
-A cron expression that specifies when AWS DataSync initiates a
-scheduled transfer from a source to a destination location.
+Specifies your task schedule by using a cron or rate expression.
+
+Use cron expressions for task schedules that run on a specific time and
+day. For example, the following cron expression creates a task schedule
+that runs at 8 AM on the first Wednesday of every month:
+
+C<cron(0 8 * * 3#1)>
+
+Use rate expressions for task schedules that run on a regular interval.
+For example, the following rate expression creates a task schedule that
+runs every 12 hours:
+
+C<rate(12 hours)>
+
+For information about cron and rate expression syntax, see the I<Amazon
+EventBridge User Guide>
+(https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-scheduled-rule-pattern.html).
+
+
+=head2 Status => Str
+
+Specifies whether to enable or disable your task schedule. Your
+schedule is enabled by default, but there can be situations where you
+need to disable it. For example, you might need to pause a recurring
+transfer to fix an issue with your task or perform maintenance on your
+storage system.
+
+DataSync might disable your schedule automatically if your task fails
+repeatedly with the same error. For more information, see
+TaskScheduleDetails
+(https://docs.aws.amazon.com/datasync/latest/userguide/API_TaskScheduleDetails.html).
 
 
 

@@ -30,9 +30,9 @@ this account.
 
 =head2 RoleArn => Str
 
-The ARN of the role that grants permission to AWS IoT to access
-information about your devices, policies, certificates, and other items
-as required when performing an audit.
+The ARN of the role that grants permission to IoT to access information
+about your devices, policies, certificates, and other items as required
+when performing an audit.
 
 On the first call to C<UpdateAccountAuditConfiguration>, this parameter
 is required.

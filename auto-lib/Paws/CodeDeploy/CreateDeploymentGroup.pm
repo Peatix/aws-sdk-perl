@@ -18,6 +18,7 @@ package Paws::CodeDeploy::CreateDeploymentGroup;
   has OutdatedInstancesStrategy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'outdatedInstancesStrategy' );
   has ServiceRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceRoleArn' , required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::CodeDeploy::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
+  has TerminationHookEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'terminationHookEnabled' );
   has TriggerConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::CodeDeploy::TriggerConfig]', traits => ['NameInRequest'], request_name => 'triggerConfigurations' );
 
   use MooseX::ClassAttribute;
@@ -179,7 +180,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      TriggerConfigurations => [
+      TerminationHookEnabled => 1,    # OPTIONAL
+      TriggerConfigurations  => [
         {
           TriggerEvents => [
             'DeploymentStart',
@@ -212,8 +214,8 @@ group is created.
 
 =head2 B<REQUIRED> ApplicationName => Str
 
-The name of an AWS CodeDeploy application associated with the IAM user
-or AWS account.
+The name of an CodeDeploy application associated with the user or
+Amazon Web Services account.
 
 
 
@@ -239,7 +241,7 @@ Information about blue/green deployment options for a deployment group.
 =head2 DeploymentConfigName => Str
 
 If specified, the deployment configuration name can be either one of
-the predefined configurations provided with AWS CodeDeploy or a custom
+the predefined configurations provided with CodeDeploy or a custom
 deployment configuration that you create by calling the create
 deployment configuration operation.
 
@@ -248,10 +250,9 @@ configuration. It is used if a configuration isn't specified for the
 deployment or deployment group.
 
 For more information about the predefined deployment configurations in
-AWS CodeDeploy, see Working with Deployment Configurations in
-CodeDeploy
+CodeDeploy, see Working with Deployment Configurations in CodeDeploy
 (https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html)
-in the I<AWS CodeDeploy User Guide>.
+in the I<CodeDeploy User Guide>.
 
 
 
@@ -272,16 +273,16 @@ balancer.
 =head2 Ec2TagFilters => ArrayRef[L<Paws::CodeDeploy::EC2TagFilter>]
 
 The Amazon EC2 tags on which to filter. The deployment group includes
-EC2 instances with any of the specified tags. Cannot be used in the
-same call as ec2TagSet.
+Amazon EC2 instances with any of the specified tags. Cannot be used in
+the same call as ec2TagSet.
 
 
 
 =head2 Ec2TagSet => L<Paws::CodeDeploy::EC2TagSet>
 
-Information about groups of tags applied to EC2 instances. The
-deployment group includes only EC2 instances identified by all the tag
-groups. Cannot be used in the same call as C<ec2TagFilters>.
+Information about groups of tags applied to Amazon EC2 instances. The
+deployment group includes only Amazon EC2 instances identified by all
+the tag groups. Cannot be used in the same call as C<ec2TagFilters>.
 
 
 
@@ -320,23 +321,25 @@ C<onPremisesInstanceTagFilters>.
 
 =head2 OutdatedInstancesStrategy => Str
 
-Indicates what happens when new EC2 instances are launched
+Indicates what happens when new Amazon EC2 instances are launched
 mid-deployment and do not receive the deployed application revision.
 
 If this option is set to C<UPDATE> or is unspecified, CodeDeploy
 initiates one or more 'auto-update outdated instances' deployments to
-apply the deployed application revision to the new EC2 instances.
+apply the deployed application revision to the new Amazon EC2
+instances.
 
 If this option is set to C<IGNORE>, CodeDeploy does not initiate a
-deployment to update the new EC2 instances. This may result in
+deployment to update the new Amazon EC2 instances. This may result in
 instances having different revisions.
 
 Valid values are: C<"UPDATE">, C<"IGNORE">
 
 =head2 B<REQUIRED> ServiceRoleArn => Str
 
-A service role Amazon Resource Name (ARN) that allows AWS CodeDeploy to
-act on the user's behalf when interacting with AWS services.
+A service role Amazon Resource Name (ARN) that allows CodeDeploy to act
+on the user's behalf when interacting with Amazon Web Services
+services.
 
 
 
@@ -348,12 +351,37 @@ optional value, both of which you define.
 
 
 
+=head2 TerminationHookEnabled => Bool
+
+This parameter only applies if you are using CodeDeploy with Amazon EC2
+Auto Scaling. For more information, see Integrating CodeDeploy with
+Amazon EC2 Auto Scaling
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html)
+in the I<CodeDeploy User Guide>.
+
+Set C<terminationHookEnabled> to C<true> to have CodeDeploy install a
+termination hook into your Auto Scaling group when you create a
+deployment group. When this hook is installed, CodeDeploy will perform
+termination deployments.
+
+For information about termination deployments, see Enabling termination
+deployments during Auto Scaling scale-in events
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable)
+in the I<CodeDeploy User Guide>.
+
+For more information about Auto Scaling scale-in events, see the Scale
+in
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in)
+topic in the I<Amazon EC2 Auto Scaling User Guide>.
+
+
+
 =head2 TriggerConfigurations => ArrayRef[L<Paws::CodeDeploy::TriggerConfig>]
 
 Information about triggers to create when the deployment group is
-created. For examples, see Create a Trigger for an AWS CodeDeploy Event
+created. For examples, see Create a Trigger for an CodeDeploy Event
 (https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-sns.html)
-in the I<AWS CodeDeploy User Guide>.
+in the I<CodeDeploy User Guide>.
 
 
 

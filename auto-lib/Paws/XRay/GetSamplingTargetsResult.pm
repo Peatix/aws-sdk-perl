@@ -21,7 +21,9 @@ Paws::XRay::GetSamplingTargetsResult
 
 The last time a user changed the sampling rule configuration. If the
 sampling rule configuration changed since the service last retrieved
-it, the service should call GetSamplingRules to get the latest version.
+it, the service should call GetSamplingRules
+(https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html)
+to get the latest version.
 
 
 =head2 SamplingTargetDocuments => ArrayRef[L<Paws::XRay::SamplingTargetDocument>]
@@ -31,8 +33,9 @@ Updated rules that the service should use to sample requests.
 
 =head2 UnprocessedStatistics => ArrayRef[L<Paws::XRay::UnprocessedStatistics>]
 
-Information about SamplingStatisticsDocument that X-Ray could not
-process.
+Information about SamplingStatisticsDocument
+(https://docs.aws.amazon.com/xray/latest/api/API_SamplingStatisticsDocument.html)
+that X-Ray could not process.
 
 
 =head2 _request_id => Str

@@ -1,7 +1,9 @@
 
 package Paws::Transcribe::CreateVocabularyFilter;
   use Moose;
+  has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has LanguageCode => (is => 'ro', isa => 'Str', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::Tag]');
   has VocabularyFilterFileUri => (is => 'ro', isa => 'Str');
   has VocabularyFilterName => (is => 'ro', isa => 'Str', required => 1);
   has Words => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -31,11 +33,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $transcribe = Paws->service('Transcribe');
     my $CreateVocabularyFilterResponse = $transcribe->CreateVocabularyFilter(
-      LanguageCode            => 'af-ZA',
-      VocabularyFilterName    => 'MyVocabularyFilterName',
-      VocabularyFilterFileUri => 'MyUri',                    # OPTIONAL
+      LanguageCode         => 'af-ZA',
+      VocabularyFilterName => 'MyVocabularyFilterName',
+      DataAccessRoleArn    => 'MyDataAccessRoleArn',      # OPTIONAL
+      Tags                 => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
+      VocabularyFilterFileUri => 'MyUri',    # OPTIONAL
       Words                   => [
-        'MyWord', ...                                        # min: 1, max: 256
+        'MyWord', ...                        # min: 1, max: 256
       ],    # OPTIONAL
     );
 
@@ -53,48 +64,96 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 =head1 ATTRIBUTES
 
 
+=head2 DataAccessRoleArn => Str
+
+The Amazon Resource Name (ARN) of an IAM role that has permissions to
+access the Amazon S3 bucket that contains your input files (in this
+case, your custom vocabulary filter). If the role that you specify
+doesnE<rsquo>t have the appropriate permissions to access the specified
+Amazon S3 location, your request fails.
+
+IAM role ARNs have the format
+C<arn:partition:iam::account:role/role-name-with-path>. For example:
+C<arn:aws:iam::111122223333:role/Admin>.
+
+For more information, see IAM ARNs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns).
+
+
+
 =head2 B<REQUIRED> LanguageCode => Str
 
-The language code of the words in the vocabulary filter. All words in
-the filter must be in the same language. The vocabulary filter can only
-be used with transcription jobs in the specified language.
+The language code that represents the language of the entries in your
+vocabulary filter. Each custom vocabulary filter must contain terms in
+only one language.
 
-Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"cy-GB">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"ga-IE">, C<"gd-GB">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">
+A custom vocabulary filter can only be used to transcribe files in the
+same language as the filter. For example, if you create a custom
+vocabulary filter using US English (C<en-US>), you can only apply this
+filter to files that contain English audio.
+
+For a list of supported languages and their associated language codes,
+refer to the Supported languages
+(https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html)
+table.
+
+Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">, C<"zh-TW">, C<"th-TH">, C<"en-ZA">, C<"en-NZ">, C<"vi-VN">, C<"sv-SE">, C<"ab-GE">, C<"ast-ES">, C<"az-AZ">, C<"ba-RU">, C<"be-BY">, C<"bg-BG">, C<"bn-IN">, C<"bs-BA">, C<"ca-ES">, C<"ckb-IQ">, C<"ckb-IR">, C<"cs-CZ">, C<"cy-WL">, C<"el-GR">, C<"et-ET">, C<"eu-ES">, C<"fi-FI">, C<"gl-ES">, C<"gu-IN">, C<"ha-NG">, C<"hr-HR">, C<"hu-HU">, C<"hy-AM">, C<"is-IS">, C<"ka-GE">, C<"kab-DZ">, C<"kk-KZ">, C<"kn-IN">, C<"ky-KG">, C<"lg-IN">, C<"lt-LT">, C<"lv-LV">, C<"mhr-RU">, C<"mi-NZ">, C<"mk-MK">, C<"ml-IN">, C<"mn-MN">, C<"mr-IN">, C<"mt-MT">, C<"no-NO">, C<"or-IN">, C<"pa-IN">, C<"pl-PL">, C<"ps-AF">, C<"ro-RO">, C<"rw-RW">, C<"si-LK">, C<"sk-SK">, C<"sl-SI">, C<"so-SO">, C<"sr-RS">, C<"su-ID">, C<"sw-BI">, C<"sw-KE">, C<"sw-RW">, C<"sw-TZ">, C<"sw-UG">, C<"tl-PH">, C<"tt-RU">, C<"ug-CN">, C<"uk-UA">, C<"uz-UZ">, C<"wo-SN">, C<"zh-HK">, C<"zu-ZA">
+
+=head2 Tags => ArrayRef[L<Paws::Transcribe::Tag>]
+
+Adds one or more custom tags, each in the form of a key:value pair, to
+a new custom vocabulary filter at the time you create this new
+vocabulary filter.
+
+To learn more about using tags with Amazon Transcribe, refer to Tagging
+resources
+(https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+
+
 
 =head2 VocabularyFilterFileUri => Str
 
-The Amazon S3 location of a text file used as input to create the
-vocabulary filter. Only use characters from the character set defined
-for custom vocabularies. For a list of character sets, see Character
-Sets for Custom Vocabularies
-(https://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary.html#charsets).
+The Amazon S3 location of the text file that contains your custom
+vocabulary filter terms. The URI must be located in the same Amazon Web
+Services Region as the resource you're calling.
 
-The specified file must be less than 50 KB of UTF-8 characters.
+Here's an example URI path:
+C<s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt>
 
-If you provide the location of a list of words in the
-C<VocabularyFilterFileUri> parameter, you can't use the C<Words>
-parameter.
+Note that if you include C<VocabularyFilterFileUri> in your request,
+you cannot use C<Words>; you must choose one or the other.
 
 
 
 =head2 B<REQUIRED> VocabularyFilterName => Str
 
-The vocabulary filter name. The name must be unique within the account
-that contains it. If you try to create a vocabulary filter with the
-same name as another vocabulary filter, you get a C<ConflictException>
-error.
+A unique name, chosen by you, for your new custom vocabulary filter.
+
+This name is case sensitive, cannot contain spaces, and must be unique
+within an Amazon Web Services account. If you try to create a new
+custom vocabulary filter with the same name as an existing custom
+vocabulary filter, you get a C<ConflictException> error.
 
 
 
 =head2 Words => ArrayRef[Str|Undef]
 
-The words to use in the vocabulary filter. Only use characters from the
-character set defined for custom vocabularies. For a list of character
-sets, see Character Sets for Custom Vocabularies
-(https://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary.html#charsets).
+Use this parameter if you want to create your custom vocabulary filter
+by including all desired terms, as comma-separated values, within your
+request. The other option for creating your vocabulary filter is to
+save your entries in a text file and upload them to an Amazon S3
+bucket, then specify the location of your file using the
+C<VocabularyFilterFileUri> parameter.
 
-If you provide a list of words in the C<Words> parameter, you can't use
-the C<VocabularyFilterFileUri> parameter.
+Note that if you include C<Words> in your request, you cannot use
+C<VocabularyFilterFileUri>; you must choose one or the other.
+
+Each language has a character set that contains all allowed characters
+for that specific language. If you use unsupported characters, your
+custom vocabulary filter request fails. Refer to Character Sets for
+Custom Vocabularies
+(https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get
+the character set for your language.
 
 
 

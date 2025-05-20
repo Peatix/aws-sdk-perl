@@ -42,8 +42,8 @@ The recipient of C<AnomalySubscription> notifications.
 
 =head2 Address => Str
 
-The email address or SNS Amazon Resource Name (ARN), depending on the
-C<Type>.
+The email address or SNS Amazon Resource Name (ARN). This depends on
+the C<Type>.
 
 
 =head2 Status => Str

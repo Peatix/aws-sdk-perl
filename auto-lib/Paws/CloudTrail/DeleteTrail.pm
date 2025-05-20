@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 B<REQUIRED> Name => Str
 
 Specifies the name or the CloudTrail ARN of the trail to be deleted.
-The format of a trail ARN is:
+The following is the format of a trail ARN.
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
 
 

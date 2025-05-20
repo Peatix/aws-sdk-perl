@@ -40,8 +40,8 @@ Details identifying the users with permissions to use the action type.
 
 =head2 B<REQUIRED> AllowedAccounts => ArrayRef[Str|Undef]
 
-A list of AWS account IDs with access to use the action type in their
-pipelines.
+A list of Amazon Web Services account IDs with access to use the action
+type in their pipelines.
 
 
 

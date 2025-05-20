@@ -27,7 +27,7 @@ additional pages.
 =head2 Records => ArrayRef[L<Paws::Macie2::UsageRecord>]
 
 An array of objects that contains the results of the query. Each object
-contains the data for an account that meets the filter criteria
+contains the data for an account that matches the filter criteria
 specified in the request.
 
 

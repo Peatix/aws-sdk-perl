@@ -6,6 +6,7 @@ package Paws::Datasync::DescribeLocationObjectStorageResponse;
   has CreationTime => (is => 'ro', isa => 'Str');
   has LocationArn => (is => 'ro', isa => 'Str');
   has LocationUri => (is => 'ro', isa => 'Str');
+  has ServerCertificate => (is => 'ro', isa => 'Str');
   has ServerPort => (is => 'ro', isa => 'Int');
   has ServerProtocol => (is => 'ro', isa => 'Str');
 
@@ -22,46 +23,47 @@ Paws::Datasync::DescribeLocationObjectStorageResponse
 
 =head2 AccessKey => Str
 
-Optional. The access key is used if credentials are required to access
-the self-managed object storage server. If your object storage requires
-a user name and password to authenticate, use C<AccessKey> and
-C<SecretKey> to provide the user name and password, respectively.
+The access key (for example, a user name) required to authenticate with
+the object storage system.
 
 
 =head2 AgentArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Name (ARN) of the agents associated with the
-self-managed object storage server location.
+The ARNs of the DataSync agents that can connect with your object
+storage system.
 
 
 =head2 CreationTime => Str
 
-The time that the self-managed object storage server agent was created.
+The time that the location was created.
 
 
 =head2 LocationArn => Str
 
-The Amazon Resource Name (ARN) of the self-managed object storage
-server location to describe.
+The ARN of the object storage system location.
 
 
 =head2 LocationUri => Str
 
-The URL of the source self-managed object storage server location that
-was described.
+The URI of the object storage system location.
+
+
+=head2 ServerCertificate => Str
+
+The certificate chain for DataSync to authenticate with your object
+storage system if the system uses a private or self-signed certificate
+authority (CA).
 
 
 =head2 ServerPort => Int
 
-The port that your self-managed object storage server accepts inbound
-network traffic on. The server port is set by default to TCP 80 (HTTP)
-or TCP 443 (HTTPS).
+The port that your object storage server accepts inbound network
+traffic on (for example, port 443).
 
 
 =head2 ServerProtocol => Str
 
-The protocol that the object storage server uses to communicate. Valid
-values are HTTP or HTTPS.
+The protocol that your object storage system uses to communicate.
 
 Valid values are: C<"HTTPS">, C<"HTTP">
 =head2 _request_id => Str

@@ -47,11 +47,11 @@ are read-only Replica nodes.
 
 =head2 NodeGroupId => Str
 
-The identifier for the node group (shard). A Redis (cluster mode
-disabled) replication group contains only 1 node group; therefore, the
-node group ID is 0001. A Redis (cluster mode enabled) replication group
-contains 1 to 90 node groups numbered 0001 to 0090. Optionally, the
-user can provide the id for a node group.
+The identifier for the node group (shard). A Valkey or Redis OSS
+(cluster mode disabled) replication group contains only 1 node group;
+therefore, the node group ID is 0001. A Valkey or Redis OSS (cluster
+mode enabled) replication group contains 1 to 90 node groups numbered
+0001 to 0090. Optionally, the user can provide the id for a node group.
 
 
 =head2 NodeGroupMembers => ArrayRef[L<Paws::ElastiCache::NodeGroupMember>]
@@ -67,7 +67,8 @@ The endpoint of the primary node in this node group (shard).
 
 =head2 ReaderEndpoint => L<Paws::ElastiCache::Endpoint>
 
-The endpoint of the replica nodes in this node group (shard).
+The endpoint of the replica nodes in this node group (shard). This
+value is read-only.
 
 
 =head2 Slots => Str

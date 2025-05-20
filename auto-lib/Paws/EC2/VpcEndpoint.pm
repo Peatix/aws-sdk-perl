@@ -2,15 +2,23 @@ package Paws::EC2::VpcEndpoint;
   use Moose;
   has CreationTimestamp => (is => 'ro', isa => 'Str', request_name => 'creationTimestamp', traits => ['NameInRequest']);
   has DnsEntries => (is => 'ro', isa => 'ArrayRef[Paws::EC2::DnsEntry]', request_name => 'dnsEntrySet', traits => ['NameInRequest']);
+  has DnsOptions => (is => 'ro', isa => 'Paws::EC2::DnsOptions', request_name => 'dnsOptions', traits => ['NameInRequest']);
+  has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
   has Groups => (is => 'ro', isa => 'ArrayRef[Paws::EC2::SecurityGroupIdentifier]', request_name => 'groupSet', traits => ['NameInRequest']);
+  has IpAddressType => (is => 'ro', isa => 'Str', request_name => 'ipAddressType', traits => ['NameInRequest']);
+  has Ipv4Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::SubnetIpPrefixes]', request_name => 'ipv4PrefixSet', traits => ['NameInRequest']);
+  has Ipv6Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::SubnetIpPrefixes]', request_name => 'ipv6PrefixSet', traits => ['NameInRequest']);
   has LastError => (is => 'ro', isa => 'Paws::EC2::LastError', request_name => 'lastError', traits => ['NameInRequest']);
   has NetworkInterfaceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'networkInterfaceIdSet', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has PolicyDocument => (is => 'ro', isa => 'Str', request_name => 'policyDocument', traits => ['NameInRequest']);
   has PrivateDnsEnabled => (is => 'ro', isa => 'Bool', request_name => 'privateDnsEnabled', traits => ['NameInRequest']);
   has RequesterManaged => (is => 'ro', isa => 'Bool', request_name => 'requesterManaged', traits => ['NameInRequest']);
+  has ResourceConfigurationArn => (is => 'ro', isa => 'Str', request_name => 'resourceConfigurationArn', traits => ['NameInRequest']);
   has RouteTableIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'routeTableIdSet', traits => ['NameInRequest']);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
+  has ServiceNetworkArn => (is => 'ro', isa => 'Str', request_name => 'serviceNetworkArn', traits => ['NameInRequest']);
+  has ServiceRegion => (is => 'ro', isa => 'Str', request_name => 'serviceRegion', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'subnetIdSet', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
@@ -54,12 +62,22 @@ This class has no description
 
 =head2 CreationTimestamp => Str
 
-The date and time that the VPC endpoint was created.
+The date and time that the endpoint was created.
 
 
 =head2 DnsEntries => ArrayRef[L<Paws::EC2::DnsEntry>]
 
 (Interface endpoint) The DNS entries for the endpoint.
+
+
+=head2 DnsOptions => L<Paws::EC2::DnsOptions>
+
+The DNS options for the endpoint.
+
+
+=head2 FailureReason => Str
+
+Reason for the failure.
 
 
 =head2 Groups => ArrayRef[L<Paws::EC2::SecurityGroupIdentifier>]
@@ -68,19 +86,34 @@ The date and time that the VPC endpoint was created.
 associated with the network interface.
 
 
+=head2 IpAddressType => Str
+
+The IP address type for the endpoint.
+
+
+=head2 Ipv4Prefixes => ArrayRef[L<Paws::EC2::SubnetIpPrefixes>]
+
+Array of IPv4 prefixes.
+
+
+=head2 Ipv6Prefixes => ArrayRef[L<Paws::EC2::SubnetIpPrefixes>]
+
+Array of IPv6 prefixes.
+
+
 =head2 LastError => L<Paws::EC2::LastError>
 
-The last error that occurred for VPC endpoint.
+The last error that occurred for endpoint.
 
 
 =head2 NetworkInterfaceIds => ArrayRef[Str|Undef]
 
-(Interface endpoint) One or more network interfaces for the endpoint.
+(Interface endpoint) The network interfaces for the endpoint.
 
 
 =head2 OwnerId => Str
 
-The ID of the AWS account that owns the VPC endpoint.
+The ID of the Amazon Web Services account that owns the endpoint.
 
 
 =head2 PolicyDocument => Str
@@ -96,12 +129,17 @@ private hosted zone.
 
 =head2 RequesterManaged => Bool
 
-Indicates whether the VPC endpoint is being managed by its service.
+Indicates whether the endpoint is being managed by its service.
+
+
+=head2 ResourceConfigurationArn => Str
+
+The Amazon Resource Name (ARN) of the resource configuration.
 
 
 =head2 RouteTableIds => ArrayRef[Str|Undef]
 
-(Gateway endpoint) One or more route tables associated with the
+(Gateway endpoint) The IDs of the route tables associated with the
 endpoint.
 
 
@@ -110,25 +148,34 @@ endpoint.
 The name of the service to which the endpoint is associated.
 
 
+=head2 ServiceNetworkArn => Str
+
+The Amazon Resource Name (ARN) of the service network.
+
+
+=head2 ServiceRegion => Str
+
+The Region where the service is hosted.
+
+
 =head2 State => Str
 
-The state of the VPC endpoint.
+The state of the endpoint.
 
 
 =head2 SubnetIds => ArrayRef[Str|Undef]
 
-(Interface endpoint) One or more subnets in which the endpoint is
-located.
+(Interface endpoint) The subnets for the endpoint.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
-Any tags assigned to the VPC endpoint.
+The tags assigned to the endpoint.
 
 
 =head2 VpcEndpointId => Str
 
-The ID of the VPC endpoint.
+The ID of the endpoint.
 
 
 =head2 VpcEndpointType => Str

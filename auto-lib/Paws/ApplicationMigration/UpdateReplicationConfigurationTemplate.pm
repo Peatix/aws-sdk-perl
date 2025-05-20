@@ -15,6 +15,7 @@ package Paws::ApplicationMigration::UpdateReplicationConfigurationTemplate;
   has StagingAreaSubnetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'stagingAreaSubnetId');
   has StagingAreaTags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'stagingAreaTags');
   has UseDedicatedReplicationServer => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useDedicatedReplicationServer');
+  has UseFipsEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useFipsEndpoint');
 
   use MooseX::ClassAttribute;
 
@@ -62,6 +63,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'MyTagKey' => 'MyTagValue',           # key: max: 256, value: max: 256
       },    # OPTIONAL
       UseDedicatedReplicationServer => 1,    # OPTIONAL
+      UseFipsEndpoint               => 1,    # OPTIONAL
       );
 
     # Results:
@@ -89,6 +91,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Tags            = $ReplicationConfigurationTemplate->Tags;
     my $UseDedicatedReplicationServer =
       $ReplicationConfigurationTemplate->UseDedicatedReplicationServer;
+    my $UseFipsEndpoint = $ReplicationConfigurationTemplate->UseFipsEndpoint;
 
 # Returns a L<Paws::ApplicationMigration::ReplicationConfigurationTemplate> object.
 
@@ -134,7 +137,7 @@ Valid values are: C<"PRIVATE_IP">, C<"PUBLIC_IP">
 Update replication configuration template use default large Staging
 Disk type request.
 
-Valid values are: C<"GP2">, C<"ST1">
+Valid values are: C<"GP2">, C<"ST1">, C<"GP3">
 
 =head2 EbsEncryption => Str
 
@@ -186,6 +189,12 @@ Update replication configuration template Staging Area Tags request.
 
 Update replication configuration template use dedicated Replication
 Server request.
+
+
+
+=head2 UseFipsEndpoint => Bool
+
+Update replication configuration template use Fips Endpoint request.
 
 
 

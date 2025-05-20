@@ -3,6 +3,8 @@ package Paws::Robomaker::CreateSimulationApplicationVersion;
   use Moose;
   has Application => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'application', required => 1);
   has CurrentRevisionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'currentRevisionId');
+  has ImageDigest => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageDigest');
+  has S3Etags => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 's3Etags');
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +34,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateSimulationApplicationVersionResponse =
       $robomaker->CreateSimulationApplicationVersion(
       Application       => 'MyArn',
-      CurrentRevisionId => 'MyRevisionId',    # OPTIONAL
+      CurrentRevisionId => 'MyRevisionId',         # OPTIONAL
+      ImageDigest       => 'MyImageDigest',        # OPTIONAL
+      S3Etags           => [ 'MyS3Etag', ... ],    # OPTIONAL
       );
 
     # Results:
-    my $Arn = $CreateSimulationApplicationVersionResponse->Arn;
+    my $Arn         = $CreateSimulationApplicationVersionResponse->Arn;
+    my $Environment = $CreateSimulationApplicationVersionResponse->Environment;
     my $LastUpdatedAt =
       $CreateSimulationApplicationVersionResponse->LastUpdatedAt;
     my $Name = $CreateSimulationApplicationVersionResponse->Name;
@@ -69,6 +74,20 @@ The application information for the simulation application.
 The current revision id for the simulation application. If you provide
 a value and it matches the latest revision ID, a new version will be
 created.
+
+
+
+=head2 ImageDigest => Str
+
+The SHA256 digest used to identify the Docker image URI used to created
+the simulation application.
+
+
+
+=head2 S3Etags => ArrayRef[Str|Undef]
+
+The Amazon S3 eTag identifier for the zip file bundle that you use to
+create the simulation application.
 
 
 

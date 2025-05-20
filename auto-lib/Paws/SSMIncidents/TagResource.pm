@@ -52,7 +52,7 @@ tags to.
 
 =head2 B<REQUIRED> Tags => L<Paws::SSMIncidents::TagMap>
 
-A list of tags that you are adding to the response plan.
+A list of tags to add to the response plan.
 
 
 

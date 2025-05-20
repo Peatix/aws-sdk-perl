@@ -1,7 +1,8 @@
 package Paws::EC2::InstanceSpecification;
   use Moose;
   has ExcludeBootVolume => (is => 'ro', isa => 'Bool');
-  has InstanceId => (is => 'ro', isa => 'Str');
+  has ExcludeDataVolumeIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ExcludeDataVolumeId', traits => ['NameInRequest']);
+  has InstanceId => (is => 'ro', isa => 'Str', required => 1);
 1;
 
 ### main pod documentation begin ###
@@ -42,7 +43,16 @@ This class has no description
 Excludes the root volume from being snapshotted.
 
 
-=head2 InstanceId => Str
+=head2 ExcludeDataVolumeIds => ArrayRef[Str|Undef]
+
+The IDs of the data (non-root) volumes to exclude from the multi-volume
+snapshot set. If you specify the ID of the root volume, the request
+fails. To exclude the root volume, use B<ExcludeBootVolume>.
+
+You can specify up to 40 volume IDs per request.
+
+
+=head2 B<REQUIRED> InstanceId => Str
 
 The instance to specify which volumes should be snapshotted.
 

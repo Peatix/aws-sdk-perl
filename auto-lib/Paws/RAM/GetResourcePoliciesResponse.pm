@@ -18,13 +18,17 @@ Paws::RAM::GetResourcePoliciesResponse
 
 =head2 NextToken => Str
 
-The token to use to retrieve the next page of results. This value is
-C<null> when there are no more results to return.
+If present, this value indicates that more output is available than is
+included in the current response. Use this value in the C<NextToken>
+request parameter in a subsequent call to the operation to get the next
+part of the output. You should repeat this until the C<NextToken>
+response element comes back as C<null>. This indicates that this is the
+last page of results.
 
 
 =head2 Policies => ArrayRef[Str|Undef]
 
-A key policy document, in JSON format.
+An array of resource policy documents in JSON format.
 
 
 =head2 _request_id => Str

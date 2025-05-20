@@ -37,8 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-An activity that adds information from the AWS IoT Device Shadow
-service to a message.
+An activity that adds information from the IoT Device Shadow service to
+a message.
 
 =head1 ATTRIBUTES
 

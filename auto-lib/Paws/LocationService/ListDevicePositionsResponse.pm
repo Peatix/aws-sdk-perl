@@ -18,10 +18,7 @@ Paws::LocationService::ListDevicePositionsResponse
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::LocationService::ListDevicePositionsResponseEntry>]
 
-Contains details about each device's last known position. These details
-includes the device ID, the time when the position was sampled on the
-device, the time that the service received the update, and the most
-recent coordinates.
+Contains details about each device's last known position.
 
 
 =head2 NextToken => Str

@@ -1,8 +1,10 @@
 package Paws::EC2::Vpc;
   use Moose;
+  has BlockPublicAccessStates => (is => 'ro', isa => 'Paws::EC2::BlockPublicAccessStates', request_name => 'blockPublicAccessStates', traits => ['NameInRequest']);
   has CidrBlock => (is => 'ro', isa => 'Str', request_name => 'cidrBlock', traits => ['NameInRequest']);
   has CidrBlockAssociationSet => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VpcCidrBlockAssociation]', request_name => 'cidrBlockAssociationSet', traits => ['NameInRequest']);
   has DhcpOptionsId => (is => 'ro', isa => 'Str', request_name => 'dhcpOptionsId', traits => ['NameInRequest']);
+  has EncryptionControl => (is => 'ro', isa => 'Paws::EC2::VpcEncryptionControl', request_name => 'encryptionControl', traits => ['NameInRequest']);
   has InstanceTenancy => (is => 'ro', isa => 'Str', request_name => 'instanceTenancy', traits => ['NameInRequest']);
   has Ipv6CidrBlockAssociationSet => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VpcIpv6CidrBlockAssociation]', request_name => 'ipv6CidrBlockAssociationSet', traits => ['NameInRequest']);
   has IsDefault => (is => 'ro', isa => 'Bool', request_name => 'isDefault', traits => ['NameInRequest']);
@@ -29,20 +31,25 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::Vpc object:
 
-  $service_obj->Method(Att1 => { CidrBlock => $value, ..., VpcId => $value  });
+  $service_obj->Method(Att1 => { BlockPublicAccessStates => $value, ..., VpcId => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::Vpc object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->CidrBlock
+  $result->Att1->BlockPublicAccessStates
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 BlockPublicAccessStates => L<Paws::EC2::BlockPublicAccessStates>
+
+The state of VPC Block Public Access (BPA).
 
 
 =head2 CidrBlock => Str
@@ -58,6 +65,11 @@ Information about the IPv4 CIDR blocks associated with the VPC.
 =head2 DhcpOptionsId => Str
 
 The ID of the set of DHCP options you've associated with the VPC.
+
+
+=head2 EncryptionControl => L<Paws::EC2::VpcEncryptionControl>
+
+
 
 
 =head2 InstanceTenancy => Str
@@ -77,7 +89,7 @@ Indicates whether the VPC is the default VPC.
 
 =head2 OwnerId => Str
 
-The ID of the AWS account that owns the VPC.
+The ID of the Amazon Web Services account that owns the VPC.
 
 
 =head2 State => Str

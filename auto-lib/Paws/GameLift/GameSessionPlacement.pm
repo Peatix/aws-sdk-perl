@@ -17,6 +17,7 @@ package Paws::GameLift::GameSessionPlacement;
   has PlacementId => (is => 'ro', isa => 'Str');
   has PlayerLatencies => (is => 'ro', isa => 'ArrayRef[Paws::GameLift::PlayerLatency]');
   has Port => (is => 'ro', isa => 'Int');
+  has PriorityConfigurationOverride => (is => 'ro', isa => 'Paws::GameLift::PriorityConfigurationOverride');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
 
@@ -50,28 +51,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::G
 
 =head1 DESCRIPTION
 
-Object that describes a StartGameSessionPlacement request. This object
-includes the full details of the original request plus the current
-status and start/end time stamps.
+Represents a potential game session placement, including the full
+details of the original placement request and the current status.
 
-Game session placement-related operations include:
-
-=over
-
-=item *
-
-StartGameSessionPlacement
-
-=item *
-
-DescribeGameSessionPlacement
-
-=item *
-
-StopGameSessionPlacement
-
-=back
-
+If the game session placement status is C<PENDING>, the properties for
+game session ID/ARN, region, IP address/DNS, and port aren't final. A
+game session is not active and ready to accept players until placement
+status reaches C<FULFILLED>. When the placement is in C<PENDING>
+status, Amazon GameLift may attempt to place a game session multiple
+times before succeeding. With each attempt it creates a
+https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameSession)
+object and updates this placement object with the new game session
+properties.
 
 =head1 ATTRIBUTES
 
@@ -109,34 +101,30 @@ timed out.
 
 =head2 GameProperties => ArrayRef[L<Paws::GameLift::GameProperty>]
 
-A set of custom properties for a game session, formatted as key:value
-pairs. These properties are passed to a game server process in the
-GameSession object with a request to start a new game session (see
-Start a Game Session
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+A set of key-value pairs that can store custom data in a game session.
+For example: C<{"Key": "difficulty", "Value": "novice"}>.
 
 
 =head2 GameSessionArn => Str
 
 Identifier for the game session created by this placement request. This
-value is set once the new game session is placed (placement status is
-C<FULFILLED>). This identifier is unique across all Regions. You can
-use this value as a C<GameSessionId> value as needed.
+identifier is unique across all Regions. This value isn't final until
+placement status is C<FULFILLED>.
 
 
 =head2 GameSessionData => Str
 
 A set of custom game session properties, formatted as a single string
-value. This data is passed to a game server process in the GameSession
-object with a request to start a new game session (see Start a Game
-Session
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
+value. This data is passed to a game server process with a request to
+start a new game session. For more information, see Start a game
+session
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
 
 
 =head2 GameSessionId => Str
 
-A unique identifier for the game session. This value is set once the
-new game session is placed (placement status is C<FULFILLED>).
+A unique identifier for the game session. This value isn't final until
+placement status is C<FULFILLED>.
 
 
 =head2 GameSessionName => Str
@@ -154,16 +142,15 @@ names must be unique within each Region.
 =head2 GameSessionRegion => Str
 
 Name of the Region where the game session created by this placement
-request is running. This value is set once the new game session is
-placed (placement status is C<FULFILLED>).
+request is running. This value isn't final until placement status is
+C<FULFILLED>.
 
 
 =head2 IpAddress => Str
 
-The IP address of the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number. This value is
-set once the new game session is placed (placement status is
-C<FULFILLED>).
+The IP address of the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number. This
+value isn't final until placement status is C<FULFILLED>.
 
 
 =head2 MatchmakerData => Str
@@ -186,11 +173,9 @@ the game session.
 
 A collection of information on player sessions created in response to
 the game session placement request. These player sessions are created
-only once a new game session is successfully placed (placement status
-is C<FULFILLED>). This information includes the player ID (as provided
-in the placement request) and the corresponding player session ID.
-Retrieve full player sessions by calling DescribePlayerSessions with
-the player session ID.
+only after a new game session is successfully placed (placement status
+is C<FULFILLED>). This information includes the player ID, provided in
+the placement request, and a corresponding player session ID.
 
 
 =head2 PlacementId => Str
@@ -201,15 +186,26 @@ A unique identifier for a game session placement.
 =head2 PlayerLatencies => ArrayRef[L<Paws::GameLift::PlayerLatency>]
 
 A set of values, expressed in milliseconds, that indicates the amount
-of latency that a player experiences when connected to AWS Regions.
+of latency that a player experiences when connected to Amazon Web
+Services Regions.
 
 
 =head2 Port => Int
 
-The port number for the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number. This value is
-set once the new game session is placed (placement status is
-C<FULFILLED>).
+The port number for the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number. This
+value isn't final until placement status is C<FULFILLED>.
+
+
+=head2 PriorityConfigurationOverride => L<Paws::GameLift::PriorityConfigurationOverride>
+
+An alternative priority list of locations that's included with a game
+session placement request. When provided, the list overrides a queue's
+location order list for this game session placement request only. The
+list might include Amazon Web Services Regions, local zones, and custom
+locations (for Anywhere fleets). The fallback strategy tells Amazon
+GameLift what action to take (if any) in the event that it failed to
+place a new game session.
 
 
 =head2 StartTime => Str
@@ -227,19 +223,17 @@ Current status of the game session placement request.
 
 =item *
 
-B<PENDING> -- The placement request is currently in the queue waiting
-to be processed.
+B<PENDING> -- The placement request is in the queue waiting to be
+processed. Game session properties are not yet final.
 
 =item *
 
-B<FULFILLED> -- A new game session and player sessions (if requested)
-have been successfully created. Values for I<GameSessionArn> and
-I<GameSessionRegion> are available.
+B<FULFILLED> -- A new game session has been successfully placed. Game
+session properties are now final.
 
 =item *
 
-B<CANCELLED> -- The placement request was canceled with a call to
-StopGameSessionPlacement.
+B<CANCELLED> -- The placement request was canceled.
 
 =item *
 
@@ -249,9 +243,10 @@ needed.
 
 =item *
 
-B<FAILED> -- GameLift is not able to complete the process of placing
-the game session. Common reasons are the game session terminated before
-the placement process was completed, or an unexpected internal error.
+B<FAILED> -- Amazon GameLift is not able to complete the process of
+placing the game session. Common reasons are the game session
+terminated before the placement process was completed, or an unexpected
+internal error.
 
 =back
 

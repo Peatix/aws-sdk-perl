@@ -32,11 +32,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Quer
 
 =head1 DESCRIPTION
 
-The query string of a web request. This is the part of a URL that
-appears after a C<?> character, if any.
+Inspect the query string of the web request. This is the part of a URL
+that appears after a C<?> character, if any.
 
-This is used only to indicate the web request component for WAF to
-inspect, in the FieldToMatch specification.
+This is used in the FieldToMatch specification for some web request
+component types.
+
+JSON specification: C<"QueryString": {}>
 
 =head1 ATTRIBUTES
 

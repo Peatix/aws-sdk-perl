@@ -41,7 +41,8 @@ A resource to assign to a container.
 
 =head2 Type => Str
 
-The type of resource to assign to a container.
+The type of resource to assign to a container. Valid values are C<GPU>
+or C<InferenceAccelerator>.
 
 
 =head2 Value => Str

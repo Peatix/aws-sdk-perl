@@ -47,7 +47,8 @@ The name of the key schema attribute.
 
 =head2 KeyType => Str
 
-The type of key used for the key schema attribute.
+The type of key used for the key schema attribute. Valid values are
+C<HASH> or C<RANGE>.
 
 
 

@@ -11,6 +11,7 @@ package Paws::SageMaker::Endpoint;
   has LastModifiedTime => (is => 'ro', isa => 'Str', required => 1);
   has MonitoringSchedules => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::MonitoringSchedule]');
   has ProductionVariants => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProductionVariantSummary]');
+  has ShadowProductionVariants => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProductionVariantSummary]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
 
 1;
@@ -99,6 +100,13 @@ model monitoring, see Amazon SageMaker Model Monitor
 
 A list of the production variants hosted on the endpoint. Each
 production variant is a model.
+
+
+=head2 ShadowProductionVariants => ArrayRef[L<Paws::SageMaker::ProductionVariantSummary>]
+
+A list of the shadow variants hosted on the endpoint. Each shadow
+variant is a model in shadow mode with production traffic replicated
+from the production variant.
 
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]

@@ -33,9 +33,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppIntegrat
 
 =head1 DESCRIPTION
 
-The Amazon AppIntegrations APIs are in preview release and are subject
-to change.
-
 The event filter.
 
 =head1 ATTRIBUTES

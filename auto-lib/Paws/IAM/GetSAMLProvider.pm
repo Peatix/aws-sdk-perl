@@ -33,8 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AssertionEncryptionMode =
+      $GetSAMLProviderResponse->AssertionEncryptionMode;
     my $CreateDate           = $GetSAMLProviderResponse->CreateDate;
+    my $PrivateKeyList       = $GetSAMLProviderResponse->PrivateKeyList;
     my $SAMLMetadataDocument = $GetSAMLProviderResponse->SAMLMetadataDocument;
+    my $SAMLProviderUUID     = $GetSAMLProviderResponse->SAMLProviderUUID;
     my $Tags                 = $GetSAMLProviderResponse->Tags;
     my $ValidUntil           = $GetSAMLProviderResponse->ValidUntil;
 
@@ -53,7 +57,7 @@ IAM to get information about.
 
 For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 

@@ -47,15 +47,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 DefaultList => Bool
 
-Specifies whether the list to retrieve is a default list owned by AWS
+Specifies whether the list to retrieve is a default list owned by
 Firewall Manager.
 
 
 
 =head2 B<REQUIRED> ListId => Str
 
-The ID of the AWS Firewall Manager protocols list that you want the
-details for.
+The ID of the Firewall Manager protocols list that you want the details
+for.
 
 
 

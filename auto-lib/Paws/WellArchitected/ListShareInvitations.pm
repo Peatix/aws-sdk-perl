@@ -1,8 +1,12 @@
 
 package Paws::WellArchitected::ListShareInvitations;
   use Moose;
+  has LensNamePrefix => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'LensNamePrefix');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'MaxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
+  has ProfileNamePrefix => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'ProfileNamePrefix');
+  has ShareResourceType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'ShareResourceType');
+  has TemplateNamePrefix => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'TemplateNamePrefix');
   has WorkloadNamePrefix => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'WorkloadNamePrefix');
 
   use MooseX::ClassAttribute;
@@ -31,8 +35,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wellarchitected = Paws->service('WellArchitected');
     my $ListShareInvitationsOutput = $wellarchitected->ListShareInvitations(
+      LensNamePrefix     => 'MyLensNamePrefix',        # OPTIONAL
       MaxResults         => 1,                         # OPTIONAL
       NextToken          => 'MyNextToken',             # OPTIONAL
+      ProfileNamePrefix  => 'MyProfileNamePrefix',     # OPTIONAL
+      ShareResourceType  => 'WORKLOAD',                # OPTIONAL
+      TemplateNamePrefix => 'MyTemplateNamePrefix',    # OPTIONAL
       WorkloadNamePrefix => 'MyWorkloadNamePrefix',    # OPTIONAL
     );
 
@@ -49,6 +57,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 =head1 ATTRIBUTES
 
 
+=head2 LensNamePrefix => Str
+
+An optional string added to the beginning of each lens name returned in
+the results.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of results to return for this request.
@@ -58,6 +73,26 @@ The maximum number of results to return for this request.
 =head2 NextToken => Str
 
 
+
+
+
+=head2 ProfileNamePrefix => Str
+
+An optional string added to the beginning of each profile name returned
+in the results.
+
+
+
+=head2 ShareResourceType => Str
+
+The type of share invitations to be returned.
+
+Valid values are: C<"WORKLOAD">, C<"LENS">, C<"PROFILE">, C<"TEMPLATE">
+
+=head2 TemplateNamePrefix => Str
+
+An optional string added to the beginning of each review template name
+returned in the results.
 
 
 

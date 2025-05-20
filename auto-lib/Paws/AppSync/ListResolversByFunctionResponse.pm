@@ -18,7 +18,7 @@ Paws::AppSync::ListResolversByFunctionResponse
 
 =head2 NextToken => Str
 
-An identifier that can be used to return the next set of items in the
+An identifier that you can use to return the next set of items in the
 list.
 
 

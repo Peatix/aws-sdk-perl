@@ -3,6 +3,7 @@ package Paws::FraudDetector::GetModelVersionResult;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn' );
   has ExternalEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::ExternalEventsDetail', traits => ['NameInRequest'], request_name => 'externalEventsDetail' );
+  has IngestedEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::IngestedEventsDetail', traits => ['NameInRequest'], request_name => 'ingestedEventsDetail' );
   has ModelId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelId' );
   has ModelType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelType' );
   has ModelVersionNumber => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelVersionNumber' );
@@ -28,7 +29,16 @@ The model version ARN.
 
 =head2 ExternalEventsDetail => L<Paws::FraudDetector::ExternalEventsDetail>
 
-The event details.
+The details of the external events data used for training the model
+version. This will be populated if the C<trainingDataSource> is
+C<EXTERNAL_EVENTS>
+
+
+=head2 IngestedEventsDetail => L<Paws::FraudDetector::IngestedEventsDetail>
+
+The details of the ingested events data used for training the model
+version. This will be populated if the C<trainingDataSource> is
+C<INGESTED_EVENTS>.
 
 
 =head2 ModelId => Str
@@ -40,7 +50,7 @@ The model ID.
 
 The model type.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 =head2 ModelVersionNumber => Str
 
 The model version number.
@@ -103,7 +113,7 @@ The training data schema.
 
 The training data source.
 
-Valid values are: C<"EXTERNAL_EVENTS">
+Valid values are: C<"EXTERNAL_EVENTS">, C<"INGESTED_EVENTS">
 =head2 _request_id => Str
 
 

@@ -48,7 +48,7 @@ Specifies a custom C<ExtendedKeyUsage> with an object identifier (OID).
 =head2 ExtendedKeyUsageType => Str
 
 Specifies a standard C<ExtendedKeyUsage> as defined as in RFC 5280
-(https://tools.ietf.org/html/rfc5280#section-4.2.1.12).
+(https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12).
 
 
 

@@ -11,13 +11,16 @@ package Paws::SageMaker::CreateTrainingJob;
   has Environment => (is => 'ro', isa => 'Paws::SageMaker::TrainingEnvironmentMap');
   has ExperimentConfig => (is => 'ro', isa => 'Paws::SageMaker::ExperimentConfig');
   has HyperParameters => (is => 'ro', isa => 'Paws::SageMaker::HyperParameters');
+  has InfraCheckConfig => (is => 'ro', isa => 'Paws::SageMaker::InfraCheckConfig');
   has InputDataConfig => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Channel]');
   has OutputDataConfig => (is => 'ro', isa => 'Paws::SageMaker::OutputDataConfig', required => 1);
   has ProfilerConfig => (is => 'ro', isa => 'Paws::SageMaker::ProfilerConfig');
   has ProfilerRuleConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProfilerRuleConfiguration]');
+  has RemoteDebugConfig => (is => 'ro', isa => 'Paws::SageMaker::RemoteDebugConfig');
   has ResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::ResourceConfig', required => 1);
   has RetryStrategy => (is => 'ro', isa => 'Paws::SageMaker::RetryStrategy');
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has SessionChainingConfig => (is => 'ro', isa => 'Paws::SageMaker::SessionChainingConfig');
   has StoppingCondition => (is => 'ro', isa => 'Paws::SageMaker::StoppingCondition', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
   has TensorBoardOutputConfig => (is => 'ro', isa => 'Paws::SageMaker::TensorBoardOutputConfig');
@@ -50,8 +53,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateTrainingJobResponse = $api . sagemaker->CreateTrainingJob(
       AlgorithmSpecification => {
-        TrainingInputMode => 'Pipe',              # values: Pipe, File
-        AlgorithmName     => 'MyArnOrName',       # min: 1, max: 170; OPTIONAL
+        TrainingInputMode  => 'Pipe',           # values: Pipe, File, FastFile
+        AlgorithmName      => 'MyArnOrName',    # min: 1, max: 170; OPTIONAL
+        ContainerArguments => [
+          'MyTrainingContainerArgument', ...    # max: 256
+        ],    # min: 1, max: 100; OPTIONAL
+        ContainerEntrypoint => [
+          'MyTrainingContainerEntrypointString', ...    # max: 256
+        ],    # min: 1, max: 100; OPTIONAL
         EnableSageMakerMetricsTimeSeries => 1,    # OPTIONAL
         MetricDefinitions                => [
           {
@@ -61,23 +70,45 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # max: 40; OPTIONAL
-        TrainingImage => 'MyAlgorithmImage',    # max: 255; OPTIONAL
+        TrainingImage       => 'MyAlgorithmImage',    # max: 255; OPTIONAL
+        TrainingImageConfig => {
+          TrainingRepositoryAccessMode => 'Platform',    # values: Platform, Vpc
+          TrainingRepositoryAuthConfig => {
+            TrainingRepositoryCredentialsProviderArn =>
+              'MyTrainingRepositoryCredentialsProviderArn',  # min: 1, max: 2048
+
+          },    # OPTIONAL
+        },    # OPTIONAL
       },
       OutputDataConfig => {
-        S3OutputPath => 'MyS3Uri',              # max: 1024
-        KmsKeyId     => 'MyKmsKeyId',           # max: 2048; OPTIONAL
+        S3OutputPath    => 'MyS3Uri',       # max: 1024
+        CompressionType => 'GZIP',          # values: GZIP, NONE; OPTIONAL
+        KmsKeyId        => 'MyKmsKeyId',    # max: 2048; OPTIONAL
       },
       ResourceConfig => {
-        InstanceCount => 1,                     # min: 1
-        InstanceType  => 'ml.m4.xlarge'
-        , # values: ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.p3dn.24xlarge, ml.p4d.24xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.c5n.xlarge, ml.c5n.2xlarge, ml.c5n.4xlarge, ml.c5n.9xlarge, ml.c5n.18xlarge
-        VolumeSizeInGB => 1,               # min: 1
-        VolumeKmsKeyId => 'MyKmsKeyId',    # max: 2048; OPTIONAL
+        VolumeSizeInGB => 1,                # min: 1
+        InstanceCount  => 1,                # OPTIONAL
+        InstanceGroups => [
+          {
+            InstanceCount     => 1,                        # OPTIONAL
+            InstanceGroupName => 'MyInstanceGroupName',    # min: 1, max: 64
+            InstanceType      => 'ml.m4.xlarge'
+            , # values: ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.p3dn.24xlarge, ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.c5n.xlarge, ml.c5n.2xlarge, ml.c5n.4xlarge, ml.c5n.9xlarge, ml.c5n.18xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.16xlarge, ml.g5.12xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.16xlarge, ml.g6.12xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.16xlarge, ml.g6e.12xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.trn1.2xlarge, ml.trn1.32xlarge, ml.trn1n.32xlarge, ml.trn2.48xlarge, ml.m6i.large, ml.m6i.xlarge, ml.m6i.2xlarge, ml.m6i.4xlarge, ml.m6i.8xlarge, ml.m6i.12xlarge, ml.m6i.16xlarge, ml.m6i.24xlarge, ml.m6i.32xlarge, ml.c6i.xlarge, ml.c6i.2xlarge, ml.c6i.8xlarge, ml.c6i.4xlarge, ml.c6i.12xlarge, ml.c6i.16xlarge, ml.c6i.24xlarge, ml.c6i.32xlarge, ml.r5d.large, ml.r5d.xlarge, ml.r5d.2xlarge, ml.r5d.4xlarge, ml.r5d.8xlarge, ml.r5d.12xlarge, ml.r5d.16xlarge, ml.r5d.24xlarge, ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge
+
+          },
+          ...
+        ],    # max: 5; OPTIONAL
+        InstanceType => 'ml.m4.xlarge'
+        , # values: ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.p3dn.24xlarge, ml.p4d.24xlarge, ml.p4de.24xlarge, ml.p5.48xlarge, ml.p5e.48xlarge, ml.p5en.48xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.c5n.xlarge, ml.c5n.2xlarge, ml.c5n.4xlarge, ml.c5n.9xlarge, ml.c5n.18xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.16xlarge, ml.g5.12xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.16xlarge, ml.g6.12xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.16xlarge, ml.g6e.12xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.trn1.2xlarge, ml.trn1.32xlarge, ml.trn1n.32xlarge, ml.trn2.48xlarge, ml.m6i.large, ml.m6i.xlarge, ml.m6i.2xlarge, ml.m6i.4xlarge, ml.m6i.8xlarge, ml.m6i.12xlarge, ml.m6i.16xlarge, ml.m6i.24xlarge, ml.m6i.32xlarge, ml.c6i.xlarge, ml.c6i.2xlarge, ml.c6i.8xlarge, ml.c6i.4xlarge, ml.c6i.12xlarge, ml.c6i.16xlarge, ml.c6i.24xlarge, ml.c6i.32xlarge, ml.r5d.large, ml.r5d.xlarge, ml.r5d.2xlarge, ml.r5d.4xlarge, ml.r5d.8xlarge, ml.r5d.12xlarge, ml.r5d.16xlarge, ml.r5d.24xlarge, ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge
+        KeepAlivePeriodInSeconds => 1,    # max: 3600; OPTIONAL
+        TrainingPlanArn => 'MyTrainingPlanArn',   # min: 50, max: 2048; OPTIONAL
+        VolumeKmsKeyId  => 'MyKmsKeyId',          # max: 2048; OPTIONAL
       },
       RoleArn           => 'MyRoleArn',
       StoppingCondition => {
-        MaxRuntimeInSeconds  => 1,         # min: 1; OPTIONAL
-        MaxWaitTimeInSeconds => 1,         # min: 1; OPTIONAL
+        MaxPendingTimeInSeconds => 1,    # min: 7200, max: 2419200; OPTIONAL
+        MaxRuntimeInSeconds     => 1,    # min: 1; OPTIONAL
+        MaxWaitTimeInSeconds    => 1,    # min: 1; OPTIONAL
       },
       TrainingJobName  => 'MyTrainingJobName',
       CheckpointConfig => {
@@ -107,7 +138,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           RuleConfigurationName => 'MyRuleConfigurationName', # min: 1, max: 256
           RuleEvaluatorImage    => 'MyAlgorithmImage',    # max: 255; OPTIONAL
           InstanceType          => 'ml.t3.medium'
-          , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge; OPTIONAL
+          , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.16xlarge, ml.g5.12xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.r5d.large, ml.r5d.xlarge, ml.r5d.2xlarge, ml.r5d.4xlarge, ml.r5d.8xlarge, ml.r5d.12xlarge, ml.r5d.16xlarge, ml.r5d.24xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.m6i.large, ml.m6i.xlarge, ml.m6i.2xlarge, ml.m6i.4xlarge, ml.m6i.8xlarge, ml.m6i.12xlarge, ml.m6i.16xlarge, ml.m6i.24xlarge, ml.m6i.32xlarge, ml.c6i.xlarge, ml.c6i.2xlarge, ml.c6i.4xlarge, ml.c6i.8xlarge, ml.c6i.12xlarge, ml.c6i.16xlarge, ml.c6i.24xlarge, ml.c6i.32xlarge; OPTIONAL
           LocalPath      => 'MyDirectoryPath',    # max: 4096; OPTIONAL
           RuleParameters => {
             'MyConfigKey' =>
@@ -127,6 +158,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       ExperimentConfig => {
         ExperimentName => 'MyExperimentEntityName', # min: 1, max: 120; OPTIONAL
+        RunName        => 'MyExperimentEntityName', # min: 1, max: 120; OPTIONAL
         TrialComponentDisplayName =>
           'MyExperimentEntityName',                 # min: 1, max: 120; OPTIONAL
         TrialName => 'MyExperimentEntityName',      # min: 1, max: 120; OPTIONAL
@@ -135,6 +167,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'MyHyperParameterKey' =>
           'MyHyperParameterValue',    # key: max: 256, value: max: 2500
       },    # OPTIONAL
+      InfraCheckConfig => {
+        EnableInfraCheck => 1,    # OPTIONAL
+      },    # OPTIONAL
       InputDataConfig => [
         {
           ChannelName => 'MyChannelName',    # min: 1, max: 64
@@ -142,7 +177,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             FileSystemDataSource => {
               DirectoryPath        => 'MyDirectoryPath',   # max: 4096; OPTIONAL
               FileSystemAccessMode => 'rw',                # values: rw, ro
-              FileSystemId         => 'MyFileSystemId',    # min: 11
+              FileSystemId         => 'MyFileSystemId',    # min: 11, max: 21
               FileSystemType       => 'EFS',    # values: EFS, FSxLustre
 
             },    # OPTIONAL
@@ -153,13 +188,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               AttributeNames => [
                 'MyAttributeName', ...        # min: 1, max: 256
               ],    # max: 16; OPTIONAL
+              HubAccessConfig => {
+                HubContentArn => 'MyHubContentArn',    # max: 255
+
+              },    # OPTIONAL
+              InstanceGroupNames => [
+                'MyInstanceGroupName', ...    # min: 1, max: 64
+              ],    # max: 5; OPTIONAL
+              ModelAccessConfig => {
+                AcceptEula => 1,
+
+              },    # OPTIONAL
               S3DataDistributionType => 'FullyReplicated'
               ,     # values: FullyReplicated, ShardedByS3Key; OPTIONAL
             },    # OPTIONAL
           },
           CompressionType   => 'None',            # values: None, Gzip; OPTIONAL
           ContentType       => 'MyContentType',   # max: 256; OPTIONAL
-          InputMode         => 'Pipe',            # values: Pipe, File
+          InputMode         => 'Pipe',            # values: Pipe, File, FastFile
           RecordWrapperType => 'None',    # values: None, RecordIO; OPTIONAL
           ShuffleConfig     => {
             Seed => 1,
@@ -169,19 +215,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],    # OPTIONAL
       ProfilerConfig => {
-        S3OutputPath                    => 'MyS3Uri',    # max: 1024
-        ProfilingIntervalInMilliseconds => 1,            # OPTIONAL
+        DisableProfiler                 => 1,    # OPTIONAL
+        ProfilingIntervalInMilliseconds => 1,    # OPTIONAL
         ProfilingParameters             => {
           'MyConfigKey' =>
             'MyConfigValue',    # key: min: 1, max: 256, value: max: 256
         },    # max: 20; OPTIONAL
+        S3OutputPath => 'MyS3Uri',    # max: 1024
       },    # OPTIONAL
       ProfilerRuleConfigurations => [
         {
           RuleConfigurationName => 'MyRuleConfigurationName', # min: 1, max: 256
           RuleEvaluatorImage    => 'MyAlgorithmImage',    # max: 255; OPTIONAL
           InstanceType          => 'ml.t3.medium'
-          , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge; OPTIONAL
+          , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.16xlarge, ml.g5.12xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.r5d.large, ml.r5d.xlarge, ml.r5d.2xlarge, ml.r5d.4xlarge, ml.r5d.8xlarge, ml.r5d.12xlarge, ml.r5d.16xlarge, ml.r5d.24xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.m6i.large, ml.m6i.xlarge, ml.m6i.2xlarge, ml.m6i.4xlarge, ml.m6i.8xlarge, ml.m6i.12xlarge, ml.m6i.16xlarge, ml.m6i.24xlarge, ml.m6i.32xlarge, ml.c6i.xlarge, ml.c6i.2xlarge, ml.c6i.4xlarge, ml.c6i.8xlarge, ml.c6i.12xlarge, ml.c6i.16xlarge, ml.c6i.24xlarge, ml.c6i.32xlarge; OPTIONAL
           LocalPath      => 'MyDirectoryPath',    # max: 4096; OPTIONAL
           RuleParameters => {
             'MyConfigKey' =>
@@ -192,9 +239,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      RemoteDebugConfig => {
+        EnableRemoteDebug => 1,    # OPTIONAL
+      },    # OPTIONAL
       RetryStrategy => {
         MaximumRetryAttempts => 1,    # min: 1, max: 30
 
+      },    # OPTIONAL
+      SessionChainingConfig => {
+        EnableSessionTagChaining => 1,    # OPTIONAL
       },    # OPTIONAL
       Tags => [
         {
@@ -234,7 +287,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 The registry path of the Docker image that contains the training
 algorithm and algorithm-specific metadata, including the input mode.
-For more information about algorithms provided by Amazon SageMaker, see
+For more information about algorithms provided by SageMaker, see
 Algorithms
 (https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For
 information about providing your own algorithms, see Using Your Own
@@ -258,8 +311,8 @@ training checkpoint data.
 
 =head2 DebugRuleConfigurations => ArrayRef[L<Paws::SageMaker::DebugRuleConfiguration>]
 
-Configuration information for Debugger rules for debugging output
-tensors.
+Configuration information for Amazon SageMaker Debugger rules for
+debugging output tensors.
 
 
 
@@ -297,15 +350,22 @@ running, interrupted, resumed, or completed.
 Isolates the training container. No inbound or outbound network calls
 can be made, except for calls between peers within a training cluster
 for distributed training. If you enable network isolation for training
-jobs that are configured to use a VPC, Amazon SageMaker downloads and
-uploads customer data and model artifacts through the specified VPC,
-but the training container does not have network access.
+jobs that are configured to use a VPC, SageMaker downloads and uploads
+customer data and model artifacts through the specified VPC, but the
+training container does not have network access.
 
 
 
 =head2 Environment => L<Paws::SageMaker::TrainingEnvironmentMap>
 
 The environment variables to set in the Docker container.
+
+Do not include any security-sensitive information including account
+access IDs, secrets, or tokens in any environment fields. As part of
+the shared responsibility model, you are responsible for any potential
+exposure, unauthorized access, or compromise of your sensitive data if
+caused by security-sensitive information included in the request
+environment variable or plain text fields.
 
 
 
@@ -319,13 +379,27 @@ The environment variables to set in the Docker container.
 
 Algorithm-specific parameters that influence the quality of the model.
 You set hyperparameters before you start the learning process. For a
-list of hyperparameters for each training algorithm provided by Amazon
+list of hyperparameters for each training algorithm provided by
 SageMaker, see Algorithms
 (https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
 
 You can specify a maximum of 100 hyperparameters. Each hyperparameter
 is a key-value pair. Each key and value is limited to 256 characters,
 as specified by the C<Length Constraint>.
+
+Do not include any security-sensitive information including account
+access IDs, secrets, or tokens in any hyperparameter fields. As part of
+the shared responsibility model, you are responsible for any potential
+exposure, unauthorized access, or compromise of your sensitive data if
+caused by any security-sensitive information included in the request
+hyperparameter variable or plain text fields.
+
+
+
+=head2 InfraCheckConfig => L<Paws::SageMaker::InfraCheckConfig>
+
+Contains information about the infrastructure health check
+configuration for the training job.
 
 
 
@@ -342,19 +416,21 @@ stored. It also provides information about the stored data: the MIME
 type, compression method, and whether the data is wrapped in RecordIO
 format.
 
-Depending on the input mode that the algorithm supports, Amazon
-SageMaker either copies input data files from an S3 bucket to a local
-directory in the Docker container, or makes it available as input
-streams. For example, if you specify an EFS location, input data files
-will be made available as input streams. They do not need to be
-downloaded.
+Depending on the input mode that the algorithm supports, SageMaker
+either copies input data files from an S3 bucket to a local directory
+in the Docker container, or makes it available as input streams. For
+example, if you specify an EFS location, input data files are available
+as input streams. They do not need to be downloaded.
+
+Your input must be in the same Amazon Web Services region as your
+training job.
 
 
 
 =head2 B<REQUIRED> OutputDataConfig => L<Paws::SageMaker::OutputDataConfig>
 
 Specifies the path to the S3 location where you want to store model
-artifacts. Amazon SageMaker creates subfolders for the artifacts.
+artifacts. SageMaker creates subfolders for the artifacts.
 
 
 
@@ -366,8 +442,17 @@ artifacts. Amazon SageMaker creates subfolders for the artifacts.
 
 =head2 ProfilerRuleConfigurations => ArrayRef[L<Paws::SageMaker::ProfilerRuleConfiguration>]
 
-Configuration information for Debugger rules for profiling system and
-framework metrics.
+Configuration information for Amazon SageMaker Debugger rules for
+profiling system and framework metrics.
+
+
+
+=head2 RemoteDebugConfig => L<Paws::SageMaker::RemoteDebugConfig>
+
+Configuration for remote debugging. To learn more about the remote
+debugging functionality of SageMaker, see Access a training container
+through Amazon Web Services Systems Manager (SSM) for remote debugging
+(https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
 
 
 
@@ -378,10 +463,10 @@ volumes, to use for model training.
 
 ML storage volumes store model artifacts and incremental states.
 Training algorithms might also use ML storage volumes for scratch
-space. If you want Amazon SageMaker to use the ML storage volume to
-store the training data, choose C<File> as the C<TrainingInputMode> in
-the algorithm specification. For distributed training algorithms,
-specify an instance count greater than 1.
+space. If you want SageMaker to use the ML storage volume to store the
+training data, choose C<File> as the C<TrainingInputMode> in the
+algorithm specification. For distributed training algorithms, specify
+an instance count greater than 1.
 
 
 
@@ -394,19 +479,26 @@ C<InternalServerError>.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can
-assume to perform tasks on your behalf.
+The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume
+to perform tasks on your behalf.
 
-During model training, Amazon SageMaker needs your permission to read
-input data from an S3 bucket, download a Docker image that contains
-training code, write model artifacts to an S3 bucket, write logs to
-Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You
-grant permissions for all of these tasks to an IAM role. For more
-information, see Amazon SageMaker Roles
+During model training, SageMaker needs your permission to read input
+data from an S3 bucket, download a Docker image that contains training
+code, write model artifacts to an S3 bucket, write logs to Amazon
+CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant
+permissions for all of these tasks to an IAM role. For more
+information, see SageMaker Roles
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
-To be able to pass this role to Amazon SageMaker, the caller of this
-API must have the C<iam:PassRole> permission.
+To be able to pass this role to SageMaker, the caller of this API must
+have the C<iam:PassRole> permission.
+
+
+
+=head2 SessionChainingConfig => L<Paws::SageMaker::SessionChainingConfig>
+
+Contains information about attribute-based access control (ABAC) for
+the training job.
 
 
 
@@ -414,13 +506,13 @@ API must have the C<iam:PassRole> permission.
 
 Specifies a limit to how long a model training job can run. It also
 specifies how long a managed Spot training job has to complete. When
-the job reaches the time limit, Amazon SageMaker ends the training job.
-Use this API to cap model training costs.
+the job reaches the time limit, SageMaker ends the training job. Use
+this API to cap model training costs.
 
-To stop a job, Amazon SageMaker sends the algorithm the C<SIGTERM>
-signal, which delays job termination for 120 seconds. Algorithms can
-use this 120-second window to save the model artifacts, so the results
-of training are not lost.
+To stop a job, SageMaker sends the algorithm the C<SIGTERM> signal,
+which delays job termination for 120 seconds. Algorithms can use this
+120-second window to save the model artifacts, so the results of
+training are not lost.
 
 
 
@@ -431,6 +523,13 @@ Web Services resources in different ways, for example, by purpose,
 owner, or environment. For more information, see Tagging Amazon Web
 Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+
+Do not include any security-sensitive information including account
+access IDs, secrets, or tokens in any tags. As part of the shared
+responsibility model, you are responsible for any potential exposure,
+unauthorized access, or compromise of your sensitive data if caused by
+any security-sensitive information included in the request tag variable
+or plain text fields.
 
 
 
@@ -449,10 +548,12 @@ Web Services Region in an Amazon Web Services account.
 
 =head2 VpcConfig => L<Paws::SageMaker::VpcConfig>
 
-A VpcConfig object that specifies the VPC that you want your training
-job to connect to. Control access to and from your training container
-by configuring the VPC. For more information, see Protect Training Jobs
-by Using an Amazon Virtual Private Cloud
+A VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that you want your training job to
+connect to. Control access to and from your training container by
+configuring the VPC. For more information, see Protect Training Jobs by
+Using an Amazon Virtual Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
 
 

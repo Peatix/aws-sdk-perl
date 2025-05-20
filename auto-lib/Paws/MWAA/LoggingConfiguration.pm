@@ -37,36 +37,38 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Loggi
 
 =head1 DESCRIPTION
 
-Defines the Apache Airflow logs to send to CloudWatch Logs:
-C<DagProcessingLogs>, C<SchedulerLogs>, C<TaskLogs>, C<WebserverLogs>,
-C<WorkerLogs>.
+Describes the Apache Airflow log types that are published to CloudWatch
+Logs.
 
 =head1 ATTRIBUTES
 
 
 =head2 DagProcessingLogs => L<Paws::MWAA::ModuleLoggingConfiguration>
 
-
+The Airflow DAG processing logs published to CloudWatch Logs and the
+log level.
 
 
 =head2 SchedulerLogs => L<Paws::MWAA::ModuleLoggingConfiguration>
 
-
+The Airflow scheduler logs published to CloudWatch Logs and the log
+level.
 
 
 =head2 TaskLogs => L<Paws::MWAA::ModuleLoggingConfiguration>
 
-
+The Airflow task logs published to CloudWatch Logs and the log level.
 
 
 =head2 WebserverLogs => L<Paws::MWAA::ModuleLoggingConfiguration>
 
-
+The Airflow web server logs published to CloudWatch Logs and the log
+level.
 
 
 =head2 WorkerLogs => L<Paws::MWAA::ModuleLoggingConfiguration>
 
-
+The Airflow worker logs published to CloudWatch Logs and the log level.
 
 
 

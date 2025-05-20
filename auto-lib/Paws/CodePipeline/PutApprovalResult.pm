@@ -86,6 +86,12 @@ The token for each open approval request can be obtained using the
 GetPipelineState action. It is used to validate that the approval
 request corresponding to this token is still valid.
 
+For a pipeline where the execution mode is set to PARALLEL, the token
+required to approve/reject an approval request as detailed above is not
+available. Instead, use the C<externalExecutionId> in the response
+output from the ListActionExecutions action as the token in the
+approval request.
+
 
 
 

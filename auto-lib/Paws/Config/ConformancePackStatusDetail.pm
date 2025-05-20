@@ -64,7 +64,7 @@ Name of the conformance pack.
 
 Indicates deployment status of conformance pack.
 
-AWS Config sets the state of the conformance pack to:
+Config sets the state of the conformance pack to:
 
 =over
 
@@ -111,7 +111,7 @@ Last time when conformation pack creation and update was requested.
 
 =head2 B<REQUIRED> StackArn => Str
 
-Amazon Resource Name (ARN) of AWS CloudFormation stack.
+Amazon Resource Name (ARN) of CloudFormation stack.
 
 
 

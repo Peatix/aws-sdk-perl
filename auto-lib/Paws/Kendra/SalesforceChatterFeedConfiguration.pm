@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sal
 
 =head1 DESCRIPTION
 
-Defines configuration for syncing a Salesforce chatter feed. The
-contents of the object comes from the Salesforce FeedItem table.
+The configuration information for syncing a Salesforce chatter feed.
+The contents of the object comes from the Salesforce FeedItem table.
 
 =head1 ATTRIBUTES
 

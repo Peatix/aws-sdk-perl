@@ -2,6 +2,7 @@
 package Paws::Appflow::ConnectorProfile;
   use Moose;
   has ConnectionMode => (is => 'ro', isa => 'Str', request_name => 'connectionMode', traits => ['NameInRequest']);
+  has ConnectorLabel => (is => 'ro', isa => 'Str', request_name => 'connectorLabel', traits => ['NameInRequest']);
   has ConnectorProfileArn => (is => 'ro', isa => 'Str', request_name => 'connectorProfileArn', traits => ['NameInRequest']);
   has ConnectorProfileName => (is => 'ro', isa => 'Str', request_name => 'connectorProfileName', traits => ['NameInRequest']);
   has ConnectorProfileProperties => (is => 'ro', isa => 'Paws::Appflow::ConnectorProfileProperties', request_name => 'connectorProfileProperties', traits => ['NameInRequest']);
@@ -9,6 +10,7 @@ package Paws::Appflow::ConnectorProfile;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has CredentialsArn => (is => 'ro', isa => 'Str', request_name => 'credentialsArn', traits => ['NameInRequest']);
   has LastUpdatedAt => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedAt', traits => ['NameInRequest']);
+  has PrivateConnectionProvisioningState => (is => 'ro', isa => 'Paws::Appflow::PrivateConnectionProvisioningState', request_name => 'privateConnectionProvisioningState', traits => ['NameInRequest']);
 
 1;
 
@@ -29,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::ConnectorProfile object:
 
-  $service_obj->Method(Att1 => { ConnectionMode => $value, ..., LastUpdatedAt => $value  });
+  $service_obj->Method(Att1 => { ConnectionMode => $value, ..., PrivateConnectionProvisioningState => $value  });
 
 =head3 Results returned from an API call
 
@@ -55,6 +57,11 @@ C<connectorProfileProperties> field.
 Indicates the connection mode and if it is public or private.
 
 
+=head2 ConnectorLabel => Str
+
+The label for the connector profile being created.
+
+
 =head2 ConnectorProfileArn => Str
 
 The Amazon Resource Name (ARN) of the connector profile.
@@ -63,7 +70,7 @@ The Amazon Resource Name (ARN) of the connector profile.
 =head2 ConnectorProfileName => Str
 
 The name of the connector profile. The name is unique for each
-C<ConnectorProfile> in the AWS account.
+C<ConnectorProfile> in the Amazon Web Services account.
 
 
 =head2 ConnectorProfileProperties => L<Paws::Appflow::ConnectorProfileProperties>
@@ -89,6 +96,11 @@ The Amazon Resource Name (ARN) of the connector profile credentials.
 =head2 LastUpdatedAt => Str
 
 Specifies when the connector profile was last updated.
+
+
+=head2 PrivateConnectionProvisioningState => L<Paws::Appflow::PrivateConnectionProvisioningState>
+
+Specifies the private connection provisioning state.
 
 
 

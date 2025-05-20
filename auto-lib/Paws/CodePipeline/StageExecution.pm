@@ -3,6 +3,7 @@ package Paws::CodePipeline::StageExecution;
   use Moose;
   has PipelineExecutionId => (is => 'ro', isa => 'Str', request_name => 'pipelineExecutionId', traits => ['NameInRequest'], required => 1);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest'], required => 1);
+  has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CodePipeline::StageExecution object:
 
-  $service_obj->Method(Att1 => { PipelineExecutionId => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { PipelineExecutionId => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,6 +52,12 @@ the stage.
 
 A status of cancelled means that the pipelineE<rsquo>s definition was
 updated before the stage execution could be completed.
+
+
+=head2 Type => Str
+
+The type of pipeline execution for the stage, such as a rollback
+pipeline execution.
 
 
 

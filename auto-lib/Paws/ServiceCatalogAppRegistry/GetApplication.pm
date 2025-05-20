@@ -34,12 +34,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Arn = $GetApplicationResponse->Arn;
+    my $ApplicationTag = $GetApplicationResponse->ApplicationTag;
+    my $Arn            = $GetApplicationResponse->Arn;
     my $AssociatedResourceCount =
       $GetApplicationResponse->AssociatedResourceCount;
     my $CreationTime   = $GetApplicationResponse->CreationTime;
     my $Description    = $GetApplicationResponse->Description;
     my $Id             = $GetApplicationResponse->Id;
+    my $Integrations   = $GetApplicationResponse->Integrations;
     my $LastUpdateTime = $GetApplicationResponse->LastUpdateTime;
     my $Name           = $GetApplicationResponse->Name;
     my $Tags           = $GetApplicationResponse->Tags;
@@ -54,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> Application => Str
 
-The name or ID of the application.
+The name, ID, or ARN of the application.
 
 
 

@@ -4,6 +4,7 @@ package Paws::CustomerProfiles::GetProfileObjectTypeTemplateResponse;
   has AllowProfileCreation => (is => 'ro', isa => 'Bool');
   has Fields => (is => 'ro', isa => 'Paws::CustomerProfiles::FieldMap');
   has Keys => (is => 'ro', isa => 'Paws::CustomerProfiles::KeyMap');
+  has SourceLastUpdatedTimestampFormat => (is => 'ro', isa => 'Str');
   has SourceName => (is => 'ro', isa => 'Str');
   has SourceObject => (is => 'ro', isa => 'Str');
   has TemplateId => (is => 'ro', isa => 'Str');
@@ -38,6 +39,12 @@ A map of the name and ObjectType field.
 =head2 Keys => L<Paws::CustomerProfiles::KeyMap>
 
 A list of unique keys that can be used to map data to the profile.
+
+
+=head2 SourceLastUpdatedTimestampFormat => Str
+
+The format of your C<sourceLastUpdatedTimestamp> that was previously
+set up.
 
 
 =head2 SourceName => Str

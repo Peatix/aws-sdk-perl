@@ -64,7 +64,7 @@ The name of the channel to be updated.
 
 Where channel data is stored. You can choose one of C<serviceManagedS3>
 or C<customerManagedS3> storage. If not specified, the default is
-C<serviceManagedS3>. You cannot change this storage option after the
+C<serviceManagedS3>. You can't change this storage option after the
 channel is created.
 
 
@@ -72,7 +72,7 @@ channel is created.
 =head2 RetentionPeriod => L<Paws::IoTAnalytics::RetentionPeriod>
 
 How long, in days, message data is kept for the channel. The retention
-period cannot be updated if the channel's S3 storage is
+period can't be updated if the channel's Amazon S3 storage is
 customer-managed.
 
 

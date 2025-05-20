@@ -2,6 +2,7 @@
 package Paws::Config::ConfigurationAggregator;
   use Moose;
   has AccountAggregationSources => (is => 'ro', isa => 'ArrayRef[Paws::Config::AccountAggregationSource]');
+  has AggregatorFilters => (is => 'ro', isa => 'Paws::Config::AggregatorFilters');
   has ConfigurationAggregatorArn => (is => 'ro', isa => 'Str');
   has ConfigurationAggregatorName => (is => 'ro', isa => 'Str');
   has CreatedBy => (is => 'ro', isa => 'Str');
@@ -50,6 +51,11 @@ about source accounts, regions, and metadata of the aggregator.
 Provides a list of source accounts and regions to be aggregated.
 
 
+=head2 AggregatorFilters => L<Paws::Config::AggregatorFilters>
+
+An object to filter the data you specify for an aggregator.
+
+
 =head2 ConfigurationAggregatorArn => Str
 
 The Amazon Resource Name (ARN) of the aggregator.
@@ -62,7 +68,7 @@ The name of the aggregator.
 
 =head2 CreatedBy => Str
 
-AWS service that created the configuration aggregator.
+Amazon Web Services service that created the configuration aggregator.
 
 
 =head2 CreationTime => Str

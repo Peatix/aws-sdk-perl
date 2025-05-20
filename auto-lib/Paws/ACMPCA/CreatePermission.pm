@@ -48,8 +48,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/acm
 
 =head2 B<REQUIRED> Actions => ArrayRef[Str|Undef]
 
-The actions that the specified AWS service principal can use. These
-include C<IssueCertificate>, C<GetCertificate>, and C<ListPermissions>.
+The actions that the specified Amazon Web Services service principal
+can use. These include C<IssueCertificate>, C<GetCertificate>, and
+C<ListPermissions>.
 
 
 
@@ -57,7 +58,7 @@ include C<IssueCertificate>, C<GetCertificate>, and C<ListPermissions>.
 
 The Amazon Resource Name (ARN) of the CA that grants the permissions.
 You can find the ARN by calling the ListCertificateAuthorities
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html)
 action. This must have the following form:
 
 C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-1234-1234-123456789012>
@@ -67,8 +68,9 @@ C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-123
 
 =head2 B<REQUIRED> Principal => Str
 
-The AWS service or identity that receives the permission. At this time,
-the only valid principal is C<acm.amazonaws.com>.
+The Amazon Web Services service or identity that receives the
+permission. At this time, the only valid principal is
+C<acm.amazonaws.com>.
 
 
 

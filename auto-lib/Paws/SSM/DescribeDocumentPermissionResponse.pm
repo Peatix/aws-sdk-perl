@@ -19,13 +19,13 @@ Paws::SSM::DescribeDocumentPermissionResponse
 =head2 AccountIds => ArrayRef[Str|Undef]
 
 The account IDs that have permission to use this document. The ID can
-be either an AWS account or I<All>.
+be either an Amazon Web Services account or I<All>.
 
 
 =head2 AccountSharingInfoList => ArrayRef[L<Paws::SSM::AccountSharingInfo>]
 
-A list of AWS accounts where the current document is shared and the
-version shared with each account.
+A list of Amazon Web Services accounts where the current document is
+shared and the version shared with each account.
 
 
 =head2 NextToken => Str

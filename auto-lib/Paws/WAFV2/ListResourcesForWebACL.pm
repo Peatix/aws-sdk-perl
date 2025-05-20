@@ -46,11 +46,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/waf
 
 =head2 ResourceType => Str
 
-Used for web ACLs that are scoped for regional applications. A regional
-application can be an Application Load Balancer (ALB), an Amazon API
-Gateway REST API, or an AppSync GraphQL API.
+Retrieves the web ACLs that are used by the specified resource type.
 
-Valid values are: C<"APPLICATION_LOAD_BALANCER">, C<"API_GATEWAY">, C<"APPSYNC">
+For Amazon CloudFront, don't use this call. Instead, use the CloudFront
+call C<ListDistributionsByWebACLId>. For information, see
+ListDistributionsByWebACLId
+(https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html)
+in the I<Amazon CloudFront API Reference>.
+
+If you don't provide a resource type, the call uses the resource type
+C<APPLICATION_LOAD_BALANCER>.
+
+Default: C<APPLICATION_LOAD_BALANCER>
+
+Valid values are: C<"APPLICATION_LOAD_BALANCER">, C<"API_GATEWAY">, C<"APPSYNC">, C<"COGNITO_USER_POOL">, C<"APP_RUNNER_SERVICE">, C<"VERIFIED_ACCESS_INSTANCE">, C<"AMPLIFY">
 
 =head2 B<REQUIRED> WebACLArn => Str
 

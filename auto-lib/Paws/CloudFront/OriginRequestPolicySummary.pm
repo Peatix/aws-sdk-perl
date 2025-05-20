@@ -46,8 +46,9 @@ The origin request policy.
 
 =head2 B<REQUIRED> Type => Str
 
-The type of origin request policy, either C<managed> (created by AWS)
-or C<custom> (created in this AWS account).
+The type of origin request policy, either C<managed> (created by Amazon
+Web Services) or C<custom> (created in this Amazon Web Services
+account).
 
 
 

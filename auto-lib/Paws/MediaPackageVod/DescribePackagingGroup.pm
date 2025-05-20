@@ -35,8 +35,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $ApproximateAssetCount =
+      $DescribePackagingGroupResponse->ApproximateAssetCount;
     my $Arn              = $DescribePackagingGroupResponse->Arn;
     my $Authorization    = $DescribePackagingGroupResponse->Authorization;
+    my $CreatedAt        = $DescribePackagingGroupResponse->CreatedAt;
     my $DomainName       = $DescribePackagingGroupResponse->DomainName;
     my $EgressAccessLogs = $DescribePackagingGroupResponse->EgressAccessLogs;
     my $Id               = $DescribePackagingGroupResponse->Id;

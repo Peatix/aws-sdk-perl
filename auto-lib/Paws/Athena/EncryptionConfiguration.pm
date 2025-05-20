@@ -34,9 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Athena::Enc
 
 =head1 DESCRIPTION
 
-If query results are encrypted in Amazon S3, indicates the encryption
-option used (for example, C<SSE-KMS> or C<CSE-KMS>) and key
-information.
+If query and calculation results are encrypted in Amazon S3, indicates
+the encryption option used (for example, C<SSE_KMS> or C<CSE_KMS>) and
+key information.
 
 =head1 ATTRIBUTES
 
@@ -44,9 +44,9 @@ information.
 =head2 B<REQUIRED> EncryptionOption => Str
 
 Indicates whether Amazon S3 server-side encryption with Amazon
-S3-managed keys (C<SSE-S3>), server-side encryption with KMS-managed
-keys (C<SSE-KMS>), or client-side encryption with KMS-managed keys
-(CSE-KMS) is used.
+S3-managed keys (C<SSE_S3>), server-side encryption with KMS-managed
+keys (C<SSE_KMS>), or client-side encryption with KMS-managed keys
+(C<CSE_KMS>) is used.
 
 If a query runs in a workgroup and the workgroup overrides client-side
 settings, then the workgroup's setting for encryption is used. It
@@ -56,7 +56,7 @@ run in this workgroup.
 
 =head2 KmsKey => Str
 
-For C<SSE-KMS> and C<CSE-KMS>, this is the KMS key ARN or ID.
+For C<SSE_KMS> and C<CSE_KMS>, this is the KMS key ARN or ID.
 
 
 

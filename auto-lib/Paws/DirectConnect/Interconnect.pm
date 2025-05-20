@@ -3,6 +3,7 @@ package Paws::DirectConnect::Interconnect;
   use Moose;
   has AwsDevice => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDevice' );
   has AwsDeviceV2 => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDeviceV2' );
+  has AwsLogicalDeviceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsLogicalDeviceId' );
   has Bandwidth => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'bandwidth' );
   has HasLogicalRedundancy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'hasLogicalRedundancy' );
   has InterconnectId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'interconnectId' );
@@ -35,8 +36,14 @@ terminates.
 
 =head2 AwsDeviceV2 => Str
 
-The Direct Connect endpoint on which the physical connection
-terminates.
+The Direct Connect endpoint that terminates the physical connection.
+
+
+=head2 AwsLogicalDeviceId => Str
+
+The Direct Connect endpoint that terminates the logical connection.
+This device might be different than the device that terminates the
+physical connection.
 
 
 =head2 Bandwidth => Str
@@ -103,7 +110,7 @@ C<unknown>: The state of the interconnect is not available.
 Valid values are: C<"requested">, C<"pending">, C<"available">, C<"down">, C<"deleting">, C<"deleted">, C<"unknown">
 =head2 JumboFrameCapable => Bool
 
-Indicates whether jumbo frames (9001 MTU) are supported.
+Indicates whether jumbo frames are supported.
 
 
 =head2 LagId => Str
@@ -128,7 +135,7 @@ The name of the service provider associated with the interconnect.
 
 =head2 Region => Str
 
-The AWS Region where the connection is located.
+The Amazon Web Services Region where the connection is located.
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]

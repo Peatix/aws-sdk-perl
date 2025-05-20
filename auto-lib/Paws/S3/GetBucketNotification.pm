@@ -68,13 +68,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The name of the bucket for which to get the notification configuration.
 
+When you use this API operation with an access point, provide the alias
+of the access point in place of the bucket name.
+
+When you use this API operation with an Object Lambda access point,
+provide the alias of the Object Lambda access point in place of the
+bucket name. If the Object Lambda access point alias in a request is
+not valid, the error code C<InvalidAccessPointAliasError> is returned.
+For more information about C<InvalidAccessPointAliasError>, see List of
+Error Codes
+(https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
+
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 

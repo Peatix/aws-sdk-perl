@@ -1,8 +1,10 @@
 
 package Paws::Rekognition::DescribeProjects;
   use Moose;
+  has Features => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has ProjectNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +31,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rekognition = Paws->service('Rekognition');
     my $DescribeProjectsResponse = $rekognition->DescribeProjects(
-      MaxResults => 1,                              # OPTIONAL
-      NextToken  => 'MyExtendedPaginationToken',    # OPTIONAL
+      Features => [
+        'CONTENT_MODERATION', ...    # values: CONTENT_MODERATION, CUSTOM_LABELS
+      ],    # OPTIONAL
+      MaxResults   => 1,                              # OPTIONAL
+      NextToken    => 'MyExtendedPaginationToken',    # OPTIONAL
+      ProjectNames => [
+        'MyProjectName', ...                          # min: 1, max: 255
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -45,6 +53,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head1 ATTRIBUTES
 
 
+=head2 Features => ArrayRef[Str|Undef]
+
+Specifies the type of customization to filter projects by. If no value
+is specified, CUSTOM_LABELS is used as a default.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of results to return per paginated call. The largest
@@ -56,9 +71,16 @@ a ValidationException error occurs. The default value is 100.
 =head2 NextToken => Str
 
 If the previous response was incomplete (because there is more results
-to retrieve), Amazon Rekognition Custom Labels returns a pagination
-token in the response. You can use this pagination token to retrieve
-the next set of results.
+to retrieve), Rekognition returns a pagination token in the response.
+You can use this pagination token to retrieve the next set of results.
+
+
+
+=head2 ProjectNames => ArrayRef[Str|Undef]
+
+A list of the projects that you want Rekognition to describe. If you
+don't specify a value, the response includes descriptions for all the
+projects in your AWS account.
 
 
 

@@ -59,7 +59,7 @@ names), if any, for this streaming distribution.
 The ARN (Amazon Resource Name) for the streaming distribution. For
 example:
 C<arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5>,
-where C<123456789012> is your AWS account ID.
+where C<123456789012> is your Amazon Web Services account ID.
 
 
 =head2 B<REQUIRED> Comment => Str
@@ -111,17 +111,18 @@ throughout the Amazon CloudFront system.
 
 =head2 B<REQUIRED> TrustedSigners => L<Paws::CloudFront::TrustedSigners>
 
-A complex type that specifies the AWS accounts, if any, that you want
-to allow to create signed URLs for private content. If you want to
-require signed URLs in requests for objects in the target origin that
-match the C<PathPattern> for this cache behavior, specify C<true> for
-C<Enabled>, and specify the applicable values for C<Quantity> and
-C<Items>.If you don't want to require signed URLs in requests for
-objects that match C<PathPattern>, specify C<false> for C<Enabled> and
-C<0> for C<Quantity>. Omit C<Items>. To add, change, or remove one or
-more trusted signers, change C<Enabled> to C<true> (if it's currently
-C<false>), change C<Quantity> as applicable, and specify all of the
-trusted signers that you want to include in the updated distribution.
+A complex type that specifies the Amazon Web Services accounts, if any,
+that you want to allow to create signed URLs for private content. If
+you want to require signed URLs in requests for objects in the target
+origin that match the C<PathPattern> for this cache behavior, specify
+C<true> for C<Enabled>, and specify the applicable values for
+C<Quantity> and C<Items>.If you don't want to require signed URLs in
+requests for objects that match C<PathPattern>, specify C<false> for
+C<Enabled> and C<0> for C<Quantity>. Omit C<Items>. To add, change, or
+remove one or more trusted signers, change C<Enabled> to C<true> (if
+it's currently C<false>), change C<Quantity> as applicable, and specify
+all of the trusted signers that you want to include in the updated
+distribution.
 
 For more information, see Serving Private Content through CloudFront
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)

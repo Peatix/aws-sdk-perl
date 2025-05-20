@@ -3,6 +3,7 @@ package Paws::NetworkFirewall::UpdateFirewallPolicy;
   use Moose;
   has Description => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
+  has EncryptionConfiguration => (is => 'ro', isa => 'Paws::NetworkFirewall::EncryptionConfiguration');
   has FirewallPolicy => (is => 'ro', isa => 'Paws::NetworkFirewall::FirewallPolicy', required => 1);
   has FirewallPolicyArn => (is => 'ro', isa => 'Str');
   has FirewallPolicyName => (is => 'ro', isa => 'Str');
@@ -36,10 +37,34 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       FirewallPolicy => {
         StatelessDefaultActions         => [ 'MyCollectionMember_String', ... ],
         StatelessFragmentDefaultActions => [ 'MyCollectionMember_String', ... ],
-        StatefulRuleGroupReferences     => [
+        PolicyVariables                 => {
+          RuleVariables => {
+            'MyRuleVariableName' => {
+              Definition => [
+                'MyVariableDefinition', ...    # min: 1
+              ],
+
+            },    # key: min: 1, max: 32
+          },    # OPTIONAL
+        },    # OPTIONAL
+        StatefulDefaultActions => [ 'MyCollectionMember_String', ... ]
+        ,     # OPTIONAL
+        StatefulEngineOptions => {
+          FlowTimeouts => {
+            TcpIdleTimeoutSeconds => 1,    # OPTIONAL
+          },    # OPTIONAL
+          RuleOrder => 'DEFAULT_ACTION_ORDER'
+          ,            # values: DEFAULT_ACTION_ORDER, STRICT_ORDER; OPTIONAL
+          StreamExceptionPolicy =>
+            'DROP',    # values: DROP, CONTINUE, REJECT; OPTIONAL
+        },    # OPTIONAL
+        StatefulRuleGroupReferences => [
           {
             ResourceArn => 'MyResourceArn',    # min: 1, max: 256
-
+            Override    => {
+              Action => 'DROP_TO_ALERT',       # values: DROP_TO_ALERT; OPTIONAL
+            },    # OPTIONAL
+            Priority => 1,    # min: 1, max: 65535; OPTIONAL
           },
           ...
         ],    # OPTIONAL
@@ -64,16 +89,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # OPTIONAL
         StatelessRuleGroupReferences => [
           {
-            Priority    => 1,                  # min: 1, max: 65535
+            Priority    => 1,                  # min: 1, max: 65535; OPTIONAL
             ResourceArn => 'MyResourceArn',    # min: 1, max: 256
 
           },
           ...
         ],    # OPTIONAL
+        TLSInspectionConfigurationArn => 'MyResourceArn',    # min: 1, max: 256
       },
-      UpdateToken        => 'MyUpdateToken',
-      Description        => 'MyDescription',     # OPTIONAL
-      DryRun             => 1,                   # OPTIONAL
+      UpdateToken             => 'MyUpdateToken',
+      Description             => 'MyDescription',            # OPTIONAL
+      DryRun                  => 1,                          # OPTIONAL
+      EncryptionConfiguration => {
+        Type  => 'CUSTOMER_KMS',    # values: CUSTOMER_KMS, AWS_OWNED_KMS_KEY
+        KeyId => 'MyKeyId',         # min: 1, max: 2048; OPTIONAL
+      },    # OPTIONAL
       FirewallPolicyArn  => 'MyResourceArn',     # OPTIONAL
       FirewallPolicyName => 'MyResourceName',    # OPTIONAL
     );
@@ -115,9 +145,19 @@ your resources.
 
 
 
+=head2 EncryptionConfiguration => L<Paws::NetworkFirewall::EncryptionConfiguration>
+
+A complex type that contains settings for encryption of your firewall
+policy resources.
+
+
+
 =head2 B<REQUIRED> FirewallPolicy => L<Paws::NetworkFirewall::FirewallPolicy>
 
-The updated firewall policy to use for the firewall.
+The updated firewall policy to use for the firewall. You can't add or
+remove a TLSInspectionConfiguration after you create a firewall policy.
+However, you can replace an existing TLS inspection configuration with
+another C<TLSInspectionConfiguration>.
 
 
 

@@ -1,7 +1,8 @@
 
 package Paws::MediaTailor::GetChannelSchedule;
   use Moose;
-  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'channelName', required => 1);
+  has Audience => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'audience');
+  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ChannelName', required => 1);
   has DurationMinutes => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'durationMinutes');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
@@ -9,7 +10,7 @@ package Paws::MediaTailor::GetChannelSchedule;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'GetChannelSchedule');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{channelName}/schedule');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{ChannelName}/schedule');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::GetChannelScheduleResponse');
 1;
@@ -33,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.mediatailor = Paws->service('MediaTailor');
     my $GetChannelScheduleResponse = $api . mediatailor->GetChannelSchedule(
       ChannelName     => 'My__string',
+      Audience        => 'My__string',    # OPTIONAL
       DurationMinutes => 'My__string',    # OPTIONAL
       MaxResults      => 1,               # OPTIONAL
       NextToken       => 'My__string',    # OPTIONAL
@@ -50,30 +52,47 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head1 ATTRIBUTES
 
 
+=head2 Audience => Str
+
+The single audience for GetChannelScheduleRequest.
+
+
+
 =head2 B<REQUIRED> ChannelName => Str
 
-The identifier for the channel you are working on.
+The name of the channel associated with this Channel Schedule.
 
 
 
 =head2 DurationMinutes => Str
 
-The schedule duration in minutes. The maximum duration is 4320 minutes
-(three days).
+The duration in minutes of the channel schedule.
 
 
 
 =head2 MaxResults => Int
 
-Upper bound on number of records to return. The maximum number of
-results is 100.
+The maximum number of channel schedules that you want MediaTailor to
+return in response to the current request. If there are more than
+C<MaxResults> channel schedules, use the value of C<NextToken> in the
+response to get the next page of results.
 
 
 
 =head2 NextToken => Str
 
-Pagination token from the GET list request. Use the token to fetch the
-next page of results.
+(Optional) If the playback configuration has more than C<MaxResults>
+channel schedules, use C<NextToken> to get the second and subsequent
+pages of results.
+
+For the first C<GetChannelScheduleRequest> request, omit this value.
+
+For the second and subsequent requests, get the value of C<NextToken>
+from the previous response and specify that value for C<NextToken> in
+the request.
+
+If the previous response didn't include a C<NextToken> element, there
+are no more channel schedules to get.
 
 
 

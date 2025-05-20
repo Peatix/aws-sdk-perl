@@ -6,6 +6,7 @@ package Paws::IoTSiteWise::PortalSummary;
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest'], required => 1);
   has LastUpdateDate => (is => 'ro', isa => 'Str', request_name => 'lastUpdateDate', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
+  has PortalType => (is => 'ro', isa => 'Str', request_name => 'portalType', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has StartUrl => (is => 'ro', isa => 'Str', request_name => 'startUrl', traits => ['NameInRequest'], required => 1);
   has Status => (is => 'ro', isa => 'Paws::IoTSiteWise::PortalStatus', request_name => 'status', traits => ['NameInRequest'], required => 1);
@@ -70,23 +71,30 @@ The date the portal was last updated, in Unix epoch time.
 The name of the portal.
 
 
+=head2 PortalType => Str
+
+Define the type of portal. The value for IoT SiteWise Monitor (Classic)
+is C<SITEWISE_PORTAL_V1>. The value for IoT SiteWise Monitor (AI-aware)
+is C<SITEWISE_PORTAL_V2>.
+
+
 =head2 RoleArn => Str
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the service role that allows the portal's users to access your AWS
-IoT SiteWise resources on your behalf. For more information, see Using
-service roles for AWS IoT SiteWise Monitor
+of the service role that allows the portal's users to access your IoT
+SiteWise resources on your behalf. For more information, see Using
+service roles for IoT SiteWise Monitor
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 =head2 B<REQUIRED> StartUrl => Str
 
-The URL for the AWS IoT SiteWise Monitor portal. You can use this URL
-to access portals that use AWS SSO for authentication. For portals that
-use IAM for authentication, you must use the AWS IoT SiteWise console
-to get a URL that you can use to access the portal.
+The URL for the IoT SiteWise Monitor portal. You can use this URL to
+access portals that use IAM Identity Center for authentication. For
+portals that use IAM for authentication, you must use the IoT SiteWise
+console to get a URL that you can use to access the portal.
 
 
 =head2 B<REQUIRED> Status => L<Paws::IoTSiteWise::PortalStatus>

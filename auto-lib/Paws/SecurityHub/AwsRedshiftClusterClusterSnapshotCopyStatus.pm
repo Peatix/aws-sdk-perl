@@ -36,7 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Information about a cross-Region snapshot copy.
+You can configure Amazon Redshift to copy snapshots for a cluster to
+another Amazon Web Services Region. This parameter provides information
+about a cross-Region snapshot copy.
 
 =head1 ATTRIBUTES
 
@@ -50,11 +52,12 @@ cross-Region snapshot copy is enabled.
 =head2 ManualSnapshotRetentionPeriod => Int
 
 The number of days that manual snapshots are retained in the
-destination region after they are copied from a source region.
+destination Region after they are copied from a source Region.
 
-If the value is -1, then the manual snapshot is retained indefinitely.
+If the value is C<-1>, then the manual snapshot is retained
+indefinitely.
 
-Valid values: Either -1 or an integer between 1 and 3,653
+Valid values: Either C<-1> or an integer between 1 and 3,653
 
 
 =head2 RetentionPeriod => Int

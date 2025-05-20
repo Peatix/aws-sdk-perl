@@ -4,6 +4,7 @@ package Paws::RDS::ScalingConfigurationInfo;
   has AutoPause => (is => 'ro', isa => 'Bool');
   has MaxCapacity => (is => 'ro', isa => 'Int');
   has MinCapacity => (is => 'ro', isa => 'Int');
+  has SecondsBeforeTimeout => (is => 'ro', isa => 'Int');
   has SecondsUntilAutoPause => (is => 'ro', isa => 'Int');
   has TimeoutAction => (is => 'ro', isa => 'Str');
 
@@ -37,10 +38,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Scalin
 
 =head1 DESCRIPTION
 
-Shows the scaling configuration for an Aurora DB cluster in
-C<serverless> DB engine mode.
+The scaling configuration for an Aurora DB cluster in C<serverless> DB
+engine mode.
 
-For more information, see Using Amazon Aurora Serverless
+For more information, see Using Amazon Aurora Serverless v1
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html)
 in the I<Amazon Aurora User Guide>.
 
@@ -49,11 +50,11 @@ in the I<Amazon Aurora User Guide>.
 
 =head2 AutoPause => Bool
 
-A value that indicates whether automatic pause is allowed for the
-Aurora DB cluster in C<serverless> DB engine mode.
+Indicates whether automatic pause is allowed for the Aurora DB cluster
+in C<serverless> DB engine mode.
 
-When the value is set to false for an Aurora Serverless DB cluster, the
-DB cluster automatically resumes.
+When the value is set to false for an Aurora Serverless v1 DB cluster,
+the DB cluster automatically resumes.
 
 
 =head2 MaxCapacity => Int
@@ -64,8 +65,15 @@ engine mode.
 
 =head2 MinCapacity => Int
 
-The maximum capacity for the Aurora DB cluster in C<serverless> DB
+The minimum capacity for an Aurora DB cluster in C<serverless> DB
 engine mode.
+
+
+=head2 SecondsBeforeTimeout => Int
+
+The number of seconds before scaling times out. What happens when an
+attempted scaling action times out is determined by the
+C<TimeoutAction> setting.
 
 
 =head2 SecondsUntilAutoPause => Int
@@ -77,8 +85,15 @@ it's idle (it has no connections).
 
 =head2 TimeoutAction => Str
 
-The timeout action of a call to C<ModifyCurrentDBClusterCapacity>,
-either C<ForceApplyCapacityChange> or C<RollbackCapacityChange>.
+The action that occurs when Aurora times out while attempting to change
+the capacity of an Aurora Serverless v1 cluster. The value is either
+C<ForceApplyCapacityChange> or C<RollbackCapacityChange>.
+
+C<ForceApplyCapacityChange>, the default, sets the capacity to the
+specified value as soon as possible.
+
+C<RollbackCapacityChange> ignores the capacity change if a scaling
+point isn't found in the timeout period.
 
 
 

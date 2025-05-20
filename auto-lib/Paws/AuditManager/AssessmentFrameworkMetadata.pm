@@ -43,7 +43,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The metadata associated with a standard or custom framework.
+The metadata that's associated with a standard framework or a custom
+framework.
 
 =head1 ATTRIBUTES
 
@@ -61,47 +62,47 @@ or HIPAA.
 
 =head2 ControlsCount => Int
 
-The number of controls associated with the specified framework.
+The number of controls that are associated with the framework.
 
 
 =head2 ControlSetsCount => Int
 
-The number of control sets associated with the specified framework.
+The number of control sets that are associated with the framework.
 
 
 =head2 CreatedAt => Str
 
-Specifies when the framework was created.
+The time when the framework was created.
 
 
 =head2 Description => Str
 
-The description of the specified framework.
+The description of the framework.
 
 
 =head2 Id => Str
 
-The unique identified for the specified framework.
+The unique identifier for the framework.
 
 
 =head2 LastUpdatedAt => Str
 
-Specifies when the framework was most recently updated.
+The time when the framework was most recently updated.
 
 
 =head2 Logo => Str
 
-The logo associated with the framework.
+The logo that's associated with the framework.
 
 
 =head2 Name => Str
 
-The name of the specified framework.
+The name of the framework.
 
 
 =head2 Type => Str
 
-The framework type, such as standard or custom.
+The framework type, such as a standard framework or a custom framework.
 
 
 

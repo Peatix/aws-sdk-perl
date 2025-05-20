@@ -72,9 +72,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Filters => ArrayRef[L<Paws::SSM::InstanceInformationStringFilter>]
 
 One or more filters. Use a filter to return a more specific list of
-instances. You can filter based on tags applied to EC2 instances. Use
-this C<Filters> data type instead of C<InstanceInformationFilterList>,
-which is deprecated.
+managed nodes. You can filter based on tags applied to your managed
+nodes. Tag filters can't be combined with other filter types. Use this
+C<Filters> data type instead of C<InstanceInformationFilterList>, which
+is deprecated.
 
 
 
@@ -82,8 +83,7 @@ which is deprecated.
 
 This is a legacy method. We recommend that you don't use this method.
 Instead, use the C<Filters> data type. C<Filters> enables you to return
-instance information by filtering based on tags applied to managed
-instances.
+node information by filtering based on tags applied to managed nodes.
 
 Attempting to use C<InstanceInformationFilterList> and C<Filters> leads
 to an exception error.
@@ -94,7 +94,7 @@ to an exception error.
 
 The maximum number of items to return for this call. The call also
 returns a token that you can specify in a subsequent call to get the
-next set of results.
+next set of results. The default value is 10 items.
 
 
 

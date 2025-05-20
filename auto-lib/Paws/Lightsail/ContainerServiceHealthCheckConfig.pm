@@ -67,7 +67,9 @@ default value is C</>.
 =head2 SuccessCodes => Str
 
 The HTTP codes to use when checking for a successful response from a
-container. You can specify values between 200 and 499.
+container. You can specify values between C<200> and C<499>. You can
+specify multiple values (for example, C<200,202>) or a range of values
+(for example, C<200-299>).
 
 
 =head2 TimeoutSeconds => Int

@@ -47,13 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 MaxResults => Int
 
-The maximum number of repository results returned by
+The maximum number of repository results that's returned by
 C<DescribeRegistries> in paginated output. When this parameter is used,
 C<DescribeRegistries> only returns C<maxResults> results in a single
 page along with a C<nextToken> response element. The remaining results
 of the initial request can be seen by sending another
 C<DescribeRegistries> request with the returned C<nextToken> value.
-This value can be between 1 and 1000. If this parameter is not used,
+This value can be between 1 and 1000. If this parameter isn't used,
 then C<DescribeRegistries> returns up to 100 results and a C<nextToken>
 value, if applicable.
 
@@ -61,11 +61,11 @@ value, if applicable.
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned from a previous paginated
+The C<nextToken> value that's returned from a previous paginated
 C<DescribeRegistries> request where C<maxResults> was used and the
 results exceeded the value of that parameter. Pagination continues from
 the end of the previous results that returned the C<nextToken> value.
-This value is C<null> when there are no more results to return.
+If there are no more results to return, this value is C<null>.
 
 This token should be treated as an opaque identifier that is only used
 to retrieve the next items in a list and not for other programmatic

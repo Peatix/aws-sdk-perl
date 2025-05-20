@@ -92,7 +92,9 @@ Whether cache clustering is enabled for the stage.
 
 =head2 CacheClusterSize => Str
 
-The stage's cache cluster size.
+The stage's cache capacity in GB. For more information about choosing a
+cache size, see Enabling API caching to enhance responsiveness
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
 
 Valid values are: C<"0.5">, C<"1.6">, C<"6.1">, C<"13.5">, C<"28.4">, C<"58.2">, C<"118">, C<"237">
 
@@ -104,8 +106,7 @@ The canary deployment settings of this stage.
 
 =head2 B<REQUIRED> DeploymentId => Str
 
-[Required] The identifier of the Deployment resource for the Stage
-resource.
+The identifier of the Deployment resource for the Stage resource.
 
 
 
@@ -123,15 +124,15 @@ The version of the associated API documentation.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> StageName => Str
 
-[Required] The name for the Stage resource. Stage names can only
-contain alphanumeric characters, hyphens, and underscores. Maximum
-length is 128 characters.
+The name for the Stage resource. Stage names can only contain
+alphanumeric characters, hyphens, and underscores. Maximum length is
+128 characters.
 
 
 

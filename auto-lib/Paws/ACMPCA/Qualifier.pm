@@ -33,10 +33,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Qua
 
 =head1 DESCRIPTION
 
-Defines a C<PolicyInformation> qualifier. ACM Private CA supports the
-certification practice statement (CPS) qualifier
-(https://tools.ietf.org/html/rfc5280#section-4.2.1.4) defined in RFC
-5280.
+Defines a C<PolicyInformation> qualifier. Amazon Web Services Private
+CA supports the certification practice statement (CPS) qualifier
+(https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4) defined
+in RFC 5280.
 
 =head1 ATTRIBUTES
 

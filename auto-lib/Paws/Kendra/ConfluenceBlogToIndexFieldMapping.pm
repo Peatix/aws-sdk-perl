@@ -35,11 +35,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Con
 
 =head1 DESCRIPTION
 
-Defines the mapping between a blog field in the Confluence data source
-to a Amazon Kendra index field.
-
-You must first create the index field using the C<UpdateIndex>
-operation.
+Maps attributes or field names of Confluence blog to Amazon Kendra
+index field names. To create custom fields, use the C<UpdateIndex> API
+before you map to Confluence fields. For more information, see Mapping
+data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+Confluence data source field names must exist in your Confluence custom
+metadata.
 
 =head1 ATTRIBUTES
 

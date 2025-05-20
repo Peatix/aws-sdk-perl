@@ -51,8 +51,8 @@ The Amazon Resource Name (ARN) of the resource.
 
 =head2 B<REQUIRED> Tags => L<Paws::Connect::TagMap>
 
-One or more tags. For example, { "tags": {"key1":"value1",
-"key2":"value2"} }.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

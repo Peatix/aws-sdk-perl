@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Cla
 =head1 DESCRIPTION
 
 Specifies where to store data classification results, and the
-encryption settings to use when storing results in that location.
-Currently, you can store classification results only in an S3 bucket.
+encryption settings to use when storing results in that location. The
+location must be an S3 general purpose bucket.
 
 =head1 ATTRIBUTES
 

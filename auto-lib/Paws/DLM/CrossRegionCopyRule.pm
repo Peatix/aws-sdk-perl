@@ -3,6 +3,7 @@ package Paws::DLM::CrossRegionCopyRule;
   use Moose;
   has CmkArn => (is => 'ro', isa => 'Str');
   has CopyTags => (is => 'ro', isa => 'Bool');
+  has DeprecateRule => (is => 'ro', isa => 'Paws::DLM::CrossRegionCopyDeprecateRule');
   has Encrypted => (is => 'ro', isa => 'Bool', required => 1);
   has RetainRule => (is => 'ro', isa => 'Paws::DLM::CrossRegionCopyRetainRule');
   has Target => (is => 'ro', isa => 'Str');
@@ -38,22 +39,33 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::CrossR
 
 =head1 DESCRIPTION
 
-Specifies a rule for cross-Region snapshot copies.
+B<[Custom snapshot and AMI policies only]> Specifies a cross-Region
+copy rule for a snapshot and AMI policies.
+
+To specify a cross-Region copy action for event-based polices, use
+CrossRegionCopyAction
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyAction.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 CmkArn => Str
 
-The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK)
-to use for EBS encryption. If this parameter is not specified, your AWS
-managed CMK for EBS is used.
+The Amazon Resource Name (ARN) of the KMS key to use for EBS
+encryption. If this parameter is not specified, the default KMS key for
+the account is used.
 
 
 =head2 CopyTags => Bool
 
-Copy all user-defined tags from the source snapshot to the copied
-snapshot.
+Indicates whether to copy all user-defined tags from the source
+snapshot or AMI to the cross-Region copy.
+
+
+=head2 DeprecateRule => L<Paws::DLM::CrossRegionCopyDeprecateRule>
+
+B<[Custom AMI policies only]> The AMI deprecation rule for cross-Region
+AMI copies created by the rule.
 
 
 =head2 B<REQUIRED> Encrypted => Bool
@@ -66,24 +78,28 @@ if encryption by default is not enabled.
 
 =head2 RetainRule => L<Paws::DLM::CrossRegionCopyRetainRule>
 
-The retention rule.
+The retention rule that indicates how long the cross-Region snapshot or
+AMI copies are to be retained in the destination Region.
 
 
 =head2 Target => Str
 
-The Amazon Resource Name (ARN) of the target AWS Outpost for the
-snapshot copies.
+Use this parameter for snapshot policies only. For AMI policies, use
+B<TargetRegion> instead.
 
-If you specify an ARN, you must omit B<TargetRegion>. You cannot
-specify a target Region and a target Outpost in the same rule.
+B<[Custom snapshot policies only]> The target Region or the Amazon
+Resource Name (ARN) of the target Outpost for the snapshot copies.
 
 
 =head2 TargetRegion => Str
 
-The target Region for the snapshot copies.
+Use this parameter for AMI policies only. For snapshot policies, use
+B<Target> instead. For snapshot policies created before the B<Target>
+parameter was introduced, this parameter indicates the target Region
+for snapshot copies.
 
-If you specify a target Region, you must omit B<Target>. You cannot
-specify a target Region and a target Outpost in the same rule.
+B<[Custom AMI policies only]> The target Region or the Amazon Resource
+Name (ARN) of the target Outpost for the snapshot copies.
 
 
 

@@ -40,7 +40,7 @@ Contains information about the domain.
 
 =head2 Domain => Str
 
-The domain information for the AWS API call.
+The domain information for the Amazon Web Services API call.
 
 
 

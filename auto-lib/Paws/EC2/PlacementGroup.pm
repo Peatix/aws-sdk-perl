@@ -1,8 +1,10 @@
 package Paws::EC2::PlacementGroup;
   use Moose;
+  has GroupArn => (is => 'ro', isa => 'Str', request_name => 'groupArn', traits => ['NameInRequest']);
   has GroupId => (is => 'ro', isa => 'Str', request_name => 'groupId', traits => ['NameInRequest']);
   has GroupName => (is => 'ro', isa => 'Str', request_name => 'groupName', traits => ['NameInRequest']);
   has PartitionCount => (is => 'ro', isa => 'Int', request_name => 'partitionCount', traits => ['NameInRequest']);
+  has SpreadLevel => (is => 'ro', isa => 'Str', request_name => 'spreadLevel', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Strategy => (is => 'ro', isa => 'Str', request_name => 'strategy', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
@@ -25,20 +27,25 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::PlacementGroup object:
 
-  $service_obj->Method(Att1 => { GroupId => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { GroupArn => $value, ..., Tags => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::PlacementGroup object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->GroupId
+  $result->Att1->GroupArn
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 GroupArn => Str
+
+The Amazon Resource Name (ARN) of the placement group.
 
 
 =head2 GroupId => Str
@@ -55,6 +62,12 @@ The name of the placement group.
 
 The number of partitions. Valid only if B<strategy> is set to
 C<partition>.
+
+
+=head2 SpreadLevel => Str
+
+The spread level for the placement group. I<Only> Outpost placement
+groups can be spread across hosts.
 
 
 =head2 State => Str

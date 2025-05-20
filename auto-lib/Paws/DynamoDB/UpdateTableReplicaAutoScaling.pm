@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $dynamodb = Paws->service('DynamoDB');
     my $UpdateTableReplicaAutoScalingOutput =
       $dynamodb->UpdateTableReplicaAutoScaling(
-      TableName                   => 'MyTableName',
+      TableName                   => 'MyTableArn',
       GlobalSecondaryIndexUpdates => [
         {
           IndexName => 'MyIndexName',    # min: 3, max: 255; OPTIONAL
@@ -154,7 +154,8 @@ be modified.
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the global table to be updated.
+The name of the global table to be updated. You can also provide the
+Amazon Resource Name (ARN) of the table in this parameter.
 
 
 

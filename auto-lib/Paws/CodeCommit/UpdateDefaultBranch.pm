@@ -42,13 +42,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> DefaultBranchName => Str
 
-The name of the branch to set as the default.
+The name of the branch to set as the default branch.
 
 
 
 =head2 B<REQUIRED> RepositoryName => Str
 
-The name of the repository to set or change the default branch for.
+The name of the repository for which you want to set or change the
+default branch.
 
 
 

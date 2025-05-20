@@ -38,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         AuthKey         => 'MyBGPAuthKey',        # OPTIONAL
         CustomerAddress => 'MyCustomerAddress',   # OPTIONAL
         DirectConnectGatewayId => 'MyDirectConnectGatewayId',    # OPTIONAL
+        EnableSiteLink         => 1,                             # OPTIONAL
         Mtu                    => 1,                             # OPTIONAL
         Tags                   => [
           {

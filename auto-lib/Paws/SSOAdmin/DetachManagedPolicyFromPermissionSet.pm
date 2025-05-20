@@ -45,15 +45,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sso
 
 =head2 B<REQUIRED> InstanceArn => Str
 
-The ARN of the SSO instance under which the operation will be executed.
-For more information about ARNs, see Amazon Resource Names (ARNs) and
-AWS Service Namespaces in the I<AWS General Reference>.
+The ARN of the IAM Identity Center instance under which the operation
+will be executed. For more information about ARNs, see Amazon Resource
+Names (ARNs) and Amazon Web Services Service Namespaces in the I<Amazon
+Web Services General Reference>.
 
 
 
 =head2 B<REQUIRED> ManagedPolicyArn => Str
 
-The IAM managed policy ARN to be attached to a permission set.
+The Amazon Web Services managed policy ARN to be detached from a
+permission set.
 
 
 

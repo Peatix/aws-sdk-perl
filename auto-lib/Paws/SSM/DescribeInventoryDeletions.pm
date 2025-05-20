@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 DeletionId => Str
 
 Specify the delete inventory ID for which you want information. This ID
-was returned by the C<DeleteInventory> action.
+was returned by the C<DeleteInventory> operation.
 
 
 

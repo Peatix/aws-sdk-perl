@@ -5,6 +5,7 @@ package Paws::Lambda::FunctionCode;
   has S3Bucket => (is => 'ro', isa => 'Str');
   has S3Key => (is => 'ro', isa => 'Str');
   has S3ObjectVersion => (is => 'ro', isa => 'Str');
+  has SourceKMSKeyArn => (is => 'ro', isa => 'Str');
   has ZipFile => (is => 'ro', isa => 'Str');
 
 1;
@@ -37,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lambda::Fun
 
 =head1 DESCRIPTION
 
-The code for the Lambda function. You can specify either an object in
+The code for the Lambda function. You can either specify an object in
 Amazon S3, upload a .zip file archive deployment package directly, or
 specify the URI of a container image.
 
@@ -68,11 +69,19 @@ For versioned objects, the version of the deployment package object to
 use.
 
 
+=head2 SourceKMSKeyArn => Str
+
+The ARN of the Key Management Service (KMS) customer managed key that's
+used to encrypt your function's .zip deployment package. If you don't
+provide a customer managed key, Lambda uses an Amazon Web Services
+owned key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk).
+
+
 =head2 ZipFile => Str
 
 The base64-encoded contents of the deployment package. Amazon Web
-Services SDK and Amazon Web Services CLI clients handle the encoding
-for you.
+Services SDK and CLI clients handle the encoding for you.
 
 
 

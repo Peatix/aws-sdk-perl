@@ -5,7 +5,9 @@ package Paws::CloudHSMv2::Hsm;
   has ClusterId => (is => 'ro', isa => 'Str');
   has EniId => (is => 'ro', isa => 'Str');
   has EniIp => (is => 'ro', isa => 'Str');
+  has EniIpV6 => (is => 'ro', isa => 'Str');
   has HsmId => (is => 'ro', isa => 'Str', required => 1);
+  has HsmType => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
   has StateMessage => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str');
@@ -40,7 +42,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudHSMv2:
 
 =head1 DESCRIPTION
 
-Contains information about a hardware security module (HSM) in an AWS
+Contains information about a hardware security module (HSM) in an
 CloudHSM cluster.
 
 =head1 ATTRIBUTES
@@ -66,9 +68,19 @@ The identifier (ID) of the HSM's elastic network interface (ENI).
 The IP address of the HSM's elastic network interface (ENI).
 
 
+=head2 EniIpV6 => Str
+
+The IPv6 address (if any) of the HSM's elastic network interface (ENI).
+
+
 =head2 B<REQUIRED> HsmId => Str
 
 The HSM's identifier (ID).
+
+
+=head2 HsmType => Str
+
+The type of HSM.
 
 
 =head2 State => Str

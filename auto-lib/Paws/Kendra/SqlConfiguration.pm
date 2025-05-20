@@ -33,8 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sql
 
 =head1 DESCRIPTION
 
-Provides information that configures Amazon Kendra to use a SQL
-database.
+Provides the configuration information to use a SQL database.
 
 =head1 ATTRIBUTES
 

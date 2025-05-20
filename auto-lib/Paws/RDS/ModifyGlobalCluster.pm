@@ -52,11 +52,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 AllowMajorVersionUpgrade => Bool
 
-A value that indicates whether major version upgrades are allowed.
+Specifies whether to allow major version upgrades.
 
-Constraints: You must allow major version upgrades when specifying a
-value for the C<EngineVersion> parameter that is a different major
-version than the DB cluster's current version.
+Constraints: Must be enabled if you specify a value for the
+C<EngineVersion> parameter that's a different major version than the
+global cluster's current version.
 
 If you upgrade the major version of a global database, the cluster and
 DB instance parameter groups are set to the default parameter groups
@@ -67,8 +67,8 @@ the upgrade.
 
 =head2 DeletionProtection => Bool
 
-Indicates if the global database cluster has deletion protection
-enabled. The global database cluster can't be deleted when deletion
+Specifies whether to enable deletion protection for the global database
+cluster. The global database cluster can't be deleted when deletion
 protection is enabled.
 
 
@@ -76,24 +76,16 @@ protection is enabled.
 =head2 EngineVersion => Str
 
 The version number of the database engine to which you want to upgrade.
-Changing this parameter results in an outage. The change is applied
-during the next maintenance window unless C<ApplyImmediately> is
-enabled.
-
-To list all of the available engine versions for C<aurora> (for MySQL
-5.6-compatible Aurora), use the following command:
-
-C<aws rds describe-db-engine-versions --engine aurora --query
-'*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'>
 
 To list all of the available engine versions for C<aurora-mysql> (for
-MySQL 5.7-compatible Aurora), use the following command:
+MySQL-based Aurora global databases), use the following command:
 
 C<aws rds describe-db-engine-versions --engine aurora-mysql --query
 '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'>
 
-To list all of the available engine versions for C<aurora-postgresql>,
-use the following command:
+To list all of the available engine versions for C<aurora-postgresql>
+(for PostgreSQL-based Aurora global databases), use the following
+command:
 
 C<aws rds describe-db-engine-versions --engine aurora-postgresql
 --query '*[]|[?SupportsGlobalDatabases == `true`].[EngineVersion]'>
@@ -102,8 +94,8 @@ C<aws rds describe-db-engine-versions --engine aurora-postgresql
 
 =head2 GlobalClusterIdentifier => Str
 
-The DB cluster identifier for the global cluster being modified. This
-parameter isn't case-sensitive.
+The cluster identifier for the global cluster to modify. This parameter
+isn't case-sensitive.
 
 Constraints:
 
@@ -120,9 +112,8 @@ Must match the identifier of an existing global database cluster.
 
 =head2 NewGlobalClusterIdentifier => Str
 
-The new cluster identifier for the global database cluster when
-modifying a global database cluster. This value is stored as a
-lowercase string.
+The new cluster identifier for the global database cluster. This value
+is stored as a lowercase string.
 
 Constraints:
 
@@ -130,15 +121,15 @@ Constraints:
 
 =item *
 
-Must contain from 1 to 63 letters, numbers, or hyphens
+Must contain from 1 to 63 letters, numbers, or hyphens.
 
 =item *
 
-The first character must be a letter
+The first character must be a letter.
 
 =item *
 
-Can't end with a hyphen or contain two consecutive hyphens
+Can't end with a hyphen or contain two consecutive hyphens.
 
 =back
 

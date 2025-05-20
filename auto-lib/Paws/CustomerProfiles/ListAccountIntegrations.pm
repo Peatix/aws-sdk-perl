@@ -1,6 +1,7 @@
 
 package Paws::CustomerProfiles::ListAccountIntegrations;
   use Moose;
+  has IncludeHidden => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'include-hidden');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'max-results');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next-token');
   has Uri => (is => 'ro', isa => 'Str', required => 1);
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $profile = Paws->service('CustomerProfiles');
     my $ListAccountIntegrationsResponse = $profile->ListAccountIntegrations(
-      Uri        => 'Mystring1To255',
-      MaxResults => 1,                  # OPTIONAL
-      NextToken  => 'Mytoken',          # OPTIONAL
+      Uri           => 'Mystring1To255',
+      IncludeHidden => 1,                  # OPTIONAL
+      MaxResults    => 1,                  # OPTIONAL
+      NextToken     => 'Mytoken',          # OPTIONAL
     );
 
     # Results:
@@ -46,6 +48,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/profile/ListAccountIntegrations>
 
 =head1 ATTRIBUTES
+
+
+=head2 IncludeHidden => Bool
+
+Boolean to indicate if hidden integration should be returned. Defaults
+to C<False>.
+
 
 
 =head2 MaxResults => Int

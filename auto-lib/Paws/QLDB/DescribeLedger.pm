@@ -34,12 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Arn                = $DescribeLedgerResponse->Arn;
-    my $CreationDateTime   = $DescribeLedgerResponse->CreationDateTime;
-    my $DeletionProtection = $DescribeLedgerResponse->DeletionProtection;
-    my $Name               = $DescribeLedgerResponse->Name;
-    my $PermissionsMode    = $DescribeLedgerResponse->PermissionsMode;
-    my $State              = $DescribeLedgerResponse->State;
+    my $Arn                   = $DescribeLedgerResponse->Arn;
+    my $CreationDateTime      = $DescribeLedgerResponse->CreationDateTime;
+    my $DeletionProtection    = $DescribeLedgerResponse->DeletionProtection;
+    my $EncryptionDescription = $DescribeLedgerResponse->EncryptionDescription;
+    my $Name                  = $DescribeLedgerResponse->Name;
+    my $PermissionsMode       = $DescribeLedgerResponse->PermissionsMode;
+    my $State                 = $DescribeLedgerResponse->State;
 
     # Returns a L<Paws::QLDB::DescribeLedgerResponse> object.
 

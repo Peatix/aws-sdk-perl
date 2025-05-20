@@ -64,8 +64,8 @@ have drifted.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked if the stack differs
-from its expected template configuration.
+C<NOT_CHECKED>: CloudFormation hasn't checked if the stack differs from
+its expected template configuration.
 
 =item *
 

@@ -7,6 +7,7 @@ package Paws::Comprehend::StartEventsDetectionJob;
   has JobName => (is => 'ro', isa => 'Str');
   has LanguageCode => (is => 'ro', isa => 'Str', required => 1);
   has OutputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::OutputDataConfig', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::Tag]');
   has TargetEventTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
 
   use MooseX::ClassAttribute;
@@ -36,9 +37,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StartEventsDetectionJobResponse = $comprehend->StartEventsDetectionJob(
       DataAccessRoleArn => 'MyIamRoleArn',
       InputDataConfig   => {
-        S3Uri       => 'MyS3Uri',           # max: 1024
+        S3Uri                => 'MyS3Uri',    # max: 1024
+        DocumentReaderConfig => {
+          DocumentReadAction => 'TEXTRACT_DETECT_DOCUMENT_TEXT'
+          ,   # values: TEXTRACT_DETECT_DOCUMENT_TEXT, TEXTRACT_ANALYZE_DOCUMENT
+          DocumentReadMode => 'SERVICE_DEFAULT'
+          ,    # values: SERVICE_DEFAULT, FORCE_DOCUMENT_READ_ACTION; OPTIONAL
+          FeatureTypes => [
+            'TABLES', ...    # values: TABLES, FORMS
+          ],    # min: 1, max: 2; OPTIONAL
+        },    # OPTIONAL
         InputFormat => 'ONE_DOC_PER_FILE'
-        ,    # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
+        ,     # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
       },
       LanguageCode     => 'en',
       OutputDataConfig => {
@@ -50,9 +60,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],
       ClientRequestToken => 'MyClientRequestTokenString',    # OPTIONAL
       JobName            => 'MyJobName',                     # OPTIONAL
+      Tags               => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
+    my $JobArn    = $StartEventsDetectionJobResponse->JobArn;
     my $JobId     = $StartEventsDetectionJobResponse->JobId;
     my $JobStatus = $StartEventsDetectionJobResponse->JobStatus;
 
@@ -73,9 +91,8 @@ request token, Amazon Comprehend generates one.
 
 =head2 B<REQUIRED> DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management (IAM) role that grants Amazon Comprehend read access to your
-input data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data.
 
 
 
@@ -100,6 +117,15 @@ Valid values are: C<"en">, C<"es">, C<"fr">, C<"de">, C<"it">, C<"pt">, C<"ar">,
 =head2 B<REQUIRED> OutputDataConfig => L<Paws::Comprehend::OutputDataConfig>
 
 Specifies where to send the output files.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Comprehend::Tag>]
+
+Tags to associate with the events detection job. A tag is a key-value
+pair that adds metadata to a resource used by Amazon Comprehend. For
+example, a tag with "Sales" as the key might be added to a resource to
+indicate its use by the sales department.
 
 
 

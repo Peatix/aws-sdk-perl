@@ -7,6 +7,7 @@ package Paws::Config::PutConformancePack;
   has DeliveryS3KeyPrefix => (is => 'ro', isa => 'Str');
   has TemplateBody => (is => 'ro', isa => 'Str');
   has TemplateS3Uri => (is => 'ro', isa => 'Str');
+  has TemplateSSMDocumentDetails => (is => 'ro', isa => 'Paws::Config::TemplateSSMDocumentDetails');
 
   use MooseX::ClassAttribute;
 
@@ -42,10 +43,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      DeliveryS3Bucket    => 'MyDeliveryS3Bucket',       # OPTIONAL
-      DeliveryS3KeyPrefix => 'MyDeliveryS3KeyPrefix',    # OPTIONAL
-      TemplateBody        => 'MyTemplateBody',           # OPTIONAL
-      TemplateS3Uri       => 'MyTemplateS3Uri',          # OPTIONAL
+      DeliveryS3Bucket           => 'MyDeliveryS3Bucket',       # OPTIONAL
+      DeliveryS3KeyPrefix        => 'MyDeliveryS3KeyPrefix',    # OPTIONAL
+      TemplateBody               => 'MyTemplateBody',           # OPTIONAL
+      TemplateS3Uri              => 'MyTemplateS3Uri',          # OPTIONAL
+      TemplateSSMDocumentDetails => {
+        DocumentName    => 'MySSMDocumentName',
+        DocumentVersion => 'MySSMDocumentVersion',              # OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -67,13 +72,14 @@ A list of C<ConformancePackInputParameter> objects.
 
 =head2 B<REQUIRED> ConformancePackName => Str
 
-Name of the conformance pack you want to create.
+The unique name of the conformance pack you want to deploy.
 
 
 
 =head2 DeliveryS3Bucket => Str
 
-Amazon S3 bucket where AWS Config stores conformance pack templates.
+The name of the Amazon S3 bucket where Config stores conformance pack
+templates.
 
 This field is optional.
 
@@ -89,23 +95,37 @@ This field is optional.
 
 =head2 TemplateBody => Str
 
-A string containing full conformance pack template body. Structure
-containing the template body with a minimum length of 1 byte and a
-maximum length of 51,200 bytes.
+A string containing the full conformance pack template body. The
+structure containing the template body has a minimum length of 1 byte
+and a maximum length of 51,200 bytes.
 
-You can only use a YAML template with one resource type, that is,
-config rule and a remediation action.
+You can use a YAML template with two resource types: Config rule
+(C<AWS::Config::ConfigRule>) and remediation action
+(C<AWS::Config::RemediationConfiguration>).
 
 
 
 =head2 TemplateS3Uri => Str
 
-Location of file containing the template body
-(C<s3://bucketname/prefix>). The uri must point to the conformance pack
+The location of the file containing the template body
+(C<s3://bucketname/prefix>). The uri must point to a conformance pack
 template (max size: 300 KB) that is located in an Amazon S3 bucket in
-the same region as the conformance pack.
+the same Region as the conformance pack.
 
-You must have access to read Amazon S3 bucket.
+You must have access to read Amazon S3 bucket. In addition, in order to
+ensure a successful deployment, the template object must not be in an
+archived storage class
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html)
+if this parameter is passed.
+
+
+
+=head2 TemplateSSMDocumentDetails => L<Paws::Config::TemplateSSMDocumentDetails>
+
+An object of type C<TemplateSSMDocumentDetails>, which contains the
+name or the Amazon Resource Name (ARN) of the Amazon Web Services
+Systems Manager document (SSM document) and the version of the SSM
+document that is used to create a conformance pack.
 
 
 

@@ -11,6 +11,7 @@ package Paws::Firehose::RedshiftDestinationUpdate;
   has S3BackupMode => (is => 'ro', isa => 'Str');
   has S3BackupUpdate => (is => 'ro', isa => 'Paws::Firehose::S3DestinationUpdate');
   has S3Update => (is => 'ro', isa => 'Paws::Firehose::S3DestinationUpdate');
+  has SecretsManagerConfiguration => (is => 'ro', isa => 'Paws::Firehose::SecretsManagerConfiguration');
   has Username => (is => 'ro', isa => 'Str');
 
 1;
@@ -50,7 +51,7 @@ Describes an update for a destination in Amazon Redshift.
 
 =head2 CloudWatchLoggingOptions => L<Paws::Firehose::CloudWatchLoggingOptions>
 
-The Amazon CloudWatch logging options for your delivery stream.
+The Amazon CloudWatch logging options for your Firehose stream.
 
 
 =head2 ClusterJDBCURL => Str
@@ -75,22 +76,22 @@ The data processing configuration.
 
 =head2 RetryOptions => L<Paws::Firehose::RedshiftRetryOptions>
 
-The retry behavior in case Kinesis Data Firehose is unable to deliver
-documents to Amazon Redshift. Default value is 3600 (60 minutes).
+The retry behavior in case Firehose is unable to deliver documents to
+Amazon Redshift. Default value is 3600 (60 minutes).
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of the AWS credentials. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+For more information, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 =head2 S3BackupMode => Str
 
-You can update a delivery stream to enable Amazon S3 backup if it is
-disabled. If backup is enabled, you can't update the delivery stream to
+You can update a Firehose stream to enable Amazon S3 backup if it is
+disabled. If backup is enabled, you can't update the Firehose stream to
 disable it.
 
 
@@ -107,6 +108,12 @@ The compression formats C<SNAPPY> or C<ZIP> cannot be specified in
 C<RedshiftDestinationUpdate.S3Update> because the Amazon Redshift
 C<COPY> operation that reads from the S3 bucket doesn't support these
 compression formats.
+
+
+=head2 SecretsManagerConfiguration => L<Paws::Firehose::SecretsManagerConfiguration>
+
+The configuration that defines how you access secrets for Amazon
+Redshift.
 
 
 =head2 Username => Str

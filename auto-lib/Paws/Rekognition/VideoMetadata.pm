@@ -2,6 +2,7 @@
 package Paws::Rekognition::VideoMetadata;
   use Moose;
   has Codec => (is => 'ro', isa => 'Str');
+  has ColorRange => (is => 'ro', isa => 'Str');
   has DurationMillis => (is => 'ro', isa => 'Int');
   has Format => (is => 'ro', isa => 'Str');
   has FrameHeight => (is => 'ro', isa => 'Int');
@@ -48,6 +49,12 @@ a Amazon Rekognition video operation.
 =head2 Codec => Str
 
 Type of compression used in the analyzed video.
+
+
+=head2 ColorRange => Str
+
+A description of the range of luminance values in a video, either
+LIMITED (16 to 235) or FULL (0 to 255).
 
 
 =head2 DurationMillis => Int

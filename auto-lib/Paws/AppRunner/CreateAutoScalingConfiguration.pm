@@ -61,9 +61,44 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head2 B<REQUIRED> AutoScalingConfigurationName => Str
 
 A name for the auto scaling configuration. When you use it for the
-first time in an AWS Region, App Runner creates revision number C<1> of
-this name. When you use the same name in subsequent calls, App Runner
-creates incremental revisions of the configuration.
+first time in an Amazon Web Services Region, App Runner creates
+revision number C<1> of this name. When you use the same name in
+subsequent calls, App Runner creates incremental revisions of the
+configuration.
+
+Prior to the release of Auto scale configuration enhancements
+(https://docs.aws.amazon.com/apprunner/latest/relnotes/release-2023-09-22-auto-scale-config.html),
+the name C<DefaultConfiguration> was reserved.
+
+This restriction is no longer in place. You can now manage
+C<DefaultConfiguration> the same way you manage your custom auto
+scaling configurations. This means you can do the following with the
+C<DefaultConfiguration> that App Runner provides:
+
+=over
+
+=item *
+
+Create new revisions of the C<DefaultConfiguration>.
+
+=item *
+
+Delete the revisions of the C<DefaultConfiguration>.
+
+=item *
+
+Delete the auto scaling configuration for which the App Runner
+C<DefaultConfiguration> was created.
+
+=item *
+
+If you delete the auto scaling configuration you can create another
+custom auto scaling configuration with the same C<DefaultConfiguration>
+name. The original C<DefaultConfiguration> resource provided by App
+Runner remains in your account unless you make changes to it.
+
+=back
+
 
 
 

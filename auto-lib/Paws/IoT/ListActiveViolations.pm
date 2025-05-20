@@ -7,6 +7,7 @@ package Paws::IoT::ListActiveViolations;
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
   has SecurityProfileName => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'securityProfileName');
   has ThingName => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'thingName');
+  has VerificationState => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'verificationState');
 
   use MooseX::ClassAttribute;
 
@@ -40,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       NextToken            => 'MyNextToken',                  # OPTIONAL
       SecurityProfileName  => 'MySecurityProfileName',        # OPTIONAL
       ThingName            => 'MyDeviceDefenderThingName',    # OPTIONAL
+      VerificationState    => 'FALSE_POSITIVE',               # OPTIONAL
     );
 
     # Results:
@@ -90,6 +92,12 @@ are listed.
 The name of the thing whose active violations are listed.
 
 
+
+=head2 VerificationState => Str
+
+The verification state of the violation (detect alarm).
+
+Valid values are: C<"FALSE_POSITIVE">, C<"BENIGN_POSITIVE">, C<"TRUE_POSITIVE">, C<"UNKNOWN">
 
 
 =head1 SEE ALSO

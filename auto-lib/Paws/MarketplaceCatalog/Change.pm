@@ -3,8 +3,10 @@ package Paws::MarketplaceCatalog::Change;
   use Moose;
   has ChangeName => (is => 'ro', isa => 'Str');
   has ChangeType => (is => 'ro', isa => 'Str', required => 1);
-  has Details => (is => 'ro', isa => 'Str', required => 1);
+  has Details => (is => 'ro', isa => 'Str');
+  has DetailsDocument => (is => 'ro', isa => 'Paws::MarketplaceCatalog::JsonDocumentType');
   has Entity => (is => 'ro', isa => 'Paws::MarketplaceCatalog::Entity', required => 1);
+  has EntityTags => (is => 'ro', isa => 'ArrayRef[Paws::MarketplaceCatalog::Tag]');
 
 1;
 
@@ -25,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MarketplaceCatalog::Change object:
 
-  $service_obj->Method(Att1 => { ChangeName => $value, ..., Entity => $value  });
+  $service_obj->Method(Att1 => { ChangeName => $value, ..., EntityTags => $value  });
 
 =head3 Results returned from an API call
 
@@ -50,18 +52,40 @@ Optional name for the change.
 
 Change types are single string values that describe your intention for
 the change. Each change type is unique for each C<EntityType> provided
-in the change's scope.
+in the change's scope. For more information about change types
+available for single-AMI products, see Working with single-AMI products
+(https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products).
+Also, for more information about change types available for
+container-based products, see Working with container products
+(https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
 
 
-=head2 B<REQUIRED> Details => Str
+=head2 Details => Str
 
 This object contains details specific to the change type of the
-requested change.
+requested change. For more information about change types available for
+single-AMI products, see Working with single-AMI products
+(https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products).
+Also, for more information about change types available for
+container-based products, see Working with container products
+(https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
+
+
+=head2 DetailsDocument => L<Paws::MarketplaceCatalog::JsonDocumentType>
+
+Alternative field that accepts a JSON value instead of a string for
+C<ChangeType> details. You can use either C<Details> or
+C<DetailsDocument>, but not both.
 
 
 =head2 B<REQUIRED> Entity => L<Paws::MarketplaceCatalog::Entity>
 
 The entity to be changed.
+
+
+=head2 EntityTags => ArrayRef[L<Paws::MarketplaceCatalog::Tag>]
+
+The tags associated with the change.
 
 
 

@@ -70,8 +70,9 @@ The ARN of the filter.
 
 Specifies the type of item interactions to filter out of recommendation
 results. The filter expression must follow specific format rules. For
-information about filter expression structure and syntax, see
-filter-expressions.
+information about filter expression structure and syntax, see Filter
+expressions
+(https://docs.aws.amazon.com/personalize/latest/dg/filter-expressions.html).
 
 
 =head2 LastUpdatedDateTime => Str

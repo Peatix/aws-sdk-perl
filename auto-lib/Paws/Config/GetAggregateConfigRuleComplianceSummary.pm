@@ -82,7 +82,7 @@ Valid values are: C<"ACCOUNT_ID">, C<"AWS_REGION">
 
 The maximum number of evaluation results returned on each page. The
 default is 1000. You cannot specify a number greater than 1000. If you
-specify 0, AWS Config uses the default.
+specify 0, Config uses the default.
 
 
 

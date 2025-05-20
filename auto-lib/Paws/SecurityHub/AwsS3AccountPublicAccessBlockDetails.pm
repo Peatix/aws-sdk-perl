@@ -63,8 +63,8 @@ with an S3 bucket.
 =head2 RestrictPublicBuckets => Bool
 
 Indicates whether to restrict access to an access point or S3 bucket
-that has a public policy to only AWS service principals and authorized
-users within the S3 bucket owner's account.
+that has a public policy to only Amazon Web Services service principals
+and authorized users within the S3 bucket owner's account.
 
 
 

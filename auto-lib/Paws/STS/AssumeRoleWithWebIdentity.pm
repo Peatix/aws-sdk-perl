@@ -36,8 +36,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # To assume a role as an OpenID Connect-federated user
     my $AssumeRoleWithWebIdentityResponse = $sts->AssumeRoleWithWebIdentity(
       'DurationSeconds' => 3600,
-      'ProviderId'      => 'www.amazon.com',
-      'RoleArn' => 'arn:aws:iam::123456789012:role/FederatedWebIdentityRole',
+      'Policy'          =>
+'{"Version":"2012-10-17","Statement":[{"Sid":"Stmt1","Effect":"Allow","Action":"s3:ListAllMyBuckets","Resource":"*"}]}',
+      'ProviderId' => 'www.amazon.com',
+      'RoleArn'    => 'arn:aws:iam::123456789012:role/FederatedWebIdentityRole',
       'RoleSessionName'  => 'app1',
       'WebIdentityToken' =>
 'Atza%7CIQEBLjAsAhRFiXuWpUXuRvQ9PZL3GMFcYevydwIUFAHZwXZXXXXXXXXJnrulxKDHwy87oGKPznh0D6bEQZTSCzyoCtL_8S07pLpr0zMbn6w1lfVZKNTBdDansFBmtGnIsIapjI6xKR02Yc_2bQ8LZbUXSGm6Ry6_BG7PrtLZtj_dfCTj92xNGed-CrKqjG7nPBjNIL016GGvuS5gSvPRUxWES3VYfm1wl7WTI7jn-Pcb6M-buCgHhFOzTQxod27L9CqnOLio7N3gZAGpsp6n1-AJBOCJckcyXe2c6uD0srOJeZlKUm2eTDVMf8IehDVI0r1QOnTV6KzzAI3OY87Vd_cVMQ'
@@ -80,7 +82,8 @@ console session that you might request using the returned credentials.
 The request to the federation endpoint for a console sign-in token
 takes a C<SessionDuration> parameter that specifies the maximum length
 of the console session. For more information, see Creating a URL that
-Enables Federated Users to Access the AWS Management Console
+Enables Federated Users to Access the Amazon Web Services Management
+Console
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
 in the I<IAM User Guide>.
 
@@ -95,10 +98,10 @@ This parameter is optional. Passing policies to this operation returns
 new temporary credentials. The resulting session's permissions are the
 intersection of the role's identity-based policy and the session
 policies. You can use the role's temporary credentials in subsequent
-AWS API calls to access resources in the account that owns the role.
-You cannot use session policies to grant more permissions than those
-allowed by the identity-based policy of the role that is being assumed.
-For more information, see Session Policies
+Amazon Web Services API calls to access resources in the account that
+owns the role. You cannot use session policies to grant more
+permissions than those allowed by the identity-based policy of the role
+that is being assumed. For more information, see Session Policies
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
 in the I<IAM User Guide>.
 
@@ -108,12 +111,16 @@ ASCII character from the space character to the end of the valid
 character list (\u0020 through \u00FF). It can also include the tab
 (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.
 
-An AWS conversion compresses the passed session policies and session
-tags into a packed binary format that has a separate limit. Your
-request can fail for this limit even if your plaintext meets the other
-requirements. The C<PackedPolicySize> response element indicates by
-percentage how close the policies and tags for your request are to the
-upper size limit.
+For more information about role session permissions, see Session
+policies
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session).
+
+An Amazon Web Services conversion compresses the passed inline session
+policy, managed policy ARNs, and session tags into a packed binary
+format that has a separate limit. Your request can fail for this limit
+even if your plaintext meets the other requirements. The
+C<PackedPolicySize> response element indicates by percentage how close
+the policies and tags for your request are to the upper size limit.
 
 
 
@@ -126,25 +133,26 @@ same account as the role.
 This parameter is optional. You can provide up to 10 managed policy
 ARNs. However, the plaintext that you use for both inline and managed
 session policies can't exceed 2,048 characters. For more information
-about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces
+about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the AWS General Reference.
+in the Amazon Web Services General Reference.
 
-An AWS conversion compresses the passed session policies and session
-tags into a packed binary format that has a separate limit. Your
-request can fail for this limit even if your plaintext meets the other
-requirements. The C<PackedPolicySize> response element indicates by
-percentage how close the policies and tags for your request are to the
-upper size limit.
+An Amazon Web Services conversion compresses the passed inline session
+policy, managed policy ARNs, and session tags into a packed binary
+format that has a separate limit. Your request can fail for this limit
+even if your plaintext meets the other requirements. The
+C<PackedPolicySize> response element indicates by percentage how close
+the policies and tags for your request are to the upper size limit.
 
 Passing policies to this operation returns new temporary credentials.
 The resulting session's permissions are the intersection of the role's
 identity-based policy and the session policies. You can use the role's
-temporary credentials in subsequent AWS API calls to access resources
-in the account that owns the role. You cannot use session policies to
-grant more permissions than those allowed by the identity-based policy
-of the role that is being assumed. For more information, see Session
-Policies
+temporary credentials in subsequent Amazon Web Services API calls to
+access resources in the account that owns the role. You cannot use
+session policies to grant more permissions than those allowed by the
+identity-based policy of the role that is being assumed. For more
+information, see Session Policies
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session)
 in the I<IAM User Guide>.
 
@@ -152,13 +160,13 @@ in the I<IAM User Guide>.
 
 =head2 ProviderId => Str
 
-The fully qualified host component of the domain name of the identity
-provider.
+The fully qualified host component of the domain name of the OAuth 2.0
+identity provider. Do not specify this value for an OpenID Connect
+identity provider.
 
-Specify this value only for OAuth 2.0 access tokens. Currently
-C<www.amazon.com> and C<graph.facebook.com> are the only supported
-identity providers for OAuth 2.0 access tokens. Do not include URL
-schemes and port numbers.
+Currently C<www.amazon.com> and C<graph.facebook.com> are the only
+supported identity providers for OAuth 2.0 access tokens. Do not
+include URL schemes and port numbers.
 
 Do not specify this value for OpenID Connect ID tokens.
 
@@ -167,6 +175,20 @@ Do not specify this value for OpenID Connect ID tokens.
 =head2 B<REQUIRED> RoleArn => Str
 
 The Amazon Resource Name (ARN) of the role that the caller is assuming.
+
+Additional considerations apply to Amazon Cognito identity pools that
+assume cross-account IAM roles
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html).
+The trust policies of these roles must accept the
+C<cognito-identity.amazonaws.com> service principal and must contain
+the C<cognito-identity.amazonaws.com:aud> condition key to restrict
+role assumption to users from your intended identity pools. A policy
+that trusts Amazon Cognito identity pools without this condition
+creates a risk that a user from an unintended identity pool can assume
+the role. For more information, see Trust policies for IAM roles in
+Basic (Classic) authentication
+(https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html#trust-policies)
+in the I<Amazon Cognito Developer Guide>.
 
 
 
@@ -178,6 +200,15 @@ application. That way, the temporary security credentials that your
 application will use are associated with that user. This session name
 is included as part of the ARN and assumed role ID in the
 C<AssumedRoleUser> response element.
+
+For security purposes, administrators can view this field in CloudTrail
+logs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds)
+to help identify who performed an action in Amazon Web Services. Your
+administrator might require that you specify your user name as the
+session name when you assume the role. For more information, see
+C<sts:RoleSessionName>
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname).
 
 The regex used to validate this parameter is a string of characters
 consisting of upper- and lower-case alphanumeric characters with no
@@ -192,7 +223,10 @@ The OAuth 2.0 access token or OpenID Connect ID token that is provided
 by the identity provider. Your application must get this token by
 authenticating the user who is using your application with a web
 identity provider before the application makes an
-C<AssumeRoleWithWebIdentity> call.
+C<AssumeRoleWithWebIdentity> call. Timestamps in the token must be
+formatted as either an integer or a long integer. Tokens must be signed
+using either RSA keys (RS256, RS384, or RS512) or ECDSA keys (ES256,
+ES384, or ES512).
 
 
 

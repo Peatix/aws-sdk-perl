@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Information about an origin that is an S3 bucket that is not configured
-with static website hosting.
+Information about an origin that is an Amazon S3 bucket that is not
+configured with static website hosting.
 
 =head1 ATTRIBUTES
 

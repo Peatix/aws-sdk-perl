@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::RemoveFlowSource;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
-  has SourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
+  has SourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'RemoveFlowSource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/source/{sourceArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/source/{SourceArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'DELETE');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::RemoveFlowSourceResponse');
 1;
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $RemoveFlowSourceResponse = $mediaconnect->RemoveFlowSource(
-      FlowArn   => 'My__string',
-      SourceArn => 'My__string',
+      FlowArn   => 'MyRemoveFlowSourceRequestFlowArnString',
+      SourceArn => 'MyRemoveFlowSourceRequestSourceArnString',
 
     );
 
@@ -49,7 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that you want to remove a source from.
+The Amazon Resource Name (ARN) of the flow that you want to remove a
+source from.
 
 
 

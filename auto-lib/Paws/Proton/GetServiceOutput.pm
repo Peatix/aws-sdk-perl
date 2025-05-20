@@ -16,7 +16,7 @@ Paws::Proton::GetServiceOutput
 
 =head2 Service => L<Paws::Proton::Service>
 
-The service detail data that's returned by AWS Proton.
+The detailed data of the requested service.
 
 
 =head2 _request_id => Str

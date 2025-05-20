@@ -59,7 +59,7 @@ The ARN of batch prediction job.
 
 =head2 CompletionTime => Str
 
-Timestamp of when the batch prediction job comleted.
+Timestamp of when the batch prediction job completed.
 
 
 =head2 DetectorName => Str

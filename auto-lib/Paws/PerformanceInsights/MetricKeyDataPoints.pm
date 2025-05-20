@@ -48,7 +48,7 @@ period of time.
 
 =head2 Key => L<Paws::PerformanceInsights::ResponseResourceMetricKey>
 
-The dimension(s) to which the data points apply.
+The dimensions to which the data points apply.
 
 
 

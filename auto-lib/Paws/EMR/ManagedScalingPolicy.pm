@@ -2,6 +2,8 @@
 package Paws::EMR::ManagedScalingPolicy;
   use Moose;
   has ComputeLimits => (is => 'ro', isa => 'Paws::EMR::ComputeLimits');
+  has ScalingStrategy => (is => 'ro', isa => 'Str');
+  has UtilizationPerformanceIndex => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -22,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EMR::ManagedScalingPolicy object:
 
-  $service_obj->Method(Att1 => { ComputeLimits => $value, ..., ComputeLimits => $value  });
+  $service_obj->Method(Att1 => { ComputeLimits => $value, ..., UtilizationPerformanceIndex => $value  });
 
 =head3 Results returned from an API call
 
@@ -43,10 +45,25 @@ node cannot be scaled after initial configuration.
 
 =head2 ComputeLimits => L<Paws::EMR::ComputeLimits>
 
-The EC2 unit limits for a managed scaling policy. The managed scaling
-activity of a cluster is not allowed to go above or below these limits.
-The limit only applies to the core and task nodes. The master node
-cannot be scaled after initial configuration.
+The Amazon EC2 unit limits for a managed scaling policy. The managed
+scaling activity of a cluster is not allowed to go above or below these
+limits. The limit only applies to the core and task nodes. The master
+node cannot be scaled after initial configuration.
+
+
+=head2 ScalingStrategy => Str
+
+Determines whether a custom scaling utilization performance index can
+be set. Possible values include I<ADVANCED> or I<DEFAULT>.
+
+
+=head2 UtilizationPerformanceIndex => Int
+
+An integer value that represents an advanced scaling strategy. Setting
+a higher value optimizes for performance. Setting a lower value
+optimizes for resource conservation. Setting the value to 50 balances
+performance and resource conservation. Possible values are 1, 25, 50,
+75, and 100.
 
 
 

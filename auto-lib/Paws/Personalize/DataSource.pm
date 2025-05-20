@@ -34,15 +34,27 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Describes the data source that contains the data to upload to a
-dataset.
+dataset, or the list of records to delete from Amazon Personalize.
 
 =head1 ATTRIBUTES
 
 
 =head2 DataLocation => Str
 
-The path to the Amazon S3 bucket where the data that you want to upload
-to your dataset is stored. For example:
+For dataset import jobs, the path to the Amazon S3 bucket where the
+data that you want to upload to your dataset is stored. For data
+deletion jobs, the path to the Amazon S3 bucket that stores the list of
+records to delete.
+
+For example:
+
+C<s3://bucket-name/folder-name/fileName.csv>
+
+If your CSV files are in a folder in your Amazon S3 bucket and you want
+your import job or data deletion job to consider multiple files, you
+can specify the path to the folder. With a data deletion job, Amazon
+Personalize uses all files in the folder and any sub folder. Use the
+following syntax with a C</> after the folder name:
 
 C<s3://bucket-name/folder-name/>
 

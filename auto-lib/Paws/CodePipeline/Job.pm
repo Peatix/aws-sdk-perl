@@ -43,7 +43,8 @@ Represents information about a job.
 
 =head2 AccountId => Str
 
-The ID of the AWS account to use when performing the job.
+The ID of the Amazon Web Services account to use when performing the
+job.
 
 
 =head2 Data => L<Paws::CodePipeline::JobData>
@@ -58,9 +59,9 @@ The unique system-generated ID of the job.
 
 =head2 Nonce => Str
 
-A system-generated random number that AWS CodePipeline uses to ensure
-that the job is being worked on by only one job worker. Use this number
-in an AcknowledgeJob request.
+A system-generated random number that CodePipeline uses to ensure that
+the job is being worked on by only one job worker. Use this number in
+an AcknowledgeJob request.
 
 
 

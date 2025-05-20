@@ -56,7 +56,7 @@ of the resource to tag.
 A list of key-value pairs that contain metadata for the resource. For
 more information, see Tag your resources
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 

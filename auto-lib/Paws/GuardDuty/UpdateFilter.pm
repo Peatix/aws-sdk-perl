@@ -79,7 +79,11 @@ Valid values are: C<"NOOP">, C<"ARCHIVE">
 
 =head2 Description => Str
 
-The description of the filter.
+The description of the filter. Valid characters include alphanumeric
+characters, and special characters such as hyphen, period, colon,
+underscore, parentheses (C<{ }>, C<[ ]>, and C<( )>), forward slash,
+horizontal tab, vertical tab, newline, form feed, return, and
+whitespace.
 
 
 
@@ -87,6 +91,11 @@ The description of the filter.
 
 The unique ID of the detector that specifies the GuardDuty service
 where you want to update a filter.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 

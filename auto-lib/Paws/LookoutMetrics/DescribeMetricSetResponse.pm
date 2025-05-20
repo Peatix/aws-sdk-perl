@@ -3,6 +3,7 @@ package Paws::LookoutMetrics::DescribeMetricSetResponse;
   use Moose;
   has AnomalyDetectorArn => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str');
+  has DimensionFilterList => (is => 'ro', isa => 'ArrayRef[Paws::LookoutMetrics::MetricSetDimensionFilter]');
   has DimensionList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has MetricList => (is => 'ro', isa => 'ArrayRef[Paws::LookoutMetrics::Metric]');
@@ -35,6 +36,11 @@ The ARN of the detector that contains the dataset.
 =head2 CreationTime => Str
 
 The time at which the dataset was created.
+
+
+=head2 DimensionFilterList => ArrayRef[L<Paws::LookoutMetrics::MetricSetDimensionFilter>]
+
+The dimensions and their values that were used to filter the dataset.
 
 
 =head2 DimensionList => ArrayRef[Str|Undef]
@@ -79,7 +85,9 @@ Contains information about the dataset's source data.
 
 =head2 Offset => Int
 
-The offset in seconds. Only supported for S3 and Redshift datasources.
+After an interval ends, the amount of seconds that the detector waits
+before importing data. Offset is only supported for S3, Redshift,
+Athena and datasources.
 
 
 =head2 TimestampColumn => L<Paws::LookoutMetrics::TimestampColumn>

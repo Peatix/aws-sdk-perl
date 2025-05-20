@@ -32,9 +32,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Use this to store channel data in an S3 bucket managed by AWS IoT
-Analytics. You cannot change the choice of service-managed or
-customer-managed S3 storage after the channel is created.
+Used to store channel data in an S3 bucket managed by IoT Analytics.
+You can't change the choice of S3 storage after the data store is
+created.
 
 =head1 ATTRIBUTES
 

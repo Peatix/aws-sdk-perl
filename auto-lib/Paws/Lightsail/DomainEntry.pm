@@ -51,9 +51,12 @@ The ID of the domain recordset entry.
 =head2 IsAlias => Bool
 
 When C<true>, specifies whether the domain entry is an alias used by
-the Lightsail load balancer. You can include an alias (A type) record
-in your request, which points to a load balancer DNS name and routes
-traffic to your load balancer.
+the Lightsail load balancer, Lightsail container service, Lightsail
+content delivery network (CDN) distribution, or another Amazon Web
+Services resource. You can include an alias (A type) record in your
+request, which points to the DNS name of a load balancer, container
+service, CDN distribution, or other Amazon Web Services resource and
+routes traffic to that resource.
 
 
 =head2 Name => Str
@@ -63,16 +66,16 @@ The name of the domain.
 
 =head2 Options => L<Paws::Lightsail::DomainEntryOptions>
 
-(Deprecated) The options for the domain entry.
+(Discontinued) The options for the domain entry.
 
 In releases prior to November 29, 2017, this parameter was not included
-in the API response. It is now deprecated.
+in the API response. It is now discontinued.
 
 
 =head2 Target => Str
 
-The target IP address (e.g., C<192.0.2.0>), or AWS name server (e.g.,
-C<ns-111.awsdns-22.com.>).
+The target IP address (C<192.0.2.0>), or AWS name server
+(C<ns-111.awsdns-22.com.>).
 
 For Lightsail load balancers, the value looks like
 C<ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com>.

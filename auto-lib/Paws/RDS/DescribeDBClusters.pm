@@ -45,9 +45,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 DBClusterIdentifier => Str
 
-The user-supplied DB cluster identifier. If this parameter is
-specified, information from only the specific DB cluster is returned.
-This parameter isn't case-sensitive.
+The user-supplied DB cluster identifier or the Amazon Resource Name
+(ARN) of the DB cluster. If this parameter is specified, information
+for only the specific DB cluster is returned. This parameter isn't
+case-sensitive.
 
 Constraints:
 
@@ -55,7 +56,7 @@ Constraints:
 
 =item *
 
-If supplied, must match an existing DBClusterIdentifier.
+If supplied, must match an existing DB cluster identifier.
 
 =back
 
@@ -66,15 +67,38 @@ If supplied, must match an existing DBClusterIdentifier.
 
 A filter that specifies one or more DB clusters to describe.
 
-Supported filters:
+Supported Filters:
 
 =over
 
 =item *
 
+C<clone-group-id> - Accepts clone group identifiers. The results list
+only includes information about the DB clusters associated with these
+clone groups.
+
+=item *
+
 C<db-cluster-id> - Accepts DB cluster identifiers and DB cluster Amazon
-Resource Names (ARNs). The results list will only include information
-about the DB clusters identified by these ARNs.
+Resource Names (ARNs). The results list only includes information about
+the DB clusters identified by these ARNs.
+
+=item *
+
+C<db-cluster-resource-id> - Accepts DB cluster resource identifiers.
+The results list will only include information about the DB clusters
+identified by these DB cluster resource identifiers.
+
+=item *
+
+C<domain> - Accepts Active Directory directory IDs. The results list
+only includes information about the DB clusters associated with these
+domains.
+
+=item *
+
+C<engine> - Accepts engine names. The results list only includes
+information about the DB clusters for these engines.
 
 =back
 
@@ -83,9 +107,8 @@ about the DB clusters identified by these ARNs.
 
 =head2 IncludeShared => Bool
 
-Optional Boolean parameter that specifies whether the output includes
-information about clusters shared from other Amazon Web Services
-accounts.
+Specifies whether the output includes information about clusters shared
+from other Amazon Web Services accounts.
 
 
 
@@ -107,7 +130,7 @@ the remaining results.
 
 Default: 100
 
-Constraints: Minimum 20, maximum 100.
+Constraints: Minimum 20, maximum 100
 
 
 

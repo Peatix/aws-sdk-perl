@@ -62,8 +62,8 @@ results.
 
 Filtering associations using the C<InstanceID> attribute only returns
 legacy associations created using the C<InstanceID> attribute.
-Associations targeting the instance that are part of the Target
-Attributes C<ResourceGroup> or C<Tags> are not returned.
+Associations targeting the managed node that are part of the Target
+Attributes C<ResourceGroup> or C<Tags> aren't returned.
 
 
 

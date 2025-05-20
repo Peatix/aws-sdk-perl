@@ -55,29 +55,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 B<REQUIRED> IntegrationAssociationId => Str
 
-The identifier for the AppIntegration association.
+The identifier for the integration association.
 
 
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 
 =head2 B<REQUIRED> UseCaseType => Str
 
-The type of use case to associate to the AppIntegration association.
-Each AppIntegration association can have only one of each use case
-type.
+The type of use case to associate to the integration association. Each
+integration association can have only one of each use case type.
 
-Valid values are: C<"RULES_EVALUATION">
+Valid values are: C<"RULES_EVALUATION">, C<"CONNECT_CAMPAIGNS">
 
 
 =head1 SEE ALSO

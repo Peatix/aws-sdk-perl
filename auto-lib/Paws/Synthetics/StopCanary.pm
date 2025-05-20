@@ -42,7 +42,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/syn
 =head2 B<REQUIRED> Name => Str
 
 The name of the canary that you want to stop. To find the names of your
-canaries, use DescribeCanaries
+canaries, use ListCanaries
 (https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
 
 

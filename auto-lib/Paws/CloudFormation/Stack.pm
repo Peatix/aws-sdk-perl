@@ -4,8 +4,10 @@ package Paws::CloudFormation::Stack;
   has Capabilities => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ChangeSetId => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str', required => 1);
+  has DeletionMode => (is => 'ro', isa => 'Str');
   has DeletionTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has DetailedStatus => (is => 'ro', isa => 'Str');
   has DisableRollback => (is => 'ro', isa => 'Bool');
   has DriftInformation => (is => 'ro', isa => 'Paws::CloudFormation::StackDriftInformation');
   has EnableTerminationProtection => (is => 'ro', isa => 'Bool');
@@ -14,6 +16,7 @@ package Paws::CloudFormation::Stack;
   has Outputs => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Output]');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Parameter]');
   has ParentId => (is => 'ro', isa => 'Str');
+  has RetainExceptOnCreate => (is => 'ro', isa => 'Bool');
   has RoleARN => (is => 'ro', isa => 'Str');
   has RollbackConfiguration => (is => 'ro', isa => 'Paws::CloudFormation::RollbackConfiguration');
   has RootId => (is => 'ro', isa => 'Str');
@@ -74,6 +77,26 @@ The unique ID of the change set.
 The time at which the stack was created.
 
 
+=head2 DeletionMode => Str
+
+Specifies the deletion mode for the stack. Possible values are:
+
+=over
+
+=item *
+
+C<STANDARD> - Use the standard behavior. Specifying this value is the
+same as not specifying this parameter.
+
+=item *
+
+C<FORCE_DELETE_STACK> - Delete the stack if it's stuck in a
+C<DELETE_FAILED> state due to resource deletion failure.
+
+=back
+
+
+
 =head2 DeletionTime => Str
 
 The time the stack was deleted.
@@ -84,6 +107,18 @@ The time the stack was deleted.
 A user-defined description associated with the stack.
 
 
+=head2 DetailedStatus => Str
+
+The detailed status of the resource or stack. If
+C<CONFIGURATION_COMPLETE> is present, the resource or resource
+configuration phase has completed and the stabilization of the
+resources is in progress. The stack sets C<CONFIGURATION_COMPLETE> when
+all of the resources in the stack have reached that event. For more
+information, see Understand CloudFormation stack creation events
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html)
+in the I<CloudFormation User Guide>.
+
+
 =head2 DisableRollback => Bool
 
 Boolean to enable or disable rollback on stack creation failures:
@@ -92,11 +127,11 @@ Boolean to enable or disable rollback on stack creation failures:
 
 =item *
 
-C<true>: disable rollback
+C<true>: disable rollback.
 
 =item *
 
-C<false>: enable rollback
+C<false>: enable rollback.
 
 =back
 
@@ -104,12 +139,12 @@ C<false>: enable rollback
 
 =head2 DriftInformation => L<Paws::CloudFormation::StackDriftInformation>
 
-Information on whether a stack's actual configuration differs, or has
-I<drifted>, from it's expected configuration, as defined in the stack
-template and any values specified as template parameters. For more
-information, see Detecting Unregulated Configuration Changes to Stacks
-and Resources
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
+Information about whether a stack's actual configuration differs, or
+has I<drifted>, from its expected configuration, as defined in the
+stack template and any values specified as template parameters. For
+more information, see Detect unmanaged configuration changes to stacks
+and resources with drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
 
 =head2 EnableTerminationProtection => Bool
@@ -117,12 +152,12 @@ and Resources
 Whether termination protection is enabled for the stack.
 
 For nested stacks
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html),
-termination protection is set on the root stack and cannot be changed
-directly on the nested stack. For more information, see Protecting a
-Stack From Being Deleted
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)
-in the I<AWS CloudFormation User Guide>.
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html),
+termination protection is set on the root stack and can't be changed
+directly on the nested stack. For more information, see Protect a
+CloudFormation stack from being deleted
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 LastUpdatedTime => Str
@@ -133,7 +168,8 @@ if the stack has been updated at least once.
 
 =head2 NotificationARNs => ArrayRef[Str|Undef]
 
-SNS topic ARNs to which stack related events are published.
+Amazon SNS topic Amazon Resource Names (ARNs) to which stack related
+events are published.
 
 
 =head2 Outputs => ArrayRef[L<Paws::CloudFormation::Output>]
@@ -152,22 +188,31 @@ For nested stacks--stacks created as resources for another stack--the
 stack ID of the direct parent of this stack. For the first level of
 nested stacks, the root stack is also the parent stack.
 
-For more information, see Working with Nested Stacks
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
-in the I<AWS CloudFormation User Guide>.
+For more information, see Embed stacks within other stacks using nested
+stacks
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
+in the I<CloudFormation User Guide>.
+
+
+=head2 RetainExceptOnCreate => Bool
+
+When set to C<true>, newly created resources are deleted when the
+operation rolls back. This includes newly created resources marked with
+a deletion policy of C<Retain>.
+
+Default: C<false>
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of an AWS Identity and Access Management
-(IAM) role that is associated with the stack. During a stack operation,
-AWS CloudFormation uses this role's credentials to make calls on your
-behalf.
+The Amazon Resource Name (ARN) of an IAM role that's associated with
+the stack. During a stack operation, CloudFormation uses this role's
+credentials to make calls on your behalf.
 
 
 =head2 RollbackConfiguration => L<Paws::CloudFormation::RollbackConfiguration>
 
-The rollback triggers for AWS CloudFormation to monitor during stack
+The rollback triggers for CloudFormation to monitor during stack
 creation and updating operations, and for the specified monitoring
 period afterwards.
 
@@ -178,9 +223,10 @@ For nested stacks--stacks created as resources for another stack--the
 stack ID of the top-level stack to which the nested stack ultimately
 belongs.
 
-For more information, see Working with Nested Stacks
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
-in the I<AWS CloudFormation User Guide>.
+For more information, see Embed stacks within other stacks using nested
+stacks
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 StackId => Str

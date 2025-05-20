@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DirectConne
 
 =head1 DESCRIPTION
 
-Information about an AWS Direct Connect location.
+Information about an Direct Connect location.
 
 =head1 ATTRIBUTES
 
@@ -71,7 +71,7 @@ partner and the physical site of the building.
 
 =head2 Region => Str
 
-The AWS Region for the location.
+The Amazon Web Services Region for the location.
 
 
 

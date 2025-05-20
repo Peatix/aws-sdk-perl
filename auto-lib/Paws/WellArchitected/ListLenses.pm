@@ -1,6 +1,9 @@
 
 package Paws::WellArchitected::ListLenses;
   use Moose;
+  has LensName => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'LensName');
+  has LensStatus => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'LensStatus');
+  has LensType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'LensType');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'MaxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
 
@@ -30,8 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wellarchitected = Paws->service('WellArchitected');
     my $ListLensesOutput = $wellarchitected->ListLenses(
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
+      LensName   => 'MyLensName',      # OPTIONAL
+      LensStatus => 'ALL',             # OPTIONAL
+      LensType   => 'AWS_OFFICIAL',    # OPTIONAL
+      MaxResults => 1,                 # OPTIONAL
+      NextToken  => 'MyNextToken',     # OPTIONAL
     );
 
     # Results:
@@ -45,6 +51,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wel
 
 =head1 ATTRIBUTES
 
+
+=head2 LensName => Str
+
+
+
+
+
+=head2 LensStatus => Str
+
+The status of lenses to be returned.
+
+Valid values are: C<"ALL">, C<"DRAFT">, C<"PUBLISHED">
+
+=head2 LensType => Str
+
+The type of lenses to be returned.
+
+Valid values are: C<"AWS_OFFICIAL">, C<"CUSTOM_SHARED">, C<"CUSTOM_SELF">
 
 =head2 MaxResults => Int
 

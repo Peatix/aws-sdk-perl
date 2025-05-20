@@ -34,37 +34,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::P
 
 =head1 DESCRIPTION
 
-Custom prioritization settings for use by a game session queue when
-placing new game sessions with available game servers. When defined,
-this configuration replaces the default FleetIQ prioritization process,
-which is as follows:
+Custom prioritization settings to use with a game session queue.
+Prioritization settings determine how the queue selects a game hosting
+resource to start a new game session. This configuration replaces the
+default prioritization process for queues.
+
+By default, a queue makes game session placements based on the
+following criteria:
 
 =over
 
 =item *
 
-If player latency data is included in a game session request,
-destinations and locations are prioritized first based on lowest
-average latency (1), then on lowest hosting cost (2), then on
-destination list order (3), and finally on location (alphabetical) (4).
-This approach ensures that the queue's top priority is to place game
-sessions where average player latency is lowest, and--if latency is the
-same--where the hosting cost is less, etc.
+When a game session request does not include player latency data,
+Amazon GameLift places game sessions based on the following priorities:
+(1) the queue's default destination order, and (2) for multi-location
+fleets, an alphabetic list of locations.
 
 =item *
 
-If player latency data is not included, destinations and locations are
-prioritized first on destination list order (1), and then on location
-(alphabetical) (2). This approach ensures that the queue's top priority
-is to place game sessions on the first destination fleet listed. If
-that fleet has multiple locations, the game session is placed on the
-first location (when listed alphabetically).
+When a game session request includes player latency data, Amazon
+GameLift re-orders the queue's destinations to make placements where
+the average player latency is lowest. It reorders based the following
+priorities: (1) the lowest average latency across all players, (2) the
+lowest hosting cost, (3) the queue's default destination order, and (4)
+for multi-location fleets, an alphabetic list of locations.
 
 =back
 
-Changing the priority order will affect how game sessions are placed.
-
-Priority configurations are part of a GameSessionQueue.
 
 =head1 ATTRIBUTES
 
@@ -72,38 +69,42 @@ Priority configurations are part of a GameSessionQueue.
 =head2 LocationOrder => ArrayRef[Str|Undef]
 
 The prioritization order to use for fleet locations, when the
-C<PriorityOrder> property includes C<LOCATION>. Locations are
-identified by AWS Region codes such as C<us-west-2>. Each location can
-only be listed once.
+C<PriorityOrder> property includes C<LOCATION>. Locations can include
+Amazon Web Services Region codes (such as C<us-west-2>), local zones,
+and custom locations (for Anywhere fleets). Each location must be
+listed only once. For details, see Amazon GameLift service locations.
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
 
 
 =head2 PriorityOrder => ArrayRef[Str|Undef]
 
-The recommended sequence to use when prioritizing where to place new
-game sessions. Each type can only be listed once.
+A custom sequence to use when prioritizing where to place new game
+sessions. Each priority type is listed once.
 
 =over
 
 =item *
 
-C<LATENCY> -- FleetIQ prioritizes locations where the average player
-latency (provided in each game session request) is lowest.
+C<LATENCY> -- Amazon GameLift prioritizes locations where the average
+player latency is lowest. Player latency data is provided in each game
+session placement request.
 
 =item *
 
-C<COST> -- FleetIQ prioritizes destinations with the lowest current
-hosting costs. Cost is evaluated based on the location, instance type,
-and fleet type (Spot or On-Demand) for each destination in the queue.
+C<COST> -- Amazon GameLift prioritizes queue destinations with the
+lowest current hosting costs. Cost is evaluated based on the
+destination's location, instance type, and fleet type (Spot or
+On-Demand).
 
 =item *
 
-C<DESTINATION> -- FleetIQ prioritizes based on the order that
-destinations are listed in the queue configuration.
+C<DESTINATION> -- Amazon GameLift prioritizes based on the list order
+of destinations in the queue configuration.
 
 =item *
 
-C<LOCATION> -- FleetIQ prioritizes based on the provided order of
-locations, as defined in C<LocationOrder>.
+C<LOCATION> -- Amazon GameLift prioritizes based on the provided order
+of locations, as defined in C<LocationOrder>.
 
 =back
 

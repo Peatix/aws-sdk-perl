@@ -54,6 +54,9 @@ The ARN of the billing group.
 
 The name of the billing group.
 
+This call is asynchronous. It might take several seconds for the
+detachment to propagate.
+
 
 
 =head2 ThingArn => Str

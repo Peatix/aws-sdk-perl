@@ -51,8 +51,8 @@ The region authorized to collect aggregated data.
 
 =head2 LastErrorCode => Str
 
-The error code that AWS Config returned when the source account
-aggregation last failed.
+The error code that Config returned when the source account aggregation
+last failed.
 
 
 =head2 LastErrorMessage => Str

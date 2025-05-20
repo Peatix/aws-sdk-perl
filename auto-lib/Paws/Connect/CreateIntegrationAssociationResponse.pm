@@ -23,7 +23,7 @@ The Amazon Resource Name (ARN) for the association.
 
 =head2 IntegrationAssociationId => Str
 
-The identifier for the association.
+The identifier for the integration association.
 
 
 =head2 _request_id => Str

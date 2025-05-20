@@ -6,6 +6,7 @@ package Paws::Proton::UpdateServiceTemplateVersion;
   has MajorVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'majorVersion' , required => 1);
   has MinorVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'minorVersion' , required => 1);
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status' );
+  has SupportedComponentSources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'supportedComponentSources' );
   has TemplateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateName' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -45,8 +46,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      Description => 'MyDescription',               # OPTIONAL
-      Status      => 'REGISTRATION_IN_PROGRESS',    # OPTIONAL
+      Description               => 'MyDescription',               # OPTIONAL
+      Status                    => 'REGISTRATION_IN_PROGRESS',    # OPTIONAL
+      SupportedComponentSources => [
+        'DIRECTLY_DEFINED', ...    # values: DIRECTLY_DEFINED
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -63,8 +67,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 CompatibleEnvironmentTemplates => ArrayRef[L<Paws::Proton::CompatibleEnvironmentTemplateInput>]
 
-An array of compatible environment names for a service template major
-or minor version to update.
+An array of environment template objects that are compatible with this
+service template version. A service instance based on this service
+template version can run in environments based on compatible templates.
 
 
 
@@ -76,8 +81,8 @@ A description of a service template version to update.
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-To update a major version of a service template, include
-C<majorVersion>.
+To update a major version of a service template, include C<major
+Version>.
 
 
 
@@ -93,6 +98,22 @@ C<minorVersion>.
 The status of the service template minor version to update.
 
 Valid values are: C<"REGISTRATION_IN_PROGRESS">, C<"REGISTRATION_FAILED">, C<"DRAFT">, C<"PUBLISHED">
+
+=head2 SupportedComponentSources => ArrayRef[Str|Undef]
+
+An array of supported component sources. Components with supported
+sources can be attached to service instances based on this service
+template version.
+
+A change to C<supportedComponentSources> doesn't impact existing
+component attachments to instances based on this template version. A
+change only affects later associations.
+
+For more information about components, see Proton components
+(https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html)
+in the I<Proton User Guide>.
+
+
 
 =head2 B<REQUIRED> TemplateName => Str
 

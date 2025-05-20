@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $groundstation = Paws->service('GroundStation');
     my $ContactIdResponse = $groundstation->ReserveContact(
       EndTime           => '1970-01-01T01:00:00',
-      GroundStation     => 'MyString',
+      GroundStation     => 'MyGroundStationName',
       MissionProfileArn => 'MyMissionProfileArn',
       SatelliteArn      => 'MysatelliteArn',
       StartTime         => '1970-01-01T01:00:00',
@@ -55,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gro
 
 =head2 B<REQUIRED> EndTime => Str
 
-End time of a contact.
+End time of a contact in UTC.
 
 
 
@@ -79,7 +79,7 @@ ARN of a satellite
 
 =head2 B<REQUIRED> StartTime => Str
 
-Start time of a contact.
+Start time of a contact in UTC.
 
 
 

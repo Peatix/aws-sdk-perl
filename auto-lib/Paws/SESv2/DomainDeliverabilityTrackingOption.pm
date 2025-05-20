@@ -47,8 +47,9 @@ domain.
 
 =head2 Domain => Str
 
-A verified domain thatE<rsquo>s associated with your AWS account and
-currently has an active Deliverability dashboard subscription.
+A verified domain thatE<rsquo>s associated with your Amazon Web
+Services account and currently has an active Deliverability dashboard
+subscription.
 
 
 =head2 InboxPlacementTrackingOption => L<Paws::SESv2::InboxPlacementTrackingOption>
@@ -59,8 +60,7 @@ settings for the domain.
 
 =head2 SubscriptionStartDate => Str
 
-The date, in Unix time format, when you enabled the Deliverability
-dashboard for the domain.
+The date when you enabled the Deliverability dashboard for the domain.
 
 
 

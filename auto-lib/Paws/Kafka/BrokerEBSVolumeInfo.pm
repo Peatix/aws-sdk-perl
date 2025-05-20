@@ -2,7 +2,8 @@
 package Paws::Kafka::BrokerEBSVolumeInfo;
   use Moose;
   has KafkaBrokerNodeId => (is => 'ro', isa => 'Str', request_name => 'kafkaBrokerNodeId', traits => ['NameInRequest'], required => 1);
-  has VolumeSizeGB => (is => 'ro', isa => 'Int', request_name => 'volumeSizeGB', traits => ['NameInRequest'], required => 1);
+  has ProvisionedThroughput => (is => 'ro', isa => 'Paws::Kafka::ProvisionedThroughput', request_name => 'provisionedThroughput', traits => ['NameInRequest']);
+  has VolumeSizeGB => (is => 'ro', isa => 'Int', request_name => 'volumeSizeGB', traits => ['NameInRequest']);
 
 1;
 
@@ -46,7 +47,12 @@ brokers in the cluster.
 The ID of the broker to update.
 
 
-=head2 B<REQUIRED> VolumeSizeGB => Int
+=head2 ProvisionedThroughput => L<Paws::Kafka::ProvisionedThroughput>
+
+EBS volume provisioned throughput information.
+
+
+=head2 VolumeSizeGB => Int
 
 Size of the EBS volume to update.
 

@@ -56,7 +56,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 Describes the full details of an Amazon Lightsail SSL/TLS certificate.
 
 To get a summary of a certificate, use the C<GetCertificates> action
-and ommit C<includeCertificateDetails> from your request. The response
+and omit C<includeCertificateDetails> from your request. The response
 will include only the certificate Amazon Resource Name (ARN),
 certificate name, domain name, and tags.
 
@@ -112,7 +112,7 @@ key) of the certificate.
 
 =head2 Name => Str
 
-The name of the certificate (e.g., C<my-certificate>).
+The name of the certificate (C<my-certificate>).
 
 
 =head2 NotAfter => Str
@@ -150,8 +150,9 @@ B<C<ADDITIONAL_VERIFICATION_REQUIRED> > - Lightsail requires additional
 information to process this certificate request. This can happen as a
 fraud-protection measure, such as when the domain ranks within the
 Alexa top 1000 websites. To provide the required information, use the
-AWS Support Center (https://console.aws.amazon.com/support/home) to
-contact AWS Support.
+Amazon Web Services Support Center
+(https://console.aws.amazon.com/support/home) to contact Amazon Web
+Services Support.
 
 You cannot request a certificate for Amazon-owned domain names such as
 those ending in amazonaws.com, cloudfront.net, or elasticbeanstalk.com.
@@ -174,7 +175,7 @@ from a block list itself. After you correct the problem and the
 VirusTotal registry has been updated, request a new certificate.
 
 If you see this error and your domain is not included in the VirusTotal
-list, visit the AWS Support Center
+list, visit the Amazon Web Services Support Center
 (https://console.aws.amazon.com/support/home) and create a case.
 
 =item *
@@ -223,8 +224,8 @@ The validation status of the certificate.
 
 =head2 SubjectAlternativeNames => ArrayRef[Str|Undef]
 
-An array of strings that specify the alternate domains (e.g.,
-C<example2.com>) and subdomains (e.g., C<blog.example.com>) of the
+An array of strings that specify the alternate domains
+(C<example2.com>) and subdomains (C<blog.example.com>) of the
 certificate.
 
 
@@ -238,8 +239,8 @@ support team to look up your Lightsail information more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

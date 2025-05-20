@@ -18,14 +18,14 @@ Paws::CostExplorer::GetSavingsPlansPurchaseRecommendationResponse
 
 =head2 Metadata => L<Paws::CostExplorer::SavingsPlansPurchaseRecommendationMetadata>
 
-Information regarding this specific recommendation set.
+Information that regards this specific recommendation set.
 
 
 =head2 NextPageToken => Str
 
-The token for the next set of retrievable results. AWS provides the
-token when the response from a previous call has more results than the
-maximum page size.
+The token for the next set of retrievable results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 =head2 SavingsPlansPurchaseRecommendation => L<Paws::CostExplorer::SavingsPlansPurchaseRecommendation>

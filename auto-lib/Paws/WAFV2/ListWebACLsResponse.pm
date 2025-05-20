@@ -26,7 +26,8 @@ your next request.
 
 =head2 WebACLs => ArrayRef[L<Paws::WAFV2::WebACLSummary>]
 
-
+Array of web ACLs. If you specified a C<Limit> in your request, this
+might not be the full list.
 
 
 =head2 _request_id => Str

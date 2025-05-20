@@ -2,6 +2,7 @@
 package Paws::Batch::Ec2Configuration;
   use Moose;
   has ImageIdOverride => (is => 'ro', isa => 'Str', request_name => 'imageIdOverride', traits => ['NameInRequest']);
+  has ImageKubernetesVersion => (is => 'ro', isa => 'Str', request_name => 'imageKubernetesVersion', traits => ['NameInRequest']);
   has ImageType => (is => 'ro', isa => 'Str', request_name => 'imageType', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -36,13 +37,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Ec2C
 
 Provides information used to select Amazon Machine Images (AMIs) for
 instances in the compute environment. If C<Ec2Configuration> isn't
-specified, the default is currently C<ECS_AL1> (Amazon Linux
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami))
-for non-GPU, non-Graviton instances. Starting on March 31, 2021, this
-default will be changing to C<ECS_AL2> (Amazon Linux 2
+specified, the default is C<ECS_AL2> (Amazon Linux 2
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)).
 
-This object isn't applicable to jobs running on Fargate resources.
+This object isn't applicable to jobs that are running on Fargate
+resources.
 
 =head1 ATTRIBUTES
 
@@ -53,41 +52,101 @@ The AMI ID used for instances launched in the compute environment that
 match the image type. This setting overrides the C<imageId> set in the
 C<computeResource> object.
 
+The AMI that you choose for a compute environment must match the
+architecture of the instance types that you intend to use for that
+compute environment. For example, if your compute environment uses A1
+instance types, the compute resource AMI that you choose must support
+ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon
+ECS-optimized Amazon Linux 2 AMI. For more information, see Amazon
+ECS-optimized Amazon Linux 2 AMI
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+
+=head2 ImageKubernetesVersion => Str
+
+The Kubernetes version for the compute environment. If you don't
+specify a value, the latest version that Batch supports is used.
+
 
 =head2 B<REQUIRED> ImageType => Str
 
-The image type to match with the instance type to select an AMI. If the
-C<imageIdOverride> parameter isn't specified, then a recent Amazon
-ECS-optimized AMI
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)
-(C<ECS_AL1>) is used. Starting on March 31, 2021, this default will be
-changing to C<ECS_AL2> (Amazon Linux 2
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)).
+The image type to match with the instance type to select an AMI. The
+supported values are different for C<ECS> and C<EKS> resources.
+
+=over
+
+=item ECS
+
+If the C<imageIdOverride> parameter isn't specified, then a recent
+Amazon ECS-optimized Amazon Linux 2 AMI
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)
+(C<ECS_AL2>) is used. If a new image type is specified in an update,
+but neither an C<imageId> nor a C<imageIdOverride> parameter is
+specified, then the latest Amazon ECS optimized AMI for that image type
+that's supported by Batch is used.
 
 =over
 
 =item ECS_AL2
 
 Amazon Linux 2
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami)E<minus>
-Default for all AWS Graviton-based instance families (for example,
-C<C6g>, C<M6g>, C<R6g>, and C<T4g>) and can be used for all non-GPU
-instance types.
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami):
+Default for all non-GPU instance families.
 
 =item ECS_AL2_NVIDIA
 
 Amazon Linux 2 (GPU)
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami)E<minus>Default
-for all GPU instance families (for example C<P4> and C<G4>) and can be
-used for all non-AWS Graviton-based instance types.
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami):
+Default for all GPU instance families (for example C<P4> and C<G4>) and
+can be used for all non Amazon Web Services Graviton-based instance
+types.
+
+=item ECS_AL2023
+
+Amazon Linux 2023
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html):
+Batch supports Amazon Linux 2023.
+
+Amazon Linux 2023 does not support C<A1> instances.
 
 =item ECS_AL1
 
 Amazon Linux
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami)E<minus>Default
-for all non-GPU, non-AWS Graviton instance families. Amazon Linux is
-reaching the end-of-life of standard support. For more information, see
-Amazon Linux AMI (http://aws.amazon.com/amazon-linux-ami/).
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami).
+Amazon Linux has reached the end-of-life of standard support. For more
+information, see Amazon Linux AMI
+(http://aws.amazon.com/amazon-linux-ami/).
+
+=back
+
+=item EKS
+
+If the C<imageIdOverride> parameter isn't specified, then a recent
+Amazon EKS-optimized Amazon Linux AMI
+(https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html)
+(C<EKS_AL2>) is used. If a new image type is specified in an update,
+but neither an C<imageId> nor a C<imageIdOverride> parameter is
+specified, then the latest Amazon EKS optimized AMI for that image type
+that Batch supports is used.
+
+=over
+
+=item EKS_AL2
+
+Amazon Linux 2
+(https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html):
+Default for all non-GPU instance families.
+
+=item EKS_AL2_NVIDIA
+
+Amazon Linux 2 (accelerated)
+(https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html):
+Default for all GPU instance families (for example, C<P4> and C<G4>)
+and can be used for all non Amazon Web Services Graviton-based instance
+types.
+
+=back
 
 =back
 

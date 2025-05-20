@@ -46,12 +46,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 An ARN that uniquely identifies a resource. The format of the ARN
 depends on the type of the tagged resource.
 
+ARNs that do not include C<backup> are incompatible with tagging.
+C<TagResource> and C<UntagResource> with invalid ARNs will result in an
+error. Acceptable ARN content can include C<arn:aws:backup:us-east>.
+Invalid ARN content may look like C<arn:aws:ec2:us-east>.
+
 
 
 =head2 B<REQUIRED> TagKeyList => ArrayRef[Str|Undef]
 
-A list of keys to identify which key-value tags to remove from a
-resource.
+The keys to identify which key-value tags to remove from a resource.
 
 
 

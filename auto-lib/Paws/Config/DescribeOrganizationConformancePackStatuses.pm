@@ -56,8 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 Limit => Int
 
 The maximum number of OrganizationConformancePackStatuses returned on
-each page. If you do no specify a number, AWS Config uses the default.
-The default is 100.
+each page. If you do no specify a number, Config uses the default. The
+default is 100.
 
 
 
@@ -71,8 +71,8 @@ the next page of results in a paginated response.
 =head2 OrganizationConformancePackNames => ArrayRef[Str|Undef]
 
 The names of organization conformance packs for which you want status
-details. If you do not specify any names, AWS Config returns details
-for all your organization conformance packs.
+details. If you do not specify any names, Config returns details for
+all your organization conformance packs.
 
 
 

@@ -39,10 +39,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Agg
 
 =head1 DESCRIPTION
 
-The details of an AWS Config evaluation for an account ID and region in
-an aggregator. Provides the AWS resource that was evaluated, the
-compliance of the resource, related time stamps, and supplementary
-information.
+The details of an Config evaluation for an account ID and region in an
+aggregator. Provides the Amazon Web Services resource that was
+evaluated, the compliance of the resource, related time stamps, and
+supplementary information.
 
 =head1 ATTRIBUTES
 
@@ -67,14 +67,15 @@ The source region from where the data is aggregated.
 
 The resource compliance status.
 
-For the C<AggregationEvaluationResult> data type, AWS Config supports
-only the C<COMPLIANT> and C<NON_COMPLIANT>. AWS Config does not support
-the C<NOT_APPLICABLE> and C<INSUFFICIENT_DATA> value.
+For the C<AggregationEvaluationResult> data type, Config supports only
+the C<COMPLIANT> and C<NON_COMPLIANT>. Config does not support the
+C<NOT_APPLICABLE> and C<INSUFFICIENT_DATA> value.
 
 
 =head2 ConfigRuleInvokedTime => Str
 
-The time when the AWS Config rule evaluated the AWS resource.
+The time when the Config rule evaluated the Amazon Web Services
+resource.
 
 
 =head2 EvaluationResultIdentifier => L<Paws::Config::EvaluationResultIdentifier>
@@ -84,7 +85,7 @@ Uniquely identifies the evaluation result.
 
 =head2 ResultRecordedTime => Str
 
-The time when AWS Config recorded the aggregate evaluation result.
+The time when Config recorded the aggregate evaluation result.
 
 
 

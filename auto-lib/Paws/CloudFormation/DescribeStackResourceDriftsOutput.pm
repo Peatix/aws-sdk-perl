@@ -18,9 +18,9 @@ Paws::CloudFormation::DescribeStackResourceDriftsOutput
 
 =head2 NextToken => Str
 
-If the request doesn't return all of the remaining results,
-C<NextToken> is set to a token. To retrieve the next set of results,
-call C<DescribeStackResourceDrifts> again and assign that token to the
+If the request doesn't return all the remaining results, C<NextToken>
+is set to a token. To retrieve the next set of results, call
+C<DescribeStackResourceDrifts> again and assign that token to the
 request object's C<NextToken> parameter. If the request returns all
 results, C<NextToken> is set to C<null>.
 
@@ -29,15 +29,15 @@ results, C<NextToken> is set to C<null>.
 
 Drift information for the resources that have been checked for drift in
 the specified stack. This includes actual and expected configuration
-values for resources where AWS CloudFormation detects drift.
+values for resources where CloudFormation detects drift.
 
 For a given stack, there will be one C<StackResourceDrift> for each
-stack resource that has been checked for drift. Resources that have not
-yet been checked for drift are not included. Resources that do not
-currently support drift detection are not checked, and so not included.
-For a list of resources that support drift detection, see Resources
-that Support Drift Detection
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
+stack resource that has been checked for drift. Resources that haven't
+yet been checked for drift aren't included. Resources that do not
+currently support drift detection aren't checked, and so not included.
+For a list of resources that support drift detection, see Resource type
+support for imports and drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
 
 
 =head2 _request_id => Str

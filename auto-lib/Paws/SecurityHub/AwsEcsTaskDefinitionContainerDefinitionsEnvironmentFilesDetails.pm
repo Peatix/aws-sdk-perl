@@ -41,7 +41,7 @@ A file that contain environment variables to pass to a container.
 
 =head2 Type => Str
 
-The type of environment file.
+The type of environment file. The valid value is C<s3>.
 
 
 =head2 Value => Str

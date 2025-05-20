@@ -41,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AccountIds     => [ 'MyAccountId', ... ],    # OPTIONAL
       FieldsToExport => [
         'AccountId',
-        ... # values: AccountId, FunctionArn, FunctionVersion, Finding, FindingReasonCodes, NumberOfInvocations, UtilizationMetricsDurationMaximum, UtilizationMetricsDurationAverage, UtilizationMetricsMemoryMaximum, UtilizationMetricsMemoryAverage, LookbackPeriodInDays, CurrentConfigurationMemorySize, CurrentConfigurationTimeout, CurrentCostTotal, CurrentCostAverage, RecommendationOptionsConfigurationMemorySize, RecommendationOptionsCostLow, RecommendationOptionsCostHigh, RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound, RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound, RecommendationOptionsProjectedUtilizationMetricsDurationExpected, LastRefreshTimestamp
+        ... # values: AccountId, FunctionArn, FunctionVersion, Finding, FindingReasonCodes, NumberOfInvocations, UtilizationMetricsDurationMaximum, UtilizationMetricsDurationAverage, UtilizationMetricsMemoryMaximum, UtilizationMetricsMemoryAverage, LookbackPeriodInDays, CurrentConfigurationMemorySize, CurrentConfigurationTimeout, CurrentCostTotal, CurrentCostAverage, RecommendationOptionsConfigurationMemorySize, RecommendationOptionsCostLow, RecommendationOptionsCostHigh, RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound, RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound, RecommendationOptionsProjectedUtilizationMetricsDurationExpected, LastRefreshTimestamp, CurrentPerformanceRisk, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, Tags, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
       ],    # OPTIONAL
       FileFormat => 'Csv',    # OPTIONAL
       Filters    => [
@@ -69,8 +69,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-The IDs of the AWS accounts for which to export Lambda function
-recommendations.
+The IDs of the Amazon Web Services accounts for which to export Lambda
+function recommendations.
 
 If your account is the management account of an organization, use this
 parameter to specify the member account for which you want to export
@@ -105,7 +105,7 @@ Valid values are: C<"Csv">
 
 =head2 Filters => ArrayRef[L<Paws::ComputeOptimizer::LambdaFunctionRecommendationFilter>]
 
-An array of objects that describe a filter to export a more specific
+An array of objects to specify a filter that exports a more specific
 set of Lambda function recommendations.
 
 
@@ -119,9 +119,9 @@ account of an organization.
 The member accounts must also be opted in to Compute Optimizer, and
 trusted access for Compute Optimizer must be enabled in the
 organization account. For more information, see Compute Optimizer and
-AWS Organizations trusted access
+Amazon Web Services Organizations trusted access
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
-in the I<AWS Compute Optimizer User Guide>.
+in the I<Compute Optimizer User Guide>.
 
 Recommendations for member accounts of the organization are not
 included in the export file if this parameter is omitted.

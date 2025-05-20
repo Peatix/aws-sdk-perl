@@ -39,7 +39,7 @@ A timestamp noting when the contact was created.
 
 =head2 EmailAddress => Str
 
-The contact's email addres.
+The contact's email address.
 
 
 =head2 LastUpdatedTimestamp => Str

@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 =head2 B<REQUIRED> DiskName => Str
 
-The name of the disk (e.g., C<my-disk>).
+The name of the disk (C<my-disk>).
 
 
 

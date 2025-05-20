@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::UntagResource;
   use Moose;
-  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
+  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ResourceArn', required => 1);
   has TagKeys => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'tagKeys', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UntagResource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{resourceArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{ResourceArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'DELETE');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
 1;
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     $mediaconnect->UntagResource(
-      ResourceArn => 'My__string',
-      TagKeys     => [ 'My__string', ... ],
+      ResourceArn => 'MyString',
+      TagKeys     => [ 'MyString', ... ],
 
     );
 
@@ -43,8 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) that identifies the AWS Elemental
-MediaConnect resource from which to delete tags.
+The Amazon Resource Name (ARN) of the resource that you want to untag.
 
 
 

@@ -93,7 +93,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 Returns counts of inventory types based on one or more expressions. For
 example, if you aggregate by using an expression that uses the
 C<AWS:InstanceInformation.PlatformType> type, you can see a count of
-how many Windows and Linux instances exist in your inventoried fleet.
+how many Windows and Linux managed nodes exist in your inventoried
+fleet.
 
 
 

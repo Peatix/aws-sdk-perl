@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 When you update an SQL-based Kinesis Data Analytics application's
 output configuration using the UpdateApplication operation, provides
-information about an AWS Lambda function that is configured as the
+information about an Amazon Lambda function that is configured as the
 destination.
 
 =head1 ATTRIBUTES
@@ -43,11 +43,12 @@ destination.
 
 =head2 B<REQUIRED> ResourceARNUpdate => Str
 
-The Amazon Resource Name (ARN) of the destination AWS Lambda function.
+The Amazon Resource Name (ARN) of the destination Amazon Lambda
+function.
 
 To specify an earlier version of the Lambda function than the latest,
 include the Lambda function version in the Lambda function ARN. For
-more information about Lambda ARNs, see Example ARNs: AWS Lambda
+more information about Lambda ARNs, see Example ARNs: Amazon Lambda
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda)
 
 

@@ -31,7 +31,7 @@ The date and time that the import was created.
 =head2 FailureReasons => ArrayRef[Str|Undef]
 
 If the C<importStatus> field is C<Failed>, this provides one or more
-reasons for the failture.
+reasons for the failure.
 
 
 =head2 ImportedResourceId => Str
@@ -68,10 +68,11 @@ resource and an existing resource. When the merge strategy is
 C<FailOnConflict> existing resources are not overwritten and the import
 fails.
 
-Valid values are: C<"Overwrite">, C<"FailOnConflict">
+Valid values are: C<"Overwrite">, C<"FailOnConflict">, C<"Append">
 =head2 ResourceSpecification => L<Paws::LexModelsV2::ImportResourceSpecification>
 
-The specifications of the imported bot or bot locale.
+The specifications of the imported bot, bot locale, or custom
+vocabulary.
 
 
 =head2 _request_id => Str

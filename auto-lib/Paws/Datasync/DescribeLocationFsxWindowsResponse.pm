@@ -26,31 +26,35 @@ The time that the FSx for Windows File Server location was created.
 
 =head2 Domain => Str
 
-The name of the Windows domain that the FSx for Windows File Server
-belongs to.
+The name of the Microsoft Active Directory domain that the FSx for
+Windows File Server file system belongs to.
 
 
 =head2 LocationArn => Str
 
-The Amazon Resource Name (ARN) of the FSx for Windows File Server
-location that was described.
+The ARN of the FSx for Windows File Server location.
 
 
 =head2 LocationUri => Str
 
-The URL of the FSx for Windows File Server location that was described.
+The uniform resource identifier (URI) of the FSx for Windows File
+Server location.
 
 
 =head2 SecurityGroupArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARNs) of the security groups that are
-configured for the FSx for Windows File Server file system.
+The ARNs of the Amazon EC2 security groups that provide access to your
+file system's preferred subnet.
+
+For information about configuring security groups for file system
+access, see the I<Amazon FSx for Windows File Server User Guide>
+(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html).
 
 
 =head2 User => Str
 
-The user who has the permissions to access files and folders in the FSx
-for Windows File Server file system.
+The user with the permissions to mount and access the FSx for Windows
+File Server file system.
 
 
 =head2 _request_id => Str

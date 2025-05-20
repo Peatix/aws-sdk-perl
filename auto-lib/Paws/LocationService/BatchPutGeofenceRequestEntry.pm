@@ -2,6 +2,7 @@
 package Paws::LocationService::BatchPutGeofenceRequestEntry;
   use Moose;
   has GeofenceId => (is => 'ro', isa => 'Str', required => 1);
+  has GeofenceProperties => (is => 'ro', isa => 'Paws::LocationService::PropertyMap');
   has Geometry => (is => 'ro', isa => 'Paws::LocationService::GeofenceGeometry', required => 1);
 
 1;
@@ -45,13 +46,26 @@ The identifier for the geofence to be stored in a given geofence
 collection.
 
 
+=head2 GeofenceProperties => L<Paws::LocationService::PropertyMap>
+
+Associates one of more properties with the geofence. A property is a
+key-value pair stored with the geofence and added to any geofence event
+triggered with that geofence.
+
+Format: C<"key" : "value">
+
+
 =head2 B<REQUIRED> Geometry => L<Paws::LocationService::GeofenceGeometry>
 
-Contains the polygon details to specify the position of the geofence.
+Contains the details to specify the position of the geofence. Can be a
+polygon, a circle or a polygon encoded in Geobuf format. Including
+multiple selections will return a validation error.
 
-Each geofence polygon
+The geofence polygon
 (https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html)
-can have a maximum of 1,000 vertices.
+format supports a maximum of 1,000 vertices. The Geofence geobuf
+(https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html)
+format supports a maximum of 100,000 vertices.
 
 
 

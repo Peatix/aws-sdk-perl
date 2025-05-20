@@ -3,6 +3,7 @@ package Paws::EMR::InstanceGroupDetail;
   use Moose;
   has BidPrice => (is => 'ro', isa => 'Str');
   has CreationDateTime => (is => 'ro', isa => 'Str', required => 1);
+  has CustomAmiId => (is => 'ro', isa => 'Str');
   has EndDateTime => (is => 'ro', isa => 'Str');
   has InstanceGroupId => (is => 'ro', isa => 'Str');
   has InstanceRequestCount => (is => 'ro', isa => 'Int', required => 1);
@@ -64,6 +65,11 @@ price, or specify an amount in USD.
 The date/time the instance group was created.
 
 
+=head2 CustomAmiId => Str
+
+The custom AMI ID to use for the provisioned instance group.
+
+
 =head2 EndDateTime => Str
 
 The date/time the instance group was terminated.
@@ -91,7 +97,7 @@ Actual count of running instances.
 
 =head2 B<REQUIRED> InstanceType => Str
 
-EC2 instance type.
+Amazon EC2 instance type.
 
 
 =head2 LastStateChangeReason => Str
@@ -101,7 +107,7 @@ Details regarding the state of the instance group.
 
 =head2 B<REQUIRED> Market => Str
 
-Market type of the EC2 instances used to create a cluster node.
+Market type of the Amazon EC2 instances used to create a cluster node.
 
 
 =head2 Name => Str
@@ -121,8 +127,8 @@ The date/time the instance group was started.
 
 =head2 B<REQUIRED> State => Str
 
-State of instance group. The following values are deprecated: STARTING,
-TERMINATED, and FAILED.
+State of instance group. The following values are no longer supported:
+STARTING, TERMINATED, and FAILED.
 
 
 

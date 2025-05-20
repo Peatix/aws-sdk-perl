@@ -17,6 +17,7 @@ package Paws::DocDB::DBClusterSnapshot;
   has SourceDBClusterSnapshotArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -139,6 +140,19 @@ Specifies the status of this cluster snapshot.
 =head2 StorageEncrypted => Bool
 
 Specifies whether the cluster snapshot is encrypted.
+
+
+=head2 StorageType => Str
+
+Storage type associated with your cluster snapshot
+
+For information on storage types for Amazon DocumentDB clusters, see
+Cluster storage configurations in the I<Amazon DocumentDB Developer
+Guide>.
+
+Valid values for storage type - C<standard | iopt1>
+
+Default value is C<standard>
 
 
 =head2 VpcId => Str

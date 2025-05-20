@@ -38,15 +38,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Details for a rule in a WAF WebACL.
+Details for a rule in an WAF web ACL.
 
 =head1 ATTRIBUTES
 
 
 =head2 Action => L<Paws::SecurityHub::WafAction>
 
-Specifies the action that CloudFront or AWS WAF takes when a web
-request matches the conditions in the rule.
+Specifies the action that CloudFront or WAF takes when a web request
+matches the conditions in the rule.
 
 
 =head2 ExcludedRules => ArrayRef[L<Paws::SecurityHub::WafExcludedRule>]
@@ -56,31 +56,31 @@ Rules to exclude from a rule group.
 
 =head2 OverrideAction => L<Paws::SecurityHub::WafOverrideAction>
 
-Use the C<OverrideAction> to test your RuleGroup.
+Use the C<OverrideAction> to test your C<RuleGroup>.
 
-Any rule in a RuleGroup can potentially block a request. If you set the
-C<OverrideAction> to C<None>, the RuleGroup blocks a request if any
-individual rule in the RuleGroup matches the request and is configured
-to block that request.
+Any rule in a C<RuleGroup> can potentially block a request. If you set
+the C<OverrideAction> to C<None>, the C<RuleGroup> blocks a request if
+any individual rule in the C<RuleGroup> matches the request and is
+configured to block that request.
 
-However, if you first want to test the RuleGroup, set the
-C<OverrideAction> to C<Count>. The RuleGroup then overrides any block
-action specified by individual rules contained within the group.
+However, if you first want to test the C<RuleGroup>, set the
+C<OverrideAction> to C<Count>. The C<RuleGroup> then overrides any
+block action specified by individual rules contained within the group.
 Instead of blocking matching requests, those requests are counted.
 
 C<ActivatedRule>|C<OverrideAction> applies only when updating or adding
-a RuleGroup to a WebACL. In this case you do not use
-C<ActivatedRule>|C<Action>. For all other update requests,
-C<ActivatedRule>|C<Action> is used instead of
-C<ActivatedRule>|C<OverrideAction>.
+a C<RuleGroup> to a web ACL. In this case you don't use
+C<ActivatedRule> C<Action>. For all other update requests,
+C<ActivatedRule> C<Action> is used instead of C<ActivatedRule>
+C<OverrideAction>.
 
 
 =head2 Priority => Int
 
-Specifies the order in which the rules in a WebACL are evaluated. Rules
-with a lower value for C<Priority> are evaluated before rules with a
-higher value. The value must be a unique integer. If you add multiple
-rules to a WebACL, the values do not need to be consecutive.
+Specifies the order in which the rules in a web ACL are evaluated.
+Rules with a lower value for C<Priority> are evaluated before rules
+with a higher value. The value must be a unique integer. If you add
+multiple rules to a web ACL, the values don't need to be consecutive.
 
 
 =head2 RuleId => Str

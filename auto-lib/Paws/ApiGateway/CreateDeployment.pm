@@ -74,8 +74,9 @@ Enables a cache cluster for the Stage resource specified in the input.
 
 =head2 CacheClusterSize => Str
 
-Specifies the cache cluster size for the Stage resource specified in
-the input, if a cache cluster is enabled.
+The stage's cache capacity in GB. For more information about choosing a
+cache size, see Enabling API caching to enhance responsiveness
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
 
 Valid values are: C<"0.5">, C<"1.6">, C<"6.1">, C<"13.5">, C<"28.4">, C<"58.2">, C<"118">, C<"237">
 
@@ -94,7 +95,7 @@ The description for the Deployment resource to create.
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
@@ -122,7 +123,7 @@ Specifies whether active tracing with X-ray is enabled for the Stage.
 A map that defines the stage variables for the Stage resource that is
 associated with the new deployment. Variable names can have
 alphanumeric and underscore characters, and the values must match
-C<[A-Za-z0-9-._~:/?&num;&=,]+>.
+C<[A-Za-z0-9-._~:/?#&=,]+>.
 
 
 

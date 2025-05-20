@@ -61,12 +61,12 @@ The compliance status of the conformance pack.
 
 =head2 CompliantRuleCount => Int
 
-The number of compliant AWS Config Rules.
+The number of compliant Config Rules.
 
 
 =head2 NonCompliantRuleCount => Int
 
-The number of noncompliant AWS Config Rules.
+The number of noncompliant Config Rules.
 
 
 =head2 TotalRuleCount => Int

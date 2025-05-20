@@ -43,10 +43,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      Group      => 'MyGroupString',    # OPTIONAL
-      GroupName  => 'MyGroupName',      # OPTIONAL
-      MaxResults => 1,                  # OPTIONAL
-      NextToken  => 'MyNextToken',      # OPTIONAL
+      Group      => 'MyGroupStringV2',    # OPTIONAL
+      GroupName  => 'MyGroupName',        # OPTIONAL
+      MaxResults => 1,                    # OPTIONAL
+      NextToken  => 'MyNextToken',        # OPTIONAL
     );
 
     # Results:
@@ -80,12 +80,12 @@ example, C<AWS::EC2::Instance>, or C<AWS::S3::Bucket>.
 =back
 
 When you specify a C<resource-type> filter for C<ListGroupResources>,
-AWS Resource Groups validates your filter resource types against the
-types that are defined in the query associated with the group. For
-example, if a group contains only S3 buckets because its query
-specifies only that resource type, but your C<resource-type> filter
-includes EC2 instances, AWS Resource Groups does not filter for EC2
-instances. In this case, a C<ListGroupResources> request returns a
+Resource Groups validates your filter resource types against the types
+that are defined in the query associated with the group. For example,
+if a group contains only S3 buckets because its query specifies only
+that resource type, but your C<resource-type> filter includes EC2
+instances, AWS Resource Groups does not filter for EC2 instances. In
+this case, a C<ListGroupResources> request returns a
 C<BadRequestException> error with a message similar to the following:
 
 C<The resource types specified as filters in the request are not
@@ -95,14 +95,14 @@ The error includes a list of resource types that failed the validation
 because they are not part of the query associated with the group. This
 validation doesn't occur when the group query specifies
 C<AWS::AllSupported>, because a group based on such a query can contain
-any of the allowed resource types for the query type (tag-based or AWS
-CloudFormation stack-based queries).
+any of the allowed resource types for the query type (tag-based or
+Amazon CloudFront stack-based queries).
 
 
 
 =head2 Group => Str
 
-The name or the ARN of the resource group
+The name or the Amazon resource name (ARN) of the resource group.
 
 
 

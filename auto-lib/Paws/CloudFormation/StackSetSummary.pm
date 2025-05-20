@@ -5,6 +5,7 @@ package Paws::CloudFormation::StackSetSummary;
   has Description => (is => 'ro', isa => 'Str');
   has DriftStatus => (is => 'ro', isa => 'Str');
   has LastDriftCheckTimestamp => (is => 'ro', isa => 'Str');
+  has ManagedExecution => (is => 'ro', isa => 'Paws::CloudFormation::ManagedExecution');
   has PermissionModel => (is => 'ro', isa => 'Str');
   has StackSetId => (is => 'ro', isa => 'Str');
   has StackSetName => (is => 'ro', isa => 'Str');
@@ -49,7 +50,7 @@ stack set.
 =head2 AutoDeployment => L<Paws::CloudFormation::AutoDeployment>
 
 [Service-managed permissions] Describes whether StackSets automatically
-deploys to AWS Organizations accounts that are added to a target
+deploys to Organizations accounts that are added to a target
 organizational unit (OU).
 
 
@@ -77,12 +78,11 @@ more of the resources in the associated stack have drifted.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked the stack set for
-drift.
+C<NOT_CHECKED>: CloudFormation hasn't checked the stack set for drift.
 
 =item *
 
-C<IN_SYNC>: All of the stack instances belonging to the stack set stack
+C<IN_SYNC>: All the stack instances belonging to the stack set stack
 match from the expected template and parameter configuration.
 
 =item *
@@ -97,7 +97,13 @@ C<UNKNOWN>: This value is reserved for future use.
 
 Most recent time when CloudFormation performed a drift detection
 operation on the stack set. This value will be C<NULL> for any stack
-set on which drift detection has not yet been performed.
+set on which drift detection hasn't yet been performed.
+
+
+=head2 ManagedExecution => L<Paws::CloudFormation::ManagedExecution>
+
+Describes whether StackSets performs non-conflicting operations
+concurrently and queues conflicting operations.
 
 
 =head2 PermissionModel => Str
@@ -111,16 +117,16 @@ created.
 
 With C<self-managed> permissions, you must create the administrator and
 execution roles required to deploy to target accounts. For more
-information, see Grant Self-Managed Stack Set Permissions
+information, see Grant self-managed permissions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
 
 =item *
 
 With C<service-managed> permissions, StackSets automatically creates
-the IAM roles required to deploy to accounts managed by AWS
-Organizations. For more information, see Grant Service-Managed Stack
-Set Permissions
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
+the IAM roles required to deploy to accounts managed by Organizations.
+For more information, see Activate trusted access for stack sets with
+Organizations
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
 
 =back
 

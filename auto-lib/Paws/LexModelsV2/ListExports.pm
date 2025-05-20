@@ -4,6 +4,7 @@ package Paws::LexModelsV2::ListExports;
   has BotId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botId');
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botVersion');
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::ExportFilter]', traits => ['NameInRequest'], request_name => 'filters');
+  has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
   has SortBy => (is => 'ro', isa => 'Paws::LexModelsV2::ExportSortBy', traits => ['NameInRequest'], request_name => 'sortBy');
@@ -47,6 +48,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      LocaleId   => 'MyLocaleId',     # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyNextToken',    # OPTIONAL
       SortBy     => {
@@ -60,6 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BotId           = $ListExportsResponse->BotId;
     my $BotVersion      = $ListExportsResponse->BotVersion;
     my $ExportSummaries = $ListExportsResponse->ExportSummaries;
+    my $LocaleId        = $ListExportsResponse->LocaleId;
     my $NextToken       = $ListExportsResponse->NextToken;
 
     # Returns a L<Paws::LexModelsV2::ListExportsResponse> object.
@@ -90,6 +93,14 @@ only specify one filter and one string to filter on.
 
 
 
+=head2 LocaleId => Str
+
+Specifies the resources that should be exported. If you don't specify a
+resource type in the C<filters> parameter, both bot locales and custom
+vocabularies are exported.
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of exports to return in each page of results. If
@@ -100,10 +111,14 @@ of results are returned.
 
 =head2 NextToken => Str
 
-If the response from the C<ListExports> operation contans more results
+If the response from the C<ListExports> operation contains more results
 that specified in the C<maxResults> parameter, a token is returned in
-the response. Use that token in the C<nextToken> parameter to return
-the next page of results.
+the response.
+
+Use the returned token in the C<nextToken> parameter of a
+C<ListExports> request to return the next page of results. For a
+complete set of results, call the C<ListExports> operation until the
+C<nextToken> returned in the response is null.
 
 
 

@@ -44,14 +44,14 @@ Cross-Region Redirection for Amazon WorkSpaces
 
 =head2 B<REQUIRED> AllowAssociation => Bool
 
-Indicates whether the specified AWS account is allowed to associate the
-connection alias with a directory.
+Indicates whether the specified Amazon Web Services account is allowed
+to associate the connection alias with a directory.
 
 
 =head2 B<REQUIRED> SharedAccountId => Str
 
-The identifier of the AWS account that the connection alias is shared
-with.
+The identifier of the Amazon Web Services account that the connection
+alias is shared with.
 
 
 

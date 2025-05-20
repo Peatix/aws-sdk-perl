@@ -61,7 +61,7 @@ more items in the list.
 
 A complex type that contains one
 C<CloudFrontOriginAccessIdentitySummary> element for each origin access
-identity that was created by the current AWS account.
+identity that was created by the current Amazon Web Services account.
 
 
 =head2 B<REQUIRED> Marker => Str
@@ -89,7 +89,7 @@ listing your origin access identities where they left off.
 =head2 B<REQUIRED> Quantity => Int
 
 The number of CloudFront origin access identities that were created by
-the current AWS account.
+the current Amazon Web Services account.
 
 
 

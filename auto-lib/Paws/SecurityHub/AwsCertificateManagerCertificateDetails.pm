@@ -55,7 +55,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Provides details about an AWS Certificate Manager certificate.
+Provides details about an Certificate Manager certificate.
 
 =head1 ATTRIBUTES
 
@@ -70,10 +70,9 @@ issue the certificate.
 
 Indicates when the certificate was requested.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 DomainName => Str
@@ -116,15 +115,15 @@ C<OTHER>
 Indicates when the certificate was imported. Provided if the
 certificate type is C<IMPORTED>.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 InUseBy => ArrayRef[Str|Undef]
 
-The list of ARNs for the AWS resources that use the certificate.
+The list of ARNs for the Amazon Web Services resources that use the
+certificate.
 
 
 =head2 IssuedAt => Str
@@ -132,10 +131,9 @@ The list of ARNs for the AWS resources that use the certificate.
 Indicates when the certificate was issued. Provided if the certificate
 type is C<AMAZON_ISSUED>.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Issuer => Str
@@ -161,20 +159,18 @@ A list of key usage X.509 v3 extension objects.
 
 The time after which the certificate becomes invalid.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 NotBefore => Str
 
 The time before which the certificate is not valid.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Options => L<Paws::SecurityHub::AwsCertificateManagerCertificateOptions>
@@ -192,8 +188,8 @@ Valid values: C<ELIGIBLE> | C<INELIGIBLE>
 
 =head2 RenewalSummary => L<Paws::SecurityHub::AwsCertificateManagerCertificateRenewalSummary>
 
-Information about the status of the AWS Certificate Manager managed
-renewal for the certificate. Provided only when the certificate type is
+Information about the status of the Certificate Manager managed renewal
+for the certificate. Provided only when the certificate type is
 C<AMAZON_ISSUED>.
 
 
@@ -234,7 +230,7 @@ to the website.
 
 =head2 Type => Str
 
-The source of the certificate. For certificates that AWS Certificate
+The source of the certificate. For certificates that Certificate
 Manager provides, C<Type> is C<AMAZON_ISSUED>. For certificates that
 are imported with C<ImportCertificate>, C<Type> is C<IMPORTED>.
 

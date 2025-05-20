@@ -2,6 +2,7 @@
 package Paws::Route53Domains::UpdateDomainContactPrivacy;
   use Moose;
   has AdminPrivacy => (is => 'ro', isa => 'Bool');
+  has BillingPrivacy => (is => 'ro', isa => 'Bool');
   has DomainName => (is => 'ro', isa => 'Str', required => 1);
   has RegistrantPrivacy => (is => 'ro', isa => 'Bool');
   has TechPrivacy => (is => 'ro', isa => 'Bool');
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $route53domains->UpdateDomainContactPrivacy(
       DomainName        => 'MyDomainName',
       AdminPrivacy      => 1,                # OPTIONAL
+      BillingPrivacy    => 1,                # OPTIONAL
       RegistrantPrivacy => 1,                # OPTIONAL
       TechPrivacy       => 1,                # OPTIONAL
       );
@@ -53,10 +55,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 
 Whether you want to conceal contact information from WHOIS queries. If
 you specify C<true>, WHOIS ("who is") queries return contact
-information either for Amazon Registrar (for .com, .net, and .org
-domains) or for our registrar associate, Gandi (for all other TLDs). If
-you specify C<false>, WHOIS queries return the information that you
-entered for the admin contact.
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If you specify C<false>, WHOIS queries return the information
+that you entered for the admin contact.
+
+You must specify the same privacy setting for the administrative,
+billing, registrant, and technical contacts.
+
+
+
+=head2 BillingPrivacy => Bool
+
+Whether you want to conceal contact information from WHOIS queries. If
+you specify C<true>, WHOIS ("who is") queries return contact
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If you specify C<false>, WHOIS queries return the information
+that you entered for the billing contact.
+
+You must specify the same privacy setting for the administrative,
+billing, registrant, and technical contacts.
 
 
 
@@ -70,10 +87,12 @@ The name of the domain that you want to update the privacy setting for.
 
 Whether you want to conceal contact information from WHOIS queries. If
 you specify C<true>, WHOIS ("who is") queries return contact
-information either for Amazon Registrar (for .com, .net, and .org
-domains) or for our registrar associate, Gandi (for all other TLDs). If
-you specify C<false>, WHOIS queries return the information that you
-entered for the registrant contact (domain owner).
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If you specify C<false>, WHOIS queries return the information
+that you entered for the registrant contact (domain owner).
+
+You must specify the same privacy setting for the administrative,
+billing, registrant, and technical contacts.
 
 
 
@@ -81,10 +100,12 @@ entered for the registrant contact (domain owner).
 
 Whether you want to conceal contact information from WHOIS queries. If
 you specify C<true>, WHOIS ("who is") queries return contact
-information either for Amazon Registrar (for .com, .net, and .org
-domains) or for our registrar associate, Gandi (for all other TLDs). If
-you specify C<false>, WHOIS queries return the information that you
-entered for the technical contact.
+information either for Amazon Registrar or for our registrar associate,
+Gandi. If you specify C<false>, WHOIS queries return the information
+that you entered for the technical contact.
+
+You must specify the same privacy setting for the administrative,
+billing, registrant, and technical contacts.
 
 
 

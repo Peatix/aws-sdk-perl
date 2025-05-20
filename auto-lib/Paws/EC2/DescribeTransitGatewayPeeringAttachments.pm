@@ -85,12 +85,12 @@ attachment.
 
 =item *
 
-C<local-owner-id> - The ID of your AWS account.
+C<local-owner-id> - The ID of your Amazon Web Services account.
 
 =item *
 
-C<remote-owner-id> - The ID of the AWS account in the remote Region
-that owns the transit gateway.
+C<remote-owner-id> - The ID of the Amazon Web Services account in the
+remote Region that owns the transit gateway.
 
 =item *
 

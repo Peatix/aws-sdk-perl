@@ -45,7 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyCostCategoryName',     # min: 1, max: 50; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -53,10 +53,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Dimensions => {
           Key => 'AZ'
-          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -68,7 +68,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyTagKey',     # max: 1024; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -148,6 +148,12 @@ REGION
 
 SERVICE
 
+If not specified, the C<SERVICE> filter defaults to Amazon Elastic
+Compute Cloud - Compute. Supported values for C<SERVICE> are Amazon
+Elastic Compute Cloud - Compute, Amazon Relational Database Service,
+Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch Service.
+The value for the C<SERVICE> filter should not exceed "1".
+
 =item *
 
 SCOPE
@@ -187,23 +193,23 @@ Groups only by C<SUBSCRIPTION_ID>. Metadata is included.
 =head2 MaxResults => Int
 
 The maximum number of objects that you returned for this request. If
-more objects are available, in the response, AWS provides a
-NextPageToken value that you can use in a subsequent call to get the
-next batch of objects.
+more objects are available, in the response, Amazon Web Services
+provides a NextPageToken value that you can use in a subsequent call to
+get the next batch of objects.
 
 
 
 =head2 NextPageToken => Str
 
-The token to retrieve the next set of results. AWS provides the token
-when the response from a previous call has more results than the
-maximum page size.
+The token to retrieve the next set of results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 
 =head2 SortBy => L<Paws::CostExplorer::SortDefinition>
 
-The value by which you want to sort the data.
+The value that you want to sort the data by.
 
 The following values are supported for C<Key>:
 
@@ -279,17 +285,19 @@ C<UnrealizedSavings>
 
 =back
 
-Supported values for C<SortOrder> are C<ASCENDING> or C<DESCENDING>.
+The supported values for C<SortOrder> are C<ASCENDING> and
+C<DESCENDING>.
 
 
 
 =head2 B<REQUIRED> TimePeriod => L<Paws::CostExplorer::DateInterval>
 
-Sets the start and end dates for retrieving RI utilization. The start
-date is inclusive, but the end date is exclusive. For example, if
-C<start> is C<2017-01-01> and C<end> is C<2017-05-01>, then the cost
-and usage data is retrieved from C<2017-01-01> up to and including
-C<2017-04-30> but not including C<2017-05-01>.
+Sets the start and end dates for retrieving Reserved Instance (RI)
+utilization. The start date is inclusive, but the end date is
+exclusive. For example, if C<start> is C<2017-01-01> and C<end> is
+C<2017-05-01>, then the cost and usage data is retrieved from
+C<2017-01-01> up to and including C<2017-04-30> but not including
+C<2017-05-01>.
 
 
 

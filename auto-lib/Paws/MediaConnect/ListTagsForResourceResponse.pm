@@ -1,7 +1,7 @@
 
 package Paws::MediaConnect::ListTagsForResourceResponse;
   use Moose;
-  has Tags => (is => 'ro', isa => 'Paws::MediaConnect::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
+  has Tags => (is => 'ro', isa => 'Paws::MediaConnect::__mapOfString', traits => ['NameInRequest'], request_name => 'tags');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -15,7 +15,7 @@ Paws::MediaConnect::ListTagsForResourceResponse
 =head1 ATTRIBUTES
 
 
-=head2 Tags => L<Paws::MediaConnect::__mapOf__string>
+=head2 Tags => L<Paws::MediaConnect::__mapOfString>
 
 A map from tag keys to values. Tag keys can have a maximum character
 length of 128 characters, and tag values can have a maximum length of

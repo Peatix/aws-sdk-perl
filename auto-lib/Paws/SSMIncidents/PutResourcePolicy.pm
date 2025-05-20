@@ -54,8 +54,8 @@ Details of the resource policy.
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the response plan you're adding the
-resource policy to.
+The Amazon Resource Name (ARN) of the response plan to add the resource
+policy to.
 
 
 

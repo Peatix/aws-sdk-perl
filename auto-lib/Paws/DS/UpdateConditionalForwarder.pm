@@ -44,8 +44,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 B<REQUIRED> DirectoryId => Str
 
-The directory ID of the AWS directory for which to update the
-conditional forwarder.
+The directory ID of the Amazon Web Services directory for which to
+update the conditional forwarder.
 
 
 

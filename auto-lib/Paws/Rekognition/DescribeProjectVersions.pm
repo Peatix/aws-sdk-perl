@@ -63,26 +63,27 @@ a ValidationException error occurs. The default value is 100.
 =head2 NextToken => Str
 
 If the previous response was incomplete (because there is more results
-to retrieve), Amazon Rekognition Custom Labels returns a pagination
-token in the response. You can use this pagination token to retrieve
-the next set of results.
+to retrieve), Amazon Rekognition returns a pagination token in the
+response. You can use this pagination token to retrieve the next set of
+results.
 
 
 
 =head2 B<REQUIRED> ProjectArn => Str
 
-The Amazon Resource Name (ARN) of the project that contains the models
-you want to describe.
+The Amazon Resource Name (ARN) of the project that contains the
+model/adapter you want to describe.
 
 
 
 =head2 VersionNames => ArrayRef[Str|Undef]
 
-A list of model version names that you want to describe. You can add up
-to 10 model version names to the list. If you don't specify a value,
-all model descriptions are returned. A version name is part of a model
-(ProjectVersion) ARN. For example, C<my-model.2020-01-21T09.10.15> is
-the version name in the following ARN.
+A list of model or project version names that you want to describe. You
+can add up to 10 model or project version names to the list. If you
+don't specify a value, all project version descriptions are returned. A
+version name is part of a project version ARN. For example,
+C<my-model.2020-01-21T09.10.15> is the version name in the following
+ARN.
 C<arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/I<my-model.2020-01-21T09.10.15>/1234567890123>.
 
 

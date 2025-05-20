@@ -63,7 +63,7 @@ A token to retrieve the next set of results.
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
 

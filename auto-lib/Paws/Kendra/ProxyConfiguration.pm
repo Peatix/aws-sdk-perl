@@ -43,7 +43,8 @@ website hosts.
 
 =head2 Credentials => Str
 
-Your secret ARN, which you can create in AWS Secrets Manager
+The Amazon Resource Name (ARN) of an Secrets Manager secret. You create
+a secret to store your credentials in Secrets Manager
 (https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html)
 
 The credentials are optional. You use a secret if web proxy credentials

@@ -87,6 +87,11 @@ C<local-gateway-id> - The ID of a local gateway.
 
 =item *
 
+C<local-gateway-route-table-arn> - The Amazon Resource Name (ARN) of
+the local gateway route table for the virtual interface group.
+
+=item *
+
 C<local-gateway-route-table-id> - The ID of the local gateway route
 table.
 
@@ -99,6 +104,11 @@ The ID of the association.
 
 C<local-gateway-route-table-virtual-interface-group-id> - The ID of the
 virtual interface group.
+
+=item *
+
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+local gateway virtual interface group association.
 
 =item *
 

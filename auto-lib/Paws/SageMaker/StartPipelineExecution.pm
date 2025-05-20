@@ -2,10 +2,12 @@
 package Paws::SageMaker::StartPipelineExecution;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str', required => 1);
+  has ParallelismConfiguration => (is => 'ro', isa => 'Paws::SageMaker::ParallelismConfiguration');
   has PipelineExecutionDescription => (is => 'ro', isa => 'Str');
   has PipelineExecutionDisplayName => (is => 'ro', isa => 'Str');
   has PipelineName => (is => 'ro', isa => 'Str', required => 1);
   has PipelineParameters => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Parameter]');
+  has SelectiveExecutionConfig => (is => 'ro', isa => 'Paws::SageMaker::SelectiveExecutionConfig');
 
   use MooseX::ClassAttribute;
 
@@ -33,8 +35,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $StartPipelineExecutionResponse =
       $api . sagemaker->StartPipelineExecution(
-      ClientRequestToken           => 'MyIdempotencyToken',
-      PipelineName                 => 'MyPipelineName',
+      ClientRequestToken       => 'MyIdempotencyToken',
+      PipelineName             => 'MyPipelineNameOrArn',
+      ParallelismConfiguration => {
+        MaxParallelExecutionSteps => 1,    # min: 1
+
+      },    # OPTIONAL
       PipelineExecutionDescription =>
         'MyPipelineExecutionDescription',    # OPTIONAL
       PipelineExecutionDisplayName => 'MyPipelineExecutionName',    # OPTIONAL
@@ -46,6 +52,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      SelectiveExecutionConfig => {
+        SelectedSteps => [
+          {
+            StepName => 'MyString256',    # max: 256
+
+          },
+          ...
+        ],    # min: 1, max: 50
+        SourcePipelineExecutionArn =>
+          'MyPipelineExecutionArn',    # max: 2048; OPTIONAL
+      },    # OPTIONAL
       );
 
     # Results:
@@ -64,7 +81,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the operation. An idempotent operation completes no more
-than one time.
+than once.
+
+
+
+=head2 ParallelismConfiguration => L<Paws::SageMaker::ParallelismConfiguration>
+
+This configuration, if specified, overrides the parallelism
+configuration of the parent pipeline for this specific run.
 
 
 
@@ -82,13 +106,19 @@ The display name of the pipeline execution.
 
 =head2 B<REQUIRED> PipelineName => Str
 
-The name of the pipeline.
+The name or Amazon Resource Name (ARN) of the pipeline.
 
 
 
 =head2 PipelineParameters => ArrayRef[L<Paws::SageMaker::Parameter>]
 
 Contains a list of pipeline parameters. This list can be empty.
+
+
+
+=head2 SelectiveExecutionConfig => L<Paws::SageMaker::SelectiveExecutionConfig>
+
+The selective execution configuration applied to the pipeline run.
 
 
 

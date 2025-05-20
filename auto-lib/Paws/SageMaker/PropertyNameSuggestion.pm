@@ -42,7 +42,7 @@ specifies a value in the C<PropertyNameQuery> field.
 =head2 PropertyName => Str
 
 A suggested property name based on what you entered in the search
-textbox in the Amazon SageMaker console.
+textbox in the SageMaker console.
 
 
 

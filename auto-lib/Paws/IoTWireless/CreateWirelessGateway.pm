@@ -35,10 +35,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateWirelessGatewayResponse =
       $api . iotwireless->CreateWirelessGateway(
       LoRaWAN => {
+        Beaconing => {
+          DataRate    => 1,    # max: 15; OPTIONAL
+          Frequencies => [
+            1, ...             # min: 100000000, max: 1000000000
+          ],    # max: 10; OPTIONAL
+        },    # OPTIONAL
         GatewayEui     => 'MyGatewayEui',    # OPTIONAL
         JoinEuiFilters => [
           [ 'MyJoinEui', ... ], ...          # min: 2, max: 2
         ],    # max: 3; OPTIONAL
+        MaxEirp      => 1.0,                   # max: 30; OPTIONAL
         NetIdFilters => [ 'MyNetId', ... ],    # max: 10; OPTIONAL
         RfRegion     => 'MyRfRegion',          # max: 64; OPTIONAL
         SubBands     => [
@@ -72,10 +79,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 ClientRequestToken => Str
 
-Each resource must have a unique client request token. If you try to
-create a new resource with the same token as a resource that already
-exists, an exception occurs. If you omit this value, AWS SDKs will
-automatically generate a unique client request.
+Each resource must have a unique client request token. The client token
+is used to implement idempotency. It ensures that the request completes
+no more than one time. If you retry a request with the same token and
+the same parameters, the request will complete successfully. However,
+if you try to create a new resource using the same token but different
+parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+SDKs will automatically generate a unique client request. For more
+information about idempotency, see Ensuring idempotency in Amazon EC2
+API requests
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 

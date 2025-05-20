@@ -9,7 +9,9 @@ package Paws::DMS::KafkaSettings;
   has IncludeTransactionDetails => (is => 'ro', isa => 'Bool');
   has MessageFormat => (is => 'ro', isa => 'Str');
   has MessageMaxBytes => (is => 'ro', isa => 'Int');
+  has NoHexPrefix => (is => 'ro', isa => 'Bool');
   has PartitionIncludeSchemaTable => (is => 'ro', isa => 'Bool');
+  has SaslMechanism => (is => 'ro', isa => 'Str');
   has SaslPassword => (is => 'ro', isa => 'Str');
   has SaslUsername => (is => 'ro', isa => 'Str');
   has SecurityProtocol => (is => 'ro', isa => 'Str');
@@ -17,7 +19,9 @@ package Paws::DMS::KafkaSettings;
   has SslClientCertificateArn => (is => 'ro', isa => 'Str');
   has SslClientKeyArn => (is => 'ro', isa => 'Str');
   has SslClientKeyPassword => (is => 'ro', isa => 'Str');
+  has SslEndpointIdentificationAlgorithm => (is => 'ro', isa => 'Str');
   has Topic => (is => 'ro', isa => 'Str');
+  has UseLargeIntegerValue => (is => 'ro', isa => 'Bool');
 
 1;
 
@@ -38,7 +42,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DMS::KafkaSettings object:
 
-  $service_obj->Method(Att1 => { Broker => $value, ..., Topic => $value  });
+  $service_obj->Method(Att1 => { Broker => $value, ..., UseLargeIntegerValue => $value  });
 
 =head3 Results returned from an API call
 
@@ -63,9 +67,9 @@ cluster that host your Kafka instance. Specify each broker location in
 the form C< I<broker-hostname-or-ip>:I<port> >. For example,
 C<"ec2-12-345-678-901.compute-1.amazonaws.com:2345">. For more
 information and examples of specifying a list of broker locations, see
-Using Apache Kafka as a target for AWS Database Migration Service
+Using Apache Kafka as a target for Database Migration Service
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html)
-in the I<AWS Data Migration Service User Guide>.
+in the I<Database Migration Service User Guide>.
 
 
 =head2 IncludeControlDetails => Bool
@@ -83,7 +87,7 @@ The default is C<false>.
 
 =head2 IncludePartitionValue => Bool
 
-Shows the partition value within the Kafka message output, unless the
+Shows the partition value within the Kafka message output unless the
 partition type is C<schema-table-type>. The default is C<false>.
 
 
@@ -117,6 +121,16 @@ The maximum size in bytes for records created on the endpoint The
 default is 1,000,000.
 
 
+=head2 NoHexPrefix => Bool
+
+Set this optional parameter to C<true> to avoid adding a '0x' prefix to
+raw data in hexadecimal format. For example, by default, DMS adds a
+'0x' prefix to the LOB column type in hexadecimal format moving from an
+Oracle source to a Kafka target. Use the C<NoHexPrefix> endpoint
+setting to enable migration of RAW data type columns without adding the
+'0x' prefix.
+
+
 =head2 PartitionIncludeSchemaTable => Bool
 
 Prefixes schema and table names to partition values, when the partition
@@ -128,6 +142,14 @@ tables to the same partition, which causes throttling. The default is
 C<false>.
 
 
+=head2 SaslMechanism => Str
+
+For SASL/SSL authentication, DMS supports the C<SCRAM-SHA-512>
+mechanism by default. DMS versions 3.5.0 and later also support the
+C<PLAIN> mechanism. To use the C<PLAIN> mechanism, set this parameter
+to C<PLAIN.>
+
+
 =head2 SaslPassword => Str
 
 The secure password you created when you first set up your MSK cluster
@@ -137,7 +159,7 @@ server and client using SASL-SSL authentication.
 
 =head2 SaslUsername => Str
 
-The secure username you created when you first set up your MSK cluster
+The secure user name you created when you first set up your MSK cluster
 to validate a client identity and make an encrypted connection between
 server and client using SASL-SSL authentication.
 
@@ -152,8 +174,8 @@ C<SaslUsername> and C<SaslPassword>.
 
 =head2 SslCaCertificateArn => Str
 
-The Amazon Resource Name (ARN) for the private Certification Authority
-(CA) cert that AWS DMS uses to securely connect to your Kafka target
+The Amazon Resource Name (ARN) for the private certificate authority
+(CA) cert that DMS uses to securely connect to your Kafka target
 endpoint.
 
 
@@ -175,10 +197,21 @@ The password for the client private key used to securely connect to a
 Kafka target endpoint.
 
 
+=head2 SslEndpointIdentificationAlgorithm => Str
+
+Sets hostname verification for the certificate. This setting is
+supported in DMS version 3.5.1 and later.
+
+
 =head2 Topic => Str
 
 The topic to which you migrate the data. If you don't specify a topic,
-AWS DMS specifies C<"kafka-default-topic"> as the migration topic.
+DMS specifies C<"kafka-default-topic"> as the migration topic.
+
+
+=head2 UseLargeIntegerValue => Bool
+
+Specifies using the large integer value with Kafka.
 
 
 

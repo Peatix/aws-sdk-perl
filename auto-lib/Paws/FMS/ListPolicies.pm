@@ -47,11 +47,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 MaxResults => Int
 
-Specifies the number of C<PolicySummary> objects that you want AWS
-Firewall Manager to return for this request. If you have more
-C<PolicySummary> objects than the number that you specify for
-C<MaxResults>, the response includes a C<NextToken> value that you can
-use to get another batch of C<PolicySummary> objects.
+Specifies the number of C<PolicySummary> objects that you want Firewall
+Manager to return for this request. If you have more C<PolicySummary>
+objects than the number that you specify for C<MaxResults>, the
+response includes a C<NextToken> value that you can use to get another
+batch of C<PolicySummary> objects.
 
 
 
@@ -59,7 +59,7 @@ use to get another batch of C<PolicySummary> objects.
 
 If you specify a value for C<MaxResults> and you have more
 C<PolicySummary> objects than the number that you specify for
-C<MaxResults>, AWS Firewall Manager returns a C<NextToken> value in the
+C<MaxResults>, Firewall Manager returns a C<NextToken> value in the
 response that allows you to list another group of C<PolicySummary>
 objects. For the second and subsequent C<ListPolicies> requests,
 specify the value of C<NextToken> from the previous response to get

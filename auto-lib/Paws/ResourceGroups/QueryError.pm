@@ -35,29 +35,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ResourceGro
 =head1 DESCRIPTION
 
 A two-part error structure that can occur in C<ListGroupResources> or
-C<SearchResources> operations on CloudFormation stack-based queries.
-The error occurs if the CloudFormation stack on which the query is
-based either does not exist, or has a status that renders the stack
-inactive. A C<QueryError> occurrence does not necessarily mean that AWS
-Resource Groups could not complete the operation, but the resulting
-group might have no member resources.
+C<SearchResources>.
 
 =head1 ATTRIBUTES
 
 
 =head2 ErrorCode => Str
 
-Possible values are C<CLOUDFORMATION_STACK_INACTIVE> and
-C<CLOUDFORMATION_STACK_NOT_EXISTING>.
+Specifies the error code that was raised.
 
 
 =head2 Message => Str
 
-A message that explains the C<ErrorCode> value. Messages might state
-that the specified CloudFormation stack does not exist (or no longer
-exists). For C<CLOUDFORMATION_STACK_INACTIVE>, the message typically
-states that the CloudFormation stack has a status that is not (or no
-longer) active, such as C<CREATE_FAILED>.
+A message that explains the C<ErrorCode>.
 
 
 

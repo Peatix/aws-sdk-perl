@@ -55,10 +55,10 @@ segments and subsegments.
 
 =head2 LimitExceeded => Bool
 
-LimitExceeded is set to true when the trace has exceeded one of the
-defined quotas. For more information about quotas, see AWS X-Ray
-endpoints and quotas
-(https://docs.aws.amazon.com/general/latest/gr/xray.html).
+LimitExceeded is set to true when the trace has exceeded the C<Trace
+document size> limit. For more information about this limit and other
+X-Ray limits and quotas, see Amazon Web Services X-Ray endpoints and
+quotas (https://docs.aws.amazon.com/general/latest/gr/xray.html).
 
 
 =head2 Segments => ArrayRef[L<Paws::XRay::Segment>]

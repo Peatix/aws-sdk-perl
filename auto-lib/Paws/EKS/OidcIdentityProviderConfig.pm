@@ -44,8 +44,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::OidcId
 
 =head1 DESCRIPTION
 
-An object that represents the configuration for an OpenID Connect
-(OIDC) identity provider.
+An object representing the configuration for an OpenID Connect (OIDC)
+identity provider.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +58,7 @@ that makes authentication requests to the OIDC identity provider.
 
 =head2 ClusterName => Str
 
-The cluster that the configuration is associated to.
+The name of your cluster.
 
 
 =head2 GroupsClaim => Str
@@ -105,9 +105,9 @@ The status of the OIDC identity provider.
 
 =head2 Tags => L<Paws::EKS::TagMap>
 
-The metadata to apply to the provider configuration to assist with
-categorization and organization. Each tag consists of a key and an
-optional value, both of which you defined.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 =head2 UsernameClaim => Str

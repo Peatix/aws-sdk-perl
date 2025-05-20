@@ -9,7 +9,9 @@ package Paws::Forecast::DescribeDatasetImportJobResponse;
   has DataSource => (is => 'ro', isa => 'Paws::Forecast::DataSource');
   has EstimatedTimeRemainingInMinutes => (is => 'ro', isa => 'Int');
   has FieldStatistics => (is => 'ro', isa => 'Paws::Forecast::FieldStatistics');
+  has Format => (is => 'ro', isa => 'Str');
   has GeolocationFormat => (is => 'ro', isa => 'Str');
+  has ImportMode => (is => 'ro', isa => 'Str');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -57,12 +59,12 @@ finished.
 
 =head2 DataSource => L<Paws::Forecast::DataSource>
 
-The location of the training data to import and an AWS Identity and
-Access Management (IAM) role that Amazon Forecast can assume to access
-the data.
+The location of the training data to import and an Identity and Access
+Management (IAM) role that Amazon Forecast can assume to access the
+data.
 
-If encryption is used, C<DataSource> includes an AWS Key Management
-Service (KMS) key.
+If encryption is used, C<DataSource> includes an Key Management Service
+(KMS) key.
 
 
 =head2 EstimatedTimeRemainingInMinutes => Int
@@ -76,12 +78,22 @@ complete.
 Statistical information about each field in the input data.
 
 
+=head2 Format => Str
+
+The format of the imported data, CSV or PARQUET.
+
+
 =head2 GeolocationFormat => Str
 
 The format of the geolocation attribute. Valid Values:C<"LAT_LONG"> and
 C<"CC_POSTALCODE">.
 
 
+=head2 ImportMode => Str
+
+The import mode of the dataset import job, FULL or INCREMENTAL.
+
+Valid values are: C<"FULL">, C<"INCREMENTAL">
 =head2 LastModificationTime => Str
 
 The last time the resource was modified. The timestamp depends on the

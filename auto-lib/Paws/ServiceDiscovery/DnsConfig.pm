@@ -47,8 +47,16 @@ instance.
 An array that contains one C<DnsRecord> object for each Route 53 DNS
 record that you want Cloud Map to create when you register an instance.
 
+The record type of a service specified in a C<DnsRecord> object can't
+be updated. To change a record type, you need to delete the service and
+recreate it with a new C<DnsConfig>.
+
 
 =head2 NamespaceId => Str
+
+I<Use NamespaceId in Service
+(https://docs.aws.amazon.com/cloud-map/latest/api/API_Service.html)
+instead.>
 
 The ID of the namespace to use for DNS configuration.
 

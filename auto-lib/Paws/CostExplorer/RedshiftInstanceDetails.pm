@@ -37,15 +37,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-Details about the Amazon Redshift instances that AWS recommends that
-you purchase.
+Details about the Amazon Redshift reservations that Amazon Web Services
+recommends that you purchase.
 
 =head1 ATTRIBUTES
 
 
 =head2 CurrentGeneration => Bool
 
-Whether the recommendation is for a current-generation instance.
+Determines whether the recommendation is for a current-generation
+instance.
 
 
 =head2 Family => Str
@@ -55,17 +56,17 @@ The instance family of the recommended reservation.
 
 =head2 NodeType => Str
 
-The type of node that AWS recommends.
+The type of node that Amazon Web Services recommends.
 
 
 =head2 Region => Str
 
-The AWS Region of the recommended reservation.
+The Amazon Web Services Region of the recommended reservation.
 
 
 =head2 SizeFlexEligible => Bool
 
-Whether the recommended reservation is size flexible.
+Determines whether the recommended reservation is size flexible.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::AppMesh::MeshSpec;
   use Moose;
   has EgressFilter => (is => 'ro', isa => 'Paws::AppMesh::EgressFilter', request_name => 'egressFilter', traits => ['NameInRequest']);
+  has ServiceDiscovery => (is => 'ro', isa => 'Paws::AppMesh::MeshServiceDiscovery', request_name => 'serviceDiscovery', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::AppMesh::MeshSpec object:
 
-  $service_obj->Method(Att1 => { EgressFilter => $value, ..., EgressFilter => $value  });
+  $service_obj->Method(Att1 => { EgressFilter => $value, ..., ServiceDiscovery => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,6 +42,11 @@ An object that represents the specification of a service mesh.
 =head2 EgressFilter => L<Paws::AppMesh::EgressFilter>
 
 The egress filter rules for the service mesh.
+
+
+=head2 ServiceDiscovery => L<Paws::AppMesh::MeshServiceDiscovery>
+
+
 
 
 

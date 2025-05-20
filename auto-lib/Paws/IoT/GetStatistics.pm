@@ -64,7 +64,8 @@ The name of the index to search. The default value is C<AWS_Things>.
 =head2 B<REQUIRED> QueryString => Str
 
 The query used to search. You can specify "*" for the query string to
-get the count of all indexed things in your AWS account.
+get the count of all indexed things in your Amazon Web Services
+account.
 
 
 

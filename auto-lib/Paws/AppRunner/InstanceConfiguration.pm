@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes the runtime configuration of an AWS App Runner service
-instance (scaling unit).
+Describes the runtime configuration of an App Runner service instance
+(scaling unit).
 
 =head1 ATTRIBUTES
 
@@ -53,7 +53,7 @@ Default: C<1 vCPU>
 
 The Amazon Resource Name (ARN) of an IAM role that provides permissions
 to your App Runner service. These are permissions that your code needs
-when it calls any AWS APIs.
+when it calls any Amazon Web Services APIs.
 
 
 =head2 Memory => Str

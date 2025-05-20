@@ -44,6 +44,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTDeviceAd
 
 Information about the suite run.
 
+Requires permission to access the SuiteRunInformation
+(https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
+
 =head1 ATTRIBUTES
 
 
@@ -79,7 +83,7 @@ Status of the suite run.
 
 =head2 SuiteDefinitionId => Str
 
-Suite definition Id of the suite run.
+Suite definition ID of the suite run.
 
 
 =head2 SuiteDefinitionName => Str
@@ -94,7 +98,7 @@ Suite definition version of the suite run.
 
 =head2 SuiteRunId => Str
 
-Suite run Id of the suite run.
+Suite run ID of the suite run.
 
 
 

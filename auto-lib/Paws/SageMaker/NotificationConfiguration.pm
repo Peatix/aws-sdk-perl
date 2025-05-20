@@ -33,15 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Configures SNS notifications of available or expiring work items for
-work teams.
+Configures Amazon SNS notifications of available or expiring work items
+for work teams.
 
 =head1 ATTRIBUTES
 
 
 =head2 NotificationTopicArn => Str
 
-The ARN for the SNS topic to which notifications should be published.
+The ARN for the Amazon SNS topic to which notifications should be
+published.
 
 
 

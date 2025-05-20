@@ -44,26 +44,28 @@ Manager.
 
 =head2 RawData => Str
 
-Raw data passed from either EventBridge, CloudWatch, or Incident
-Manager when an incident is created.
+Raw data passed from either Amazon EventBridge, Amazon CloudWatch, or
+Incident Manager when an incident is created.
 
 
 =head2 B<REQUIRED> Source => Str
 
 Identifies the service that sourced the event. All events sourced from
-within AWS begin with "aws." Customer-generated events can have any
-value here, as long as it doesn't begin with "aws." We recommend the
-use of Java package-name style reverse domain-name strings.
+within Amazon Web Services begin with "C<aws.>" Customer-generated
+events can have any value here, as long as it doesn't begin with
+"C<aws.>" We recommend the use of Java package-name style reverse
+domain-name strings.
 
 
 =head2 B<REQUIRED> Timestamp => Str
 
-The time that the incident was detected.
+The timestamp for when the incident was detected.
 
 
 =head2 TriggerArn => Str
 
-The ARN of the source that detected the incident.
+The Amazon Resource Name (ARN) of the source that detected the
+incident.
 
 
 

@@ -64,7 +64,7 @@ The interface protocol. Valid values are C<VLAN> and C<GRE>.
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
-The tags.
+The tags for the trunk interface association.
 
 
 =head2 TrunkInterfaceId => Str

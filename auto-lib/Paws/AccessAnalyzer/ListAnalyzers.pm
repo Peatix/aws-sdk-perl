@@ -64,7 +64,7 @@ A token used for pagination of results returned.
 
 The type of analyzer.
 
-Valid values are: C<"ACCOUNT">, C<"ORGANIZATION">
+Valid values are: C<"ACCOUNT">, C<"ORGANIZATION">, C<"ACCOUNT_UNUSED_ACCESS">, C<"ORGANIZATION_UNUSED_ACCESS">
 
 
 =head1 SEE ALSO

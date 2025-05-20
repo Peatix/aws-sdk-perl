@@ -58,28 +58,28 @@ The instance's public DNS name.
 
 =head2 Ec2InstanceIds => ArrayRef[Str|Undef]
 
-A list of the EC2 instances that the Elastic Load Balancing instance is
-managing traffic for.
+A list of the EC2 instances for which the Elastic Load Balancing
+instance is managing traffic.
 
 
 =head2 ElasticLoadBalancerName => Str
 
-The Elastic Load Balancing instance's name.
+The Elastic Load Balancing instance name.
 
 
 =head2 LayerId => Str
 
-The ID of the layer that the instance is attached to.
+The ID of the layer to which the instance is attached.
 
 
 =head2 Region => Str
 
-The instance's AWS region.
+The instance's Amazon Web Services Region.
 
 
 =head2 StackId => Str
 
-The ID of the stack that the instance is associated with.
+The ID of the stack with which the instance is associated.
 
 
 =head2 SubnetIds => ArrayRef[Str|Undef]

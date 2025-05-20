@@ -71,9 +71,33 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 BlockDeviceMappings => ArrayRef[L<Paws::EC2::BlockDeviceMapping>]
 
-The block device mappings. This parameter cannot be used to modify the
-encryption status of existing volumes or snapshots. To create an AMI
-with encrypted snapshots, use the CopyImage action.
+The block device mappings.
+
+When using the CreateImage action:
+
+=over
+
+=item *
+
+You can't change the volume size using the VolumeSize parameter. If you
+want a different volume size, you must first change the volume size of
+the source instance.
+
+=item *
+
+You can't modify the encryption status of existing volumes or
+snapshots. To create an AMI with volumes or snapshots that have a
+different encryption status (for example, where the source volume and
+snapshots are unencrypted, and you want to create an AMI with encrypted
+volumes or snapshots), use the CopyImage action.
+
+=item *
+
+The only option that can be changed for existing mappings or snapshots
+is C<DeleteOnTermination>.
+
+=back
+
 
 
 
@@ -110,11 +134,28 @@ quotes ('), at-signs (@), or underscores(_)
 
 =head2 NoReboot => Bool
 
-By default, Amazon EC2 attempts to shut down and reboot the instance
-before creating the image. If the C<No Reboot> option is set, Amazon
-EC2 doesn't shut down the instance before creating the image. When this
-option is used, file system integrity on the created image can't be
-guaranteed.
+Indicates whether or not the instance should be automatically rebooted
+before creating the image. Specify one of the following values:
+
+=over
+
+=item *
+
+C<true> - The instance is not rebooted before creating the image. This
+creates crash-consistent snapshots that include only the data that has
+been written to the volumes at the time the snapshots are created.
+Buffered data and data in memory that has not yet been written to the
+volumes is not included in the snapshots.
+
+=item *
+
+C<false> - The instance is rebooted before creating the image. This
+ensures that all buffered data and data in memory is written to the
+volumes before the snapshots are created.
+
+=back
+
+Default: C<false>
 
 
 
@@ -132,7 +173,7 @@ To tag the AMI, the value for C<ResourceType> must be C<image>.
 =item *
 
 To tag the snapshots that are created of the root volume and of other
-EBS volumes that are attached to the instance, the value for
+Amazon EBS volumes that are attached to the instance, the value for
 C<ResourceType> must be C<snapshot>. The same tag is applied to all of
 the snapshots that are created.
 

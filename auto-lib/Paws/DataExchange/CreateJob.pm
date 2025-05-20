@@ -31,6 +31,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $dataexchange = Paws->service('DataExchange');
     my $CreateJobResponse = $dataexchange->CreateJob(
       Details => {
+        CreateS3DataAccessFromS3Bucket => {
+          AssetSource => {
+            Bucket         => 'My__string',
+            KeyPrefixes    => [ 'My__string', ... ],    # OPTIONAL
+            Keys           => [ 'My__string', ... ],    # OPTIONAL
+            KmsKeysToGrant => [
+              {
+                KmsKeyArn => 'MyKmsKeyArn',             # min: 1, max: 2048
+
+              },
+              ...
+            ],    # min: 1, max: 10; OPTIONAL
+          },
+          DataSetId  => 'MyId',
+          RevisionId => 'MyId',
+
+        },    # OPTIONAL
         ExportAssetToSignedUrl => {
           AssetId    => 'MyId',
           DataSetId  => 'MyId',
@@ -68,11 +85,72 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             KmsKeyArn => 'My__string',
           },    # OPTIONAL
         },    # OPTIONAL
+        ImportAssetFromApiGatewayApi => {
+          ApiId                   => 'My__string',
+          ApiName                 => 'My__string',
+          ApiSpecificationMd5Hash =>
+            'My__stringMin24Max24PatternAZaZ094AZaZ092AZaZ093'
+          ,                                        # min: 24, max: 24
+          DataSetId      => 'MyId',
+          ProtocolType   => 'REST',                # values: REST
+          RevisionId     => 'MyId',
+          Stage          => 'My__string',
+          ApiDescription => 'MyApiDescription',    # OPTIONAL
+          ApiKey         => 'My__string',
+        },    # OPTIONAL
         ImportAssetFromSignedUrl => {
           AssetName => 'MyAssetName',
           DataSetId => 'MyId',
           Md5Hash   => 'My__stringMin24Max24PatternAZaZ094AZaZ092AZaZ093'
           ,    # min: 24, max: 24
+          RevisionId => 'MyId',
+
+        },    # OPTIONAL
+        ImportAssetsFromLakeFormationTagPolicy => {
+          CatalogId  => 'MyAwsAccountId',    # min: 12, max: 12
+          DataSetId  => 'MyId',
+          RevisionId => 'MyId',
+          RoleArn    => 'MyRoleArn',
+          Database   => {
+            Expression => [
+              {
+                TagKey    => 'MyString',
+                TagValues => [ 'MyString', ... ],
+
+              },
+              ...
+            ],
+            Permissions => [
+              'DESCRIBE',
+              ...    # values: DESCRIBE
+            ],
+
+          },    # OPTIONAL
+          Table => {
+            Expression => [
+              {
+                TagKey    => 'MyString',
+                TagValues => [ 'MyString', ... ],
+
+              },
+              ...
+            ],
+            Permissions => [
+              'DESCRIBE',
+              ...    # values: DESCRIBE, SELECT
+            ],
+
+          },    # OPTIONAL
+        },    # OPTIONAL
+        ImportAssetsFromRedshiftDataShares => {
+          AssetSources => [
+            {
+              DataShareArn => 'My__string',
+
+            },
+            ...
+          ],
+          DataSetId  => 'MyId',
           RevisionId => 'MyId',
 
         },    # OPTIONAL
@@ -122,7 +200,7 @@ The details for the CreateJob request.
 
 The type of job to be created.
 
-Valid values are: C<"IMPORT_ASSETS_FROM_S3">, C<"IMPORT_ASSET_FROM_SIGNED_URL">, C<"EXPORT_ASSETS_TO_S3">, C<"EXPORT_ASSET_TO_SIGNED_URL">, C<"EXPORT_REVISIONS_TO_S3">
+Valid values are: C<"IMPORT_ASSETS_FROM_S3">, C<"IMPORT_ASSET_FROM_SIGNED_URL">, C<"EXPORT_ASSETS_TO_S3">, C<"EXPORT_ASSET_TO_SIGNED_URL">, C<"EXPORT_REVISIONS_TO_S3">, C<"IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES">, C<"IMPORT_ASSET_FROM_API_GATEWAY_API">, C<"CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET">, C<"IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY">
 
 
 =head1 SEE ALSO

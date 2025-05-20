@@ -7,6 +7,7 @@ package Paws::KinesisAnalyticsV2::UpdateApplication;
   has ConditionalToken => (is => 'ro', isa => 'Str');
   has CurrentApplicationVersionId => (is => 'ro', isa => 'Int');
   has RunConfigurationUpdate => (is => 'ro', isa => 'Paws::KinesisAnalyticsV2::RunConfigurationUpdate');
+  has RuntimeEnvironmentUpdate => (is => 'ro', isa => 'Str');
   has ServiceExecutionRoleUpdate => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -52,6 +53,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         ApplicationSnapshotConfigurationUpdate => {
           SnapshotsEnabledUpdate => 1,
+
+        },    # OPTIONAL
+        ApplicationSystemRollbackConfigurationUpdate => {
+          RollbackEnabledUpdate => 1,
 
         },    # OPTIONAL
         EnvironmentPropertyUpdates => {
@@ -223,8 +228,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ZeppelinApplicationConfigurationUpdate => {
           CatalogConfigurationUpdate => {
             GlueDataCatalogConfigurationUpdate => {
-              DatabaseARNUpdate =>
-                'MyDatabaseARN',    # min: 1, max: 2048; OPTIONAL
+              DatabaseARNUpdate => 'MyDatabaseARN',    # min: 1, max: 2048
+
             },
 
           },    # OPTIONAL
@@ -247,10 +252,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # max: 50; OPTIONAL
           DeployAsApplicationConfigurationUpdate => {
             S3ContentLocationUpdate => {
-              BucketARNUpdate => 'MyBucketARN',    # min: 1, max: 2048; OPTIONAL
               BasePathUpdate  => 'MyBasePath',     # min: 1, max: 1024; OPTIONAL
-            },
-
+              BucketARNUpdate => 'MyBucketARN',    # min: 1, max: 2048; OPTIONAL
+            },    # OPTIONAL
           },    # OPTIONAL
           MonitoringConfigurationUpdate => {
             LogLevelUpdate =>
@@ -276,11 +280,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         FlinkRunConfiguration => { AllowNonRestoredState => 1, },    # OPTIONAL
       },    # OPTIONAL
+      RuntimeEnvironmentUpdate   => 'SQL-1_0',      # OPTIONAL
       ServiceExecutionRoleUpdate => 'MyRoleARN',    # OPTIONAL
     );
 
     # Results:
     my $ApplicationDetail = $UpdateApplicationResponse->ApplicationDetail;
+    my $OperationId       = $UpdateApplicationResponse->OperationId;
 
     # Returns a L<Paws::KinesisAnalyticsV2::UpdateApplicationResponse> object.
 
@@ -337,6 +343,28 @@ instead of C<CurrentApplicationVersionId>.
 Describes updates to the application's starting parameters.
 
 
+
+=head2 RuntimeEnvironmentUpdate => Str
+
+Updates the Managed Service for Apache Flink runtime environment used
+to run your code. To avoid issues you must:
+
+=over
+
+=item *
+
+Ensure your new jar and dependencies are compatible with the new
+runtime selected.
+
+=item *
+
+Ensure your new code's state is compatible with the snapshot from which
+your application will start
+
+=back
+
+
+Valid values are: C<"SQL-1_0">, C<"FLINK-1_6">, C<"FLINK-1_8">, C<"ZEPPELIN-FLINK-1_0">, C<"FLINK-1_11">, C<"FLINK-1_13">, C<"ZEPPELIN-FLINK-2_0">, C<"FLINK-1_15">, C<"ZEPPELIN-FLINK-3_0">, C<"FLINK-1_18">, C<"FLINK-1_19">, C<"FLINK-1_20">
 
 =head2 ServiceExecutionRoleUpdate => Str
 

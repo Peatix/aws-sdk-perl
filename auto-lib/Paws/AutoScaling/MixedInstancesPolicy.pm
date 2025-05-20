@@ -34,34 +34,29 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 =head1 DESCRIPTION
 
-Describes a mixed instances policy for an Auto Scaling group. With
-mixed instances, your Auto Scaling group can provision a combination of
-On-Demand Instances and Spot Instances across multiple instance types.
-For more information, see Auto Scaling groups with multiple instance
-types and purchase options
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-purchase-options.html)
-in the I<Amazon EC2 Auto Scaling User Guide>.
+Use this structure to launch multiple instance types and On-Demand
+Instances and Spot Instances within a single Auto Scaling group.
 
-You can create a mixed instances policy for a new Auto Scaling group,
-or you can create it for an existing group by updating the group to
-specify C<MixedInstancesPolicy> as the top-level property instead of a
-launch configuration or launch template.
+A mixed instances policy contains information that Amazon EC2 Auto
+Scaling can use to launch instances and help optimize your costs. For
+more information, see Auto Scaling groups with multiple instance types
+and purchase options
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html)
+in the I<Amazon EC2 Auto Scaling User Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 InstancesDistribution => L<Paws::AutoScaling::InstancesDistribution>
 
-Specifies the instances distribution. If not provided, the value for
-each property in C<InstancesDistribution> uses a default value.
+The instances distribution.
 
 
 =head2 LaunchTemplate => L<Paws::AutoScaling::LaunchTemplate>
 
-Specifies the launch template to use and optionally the instance types
-(overrides) that are used to provision EC2 instances to fulfill
-On-Demand and Spot capacities. Required when creating a mixed instances
-policy.
+One or more launch templates and the instance types (overrides) that
+are used to launch EC2 instances to fulfill On-Demand and Spot
+capacities.
 
 
 

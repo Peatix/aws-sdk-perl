@@ -51,21 +51,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-To view environment template major version detail data, include
-C<majorVersion>.
+To get environment template major version detail data, include C<major
+Version>.
 
 
 
 =head2 B<REQUIRED> MinorVersion => Str
 
-To view environment template minor version detail data, include
+To get environment template minor version detail data, include
 C<minorVersion>.
 
 
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the environment template.
+The name of the environment template a version of which you want to get
+detailed data for.
 
 
 

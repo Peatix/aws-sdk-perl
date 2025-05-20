@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes parameters for how a Flink-based Kinesis Data Analytics
+Describes parameters for how a Managed Service for Apache Flink
 application executes multiple tasks simultaneously.
 
 =head1 ATTRIBUTES
@@ -45,37 +45,37 @@ application executes multiple tasks simultaneously.
 
 =head2 AutoScalingEnabled => Bool
 
-Describes whether the Kinesis Data Analytics service can increase the
-parallelism of the application in response to increased throughput.
+Describes whether the Managed Service for Apache Flink service can
+increase the parallelism of the application in response to increased
+throughput.
 
 
 =head2 ConfigurationType => Str
 
 Describes whether the application uses the default parallelism for the
-Kinesis Data Analytics service.
+Managed Service for Apache Flink service.
 
 
 =head2 CurrentParallelism => Int
 
-Describes the current number of parallel tasks that a Flink-based
-Kinesis Data Analytics application can perform. If
-C<AutoScalingEnabled> is set to True, Kinesis Data Analytics can
-increase this value in response to application load. The service can
-increase this value up to the maximum parallelism, which is
-C<ParalellismPerKPU> times the maximum KPUs for the application. The
-maximum KPUs for an application is 32 by default, and can be increased
-by requesting a limit increase. If application load is reduced, the
-service can reduce the C<CurrentParallelism> value down to the
-C<Parallelism> setting.
+Describes the current number of parallel tasks that a Managed Service
+for Apache Flink application can perform. If C<AutoScalingEnabled> is
+set to True, Managed Service for Apache Flink can increase this value
+in response to application load. The service can increase this value up
+to the maximum parallelism, which is C<ParalellismPerKPU> times the
+maximum KPUs for the application. The maximum KPUs for an application
+is 32 by default, and can be increased by requesting a limit increase.
+If application load is reduced, the service can reduce the
+C<CurrentParallelism> value down to the C<Parallelism> setting.
 
 
 =head2 Parallelism => Int
 
-Describes the initial number of parallel tasks that a Flink-based
-Kinesis Data Analytics application can perform. If
-C<AutoScalingEnabled> is set to True, then Kinesis Data Analytics can
-increase the C<CurrentParallelism> value in response to application
-load. The service can increase C<CurrentParallelism> up to the maximum
+Describes the initial number of parallel tasks that a Managed Service
+for Apache Flink application can perform. If C<AutoScalingEnabled> is
+set to True, then Managed Service for Apache Flink can increase the
+C<CurrentParallelism> value in response to application load. The
+service can increase C<CurrentParallelism> up to the maximum
 parallelism, which is C<ParalellismPerKPU> times the maximum KPUs for
 the application. The maximum KPUs for an application is 32 by default,
 and can be increased by requesting a limit increase. If application
@@ -85,8 +85,8 @@ down to the C<Parallelism> setting.
 
 =head2 ParallelismPerKPU => Int
 
-Describes the number of parallel tasks that a Flink-based Kinesis Data
-Analytics application can perform per Kinesis Processing Unit (KPU)
+Describes the number of parallel tasks that a Managed Service for
+Apache Flink application can perform per Kinesis Processing Unit (KPU)
 used by the application.
 
 

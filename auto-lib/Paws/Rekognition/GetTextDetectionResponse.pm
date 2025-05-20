@@ -1,11 +1,14 @@
 
 package Paws::Rekognition::GetTextDetectionResponse;
   use Moose;
+  has JobId => (is => 'ro', isa => 'Str');
   has JobStatus => (is => 'ro', isa => 'Str');
+  has JobTag => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
   has StatusMessage => (is => 'ro', isa => 'Str');
   has TextDetections => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::TextDetectionResult]');
   has TextModelVersion => (is => 'ro', isa => 'Str');
+  has Video => (is => 'ro', isa => 'Paws::Rekognition::Video');
   has VideoMetadata => (is => 'ro', isa => 'Paws::Rekognition::VideoMetadata');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -19,11 +22,25 @@ Paws::Rekognition::GetTextDetectionResponse
 =head1 ATTRIBUTES
 
 
+=head2 JobId => Str
+
+Job identifier for the text detection operation for which you want to
+obtain results. The job identifer is returned by an initial call to
+StartTextDetection.
+
+
 =head2 JobStatus => Str
 
 Current status of the text detection job.
 
 Valid values are: C<"IN_PROGRESS">, C<"SUCCEEDED">, C<"FAILED">
+=head2 JobTag => Str
+
+A job identifier specified in the call to StartTextDetection and
+returned in the job completion notification sent to your Amazon Simple
+Notification Service topic.
+
+
 =head2 NextToken => Str
 
 If the response is truncated, Amazon Rekognition Video returns this
@@ -48,6 +65,11 @@ that the text was detected, and where it was detected on the screen.
 
 Version number of the text detection model that was used to detect
 text.
+
+
+=head2 Video => L<Paws::Rekognition::Video>
+
+
 
 
 =head2 VideoMetadata => L<Paws::Rekognition::VideoMetadata>

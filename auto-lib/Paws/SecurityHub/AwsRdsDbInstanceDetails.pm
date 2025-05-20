@@ -102,8 +102,7 @@ instance.
 
 =head2 AssociatedRoles => ArrayRef[L<Paws::SecurityHub::AwsRdsDbInstanceAssociatedRole>]
 
-The AWS Identity and Access Management (IAM) roles associated with the
-DB instance.
+The IAM roles associated with the DB instance.
 
 
 =head2 AutoMinorVersionUpgrade => Bool
@@ -168,9 +167,9 @@ The current status of the DB instance.
 
 =head2 DbiResourceId => Str
 
-The AWS Region-unique, immutable identifier for the DB instance. This
-identifier is found in AWS CloudTrail log entries whenever the AWS KMS
-key for the DB instance is accessed.
+The Amazon Web Services Region-unique, immutable identifier for the DB
+instance. This identifier is found in CloudTrail log entries whenever
+the KMS key for the DB instance is accessed.
 
 
 =head2 DBName => Str
@@ -187,7 +186,7 @@ created. This same name is returned for the life of the DB instance.
 B<Oracle>
 
 Contains the Oracle System ID (SID) of the created DB instance. Not
-shown when the returned parameters do not apply to an Oracle DB
+shown when the returned parameters don't apply to an Oracle DB
 instance.
 
 
@@ -249,8 +248,8 @@ monitoring metrics data for the DB instance.
 
 =head2 IAMDatabaseAuthenticationEnabled => Bool
 
-True if mapping of AWS Identity and Access Management (IAM) accounts to
-database accounts is enabled, and otherwise false.
+True if mapping of IAM accounts to database accounts is enabled, and
+otherwise false.
 
 IAM database authentication can be enabled for the following database
 engines.
@@ -277,10 +276,9 @@ Aurora 5.6 or higher
 
 Indicates when the DB instance was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Iops => Int
@@ -291,7 +289,7 @@ instance.
 
 =head2 KmsKeyId => Str
 
-If C<StorageEncrypted> is true, the AWS KMS key identifier for the
+If C<StorageEncrypted> is true, the KMS key identifier for the
 encrypted DB instance.
 
 
@@ -300,10 +298,9 @@ encrypted DB instance.
 Specifies the latest time to which a database can be restored with
 point-in-time restore.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 LicenseModel => Str
@@ -361,8 +358,8 @@ Indicates whether Performance Insights is enabled for the DB instance.
 
 =head2 PerformanceInsightsKmsKeyId => Str
 
-The identifier of the AWS KMS key used to encrypt the Performance
-Insights data.
+The identifier of the KMS key used to encrypt the Performance Insights
+data.
 
 
 =head2 PerformanceInsightsRetentionPeriod => Int

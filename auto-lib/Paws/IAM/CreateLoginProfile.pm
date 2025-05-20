@@ -1,9 +1,9 @@
 
 package Paws::IAM::CreateLoginProfile;
   use Moose;
-  has Password => (is => 'ro', isa => 'Str', required => 1);
+  has Password => (is => 'ro', isa => 'Str');
   has PasswordResetRequired => (is => 'ro', isa => 'Bool');
-  has UserName => (is => 'ro', isa => 'Str', required => 1);
+  has UserName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -49,9 +49,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Password => Str
+=head2 Password => Str
 
 The new password for the user.
+
+This parameter must be omitted when you make the request with an
+AssumeRoot
+(https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+session. It is required in all other cases.
 
 The regex pattern (http://wikipedia.org/wiki/regex) that is used to
 validate this parameter is a string of characters. That string can
@@ -59,9 +64,9 @@ include almost any printable ASCII character from the space (C<\u0020>)
 through the end of the ASCII character range (C<\u00FF>). You can also
 include the tab (C<\u0009>), line feed (C<\u000A>), and carriage return
 (C<\u000D>) characters. Any of these characters are valid in a
-password. However, many tools, such as the AWS Management Console,
-might restrict the ability to type certain characters because they have
-special meaning within that tool.
+password. However, many tools, such as the Amazon Web Services
+Management Console, might restrict the ability to type certain
+characters because they have special meaning within that tool.
 
 
 
@@ -72,10 +77,16 @@ sign-in.
 
 
 
-=head2 B<REQUIRED> UserName => Str
+=head2 UserName => Str
 
 The name of the IAM user to create a password for. The user must
 already exist.
+
+This parameter is optional. If no user name is included, it defaults to
+the principal making the request. When you make this request with root
+user credentials, you must use an AssumeRoot
+(https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html)
+session to omit the user name.
 
 This parameter allows (through its regex pattern
 (http://wikipedia.org/wiki/regex)) a string of characters consisting of

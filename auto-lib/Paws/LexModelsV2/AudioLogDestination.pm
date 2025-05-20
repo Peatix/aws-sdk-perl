@@ -42,8 +42,9 @@ enabled for a bot.
 =head2 B<REQUIRED> S3Bucket => L<Paws::LexModelsV2::S3BucketLogDestination>
 
 The Amazon S3 bucket where the audio log files are stored. The IAM role
-specified in the C<roleArn> parameter of the CreateBot operation must
-have permission to write to this bucket.
+specified in the C<roleArn> parameter of the CreateBot
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html)
+operation must have permission to write to this bucket.
 
 
 

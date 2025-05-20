@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Node
 
 =head1 DESCRIPTION
 
-An object representing the details of a multi-node parallel job node.
+An object that represents the details of a multi-node parallel job
+node.
 
 =head1 ATTRIBUTES
 
@@ -47,7 +48,7 @@ parallel job.
 
 =head2 NodeIndex => Int
 
-The node index for the node. Node index numbering begins at zero. This
+The node index for the node. Node index numbering starts at zero. This
 index is also available on the node with the
 C<AWS_BATCH_JOB_NODE_INDEX> environment variable.
 

@@ -4,6 +4,7 @@ package Paws::LookoutMetrics::Alert;
   has Action => (is => 'ro', isa => 'Paws::LookoutMetrics::Action');
   has AlertArn => (is => 'ro', isa => 'Str');
   has AlertDescription => (is => 'ro', isa => 'Str');
+  has AlertFilters => (is => 'ro', isa => 'Paws::LookoutMetrics::AlertFilters');
   has AlertName => (is => 'ro', isa => 'Str');
   has AlertSensitivityThreshold => (is => 'ro', isa => 'Int');
   has AlertStatus => (is => 'ro', isa => 'Str');
@@ -60,6 +61,12 @@ The ARN of the alert.
 =head2 AlertDescription => Str
 
 A description of the alert.
+
+
+=head2 AlertFilters => L<Paws::LookoutMetrics::AlertFilters>
+
+The configuration of the alert filters, containing MetricList and
+DimensionFilter.
 
 
 =head2 AlertName => Str

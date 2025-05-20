@@ -4,6 +4,7 @@ package Paws::IoTSiteWise::Variant;
   has BooleanValue => (is => 'ro', isa => 'Bool', request_name => 'booleanValue', traits => ['NameInRequest']);
   has DoubleValue => (is => 'ro', isa => 'Num', request_name => 'doubleValue', traits => ['NameInRequest']);
   has IntegerValue => (is => 'ro', isa => 'Int', request_name => 'integerValue', traits => ['NameInRequest']);
+  has NullValue => (is => 'ro', isa => 'Paws::IoTSiteWise::PropertyValueNullValue', request_name => 'nullValue', traits => ['NameInRequest']);
   has StringValue => (is => 'ro', isa => 'Str', request_name => 'stringValue', traits => ['NameInRequest']);
 
 1;
@@ -48,7 +49,8 @@ Asset property data of type Boolean (true or false).
 
 =head2 DoubleValue => Num
 
-Asset property data of type double (floating point number).
+Asset property data of type double (floating point number). The min
+value is -10^10. The max value is 10^10. Double.NaN is allowed.
 
 
 =head2 IntegerValue => Int
@@ -56,9 +58,15 @@ Asset property data of type double (floating point number).
 Asset property data of type integer (whole number).
 
 
+=head2 NullValue => L<Paws::IoTSiteWise::PropertyValueNullValue>
+
+The type of null asset property data with BAD and UNCERTAIN qualities.
+
+
 =head2 StringValue => Str
 
-Asset property data of type string (sequence of characters).
+Asset property data of type string (sequence of characters). The
+allowed pattern: "^$|[^\u0000-\u001F\u007F]+". The max length is 1024.
 
 
 

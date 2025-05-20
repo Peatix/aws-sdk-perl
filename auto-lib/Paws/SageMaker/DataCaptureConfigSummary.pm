@@ -37,34 +37,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-This class has no description
+The currently active data capture configuration used by your Endpoint.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> CaptureStatus => Str
 
-
+Whether data capture is currently functional.
 
 
 =head2 B<REQUIRED> CurrentSamplingPercentage => Int
 
-
+The percentage of requests being captured by your Endpoint.
 
 
 =head2 B<REQUIRED> DestinationS3Uri => Str
 
-
+The Amazon S3 location being used to capture the data.
 
 
 =head2 B<REQUIRED> EnableCapture => Bool
 
-
+Whether data capture is enabled or disabled.
 
 
 =head2 B<REQUIRED> KmsKeyId => Str
 
-
+The KMS key being used to encrypt the data in Amazon S3.
 
 
 

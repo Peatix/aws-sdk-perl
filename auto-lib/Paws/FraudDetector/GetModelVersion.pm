@@ -39,6 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $Arn                  = $GetModelVersionResult->Arn;
     my $ExternalEventsDetail = $GetModelVersionResult->ExternalEventsDetail;
+    my $IngestedEventsDetail = $GetModelVersionResult->IngestedEventsDetail;
     my $ModelId              = $GetModelVersionResult->ModelId;
     my $ModelType            = $GetModelVersionResult->ModelType;
     my $ModelVersionNumber   = $GetModelVersionResult->ModelVersionNumber;
@@ -64,7 +65,7 @@ The model ID.
 
 The model type.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 
 =head2 B<REQUIRED> ModelVersionNumber => Str
 

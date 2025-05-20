@@ -42,23 +42,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Discovery::
 
 =head1 DESCRIPTION
 
-Information about agents or connectors associated with the
-userE<rsquo>s AWS account. Information includes agent or connector IDs,
-IP addresses, media access control (MAC) addresses, agent or connector
-health, hostname where the agent or connector resides, and agent
-version for each agent.
+Information about agents associated with the userE<rsquo>s Amazon Web
+Services account. Information includes agent IDs, IP addresses, media
+access control (MAC) addresses, agent or collector status, hostname
+where the agent resides, and agent version for each agent.
 
 =head1 ATTRIBUTES
 
 
 =head2 AgentId => Str
 
-The agent or connector ID.
+The agent or collector ID.
 
 
 =head2 AgentNetworkInfoList => ArrayRef[L<Paws::Discovery::AgentNetworkInfo>]
 
-Network details about the host where the agent or connector resides.
+Network details about the host where the agent or collector resides.
 
 
 =head2 AgentType => Str
@@ -68,7 +67,7 @@ Type of agent.
 
 =head2 CollectionStatus => Str
 
-Status of the collection process for an agent or connector.
+Status of the collection process for an agent.
 
 
 =head2 ConnectorId => Str
@@ -78,18 +77,18 @@ The ID of the connector.
 
 =head2 Health => Str
 
-The health of the agent or connector.
+The health of the agent.
 
 
 =head2 HostName => Str
 
-The name of the host where the agent or connector resides. The host can
+The name of the host where the agent or collector resides. The host can
 be a server or virtual machine.
 
 
 =head2 LastHealthPingTime => Str
 
-Time since agent or connector health was reported.
+Time since agent health was reported.
 
 
 =head2 RegisteredTime => Str
@@ -99,7 +98,7 @@ Agent's first registration timestamp in UTC.
 
 =head2 Version => Str
 
-The agent or connector version.
+The agent or collector version.
 
 
 

@@ -93,7 +93,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 The category of the custom action, such as a build action or a test
 action.
 
-Valid values are: C<"Source">, C<"Build">, C<"Deploy">, C<"Test">, C<"Invoke">, C<"Approval">
+Valid values are: C<"Source">, C<"Build">, C<"Deploy">, C<"Test">, C<"Invoke">, C<"Approval">, C<"Compute">
 
 =head2 ConfigurationProperties => ArrayRef[L<Paws::CodePipeline::ActionConfigurationProperty>]
 
@@ -124,7 +124,7 @@ ID.
 
 =head2 B<REQUIRED> Provider => Str
 
-The provider of the service used in the custom action, such as AWS
+The provider of the service used in the custom action, such as
 CodeDeploy.
 
 

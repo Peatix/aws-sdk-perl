@@ -54,7 +54,8 @@ an application used.
 
 =head2 AccountId => Str
 
-Identifier of the AWS account in which the service runs.
+Identifier of the Amazon Web Services account in which the service
+runs.
 
 
 =head2 DurationHistogram => ArrayRef[L<Paws::XRay::HistogramEntry>]
@@ -120,16 +121,16 @@ The type of service.
 
 =item *
 
-AWS Resource - The type of an AWS resource. For example,
-C<AWS::EC2::Instance> for an application running on Amazon EC2 or
-C<AWS::DynamoDB::Table> for an Amazon DynamoDB table that the
-application used.
+Amazon Web Services Resource - The type of an Amazon Web Services
+resource. For example, C<AWS::EC2::Instance> for an application running
+on Amazon EC2 or C<AWS::DynamoDB::Table> for an Amazon DynamoDB table
+that the application used.
 
 =item *
 
-AWS Service - The type of an AWS service. For example, C<AWS::DynamoDB>
-for downstream calls to Amazon DynamoDB that didn't target a specific
-table.
+Amazon Web Services Service - The type of an Amazon Web Services
+service. For example, C<AWS::DynamoDB> for downstream calls to Amazon
+DynamoDB that didn't target a specific table.
 
 =item *
 

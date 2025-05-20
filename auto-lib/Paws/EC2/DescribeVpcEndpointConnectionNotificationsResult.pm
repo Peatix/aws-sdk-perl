@@ -18,7 +18,7 @@ Paws::EC2::DescribeVpcEndpointConnectionNotificationsResult
 
 =head2 ConnectionNotificationSet => ArrayRef[L<Paws::EC2::ConnectionNotification>]
 
-One or more notifications.
+The notifications.
 
 
 =head2 NextToken => Str

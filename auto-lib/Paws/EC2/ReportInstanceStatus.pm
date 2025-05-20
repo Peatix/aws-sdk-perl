@@ -40,10 +40,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ... # values: instance-stuck-in-state, unresponsive, not-accepting-credentials, password-not-available, performance-network, performance-instance-store, performance-ebs-volume, performance-other, other
       ],
       Status      => 'ok',
-      Description => 'MyString',               # OPTIONAL
-      DryRun      => 1,                        # OPTIONAL
-      EndTime     => '1970-01-01T01:00:00',    # OPTIONAL
-      StartTime   => '1970-01-01T01:00:00',    # OPTIONAL
+      Description => 'MyReportInstanceStatusRequestDescription',    # OPTIONAL
+      DryRun      => 1,                                             # OPTIONAL
+      EndTime     => '1970-01-01T01:00:00',                         # OPTIONAL
+      StartTime   => '1970-01-01T01:00:00',                         # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -60,7 +60,7 @@ Descriptive text about the health state of your instance.
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.

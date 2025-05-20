@@ -52,6 +52,10 @@ following.
 
 =item *
 
+C</ssm/appmanager/appmanager-enabled>
+
+=item *
+
 C</ssm/automation/customer-script-log-destination>
 
 =item *
@@ -60,7 +64,23 @@ C</ssm/automation/customer-script-log-group-name>
 
 =item *
 
+/ssm/automation/enable-adaptive-concurrency
+
+=item *
+
 C</ssm/documents/console/public-sharing-permission>
+
+=item *
+
+C</ssm/managed-instance/activation-tier>
+
+=item *
+
+C</ssm/managed-instance/default-ec2-instance-management-role>
+
+=item *
+
+C</ssm/opsinsights/opscenter>
 
 =item *
 
@@ -69,10 +89,6 @@ C</ssm/parameter-store/default-parameter-tier>
 =item *
 
 C</ssm/parameter-store/high-throughput-enabled>
-
-=item *
-
-C</ssm/managed-instance/activation-tier>
 
 =back
 

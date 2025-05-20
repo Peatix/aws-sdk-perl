@@ -6,16 +6,18 @@ package Paws::CloudFormation::StackSet;
   has Capabilities => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Description => (is => 'ro', isa => 'Str');
   has ExecutionRoleName => (is => 'ro', isa => 'Str');
+  has ManagedExecution => (is => 'ro', isa => 'Paws::CloudFormation::ManagedExecution');
   has OrganizationalUnitIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Parameter]');
   has PermissionModel => (is => 'ro', isa => 'Str');
+  has Regions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has StackSetARN => (is => 'ro', isa => 'Str');
   has StackSetDriftDetectionDetails => (is => 'ro', isa => 'Paws::CloudFormation::StackSetDriftDetectionDetails');
   has StackSetId => (is => 'ro', isa => 'Str');
   has StackSetName => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Tag]');
-  has TemplateBody => (is => 'ro', isa => 'Str', decode_as => 'JSON', method => 'Template', traits => ['JSONAttribute']);
+  has TemplateBody => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -48,31 +50,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 =head1 DESCRIPTION
 
 A structure that contains information about a stack set. A stack set
-enables you to provision stacks into AWS accounts and across Regions by
-using a single CloudFormation template. In the stack set, you specify
-the template to use, as well as any parameters and capabilities that
-the template requires.
+enables you to provision stacks into Amazon Web Services accounts and
+across Regions by using a single CloudFormation template. In the stack
+set, you specify the template to use, in addition to any parameters and
+capabilities that the template requires.
 
 =head1 ATTRIBUTES
 
 
 =head2 AdministrationRoleARN => Str
 
-The Amazon Resource Number (ARN) of the IAM role used to create or
-update the stack set.
+The Amazon Resource Name (ARN) of the IAM role used to create or update
+the stack set.
 
 Use customized administrator roles to control which users or groups can
 manage specific stack sets within the same administrator account. For
-more information, see Prerequisites: Granting Permissions for Stack Set
-Operations
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
-in the I<AWS CloudFormation User Guide>.
+more information, see Prerequisites for using CloudFormation StackSets
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 AutoDeployment => L<Paws::CloudFormation::AutoDeployment>
 
 [Service-managed permissions] Describes whether StackSets automatically
-deploys to AWS Organizations accounts that are added to a target
+deploys to Organizations accounts that are added to a target
 organization or organizational unit (OU).
 
 
@@ -80,10 +81,10 @@ organization or organizational unit (OU).
 
 The capabilities that are allowed in the stack set. Some stack set
 templates might include resources that can affect permissions in your
-AWS accountE<mdash>for example, by creating new AWS Identity and Access
-Management (IAM) users. For more information, see Acknowledging IAM
-Resources in AWS CloudFormation Templates.
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities)
+Amazon Web Services accountE<mdash>for example, by creating new
+Identity and Access Management (IAM) users. For more information, see
+Acknowledging IAM resources in CloudFormation templates
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
 
 
 =head2 Description => Str
@@ -99,6 +100,12 @@ set.
 
 Use customized execution roles to control which stack resources users
 and groups can include in their stack sets.
+
+
+=head2 ManagedExecution => L<Paws::CloudFormation::ManagedExecution>
+
+Describes whether StackSets performs non-conflicting operations
+concurrently and queues conflicting operations.
 
 
 =head2 OrganizationalUnitIds => ArrayRef[Str|Undef]
@@ -124,24 +131,31 @@ created.
 
 With C<self-managed> permissions, you must create the administrator and
 execution roles required to deploy to target accounts. For more
-information, see Grant Self-Managed Stack Set Permissions
+information, see Grant self-managed permissions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
 
 =item *
 
 With C<service-managed> permissions, StackSets automatically creates
-the IAM roles required to deploy to accounts managed by AWS
-Organizations. For more information, see Grant Service-Managed Stack
-Set Permissions
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
+the IAM roles required to deploy to accounts managed by Organizations.
+For more information, see Activate trusted access for stack sets with
+Organizations
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
 
 =back
 
 
 
+=head2 Regions => ArrayRef[Str|Undef]
+
+Returns a list of all Amazon Web Services Regions the given StackSet
+has stack instances deployed in. The Amazon Web Services Regions list
+output is in no particular order.
+
+
 =head2 StackSetARN => Str
 
-The Amazon Resource Number (ARN) of the stack set.
+The Amazon Resource Name (ARN) of the stack set.
 
 
 =head2 StackSetDriftDetectionDetails => L<Paws::CloudFormation::StackSetDriftDetectionDetails>
@@ -150,7 +164,7 @@ Detailed information about the drift status of the stack set.
 
 For stack sets, contains information about the last I<completed> drift
 operation performed on the stack set. Information about drift
-operations currently in progress is not included.
+operations currently in progress isn't included.
 
 
 =head2 StackSetId => Str

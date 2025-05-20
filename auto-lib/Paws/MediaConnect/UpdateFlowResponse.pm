@@ -17,7 +17,7 @@ Paws::MediaConnect::UpdateFlowResponse
 
 =head2 Flow => L<Paws::MediaConnect::Flow>
 
-
+The updated flow.
 
 
 =head2 _request_id => Str

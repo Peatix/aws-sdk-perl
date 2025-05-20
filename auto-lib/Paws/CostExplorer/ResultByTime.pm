@@ -36,14 +36,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-The result that is associated with a time period.
+The result that's associated with a time period.
 
 =head1 ATTRIBUTES
 
 
 =head2 Estimated => Bool
 
-Whether the result is estimated.
+Determines whether the result is estimated.
 
 
 =head2 Groups => ArrayRef[L<Paws::CostExplorer::Group>]

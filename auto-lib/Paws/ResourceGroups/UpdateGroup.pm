@@ -1,9 +1,12 @@
 
 package Paws::ResourceGroups::UpdateGroup;
   use Moose;
+  has Criticality => (is => 'ro', isa => 'Int');
   has Description => (is => 'ro', isa => 'Str');
+  has DisplayName => (is => 'ro', isa => 'Str');
   has Group => (is => 'ro', isa => 'Str');
   has GroupName => (is => 'ro', isa => 'Str');
+  has Owner => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,9 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $UpdateGroupOutput = $resource -groups->UpdateGroup(
-      Description => 'MyDescription',    # OPTIONAL
-      Group       => 'MyGroupString',    # OPTIONAL
-      GroupName   => 'MyGroupName',      # OPTIONAL
+      Criticality => 1,                    # OPTIONAL
+      Description => 'MyDescription',      # OPTIONAL
+      DisplayName => 'MyDisplayName',      # OPTIONAL
+      Group       => 'MyGroupStringV2',    # OPTIONAL
+      GroupName   => 'MyGroupName',        # OPTIONAL
+      Owner       => 'MyOwner',            # OPTIONAL
     );
 
     # Results:
@@ -47,6 +53,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 =head1 ATTRIBUTES
 
 
+=head2 Criticality => Int
+
+The critical rank of the application group on a scale of 1 to 10, with
+a rank of 1 being the most critical, and a rank of 10 being least
+critical.
+
+
+
 =head2 Description => Str
 
 The new description that you want to update the resource group with.
@@ -55,15 +69,29 @@ periods, and spaces.
 
 
 
+=head2 DisplayName => Str
+
+The name of the application group, which you can change at any time.
+
+
+
 =head2 Group => Str
 
-The name or the ARN of the resource group to modify.
+The name or the ARN of the resource group to update.
 
 
 
 =head2 GroupName => Str
 
 Don't use this parameter. Use C<Group> instead.
+
+
+
+=head2 Owner => Str
+
+A name, email address or other identifier for the person or group who
+is considered as the owner of this application group within your
+organization.
 
 
 

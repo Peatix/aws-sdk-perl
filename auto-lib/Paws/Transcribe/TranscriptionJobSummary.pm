@@ -7,10 +7,13 @@ package Paws::Transcribe::TranscriptionJobSummary;
   has FailureReason => (is => 'ro', isa => 'Str');
   has IdentifiedLanguageScore => (is => 'ro', isa => 'Num');
   has IdentifyLanguage => (is => 'ro', isa => 'Bool');
+  has IdentifyMultipleLanguages => (is => 'ro', isa => 'Bool');
   has LanguageCode => (is => 'ro', isa => 'Str');
+  has LanguageCodes => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::LanguageCodeItem]');
   has ModelSettings => (is => 'ro', isa => 'Paws::Transcribe::ModelSettings');
   has OutputLocationType => (is => 'ro', isa => 'Str');
   has StartTime => (is => 'ro', isa => 'Str');
+  has ToxicityDetection => (is => 'ro', isa => 'ArrayRef[Paws::Transcribe::ToxicityDetectionSettings]');
   has TranscriptionJobName => (is => 'ro', isa => 'Str');
   has TranscriptionJobStatus => (is => 'ro', isa => 'Str');
 
@@ -44,14 +47,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Provides a summary of information about a transcription job.
+Provides detailed information about a specific transcription job.
 
 =head1 ATTRIBUTES
 
 
 =head2 CompletionTime => Str
 
-A timestamp that shows when the job was completed.
+The date and time the specified transcription job finished processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:33:13.922000-07:00> represents a transcription
+job that started processing at 12:33 PM UTC-7 on May 4, 2022.
 
 
 =head2 ContentRedaction => L<Paws::Transcribe::ContentRedaction>
@@ -61,31 +68,54 @@ The content redaction settings of the transcription job.
 
 =head2 CreationTime => Str
 
-A timestamp that shows when the job was created.
+The date and time the specified transcription job request was made.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
 
 
 =head2 FailureReason => Str
 
-If the C<TranscriptionJobStatus> field is C<FAILED>, a description of
-the error.
+If C<TranscriptionJobStatus> is C<FAILED>, C<FailureReason> contains
+information about why the transcription job failed. See also: Common
+Errors
+(https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
 
 
 =head2 IdentifiedLanguageScore => Num
 
-A value between zero and one that Amazon Transcribe assigned to the
-language it identified in the source audio. A higher score indicates
-that Amazon Transcribe is more confident in the language it identified.
+The confidence score associated with the language identified in your
+media file.
+
+Confidence scores are values between 0 and 1; a larger value indicates
+a higher probability that the identified language correctly matches the
+language spoken in your media.
 
 
 =head2 IdentifyLanguage => Bool
 
-Whether automatic language identification was enabled for a
-transcription job.
+Indicates whether automatic language identification was enabled
+(C<TRUE>) for the specified transcription job.
+
+
+=head2 IdentifyMultipleLanguages => Bool
+
+Indicates whether automatic multi-language identification was enabled
+(C<TRUE>) for the specified transcription job.
 
 
 =head2 LanguageCode => Str
 
-The language code for the input speech.
+The language code used to create your transcription.
+
+
+=head2 LanguageCodes => ArrayRef[L<Paws::Transcribe::LanguageCodeItem>]
+
+The language codes used to create your transcription job. This
+parameter is used with multi-language identification. For
+single-language identification, the singular version of this parameter,
+C<LanguageCode>, is present.
 
 
 =head2 ModelSettings => L<Paws::Transcribe::ModelSettings>
@@ -95,32 +125,49 @@ The language code for the input speech.
 
 =head2 OutputLocationType => Str
 
-Indicates the location of the output of the transcription job.
+Indicates where the specified transcription output is stored.
 
-If the value is C<CUSTOMER_BUCKET> then the location is the S3 bucket
-specified in the C<outputBucketName> field when the transcription job
-was started with the C<StartTranscriptionJob> operation.
+If the value is C<CUSTOMER_BUCKET>, the location is the Amazon S3
+bucket you specified using the C<OutputBucketName> parameter in your
+request. If you also included C<OutputKey> in your request, your output
+is located in the path you specified in your request.
 
-If the value is C<SERVICE_BUCKET> then the output is stored by Amazon
-Transcribe and can be retrieved using the URI in the
-C<GetTranscriptionJob> response's C<TranscriptFileUri> field.
+If the value is C<SERVICE_BUCKET>, the location is a service-managed
+Amazon S3 bucket. To access a transcript stored in a service-managed
+bucket, use the URI shown in the C<TranscriptFileUri> or
+C<RedactedTranscriptFileUri> field.
 
 
 =head2 StartTime => Str
 
-A timestamp that shows when the job started processing.
+The date and time your transcription job began processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.789000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+
+
+=head2 ToxicityDetection => ArrayRef[L<Paws::Transcribe::ToxicityDetectionSettings>]
+
+Indicates whether toxicity detection was enabled for the specified
+transcription job.
 
 
 =head2 TranscriptionJobName => Str
 
-The name of the transcription job.
+The name of the transcription job. Job names are case sensitive and
+must be unique within an Amazon Web Services account.
 
 
 =head2 TranscriptionJobStatus => Str
 
-The status of the transcription job. When the status is C<COMPLETED>,
-use the C<GetTranscriptionJob> operation to get the results of the
-transcription.
+Provides the status of your transcription job.
+
+If the status is C<COMPLETED>, the job is finished and you can find the
+results at the location specified in C<TranscriptFileUri> (or
+C<RedactedTranscriptFileUri>, if you requested transcript redaction).
+If the status is C<FAILED>, C<FailureReason> provides details on why
+your transcription job failed.
 
 
 

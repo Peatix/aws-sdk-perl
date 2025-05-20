@@ -1,6 +1,7 @@
 
 package Paws::FraudDetector::DeleteEvent;
   use Moose;
+  has DeleteAuditHistory => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deleteAuditHistory' );
   has EventId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'eventId' , required => 1);
   has EventTypeName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'eventTypeName' , required => 1);
 
@@ -29,15 +30,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $frauddetector = Paws->service('FraudDetector');
     my $DeleteEventResult = $frauddetector->DeleteEvent(
-      EventId       => 'Myidentifier',
-      EventTypeName => 'Myidentifier',
-
+      EventId            => 'Myidentifier',
+      EventTypeName      => 'Myidentifier',
+      DeleteAuditHistory => 1,                # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/frauddetector/DeleteEvent>
 
 =head1 ATTRIBUTES
+
+
+=head2 DeleteAuditHistory => Bool
+
+Specifies whether or not to delete any predictions associated with the
+event. If set to C<True>,
+
 
 
 =head2 B<REQUIRED> EventId => Str

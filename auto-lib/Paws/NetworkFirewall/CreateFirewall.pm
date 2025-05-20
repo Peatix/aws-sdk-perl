@@ -3,13 +3,15 @@ package Paws::NetworkFirewall::CreateFirewall;
   use Moose;
   has DeleteProtection => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
+  has EnabledAnalysisTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has EncryptionConfiguration => (is => 'ro', isa => 'Paws::NetworkFirewall::EncryptionConfiguration');
   has FirewallName => (is => 'ro', isa => 'Str', required => 1);
   has FirewallPolicyArn => (is => 'ro', isa => 'Str', required => 1);
   has FirewallPolicyChangeProtection => (is => 'ro', isa => 'Bool');
   has SubnetChangeProtection => (is => 'ro', isa => 'Bool');
-  has SubnetMappings => (is => 'ro', isa => 'ArrayRef[Paws::NetworkFirewall::SubnetMapping]', required => 1);
+  has SubnetMappings => (is => 'ro', isa => 'ArrayRef[Paws::NetworkFirewall::SubnetMapping]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::NetworkFirewall::Tag]');
-  has VpcId => (is => 'ro', isa => 'Str', required => 1);
+  has VpcId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -36,21 +38,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $network-firewall = Paws->service('NetworkFirewall');
     my $CreateFirewallResponse = $network -firewall->CreateFirewall(
-      FirewallName      => 'MyResourceName',
-      FirewallPolicyArn => 'MyResourceArn',
-      SubnetMappings    => [
+      FirewallName         => 'MyResourceName',
+      FirewallPolicyArn    => 'MyResourceArn',
+      DeleteProtection     => 1,                  # OPTIONAL
+      Description          => 'MyDescription',    # OPTIONAL
+      EnabledAnalysisTypes => [
+        'TLS_SNI', ...                            # values: TLS_SNI, HTTP_HOST
+      ],    # OPTIONAL
+      EncryptionConfiguration => {
+        Type  => 'CUSTOMER_KMS',    # values: CUSTOMER_KMS, AWS_OWNED_KMS_KEY
+        KeyId => 'MyKeyId',         # min: 1, max: 2048; OPTIONAL
+      },    # OPTIONAL
+      FirewallPolicyChangeProtection => 1,    # OPTIONAL
+      SubnetChangeProtection         => 1,    # OPTIONAL
+      SubnetMappings                 => [
         {
-          SubnetId => 'MyCollectionMember_String',
-
+          SubnetId      => 'MyCollectionMember_String',
+          IPAddressType =>
+            'DUALSTACK',    # values: DUALSTACK, IPV4, IPV6; OPTIONAL
         },
         ...
-      ],
-      VpcId                          => 'MyVpcId',
-      DeleteProtection               => 1,                  # OPTIONAL
-      Description                    => 'MyDescription',    # OPTIONAL
-      FirewallPolicyChangeProtection => 1,                  # OPTIONAL
-      SubnetChangeProtection         => 1,                  # OPTIONAL
-      Tags                           => [
+      ],    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -58,6 +67,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      VpcId => 'MyVpcId',    # OPTIONAL
     );
 
     # Results:
@@ -85,6 +95,20 @@ initializes this flag to C<TRUE>.
 =head2 Description => Str
 
 A description of the firewall.
+
+
+
+=head2 EnabledAnalysisTypes => ArrayRef[Str|Undef]
+
+An optional setting indicating the specific traffic analysis types to
+enable on the firewall.
+
+
+
+=head2 EncryptionConfiguration => L<Paws::NetworkFirewall::EncryptionConfiguration>
+
+A complex type that contains settings for encryption of your firewall
+resources.
 
 
 
@@ -122,7 +146,7 @@ setting to C<TRUE>.
 
 
 
-=head2 B<REQUIRED> SubnetMappings => ArrayRef[L<Paws::NetworkFirewall::SubnetMapping>]
+=head2 SubnetMappings => ArrayRef[L<Paws::NetworkFirewall::SubnetMapping>]
 
 The public subnets to use for your Network Firewall firewalls. Each
 subnet must belong to a different Availability Zone in the VPC. Network
@@ -136,7 +160,7 @@ The key:value pairs to associate with the resource.
 
 
 
-=head2 B<REQUIRED> VpcId => Str
+=head2 VpcId => Str
 
 The unique identifier of the VPC where Network Firewall should create
 the firewall.

@@ -49,7 +49,7 @@ The new mount point.
 
 =head2 Name => Str
 
-The new name.
+The new name. Volume names can be a maximum of 128 characters.
 
 
 

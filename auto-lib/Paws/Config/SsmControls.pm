@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Ssm
 
 =head1 DESCRIPTION
 
-AWS Systems Manager (SSM) specific remediation controls.
+Amazon Web Services Systems Manager (SSM) specific remediation
+controls.
 
 =head1 ATTRIBUTES
 

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 =head1 DESCRIPTION
 
-Describes an enabled metric.
+Describes an enabled Auto Scaling group metric.
 
 =head1 ATTRIBUTES
 
@@ -132,6 +132,10 @@ C<GroupAndWarmPoolTotalCapacity>
 
 =back
 
+For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto
+Scaling
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html)
+in the I<Amazon EC2 Auto Scaling User Guide>.
 
 
 

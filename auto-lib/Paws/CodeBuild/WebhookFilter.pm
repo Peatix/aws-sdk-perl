@@ -65,31 +65,56 @@ C<refs/heads/branch-name>.
 
 =head2 B<REQUIRED> Type => Str
 
-The type of webhook filter. There are six webhook filter types:
+The type of webhook filter. There are 11 webhook filter types:
 C<EVENT>, C<ACTOR_ACCOUNT_ID>, C<HEAD_REF>, C<BASE_REF>, C<FILE_PATH>,
-and C<COMMIT_MESSAGE>.
+C<COMMIT_MESSAGE>, C<TAG_NAME>, C<RELEASE_NAME>, C<REPOSITORY_NAME>,
+C<ORGANIZATION_NAME>, and C<WORKFLOW_NAME>.
 
 =over
 
-=item EVENT
+=item *
+
+EVENT
+
+=over
+
+=item *
 
 A webhook event triggers a build when the provided C<pattern> matches
-one of five event types: C<PUSH>, C<PULL_REQUEST_CREATED>,
-C<PULL_REQUEST_UPDATED>, C<PULL_REQUEST_REOPENED>, and
-C<PULL_REQUEST_MERGED>. The C<EVENT> patterns are specified as a
-comma-separated string. For example, C<PUSH, PULL_REQUEST_CREATED,
-PULL_REQUEST_UPDATED> filters all push, pull request created, and pull
-request updated events.
+one of nine event types: C<PUSH>, C<PULL_REQUEST_CREATED>,
+C<PULL_REQUEST_UPDATED>, C<PULL_REQUEST_CLOSED>,
+C<PULL_REQUEST_REOPENED>, C<PULL_REQUEST_MERGED>, C<RELEASED>,
+C<PRERELEASED>, and C<WORKFLOW_JOB_QUEUED>. The C<EVENT> patterns are
+specified as a comma-separated string. For example, C<PUSH,
+PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED> filters all push, pull
+request created, and pull request updated events.
 
-The C<PULL_REQUEST_REOPENED> works with GitHub and GitHub Enterprise
-only.
+Types C<PULL_REQUEST_REOPENED> and C<WORKFLOW_JOB_QUEUED> work with
+GitHub and GitHub Enterprise only. Types C<RELEASED> and C<PRERELEASED>
+work with GitHub only.
 
-=item ACTOR_ACCOUNT_ID
+=back
+
+=item *
+
+ACTOR_ACCOUNT_ID
+
+=over
+
+=item *
 
 A webhook event triggers a build when a GitHub, GitHub Enterprise, or
 Bitbucket account ID matches the regular expression C<pattern>.
 
-=item HEAD_REF
+=back
+
+=item *
+
+HEAD_REF
+
+=over
+
+=item *
 
 A webhook event triggers a build when the head reference matches the
 regular expression C<pattern>. For example, C<refs/heads/branch-name>
@@ -99,30 +124,130 @@ Works with GitHub and GitHub Enterprise push, GitHub and GitHub
 Enterprise pull request, Bitbucket push, and Bitbucket pull request
 events.
 
-=item BASE_REF
+=back
+
+=item *
+
+BASE_REF
+
+=over
+
+=item *
 
 A webhook event triggers a build when the base reference matches the
 regular expression C<pattern>. For example, C<refs/heads/branch-name>.
 
 Works with pull request events only.
 
-=item FILE_PATH
+=back
+
+=item *
+
+FILE_PATH
+
+=over
+
+=item *
 
 A webhook triggers a build when the path of a changed file matches the
 regular expression C<pattern>.
 
-Works with GitHub and Bitbucket events push and pull requests events.
-Also works with GitHub Enterprise push events, but does not work with
-GitHub Enterprise pull request events.
+Works with push and pull request events only.
 
-=item COMMIT_MESSAGE
+=back
+
+=item *
+
+COMMIT_MESSAGE
+
+=over
+
+=item *
 
 A webhook triggers a build when the head commit message matches the
 regular expression C<pattern>.
 
-Works with GitHub and Bitbucket events push and pull requests events.
-Also works with GitHub Enterprise push events, but does not work with
-GitHub Enterprise pull request events.
+Works with push and pull request events only.
+
+=back
+
+=item *
+
+TAG_NAME
+
+=over
+
+=item *
+
+A webhook triggers a build when the tag name of the release matches the
+regular expression C<pattern>.
+
+Works with C<RELEASED> and C<PRERELEASED> events only.
+
+=back
+
+=item *
+
+RELEASE_NAME
+
+=over
+
+=item *
+
+A webhook triggers a build when the release name matches the regular
+expression C<pattern>.
+
+Works with C<RELEASED> and C<PRERELEASED> events only.
+
+=back
+
+=item *
+
+REPOSITORY_NAME
+
+=over
+
+=item *
+
+A webhook triggers a build when the repository name matches the regular
+expression C<pattern>.
+
+Works with GitHub global or organization webhooks only.
+
+=back
+
+=item *
+
+ORGANIZATION_NAME
+
+=over
+
+=item *
+
+A webhook triggers a build when the organization name matches the
+regular expression C<pattern>.
+
+Works with GitHub global webhooks only.
+
+=back
+
+=item *
+
+WORKFLOW_NAME
+
+=over
+
+=item *
+
+A webhook triggers a build when the workflow name matches the regular
+expression C<pattern>.
+
+Works with C<WORKFLOW_JOB_QUEUED> events only.
+
+For CodeBuild-hosted Buildkite runner builds, WORKFLOW_NAME filters
+will filter by pipeline name.
+
+=back
 
 =back
 

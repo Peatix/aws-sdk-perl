@@ -41,15 +41,20 @@ Amazon ECS tasks hosted on Fargate use the default resource limit
 values set by the operating system with the exception of the C<nofile>
 resource limit parameter which Fargate overrides. The C<nofile>
 resource limit sets a restriction on the number of open files that a
-container can use. The default C<nofile> soft limit is C<1024> and hard
-limit is C<4096>.
+container can use. The default C<nofile> soft limit is C< 65535> and
+the default hard limit is C<65535>.
+
+You can specify the C<ulimit> settings for a container in a task
+definition.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> HardLimit => Int
 
-The hard limit for the ulimit type.
+The hard limit for the C<ulimit> type. The value can be specified in
+bytes, seconds, or as a count, depending on the C<type> of the
+C<ulimit>.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -59,7 +64,9 @@ The C<type> of the C<ulimit>.
 
 =head2 B<REQUIRED> SoftLimit => Int
 
-The soft limit for the ulimit type.
+The soft limit for the C<ulimit> type. The value can be specified in
+bytes, seconds, or as a count, depending on the C<type> of the
+C<ulimit>.
 
 
 

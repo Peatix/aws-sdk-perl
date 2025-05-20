@@ -16,7 +16,8 @@ Paws::DirectConnect::AcceptDirectConnectGatewayAssociationProposalResult
 
 =head2 DirectConnectGatewayAssociation => L<Paws::DirectConnect::DirectConnectGatewayAssociation>
 
-
+Information about an association between a Direct Connect gateway and a
+virtual gateway or transit gateway.
 
 
 =head2 _request_id => Str

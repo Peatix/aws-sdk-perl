@@ -2,6 +2,7 @@
 package Paws::KMS::CreateGrant;
   use Moose;
   has Constraints => (is => 'ro', isa => 'Paws::KMS::GrantConstraints');
+  has DryRun => (is => 'ro', isa => 'Bool');
   has GranteePrincipal => (is => 'ro', isa => 'Str', required => 1);
   has GrantTokens => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
@@ -35,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kms = Paws->service('KMS');
    # To create a grant
    # The following example creates a grant that allows the specified IAM role to
-   # encrypt data with the specified customer master key (CMK).
+   # encrypt data with the specified KMS key.
     my $CreateGrantResponse = $kms->CreateGrant(
       'GranteePrincipal' => 'arn:aws:iam::111122223333:role/ExampleRole',
       'KeyId'            =>
@@ -59,28 +60,53 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 Specifies a grant constraint.
 
-AWS KMS supports the C<EncryptionContextEquals> and
-C<EncryptionContextSubset> grant constraints. Each constraint value can
-include up to 8 encryption context pairs. The encryption context value
-in each constraint cannot exceed 384 characters.
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
 
-These grant constraints allow a cryptographic operation
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations)
-only when the encryption context in the request matches
-(C<EncryptionContextEquals>) or includes (C<EncryptionContextSubset>)
-the encryption context specified in this structure. For more
-information about encryption context, see Encryption Context
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
-in the I< I<AWS Key Management Service Developer Guide> >. For
-information about grant constraints, see Using grant constraints
+KMS supports the C<EncryptionContextEquals> and
+C<EncryptionContextSubset> grant constraints, which allow the
+permissions in the grant only when the encryption context in the
+request matches (C<EncryptionContextEquals>) or includes
+(C<EncryptionContextSubset>) the encryption context specified in the
+constraint.
+
+The encryption context grant constraints are supported only on grant
+operations
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations)
+that include an C<EncryptionContext> parameter, such as cryptographic
+operations on symmetric encryption KMS keys. Grants with grant
+constraints can include the DescribeKey and RetireGrant operations, but
+the constraint doesn't apply to these operations. If a grant with a
+grant constraint includes the C<CreateGrant> operation, the constraint
+requires that any grants created with the C<CreateGrant> permission
+have an equally strict or stricter encryption context constraint.
+
+You cannot use an encryption context grant constraint for cryptographic
+operations with asymmetric KMS keys or HMAC KMS keys. Operations with
+these keys don't support an encryption context.
+
+Each constraint value can include up to 8 encryption context pairs. The
+encryption context value in each constraint cannot exceed 384
+characters. For information about grant constraints, see Using grant
+constraints
 (https://docs.aws.amazon.com/kms/latest/developerguide/create-grant-overview.html#grant-constraints)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>. For more information
+about encryption context, see Encryption context
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
+in the I< I<Key Management Service Developer Guide> >.
 
-The encryption context grant constraints are supported only on
-operations that include an encryption context. You cannot use an
-encryption context grant constraint for cryptographic operations with
-asymmetric CMKs or for management operations, such as DescribeKey or
-RetireGrant.
+
+
+=head2 DryRun => Bool
+
+Checks if your request will succeed. C<DryRun> is an optional
+parameter.
+
+To learn more about how to use this parameter, see Testing your KMS API
+calls
+(https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
+in the I<Key Management Service Developer Guide>.
 
 
 
@@ -88,14 +114,12 @@ RetireGrant.
 
 The identity that gets the permissions specified in the grant.
 
-To specify the principal, use the Amazon Resource Name (ARN)
-(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of an AWS principal. Valid AWS principals include AWS accounts (root),
-IAM users, IAM roles, federated users, and assumed role users. For
-examples of the ARN syntax to use for specifying a principal, see AWS
-Identity and Access Management (IAM)
-(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam)
-in the Example ARNs section of the I<AWS General Reference>.
+To specify the grantee principal, use the Amazon Resource Name (ARN) of
+an Amazon Web Services principal. Valid principals include Amazon Web
+Services accounts, IAM users, IAM roles, federated users, and assumed
+role users. For help with the ARN syntax for a principal, see IAM ARNs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns)
+in the I< I<Identity and Access Management User Guide> >.
 
 
 
@@ -106,18 +130,20 @@ A list of grant tokens.
 Use a grant token when your permission to call this operation comes
 from a new grant that has not yet achieved I<eventual consistency>. For
 more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies the customer master key (CMK) for the grant. The grant gives
-principals permission to use this CMK.
+Identifies the KMS key for the grant. The grant gives principals
+permission to use this KMS key.
 
-Specify the key ID or key ARN of the CMK. To specify a CMK in a
-different AWS account, you must use the key ARN.
+Specify the key ID or key ARN of the KMS key. To specify a KMS key in a
+different Amazon Web Services account, you must use the key ARN.
 
 For example:
 
@@ -134,7 +160,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 
@@ -142,6 +169,10 @@ To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 A friendly name for the grant. Use this value to prevent the unintended
 creation of duplicate grants when retrying this request.
+
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
 
 When this value is absent, all C<CreateGrant> requests result in a new
 grant with a unique C<GrantId> even if all the supplied parameters are
@@ -161,29 +192,36 @@ grant ID can be used interchangeably.
 
 A list of operations that the grant permits.
 
-The operation must be supported on the CMK. For example, you cannot
-create a grant for a symmetric CMK that allows the Sign operation, or a
-grant for an asymmetric CMK that allows the GenerateDataKey operation.
-If you try, AWS KMS returns a C<ValidationError> exception. For
-details, see Grant operations
+This list must include only operations that are permitted in a grant.
+Also, the operation must be supported on the KMS key. For example, you
+cannot create a grant for a symmetric encryption KMS key that allows
+the Sign operation, or a grant for an asymmetric KMS key that allows
+the GenerateDataKey operation. If you try, KMS returns a
+C<ValidationError> exception. For details, see Grant operations
 (https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-grant-operations)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 RetiringPrincipal => Str
 
-The principal that is given permission to retire the grant by using
-RetireGrant operation.
+The principal that has permission to use the RetireGrant operation to
+retire the grant.
 
 To specify the principal, use the Amazon Resource Name (ARN)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of an AWS principal. Valid AWS principals include AWS accounts (root),
-IAM users, federated users, and assumed role users. For examples of the
-ARN syntax to use for specifying a principal, see AWS Identity and
-Access Management (IAM)
-(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam)
-in the Example ARNs section of the I<AWS General Reference>.
+of an Amazon Web Services principal. Valid principals include Amazon
+Web Services accounts, IAM users, IAM roles, federated users, and
+assumed role users. For help with the ARN syntax for a principal, see
+IAM ARNs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns)
+in the I< I<Identity and Access Management User Guide> >.
+
+The grant determines the retiring principal. Other principals might
+have permission to retire the grant or revoke the grant. For details,
+see RevokeGrant and Retiring and revoking grants
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#grant-delete)
+in the I<Key Management Service Developer Guide>.
 
 
 

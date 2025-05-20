@@ -43,18 +43,24 @@ This class has no description
 
 =head2 AllocationStrategy => Str
 
-The order of the launch template overrides to use in fulfilling
-On-Demand capacity. If you specify C<lowest-price>, EC2 Fleet uses
-price to determine the order, launching the lowest price first. If you
-specify C<prioritized>, EC2 Fleet uses the priority that you assigned
-to each launch template override, launching the highest priority first.
-If you do not specify a value, EC2 Fleet defaults to C<lowest-price>.
+The strategy that determines the order of the launch template overrides
+to use in fulfilling On-Demand capacity.
+
+C<lowest-price> - EC2 Fleet uses price to determine the order,
+launching the lowest price first.
+
+C<prioritized> - EC2 Fleet uses the priority that you assigned to each
+launch template override, launching the highest priority first.
+
+Default: C<lowest-price>
 
 
 =head2 CapacityReservationOptions => L<Paws::EC2::CapacityReservationOptionsRequest>
 
 The strategy for using unused Capacity Reservations for fulfilling
-On-Demand capacity. Supported only for fleets of type C<instant>.
+On-Demand capacity.
+
+Supported only for fleets of type C<instant>.
 
 
 =head2 MaxTotalPrice => Str
@@ -62,25 +68,43 @@ On-Demand capacity. Supported only for fleets of type C<instant>.
 The maximum amount per hour for On-Demand Instances that you're willing
 to pay.
 
+If your fleet includes T instances that are configured as C<unlimited>,
+and if their average CPU usage exceeds the baseline utilization, you
+will incur a charge for surplus credits. The C<MaxTotalPrice> does not
+account for surplus credits, and, if you use surplus credits, your
+final cost might be higher than what you specified for
+C<MaxTotalPrice>. For more information, see Surplus credits can incur
+charges
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-unlimited-mode-concepts.html#unlimited-mode-surplus-credits)
+in the I<Amazon EC2 User Guide>.
+
 
 =head2 MinTargetCapacity => Int
 
 The minimum target capacity for On-Demand Instances in the fleet. If
-the minimum target capacity is not reached, the fleet launches no
-instances.
+this minimum capacity isn't reached, no instances are launched.
+
+Constraints: Maximum value of C<1000>. Supported only for fleets of
+type C<instant>.
+
+At least one of the following must be specified:
+C<SingleAvailabilityZone> | C<SingleInstanceType>
 
 
 =head2 SingleAvailabilityZone => Bool
 
 Indicates that the fleet launches all On-Demand Instances into a single
-Availability Zone. Supported only for fleets of type C<instant>.
+Availability Zone.
+
+Supported only for fleets of type C<instant>.
 
 
 =head2 SingleInstanceType => Bool
 
 Indicates that the fleet uses a single instance type to launch all
-On-Demand Instances in the fleet. Supported only for fleets of type
-C<instant>.
+On-Demand Instances in the fleet.
+
+Supported only for fleets of type C<instant>.
 
 
 

@@ -18,15 +18,17 @@ Paws::EKS::DescribeAddonVersionsResponse
 
 =head2 Addons => ArrayRef[L<Paws::EKS::AddonInfo>]
 
-The list of available versions with Kubernetes version compatibility.
+The list of available versions with Kubernetes version compatibility
+and other properties.
 
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned from a previous paginated
-C<DescribeAddonVersionsResponse> where C<maxResults> was used and the
-results exceeded the value of that parameter. Pagination continues from
-the end of the previous results that returned the C<nextToken> value.
+The C<nextToken> value to include in a future C<DescribeAddonVersions>
+request. When the results of a C<DescribeAddonVersions> request exceed
+C<maxResults>, you can use this value to retrieve the next page of
+results. This value is C<null> when there are no more results to
+return.
 
 This token should be treated as an opaque identifier that is used only
 to retrieve the next items in a list and not for other programmatic

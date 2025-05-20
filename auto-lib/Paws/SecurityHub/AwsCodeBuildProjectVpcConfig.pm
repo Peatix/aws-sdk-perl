@@ -35,19 +35,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Information about the VPC configuration that AWS CodeBuild accesses.
+Information about the VPC configuration that CodeBuild accesses.
 
 =head1 ATTRIBUTES
 
 
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]
 
-A list of one or more security group IDs in your Amazon VPC.
+A list of one or more security group IDs in your VPC.
 
 
 =head2 Subnets => ArrayRef[Str|Undef]
 
-A list of one or more subnet IDs in your Amazon VPC.
+A list of one or more subnet IDs in your VPC.
 
 
 =head2 VpcId => Str

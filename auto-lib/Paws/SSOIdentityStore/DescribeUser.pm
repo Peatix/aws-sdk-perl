@@ -35,8 +35,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $UserId   = $DescribeUserResponse->UserId;
-    my $UserName = $DescribeUserResponse->UserName;
+    my $Addresses         = $DescribeUserResponse->Addresses;
+    my $DisplayName       = $DescribeUserResponse->DisplayName;
+    my $Emails            = $DescribeUserResponse->Emails;
+    my $ExternalIds       = $DescribeUserResponse->ExternalIds;
+    my $IdentityStoreId   = $DescribeUserResponse->IdentityStoreId;
+    my $Locale            = $DescribeUserResponse->Locale;
+    my $Name              = $DescribeUserResponse->Name;
+    my $NickName          = $DescribeUserResponse->NickName;
+    my $PhoneNumbers      = $DescribeUserResponse->PhoneNumbers;
+    my $PreferredLanguage = $DescribeUserResponse->PreferredLanguage;
+    my $ProfileUrl        = $DescribeUserResponse->ProfileUrl;
+    my $Timezone          = $DescribeUserResponse->Timezone;
+    my $Title             = $DescribeUserResponse->Title;
+    my $UserId            = $DescribeUserResponse->UserId;
+    my $UserName          = $DescribeUserResponse->UserName;
+    my $UserType          = $DescribeUserResponse->UserType;
 
     # Returns a L<Paws::SSOIdentityStore::DescribeUserResponse> object.
 
@@ -49,10 +63,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ide
 =head2 B<REQUIRED> IdentityStoreId => Str
 
 The globally unique identifier for the identity store, such as
-d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is
-a randomly generated string which contains number and lower case
-letters. This value is generated at the time that a new identity store
-is created.
+C<d-1234567890>. In this example, C<d-> is a fixed prefix, and
+C<1234567890> is a randomly generated string that contains numbers and
+lower case letters. This value is generated at the time that a new
+identity store is created.
 
 
 

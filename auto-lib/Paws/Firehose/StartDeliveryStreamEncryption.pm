@@ -53,7 +53,7 @@ needed for Server-Side Encryption (SSE).
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream for which you want to enable
+The name of the Firehose stream for which you want to enable
 server-side encryption (SSE).
 
 

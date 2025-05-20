@@ -63,7 +63,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head2 ClientToken => Str
 
 A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 
 
@@ -75,7 +78,7 @@ The description of the event integration.
 
 =head2 B<REQUIRED> EventBridgeBus => Str
 
-The Eventbridge bus.
+The EventBridge bus.
 
 
 
@@ -93,7 +96,8 @@ The name of the event integration.
 
 =head2 Tags => L<Paws::AppIntegrations::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

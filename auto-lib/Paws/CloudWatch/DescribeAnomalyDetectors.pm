@@ -1,6 +1,7 @@
 
 package Paws::CloudWatch::DescribeAnomalyDetectors;
   use Moose;
+  has AnomalyDetectorTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::Dimension]');
   has MaxResults => (is => 'ro', isa => 'Int');
   has MetricName => (is => 'ro', isa => 'Str');
@@ -32,10 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $monitoring = Paws->service('CloudWatch');
     my $DescribeAnomalyDetectorsOutput = $monitoring->DescribeAnomalyDetectors(
+      AnomalyDetectorTypes => [
+        'SINGLE_METRIC', ...    # values: SINGLE_METRIC, METRIC_MATH
+      ],    # OPTIONAL
       Dimensions => [
         {
           Name  => 'MyDimensionName',     # min: 1, max: 255
-          Value => 'MyDimensionValue',    # min: 1, max: 255
+          Value => 'MyDimensionValue',    # min: 1, max: 1024
 
         },
         ...
@@ -56,6 +60,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/monitoring/DescribeAnomalyDetectors>
 
 =head1 ATTRIBUTES
+
+
+=head2 AnomalyDetectorTypes => ArrayRef[Str|Undef]
+
+The anomaly detector types to request when using
+C<DescribeAnomalyDetectorsInput>. If empty, defaults to
+C<SINGLE_METRIC>.
+
 
 
 =head2 Dimensions => ArrayRef[L<Paws::CloudWatch::Dimension>]

@@ -21,12 +21,12 @@ Paws::IoT::CreateOTAUpdateResponse
 
 =head2 AwsIotJobArn => Str
 
-The AWS IoT job ARN associated with the OTA update.
+The IoT job ARN associated with the OTA update.
 
 
 =head2 AwsIotJobId => Str
 
-The AWS IoT job ID associated with the OTA update.
+The IoT job ID associated with the OTA update.
 
 
 =head2 OtaUpdateArn => Str
@@ -43,7 +43,7 @@ The OTA update ID.
 
 The OTA update status.
 
-Valid values are: C<"CREATE_PENDING">, C<"CREATE_IN_PROGRESS">, C<"CREATE_COMPLETE">, C<"CREATE_FAILED">
+Valid values are: C<"CREATE_PENDING">, C<"CREATE_IN_PROGRESS">, C<"CREATE_COMPLETE">, C<"CREATE_FAILED">, C<"DELETE_IN_PROGRESS">, C<"DELETE_FAILED">
 =head2 _request_id => Str
 
 

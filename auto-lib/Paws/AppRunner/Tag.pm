@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes a tag that is applied to an AWS App Runner resource. A tag is
-a metadata item consisting of a key-value pair.
+Describes a tag that is applied to an App Runner resource. A tag is a
+metadata item consisting of a key-value pair.
 
 =head1 ATTRIBUTES
 

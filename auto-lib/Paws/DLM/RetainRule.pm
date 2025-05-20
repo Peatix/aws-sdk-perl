@@ -35,8 +35,58 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::Retain
 
 =head1 DESCRIPTION
 
-Specifies the retention rule for a lifecycle policy. You can retain
-snapshots based on either a count or a time interval.
+B<[Custom snapshot and AMI policies only]> Specifies a retention rule
+for snapshots created by snapshot policies, or for AMIs created by AMI
+policies.
+
+For snapshot policies that have an ArchiveRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html),
+this retention rule applies to standard tier retention. When the
+retention threshold is met, snapshots are moved from the standard to
+the archive tier.
+
+For snapshot policies that do not have an B<ArchiveRule>, snapshots are
+permanently deleted when this retention threshold is met.
+
+You can retain snapshots based on either a count or a time interval.
+
+=over
+
+=item *
+
+B<Count-based retention>
+
+You must specify B<Count>. If you specify an ArchiveRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html)
+for the schedule, then you can specify a retention count of C<0> to
+archive snapshots immediately after creation. If you specify a
+FastRestoreRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_FastRestoreRule.html),
+ShareRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ShareRule.html),
+or a CrossRegionCopyRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyRule.html),
+then you must specify a retention count of C<1> or more.
+
+=item *
+
+B<Age-based retention>
+
+You must specify B<Interval> and B<IntervalUnit>. If you specify an
+ArchiveRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html)
+for the schedule, then you can specify a retention interval of C<0>
+days to archive snapshots immediately after creation. If you specify a
+FastRestoreRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_FastRestoreRule.html),
+ShareRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ShareRule.html),
+or a CrossRegionCopyRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_CrossRegionCopyRule.html),
+then you must specify a retention interval of C<1> day or more.
+
+=back
+
 
 =head1 ATTRIBUTES
 
@@ -44,7 +94,11 @@ snapshots based on either a count or a time interval.
 =head2 Count => Int
 
 The number of snapshots to retain for each volume, up to a maximum of
-1000.
+1000. For example if you want to retain a maximum of three snapshots,
+specify C<3>. When the fourth snapshot is created, the oldest retained
+snapshot is deleted, or it is moved to the archive tier if you have
+specified an ArchiveRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html).
 
 
 =head2 Interval => Int
@@ -55,7 +109,12 @@ This is equivalent to 1200 months, 5200 weeks, or 36500 days.
 
 =head2 IntervalUnit => Str
 
-The unit of time for time-based retention.
+The unit of time for time-based retention. For example, to retain
+snapshots for 3 months, specify C<Interval=3> and
+C<IntervalUnit=MONTHS>. Once the snapshot has been retained for 3
+months, it is deleted, or it is moved to the archive tier if you have
+specified an ArchiveRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html).
 
 
 

@@ -33,14 +33,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Currently, the C<AutoRollbackConfig> API is not supported.
+Automatic rollback configuration for handling endpoint deployment
+failures and recovery.
 
 =head1 ATTRIBUTES
 
 
 =head2 Alarms => ArrayRef[L<Paws::SageMaker::Alarm>]
 
-
+List of CloudWatch alarms in your account that are configured to
+monitor metrics on an endpoint. If any alarms are tripped during a
+deployment, SageMaker rolls back the deployment.
 
 
 

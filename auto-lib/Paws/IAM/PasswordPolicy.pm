@@ -53,6 +53,10 @@ GetAccountPasswordPolicy operation.
 =head2 AllowUsersToChangePassword => Bool
 
 Specifies whether IAM users are allowed to change their own password.
+Gives IAM users permissions to C<iam:ChangePassword> for only their
+user and to the C<iam:GetAccountPasswordPolicy> action. This option
+does not attach a permissions policy to each user, rather the
+permissions are applied at the account-level for all users by IAM.
 
 
 =head2 ExpirePasswords => Bool
@@ -65,7 +69,11 @@ MaxPasswordAge is 0 or not present.
 =head2 HardExpiry => Bool
 
 Specifies whether IAM users are prevented from setting a new password
-after their password has expired.
+via the Amazon Web Services Management Console after their password has
+expired. The IAM user cannot access the console until an administrator
+resets the password. IAM users with C<iam:ChangePassword> permission
+and active access keys can reset their own expired console password
+using the CLI or API.
 
 
 =head2 MaxPasswordAge => Int

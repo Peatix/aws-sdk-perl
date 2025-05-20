@@ -74,7 +74,7 @@ Filters the results by ConfigRuleComplianceFilters object.
 =head2 Limit => Int
 
 The maximum number of evaluation results returned on each page. The
-default is maximum. If you specify 0, AWS Config uses the default.
+default is maximum. If you specify 0, Config uses the default.
 
 
 

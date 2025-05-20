@@ -43,14 +43,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 B<REQUIRED> BackupVaultName => Str
 
-The unique name of an AWS Backup vault. Required.
+The unique name of an Backup vault.
 
 
 
 =head2 B<REQUIRED> RecoveryPointArn => Str
 
-An Amazon Resource Name (ARN) that uniquely identifies an AWS Backup
-recovery point. Required.
+An Amazon Resource Name (ARN) that uniquely identifies an Backup
+recovery point.
 
 
 

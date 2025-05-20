@@ -42,8 +42,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::OidcId
 
 An object representing an OpenID Connect (OIDC) configuration. Before
 associating an OIDC identity provider to your cluster, review the
-considerations in Authenticating users for your cluster from an OpenID
-Connect identity provider
+considerations in Authenticating users for your cluster from an OIDC
+identity provider
 (https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html)
 in the I<Amazon EKS User Guide>.
 
@@ -53,7 +53,7 @@ in the I<Amazon EKS User Guide>.
 =head2 B<REQUIRED> ClientId => Str
 
 This is also known as I<audience>. The ID for the client application
-that makes authentication requests to the OpenID identity provider.
+that makes authentication requests to the OIDC identity provider.
 
 
 =head2 GroupsClaim => Str
@@ -76,11 +76,11 @@ The name of the OIDC provider configuration.
 
 =head2 B<REQUIRED> IssuerUrl => Str
 
-The URL of the OpenID identity provider that allows the API server to
+The URL of the OIDC identity provider that allows the API server to
 discover public signing keys for verifying tokens. The URL must begin
 with C<https://> and should correspond to the C<iss> claim in the
-provider's OIDC ID tokens. Per the OIDC standard, path components are
-allowed but query parameters are not. Typically the URL consists of
+provider's OIDC ID tokens. Based on the OIDC standard, path components
+are allowed but query parameters are not. Typically the URL consists of
 only a hostname, like C<https://server.example.org> or
 C<https://example.com>. This URL should point to the level below
 C<.well-known/openid-configuration> and must be publicly accessible
@@ -102,7 +102,7 @@ in the I<Amazon EKS User Guide>.
 The JSON Web Token (JWT) claim to use as the username. The default is
 C<sub>, which is expected to be a unique identifier of the end user.
 You can choose other claims, such as C<email> or C<name>, depending on
-the OpenID identity provider. Claims other than C<email> are prefixed
+the OIDC identity provider. Claims other than C<email> are prefixed
 with the issuer URL to prevent naming clashes with other plug-ins.
 
 

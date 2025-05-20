@@ -72,8 +72,8 @@ have other status values.
 =head2 ExclusiveEndTime => Str
 
 The exclusive date and time that specifies when the stream ends. If
-this parameter is blank, the stream runs indefinitely until you cancel
-it.
+this parameter is undefined, the stream runs indefinitely until you
+cancel it.
 
 
 =head2 InclusiveStartTime => Str

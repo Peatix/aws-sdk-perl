@@ -34,11 +34,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 
 =head1 DESCRIPTION
 
-A rollback trigger AWS CloudFormation monitors during creation and
-updating of stacks. If any of the alarms you specify goes to ALARM
-state during the stack operation or within the specified monitoring
-period afterwards, CloudFormation rolls back the entire stack
-operation.
+A rollback trigger CloudFormation monitors during creation and updating
+of stacks. If any of the alarms you specify goes to ALARM state during
+the stack operation or within the specified monitoring period
+afterwards, CloudFormation rolls back the entire stack operation.
 
 =head1 ATTRIBUTES
 
@@ -53,10 +52,12 @@ is rolled back.
 
 =head2 B<REQUIRED> Type => Str
 
-The resource type of the rollback trigger. Currently,
+The resource type of the rollback trigger. Specify either
 AWS::CloudWatch::Alarm
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html)
-is the only supported resource type.
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudwatch-alarm.html)
+or AWS::CloudWatch::CompositeAlarm
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudwatch-compositealarm.html)
+resource types.
 
 
 

@@ -3,6 +3,7 @@ package Paws::ACMPCA::ASN1Subject;
   use Moose;
   has CommonName => (is => 'ro', isa => 'Str');
   has Country => (is => 'ro', isa => 'Str');
+  has CustomAttributes => (is => 'ro', isa => 'ArrayRef[Paws::ACMPCA::CustomAttribute]');
   has DistinguishedNameQualifier => (is => 'ro', isa => 'Str');
   has GenerationQualifier => (is => 'ro', isa => 'Str');
   has GivenName => (is => 'ro', isa => 'Str');
@@ -69,6 +70,18 @@ qualified domain name (FQDN) associated with the certificate subject.
 
 Two-digit code that specifies the country in which the certificate
 subject located.
+
+
+=head2 CustomAttributes => ArrayRef[L<Paws::ACMPCA::CustomAttribute>]
+
+Contains a sequence of one or more X.500 relative distinguished names
+(RDNs), each of which consists of an object identifier (OID) and a
+value. For more information, see NISTE<rsquo>s definition of Object
+Identifier (OID)
+(https://csrc.nist.gov/glossary/term/Object_Identifier).
+
+Custom attributes cannot be used in combination with standard
+attributes.
 
 
 =head2 DistinguishedNameQualifier => Str

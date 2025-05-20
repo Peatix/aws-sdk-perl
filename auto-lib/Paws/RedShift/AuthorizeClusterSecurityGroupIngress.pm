@@ -70,9 +70,9 @@ The EC2 security group to be added the Amazon Redshift security group.
 
 =head2 EC2SecurityGroupOwnerId => Str
 
-The AWS account number of the owner of the security group specified by
-the I<EC2SecurityGroupName> parameter. The AWS Access Key ID is not an
-acceptable value.
+The Amazon Web Services account number of the owner of the security
+group specified by the I<EC2SecurityGroupName> parameter. The Amazon
+Web Services Access Key ID is not an acceptable value.
 
 Example: C<111122223333>
 

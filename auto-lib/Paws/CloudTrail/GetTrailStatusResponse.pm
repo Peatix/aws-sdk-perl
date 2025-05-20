@@ -32,7 +32,8 @@ Paws::CloudTrail::GetTrailStatusResponse
 
 =head2 IsLogging => Bool
 
-Whether the CloudTrail is currently logging AWS API calls.
+Whether the CloudTrail trail is currently logging Amazon Web Services
+API calls.
 
 
 =head2 LatestCloudWatchLogsDeliveryError => Str
@@ -61,14 +62,16 @@ This field is no longer in use.
 
 Displays any Amazon S3 error that CloudTrail encountered when
 attempting to deliver log files to the designated bucket. For more
-information see the topic Error Responses
+information, see Error Responses
 (https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html)
 in the Amazon S3 API Reference.
 
 This error occurs only when there is a problem with the destination S3
-bucket and will not occur for timeouts. To resolve the issue, create a
-new bucket and call C<UpdateTrail> to specify the new bucket, or fix
-the existing objects so that CloudTrail can again write to the bucket.
+bucket, and does not occur for requests that time out. To resolve the
+issue, fix the bucket policy
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create-s3-bucket-policy-for-cloudtrail.html)
+so that CloudTrail can write to the bucket; or create a new bucket and
+call C<UpdateTrail> to specify the new bucket.
 
 
 =head2 LatestDeliveryTime => Str
@@ -81,14 +84,16 @@ an account's Amazon S3 bucket.
 
 Displays any Amazon S3 error that CloudTrail encountered when
 attempting to deliver a digest file to the designated bucket. For more
-information see the topic Error Responses
+information, see Error Responses
 (https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html)
 in the Amazon S3 API Reference.
 
 This error occurs only when there is a problem with the destination S3
-bucket and will not occur for timeouts. To resolve the issue, create a
-new bucket and call C<UpdateTrail> to specify the new bucket, or fix
-the existing objects so that CloudTrail can again write to the bucket.
+bucket, and does not occur for requests that time out. To resolve the
+issue, fix the bucket policy
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create-s3-bucket-policy-for-cloudtrail.html)
+so that CloudTrail can write to the bucket; or create a new bucket and
+call C<UpdateTrail> to specify the new bucket.
 
 
 =head2 LatestDigestDeliveryTime => Str
@@ -125,13 +130,13 @@ bucket.
 =head2 StartLoggingTime => Str
 
 Specifies the most recent date and time when CloudTrail started
-recording API calls for an AWS account.
+recording API calls for an Amazon Web Services account.
 
 
 =head2 StopLoggingTime => Str
 
 Specifies the most recent date and time when CloudTrail stopped
-recording API calls for an AWS account.
+recording API calls for an Amazon Web Services account.
 
 
 =head2 TimeLoggingStarted => Str

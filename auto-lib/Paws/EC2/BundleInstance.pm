@@ -33,11 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceId => 'MyInstanceId',
       Storage    => {
         S3 => {
-          AWSAccessKeyId        => 'MyString',    # OPTIONAL
-          Bucket                => 'MyString',    # OPTIONAL
-          Prefix                => 'MyString',    # OPTIONAL
-          UploadPolicy          => 'BlobBlob',    # OPTIONAL
-          UploadPolicySignature => 'MyString',    # OPTIONAL
+          AWSAccessKeyId        => 'MyString',     # OPTIONAL
+          Bucket                => 'MyString',     # OPTIONAL
+          Prefix                => 'MyString',     # OPTIONAL
+          UploadPolicy          => 'BlobBlob',     # OPTIONAL
+          UploadPolicySignature =>
+            'MyS3StorageUploadPolicySignature',    # OPTIONAL
         },    # OPTIONAL
       },
       DryRun => 1,    # OPTIONAL
@@ -67,11 +68,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 The ID of the instance to bundle.
 
-Type: String
-
 Default: None
-
-Required: Yes
 
 
 

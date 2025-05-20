@@ -59,7 +59,7 @@ C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-123
 
 The Amazon Resource Name (ARN) that was returned when you called
 CreateCertificateAuthority
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html).
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html).
 This must be of the form:
 
 C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-1234-1234-123456789012>

@@ -74,7 +74,11 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 RevokeAllGroups => Bool
 
-Indicates whether access should be revoked for all clients.
+Indicates whether access should be revoked for all groups for a single
+C<TargetNetworkCidr> that earlier authorized ingress for all groups
+using C<AuthorizeAllGroups>. This does not impact other authorization
+rules that allowed ingress to the same C<TargetNetworkCidr> with a
+specific C<AccessGroupId>.
 
 
 

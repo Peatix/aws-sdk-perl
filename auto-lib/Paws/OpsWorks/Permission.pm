@@ -54,9 +54,8 @@ Whether the user can use B<sudo>.
 
 =head2 IamUserArn => Str
 
-The Amazon Resource Name (ARN) for an AWS Identity and Access
-Management (IAM) role. For more information about IAM ARNs, see Using
-Identifiers
+The Amazon Resource Name (ARN) for an Identity and Access Management
+(IAM) role. For more information about IAM ARNs, see Using Identifiers
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
 
 

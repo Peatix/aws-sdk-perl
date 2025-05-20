@@ -43,8 +43,8 @@ Dataflow details for the source side.
 
 =head2 ConfigDetails => L<Paws::GroundStation::ConfigDetails>
 
-Additional details for a C<Config>, if type is dataflow endpoint or
-antenna demod decode.
+Additional details for a C<Config>, if type is C<dataflow-endpoint> or
+C<antenna-downlink-demod-decode>
 
 
 =head2 ConfigId => Str

@@ -53,9 +53,60 @@ The unique identifier for the Trusted Advisor check.
 
 =head2 Language => Str
 
-The ISO 639-1 code for the language in which AWS provides support. AWS
-Support currently supports English ("en") and Japanese ("ja"). Language
-parameters must be passed explicitly for operations that take them.
+The ISO 639-1 code for the language that you want your check results to
+appear in.
+
+The Amazon Web Services Support API currently supports the following
+languages for Trusted Advisor:
+
+=over
+
+=item *
+
+Chinese, Simplified - C<zh>
+
+=item *
+
+Chinese, Traditional - C<zh_TW>
+
+=item *
+
+English - C<en>
+
+=item *
+
+French - C<fr>
+
+=item *
+
+German - C<de>
+
+=item *
+
+Indonesian - C<id>
+
+=item *
+
+Italian - C<it>
+
+=item *
+
+Japanese - C<ja>
+
+=item *
+
+Korean - C<ko>
+
+=item *
+
+Portuguese, Brazilian - C<pt_BR>
+
+=item *
+
+Spanish - C<es>
+
+=back
+
 
 
 

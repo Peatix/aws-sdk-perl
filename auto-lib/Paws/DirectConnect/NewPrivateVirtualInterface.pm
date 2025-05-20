@@ -7,6 +7,7 @@ package Paws::DirectConnect::NewPrivateVirtualInterface;
   has AuthKey => (is => 'ro', isa => 'Str', request_name => 'authKey', traits => ['NameInRequest']);
   has CustomerAddress => (is => 'ro', isa => 'Str', request_name => 'customerAddress', traits => ['NameInRequest']);
   has DirectConnectGatewayId => (is => 'ro', isa => 'Str', request_name => 'directConnectGatewayId', traits => ['NameInRequest']);
+  has EnableSiteLink => (is => 'ro', isa => 'Bool', request_name => 'enableSiteLink', traits => ['NameInRequest']);
   has Mtu => (is => 'ro', isa => 'Int', request_name => 'mtu', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has VirtualGatewayId => (is => 'ro', isa => 'Str', request_name => 'virtualGatewayId', traits => ['NameInRequest']);
@@ -82,10 +83,15 @@ The IP address assigned to the customer interface.
 The ID of the Direct Connect gateway.
 
 
+=head2 EnableSiteLink => Bool
+
+Indicates whether to enable or disable SiteLink.
+
+
 =head2 Mtu => Int
 
 The maximum transmission unit (MTU), in bytes. The supported values are
-1500 and 9001. The default value is 1500.
+1500 and 8500. The default value is 1500.
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]

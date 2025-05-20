@@ -4,6 +4,7 @@ package Paws::Rekognition::DetectModerationLabels;
   has HumanLoopConfig => (is => 'ro', isa => 'Paws::Rekognition::HumanLoopConfig');
   has Image => (is => 'ro', isa => 'Paws::Rekognition::Image', required => 1);
   has MinConfidence => (is => 'ro', isa => 'Num');
+  has ProjectVersion => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -48,15 +49,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # max: 256; OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
-      MinConfidence => 1.0,    # OPTIONAL
+      MinConfidence  => 1.0,                     # OPTIONAL
+      ProjectVersion => 'MyProjectVersionId',    # OPTIONAL
     );
 
     # Results:
+    my $ContentTypes = $DetectModerationLabelsResponse->ContentTypes;
     my $HumanLoopActivationOutput =
       $DetectModerationLabelsResponse->HumanLoopActivationOutput;
     my $ModerationLabels = $DetectModerationLabelsResponse->ModerationLabels;
     my $ModerationModelVersion =
       $DetectModerationLabelsResponse->ModerationModelVersion;
+    my $ProjectVersion = $DetectModerationLabelsResponse->ProjectVersion;
 
     # Returns a L<Paws::Rekognition::DetectModerationLabelsResponse> object.
 
@@ -93,6 +97,14 @@ than this specified value.
 
 If you don't specify C<MinConfidence>, the operation returns labels
 with confidence values greater than or equal to 50 percent.
+
+
+
+=head2 ProjectVersion => Str
+
+Identifier for the custom adapter. Expects the ProjectVersionArn as a
+value. Use the CreateProject or CreateProjectVersion APIs to create a
+custom adapter.
 
 
 

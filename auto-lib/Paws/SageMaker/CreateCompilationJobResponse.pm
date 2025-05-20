@@ -17,7 +17,8 @@ Paws::SageMaker::CreateCompilationJobResponse
 =head2 B<REQUIRED> CompilationJobArn => Str
 
 If the action is successful, the service sends back an HTTP 200
-response. Amazon SageMaker returns the following data in JSON format:
+response. Amazon SageMaker AI returns the following data in JSON
+format:
 
 =over
 

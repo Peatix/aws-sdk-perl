@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::DescribeLogPattern;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has PatternName => (is => 'ro', isa => 'Str', required => 1);
   has PatternSetName => (is => 'ro', isa => 'Str', required => 1);
   has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
@@ -33,10 +34,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PatternName       => 'MyLogPatternName',
       PatternSetName    => 'MyLogPatternSetName',
       ResourceGroupName => 'MyResourceGroupName',
-
+      AccountId         => 'MyAccountId',           # OPTIONAL
     );
 
     # Results:
+    my $AccountId         = $DescribeLogPatternResponse->AccountId;
     my $LogPattern        = $DescribeLogPatternResponse->LogPattern;
     my $ResourceGroupName = $DescribeLogPatternResponse->ResourceGroupName;
 
@@ -46,6 +48,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/DescribeLogPattern>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
+
 
 
 =head2 B<REQUIRED> PatternName => Str

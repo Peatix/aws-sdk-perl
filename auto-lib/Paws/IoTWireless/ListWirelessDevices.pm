@@ -3,7 +3,9 @@ package Paws::IoTWireless::ListWirelessDevices;
   use Moose;
   has DestinationName => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'destinationName');
   has DeviceProfileId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'deviceProfileId');
+  has FuotaTaskId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'fuotaTaskId');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
+  has MulticastGroupId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'multicastGroupId');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
   has ServiceProfileId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'serviceProfileId');
   has WirelessDeviceType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'wirelessDeviceType');
@@ -36,7 +38,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ListWirelessDevicesResponse = $api . iotwireless->ListWirelessDevices(
       DestinationName    => 'MyDestinationName',     # OPTIONAL
       DeviceProfileId    => 'MyDeviceProfileId',     # OPTIONAL
+      FuotaTaskId        => 'MyFuotaTaskId',         # OPTIONAL
       MaxResults         => 1,                       # OPTIONAL
+      MulticastGroupId   => 'MyMulticastGroupId',    # OPTIONAL
       NextToken          => 'MyNextToken',           # OPTIONAL
       ServiceProfileId   => 'MyServiceProfileId',    # OPTIONAL
       WirelessDeviceType => 'Sidewalk',              # OPTIONAL
@@ -67,9 +71,21 @@ profile.
 
 
 
+=head2 FuotaTaskId => Str
+
+
+
+
+
 =head2 MaxResults => Int
 
 The maximum number of results to return in this operation.
+
+
+
+=head2 MulticastGroupId => Str
+
+
 
 
 

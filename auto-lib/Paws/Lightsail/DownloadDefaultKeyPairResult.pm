@@ -1,6 +1,7 @@
 
 package Paws::Lightsail::DownloadDefaultKeyPairResult;
   use Moose;
+  has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt' );
   has PrivateKeyBase64 => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'privateKeyBase64' );
   has PublicKeyBase64 => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'publicKeyBase64' );
 
@@ -13,6 +14,11 @@ package Paws::Lightsail::DownloadDefaultKeyPairResult;
 Paws::Lightsail::DownloadDefaultKeyPairResult
 
 =head1 ATTRIBUTES
+
+
+=head2 CreatedAt => Str
+
+The timestamp when the default key pair was created.
 
 
 =head2 PrivateKeyBase64 => Str

@@ -37,26 +37,60 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::ServerS
 Describes the default server-side encryption to apply to new objects in
 the bucket. If a PUT Object request doesn't specify any server-side
 encryption, this default encryption will be applied. For more
-information, see PUT Bucket encryption
-(https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTencryption.html)
-in the I<Amazon S3 API Reference>.
+information, see PutBucketEncryption
+(https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTencryption.html).
+
+=over
+
+=item *
+
+B<General purpose buckets> - If you don't specify a customer managed
+key at configuration, Amazon S3 automatically creates an Amazon Web
+Services KMS key (C<aws/s3>) in your Amazon Web Services account the
+first time that you add an object encrypted with SSE-KMS to a bucket.
+By default, Amazon S3 uses this KMS key for SSE-KMS.
+
+=item *
+
+B<Directory buckets> - Your SSE-KMS configuration can only support 1
+customer managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)
+per directory bucket's lifetime. The Amazon Web Services managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
+(C<aws/s3>) isn't supported.
+
+=item *
+
+B<Directory buckets> - For directory buckets, there are only two
+supported options for server-side encryption: SSE-S3 and SSE-KMS.
+
+=back
+
 
 =head1 ATTRIBUTES
 
 
 =head2 KMSMasterKeyID => Str
 
-AWS Key Management Service (KMS) customer AWS KMS key ID to use for the
-default encryption. This parameter is allowed if and only if
+Amazon Web Services Key Management Service (KMS) customer managed key
+ID to use for the default encryption.
+
+=over
+
+=item *
+
+B<General purpose buckets> - This parameter is allowed if and only if
+C<SSEAlgorithm> is set to C<aws:kms> or C<aws:kms:dsse>.
+
+=item *
+
+B<Directory buckets> - This parameter is allowed if and only if
 C<SSEAlgorithm> is set to C<aws:kms>.
 
-You can specify the key ID or the Amazon Resource Name (ARN) of the KMS
-key. However, if you are using encryption with cross-account
-operations, you must use a fully qualified KMS key ARN. For more
-information, see Using encryption for cross-account operations
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-update-bucket-policy).
+=back
 
-B<For example:>
+You can specify the key ID, key alias, or the Amazon Resource Name
+(ARN) of the KMS key.
 
 =over
 
@@ -69,17 +103,50 @@ Key ID: C<1234abcd-12ab-34cd-56ef-1234567890ab>
 Key ARN:
 C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
+=item *
+
+Key Alias: C<alias/alias-name>
+
 =back
 
-Amazon S3 only supports symmetric KMS keys and not asymmetric KMS keys.
-For more information, see Using symmetric and asymmetric keys
+If you are using encryption with cross-account or Amazon Web Services
+service operations, you must use a fully qualified KMS key ARN. For
+more information, see Using encryption for cross-account operations
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-update-bucket-policy).
+
+=over
+
+=item *
+
+B<General purpose buckets> - If you're specifying a customer managed
+KMS key, we recommend using a fully qualified KMS key ARN. If you use a
+KMS key alias instead, then KMS resolves the key within the
+requesterE<rsquo>s account. This behavior can result in data that's
+encrypted with a KMS key that belongs to the requester, and not the
+bucket owner. Also, if you use a key ID, you can run into a
+LogDestination undeliverable error when creating a VPC flow log.
+
+=item *
+
+B<Directory buckets> - When you specify an KMS customer managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)
+for encryption in your directory bucket, only use the key ID or key
+ARN. The key alias format of the KMS key isn't supported.
+
+=back
+
+Amazon S3 only supports symmetric encryption KMS keys. For more
+information, see Asymmetric keys in Amazon Web Services KMS
 (https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Amazon Web Services Key Management Service Developer Guide>.
 
 
 =head2 B<REQUIRED> SSEAlgorithm => Str
 
 Server-side encryption algorithm to use for the default encryption.
+
+For directory buckets, there are only two supported values for
+server-side encryption: C<AES256> and C<aws:kms>.
 
 
 

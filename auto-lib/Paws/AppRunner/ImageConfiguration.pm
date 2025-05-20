@@ -2,6 +2,7 @@
 package Paws::AppRunner::ImageConfiguration;
   use Moose;
   has Port => (is => 'ro', isa => 'Str');
+  has RuntimeEnvironmentSecrets => (is => 'ro', isa => 'Paws::AppRunner::RuntimeEnvironmentSecrets');
   has RuntimeEnvironmentVariables => (is => 'ro', isa => 'Paws::AppRunner::RuntimeEnvironmentVariables');
   has StartCommand => (is => 'ro', isa => 'Str');
 
@@ -35,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes the configuration that AWS App Runner uses to run an App
-Runner service using an image pulled from a source image repository.
+Describes the configuration that App Runner uses to run an App Runner
+service using an image pulled from a source image repository.
 
 =head1 ATTRIBUTES
 
@@ -48,11 +49,37 @@ The port that your application listens to in the container.
 Default: C<8080>
 
 
+=head2 RuntimeEnvironmentSecrets => L<Paws::AppRunner::RuntimeEnvironmentSecrets>
+
+An array of key-value pairs representing the secrets and parameters
+that get referenced to your service as an environment variable. The
+supported values are either the full Amazon Resource Name (ARN) of the
+Secrets Manager secret or the full ARN of the parameter in the Amazon
+Web Services Systems Manager Parameter Store.
+
+=over
+
+=item *
+
+If the Amazon Web Services Systems Manager Parameter Store parameter
+exists in the same Amazon Web Services Region as the service that
+you're launching, you can use either the full ARN or name of the
+secret. If the parameter exists in a different Region, then the full
+ARN must be specified.
+
+=item *
+
+Currently, cross account referencing of Amazon Web Services Systems
+Manager Parameter Store parameter is not supported.
+
+=back
+
+
+
 =head2 RuntimeEnvironmentVariables => L<Paws::AppRunner::RuntimeEnvironmentVariables>
 
 Environment variables that are available to your running App Runner
-service. An array of key-value pairs. Keys with a prefix of
-C<AWSAPPRUNNER> are reserved for system use and aren't valid.
+service. An array of key-value pairs.
 
 
 =head2 StartCommand => Str

@@ -18,12 +18,12 @@ Paws::Proton::ListEnvironmentAccountConnectionsOutput
 =head2 B<REQUIRED> EnvironmentAccountConnections => ArrayRef[L<Paws::Proton::EnvironmentAccountConnectionSummary>]
 
 An array of environment account connections with details that's
-returned by AWS Proton.
+returned by Proton.
 
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next environment account
+A token that indicates the location of the next environment account
 connection in the array of environment account connections, after the
 current requested list of environment account connections.
 

@@ -16,6 +16,7 @@ package Paws::ApplicationMigration::ReplicationConfiguration;
   has StagingAreaSubnetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'stagingAreaSubnetId');
   has StagingAreaTags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'stagingAreaTags');
   has UseDedicatedReplicationServer => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useDedicatedReplicationServer');
+  has UseFipsEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useFipsEndpoint');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -54,7 +55,7 @@ Valid values are: C<"PRIVATE_IP">, C<"PUBLIC_IP">
 
 Replication Configuration use default large Staging Disks.
 
-Valid values are: C<"GP2">, C<"ST1">
+Valid values are: C<"GP2">, C<"ST1">, C<"GP3">
 =head2 EbsEncryption => Str
 
 Replication Configuration EBS encryption.
@@ -103,6 +104,11 @@ Replication Configuration Staging Area tags.
 =head2 UseDedicatedReplicationServer => Bool
 
 Replication Configuration use Dedicated Replication Server.
+
+
+=head2 UseFipsEndpoint => Bool
+
+Replication Configuration use Fips Endpoint.
 
 
 =head2 _request_id => Str

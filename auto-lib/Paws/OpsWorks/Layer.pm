@@ -70,10 +70,10 @@ The Amazon Resource Number (ARN) of a layer.
 The layer attributes.
 
 For the C<HaproxyStatsPassword>, C<MysqlRootPassword>, and
-C<GangliaPassword> attributes, AWS OpsWorks Stacks returns
+C<GangliaPassword> attributes, OpsWorks Stacks returns
 C<*****FILTERED*****> instead of the actual value
 
-For an ECS Cluster layer, AWS OpsWorks Stacks the C<EcsClusterArn>
+For an ECS Cluster layer, OpsWorks Stacks the C<EcsClusterArn>
 attribute is set to the cluster's ARN.
 
 
@@ -129,14 +129,13 @@ An array containing the layer's custom security group IDs.
 
 =head2 DefaultRecipes => L<Paws::OpsWorks::Recipes>
 
-AWS OpsWorks Stacks supports five lifecycle events: B<setup>,
+OpsWorks Stacks supports five lifecycle events: B<setup>,
 B<configuration>, B<deploy>, B<undeploy>, and B<shutdown>. For each
-layer, AWS OpsWorks Stacks runs a set of standard recipes for each
-event. You can also provide custom recipes for any or all layers and
-events. AWS OpsWorks Stacks runs custom event recipes after the
-standard recipes. C<LayerCustomRecipes> specifies the custom recipes
-for a particular layer to be run in response to each of the five
-events.
+layer, OpsWorks Stacks runs a set of standard recipes for each event.
+You can also provide custom recipes for any or all layers and events.
+OpsWorks Stacks runs custom event recipes after the standard recipes.
+C<LayerCustomRecipes> specifies the custom recipes for a particular
+layer to be run in response to each of the five events.
 
 To specify a recipe, use the cookbook's directory name in the
 repository followed by two colons and the recipe name, which is the
@@ -181,7 +180,7 @@ event configuration.
 
 =head2 Name => Str
 
-The layer name.
+The layer name. Layer names can be a maximum of 32 characters.
 
 
 =head2 Packages => ArrayRef[Str|Undef]

@@ -66,9 +66,9 @@ A list of tags that you want to attach to the account when it becomes a
 member of the organization. For each tag in the list, you must specify
 both a tag key and a value. You can set the value to an empty string,
 but you can't set it to C<null>. For more information about tagging,
-see Tagging AWS Organizations resources
+see Tagging Organizations resources
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
-in the AWS Organizations User Guide.
+in the Organizations User Guide.
 
 Any tags in the request are checked for compliance with any applicable
 tag policies when the request is made. The request is rejected if the
@@ -79,7 +79,7 @@ account. That means that if the tag policy changes between the
 invitation and the acceptance, then that tags could potentially be
 non-compliant.
 
-If any one of the tags is invalid or if you exceed the allowed number
+If any one of the tags is not valid or if you exceed the allowed number
 of tags for an account, then the entire request fails and invitations
 are not sent.
 
@@ -87,20 +87,21 @@ are not sent.
 
 =head2 B<REQUIRED> Target => L<Paws::Organizations::HandshakeParty>
 
-The identifier (ID) of the AWS account that you want to invite to join
-your organization. This is a JSON object that contains the following
-elements:
+The identifier (ID) of the Amazon Web Services account that you want to
+invite to join your organization. This is a JSON object that contains
+the following elements:
 
 C<{ "Type": "ACCOUNT", "Id": "E<lt>I< B<account id number> >E<gt>" }>
 
-If you use the AWS CLI, you can submit this as a single string, similar
-to the following example:
+If you use the CLI, you can submit this as a single string, similar to
+the following example:
 
 C<--target Id=123456789012,Type=ACCOUNT>
 
-If you specify C<"Type": "ACCOUNT">, you must provide the AWS account
-ID number as the C<Id>. If you specify C<"Type": "EMAIL">, you must
-specify the email address that is associated with the account.
+If you specify C<"Type": "ACCOUNT">, you must provide the Amazon Web
+Services account ID number as the C<Id>. If you specify C<"Type":
+"EMAIL">, you must specify the email address that is associated with
+the account.
 
 C<--target Id=diego@example.com,Type=EMAIL>
 

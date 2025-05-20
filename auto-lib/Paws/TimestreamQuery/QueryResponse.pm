@@ -4,6 +4,7 @@ package Paws::TimestreamQuery::QueryResponse;
   has ColumnInfo => (is => 'ro', isa => 'ArrayRef[Paws::TimestreamQuery::ColumnInfo]', required => 1);
   has NextToken => (is => 'ro', isa => 'Str');
   has QueryId => (is => 'ro', isa => 'Str', required => 1);
+  has QueryInsightsResponse => (is => 'ro', isa => 'Paws::TimestreamQuery::QueryInsightsResponse');
   has QueryStatus => (is => 'ro', isa => 'Paws::TimestreamQuery::QueryStatus');
   has Rows => (is => 'ro', isa => 'ArrayRef[Paws::TimestreamQuery::Row]', required => 1);
 
@@ -34,10 +35,16 @@ next set of results.
 A unique ID for the given query.
 
 
+=head2 QueryInsightsResponse => L<Paws::TimestreamQuery::QueryInsightsResponse>
+
+Encapsulates C<QueryInsights> containing insights and metrics related
+to the query that you executed.
+
+
 =head2 QueryStatus => L<Paws::TimestreamQuery::QueryStatus>
 
 Information about the status of the query, including progress and bytes
-scannned.
+scanned.
 
 
 =head2 B<REQUIRED> Rows => ArrayRef[L<Paws::TimestreamQuery::Row>]

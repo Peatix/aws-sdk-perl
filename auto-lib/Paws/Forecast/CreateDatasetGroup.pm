@@ -74,14 +74,17 @@ A name for the dataset group.
 
 The domain associated with the dataset group. When you add a dataset to
 a dataset group, this value and the value specified for the C<Domain>
-parameter of the CreateDataset operation must match.
+parameter of the CreateDataset
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html)
+operation must match.
 
 The C<Domain> and C<DatasetType> that you choose determine the fields
 that must be present in training data that you import to a dataset. For
 example, if you choose the C<RETAIL> domain and C<TARGET_TIME_SERIES>
 as the C<DatasetType>, Amazon Forecast requires that C<item_id>,
 C<timestamp>, and C<demand> fields are present in your data. For more
-information, see howitworks-datasets-groups.
+information, see Dataset groups
+(https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html).
 
 Valid values are: C<"RETAIL">, C<"CUSTOM">, C<"INVENTORY_PLANNING">, C<"EC2_CAPACITY">, C<"WORK_FORCE">, C<"WEB_TRAFFIC">, C<"METRICS">
 
@@ -127,12 +130,12 @@ Tag keys and values are case sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for keys as it is reserved for AWS use. You cannot
-edit or delete tag keys with this prefix. Values can have this prefix.
-If a tag value has C<aws> as its prefix but the key does not, then
-Forecast considers it to be a user tag and will count against the limit
-of 50 tags. Tags with only the key prefix of C<aws> do not count
-against your tags per resource limit.
+such as a prefix for keys as it is reserved for Amazon Web Services
+use. You cannot edit or delete tag keys with this prefix. Values can
+have this prefix. If a tag value has C<aws> as its prefix but the key
+does not, then Forecast considers it to be a user tag and will count
+against the limit of 50 tags. Tags with only the key prefix of C<aws>
+do not count against your tags per resource limit.
 
 =back
 

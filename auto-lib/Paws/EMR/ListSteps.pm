@@ -22,7 +22,7 @@ Paws::EMR::ListSteps - Arguments for method ListSteps on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ListSteps on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method ListSteps.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ListSteps.
@@ -62,8 +62,10 @@ The identifier of the cluster for which to list the steps.
 
 =head2 Marker => Str
 
-The pagination token that indicates the next set of results to
-retrieve.
+The maximum number of steps that a single C<ListSteps> action returns
+is 50. To return a longer list of steps, use multiple C<ListSteps>
+actions along with the C<Marker> parameter, which is a pagination token
+that indicates the next set of results to retrieve.
 
 
 

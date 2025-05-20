@@ -2,15 +2,22 @@
 package Paws::LocationService::Place;
   use Moose;
   has AddressNumber => (is => 'ro', isa => 'Str');
+  has Categories => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Country => (is => 'ro', isa => 'Str');
   has Geometry => (is => 'ro', isa => 'Paws::LocationService::PlaceGeometry', required => 1);
+  has Interpolated => (is => 'ro', isa => 'Bool');
   has Label => (is => 'ro', isa => 'Str');
   has Municipality => (is => 'ro', isa => 'Str');
   has Neighborhood => (is => 'ro', isa => 'Str');
   has PostalCode => (is => 'ro', isa => 'Str');
   has Region => (is => 'ro', isa => 'Str');
   has Street => (is => 'ro', isa => 'Str');
+  has SubMunicipality => (is => 'ro', isa => 'Str');
   has SubRegion => (is => 'ro', isa => 'Str');
+  has SupplementalCategories => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has TimeZone => (is => 'ro', isa => 'Paws::LocationService::TimeZone');
+  has UnitNumber => (is => 'ro', isa => 'Str');
+  has UnitType => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -31,7 +38,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::LocationService::Place object:
 
-  $service_obj->Method(Att1 => { AddressNumber => $value, ..., SubRegion => $value  });
+  $service_obj->Method(Att1 => { AddressNumber => $value, ..., UnitType => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,12 +52,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 Contains details about addresses or points of interest that match the
 search criteria.
 
+Not all details are included with all responses. Some details may only
+be returned by specific data partners.
+
 =head1 ATTRIBUTES
 
 
 =head2 AddressNumber => Str
 
 The numerical portion of an address, such as a building number.
+
+
+=head2 Categories => ArrayRef[Str|Undef]
+
+The Amazon Location categories that describe this Place.
+
+For more information about using categories, including a list of Amazon
+Location categories, see Categories and filtering
+(https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html),
+in the I<Amazon Location Service Developer Guide>.
 
 
 =head2 Country => Str
@@ -63,6 +83,20 @@ country/region code. For example, C<CAN>.
 =head2 B<REQUIRED> Geometry => L<Paws::LocationService::PlaceGeometry>
 
 
+
+
+=head2 Interpolated => Bool
+
+C<True> if the result is interpolated from other known places.
+
+C<False> if the Place is a known place.
+
+Not returned when the partner does not provide the information.
+
+For example, returns C<False> for an address location that is found in
+the partner data, but returns C<True> if an address does not exist in
+the partner data and its location is calculated by interpolating
+between other known addresses.
 
 
 =head2 Label => Str
@@ -100,10 +134,48 @@ The name for a street or a road to identify a location. For example,
 C<Main Street>.
 
 
+=head2 SubMunicipality => Str
+
+An area that's part of a larger municipality. For example, C<Blissville
+> is a submunicipality in the Queen County in New York.
+
+This property supported by Esri and OpenData. The Esri property is
+C<district>, and the OpenData property is C<borough>.
+
+
 =head2 SubRegion => Str
 
-A country, or an area that's part of a larger region . For example,
+A county, or an area that's part of a larger region. For example,
 C<Metro Vancouver>.
+
+
+=head2 SupplementalCategories => ArrayRef[Str|Undef]
+
+Categories from the data provider that describe the Place that are not
+mapped to any Amazon Location categories.
+
+
+=head2 TimeZone => L<Paws::LocationService::TimeZone>
+
+The time zone in which the C<Place> is located. Returned only when
+using HERE or Grab as the selected partner.
+
+
+=head2 UnitNumber => Str
+
+For addresses with multiple units, the unit identifier. Can include
+numbers and letters, for example C<3B> or C<Unit 123>.
+
+Returned only for a place index that uses Esri or Grab as a data
+provider. Is not returned for C<SearchPlaceIndexForPosition>.
+
+
+=head2 UnitType => Str
+
+For addresses with a C<UnitNumber>, the type of unit. For example,
+C<Apartment>.
+
+Returned only for a place index that uses Esri as a data provider.
 
 
 

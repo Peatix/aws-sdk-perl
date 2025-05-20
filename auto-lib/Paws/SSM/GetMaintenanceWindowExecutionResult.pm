@@ -36,8 +36,7 @@ The status of the maintenance window execution.
 Valid values are: C<"PENDING">, C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">, C<"TIMED_OUT">, C<"CANCELLING">, C<"CANCELLED">, C<"SKIPPED_OVERLAPPING">
 =head2 StatusDetails => Str
 
-The details explaining the Status. Only available for certain status
-values.
+The details explaining the status. Not available for all status values.
 
 
 =head2 TaskIds => ArrayRef[Str|Undef]

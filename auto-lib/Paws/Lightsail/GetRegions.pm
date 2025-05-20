@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 A Boolean value indicating whether to also include Availability Zones
 in your get regions request. Availability Zones are indicated with a
-letter: e.g., C<us-east-2a>.
+letter: C<us-east-2a>.
 
 
 
@@ -56,7 +56,7 @@ letter: e.g., C<us-east-2a>.
 
 A Boolean value indicating whether to also include Availability Zones
 for databases in your get regions request. Availability Zones are
-indicated with a letter (e.g., C<us-east-2a>).
+indicated with a letter (C<us-east-2a>).
 
 
 

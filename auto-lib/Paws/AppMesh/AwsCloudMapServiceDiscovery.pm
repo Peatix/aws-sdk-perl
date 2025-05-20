@@ -2,6 +2,7 @@
 package Paws::AppMesh::AwsCloudMapServiceDiscovery;
   use Moose;
   has Attributes => (is => 'ro', isa => 'ArrayRef[Paws::AppMesh::AwsCloudMapInstanceAttribute]', request_name => 'attributes', traits => ['NameInRequest']);
+  has IpPreference => (is => 'ro', isa => 'Str', request_name => 'ipPreference', traits => ['NameInRequest']);
   has NamespaceName => (is => 'ro', isa => 'Str', request_name => 'namespaceName', traits => ['NameInRequest'], required => 1);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest'], required => 1);
 
@@ -49,6 +50,13 @@ A string map that contains attributes with values that you can use to
 filter instances by any custom attribute that you specified when you
 registered the instance. Only instances that match all of the specified
 key/value pairs will be returned.
+
+
+=head2 IpPreference => Str
+
+The preferred IP version that this virtual node uses. Setting the IP
+preference on the virtual node only overrides the IP preference set for
+the mesh on this specific node.
 
 
 =head2 B<REQUIRED> NamespaceName => Str

@@ -38,7 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],
       RepositoryName => 'MyRepositoryName',
-      RegistryId     => 'MyRegistryId',       # OPTIONAL
+      RegistryId     => 'MyRegistryIdOrAlias',    # OPTIONAL
     );
 
     # Results:
@@ -63,9 +63,9 @@ C<imageDigest=digest>.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the image
-to delete. If you do not specify a registry, the default public
-registry is assumed.
+The Amazon Web Services account ID, or registry alias, that's
+associated with the registry that contains the image to delete. If you
+do not specify a registry, the default public registry is assumed.
 
 
 

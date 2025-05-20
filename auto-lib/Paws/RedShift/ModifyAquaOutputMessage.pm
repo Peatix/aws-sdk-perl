@@ -17,7 +17,8 @@ Paws::RedShift::ModifyAquaOutputMessage
 
 =head2 AquaConfiguration => L<Paws::RedShift::AquaConfiguration>
 
-The updated AQUA configuration of the cluster.
+This parameter is retired. Amazon Redshift automatically determines
+whether to use AQUA (Advanced Query Accelerator).
 
 
 =head2 _request_id => Str

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::Policy
 
 =head1 DESCRIPTION
 
-Describes an AWS IoT policy.
+Describes an IoT policy.
 
 =head1 ATTRIBUTES
 

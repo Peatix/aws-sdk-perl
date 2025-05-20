@@ -1,9 +1,13 @@
 package Paws::EC2::NatGatewayAddress;
   use Moose;
   has AllocationId => (is => 'ro', isa => 'Str', request_name => 'allocationId', traits => ['NameInRequest']);
+  has AssociationId => (is => 'ro', isa => 'Str', request_name => 'associationId', traits => ['NameInRequest']);
+  has FailureMessage => (is => 'ro', isa => 'Str', request_name => 'failureMessage', traits => ['NameInRequest']);
+  has IsPrimary => (is => 'ro', isa => 'Bool', request_name => 'isPrimary', traits => ['NameInRequest']);
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', request_name => 'networkInterfaceId', traits => ['NameInRequest']);
   has PrivateIp => (is => 'ro', isa => 'Str', request_name => 'privateIp', traits => ['NameInRequest']);
   has PublicIp => (is => 'ro', isa => 'Str', request_name => 'publicIp', traits => ['NameInRequest']);
+  has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -23,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::NatGatewayAddress object:
 
-  $service_obj->Method(Att1 => { AllocationId => $value, ..., PublicIp => $value  });
+  $service_obj->Method(Att1 => { AllocationId => $value, ..., Status => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,6 +49,22 @@ This class has no description
 that's associated with the NAT gateway.
 
 
+=head2 AssociationId => Str
+
+[Public NAT gateway only] The association ID of the Elastic IP address
+that's associated with the NAT gateway.
+
+
+=head2 FailureMessage => Str
+
+The address failure message.
+
+
+=head2 IsPrimary => Bool
+
+Defines if the IP address is the primary address.
+
+
 =head2 NetworkInterfaceId => Str
 
 The ID of the network interface associated with the NAT gateway.
@@ -59,6 +79,11 @@ The private IP address associated with the NAT gateway.
 
 [Public NAT gateway only] The Elastic IP address associated with the
 NAT gateway.
+
+
+=head2 Status => Str
+
+The address status.
 
 
 

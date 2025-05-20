@@ -70,7 +70,8 @@ The ID of the offering.
 
 =head2 Operation => Str
 
-The specific AWS operation for the line item in the billing report.
+The specific Amazon Web Services operation for the line item in the
+billing report.
 
 
 =head2 PaymentOption => Str

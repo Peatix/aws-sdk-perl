@@ -40,16 +40,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AutoMLJobName   => 'MyAutoMLJobName',
       InputDataConfig => [
         {
-          DataSource => {
+          TargetAttributeName => 'MyTargetAttributeName',    # min: 1
+          ChannelType => 'training',    # values: training, validation; OPTIONAL
+          CompressionType => 'None',             # values: None, Gzip; OPTIONAL
+          ContentType     => 'MyContentType',    # max: 256; OPTIONAL
+          DataSource      => {
             S3DataSource => {
-              S3DataType => 'ManifestFile',    # values: ManifestFile, S3Prefix
-              S3Uri      => 'MyS3Uri',         # max: 1024
+              S3DataType => 'ManifestFile'
+              ,    # values: ManifestFile, S3Prefix, AugmentedManifestFile
+              S3Uri => 'MyS3Uri',    # max: 1024
 
             },
 
-          },
-          TargetAttributeName => 'MyTargetAttributeName',    # min: 1
-          CompressionType     => 'None',    # values: None, Gzip; OPTIONAL
+          },    # OPTIONAL
+          SampleWeightAttributeName =>
+            'MySampleWeightAttributeName',    # min: 1, max: 256; OPTIONAL
         },
         ...
       ],
@@ -59,11 +64,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       RoleArn         => 'MyRoleArn',
       AutoMLJobConfig => {
-        CompletionCriteria => {
-          MaxAutoMLJobRuntimeInSeconds      => 1,    # min: 1; OPTIONAL
-          MaxCandidates                     => 1,    # min: 1; OPTIONAL
-          MaxRuntimePerTrainingJobInSeconds => 1,    # min: 1; OPTIONAL
+        CandidateGenerationConfig => {
+          AlgorithmsConfig => [
+            {
+              AutoMLAlgorithms => [
+                'xgboost',
+                ... # values: xgboost, linear-learner, mlp, lightgbm, catboost, randomforest, extra-trees, nn-torch, fastai, cnn-qr, deepar, prophet, npts, arima, ets
+              ],    # max: 11
+
+            },
+            ...
+          ],    # max: 1; OPTIONAL
+          FeatureSpecificationS3Uri => 'MyS3Uri',    # max: 1024
         },    # OPTIONAL
+        CompletionCriteria => {
+          MaxAutoMLJobRuntimeInSeconds      => 1,   # min: 1; OPTIONAL
+          MaxCandidates                     => 1,   # min: 1, max: 750; OPTIONAL
+          MaxRuntimePerTrainingJobInSeconds => 1,   # min: 1; OPTIONAL
+        },    # OPTIONAL
+        DataSplitConfig => {
+          ValidationFraction => 1.0,    # max: 1; OPTIONAL
+        },    # OPTIONAL
+        Mode =>
+          'AUTO',    # values: AUTO, ENSEMBLING, HYPERPARAMETER_TUNING; OPTIONAL
         SecurityConfig => {
           EnableInterContainerTrafficEncryption => 1,    # OPTIONAL
           VolumeKmsKeyId => 'MyKmsKeyId',                # max: 2048; OPTIONAL
@@ -79,7 +102,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
       },    # OPTIONAL
       AutoMLJobObjective => {
-        MetricName => 'Accuracy',    # values: Accuracy, MSE, F1, F1macro, AUC
+        MetricName => 'Accuracy'
+        , # values: Accuracy, MSE, F1, F1macro, AUC, RMSE, BalancedAccuracy, R2, Recall, RecallMacro, Precision, PrecisionMacro, MAE, MAPE, MASE, WAPE, AverageWeightedQuantileLoss
 
       },    # OPTIONAL
       GenerateCandidateDefinitionsOnly => 1,    # OPTIONAL
@@ -111,23 +135,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 AutoMLJobConfig => L<Paws::SageMaker::AutoMLJobConfig>
 
-Contains C<CompletionCriteria> and C<SecurityConfig> settings for the
-AutoML job.
+A collection of settings used to configure an AutoML job.
 
 
 
 =head2 B<REQUIRED> AutoMLJobName => Str
 
 Identifies an Autopilot job. The name must be unique to your account
-and is case-insensitive.
+and is case insensitive.
 
 
 
 =head2 AutoMLJobObjective => L<Paws::SageMaker::AutoMLJobObjective>
 
-Defines the objective metric used to measure the predictive quality of
-an AutoML job. You provide an AutoMLJobObjective$MetricName and
-Autopilot infers whether to minimize or maximize it.
+Specifies a metric to minimize or maximize as the objective of a job.
+If not specified, the default objective metric depends on the problem
+type. See AutoMLJobObjective
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html)
+for the default values.
 
 
 
@@ -143,8 +168,11 @@ parameter settings.
 
 An array of channel objects that describes the input data and its
 location. Each channel is a named input source. Similar to
-C<InputDataConfig> supported by . Format(s) supported: CSV. Minimum of
-500 rows.
+C<InputDataConfig> supported by HyperParameterTrainingJobDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTrainingJobDefinition.html).
+Format(s) supported: CSV, Parquet. A minimum of 500 rows is required
+for the training dataset. There is not a minimum number of rows
+required for the validation dataset.
 
 
 
@@ -164,11 +192,9 @@ needed to store artifacts from an AutoML job. Format(s) supported: CSV.
 
 =head2 ProblemType => Str
 
-Defines the type of supervised learning available for the candidates.
-Options include: C<BinaryClassification>, C<MulticlassClassification>,
-and C<Regression>. For more information, see Amazon SageMaker Autopilot
-problem types and algorithm support
-(https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-problem-types.html).
+Defines the type of supervised learning problem available for the
+candidates. For more information, see SageMaker Autopilot problem types
+(https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-datasets-problem-types.html#autopilot-problem-types).
 
 Valid values are: C<"BinaryClassification">, C<"MulticlassClassification">, C<"Regression">
 
@@ -180,8 +206,12 @@ The ARN of the role that is used to access the data.
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
-Each tag consists of a key and an optional value. Tag keys must be
-unique per resource.
+An array of key-value pairs. You can use tags to categorize your Amazon
+Web Services resources in different ways, for example, by purpose,
+owner, or environment. For more information, see Tagging Amazon Web
+ServicesResources
+(https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). Tag
+keys must be unique per resource.
 
 
 

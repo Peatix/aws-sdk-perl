@@ -6,6 +6,8 @@ package Paws::Rekognition::Face;
   has ExternalImageId => (is => 'ro', isa => 'Str');
   has FaceId => (is => 'ro', isa => 'Str');
   has ImageId => (is => 'ro', isa => 'Str');
+  has IndexFacesModelVersion => (is => 'ro', isa => 'Str');
+  has UserId => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -26,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Rekognition::Face object:
 
-  $service_obj->Method(Att1 => { BoundingBox => $value, ..., ImageId => $value  });
+  $service_obj->Method(Att1 => { BoundingBox => $value, ..., UserId => $value  });
 
 =head3 Results returned from an API call
 
@@ -67,6 +69,17 @@ Unique identifier that Amazon Rekognition assigns to the face.
 =head2 ImageId => Str
 
 Unique identifier that Amazon Rekognition assigns to the input image.
+
+
+=head2 IndexFacesModelVersion => Str
+
+The version of the face detect and storage model that was used when
+indexing the face vector.
+
+
+=head2 UserId => Str
+
+Unique identifier assigned to the user.
 
 
 

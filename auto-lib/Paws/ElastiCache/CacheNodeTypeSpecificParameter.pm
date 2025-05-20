@@ -42,9 +42,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 =head1 DESCRIPTION
 
 A parameter that has a different value for each cache node type it is
-applied to. For example, in a Redis cluster, a C<cache.m1.large> cache
-node type would have a larger C<maxmemory> value than a
-C<cache.m1.small> type.
+applied to. For example, in a Valkey or Redis OSS cluster, a
+C<cache.m1.large> cache node type would have a larger C<maxmemory>
+value than a C<cache.m1.small> type.
 
 =head1 ATTRIBUTES
 
@@ -66,7 +66,7 @@ Indicates whether a change to the parameter is applied immediately or
 requires a reboot for the change to be applied. You can force a reboot
 or wait until the next maintenance window's reboot. For more
 information, see Rebooting a Cluster
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html).
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.Rebooting.html).
 
 
 =head2 DataType => Str

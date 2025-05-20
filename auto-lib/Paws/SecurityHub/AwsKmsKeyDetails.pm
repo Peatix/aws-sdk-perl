@@ -6,6 +6,7 @@ package Paws::SecurityHub::AwsKmsKeyDetails;
   has Description => (is => 'ro', isa => 'Str');
   has KeyId => (is => 'ro', isa => 'Str');
   has KeyManager => (is => 'ro', isa => 'Str');
+  has KeyRotationStatus => (is => 'ro', isa => 'Bool');
   has KeyState => (is => 'ro', isa => 'Str');
   has Origin => (is => 'ro', isa => 'Str');
 
@@ -39,58 +40,89 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Contains metadata about a customer master key (CMK).
+Contains metadata about an KMS key.
 
 =head1 ATTRIBUTES
 
 
 =head2 AWSAccountId => Str
 
-The twelve-digit account ID of the AWS account that owns the CMK.
+The twelve-digit account ID of the Amazon Web Services account that
+owns the KMS key.
 
 
 =head2 CreationDate => Num
 
-Indicates when the CMK was created.
+Indicates when the KMS key was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Description => Str
 
-A description of the key.
+A description of the KMS key.
 
 
 =head2 KeyId => Str
 
-The globally unique identifier for the CMK.
+The globally unique identifier for the KMS key.
 
 
 =head2 KeyManager => Str
 
-The manager of the CMK. CMKs in your AWS account are either customer
-managed or AWS managed.
+The manager of the KMS key. KMS keys in your Amazon Web Services
+account are either customer managed or Amazon Web Services managed.
+
+
+=head2 KeyRotationStatus => Bool
+
+Whether the key has key rotation enabled.
 
 
 =head2 KeyState => Str
 
-The state of the CMK.
+The state of the KMS key. Valid values are as follows:
+
+=over
+
+=item *
+
+C<Disabled>
+
+=item *
+
+C<Enabled>
+
+=item *
+
+C<PendingDeletion>
+
+=item *
+
+C<PendingImport>
+
+=item *
+
+C<Unavailable>
+
+=back
+
 
 
 =head2 Origin => Str
 
-The source of the CMK's key material.
+The source of the KMS key material.
 
-When this value is C<AWS_KMS>, AWS KMS created the key material.
+When this value is C<AWS_KMS>, KMS created the key material.
 
 When this value is C<EXTERNAL>, the key material was imported from your
-existing key management infrastructure or the CMK lacks key material.
+existing key management infrastructure or the KMS key lacks key
+material.
 
 When this value is C<AWS_CLOUDHSM>, the key material was created in the
-AWS CloudHSM cluster associated with a custom key store.
+CloudHSM cluster associated with a custom key store.
 
 
 

@@ -43,7 +43,7 @@ Information about a target group attribute.
 
 The name of the attribute.
 
-The following attribute is supported by all load balancers:
+The following attributes are supported by all load balancers:
 
 =over
 
@@ -55,23 +55,80 @@ of a deregistering target from C<draining> to C<unused>. The range is
 0-3600 seconds. The default value is 300 seconds. If the target is a
 Lambda function, this attribute is not supported.
 
-=back
+=item *
 
-The following attributes are supported by both Application Load
-Balancers and Network Load Balancers:
+C<stickiness.enabled> - Indicates whether target stickiness is enabled.
+The value is C<true> or C<false>. The default is C<false>.
+
+=item *
+
+C<stickiness.type> - Indicates the type of stickiness. The possible
+values are:
 
 =over
 
 =item *
 
-C<stickiness.enabled> - Indicates whether sticky sessions are enabled.
-The value is C<true> or C<false>. The default is C<false>.
+C<lb_cookie> and C<app_cookie> for Application Load Balancers.
 
 =item *
 
-C<stickiness.type> - The type of sticky sessions. The possible values
-are C<lb_cookie> and C<app_cookie> for Application Load Balancers or
 C<source_ip> for Network Load Balancers.
+
+=item *
+
+C<source_ip_dest_ip> and C<source_ip_dest_ip_proto> for Gateway Load
+Balancers.
+
+=back
+
+=back
+
+The following attributes are supported by Application Load Balancers
+and Network Load Balancers:
+
+=over
+
+=item *
+
+C<load_balancing.cross_zone.enabled> - Indicates whether cross zone
+load balancing is enabled. The value is C<true>, C<false> or
+C<use_load_balancer_configuration>. The default is
+C<use_load_balancer_configuration>.
+
+=item *
+
+C<target_group_health.dns_failover.minimum_healthy_targets.count> - The
+minimum number of targets that must be healthy. If the number of
+healthy targets is below this value, mark the zone as unhealthy in DNS,
+so that traffic is routed only to healthy zones. The possible values
+are C<off> or an integer from 1 to the maximum number of targets. The
+default is C<off>.
+
+=item *
+
+C<target_group_health.dns_failover.minimum_healthy_targets.percentage>
+- The minimum percentage of targets that must be healthy. If the
+percentage of healthy targets is below this value, mark the zone as
+unhealthy in DNS, so that traffic is routed only to healthy zones. The
+possible values are C<off> or an integer from 1 to 100. The default is
+C<off>.
+
+=item *
+
+C<target_group_health.unhealthy_state_routing.minimum_healthy_targets.count>
+- The minimum number of targets that must be healthy. If the number of
+healthy targets is below this value, send traffic to all targets,
+including unhealthy targets. The possible values are 1 to the maximum
+number of targets. The default is 1.
+
+=item *
+
+C<target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage>
+- The minimum percentage of targets that must be healthy. If the
+percentage of healthy targets is below this value, send traffic to all
+targets, including unhealthy targets. The possible values are C<off> or
+an integer from 1 to 100. The default is C<off>.
 
 =back
 
@@ -85,8 +142,15 @@ address:
 
 C<load_balancing.algorithm.type> - The load balancing algorithm
 determines how the load balancer selects targets when routing requests.
-The value is C<round_robin> or C<least_outstanding_requests>. The
-default is C<round_robin>.
+The value is C<round_robin>, C<least_outstanding_requests>, or
+C<weighted_random>. The default is C<round_robin>.
+
+=item *
+
+C<load_balancing.algorithm.anomaly_mitigation> - Only available when
+C<load_balancing.algorithm.type> is C<weighted_random>. Indicates
+whether anomaly mitigation is enabled. The value is C<on> or C<off>.
+The default is C<off>.
 
 =item *
 
@@ -146,8 +210,9 @@ The following attributes are supported only by Network Load Balancers:
 
 C<deregistration_delay.connection_termination.enabled> - Indicates
 whether the load balancer terminates connections at the end of the
-deregistration timeout. The value is C<true> or C<false>. The default
-is C<false>.
+deregistration timeout. The value is C<true> or C<false>. For new
+UDP/TCP_UDP target groups the default is C<true>. Otherwise, the
+default is C<false>.
 
 =item *
 
@@ -155,13 +220,57 @@ C<preserve_client_ip.enabled> - Indicates whether client IP
 preservation is enabled. The value is C<true> or C<false>. The default
 is disabled if the target group type is IP address and the target group
 protocol is TCP or TLS. Otherwise, the default is enabled. Client IP
-preservation cannot be disabled for UDP and TCP_UDP target groups.
+preservation can't be disabled for UDP and TCP_UDP target groups.
 
 =item *
 
 C<proxy_protocol_v2.enabled> - Indicates whether Proxy Protocol version
 2 is enabled. The value is C<true> or C<false>. The default is
 C<false>.
+
+=item *
+
+C<target_health_state.unhealthy.connection_termination.enabled> -
+Indicates whether the load balancer terminates connections to unhealthy
+targets. The value is C<true> or C<false>. The default is C<true>. This
+attribute can't be enabled for UDP and TCP_UDP target groups.
+
+=item *
+
+C<target_health_state.unhealthy.draining_interval_seconds> - The amount
+of time for Elastic Load Balancing to wait before changing the state of
+an unhealthy target from C<unhealthy.draining> to C<unhealthy>. The
+range is 0-360000 seconds. The default value is 0 seconds.
+
+Note: This attribute can only be configured when
+C<target_health_state.unhealthy.connection_termination.enabled> is
+C<false>.
+
+=back
+
+The following attributes are supported only by Gateway Load Balancers:
+
+=over
+
+=item *
+
+C<target_failover.on_deregistration> - Indicates how the Gateway Load
+Balancer handles existing flows when a target is deregistered. The
+possible values are C<rebalance> and C<no_rebalance>. The default is
+C<no_rebalance>. The two attributes
+(C<target_failover.on_deregistration> and
+C<target_failover.on_unhealthy>) can't be set independently. The value
+you set for both attributes must be the same.
+
+=item *
+
+C<target_failover.on_unhealthy> - Indicates how the Gateway Load
+Balancer handles existing flows when a target is unhealthy. The
+possible values are C<rebalance> and C<no_rebalance>. The default is
+C<no_rebalance>. The two attributes
+(C<target_failover.on_deregistration> and
+C<target_failover.on_unhealthy>) can't be set independently. The value
+you set for both attributes must be the same.
 
 =back
 

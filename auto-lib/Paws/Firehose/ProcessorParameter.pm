@@ -41,7 +41,12 @@ Describes the processor parameter.
 
 =head2 B<REQUIRED> ParameterName => Str
 
-The name of the parameter.
+The name of the parameter. Currently the following default values are
+supported: 3 for C<NumberOfRetries> and 60 for the
+C<BufferIntervalInSeconds>. The C<BufferSizeInMBs> ranges between 0.2
+MB and up to 3MB. The default buffering hint is 1MB for all
+destinations, except Splunk. For Splunk, the default buffering hint is
+256 KB.
 
 
 =head2 B<REQUIRED> ParameterValue => Str

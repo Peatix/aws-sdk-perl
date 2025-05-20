@@ -16,7 +16,8 @@ Paws::Transcribe::StartTranscriptionJobResponse
 
 =head2 TranscriptionJob => L<Paws::Transcribe::TranscriptionJob>
 
-An object containing details of the asynchronous transcription job.
+Provides detailed information about the current transcription job,
+including job status and, if applicable, failure reason.
 
 
 =head2 _request_id => Str

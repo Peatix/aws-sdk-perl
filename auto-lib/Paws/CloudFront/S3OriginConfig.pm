@@ -42,14 +42,20 @@ website endpoint, use the C<CustomOriginConfig> element instead.
 
 =head2 B<REQUIRED> OriginAccessIdentity => Str
 
+If you're using origin access control (OAC) instead of origin access
+identity, specify an empty C<OriginAccessIdentity> element. For more
+information, see Restricting access to an Amazon Web Services
+(https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html)
+in the I<Amazon CloudFront Developer Guide>.
+
 The CloudFront origin access identity to associate with the origin. Use
 an origin access identity to configure the origin so that viewers can
 I<only> access objects in an Amazon S3 bucket through CloudFront. The
 format of the value is:
 
-origin-access-identity/cloudfront/I<ID-of-origin-access-identity>
+C<origin-access-identity/cloudfront/ID-of-origin-access-identity>
 
-where C< I<ID-of-origin-access-identity> > is the value that CloudFront
+The C< I<ID-of-origin-access-identity> > is the value that CloudFront
 returned in the C<ID> element when you created the origin access
 identity.
 

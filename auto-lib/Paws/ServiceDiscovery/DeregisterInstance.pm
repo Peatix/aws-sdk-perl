@@ -28,10 +28,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # Example: Deregister a service instance
+    # Example: Deregister a service instance
     my $DeregisterInstanceResponse = $servicediscovery->DeregisterInstance(
-      InstanceId => 'MyResourceId',
-      ServiceId  => 'MyResourceId',
-
+      'InstanceId' => 'myservice-53',
+      'ServiceId'  => 'srv-p5zdwlg5uvvzjita'
     );
 
     # Results:

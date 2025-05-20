@@ -42,6 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Id              = $GetWirelessDeviceResponse->Id;
     my $LoRaWAN         = $GetWirelessDeviceResponse->LoRaWAN;
     my $Name            = $GetWirelessDeviceResponse->Name;
+    my $Positioning     = $GetWirelessDeviceResponse->Positioning;
     my $Sidewalk        = $GetWirelessDeviceResponse->Sidewalk;
     my $ThingArn        = $GetWirelessDeviceResponse->ThingArn;
     my $ThingName       = $GetWirelessDeviceResponse->ThingName;
@@ -65,7 +66,7 @@ The identifier of the wireless device to get.
 
 The type of identifier used in C<identifier>.
 
-Valid values are: C<"WirelessDeviceId">, C<"DevEui">, C<"ThingName">
+Valid values are: C<"WirelessDeviceId">, C<"DevEui">, C<"ThingName">, C<"SidewalkManufacturingSn">
 
 
 =head1 SEE ALSO

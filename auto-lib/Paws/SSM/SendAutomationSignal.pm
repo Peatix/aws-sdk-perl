@@ -78,7 +78,7 @@ C<StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab">
 
 The type of signal to send to an Automation execution.
 
-Valid values are: C<"Approve">, C<"Reject">, C<"StartStep">, C<"StopStep">, C<"Resume">
+Valid values are: C<"Approve">, C<"Reject">, C<"StartStep">, C<"StopStep">, C<"Resume">, C<"Revoke">
 
 
 =head1 SEE ALSO

@@ -31,7 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DisassociateConfigurationItemsFromApplicationResponse =
       $discovery->DisassociateConfigurationItemsFromApplication(
       ApplicationConfigurationId => 'MyApplicationId',
-      ConfigurationIds           => [ 'MyConfigurationId', ... ],
+      ConfigurationIds           => [
+        'MyConfigurationId', ...    # max: 200
+      ],
 
       );
 

@@ -41,13 +41,13 @@ An object that contains:
 =item *
 
 The encryption option for a repository association. It is either owned
-by AWS Key Management Service (KMS) (C<AWS_OWNED_CMK>) or customer
-managed (C<CUSTOMER_MANAGED_CMK>).
+by Amazon Web Services Key Management Service (KMS) (C<AWS_OWNED_CMK>)
+or customer managed (C<CUSTOMER_MANAGED_CMK>).
 
 =item *
 
-The ID of the AWS KMS key that is associated with a respository
-association.
+The ID of the Amazon Web Services KMS key that is associated with a
+repository association.
 
 =back
 
@@ -58,14 +58,14 @@ association.
 =head2 EncryptionOption => Str
 
 The encryption option for a repository association. It is either owned
-by AWS Key Management Service (KMS) (C<AWS_OWNED_CMK>) or customer
-managed (C<CUSTOMER_MANAGED_CMK>).
+by Amazon Web Services Key Management Service (KMS) (C<AWS_OWNED_CMK>)
+or customer managed (C<CUSTOMER_MANAGED_CMK>).
 
 
 =head2 KMSKeyId => Str
 
-The ID of the AWS KMS key that is associated with a respository
-association.
+The ID of the Amazon Web Services KMS key that is associated with a
+repository association.
 
 
 

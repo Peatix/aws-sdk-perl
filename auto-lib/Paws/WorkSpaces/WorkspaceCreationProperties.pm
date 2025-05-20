@@ -5,7 +5,7 @@ package Paws::WorkSpaces::WorkspaceCreationProperties;
   has DefaultOu => (is => 'ro', isa => 'Str');
   has EnableInternetAccess => (is => 'ro', isa => 'Bool');
   has EnableMaintenanceMode => (is => 'ro', isa => 'Bool');
-  has EnableWorkDocs => (is => 'ro', isa => 'Bool');
+  has InstanceIamRoleArn => (is => 'ro', isa => 'Str');
   has UserEnabledAsLocalAdministrator => (is => 'ro', isa => 'Bool');
 
 1;
@@ -89,25 +89,9 @@ more information, see WorkSpace Maintenance
 (https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html).
 
 
-=head2 EnableWorkDocs => Bool
+=head2 InstanceIamRoleArn => Str
 
-Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.
-
-If WorkDocs is already enabled for a WorkSpaces directory and you
-disable it, new WorkSpaces launched in the directory will not have
-WorkDocs enabled. However, WorkDocs remains enabled for any existing
-WorkSpaces, unless you either disable users' access to WorkDocs or you
-delete the WorkDocs site. To disable users' access to WorkDocs, see
-Disabling Users
-(https://docs.aws.amazon.com/workdocs/latest/adminguide/inactive-user.html)
-in the I<Amazon WorkDocs Administration Guide>. To delete a WorkDocs
-site, see Deleting a Site
-(https://docs.aws.amazon.com/workdocs/latest/adminguide/manage-sites.html)
-in the I<Amazon WorkDocs Administration Guide>.
-
-If you enable WorkDocs on a directory that already has existing
-WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are
-launched in the directory will have WorkDocs enabled.
+Indicates the IAM role ARN of the instance.
 
 
 =head2 UserEnabledAsLocalAdministrator => Bool

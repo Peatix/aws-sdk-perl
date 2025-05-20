@@ -42,11 +42,11 @@ StatelessRulesAndCustomActions.
 
 =head2 B<REQUIRED> Priority => Int
 
-A setting that indicates the order in which to run this rule relative
-to all of the rules that are defined for a stateless rule group.
-Network Firewall evaluates the rules in a rule group starting with the
-lowest priority setting. You must ensure that the priority settings are
-unique for the rule group.
+Indicates the order in which to run this rule relative to all of the
+rules that are defined for a stateless rule group. Network Firewall
+evaluates the rules in a rule group starting with the lowest priority
+setting. You must ensure that the priority settings are unique for the
+rule group.
 
 Each stateless rule group uses exactly one
 C<StatelessRulesAndCustomActions> object, and each

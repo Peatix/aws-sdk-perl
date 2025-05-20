@@ -43,16 +43,16 @@ Metadata assigned to a directory consisting of a key-value pair.
 
 Required name of the tag. The string value can be Unicode characters
 and cannot be prefixed with "aws:". The string can contain only the set
-of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-'
-(Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-',
+':', '@'(Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
 
 
 =head2 B<REQUIRED> Value => Str
 
 The optional value of the tag. The string value can be Unicode
 characters. The string can contain only the set of Unicode letters,
-digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex:
-"^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java
+regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
 
 
 

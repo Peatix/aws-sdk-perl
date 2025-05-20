@@ -43,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $EndTime            = $DescribeChangeSetResponse->EndTime;
     my $FailureCode        = $DescribeChangeSetResponse->FailureCode;
     my $FailureDescription = $DescribeChangeSetResponse->FailureDescription;
+    my $Intent             = $DescribeChangeSetResponse->Intent;
     my $StartTime          = $DescribeChangeSetResponse->StartTime;
     my $Status             = $DescribeChangeSetResponse->Status;
 

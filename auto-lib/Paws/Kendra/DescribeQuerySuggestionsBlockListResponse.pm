@@ -27,51 +27,50 @@ Paws::Kendra::DescribeQuerySuggestionsBlockListResponse
 
 =head2 CreatedAt => Str
 
-Shows the date-time a block list for query suggestions was last
-created.
+The Unix timestamp when a block list for query suggestions was created.
 
 
 =head2 Description => Str
 
-Shows the description for the block list.
+The description for the block list.
 
 
 =head2 ErrorMessage => Str
 
-Shows the error message with details when there are issues in
-processing the block list.
+The error message containing details if there are issues processing the
+block list.
 
 
 =head2 FileSizeBytes => Int
 
-Shows the current size of the block list text file in S3.
+The current size of the block list text file in S3.
 
 
 =head2 Id => Str
 
-Shows the unique identifier of the block list.
+The identifier of the block list.
 
 
 =head2 IndexId => Str
 
-Shows the identifier of the index for the block list.
+The identifier of the index for the block list.
 
 
 =head2 ItemCount => Int
 
-Shows the current number of valid, non-empty words or phrases in the
-block list text file.
+The current number of valid, non-empty words or phrases in the block
+list text file.
 
 
 =head2 Name => Str
 
-Shows the name of the block list.
+The name of the block list.
 
 
 =head2 RoleArn => Str
 
-Shows the current IAM (Identity and Access Management) role used by
-Amazon Kendra to access the block list text file in S3.
+The IAM (Identity and Access Management) role used by Amazon Kendra to
+access the block list text file in S3.
 
 The role needs S3 read permissions to your file in S3 and needs to give
 STS (Security Token Service) assume role permissions to Amazon Kendra.
@@ -91,13 +90,13 @@ for Amazon Kendra
 
 =head2 Status => Str
 
-Shows whether the current status of the block list is C<ACTIVE> or
-C<INACTIVE>.
+The current status of the block list. When the value is C<ACTIVE>, the
+block list is ready for use.
 
 Valid values are: C<"ACTIVE">, C<"CREATING">, C<"DELETING">, C<"UPDATING">, C<"ACTIVE_BUT_UPDATE_FAILED">, C<"FAILED">
 =head2 UpdatedAt => Str
 
-Shows the date-time a block list for query suggestions was last
+The Unix timestamp when a block list for query suggestions was last
 updated.
 
 

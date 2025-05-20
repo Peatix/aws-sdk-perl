@@ -50,7 +50,8 @@ Can be an C<ARN>, C<Key ID>, or C<Alias>.
 
 =head2 LastAccessedDate => Str
 
-The date that you last accessed the secret in the Region.
+The date that the secret was last accessed in the Region. This field is
+omitted if the secret has never been retrieved in the Region.
 
 
 =head2 Region => Str

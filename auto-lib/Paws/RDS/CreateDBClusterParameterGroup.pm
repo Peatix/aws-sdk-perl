@@ -61,7 +61,7 @@ Constraints:
 
 =item *
 
-Must match the name of an existing DB cluster parameter group.
+Must not match the name of an existing DB cluster parameter group.
 
 =back
 
@@ -79,11 +79,19 @@ parameter group family.
 
 B<Aurora MySQL>
 
-Example: C<aurora5.6>, C<aurora-mysql5.7>
+Example: C<aurora-mysql5.7>, C<aurora-mysql8.0>
 
 B<Aurora PostgreSQL>
 
-Example: C<aurora-postgresql9.6>
+Example: C<aurora-postgresql14>
+
+B<RDS for MySQL>
+
+Example: C<mysql8.0>
+
+B<RDS for PostgreSQL>
+
+Example: C<postgres13>
 
 To list all of the available parameter group families for a DB engine,
 use the following command:
@@ -105,15 +113,19 @@ The following are the valid DB engine values:
 
 =item *
 
-C<aurora> (for MySQL 5.6-compatible Aurora)
-
-=item *
-
-C<aurora-mysql> (for MySQL 5.7-compatible Aurora)
+C<aurora-mysql>
 
 =item *
 
 C<aurora-postgresql>
+
+=item *
+
+C<mysql>
+
+=item *
+
+C<postgres>
 
 =back
 

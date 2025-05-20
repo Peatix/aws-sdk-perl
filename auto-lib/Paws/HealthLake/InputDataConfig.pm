@@ -41,7 +41,7 @@ The input properties for an import job.
 =head2 S3Uri => Str
 
 The S3Uri is the user specified S3 location of the FHIR data to be
-imported into Amazon HealthLake.
+imported into AWS HealthLake.
 
 
 

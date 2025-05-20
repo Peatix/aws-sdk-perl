@@ -44,13 +44,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the fleet provisioning template version to delete.
+The name of the provisioning template version to delete.
 
 
 
 =head2 B<REQUIRED> VersionId => Int
 
-The fleet provisioning template version ID to delete.
+The provisioning template version ID to delete.
 
 
 

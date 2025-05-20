@@ -41,7 +41,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 GlobalSettings => L<Paws::Backup::GlobalSettings>
 
-A list of resources along with the opt-in preferences for the account.
+A value for C<isCrossAccountBackupEnabled> and a Region. Example:
+C<update-global-settings --global-settings
+isCrossAccountBackupEnabled=false --region us-west-2>.
 
 
 

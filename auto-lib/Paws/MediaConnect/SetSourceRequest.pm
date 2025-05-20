@@ -4,6 +4,7 @@ package Paws::MediaConnect::SetSourceRequest;
   has Decryption => (is => 'ro', isa => 'Paws::MediaConnect::Encryption', request_name => 'decryption', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has EntitlementArn => (is => 'ro', isa => 'Str', request_name => 'entitlementArn', traits => ['NameInRequest']);
+  has GatewayBridgeSource => (is => 'ro', isa => 'Paws::MediaConnect::SetGatewayBridgeSourceRequest', request_name => 'gatewayBridgeSource', traits => ['NameInRequest']);
   has IngestPort => (is => 'ro', isa => 'Int', request_name => 'ingestPort', traits => ['NameInRequest']);
   has MaxBitrate => (is => 'ro', isa => 'Int', request_name => 'maxBitrate', traits => ['NameInRequest']);
   has MaxLatency => (is => 'ro', isa => 'Int', request_name => 'maxLatency', traits => ['NameInRequest']);
@@ -12,6 +13,10 @@ package Paws::MediaConnect::SetSourceRequest;
   has MinLatency => (is => 'ro', isa => 'Int', request_name => 'minLatency', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest']);
+  has SenderControlPort => (is => 'ro', isa => 'Int', request_name => 'senderControlPort', traits => ['NameInRequest']);
+  has SenderIpAddress => (is => 'ro', isa => 'Str', request_name => 'senderIpAddress', traits => ['NameInRequest']);
+  has SourceListenerAddress => (is => 'ro', isa => 'Str', request_name => 'sourceListenerAddress', traits => ['NameInRequest']);
+  has SourceListenerPort => (is => 'ro', isa => 'Int', request_name => 'sourceListenerPort', traits => ['NameInRequest']);
   has StreamId => (is => 'ro', isa => 'Str', request_name => 'streamId', traits => ['NameInRequest']);
   has VpcInterfaceName => (is => 'ro', isa => 'Str', request_name => 'vpcInterfaceName', traits => ['NameInRequest']);
   has WhitelistCidr => (is => 'ro', isa => 'Str', request_name => 'whitelistCidr', traits => ['NameInRequest']);
@@ -54,13 +59,13 @@ The settings for the source of the flow.
 =head2 Decryption => L<Paws::MediaConnect::Encryption>
 
 The type of encryption that is used on the content ingested from this
-source.
+source. Allowable encryption types: static-key.
 
 
 =head2 Description => Str
 
 A description for the source. This value is not used or seen outside of
-the current AWS Elemental MediaConnect account.
+the current MediaConnect account.
 
 
 =head2 EntitlementArn => Str
@@ -70,6 +75,12 @@ The entitlement is set by the flow originator, and the ARN is generated
 as part of the originator's flow.
 
 
+=head2 GatewayBridgeSource => L<Paws::MediaConnect::SetGatewayBridgeSourceRequest>
+
+The source configuration for cloud flows receiving a stream from a
+bridge.
+
+
 =head2 IngestPort => Int
 
 The port that the flow will be listening on for incoming content.
@@ -77,7 +88,7 @@ The port that the flow will be listening on for incoming content.
 
 =head2 MaxBitrate => Int
 
-The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
 
 
 =head2 MaxLatency => Int
@@ -117,11 +128,36 @@ The name of the source.
 
 The protocol that is used by the source.
 
+Elemental MediaConnect no longer supports the Fujitsu QoS protocol.
+This reference is maintained for legacy purposes only.
+
+
+=head2 SenderControlPort => Int
+
+The port that the flow uses to send outbound requests to initiate
+connection with the sender.
+
+
+=head2 SenderIpAddress => Str
+
+The IP address that the flow communicates with to initiate connection
+with the sender.
+
+
+=head2 SourceListenerAddress => Str
+
+Source IP or domain name for SRT-caller protocol.
+
+
+=head2 SourceListenerPort => Int
+
+Source port for SRT-caller protocol.
+
 
 =head2 StreamId => Str
 
 The stream ID that you want to use for this transport. This parameter
-applies only to Zixi-based streams.
+applies only to Zixi and SRT caller-based streams.
 
 
 =head2 VpcInterfaceName => Str

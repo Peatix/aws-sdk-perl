@@ -43,12 +43,83 @@ unable to update.
 
 =head2 B<REQUIRED> ErrorCode => Str
 
-The code associated with the error.
+The code associated with the error. Possible values are:
+
+=over
+
+=item *
+
+C<ConcurrentUpdateError> - Another request attempted to update the
+finding while this request was being processed. This error may also
+occur if you call C<BatchUpdateFindings>
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html)
+and C<BatchImportFindings>
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html)
+at the same time.
+
+=item *
+
+C<DuplicatedFindingIdentifier> - The request included two or more
+findings with the same C<FindingIdentifier>.
+
+=item *
+
+C<FindingNotFound> - The C<FindingIdentifier> included in the request
+did not match an existing finding.
+
+=item *
+
+C<FindingSizeExceeded> - The finding size was greater than the
+permissible value of 240 KB.
+
+=item *
+
+C<InternalFailure> - An internal service failure occurred when updating
+the finding.
+
+=item *
+
+C<InvalidInput> - The finding update contained an invalid value that
+did not satisfy the Amazon Web Services Security Finding Format
+(https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html)
+syntax.
+
+=back
+
 
 
 =head2 B<REQUIRED> ErrorMessage => Str
 
-The message associated with the error.
+The message associated with the error. Possible values are:
+
+=over
+
+=item *
+
+C<Concurrent finding updates detected>
+
+=item *
+
+C<Finding Identifier is duplicated>
+
+=item *
+
+C<Finding Not Found>
+
+=item *
+
+C<Finding size exceeded 240 KB>
+
+=item *
+
+C<Internal service failure>
+
+=item *
+
+C<Invalid Input>
+
+=back
+
 
 
 =head2 B<REQUIRED> FindingIdentifier => L<Paws::SecurityHub::AwsSecurityFindingIdentifier>

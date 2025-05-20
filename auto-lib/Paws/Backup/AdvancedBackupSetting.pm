@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Backup::Adv
 
 =head1 DESCRIPTION
 
-A list of backup options for each resource type.
+The backup options for each resource type.
 
 =head1 ATTRIBUTES
 
@@ -46,11 +46,11 @@ only available for Windows VSS backup jobs.
 
 Valid values:
 
-Set to C<"WindowsVSS":"enabled"> to enable the WindowsVSS backup option
-and create a VSS Windows backup.
+Set to C<"WindowsVSS":"enabled"> to enable the C<WindowsVSS> backup
+option and create a Windows VSS backup.
 
 Set to C<"WindowsVSS":"disabled"> to create a regular backup. The
-WindowsVSS option is not enabled by default.
+C<WindowsVSS> option is not enabled by default.
 
 If you specify an invalid option, you get an
 C<InvalidParameterValueException> exception.
@@ -63,11 +63,11 @@ VSS-Enabled Windows Backup
 =head2 ResourceType => Str
 
 Specifies an object containing resource type and backup options. The
-only supported resource type is Amazon EC2 instances with Windows VSS.
-For an CloudFormation example, see the sample CloudFormation template
-to enable Windows VSS
+only supported resource type is Amazon EC2 instances with Windows
+Volume Shadow Copy Service (VSS). For a CloudFormation example, see the
+sample CloudFormation template to enable Windows VSS
 (https://docs.aws.amazon.com/aws-backup/latest/devguide/integrate-cloudformation-with-aws-backup.html)
-in the I<AWS Backup User Guide>.
+in the I<Backup User Guide>.
 
 Valid values: C<EC2>.
 

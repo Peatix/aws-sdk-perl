@@ -41,12 +41,12 @@ Prometheus settings.
 
 =head2 JmxExporter => L<Paws::Kafka::JmxExporterInfo>
 
-Indicates whether you want to enable or disable the JMX Exporter.
+Indicates whether you want to turn on or turn off the JMX Exporter.
 
 
 =head2 NodeExporter => L<Paws::Kafka::NodeExporterInfo>
 
-Indicates whether you want to enable or disable the Node Exporter.
+Indicates whether you want to turn on or turn off the Node Exporter.
 
 
 

@@ -37,23 +37,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Con
 
 =head1 DESCRIPTION
 
-Specifies the configuration for indexing Confluence spaces.
+Configuration information for indexing Confluence spaces.
 
 =head1 ATTRIBUTES
 
 
 =head2 CrawlArchivedSpaces => Bool
 
-Specifies whether Amazon Kendra should index archived spaces.
+C<TRUE> to index archived spaces.
 
 
 =head2 CrawlPersonalSpaces => Bool
 
-Specifies whether Amazon Kendra should index personal spaces. Users can
-add restrictions to items in personal spaces. If personal spaces are
-indexed, queries without user context information may return restricted
-items from a personal space in their results. For more information, see
-Filtering on user context
+C<TRUE> to index personal spaces. You can add restrictions to items in
+personal spaces. If personal spaces are indexed, queries without user
+context information may return restricted items from a personal space
+in their results. For more information, see Filtering on user context
 (https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html).
 
 
@@ -77,9 +76,13 @@ C<ExcludeSpaces> list, the space is excluded.
 
 =head2 SpaceFieldMappings => ArrayRef[L<Paws::Kendra::ConfluenceSpaceToIndexFieldMapping>]
 
-Defines how space metadata fields should be mapped to index fields.
-Before you can map a field, you must first create an index field with a
-matching type using the console or the C<UpdateIndex> operation.
+Maps attributes or field names of Confluence spaces to Amazon Kendra
+index field names. To create custom fields, use the C<UpdateIndex> API
+before you map to Confluence fields. For more information, see Mapping
+data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+Confluence data source field names must exist in your Confluence custom
+metadata.
 
 If you specify the C<SpaceFieldMappings> parameter, you must specify at
 least one field mapping.

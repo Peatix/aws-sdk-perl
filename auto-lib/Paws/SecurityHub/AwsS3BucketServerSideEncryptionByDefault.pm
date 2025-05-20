@@ -42,12 +42,13 @@ the bucket.
 
 =head2 KMSMasterKeyID => Str
 
-AWS KMS customer master key (CMK) ID to use for the default encryption.
+KMS key ID to use for the default encryption.
 
 
 =head2 SSEAlgorithm => Str
 
 Server-side encryption algorithm to use for the default encryption.
+Valid values are C<aws: kms> or C<AES256>.
 
 
 

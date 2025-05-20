@@ -43,7 +43,7 @@ operation consumes a list of these requests.
 
 =head2 B<REQUIRED> ThingName => Str
 
-The name of the AWS IoT thing that represents the client device to
+The name of the IoT thing that represents the client device to
 disassociate.
 
 

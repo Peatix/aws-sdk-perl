@@ -49,21 +49,30 @@ status changes to this topic.
 
 =head2 NotificationEvents => ArrayRef[Str|Undef]
 
-The different events for which you can receive notifications. These
-events include the following: All (events), InProgress, Success,
-TimedOut, Cancelled, Failed. To learn more about these events, see
-Monitoring Systems Manager status changes using Amazon SNS
-notifications
+The different events for which you can receive notifications. To learn
+more about these events, see Monitoring Systems Manager status changes
+using Amazon SNS notifications
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 NotificationType => Str
 
-Command: Receive notification when the status of a command changes.
-Invocation: For commands sent to multiple instances, receive
-notification on a per-instance basis when the status of a command
-changes.
+The type of notification.
+
+=over
+
+=item *
+
+C<Command>: Receive notification when the status of a command changes.
+
+=item *
+
+C<Invocation>: For commands sent to multiple managed nodes, receive
+notification on a per-node basis when the status of a command changes.
+
+=back
+
 
 
 

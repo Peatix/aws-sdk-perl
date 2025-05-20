@@ -71,18 +71,18 @@ The time when the version of an environment template was last modified.
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-The ID of the latest major version that's associated with the version
-of an environment template.
+The latest major version that's associated with the version of an
+environment template.
 
 
 =head2 B<REQUIRED> MinorVersion => Str
 
-The ID of the minor version of an environment template.
+The minor version of an environment template.
 
 
 =head2 RecommendedMinorVersion => Str
 
-The ID of the recommended minor version of the environment template.
+The recommended minor version of the environment template.
 
 
 =head2 Schema => Str

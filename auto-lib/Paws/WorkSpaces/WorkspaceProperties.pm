@@ -2,6 +2,9 @@
 package Paws::WorkSpaces::WorkspaceProperties;
   use Moose;
   has ComputeTypeName => (is => 'ro', isa => 'Str');
+  has GlobalAccelerator => (is => 'ro', isa => 'Paws::WorkSpaces::GlobalAcceleratorForWorkSpace');
+  has OperatingSystemName => (is => 'ro', isa => 'Str');
+  has Protocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has RootVolumeSizeGib => (is => 'ro', isa => 'Int');
   has RunningMode => (is => 'ro', isa => 'Str');
   has RunningModeAutoStopTimeoutInMinutes => (is => 'ro', isa => 'Int');
@@ -48,6 +51,41 @@ The compute type. For more information, see Amazon WorkSpaces Bundles
 (http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles).
 
 
+=head2 GlobalAccelerator => L<Paws::WorkSpaces::GlobalAcceleratorForWorkSpace>
+
+Indicates the Global Accelerator properties.
+
+
+=head2 OperatingSystemName => Str
+
+The name of the operating system.
+
+
+=head2 Protocols => ArrayRef[Str|Undef]
+
+The protocol. For more information, see Protocols for Amazon WorkSpaces
+(https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-protocols.html).
+
+=over
+
+=item *
+
+Only available for WorkSpaces created with PCoIP bundles.
+
+=item *
+
+The C<Protocols> property is case sensitive. Ensure you use C<PCOIP> or
+C<DCV> (formerly WSP).
+
+=item *
+
+Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based
+bundles (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+
+=back
+
+
+
 =head2 RootVolumeSizeGib => Int
 
 The size of the root volume. For important information about how to
@@ -60,6 +98,16 @@ modify the size of the root and user volumes, see Modify a WorkSpace
 The running mode. For more information, see Manage the WorkSpace
 Running Mode
 (https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html).
+
+The C<MANUAL> value is only supported by Amazon WorkSpaces Core.
+Contact your account team to be allow-listed to use this value. For
+more information, see Amazon WorkSpaces Core
+(http://aws.amazon.com/workspaces/core/).
+
+Review your running mode to ensure you are using one that is optimal
+for your needs and budget. For more information on switching running
+modes, see Can I switch between hourly and monthly billing?
+(http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F)
 
 
 =head2 RunningModeAutoStopTimeoutInMinutes => Int

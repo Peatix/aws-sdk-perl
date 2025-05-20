@@ -2,7 +2,9 @@
 package Paws::S3Control::AccessPoint;
   use Moose;
   has AccessPointArn => (is => 'ro', isa => 'Str');
+  has Alias => (is => 'ro', isa => 'Str');
   has Bucket => (is => 'ro', isa => 'Str', required => 1);
+  has BucketAccountId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has NetworkOrigin => (is => 'ro', isa => 'Str', required => 1);
   has VpcConfiguration => (is => 'ro', isa => 'Paws::S3Control::VpcConfiguration');
@@ -47,9 +49,20 @@ An access point used to access a bucket.
 The ARN for the access point.
 
 
+=head2 Alias => Str
+
+The name or alias of the access point.
+
+
 =head2 B<REQUIRED> Bucket => Str
 
 The name of the bucket associated with this access point.
+
+
+=head2 BucketAccountId => Str
+
+The Amazon Web Services account ID associated with the S3 bucket
+associated with this access point.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -73,7 +86,7 @@ The virtual private cloud (VPC) configuration for this access point, if
 one exists.
 
 This element is empty if this access point is an Amazon S3 on Outposts
-access point that is used by other AWS services.
+access point that is used by other Amazon Web Services services.
 
 
 

@@ -4,7 +4,9 @@ package Paws::Prometheus::WorkspaceSummary;
   has Alias => (is => 'ro', isa => 'Str', request_name => 'alias', traits => ['NameInRequest']);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest'], required => 1);
+  has KmsKeyArn => (is => 'ro', isa => 'Str', request_name => 'kmsKeyArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Paws::Prometheus::WorkspaceStatus', request_name => 'status', traits => ['NameInRequest'], required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::Prometheus::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has WorkspaceId => (is => 'ro', isa => 'Str', request_name => 'workspaceId', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -37,34 +39,47 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Prometheus:
 
 =head1 DESCRIPTION
 
-Represents a summary of the properties of a workspace.
+The information about one Amazon Managed Service for Prometheus
+workspace in your account.
 
 =head1 ATTRIBUTES
 
 
 =head2 Alias => Str
 
-Alias of this workspace.
+The alias that is assigned to this workspace to help identify it. It
+does not need to be unique.
 
 
 =head2 B<REQUIRED> Arn => Str
 
-The AmazonResourceName of this workspace.
+The ARN of the workspace.
 
 
 =head2 B<REQUIRED> CreatedAt => Str
 
-The time when the workspace was created.
+The date and time that the workspace was created.
+
+
+=head2 KmsKeyArn => Str
+
+(optional) If the workspace was created with a customer managed KMS
+key, the ARN for the key used.
 
 
 =head2 B<REQUIRED> Status => L<Paws::Prometheus::WorkspaceStatus>
 
-The status of this workspace.
+The current status of the workspace.
+
+
+=head2 Tags => L<Paws::Prometheus::TagMap>
+
+The list of tag keys and values that are associated with the workspace.
 
 
 =head2 B<REQUIRED> WorkspaceId => Str
 
-Unique string identifying this workspace.
+The unique ID for the workspace.
 
 
 

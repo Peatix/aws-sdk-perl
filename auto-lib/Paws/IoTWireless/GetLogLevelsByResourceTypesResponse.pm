@@ -2,6 +2,7 @@
 package Paws::IoTWireless::GetLogLevelsByResourceTypesResponse;
   use Moose;
   has DefaultLogLevel => (is => 'ro', isa => 'Str');
+  has FuotaTaskLogOptions => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::FuotaTaskLogOption]');
   has WirelessDeviceLogOptions => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::WirelessDeviceLogOption]');
   has WirelessGatewayLogOptions => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::WirelessGatewayLogOption]');
 
@@ -22,6 +23,11 @@ Paws::IoTWireless::GetLogLevelsByResourceTypesResponse
 
 
 Valid values are: C<"INFO">, C<"ERROR">, C<"DISABLED">
+=head2 FuotaTaskLogOptions => ArrayRef[L<Paws::IoTWireless::FuotaTaskLogOption>]
+
+
+
+
 =head2 WirelessDeviceLogOptions => ArrayRef[L<Paws::IoTWireless::WirelessDeviceLogOption>]
 
 

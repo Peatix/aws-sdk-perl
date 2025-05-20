@@ -33,11 +33,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-Information about AWS CloudFormation stacks. You can use up to 500
-stacks to specify which AWS resources in your account to analyze. For
-more information, see Stacks
+Information about Amazon Web Services CloudFormation stacks. You can
+use up to 500 stacks to specify which Amazon Web Services resources in
+your account to analyze. For more information, see Stacks
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<Amazon Web Services CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
 

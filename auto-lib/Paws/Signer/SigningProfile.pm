@@ -43,7 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::Sig
 
 =head1 DESCRIPTION
 
-Contains information about the ACM certificates and code signing
+Contains information about the ACM certificates and signing
 configuration parameters that can be used by a given code signing user.
 
 =head1 ATTRIBUTES
@@ -92,12 +92,12 @@ The ACM certificate that is available for use by a signing profile.
 
 =head2 SigningParameters => L<Paws::Signer::SigningParameters>
 
-The parameters that are available for use by a code signing user.
+The parameters that are available for use by a Signer user.
 
 
 =head2 Status => Str
 
-The status of a code signing profile.
+The status of a signing profile.
 
 
 =head2 Tags => L<Paws::Signer::TagMap>

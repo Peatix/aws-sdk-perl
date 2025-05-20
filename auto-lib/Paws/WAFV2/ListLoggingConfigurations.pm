@@ -2,8 +2,9 @@
 package Paws::WAFV2::ListLoggingConfigurations;
   use Moose;
   has Limit => (is => 'ro', isa => 'Int');
+  has LogScope => (is => 'ro', isa => 'Str');
   has NextMarker => (is => 'ro', isa => 'Str');
-  has Scope => (is => 'ro', isa => 'Str');
+  has Scope => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $wafv2 = Paws->service('WAFV2');
     my $ListLoggingConfigurationsResponse = $wafv2->ListLoggingConfigurations(
+      Scope      => 'CLOUDFRONT',
       Limit      => 1,                 # OPTIONAL
+      LogScope   => 'CUSTOMER',        # OPTIONAL
       NextMarker => 'MyNextMarker',    # OPTIONAL
-      Scope      => 'CLOUDFRONT',      # OPTIONAL
     );
 
     # Results:
@@ -57,6 +59,23 @@ next batch of objects.
 
 
 
+=head2 LogScope => Str
+
+The owner of the logging configuration, which must be set to
+C<CUSTOMER> for the configurations that you manage.
+
+The log scope C<SECURITY_LAKE> indicates a configuration that is
+managed through Amazon Security Lake. You can use Security Lake to
+collect log and event data from various sources for normalization,
+analysis, and management. For information, see Collecting data from
+Amazon Web Services services
+(https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
+in the I<Amazon Security Lake user guide>.
+
+Default: C<CUSTOMER>
+
+Valid values are: C<"CUSTOMER">, C<"SECURITY_LAKE">
+
 =head2 NextMarker => Str
 
 When you request a list of objects with a C<Limit> setting, if the
@@ -67,12 +86,10 @@ your next request.
 
 
 
-=head2 Scope => Str
+=head2 B<REQUIRED> Scope => Str
 
-Specifies whether this is for an Amazon CloudFront distribution or for
-a regional application. A regional application can be an Application
-Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync
-GraphQL API.
+Specifies whether this is for a global resource type, such as a Amazon
+CloudFront distribution. For an Amplify application, use C<CLOUDFRONT>.
 
 To work with CloudFront, you must also specify the Region US East (N.
 Virginia) as follows:

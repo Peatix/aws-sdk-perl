@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $synthetics = Paws->service('Synthetics');
     my $ListTagsForResourceResponse = $synthetics->ListTagsForResource(
-      ResourceArn => 'MyCanaryArn',
+      ResourceArn => 'MyResourceArn',
 
     );
 
@@ -46,10 +46,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/syn
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The ARN of the canary that you want to view tags for.
+The ARN of the canary or group that you want to view tags for.
 
 The ARN format of a canary is
 C<arn:aws:synthetics:I<Region>:I<account-id>:canary:I<canary-name> >.
+
+The ARN format of a group is
+C<arn:aws:synthetics:I<Region>:I<account-id>:group:I<group-name>>
 
 
 

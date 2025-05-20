@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 
 =head1 DESCRIPTION
 
-Defines how AWS Network Firewall performs logging for a Firewall.
+Defines how Network Firewall performs logging for a Firewall.
 
 =head1 ATTRIBUTES
 

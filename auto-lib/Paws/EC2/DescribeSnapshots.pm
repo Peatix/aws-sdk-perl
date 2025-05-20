@@ -97,14 +97,14 @@ C<false>)
 =item *
 
 C<owner-alias> - The owner alias, from an Amazon-maintained list
-(C<amazon>). This is not the user-configured AWS account alias set
-using the IAM console. We recommend that you use the related parameter
-instead of this filter.
+(C<amazon>). This is not the user-configured Amazon Web Services
+account alias set using the IAM console. We recommend that you use the
+related parameter instead of this filter.
 
 =item *
 
-C<owner-id> - The AWS account ID of the owner. We recommend that you
-use the related parameter instead of this filter.
+C<owner-id> - The Amazon Web Services account ID of the owner. We
+recommend that you use the related parameter instead of this filter.
 
 =item *
 
@@ -123,6 +123,16 @@ C<start-time> - The time stamp when the snapshot was initiated.
 
 C<status> - The status of the snapshot (C<pending> | C<completed> |
 C<error>).
+
+=item *
+
+C<storage-tier> - The storage tier of the snapshot (C<archive> |
+C<standard>).
+
+=item *
+
+C<transfer-type> - The type of operation used to create the snapshot
+(C<time-based> | C<standard>).
 
 =item *
 
@@ -153,39 +163,32 @@ C<volume-size> - The size of the volume, in GiB.
 
 =head2 MaxResults => Int
 
-The maximum number of snapshot results returned by C<DescribeSnapshots>
-in paginated output. When this parameter is used, C<DescribeSnapshots>
-only returns C<MaxResults> results in a single page along with a
-C<NextToken> response element. The remaining results of the initial
-request can be seen by sending another C<DescribeSnapshots> request
-with the returned C<NextToken> value. This value can be between 5 and
-1,000; if C<MaxResults> is given a value larger than 1,000, only 1,000
-results are returned. If this parameter is not used, then
-C<DescribeSnapshots> returns all results. You cannot specify this
-parameter and the snapshot IDs parameter in the same request.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The C<NextToken> value returned from a previous paginated
-C<DescribeSnapshots> request where C<MaxResults> was used and the
-results exceeded the value of that parameter. Pagination continues from
-the end of the previous results that returned the C<NextToken> value.
-This value is C<null> when there are no more results to return.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 OwnerIds => ArrayRef[Str|Undef]
 
 Scopes the results to snapshots with the specified owners. You can
-specify a combination of AWS account IDs, C<self>, and C<amazon>.
+specify a combination of Amazon Web Services account IDs, C<self>, and
+C<amazon>.
 
 
 
 =head2 RestorableByUserIds => ArrayRef[Str|Undef]
 
-The IDs of the AWS accounts that can create volumes from the snapshot.
+The IDs of the Amazon Web Services accounts that can create volumes
+from the snapshot.
 
 
 

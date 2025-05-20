@@ -35,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AmplifyFeatureFlags    = $GetBackendResponse->AmplifyFeatureFlags;
     my $AmplifyMetaConfig      = $GetBackendResponse->AmplifyMetaConfig;
     my $AppId                  = $GetBackendResponse->AppId;
     my $AppName                = $GetBackendResponse->AppName;

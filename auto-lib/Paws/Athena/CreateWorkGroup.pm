@@ -33,20 +33,44 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateWorkGroupOutput = $athena->CreateWorkGroup(
       Name          => 'MyWorkGroupName',
       Configuration => {
-        BytesScannedCutoffPerQuery    => 1,    # min: 10000000; OPTIONAL
-        EnforceWorkGroupConfiguration => 1,    # OPTIONAL
-        EngineVersion                 => {
+        AdditionalConfiguration => 'MyNameString',  # min: 1, max: 128; OPTIONAL
+        BytesScannedCutoffPerQuery             => 1,   # min: 10000000; OPTIONAL
+        CustomerContentEncryptionConfiguration => {
+          KmsKey => 'MyKmsKey',                        # min: 1, max: 2048
+
+        },    # OPTIONAL
+        EnableMinimumEncryptionConfiguration => 1,    # OPTIONAL
+        EnforceWorkGroupConfiguration        => 1,    # OPTIONAL
+        EngineVersion                        => {
           EffectiveEngineVersion => 'MyNameString', # min: 1, max: 128; OPTIONAL
           SelectedEngineVersion  => 'MyNameString', # min: 1, max: 128; OPTIONAL
         },    # OPTIONAL
-        PublishCloudWatchMetricsEnabled => 1,    # OPTIONAL
-        RequesterPaysEnabled            => 1,    # OPTIONAL
-        ResultConfiguration             => {
+        ExecutionRole => 'MyRoleArn',    # min: 20, max: 2048; OPTIONAL
+        IdentityCenterConfiguration => {
+          EnableIdentityCenter      => 1,     # OPTIONAL
+          IdentityCenterInstanceArn =>
+            'MyIdentityCenterInstanceArn',    # max: 255; OPTIONAL
+        },    # OPTIONAL
+        PublishCloudWatchMetricsEnabled         => 1,    # OPTIONAL
+        QueryResultsS3AccessGrantsConfiguration => {
+          AuthenticationType =>
+            'DIRECTORY_IDENTITY',    # values: DIRECTORY_IDENTITY
+          EnableS3AccessGrants  => 1,    # OPTIONAL
+          CreateUserLevelPrefix => 1,    # OPTIONAL
+        },    # OPTIONAL
+        RequesterPaysEnabled => 1,    # OPTIONAL
+        ResultConfiguration  => {
+          AclConfiguration => {
+            S3AclOption =>
+              'BUCKET_OWNER_FULL_CONTROL',   # values: BUCKET_OWNER_FULL_CONTROL
+
+          },    # OPTIONAL
           EncryptionConfiguration => {
             EncryptionOption => 'SSE_S3',     # values: SSE_S3, SSE_KMS, CSE_KMS
             KmsKey           => 'MyString',   # OPTIONAL
           },    # OPTIONAL
-          OutputLocation => 'MyString',    # OPTIONAL
+          ExpectedBucketOwner => 'MyAwsAccountId',  # min: 12, max: 12; OPTIONAL
+          OutputLocation      => 'MyResultOutputLocation',    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
       Description => 'MyWorkGroupDescriptionString',    # OPTIONAL
@@ -67,14 +91,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ath
 
 =head2 Configuration => L<Paws::Athena::WorkGroupConfiguration>
 
-The configuration for the workgroup, which includes the location in
-Amazon S3 where query results are stored, the encryption configuration,
-if any, used for encrypting query results, whether the Amazon
-CloudWatch Metrics are enabled for the workgroup, the limit for the
-amount of bytes scanned (cutoff) per query, if it is specified, and
-whether workgroup's settings (specified with
-EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override
-client-side settings. See
+Contains configuration information for creating an Athena SQL workgroup
+or Spark enabled Athena workgroup. Athena SQL workgroup configuration
+includes the location in Amazon S3 where query and calculation results
+are stored, the encryption configuration, if any, used for encrypting
+query results, whether the Amazon CloudWatch Metrics are enabled for
+the workgroup, the limit for the amount of bytes scanned (cutoff) per
+query, if it is specified, and whether workgroup's settings (specified
+with C<EnforceWorkGroupConfiguration>) in the C<WorkGroupConfiguration>
+override client-side settings. See
 WorkGroupConfiguration$EnforceWorkGroupConfiguration.
 
 

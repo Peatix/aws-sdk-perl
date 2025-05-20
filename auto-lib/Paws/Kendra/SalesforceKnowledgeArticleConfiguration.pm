@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sal
 
 =head1 DESCRIPTION
 
-Specifies configuration information for the knowledge article types
+Provides the configuration information for the knowledge article types
 that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge
 articles and the standard fields of knowledge articles, or the custom
 fields of custom knowledge articles, but not both
@@ -45,8 +45,7 @@ fields of custom knowledge articles, but not both
 
 =head2 CustomKnowledgeArticleTypeConfigurations => ArrayRef[L<Paws::Kendra::SalesforceCustomKnowledgeArticleTypeConfiguration>]
 
-Provides configuration information for custom Salesforce knowledge
-articles.
+Configuration information for custom Salesforce knowledge articles.
 
 
 =head2 B<REQUIRED> IncludedStates => ArrayRef[Str|Undef]
@@ -57,8 +56,7 @@ Kendra indexes knowledge articles. You must specify at least one state.
 
 =head2 StandardKnowledgeArticleTypeConfiguration => L<Paws::Kendra::SalesforceStandardKnowledgeArticleTypeConfiguration>
 
-Provides configuration information for standard Salesforce knowledge
-articles.
+Configuration information for standard Salesforce knowledge articles.
 
 
 

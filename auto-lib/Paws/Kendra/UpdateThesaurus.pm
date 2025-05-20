@@ -53,31 +53,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 Description => Str
 
-The updated description of the thesaurus.
+A new description for the thesaurus.
 
 
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the thesaurus to update.
+The identifier of the thesaurus you want to update.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index associated with the thesaurus to update.
+The identifier of the index for the thesaurus.
 
 
 
 =head2 Name => Str
 
-The updated name of the thesaurus.
+A new name for the thesaurus.
 
 
 
 =head2 RoleArn => Str
 
-The updated role ARN of the thesaurus.
+An IAM role that gives Amazon Kendra permissions to access thesaurus
+file specified in C<SourceS3Path>.
 
 
 

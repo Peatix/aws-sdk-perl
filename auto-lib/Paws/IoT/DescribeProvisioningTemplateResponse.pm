@@ -11,6 +11,7 @@ package Paws::IoT::DescribeProvisioningTemplateResponse;
   has TemplateArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateArn');
   has TemplateBody => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateBody');
   has TemplateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'templateName');
+  has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -26,7 +27,7 @@ Paws::IoT::DescribeProvisioningTemplateResponse
 
 =head2 CreationDate => Str
 
-The date when the fleet provisioning template was created.
+The date when the provisioning template was created.
 
 
 =head2 DefaultVersionId => Int
@@ -36,17 +37,17 @@ The default fleet template version ID.
 
 =head2 Description => Str
 
-The description of the fleet provisioning template.
+The description of the provisioning template.
 
 
 =head2 Enabled => Bool
 
-True if the fleet provisioning template is enabled, otherwise false.
+True if the provisioning template is enabled, otherwise false.
 
 
 =head2 LastModifiedDate => Str
 
-The date when the fleet provisioning template was last modified.
+The date when the provisioning template was last modified.
 
 
 =head2 PreProvisioningHook => L<Paws::IoT::ProvisioningHook>
@@ -62,19 +63,28 @@ role grants permission to provision a device.
 
 =head2 TemplateArn => Str
 
-The ARN of the fleet provisioning template.
+The ARN of the provisioning template.
 
 
 =head2 TemplateBody => Str
 
-The JSON formatted contents of the fleet provisioning template.
+The JSON formatted contents of the provisioning template.
 
 
 =head2 TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
+=head2 Type => Str
+
+The type you define in a provisioning template. You can create a
+template with only one type. You can't change the template type after
+its creation. The default value is C<FLEET_PROVISIONING>. For more
+information about provisioning template, see: Provisioning template
+(https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
+
+Valid values are: C<"FLEET_PROVISIONING">, C<"JITP">
 =head2 _request_id => Str
 
 

@@ -30,9 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $gamelift = Paws->service('GameLift');
     my $DescribeFleetCapacityOutput = $gamelift->DescribeFleetCapacity(
-      FleetIds  => [ 'MyFleetIdOrArn', ... ],    # OPTIONAL
-      Limit     => 1,                            # OPTIONAL
-      NextToken => 'MyNonZeroAndMaxString',      # OPTIONAL
+      FleetIds => [
+        'MyFleetIdOrArn', ...    # min: 1, max: 512
+      ],    # OPTIONAL
+      Limit     => 1,                          # OPTIONAL
+      NextToken => 'MyNonZeroAndMaxString',    # OPTIONAL
     );
 
     # Results:
@@ -49,8 +51,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 =head2 FleetIds => ArrayRef[Str|Undef]
 
-A unique identifier for the fleet(s) to retrieve capacity information
-for. You can use either the fleet ID or ARN value. Leave this parameter
+A unique identifier for the fleet to retrieve capacity information for.
+You can use either the fleet ID or ARN value. Leave this parameter
 empty to retrieve capacity information for all fleets.
 
 

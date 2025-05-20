@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Ind
 
 =head1 DESCRIPTION
 
-A summary of information about an index.
+Summary information on the configuration of an index.
 
 =head1 ATTRIBUTES
 
@@ -50,15 +50,15 @@ The Unix timestamp when the index was created.
 
 =head2 Edition => Str
 
-Indicates whether the index is a enterprise edition index or a
-developer edition index.
+Indicates whether the index is a Enterprise Edition index or a
+Developer Edition index.
 
 
 =head2 Id => Str
 
-A unique identifier for the index. Use this to identify the index when
-you are using operations such as C<Query>, C<DescribeIndex>,
-C<UpdateIndex>, and C<DeleteIndex>.
+A identifier for the index. Use this to identify the index when you are
+using APIs such as C<Query>, C<DescribeIndex>, C<UpdateIndex>, and
+C<DeleteIndex>.
 
 
 =head2 Name => Str
@@ -74,8 +74,7 @@ index is ready to search.
 
 =head2 B<REQUIRED> UpdatedAt => Str
 
-The Unix timestamp when the index was last updated by the
-C<UpdateIndex> operation.
+The Unix timestamp when the index was last updated.
 
 
 

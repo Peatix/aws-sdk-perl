@@ -17,12 +17,13 @@ Paws::FSX::DeleteBackupResponse
 
 =head2 BackupId => Str
 
-The ID of the backup deleted.
+The ID of the backup that was deleted.
 
 
 =head2 Lifecycle => Str
 
-The lifecycle of the backup. Should be C<DELETED>.
+The lifecycle status of the backup. If the C<DeleteBackup> operation is
+successful, the status is C<DELETED>.
 
 Valid values are: C<"AVAILABLE">, C<"CREATING">, C<"TRANSFERRING">, C<"DELETED">, C<"FAILED">, C<"PENDING">, C<"COPYING">
 =head2 _request_id => Str

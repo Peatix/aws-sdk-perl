@@ -36,14 +36,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $auditmanager->UpdateAssessmentFramework(
       ControlSets => [
         {
-          Name     => 'MyControlSetName',    # min: 1, max: 300
           Controls => [
             {
-              Id => 'MyUUID',                # min: 36, max: 36; OPTIONAL
+              Id => 'MyUUID',    # min: 36, max: 36
+
             },
             ...
-          ],    # min: 1; OPTIONAL
-          Id => 'MyControlSetName',    # min: 1, max: 300
+          ],    # min: 1
+          Name => 'MyControlSetName',    # min: 1, max: 300
+          Id   => 'MyControlSetName',    # min: 1, max: 300
         },
         ...
       ],
@@ -73,19 +74,19 @@ or HIPAA.
 
 =head2 B<REQUIRED> ControlSets => ArrayRef[L<Paws::AuditManager::UpdateAssessmentFrameworkControlSet>]
 
-The control sets associated with the framework.
+The control sets that are associated with the framework.
 
 
 
 =head2 Description => Str
 
-The description of the framework that is to be updated.
+The description of the updated framework.
 
 
 
 =head2 B<REQUIRED> FrameworkId => Str
 
-The identifier for the specified framework.
+The unique identifier for the framework.
 
 
 

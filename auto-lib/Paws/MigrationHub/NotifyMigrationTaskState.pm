@@ -40,7 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Status =>
           'NOT_STARTED',   # values: NOT_STARTED, IN_PROGRESS, FAILED, COMPLETED
         ProgressPercent => 1,                   # max: 100; OPTIONAL
-        StatusDetail    => 'MyStatusDetail',    # max: 500; OPTIONAL
+        StatusDetail    => 'MyStatusDetail',    # max: 2500; OPTIONAL
       },
       UpdateDateTime => '1970-01-01T01:00:00',
       DryRun         => 1,                       # OPTIONAL

@@ -31,10 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $ListMailboxPermissionsResponse = $workmail->ListMailboxPermissions(
-      EntityId       => 'MyWorkMailIdentifier',
+      EntityId       => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
-      MaxResults     => 1,                        # OPTIONAL
-      NextToken      => 'MyNextToken',            # OPTIONAL
+      MaxResults     => 1,                      # OPTIONAL
+      NextToken      => 'MyNextToken',          # OPTIONAL
     );
 
     # Results:
@@ -51,8 +51,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 
 =head2 B<REQUIRED> EntityId => Str
 
-The identifier of the user, group, or resource for which to list
-mailbox permissions.
+The identifier of the user, or resource for which to list mailbox
+permissions.
+
+The entity ID can accept I<UserId or ResourceId>, I<Username or
+Resourcename>, or I<email>.
+
+=over
+
+=item *
+
+Entity ID: 12345678-1234-1234-1234-123456789012, or
+r-0123456789a0123456789b0123456789
+
+=item *
+
+Email address: entity@domain.tld
+
+=item *
+
+Entity name: entity
+
+=back
+
 
 
 

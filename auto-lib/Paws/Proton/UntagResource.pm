@@ -44,15 +44,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource that the tag is to be
-removed from.
+The Amazon Resource Name (ARN) of the resource to remove customer tags
+from.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-An array of tag keys indicating the resource tags to be removed from
-the resource.
+A list of customer tag keys that indicate the customer tags to be
+removed from the resource.
 
 
 

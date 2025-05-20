@@ -33,20 +33,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $BytesCompressed  = $DescribeTaskExecutionResponse->BytesCompressed;
     my $BytesTransferred = $DescribeTaskExecutionResponse->BytesTransferred;
     my $BytesWritten     = $DescribeTaskExecutionResponse->BytesWritten;
     my $EstimatedBytesToTransfer =
       $DescribeTaskExecutionResponse->EstimatedBytesToTransfer;
+    my $EstimatedFilesToDelete =
+      $DescribeTaskExecutionResponse->EstimatedFilesToDelete;
     my $EstimatedFilesToTransfer =
       $DescribeTaskExecutionResponse->EstimatedFilesToTransfer;
     my $Excludes         = $DescribeTaskExecutionResponse->Excludes;
+    my $FilesDeleted     = $DescribeTaskExecutionResponse->FilesDeleted;
+    my $FilesFailed      = $DescribeTaskExecutionResponse->FilesFailed;
+    my $FilesListed      = $DescribeTaskExecutionResponse->FilesListed;
+    my $FilesPrepared    = $DescribeTaskExecutionResponse->FilesPrepared;
+    my $FilesSkipped     = $DescribeTaskExecutionResponse->FilesSkipped;
     my $FilesTransferred = $DescribeTaskExecutionResponse->FilesTransferred;
+    my $FilesVerified    = $DescribeTaskExecutionResponse->FilesVerified;
     my $Includes         = $DescribeTaskExecutionResponse->Includes;
+    my $ManifestConfig   = $DescribeTaskExecutionResponse->ManifestConfig;
     my $Options          = $DescribeTaskExecutionResponse->Options;
+    my $ReportResult     = $DescribeTaskExecutionResponse->ReportResult;
     my $Result           = $DescribeTaskExecutionResponse->Result;
     my $StartTime        = $DescribeTaskExecutionResponse->StartTime;
     my $Status           = $DescribeTaskExecutionResponse->Status;
     my $TaskExecutionArn = $DescribeTaskExecutionResponse->TaskExecutionArn;
+    my $TaskMode         = $DescribeTaskExecutionResponse->TaskMode;
+    my $TaskReportConfig = $DescribeTaskExecutionResponse->TaskReportConfig;
 
     # Returns a L<Paws::Datasync::DescribeTaskExecutionResponse> object.
 
@@ -58,7 +71,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> TaskExecutionArn => Str
 
-The Amazon Resource Name (ARN) of the task that is being executed.
+Specifies the Amazon Resource Name (ARN) of the task execution that you
+want information about.
 
 
 

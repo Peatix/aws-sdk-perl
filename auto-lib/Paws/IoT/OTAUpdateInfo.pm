@@ -60,12 +60,12 @@ A collection of name/value pairs
 
 =head2 AwsIotJobArn => Str
 
-The AWS IoT job ARN associated with the OTA update.
+The IoT job ARN associated with the OTA update.
 
 
 =head2 AwsIotJobId => Str
 
-The AWS IoT job ID associated with the OTA update.
+The IoT job ID associated with the OTA update.
 
 
 =head2 AwsJobExecutionsRolloutConfig => L<Paws::IoT::AwsJobExecutionsRolloutConfig>

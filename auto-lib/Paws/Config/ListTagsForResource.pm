@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 Limit => Int
 
 The maximum number of tags returned on each page. The limit maximum is
-50. You cannot specify a number greater than 50. If you specify 0, AWS
+50. You cannot specify a number greater than 50. If you specify 0,
 Config uses the default.
 
 
@@ -65,8 +65,44 @@ the next page of results in a paginated response.
 =head2 B<REQUIRED> ResourceArn => Str
 
 The Amazon Resource Name (ARN) that identifies the resource for which
-to list the tags. Currently, the supported resources are C<ConfigRule>,
-C<ConfigurationAggregator> and C<AggregatorAuthorization>.
+to list the tags. The following resources are supported:
+
+=over
+
+=item *
+
+C<ConfigurationRecorder>
+
+=item *
+
+C<ConfigRule>
+
+=item *
+
+C<OrganizationConfigRule>
+
+=item *
+
+C<ConformancePack>
+
+=item *
+
+C<OrganizationConformancePack>
+
+=item *
+
+C<ConfigurationAggregator>
+
+=item *
+
+C<AggregationAuthorization>
+
+=item *
+
+C<StoredQuery>
+
+=back
+
 
 
 

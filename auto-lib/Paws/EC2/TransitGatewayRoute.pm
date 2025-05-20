@@ -4,6 +4,7 @@ package Paws::EC2::TransitGatewayRoute;
   has PrefixListId => (is => 'ro', isa => 'Str', request_name => 'prefixListId', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has TransitGatewayAttachments => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TransitGatewayRouteAttachment]', request_name => 'transitGatewayAttachments', traits => ['NameInRequest']);
+  has TransitGatewayRouteTableAnnouncementId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayRouteTableAnnouncementId', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 1;
 
@@ -58,6 +59,11 @@ The state of the route.
 =head2 TransitGatewayAttachments => ArrayRef[L<Paws::EC2::TransitGatewayRouteAttachment>]
 
 The attachments.
+
+
+=head2 TransitGatewayRouteTableAnnouncementId => Str
+
+The ID of the transit gateway route table announcement.
 
 
 =head2 Type => Str

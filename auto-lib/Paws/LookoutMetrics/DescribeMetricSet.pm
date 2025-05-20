@@ -36,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $AnomalyDetectorArn   = $DescribeMetricSetResponse->AnomalyDetectorArn;
     my $CreationTime         = $DescribeMetricSetResponse->CreationTime;
+    my $DimensionFilterList  = $DescribeMetricSetResponse->DimensionFilterList;
     my $DimensionList        = $DescribeMetricSetResponse->DimensionList;
     my $LastModificationTime = $DescribeMetricSetResponse->LastModificationTime;
     my $MetricList           = $DescribeMetricSetResponse->MetricList;

@@ -5,6 +5,7 @@ package Paws::MQ::UpdateUser;
   has ConsoleAccess => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'consoleAccess');
   has Groups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'groups');
   has Password => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'password');
+  has ReplicationUser => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'replicationUser');
   has Username => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'username', required => 1);
 
   use MooseX::ClassAttribute;
@@ -33,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mq = Paws->service('MQ');
     my $UpdateUserResponse = $mq->UpdateUser(
-      BrokerId      => 'My__string',
-      Username      => 'My__string',
-      ConsoleAccess => 1,                        # OPTIONAL
-      Groups        => [ 'My__string', ... ],    # OPTIONAL
-      Password      => 'My__string',             # OPTIONAL
+      BrokerId        => 'My__string',
+      Username        => 'My__string',
+      ConsoleAccess   => 1,                        # OPTIONAL
+      Groups          => [ 'My__string', ... ],    # OPTIONAL
+      Password        => 'My__string',             # OPTIONAL
+      ReplicationUser => 1,                        # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -71,15 +73,21 @@ long.
 
 The password of the user. This value must be at least 12 characters
 long, must contain at least 4 unique characters, and must not contain
-commas.
+commas, colons, or equal signs (,:=).
+
+
+
+=head2 ReplicationUser => Bool
+
+Defines whether the user is intended for data replication.
 
 
 
 =head2 B<REQUIRED> Username => Str
 
-Required. The username of the ActiveMQ user. This value can contain
-only alphanumeric characters, dashes, periods, underscores, and tildes
-(- . _ ~). This value must be 2-100 characters long.
+The username of the ActiveMQ user. This value can contain only
+alphanumeric characters, dashes, periods, underscores, and tildes (- .
+_ ~). This value must be 2-100 characters long.
 
 
 

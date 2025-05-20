@@ -53,12 +53,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 B<REQUIRED> EngineName => Str
 
-Specifies the name of the engine that this option group should be
-associated with.
+The name of the engine to associate this option group with.
 
 Valid Values:
 
 =over
+
+=item *
+
+C<db2-ae>
+
+=item *
+
+C<db2-se>
 
 =item *
 

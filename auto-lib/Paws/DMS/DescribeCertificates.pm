@@ -58,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 =head2 Filters => ArrayRef[L<Paws::DMS::Filter>]
 
 Filters applied to the certificates described in the form of key-value
-pairs.
+pairs. Valid values are C<certificate-arn> and C<certificate-id>.
 
 
 

@@ -34,19 +34,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-This class has no description
+Configuration specifying how to treat different headers. If no headers
+are specified Amazon SageMaker AI will by default base64 encode when
+capturing the data.
 
 =head1 ATTRIBUTES
 
 
 =head2 CsvContentTypes => ArrayRef[Str|Undef]
 
-
+The list of all content type headers that Amazon SageMaker AI will
+treat as CSV and capture accordingly.
 
 
 =head2 JsonContentTypes => ArrayRef[Str|Undef]
 
-
+The list of all content type headers that SageMaker AI will treat as
+JSON and capture accordingly.
 
 
 

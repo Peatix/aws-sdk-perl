@@ -1,6 +1,7 @@
 
 package Paws::MediaConvert::UpdateQueue;
   use Moose;
+  has ConcurrentJobs => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'concurrentJobs');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
   has ReservationPlanSettings => (is => 'ro', isa => 'Paws::MediaConvert::ReservationPlanSettings', traits => ['NameInRequest'], request_name => 'reservationPlanSettings');
@@ -33,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mediaconvert = Paws->service('MediaConvert');
     my $UpdateQueueResponse = $mediaconvert->UpdateQueue(
       Name                    => 'My__string',
+      ConcurrentJobs          => 1,               # OPTIONAL
       Description             => 'My__string',    # OPTIONAL
       ReservationPlanSettings => {
         Commitment    => 'ONE_YEAR',              # values: ONE_YEAR
@@ -52,6 +54,16 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mediaconvert/UpdateQueue>
 
 =head1 ATTRIBUTES
+
+
+=head2 ConcurrentJobs => Int
+
+Specify the maximum number of jobs your queue can process concurrently.
+For on-demand queues, the value you enter is constrained by your
+service quotas for Maximum concurrent jobs, per on-demand queue and
+Maximum concurrent jobs, per account. For reserved queues, update your
+reservation plan instead in order to increase your yearly commitment.
+
 
 
 =head2 Description => Str

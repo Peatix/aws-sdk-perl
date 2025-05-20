@@ -1,13 +1,13 @@
 
 package Paws::CodeStarNotifications::UntagResource;
   use Moose;
-  has Arn => (is => 'ro', isa => 'Str', required => 1);
-  has TagKeys => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has Arn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
+  has TagKeys => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'tagKeys', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UntagResource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/untagResource');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/untagResource/{resourceArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::CodeStarNotifications::UntagResourceResult');
 1;

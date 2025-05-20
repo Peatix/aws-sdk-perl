@@ -3,6 +3,9 @@ package Paws::IoTSiteWise::DeleteAssetModel;
   use Moose;
   has AssetModelId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'assetModelId', required => 1);
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'clientToken');
+  has IfMatch => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'If-Match');
+  has IfNoneMatch => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'If-None-Match');
+  has MatchForVersionType => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Match-For-Version-Type');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $DeleteAssetModelResponse = $iotsitewise->DeleteAssetModel(
-      AssetModelId => 'MyID',
-      ClientToken  => 'MyClientToken',    # OPTIONAL
+      AssetModelId        => 'MyCustomID',
+      ClientToken         => 'MyClientToken',    # OPTIONAL
+      IfMatch             => 'MyETag',           # OPTIONAL
+      IfNoneMatch         => 'MySelectAll',      # OPTIONAL
+      MatchForVersionType => 'LATEST',           # OPTIONAL
     );
 
     # Results:
@@ -47,7 +53,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetModelId => Str
 
-The ID of the asset model to delete.
+The ID of the asset model to delete. This can be either the actual ID
+in UUID format, or else C<externalId:> followed by the external ID, if
+it has one. For more information, see Referencing objects with external
+IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
@@ -58,6 +69,34 @@ idempotency of the request. Don't reuse this client token if a new
 idempotent request is required.
 
 
+
+=head2 IfMatch => Str
+
+The expected current entity tag (ETag) for the asset modelE<rsquo>s
+latest or active version (specified using C<matchForVersionType>). The
+delete request is rejected if the tag does not match the latest or
+active version's current entity tag. See Optimistic locking for asset
+model writes
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html)
+in the I<IoT SiteWise User Guide>.
+
+
+
+=head2 IfNoneMatch => Str
+
+Accepts B<*> to reject the delete request if an active version
+(specified using C<matchForVersionType> as C<ACTIVE>) already exists
+for the asset model.
+
+
+
+=head2 MatchForVersionType => Str
+
+Specifies the asset model version type (C<LATEST> or C<ACTIVE>) used in
+conjunction with C<If-Match> or C<If-None-Match> headers to determine
+the target ETag for the delete operation.
+
+Valid values are: C<"LATEST">, C<"ACTIVE">
 
 
 =head1 SEE ALSO

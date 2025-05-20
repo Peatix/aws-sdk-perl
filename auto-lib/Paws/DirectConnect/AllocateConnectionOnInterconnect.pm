@@ -43,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $AwsDevice            = $Connection->AwsDevice;
     my $AwsDeviceV2          = $Connection->AwsDeviceV2;
+    my $AwsLogicalDeviceId   = $Connection->AwsLogicalDeviceId;
     my $Bandwidth            = $Connection->Bandwidth;
     my $ConnectionId         = $Connection->ConnectionId;
     my $ConnectionName       = $Connection->ConnectionName;
@@ -75,7 +76,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dir
 
 The bandwidth of the connection. The possible values are 50Mbps,
 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and
-10Gbps. Note that only those AWS Direct Connect Partners who have met
+10Gbps. Note that only those Direct Connect Partners who have met
 specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or
 10Gbps hosted connection.
 
@@ -95,8 +96,8 @@ The ID of the interconnect on which the connection will be provisioned.
 
 =head2 B<REQUIRED> OwnerAccount => Str
 
-The ID of the AWS account of the customer for whom the connection will
-be provisioned.
+The ID of the Amazon Web Services account of the customer for whom the
+connection will be provisioned.
 
 
 

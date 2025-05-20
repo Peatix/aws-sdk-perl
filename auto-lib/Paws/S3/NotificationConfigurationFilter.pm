@@ -34,8 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::Notific
 =head1 DESCRIPTION
 
 Specifies object key name filtering rules. For information about key
-name filtering, see Configuring Event Notifications
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
+name filtering, see Configuring event notifications using object key
+name filtering
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/notification-how-to-filtering.html)
 in the I<Amazon S3 User Guide>.
 
 =head1 ATTRIBUTES

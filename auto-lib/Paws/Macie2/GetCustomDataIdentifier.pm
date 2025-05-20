@@ -43,9 +43,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Keywords    = $GetCustomDataIdentifierResponse->Keywords;
     my $MaximumMatchDistance =
       $GetCustomDataIdentifierResponse->MaximumMatchDistance;
-    my $Name  = $GetCustomDataIdentifierResponse->Name;
-    my $Regex = $GetCustomDataIdentifierResponse->Regex;
-    my $Tags  = $GetCustomDataIdentifierResponse->Tags;
+    my $Name           = $GetCustomDataIdentifierResponse->Name;
+    my $Regex          = $GetCustomDataIdentifierResponse->Regex;
+    my $SeverityLevels = $GetCustomDataIdentifierResponse->SeverityLevels;
+    my $Tags           = $GetCustomDataIdentifierResponse->Tags;
 
     # Returns a L<Paws::Macie2::GetCustomDataIdentifierResponse> object.
 
@@ -57,8 +58,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier for the Amazon Macie resource or account that the
-request applies to.
+The unique identifier for the Amazon Macie resource that the request
+applies to.
 
 
 

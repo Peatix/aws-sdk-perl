@@ -48,8 +48,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ForecastTypes        = $DescribePredictorResponse->ForecastTypes;
     my $HPOConfig            = $DescribePredictorResponse->HPOConfig;
     my $InputDataConfig      = $DescribePredictorResponse->InputDataConfig;
+    my $IsAutoPredictor      = $DescribePredictorResponse->IsAutoPredictor;
     my $LastModificationTime = $DescribePredictorResponse->LastModificationTime;
     my $Message              = $DescribePredictorResponse->Message;
+    my $OptimizationMetric   = $DescribePredictorResponse->OptimizationMetric;
     my $PerformAutoML        = $DescribePredictorResponse->PerformAutoML;
     my $PerformHPO           = $DescribePredictorResponse->PerformHPO;
     my $PredictorArn         = $DescribePredictorResponse->PredictorArn;

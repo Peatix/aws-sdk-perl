@@ -22,7 +22,7 @@ The ARN of the secret that was restored.
 
 =head2 Name => Str
 
-The friendly name of the secret that was restored.
+The name of the secret that was restored.
 
 
 =head2 _request_id => Str

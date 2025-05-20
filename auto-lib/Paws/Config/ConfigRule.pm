@@ -7,6 +7,7 @@ package Paws::Config::ConfigRule;
   has ConfigRuleState => (is => 'ro', isa => 'Str');
   has CreatedBy => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has EvaluationModes => (is => 'ro', isa => 'ArrayRef[Paws::Config::EvaluationModeConfiguration]');
   has InputParameters => (is => 'ro', isa => 'Str');
   has MaximumExecutionFrequency => (is => 'ro', isa => 'Str');
   has Scope => (is => 'ro', isa => 'Paws::Config::Scope');
@@ -42,99 +43,117 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 
 =head1 DESCRIPTION
 
-An AWS Config rule represents an AWS Lambda function that you create
-for a custom rule or a predefined function for an AWS managed rule. The
-function evaluates configuration items to assess whether your AWS
-resources comply with your desired configurations. This function can
-run when AWS Config detects a configuration change to an AWS resource
-and at a periodic frequency that you choose (for example, every 24
-hours).
+Config rules evaluate the configuration settings of your Amazon Web
+Services resources. A rule can run when Config detects a configuration
+change to an Amazon Web Services resource or at a periodic frequency
+that you choose (for example, every 24 hours). There are two types of
+rules: I<Config Managed Rules> and I<Config Custom Rules>.
 
-You can use the AWS CLI and AWS SDKs if you want to create a rule that
-triggers evaluations for your resources when AWS Config delivers the
-configuration snapshot. For more information, see
-ConfigSnapshotDeliveryProperties.
+Config Managed Rules are predefined, customizable rules created by
+Config. For a list of managed rules, see List of Config Managed Rules
+(https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html).
 
-For more information about developing and using AWS Config rules, see
-Evaluating AWS Resource Configurations with AWS Config
+Config Custom Rules are rules that you create from scratch. There are
+two ways to create Config custom rules: with Lambda functions ( Lambda
+Developer Guide
+(https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function))
+and with Guard (Guard GitHub Repository
+(https://github.com/aws-cloudformation/cloudformation-guard)), a
+policy-as-code language. Config custom rules created with Lambda are
+called I<Config Custom Lambda Rules> and Config custom rules created
+with Guard are called I<Config Custom Policy Rules>.
+
+For more information about developing and using Config rules, see
+Evaluating Resource with Config Rules
 (https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html)
-in the I<AWS Config Developer Guide>.
+in the I<Config Developer Guide>.
+
+You can use the Amazon Web Services CLI and Amazon Web Services SDKs if
+you want to create a rule that triggers evaluations for your resources
+when Config delivers the configuration snapshot. For more information,
+see ConfigSnapshotDeliveryProperties.
 
 =head1 ATTRIBUTES
 
 
 =head2 ConfigRuleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Config rule.
+The Amazon Resource Name (ARN) of the Config rule.
 
 
 =head2 ConfigRuleId => Str
 
-The ID of the AWS Config rule.
+The ID of the Config rule.
 
 
 =head2 ConfigRuleName => Str
 
-The name that you assign to the AWS Config rule. The name is required
-if you are adding a new rule.
+The name that you assign to the Config rule. The name is required if
+you are adding a new rule.
 
 
 =head2 ConfigRuleState => Str
 
-Indicates whether the AWS Config rule is active or is currently being
-deleted by AWS Config. It can also indicate the evaluation status for
-the AWS Config rule.
+Indicates whether the Config rule is active or is currently being
+deleted by Config. It can also indicate the evaluation status for the
+Config rule.
 
-AWS Config sets the state of the rule to C<EVALUATING> temporarily
-after you use the C<StartConfigRulesEvaluation> request to evaluate
-your resources against the AWS Config rule.
+Config sets the state of the rule to C<EVALUATING> temporarily after
+you use the C<StartConfigRulesEvaluation> request to evaluate your
+resources against the Config rule.
 
-AWS Config sets the state of the rule to C<DELETING_RESULTS>
-temporarily after you use the C<DeleteEvaluationResults> request to
-delete the current evaluation results for the AWS Config rule.
+Config sets the state of the rule to C<DELETING_RESULTS> temporarily
+after you use the C<DeleteEvaluationResults> request to delete the
+current evaluation results for the Config rule.
 
-AWS Config temporarily sets the state of a rule to C<DELETING> after
-you use the C<DeleteConfigRule> request to delete the rule. After AWS
-Config deletes the rule, the rule and all of its evaluations are erased
-and are no longer available.
+Config temporarily sets the state of a rule to C<DELETING> after you
+use the C<DeleteConfigRule> request to delete the rule. After Config
+deletes the rule, the rule and all of its evaluations are erased and
+are no longer available.
 
 
 =head2 CreatedBy => Str
 
 Service principal name of the service that created the rule.
 
-The field is populated only if the service linked rule is created by a
+The field is populated only if the service-linked rule is created by a
 service. The field is empty if you create your own rule.
 
 
 =head2 Description => Str
 
-The description that you provide for the AWS Config rule.
+The description that you provide for the Config rule.
+
+
+=head2 EvaluationModes => ArrayRef[L<Paws::Config::EvaluationModeConfiguration>]
+
+The modes the Config rule can be evaluated in. The valid values are
+distinct objects. By default, the value is Detective evaluation mode
+only.
 
 
 =head2 InputParameters => Str
 
-A string, in JSON format, that is passed to the AWS Config rule Lambda
+A string, in JSON format, that is passed to the Config rule Lambda
 function.
 
 
 =head2 MaximumExecutionFrequency => Str
 
-The maximum frequency with which AWS Config runs evaluations for a
-rule. You can specify a value for C<MaximumExecutionFrequency> when:
+The maximum frequency with which Config runs evaluations for a rule.
+You can specify a value for C<MaximumExecutionFrequency> when:
 
 =over
 
 =item *
 
-You are using an AWS managed rule that is triggered at a periodic
+This is for an Config managed rule that is triggered at a periodic
 frequency.
 
 =item *
 
-Your custom rule is triggered when AWS Config delivers the
-configuration snapshot. For more information, see
-ConfigSnapshotDeliveryProperties.
+Your custom rule is triggered when Config delivers the configuration
+snapshot. For more information, see ConfigSnapshotDeliveryProperties.
 
 =back
 
@@ -157,8 +176,10 @@ The scope can be empty.
 
 =head2 B<REQUIRED> Source => L<Paws::Config::Source>
 
-Provides the rule owner (AWS or customer), the rule identifier, and the
-notifications that cause the function to evaluate your AWS resources.
+Provides the rule owner (C<Amazon Web Services> for managed rules,
+C<CUSTOM_POLICY> for Custom Policy rules, and C<CUSTOM_LAMBDA> for
+Custom Lambda rules), the rule identifier, and the notifications that
+cause the function to evaluate your Amazon Web Services resources.
 
 
 

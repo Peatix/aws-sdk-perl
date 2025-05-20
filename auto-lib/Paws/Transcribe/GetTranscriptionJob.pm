@@ -45,7 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> TranscriptionJobName => Str
 
-The name of the job.
+The name of the transcription job you want information about. Job names
+are case sensitive.
 
 
 

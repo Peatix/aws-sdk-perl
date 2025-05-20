@@ -20,6 +20,8 @@ package Paws::SSM::InstanceInformation;
   has PlatformVersion => (is => 'ro', isa => 'Str');
   has RegistrationDate => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
+  has SourceId => (is => 'ro', isa => 'Str');
+  has SourceType => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -40,7 +42,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SSM::InstanceInformation object:
 
-  $service_obj->Method(Att1 => { ActivationId => $value, ..., ResourceType => $value  });
+  $service_obj->Method(Att1 => { ActivationId => $value, ..., SourceType => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,20 +53,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 
 =head1 DESCRIPTION
 
-Describes a filter for a specific list of instances.
+Describes a filter for a specific list of managed nodes.
 
 =head1 ATTRIBUTES
 
 
 =head2 ActivationId => Str
 
-The activation ID created by Systems Manager when the server or VM was
-registered.
+The activation ID created by Amazon Web Services Systems Manager when
+the server or virtual machine (VM) was registered.
 
 
 =head2 AgentVersion => Str
 
-The version of SSM Agent running on your Linux instance.
+The version of SSM Agent running on your Linux managed node.
 
 
 =head2 AssociationOverview => L<Paws::SSM::InstanceAggregatedAssociationOverview>
@@ -79,39 +81,42 @@ The status of the association.
 
 =head2 ComputerName => Str
 
-The fully qualified host name of the managed instance.
+The fully qualified host name of the managed node.
 
 
 =head2 IamRole => Str
 
-The Amazon Identity and Access Management (IAM) role assigned to the
-on-premises Systems Manager managed instance. This call does not return
-the IAM role for EC2 instances. To retrieve the IAM role for an EC2
-instance, use the Amazon EC2 C<DescribeInstances> action. For
-information, see DescribeInstances
+The role assigned to an Amazon EC2 instance configured with a Systems
+Manager Quick Setup host management configuration or the role assigned
+to an on-premises managed node.
+
+This call doesn't return the IAM role for I<unmanaged> Amazon EC2
+instances (instances not configured for Systems Manager). To retrieve
+the role for an unmanaged instance, use the Amazon EC2
+C<DescribeInstances> operation. For information, see DescribeInstances
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html)
 in the I<Amazon EC2 API Reference> or describe-instances
-(https://docs.aws.amazon.com/cli/latest/ec2/describe-instances.html) in
-the I<AWS CLI Command Reference>.
+(https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html)
+in the I<Amazon Web Services CLI Command Reference>.
 
 
 =head2 InstanceId => Str
 
-The instance ID.
+The managed node ID.
 
 
 =head2 IPAddress => Str
 
-The IP address of the managed instance.
+The IP address of the managed node.
 
 
 =head2 IsLatestVersion => Bool
 
 Indicates whether the latest version of SSM Agent is running on your
-Linux Managed Instance. This field does not indicate whether or not the
-latest version is installed on Windows managed instances, because some
+Linux managed node. This field doesn't indicate whether or not the
+latest version is installed on Windows managed nodes, because some
 older versions of Windows Server use the EC2Config service to process
-SSM requests.
+Systems Manager requests.
 
 
 =head2 LastAssociationExecutionDate => Str
@@ -132,22 +137,22 @@ The last date the association was successfully run.
 
 =head2 Name => Str
 
-The name assigned to an on-premises server or virtual machine (VM) when
-it is activated as a Systems Manager managed instance. The name is
-specified as the C<DefaultInstanceName> property using the
-CreateActivation command. It is applied to the managed instance by
+The name assigned to an on-premises server, edge device, or virtual
+machine (VM) when it is activated as a Systems Manager managed node.
+The name is specified as the C<DefaultInstanceName> property using the
+CreateActivation command. It is applied to the managed node by
 specifying the Activation Code and Activation ID when you install SSM
-Agent on the instance, as explained in Install SSM Agent for a hybrid
-environment (Linux)
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html)
-and Install SSM Agent for a hybrid environment (Windows)
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html).
-To retrieve the Name tag of an EC2 instance, use the Amazon EC2
-C<DescribeInstances> action. For information, see DescribeInstances
+Agent on the node, as explained in How to install SSM Agent on hybrid
+Linux nodes
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-ssm-agent-install-linux.html)
+and How to install SSM Agent on hybrid Windows Server nodes
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-ssm-agent-install-windows.html).
+To retrieve the C<Name> tag of an EC2 instance, use the Amazon EC2
+C<DescribeInstances> operation. For information, see DescribeInstances
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html)
 in the I<Amazon EC2 API Reference> or describe-instances
-(https://docs.aws.amazon.com/cli/latest/ec2/describe-instances.html) in
-the I<AWS CLI Command Reference>.
+(https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html)
+in the I<Amazon Web Services CLI Command Reference>.
 
 
 =head2 PingStatus => Str
@@ -159,7 +164,7 @@ The status C<Inactive> has been deprecated and is no longer in use.
 
 =head2 PlatformName => Str
 
-The name of the operating system platform running on your instance.
+The name of the operating system platform running on your managed node.
 
 
 =head2 PlatformType => Str
@@ -169,19 +174,31 @@ The operating system platform type.
 
 =head2 PlatformVersion => Str
 
-The version of the OS platform running on your instance.
+The version of the OS platform running on your managed node.
 
 
 =head2 RegistrationDate => Str
 
-The date the server or VM was registered with AWS as a managed
-instance.
+The date the server or VM was registered with Amazon Web Services as a
+managed node.
 
 
 =head2 ResourceType => Str
 
 The type of instance. Instances are either EC2 instances or managed
 instances.
+
+
+=head2 SourceId => Str
+
+The ID of the source resource. For IoT Greengrass devices, C<SourceId>
+is the Thing name.
+
+
+=head2 SourceType => Str
+
+The type of the source resource. For IoT Greengrass devices,
+C<SourceType> is C<AWS::IoT::Thing>.
 
 
 

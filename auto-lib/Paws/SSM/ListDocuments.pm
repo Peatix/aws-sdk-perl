@@ -80,8 +80,8 @@ C<TargetType>. For example, to return documents you own use
 C<Key=Owner,Values=Self>. To specify a custom key-value pair, use the
 format C<Key=tag:tagName,Values=valueName>.
 
-This API action only supports filtering documents by using a single tag
-key and one or more tag values. For example:
+This API operation only supports filtering documents by using a single
+tag key and one or more tag values. For example:
 C<Key=tag:tagName,Values=valueName1,valueName2>
 
 

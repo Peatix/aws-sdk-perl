@@ -34,12 +34,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::F
 =head1 DESCRIPTION
 
 A list of fleet locations where a game session queue can place new game
-sessions. You can use a filter to temporarily turn off placements for
-specific locations. For queues that have multi-location fleets, you can
-use a filter configuration allow placement with some, but not all of
-these locations.
-
-Filter configurations are part of a GameSessionQueue.
+sessions. You can use a filter to temporarily exclude specific
+locations from receiving placements. For queues that have
+multi-location fleets, you can use a filter configuration allow
+placement with some, but not all, of a fleet's locations.
 
 =head1 ATTRIBUTES
 
@@ -47,7 +45,7 @@ Filter configurations are part of a GameSessionQueue.
 =head2 AllowedLocations => ArrayRef[Str|Undef]
 
 A list of locations to allow game session placement in, in the form of
-AWS Region codes such as C<us-west-2>.
+Amazon Web Services Region codes such as C<us-west-2>.
 
 
 

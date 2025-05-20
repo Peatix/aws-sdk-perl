@@ -9,6 +9,7 @@ package Paws::S3Control::JobOperation;
   has S3PutObjectLegalHold => (is => 'ro', isa => 'Paws::S3Control::S3SetObjectLegalHoldOperation');
   has S3PutObjectRetention => (is => 'ro', isa => 'Paws::S3Control::S3SetObjectRetentionOperation');
   has S3PutObjectTagging => (is => 'ro', isa => 'Paws::S3Control::S3SetObjectTaggingOperation');
+  has S3ReplicateObject => (is => 'ro', isa => 'Paws::S3Control::S3ReplicateObjectOperation');
 
 1;
 
@@ -29,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::S3Control::JobOperation object:
 
-  $service_obj->Method(Att1 => { LambdaInvoke => $value, ..., S3PutObjectTagging => $value  });
+  $service_obj->Method(Att1 => { LambdaInvoke => $value, ..., S3ReplicateObject => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,8 +52,8 @@ in the I<Amazon S3 User Guide>.
 
 =head2 LambdaInvoke => L<Paws::S3Control::LambdaInvokeOperation>
 
-Directs the specified job to invoke an AWS Lambda function on every
-object in the manifest.
+Directs the specified job to invoke an Lambda function on every object
+in the manifest.
 
 
 =head2 S3DeleteObjectTagging => L<Paws::S3Control::S3DeleteObjectTaggingOperation>
@@ -60,17 +61,23 @@ object in the manifest.
 Directs the specified job to execute a DELETE Object tagging call on
 every object in the manifest.
 
+This functionality is not supported by directory buckets.
+
 
 =head2 S3InitiateRestoreObject => L<Paws::S3Control::S3InitiateRestoreObjectOperation>
 
 Directs the specified job to initiate restore requests for every
 archived object in the manifest.
 
+This functionality is not supported by directory buckets.
+
 
 =head2 S3PutObjectAcl => L<Paws::S3Control::S3SetObjectAclOperation>
 
-Directs the specified job to run a PUT Object acl call on every object
+Directs the specified job to run a C<PutObjectAcl> call on every object
 in the manifest.
+
+This functionality is not supported by directory buckets.
 
 
 =head2 S3PutObjectCopy => L<Paws::S3Control::S3CopyObjectOperation>
@@ -93,6 +100,16 @@ in the manifest.
 
 Directs the specified job to run a PUT Object tagging call on every
 object in the manifest.
+
+This functionality is not supported by directory buckets.
+
+
+=head2 S3ReplicateObject => L<Paws::S3Control::S3ReplicateObjectOperation>
+
+Directs the specified job to invoke C<ReplicateObject> on every object
+in the job's manifest.
+
+This functionality is not supported by directory buckets.
 
 
 

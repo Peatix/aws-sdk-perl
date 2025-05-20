@@ -36,8 +36,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatasetName                 => 'MyDatasetIdentifier',
       IngestionInputConfiguration => {
         S3InputConfiguration => {
-          Bucket => 'MyS3Bucket',    # min: 3, max: 63
-          Prefix => 'MyS3Prefix',    # max: 1024; OPTIONAL
+          Bucket     => 'MyS3Bucket',      # min: 3, max: 63
+          KeyPattern => 'MyKeyPattern',    # min: 1, max: 2048; OPTIONAL
+          Prefix     => 'MyS3Prefix',      # max: 1024; OPTIONAL
         },
 
       },

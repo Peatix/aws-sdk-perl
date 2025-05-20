@@ -36,7 +36,7 @@ C<ListHostedZonesByVPC> request.
 
 =head2 NextToken => Str
 
-The value that you specified for C<NextToken> in the most recent
+The value that you will use for C<NextToken> in the next
 C<ListHostedZonesByVPC> request.
 
 

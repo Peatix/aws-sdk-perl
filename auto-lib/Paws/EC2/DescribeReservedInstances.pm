@@ -80,6 +80,11 @@ Instance can be used.
 
 =item *
 
+C<availability-zone-id> - The ID of the Availability Zone where the
+Reserved Instance can be used.
+
+=item *
+
 C<duration> - The duration of the Reserved Instance (one year or three
 years), in seconds (C<31536000> | C<94608000>).
 
@@ -106,16 +111,12 @@ C<Availability Zone>).
 =item *
 
 C<product-description> - The Reserved Instance product platform
-description. Instances that include C<(Amazon VPC)> in the product
-platform description will only be displayed to EC2-Classic account
-holders and are for use with Amazon VPC (C<Linux/UNIX> | C<Linux/UNIX
-(Amazon VPC)> | C<SUSE Linux> | C<SUSE Linux (Amazon VPC)> | C<Red Hat
-Enterprise Linux> | C<Red Hat Enterprise Linux (Amazon VPC)> | C<Red
-Hat Enterprise Linux with HA (Amazon VPC)> | C<Windows> | C<Windows
-(Amazon VPC)> | C<Windows with SQL Server Standard> | C<Windows with
-SQL Server Standard (Amazon VPC)> | C<Windows with SQL Server Web> |
-C<Windows with SQL Server Web (Amazon VPC)> | C<Windows with SQL Server
-Enterprise> | C<Windows with SQL Server Enterprise (Amazon VPC)>).
+description (C<Linux/UNIX> | C<Linux with SQL Server Standard> |
+C<Linux with SQL Server Web> | C<Linux with SQL Server Enterprise> |
+C<SUSE Linux> | C<Red Hat Enterprise Linux> | C<Red Hat Enterprise
+Linux with HA> | C<Windows> | C<Windows with SQL Server Standard> |
+C<Windows with SQL Server Web> | C<Windows with SQL Server
+Enterprise>).
 
 =item *
 
@@ -133,7 +134,7 @@ C<active> | C<payment-failed> | C<retired>).
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
+C<tag:E<lt>keyE<gt>> - The key/value combination of a tag assigned to
 the resource. Use the tag key in the filter name and the tag value as
 the filter value. For example, to find all resources that have a tag
 with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for

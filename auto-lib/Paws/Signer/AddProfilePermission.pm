@@ -55,7 +55,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sig
 
 =head2 B<REQUIRED> Action => Str
 
-The AWS Signer action permitted as part of cross-account permissions.
+For cross-account signing. Grant a designated account permission to
+perform one or more of the following actions. Each action is associated
+with a specific API's operations. For more information about
+cross-account signing, see Using cross-account signing with signing
+profiles
+(https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html)
+in the I<AWS Signer Developer Guide>.
+
+You can designate the following actions to an account.
+
+=over
+
+=item *
+
+C<signer:StartSigningJob>. This action isn't supported for container
+image workflows. For details, see StartSigningJob.
+
+=item *
+
+C<signer:SignPayload>. This action isn't supported for AWS Lambda
+workflows. For details, see SignPayload
+
+=item *
+
+C<signer:GetSigningProfile>. For details, see GetSigningProfile.
+
+=item *
+
+C<signer:RevokeSignature>. For details, see RevokeSignature.
+
+=back
+
 
 
 

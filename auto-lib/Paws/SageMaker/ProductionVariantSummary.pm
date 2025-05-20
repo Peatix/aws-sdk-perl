@@ -2,11 +2,16 @@
 package Paws::SageMaker::ProductionVariantSummary;
   use Moose;
   has CurrentInstanceCount => (is => 'ro', isa => 'Int');
+  has CurrentServerlessConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantServerlessConfig');
   has CurrentWeight => (is => 'ro', isa => 'Num');
   has DeployedImages => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::DeployedImage]');
   has DesiredInstanceCount => (is => 'ro', isa => 'Int');
+  has DesiredServerlessConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantServerlessConfig');
   has DesiredWeight => (is => 'ro', isa => 'Num');
+  has ManagedInstanceScaling => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantManagedInstanceScaling');
+  has RoutingConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantRoutingConfig');
   has VariantName => (is => 'ro', isa => 'Str', required => 1);
+  has VariantStatus => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProductionVariantStatus]');
 
 1;
 
@@ -27,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::ProductionVariantSummary object:
 
-  $service_obj->Method(Att1 => { CurrentInstanceCount => $value, ..., VariantName => $value  });
+  $service_obj->Method(Att1 => { CurrentInstanceCount => $value, ..., VariantStatus => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,6 +56,11 @@ C<Updating>, you get different desired and current values.
 The number of instances associated with the variant.
 
 
+=head2 CurrentServerlessConfig => L<Paws::SageMaker::ProductionVariantServerlessConfig>
+
+The serverless configuration for the endpoint.
+
+
 =head2 CurrentWeight => Num
 
 The weight associated with the variant.
@@ -69,15 +79,38 @@ The number of instances requested in the
 C<UpdateEndpointWeightsAndCapacities> request.
 
 
+=head2 DesiredServerlessConfig => L<Paws::SageMaker::ProductionVariantServerlessConfig>
+
+The serverless configuration requested for the endpoint update.
+
+
 =head2 DesiredWeight => Num
 
 The requested weight, as specified in the
 C<UpdateEndpointWeightsAndCapacities> request.
 
 
+=head2 ManagedInstanceScaling => L<Paws::SageMaker::ProductionVariantManagedInstanceScaling>
+
+Settings that control the range in the number of instances that the
+endpoint provisions as it scales up or down to accommodate traffic.
+
+
+=head2 RoutingConfig => L<Paws::SageMaker::ProductionVariantRoutingConfig>
+
+Settings that control how the endpoint routes incoming traffic to the
+instances that the endpoint hosts.
+
+
 =head2 B<REQUIRED> VariantName => Str
 
 The name of the variant.
+
+
+=head2 VariantStatus => ArrayRef[L<Paws::SageMaker::ProductionVariantStatus>]
+
+The endpoint variant status which describes the current deployment
+stage status or operational status.
 
 
 

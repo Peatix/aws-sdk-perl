@@ -54,6 +54,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $SlotId                = $DescribeSlotResponse->SlotId;
     my $SlotName              = $DescribeSlotResponse->SlotName;
     my $SlotTypeId            = $DescribeSlotResponse->SlotTypeId;
+    my $SubSlotSetting        = $DescribeSlotResponse->SubSlotSetting;
     my $ValueElicitationSetting =
       $DescribeSlotResponse->ValueElicitationSetting;
 

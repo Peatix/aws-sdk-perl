@@ -52,7 +52,7 @@ A list of counts and versions for deleted items.
 
 =head2 TotalCount => Int
 
-The total number of items to delete. This count does not change during
+The total number of items to delete. This count doesn't change during
 the delete operation.
 
 

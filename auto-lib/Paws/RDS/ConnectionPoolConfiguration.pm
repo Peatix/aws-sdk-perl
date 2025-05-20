@@ -46,23 +46,36 @@ connection pool associated with a C<DBProxyTargetGroup>.
 =head2 ConnectionBorrowTimeout => Int
 
 The number of seconds for a proxy to wait for a connection to become
-available in the connection pool. Only applies when the proxy has
-opened its maximum number of connections and all connections are busy
-with client sessions.
+available in the connection pool. This setting only applies when the
+proxy has opened its maximum number of connections and all connections
+are busy with client sessions.
 
-Default: 120
+Default: C<120>
 
-Constraints: between 1 and 3600, or 0 representing unlimited
+Constraints:
+
+=over
+
+=item *
+
+Must be between 0 and 3600.
+
+=back
+
 
 
 =head2 InitQuery => Str
 
-One or more SQL statements for the proxy to run when opening each new
-database connection. Typically used with C<SET> statements to make sure
-that each connection has identical settings such as time zone and
-character set. For multiple statements, use semicolons as the
-separator. You can also include multiple variables in a single C<SET>
-statement, such as C<SET x=1, y=2>.
+Add an initialization query, or modify the current one. You can specify
+one or more SQL statements for the proxy to run when opening each new
+database connection. The setting is typically used with C<SET>
+statements to make sure that each connection has identical settings.
+Make sure that the query you add is valid. To include multiple
+variables in a single C<SET> statement, use comma separators.
+
+For example: C<SET variable1=value1, variable2=value2>
+
+For multiple statements, use semicolons as the separator.
 
 Default: no initialization query
 
@@ -70,28 +83,58 @@ Default: no initialization query
 =head2 MaxConnectionsPercent => Int
 
 The maximum size of the connection pool for each target in a target
-group. For Aurora MySQL, it is expressed as a percentage of the
-C<max_connections> setting for the RDS DB instance or Aurora DB cluster
-used by the target group.
+group. The value is expressed as a percentage of the C<max_connections>
+setting for the RDS DB instance or Aurora DB cluster used by the target
+group.
 
-Default: 100
+If you specify C<MaxIdleConnectionsPercent>, then you must also include
+a value for this parameter.
 
-Constraints: between 1 and 100
+Default: C<10> for RDS for Microsoft SQL Server, and C<100> for all
+other engines
+
+Constraints:
+
+=over
+
+=item *
+
+Must be between 1 and 100.
+
+=back
+
 
 
 =head2 MaxIdleConnectionsPercent => Int
 
-Controls how actively the proxy closes idle database connections in the
-connection pool. A high value enables the proxy to leave a high
-percentage of idle connections open. A low value causes the proxy to
-close idle client connections and return the underlying database
-connections to the connection pool. For Aurora MySQL, it is expressed
-as a percentage of the C<max_connections> setting for the RDS DB
-instance or Aurora DB cluster used by the target group.
+A value that controls how actively the proxy closes idle database
+connections in the connection pool. The value is expressed as a
+percentage of the C<max_connections> setting for the RDS DB instance or
+Aurora DB cluster used by the target group. With a high value, the
+proxy leaves a high percentage of idle database connections open. A low
+value causes the proxy to close more idle connections and return them
+to the database.
 
-Default: 50
+If you specify this parameter, then you must also include a value for
+C<MaxConnectionsPercent>.
 
-Constraints: between 0 and C<MaxConnectionsPercent>
+Default: The default value is half of the value of
+C<MaxConnectionsPercent>. For example, if C<MaxConnectionsPercent> is
+80, then the default value of C<MaxIdleConnectionsPercent> is 40. If
+the value of C<MaxConnectionsPercent> isn't specified, then for SQL
+Server, C<MaxIdleConnectionsPercent> is C<5>, and for all other
+engines, the default is C<50>.
+
+Constraints:
+
+=over
+
+=item *
+
+Must be between 0 and the value of C<MaxConnectionsPercent>.
+
+=back
+
 
 
 =head2 SessionPinningFilters => ArrayRef[Str|Undef]

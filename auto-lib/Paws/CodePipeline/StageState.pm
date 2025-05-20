@@ -2,9 +2,14 @@
 package Paws::CodePipeline::StageState;
   use Moose;
   has ActionStates => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::ActionState]', request_name => 'actionStates', traits => ['NameInRequest']);
+  has BeforeEntryConditionState => (is => 'ro', isa => 'Paws::CodePipeline::StageConditionState', request_name => 'beforeEntryConditionState', traits => ['NameInRequest']);
   has InboundExecution => (is => 'ro', isa => 'Paws::CodePipeline::StageExecution', request_name => 'inboundExecution', traits => ['NameInRequest']);
+  has InboundExecutions => (is => 'ro', isa => 'ArrayRef[Paws::CodePipeline::StageExecution]', request_name => 'inboundExecutions', traits => ['NameInRequest']);
   has InboundTransitionState => (is => 'ro', isa => 'Paws::CodePipeline::TransitionState', request_name => 'inboundTransitionState', traits => ['NameInRequest']);
   has LatestExecution => (is => 'ro', isa => 'Paws::CodePipeline::StageExecution', request_name => 'latestExecution', traits => ['NameInRequest']);
+  has OnFailureConditionState => (is => 'ro', isa => 'Paws::CodePipeline::StageConditionState', request_name => 'onFailureConditionState', traits => ['NameInRequest']);
+  has OnSuccessConditionState => (is => 'ro', isa => 'Paws::CodePipeline::StageConditionState', request_name => 'onSuccessConditionState', traits => ['NameInRequest']);
+  has RetryStageMetadata => (is => 'ro', isa => 'Paws::CodePipeline::RetryStageMetadata', request_name => 'retryStageMetadata', traits => ['NameInRequest']);
   has StageName => (is => 'ro', isa => 'Str', request_name => 'stageName', traits => ['NameInRequest']);
 
 1;
@@ -47,9 +52,19 @@ Represents information about the state of the stage.
 The state of the stage.
 
 
+=head2 BeforeEntryConditionState => L<Paws::CodePipeline::StageConditionState>
+
+The state of the entry conditions for a stage.
+
+
 =head2 InboundExecution => L<Paws::CodePipeline::StageExecution>
 
 
+
+
+=head2 InboundExecutions => ArrayRef[L<Paws::CodePipeline::StageExecution>]
+
+The inbound executions for a stage.
 
 
 =head2 InboundTransitionState => L<Paws::CodePipeline::TransitionState>
@@ -62,6 +77,22 @@ disabled.
 
 Information about the latest execution in the stage, including its ID
 and status.
+
+
+=head2 OnFailureConditionState => L<Paws::CodePipeline::StageConditionState>
+
+The state of the failure conditions for a stage.
+
+
+=head2 OnSuccessConditionState => L<Paws::CodePipeline::StageConditionState>
+
+The state of the success conditions for a stage.
+
+
+=head2 RetryStageMetadata => L<Paws::CodePipeline::RetryStageMetadata>
+
+he details of a specific automatic retry on stage failure, including
+the attempt number and trigger.
 
 
 =head2 StageName => Str

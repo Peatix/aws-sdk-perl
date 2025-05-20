@@ -19,8 +19,8 @@ Paws::Macie2::ListMembersResponse
 =head2 Members => ArrayRef[L<Paws::Macie2::Member>]
 
 An array of objects, one for each account that's associated with the
-administrator account and meets the criteria specified by the
-onlyAssociated request parameter.
+administrator account and matches the criteria specified in the
+request.
 
 
 =head2 NextToken => Str

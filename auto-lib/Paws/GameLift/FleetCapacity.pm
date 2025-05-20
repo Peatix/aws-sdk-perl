@@ -3,6 +3,7 @@ package Paws::GameLift::FleetCapacity;
   use Moose;
   has FleetArn => (is => 'ro', isa => 'Str');
   has FleetId => (is => 'ro', isa => 'Str');
+  has GameServerContainerGroupCounts => (is => 'ro', isa => 'Paws::GameLift::GameServerContainerGroupCounts');
   has InstanceCounts => (is => 'ro', isa => 'Paws::GameLift::EC2InstanceCounts');
   has InstanceType => (is => 'ro', isa => 'Str');
   has Location => (is => 'ro', isa => 'Str');
@@ -37,14 +38,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::F
 
 =head1 DESCRIPTION
 
-Current resource capacity settings in a specified fleet or location.
-The location value might refer to a fleet's remote location or its home
-Region.
+Current resource capacity settings for managed EC2 fleets and managed
+container fleets. For multi-location fleets, location values might
+refer to a fleet's remote location or its home Region.
 
-B<Related actions>
-
-DescribeFleetCapacity | DescribeFleetLocationCapacity |
+B<Returned by:> DescribeFleetCapacity
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html),
+DescribeFleetLocationCapacity
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html),
 UpdateFleetCapacity
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html)
 
 =head1 ATTRIBUTES
 
@@ -53,8 +56,8 @@ UpdateFleetCapacity
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift fleet resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift fleet resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 
 
@@ -63,24 +66,33 @@ C<arn:aws:gamelift:E<lt>regionE<gt>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7
 A unique identifier for the fleet associated with the location.
 
 
+=head2 GameServerContainerGroupCounts => L<Paws::GameLift::GameServerContainerGroupCounts>
+
+The number and status of game server container groups deployed in a
+container fleet.
+
+
 =head2 InstanceCounts => L<Paws::GameLift::EC2InstanceCounts>
 
-The current instance count and capacity settings for the fleet
-location.
+The current number of instances in the fleet, listed by instance
+status. Counts for pending and terminating instances might be non-zero
+if the fleet is adjusting to a scaling event or if access to resources
+is temporarily affected.
 
 
 =head2 InstanceType => Str
 
-The EC2 instance type that is used for all instances in a fleet. The
-instance type determines the computing resources in use, including CPU,
-memory, storage, and networking capacity. See Amazon EC2 Instance Types
-(http://aws.amazon.com/ec2/instance-types/) for detailed descriptions.
+The Amazon EC2 instance type that is used for instances in a fleet.
+Instance type determines the computing resources in use, including CPU,
+memory, storage, and networking capacity. See Amazon Elastic Compute
+Cloud Instance Types (http://aws.amazon.com/ec2/instance-types/) for
+detailed descriptions.
 
 
 =head2 Location => Str
 
 The fleet location for the instance count information, expressed as an
-AWS Region code, such as C<us-west-2>.
+Amazon Web Services Region code, such as C<us-west-2>.
 
 
 

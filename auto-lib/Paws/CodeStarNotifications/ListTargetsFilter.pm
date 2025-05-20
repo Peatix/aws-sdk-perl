@@ -36,9 +36,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeStarNot
 
 Information about a filter to apply to the list of returned targets.
 You can filter by target type, address, or status. For example, to
-filter results to notification rules that have active Amazon SNS topics
-as targets, you could specify a ListTargetsFilter Name as TargetType
-and a Value of SNS, and a Name of TARGET_STATUS and a Value of ACTIVE.
+filter results to notification rules that have active Chatbot topics as
+targets, you could specify a ListTargetsFilter Name as C<TargetType>
+and a Value of C<SNS>, and a Name of C<TARGET_STATUS> and a Value of
+C<ACTIVE>.
 
 =head1 ATTRIBUTES
 
@@ -52,7 +53,7 @@ targets.
 =head2 B<REQUIRED> Value => Str
 
 The value of the attribute you want to use to filter the returned
-targets. For example, if you specify I<SNS> for the Target type, you
+targets. For example, if you specify C<SNS> for the Target type, you
 could specify an Amazon Resource Name (ARN) for a topic as the value.
 
 

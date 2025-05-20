@@ -53,7 +53,7 @@ The maximum number of environment templates to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next environment template in
+A token that indicates the location of the next environment template in
 the array of environment templates, after the list of environment
 templates that was previously requested.
 

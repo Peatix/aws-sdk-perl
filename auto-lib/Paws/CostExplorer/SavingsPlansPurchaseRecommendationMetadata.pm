@@ -42,12 +42,12 @@ Metadata about your Savings Plans Purchase Recommendations.
 
 =head2 AdditionalMetadata => Str
 
-Additional metadata that may be applicable to the recommendation.
+Additional metadata that might be applicable to the recommendation.
 
 
 =head2 GenerationTimestamp => Str
 
-The timestamp showing when the recommendations were generated.
+The timestamp that shows when the recommendations were generated.
 
 
 =head2 RecommendationId => Str

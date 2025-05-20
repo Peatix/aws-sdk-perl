@@ -1,6 +1,7 @@
 
 package Paws::LocationService::GetMapStyleDescriptor;
   use Moose;
+  has Key => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'key');
   has MapName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'MapName', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,12 +31,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $geo = Paws->service('LocationService');
     my $GetMapStyleDescriptorResponse = $geo->GetMapStyleDescriptor(
       MapName => 'MyResourceName',
-
+      Key     => 'MyApiKey',         # OPTIONAL
     );
 
     # Results:
-    my $Blob        = $GetMapStyleDescriptorResponse->Blob;
-    my $ContentType = $GetMapStyleDescriptorResponse->ContentType;
+    my $Blob         = $GetMapStyleDescriptorResponse->Blob;
+    my $CacheControl = $GetMapStyleDescriptorResponse->CacheControl;
+    my $ContentType  = $GetMapStyleDescriptorResponse->ContentType;
 
     # Returns a L<Paws::LocationService::GetMapStyleDescriptorResponse> object.
 
@@ -43,6 +45,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo/GetMapStyleDescriptor>
 
 =head1 ATTRIBUTES
+
+
+=head2 Key => Str
+
+The optional API key
+(https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
+to authorize the request.
+
 
 
 =head2 B<REQUIRED> MapName => Str

@@ -45,7 +45,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::S
 =head1 DESCRIPTION
 
 Provides statistics for each data field imported into to an Amazon
-Forecast dataset with the CreateDatasetImportJob operation.
+Forecast dataset with the CreateDatasetImportJob
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html)
+operation.
 
 =head1 ATTRIBUTES
 

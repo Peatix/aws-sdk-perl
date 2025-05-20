@@ -1,6 +1,7 @@
 
 package Paws::SageMakerFeatureStoreRuntime::BatchGetRecord;
   use Moose;
+  has ExpirationTimeResponse => (is => 'ro', isa => 'Str');
   has Identifiers => (is => 'ro', isa => 'ArrayRef[Paws::SageMakerFeatureStoreRuntime::BatchGetRecordIdentifier]', required => 1);
 
   use MooseX::ClassAttribute;
@@ -32,9 +33,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $featurestore -runtime . sagemaker->BatchGetRecord(
       Identifiers => [
         {
-          FeatureGroupName => 'MyFeatureGroupName',    # min: 1, max: 64
+          FeatureGroupName => 'MyFeatureGroupNameOrArn',    # min: 1, max: 150
           RecordIdentifiersValueAsString => [
-            'MyValueAsString', ...                     # max: 358400
+            'MyValueAsString', ...                          # max: 358400
           ],    # min: 1, max: 100
           FeatureNames => [
             'MyFeatureName', ...    # min: 1, max: 64
@@ -42,7 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-
+      ExpirationTimeResponse => 'Enabled',    # OPTIONAL
       );
 
     # Results:
@@ -59,11 +60,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fea
 =head1 ATTRIBUTES
 
 
+=head2 ExpirationTimeResponse => Str
+
+Parameter to request C<ExpiresAt> in response. If C<Enabled>,
+C<BatchGetRecord> will return the value of C<ExpiresAt>, if it is not
+null. If C<Disabled> and null, C<BatchGetRecord> will return null.
+
+Valid values are: C<"Enabled">, C<"Disabled">
+
 =head2 B<REQUIRED> Identifiers => ArrayRef[L<Paws::SageMakerFeatureStoreRuntime::BatchGetRecordIdentifier>]
 
-A list of C<FeatureGroup> names, with their corresponding
-C<RecordIdentifier> value, and Feature name that have been requested to
-be retrieved in batch.
+A list containing the name or Amazon Resource Name (ARN) of the
+C<FeatureGroup>, the list of names of C<Feature>s to be retrieved, and
+the corresponding C<RecordIdentifier> values as strings.
 
 
 

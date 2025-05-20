@@ -29,23 +29,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
+    # To get details from a previously-generated report
+    # The following operation gets details about the report with the job ID:
+    # examplef-1305-c245-eba4-71fe298bcda7
     my $GetServiceLastAccessedDetailsResponse =
       $iam->GetServiceLastAccessedDetails(
-      JobId    => 'MyjobIDType',
-      Marker   => 'MymarkerType',    # OPTIONAL
-      MaxItems => 1,                 # OPTIONAL
-      );
+      'JobId' => 'examplef-1305-c245-eba4-71fe298bcda7' );
 
     # Results:
-    my $Error       = $GetServiceLastAccessedDetailsResponse->Error;
     my $IsTruncated = $GetServiceLastAccessedDetailsResponse->IsTruncated;
     my $JobCompletionDate =
       $GetServiceLastAccessedDetailsResponse->JobCompletionDate;
     my $JobCreationDate =
       $GetServiceLastAccessedDetailsResponse->JobCreationDate;
     my $JobStatus = $GetServiceLastAccessedDetailsResponse->JobStatus;
-    my $JobType   = $GetServiceLastAccessedDetailsResponse->JobType;
-    my $Marker    = $GetServiceLastAccessedDetailsResponse->Marker;
     my $ServicesLastAccessed =
       $GetServiceLastAccessedDetailsResponse->ServicesLastAccessed;
 

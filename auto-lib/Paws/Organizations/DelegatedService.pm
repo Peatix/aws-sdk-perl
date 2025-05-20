@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Organizatio
 
 =head1 DESCRIPTION
 
-Contains information about the AWS service for which the account is a
-delegated administrator.
+Contains information about the Amazon Web Services service for which
+the account is a delegated administrator.
 
 =head1 ATTRIBUTES
 
@@ -48,9 +48,9 @@ service.
 
 =head2 ServicePrincipal => Str
 
-The name of an AWS service that can request an operation for the
-specified service. This is typically in the form of a URL, such as: C<
-I<servicename>.amazonaws.com>.
+The name of an Amazon Web Services service that can request an
+operation for the specified service. This is typically in the form of a
+URL, such as: C< I<servicename>.amazonaws.com>.
 
 
 

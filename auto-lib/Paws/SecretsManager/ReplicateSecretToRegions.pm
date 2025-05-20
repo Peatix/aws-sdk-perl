@@ -57,20 +57,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> AddReplicaRegions => ArrayRef[L<Paws::SecretsManager::ReplicaRegionType>]
 
-Add Regions to replicate the secret.
+A list of Regions in which to replicate the secret.
 
 
 
 =head2 ForceOverwriteReplicaSecret => Bool
 
-(Optional) If set, Secrets Manager replication overwrites a secret with
-the same name in the destination region.
+Specifies whether to overwrite a secret with the same name in the
+destination Region. By default, secrets aren't overwritten.
 
 
 
 =head2 B<REQUIRED> SecretId => Str
 
-Use the C<Secret Id> to replicate a secret to regions.
+The ARN or name of the secret to replicate.
 
 
 

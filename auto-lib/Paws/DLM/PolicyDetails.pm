@@ -2,11 +2,19 @@
 package Paws::DLM::PolicyDetails;
   use Moose;
   has Actions => (is => 'ro', isa => 'ArrayRef[Paws::DLM::Action]');
+  has CopyTags => (is => 'ro', isa => 'Bool');
+  has CreateInterval => (is => 'ro', isa => 'Int');
+  has CrossRegionCopyTargets => (is => 'ro', isa => 'ArrayRef[Paws::DLM::CrossRegionCopyTarget]');
   has EventSource => (is => 'ro', isa => 'Paws::DLM::EventSource');
+  has Exclusions => (is => 'ro', isa => 'Paws::DLM::Exclusions');
+  has ExtendDeletion => (is => 'ro', isa => 'Bool');
   has Parameters => (is => 'ro', isa => 'Paws::DLM::Parameters');
+  has PolicyLanguage => (is => 'ro', isa => 'Str');
   has PolicyType => (is => 'ro', isa => 'Str');
   has ResourceLocations => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ResourceType => (is => 'ro', isa => 'Str');
   has ResourceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has RetainInterval => (is => 'ro', isa => 'Int');
   has Schedules => (is => 'ro', isa => 'ArrayRef[Paws::DLM::Schedule]');
   has TargetTags => (is => 'ro', isa => 'ArrayRef[Paws::DLM::Tag]');
 
@@ -47,79 +55,213 @@ Specifies the configuration of a lifecycle policy.
 
 =head2 Actions => ArrayRef[L<Paws::DLM::Action>]
 
-The actions to be performed when the event-based policy is triggered.
-You can specify only one action per policy.
+B<[Event-based policies only]> The actions to be performed when the
+event-based policy is activated. You can specify only one action per
+policy.
 
-This parameter is required for event-based policies only. If you are
-creating a snapshot or AMI policy, omit this parameter.
+
+=head2 CopyTags => Bool
+
+B<[Default policies only]> Indicates whether the policy should copy
+tags from the source resource to the snapshot or AMI. If you do not
+specify a value, the default is C<false>.
+
+Default: false
+
+
+=head2 CreateInterval => Int
+
+B<[Default policies only]> Specifies how often the policy should run
+and create snapshots or AMIs. The creation frequency can range from 1
+to 7 days. If you do not specify a value, the default is 1.
+
+Default: 1
+
+
+=head2 CrossRegionCopyTargets => ArrayRef[L<Paws::DLM::CrossRegionCopyTarget>]
+
+B<[Default policies only]> Specifies destination Regions for snapshot
+or AMI copies. You can specify up to 3 destination Regions. If you do
+not want to create cross-Region copies, omit this parameter.
 
 
 =head2 EventSource => L<Paws::DLM::EventSource>
 
-The event that triggers the event-based policy.
+B<[Event-based policies only]> The event that activates the event-based
+policy.
 
-This parameter is required for event-based policies only. If you are
-creating a snapshot or AMI policy, omit this parameter.
+
+=head2 Exclusions => L<Paws::DLM::Exclusions>
+
+B<[Default policies only]> Specifies exclusion parameters for volumes
+or instances for which you do not want to create snapshots or AMIs. The
+policy will not create snapshots or AMIs for target resources that
+match any of the specified exclusion parameters.
+
+
+=head2 ExtendDeletion => Bool
+
+B<[Default policies only]> Defines the snapshot or AMI retention
+behavior for the policy if the source volume or instance is deleted, or
+if the policy enters the error, disabled, or deleted state.
+
+By default (B<ExtendDeletion=false>):
+
+=over
+
+=item *
+
+If a source resource is deleted, Amazon Data Lifecycle Manager will
+continue to delete previously created snapshots or AMIs, up to but not
+including the last one, based on the specified retention period. If you
+want Amazon Data Lifecycle Manager to delete all snapshots or AMIs,
+including the last one, specify C<true>.
+
+=item *
+
+If a policy enters the error, disabled, or deleted state, Amazon Data
+Lifecycle Manager stops deleting snapshots and AMIs. If you want Amazon
+Data Lifecycle Manager to continue deleting snapshots or AMIs,
+including the last one, if the policy enters one of these states,
+specify C<true>.
+
+=back
+
+If you enable extended deletion (B<ExtendDeletion=true>), you override
+both default behaviors simultaneously.
+
+If you do not specify a value, the default is C<false>.
+
+Default: false
 
 
 =head2 Parameters => L<Paws::DLM::Parameters>
 
-A set of optional parameters for snapshot and AMI lifecycle policies.
+B<[Custom snapshot and AMI policies only]> A set of optional parameters
+for snapshot and AMI lifecycle policies.
 
-This parameter is required for snapshot and AMI policies only. If you
-are creating an event-based policy, omit this parameter.
+If you are modifying a policy that was created or previously modified
+using the Amazon Data Lifecycle Manager console, then you must include
+this parameter and specify either the default values or the new values
+that you require. You can't omit this parameter or set its values to
+null.
+
+
+=head2 PolicyLanguage => Str
+
+The type of policy to create. Specify one of the following:
+
+=over
+
+=item *
+
+C<SIMPLIFIED> To create a default policy.
+
+=item *
+
+C<STANDARD> To create a custom policy.
+
+=back
+
 
 
 =head2 PolicyType => Str
 
-The valid target resource types and actions a policy can manage.
-Specify C<EBS_SNAPSHOT_MANAGEMENT> to create a lifecycle policy that
-manages the lifecycle of Amazon EBS snapshots. Specify
-C<IMAGE_MANAGEMENT> to create a lifecycle policy that manages the
-lifecycle of EBS-backed AMIs. Specify C<EVENT_BASED_POLICY > to create
-an event-based policy that performs specific actions when a defined
-event occurs in your AWS account.
+The type of policy. Specify C<EBS_SNAPSHOT_MANAGEMENT> to create a
+lifecycle policy that manages the lifecycle of Amazon EBS snapshots.
+Specify C<IMAGE_MANAGEMENT> to create a lifecycle policy that manages
+the lifecycle of EBS-backed AMIs. Specify C<EVENT_BASED_POLICY > to
+create an event-based policy that performs specific actions when a
+defined event occurs in your Amazon Web Services account.
 
 The default is C<EBS_SNAPSHOT_MANAGEMENT>.
 
 
 =head2 ResourceLocations => ArrayRef[Str|Undef]
 
-The location of the resources to backup. If the source resources are
-located in an AWS Region, specify C<CLOUD>. If the source resources are
-located on an AWS Outpost in your account, specify C<OUTPOST>.
+B<[Custom snapshot and AMI policies only]> The location of the
+resources to backup.
 
-If you specify C<OUTPOST>, Amazon Data Lifecycle Manager backs up all
-resources of the specified type with matching target tags across all of
-the Outposts in your account.
+=over
+
+=item *
+
+If the source resources are located in a Region, specify C<CLOUD>. In
+this case, the policy targets all resources of the specified type with
+matching target tags across all Availability Zones in the Region.
+
+=item *
+
+B<[Custom snapshot policies only]> If the source resources are located
+in a Local Zone, specify C<LOCAL_ZONE>. In this case, the policy
+targets all resources of the specified type with matching target tags
+across all Local Zones in the Region.
+
+=item *
+
+If the source resources are located on an Outpost in your account,
+specify C<OUTPOST>. In this case, the policy targets all resources of
+the specified type with matching target tags across all of the Outposts
+in your account.
+
+=back
+
+
+
+=head2 ResourceType => Str
+
+B<[Default policies only]> Specify the type of default policy to
+create.
+
+=over
+
+=item *
+
+To create a default policy for EBS snapshots, that creates snapshots of
+all volumes in the Region that do not have recent backups, specify
+C<VOLUME>.
+
+=item *
+
+To create a default policy for EBS-backed AMIs, that creates EBS-backed
+AMIs from all instances in the Region that do not have recent backups,
+specify C<INSTANCE>.
+
+=back
+
 
 
 =head2 ResourceTypes => ArrayRef[Str|Undef]
 
-The target resource type for snapshot and AMI lifecycle policies. Use
-C<VOLUME >to create snapshots of individual volumes or use C<INSTANCE>
-to create multi-volume snapshots from the volumes for an instance.
+B<[Custom snapshot policies only]> The target resource type for
+snapshot and AMI lifecycle policies. Use C<VOLUME >to create snapshots
+of individual volumes or use C<INSTANCE> to create multi-volume
+snapshots from the volumes for an instance.
 
-This parameter is required for snapshot and AMI policies only. If you
-are creating an event-based policy, omit this parameter.
+
+=head2 RetainInterval => Int
+
+B<[Default policies only]> Specifies how long the policy should retain
+snapshots or AMIs before deleting them. The retention period can range
+from 2 to 14 days, but it must be greater than the creation frequency
+to ensure that the policy retains at least 1 snapshot or AMI at any
+given time. If you do not specify a value, the default is 7.
+
+Default: 7
 
 
 =head2 Schedules => ArrayRef[L<Paws::DLM::Schedule>]
 
-The schedules of policy-defined actions for snapshot and AMI lifecycle
-policies. A policy can have up to four schedulesE<mdash>one mandatory
-schedule and up to three optional schedules.
-
-This parameter is required for snapshot and AMI policies only. If you
-are creating an event-based policy, omit this parameter.
+B<[Custom snapshot and AMI policies only]> The schedules of
+policy-defined actions for snapshot and AMI lifecycle policies. A
+policy can have up to four schedulesE<mdash>one mandatory schedule and
+up to three optional schedules.
 
 
 =head2 TargetTags => ArrayRef[L<Paws::DLM::Tag>]
 
-The single tag that identifies targeted resources for this policy.
-
-This parameter is required for snapshot and AMI policies only. If you
-are creating an event-based policy, omit this parameter.
+B<[Custom snapshot and AMI policies only]> The single tag that
+identifies targeted resources for this policy.
 
 
 

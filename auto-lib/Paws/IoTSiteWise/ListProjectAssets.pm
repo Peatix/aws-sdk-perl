@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 MaxResults => Int
 
-The maximum number of results to be returned per paginated request.
+The maximum number of results to return for each paginated request.
 
 Default: 50
 

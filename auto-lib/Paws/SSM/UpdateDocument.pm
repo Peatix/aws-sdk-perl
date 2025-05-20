@@ -68,8 +68,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Attachments => ArrayRef[L<Paws::SSM::AttachmentsSource>]
 
-A list of key and value pairs that describe attachments to a version of
-a document.
+A list of key-value pairs that describe attachments to a version of a
+document.
 
 
 
@@ -81,10 +81,10 @@ A valid JSON or YAML string.
 
 =head2 DisplayName => Str
 
-The friendly name of the Systems Manager document that you want to
-update. This value can differ for each version of the document. If you
-do not specify a value for this parameter in your request, the existing
-value is applied to the new document version.
+The friendly name of the SSM document that you want to update. This
+value can differ for each version of the document. If you don't specify
+a value for this parameter in your request, the existing value is
+applied to the new document version.
 
 
 
@@ -102,11 +102,15 @@ Manager supports updating only the latest version of the document. You
 can specify the version number of the latest version or use the
 C<$LATEST> variable.
 
+If you change a document version for a State Manager association,
+Systems Manager immediately runs the association unless you previously
+specifed the C<apply-only-at-cron-interval> parameter.
+
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the Systems Manager document that you want to update.
+The name of the SSM document that you want to update.
 
 
 
@@ -119,9 +123,8 @@ Specify a new target type for the document.
 =head2 VersionName => Str
 
 An optional field specifying the version of the artifact you are
-updating with the document. For example, "Release 12, Update 6". This
-value is unique across all versions of a document, and cannot be
-changed.
+updating with the document. For example, 12.6. This value is unique
+across all versions of a document, and can't be changed.
 
 
 

@@ -29,15 +29,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
-    my $ListInstancesResponse = $servicediscovery->ListInstances(
-      ServiceId  => 'MyResourceId',
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
-    );
+    # Example: List service instances
+    # Example: List service instances
+    my $ListInstancesResponse =
+      $servicediscovery->ListInstances( 'ServiceId' => 'srv-qzpwvt2tfqcegapy' );
 
     # Results:
     my $Instances = $ListInstancesResponse->Instances;
-    my $NextToken = $ListInstancesResponse->NextToken;
 
     # Returns a L<Paws::ServiceDiscovery::ListInstancesResponse> object.
 

@@ -42,7 +42,7 @@ Describes a Delta Sync configuration.
 
 =head2 BaseTableTTL => Int
 
-The number of minutes an Item is stored in the datasource.
+The number of minutes that an Item is stored in the data source.
 
 
 =head2 DeltaSyncTableName => Str
@@ -52,8 +52,8 @@ The Delta Sync table name.
 
 =head2 DeltaSyncTableTTL => Int
 
-The number of minutes a Delta Sync log entry is stored in the Delta
-Sync table.
+The number of minutes that a Delta Sync log entry is stored in the
+Delta Sync table.
 
 
 

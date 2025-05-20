@@ -6,9 +6,11 @@ package Paws::WorkMail::AccessControlRule;
   has DateModified => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has Effect => (is => 'ro', isa => 'Str');
+  has ImpersonationRoleIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has IpRanges => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Name => (is => 'ro', isa => 'Str');
   has NotActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has NotImpersonationRoleIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NotIpRanges => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NotUserIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has UserIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -43,7 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WorkMail::A
 
 =head1 DESCRIPTION
 
-A rule that controls access to an Amazon WorkMail organization.
+A rule that controls access to an WorkMail organization.
 
 =head1 ATTRIBUTES
 
@@ -75,6 +77,11 @@ The rule description.
 The rule effect.
 
 
+=head2 ImpersonationRoleIds => ArrayRef[Str|Undef]
+
+Impersonation role IDs to include in the rule.
+
+
 =head2 IpRanges => ArrayRef[Str|Undef]
 
 IPv4 CIDR ranges to include in the rule.
@@ -90,6 +97,11 @@ The rule name.
 Access protocol actions to exclude from the rule. Valid values include
 C<ActiveSync>, C<AutoDiscover>, C<EWS>, C<IMAP>, C<SMTP>,
 C<WindowsOutlook>, and C<WebMail>.
+
+
+=head2 NotImpersonationRoleIds => ArrayRef[Str|Undef]
+
+Impersonation role IDs to exclude from the rule.
 
 
 =head2 NotIpRanges => ArrayRef[Str|Undef]

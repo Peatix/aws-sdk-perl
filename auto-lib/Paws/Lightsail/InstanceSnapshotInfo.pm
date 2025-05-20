@@ -42,14 +42,13 @@ Describes an instance snapshot.
 
 =head2 FromBlueprintId => Str
 
-The blueprint ID from which the source instance (e.g.,
-C<os_debian_8_3>).
+The blueprint ID from which the source instance (C<amazon_linux_2023>).
 
 
 =head2 FromBundleId => Str
 
-The bundle ID from which the source instance was created (e.g.,
-C<micro_1_0>).
+The bundle ID from which the source instance was created
+(C<micro_x_x>).
 
 
 =head2 FromDiskInfo => ArrayRef[L<Paws::Lightsail::DiskInfo>]

@@ -34,8 +34,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $Autotune = $DescribeHyperParameterTuningJobResponse->Autotune;
     my $BestTrainingJob =
       $DescribeHyperParameterTuningJobResponse->BestTrainingJob;
+    my $ConsumedResources =
+      $DescribeHyperParameterTuningJobResponse->ConsumedResources;
     my $CreationTime  = $DescribeHyperParameterTuningJobResponse->CreationTime;
     my $FailureReason = $DescribeHyperParameterTuningJobResponse->FailureReason;
     my $HyperParameterTuningEndTime =
@@ -60,6 +63,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeHyperParameterTuningJobResponse->TrainingJobDefinitions;
     my $TrainingJobStatusCounters =
       $DescribeHyperParameterTuningJobResponse->TrainingJobStatusCounters;
+    my $TuningJobCompletionDetails =
+      $DescribeHyperParameterTuningJobResponse->TuningJobCompletionDetails;
     my $WarmStartConfig =
       $DescribeHyperParameterTuningJobResponse->WarmStartConfig;
 

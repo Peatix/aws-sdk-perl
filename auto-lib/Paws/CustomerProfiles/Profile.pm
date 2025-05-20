@@ -12,13 +12,16 @@ package Paws::CustomerProfiles::Profile;
   has BusinessPhoneNumber => (is => 'ro', isa => 'Str');
   has EmailAddress => (is => 'ro', isa => 'Str');
   has FirstName => (is => 'ro', isa => 'Str');
+  has FoundByItems => (is => 'ro', isa => 'ArrayRef[Paws::CustomerProfiles::FoundByKeyValue]');
   has Gender => (is => 'ro', isa => 'Str');
+  has GenderString => (is => 'ro', isa => 'Str');
   has HomePhoneNumber => (is => 'ro', isa => 'Str');
   has LastName => (is => 'ro', isa => 'Str');
   has MailingAddress => (is => 'ro', isa => 'Paws::CustomerProfiles::Address');
   has MiddleName => (is => 'ro', isa => 'Str');
   has MobilePhoneNumber => (is => 'ro', isa => 'Str');
   has PartyType => (is => 'ro', isa => 'Str');
+  has PartyTypeString => (is => 'ro', isa => 'Str');
   has PersonalEmailAddress => (is => 'ro', isa => 'Str');
   has PhoneNumber => (is => 'ro', isa => 'Str');
   has ProfileId => (is => 'ro', isa => 'Str');
@@ -61,7 +64,7 @@ The standard profile of a customer.
 
 =head2 AccountNumber => Str
 
-A unique account number that you have given to the customer.
+An account number that you have given to the customer.
 
 
 =head2 AdditionalInformation => Str
@@ -116,9 +119,50 @@ personal or business address.
 The customerE<rsquo>s first name.
 
 
+=head2 FoundByItems => ArrayRef[L<Paws::CustomerProfiles::FoundByKeyValue>]
+
+A list of items used to find a profile returned in a SearchProfiles
+(https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html)
+response. An item is a key-value(s) pair that matches an attribute in
+the profile.
+
+If the optional C<AdditionalSearchKeys> parameter was included in the
+SearchProfiles
+(https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html)
+request, the C<FoundByItems> list should be interpreted based on the
+C<LogicalOperator> used in the request:
+
+=over
+
+=item *
+
+C<AND> - The profile included in the response matched all of the search
+keys specified in the request. The C<FoundByItems> will include all of
+the key-value(s) pairs that were specified in the request (as this is a
+requirement of C<AND> search logic).
+
+=item *
+
+C<OR> - The profile included in the response matched at least one of
+the search keys specified in the request. The C<FoundByItems> will
+include each of the key-value(s) pairs that the profile was found by.
+
+=back
+
+The C<OR> relationship is the default behavior if the
+C<LogicalOperator> parameter is not included in the SearchProfiles
+(https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html)
+request.
+
+
 =head2 Gender => Str
 
 The gender with which the customer identifies.
+
+
+=head2 GenderString => Str
+
+An alternative to Gender which accepts any string as input.
 
 
 =head2 HomePhoneNumber => Str
@@ -149,6 +193,11 @@ The customerE<rsquo>s mobile phone number.
 =head2 PartyType => Str
 
 The type of profile used to describe the customer.
+
+
+=head2 PartyTypeString => Str
+
+An alternative to PartyType which accepts any string as input.
 
 
 =head2 PersonalEmailAddress => Str

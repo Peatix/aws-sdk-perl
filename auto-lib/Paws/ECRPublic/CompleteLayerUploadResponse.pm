@@ -24,17 +24,17 @@ The C<sha256> digest of the image layer.
 
 =head2 RegistryId => Str
 
-The public registry ID associated with the request.
+The public registry ID that's associated with the request.
 
 
 =head2 RepositoryName => Str
 
-The repository name associated with the request.
+The repository name that's associated with the request.
 
 
 =head2 UploadId => Str
 
-The upload ID associated with the layer.
+The upload ID that's associated with the layer.
 
 
 =head2 _request_id => Str

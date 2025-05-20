@@ -48,8 +48,7 @@ format.
 
 =head2 ThingName => Str
 
-The name of the AWS IoT thing that represents the associated client
-device.
+The name of the IoT thing that represents the associated client device.
 
 
 

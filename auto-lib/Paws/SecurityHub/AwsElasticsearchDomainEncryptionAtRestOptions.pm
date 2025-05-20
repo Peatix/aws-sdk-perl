@@ -46,7 +46,7 @@ Whether encryption at rest is enabled.
 
 =head2 KmsKeyId => Str
 
-The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
+The KMS key ID. Takes the form C<1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a>.
 
 
 

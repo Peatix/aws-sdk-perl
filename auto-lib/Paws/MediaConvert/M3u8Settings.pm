@@ -4,6 +4,8 @@ package Paws::MediaConvert::M3u8Settings;
   has AudioDuration => (is => 'ro', isa => 'Str', request_name => 'audioDuration', traits => ['NameInRequest']);
   has AudioFramesPerPes => (is => 'ro', isa => 'Int', request_name => 'audioFramesPerPes', traits => ['NameInRequest']);
   has AudioPids => (is => 'ro', isa => 'ArrayRef[Int]', request_name => 'audioPids', traits => ['NameInRequest']);
+  has AudioPtsOffsetDelta => (is => 'ro', isa => 'Int', request_name => 'audioPtsOffsetDelta', traits => ['NameInRequest']);
+  has DataPTSControl => (is => 'ro', isa => 'Str', request_name => 'dataPTSControl', traits => ['NameInRequest']);
   has MaxPcrInterval => (is => 'ro', isa => 'Int', request_name => 'maxPcrInterval', traits => ['NameInRequest']);
   has NielsenId3 => (is => 'ro', isa => 'Str', request_name => 'nielsenId3', traits => ['NameInRequest']);
   has PatInterval => (is => 'ro', isa => 'Int', request_name => 'patInterval', traits => ['NameInRequest']);
@@ -13,6 +15,8 @@ package Paws::MediaConvert::M3u8Settings;
   has PmtPid => (is => 'ro', isa => 'Int', request_name => 'pmtPid', traits => ['NameInRequest']);
   has PrivateMetadataPid => (is => 'ro', isa => 'Int', request_name => 'privateMetadataPid', traits => ['NameInRequest']);
   has ProgramNumber => (is => 'ro', isa => 'Int', request_name => 'programNumber', traits => ['NameInRequest']);
+  has PtsOffset => (is => 'ro', isa => 'Int', request_name => 'ptsOffset', traits => ['NameInRequest']);
+  has PtsOffsetMode => (is => 'ro', isa => 'Str', request_name => 'ptsOffsetMode', traits => ['NameInRequest']);
   has Scte35Pid => (is => 'ro', isa => 'Int', request_name => 'scte35Pid', traits => ['NameInRequest']);
   has Scte35Source => (is => 'ro', isa => 'Str', request_name => 'scte35Source', traits => ['NameInRequest']);
   has TimedMetadata => (is => 'ro', isa => 'Str', request_name => 'timedMetadata', traits => ['NameInRequest']);
@@ -61,9 +65,8 @@ container for the MPEG2-TS segments in your HLS outputs.
 Specify this setting only when your output will be consumed by a
 downstream repackaging workflow that is sensitive to very small
 duration differences between video and audio. For this situation,
-choose Match video duration (MATCH_VIDEO_DURATION). In all other cases,
-keep the default value, Default codec duration
-(DEFAULT_CODEC_DURATION). When you choose Match video duration,
+choose Match video duration. In all other cases, keep the default
+value, Default codec duration. When you choose Match video duration,
 MediaConvert pads the output audio streams with silence or trims them
 to ensure that the total duration of each audio stream is at least as
 long as the total duration of the video stream. After padding or
@@ -85,6 +88,23 @@ The number of audio frames to insert for each PES packet.
 Packet Identifier (PID) of the elementary audio stream(s) in the
 transport stream. Multiple values are accepted, and can be entered in
 ranges and/or by comma separation.
+
+
+=head2 AudioPtsOffsetDelta => Int
+
+Manually specify the difference in PTS offset that will be applied to
+the audio track, in seconds or milliseconds, when you set PTS offset to
+Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave
+blank to keep the default value 0.
+
+
+=head2 DataPTSControl => Str
+
+If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data
+packets with Presentation Timestamp (PTS) values greater than or equal
+to the first video packet PTS (MediaConvert drops captions and data
+packets with lesser PTS values). Keep the default value AUTO to allow
+all PTS values.
 
 
 =head2 MaxPcrInterval => Int
@@ -144,6 +164,25 @@ stream.
 The value of the program number field in the Program Map Table.
 
 
+=head2 PtsOffset => Int
+
+Manually specify the initial PTS offset, in seconds, when you set PTS
+offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep
+the default value 2.
+
+
+=head2 PtsOffsetMode => Str
+
+Specify the initial presentation timestamp (PTS) offset for your
+transport stream output. To let MediaConvert automatically determine
+the initial PTS offset: Keep the default value, Auto. We recommend that
+you choose Auto for the widest player compatibility. The initial PTS
+will be at least two seconds and vary depending on your output's
+bitrate, HRD buffer size and HRD buffer initial fill percentage. To
+manually specify an initial PTS offset: Choose Seconds or Milliseconds.
+Then specify the number of seconds or milliseconds with PTS offset.
+
+
 =head2 Scte35Pid => Int
 
 Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
@@ -151,25 +190,27 @@ Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
 
 =head2 Scte35Source => Str
 
-For SCTE-35 markers from your input-- Choose Passthrough (PASSTHROUGH)
-if you want SCTE-35 markers that appear in your input to also appear in
-this output. Choose None (NONE) if you don't want SCTE-35 markers in
-this output. For SCTE-35 markers from an ESAM XML document-- Choose
-None (NONE) if you don't want manifest conditioning. Choose Passthrough
-(PASSTHROUGH) and choose Ad markers (adMarkers) if you do want manifest
-conditioning. In both cases, also provide the ESAM XML as a string in
-the setting Signal processing notification XML (sccXml).
+For SCTE-35 markers from your input-- Choose Passthrough if you want
+SCTE-35 markers that appear in your input to also appear in this
+output. Choose None if you don't want SCTE-35 markers in this output.
+For SCTE-35 markers from an ESAM XML document-- Choose None if you
+don't want manifest conditioning. Choose Passthrough and choose Ad
+markers if you do want manifest conditioning. In both cases, also
+provide the ESAM XML as a string in the setting Signal processing
+notification XML.
 
 
 =head2 TimedMetadata => Str
 
-Applies only to HLS outputs. Use this setting to specify whether the
-service inserts the ID3 timed metadata from the input in this output.
+Set ID3 metadata to Passthrough to include ID3 metadata in this output.
+This includes ID3 metadata from the following features: ID3 timestamp
+period, and Custom ID3 metadata inserter. To exclude this ID3 metadata
+in this output: set ID3 metadata to None or leave blank.
 
 
 =head2 TimedMetadataPid => Int
 
-Packet Identifier (PID) of the timed metadata stream in the transport
+Packet Identifier (PID) of the ID3 metadata stream in the transport
 stream.
 
 

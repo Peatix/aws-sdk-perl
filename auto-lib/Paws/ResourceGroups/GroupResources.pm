@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $GroupResourcesOutput = $resource -groups->GroupResources(
-      Group        => 'MyGroupString',
+      Group        => 'MyGroupStringV2',
       ResourceArns => [ 'MyResourceArn', ... ],
 
     );
@@ -50,13 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 B<REQUIRED> Group => Str
 
-The name or the ARN of the resource group to add resources to.
+The name or the Amazon resource name (ARN) of the resource group to add
+resources to.
 
 
 
 =head2 B<REQUIRED> ResourceArns => ArrayRef[Str|Undef]
 
-The list of ARNs for resources to be added to the group.
+The list of Amazon resource names (ARNs) of the resources to be added
+to the group.
 
 
 

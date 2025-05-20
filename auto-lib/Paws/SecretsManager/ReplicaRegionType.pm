@@ -34,20 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecretsMana
 
 =head1 DESCRIPTION
 
-(Optional) Custom type consisting of a C<Region> (required) and the
-C<KmsKeyId> which can be an C<ARN>, C<Key ID>, or C<Alias>.
+A custom type that specifies a C<Region> and the C<KmsKeyId> for a
+replica secret.
 
 =head1 ATTRIBUTES
 
 
 =head2 KmsKeyId => Str
 
-Can be an C<ARN>, C<Key ID>, or C<Alias>.
+The ARN, key ID, or alias of the KMS key to encrypt the secret. If you
+don't include this field, Secrets Manager uses C<aws/secretsmanager>.
 
 
 =head2 Region => Str
 
-Describes a single instance of Region objects.
+A Region code. For a list of Region codes, see Name and code of Regions
+(https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints).
 
 
 

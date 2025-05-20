@@ -1,7 +1,8 @@
 
 package Paws::EC2::DeleteLocalGatewayRoute;
   use Moose;
-  has DestinationCidrBlock => (is => 'ro', isa => 'Str', required => 1);
+  has DestinationCidrBlock => (is => 'ro', isa => 'Str');
+  has DestinationPrefixListId => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool');
   has LocalGatewayRouteTableId => (is => 'ro', isa => 'Str', required => 1);
 
@@ -30,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $DeleteLocalGatewayRouteResult = $ec2->DeleteLocalGatewayRoute(
-      DestinationCidrBlock     => 'MyString',
       LocalGatewayRouteTableId => 'MyLocalGatewayRoutetableId',
+      DestinationCidrBlock     => 'MyString',                     # OPTIONAL
+      DestinationPrefixListId  => 'MyPrefixListResourceId',       # OPTIONAL
       DryRun                   => 1,                              # OPTIONAL
     );
 
@@ -46,10 +48,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> DestinationCidrBlock => Str
+=head2 DestinationCidrBlock => Str
 
 The CIDR range for the route. This must match the CIDR for the route
 exactly.
+
+
+
+=head2 DestinationPrefixListId => Str
+
+Use a prefix list in place of C<DestinationCidrBlock>. You cannot use
+C<DestinationPrefixListId> and C<DestinationCidrBlock> in the same
+request.
 
 
 

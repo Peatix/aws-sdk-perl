@@ -48,8 +48,8 @@ default directory is C</opt/ml/checkpoints/>.
 
 =head2 B<REQUIRED> S3Uri => Str
 
-Identifies the S3 path where you want Amazon SageMaker to store
-checkpoints. For example, C<s3://bucket-name/key-name-prefix>.
+Identifies the S3 path where you want SageMaker to store checkpoints.
+For example, C<s3://bucket-name/key-name-prefix>.
 
 
 

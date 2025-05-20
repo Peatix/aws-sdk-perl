@@ -4,6 +4,7 @@ package Paws::IoTWireless::CreateDeviceProfile;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
   has LoRaWAN => (is => 'ro', isa => 'Paws::IoTWireless::LoRaWANDeviceProfile');
   has Name => (is => 'ro', isa => 'Str');
+  has Sidewalk => (is => 'ro', isa => 'Paws::IoTWireless::SidewalkCreateDeviceProfile');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::Tag]');
 
   use MooseX::ClassAttribute;
@@ -44,7 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         MaxEirp      => 1,               # max: 15; OPTIONAL
         PingSlotDr   => 1,               # max: 15; OPTIONAL
         PingSlotFreq => 1,               # min: 1000000, max: 16700000; OPTIONAL
-        PingSlotPeriod    => 1,          # min: 128, max: 4096; OPTIONAL
+        PingSlotPeriod    => 1,          # min: 32, max: 4096; OPTIONAL
         RegParamsRevision => 'MyRegParamsRevision',    # max: 64; OPTIONAL
         RfRegion          => 'MyRfRegion',             # max: 64; OPTIONAL
         RxDataRate2       => 1,                        # max: 15; OPTIONAL
@@ -56,7 +57,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SupportsClassC    => 1,    # OPTIONAL
         SupportsJoin      => 1,    # OPTIONAL
       },    # OPTIONAL
-      Name => 'MyDeviceProfileName',    # OPTIONAL
+      Name     => 'MyDeviceProfileName',    # OPTIONAL
+      Sidewalk => {
+
+      },                                    # OPTIONAL
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -81,10 +85,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 ClientRequestToken => Str
 
-Each resource must have a unique client request token. If you try to
-create a new resource with the same token as a resource that already
-exists, an exception occurs. If you omit this value, AWS SDKs will
-automatically generate a unique client request.
+Each resource must have a unique client request token. The client token
+is used to implement idempotency. It ensures that the request completes
+no more than one time. If you retry a request with the same token and
+the same parameters, the request will complete successfully. However,
+if you try to create a new resource using the same token but different
+parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+SDKs will automatically generate a unique client request. For more
+information about idempotency, see Ensuring idempotency in Amazon EC2
+API requests
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 
@@ -97,6 +107,13 @@ The device profile information to use to create the device profile.
 =head2 Name => Str
 
 The name of the new resource.
+
+
+
+=head2 Sidewalk => L<Paws::IoTWireless::SidewalkCreateDeviceProfile>
+
+The Sidewalk-related information for creating the Sidewalk device
+profile.
 
 
 

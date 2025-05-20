@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreatePlayerSessionsOutput = $gamelift->CreatePlayerSessions(
       GameSessionId => 'MyArnStringModel',
       PlayerIds     => [
-        'MyNonZeroAndMaxString', ...    # min: 1, max: 1024
+        'MyPlayerId', ...    # min: 1, max: 1024
       ],
       PlayerDataMap => {
         'MyNonZeroAndMaxString' =>

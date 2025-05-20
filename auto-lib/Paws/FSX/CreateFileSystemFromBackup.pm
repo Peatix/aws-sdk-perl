@@ -3,9 +3,12 @@ package Paws::FSX::CreateFileSystemFromBackup;
   use Moose;
   has BackupId => (is => 'ro', isa => 'Str', required => 1);
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has FileSystemTypeVersion => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LustreConfiguration => (is => 'ro', isa => 'Paws::FSX::CreateFileSystemLustreConfiguration');
+  has OpenZFSConfiguration => (is => 'ro', isa => 'Paws::FSX::CreateFileSystemOpenZFSConfiguration');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has StorageCapacity => (is => 'ro', isa => 'Int');
   has StorageType => (is => 'ro', isa => 'Str');
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::FSX::Tag]');
@@ -35,77 +38,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
+    # To create a new file system from backup
+    # This operation creates a new file system from backup.
     my $CreateFileSystemFromBackupResponse = $fsx->CreateFileSystemFromBackup(
-      BackupId  => 'MyBackupId',
-      SubnetIds => [
-        'MySubnetId', ...    # min: 15, max: 24
-      ],
-      ClientRequestToken  => 'MyClientRequestToken',    # OPTIONAL
-      KmsKeyId            => 'MyKmsKeyId',              # OPTIONAL
-      LustreConfiguration => {
-        AutoImportPolicy => 'NONE',   # values: NONE, NEW, NEW_CHANGED; OPTIONAL
-        AutomaticBackupRetentionDays  => 1,    # max: 90; OPTIONAL
-        CopyTagsToBackups             => 1,    # OPTIONAL
-        DailyAutomaticBackupStartTime =>
-          'MyDailyTime',                       # min: 5, max: 5; OPTIONAL
-        DataCompressionType => 'NONE',         # values: NONE, LZ4; OPTIONAL
-        DeploymentType      =>
-          'SCRATCH_1',    # values: SCRATCH_1, SCRATCH_2, PERSISTENT_1; OPTIONAL
-        DriveCacheType => 'NONE',             # values: NONE, READ; OPTIONAL
-        ExportPath     => 'MyArchivePath',    # min: 3, max: 4357; OPTIONAL
-        ImportPath     => 'MyArchivePath',    # min: 3, max: 4357; OPTIONAL
-        ImportedFileChunkSize      => 1,      # min: 1, max: 512000; OPTIONAL
-        PerUnitStorageThroughput   => 1,      # min: 12, max: 200; OPTIONAL
-        WeeklyMaintenanceStartTime => 'MyWeeklyTime', # min: 7, max: 7; OPTIONAL
-      },    # OPTIONAL
-      SecurityGroupIds => [
-        'MySecurityGroupId', ...    # min: 11, max: 20
-      ],    # OPTIONAL
-      StorageType => 'SSD',    # OPTIONAL
-      Tags        => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
+      'BackupId'           => 'backup-03e3c82e0183b7b6b',
+      'ClientRequestToken' => 'f4c94ed7-238d-4c46-93db-48cd62ec33b7',
+      'SecurityGroupIds'   => ['sg-edcd9784'],
+      'SubnetIds'          => ['subnet-1234abcd'],
+      'Tags'               => [
 
-        },
-        ...
-      ],    # OPTIONAL
-      WindowsConfiguration => {
-        ThroughputCapacity => 1,                  # min: 8, max: 2048
-        ActiveDirectoryId  => 'MyDirectoryId',    # min: 12, max: 12; OPTIONAL
-        Aliases            => [
-          'MyAlternateDNSName', ...               # min: 4, max: 253
-        ],    # max: 50; OPTIONAL
-        AuditLogConfiguration => {
-          FileAccessAuditLogLevel => 'DISABLED'
-          ,  # values: DISABLED, SUCCESS_ONLY, FAILURE_ONLY, SUCCESS_AND_FAILURE
-          FileShareAccessAuditLogLevel => 'DISABLED'
-          ,  # values: DISABLED, SUCCESS_ONLY, FAILURE_ONLY, SUCCESS_AND_FAILURE
-          AuditLogDestination => 'MyGeneralARN',   # min: 8, max: 1024; OPTIONAL
-        },    # OPTIONAL
-        AutomaticBackupRetentionDays  => 1,    # max: 90; OPTIONAL
-        CopyTagsToBackups             => 1,    # OPTIONAL
-        DailyAutomaticBackupStartTime =>
-          'MyDailyTime',                       # min: 5, max: 5; OPTIONAL
-        DeploymentType =>
-          'MULTI_AZ_1', # values: MULTI_AZ_1, SINGLE_AZ_1, SINGLE_AZ_2; OPTIONAL
-        PreferredSubnetId => 'MySubnetId',    # min: 15, max: 24
-        SelfManagedActiveDirectoryConfiguration => {
-          DnsIps => [
-            'MyIpAddress', ...                # min: 7, max: 15
-          ],    # min: 1, max: 2
-          DomainName =>
-            'MyActiveDirectoryFullyQualifiedName',    # min: 1, max: 255
-          Password => 'MyDirectoryPassword',          # min: 1, max: 256
-          UserName => 'MyDirectoryUserName',          # min: 1, max: 256
-          FileSystemAdministratorsGroup =>
-            'MyFileSystemAdministratorsGroupName',  # min: 1, max: 256; OPTIONAL
-          OrganizationalUnitDistinguishedName =>
-            'MyOrganizationalUnitDistinguishedName'
-          ,    # min: 1, max: 2000; OPTIONAL
-        },    # OPTIONAL
-        WeeklyMaintenanceStartTime => 'MyWeeklyTime', # min: 7, max: 7; OPTIONAL
-      },    # OPTIONAL
+        {
+          'Key'   => 'Name',
+          'Value' => 'MyFileSystem'
+        }
+      ],
+      'WindowsConfiguration' => {
+        'ThroughputCapacity' => 8
+      }
     );
 
     # Results:
@@ -127,9 +76,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx
 
 =head2 ClientRequestToken => Str
 
-A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+A string of up to 63 ASCII characters that Amazon FSx uses to ensure
 idempotent creation. This string is automatically filled on your behalf
-when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+when you use the Command Line Interface (CLI) or an Amazon Web Services
+SDK.
+
+
+
+=head2 FileSystemTypeVersion => Str
+
+Sets the version for the Amazon FSx for Lustre file system that you're
+creating from a backup. Valid values are C<2.10>, C<2.12>, and C<2.15>.
+
+You can enter a Lustre version that is newer than the backup's
+C<FileSystemTypeVersion> setting. If you don't enter a newer Lustre
+version, it defaults to the backup's setting.
 
 
 
@@ -145,44 +106,66 @@ when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
 
 
 
+=head2 OpenZFSConfiguration => L<Paws::FSX::CreateFileSystemOpenZFSConfiguration>
+
+The OpenZFS configuration for the file system that's being created.
+
+
+
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]
 
 A list of IDs for the security groups that apply to the specified
 network interfaces created for file system access. These security
 groups apply to all network interfaces. This value isn't returned in
-later DescribeFileSystem requests.
+later C<DescribeFileSystem> requests.
+
+
+
+=head2 StorageCapacity => Int
+
+Sets the storage capacity of the OpenZFS file system that you're
+creating from a backup, in gibibytes (GiB). Valid values are from 64
+GiB up to 524,288 GiB (512 TiB). However, the value that you specify
+must be equal to or greater than the backup's storage capacity value.
+If you don't use the C<StorageCapacity> parameter, the default is the
+backup's C<StorageCapacity> value.
+
+If used to create a file system other than OpenZFS, you must provide a
+value that matches the backup's C<StorageCapacity> value. If you
+provide any other value, Amazon FSx responds with an HTTP status code
+400 Bad Request.
 
 
 
 =head2 StorageType => Str
 
-Sets the storage type for the Windows file system you're creating from
-a backup. Valid values are C<SSD> and C<HDD>.
+Sets the storage type for the Windows or OpenZFS file system that
+you're creating from a backup. Valid values are C<SSD> and C<HDD>.
 
 =over
 
 =item *
 
-Set to C<SSD> to use solid state drive storage. Supported on all
-Windows deployment types.
+Set to C<SSD> to use solid state drive storage. SSD is supported on all
+Windows and OpenZFS deployment types.
 
 =item *
 
-Set to C<HDD> to use hard disk drive storage. Supported on
-C<SINGLE_AZ_2> and C<MULTI_AZ_1> Windows file system deployment types.
+Set to C<HDD> to use hard disk drive storage. HDD is supported on
+C<SINGLE_AZ_2> and C<MULTI_AZ_1> FSx for Windows File Server file
+system deployment types.
 
 =back
 
-Default value is C<SSD>.
+The default value is C<SSD>.
 
 HDD and SSD storage types have different minimum storage capacity
 requirements. A restored file system's storage capacity is tied to the
 file system that was backed up. You can create a file system that uses
-HDD storage from a backup of a file system that used SSD storage only
-if the original SSD file system had a storage capacity of at least 2000
-GiB.
+HDD storage from a backup of a file system that used SSD storage if the
+original SSD file system had a storage capacity of at least 2000 GiB.
 
-Valid values are: C<"SSD">, C<"HDD">
+Valid values are: C<"SSD">, C<"HDD">, C<"INTELLIGENT_TIERING">
 
 =head2 B<REQUIRED> SubnetIds => ArrayRef[Str|Undef]
 
@@ -193,9 +176,10 @@ server and one for the standby file server. You specify one of these
 subnets as the preferred subnet using the C<WindowsConfiguration E<gt>
 PreferredSubnetID> property.
 
-For Windows C<SINGLE_AZ_1> and C<SINGLE_AZ_2> deployment types and
-Lustre file systems, provide exactly one subnet ID. The file server is
-launched in that subnet's Availability Zone.
+Windows C<SINGLE_AZ_1> and C<SINGLE_AZ_2> file system deployment types,
+Lustre file systems, and OpenZFS file systems provide exactly one
+subnet ID. The file server is launched in that subnet's Availability
+Zone.
 
 
 

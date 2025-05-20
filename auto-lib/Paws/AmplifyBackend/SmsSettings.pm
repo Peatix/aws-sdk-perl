@@ -40,7 +40,7 @@ SMS settings for authentication.
 
 =head2 SmsMessage => Str
 
-The body of the SMS message.
+The contents of the SMS message.
 
 
 

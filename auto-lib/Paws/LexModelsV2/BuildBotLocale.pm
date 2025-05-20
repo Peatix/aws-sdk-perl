@@ -56,7 +56,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mod
 =head2 B<REQUIRED> BotId => Str
 
 The identifier of the bot to build. The identifier is returned in the
-response from the operation.
+response from the CreateBot
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html)
+operation.
 
 
 

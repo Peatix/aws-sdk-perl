@@ -2,8 +2,11 @@
 package Paws::Batch::SubmitJob;
   use Moose;
   has ArrayProperties => (is => 'ro', isa => 'Paws::Batch::ArrayProperties', traits => ['NameInRequest'], request_name => 'arrayProperties');
+  has ConsumableResourcePropertiesOverride => (is => 'ro', isa => 'Paws::Batch::ConsumableResourceProperties', traits => ['NameInRequest'], request_name => 'consumableResourcePropertiesOverride');
   has ContainerOverrides => (is => 'ro', isa => 'Paws::Batch::ContainerOverrides', traits => ['NameInRequest'], request_name => 'containerOverrides');
   has DependsOn => (is => 'ro', isa => 'ArrayRef[Paws::Batch::JobDependency]', traits => ['NameInRequest'], request_name => 'dependsOn');
+  has EcsPropertiesOverride => (is => 'ro', isa => 'Paws::Batch::EcsPropertiesOverride', traits => ['NameInRequest'], request_name => 'ecsPropertiesOverride');
+  has EksPropertiesOverride => (is => 'ro', isa => 'Paws::Batch::EksPropertiesOverride', traits => ['NameInRequest'], request_name => 'eksPropertiesOverride');
   has JobDefinition => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobDefinition', required => 1);
   has JobName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobName', required => 1);
   has JobQueue => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobQueue', required => 1);
@@ -11,6 +14,8 @@ package Paws::Batch::SubmitJob;
   has Parameters => (is => 'ro', isa => 'Paws::Batch::ParametersMap', traits => ['NameInRequest'], request_name => 'parameters');
   has PropagateTags => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'propagateTags');
   has RetryStrategy => (is => 'ro', isa => 'Paws::Batch::RetryStrategy', traits => ['NameInRequest'], request_name => 'retryStrategy');
+  has SchedulingPriorityOverride => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'schedulingPriorityOverride');
+  has ShareIdentifier => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'shareIdentifier');
   has Tags => (is => 'ro', isa => 'Paws::Batch::TagrisTagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has Timeout => (is => 'ro', isa => 'Paws::Batch::JobTimeout', traits => ['NameInRequest'], request_name => 'timeout');
 
@@ -67,19 +72,26 @@ array. The array size can be between 2 and 10,000. If you specify array
 properties for a job, it becomes an array job. For more information,
 see Array Jobs
 (https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html) in
-the I<AWS Batch User Guide>.
+the I<Batch User Guide>.
+
+
+
+=head2 ConsumableResourcePropertiesOverride => L<Paws::Batch::ConsumableResourceProperties>
+
+An object that contains overrides for the consumable resources of a
+job.
 
 
 
 =head2 ContainerOverrides => L<Paws::Batch::ContainerOverrides>
 
-A list of container overrides in the JSON format that specify the name
-of a container in the specified job definition and the overrides it
-should receive. You can override the default command for a container,
-which is specified in the job definition or the Docker image, with a
-C<command> override. You can also override existing environment
-variables on a container or add new environment variables to it with an
-C<environment> override.
+An object with properties that override the defaults for the job
+definition that specify the name of a container in the specified job
+definition and the overrides it should receive. You can override the
+default command for a container, which is specified in the job
+definition or the Docker image, with a C<command> override. You can
+also override existing environment variables on a container or add new
+environment variables to it with an C<environment> override.
 
 
 
@@ -95,20 +107,42 @@ child of each dependency to complete before it can begin.
 
 
 
+=head2 EcsPropertiesOverride => L<Paws::Batch::EcsPropertiesOverride>
+
+An object, with properties that override defaults for the job
+definition, can only be specified for jobs that are run on Amazon ECS
+resources.
+
+
+
+=head2 EksPropertiesOverride => L<Paws::Batch::EksPropertiesOverride>
+
+An object, with properties that override defaults for the job
+definition, can only be specified for jobs that are run on Amazon EKS
+resources.
+
+
+
 =head2 B<REQUIRED> JobDefinition => Str
 
-The job definition used by this job. This value can be one of C<name>,
-C<name:revision>, or the Amazon Resource Name (ARN) for the job
-definition. If C<name> is specified without a revision then the latest
-active revision is used.
+The job definition used by this job. This value can be one of
+C<definition-name>, C<definition-name:revision>, or the Amazon Resource
+Name (ARN) for the job definition, with or without the revision
+(C<arn:aws:batch:I<region>:I<account>:job-definition/I<definition-name>:I<revision>
+>, or
+C<arn:aws:batch:I<region>:I<account>:job-definition/I<definition-name>
+>).
+
+If the revision is not specified, then the latest active revision is
+used.
 
 
 
 =head2 B<REQUIRED> JobName => Str
 
-The name of the job. The first character must be alphanumeric, and up
-to 128 letters (uppercase and lowercase), numbers, hyphens, and
-underscores are allowed.
+The name of the job. It can be up to 128 letters long. The first
+character must be alphanumeric, can contain uppercase and lowercase
+letters, numbers, hyphens (-), and underscores (_).
 
 
 
@@ -124,8 +158,8 @@ name or the Amazon Resource Name (ARN) of the queue.
 A list of node overrides in JSON format that specify the node range to
 target and the container overrides for that node range.
 
-This parameter isn't applicable to jobs running on Fargate resources;
-use C<containerOverrides> instead.
+This parameter isn't applicable to jobs that are running on Fargate
+resources; use C<containerOverrides> instead.
 
 
 
@@ -160,20 +194,45 @@ retry strategy defined in the job definition.
 
 
 
+=head2 SchedulingPriorityOverride => Int
+
+The scheduling priority for the job. This only affects jobs in job
+queues with a fair-share policy. Jobs with a higher scheduling priority
+are scheduled before jobs with a lower scheduling priority. This
+overrides any scheduling priority in the job definition and works only
+within a single share identifier.
+
+The minimum supported value is 0 and the maximum supported value is
+9999.
+
+
+
+=head2 ShareIdentifier => Str
+
+The share identifier for the job. Don't specify this parameter if the
+job queue doesn't have a fair-share scheduling policy. If the job queue
+has a fair-share scheduling policy, then this parameter must be
+specified.
+
+This string is limited to 255 alphanumeric characters, and can be
+followed by an asterisk (*).
+
+
+
 =head2 Tags => L<Paws::Batch::TagrisTagsMap>
 
 The tags that you apply to the job request to help you categorize and
 organize your resources. Each tag consists of a key and an optional
-value. For more information, see Tagging AWS Resources
+value. For more information, see Tagging Amazon Web Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 
 
 =head2 Timeout => L<Paws::Batch::JobTimeout>
 
 The timeout configuration for this SubmitJob operation. You can specify
-a timeout duration after which AWS Batch terminates your jobs if they
+a timeout duration after which Batch terminates your jobs if they
 haven't finished. If a job is terminated due to a timeout, it isn't
 retried. The minimum value for the timeout is 60 seconds. This
 configuration overrides any timeout configuration specified in the job

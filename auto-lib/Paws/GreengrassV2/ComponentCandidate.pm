@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 =head1 DESCRIPTION
 
 Contains information about a component that is a candidate to deploy to
-a AWS IoT Greengrass core device.
+a Greengrass core device.
 
 =head1 ATTRIBUTES
 
@@ -53,11 +53,10 @@ The version of the component.
 
 =head2 VersionRequirements => L<Paws::GreengrassV2::ComponentVersionRequirementMap>
 
-The version requirements for the component's dependencies. AWS IoT
-Greengrass core devices get the version requirements from component
-recipes.
+The version requirements for the component's dependencies. Greengrass
+core devices get the version requirements from component recipes.
 
-AWS IoT Greengrass V2 uses semantic version constraints. For more
+IoT Greengrass V2 uses semantic version constraints. For more
 information, see Semantic Versioning (https://semver.org/).
 
 

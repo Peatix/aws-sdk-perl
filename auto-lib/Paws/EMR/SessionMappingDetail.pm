@@ -61,7 +61,7 @@ The name of the user or group. For more information, see UserName
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName)
 and DisplayName
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName)
-in the I<AWS SSO Identity Store API Reference>.
+in the I<IAM Identity Center Identity Store API Reference>.
 
 
 =head2 IdentityType => Str

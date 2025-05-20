@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Glue::Node 
 
 =head1 DESCRIPTION
 
-A node represents an Glue component such as a trigger, or job, etc.,
-that is part of a workflow.
+A node represents an Glue component (trigger, crawler, or job) on a
+workflow graph.
 
 =head1 ATTRIBUTES
 

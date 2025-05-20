@@ -2,6 +2,7 @@
 package Paws::SSM::ParameterMetadata;
   use Moose;
   has AllowedPattern => (is => 'ro', isa => 'Str');
+  has ARN => (is => 'ro', isa => 'Str');
   has DataType => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has KeyId => (is => 'ro', isa => 'Str');
@@ -43,8 +44,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Parame
 
 =head1 DESCRIPTION
 
-Metadata includes information like the ARN of the last user and the
-date/time the parameter was last used.
+Metadata includes information like the Amazon Resource Name (ARN) of
+the last user to update the parameter and the date and time the
+parameter was last used.
 
 =head1 ATTRIBUTES
 
@@ -54,6 +56,11 @@ date/time the parameter was last used.
 A parameter name can include only the following letters and symbols.
 
 a-zA-Z0-9_.-
+
+
+=head2 ARN => Str
+
+The Amazon Resource Name (ARN) of the parameter.
 
 
 =head2 DataType => Str
@@ -69,7 +76,8 @@ Description of the parameter actions.
 
 =head2 KeyId => Str
 
-The ID of the query key used for this parameter.
+The alias of the Key Management Service (KMS) key used to encrypt the
+parameter. Applies to C<SecureString> parameters only.
 
 
 =head2 LastModifiedDate => Str
@@ -79,8 +87,8 @@ Date the parameter was last changed or updated.
 
 =head2 LastModifiedUser => Str
 
-Amazon Resource Name (ARN) of the AWS user who last changed the
-parameter.
+Amazon Resource Name (ARN) of the Amazon Web Services user who last
+changed the parameter.
 
 
 =head2 Name => Str

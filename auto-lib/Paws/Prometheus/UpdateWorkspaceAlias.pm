@@ -44,20 +44,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aps
 
 =head2 Alias => Str
 
-The new alias of the workspace.
+The new alias for the workspace. It does not need to be unique.
+
+Amazon Managed Service for Prometheus will automatically strip any
+blank spaces from the beginning and end of the alias that you specify.
 
 
 
 =head2 ClientToken => Str
 
-Optional, unique, case-sensitive, user-provided identifier to ensure
-the idempotency of the request.
+A unique identifier that you can provide to ensure the idempotency of
+the request. Case-sensitive.
 
 
 
 =head2 B<REQUIRED> WorkspaceId => Str
 
-The ID of the workspace being updated.
+The ID of the workspace to update.
 
 
 

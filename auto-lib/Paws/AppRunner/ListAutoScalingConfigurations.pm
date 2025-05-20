@@ -57,7 +57,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 
 The name of the App Runner auto scaling configuration that you want to
 list. If specified, App Runner lists revisions that share this name. If
-not specified, App Runner returns revisions of all configurations.
+not specified, App Runner returns revisions of all active
+configurations.
 
 
 
@@ -66,10 +67,10 @@ not specified, App Runner returns revisions of all configurations.
 Set to C<true> to list only the latest revision for each requested
 configuration name.
 
-Keep as C<false> to list all revisions for each requested configuration
+Set to C<false> to list all revisions for each requested configuration
 name.
 
-Default: C<false>
+Default: C<true>
 
 
 

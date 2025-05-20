@@ -40,9 +40,10 @@ This class has no description
 
 =head2 Code => Str
 
-The status code. For a list of status codes, see Spot status codes
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html#spot-instance-bid-status-understand)
-in the I<Amazon EC2 User Guide for Linux Instances>.
+The status code. For a list of status codes, see Spot request status
+codes
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-request-status.html#spot-instance-request-status-understand)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 Message => Str

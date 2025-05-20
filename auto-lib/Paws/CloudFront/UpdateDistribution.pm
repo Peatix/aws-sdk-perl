@@ -90,6 +90,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ...
             ],    # OPTIONAL
           },    # OPTIONAL
+          GrpcConfig => {
+            Enabled => 1,    # OPTIONAL
+
+          },    # OPTIONAL
           LambdaFunctionAssociations => {
             Quantity => 1,
             Items    => [
@@ -102,15 +106,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ...
             ],    # OPTIONAL
           },    # OPTIONAL
-          MaxTTL                => 1,            # OPTIONAL
-          MinTTL                => 1,            # OPTIONAL
-          OriginRequestPolicyId => 'Mystring',
-          RealtimeLogConfigArn  => 'Mystring',
-          SmoothStreaming       => 1,            # OPTIONAL
-          TrustedKeyGroups      => {
-            Enabled  => 1,                       # OPTIONAL
+          MaxTTL                  => 1,            # OPTIONAL
+          MinTTL                  => 1,            # OPTIONAL
+          OriginRequestPolicyId   => 'Mystring',
+          RealtimeLogConfigArn    => 'Mystring',
+          ResponseHeadersPolicyId => 'Mystring',
+          SmoothStreaming         => 1,            # OPTIONAL
+          TrustedKeyGroups        => {
+            Enabled  => 1,                         # OPTIONAL
             Quantity => 1,
-            Items    => [ 'Mystring', ... ],     # OPTIONAL
+            Items    => [ 'Mystring', ... ],       # OPTIONAL
           },    # OPTIONAL
           TrustedSigners => {
             Enabled  => 1,                      # OPTIONAL
@@ -131,7 +136,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 Items    => [
                   {
                     HeaderName  => 'Mystring',
-                    HeaderValue => 'Mystring',
+                    HeaderValue => 'MysensitiveStringType',
 
                   },
                   ...
@@ -152,8 +157,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },    # OPTIONAL
               },    # OPTIONAL
-              OriginPath   => 'Mystring',
-              OriginShield => {
+              OriginAccessControlId => 'Mystring',
+              OriginPath            => 'Mystring',
+              OriginShield          => {
                 Enabled            => 1,     # OPTIONAL
                 OriginShieldRegion =>
                   'MyOriginShieldRegion',    # min: 1, max: 32; OPTIONAL
@@ -161,6 +167,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               S3OriginConfig => {
                 OriginAccessIdentity => 'Mystring',
 
+              },    # OPTIONAL
+              VpcOriginConfig => {
+                VpcOriginId            => 'Mystring',
+                OriginKeepaliveTimeout => 1,
+                OriginReadTimeout      => 1,
               },    # OPTIONAL
             },
             ...
@@ -172,7 +183,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Quantity => 1,
           Items    => [ 'Mystring', ... ],    # OPTIONAL
         },    # OPTIONAL
-        CacheBehaviors => {
+        AnycastIpListId => 'Mystring',
+        CacheBehaviors  => {
           Quantity => 1,
           Items    => [
             {
@@ -229,6 +241,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   ...
                 ],    # OPTIONAL
               },    # OPTIONAL
+              GrpcConfig => {
+                Enabled => 1,    # OPTIONAL
+
+              },    # OPTIONAL
               LambdaFunctionAssociations => {
                 Quantity => 1,
                 Items    => [
@@ -241,15 +257,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   ...
                 ],    # OPTIONAL
               },    # OPTIONAL
-              MaxTTL                => 1,            # OPTIONAL
-              MinTTL                => 1,            # OPTIONAL
-              OriginRequestPolicyId => 'Mystring',
-              RealtimeLogConfigArn  => 'Mystring',
-              SmoothStreaming       => 1,            # OPTIONAL
-              TrustedKeyGroups      => {
-                Enabled  => 1,                       # OPTIONAL
+              MaxTTL                  => 1,            # OPTIONAL
+              MinTTL                  => 1,            # OPTIONAL
+              OriginRequestPolicyId   => 'Mystring',
+              RealtimeLogConfigArn    => 'Mystring',
+              ResponseHeadersPolicyId => 'Mystring',
+              SmoothStreaming         => 1,            # OPTIONAL
+              TrustedKeyGroups        => {
+                Enabled  => 1,                         # OPTIONAL
                 Quantity => 1,
-                Items    => [ 'Mystring', ... ],     # OPTIONAL
+                Items    => [ 'Mystring', ... ],       # OPTIONAL
               },    # OPTIONAL
               TrustedSigners => {
                 Enabled  => 1,                      # OPTIONAL
@@ -260,7 +277,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ...
           ],    # OPTIONAL
         },    # OPTIONAL
-        CustomErrorResponses => {
+        ConnectionMode => 'direct',    # values: direct, tenant-only; OPTIONAL
+        ContinuousDeploymentPolicyId => 'Mystring',
+        CustomErrorResponses         => {
           Quantity => 1,
           Items    => [
             {
@@ -273,14 +292,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # OPTIONAL
         },    # OPTIONAL
         DefaultRootObject => 'Mystring',
-        HttpVersion       => 'http1.1',    # values: http1.1, http2; OPTIONAL
-        IsIPV6Enabled     => 1,            # OPTIONAL
-        Logging           => {
+        HttpVersion       =>
+          'http1.1',    # values: http1.1, http2, http3, http2and3; OPTIONAL
+        IsIPV6Enabled => 1,    # OPTIONAL
+        Logging       => {
           Bucket         => 'Mystring',
-          Enabled        => 1,             # OPTIONAL
-          IncludeCookies => 1,             # OPTIONAL
+          Enabled        => 1,            # OPTIONAL
+          IncludeCookies => 1,            # OPTIONAL
           Prefix         => 'Mystring',
-
         },    # OPTIONAL
         OriginGroups => {
           Quantity => 1,
@@ -306,13 +325,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 Quantity => 1,
 
               },
-
+              SelectionCriteria =>
+                'default',    # values: default, media-quality-based; OPTIONAL
             },
             ...
           ],    # OPTIONAL
         },    # OPTIONAL
         PriceClass => 'PriceClass_100'
-        ,     # values: PriceClass_100, PriceClass_200, PriceClass_All; OPTIONAL
+        , # values: PriceClass_100, PriceClass_200, PriceClass_All, None; OPTIONAL
         Restrictions => {
           GeoRestriction => {
             Quantity        => 1,
@@ -320,6 +340,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Items           => [ 'Mystring', ... ],    # OPTIONAL
           },
 
+        },    # OPTIONAL
+        Staging      => 1,    # OPTIONAL
+        TenantConfig => {
+          ParameterDefinitions => [
+            {
+              Definition => {
+                StringSchema => {
+                  Required     => 1,            # OPTIONAL
+                  Comment      => 'Mystring',
+                  DefaultValue =>
+                    'MyParameterValue',         # min: 1, max: 256; OPTIONAL
+                },    # OPTIONAL
+              },
+              Name => 'MyParameterName',    # min: 1, max: 128
+
+            },
+            ...
+          ],    # OPTIONAL
         },    # OPTIONAL
         ViewerCertificate => {
           ACMCertificateArn => 'Mystring',

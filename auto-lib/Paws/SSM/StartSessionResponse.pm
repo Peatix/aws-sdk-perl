@@ -23,16 +23,17 @@ The ID of the session.
 
 =head2 StreamUrl => Str
 
-A URL back to SSM Agent on the instance that the Session Manager client
-uses to send commands and receive output from the instance. Format:
+A URL back to SSM Agent on the managed node that the Session Manager
+client uses to send commands and receive output from the node. Format:
 C<wss://ssmmessages.B<region>.amazonaws.com/v1/data-channel/B<session-id>?stream=(input|output)>
 
-B<region> represents the Region identifier for an AWS Region supported
-by AWS Systems Manager, such as C<us-east-2> for the US East (Ohio)
-Region. For a list of supported B<region> values, see the B<Region>
-column in Systems Manager service endpoints
-(http://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region) in
-the I<AWS General Reference>.
+B<region> represents the Region identifier for an Amazon Web Services
+Region supported by Amazon Web Services Systems Manager, such as
+C<us-east-2> for the US East (Ohio) Region. For a list of supported
+B<region> values, see the B<Region> column in Systems Manager service
+endpoints
+(https://docs.aws.amazon.com/general/latest/gr/ssm.html#ssm_region) in
+the I<Amazon Web Services General Reference>.
 
 B<session-id> represents the ID of a Session Manager session, such as
 C<1a2b3c4dEXAMPLE>.
@@ -41,7 +42,9 @@ C<1a2b3c4dEXAMPLE>.
 =head2 TokenValue => Str
 
 An encrypted token value containing session and caller information.
-Used to authenticate the connection to the instance.
+This token is used to authenticate the connection to the managed node,
+and is valid only long enough to ensure the connection is successful.
+Never share your session's token.
 
 
 =head2 _request_id => Str

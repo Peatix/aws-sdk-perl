@@ -16,7 +16,7 @@ Paws::Proton::DeleteEnvironmentOutput
 
 =head2 Environment => L<Paws::Proton::Environment>
 
-The environment detail data that's returned by AWS Proton.
+The detailed data of the environment being deleted.
 
 
 =head2 _request_id => Str

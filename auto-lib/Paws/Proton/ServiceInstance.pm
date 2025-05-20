@@ -6,8 +6,11 @@ package Paws::Proton::ServiceInstance;
   has DeploymentStatus => (is => 'ro', isa => 'Str', request_name => 'deploymentStatus', traits => ['NameInRequest'], required => 1);
   has DeploymentStatusMessage => (is => 'ro', isa => 'Str', request_name => 'deploymentStatusMessage', traits => ['NameInRequest']);
   has EnvironmentName => (is => 'ro', isa => 'Str', request_name => 'environmentName', traits => ['NameInRequest'], required => 1);
+  has LastAttemptedDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastAttemptedDeploymentId', traits => ['NameInRequest']);
+  has LastClientRequestToken => (is => 'ro', isa => 'Str', request_name => 'lastClientRequestToken', traits => ['NameInRequest']);
   has LastDeploymentAttemptedAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentAttemptedAt', traits => ['NameInRequest'], required => 1);
   has LastDeploymentSucceededAt => (is => 'ro', isa => 'Str', request_name => 'lastDeploymentSucceededAt', traits => ['NameInRequest'], required => 1);
+  has LastSucceededDeploymentId => (is => 'ro', isa => 'Str', request_name => 'lastSucceededDeploymentId', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest'], required => 1);
   has Spec => (is => 'ro', isa => 'Str', request_name => 'spec', traits => ['NameInRequest']);
@@ -45,7 +48,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-The service instance detail data.
+Detailed data of an Proton service instance resource.
 
 =head1 ATTRIBUTES
 
@@ -67,13 +70,23 @@ The service instance deployment status.
 
 =head2 DeploymentStatusMessage => Str
 
-A service instance deployment status message.
+The message associated with the service instance deployment status.
 
 
 =head2 B<REQUIRED> EnvironmentName => Str
 
 The name of the environment that the service instance was deployed
 into.
+
+
+=head2 LastAttemptedDeploymentId => Str
+
+The ID of the last attempted deployment of this service instance.
+
+
+=head2 LastClientRequestToken => Str
+
+The last client request token received.
 
 
 =head2 B<REQUIRED> LastDeploymentAttemptedAt => Str
@@ -84,6 +97,11 @@ The time when a deployment of the service instance was last attempted.
 =head2 B<REQUIRED> LastDeploymentSucceededAt => Str
 
 The time when the service instance was last deployed successfully.
+
+
+=head2 LastSucceededDeploymentId => Str
+
+The ID of the last successful deployment of this service instance.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -103,14 +121,14 @@ The service spec that was used to create the service instance.
 
 =head2 B<REQUIRED> TemplateMajorVersion => Str
 
-The ID of the major version of the service template that was used to
-create the service instance.
+The major version of the service template that was used to create the
+service instance.
 
 
 =head2 B<REQUIRED> TemplateMinorVersion => Str
 
-The ID of the minor version of the service template that was used to
-create the service instance.
+The minor version of the service template that was used to create the
+service instance.
 
 
 =head2 B<REQUIRED> TemplateName => Str

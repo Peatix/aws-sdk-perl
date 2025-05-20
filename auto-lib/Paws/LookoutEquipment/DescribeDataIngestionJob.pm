@@ -34,14 +34,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
-    my $CreatedAt    = $DescribeDataIngestionJobResponse->CreatedAt;
-    my $DatasetArn   = $DescribeDataIngestionJobResponse->DatasetArn;
-    my $FailedReason = $DescribeDataIngestionJobResponse->FailedReason;
+    my $CreatedAt   = $DescribeDataIngestionJobResponse->CreatedAt;
+    my $DataEndTime = $DescribeDataIngestionJobResponse->DataEndTime;
+    my $DataQualitySummary =
+      $DescribeDataIngestionJobResponse->DataQualitySummary;
+    my $DataStartTime    = $DescribeDataIngestionJobResponse->DataStartTime;
+    my $DatasetArn       = $DescribeDataIngestionJobResponse->DatasetArn;
+    my $FailedReason     = $DescribeDataIngestionJobResponse->FailedReason;
+    my $IngestedDataSize = $DescribeDataIngestionJobResponse->IngestedDataSize;
+    my $IngestedFilesSummary =
+      $DescribeDataIngestionJobResponse->IngestedFilesSummary;
     my $IngestionInputConfiguration =
       $DescribeDataIngestionJobResponse->IngestionInputConfiguration;
-    my $JobId   = $DescribeDataIngestionJobResponse->JobId;
-    my $RoleArn = $DescribeDataIngestionJobResponse->RoleArn;
-    my $Status  = $DescribeDataIngestionJobResponse->Status;
+    my $JobId            = $DescribeDataIngestionJobResponse->JobId;
+    my $RoleArn          = $DescribeDataIngestionJobResponse->RoleArn;
+    my $SourceDatasetArn = $DescribeDataIngestionJobResponse->SourceDatasetArn;
+    my $Status           = $DescribeDataIngestionJobResponse->Status;
+    my $StatusDetail     = $DescribeDataIngestionJobResponse->StatusDetail;
 
  # Returns a L<Paws::LookoutEquipment::DescribeDataIngestionJobResponse> object.
 

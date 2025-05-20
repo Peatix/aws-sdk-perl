@@ -17,7 +17,7 @@ Paws::EC2::DescribeVpcClassicLinkResult
 
 =head2 Vpcs => ArrayRef[L<Paws::EC2::VpcClassicLink>]
 
-The ClassicLink status of one or more VPCs.
+The ClassicLink status of the VPCs.
 
 
 =head2 _request_id => Str

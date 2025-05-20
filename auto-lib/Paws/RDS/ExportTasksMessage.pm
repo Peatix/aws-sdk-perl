@@ -18,7 +18,7 @@ Paws::RDS::ExportTasksMessage
 
 =head2 ExportTasks => ArrayRef[L<Paws::RDS::ExportTask>]
 
-Information about an export of a snapshot to Amazon S3.
+Information about an export of a snapshot or cluster to Amazon S3.
 
 
 =head2 Marker => Str

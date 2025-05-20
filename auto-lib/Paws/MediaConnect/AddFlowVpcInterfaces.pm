@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::AddFlowVpcInterfaces;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
   has VpcInterfaces => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::VpcInterfaceRequest]', traits => ['NameInRequest'], request_name => 'vpcInterfaces', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AddFlowVpcInterfaces');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/vpcInterfaces');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/vpcInterfaces');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::AddFlowVpcInterfacesResponse');
 1;
@@ -30,13 +30,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $AddFlowVpcInterfacesResponse = $mediaconnect->AddFlowVpcInterfaces(
-      FlowArn       => 'My__string',
+      FlowArn       => 'MyAddFlowVpcInterfacesRequestFlowArnString',
       VpcInterfaces => [
         {
-          Name                 => 'My__string',
-          RoleArn              => 'My__string',
-          SecurityGroupIds     => [ 'My__string', ... ],
-          SubnetId             => 'My__string',
+          Name                 => 'MyString',
+          RoleArn              => 'MyString',
+          SecurityGroupIds     => [ 'MyString', ... ],
+          SubnetId             => 'MyString',
           NetworkInterfaceType => 'ena',    # values: ena, efa; OPTIONAL
         },
         ...
@@ -58,13 +58,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that you want to mutate.
+The Amazon Resource Name (ARN) of the flow that you want to update.
 
 
 
 =head2 B<REQUIRED> VpcInterfaces => ArrayRef[L<Paws::MediaConnect::VpcInterfaceRequest>]
 
-A list of VPC interfaces that you want to add.
+A list of VPC interfaces that you want to add to the flow.
 
 
 

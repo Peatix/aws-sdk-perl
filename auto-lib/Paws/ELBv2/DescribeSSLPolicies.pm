@@ -1,6 +1,7 @@
 
 package Paws::ELBv2::DescribeSSLPolicies;
   use Moose;
+  has LoadBalancerType => (is => 'ro', isa => 'Str');
   has Marker => (is => 'ro', isa => 'Str');
   has Names => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has PageSize => (is => 'ro', isa => 'Int');
@@ -44,6 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head1 ATTRIBUTES
 
+
+=head2 LoadBalancerType => Str
+
+The type of load balancer. The default lists the SSL policies for all
+load balancers.
+
+Valid values are: C<"application">, C<"network">, C<"gateway">
 
 =head2 Marker => Str
 

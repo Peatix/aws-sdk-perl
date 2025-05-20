@@ -42,8 +42,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 =head1 DESCRIPTION
 
-Describes a deployed solution version, otherwise known as a campaign.
-For more information on campaigns, see CreateCampaign.
+An object that describes the deployment of a solution version. For more
+information on campaigns, see CreateCampaign
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
 
 =head1 ATTRIBUTES
 
@@ -81,7 +82,10 @@ The date and time (in Unix format) that the campaign was last updated.
 =head2 MinProvisionedTPS => Int
 
 Specifies the requested minimum provisioned transactions
-(recommendations) per second.
+(recommendations) per second. A high C<minProvisionedTPS> will increase
+your bill. We recommend starting with 1 for C<minProvisionedTPS> (the
+default). Track your usage using Amazon CloudWatch metrics, and
+increase the C<minProvisionedTPS> as necessary.
 
 
 =head2 Name => Str
@@ -91,7 +95,8 @@ The name of the campaign.
 
 =head2 SolutionVersionArn => Str
 
-The Amazon Resource Name (ARN) of a specific version of the solution.
+The Amazon Resource Name (ARN) of the solution version the campaign
+uses.
 
 
 =head2 Status => Str

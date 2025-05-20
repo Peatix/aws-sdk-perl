@@ -3,7 +3,7 @@ package Paws::IoTDeviceAdvisor::StartSuiteRun;
   use Moose;
   has SuiteDefinitionId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'suiteDefinitionId', required => 1);
   has SuiteDefinitionVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'suiteDefinitionVersion');
-  has SuiteRunConfiguration => (is => 'ro', isa => 'Paws::IoTDeviceAdvisor::SuiteRunConfiguration', traits => ['NameInRequest'], request_name => 'suiteRunConfiguration');
+  has SuiteRunConfiguration => (is => 'ro', isa => 'Paws::IoTDeviceAdvisor::SuiteRunConfiguration', traits => ['NameInRequest'], request_name => 'suiteRunConfiguration', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::IoTDeviceAdvisor::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -32,19 +32,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.iotdeviceadvisor = Paws->service('IoTDeviceAdvisor');
     my $StartSuiteRunResponse = $api . iotdeviceadvisor->StartSuiteRun(
-      SuiteDefinitionId      => 'MyUUID',
-      SuiteDefinitionVersion => 'MySuiteDefinitionVersion',    # OPTIONAL
-      SuiteRunConfiguration  => {
+      SuiteDefinitionId     => 'MyUUID',
+      SuiteRunConfiguration => {
         PrimaryDevice => {
           CertificateArn =>
             'MyAmazonResourceName',    # min: 20, max: 2048; OPTIONAL
+          DeviceRoleArn =>
+            'MyAmazonResourceName',    # min: 20, max: 2048; OPTIONAL
           ThingArn => 'MyAmazonResourceName',    # min: 20, max: 2048; OPTIONAL
-        },    # OPTIONAL
+        },
+        ParallelRun      => 1,                   # OPTIONAL
         SelectedTestList => [
-          'MyUUID', ...    # min: 12, max: 36
+          'MyUUID', ...                          # min: 12, max: 36
         ],    # max: 100; OPTIONAL
-      },    # OPTIONAL
-      Tags => {
+      },
+      SuiteDefinitionVersion => 'MySuiteDefinitionVersion',    # OPTIONAL
+      Tags                   => {
         'MyString128' =>
           'MyString256',    # key: min: 1, max: 128, value: min: 1, max: 256
       },    # OPTIONAL
@@ -52,6 +55,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $CreatedAt   = $StartSuiteRunResponse->CreatedAt;
+    my $Endpoint    = $StartSuiteRunResponse->Endpoint;
     my $SuiteRunArn = $StartSuiteRunResponse->SuiteRunArn;
     my $SuiteRunId  = $StartSuiteRunResponse->SuiteRunId;
 
@@ -65,7 +69,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> SuiteDefinitionId => Str
 
-Suite definition Id of the test suite.
+Suite definition ID of the test suite.
 
 
 
@@ -75,7 +79,7 @@ Suite definition version of the test suite.
 
 
 
-=head2 SuiteRunConfiguration => L<Paws::IoTDeviceAdvisor::SuiteRunConfiguration>
+=head2 B<REQUIRED> SuiteRunConfiguration => L<Paws::IoTDeviceAdvisor::SuiteRunConfiguration>
 
 Suite run configuration.
 

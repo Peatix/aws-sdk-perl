@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::EventS
 
 =head1 DESCRIPTION
 
-Specifies an event that triggers an event-based policy.
+B<[Event-based policies only]> Specifies an event that activates an
+event-based policy.
 
 =head1 ATTRIBUTES
 
@@ -46,8 +47,8 @@ Information about the event.
 
 =head2 B<REQUIRED> Type => Str
 
-The source of the event. Currently only managed AWS CloudWatch Events
-rules are supported.
+The source of the event. Currently only managed CloudWatch Events rules
+are supported.
 
 
 

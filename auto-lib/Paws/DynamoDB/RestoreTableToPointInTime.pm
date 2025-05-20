@@ -4,6 +4,7 @@ package Paws::DynamoDB::RestoreTableToPointInTime;
   has BillingModeOverride => (is => 'ro', isa => 'Str');
   has GlobalSecondaryIndexOverride => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::GlobalSecondaryIndex]');
   has LocalSecondaryIndexOverride => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::LocalSecondaryIndex]');
+  has OnDemandThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
   has ProvisionedThroughputOverride => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput');
   has RestoreDateTime => (is => 'ro', isa => 'Str');
   has SourceTableArn => (is => 'ro', isa => 'Str');
@@ -56,10 +57,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ],    # min: 1, max: 20; OPTIONAL
             ProjectionType => 'ALL', # values: ALL, KEYS_ONLY, INCLUDE; OPTIONAL
           },
+          OnDemandThroughput => {
+            MaxReadRequestUnits  => 1,    # OPTIONAL
+            MaxWriteRequestUnits => 1,    # OPTIONAL
+          },    # OPTIONAL
           ProvisionedThroughput => {
             ReadCapacityUnits  => 1,    # min: 1
             WriteCapacityUnits => 1,    # min: 1
 
+          },    # OPTIONAL
+          WarmThroughput => {
+            ReadUnitsPerSecond  => 1,    # OPTIONAL
+            WriteUnitsPerSecond => 1,    # OPTIONAL
           },    # OPTIONAL
         },
         ...
@@ -85,6 +94,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      OnDemandThroughputOverride => {
+        MaxReadRequestUnits  => 1,    # OPTIONAL
+        MaxWriteRequestUnits => 1,    # OPTIONAL
+      },    # OPTIONAL
       ProvisionedThroughputOverride => {
         ReadCapacityUnits  => 1,    # min: 1
         WriteCapacityUnits => 1,    # min: 1
@@ -131,6 +144,12 @@ exclude some or all of the indexes at the time of restore.
 List of local secondary indexes for the restored table. The indexes
 provided should match existing secondary indexes. You can choose to
 exclude some or all of the indexes at the time of restore.
+
+
+
+=head2 OnDemandThroughputOverride => L<Paws::DynamoDB::OnDemandThroughput>
+
+
 
 
 

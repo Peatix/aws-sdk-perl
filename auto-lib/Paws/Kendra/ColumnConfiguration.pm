@@ -56,7 +56,7 @@ The column that contains the contents of the document.
 
 =head2 B<REQUIRED> DocumentIdColumnName => Str
 
-The column that provides the document's unique identifier.
+The column that provides the document's identifier.
 
 
 =head2 DocumentTitleColumnName => Str
@@ -68,7 +68,7 @@ The column that contains the title of the document.
 
 An array of objects that map database column names to the corresponding
 fields in an index. You must first create the fields in the index using
-the C<UpdateIndex> operation.
+the C<UpdateIndex> API.
 
 
 

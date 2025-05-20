@@ -8,6 +8,7 @@ package Paws::EC2::TrafficMirrorFilterRule;
   has RuleNumber => (is => 'ro', isa => 'Int', request_name => 'ruleNumber', traits => ['NameInRequest']);
   has SourceCidrBlock => (is => 'ro', isa => 'Str', request_name => 'sourceCidrBlock', traits => ['NameInRequest']);
   has SourcePortRange => (is => 'ro', isa => 'Paws::EC2::TrafficMirrorPortRange', request_name => 'sourcePortRange', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
   has TrafficDirection => (is => 'ro', isa => 'Str', request_name => 'trafficDirection', traits => ['NameInRequest']);
   has TrafficMirrorFilterId => (is => 'ro', isa => 'Str', request_name => 'trafficMirrorFilterId', traits => ['NameInRequest']);
   has TrafficMirrorFilterRuleId => (is => 'ro', isa => 'Str', request_name => 'trafficMirrorFilterRuleId', traits => ['NameInRequest']);
@@ -84,6 +85,11 @@ The source CIDR block assigned to the Traffic Mirror rule.
 =head2 SourcePortRange => L<Paws::EC2::TrafficMirrorPortRange>
 
 The source port range assigned to the Traffic Mirror rule.
+
+
+=head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
+
+Tags on Traffic Mirroring filter rules.
 
 
 =head2 TrafficDirection => Str

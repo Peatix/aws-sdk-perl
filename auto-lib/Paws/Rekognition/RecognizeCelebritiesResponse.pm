@@ -19,10 +19,17 @@ Paws::Rekognition::RecognizeCelebritiesResponse
 =head2 CelebrityFaces => ArrayRef[L<Paws::Rekognition::Celebrity>]
 
 Details about each celebrity found in the image. Amazon Rekognition can
-detect a maximum of 64 celebrities in an image.
+detect a maximum of 64 celebrities in an image. Each celebrity object
+includes the following attributes: C<Face>, C<Confidence>, C<Emotions>,
+C<Landmarks>, C<Pose>, C<Quality>, C<Smile>, C<Id>, C<KnownGender>,
+C<MatchConfidence>, C<Name>, C<Urls>.
 
 
 =head2 OrientationCorrection => Str
+
+Support for estimating image orientation using the the
+OrientationCorrection field has ceased as of August 2021. Any returned
+values for this field included in an API response will always be NULL.
 
 The orientation of the input image (counterclockwise direction). If
 your application displays the image, you can use this value to correct

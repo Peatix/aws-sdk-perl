@@ -1,11 +1,14 @@
 
 package Paws::ApplicationInsights::ListProblems;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
+  has ComponentName => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has ResourceGroupName => (is => 'ro', isa => 'Str');
   has StartTime => (is => 'ro', isa => 'Str');
+  has Visibility => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -32,16 +35,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $ListProblemsResponse = $applicationinsights->ListProblems(
+      AccountId         => 'MyAccountId',            # OPTIONAL
+      ComponentName     => 'MyComponentName',        # OPTIONAL
       EndTime           => '1970-01-01T01:00:00',    # OPTIONAL
       MaxResults        => 1,                        # OPTIONAL
       NextToken         => 'MyPaginationToken',      # OPTIONAL
       ResourceGroupName => 'MyResourceGroupName',    # OPTIONAL
       StartTime         => '1970-01-01T01:00:00',    # OPTIONAL
+      Visibility        => 'IGNORED',                # OPTIONAL
     );
 
     # Results:
-    my $NextToken   = $ListProblemsResponse->NextToken;
-    my $ProblemList = $ListProblemsResponse->ProblemList;
+    my $AccountId         = $ListProblemsResponse->AccountId;
+    my $NextToken         = $ListProblemsResponse->NextToken;
+    my $ProblemList       = $ListProblemsResponse->ProblemList;
+    my $ResourceGroupName = $ListProblemsResponse->ResourceGroupName;
 
     # Returns a L<Paws::ApplicationInsights::ListProblemsResponse> object.
 
@@ -49,6 +57,18 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/ListProblems>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
+
+
+
+=head2 ComponentName => Str
+
+The name of the component.
+
 
 
 =head2 EndTime => Str
@@ -85,6 +105,13 @@ specify a time frame for the request, problems within the past seven
 days are returned.
 
 
+
+=head2 Visibility => Str
+
+Specifies whether or not you can view the problem. If not specified,
+visible and ignored problems are returned.
+
+Valid values are: C<"IGNORED">, C<"VISIBLE">
 
 
 =head1 SEE ALSO

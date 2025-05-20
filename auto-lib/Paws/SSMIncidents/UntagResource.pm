@@ -52,7 +52,7 @@ tag from.
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-The name of the tag you're removing from the response plan.
+The name of the tag to remove from the response plan.
 
 
 

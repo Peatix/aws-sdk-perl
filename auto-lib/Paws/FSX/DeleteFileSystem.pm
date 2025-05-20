@@ -4,6 +4,7 @@ package Paws::FSX::DeleteFileSystem;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
   has FileSystemId => (is => 'ro', isa => 'Str', required => 1);
   has LustreConfiguration => (is => 'ro', isa => 'Paws::FSX::DeleteFileSystemLustreConfiguration');
+  has OpenZFSConfiguration => (is => 'ro', isa => 'Paws::FSX::DeleteFileSystemOpenZFSConfiguration');
   has WindowsConfiguration => (is => 'ro', isa => 'Paws::FSX::DeleteFileSystemWindowsConfiguration');
 
   use MooseX::ClassAttribute;
@@ -30,38 +31,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
-    my $DeleteFileSystemResponse = $fsx->DeleteFileSystem(
-      FileSystemId        => 'MyFileSystemId',
-      ClientRequestToken  => 'MyClientRequestToken',    # OPTIONAL
-      LustreConfiguration => {
-        FinalBackupTags => [
-          {
-            Key   => 'MyTagKey',      # min: 1, max: 128
-            Value => 'MyTagValue',    # max: 256
-
-          },
-          ...
-        ],    # min: 1, max: 50; OPTIONAL
-        SkipFinalBackup => 1,    # OPTIONAL
-      },    # OPTIONAL
-      WindowsConfiguration => {
-        FinalBackupTags => [
-          {
-            Key   => 'MyTagKey',      # min: 1, max: 128
-            Value => 'MyTagValue',    # max: 256
-
-          },
-          ...
-        ],    # min: 1, max: 50; OPTIONAL
-        SkipFinalBackup => 1,    # OPTIONAL
-      },    # OPTIONAL
-    );
+    # To delete a file system
+    # This operation deletes an Amazon FSx file system.
+    my $DeleteFileSystemResponse =
+      $fsx->DeleteFileSystem( 'FileSystemId' => 'fs-0498eed5fe91001ec' );
 
     # Results:
-    my $FileSystemId    = $DeleteFileSystemResponse->FileSystemId;
-    my $Lifecycle       = $DeleteFileSystemResponse->Lifecycle;
-    my $LustreResponse  = $DeleteFileSystemResponse->LustreResponse;
-    my $WindowsResponse = $DeleteFileSystemResponse->WindowsResponse;
+    my $FileSystemId = $DeleteFileSystemResponse->FileSystemId;
+    my $Lifecycle    = $DeleteFileSystemResponse->Lifecycle;
 
     # Returns a L<Paws::FSX::DeleteFileSystemResponse> object.
 
@@ -73,21 +50,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx
 
 =head2 ClientRequestToken => Str
 
-A string of up to 64 ASCII characters that Amazon FSx uses to ensure
-idempotent deletion. This is automatically filled on your behalf when
-using the AWS CLI or SDK.
+A string of up to 63 ASCII characters that Amazon FSx uses to ensure
+idempotent deletion. This token is automatically filled on your behalf
+when using the Command Line Interface (CLI) or an Amazon Web Services
+SDK.
 
 
 
 =head2 B<REQUIRED> FileSystemId => Str
 
-The ID of the file system you want to delete.
+The ID of the file system that you want to delete.
 
 
 
 =head2 LustreConfiguration => L<Paws::FSX::DeleteFileSystemLustreConfiguration>
 
 
+
+
+
+=head2 OpenZFSConfiguration => L<Paws::FSX::DeleteFileSystemOpenZFSConfiguration>
+
+The configuration object for the OpenZFS file system used in the
+C<DeleteFileSystem> operation.
 
 
 

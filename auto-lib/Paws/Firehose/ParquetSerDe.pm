@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::P
 
 A serializer to use for converting data to the Parquet format before
 storing it in Amazon S3. For more information, see Apache Parquet
-(https://parquet.apache.org/documentation/latest/).
+(https://parquet.apache.org/docs/).
 
 =head1 ATTRIBUTES
 
@@ -49,8 +49,8 @@ storing it in Amazon S3. For more information, see Apache Parquet
 
 The Hadoop Distributed File System (HDFS) block size. This is useful if
 you intend to copy the data from Amazon S3 to HDFS before querying. The
-default is 256 MiB and the minimum is 64 MiB. Kinesis Data Firehose
-uses this value for padding calculations.
+default is 256 MiB and the minimum is 64 MiB. Firehose uses this value
+for padding calculations.
 
 
 =head2 Compression => Str

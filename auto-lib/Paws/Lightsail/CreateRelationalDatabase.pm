@@ -250,8 +250,7 @@ block of time for each AWS Region. For more information about the
 preferred backup window time blocks for each region, see the Working
 With Backups
 (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow)
-guide in the Amazon Relational Database Service (Amazon RDS)
-documentation.
+guide in the Amazon Relational Database Service documentation.
 
 Constraints:
 

@@ -2,6 +2,7 @@
 package Paws::DevOpsGuru::ResourceCollection;
   use Moose;
   has CloudFormation => (is => 'ro', isa => 'Paws::DevOpsGuru::CloudFormationCollection');
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DevOpsGuru::TagCollection]');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DevOpsGuru::ResourceCollection object:
 
-  $service_obj->Method(Att1 => { CloudFormation => $value, ..., CloudFormation => $value  });
+  $service_obj->Method(Att1 => { CloudFormation => $value, ..., Tags => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,20 +34,68 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-A collection of AWS resources supported by DevOps Guru. The one type of
-AWS resource collection supported is AWS CloudFormation stacks. DevOps
-Guru can be configured to analyze only the AWS resources that are
-defined in the stacks. You can specify up to 500 AWS CloudFormation
-stacks.
+A collection of Amazon Web Services resources supported by DevOps Guru.
+The two types of Amazon Web Services resource collections supported are
+Amazon Web Services CloudFormation stacks and Amazon Web Services
+resources that contain the same Amazon Web Services tag. DevOps Guru
+can be configured to analyze the Amazon Web Services resources that are
+defined in the stacks or that are tagged using the same tag I<key>. You
+can specify up to 500 Amazon Web Services CloudFormation stacks.
 
 =head1 ATTRIBUTES
 
 
 =head2 CloudFormation => L<Paws::DevOpsGuru::CloudFormationCollection>
 
-An array of the names of AWS CloudFormation stacks. The stacks define
-AWS resources that DevOps Guru analyzes. You can specify up to 500 AWS
-CloudFormation stacks.
+An array of the names of Amazon Web Services CloudFormation stacks. The
+stacks define Amazon Web Services resources that DevOps Guru analyzes.
+You can specify up to 500 Amazon Web Services CloudFormation stacks.
+
+
+=head2 Tags => ArrayRef[L<Paws::DevOpsGuru::TagCollection>]
+
+The Amazon Web Services tags that are used by resources in the resource
+collection.
+
+Tags help you identify and organize your Amazon Web Services resources.
+Many Amazon Web Services services support tagging, so you can assign
+the same tag to resources from different services to indicate that the
+resources are related. For example, you can assign the same tag to an
+Amazon DynamoDB table resource that you assign to an Lambda function.
+For more information about using tags, see the Tagging best practices
+(https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html)
+whitepaper.
+
+Each Amazon Web Services tag has two parts.
+
+=over
+
+=item *
+
+A tag I<key> (for example, C<CostCenter>, C<Environment>, C<Project>,
+or C<Secret>). Tag I<keys> are case-sensitive.
+
+=item *
+
+An optional field known as a tag I<value> (for example,
+C<111122223333>, C<Production>, or a team name). Omitting the tag
+I<value> is the same as using an empty string. Like tag I<keys>, tag
+I<values> are case-sensitive.
+
+=back
+
+Together these are known as I<key>-I<value> pairs.
+
+The string used for a I<key> in a tag that you use to define your
+resource coverage must begin with the prefix C<Devops-guru->. The tag
+I<key> might be C<DevOps-Guru-deployment-application> or
+C<devops-guru-rds-application>. When you create a I<key>, the case of
+characters in the I<key> can be whatever you choose. After you create a
+I<key>, it is case-sensitive. For example, DevOps Guru works with a
+I<key> named C<devops-guru-rds> and a I<key> named C<DevOps-Guru-RDS>,
+and these act as two different I<keys>. Possible I<key>/I<value> pairs
+in your application might be C<Devops-Guru-production-application/RDS>
+or C<Devops-Guru-production-application/containers>.
 
 
 

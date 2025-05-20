@@ -43,7 +43,15 @@ Contains information about the phone configuration settings for a user.
 
 =head2 AfterContactWorkTimeLimit => Int
 
-The After Call Work (ACW) timeout setting, in seconds.
+The After Call Work (ACW) timeout setting, in seconds. This parameter
+has a minimum value of 0 and a maximum value of 2,000,000 seconds (24
+days). Enter 0 if you don't want to allocate a specific amount of ACW
+time. It essentially means an indefinite amount of time. When the
+conversation ends, ACW starts; the agent must choose Close contact to
+end ACW.
+
+When returned by a C<SearchUsers> call, C<AfterContactWorkTimeLimit> is
+returned in milliseconds.
 
 
 =head2 AutoAccept => Bool

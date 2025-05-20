@@ -3,6 +3,7 @@ package Paws::MediaConvert::S3DestinationSettings;
   use Moose;
   has AccessControl => (is => 'ro', isa => 'Paws::MediaConvert::S3DestinationAccessControl', request_name => 'accessControl', traits => ['NameInRequest']);
   has Encryption => (is => 'ro', isa => 'Paws::MediaConvert::S3EncryptionSettings', request_name => 'encryption', traits => ['NameInRequest']);
+  has StorageClass => (is => 'ro', isa => 'Str', request_name => 'storageClass', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MediaConvert::S3DestinationSettings object:
 
-  $service_obj->Method(Att1 => { AccessControl => $value, ..., Encryption => $value  });
+  $service_obj->Method(Att1 => { AccessControl => $value, ..., StorageClass => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,6 +52,14 @@ PRIVATE.
 
 Settings for how your job outputs are encrypted as they are uploaded to
 Amazon S3.
+
+
+=head2 StorageClass => Str
+
+Specify the S3 storage class to use for this output. To use your
+destination's default storage class: Keep the default value, Not set.
+For more information about S3 storage classes, see
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
 
 
 

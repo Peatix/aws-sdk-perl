@@ -96,9 +96,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 
 =head2 B<REQUIRED> RequestItems => L<Paws::DynamoDB::BatchWriteItemRequestMap>
 
-A map of one or more table names and, for each table, a list of
-operations to be performed (C<DeleteRequest> or C<PutRequest>). Each
-element in the map consists of the following:
+A map of one or more table names or table ARNs and, for each table, a
+list of operations to be performed (C<DeleteRequest> or C<PutRequest>).
+Each element in the map consists of the following:
 
 =over
 

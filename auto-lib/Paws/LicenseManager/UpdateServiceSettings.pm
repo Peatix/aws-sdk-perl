@@ -55,7 +55,7 @@ Activates cross-account discovery.
 
 =head2 OrganizationConfiguration => L<Paws::LicenseManager::OrganizationConfiguration>
 
-Enables integration with AWS Organizations for cross-account discovery.
+Enables integration with Organizations for cross-account discovery.
 
 
 

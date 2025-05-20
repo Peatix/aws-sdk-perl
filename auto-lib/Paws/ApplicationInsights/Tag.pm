@@ -62,9 +62,10 @@ have only one value.
 
 =item *
 
-The C<aws:> prefix is reserved for use by AWS; you canE<rsquo>t use it
-in any tag keys or values that you define. In addition, you can't edit
-or remove tag keys or values that use this prefix.
+The C<aws:> prefix is reserved for use by Amazon Web Services; you
+canE<rsquo>t use it in any tag keys or values that you define. In
+addition, you can't edit or remove tag keys or values that use this
+prefix.
 
 =back
 

@@ -19,26 +19,26 @@ Paws::HealthLake::DeleteFHIRDatastoreResponse
 
 =head2 B<REQUIRED> DatastoreArn => Str
 
-The Amazon Resource Name (ARN) that gives Amazon HealthLake access
+The Amazon Resource Name (ARN) that gives AWS HealthLake access
 permission.
 
 
 =head2 B<REQUIRED> DatastoreEndpoint => Str
 
-The AWS endpoint for the Data Store the user has requested to be
+The AWS endpoint for the data store the user has requested to be
 deleted.
 
 
 =head2 B<REQUIRED> DatastoreId => Str
 
-The AWS-generated ID for the Data Store to be deleted.
+The AWS-generated ID for the data store to be deleted.
 
 
 =head2 B<REQUIRED> DatastoreStatus => Str
 
-The status of the Data Store that the user has requested to be deleted.
+The status of the data store that the user has requested to be deleted.
 
-Valid values are: C<"CREATING">, C<"ACTIVE">, C<"DELETING">, C<"DELETED">
+Valid values are: C<"CREATING">, C<"ACTIVE">, C<"DELETING">, C<"DELETED">, C<"CREATE_FAILED">
 =head2 _request_id => Str
 
 

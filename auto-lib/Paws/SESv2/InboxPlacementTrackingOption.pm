@@ -35,9 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Inbo
 =head1 DESCRIPTION
 
 An object that contains information about the inbox placement data
-settings for a verified domain thatE<rsquo>s associated with your AWS
-account. This data is available only if you enabled the Deliverability
-dashboard for the domain.
+settings for a verified domain thatE<rsquo>s associated with your
+Amazon Web Services account. This data is available only if you enabled
+the Deliverability dashboard for the domain.
 
 =head1 ATTRIBUTES
 

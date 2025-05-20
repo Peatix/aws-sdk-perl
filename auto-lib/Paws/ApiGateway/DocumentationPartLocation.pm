@@ -87,8 +87,8 @@ exactly.
 
 =head2 B<REQUIRED> Type => Str
 
-[Required] The type of API entity to which the documentation content
-applies. Valid values are C<API>, C<AUTHORIZER>, C<MODEL>, C<RESOURCE>,
+The type of API entity to which the documentation content applies.
+Valid values are C<API>, C<AUTHORIZER>, C<MODEL>, C<RESOURCE>,
 C<METHOD>, C<PATH_PARAMETER>, C<QUERY_PARAMETER>, C<REQUEST_HEADER>,
 C<REQUEST_BODY>, C<RESPONSE>, C<RESPONSE_HEADER>, and C<RESPONSE_BODY>.
 Content inheritance does not apply to any entity of the C<API>,

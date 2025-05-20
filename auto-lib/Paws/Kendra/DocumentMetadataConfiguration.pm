@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Doc
 
 =head1 DESCRIPTION
 
-Specifies the properties of a custom index field.
+Specifies the properties, such as relevance tuning and searchability,
+of an index field.
 
 =head1 ATTRIBUTES
 
@@ -48,8 +49,8 @@ The name of the index field.
 
 =head2 Relevance => L<Paws::Kendra::Relevance>
 
-Provides manual tuning parameters to determine how the field affects
-the search results.
+Provides tuning parameters to determine how the field affects the
+search results.
 
 
 =head2 Search => L<Paws::Kendra::Search>

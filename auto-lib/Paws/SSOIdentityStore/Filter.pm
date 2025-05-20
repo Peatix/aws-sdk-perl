@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSOIdentity
 
 =head1 DESCRIPTION
 
-A query filter used by C<ListUsers> and C<ListGroup>. This filter
+A query filter used by C<ListUsers> and C<ListGroups>. This filter
 object provides the attribute name and attribute value to search users
 or groups.
 
@@ -43,10 +43,10 @@ or groups.
 
 =head2 B<REQUIRED> AttributePath => Str
 
-The attribute path used to specify which attribute name to search.
-Length limit is 255 characters. For example, C<UserName> is a valid
-attribute path for the C<ListUsers> API, and C<DisplayName> is a valid
-attribute path for the C<ListGroups> API.
+The attribute path that is used to specify which attribute name to
+search. Length limit is 255 characters. For example, C<UserName> is a
+valid attribute path for the C<ListUsers> API, and C<DisplayName> is a
+valid attribute path for the C<ListGroups> API.
 
 
 =head2 B<REQUIRED> AttributeValue => Str

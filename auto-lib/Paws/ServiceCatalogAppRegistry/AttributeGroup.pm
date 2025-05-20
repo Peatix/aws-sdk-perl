@@ -39,8 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ServiceCata
 
 =head1 DESCRIPTION
 
-Represents a Service Catalog AppRegistry attribute group that is rich
-metadata which describes an application and its components.
+Represents a Amazon Web Services Service Catalog AppRegistry attribute
+group that is rich metadata which describes an application and its
+components.
 
 =head1 ATTRIBUTES
 

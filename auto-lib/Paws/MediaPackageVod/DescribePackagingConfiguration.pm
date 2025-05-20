@@ -37,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $Arn         = $DescribePackagingConfigurationResponse->Arn;
     my $CmafPackage = $DescribePackagingConfigurationResponse->CmafPackage;
+    my $CreatedAt   = $DescribePackagingConfigurationResponse->CreatedAt;
     my $DashPackage = $DescribePackagingConfigurationResponse->DashPackage;
     my $HlsPackage  = $DescribePackagingConfigurationResponse->HlsPackage;
     my $Id          = $DescribePackagingConfigurationResponse->Id;

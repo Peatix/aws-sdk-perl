@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> DeliveryChannelName => Str
 
-The name of the delivery channel to delete.
+The name of the delivery channel that you want to delete.
 
 
 

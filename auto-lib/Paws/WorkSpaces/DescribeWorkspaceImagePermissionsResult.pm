@@ -23,8 +23,8 @@ The identifier of the image.
 
 =head2 ImagePermissions => ArrayRef[L<Paws::WorkSpaces::ImagePermission>]
 
-The identifiers of the AWS accounts that the image has been shared
-with.
+The identifiers of the Amazon Web Services accounts that the image has
+been shared with.
 
 
 =head2 NextToken => Str

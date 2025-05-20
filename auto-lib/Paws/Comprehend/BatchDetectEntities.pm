@@ -58,9 +58,9 @@ Valid values are: C<"en">, C<"es">, C<"fr">, C<"de">, C<"it">, C<"pt">, C<"ar">,
 
 =head2 B<REQUIRED> TextList => ArrayRef[Str|Undef]
 
-A list containing the text of the input documents. The list can contain
-a maximum of 25 documents. Each document must contain fewer than 5,000
-bytes of UTF-8 encoded characters.
+A list containing the UTF-8 encoded text of the input documents. The
+list can contain a maximum of 25 documents. The maximum size of each
+document is 5 KB.
 
 
 

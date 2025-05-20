@@ -71,29 +71,61 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-The filters. The following are possible values:
+The filters. The following are the possible values:
 
 =over
 
 =item *
 
-Destination - The ID of the resource.
+destination - The ID of the resource.
 
 =item *
 
-DestinationPort - The destination port.
+filter-at-source.source-address - The source IPv4 address at the
+source.
 
 =item *
 
-Name - The path name.
+filter-at-source.source-port-range - The source port range at the
+source.
 
 =item *
 
-Protocol - The protocol.
+filter-at-source.destination-address - The destination IPv4 address at
+the source.
 
 =item *
 
-Source - The ID of the resource.
+filter-at-source.destination-port-range - The destination port range at
+the source.
+
+=item *
+
+filter-at-destination.source-address - The source IPv4 address at the
+destination.
+
+=item *
+
+filter-at-destination.source-port-range - The source port range at the
+destination.
+
+=item *
+
+filter-at-destination.destination-address - The destination IPv4
+address at the destination.
+
+=item *
+
+filter-at-destination.destination-port-range - The destination port
+range at the destination.
+
+=item *
+
+protocol - The protocol.
+
+=item *
+
+source - The ID of the resource.
 
 =back
 

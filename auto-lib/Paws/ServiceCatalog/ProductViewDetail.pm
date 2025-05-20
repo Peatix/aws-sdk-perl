@@ -4,6 +4,7 @@ package Paws::ServiceCatalog::ProductViewDetail;
   has CreatedTime => (is => 'ro', isa => 'Str');
   has ProductARN => (is => 'ro', isa => 'Str');
   has ProductViewSummary => (is => 'ro', isa => 'Paws::ServiceCatalog::ProductViewSummary');
+  has SourceConnection => (is => 'ro', isa => 'Paws::ServiceCatalog::SourceConnectionDetail');
   has Status => (is => 'ro', isa => 'Str');
 
 1;
@@ -54,6 +55,16 @@ The ARN of the product.
 =head2 ProductViewSummary => L<Paws::ServiceCatalog::ProductViewSummary>
 
 Summary information about the product view.
+
+
+=head2 SourceConnection => L<Paws::ServiceCatalog::SourceConnectionDetail>
+
+A top level C<ProductViewDetail> response containing details about the
+productE<rsquo>s connection. Service Catalog returns this field for the
+C<CreateProduct>, C<UpdateProduct>, C<DescribeProductAsAdmin>, and
+C<SearchProductAsAdmin> APIs. This response contains the same fields as
+the C<ConnectionParameters> request, with the addition of the
+C<LastSync> response.
 
 
 =head2 Status => Str

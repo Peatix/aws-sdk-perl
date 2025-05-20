@@ -17,7 +17,7 @@ Paws::EC2::ModifyEbsDefaultKmsKeyIdResult
 
 =head2 KmsKeyId => Str
 
-The Amazon Resource Name (ARN) of the default CMK for encryption by
+The Amazon Resource Name (ARN) of the default KMS key for encryption by
 default.
 
 

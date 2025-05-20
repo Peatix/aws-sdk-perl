@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes updates to the checkpointing parameters for a Flink-based
-Kinesis Data Analytics application.
+Describes updates to the checkpointing parameters for a Managed Service
+for Apache Flink application.
 
 =head1 ATTRIBUTES
 
@@ -67,9 +67,10 @@ code.
 =head2 ConfigurationTypeUpdate => Str
 
 Describes updates to whether the application uses the default
-checkpointing behavior of Kinesis Data Analytics. You must set this
-property to C<CUSTOM> in order to set the C<CheckpointingEnabled>,
-C<CheckpointInterval>, or C<MinPauseBetweenCheckpoints> parameters.
+checkpointing behavior of Managed Service for Apache Flink. You must
+set this property to C<CUSTOM> in order to set the
+C<CheckpointingEnabled>, C<CheckpointInterval>, or
+C<MinPauseBetweenCheckpoints> parameters.
 
 If this value is set to C<DEFAULT>, the application will use the
 following values, even if they are set to other values using APIs or

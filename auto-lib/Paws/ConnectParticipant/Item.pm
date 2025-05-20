@@ -3,12 +3,15 @@ package Paws::ConnectParticipant::Item;
   use Moose;
   has AbsoluteTime => (is => 'ro', isa => 'Str');
   has Attachments => (is => 'ro', isa => 'ArrayRef[Paws::ConnectParticipant::AttachmentItem]');
+  has ContactId => (is => 'ro', isa => 'Str');
   has Content => (is => 'ro', isa => 'Str');
   has ContentType => (is => 'ro', isa => 'Str');
   has DisplayName => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
+  has MessageMetadata => (is => 'ro', isa => 'Paws::ConnectParticipant::MessageMetadata');
   has ParticipantId => (is => 'ro', isa => 'Str');
   has ParticipantRole => (is => 'ro', isa => 'Str');
+  has RelatedContactId => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
 
 1;
@@ -59,6 +62,13 @@ example, 2019-11-08T02:41:28.172Z.
 Provides information about the attachments.
 
 
+=head2 ContactId => Str
+
+The contactId on which the transcript item was originally sent. This
+field is populated only when the transcript item is from the current
+chat session.
+
+
 =head2 Content => Str
 
 The content of the message or event.
@@ -79,6 +89,12 @@ The chat display name of the sender.
 The ID of the item.
 
 
+=head2 MessageMetadata => L<Paws::ConnectParticipant::MessageMetadata>
+
+The metadata related to the message. Currently this supports only
+information related to message receipts.
+
+
 =head2 ParticipantId => Str
 
 The ID of the sender in the session.
@@ -88,6 +104,15 @@ The ID of the sender in the session.
 
 The role of the sender. For example, is it a customer, agent, or
 system.
+
+
+=head2 RelatedContactId => Str
+
+The contactId on which the transcript item was originally sent. This
+field is only populated for persistent chats when the transcript item
+is from the past chat session. For more information, see Enable
+persistent chat
+(https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
 
 
 =head2 Type => Str

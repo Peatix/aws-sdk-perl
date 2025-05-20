@@ -24,8 +24,8 @@ operation status, use GetOperationDetail
 
 =head2 Password => Str
 
-To finish transferring a domain to another AWS account, the account
-that the domain is being transferred to must submit an
+To finish transferring a domain to another Amazon Web Services account,
+the account that the domain is being transferred to must submit an
 AcceptDomainTransferFromAnotherAwsAccount
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html)
 request. The request must include the value of the C<Password> element

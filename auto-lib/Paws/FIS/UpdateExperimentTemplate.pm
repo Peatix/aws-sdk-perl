@@ -3,7 +3,10 @@ package Paws::FIS::UpdateExperimentTemplate;
   use Moose;
   has Actions => (is => 'ro', isa => 'Paws::FIS::UpdateExperimentTemplateActionInputMap', traits => ['NameInRequest'], request_name => 'actions');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has ExperimentOptions => (is => 'ro', isa => 'Paws::FIS::UpdateExperimentTemplateExperimentOptionsInput', traits => ['NameInRequest'], request_name => 'experimentOptions');
+  has ExperimentReportConfiguration => (is => 'ro', isa => 'Paws::FIS::UpdateExperimentTemplateReportConfigurationInput', traits => ['NameInRequest'], request_name => 'experimentReportConfiguration');
   has Id => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'id', required => 1);
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FIS::UpdateExperimentTemplateLogConfigurationInput', traits => ['NameInRequest'], request_name => 'logConfiguration');
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn');
   has StopConditions => (is => 'ro', isa => 'ArrayRef[Paws::FIS::UpdateExperimentTemplateStopConditionInput]', traits => ['NameInRequest'], request_name => 'stopConditions');
   has Targets => (is => 'ro', isa => 'Paws::FIS::UpdateExperimentTemplateTargetInputMap', traits => ['NameInRequest'], request_name => 'targets');
@@ -54,8 +57,45 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
         },    # key: max: 64
       },    # OPTIONAL
-      Description    => 'MyExperimentTemplateDescription',    # OPTIONAL
-      RoleArn        => 'MyRoleArn',                          # OPTIONAL
+      Description       => 'MyExperimentTemplateDescription',    # OPTIONAL
+      ExperimentOptions => {
+        EmptyTargetResolutionMode => 'fail',    # values: fail, skip; OPTIONAL
+      },    # OPTIONAL
+      ExperimentReportConfiguration => {
+        DataSources => {
+          CloudWatchDashboards => [
+            {
+              DashboardIdentifier =>
+                'MyReportConfigurationCloudWatchDashboardIdentifier'
+              ,    # max: 512; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+        },    # OPTIONAL
+        Outputs => {
+          S3Configuration => {
+            BucketName => 'MyS3BucketName',    # min: 3, max: 63; OPTIONAL
+            Prefix     =>
+              'MyReportConfigurationS3OutputPrefix',    # max: 256; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        PostExperimentDuration =>
+          'MyReportConfigurationDuration',    # max: 32; OPTIONAL
+        PreExperimentDuration =>
+          'MyReportConfigurationDuration',    # max: 32; OPTIONAL
+      },    # OPTIONAL
+      LogConfiguration => {
+        CloudWatchLogsConfiguration => {
+          LogGroupArn => 'MyCloudWatchLogGroupArn',    # min: 20, max: 2048
+
+        },    # OPTIONAL
+        LogSchemaVersion => 1,    # OPTIONAL
+        S3Configuration  => {
+          BucketName => 'MyS3BucketName',    # min: 3, max: 63; OPTIONAL
+          Prefix     => 'MyS3ObjectKey',     # min: 1, max: 700; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      RoleArn        => 'MyRoleArn',    # OPTIONAL
       StopConditions => [
         {
           Source => 'MyStopConditionSource',    # max: 64
@@ -65,18 +105,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
       Targets => {
         'MyExperimentTemplateTargetName' => {
-          ResourceType  => 'MyResourceType',                           # max: 64
-          SelectionMode => 'MyExperimentTemplateTargetSelectionMode',  # max: 64
+          ResourceType  => 'MyTargetResourceTypeId',                  # max: 128
+          SelectionMode => 'MyExperimentTemplateTargetSelectionMode', # max: 64
           Filters       => [
             {
-              Path   => 'MyExperimentTemplateTargetFilterPath',    # max: 256
+              Path   => 'MyExperimentTemplateTargetFilterPath',       # max: 256
               Values => [
-                'MyExperimentTemplateTargetFilterValue', ...       # max: 128
+                'MyExperimentTemplateTargetFilterValue', ...          # max: 128
               ],
 
             },
             ...
           ],    # OPTIONAL
+          Parameters => {
+            'MyExperimentTemplateTargetParameterName' =>
+              'MyExperimentTemplateTargetParameterValue'
+            ,    # key: max: 64, value: min: 1, max: 1024
+          },    # OPTIONAL
           ResourceArns => [
             'MyResourceArn', ...    # min: 20, max: 2048
           ],    # max: 5; OPTIONAL
@@ -111,15 +156,33 @@ A description for the template.
 
 
 
+=head2 ExperimentOptions => L<Paws::FIS::UpdateExperimentTemplateExperimentOptionsInput>
+
+The experiment options for the experiment template.
+
+
+
+=head2 ExperimentReportConfiguration => L<Paws::FIS::UpdateExperimentTemplateReportConfigurationInput>
+
+The experiment report configuration for the experiment template.
+
+
+
 =head2 B<REQUIRED> Id => Str
 
 The ID of the experiment template.
 
 
 
+=head2 LogConfiguration => L<Paws::FIS::UpdateExperimentTemplateLogConfigurationInput>
+
+The configuration for experiment logging.
+
+
+
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS
+The Amazon Resource Name (ARN) of an IAM role that grants the FIS
 service permission to perform service actions on your behalf.
 
 

@@ -56,9 +56,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> EndDate => Str
 
-The last day, in Unix time format, that you want to obtain
-deliverability data for. This value has to be less than or equal to 30
-days after the value of the C<StartDate> parameter.
+The last day that you want to obtain deliverability data for. This
+value has to be less than or equal to 30 days after the value of the
+C<StartDate> parameter.
 
 
 
@@ -82,8 +82,7 @@ obtain additional results.
 
 =head2 B<REQUIRED> StartDate => Str
 
-The first day, in Unix time format, that you want to obtain
-deliverability data for.
+The first day that you want to obtain deliverability data for.
 
 
 

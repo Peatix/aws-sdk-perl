@@ -20,8 +20,14 @@ Paws::S3::DeleteObjectOutput
 
 =head2 DeleteMarker => Bool
 
-Specifies whether the versioned object that was permanently deleted was
-(true) or was not (false) a delete marker.
+Indicates whether the specified object version that was permanently
+deleted was (true) or was not (false) a delete marker before deletion.
+In a simple DELETE, this header indicates whether (true) or not (false)
+the current version of the object is a delete marker. To learn more
+about delete markers, see Working with delete markers
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html).
+
+This functionality is not supported for directory buckets.
 
 
 
@@ -35,6 +41,8 @@ Valid values are: C<"requester">
 
 Returns the version ID of the delete marker created as a result of the
 DELETE operation.
+
+This functionality is not supported for directory buckets.
 
 
 

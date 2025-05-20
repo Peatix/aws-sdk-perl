@@ -66,10 +66,7 @@ Indicates whether health checks are enabled.
 =head2 HealthCheckIntervalSeconds => Int
 
 The approximate amount of time, in seconds, between health checks of an
-individual target. For TCP health checks, the supported values are 10
-or 30 seconds.
-
-With Network Load Balancers, you can't modify this setting.
+individual target.
 
 
 
@@ -104,16 +101,12 @@ only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP.
 The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for
 health checks.
 
-With Network Load Balancers, you can't modify this setting.
-
 Valid values are: C<"HTTP">, C<"HTTPS">, C<"TCP">, C<"TLS">, C<"UDP">, C<"TCP_UDP">, C<"GENEVE">
 
 =head2 HealthCheckTimeoutSeconds => Int
 
 [HTTP/HTTPS health checks] The amount of time, in seconds, during which
 no response means a failed health check.
-
-With Network Load Balancers, you can't modify this setting.
 
 
 
@@ -127,9 +120,10 @@ considering an unhealthy target healthy.
 =head2 Matcher => L<Paws::ELBv2::Matcher>
 
 [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking
-for a successful response from a target.
-
-With Network Load Balancers, you can't modify this setting.
+for a successful response from a target. For target groups with a
+protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target
+groups with a protocol of HTTP or HTTPS, the range is 200-499. For
+target groups with a protocol of GENEVE, the range is 200-399.
 
 
 
@@ -142,8 +136,7 @@ The Amazon Resource Name (ARN) of the target group.
 =head2 UnhealthyThresholdCount => Int
 
 The number of consecutive health check failures required before
-considering the target unhealthy. For target groups with a protocol of
-TCP or TLS, this value must be the same as the healthy threshold count.
+considering the target unhealthy.
 
 
 

@@ -2,7 +2,7 @@
 package Paws::MQ::UserSummary;
   use Moose;
   has PendingChange => (is => 'ro', isa => 'Str', request_name => 'pendingChange', traits => ['NameInRequest']);
-  has Username => (is => 'ro', isa => 'Str', request_name => 'username', traits => ['NameInRequest']);
+  has Username => (is => 'ro', isa => 'Str', request_name => 'username', traits => ['NameInRequest'], required => 1);
 
 1;
 
@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MQ::UserSum
 
 =head1 DESCRIPTION
 
-Returns a list of all broker users.
+Returns a list of all broker users. Does not apply to RabbitMQ brokers.
 
 =head1 ATTRIBUTES
 
@@ -44,7 +44,7 @@ Returns a list of all broker users.
 The type of change pending for the broker user.
 
 
-=head2 Username => Str
+=head2 B<REQUIRED> Username => Str
 
 Required. The username of the broker user. This value can contain only
 alphanumeric characters, dashes, periods, underscores, and tildes (- .

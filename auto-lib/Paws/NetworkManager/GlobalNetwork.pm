@@ -38,7 +38,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkMana
 
 =head1 DESCRIPTION
 
-Describes a global network.
+Describes a global network. This is a single private network acting as
+a high-level container for your network objects, including an Amazon
+Web Services-managed Core Network.
 
 =head1 ATTRIBUTES
 

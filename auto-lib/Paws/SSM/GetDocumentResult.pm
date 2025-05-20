@@ -34,19 +34,19 @@ sizes, and so on.
 
 =head2 Content => Str
 
-The contents of the Systems Manager document.
+The contents of the SSM document.
 
 
 =head2 CreatedDate => Str
 
-The date the Systems Manager document was created.
+The date the SSM document was created.
 
 
 =head2 DisplayName => Str
 
-The friendly name of the Systems Manager document. This value can
-differ for each version of the document. If you want to update this
-value, see UpdateDocument.
+The friendly name of the SSM document. This value can differ for each
+version of the document. If you want to update this value, see
+UpdateDocument.
 
 
 =head2 DocumentFormat => Str
@@ -58,7 +58,7 @@ Valid values are: C<"YAML">, C<"JSON">, C<"TEXT">
 
 The document type.
 
-Valid values are: C<"Command">, C<"Policy">, C<"Automation">, C<"Session">, C<"Package">, C<"ApplicationConfiguration">, C<"ApplicationConfigurationSchema">, C<"DeploymentStrategy">, C<"ChangeCalendar">, C<"Automation.ChangeTemplate">, C<"ProblemAnalysis">, C<"ProblemAnalysisTemplate">
+Valid values are: C<"Command">, C<"Policy">, C<"Automation">, C<"Session">, C<"Package">, C<"ApplicationConfiguration">, C<"ApplicationConfigurationSchema">, C<"DeploymentStrategy">, C<"ChangeCalendar">, C<"Automation.ChangeTemplate">, C<"ProblemAnalysis">, C<"ProblemAnalysisTemplate">, C<"CloudFormation">, C<"ConformancePackTemplate">, C<"QuickSetup">, C<"ManualApprovalPolicy">, C<"AutoApprovalPolicy">
 =head2 DocumentVersion => Str
 
 The document version.
@@ -66,7 +66,7 @@ The document version.
 
 =head2 Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 =head2 Requires => ArrayRef[L<Paws::SSM::DocumentRequires>]
@@ -92,23 +92,23 @@ time.
 Valid values are: C<"APPROVED">, C<"NOT_REVIEWED">, C<"PENDING">, C<"REJECTED">
 =head2 Status => Str
 
-The status of the Systems Manager document, such as C<Creating>,
-C<Active>, C<Updating>, C<Failed>, and C<Deleting>.
+The status of the SSM document, such as C<Creating>, C<Active>,
+C<Updating>, C<Failed>, and C<Deleting>.
 
 Valid values are: C<"Creating">, C<"Active">, C<"Updating">, C<"Deleting">, C<"Failed">
 =head2 StatusInformation => Str
 
-A message returned by AWS Systems Manager that explains the C<Status>
-value. For example, a C<Failed> status might be explained by the
-C<StatusInformation> message, "The specified S3 bucket does not exist.
-Verify that the URL of the S3 bucket is correct."
+A message returned by Amazon Web Services Systems Manager that explains
+the C<Status> value. For example, a C<Failed> status might be explained
+by the C<StatusInformation> message, "The specified S3 bucket doesn't
+exist. Verify that the URL of the S3 bucket is correct."
 
 
 =head2 VersionName => Str
 
 The version of the artifact associated with the document. For example,
-"Release 12, Update 6". This value is unique across all versions of a
-document, and cannot be changed.
+12.6. This value is unique across all versions of a document, and can't
+be changed.
 
 
 =head2 _request_id => Str

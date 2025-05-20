@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head2 B<REQUIRED> CapabilityNamespace => Str
 
 The namespace of the capability configuration. For example, if you
-configure OPC-UA sources from the AWS IoT SiteWise console, your OPC-UA
+configure OPC-UA sources from the IoT SiteWise console, your OPC-UA
 capability configuration has the namespace
 C<iotsitewise:opcuacollector:version>, where C<version> is a number
 such as C<1>.

@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Snowball::T
 
 =head1 DESCRIPTION
 
-The tax documents required in your AWS Region.
+The tax documents required in your Amazon Web Services Region.
 
 =head1 ATTRIBUTES
 

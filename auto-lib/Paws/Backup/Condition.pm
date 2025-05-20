@@ -36,30 +36,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Backup::Con
 =head1 DESCRIPTION
 
 Contains an array of triplets made up of a condition type (such as
-C<StringEquals>), a key, and a value. Conditions are used to filter
-resources in a selection that is assigned to a backup plan.
+C<StringEquals>), a key, and a value. Used to filter resources using
+their tags and assign them to a backup plan. Case sensitive.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ConditionKey => Str
 
-The key in a key-value pair. For example, in
-C<"ec2:ResourceTag/Department": "accounting">,
-C<"ec2:ResourceTag/Department"> is the key.
+The key in a key-value pair. For example, in the tag C<Department:
+Accounting>, C<Department> is the key.
 
 
 =head2 B<REQUIRED> ConditionType => Str
 
-An operation, such as C<StringEquals>, that is applied to a key-value
-pair used to filter resources in a selection.
+An operation applied to a key-value pair used to assign resources to
+your backup plan. Condition only supports C<StringEquals>. For more
+flexible assignment options, including C<StringLike> and the ability to
+exclude resources from your backup plan, use C<Conditions> (with an "s"
+on the end) for your C<BackupSelection>
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BackupSelection.html).
 
 
 =head2 B<REQUIRED> ConditionValue => Str
 
-The value in a key-value pair. For example, in
-C<"ec2:ResourceTag/Department": "accounting">, C<"accounting"> is the
-value.
+The value in a key-value pair. For example, in the tag C<Department:
+Accounting>, C<Accounting> is the value.
 
 
 

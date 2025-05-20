@@ -66,7 +66,7 @@ Metadata to add to an OpsMetadata object.
 
 =head2 B<REQUIRED> OpsMetadataArn => Str
 
-The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+The Amazon Resource Name (ARN) of the OpsMetadata Object to update.
 
 
 

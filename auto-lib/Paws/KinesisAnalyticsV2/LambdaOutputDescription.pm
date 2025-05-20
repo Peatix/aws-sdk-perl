@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 =head1 DESCRIPTION
 
 For a SQL-based Kinesis Data Analytics application's output, describes
-the AWS Lambda function that is configured as its destination.
+the Amazon Lambda function that is configured as its destination.
 
 =head1 ATTRIBUTES
 

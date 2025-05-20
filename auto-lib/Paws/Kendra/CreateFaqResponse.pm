@@ -16,7 +16,7 @@ Paws::Kendra::CreateFaqResponse
 
 =head2 Id => Str
 
-The unique identifier of the FAQ.
+The identifier of the FAQ.
 
 
 =head2 _request_id => Str

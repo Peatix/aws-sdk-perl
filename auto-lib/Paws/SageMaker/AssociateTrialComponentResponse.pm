@@ -22,7 +22,7 @@ The Amazon Resource Name (ARN) of the trial.
 
 =head2 TrialComponentArn => Str
 
-The ARN of the trial component.
+The Amazon Resource Name (ARN) of the trial component.
 
 
 =head2 _request_id => Str

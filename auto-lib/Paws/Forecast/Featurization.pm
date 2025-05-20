@@ -34,6 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::F
 
 =head1 DESCRIPTION
 
+This object belongs to the CreatePredictor operation. If you created
+your predictor with CreateAutoPredictor, see AttributeConfig.
+
 Provides featurization (transformation) information for a dataset
 field. This object is part of the FeaturizationConfig object.
 

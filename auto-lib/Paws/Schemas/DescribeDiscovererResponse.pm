@@ -1,6 +1,7 @@
 
 package Paws::Schemas::DescribeDiscovererResponse;
   use Moose;
+  has CrossAccount => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
   has DiscovererArn => (is => 'ro', isa => 'Str');
   has DiscovererId => (is => 'ro', isa => 'Str');
@@ -18,6 +19,12 @@ package Paws::Schemas::DescribeDiscovererResponse;
 Paws::Schemas::DescribeDiscovererResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 CrossAccount => Bool
+
+The Status if the discoverer will discover schemas from events sent
+from another account.
 
 
 =head2 Description => Str

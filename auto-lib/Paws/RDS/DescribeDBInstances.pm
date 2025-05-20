@@ -44,9 +44,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 DBInstanceIdentifier => Str
 
-The user-supplied instance identifier. If this parameter is specified,
-information from only the specific DB instance is returned. This
-parameter isn't case-sensitive.
+The user-supplied instance identifier or the Amazon Resource Name (ARN)
+of the DB instance. If this parameter is specified, information from
+only the specific DB instance is returned. This parameter isn't
+case-sensitive.
 
 Constraints:
 
@@ -54,7 +55,7 @@ Constraints:
 
 =item *
 
-If supplied, must match the identifier of an existing DBInstance.
+If supplied, must match the identifier of an existing DB instance.
 
 =back
 
@@ -65,38 +66,38 @@ If supplied, must match the identifier of an existing DBInstance.
 
 A filter that specifies one or more DB instances to describe.
 
-Supported filters:
+Supported Filters:
 
 =over
 
 =item *
 
 C<db-cluster-id> - Accepts DB cluster identifiers and DB cluster Amazon
-Resource Names (ARNs). The results list will only include information
-about the DB instances associated with the DB clusters identified by
-these ARNs.
+Resource Names (ARNs). The results list only includes information about
+the DB instances associated with the DB clusters identified by these
+ARNs.
 
 =item *
 
 C<db-instance-id> - Accepts DB instance identifiers and DB instance
-Amazon Resource Names (ARNs). The results list will only include
+Amazon Resource Names (ARNs). The results list only includes
 information about the DB instances identified by these ARNs.
 
 =item *
 
 C<dbi-resource-id> - Accepts DB instance resource identifiers. The
-results list will only include information about the DB instances
+results list only includes information about the DB instances
 identified by these DB instance resource identifiers.
 
 =item *
 
 C<domain> - Accepts Active Directory directory IDs. The results list
-will only include information about the DB instances associated with
-these domains.
+only includes information about the DB instances associated with these
+domains.
 
 =item *
 
-C<engine> - Accepts engine names. The results list will only include
+C<engine> - Accepts engine names. The results list only includes
 information about the DB instances for these engines.
 
 =back

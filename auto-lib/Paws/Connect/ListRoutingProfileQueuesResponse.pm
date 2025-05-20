@@ -1,6 +1,8 @@
 
 package Paws::Connect::ListRoutingProfileQueuesResponse;
   use Moose;
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
   has RoutingProfileQueueConfigSummaryList => (is => 'ro', isa => 'ArrayRef[Paws::Connect::RoutingProfileQueueConfigSummary]');
 
@@ -14,6 +16,16 @@ package Paws::Connect::ListRoutingProfileQueuesResponse;
 Paws::Connect::ListRoutingProfileQueuesResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
 
 
 =head2 NextToken => Str

@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-The information required to deploy a Kinesis Data Analytics Studio
-notebook as an application with durable state..
+The information required to deploy a Managed Service for Apache Flink
+Studio notebook as an application with durable state.
 
 =head1 ATTRIBUTES
 

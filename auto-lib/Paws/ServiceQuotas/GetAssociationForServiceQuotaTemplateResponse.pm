@@ -18,7 +18,7 @@ Paws::ServiceQuotas::GetAssociationForServiceQuotaTemplateResponse
 
 The association status. If the status is C<ASSOCIATED>, the quota
 increase requests in the template are automatically applied to new
-accounts in your organization.
+Amazon Web Services accounts in your organization.
 
 Valid values are: C<"ASSOCIATED">, C<"DISASSOCIATED">
 =head2 _request_id => Str

@@ -40,9 +40,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/org
 
 =head2 B<REQUIRED> ServicePrincipal => Str
 
-The service principal name of the AWS service for which you want to
-enable integration with your organization. This is typically in the
-form of a URL, such as C< I<service-abbreviation>.amazonaws.com>.
+The service principal name of the Amazon Web Services service for which
+you want to enable integration with your organization. This is
+typically in the form of a URL, such as C<
+I<service-abbreviation>.amazonaws.com>.
 
 
 

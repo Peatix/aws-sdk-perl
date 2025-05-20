@@ -36,10 +36,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $DeviceId     = $GetDevicePositionResponse->DeviceId;
-    my $Position     = $GetDevicePositionResponse->Position;
-    my $ReceivedTime = $GetDevicePositionResponse->ReceivedTime;
-    my $SampleTime   = $GetDevicePositionResponse->SampleTime;
+    my $Accuracy           = $GetDevicePositionResponse->Accuracy;
+    my $DeviceId           = $GetDevicePositionResponse->DeviceId;
+    my $Position           = $GetDevicePositionResponse->Position;
+    my $PositionProperties = $GetDevicePositionResponse->PositionProperties;
+    my $ReceivedTime       = $GetDevicePositionResponse->ReceivedTime;
+    my $SampleTime         = $GetDevicePositionResponse->SampleTime;
 
     # Returns a L<Paws::LocationService::GetDevicePositionResponse> object.
 

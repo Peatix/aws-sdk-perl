@@ -67,6 +67,12 @@ customized metric.
 
 The target value for the metric.
 
+Some metrics are based on a count instead of a percentage, such as the
+request count for an Application Load Balancer or the number of
+messages in an SQS queue. If the scaling policy specifies one of these
+metrics, specify the target utilization as the optimal average request
+or message count per instance during any one-minute interval.
+
 
 
 =head1 SEE ALSO

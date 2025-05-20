@@ -79,7 +79,11 @@ represents Friday, January 26, 2018 12:11:30.087 AM.
 =head2 CreatorRequestId => Str
 
 A unique string that identifies the request and allows failed requests
-to be retried without the risk of running the operation twice.
+to be retried without the risk of running the operation twice. This
+parameter is optional.
+
+If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+characters.
 
 
 =head2 DeletionDate => Str
@@ -92,11 +96,10 @@ represents Friday, January 26, 2018 12:11:30.087 AM.
 
 =head2 LastExecutionDate => Str
 
-The last time a job to back up resources was run with this rule. A date
-and time, in Unix format and Coordinated Universal Time (UTC). The
-value of C<LastExecutionDate> is accurate to milliseconds. For example,
-the value 1516925490.087 represents Friday, January 26, 2018
-12:11:30.087 AM.
+The last time this backup plan was run. A date and time, in Unix format
+and Coordinated Universal Time (UTC). The value of C<LastExecutionDate>
+is accurate to milliseconds. For example, the value 1516925490.087
+represents Friday, January 26, 2018 12:11:30.087 AM.
 
 
 =head2 VersionId => Str

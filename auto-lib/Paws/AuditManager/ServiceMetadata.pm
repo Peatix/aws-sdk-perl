@@ -36,30 +36,30 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The metadata associated with the specified AWS service.
+The metadata that's associated with the Amazon Web Service.
 
 =head1 ATTRIBUTES
 
 
 =head2 Category => Str
 
-The category in which the AWS service belongs, such as compute,
-storage, database, and so on.
+The category that the Amazon Web Service belongs to, such as compute,
+storage, or database.
 
 
 =head2 Description => Str
 
-The description of the specified AWS service.
+The description of the Amazon Web Service.
 
 
 =head2 DisplayName => Str
 
-The display name of the AWS service.
+The display name of the Amazon Web Service.
 
 
 =head2 Name => Str
 
-The name of the AWS service.
+The name of the Amazon Web Service.
 
 
 

@@ -42,7 +42,8 @@ organization management account.
 
 =head2 AccountId => Str
 
-The AWS account identifier of the Security Hub administrator account.
+The Amazon Web Services account identifier of the Security Hub
+administrator account.
 
 
 =head2 Status => Str

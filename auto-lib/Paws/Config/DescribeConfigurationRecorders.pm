@@ -1,7 +1,9 @@
 
 package Paws::Config::DescribeConfigurationRecorders;
   use Moose;
+  has Arn => (is => 'ro', isa => 'Str');
   has ConfigurationRecorderNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ServicePrincipal => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,9 +31,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $config = Paws->service('Config');
     my $DescribeConfigurationRecordersResponse =
       $config->DescribeConfigurationRecorders(
+      Arn                        => 'MyAmazonResourceName',    # OPTIONAL
       ConfigurationRecorderNames => [
         'MyRecorderName', ...    # min: 1, max: 256
       ],    # OPTIONAL
+      ServicePrincipal => 'MyServicePrincipal',    # OPTIONAL
       );
 
     # Results:
@@ -46,9 +50,25 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head1 ATTRIBUTES
 
 
+=head2 Arn => Str
+
+The Amazon Resource Name (ARN) of the configuration recorder that you
+want to specify.
+
+
+
 =head2 ConfigurationRecorderNames => ArrayRef[Str|Undef]
 
-A list of configuration recorder names.
+A list of names of the configuration recorders that you want to
+specify.
+
+
+
+=head2 ServicePrincipal => Str
+
+For service-linked configuration recorders, you can use the service
+principal of the linked Amazon Web Services service to specify the
+configuration recorder.
 
 
 

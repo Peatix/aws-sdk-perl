@@ -52,14 +52,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 B<REQUIRED> Configuration => Str
 
-The configuration data for the extension, in this account and region.
+The configuration data for the extension, in this account and Region.
 
 The configuration data must be formatted as JSON, and validate against
 the schema returned in the C<ConfigurationSchema> response element of
-API_DescribeType. For more information, see Defining account-level
-configuration data for an extension
+DescribeType
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html).
+For more information, see Defining the account-level configuration of
+an extension
 (https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration)
-in the I<CloudFormation CLI User Guide>.
+in the I<CloudFormation Command Line Interface (CLI) User Guide>.
 
 
 
@@ -79,20 +81,20 @@ The type of extension.
 Conditional: You must specify C<ConfigurationArn>, or C<Type> and
 C<TypeName>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeArn => Str
 
 The Amazon Resource Name (ARN) for the extension, in this account and
-region.
+Region.
 
-For public extensions, this will be the ARN assigned when you activate
-the type
+For public extensions, this will be the ARN assigned when you call the
+ActivateType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html)
-in this account and region. For private extensions, this will be the
-ARN assigned when you register the type
+API operation in this account and Region. For private extensions, this
+will be the ARN assigned when you call the RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html)
-in this account and region.
+API operation in this account and Region.
 
 Do not include the extension versions suffix at the end of the ARN. You
 can set the configuration for an extension, but not for a specific

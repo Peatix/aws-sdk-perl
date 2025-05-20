@@ -54,19 +54,8 @@ volumes only to instances that support them.
 
 =head2 Iops => Int
 
-The number of I/O operations per second (IOPS) to provision for an
-C<io1> or C<io2> volume, with a maximum ratio of 50 IOPS/GiB for
-C<io1>, and 500 IOPS/GiB for C<io2>. Range is 100 to 64,000 IOPS for
-volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on
-instances built on the Nitro System
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
-Other instance families guarantee performance up to 32,000 IOPS. For
-more information, see Amazon EBS volume types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
-in the I<Amazon EC2 User Guide>.
-
-This parameter is valid only for Provisioned IOPS SSD (C<io1> and
-C<io2>) volumes.
+The number of I/O operations per second (IOPS) to provision for a
+C<gp3>, C<io1>, or C<io2> volume.
 
 
 =head2 SnapshotId => Str
@@ -84,9 +73,7 @@ specify a volume size, the default is the snapshot size.
 
 =head2 VolumeType => Str
 
-The volume type. C<gp2> for General Purpose SSD, C<io1> or C< io2> for
-Provisioned IOPS SSD, Throughput Optimized HDD for C<st1>, Cold HDD for
-C<sc1>, or C<standard> for Magnetic.
+The volume type.
 
 Default: C<gp2>
 

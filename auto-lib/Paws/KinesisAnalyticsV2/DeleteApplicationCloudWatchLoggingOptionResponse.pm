@@ -4,6 +4,7 @@ package Paws::KinesisAnalyticsV2::DeleteApplicationCloudWatchLoggingOptionRespon
   has ApplicationARN => (is => 'ro', isa => 'Str');
   has ApplicationVersionId => (is => 'ro', isa => 'Int');
   has CloudWatchLoggingOptionDescriptions => (is => 'ro', isa => 'ArrayRef[Paws::KinesisAnalyticsV2::CloudWatchLoggingOptionDescription]');
+  has OperationId => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -32,6 +33,12 @@ options.
 
 The descriptions of the remaining CloudWatch logging options for the
 application.
+
+
+=head2 OperationId => Str
+
+Operation ID for tracking DeleteApplicationCloudWatchLoggingOption
+request
 
 
 =head2 _request_id => Str

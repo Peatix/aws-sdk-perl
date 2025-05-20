@@ -6,8 +6,11 @@ package Paws::ImageBuilder::ComponentSummary;
   has DateCreated => (is => 'ro', isa => 'Str', request_name => 'dateCreated', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has Obfuscate => (is => 'ro', isa => 'Bool', request_name => 'obfuscate', traits => ['NameInRequest']);
   has Owner => (is => 'ro', isa => 'Str', request_name => 'owner', traits => ['NameInRequest']);
   has Platform => (is => 'ro', isa => 'Str', request_name => 'platform', traits => ['NameInRequest']);
+  has Publisher => (is => 'ro', isa => 'Str', request_name => 'publisher', traits => ['NameInRequest']);
+  has State => (is => 'ro', isa => 'Paws::ImageBuilder::ComponentState', request_name => 'state', traits => ['NameInRequest']);
   has SupportedOsVersions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedOsVersions', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::ImageBuilder::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
@@ -55,12 +58,12 @@ The Amazon Resource Name (ARN) of the component.
 
 =head2 ChangeDescription => Str
 
-The change description of the component.
+The change description for the current version of the component.
 
 
 =head2 DateCreated => Str
 
-The date that the component was created.
+The original creation date of the component.
 
 
 =head2 Description => Str
@@ -73,6 +76,12 @@ The description of the component.
 The name of the component.
 
 
+=head2 Obfuscate => Bool
+
+Indicates whether component source is hidden from view in the console,
+and from component detail results for API, CLI, or SDK operations.
+
+
 =head2 Owner => Str
 
 The owner of the component.
@@ -80,25 +89,36 @@ The owner of the component.
 
 =head2 Platform => Str
 
-The platform of the component.
+The operating system platform of the component.
+
+
+=head2 Publisher => Str
+
+Contains the name of the publisher if this is a third-party component.
+Otherwise, this property is empty.
+
+
+=head2 State => L<Paws::ImageBuilder::ComponentState>
+
+Describes the current status of the component.
 
 
 =head2 SupportedOsVersions => ArrayRef[Str|Undef]
 
-The operating system (OS) version supported by the component. If the OS
-information is available, a prefix match is performed against the
-parent image OS version during image recipe creation.
+The operating system (OS) version that the component supports. If the
+OS information is available, Image Builder performs a prefix match
+against the base image OS version during image recipe creation.
 
 
 =head2 Tags => L<Paws::ImageBuilder::TagMap>
 
-The tags associated with the component.
+The tags that apply to the component.
 
 
 =head2 Type => Str
 
-The type of the component denotes whether the component is used to
-build the image or only to test it.
+The component type specifies whether Image Builder uses the component
+to build the image or only to test it.
 
 
 =head2 Version => Str

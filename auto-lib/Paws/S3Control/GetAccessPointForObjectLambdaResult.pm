@@ -1,6 +1,7 @@
 
 package Paws::S3Control::GetAccessPointForObjectLambdaResult;
   use Moose;
+  has Alias => (is => 'ro', isa => 'Paws::S3Control::ObjectLambdaAccessPointAlias');
   has CreationDate => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has PublicAccessBlockConfiguration => (is => 'ro', isa => 'Paws::S3Control::PublicAccessBlockConfiguration');
@@ -16,6 +17,12 @@ package Paws::S3Control::GetAccessPointForObjectLambdaResult;
 Paws::S3Control::GetAccessPointForObjectLambdaResult
 
 =head1 ATTRIBUTES
+
+
+=head2 Alias => L<Paws::S3Control::ObjectLambdaAccessPointAlias>
+
+The alias of the Object Lambda Access Point.
+
 
 
 =head2 CreationDate => Str

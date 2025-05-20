@@ -16,8 +16,7 @@ Paws::Proton::GetAccountSettingsOutput
 
 =head2 AccountSettings => L<Paws::Proton::AccountSettings>
 
-The AWS Proton pipeline service role detail data that's returned by AWS
-Proton.
+The Proton pipeline service role detail data that's returned by Proton.
 
 
 =head2 _request_id => Str

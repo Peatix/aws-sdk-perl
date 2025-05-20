@@ -38,9 +38,9 @@ too large for the available throughput. Reduce the frequency or size of
 your requests. For more information, see Streams Limits
 (https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html)
 in the I<Amazon Kinesis Data Streams Developer Guide>, and Error
-Retries and Exponential Backoff in AWS
+Retries and Exponential Backoff in Amazon Web Services
 (https://docs.aws.amazon.com/general/latest/gr/api-retries.html) in the
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 =head1 ATTRIBUTES
 

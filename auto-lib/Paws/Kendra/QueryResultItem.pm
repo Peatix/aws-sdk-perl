@@ -2,14 +2,17 @@
 package Paws::Kendra::QueryResultItem;
   use Moose;
   has AdditionalAttributes => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::AdditionalResultAttribute]');
+  has CollapsedResultDetail => (is => 'ro', isa => 'Paws::Kendra::CollapsedResultDetail');
   has DocumentAttributes => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::DocumentAttribute]');
   has DocumentExcerpt => (is => 'ro', isa => 'Paws::Kendra::TextWithHighlights');
   has DocumentId => (is => 'ro', isa => 'Str');
   has DocumentTitle => (is => 'ro', isa => 'Paws::Kendra::TextWithHighlights');
   has DocumentURI => (is => 'ro', isa => 'Str');
   has FeedbackToken => (is => 'ro', isa => 'Str');
+  has Format => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
   has ScoreAttributes => (is => 'ro', isa => 'Paws::Kendra::ScoreAttributes');
+  has TableExcerpt => (is => 'ro', isa => 'Paws::Kendra::TableExcerpt');
   has Type => (is => 'ro', isa => 'Str');
 
 1;
@@ -54,14 +57,20 @@ document that satisfies the query.
 
 =head2 AdditionalAttributes => ArrayRef[L<Paws::Kendra::AdditionalResultAttribute>]
 
-One or more additional attributes associated with the query result.
+One or more additional fields/attributes associated with the query
+result.
+
+
+=head2 CollapsedResultDetail => L<Paws::Kendra::CollapsedResultDetail>
+
+Provides details about a collapsed group of search results.
 
 
 =head2 DocumentAttributes => ArrayRef[L<Paws::Kendra::DocumentAttribute>]
 
-An array of document attributes for the document that the query result
-maps to. For example, the document author (Author) or the source URI
-(SourceUri) of the document.
+An array of document fields/attributes assigned to a document in the
+search results. For example, the document author (C<_author>) or the
+source URI (C<_source_uri>) of the document.
 
 
 =head2 DocumentExcerpt => L<Paws::Kendra::TextWithHighlights>
@@ -72,7 +81,7 @@ highlighting the relevant terms in the excerpt.
 
 =head2 DocumentId => Str
 
-The unique identifier for the document.
+The identifier for the document.
 
 
 =head2 DocumentTitle => L<Paws::Kendra::TextWithHighlights>
@@ -94,27 +103,44 @@ more information, see Submitting feedback
 (https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html).
 
 
+=head2 Format => Str
+
+If the C<Type> of document within the response is C<ANSWER>, then it is
+either a C<TABLE> answer or C<TEXT> answer. If it's a table answer, a
+table excerpt is returned in C<TableExcerpt>. If it's a text answer, a
+text excerpt is returned in C<DocumentExcerpt>.
+
+
 =head2 Id => Str
 
-The unique identifier for the query result.
+The unique identifier for the query result item id (C<Id>) and the
+query result item document id (C<DocumentId>) combined. The value of
+this field changes with every request, even when you have the same
+documents.
 
 
 =head2 ScoreAttributes => L<Paws::Kendra::ScoreAttributes>
 
-Indicates the confidence that Amazon Kendra has that a result matches
-the query that you provided. Each result is placed into a bin that
-indicates the confidence, C<VERY_HIGH>, C<HIGH>, C<MEDIUM> and C<LOW>.
-You can use the score to determine if a response meets the confidence
-needed for your application.
+Indicates the confidence level of Amazon Kendra providing a relevant
+result for the query. Each result is placed into a bin that indicates
+the confidence, C<VERY_HIGH>, C<HIGH>, C<MEDIUM> and C<LOW>. You can
+use the score to determine if a response meets the confidence needed
+for your application.
 
 The field is only set to C<LOW> when the C<Type> field is set to
-C<DOCUMENT> and Amazon Kendra is not confident that the result matches
-the query.
+C<DOCUMENT> and Amazon Kendra is not confident that the result is
+relevant to the query.
+
+
+=head2 TableExcerpt => L<Paws::Kendra::TableExcerpt>
+
+An excerpt from a table within a document.
 
 
 =head2 Type => Str
 
-The type of document.
+The type of document within the response. For example, a response could
+include a question-answer that's relevant to the query.
 
 
 

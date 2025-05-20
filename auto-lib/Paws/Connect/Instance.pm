@@ -6,11 +6,13 @@ package Paws::Connect::Instance;
   has Id => (is => 'ro', isa => 'Str');
   has IdentityManagementType => (is => 'ro', isa => 'Str');
   has InboundCallsEnabled => (is => 'ro', isa => 'Bool');
+  has InstanceAccessUrl => (is => 'ro', isa => 'Str');
   has InstanceAlias => (is => 'ro', isa => 'Str');
   has InstanceStatus => (is => 'ro', isa => 'Str');
   has OutboundCallsEnabled => (is => 'ro', isa => 'Bool');
   has ServiceRole => (is => 'ro', isa => 'Str');
   has StatusReason => (is => 'ro', isa => 'Paws::Connect::InstanceStatusReason');
+  has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
 
 1;
 
@@ -31,7 +33,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Connect::Instance object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., StatusReason => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Tags => $value  });
 
 =head3 Results returned from an API call
 
@@ -60,7 +62,9 @@ When the instance was created.
 =head2 Id => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 =head2 IdentityManagementType => Str
@@ -71,6 +75,12 @@ The identity management type.
 =head2 InboundCallsEnabled => Bool
 
 Whether inbound calls are enabled.
+
+
+=head2 InstanceAccessUrl => Str
+
+This URL allows contact center users to access the Amazon Connect admin
+website.
 
 
 =head2 InstanceAlias => Str
@@ -96,6 +106,11 @@ The service role of the instance.
 =head2 StatusReason => L<Paws::Connect::InstanceStatusReason>
 
 Relevant details why the instance was not successfully created.
+
+
+=head2 Tags => L<Paws::Connect::TagMap>
+
+The tags of an instance.
 
 
 

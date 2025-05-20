@@ -4,9 +4,11 @@ package Paws::IoTSiteWise::AssetProperty;
   has Alias => (is => 'ro', isa => 'Str', request_name => 'alias', traits => ['NameInRequest']);
   has DataType => (is => 'ro', isa => 'Str', request_name => 'dataType', traits => ['NameInRequest'], required => 1);
   has DataTypeSpec => (is => 'ro', isa => 'Str', request_name => 'dataTypeSpec', traits => ['NameInRequest']);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest'], required => 1);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Notification => (is => 'ro', isa => 'Paws::IoTSiteWise::PropertyNotification', request_name => 'notification', traits => ['NameInRequest']);
+  has Path => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetPropertyPathSegment]', request_name => 'path', traits => ['NameInRequest']);
   has Unit => (is => 'ro', isa => 'Str', request_name => 'unit', traits => ['NameInRequest']);
 
 1;
@@ -46,12 +48,12 @@ Contains asset property information.
 
 =head2 Alias => Str
 
-The property alias that identifies the property, such as an OPC-UA
-server data stream path (for example,
+The alias that identifies the property, such as an OPC-UA server data
+stream path (for example,
 C</company/windfarm/3/turbine/7/temperature>). For more information,
 see Mapping industrial data streams to asset properties
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 =head2 B<REQUIRED> DataType => Str
@@ -63,6 +65,14 @@ The data type of the asset property.
 
 The data type of the structure for this property. This parameter exists
 on properties that have the C<STRUCT> data type.
+
+
+=head2 ExternalId => Str
+
+The external ID of the asset property. For more information, see Using
+external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
 
 
 =head2 B<REQUIRED> Id => Str
@@ -80,6 +90,11 @@ The name of the property.
 The asset property's notification topic and state. For more
 information, see UpdateAssetProperty
 (https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
+
+
+=head2 Path => ArrayRef[L<Paws::IoTSiteWise::AssetPropertyPathSegment>]
+
+The structured path to the property from the root of the asset.
 
 
 =head2 Unit => Str

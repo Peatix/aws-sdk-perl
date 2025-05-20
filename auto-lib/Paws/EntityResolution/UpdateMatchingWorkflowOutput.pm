@@ -1,0 +1,69 @@
+
+package Paws::EntityResolution::UpdateMatchingWorkflowOutput;
+  use Moose;
+  has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has IncrementalRunConfig => (is => 'ro', isa => 'Paws::EntityResolution::IncrementalRunConfig', traits => ['NameInRequest'], request_name => 'incrementalRunConfig');
+  has InputSourceConfig => (is => 'ro', isa => 'ArrayRef[Paws::EntityResolution::InputSource]', traits => ['NameInRequest'], request_name => 'inputSourceConfig', required => 1);
+  has OutputSourceConfig => (is => 'ro', isa => 'ArrayRef[Paws::EntityResolution::OutputSource]', traits => ['NameInRequest'], request_name => 'outputSourceConfig', required => 1);
+  has ResolutionTechniques => (is => 'ro', isa => 'Paws::EntityResolution::ResolutionTechniques', traits => ['NameInRequest'], request_name => 'resolutionTechniques', required => 1);
+  has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn', required => 1);
+  has WorkflowName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'workflowName', required => 1);
+
+  has _request_id => (is => 'ro', isa => 'Str');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::EntityResolution::UpdateMatchingWorkflowOutput
+
+=head1 ATTRIBUTES
+
+
+=head2 Description => Str
+
+A description of the workflow.
+
+
+=head2 IncrementalRunConfig => L<Paws::EntityResolution::IncrementalRunConfig>
+
+An object which defines an incremental run type and has only
+C<incrementalRunType> as a field.
+
+
+=head2 B<REQUIRED> InputSourceConfig => ArrayRef[L<Paws::EntityResolution::InputSource>]
+
+A list of C<InputSource> objects, which have the fields
+C<InputSourceARN> and C<SchemaName>.
+
+
+=head2 B<REQUIRED> OutputSourceConfig => ArrayRef[L<Paws::EntityResolution::OutputSource>]
+
+A list of C<OutputSource> objects, each of which contains fields
+C<OutputS3Path>, C<ApplyNormalization>, and C<Output>.
+
+
+=head2 B<REQUIRED> ResolutionTechniques => L<Paws::EntityResolution::ResolutionTechniques>
+
+An object which defines the C<resolutionType> and the
+C<ruleBasedProperties>
+
+
+=head2 B<REQUIRED> RoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM role. Entity Resolution
+assumes this role to create resources on your behalf as part of
+workflow execution.
+
+
+=head2 B<REQUIRED> WorkflowName => Str
+
+The name of the workflow.
+
+
+=head2 _request_id => Str
+
+
+=cut
+

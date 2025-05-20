@@ -89,8 +89,8 @@ in the I<Amazon Route 53 Developer Guide>
 
 =item *
 
-For .es domains, if you specify C<PERSON>, you must specify
-C<INDIVIDUAL> for the value of C<ES_LEGAL_FORM>.
+For .es domains, the value of C<ContactType> must be C<PERSON> for all
+three contacts.
 
 =back
 

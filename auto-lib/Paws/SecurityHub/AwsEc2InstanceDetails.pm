@@ -7,9 +7,12 @@ package Paws::SecurityHub::AwsEc2InstanceDetails;
   has IpV6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has KeyName => (is => 'ro', isa => 'Str');
   has LaunchedAt => (is => 'ro', isa => 'Str');
+  has MetadataOptions => (is => 'ro', isa => 'Paws::SecurityHub::AwsEc2InstanceMetadataOptions');
+  has Monitoring => (is => 'ro', isa => 'Paws::SecurityHub::AwsEc2InstanceMonitoringDetails');
   has NetworkInterfaces => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsEc2InstanceNetworkInterfacesDetails]');
   has SubnetId => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
+  has VirtualizationType => (is => 'ro', isa => 'Str');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -42,7 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-The details of an EC2 instance.
+The details of an Amazon EC2 instance.
 
 =head1 ATTRIBUTES
 
@@ -76,10 +79,20 @@ The key name associated with the instance.
 
 Indicates when the instance was launched.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+
+
+=head2 MetadataOptions => L<Paws::SecurityHub::AwsEc2InstanceMetadataOptions>
+
+Details about the metadata options for the Amazon EC2 instance.
+
+
+=head2 Monitoring => L<Paws::SecurityHub::AwsEc2InstanceMonitoringDetails>
+
+Describes the type of monitoring thatE<rsquo>s turned on for an
+instance.
 
 
 =head2 NetworkInterfaces => ArrayRef[L<Paws::SecurityHub::AwsEc2InstanceNetworkInterfacesDetails>]
@@ -97,6 +110,12 @@ The identifier of the subnet that the instance was launched in.
 =head2 Type => Str
 
 The instance type of the instance.
+
+
+=head2 VirtualizationType => Str
+
+The virtualization type of the Amazon Machine Image (AMI) required to
+launch the instance.
 
 
 =head2 VpcId => Str

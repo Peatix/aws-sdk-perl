@@ -4,6 +4,7 @@ package Paws::LexModelsV2::ListExportsResponse;
   has BotId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botId');
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botVersion');
   has ExportSummaries => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::ExportSummary]', traits => ['NameInRequest'], request_name => 'exportSummaries');
+  has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -34,6 +35,11 @@ Summary information for the exports that meet the filter criteria
 specified in the request. The length of the list is specified in the
 C<maxResults> parameter. If there are more exports available, the
 C<nextToken> field contains a token to get the next page of results.
+
+
+=head2 LocaleId => Str
+
+The locale specified in the request.
 
 
 =head2 NextToken => Str

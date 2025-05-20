@@ -40,6 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 =head1 DESCRIPTION
 
 Summary information about bot aliases returned from the ListBotAliases
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotAliases.html)
 operation.
 
 =head1 ATTRIBUTES
@@ -49,6 +50,7 @@ operation.
 
 The unique identifier assigned to the bot alias. You can use this ID to
 get detailed information about the alias using the DescribeBotAlias
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeBotAlias.html)
 operation.
 
 

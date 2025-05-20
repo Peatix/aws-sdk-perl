@@ -18,6 +18,7 @@ package Paws::CodeDeploy::UpdateDeploymentGroup;
   has OnPremisesTagSet => (is => 'ro', isa => 'Paws::CodeDeploy::OnPremisesTagSet', traits => ['NameInRequest'], request_name => 'onPremisesTagSet' );
   has OutdatedInstancesStrategy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'outdatedInstancesStrategy' );
   has ServiceRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceRoleArn' );
+  has TerminationHookEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'terminationHookEnabled' );
   has TriggerConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::CodeDeploy::TriggerConfig]', traits => ['NameInRequest'], request_name => 'triggerConfigurations' );
 
   use MooseX::ClassAttribute;
@@ -173,6 +174,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       OutdatedInstancesStrategy => 'UPDATE',    # OPTIONAL
       ServiceRoleArn            => 'MyRole',    # OPTIONAL
+      TerminationHookEnabled    => 1,           # OPTIONAL
       TriggerConfigurations     => [
         {
           TriggerEvents => [
@@ -221,9 +223,27 @@ changed when a deployment group is updated.
 =head2 AutoScalingGroups => ArrayRef[Str|Undef]
 
 The replacement list of Auto Scaling groups to be included in the
-deployment group, if you want to change them. To keep the Auto Scaling
-groups, enter their names. To remove Auto Scaling groups, do not enter
-any Auto Scaling group names.
+deployment group, if you want to change them.
+
+=over
+
+=item *
+
+To keep the Auto Scaling groups, enter their names or do not specify
+this parameter.
+
+=item *
+
+To remove Auto Scaling groups, specify a non-null empty list of Auto
+Scaling group names to detach all CodeDeploy-managed Auto Scaling
+lifecycle hooks. For examples, see Amazon EC2 instances in an Amazon
+EC2 Auto Scaling group fail to launch and receive the error "Heartbeat
+Timeout"
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat)
+in the I<CodeDeploy User Guide>.
+
+=back
+
 
 
 
@@ -265,8 +285,8 @@ tags, do not enter any tag names.
 =head2 Ec2TagSet => L<Paws::CodeDeploy::EC2TagSet>
 
 Information about groups of tags applied to on-premises instances. The
-deployment group includes only EC2 instances identified by all the tag
-groups.
+deployment group includes only Amazon EC2 instances identified by all
+the tag groups.
 
 
 
@@ -309,15 +329,16 @@ includes only on-premises instances identified by all the tag groups.
 
 =head2 OutdatedInstancesStrategy => Str
 
-Indicates what happens when new EC2 instances are launched
+Indicates what happens when new Amazon EC2 instances are launched
 mid-deployment and do not receive the deployed application revision.
 
 If this option is set to C<UPDATE> or is unspecified, CodeDeploy
 initiates one or more 'auto-update outdated instances' deployments to
-apply the deployed application revision to the new EC2 instances.
+apply the deployed application revision to the new Amazon EC2
+instances.
 
 If this option is set to C<IGNORE>, CodeDeploy does not initiate a
-deployment to update the new EC2 instances. This may result in
+deployment to update the new Amazon EC2 instances. This may result in
 instances having different revisions.
 
 Valid values are: C<"UPDATE">, C<"IGNORE">
@@ -328,13 +349,38 @@ A replacement ARN for the service role, if you want to change it.
 
 
 
+=head2 TerminationHookEnabled => Bool
+
+This parameter only applies if you are using CodeDeploy with Amazon EC2
+Auto Scaling. For more information, see Integrating CodeDeploy with
+Amazon EC2 Auto Scaling
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html)
+in the I<CodeDeploy User Guide>.
+
+Set C<terminationHookEnabled> to C<true> to have CodeDeploy install a
+termination hook into your Auto Scaling group when you update a
+deployment group. When this hook is installed, CodeDeploy will perform
+termination deployments.
+
+For information about termination deployments, see Enabling termination
+deployments during Auto Scaling scale-in events
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable)
+in the I<CodeDeploy User Guide>.
+
+For more information about Auto Scaling scale-in events, see the Scale
+in
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in)
+topic in the I<Amazon EC2 Auto Scaling User Guide>.
+
+
+
 =head2 TriggerConfigurations => ArrayRef[L<Paws::CodeDeploy::TriggerConfig>]
 
 Information about triggers to change when the deployment group is
 updated. For examples, see Edit a Trigger in a CodeDeploy Deployment
 Group
 (https://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-notify-edit.html)
-in the I<AWS CodeDeploy User Guide>.
+in the I<CodeDeploy User Guide>.
 
 
 

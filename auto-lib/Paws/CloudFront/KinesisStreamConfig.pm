@@ -42,7 +42,7 @@ sending real-time log data.
 
 =head2 B<REQUIRED> RoleARN => Str
 
-The Amazon Resource Name (ARN) of an AWS Identity and Access Management
+The Amazon Resource Name (ARN) of an Identity and Access Management
 (IAM) role that CloudFront can use to send real-time log data to your
 Kinesis data stream.
 

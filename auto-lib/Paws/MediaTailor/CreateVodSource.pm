@@ -2,14 +2,14 @@
 package Paws::MediaTailor::CreateVodSource;
   use Moose;
   has HttpPackageConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::HttpPackageConfiguration]', required => 1);
-  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sourceLocationName', required => 1);
+  has SourceLocationName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'SourceLocationName', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::MediaTailor::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
-  has VodSourceName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'vodSourceName', required => 1);
+  has VodSourceName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'VodSourceName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'CreateVodSource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{sourceLocationName}/vodSource/{vodSourceName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sourceLocation/{SourceLocationName}/vodSource/{VodSourceName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::CreateVodSourceResponse');
 1;
@@ -66,25 +66,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> HttpPackageConfigurations => ArrayRef[L<Paws::MediaTailor::HttpPackageConfiguration>]
 
-An array of HTTP package configuration parameters for this VOD source.
+A list of HTTP package configuration parameters for this VOD source.
 
 
 
 =head2 B<REQUIRED> SourceLocationName => Str
 
-The identifier for the source location you are working on.
+The name of the source location for this VOD source.
 
 
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags to assign to the VOD source.
+The tags to assign to the VOD source. Tags are key-value pairs that you
+can associate with Amazon resources to help with organization, access
+control, and cost tracking. For more information, see Tagging AWS
+Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 
 =head2 B<REQUIRED> VodSourceName => Str
 
-The identifier for the VOD source you are working on.
+The name associated with the VOD source.E<gt>
 
 
 

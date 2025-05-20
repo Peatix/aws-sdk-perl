@@ -77,7 +77,7 @@ before discovering the schema of the records.
 =head2 InputStartingPositionConfiguration => L<Paws::KinesisAnalyticsV2::InputStartingPositionConfiguration>
 
 The point at which you want Kinesis Data Analytics to start reading
-records from the specified streaming source discovery purposes.
+records from the specified streaming source for discovery purposes.
 
 
 

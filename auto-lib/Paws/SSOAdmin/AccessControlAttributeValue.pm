@@ -34,14 +34,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSOAdmin::A
 =head1 DESCRIPTION
 
 The value used for mapping a specified attribute to an identity source.
+For more information, see Attribute mappings
+(https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html)
+in the I<IAM Identity Center User Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Source => ArrayRef[Str|Undef]
 
-The identity source to use when mapping a specified attribute to AWS
-SSO.
+The identity source to use when mapping a specified attribute to IAM
+Identity Center.
 
 
 

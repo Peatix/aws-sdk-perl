@@ -19,7 +19,7 @@ Paws::RDS::DownloadDBLogFilePortionDetails
 
 =head2 AdditionalDataPending => Bool
 
-Boolean value that if true, indicates there is more data to be
+A Boolean value that, if true, indicates there is more data to be
 downloaded.
 
 
@@ -30,8 +30,8 @@ Entries from the specified log file.
 
 =head2 Marker => Str
 
-A pagination token that can be used in a later DownloadDBLogFilePortion
-request.
+A pagination token that can be used in a later
+C<DownloadDBLogFilePortion> request.
 
 
 =head2 _request_id => Str

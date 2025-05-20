@@ -44,15 +44,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> ResourceARN => Str
 
-The Amazon Resource Name (ARN) of the index, FAQ, or data source to
-remove the tag from.
+The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+resource to remove a tag. For example, the ARN of an index is
+constructed as follows:
+I<arn:aws:kendra:your-region:your-account-id:index/index-id> For
+information on how to construct an ARN for all types of Amazon Kendra
+resources, see Resource types
+(https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-A list of tag keys to remove from the index, FAQ, or data source. If a
-tag key does not exist on the resource, it is ignored.
+A list of tag keys to remove from the index, FAQ, data source, or other
+resource. If a tag key doesn't exist for the resource, it is ignored.
 
 
 

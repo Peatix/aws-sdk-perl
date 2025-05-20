@@ -21,7 +21,8 @@ Paws::SSOOidc::CreateTokenResponse
 
 =head2 AccessToken => Str
 
-An opaque token to access AWS SSO resources assigned to a user.
+A bearer token to access Amazon Web Services accounts and applications
+assigned to a user.
 
 
 =head2 ExpiresIn => Int
@@ -31,8 +32,14 @@ Indicates the time in seconds when an access token will expire.
 
 =head2 IdToken => Str
 
-The identifier of the user that associated with the access token, if
-present.
+The C<idToken> is not implemented or supported. For more information
+about the features and limitations of the current IAM Identity Center
+OIDC implementation, see I<Considerations for Using this Guide> in the
+IAM Identity Center OIDC API Reference
+(https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
+
+A JSON Web Token (JWT) that identifies who is associated with the
+issued access token.
 
 
 =head2 RefreshToken => Str
@@ -40,11 +47,16 @@ present.
 A token that, if present, can be used to refresh a previously issued
 access token that might have expired.
 
+For more information about the features and limitations of the current
+IAM Identity Center OIDC implementation, see I<Considerations for Using
+this Guide> in the IAM Identity Center OIDC API Reference
+(https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/Welcome.html).
+
 
 =head2 TokenType => Str
 
 Used to notify the client that the returned token is an access token.
-The supported type is C<BearerToken>.
+The supported token type is C<Bearer>.
 
 
 =head2 _request_id => Str

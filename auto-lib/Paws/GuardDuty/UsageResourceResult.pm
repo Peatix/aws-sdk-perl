@@ -34,14 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GuardDuty::
 
 =head1 DESCRIPTION
 
-Contains information on the sum of usage based on an AWS resource.
+Contains information on the sum of usage based on an Amazon Web
+Services resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 Resource => Str
 
-The AWS resource that generated usage.
+The Amazon Web Services resource that generated usage.
 
 
 =head2 Total => L<Paws::GuardDuty::Total>

@@ -38,18 +38,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::SelfMa
 
 =head1 DESCRIPTION
 
-The configuration that Amazon FSx uses to join the Windows File Server
-instance to your self-managed (including on-premises) Microsoft Active
-Directory (AD) directory. For more information, see Using Amazon FSx
-with your self-managed Microsoft Active Directory
-(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html).
+The configuration that Amazon FSx uses to join a FSx for Windows File
+Server file system or an FSx for ONTAP storage virtual machine (SVM) to
+a self-managed (including on-premises) Microsoft Active Directory (AD)
+directory. For more information, see Using Amazon FSx for Windows with
+your self-managed Microsoft Active Directory
+(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html)
+or Managing FSx for ONTAP SVMs
+(https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DnsIps => ArrayRef[Str|Undef]
 
-A list of up to two IP addresses of DNS servers or domain controllers
+A list of up to three IP addresses of DNS servers or domain controllers
 in the self-managed AD directory.
 
 
@@ -73,12 +76,12 @@ your AD domain's Domain Admins group is used.
 =head2 OrganizationalUnitDistinguishedName => Str
 
 (Optional) The fully qualified distinguished name of the organizational
-unit within your self-managed AD directory that the Windows File Server
-instance will join. Amazon FSx only accepts OU as the direct parent of
-the file system. An example is C<OU=FSx,DC=yourdomain,DC=corp,DC=com>.
-To learn more, see RFC 2253 (https://tools.ietf.org/html/rfc2253). If
-none is provided, the FSx file system is created in the default
-location of your self-managed AD directory.
+unit within your self-managed AD directory. Amazon FSx only accepts OU
+as the direct parent of the file system. An example is
+C<OU=FSx,DC=yourdomain,DC=corp,DC=com>. To learn more, see RFC 2253
+(https://tools.ietf.org/html/rfc2253). If none is provided, the FSx
+file system is created in the default location of your self-managed AD
+directory.
 
 Only Organizational Unit (OU) objects can be the direct parent of the
 file system that you're creating.

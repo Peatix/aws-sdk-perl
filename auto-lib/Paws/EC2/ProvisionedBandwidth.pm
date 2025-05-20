@@ -42,47 +42,27 @@ This class has no description
 
 =head2 Provisioned => Str
 
-Reserved. If you need to sustain traffic greater than the documented
-limits
-(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html),
-contact us through the Support Center
-(https://console.aws.amazon.com/support/home?).
+Reserved.
 
 
 =head2 ProvisionTime => Str
 
-Reserved. If you need to sustain traffic greater than the documented
-limits
-(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html),
-contact us through the Support Center
-(https://console.aws.amazon.com/support/home?).
+Reserved.
 
 
 =head2 Requested => Str
 
-Reserved. If you need to sustain traffic greater than the documented
-limits
-(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html),
-contact us through the Support Center
-(https://console.aws.amazon.com/support/home?).
+Reserved.
 
 
 =head2 RequestTime => Str
 
-Reserved. If you need to sustain traffic greater than the documented
-limits
-(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html),
-contact us through the Support Center
-(https://console.aws.amazon.com/support/home?).
+Reserved.
 
 
 =head2 Status => Str
 
-Reserved. If you need to sustain traffic greater than the documented
-limits
-(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html),
-contact us through the Support Center
-(https://console.aws.amazon.com/support/home?).
+Reserved.
 
 
 

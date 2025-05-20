@@ -40,8 +40,8 @@ An object that contains details about the action of suppression list.
 
 =head2 B<REQUIRED> SuppressionListImportAction => Str
 
-The type of action that you want to perform on the address. Acceptable
-values:
+The type of action to perform on the address. The following are
+possible values:
 
 =over
 

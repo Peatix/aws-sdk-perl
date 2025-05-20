@@ -13,6 +13,7 @@ package Paws::AppStream::Stack;
   has RedirectURL => (is => 'ro', isa => 'Str');
   has StackErrors => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::StackError]');
   has StorageConnectors => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::StorageConnector]');
+  has StreamingExperienceSettings => (is => 'ro', isa => 'Paws::AppStream::StreamingExperienceSettings');
   has UserSettings => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::UserSetting]');
 
 1;
@@ -114,6 +115,12 @@ The errors for the stack.
 =head2 StorageConnectors => ArrayRef[L<Paws::AppStream::StorageConnector>]
 
 The storage connectors to enable.
+
+
+=head2 StreamingExperienceSettings => L<Paws::AppStream::StreamingExperienceSettings>
+
+The streaming protocol you want your stack to prefer. This can be UDP
+or TCP. Currently, UDP is only supported in the Windows native client.
 
 
 =head2 UserSettings => ArrayRef[L<Paws::AppStream::UserSetting>]

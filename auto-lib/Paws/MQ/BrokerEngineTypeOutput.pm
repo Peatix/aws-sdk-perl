@@ -2,7 +2,7 @@
 package Paws::MQ::BrokerEngineTypeOutput;
   use Moose;
   has BrokerEngineTypes => (is => 'ro', isa => 'ArrayRef[Paws::MQ::BrokerEngineType]', request_name => 'brokerEngineTypes', traits => ['NameInRequest']);
-  has MaxResults => (is => 'ro', isa => 'Int', request_name => 'maxResults', traits => ['NameInRequest']);
+  has MaxResults => (is => 'ro', isa => 'Int', request_name => 'maxResults', traits => ['NameInRequest'], required => 1);
   has NextToken => (is => 'ro', isa => 'Str', request_name => 'nextToken', traits => ['NameInRequest']);
 
 1;
@@ -45,7 +45,7 @@ Returns a list of broker engine type.
 List of available engine types and versions.
 
 
-=head2 MaxResults => Int
+=head2 B<REQUIRED> MaxResults => Int
 
 Required. The maximum number of engine types that can be returned per
 page (20 by default). This value must be an integer from 5 to 100.

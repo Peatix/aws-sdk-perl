@@ -46,8 +46,7 @@ Used to store channel data in an S3 bucket that you manage.
 
 =head2 ServiceManagedS3 => L<Paws::IoTAnalytics::ServiceManagedChannelS3StorageSummary>
 
-Used to store channel data in an S3 bucket managed by AWS IoT
-Analytics.
+Used to store channel data in an S3 bucket managed by IoT Analytics.
 
 
 

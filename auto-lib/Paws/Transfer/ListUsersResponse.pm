@@ -32,8 +32,8 @@ assigned to.
 
 =head2 B<REQUIRED> Users => ArrayRef[L<Paws::Transfer::ListedUser>]
 
-Returns the user accounts and their properties for the C<ServerId>
-value that you specify.
+Returns the Transfer Family users and their properties for the
+C<ServerId> value that you specify.
 
 
 =head2 _request_id => Str

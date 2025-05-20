@@ -85,7 +85,7 @@ endpoint. This parameter is stored as a lowercase string.
 
 =head2 B<REQUIRED> EndpointType => Str
 
-The type of the endpoint. One of: C<READER>, C<WRITER>, C<ANY>.
+The type of the endpoint, one of: C<READER>, C<WRITER>, C<ANY>.
 
 
 
@@ -93,7 +93,8 @@ The type of the endpoint. One of: C<READER>, C<WRITER>, C<ANY>.
 
 List of DB instance identifiers that aren't part of the custom endpoint
 group. All other eligible instances are reachable through the custom
-endpoint. Only relevant if the list of static members is empty.
+endpoint. This parameter is relevant only if the list of static members
+is empty.
 
 
 

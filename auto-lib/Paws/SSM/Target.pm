@@ -34,109 +34,132 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Target
 
 =head1 DESCRIPTION
 
-An array of search criteria that targets instances using a Key,Value
-combination that you specify.
+An array of search criteria that targets managed nodes using a
+key-value pair that you specify.
 
 One or more targets must be specified for maintenance window Run
 Command-type tasks. Depending on the task, targets are optional for
-other maintenance window task types (Automation, AWS Lambda, and AWS
-Step Functions). For more information about running tasks that do not
-specify targets, see Registering maintenance window tasks without
-targets
+other maintenance window task types (Automation, Lambda, and Step
+Functions). For more information about running tasks that don't specify
+targets, see Registering maintenance window tasks without targets
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 Supported formats include the following.
 
-=over
-
-=item *
-
-C<Key=InstanceIds,Values=I<instance-id-1>,I<instance-id-2>,I<instance-id-3>>
-
-=item *
-
-C<Key=tag:I<my-tag-key>,Values=I<my-tag-value-1>,I<my-tag-value-2>>
-
-=item *
-
-C<Key=tag-key,Values=I<my-tag-key-1>,I<my-tag-key-2>>
-
-=item *
-
-B<Run Command and Maintenance window targets only>:
-C<Key=resource-groups:Name,Values=I<resource-group-name>>
-
-=item *
-
-B<Maintenance window targets only>:
-C<Key=resource-groups:ResourceTypeFilters,Values=I<resource-type-1>,I<resource-type-2>>
-
-=item *
-
-B<Automation targets only>:
-C<Key=ResourceGroup;Values=I<resource-group-name>>
-
-=back
-
-For example:
+B<For all Systems Manager tools:>
 
 =over
 
 =item *
 
-C<Key=InstanceIds,Values=i-02573cafcfEXAMPLE,i-0471e04240EXAMPLE,i-07782c72faEXAMPLE>
-
-=item *
-
-C<Key=tag:CostCenter,Values=CostCenter1,CostCenter2,CostCenter3>
-
-=item *
-
-C<Key=tag-key,Values=Name,Instance-Type,CostCenter>
-
-=item *
-
-B<Run Command and Maintenance window targets only>:
-C<Key=resource-groups:Name,Values=ProductionResourceGroup>
-
-This example demonstrates how to target all resources in the resource
-group B<ProductionResourceGroup> in your maintenance window.
-
-=item *
-
-B<Maintenance window targets only>:
-C<Key=resource-groups:ResourceTypeFilters,Values=I<AWS::EC2::INSTANCE>,I<AWS::EC2::VPC>>
-
-This example demonstrates how to target only EC2 instances and VPCs in
-your maintenance window.
-
-=item *
-
-B<Automation targets only>: C<Key=ResourceGroup,Values=MyResourceGroup>
-
-=item *
-
-B<State Manager association targets only>:
-C<Key=InstanceIds,Values=I<*>>
-
-This example demonstrates how to target all managed instances in the
-AWS Region where the association was created.
+C<Key=tag-key,Values=tag-value-1,tag-value-2>
 
 =back
 
-For more information about how to send commands that target instances
-using C<Key,Value> parameters, see Targeting multiple instances
+B<For Automation and Change Manager:>
+
+=over
+
+=item *
+
+C<Key=tag:tag-key,Values=tag-value>
+
+=item *
+
+C<Key=ResourceGroup,Values=resource-group-name>
+
+=item *
+
+C<Key=ParameterValues,Values=value-1,value-2,value-3>
+
+=item *
+
+To target all instances in the Amazon Web Services Region:
+
+=over
+
+=item *
+
+C<Key=AWS::EC2::Instance,Values=*>
+
+=item *
+
+C<Key=InstanceIds,Values=*>
+
+=back
+
+=back
+
+B<For Run Command and Maintenance Windows:>
+
+=over
+
+=item *
+
+C<Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3>
+
+=item *
+
+C<Key=tag:tag-key,Values=tag-value-1,tag-value-2>
+
+=item *
+
+C<Key=resource-groups:Name,Values=resource-group-name>
+
+=item *
+
+Additionally, Maintenance Windows support targeting resource types:
+
+=over
+
+=item *
+
+C<Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2>
+
+=back
+
+=back
+
+B<For State Manager:>
+
+=over
+
+=item *
+
+C<Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3>
+
+=item *
+
+C<Key=tag:tag-key,Values=tag-value-1,tag-value-2>
+
+=item *
+
+To target all instances in the Amazon Web Services Region:
+
+=over
+
+=item *
+
+C<Key=InstanceIds,Values=*>
+
+=back
+
+=back
+
+For more information about how to send commands that target managed
+nodes using C<Key,Value> parameters, see Targeting multiple managed
+nodes
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 Key => Str
 
-User-defined criteria for sending commands that target instances that
-meet the criteria.
+User-defined criteria for sending commands that target managed nodes
+that meet the criteria.
 
 
 =head2 Values => ArrayRef[Str|Undef]
@@ -146,8 +169,8 @@ specified C<tag:ServerRole>, you could specify C<value:WebServer> to
 run a command on instances that include EC2 tags of
 C<ServerRole,WebServer>.
 
-Depending on the type of C<Target>, the maximum number of values for a
-C<Key> might be lower than the global maximum of 50.
+Depending on the type of target, the maximum number of values for a key
+might be lower than the global maximum of 50.
 
 
 

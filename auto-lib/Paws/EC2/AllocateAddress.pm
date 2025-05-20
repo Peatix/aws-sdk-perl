@@ -5,6 +5,7 @@ package Paws::EC2::AllocateAddress;
   has CustomerOwnedIpv4Pool => (is => 'ro', isa => 'Str');
   has Domain => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
+  has IpamPoolId => (is => 'ro', isa => 'Str');
   has NetworkBorderGroup => (is => 'ro', isa => 'Str');
   has PublicIpv4Pool => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
@@ -62,8 +63,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 Address => Str
 
-[EC2-VPC] The Elastic IP address to recover or an IPv4 address from an
-address pool.
+The Elastic IP address to recover or an IPv4 address from an address
+pool.
 
 
 
@@ -77,11 +78,7 @@ specify a specific address from the address pool.
 
 =head2 Domain => Str
 
-Indicates whether the Elastic IP address is for use with instances in a
-VPC or instances in EC2-Classic.
-
-Default: If the Region supports EC2-Classic, the default is
-C<standard>. Otherwise, the default is C<vpc>.
+The network (C<vpc>).
 
 Valid values are: C<"vpc">, C<"standard">
 
@@ -94,22 +91,22 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 IpamPoolId => Str
+
+The ID of an IPAM pool which has an Amazon-provided or BYOIP public
+IPv4 CIDR provisioned to it. For more information, see Allocate
+sequential Elastic IP addresses from an IPAM pool
+(https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-eip-pool.html)
+in the I<Amazon VPC IPAM User Guide>.
+
+
+
 =head2 NetworkBorderGroup => Str
 
 A unique set of Availability Zones, Local Zones, or Wavelength Zones
-from which AWS advertises IP addresses. Use this parameter to limit the
-IP address to this location. IP addresses cannot move between network
-border groups.
-
-Use DescribeAvailabilityZones
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html)
-to view the network border groups.
-
-You cannot use a network border group with EC2 Classic. If you attempt
-this operation on EC2 classic, you will receive an
-C<InvalidParameterCombination> error. For more information, see Error
-Codes
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html).
+from which Amazon Web Services advertises IP addresses. Use this
+parameter to limit the IP address to this location. IP addresses cannot
+move between network border groups.
 
 
 

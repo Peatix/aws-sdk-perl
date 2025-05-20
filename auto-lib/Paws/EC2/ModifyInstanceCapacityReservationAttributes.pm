@@ -32,8 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ModifyInstanceCapacityReservationAttributesResult =
       $ec2->ModifyInstanceCapacityReservationAttributes(
       CapacityReservationSpecification => {
-        CapacityReservationPreference => 'open',  # values: open, none; OPTIONAL
-        CapacityReservationTarget     => {
+        CapacityReservationPreference => 'capacity-reservations-only'
+        ,    # values: capacity-reservations-only, open, none; OPTIONAL
+        CapacityReservationTarget => {
           CapacityReservationId => 'MyCapacityReservationId',    # OPTIONAL
           CapacityReservationResourceGroupArn => 'MyString',     # OPTIONAL
         },    # OPTIONAL

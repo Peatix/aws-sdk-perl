@@ -50,7 +50,8 @@ operation.
 
 =head2 AwsAccountId => Str
 
-The 12-digit AWS account numbers that contains the affected entities.
+The 12-digit Amazon Web Services account numbers that contains the
+affected entities.
 
 
 =head2 Event => L<Paws::Health::Event>

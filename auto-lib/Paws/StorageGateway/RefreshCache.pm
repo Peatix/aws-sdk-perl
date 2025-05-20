@@ -62,6 +62,9 @@ The default is [C<"/">]. The default refreshes objects and folders at
 the root of the Amazon S3 bucket. If C<Recursive> is set to C<true>,
 the entire S3 bucket that the file share has access to is refreshed.
 
+Do not include C</> when specifying folder names. For example, you
+would specify C<samplefolder> rather than C<samplefolder/>.
+
 
 
 =head2 Recursive => Bool

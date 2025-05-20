@@ -34,8 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Tag
 =head1 DESCRIPTION
 
 A string-to-string map of key-value pairs that specifies the tags (keys
-and values) for a classification job, custom data identifier, findings
-filter, or member account.
+and values) for an Amazon Macie resource.
 
 =head1 ATTRIBUTES
 

@@ -7,7 +7,7 @@ package Paws::SageMaker::DescribeFlowDefinitionResponse;
   has FlowDefinitionName => (is => 'ro', isa => 'Str', required => 1);
   has FlowDefinitionStatus => (is => 'ro', isa => 'Str', required => 1);
   has HumanLoopActivationConfig => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopActivationConfig');
-  has HumanLoopConfig => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopConfig', required => 1);
+  has HumanLoopConfig => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopConfig');
   has HumanLoopRequestSource => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopRequestSource');
   has OutputConfig => (is => 'ro', isa => 'Paws::SageMaker::FlowDefinitionOutputConfig', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
@@ -54,7 +54,7 @@ An object containing information about what triggers a human review
 workflow.
 
 
-=head2 B<REQUIRED> HumanLoopConfig => L<Paws::SageMaker::HumanLoopConfig>
+=head2 HumanLoopConfig => L<Paws::SageMaker::HumanLoopConfig>
 
 An object containing information about who works on the task, the
 workforce task price, and other task details.

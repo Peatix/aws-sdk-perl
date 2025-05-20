@@ -46,26 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 AquaConfigurationStatus => Str
 
-The new value of AQUA configuration status. Possible values include the
-following.
-
-=over
-
-=item *
-
-enabled - Use AQUA if it is available for the current AWS Region and
-Amazon Redshift node type.
-
-=item *
-
-disabled - Don't use AQUA.
-
-=item *
-
-auto - Amazon Redshift determines whether to use AQUA.
-
-=back
-
+This parameter is retired. Amazon Redshift automatically determines
+whether to use AQUA (Advanced Query Accelerator).
 
 Valid values are: C<"enabled">, C<"disabled">, C<"auto">
 

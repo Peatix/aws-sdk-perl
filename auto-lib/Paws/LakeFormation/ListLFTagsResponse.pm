@@ -5,6 +5,7 @@ package Paws::LakeFormation::ListLFTagsResponse;
   has NextToken => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -17,7 +18,7 @@ Paws::LakeFormation::ListLFTagsResponse
 
 =head2 LFTags => ArrayRef[L<Paws::LakeFormation::LFTagPair>]
 
-A list of tags that the requested has permission to view.
+A list of LF-tags that the requested has permission to view.
 
 
 =head2 NextToken => Str
@@ -31,4 +32,3 @@ last.
 
 =cut
 
-1;

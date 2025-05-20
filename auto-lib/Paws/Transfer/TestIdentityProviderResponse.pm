@@ -21,15 +21,20 @@ Paws::Transfer::TestIdentityProviderResponse
 
 A message that indicates whether the test was successful or not.
 
+If an empty string is returned, the most likely cause is that the
+authentication failed due to an incorrect username or password.
+
 
 =head2 Response => Str
 
-The response that is returned from your API Gateway.
+The response that is returned from your API Gateway or your Lambda
+function.
 
 
 =head2 B<REQUIRED> StatusCode => Int
 
-The HTTP status code that is the response from your API Gateway.
+The HTTP status code that is the response from your API Gateway or your
+Lambda function.
 
 
 =head2 B<REQUIRED> Url => Str

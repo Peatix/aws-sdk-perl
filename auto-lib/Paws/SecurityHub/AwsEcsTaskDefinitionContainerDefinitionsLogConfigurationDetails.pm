@@ -44,6 +44,67 @@ The log configuration specification for the container.
 
 The log driver to use for the container.
 
+Valid values on Fargate are as follows:
+
+=over
+
+=item *
+
+C<awsfirelens>
+
+=item *
+
+C<awslogs>
+
+=item *
+
+C<splunk>
+
+=back
+
+Valid values on Amazon EC2 are as follows:
+
+=over
+
+=item *
+
+C<awsfirelens>
+
+=item *
+
+C<awslogs>
+
+=item *
+
+C<fluentd>
+
+=item *
+
+C<gelf>
+
+=item *
+
+C<journald>
+
+=item *
+
+C<json-file>
+
+=item *
+
+C<logentries>
+
+=item *
+
+C<splunk>
+
+=item *
+
+C<syslog>
+
+=back
+
+
 
 =head2 Options => L<Paws::SecurityHub::FieldMap>
 

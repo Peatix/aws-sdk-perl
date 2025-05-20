@@ -8,10 +8,14 @@ package Paws::FSX::CreateFileSystemLustreConfiguration;
   has DataCompressionType => (is => 'ro', isa => 'Str');
   has DeploymentType => (is => 'ro', isa => 'Str');
   has DriveCacheType => (is => 'ro', isa => 'Str');
+  has EfaEnabled => (is => 'ro', isa => 'Bool');
   has ExportPath => (is => 'ro', isa => 'Str');
   has ImportedFileChunkSize => (is => 'ro', isa => 'Int');
   has ImportPath => (is => 'ro', isa => 'Str');
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreLogCreateConfiguration');
+  has MetadataConfiguration => (is => 'ro', isa => 'Paws::FSX::CreateFileSystemLustreMetadataConfiguration');
   has PerUnitStorageThroughput => (is => 'ro', isa => 'Int');
+  has RootSquashConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreRootSquashConfiguration');
   has WeeklyMaintenanceStartTime => (is => 'ro', isa => 'Str');
 
 1;
@@ -46,13 +50,37 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::Create
 
 The Lustre configuration for the file system being created.
 
+The following parameters are not supported for file systems with a data
+repository association created with .
+
+=over
+
+=item *
+
+C<AutoImportPolicy>
+
+=item *
+
+C<ExportPath>
+
+=item *
+
+C<ImportedFileChunkSize>
+
+=item *
+
+C<ImportPath>
+
+=back
+
+
 =head1 ATTRIBUTES
 
 
 =head2 AutoImportPolicy => Str
 
 (Optional) When you create your file system, your existing S3 objects
-appear as file and directory listings. Use this property to choose how
+appear as file and directory listings. Use this parameter to choose how
 Amazon FSx keeps your file and directory listings up to date as you add
 or modify objects in your linked S3 bucket. C<AutoImportPolicy> can
 have the following values:
@@ -79,32 +107,48 @@ file and directory listings of any new objects added to the S3 bucket
 and any existing objects that are changed in the S3 bucket after you
 choose this option.
 
+=item *
+
+C<NEW_CHANGED_DELETED> - AutoImport is on. Amazon FSx automatically
+imports file and directory listings of any new objects added to the S3
+bucket, any existing objects that are changed in the S3 bucket, and any
+objects that were deleted in the S3 bucket.
+
 =back
 
 For more information, see Automatically import updates from your S3
 bucket
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html).
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/older-deployment-types.html#legacy-auto-import-from-s3).
+
+This parameter is not supported for file systems with a data repository
+association.
 
 
 =head2 AutomaticBackupRetentionDays => Int
 
-
+The number of days to retain automatic backups. Setting this property
+to C<0> disables automatic backups. You can retain automatic backups
+for a maximum of 90 days. The default is C<0>.
 
 
 =head2 CopyTagsToBackups => Bool
 
-(Optional) Not available to use with file systems that are linked to a
+(Optional) Not available for use with file systems that are linked to a
 data repository. A boolean flag indicating whether tags for the file
-system should be copied to backups. The default value is false. If it's
-set to true, all file system tags are copied to all automatic and
-user-initiated backups when the user doesn't specify any
-backup-specific tags. If this value is true, and you specify one or
-more backup tags, only the specified tags are copied to backups. If you
-specify one or more tags when creating a user-initiated backup, no tags
-are copied from the file system, regardless of this value.
+system should be copied to backups. The default value is false. If
+C<CopyTagsToBackups> is set to true, all file system tags are copied to
+all automatic and user-initiated backups when the user doesn't specify
+any backup-specific tags. If C<CopyTagsToBackups> is set to true and
+you specify one or more backup tags, only the specified tags are copied
+to backups. If you specify one or more tags when creating a
+user-initiated backup, no tags are copied from the file system,
+regardless of this value.
+
+(Default = C<false>)
 
 For more information, see Working with backups
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html).
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html)
+in the I<Amazon FSx for Lustre User Guide>.
 
 
 =head2 DailyAutomaticBackupStartTime => Str
@@ -131,65 +175,94 @@ C<LZ4> - Data compression is turned on with the LZ4 algorithm.
 =back
 
 For more information, see Lustre data compression
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html)
+in the I<Amazon FSx for Lustre User Guide>.
 
 
 =head2 DeploymentType => Str
 
-Choose C<SCRATCH_1> and C<SCRATCH_2> deployment types when you need
-temporary storage and shorter-term processing of data. The C<SCRATCH_2>
-deployment type provides in-transit encryption of data and higher burst
-throughput capacity than C<SCRATCH_1>.
+(Optional) Choose C<SCRATCH_1> and C<SCRATCH_2> deployment types when
+you need temporary storage and shorter-term processing of data. The
+C<SCRATCH_2> deployment type provides in-transit encryption of data and
+higher burst throughput capacity than C<SCRATCH_1>.
 
-Choose C<PERSISTENT_1> deployment type for longer-term storage and
-workloads and encryption of data in transit. To learn more about
-deployment types, see FSx for Lustre Deployment Options
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html).
+Choose C<PERSISTENT_1> for longer-term storage and for
+throughput-focused workloads that arenE<rsquo>t latency-sensitive.
+C<PERSISTENT_1> supports encryption of data in transit, and is
+available in all Amazon Web Services Regions in which FSx for Lustre is
+available.
 
-Encryption of data in-transit is automatically enabled when you access
-a C<SCRATCH_2> or C<PERSISTENT_1> file system from Amazon EC2 instances
-that support this feature
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-
-protection.html). (Default = C<SCRATCH_1>)
+Choose C<PERSISTENT_2> for longer-term storage and for
+latency-sensitive workloads that require the highest levels of
+IOPS/throughput. C<PERSISTENT_2> supports SSD storage, and offers
+higher C<PerUnitStorageThroughput> (up to 1000 MB/s/TiB). You can
+optionally specify a metadata configuration mode for C<PERSISTENT_2>
+which supports increasing metadata performance. C<PERSISTENT_2> is
+available in a limited number of Amazon Web Services Regions. For more
+information, and an up-to-date list of Amazon Web Services Regions in
+which C<PERSISTENT_2> is available, see File system deployment options
+for FSx for Lustre
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types)
+in the I<Amazon FSx for Lustre User Guide>.
 
-Encryption of data in-transit for C<SCRATCH_2> and C<PERSISTENT_1>
-deployment types is supported when accessed from supported instance
-types in supported AWS Regions. To learn more, Encrypting Data in
-Transit
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html).
+If you choose C<PERSISTENT_2>, and you set C<FileSystemTypeVersion> to
+C<2.10>, the C<CreateFileSystem> operation fails.
+
+Encryption of data in transit is automatically turned on when you
+access C<SCRATCH_2>, C<PERSISTENT_1>, and C<PERSISTENT_2> file systems
+from Amazon EC2 instances that support automatic encryption in the
+Amazon Web Services Regions where they are available. For more
+information about encryption in transit for FSx for Lustre file
+systems, see Encrypting data in transit
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html)
+in the I<Amazon FSx for Lustre User Guide>.
+
+(Default = C<SCRATCH_1>)
 
 
 =head2 DriveCacheType => Str
 
-The type of drive cache used by PERSISTENT_1 file systems that are
+The type of drive cache used by C<PERSISTENT_1> file systems that are
 provisioned with HDD storage devices. This parameter is required when
-storage type is HDD. Set to C<READ>, improve the performance for
-frequently accessed files and allows 20% of the total storage capacity
-of the file system to be cached.
+storage type is HDD. Set this property to C<READ> to improve the
+performance for frequently accessed files by caching up to 20% of the
+total storage capacity of the file system.
 
-This parameter is required when C<StorageType> is set to HDD.
+This parameter is required when C<StorageType> is set to C<HDD>.
+
+
+=head2 EfaEnabled => Bool
+
+(Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect
+Storage (GDS) support is enabled for the Amazon FSx for Lustre file
+system.
+
+(Default = C<false>)
 
 
 =head2 ExportPath => Str
 
-(Optional) The path in Amazon S3 where the root of your Amazon FSx file
-system is exported. The path must use the same Amazon S3 bucket as
-specified in ImportPath. You can provide an optional prefix to which
-new and changed data is to be exported from your Amazon FSx for Lustre
-file system. If an C<ExportPath> value is not provided, Amazon FSx sets
-a default export path,
+(Optional) Specifies the path in the Amazon S3 bucket where the root of
+your Amazon FSx file system is exported. The path must use the same
+Amazon S3 bucket as specified in ImportPath. You can provide an
+optional prefix to which new and changed data is to be exported from
+your Amazon FSx for Lustre file system. If an C<ExportPath> value is
+not provided, Amazon FSx sets a default export path,
 C<s3://import-bucket/FSxLustre[creation-timestamp]>. The timestamp is
 in UTC format, for example
 C<s3://import-bucket/FSxLustre20181105T222312Z>.
 
 The Amazon S3 export bucket must be the same as the import bucket
-specified by C<ImportPath>. If you only specify a bucket name, such as
+specified by C<ImportPath>. If you specify only a bucket name, such as
 C<s3://import-bucket>, you get a 1:1 mapping of file system objects to
 S3 bucket objects. This mapping means that the input data in S3 is
 overwritten on export. If you provide a custom prefix in the export
 path, such as C<s3://import-bucket/[custom-optional-prefix]>, Amazon
 FSx exports the contents of your file system to that export prefix in
 the Amazon S3 bucket.
+
+This parameter is not supported for file systems with a data repository
+association.
 
 
 =head2 ImportedFileChunkSize => Int
@@ -203,6 +276,9 @@ disks that make up the file system.
 The default chunk size is 1,024 MiB (1 GiB) and can go as high as
 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
 
+This parameter is not supported for file systems with a data repository
+association.
+
 
 =head2 ImportPath => Str
 
@@ -214,19 +290,60 @@ example is C<s3://import-bucket/optional-prefix>. If you specify a
 prefix after the Amazon S3 bucket name, only object keys with that
 prefix are loaded into the file system.
 
+This parameter is not supported for file systems with a data repository
+association.
+
+
+=head2 LogConfiguration => L<Paws::FSX::LustreLogCreateConfiguration>
+
+The Lustre logging configuration used when creating an Amazon FSx for
+Lustre file system. When logging is enabled, Lustre logs error and
+warning events for data repositories associated with your file system
+to Amazon CloudWatch Logs.
+
+
+=head2 MetadataConfiguration => L<Paws::FSX::CreateFileSystemLustreMetadataConfiguration>
+
+The Lustre metadata performance configuration for the creation of an
+FSx for Lustre file system using a C<PERSISTENT_2> deployment type.
+
 
 =head2 PerUnitStorageThroughput => Int
 
-Required for the C<PERSISTENT_1> deployment type, describes the amount
-of read and write throughput for each 1 tebibyte of storage, in
-MB/s/TiB. File system throughput capacity is calculated by multiplying
-le system storage capacity (TiB) by the PerUnitStorageThroughput
-(MB/s/TiB). For a 2.4 TiB le system, provisioning 50 MB/s/TiB of
-PerUnitStorageThroughput yields 120 MB/s of le system throughput. You
-pay for the amount of throughput that you provision.
+Required with C<PERSISTENT_1> and C<PERSISTENT_2> deployment types,
+provisions the amount of read and write throughput for each 1 tebibyte
+(TiB) of file system storage capacity, in MB/s/TiB. File system
+throughput capacity is calculated by multiplying le system storage
+capacity (TiB) by the C<PerUnitStorageThroughput> (MB/s/TiB). For a
+2.4-TiB le system, provisioning 50 MB/s/TiB of
+C<PerUnitStorageThroughput> yields 120 MB/s of le system throughput.
+You pay for the amount of throughput that you provision.
 
-Valid values for SSD storage: 50, 100, 200. Valid values for HDD
-storage: 12, 40.
+Valid values:
+
+=over
+
+=item *
+
+For C<PERSISTENT_1> SSD storage: 50, 100, 200 MB/s/TiB.
+
+=item *
+
+For C<PERSISTENT_1> HDD storage: 12, 40 MB/s/TiB.
+
+=item *
+
+For C<PERSISTENT_2> SSD storage: 125, 250, 500, 1000 MB/s/TiB.
+
+=back
+
+
+
+=head2 RootSquashConfiguration => L<Paws::FSX::LustreRootSquashConfiguration>
+
+The Lustre root squash configuration used when creating an Amazon FSx
+for Lustre file system. When enabled, root squash restricts root-level
+access from clients that try to access your file system as a root user.
 
 
 =head2 WeeklyMaintenanceStartTime => Str

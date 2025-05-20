@@ -2,6 +2,7 @@
 package Paws::RedShift::NetworkInterface;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str');
+  has Ipv6Address => (is => 'ro', isa => 'Str');
   has NetworkInterfaceId => (is => 'ro', isa => 'Str');
   has PrivateIpAddress => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str');
@@ -44,6 +45,11 @@ Describes a network interface.
 =head2 AvailabilityZone => Str
 
 The Availability Zone.
+
+
+=head2 Ipv6Address => Str
+
+The IPv6 address of the network interface within the subnet.
 
 
 =head2 NetworkInterfaceId => Str

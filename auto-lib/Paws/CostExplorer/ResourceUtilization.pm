@@ -40,7 +40,7 @@ Resource utilization of current resource.
 
 =head2 EC2ResourceUtilization => L<Paws::CostExplorer::EC2ResourceUtilization>
 
-Utilization of current Amazon EC2 instance.
+The utilization of current Amazon EC2 instance.
 
 
 

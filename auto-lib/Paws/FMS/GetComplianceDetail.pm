@@ -48,8 +48,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 B<REQUIRED> MemberAccount => Str
 
-The AWS account that owns the resources that you want to get the
-details for.
+The Amazon Web Services account that owns the resources that you want
+to get the details for.
 
 
 

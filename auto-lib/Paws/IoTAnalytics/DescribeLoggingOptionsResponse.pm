@@ -17,7 +17,7 @@ Paws::IoTAnalytics::DescribeLoggingOptionsResponse
 
 =head2 LoggingOptions => L<Paws::IoTAnalytics::LoggingOptions>
 
-The current settings of the AWS IoT Analytics logging options.
+The current settings of the IoT Analytics logging options.
 
 
 =head2 _request_id => Str

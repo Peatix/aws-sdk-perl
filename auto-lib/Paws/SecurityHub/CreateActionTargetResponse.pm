@@ -17,7 +17,7 @@ Paws::SecurityHub::CreateActionTargetResponse
 
 =head2 B<REQUIRED> ActionTargetArn => Str
 
-The ARN for the custom action target.
+The Amazon Resource Name (ARN) for the custom action target.
 
 
 =head2 _request_id => Str

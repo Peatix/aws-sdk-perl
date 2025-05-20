@@ -50,8 +50,8 @@ The ID of the comment to which you want to add or update a reaction.
 
 The emoji reaction you want to add or update. To remove a reaction,
 provide a value of blank or null. You can also provide the value of
-none. For information about emoji reaction values supported in AWS
-CodeCommit, see the AWS CodeCommit User Guide
+none. For information about emoji reaction values supported in
+CodeCommit, see the CodeCommit User Guide
 (https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table).
 
 

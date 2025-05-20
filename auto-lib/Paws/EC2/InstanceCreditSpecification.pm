@@ -39,8 +39,9 @@ This class has no description
 
 =head2 CpuCredits => Str
 
-The credit option for CPU usage of the instance. Valid values are
-C<standard> and C<unlimited>.
+The credit option for CPU usage of the instance.
+
+Valid values: C<standard> | C<unlimited>
 
 
 =head2 InstanceId => Str

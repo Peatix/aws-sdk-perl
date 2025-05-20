@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Shield::Sub
 
 =head1 DESCRIPTION
 
-Information about the AWS Shield Advanced subscription for an account.
+Information about the Shield Advanced subscription for an account.
 
 =head1 ATTRIBUTES
 
@@ -69,23 +69,21 @@ Specifies how many protections of a given type you can create.
 
 =head2 ProactiveEngagementStatus => Str
 
-If C<ENABLED>, the DDoS Response Team (DRT) will use email and phone to
-notify contacts about escalations to the DRT and to initiate proactive
-customer support.
+If C<ENABLED>, the Shield Response Team (SRT) will use email and phone
+to notify contacts about escalations to the SRT and to initiate
+proactive customer support.
 
 If C<PENDING>, you have requested proactive engagement and the request
 is pending. The status changes to C<ENABLED> when your request is fully
 processed.
 
-If C<DISABLED>, the DRT will not proactively notify contacts about
+If C<DISABLED>, the SRT will not proactively notify contacts about
 escalations or to initiate proactive customer support.
 
 
 =head2 StartTime => Str
 
-The start time of the subscription, in Unix time in seconds. For more
-information see timestamp
-(http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
+The start time of the subscription, in Unix time in seconds.
 
 
 =head2 SubscriptionArn => Str
@@ -100,7 +98,7 @@ Limits settings for your subscription.
 
 =head2 TimeCommitmentInSeconds => Int
 
-The length, in seconds, of the AWS Shield Advanced subscription for the
+The length, in seconds, of the Shield Advanced subscription for the
 account.
 
 

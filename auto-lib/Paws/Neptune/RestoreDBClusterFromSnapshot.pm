@@ -15,7 +15,9 @@ package Paws::Neptune::RestoreDBClusterFromSnapshot;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has OptionGroupName => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
+  has ServerlessV2ScalingConfiguration => (is => 'ro', isa => 'Paws::Neptune::ServerlessV2ScalingConfiguration');
   has SnapshotIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::Tag]');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -44,29 +46,34 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rds = Paws->service('Neptune');
     my $RestoreDBClusterFromSnapshotResult = $rds->RestoreDBClusterFromSnapshot(
-      DBClusterIdentifier             => 'MyString',
-      Engine                          => 'MyString',
-      SnapshotIdentifier              => 'MyString',
-      AvailabilityZones               => [ 'MyString', ... ],    # OPTIONAL
-      CopyTagsToSnapshot              => 1,                      # OPTIONAL
-      DBClusterParameterGroupName     => 'MyString',             # OPTIONAL
-      DBSubnetGroupName               => 'MyString',             # OPTIONAL
-      DatabaseName                    => 'MyString',             # OPTIONAL
-      DeletionProtection              => 1,                      # OPTIONAL
-      EnableCloudwatchLogsExports     => [ 'MyString', ... ],    # OPTIONAL
-      EnableIAMDatabaseAuthentication => 1,                      # OPTIONAL
-      EngineVersion                   => 'MyString',             # OPTIONAL
-      KmsKeyId                        => 'MyString',             # OPTIONAL
-      OptionGroupName                 => 'MyString',             # OPTIONAL
-      Port                            => 1,                      # OPTIONAL
-      Tags                            => [
+      DBClusterIdentifier              => 'MyString',
+      Engine                           => 'MyString',
+      SnapshotIdentifier               => 'MyString',
+      AvailabilityZones                => [ 'MyString', ... ],    # OPTIONAL
+      CopyTagsToSnapshot               => 1,                      # OPTIONAL
+      DBClusterParameterGroupName      => 'MyString',             # OPTIONAL
+      DBSubnetGroupName                => 'MyString',             # OPTIONAL
+      DatabaseName                     => 'MyString',             # OPTIONAL
+      DeletionProtection               => 1,                      # OPTIONAL
+      EnableCloudwatchLogsExports      => [ 'MyString', ... ],    # OPTIONAL
+      EnableIAMDatabaseAuthentication  => 1,                      # OPTIONAL
+      EngineVersion                    => 'MyString',             # OPTIONAL
+      KmsKeyId                         => 'MyString',             # OPTIONAL
+      OptionGroupName                  => 'MyString',             # OPTIONAL
+      Port                             => 1,                      # OPTIONAL
+      ServerlessV2ScalingConfiguration => {
+        MaxCapacity => 1,                                         # OPTIONAL
+        MinCapacity => 1,                                         # OPTIONAL
+      },    # OPTIONAL
+      StorageType => 'MyString',    # OPTIONAL
+      Tags        => [
         {
           Key   => 'MyString',
           Value => 'MyString',
         },
         ...
-      ],                                                         # OPTIONAL
-      VpcSecurityGroupIds => [ 'MyString', ... ],                # OPTIONAL
+      ],                            # OPTIONAL
+      VpcSecurityGroupIds => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -245,6 +252,16 @@ Default: The same port as the original DB cluster.
 
 
 
+=head2 ServerlessV2ScalingConfiguration => L<Paws::Neptune::ServerlessV2ScalingConfiguration>
+
+Contains the scaling configuration of a Neptune Serverless DB cluster.
+
+For more information, see Using Amazon Neptune Serverless
+(https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html)
+in the I<Amazon Neptune User Guide>.
+
+
+
 =head2 B<REQUIRED> SnapshotIdentifier => Str
 
 The identifier for the DB snapshot or DB cluster snapshot to restore
@@ -264,6 +281,16 @@ Must match the identifier of an existing Snapshot.
 
 =back
 
+
+
+
+=head2 StorageType => Str
+
+Specifies the storage type to be associated with the DB cluster.
+
+Valid values: C<standard>, C<iopt1>
+
+Default: C<standard>
 
 
 

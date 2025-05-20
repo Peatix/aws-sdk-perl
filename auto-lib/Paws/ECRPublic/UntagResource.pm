@@ -44,9 +44,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource from which to delete
-tags. Currently, the supported resource is an Amazon ECR Public
-repository.
+The Amazon Resource Name (ARN) of the resource to delete tags from.
+Currently, the supported resource is an Amazon ECR Public repository.
 
 
 

@@ -41,8 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Policy
 
 Indicates whether the account is compliant with the specified policy.
 An account is considered noncompliant if it includes resources that are
-not protected by the policy, for AWS WAF and Shield Advanced policies,
-or that are noncompliant with the policy, for security group policies.
+not protected by the policy, for WAF and Shield Advanced policies, or
+that are noncompliant with the policy, for security group policies.
 
 =head1 ATTRIBUTES
 
@@ -54,10 +54,9 @@ An array of C<EvaluationResult> objects.
 
 =head2 IssueInfoMap => L<Paws::FMS::IssueInfoMap>
 
-Details about problems with dependent services, such as AWS WAF or AWS
-Config, that are causing a resource to be noncompliant. The details
-include the name of the dependent service and the error message
-received that indicates the problem with the service.
+Details about problems with dependent services, such as WAF or Config,
+and the error message received that indicates the problem with the
+service.
 
 
 =head2 LastUpdated => Str
@@ -72,17 +71,18 @@ The member account ID.
 
 =head2 PolicyId => Str
 
-The ID of the AWS Firewall Manager policy.
+The ID of the Firewall Manager policy.
 
 
 =head2 PolicyName => Str
 
-The name of the AWS Firewall Manager policy.
+The name of the Firewall Manager policy.
 
 
 =head2 PolicyOwner => Str
 
-The AWS account that created the AWS Firewall Manager policy.
+The Amazon Web Services account that created the Firewall Manager
+policy.
 
 
 

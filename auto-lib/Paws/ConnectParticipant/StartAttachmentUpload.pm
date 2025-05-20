@@ -68,7 +68,11 @@ The size of the attachment in bytes.
 
 =head2 B<REQUIRED> ClientToken => Str
 
-A unique case sensitive identifier to support idempotency of request.
+A unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 
 
@@ -82,7 +86,7 @@ The authentication token associated with the participant's connection.
 
 Describes the MIME file type of the attachment. For a list of supported
 file types, see Feature specifications
-(https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits)
+(https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html)
 in the I<Amazon Connect Administrator Guide>.
 
 

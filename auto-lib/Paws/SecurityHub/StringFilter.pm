@@ -34,82 +34,97 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-A string filter for querying findings.
+A string filter for filtering Security Hub findings.
 
 =head1 ATTRIBUTES
 
 
 =head2 Comparison => Str
 
-The condition to apply to a string value when querying for findings. To
-search for values that contain the filter criteria value, use one of
-the following comparison operators:
+The condition to apply to a string value when filtering Security Hub
+findings.
+
+To search for values that have the filter value, use one of the
+following comparison operators:
 
 =over
+
+=item *
+
+To search for values that include the filter value, use C<CONTAINS>.
+For example, the filter C<Title CONTAINS CloudFront> matches findings
+that have a C<Title> that includes the string CloudFront.
 
 =item *
 
 To search for values that exactly match the filter value, use
-C<EQUALS>.
-
-For example, the filter C<ResourceType EQUALS AwsEc2SecurityGroup> only
-matches findings that have a resource type of C<AwsEc2SecurityGroup>.
+C<EQUALS>. For example, the filter C<AwsAccountId EQUALS 123456789012>
+only matches findings that have an account ID of C<123456789012>.
 
 =item *
 
 To search for values that start with the filter value, use C<PREFIX>.
-
-For example, the filter C<ResourceType PREFIX AwsIam> matches findings
-that have a resource type that starts with C<AwsIam>. Findings with a
-resource type of C<AwsIamPolicy>, C<AwsIamRole>, or C<AwsIamUser> would
-all match.
+For example, the filter C<ResourceRegion PREFIX us> matches findings
+that have a C<ResourceRegion> that starts with C<us>. A
+C<ResourceRegion> that starts with a different value, such as C<af>,
+C<ap>, or C<ca>, doesn't match.
 
 =back
 
-C<EQUALS> and C<PREFIX> filters on the same field are joined by C<OR>.
-A finding matches if it matches any one of those filters.
+C<CONTAINS>, C<EQUALS>, and C<PREFIX> filters on the same field are
+joined by C<OR>. A finding matches if it matches any one of those
+filters. For example, the filters C<Title CONTAINS CloudFront OR Title
+CONTAINS CloudWatch> match a finding that includes either
+C<CloudFront>, C<CloudWatch>, or both strings in the title.
 
-To search for values that do not contain the filter criteria value, use
-one of the following comparison operators:
+To search for values that donE<rsquo>t have the filter value, use one
+of the following comparison operators:
 
 =over
 
 =item *
 
-To search for values that do not exactly match the filter value, use
-C<NOT_EQUALS>.
-
-For example, the filter C<ResourceType NOT_EQUALS AwsIamPolicy> matches
-findings that have a resource type other than C<AwsIamPolicy>.
+To search for values that exclude the filter value, use
+C<NOT_CONTAINS>. For example, the filter C<Title NOT_CONTAINS
+CloudFront> matches findings that have a C<Title> that excludes the
+string CloudFront.
 
 =item *
 
-To search for values that do not start with the filter value, use
-C<PREFIX_NOT_EQUALS>.
+To search for values other than the filter value, use C<NOT_EQUALS>.
+For example, the filter C<AwsAccountId NOT_EQUALS 123456789012> only
+matches findings that have an account ID other than C<123456789012>.
 
-For example, the filter C<ResourceType PREFIX_NOT_EQUALS AwsIam>
-matches findings that have a resource type that does not start with
-C<AwsIam>. Findings with a resource type of C<AwsIamPolicy>,
-C<AwsIamRole>, or C<AwsIamUser> would all be excluded from the results.
+=item *
+
+To search for values that don't start with the filter value, use
+C<PREFIX_NOT_EQUALS>. For example, the filter C<ResourceRegion
+PREFIX_NOT_EQUALS us> matches findings with a C<ResourceRegion> that
+starts with a value other than C<us>.
 
 =back
 
-C<NOT_EQUALS> and C<PREFIX_NOT_EQUALS> filters on the same field are
-joined by C<AND>. A finding matches only if it matches all of those
-filters.
+C<NOT_CONTAINS>, C<NOT_EQUALS>, and C<PREFIX_NOT_EQUALS> filters on the
+same field are joined by C<AND>. A finding matches only if it matches
+all of those filters. For example, the filters C<Title NOT_CONTAINS
+CloudFront AND Title NOT_CONTAINS CloudWatch> match a finding that
+excludes both C<CloudFront> and C<CloudWatch> in the title.
 
-For filters on the same field, you cannot provide both an C<EQUALS>
-filter and a C<NOT_EQUALS> or C<PREFIX_NOT_EQUALS> filter. Combining
-filters in this way always returns an error, even if the provided
-filter values would return valid results.
+You canE<rsquo>t have both a C<CONTAINS> filter and a C<NOT_CONTAINS>
+filter on the same field. Similarly, you can't provide both an
+C<EQUALS> filter and a C<NOT_EQUALS> or C<PREFIX_NOT_EQUALS> filter on
+the same field. Combining filters in this way returns an error.
+C<CONTAINS> filters can only be used with other C<CONTAINS> filters.
+C<NOT_CONTAINS> filters can only be used with other C<NOT_CONTAINS>
+filters.
 
 You can combine C<PREFIX> filters with C<NOT_EQUALS> or
 C<PREFIX_NOT_EQUALS> filters for the same field. Security Hub first
-processes the C<PREFIX> filters, then the C<NOT_EQUALS> or
+processes the C<PREFIX> filters, and then the C<NOT_EQUALS> or
 C<PREFIX_NOT_EQUALS> filters.
 
-For example, for the following filter, Security Hub first identifies
-findings that have resource types that start with either C<AwsIAM> or
+For example, for the following filters, Security Hub first identifies
+findings that have resource types that start with either C<AwsIam> or
 C<AwsEc2>. It then excludes findings that have a resource type of
 C<AwsIamPolicy> and findings that have a resource type of
 C<AwsEc2NetworkInterface>.
@@ -134,13 +149,17 @@ C<ResourceType NOT_EQUALS AwsEc2NetworkInterface>
 
 =back
 
+C<CONTAINS> and C<NOT_CONTAINS> operators can be used only with
+automation rules. For more information, see Automation rules
+(https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html)
+in the I<Security Hub User Guide>.
 
 
 =head2 Value => Str
 
 The string filter value. Filter values are case sensitive. For example,
 the product name for control-based findings is C<Security Hub>. If you
-provide C<security hub> as the filter text, then there is no match.
+provide C<security hub> as the filter value, there's no match.
 
 
 

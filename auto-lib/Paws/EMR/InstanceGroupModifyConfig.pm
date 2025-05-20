@@ -5,6 +5,7 @@ package Paws::EMR::InstanceGroupModifyConfig;
   has EC2InstanceIdsToTerminate => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has InstanceCount => (is => 'ro', isa => 'Int');
   has InstanceGroupId => (is => 'ro', isa => 'Str', required => 1);
+  has ReconfigurationType => (is => 'ro', isa => 'Str');
   has ShrinkPolicy => (is => 'ro', isa => 'Paws::EMR::ShrinkPolicy');
 
 1;
@@ -50,8 +51,9 @@ group.
 
 =head2 EC2InstanceIdsToTerminate => ArrayRef[Str|Undef]
 
-The EC2 InstanceIds to terminate. After you terminate the instances,
-the instance group will not return to its original requested size.
+The Amazon EC2 InstanceIds to terminate. After you terminate the
+instances, the instance group will not return to its original requested
+size.
 
 
 =head2 InstanceCount => Int
@@ -62,6 +64,12 @@ Target size for the instance group.
 =head2 B<REQUIRED> InstanceGroupId => Str
 
 Unique ID of the instance group to modify.
+
+
+=head2 ReconfigurationType => Str
+
+Type of reconfiguration requested. Valid values are MERGE and
+OVERWRITE.
 
 
 =head2 ShrinkPolicy => L<Paws::EMR::ShrinkPolicy>

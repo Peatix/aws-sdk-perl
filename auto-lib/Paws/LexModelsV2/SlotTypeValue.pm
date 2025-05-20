@@ -47,7 +47,7 @@ The value of the slot type entry.
 
 =head2 Synonyms => ArrayRef[L<Paws::LexModelsV2::SampleValue>]
 
-Additional values releated to the slot type entry.
+Additional values related to the slot type entry.
 
 
 

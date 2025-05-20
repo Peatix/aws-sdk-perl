@@ -17,7 +17,7 @@ Paws::EC2::CreatePlacementGroupResult
 
 =head2 PlacementGroup => L<Paws::EC2::PlacementGroup>
 
-
+Information about the placement group.
 
 
 =head2 _request_id => Str

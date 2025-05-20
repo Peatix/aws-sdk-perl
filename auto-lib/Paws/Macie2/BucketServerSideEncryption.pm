@@ -46,34 +46,39 @@ in the I<Amazon Simple Storage Service User Guide>.
 =head2 KmsMasterKeyId => Str
 
 The Amazon Resource Name (ARN) or unique identifier (key ID) for the
-Key Management Service (KMS) customer master key (CMK) that's used by
-default to encrypt objects that are added to the bucket. This value is
-null if the bucket uses an Amazon S3 managed key to encrypt new objects
-or the bucket doesn't encrypt new objects by default.
+KMS key that's used by default to encrypt objects that are added to the
+bucket. This value is null if the bucket is configured to use an Amazon
+S3 managed key to encrypt new objects.
 
 
 =head2 Type => Str
 
-The type of server-side encryption that's used by default when storing
-new objects in the bucket. Possible values are:
+The server-side encryption algorithm that's used by default to encrypt
+objects that are added to the bucket. Possible values are:
 
 =over
 
 =item *
 
-AES256 - New objects are encrypted with an Amazon S3 managed key and
-use Amazon S3 managed encryption (SSE-S3).
+AES256 - New objects use SSE-S3 encryption. They're encrypted with an
+Amazon S3 managed key.
 
 =item *
 
-aws:kms - New objects are encrypted with an KMS CMK, specified by the
-kmsMasterKeyId property, and use Amazon Web Services managed KMS
-encryption (AWS-KMS) or customer managed KMS encryption (SSE-KMS).
+aws:kms - New objects use SSE-KMS encryption. They're encrypted with an
+KMS key (kmsMasterKeyId), either an Amazon Web Services managed key or
+a customer managed key.
 
 =item *
 
-NONE - New objects aren't encrypted by default. Default encryption is
-disabled for the bucket.
+aws:kms:dsse - New objects use DSSE-KMS encryption. They're encrypted
+with an KMS key (kmsMasterKeyId), either an Amazon Web Services managed
+key or a customer managed key.
+
+=item *
+
+NONE - The bucket's default encryption settings don't specify
+server-side encryption behavior for new objects.
 
 =back
 

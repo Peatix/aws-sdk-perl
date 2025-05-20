@@ -1,8 +1,8 @@
 
 package Paws::Chime::UpdateGlobalSettings;
   use Moose;
-  has BusinessCalling => (is => 'ro', isa => 'Paws::Chime::BusinessCallingSettings', required => 1);
-  has VoiceConnector => (is => 'ro', isa => 'Paws::Chime::VoiceConnectorSettings', required => 1);
+  has BusinessCalling => (is => 'ro', isa => 'Paws::Chime::BusinessCallingSettings');
+  has VoiceConnector => (is => 'ro', isa => 'Paws::Chime::VoiceConnectorSettings');
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     $chime->UpdateGlobalSettings(
       BusinessCalling => {
         CdrBucket => 'MyString',    # OPTIONAL
-      },
+      },    # OPTIONAL
       VoiceConnector => {
         CdrBucket => 'MyString',    # OPTIONAL
-      },
-
+      },    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -45,13 +44,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/chi
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> BusinessCalling => L<Paws::Chime::BusinessCallingSettings>
+=head2 BusinessCalling => L<Paws::Chime::BusinessCallingSettings>
 
 The Amazon Chime Business Calling settings.
 
 
 
-=head2 B<REQUIRED> VoiceConnector => L<Paws::Chime::VoiceConnectorSettings>
+=head2 VoiceConnector => L<Paws::Chime::VoiceConnectorSettings>
 
 The Amazon Chime Voice Connector settings.
 

@@ -51,7 +51,7 @@ notification rules.
 
 The value of the attribute you want to use to filter the returned
 notification rules. For example, if you specify filtering by
-I<RESOURCE> in Name, you might specify the ARN of a pipeline in AWS
+I<RESOURCE> in Name, you might specify the ARN of a pipeline in
 CodePipeline for the value.
 
 

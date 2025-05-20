@@ -43,9 +43,17 @@ An object representing a container instance or task attachment.
 
 =head2 Details => ArrayRef[L<Paws::ECS::KeyValuePair>]
 
-Details of the attachment. For elastic network interfaces, this
-includes the network interface ID, the MAC address, the subnet ID, and
-the private IPv4 address.
+Details of the attachment.
+
+For elastic network interfaces, this includes the network interface ID,
+the MAC address, the subnet ID, and the private IPv4 address.
+
+For Service Connect services, this includes C<portName>,
+C<clientAliases>, C<discoveryName>, and C<ingressPortOverride>.
+
+For Elastic Block Storage, this includes C<roleArn>,
+C<deleteOnTermination>, C<volumeName>, C<volumeId>, and C<statusReason>
+(only when the attachment fails to create or attach).
 
 
 =head2 Id => Str
@@ -56,13 +64,14 @@ The unique identifier for the attachment.
 =head2 Status => Str
 
 The status of the attachment. Valid values are C<PRECREATED>,
-C<CREATED>, C<ATTACHING>, C<ATTACHED>, C<DETACHING>, C<DETACHED>, and
-C<DELETED>.
+C<CREATED>, C<ATTACHING>, C<ATTACHED>, C<DETACHING>, C<DETACHED>,
+C<DELETED>, and C<FAILED>.
 
 
 =head2 Type => Str
 
-The type of the attachment, such as C<ElasticNetworkInterface>.
+The type of the attachment, such as C<ElasticNetworkInterface>,
+C<Service Connect>, and C<AmazonElasticBlockStorage>.
 
 
 

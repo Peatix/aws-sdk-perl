@@ -34,17 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::CloudW
 
 =head1 DESCRIPTION
 
-Configuration options for sending command output to CloudWatch Logs.
+Configuration options for sending command output to Amazon CloudWatch
+Logs.
 
 =head1 ATTRIBUTES
 
 
 =head2 CloudWatchLogGroupName => Str
 
-The name of the CloudWatch log group where you want to send command
-output. If you don't specify a group name, Systems Manager
-automatically creates a log group for you. The log group uses the
-following naming format: aws/ssm/I<SystemsManagerDocumentName>.
+The name of the CloudWatch Logs log group where you want to send
+command output. If you don't specify a group name, Amazon Web Services
+Systems Manager automatically creates a log group for you. The log
+group uses the following naming format:
+
+C<aws/ssm/I<SystemsManagerDocumentName>>
 
 
 =head2 CloudWatchOutputEnabled => Bool

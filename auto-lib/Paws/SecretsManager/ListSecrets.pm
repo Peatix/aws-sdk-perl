@@ -2,6 +2,7 @@
 package Paws::SecretsManager::ListSecrets;
   use Moose;
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::SecretsManager::Filter]');
+  has IncludePlannedDeletion => (is => 'ro', isa => 'Bool');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has SortOrder => (is => 'ro', isa => 'Str');
@@ -47,38 +48,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 Filters => ArrayRef[L<Paws::SecretsManager::Filter>]
 
-Lists the secret request filters.
+The filters to apply to the list of secrets.
+
+
+
+=head2 IncludePlannedDeletion => Bool
+
+Specifies whether to include secrets scheduled for deletion. By
+default, secrets scheduled for deletion aren't included.
 
 
 
 =head2 MaxResults => Int
 
-(Optional) Limits the number of results you want to include in the
-response. If you don't include this parameter, it defaults to a value
-that's specific to the operation. If additional items exist beyond the
-maximum you specify, the C<NextToken> response element is present and
-has a value (isn't null). Include that value as the C<NextToken>
-request parameter in the next call to the operation to get the next
-part of the results. Note that Secrets Manager might return fewer
-results than the maximum even when there are more results available.
-You should check C<NextToken> after every operation to ensure that you
-receive all of the results.
+The number of results to include in the response.
+
+If there are more results available, in the response, Secrets Manager
+includes C<NextToken>. To get the next results, call C<ListSecrets>
+again with the value from C<NextToken>.
 
 
 
 =head2 NextToken => Str
 
-(Optional) Use this parameter in a request if you receive a
-C<NextToken> response in a previous request indicating there's more
-output available. In a subsequent call, set it to the value of the
-previous call C<NextToken> response to indicate where the output should
-continue from.
+A token that indicates where the output should continue from, if a
+previous call did not show all results. To get the next results, call
+C<ListSecrets> again with this value.
 
 
 
 =head2 SortOrder => Str
 
-Lists secrets in the requested order.
+Secrets are listed by C<CreatedDate>.
 
 Valid values are: C<"asc">, C<"desc">
 

@@ -43,15 +43,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> EventId => Str
 
-The ID of the event you are updating. You can find this by using
-C<ListTimelineEvents>.
+The ID of the event to update. You can use C<ListTimelineEvents> to
+find an event's ID.
 
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str
 
-The Amazon Resource Name (ARN) of the incident that the event is part
-of.
+The Amazon Resource Name (ARN) of the incident that includes the
+timeline event.
 
 
 

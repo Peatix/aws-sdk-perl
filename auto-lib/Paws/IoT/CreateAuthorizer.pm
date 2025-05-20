@@ -3,6 +3,7 @@ package Paws::IoT::CreateAuthorizer;
   use Moose;
   has AuthorizerFunctionArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'authorizerFunctionArn', required => 1);
   has AuthorizerName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'authorizerName', required => 1);
+  has EnableCachingForHttp => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableCachingForHttp');
   has SigningDisabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'signingDisabled');
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Tag]', traits => ['NameInRequest'], request_name => 'tags');
@@ -37,12 +38,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateAuthorizerResponse = $iot->CreateAuthorizer(
       AuthorizerFunctionArn => 'MyAuthorizerFunctionArn',
       AuthorizerName        => 'MyAuthorizerName',
+      EnableCachingForHttp  => 1,                           # OPTIONAL
       SigningDisabled       => 1,                           # OPTIONAL
       Status                => 'ACTIVE',                    # OPTIONAL
       Tags                  => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -76,10 +78,22 @@ The authorizer name.
 
 
 
+=head2 EnableCachingForHttp => Bool
+
+When C<true>, the result from the authorizerE<rsquo>s Lambda function
+is cached for clients that use persistent HTTP connections. The results
+are cached for the time specified by the Lambda function in
+C<refreshAfterInSeconds>. This value does not affect authorization of
+clients that use MQTT connections.
+
+The default value is C<false>.
+
+
+
 =head2 SigningDisabled => Bool
 
-Specifies whether AWS IoT validates the token signature in an
-authorization request.
+Specifies whether IoT validates the token signature in an authorization
+request.
 
 
 

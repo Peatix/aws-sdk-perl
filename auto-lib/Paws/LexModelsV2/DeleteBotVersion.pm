@@ -63,11 +63,12 @@ The version of the bot to delete.
 
 =head2 SkipResourceInUseCheck => Bool
 
-By default, the C<DeleteBotVersion> operations throws a
-C<ResourceInUseException> exception if you try to delete a bot version
-that has an alias pointing at it. Set the C<skipResourceInUseCheck>
-parameter to C<true> to skip this check and remove the version even if
-an alias points to it.
+By default, Amazon Lex checks if any other resource, such as an alias
+or bot network, is using the bot version before it is deleted and
+throws a C<ResourceInUseException> exception if the version is being
+used by another resource. Set this parameter to C<true> to skip this
+check and remove the version even if it is being used by another
+resource.
 
 
 

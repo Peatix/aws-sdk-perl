@@ -5,6 +5,8 @@ package Paws::SageMaker::AppDetails;
   has AppType => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str');
   has DomainId => (is => 'ro', isa => 'Str');
+  has ResourceSpec => (is => 'ro', isa => 'Paws::SageMaker::ResourceSpec');
+  has SpaceName => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has UserProfileName => (is => 'ro', isa => 'Str');
 
@@ -38,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Details about an Amazon SageMaker app.
+Details about an Amazon SageMaker AI app.
 
 =head1 ATTRIBUTES
 
@@ -61,6 +63,16 @@ The creation time.
 =head2 DomainId => Str
 
 The domain ID.
+
+
+=head2 ResourceSpec => L<Paws::SageMaker::ResourceSpec>
+
+
+
+
+=head2 SpaceName => Str
+
+The name of the space.
 
 
 =head2 Status => Str

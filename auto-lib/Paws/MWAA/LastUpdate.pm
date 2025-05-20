@@ -3,6 +3,7 @@ package Paws::MWAA::LastUpdate;
   use Moose;
   has CreatedAt => (is => 'ro', isa => 'Str');
   has Error => (is => 'ro', isa => 'Paws::MWAA::UpdateError');
+  has Source => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
 
 1;
@@ -35,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::LastU
 
 =head1 DESCRIPTION
 
-The status of the last update on the environment, and any errors that
-were encountered.
+Describes the status of the last update on the environment, and any
+errors that were encountered.
 
 =head1 ATTRIBUTES
 
@@ -52,10 +53,15 @@ The error that was encountered during the last update of the
 environment.
 
 
+=head2 Source => Str
+
+The source of the last update to the environment. Includes internal
+processes by Amazon MWAA, such as an environment maintenance update.
+
+
 =head2 Status => Str
 
-The status of the last update on the environment. Valid values:
-C<SUCCESS>, C<PENDING>, C<FAILED>.
+The status of the last update on the environment.
 
 
 

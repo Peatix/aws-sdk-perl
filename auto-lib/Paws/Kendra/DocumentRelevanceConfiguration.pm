@@ -41,13 +41,14 @@ Overrides the document relevance properties of a custom index field.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the tuning configuration to override document relevance at
-the index level.
+The name of the index field.
 
 
 =head2 B<REQUIRED> Relevance => L<Paws::Kendra::Relevance>
 
-
+Provides information for tuning the relevance of a field in a search.
+When a query includes terms that match the field, the results are given
+a boost in the response based on these tuning parameters.
 
 
 

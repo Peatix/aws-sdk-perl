@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SNS::Endpoi
 
 =head1 DESCRIPTION
 
-Endpoint for mobile app and device.
+The endpoint for mobile app and device.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +46,7 @@ Attributes for endpoint.
 
 =head2 EndpointArn => Str
 
-EndpointArn for mobile app and device.
+The C<EndpointArn> for mobile app and device.
 
 
 

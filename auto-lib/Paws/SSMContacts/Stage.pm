@@ -42,7 +42,8 @@ the specified contacts or contact methods.
 
 =head2 B<REQUIRED> DurationInMinutes => Int
 
-The time to wait until beginning the next stage.
+The time to wait until beginning the next stage. The duration can only
+be set to 0 if a target is specified.
 
 
 =head2 B<REQUIRED> Targets => ArrayRef[L<Paws::SSMContacts::Target>]

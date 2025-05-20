@@ -52,7 +52,8 @@ A tag that is assigned to matching objects.
 
 =head2 Type => Str
 
-The type of filter value.
+The type of filter value. Valid values are C<LifecyclePrefixPredicate>
+or C<LifecycleTagPredicate>.
 
 
 

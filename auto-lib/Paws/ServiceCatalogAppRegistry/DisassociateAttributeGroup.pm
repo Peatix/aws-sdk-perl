@@ -51,14 +51,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> Application => Str
 
-The name or ID of the application.
+The name, ID, or ARN of the application.
 
 
 
 =head2 B<REQUIRED> AttributeGroup => Str
 
-The name or ID of the attribute group that holds the attributes to
-describe the application.
+The name, ID, or ARN of the attribute group that holds the attributes
+to describe the application.
 
 
 

@@ -72,12 +72,12 @@ the precision or accuracy of the estimate.
 A map of tables and requests against those tables that were not
 processed. The C<UnprocessedItems> value is in the same form as
 C<RequestItems>, so you can provide this value directly to a subsequent
-C<BatchGetItem> operation. For more information, see C<RequestItems> in
-the Request Parameters section.
+C<BatchWriteItem> operation. For more information, see C<RequestItems>
+in the Request Parameters section.
 
-Each C<UnprocessedItems> entry consists of a table name and, for that
-table, a list of operations to perform (C<DeleteRequest> or
-C<PutRequest>).
+Each C<UnprocessedItems> entry consists of a table name or table ARN
+and, for that table, a list of operations to perform (C<DeleteRequest>
+or C<PutRequest>).
 
 =over
 

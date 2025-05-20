@@ -62,7 +62,7 @@ The label name.
 
 =head2 Tags => ArrayRef[L<Paws::FraudDetector::Tag>]
 
-
+A collection of key and value pairs.
 
 
 

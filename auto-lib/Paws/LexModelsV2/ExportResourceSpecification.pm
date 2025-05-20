@@ -3,6 +3,8 @@ package Paws::LexModelsV2::ExportResourceSpecification;
   use Moose;
   has BotExportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::BotExportSpecification', request_name => 'botExportSpecification', traits => ['NameInRequest']);
   has BotLocaleExportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::BotLocaleExportSpecification', request_name => 'botLocaleExportSpecification', traits => ['NameInRequest']);
+  has CustomVocabularyExportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::CustomVocabularyExportSpecification', request_name => 'customVocabularyExportSpecification', traits => ['NameInRequest']);
+  has TestSetExportSpecification => (is => 'ro', isa => 'Paws::LexModelsV2::TestSetExportSpecification', request_name => 'testSetExportSpecification', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::LexModelsV2::ExportResourceSpecification object:
 
-  $service_obj->Method(Att1 => { BotExportSpecification => $value, ..., BotLocaleExportSpecification => $value  });
+  $service_obj->Method(Att1 => { BotExportSpecification => $value, ..., TestSetExportSpecification => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,6 +51,16 @@ Parameters for exporting a bot.
 =head2 BotLocaleExportSpecification => L<Paws::LexModelsV2::BotLocaleExportSpecification>
 
 Parameters for exporting a bot locale.
+
+
+=head2 CustomVocabularyExportSpecification => L<Paws::LexModelsV2::CustomVocabularyExportSpecification>
+
+The parameters required to export a custom vocabulary.
+
+
+=head2 TestSetExportSpecification => L<Paws::LexModelsV2::TestSetExportSpecification>
+
+Specifications for the test set that is exported as a resource.
 
 
 

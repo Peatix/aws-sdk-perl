@@ -94,7 +94,7 @@ logical replication slot should already be created and associated with
 the source endpoint. You can verify this by setting the C<slotName>
 extra connection attribute to the name of this logical replication
 slot. For more information, see Extra Connection Attributes When Using
-PostgreSQL as a Source for AWS DMS
+PostgreSQL as a Source for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.PostgreSQL.html#CHAP_Source.PostgreSQL.ConnectionAttrib).
 
 
@@ -117,8 +117,8 @@ The value can be either server time or commit time.
 Server time example: --cdc-stop-position
 E<ldquo>server_time:2018-02-09T12:12:12E<rdquo>
 
-Commit time example: --cdc-stop-position E<ldquo>commit_time:
-2018-02-09T12:12:12 E<ldquo>
+Commit time example: --cdc-stop-position
+E<ldquo>commit_time:2018-02-09T12:12:12E<ldquo>
 
 
 
@@ -163,9 +163,9 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 =head2 ReplicationTaskSettings => Str
 
 Overall settings for the task, in JSON format. For more information,
-see Specifying Task Settings for AWS Database Migration Service Tasks
+see Specifying Task Settings for Database Migration Service Tasks
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.html)
-in the I<AWS Database Migration User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -179,8 +179,8 @@ characters. It can contain only ASCII letters, digits, and hyphen
 hyphens, and can only begin with a letter, such as C<Example-App-ARN1>.
 For example, this value might result in the C<EndpointArn> value
 C<arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1>. If you
-don't specify a C<ResourceIdentifier> value, AWS DMS generates a
-default identifier value for the end of C<EndpointArn>.
+don't specify a C<ResourceIdentifier> value, DMS generates a default
+identifier value for the end of C<EndpointArn>.
 
 
 
@@ -196,7 +196,7 @@ endpoint.
 The table mappings for the task, in JSON format. For more information,
 see Using Table Mapping to Specify Task Settings
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.html)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 
@@ -219,7 +219,7 @@ Supplemental information that the task requires to migrate the data for
 certain source and target endpoints. For more information, see
 Specifying Supplemental Data for Task Settings
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html)
-in the I<AWS Database Migration Service User Guide.>
+in the I<Database Migration Service User Guide.>
 
 
 

@@ -57,7 +57,7 @@ attribute returns the C<Client.AuthFailure> error. To get information
 about the block device mappings for an AMI, use the DescribeImages
 action.
 
-Valid values are: C<"description">, C<"kernel">, C<"ramdisk">, C<"launchPermission">, C<"productCodes">, C<"blockDeviceMapping">, C<"sriovNetSupport">, C<"bootMode">
+Valid values are: C<"description">, C<"kernel">, C<"ramdisk">, C<"launchPermission">, C<"productCodes">, C<"blockDeviceMapping">, C<"sriovNetSupport">, C<"bootMode">, C<"tpmSupport">, C<"uefiData">, C<"lastLaunchedTime">, C<"imdsSupport">, C<"deregistrationProtection">
 
 =head2 DryRun => Bool
 

@@ -18,15 +18,15 @@ Paws::Macie2::BatchGetCustomDataIdentifiersResponse
 
 =head2 CustomDataIdentifiers => ArrayRef[L<Paws::Macie2::BatchGetCustomDataIdentifierSummary>]
 
-An array of objects, one for each custom data identifier that meets the
-criteria specified in the request.
+An array of objects, one for each custom data identifier that matches
+the criteria specified in the request.
 
 
 =head2 NotFoundIdentifierIds => ArrayRef[Str|Undef]
 
-An array of identifiers, one for each identifier that was specified in
-the request, but doesn't correlate to an existing custom data
-identifier.
+An array of custom data identifier IDs, one for each custom data
+identifier that was specified in the request but doesn't correlate to
+an existing custom data identifier.
 
 
 =head2 _request_id => Str

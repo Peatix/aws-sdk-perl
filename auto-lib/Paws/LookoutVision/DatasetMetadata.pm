@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LookoutVisi
 
 =head1 DESCRIPTION
 
-Sumary information for an Amazon Lookout for Vision dataset.
+Summary information for an Amazon Lookout for Vision dataset. For more
+information, see DescribeDataset and ProjectDescription.
 
 =head1 ATTRIBUTES
 

@@ -63,14 +63,6 @@ Ethereum public networks have the following C<NetworkId>s:
 
 C<n-ethereum-mainnet>
 
-=item *
-
-C<n-ethereum-rinkeby>
-
-=item *
-
-C<n-ethereum-ropsten>
-
 =back
 
 

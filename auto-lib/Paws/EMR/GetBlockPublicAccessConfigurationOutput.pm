@@ -32,14 +32,14 @@ exception.
 For accounts that created clusters in a Region before November 25,
 2019, block public access is disabled by default in that Region. To use
 this feature, you must manually enable and configure it. For accounts
-that did not create an EMR cluster in a Region before this date, block
-public access is enabled by default in that Region.
+that did not create an Amazon EMR cluster in a Region before this date,
+block public access is enabled by default in that Region.
 
 
 =head2 B<REQUIRED> BlockPublicAccessConfigurationMetadata => L<Paws::EMR::BlockPublicAccessConfigurationMetadata>
 
-Properties that describe the AWS principal that created the
-C<BlockPublicAccessConfiguration> using the
+Properties that describe the Amazon Web Services principal that created
+the C<BlockPublicAccessConfiguration> using the
 C<PutBlockPublicAccessConfiguration> action as well as the date and
 time that the configuration was created. Each time a configuration for
 block public access is updated, Amazon EMR updates this metadata.

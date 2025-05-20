@@ -33,17 +33,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AdditionalInferenceSpecifications =
+      $DescribeModelPackageOutput->AdditionalInferenceSpecifications;
     my $ApprovalDescription = $DescribeModelPackageOutput->ApprovalDescription;
     my $CertifyForMarketplace =
       $DescribeModelPackageOutput->CertifyForMarketplace;
     my $CreatedBy    = $DescribeModelPackageOutput->CreatedBy;
     my $CreationTime = $DescribeModelPackageOutput->CreationTime;
+    my $CustomerMetadataProperties =
+      $DescribeModelPackageOutput->CustomerMetadataProperties;
+    my $Domain              = $DescribeModelPackageOutput->Domain;
+    my $DriftCheckBaselines = $DescribeModelPackageOutput->DriftCheckBaselines;
     my $InferenceSpecification =
       $DescribeModelPackageOutput->InferenceSpecification;
     my $LastModifiedBy      = $DescribeModelPackageOutput->LastModifiedBy;
     my $LastModifiedTime    = $DescribeModelPackageOutput->LastModifiedTime;
     my $MetadataProperties  = $DescribeModelPackageOutput->MetadataProperties;
     my $ModelApprovalStatus = $DescribeModelPackageOutput->ModelApprovalStatus;
+    my $ModelCard           = $DescribeModelPackageOutput->ModelCard;
+    my $ModelLifeCycle      = $DescribeModelPackageOutput->ModelLifeCycle;
     my $ModelMetrics        = $DescribeModelPackageOutput->ModelMetrics;
     my $ModelPackageArn     = $DescribeModelPackageOutput->ModelPackageArn;
     my $ModelPackageDescription =
@@ -55,8 +63,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ModelPackageStatusDetails =
       $DescribeModelPackageOutput->ModelPackageStatusDetails;
     my $ModelPackageVersion = $DescribeModelPackageOutput->ModelPackageVersion;
+    my $SamplePayloadUrl    = $DescribeModelPackageOutput->SamplePayloadUrl;
+    my $SecurityConfig      = $DescribeModelPackageOutput->SecurityConfig;
+    my $SkipModelValidation = $DescribeModelPackageOutput->SkipModelValidation;
     my $SourceAlgorithmSpecification =
       $DescribeModelPackageOutput->SourceAlgorithmSpecification;
+    my $SourceUri = $DescribeModelPackageOutput->SourceUri;
+    my $Task      = $DescribeModelPackageOutput->Task;
     my $ValidationSpecification =
       $DescribeModelPackageOutput->ValidationSpecification;
 

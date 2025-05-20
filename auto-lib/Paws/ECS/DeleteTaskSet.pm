@@ -51,14 +51,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 =head2 B<REQUIRED> Cluster => Str
 
 The short name or full Amazon Resource Name (ARN) of the cluster that
-hosts the service that the task set exists in to delete.
+hosts the service that the task set found in to delete.
 
 
 
 =head2 Force => Bool
 
-If C<true>, this allows you to delete a task set even if it hasn't been
-scaled down to zero.
+If C<true>, you can delete a task set even if it hasn't been scaled
+down to zero.
 
 
 

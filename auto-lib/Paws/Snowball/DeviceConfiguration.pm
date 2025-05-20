@@ -40,8 +40,7 @@ The container for C<SnowconeDeviceConfiguration>.
 
 =head2 SnowconeDeviceConfiguration => L<Paws::Snowball::SnowconeDeviceConfiguration>
 
-Returns information about the device configuration for an AWS Snowcone
-job.
+Returns information about the device configuration for an Snowcone job.
 
 
 

@@ -81,6 +81,9 @@ The description of the service.
 A complex type that contains information about the Route 53 DNS records
 that you want Cloud Map to create when you register an instance.
 
+The record types of a service can only be changed by deleting the
+service and recreating it with a new C<Dnsconfig>.
+
 
 =head2 HealthCheckConfig => L<Paws::ServiceDiscovery::HealthCheckConfig>
 

@@ -43,7 +43,7 @@ You can attach tags to any of the following organization resources.
 
 =item *
 
-AWS account
+Amazon Web Services account
 
 =item *
 

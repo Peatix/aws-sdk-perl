@@ -57,8 +57,8 @@ Valid values are: C<"INFO">, C<"ERROR">, C<"DISABLED">
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The type of the resource, currently support WirelessDevice and
-WirelessGateway.
+The type of resource, which can be C<WirelessDevice>,
+C<WirelessGateway>, or C<FuotaTask>.
 
 
 

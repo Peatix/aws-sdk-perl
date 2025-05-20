@@ -88,10 +88,10 @@ The ID of the Amazon VPC that you want to list hosted zones for.
 
 =head2 B<REQUIRED> VPCRegion => Str
 
-For the Amazon VPC that you specified for C<VPCId>, the AWS Region that
-you created the VPC in.
+For the Amazon VPC that you specified for C<VPCId>, the Amazon Web
+Services Region that you created the VPC in.
 
-Valid values are: C<"us-east-1">, C<"us-east-2">, C<"us-west-1">, C<"us-west-2">, C<"eu-west-1">, C<"eu-west-2">, C<"eu-west-3">, C<"eu-central-1">, C<"ap-east-1">, C<"me-south-1">, C<"us-gov-west-1">, C<"us-gov-east-1">, C<"us-iso-east-1">, C<"us-isob-east-1">, C<"ap-southeast-1">, C<"ap-southeast-2">, C<"ap-south-1">, C<"ap-northeast-1">, C<"ap-northeast-2">, C<"ap-northeast-3">, C<"eu-north-1">, C<"sa-east-1">, C<"ca-central-1">, C<"cn-north-1">, C<"af-south-1">, C<"eu-south-1">
+Valid values are: C<"us-east-1">, C<"us-east-2">, C<"us-west-1">, C<"us-west-2">, C<"eu-west-1">, C<"eu-west-2">, C<"eu-west-3">, C<"eu-central-1">, C<"eu-central-2">, C<"ap-east-1">, C<"me-south-1">, C<"us-gov-west-1">, C<"us-gov-east-1">, C<"us-iso-east-1">, C<"us-iso-west-1">, C<"us-isob-east-1">, C<"me-central-1">, C<"ap-southeast-1">, C<"ap-southeast-2">, C<"ap-southeast-3">, C<"ap-south-1">, C<"ap-south-2">, C<"ap-northeast-1">, C<"ap-northeast-2">, C<"ap-northeast-3">, C<"eu-north-1">, C<"sa-east-1">, C<"ca-central-1">, C<"cn-north-1">, C<"cn-northwest-1">, C<"af-south-1">, C<"eu-south-1">, C<"eu-south-2">, C<"ap-southeast-4">, C<"il-central-1">, C<"ca-west-1">, C<"ap-southeast-5">, C<"mx-central-1">, C<"us-isof-south-1">, C<"us-isof-east-1">, C<"ap-southeast-7">
 
 
 =head1 SEE ALSO

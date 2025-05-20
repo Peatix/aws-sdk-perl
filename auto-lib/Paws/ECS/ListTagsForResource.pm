@@ -27,13 +27,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ecs = Paws->service('ECS');
+    # To list the tags for a cluster.
+    # This example lists the tags for the 'dev' cluster.
     my $ListTagsForResourceResponse = $ecs->ListTagsForResource(
-      ResourceArn => 'MyString',
-
-    );
+      'ResourceArn' => 'arn:aws:ecs:region:aws_account_id:cluster/dev' );
 
     # Results:
-    my $Tags = $ListTagsForResourceResponse->Tags;
+    my $tags = $ListTagsForResourceResponse->tags;
 
     # Returns a L<Paws::ECS::ListTagsForResourceResponse> object.
 
@@ -45,9 +45,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) that identifies the resource for which
-to list the tags. Currently, the supported resources are Amazon ECS
-tasks, services, task definitions, clusters, and container instances.
+The Amazon Resource Name (ARN) that identifies the resource to list the
+tags for. Currently, the supported resources are Amazon ECS tasks,
+services, task definitions, clusters, and container instances.
 
 
 

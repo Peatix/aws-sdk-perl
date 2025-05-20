@@ -93,15 +93,15 @@ A cache policy configuration.
 =head2 B<REQUIRED> Id => Str
 
 The unique identifier for the cache policy that you are updating. The
-identifier is returned in a cache behaviorE<rsquo>s C<CachePolicyId>
-field in the response to C<GetDistributionConfig>.
+identifier is returned in a cache behavior's C<CachePolicyId> field in
+the response to C<GetDistributionConfig>.
 
 
 
 =head2 IfMatch => Str
 
 The version of the cache policy that you are updating. The version is
-returned in the cache policyE<rsquo>s C<ETag> field in the response to
+returned in the cache policy's C<ETag> field in the response to
 C<GetCachePolicyConfig>.
 
 

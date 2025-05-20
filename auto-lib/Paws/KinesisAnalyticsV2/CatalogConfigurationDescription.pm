@@ -33,18 +33,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-The configuration parameters for the default AWS Glue database. You use
-this database for Apache Flink SQL queries and table API transforms
-that you write in a Kinesis Data Analytics Studio notebook.
+The configuration parameters for the default Amazon Glue database. You
+use this database for Apache Flink SQL queries and table API transforms
+that you write in a Managed Service for Apache Flink Studio notebook.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> GlueDataCatalogConfigurationDescription => L<Paws::KinesisAnalyticsV2::GlueDataCatalogConfigurationDescription>
 
-The configuration parameters for the default AWS Glue database. You use
-this database for SQL queries that you write in a Kinesis Data
-Analytics Studio notebook.
+The configuration parameters for the default Amazon Glue database. You
+use this database for SQL queries that you write in a Managed Service
+for Apache Flink Studio notebook.
 
 
 

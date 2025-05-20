@@ -16,7 +16,7 @@ Paws::Proton::CancelEnvironmentDeploymentOutput
 
 =head2 B<REQUIRED> Environment => L<Paws::Proton::Environment>
 
-The environment summary data that's returned by AWS Proton.
+The environment summary data that's returned by Proton.
 
 
 =head2 _request_id => Str

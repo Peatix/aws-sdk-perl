@@ -23,7 +23,7 @@ assigned.
 
 =head2 B<REQUIRED> User => L<Paws::Transfer::DescribedUser>
 
-An array containing the properties of the user account for the
+An array containing the properties of the Transfer Family user for the
 C<ServerID> value that you specified.
 
 

@@ -41,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags           => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -78,7 +78,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 The dynamic thing group index name.
 
-Currently one index is supported: "AWS_Things".
+Currently one index is supported: C<AWS_Things>.
 
 
 

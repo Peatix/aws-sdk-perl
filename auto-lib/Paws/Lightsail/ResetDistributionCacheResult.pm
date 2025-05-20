@@ -18,8 +18,8 @@ Paws::Lightsail::ResetDistributionCacheResult
 
 =head2 CreateTime => Str
 
-The timestamp of the reset cache request (e.g., C<1479734909.17>) in
-Unix time format.
+The timestamp of the reset cache request (C<1479734909.17>) in Unix
+time format.
 
 
 =head2 Operation => L<Paws::Lightsail::Operation>

@@ -2,9 +2,11 @@
 package Paws::Braket::CreateQuantumTask;
   use Moose;
   has Action => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'action', required => 1);
+  has Associations => (is => 'ro', isa => 'ArrayRef[Paws::Braket::Association]', traits => ['NameInRequest'], request_name => 'associations');
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
   has DeviceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceArn', required => 1);
   has DeviceParameters => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceParameters');
+  has JobToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobToken');
   has OutputS3Bucket => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'outputS3Bucket', required => 1);
   has OutputS3KeyPrefix => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'outputS3KeyPrefix', required => 1);
   has Shots => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'shots', required => 1);
@@ -42,9 +44,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       OutputS3Bucket    => 'MyCreateQuantumTaskRequestOutputS3BucketString',
       OutputS3KeyPrefix => 'MyCreateQuantumTaskRequestOutputS3KeyPrefixString',
       Shots             => 1,
-      DeviceParameters  =>
+      Associations      => [
+        {
+          Arn  => 'MyBraketResourceArn',
+          Type =>
+            'RESERVATION_TIME_WINDOW_ARN', # values: RESERVATION_TIME_WINDOW_ARN
+
+        },
+        ...
+      ],    # OPTIONAL
+      DeviceParameters =>
         'MyCreateQuantumTaskRequestDeviceParametersString',    # OPTIONAL
-      Tags => { 'MyString' => 'MyString', },                   # OPTIONAL
+      JobToken => 'MyJobToken',                                # OPTIONAL
+      Tags     => { 'MyString' => 'MyString', },               # OPTIONAL
     );
 
     # Results:
@@ -64,6 +76,12 @@ The action associated with the task.
 
 
 
+=head2 Associations => ArrayRef[L<Paws::Braket::Association>]
+
+The list of Amazon Braket resources associated with the quantum task.
+
+
+
 =head2 B<REQUIRED> ClientToken => Str
 
 The client token associated with the request.
@@ -79,6 +97,13 @@ The ARN of the device to run the task on.
 =head2 DeviceParameters => Str
 
 The parameters for the device to run the task on.
+
+
+
+=head2 JobToken => Str
+
+The token for an Amazon Braket job that associates it with the quantum
+task.
 
 
 

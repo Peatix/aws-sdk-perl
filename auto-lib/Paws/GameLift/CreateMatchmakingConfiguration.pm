@@ -63,7 +63,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
       GameSessionData      => 'MyGameSessionData',    # OPTIONAL
       GameSessionQueueArns => [
-        'MyArnStringModel', ...                       # min: 1, max: 256
+        'MyArnStringModel', ...                       # min: 1, max: 512
       ],    # OPTIONAL
       NotificationTarget => 'MySnsArnStringModel',    # OPTIONAL
       Tags               => [
@@ -119,10 +119,9 @@ if C<FlexMatchMode> is set to C<STANDALONE>.
 The method used to backfill game sessions that are created with this
 matchmaking configuration. Specify C<MANUAL> when your game manages
 backfill requests manually or does not use the match backfill feature.
-Specify C<AUTOMATIC> to have GameLift create a StartMatchBackfill
-request whenever a game session has one or more open slots. Learn more
-about manual and automatic backfill in Backfill Existing Games with
-FlexMatch
+Specify C<AUTOMATIC> to have Amazon GameLift create a backfill request
+whenever a game session has one or more open slots. Learn more about
+manual and automatic backfill in Backfill Existing Games with FlexMatch
 (https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html).
 Automatic backfill is not available when C<FlexMatchMode> is set to
 C<STANDALONE>.
@@ -145,7 +144,7 @@ A human-readable description of the matchmaking configuration.
 =head2 FlexMatchMode => Str
 
 Indicates whether this matchmaking configuration is being used with
-GameLift hosting or as a standalone matchmaking solution.
+Amazon GameLift hosting or as a standalone matchmaking solution.
 
 =over
 
@@ -158,8 +157,8 @@ event.
 
 =item *
 
-B<WITH_QUEUE> - FlexMatch forms matches and uses the specified GameLift
-queue to start a game session for the match.
+B<WITH_QUEUE> - FlexMatch forms matches and uses the specified Amazon
+GameLift queue to start a game session for the match.
 
 =back
 
@@ -168,12 +167,9 @@ Valid values are: C<"STANDALONE">, C<"WITH_QUEUE">
 
 =head2 GameProperties => ArrayRef[L<Paws::GameLift::GameProperty>]
 
-A set of custom properties for a game session, formatted as key:value
-pairs. These properties are passed to a game server process in the
-GameSession object with a request to start a new game session (see
-Start a Game Session
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
-This information is added to the new GameSession object that is created
+A set of key-value pairs that can store custom data in a game session.
+For example: C<{"Key": "difficulty", "Value": "novice"}>. This
+information is added to the new C<GameSession> object that is created
 for a successful match. This parameter is not used if C<FlexMatchMode>
 is set to C<STANDALONE>.
 
@@ -182,13 +178,13 @@ is set to C<STANDALONE>.
 =head2 GameSessionData => Str
 
 A set of custom game session properties, formatted as a single string
-value. This data is passed to a game server process in the GameSession
-object with a request to start a new game session (see Start a Game
-Session
-(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
-This information is added to the new GameSession object that is created
-for a successful match. This parameter is not used if C<FlexMatchMode>
-is set to C<STANDALONE>.
+value. This data is passed to a game server process with a request to
+start a new game session. For more information, see Start a game
+session
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
+This information is added to the new C<GameSession> object that is
+created for a successful match. This parameter is not used if
+C<FlexMatchMode> is set to C<STANDALONE>.
 
 
 
@@ -196,13 +192,13 @@ is set to C<STANDALONE>.
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift game session queue resource and uniquely
-identifies it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift game session queue resource and
+uniquely identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::gamesessionqueue/E<lt>queue
 nameE<gt>>. Queues can be located in any Region. Queues are used to
-start new GameLift-hosted game sessions for matches that are created
-with this matchmaking configuration. If C<FlexMatchMode> is set to
-C<STANDALONE>, do not set this parameter.
+start new Amazon GameLift-hosted game sessions for matches that are
+created with this matchmaking configuration. If C<FlexMatchMode> is set
+to C<STANDALONE>, do not set this parameter.
 
 
 
@@ -243,14 +239,12 @@ the same Region.
 =head2 Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
 A list of labels to assign to the new matchmaking configuration
-resource. Tags are developer-defined key-value pairs. Tagging AWS
-resources are useful for resource management, access management and
-cost allocation. For more information, see Tagging AWS Resources
+resource. Tags are developer-defined key-value pairs. Tagging Amazon
+Web Services resources are useful for resource management, access
+management and cost allocation. For more information, see Tagging
+Amazon Web Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>. Once the resource is created, you can use
-TagResource, UntagResource, and ListTagsForResource to add, remove, and
-view tags. The maximum tag limit may be lower than stated. See the AWS
-General Reference for actual tagging limits.
+I<Amazon Web Services General Reference>.
 
 
 

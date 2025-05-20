@@ -4,7 +4,7 @@ package Paws::SageMaker::CreateArtifact;
   has ArtifactName => (is => 'ro', isa => 'Str');
   has ArtifactType => (is => 'ro', isa => 'Str', required => 1);
   has MetadataProperties => (is => 'ro', isa => 'Paws::SageMaker::MetadataProperties');
-  has Properties => (is => 'ro', isa => 'Paws::SageMaker::LineageEntityParameters');
+  has Properties => (is => 'ro', isa => 'Paws::SageMaker::ArtifactProperties');
   has Source => (is => 'ro', isa => 'Paws::SageMaker::ArtifactSource', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
 
@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateArtifactResponse = $api . sagemaker->CreateArtifact(
       ArtifactType => 'MyString256',
       Source       => {
-        SourceUri   => 'MyString2048',    # max: 2048
+        SourceUri   => 'MySourceUri',    # min: 1, max: 2048
         SourceTypes => [
           {
             SourceIdType =>
@@ -55,7 +55,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       Properties => {
         'MyStringParameterValue' =>
-          'MyStringParameterValue',    # key: max: 256, value: max: 256
+          'MyArtifactPropertyValue',    # key: max: 2500, value: max: 4096
       },    # OPTIONAL
       Tags => [
         {
@@ -97,7 +97,7 @@ The artifact type.
 
 
 
-=head2 Properties => L<Paws::SageMaker::LineageEntityParameters>
+=head2 Properties => L<Paws::SageMaker::ArtifactProperties>
 
 A list of properties to add to the artifact.
 

@@ -1,8 +1,9 @@
 
 package Paws::EC2::UnassignPrivateIpAddresses;
   use Moose;
+  has Ipv4Prefixes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'Ipv4Prefix' );
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'networkInterfaceId' , required => 1);
-  has PrivateIpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'privateIpAddress' , required => 1);
+  has PrivateIpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'privateIpAddress' );
 
   use MooseX::ClassAttribute;
 
@@ -43,13 +44,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
+=head2 Ipv4Prefixes => ArrayRef[Str|Undef]
+
+The IPv4 prefixes to unassign from the network interface.
+
+
+
 =head2 B<REQUIRED> NetworkInterfaceId => Str
 
 The ID of the network interface.
 
 
 
-=head2 B<REQUIRED> PrivateIpAddresses => ArrayRef[Str|Undef]
+=head2 PrivateIpAddresses => ArrayRef[Str|Undef]
 
 The secondary private IP addresses to unassign from the network
 interface. You can specify this option multiple times to unassign more

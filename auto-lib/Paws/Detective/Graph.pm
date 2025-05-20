@@ -46,8 +46,8 @@ The ARN of the behavior graph.
 
 =head2 CreatedTime => Str
 
-The date and time that the behavior graph was created. The value is in
-milliseconds since the epoch.
+The date and time that the behavior graph was created. The value is an
+ISO8601 formatted string. For example, C<2021-08-18T16:35:56.284Z>.
 
 
 

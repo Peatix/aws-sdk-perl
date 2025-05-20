@@ -40,9 +40,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ops
 
 =head2 B<REQUIRED> VolumeId => Str
 
-The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks
-Stacks assigned to the instance when you registered the volume with the
-stack, not the Amazon EC2 volume ID.
+The OpsWorks Stacks volume ID, which is the GUID that OpsWorks Stacks
+assigned to the instance when you registered the volume with the stack,
+not the Amazon EC2 volume ID.
 
 
 

@@ -3,6 +3,7 @@ package Paws::ApiGateway::GetDomainNames;
   use Moose;
   has Limit => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'limit');
   has Position => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'position');
+  has ResourceOwner => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'resourceOwner');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $apigateway = Paws->service('ApiGateway');
     my $DomainNames = $apigateway->GetDomainNames(
-      Limit    => 1,             # OPTIONAL
-      Position => 'MyString',    # OPTIONAL
+      Limit         => 1,             # OPTIONAL
+      Position      => 'MyString',    # OPTIONAL
+      ResourceOwner => 'SELF',        # OPTIONAL
     );
 
     # Results:
@@ -58,6 +60,12 @@ The maximum number of returned results per page. The default value is
 The current pagination position in the paged result set.
 
 
+
+=head2 ResourceOwner => Str
+
+The owner of the domain name access association.
+
+Valid values are: C<"SELF">, C<"OTHER_ACCOUNTS">
 
 
 =head1 SEE ALSO

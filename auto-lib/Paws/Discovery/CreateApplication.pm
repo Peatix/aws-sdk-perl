@@ -3,6 +3,7 @@ package Paws::Discovery::CreateApplication;
   use Moose;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
+  has Wave => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'wave' );
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $discovery = Paws->service('Discovery');
     my $CreateApplicationResponse = $discovery->CreateApplication(
-      Name        => 'MyString',
-      Description => 'MyString',    # OPTIONAL
+      Name        => 'MyApplicationName',
+      Description => 'MyApplicationDescription',    # OPTIONAL
+      Wave        => 'MyApplicationWave',           # OPTIONAL
     );
 
     # Results:
@@ -46,13 +48,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dis
 
 =head2 Description => Str
 
-Description of the application to be created.
+The description of the application to be created.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-Name of the application to be created.
+The name of the application to be created.
+
+
+
+=head2 Wave => Str
+
+The name of the migration wave of the application to be created.
 
 
 

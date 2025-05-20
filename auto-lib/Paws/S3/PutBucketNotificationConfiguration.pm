@@ -4,6 +4,7 @@ package Paws::S3::PutBucketNotificationConfiguration;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
   has NotificationConfiguration => (is => 'ro', isa => 'Paws::S3::NotificationConfiguration', traits => ['ParamInBody'], required => 1);
+  has SkipDestinationValidation => (is => 'ro', isa => 'Bool', header_name => 'x-amz-skip-destination-validation', traits => ['ParamInHeader']);
 
 
   use MooseX::ClassAttribute;
@@ -66,15 +67,22 @@ The name of the bucket.
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
 =head2 B<REQUIRED> NotificationConfiguration => L<Paws::S3::NotificationConfiguration>
 
 
+
+
+
+=head2 SkipDestinationValidation => Bool
+
+Skips validation of Amazon SQS, Amazon SNS, and Lambda destinations.
+True or false value.
 
 
 

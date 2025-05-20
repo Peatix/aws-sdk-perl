@@ -1,6 +1,7 @@
 
 package Paws::AmplifyBackend::GetBackendAPIModelsResponse;
   use Moose;
+  has ModelIntrospectionSchema => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelIntrospectionSchema');
   has Models => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'models');
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status');
 
@@ -14,6 +15,12 @@ package Paws::AmplifyBackend::GetBackendAPIModelsResponse;
 Paws::AmplifyBackend::GetBackendAPIModelsResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ModelIntrospectionSchema => Str
+
+Stringified JSON of the model introspection schema for an existing
+backend API resource.
 
 
 =head2 Models => Str

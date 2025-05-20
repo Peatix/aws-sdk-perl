@@ -47,7 +47,7 @@ The Availability Zone. Follows the format C<us-east-2a>
 
 =head2 RegionName => Str
 
-The AWS Region name.
+The Amazon Web Services Region name.
 
 
 

@@ -18,12 +18,12 @@ Paws::AuditManager::RegisterOrganizationAdminAccountResponse
 
 =head2 AdminAccountId => Str
 
-The identifier for the specified delegated administrator account.
+The identifier for the delegated administrator account.
 
 
 =head2 OrganizationId => Str
 
-The identifier for the specified AWS organization.
+The identifier for the organization.
 
 
 =head2 _request_id => Str

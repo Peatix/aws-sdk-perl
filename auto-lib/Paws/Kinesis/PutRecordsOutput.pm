@@ -30,7 +30,7 @@ C<NONE>: Do not encrypt the records.
 =item *
 
 C<KMS>: Use server-side encryption on the records using a
-customer-managed AWS KMS key.
+customer-managed Amazon Web Services KMS key.
 
 =back
 
@@ -44,11 +44,11 @@ request.
 
 =head2 B<REQUIRED> Records => ArrayRef[L<Paws::Kinesis::PutRecordsResultEntry>]
 
-An array of successfully and unsuccessfully processed record results,
-correlated with the request by natural ordering. A record that is
-successfully added to a stream includes C<SequenceNumber> and
-C<ShardId> in the result. A record that fails to be added to a stream
-includes C<ErrorCode> and C<ErrorMessage> in the result.
+An array of successfully and unsuccessfully processed record results. A
+record that is successfully added to a stream includes
+C<SequenceNumber> and C<ShardId> in the result. A record that fails to
+be added to a stream includes C<ErrorCode> and C<ErrorMessage> in the
+result.
 
 
 =head2 _request_id => Str

@@ -29,17 +29,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To retrieve environment details
+    # The following get-environment example returns the details and state of the
+    # specified environment.
     my $Environment = $appconfig->GetEnvironment(
-      ApplicationId => 'MyId',
-      EnvironmentId => 'MyId',
-
+      'ApplicationId' => '339ohji',
+      'EnvironmentId' => '54j1r29'
     );
 
     # Results:
     my $ApplicationId = $Environment->ApplicationId;
-    my $Description   = $Environment->Description;
     my $Id            = $Environment->Id;
-    my $Monitors      = $Environment->Monitors;
     my $Name          = $Environment->Name;
     my $State         = $Environment->State;
 
@@ -60,7 +60,7 @@ get.
 
 =head2 B<REQUIRED> EnvironmentId => Str
 
-The ID of the environment you wnat to get.
+The ID of the environment that you want to get.
 
 
 

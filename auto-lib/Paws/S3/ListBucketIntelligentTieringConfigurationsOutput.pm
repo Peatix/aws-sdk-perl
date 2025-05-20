@@ -21,7 +21,7 @@ Paws::S3::ListBucketIntelligentTieringConfigurationsOutput
 
 =head2 ContinuationToken => Str
 
-The ContinuationToken that represents a placeholder from where this
+The C<ContinuationToken> that represents a placeholder from where this
 request should begin.
 
 
@@ -35,8 +35,9 @@ The list of S3 Intelligent-Tiering configurations for a bucket.
 =head2 IsTruncated => Bool
 
 Indicates whether the returned list of analytics configurations is
-complete. A value of true indicates that the list is not complete and
-the NextContinuationToken will be provided for a subsequent request.
+complete. A value of C<true> indicates that the list is not complete
+and the C<NextContinuationToken> will be provided for a subsequent
+request.
 
 
 

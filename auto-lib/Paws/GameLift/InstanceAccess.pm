@@ -37,31 +37,34 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::I
 
 =head1 DESCRIPTION
 
-Information required to remotely connect to a fleet instance. Access is
-requested by calling GetInstanceAccess.
+Information and credentials that you can use to remotely connect to an
+instance in an EC2 managed fleet. This data type is returned in
+response to a call to
+https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess).
 
 =head1 ATTRIBUTES
 
 
 =head2 Credentials => L<Paws::GameLift::InstanceCredentials>
 
-Credentials required to access the instance.
+Security credentials that are required to access the instance.
 
 
 =head2 FleetId => Str
 
-A unique identifier for the fleet containing the instance being
+A unique identifier for the fleet containing the instance to be
 accessed.
 
 
 =head2 InstanceId => Str
 
-A unique identifier for the instance being accessed.
+A unique identifier for the instance to be accessed.
 
 
 =head2 IpAddress => Str
 
-IP address that is assigned to the instance.
+IP address assigned to the instance.
 
 
 =head2 OperatingSystem => Str

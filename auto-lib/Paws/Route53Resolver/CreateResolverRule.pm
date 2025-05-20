@@ -2,7 +2,7 @@
 package Paws::Route53Resolver::CreateResolverRule;
   use Moose;
   has CreatorRequestId => (is => 'ro', isa => 'Str', required => 1);
-  has DomainName => (is => 'ro', isa => 'Str', required => 1);
+  has DomainName => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has ResolverEndpointId => (is => 'ro', isa => 'Str');
   has RuleType => (is => 'ro', isa => 'Str', required => 1);
@@ -35,8 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $route53resolver = Paws->service('Route53Resolver');
     my $CreateResolverRuleResponse = $route53resolver->CreateResolverRule(
       CreatorRequestId   => 'MyCreatorRequestId',
-      DomainName         => 'MyDomainName',
       RuleType           => 'FORWARD',
+      DomainName         => 'MyDomainName',         # OPTIONAL
       Name               => 'MyName',               # OPTIONAL
       ResolverEndpointId => 'MyResourceId',         # OPTIONAL
       Tags               => [
@@ -49,8 +49,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
       TargetIps => [
         {
-          Ip   => 'MyIp',    # min: 7, max: 36
-          Port => 1,         # max: 65535; OPTIONAL
+          Ip       => 'MyIp',      # min: 7, max: 36; OPTIONAL
+          Ipv6     => 'MyIpv6',    # min: 7, max: 39; OPTIONAL
+          Port     => 1,           # max: 65535; OPTIONAL
+          Protocol => 'DoH',       # values: DoH, Do53, DoH-FIPS; OPTIONAL
+          ServerNameIndication => 'MyServerNameIndication', # max: 255; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -76,7 +79,7 @@ stamp.
 
 
 
-=head2 B<REQUIRED> DomainName => Str
+=head2 DomainName => Str
 
 DNS queries for this domain name are forwarded to the IP addresses that
 you specify in C<TargetIps>. If a query matches multiple Resolver rules
@@ -129,7 +132,8 @@ endpoint.
 =head2 TargetIps => ArrayRef[L<Paws::Route53Resolver::TargetAddress>]
 
 The IPs that you want Resolver to forward DNS queries to. You can
-specify only IPv4 addresses. Separate IP addresses with a space.
+specify either Ipv4 or Ipv6 addresses but not both in the same rule.
+Separate IP addresses with a space.
 
 C<TargetIps> is available only when the value of C<Rule type> is
 C<FORWARD>.

@@ -17,8 +17,8 @@ Paws::WAFV2::UpdateRegexPatternSetResponse
 =head2 NextLockToken => Str
 
 A token used for optimistic locking. WAF returns this token to your
-update requests. You use C<NextLockToken> in the same manner as you use
-C<LockToken>.
+C<update> requests. You use C<NextLockToken> in the same manner as you
+use C<LockToken>.
 
 
 =head2 _request_id => Str

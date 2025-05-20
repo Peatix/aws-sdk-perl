@@ -2,7 +2,7 @@
 package Paws::MQ::UpdateConfiguration;
   use Moose;
   has ConfigurationId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'configuration-id', required => 1);
-  has Data => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'data');
+  has Data => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'data', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
 
   use MooseX::ClassAttribute;
@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mq = Paws->service('MQ');
     my $UpdateConfigurationResponse = $mq->UpdateConfiguration(
       ConfigurationId => 'My__string',
-      Data            => 'My__string',    # OPTIONAL
+      Data            => 'My__string',
       Description     => 'My__string',    # OPTIONAL
     );
 
@@ -58,9 +58,10 @@ The unique ID that Amazon MQ generates for the configuration.
 
 
 
-=head2 Data => Str
+=head2 B<REQUIRED> Data => Str
 
-Required. The base64-encoded XML configuration.
+Amazon MQ for Active MQ: The base64-encoded XML configuration. Amazon
+MQ for RabbitMQ: the base64-encoded Cuttlefish configuration.
 
 
 

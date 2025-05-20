@@ -53,7 +53,7 @@ Source type for the relational database.
 =item *
 
 B<RDS_HTTP_ENDPOINT>: The relational database source type is an Amazon
-RDS HTTP endpoint.
+Relational Database Service (Amazon RDS) HTTP endpoint.
 
 =back
 

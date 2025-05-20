@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> ActionTargetArn => Str
 
-The ARN of the custom action target to delete.
+The Amazon Resource Name (ARN) of the custom action target to delete.
 
 
 

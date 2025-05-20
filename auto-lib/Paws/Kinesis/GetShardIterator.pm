@@ -4,7 +4,8 @@ package Paws::Kinesis::GetShardIterator;
   has ShardId => (is => 'ro', isa => 'Str', required => 1);
   has ShardIteratorType => (is => 'ro', isa => 'Str', required => 1);
   has StartingSequenceNumber => (is => 'ro', isa => 'Str');
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
   has Timestamp => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -34,8 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetShardIteratorOutput = $kinesis->GetShardIterator(
       ShardId                => 'MyShardId',
       ShardIteratorType      => 'AT_SEQUENCE_NUMBER',
-      StreamName             => 'MyStreamName',
       StartingSequenceNumber => 'MySequenceNumber',       # OPTIONAL
+      StreamARN              => 'MyStreamARN',            # OPTIONAL
+      StreamName             => 'MyStreamName',           # OPTIONAL
       Timestamp              => '1970-01-01T01:00:00',    # OPTIONAL
     );
 
@@ -105,7 +107,13 @@ AFTER_SEQUENCE_NUMBER.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the Amazon Kinesis data stream.
 

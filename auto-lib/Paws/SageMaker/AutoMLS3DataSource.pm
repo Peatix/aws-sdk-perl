@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The Amazon S3 data source.
+Describes the Amazon S3 data source.
 
 =head1 ATTRIBUTES
 
@@ -43,10 +43,63 @@ The Amazon S3 data source.
 
 The data type.
 
+=over
+
+=item *
+
+If you choose C<S3Prefix>, C<S3Uri> identifies a key name prefix.
+SageMaker AI uses all objects that match the specified key name prefix
+for model training.
+
+The C<S3Prefix> should have the following format:
+
+C<s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE>
+
+=item *
+
+If you choose C<ManifestFile>, C<S3Uri> identifies an object that is a
+manifest file containing a list of object keys that you want SageMaker
+AI to use for model training.
+
+A C<ManifestFile> should have the format shown below:
+
+C<[ {"prefix":
+"s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"},>
+
+C<"DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1",>
+
+C<"DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",>
+
+C<... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]>
+
+=item *
+
+If you choose C<AugmentedManifestFile>, C<S3Uri> identifies an object
+that is an augmented manifest file in JSON lines format. This file
+contains the data you want to use for model training.
+C<AugmentedManifestFile> is available for V2 API jobs only (for
+example, for jobs created by calling C<CreateAutoMLJobV2>).
+
+Here is a minimal, single-record example of an
+C<AugmentedManifestFile>:
+
+C<{"source-ref":
+"s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg",>
+
+C<"label-metadata": {"class-name": "cat"> }
+
+For more information on C<AugmentedManifestFile>, see Provide Dataset
+Metadata to Training Jobs with an Augmented Manifest File
+(https://docs.aws.amazon.com/sagemaker/latest/dg/augmented-manifest.html).
+
+=back
+
+
 
 =head2 B<REQUIRED> S3Uri => Str
 
-The URL to the Amazon S3 data source.
+The URL to the Amazon S3 data source. The Uri refers to the Amazon S3
+prefix or ManifestFile depending on the data type.
 
 
 

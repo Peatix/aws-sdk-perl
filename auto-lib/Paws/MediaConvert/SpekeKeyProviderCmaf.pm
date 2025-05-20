@@ -3,6 +3,7 @@ package Paws::MediaConvert::SpekeKeyProviderCmaf;
   use Moose;
   has CertificateArn => (is => 'ro', isa => 'Str', request_name => 'certificateArn', traits => ['NameInRequest']);
   has DashSignaledSystemIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'dashSignaledSystemIds', traits => ['NameInRequest']);
+  has EncryptionContractConfiguration => (is => 'ro', isa => 'Paws::MediaConvert::EncryptionContractConfiguration', request_name => 'encryptionContractConfiguration', traits => ['NameInRequest']);
   has HlsSignaledSystemIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'hlsSignaledSystemIds', traits => ['NameInRequest']);
   has ResourceId => (is => 'ro', isa => 'Str', request_name => 'resourceId', traits => ['NameInRequest']);
   has Url => (is => 'ro', isa => 'Str', request_name => 'url', traits => ['NameInRequest']);
@@ -61,12 +62,21 @@ manifest can currently signal up to three system IDs. For more
 information, see https://dashif.org/identifiers/content_protection/.
 
 
+=head2 EncryptionContractConfiguration => L<Paws::MediaConvert::EncryptionContractConfiguration>
+
+Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses
+when encrypting your output. For more information, see:
+https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html
+To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0
+video preset and a SPEKE v2.0 audio preset.
+
+
 =head2 HlsSignaledSystemIds => ArrayRef[Str|Undef]
 
-Specify the DRM system ID that you want signaled in the HLS manifest
-that MediaConvert creates as part of this CMAF package. The HLS
-manifest can currently signal only one system ID. For more information,
-see https://dashif.org/identifiers/content_protection/.
+Specify up to 3 DRM system IDs that you want signaled in the HLS
+manifest that MediaConvert creates as part of this CMAF package. For
+more information, see
+https://dashif.org/identifiers/content_protection/.
 
 
 =head2 ResourceId => Str

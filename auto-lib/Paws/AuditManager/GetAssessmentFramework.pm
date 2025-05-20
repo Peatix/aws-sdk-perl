@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> FrameworkId => Str
 
-The identifier for the specified framework.
+The identifier for the framework.
 
 
 

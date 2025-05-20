@@ -17,7 +17,7 @@ Paws::AuditManager::UpdateAssessmentFrameworkResponse
 
 =head2 Framework => L<Paws::AuditManager::Framework>
 
-The name of the specified framework.
+The name of the framework.
 
 
 =head2 _request_id => Str

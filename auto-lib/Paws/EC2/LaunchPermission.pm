@@ -1,6 +1,8 @@
 package Paws::EC2::LaunchPermission;
   use Moose;
   has Group => (is => 'ro', isa => 'Str', request_name => 'group', traits => ['NameInRequest']);
+  has OrganizationalUnitArn => (is => 'ro', isa => 'Str', request_name => 'organizationalUnitArn', traits => ['NameInRequest']);
+  has OrganizationArn => (is => 'ro', isa => 'Str', request_name => 'organizationArn', traits => ['NameInRequest']);
   has UserId => (is => 'ro', isa => 'Str', request_name => 'userId', traits => ['NameInRequest']);
 1;
 
@@ -42,9 +44,19 @@ This class has no description
 The name of the group.
 
 
+=head2 OrganizationalUnitArn => Str
+
+The Amazon Resource Name (ARN) of an organizational unit (OU).
+
+
+=head2 OrganizationArn => Str
+
+The Amazon Resource Name (ARN) of an organization.
+
+
 =head2 UserId => Str
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 Constraints: Up to 10 000 account IDs can be specified in a single
 request.

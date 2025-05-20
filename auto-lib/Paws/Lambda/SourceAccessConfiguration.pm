@@ -34,51 +34,75 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lambda::Sou
 
 =head1 DESCRIPTION
 
-You can specify the authentication protocol, or the VPC components to
-secure access to your event source.
+To secure and define access to your event source, you can specify the
+authentication protocol, VPC components, or virtual host.
 
 =head1 ATTRIBUTES
 
 
 =head2 Type => Str
 
-The type of authentication protocol or the VPC components for your
-event source. For example: C<"Type":"SASL_SCRAM_512_AUTH">.
+The type of authentication protocol, VPC components, or virtual host
+for your event source. For example: C<"Type":"SASL_SCRAM_512_AUTH">.
 
 =over
 
 =item *
 
-C<BASIC_AUTH> - (MQ) The Secrets Manager secret that stores your broker
-credentials.
+C<BASIC_AUTH> E<ndash> (Amazon MQ) The Secrets Manager secret that
+stores your broker credentials.
 
 =item *
 
-C<VPC_SUBNET> - The subnets associated with your VPC. Lambda connects
-to these subnets to fetch data from your Self-Managed Apache Kafka
-cluster.
+C<BASIC_AUTH> E<ndash> (Self-managed Apache Kafka) The Secrets Manager
+ARN of your secret key used for SASL/PLAIN authentication of your
+Apache Kafka brokers.
 
 =item *
 
-C<VPC_SECURITY_GROUP> - The VPC security group used to manage access to
-your Self-Managed Apache Kafka brokers.
+C<VPC_SUBNET> E<ndash> (Self-managed Apache Kafka) The subnets
+associated with your VPC. Lambda connects to these subnets to fetch
+data from your self-managed Apache Kafka cluster.
 
 =item *
 
-C<SASL_SCRAM_256_AUTH> - The Secrets Manager ARN of your secret key
-used for SASL SCRAM-256 authentication of your Self-Managed Apache
-Kafka brokers.
+C<VPC_SECURITY_GROUP> E<ndash> (Self-managed Apache Kafka) The VPC
+security group used to manage access to your self-managed Apache Kafka
+brokers.
 
 =item *
 
-C<SASL_SCRAM_512_AUTH> - The Secrets Manager ARN of your secret key
-used for SASL SCRAM-512 authentication of your Self-Managed Apache
-Kafka brokers.
+C<SASL_SCRAM_256_AUTH> E<ndash> (Self-managed Apache Kafka) The Secrets
+Manager ARN of your secret key used for SASL SCRAM-256 authentication
+of your self-managed Apache Kafka brokers.
 
 =item *
 
-C<VIRTUAL_HOST> - The name of the virtual host in your RabbitMQ broker.
-Lambda will use this host as the event source.
+C<SASL_SCRAM_512_AUTH> E<ndash> (Amazon MSK, Self-managed Apache Kafka)
+The Secrets Manager ARN of your secret key used for SASL SCRAM-512
+authentication of your self-managed Apache Kafka brokers.
+
+=item *
+
+C<VIRTUAL_HOST> E<ndash>- (RabbitMQ) The name of the virtual host in
+your RabbitMQ broker. Lambda uses this RabbitMQ host as the event
+source. This property cannot be specified in an
+UpdateEventSourceMapping API call.
+
+=item *
+
+C<CLIENT_CERTIFICATE_TLS_AUTH> E<ndash> (Amazon MSK, self-managed
+Apache Kafka) The Secrets Manager ARN of your secret key containing the
+certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private
+key password (optional) used for mutual TLS authentication of your
+MSK/Apache Kafka brokers.
+
+=item *
+
+C<SERVER_ROOT_CA_CERTIFICATE> E<ndash> (Self-managed Apache Kafka) The
+Secrets Manager ARN of your secret key containing the root CA
+certificate (X.509 PEM) used for TLS encryption of your Apache Kafka
+brokers.
 
 =back
 

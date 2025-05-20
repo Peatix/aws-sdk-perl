@@ -22,7 +22,7 @@ Token for the next set of results.
 
 =head2 ReportGenerators => ArrayRef[L<Paws::LicenseManager::ReportGenerator>]
 
-A report generator that creates periodic reports on your license
+A report generator that creates periodic reports about your license
 configurations.
 
 

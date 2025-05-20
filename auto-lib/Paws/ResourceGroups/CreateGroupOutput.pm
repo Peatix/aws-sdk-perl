@@ -27,7 +27,7 @@ The description of the resource group.
 
 The service configuration associated with the resource group. For
 details about the syntax of a service configuration, see Service
-configurations for resource groups
+configurations for Resource Groups
 (https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
 
 

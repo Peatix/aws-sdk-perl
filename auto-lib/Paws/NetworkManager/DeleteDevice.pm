@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $DeleteDeviceResponse = $networkmanager->DeleteDevice(
-      DeviceId        => 'MyString',
-      GlobalNetworkId => 'MyString',
+      DeviceId        => 'MyDeviceId',
+      GlobalNetworkId => 'MyGlobalNetworkId',
 
     );
 

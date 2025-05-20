@@ -45,6 +45,9 @@ published findings.
 
 The ARN of the resource to publish to.
 
+To specify an S3 bucket folder use the following format:
+C<arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/>
+
 
 =head2 KmsKeyArn => Str
 

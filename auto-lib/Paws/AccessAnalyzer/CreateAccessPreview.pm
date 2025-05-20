@@ -34,6 +34,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AnalyzerArn    => 'MyAnalyzerArn',
       Configurations => {
         'MyConfigurationsMapKey' => {
+          DynamodbStream => {
+            StreamPolicy => 'MyDynamodbStreamPolicy',    # OPTIONAL
+          },    # OPTIONAL
+          DynamodbTable => {
+            TablePolicy => 'MyDynamodbTablePolicy',    # OPTIONAL
+          },    # OPTIONAL
+          EbsSnapshot => {
+            Groups   => [ 'MyEbsGroup', ... ],                 # OPTIONAL
+            KmsKeyId => 'MyEbsSnapshotDataEncryptionKeyId',    # OPTIONAL
+            UserIds  => [ 'MyEbsUserId', ... ],                # OPTIONAL
+          },    # OPTIONAL
+          EcrRepository => {
+            RepositoryPolicy => 'MyEcrRepositoryPolicy',    # OPTIONAL
+          },    # OPTIONAL
+          EfsFileSystem => {
+            FileSystemPolicy => 'MyEfsFileSystemPolicy',    # OPTIONAL
+          },    # OPTIONAL
           IamRole => {
             TrustPolicy => 'MyIamTrustPolicy',    # OPTIONAL
           },    # OPTIONAL
@@ -59,6 +76,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ...
             ],    # OPTIONAL
             KeyPolicies => { 'MyPolicyName' => 'MyKmsKeyPolicy', },   # OPTIONAL
+          },    # OPTIONAL
+          RdsDbClusterSnapshot => {
+            Attributes => {
+              'MyRdsDbClusterSnapshotAttributeName' => {
+                AccountIds => [ 'MyRdsDbClusterSnapshotAccountId', ... ]
+                ,    # OPTIONAL
+              },
+            },    # OPTIONAL
+            KmsKeyId => 'MyRdsDbClusterSnapshotKmsKeyId',    # OPTIONAL
+          },    # OPTIONAL
+          RdsDbSnapshot => {
+            Attributes => {
+              'MyRdsDbSnapshotAttributeName' => {
+                AccountIds => [ 'MyRdsDbSnapshotAccountId', ... ],    # OPTIONAL
+              },
+            },    # OPTIONAL
+            KmsKeyId => 'MyRdsDbSnapshotKmsKeyId',    # OPTIONAL
           },    # OPTIONAL
           S3Bucket => {
             AccessPoints => {
@@ -99,9 +133,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },                                                # OPTIONAL
           },    # OPTIONAL
+          S3ExpressDirectoryBucket => {
+            AccessPoints => {
+              'MyS3ExpressDirectoryAccessPointArn' => {
+                AccessPointPolicy => 'MyAccessPointPolicy',    # OPTIONAL
+                NetworkOrigin     => {
+                  InternetConfiguration => {
+
+                  },                                           # OPTIONAL
+                  VpcConfiguration => {
+                    VpcId => 'MyVpcId',
+
+                  },                                           # OPTIONAL
+                },    # OPTIONAL
+              },
+            },    # OPTIONAL
+            BucketPolicy => 'MyS3ExpressDirectoryBucketPolicy',    # OPTIONAL
+          },    # OPTIONAL
           SecretsManagerSecret => {
             KmsKeyId     => 'MySecretsManagerSecretKmsId',     # OPTIONAL
             SecretPolicy => 'MySecretsManagerSecretPolicy',    # OPTIONAL
+          },    # OPTIONAL
+          SnsTopic => {
+            TopicPolicy => 'MySnsTopicPolicy',    # max: 30720; OPTIONAL
           },    # OPTIONAL
           SqsQueue => {
             QueuePolicy => 'MySqsQueuePolicy',    # OPTIONAL

@@ -3,6 +3,7 @@ package Paws::AccessAnalyzer::StartResourceScan;
   use Moose;
   has AnalyzerArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'analyzerArn', required => 1);
   has ResourceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceArn', required => 1);
+  has ResourceOwnerAccount => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceOwnerAccount');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $access-analyzer = Paws->service('AccessAnalyzer');
     $access -analyzer->StartResourceScan(
-      AnalyzerArn => 'MyAnalyzerArn',
-      ResourceArn => 'MyResourceArn',
-
+      AnalyzerArn          => 'MyAnalyzerArn',
+      ResourceArn          => 'MyResourceArn',
+      ResourceOwnerAccount => 'MyString',        # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -52,6 +53,14 @@ to use to scan the policies applied to the specified resource.
 =head2 B<REQUIRED> ResourceArn => Str
 
 The ARN of the resource to scan.
+
+
+
+=head2 ResourceOwnerAccount => Str
+
+The Amazon Web Services account ID that owns the resource. For most
+Amazon Web Services resources, the owning account is the account in
+which the resource was created.
 
 
 

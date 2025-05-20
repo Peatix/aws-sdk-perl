@@ -36,8 +36,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::FastRe
 
 =head1 DESCRIPTION
 
-Specifies a rule for enabling fast snapshot restore. You can enable
-fast snapshot restore based on either a count or a time interval.
+B<[Custom snapshot policies only]> Specifies a rule for enabling fast
+snapshot restore for snapshots created by snapshot policies. You can
+enable fast snapshot restore based on either a count or a time
+interval.
 
 =head1 ATTRIBUTES
 

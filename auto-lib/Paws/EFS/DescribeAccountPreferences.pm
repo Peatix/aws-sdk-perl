@@ -50,13 +50,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 MaxResults => Int
 
-
+(Optional) When retrieving account preferences, you can optionally
+specify the C<MaxItems> parameter to limit the number of objects
+returned in a response. The default value is 100.
 
 
 
 =head2 NextToken => Str
 
-
+(Optional) You can use C<NextToken> in a subsequent request to fetch
+the next page of Amazon Web Services account preferences if the
+response payload was paginated.
 
 
 

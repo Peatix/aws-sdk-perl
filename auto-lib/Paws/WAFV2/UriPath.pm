@@ -32,12 +32,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::UriP
 
 =head1 DESCRIPTION
 
-The path component of the URI of a web request. This is the part of a
-web request that identifies a resource. For example,
+Inspect the path component of the URI of the web request. This is the
+part of the web request that identifies a resource. For example,
 C</images/daily-ad.jpg>.
 
-This is used only to indicate the web request component for WAF to
-inspect, in the FieldToMatch specification.
+This is used in the FieldToMatch specification for some web request
+component types.
+
+JSON specification: C<"UriPath": {}>
 
 =head1 ATTRIBUTES
 

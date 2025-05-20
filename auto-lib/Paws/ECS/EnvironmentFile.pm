@@ -38,29 +38,61 @@ A list of files containing the environment variables to pass to a
 container. You can specify up to ten environment files. The file must
 have a C<.env> file extension. Each line in an environment file should
 contain an environment variable in C<VARIABLE=VALUE> format. Lines
-beginning with C<#> are treated as comments and are ignored. For more
-information on the environment variable file syntax, see Declare
-default environment variables in file
-(https://docs.docker.com/compose/env-file/).
+beginning with C<#> are treated as comments and are ignored.
 
 If there are environment variables specified using the C<environment>
 parameter in a container definition, they take precedence over the
 variables contained within an environment file. If multiple environment
-files are specified that contain the same variable, they are processed
-from the top down. It is recommended to use unique variable names. For
-more information, see Specifying environment variables
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html)
+files are specified that contain the same variable, they're processed
+from the top down. We recommend that you use unique variable names. For
+more information, see Use a file to pass environment variables to a
+container
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/use-environment-file.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-This field is only valid for containers in Fargate tasks that use
-platform version C<1.4.0> or later.
+Environment variable files are objects in Amazon S3 and all Amazon S3
+security considerations apply.
+
+You must use the following platforms for the Fargate launch type:
+
+=over
+
+=item *
+
+Linux platform version C<1.4.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
+
+Consider the following when using the Fargate launch type:
+
+=over
+
+=item *
+
+The file is handled like a native Docker env-file.
+
+=item *
+
+There is no support for shell escape handling.
+
+=item *
+
+The container entry point interperts the C<VARIABLE> values.
+
+=back
+
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Type => Str
 
-The file type to use. The only supported value is C<s3>.
+The file type to use. Environment files are objects in Amazon S3. The
+only supported value is C<s3>.
 
 
 =head2 B<REQUIRED> Value => Str

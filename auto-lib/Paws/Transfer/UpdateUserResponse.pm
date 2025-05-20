@@ -17,8 +17,8 @@ Paws::Transfer::UpdateUserResponse
 
 =head2 B<REQUIRED> ServerId => Str
 
-A system-assigned unique identifier for a server instance that the user
-account is assigned to.
+A system-assigned unique identifier for a Transfer Family server
+instance that the account is assigned to.
 
 
 =head2 B<REQUIRED> UserName => Str

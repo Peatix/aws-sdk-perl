@@ -9,6 +9,8 @@ package Paws::IoTSiteWise::UpdatePortal;
   has PortalId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'portalId', required => 1);
   has PortalLogoImage => (is => 'ro', isa => 'Paws::IoTSiteWise::Image', traits => ['NameInRequest'], request_name => 'portalLogoImage');
   has PortalName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'portalName', required => 1);
+  has PortalType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'portalType');
+  has PortalTypeConfiguration => (is => 'ro', isa => 'Paws::IoTSiteWise::PortalTypeConfiguration', traits => ['NameInRequest'], request_name => 'portalTypeConfiguration');
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn', required => 1);
 
   use MooseX::ClassAttribute;
@@ -40,10 +42,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PortalContactEmail => 'MyEmail',
       PortalId           => 'MyID',
       PortalName         => 'MyName',
-      RoleArn            => 'MyARN',
+      RoleArn            => 'MyIamArn',
       Alarms             => {
-        AlarmRoleArn          => 'MyARN',    # min: 1, max: 1600
-        NotificationLambdaArn => 'MyARN',    # min: 1, max: 1600
+        AlarmRoleArn          => 'MyIamArn',    # min: 1, max: 1600
+        NotificationLambdaArn => 'MyARN',       # min: 1, max: 1600; OPTIONAL
       },    # OPTIONAL
       ClientToken             => 'MyClientToken',    # OPTIONAL
       NotificationSenderEmail => 'MyEmail',          # OPTIONAL
@@ -55,6 +57,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
         },    # OPTIONAL
         Id => 'MyID',    # min: 36, max: 36
+      },    # OPTIONAL
+      PortalType              => 'SITEWISE_PORTAL_V1',    # OPTIONAL
+      PortalTypeConfiguration => {
+        'MyPortalTypeKey' => {
+          PortalTools => [
+            'MyName', ...    # min: 1, max: 256
+          ],    # OPTIONAL
+        },    # key: min: 1, max: 128
       },    # OPTIONAL
     );
 
@@ -71,10 +81,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 Alarms => L<Paws::IoTSiteWise::Alarms>
 
-Contains the configuration information of an alarm created in an AWS
-IoT SiteWise Monitor portal. You can use the alarm to monitor an asset
+Contains the configuration information of an alarm created in an IoT
+SiteWise Monitor portal. You can use the alarm to monitor an asset
 property and get notified when the asset property value is outside a
-specified range. For more information, see .
+specified range. For more information, see Monitoring with alarms
+(https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
+in the I<IoT SiteWise Application Guide>.
 
 
 
@@ -94,7 +106,7 @@ The email address that sends alarm notifications.
 
 =head2 B<REQUIRED> PortalContactEmail => Str
 
-The AWS administrator's contact email address.
+The Amazon Web Services administrator's contact email address.
 
 
 
@@ -122,15 +134,31 @@ A new friendly name for the portal.
 
 
 
+=head2 PortalType => Str
+
+Define the type of portal. The value for IoT SiteWise Monitor (Classic)
+is C<SITEWISE_PORTAL_V1>. The value for IoT SiteWise Monitor (AI-aware)
+is C<SITEWISE_PORTAL_V2>.
+
+Valid values are: C<"SITEWISE_PORTAL_V1">, C<"SITEWISE_PORTAL_V2">
+
+=head2 PortalTypeConfiguration => L<Paws::IoTSiteWise::PortalTypeConfiguration>
+
+The configuration entry associated with the specific portal type. The
+value for IoT SiteWise Monitor (Classic) is C<SITEWISE_PORTAL_V1>. The
+value for IoT SiteWise Monitor (AI-aware) is C<SITEWISE_PORTAL_V2>.
+
+
+
 =head2 B<REQUIRED> RoleArn => Str
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of a service role that allows the portal's users to access your AWS IoT
+of a service role that allows the portal's users to access your IoT
 SiteWise resources on your behalf. For more information, see Using
-service roles for AWS IoT SiteWise Monitor
+service roles for IoT SiteWise Monitor
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

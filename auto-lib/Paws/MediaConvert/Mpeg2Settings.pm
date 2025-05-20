@@ -13,6 +13,7 @@ package Paws::MediaConvert::Mpeg2Settings;
   has GopClosedCadence => (is => 'ro', isa => 'Int', request_name => 'gopClosedCadence', traits => ['NameInRequest']);
   has GopSize => (is => 'ro', isa => 'Num', request_name => 'gopSize', traits => ['NameInRequest']);
   has GopSizeUnits => (is => 'ro', isa => 'Str', request_name => 'gopSizeUnits', traits => ['NameInRequest']);
+  has HrdBufferFinalFillPercentage => (is => 'ro', isa => 'Int', request_name => 'hrdBufferFinalFillPercentage', traits => ['NameInRequest']);
   has HrdBufferInitialFillPercentage => (is => 'ro', isa => 'Int', request_name => 'hrdBufferInitialFillPercentage', traits => ['NameInRequest']);
   has HrdBufferSize => (is => 'ro', isa => 'Int', request_name => 'hrdBufferSize', traits => ['NameInRequest']);
   has InterlaceMode => (is => 'ro', isa => 'Str', request_name => 'interlaceMode', traits => ['NameInRequest']);
@@ -23,6 +24,7 @@ package Paws::MediaConvert::Mpeg2Settings;
   has ParControl => (is => 'ro', isa => 'Str', request_name => 'parControl', traits => ['NameInRequest']);
   has ParDenominator => (is => 'ro', isa => 'Int', request_name => 'parDenominator', traits => ['NameInRequest']);
   has ParNumerator => (is => 'ro', isa => 'Int', request_name => 'parNumerator', traits => ['NameInRequest']);
+  has PerFrameMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'perFrameMetrics', traits => ['NameInRequest']);
   has QualityTuningLevel => (is => 'ro', isa => 'Str', request_name => 'qualityTuningLevel', traits => ['NameInRequest']);
   has RateControlMode => (is => 'ro', isa => 'Str', request_name => 'rateControlMode', traits => ['NameInRequest']);
   has ScanTypeConversionMode => (is => 'ro', isa => 'Str', request_name => 'scanTypeConversionMode', traits => ['NameInRequest']);
@@ -64,8 +66,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value MPEG2.
+Required when you set Codec to the value MPEG2.
 
 =head1 ATTRIBUTES
 
@@ -74,8 +75,8 @@ Required when you set (Codec) under
 
 Specify the strength of any adaptive quantization filters that you
 enable. The value that you choose here applies to the following
-settings: Spatial adaptive quantization (spatialAdaptiveQuantization),
-and Temporal adaptive quantization (temporalAdaptiveQuantization).
+settings: Spatial adaptive quantization, and Temporal adaptive
+quantization.
 
 
 =head2 Bitrate => Int
@@ -87,14 +88,12 @@ to the nearest multiple of 1000.
 
 =head2 CodecLevel => Str
 
-Use Level (Mpeg2CodecLevel) to set the MPEG-2 level for the video
-output.
+Use Level to set the MPEG-2 level for the video output.
 
 
 =head2 CodecProfile => Str
 
-Use Profile (Mpeg2CodecProfile) to set the MPEG-2 profile for the video
-output.
+Use Profile to set the MPEG-2 profile for the video output.
 
 
 =head2 DynamicSubGop => Str
@@ -104,7 +103,7 @@ content. This will cause the service to use fewer B-frames (which infer
 information based on other frames) for high-motion portions of the
 video and more B-frames for low-motion portions. The maximum number of
 B-frames is limited by the value you provide for the setting B frames
-between reference frames (numberBFramesBetweenReferenceFrames).
+between reference frames.
 
 
 =head2 FramerateControl => Str
@@ -115,28 +114,29 @@ the input video, choose Follow source. If you want to do frame rate
 conversion, choose a frame rate from the dropdown list or choose
 Custom. The framerates shown in the dropdown list are decimal
 approximations of fractions. If you choose Custom, specify your frame
-rate as a fraction. If you are creating your transcoding job
-specification as a JSON file without the console, use FramerateControl
-to specify which value the service uses for the frame rate for this
-output. Choose INITIALIZE_FROM_SOURCE if you want the service to use
-the frame rate from the input. Choose SPECIFIED if you want the service
-to use the frame rate you specify in the settings FramerateNumerator
-and FramerateDenominator.
+rate as a fraction.
 
 
 =head2 FramerateConversionAlgorithm => Str
 
 Choose the method that you want MediaConvert to use when increasing or
-decreasing the frame rate. We recommend using drop duplicate
-(DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to
-30 fps. For numerically complex conversions, you can use interpolate
-(INTERPOLATE) to avoid stutter. This results in a smooth picture, but
-might introduce undesirable video artifacts. For complex frame rate
+decreasing your video's frame rate. For numerically simple conversions,
+such as 60 fps to 30 fps: We recommend that you keep the default value,
+Drop duplicate. For numerically complex conversions, to avoid stutter:
+Choose Interpolate. This results in a smooth picture, but might
+introduce undesirable video artifacts. For complex frame rate
 conversions, especially if your source video has already been converted
-from its original cadence, use FrameFormer (FRAMEFORMER) to do
-motion-compensated interpolation. FrameFormer chooses the best
-conversion method frame by frame. Note that using FrameFormer increases
-the transcoding time and incurs a significant add-on cost.
+from its original cadence: Choose FrameFormer to do motion-compensated
+interpolation. FrameFormer uses the best conversion method frame by
+frame. Note that using FrameFormer increases the transcoding time and
+incurs a significant add-on cost. When you choose FrameFormer, your
+input video resolution must be at least 128x96. To create an output
+with the same number of frames as your input: Choose Maintain frame
+count. When you do, MediaConvert will not drop, interpolate, add, or
+otherwise change the frame count from your input to your output. Note
+that since the frame count is maintained, the duration of your output
+will become shorter at higher frame rates and longer at lower frame
+rates.
 
 
 =head2 FramerateDenominator => Int
@@ -163,23 +163,35 @@ Framerate. In this example, specify 23.976.
 
 =head2 GopClosedCadence => Int
 
-Frequency of closed GOPs. In streaming applications, it is recommended
-that this be set to 1 so a decoder joining mid-stream will receive an
-IDR frame as quickly as possible. Setting this value to 0 will break
-output segmenting.
+Specify the relative frequency of open to closed GOPs in this output.
+For example, if you want to allow four open GOPs and then require a
+closed GOP, set this value to 5. When you create a streaming output, we
+recommend that you keep the default value, 1, so that players starting
+mid-stream receive an IDR frame as quickly as possible. Don't set this
+value to 0; that would break output segmenting.
 
 
 =head2 GopSize => Num
 
-GOP Length (keyframe interval) in frames or seconds. Must be greater
-than zero.
+Specify the interval between keyframes, in seconds or frames, for this
+output. Default: 12 Related settings: When you specify the GOP size in
+seconds, set GOP mode control to Specified, seconds. The default value
+for GOP mode control is Frames.
 
 
 =head2 GopSizeUnits => Str
 
-Indicates if the GOP Size in MPEG2 is specified in frames or seconds.
-If seconds the system will convert the GOP Size into a frame count at
-run time.
+Specify the units for GOP size. If you don't specify a value here, by
+default the encoder measures GOP size in frames.
+
+
+=head2 HrdBufferFinalFillPercentage => Int
+
+If your downstream systems have strict buffer requirements: Specify the
+minimum percentage of the HRD buffer that's available at the end of
+each encoded video segment. For the best video quality: Set to 0 or
+leave blank to automatically determine the final buffer fill
+percentage.
 
 
 =head2 HrdBufferInitialFillPercentage => Int
@@ -197,26 +209,25 @@ megabits as 5000000.
 =head2 InterlaceMode => Str
 
 Choose the scan line type for the output. Keep the default value,
-Progressive (PROGRESSIVE) to create a progressive output, regardless of
-the scan type of your input. Use Top field first (TOP_FIELD) or Bottom
-field first (BOTTOM_FIELD) to create an output that's interlaced with
-the same field polarity throughout. Use Follow, default top
-(FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to
-produce outputs with the same field polarity as the source. For jobs
-that have multiple inputs, the output field polarity might change over
-the course of the output. Follow behavior depends on the input scan
-type. If the source is interlaced, the output will be interlaced with
-the same polarity as the source. If the source is progressive, the
-output will be interlaced with top field bottom field first, depending
-on which of the Follow options you choose.
+Progressive to create a progressive output, regardless of the scan type
+of your input. Use Top field first or Bottom field first to create an
+output that's interlaced with the same field polarity throughout. Use
+Follow, default top or Follow, default bottom to produce outputs with
+the same field polarity as the source. For jobs that have multiple
+inputs, the output field polarity might change over the course of the
+output. Follow behavior depends on the input scan type. If the source
+is interlaced, the output will be interlaced with the same polarity as
+the source. If the source is progressive, the output will be interlaced
+with top field bottom field first, depending on which of the Follow
+options you choose.
 
 
 =head2 IntraDcPrecision => Str
 
-Use Intra DC precision (Mpeg2IntraDcPrecision) to set quantization
-precision for intra-block DC coefficients. If you choose the value
-auto, the service will automatically select the precision based on the
-per-frame compression ratio.
+Use Intra DC precision to set quantization precision for intra-block DC
+coefficients. If you choose the value auto, the service will
+automatically select the precision based on the per-frame compression
+ratio.
 
 
 =head2 MaxBitrate => Int
@@ -227,82 +238,111 @@ second as 5000000.
 
 =head2 MinIInterval => Int
 
-Enforces separation between repeated (cadence) I-frames and I-frames
-inserted by Scene Change Detection. If a scene change I-frame is within
-I-interval frames of a cadence I-frame, the GOP is shrunk and/or
-stretched to the scene change I-frame. GOP stretch requires enabling
-lookahead as well as setting I-interval. The normal cadence resumes for
-the next GOP. This setting is only used when Scene Change Detect is
-enabled. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
+Specify the minimum number of frames allowed between two IDR-frames in
+your output. This includes frames created at the start of a GOP or a
+scene change. Use Min I-Interval to improve video compression by
+varying GOP size when two IDR-frames would be created near each other.
+For example, if a regular cadence-driven IDR-frame would fall within 5
+frames of a scene-change IDR-frame, and you set Min I-interval to 5,
+then the encoder would only write an IDR-frame for the scene-change. In
+this way, one GOP is shortened or extended. If a cadence-driven
+IDR-frame would be further than 5 frames from a scene-change IDR-frame,
+then the encoder leaves all IDR-frames in place. To manually specify an
+interval: Enter a value from 1 to 30. Use when your downstream systems
+have specific GOP size requirements. To disable GOP size variance:
+Enter 0. MediaConvert will only create IDR-frames at the start of your
+output's cadence-driven GOP. Use when your downstream systems require a
+regular GOP size.
 
 
 =head2 NumberBFramesBetweenReferenceFrames => Int
 
-Number of B-frames between reference frames.
+Specify the number of B-frames that MediaConvert puts between reference
+frames in this output. Valid values are whole numbers from 0 through 7.
+When you don't specify a value, MediaConvert defaults to 2.
 
 
 =head2 ParControl => Str
 
 Optional. Specify how the service determines the pixel aspect ratio
-(PAR) for this output. The default behavior, Follow source
-(INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
-output. To specify a different PAR in the console, choose any value
-other than Follow source. To specify a different PAR by editing the
-JSON job specification, choose SPECIFIED. When you choose SPECIFIED for
-this setting, you must also specify values for the parNumerator and
-parDenominator settings.
+(PAR) for this output. The default behavior, Follow source, uses the
+PAR from your input video for your output. To specify a different PAR
+in the console, choose any value other than Follow source. When you
+choose SPECIFIED for this setting, you must also specify values for the
+parNumerator and parDenominator settings.
 
 
 =head2 ParDenominator => Int
 
-Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On
-the console, this corresponds to any value other than Follow source.
-When you specify an output pixel aspect ratio (PAR) that is different
-from your input video PAR, provide your output PAR as a ratio. For
-example, for D1/DV NTSC widescreen, you would specify the ratio 40:33.
-In this example, the value for parDenominator is 33.
+Required when you set Pixel aspect ratio to SPECIFIED. On the console,
+this corresponds to any value other than Follow source. When you
+specify an output pixel aspect ratio (PAR) that is different from your
+input video PAR, provide your output PAR as a ratio. For example, for
+D1/DV NTSC widescreen, you would specify the ratio 40:33. In this
+example, the value for parDenominator is 33.
 
 
 =head2 ParNumerator => Int
 
-Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On
-the console, this corresponds to any value other than Follow source.
-When you specify an output pixel aspect ratio (PAR) that is different
-from your input video PAR, provide your output PAR as a ratio. For
-example, for D1/DV NTSC widescreen, you would specify the ratio 40:33.
-In this example, the value for parNumerator is 40.
+Required when you set Pixel aspect ratio to SPECIFIED. On the console,
+this corresponds to any value other than Follow source. When you
+specify an output pixel aspect ratio (PAR) that is different from your
+input video PAR, provide your output PAR as a ratio. For example, for
+D1/DV NTSC widescreen, you would specify the ratio 40:33. In this
+example, the value for parNumerator is 40.
+
+
+=head2 PerFrameMetrics => ArrayRef[Str|Undef]
+
+Optionally choose one or more per frame metric reports to generate
+along with your output. You can use these metrics to analyze your video
+output according to one or more commonly used image quality metrics.
+You can specify per frame metrics for output groups or for individual
+outputs. When you do, MediaConvert writes a CSV (Comma-Separated
+Values) file to your S3 output destination, named after the output name
+and metric type. For example: videofile_PSNR.csv Jobs that generate per
+frame metrics will take longer to complete, depending on the resolution
+and complexity of your output. For example, some 4K jobs might take up
+to twice as long to complete. Note that when analyzing the video
+quality of your output, or when comparing the video quality of multiple
+different outputs, we generally also recommend a detailed visual review
+in a controlled environment. You can choose from the following per
+frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural
+Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index
+Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System *
+VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined
+Variable Bitrate. This option is only available when your output uses
+the QVBR rate control mode.
 
 
 =head2 QualityTuningLevel => Str
 
-Optional. Use Quality tuning level (qualityTuningLevel) to choose how
-you want to trade off encoding speed for output video quality. The
-default behavior is faster, lower quality, single-pass encoding.
+Optional. Use Quality tuning level to choose how you want to trade off
+encoding speed for output video quality. The default behavior is
+faster, lower quality, single-pass encoding.
 
 
 =head2 RateControlMode => Str
 
-Use Rate control mode (Mpeg2RateControlMode) to specify whether the
-bitrate is variable (vbr) or constant (cbr).
+Use Rate control mode to specify whether the bitrate is variable (vbr)
+or constant (cbr).
 
 
 =head2 ScanTypeConversionMode => Str
 
 Use this setting for interlaced outputs, when your output frame rate is
 half of your input frame rate. In this situation, choose Optimized
-interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced
-output. In this case, each progressive frame from the input corresponds
-to an interlaced field in the output. Keep the default value, Basic
-interlacing (INTERLACED), for all other output frame rates. With basic
-interlacing, MediaConvert performs any frame rate conversion first and
-then interlaces the frames. When you choose Optimized interlacing and
-you set your output frame rate to a value that isn't suitable for
-optimized interlacing, MediaConvert automatically falls back to basic
-interlacing. Required settings: To use optimized interlacing, you must
-set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use
-optimized interlacing for hard telecine outputs. You must also set
-Interlace mode (interlaceMode) to a value other than Progressive
-(PROGRESSIVE).
+interlacing to create a better quality interlaced output. In this case,
+each progressive frame from the input corresponds to an interlaced
+field in the output. Keep the default value, Basic interlacing, for all
+other output frame rates. With basic interlacing, MediaConvert performs
+any frame rate conversion first and then interlaces the frames. When
+you choose Optimized interlacing and you set your output frame rate to
+a value that isn't suitable for optimized interlacing, MediaConvert
+automatically falls back to basic interlacing. Required settings: To
+use optimized interlacing, you must set Telecine to None or Soft. You
+can't use optimized interlacing for hard telecine outputs. You must
+also set Interlace mode to a value other than Progressive.
 
 
 =head2 SceneChangeDetect => Str
@@ -319,9 +359,7 @@ per second (fps). Enable slow PAL to create a 25 fps output. When you
 enable slow PAL, MediaConvert relabels the video frames to 25 fps and
 resamples your audio to keep it synchronized with the video. Note that
 enabling this setting will slightly reduce the duration of your video.
-Required settings: You must also set Framerate to 25. In your JSON job
-specification, set (framerateControl) to (SPECIFIED),
-(framerateNumerator) to 25 and (framerateDenominator) to 1.
+Required settings: You must also set Framerate to 25.
 
 
 =head2 Softness => Int
@@ -329,41 +367,40 @@ specification, set (framerateControl) to (SPECIFIED),
 Ignore this setting unless you need to comply with a specification that
 requires a specific value. If you don't have a specification
 requirement, we recommend that you adjust the softness of your output
-by using a lower value for the setting Sharpness (sharpness) or by
-enabling a noise reducer filter (noiseReducerFilter). The Softness
-(softness) setting specifies the quantization matrices that the encoder
-uses. Keep the default value, 0, to use the AWS Elemental default
-matrices. Choose a value from 17 to 128 to use planar interpolation.
-Increasing values from 17 to 128 result in increasing reduction of
-high-frequency data. The value 128 results in the softest video.
+by using a lower value for the setting Sharpness or by enabling a noise
+reducer filter. The Softness setting specifies the quantization
+matrices that the encoder uses. Keep the default value, 0, to use the
+AWS Elemental default matrices. Choose a value from 17 to 128 to use
+planar interpolation. Increasing values from 17 to 128 result in
+increasing reduction of high-frequency data. The value 128 results in
+the softest video.
 
 
 =head2 SpatialAdaptiveQuantization => Str
 
-Keep the default value, Enabled (ENABLED), to adjust quantization
-within each frame based on spatial variation of content complexity.
-When you enable this feature, the encoder uses fewer bits on areas that
-can sustain more distortion with no noticeable visual degradation and
-uses more bits on areas where any small distortion will be noticeable.
-For example, complex textured blocks are encoded with fewer bits and
-smooth textured blocks are encoded with more bits. Enabling this
-feature will almost always improve your video quality. Note, though,
-that this feature doesn't take into account where the viewer's
-attention is likely to be. If viewers are likely to be focusing their
-attention on a part of the screen with a lot of complex texture, you
-might choose to disable this feature. Related setting: When you enable
-spatial adaptive quantization, set the value for Adaptive quantization
-(adaptiveQuantization) depending on your content. For homogeneous
-content, such as cartoons and video games, set it to Low. For content
-with a wider variety of textures, set it to High or Higher.
+Keep the default value, Enabled, to adjust quantization within each
+frame based on spatial variation of content complexity. When you enable
+this feature, the encoder uses fewer bits on areas that can sustain
+more distortion with no noticeable visual degradation and uses more
+bits on areas where any small distortion will be noticeable. For
+example, complex textured blocks are encoded with fewer bits and smooth
+textured blocks are encoded with more bits. Enabling this feature will
+almost always improve your video quality. Note, though, that this
+feature doesn't take into account where the viewer's attention is
+likely to be. If viewers are likely to be focusing their attention on a
+part of the screen with a lot of complex texture, you might choose to
+disable this feature. Related setting: When you enable spatial adaptive
+quantization, set the value for Adaptive quantization depending on your
+content. For homogeneous content, such as cartoons and video games, set
+it to Low. For content with a wider variety of textures, set it to High
+or Higher.
 
 
 =head2 Syntax => Str
 
 Specify whether this output's video uses the D10 syntax. Keep the
 default value to not use the syntax. Related settings: When you choose
-D10 (D_10) for your MXF profile (profile), you must also set this value
-to to D10 (D_10).
+D10 for your MXF profile, you must also set this value to D10.
 
 
 =head2 Telecine => Str
@@ -371,21 +408,21 @@ to to D10 (D_10).
 When you do frame rate conversion from 23.976 frames per second (fps)
 to 29.97 fps, and your output scan type is interlaced, you can
 optionally enable hard or soft telecine to create a smoother picture.
-Hard telecine (HARD) produces a 29.97i output. Soft telecine (SOFT)
-produces an output with a 23.976 output that signals to the video
-player device to do the conversion during play back. When you keep the
-default value, None (NONE), MediaConvert does a standard frame rate
-conversion to 29.97 without doing anything with the field polarity to
-create a smoother picture.
+Hard telecine produces a 29.97i output. Soft telecine produces an
+output with a 23.976 output that signals to the video player device to
+do the conversion during play back. When you keep the default value,
+None, MediaConvert does a standard frame rate conversion to 29.97
+without doing anything with the field polarity to create a smoother
+picture.
 
 
 =head2 TemporalAdaptiveQuantization => Str
 
-Keep the default value, Enabled (ENABLED), to adjust quantization
-within each frame based on temporal variation of content complexity.
-When you enable this feature, the encoder uses fewer bits on areas of
-the frame that aren't moving and uses more bits on complex objects with
-sharp edges that move a lot. For example, this feature improves the
+Keep the default value, Enabled, to adjust quantization within each
+frame based on temporal variation of content complexity. When you
+enable this feature, the encoder uses fewer bits on areas of the frame
+that aren't moving and uses more bits on complex objects with sharp
+edges that move a lot. For example, this feature improves the
 readability of text tickers on newscasts and scoreboards on sports
 matches. Enabling this feature will almost always improve your video
 quality. Note, though, that this feature doesn't take into account
@@ -394,7 +431,7 @@ be focusing their attention on a part of the screen that doesn't have
 moving objects with sharp edges, such as sports athletes' faces, you
 might choose to disable this feature. Related setting: When you enable
 temporal quantization, adjust the strength of the filter with the
-setting Adaptive quantization (adaptiveQuantization).
+setting Adaptive quantization.
 
 
 

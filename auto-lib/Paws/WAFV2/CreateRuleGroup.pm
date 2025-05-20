@@ -68,6 +68,54 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },    # OPTIONAL
                 Body => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Cookies => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                HeaderOrder => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                Headers => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                JA3Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JA4Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
 
                 },    # OPTIONAL
                 JsonBody => {
@@ -82,6 +130,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
                   InvalidFallbackBehavior => 'MATCH'
                   ,    # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
                 },    # OPTIONAL
                 Method => {
 
@@ -96,6 +146,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 SingleQueryArgument => {
                   Name => 'MyFieldToMatchData',    # min: 1, max: 64
 
+                },    # OPTIONAL
+                UriFragment => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
                 },    # OPTIONAL
                 UriPath => {
 
@@ -118,7 +171,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             GeoMatchStatement => {
               CountryCodes => [
                 'AF',
-                ... # values: AF, AX, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BQ, BA, BW, BV, BR, IO, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CG, CD, CK, CR, CI, HR, CU, CW, CY, CZ, DK, DJ, DM, DO, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, GF, PF, TF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HM, VA, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KP, KR, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MQ, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, NC, NZ, NI, NE, NG, NU, NF, MP, NO, OM, PK, PW, PS, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, GS, SS, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TK, TO, TT, TN, TR, TM, TC, TV, UG, UA, AE, GB, US, UM, UY, UZ, VU, VE, VN, VG, VI, WF, EH, YE, ZM, ZW
+                ... # values: AF, AX, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BQ, BA, BW, BV, BR, IO, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CG, CD, CK, CR, CI, HR, CU, CW, CY, CZ, DK, DJ, DM, DO, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, GF, PF, TF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HM, VA, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, JM, JP, JE, JO, KZ, KE, KI, KP, KR, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MQ, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, NC, NZ, NI, NE, NG, NU, NF, MP, NO, OM, PK, PW, PS, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, GS, SS, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TK, TO, TT, TN, TR, TM, TC, TV, UG, UA, AE, GB, US, UM, UY, UZ, VU, VE, VN, VG, VI, WF, EH, YE, ZM, ZW, XK
               ],    # min: 1; OPTIONAL
               ForwardedIPConfig => {
                 FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
@@ -149,8 +202,242 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },
                 ...
+              ],    # max: 100; OPTIONAL
+              ManagedRuleGroupConfigs => [
+                {
+                  AWSManagedRulesACFPRuleSet => {
+                    CreationPath => 'MyCreationPathString',   # min: 1, max: 256
+                    RegistrationPagePath =>
+                      'MyRegistrationPagePathString',         # min: 1, max: 256
+                    RequestInspection => {
+                      PayloadType   => 'JSON',    # values: JSON, FORM_ENCODED
+                      AddressFields => [
+                        {
+                          Identifier => 'MyFieldIdentifier',  # min: 1, max: 512
+
+                        },
+                        ...
+                      ],    # OPTIONAL
+                      EmailField => {
+                        Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                      },    # OPTIONAL
+                      PasswordField => {
+                        Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                      },    # OPTIONAL
+                      PhoneNumberFields => [
+                        {
+                          Identifier => 'MyFieldIdentifier',  # min: 1, max: 512
+
+                        },
+                        ...
+                      ],    # OPTIONAL
+                      UsernameField => {
+                        Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                      },    # OPTIONAL
+                    },
+                    EnableRegexInPath  => 1,
+                    ResponseInspection => {
+                      BodyContains => {
+                        FailureStrings => [
+                          'MyFailureValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 5
+                        SuccessStrings => [
+                          'MySuccessValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 5
+
+                      },    # OPTIONAL
+                      Header => {
+                        FailureValues => [
+                          'MyFailureValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 3
+                        Name =>
+                          'MyResponseInspectionHeaderName',   # min: 1, max: 200
+                        SuccessValues => [
+                          'MySuccessValue', ...               # min: 1, max: 100
+                        ],    # min: 1, max: 3
+
+                      },    # OPTIONAL
+                      Json => {
+                        FailureValues => [
+                          'MyFailureValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 5
+                        Identifier    => 'MyFieldIdentifier', # min: 1, max: 512
+                        SuccessValues => [
+                          'MySuccessValue', ...               # min: 1, max: 100
+                        ],    # min: 1, max: 5
+
+                      },    # OPTIONAL
+                      StatusCode => {
+                        FailureCodes => [
+                          1, ...    # max: 999
+                        ],    # min: 1, max: 10
+                        SuccessCodes => [
+                          1, ...    # max: 999
+                        ],    # min: 1, max: 10
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                  },    # OPTIONAL
+                  AWSManagedRulesATPRuleSet => {
+                    LoginPath         => 'MyString',
+                    EnableRegexInPath => 1,
+                    RequestInspection => {
+                      PasswordField => {
+                        Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                      },    # OPTIONAL
+                      PayloadType   => 'JSON',    # values: JSON, FORM_ENCODED
+                      UsernameField => {
+                        Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                      },    # OPTIONAL
+
+                    },    # OPTIONAL
+                    ResponseInspection => {
+                      BodyContains => {
+                        FailureStrings => [
+                          'MyFailureValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 5
+                        SuccessStrings => [
+                          'MySuccessValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 5
+
+                      },    # OPTIONAL
+                      Header => {
+                        FailureValues => [
+                          'MyFailureValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 3
+                        Name =>
+                          'MyResponseInspectionHeaderName',   # min: 1, max: 200
+                        SuccessValues => [
+                          'MySuccessValue', ...               # min: 1, max: 100
+                        ],    # min: 1, max: 3
+
+                      },    # OPTIONAL
+                      Json => {
+                        FailureValues => [
+                          'MyFailureValue', ...    # min: 1, max: 100
+                        ],    # min: 1, max: 5
+                        Identifier    => 'MyFieldIdentifier', # min: 1, max: 512
+                        SuccessValues => [
+                          'MySuccessValue', ...               # min: 1, max: 100
+                        ],    # min: 1, max: 5
+
+                      },    # OPTIONAL
+                      StatusCode => {
+                        FailureCodes => [
+                          1, ...    # max: 999
+                        ],    # min: 1, max: 10
+                        SuccessCodes => [
+                          1, ...    # max: 999
+                        ],    # min: 1, max: 10
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                  },    # OPTIONAL
+                  AWSManagedRulesBotControlRuleSet => {
+                    InspectionLevel => 'COMMON',    # values: COMMON, TARGETED
+                    EnableMachineLearning => 1,     # OPTIONAL
+                  },    # OPTIONAL
+                  LoginPath => 'MyLoginPathString', # min: 1, max: 256; OPTIONAL
+                  PasswordField => {
+                    Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                  },    # OPTIONAL
+                  PayloadType   => 'JSON',    # values: JSON, FORM_ENCODED
+                  UsernameField => {
+                    Identifier => 'MyFieldIdentifier',    # min: 1, max: 512
+
+                  },    # OPTIONAL
+                },
+                ...
               ],    # OPTIONAL
+              RuleActionOverrides => [
+                {
+                  ActionToUse => {
+                    Allow => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Block => {
+                      CustomResponse => {
+                        ResponseCode          => 1,    # min: 200, max: 599
+                        CustomResponseBodyKey =>
+                          'MyEntityName',              # min: 1, max: 128
+                        ResponseHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Captcha => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Challenge => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Count => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  Name => 'MyEntityName',    # min: 1, max: 128
+
+                },
+                ...
+              ],    # max: 100; OPTIONAL
               ScopeDownStatement => <Statement>,
+              Version => 'MyVersionKeyString',    # min: 1, max: 64; OPTIONAL
             },    # OPTIONAL
             NotStatement => {
               Statement => <Statement>,
@@ -161,24 +448,162 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },    # OPTIONAL
             RateBasedStatement => {
-              AggregateKeyType  => 'IP',    # values: IP, FORWARDED_IP
-              Limit             => 1,       # min: 100, max: 2000000000
-              ForwardedIPConfig => {
+              AggregateKeyType =>
+                'IP',    # values: IP, FORWARDED_IP, CUSTOM_KEYS, CONSTANT
+              Limit      => 1,    # min: 10, max: 2000000000
+              CustomKeys => [
+                {
+                  Cookie => {
+                    Name => 'MyFieldToMatchData',    # min: 1, max: 64
+                    TextTransformations => [
+                      {
+                        Priority => 1,
+                        Type     => 'NONE'
+                        , # values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
+                      },
+                      ...
+                    ],    # min: 1
+
+                  },    # OPTIONAL
+                  ForwardedIP => {
+
+                  },    # OPTIONAL
+                  HTTPMethod => {
+
+                  },    # OPTIONAL
+                  Header => {
+                    Name => 'MyFieldToMatchData',    # min: 1, max: 64
+                    TextTransformations => [
+                      {
+                        Priority => 1,
+                        Type     => 'NONE'
+                        , # values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
+                      },
+                      ...
+                    ],    # min: 1
+
+                  },    # OPTIONAL
+                  IP => {
+
+                  },    # OPTIONAL
+                  JA3Fingerprint => {
+                    FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                  },    # OPTIONAL
+                  JA4Fingerprint => {
+                    FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                  },    # OPTIONAL
+                  LabelNamespace => {
+                    Namespace => 'MyLabelNamespace',    # min: 1, max: 1024
+
+                  },    # OPTIONAL
+                  QueryArgument => {
+                    Name => 'MyFieldToMatchData',    # min: 1, max: 64
+                    TextTransformations => [
+                      {
+                        Priority => 1,
+                        Type     => 'NONE'
+                        , # values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
+                      },
+                      ...
+                    ],    # min: 1
+
+                  },    # OPTIONAL
+                  QueryString => {
+                    TextTransformations => [
+                      {
+                        Priority => 1,
+                        Type     => 'NONE'
+                        , # values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
+                      },
+                      ...
+                    ],    # min: 1
+
+                  },    # OPTIONAL
+                  UriPath => {
+                    TextTransformations => [
+                      {
+                        Priority => 1,
+                        Type     => 'NONE'
+                        , # values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
+                      },
+                      ...
+                    ],    # min: 1
+
+                  },    # OPTIONAL
+                },
+                ...
+              ],    # max: 5; OPTIONAL
+              EvaluationWindowSec => 1,    # OPTIONAL
+              ForwardedIPConfig   => {
                 FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
                 HeaderName => 'MyForwardedIPHeaderName',    # min: 1, max: 255
 
               },    # OPTIONAL
               ScopeDownStatement => <Statement>,
             },    # OPTIONAL
-            RegexPatternSetReferenceStatement => {
-              ARN          => 'MyResourceArn',    # min: 20, max: 2048
+            RegexMatchStatement => {
               FieldToMatch => {
                 AllQueryArguments => {
 
-                },                                # OPTIONAL
+                },    # OPTIONAL
                 Body => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Cookies => {
+                  MatchPattern => {
+                    All => {
 
-                },                                # OPTIONAL
+                    },    # OPTIONAL
+                    ExcludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                HeaderOrder => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                Headers => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                JA3Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JA4Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
                 JsonBody => {
                   MatchPattern => {
                     All => {
@@ -191,6 +616,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
                   InvalidFallbackBehavior => 'MATCH'
                   ,    # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
                 },    # OPTIONAL
                 Method => {
 
@@ -205,6 +632,114 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 SingleQueryArgument => {
                   Name => 'MyFieldToMatchData',    # min: 1, max: 64
 
+                },    # OPTIONAL
+                UriFragment => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+                },    # OPTIONAL
+                UriPath => {
+
+                },    # OPTIONAL
+              },
+              RegexString         => 'MyRegexPatternString',  # min: 1, max: 512
+              TextTransformations => [
+                {
+                  Priority => 1,
+                  Type     => 'NONE'
+                  , # values: NONE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, LOWERCASE, CMD_LINE, URL_DECODE, BASE64_DECODE, HEX_DECODE, MD5, REPLACE_COMMENTS, ESCAPE_SEQ_DECODE, SQL_HEX_DECODE, CSS_DECODE, JS_DECODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_NULLS, BASE64_DECODE_EXT, URL_DECODE_UNI, UTF8_TO_UNICODE
+
+                },
+                ...
+              ],    # min: 1
+
+            },    # OPTIONAL
+            RegexPatternSetReferenceStatement => {
+              ARN          => 'MyResourceArn',    # min: 20, max: 2048
+              FieldToMatch => {
+                AllQueryArguments => {
+
+                },                                # OPTIONAL
+                Body => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Cookies => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                HeaderOrder => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                Headers => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                JA3Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JA4Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JsonBody => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    IncludedPaths => [
+                      'MyJsonPointerPath', ...    # min: 1, max: 512
+                    ],    # min: 1; OPTIONAL
+                  },
+                  MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
+                  InvalidFallbackBehavior => 'MATCH'
+                  ,    # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Method => {
+
+                },    # OPTIONAL
+                QueryString => {
+
+                },    # OPTIONAL
+                SingleHeader => {
+                  Name => 'MyFieldToMatchData',    # min: 1, max: 64
+
+                },    # OPTIONAL
+                SingleQueryArgument => {
+                  Name => 'MyFieldToMatchData',    # min: 1, max: 64
+
+                },    # OPTIONAL
+                UriFragment => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
                 },    # OPTIONAL
                 UriPath => {
 
@@ -229,7 +764,88 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },
                 ...
-              ],    # OPTIONAL
+              ],    # max: 100; OPTIONAL
+              RuleActionOverrides => [
+                {
+                  ActionToUse => {
+                    Allow => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Block => {
+                      CustomResponse => {
+                        ResponseCode          => 1,    # min: 200, max: 599
+                        CustomResponseBodyKey =>
+                          'MyEntityName',              # min: 1, max: 128
+                        ResponseHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Captcha => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Challenge => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                    Count => {
+                      CustomRequestHandling => {
+                        InsertHeaders => [
+                          {
+                            Name  => 'MyCustomHTTPHeaderName', # min: 1, max: 64
+                            Value =>
+                              'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                          },
+                          ...
+                        ],    # min: 1
+
+                      },    # OPTIONAL
+                    },    # OPTIONAL
+                  },
+                  Name => 'MyEntityName',    # min: 1, max: 128
+
+                },
+                ...
+              ],    # max: 100; OPTIONAL
             },    # OPTIONAL
             SizeConstraintStatement => {
               ComparisonOperator => 'EQ',    # values: EQ, NE, LE, LT, GE, GT
@@ -238,8 +854,56 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },                           # OPTIONAL
                 Body => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Cookies => {
+                  MatchPattern => {
+                    All => {
 
-                },                           # OPTIONAL
+                    },    # OPTIONAL
+                    ExcludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                HeaderOrder => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                Headers => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                JA3Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JA4Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
                 JsonBody => {
                   MatchPattern => {
                     All => {
@@ -252,6 +916,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
                   InvalidFallbackBehavior => 'MATCH'
                   ,    # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
                 },    # OPTIONAL
                 Method => {
 
@@ -266,6 +932,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 SingleQueryArgument => {
                   Name => 'MyFieldToMatchData',    # min: 1, max: 64
 
+                },    # OPTIONAL
+                UriFragment => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
                 },    # OPTIONAL
                 UriPath => {
 
@@ -289,6 +958,54 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },    # OPTIONAL
                 Body => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Cookies => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                HeaderOrder => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                Headers => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                JA3Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JA4Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
 
                 },    # OPTIONAL
                 JsonBody => {
@@ -303,6 +1020,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
                   InvalidFallbackBehavior => 'MATCH'
                   ,    # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
                 },    # OPTIONAL
                 Method => {
 
@@ -317,6 +1036,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 SingleQueryArgument => {
                   Name => 'MyFieldToMatchData',    # min: 1, max: 64
 
+                },    # OPTIONAL
+                UriFragment => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
                 },    # OPTIONAL
                 UriPath => {
 
@@ -331,7 +1053,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 },
                 ...
               ],    # min: 1
-
+              SensitivityLevel => 'LOW',    # values: LOW, HIGH; OPTIONAL
             },    # OPTIONAL
             XssMatchStatement => {
               FieldToMatch => {
@@ -339,6 +1061,54 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
                 },    # OPTIONAL
                 Body => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+                },    # OPTIONAL
+                Cookies => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedCookies => [
+                      'MySingleCookieName', ...    # min: 1, max: 60
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                HeaderOrder => {
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                Headers => {
+                  MatchPattern => {
+                    All => {
+
+                    },    # OPTIONAL
+                    ExcludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                    IncludedHeaders => [
+                      'MyFieldToMatchData', ...    # min: 1, max: 64
+                    ],    # min: 1, max: 199; OPTIONAL
+                  },
+                  MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+                },    # OPTIONAL
+                JA3Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+                },    # OPTIONAL
+                JA4Fingerprint => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
 
                 },    # OPTIONAL
                 JsonBody => {
@@ -353,6 +1123,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
                   InvalidFallbackBehavior => 'MATCH'
                   ,    # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+                  OversizeHandling =>
+                    'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
                 },    # OPTIONAL
                 Method => {
 
@@ -367,6 +1139,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 SingleQueryArgument => {
                   Name => 'MyFieldToMatchData',    # min: 1, max: 64
 
+                },    # OPTIONAL
+                UriFragment => {
+                  FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
                 },    # OPTIONAL
                 UriPath => {
 
@@ -406,7 +1181,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },    # OPTIONAL
             Block => {
               CustomResponse => {
-                ResponseCode          => 1,                 # min: 200, max: 600
+                ResponseCode          => 1,                 # min: 200, max: 599
                 CustomResponseBodyKey => 'MyEntityName',    # min: 1, max: 128
                 ResponseHeaders       => [
                   {
@@ -416,6 +1191,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   },
                   ...
                 ],    # min: 1
+              },    # OPTIONAL
+            },    # OPTIONAL
+            Captcha => {
+              CustomRequestHandling => {
+                InsertHeaders => [
+                  {
+                    Name  => 'MyCustomHTTPHeaderName',     # min: 1, max: 64
+                    Value => 'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                  },
+                  ...
+                ],    # min: 1
+
+              },    # OPTIONAL
+            },    # OPTIONAL
+            Challenge => {
+              CustomRequestHandling => {
+                InsertHeaders => [
+                  {
+                    Name  => 'MyCustomHTTPHeaderName',     # min: 1, max: 64
+                    Value => 'MyCustomHTTPHeaderValue',    # min: 1, max: 255
+
+                  },
+                  ...
+                ],    # min: 1
+
               },    # OPTIONAL
             },    # OPTIONAL
             Count => {
@@ -430,6 +1231,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 ],    # min: 1
 
               },    # OPTIONAL
+            },    # OPTIONAL
+          },
+          CaptchaConfig => {
+            ImmunityTimeProperty => {
+              ImmunityTime => 1,    # min: 60, max: 259200
+
+            },    # OPTIONAL
+          },    # OPTIONAL
+          ChallengeConfig => {
+            ImmunityTimeProperty => {
+              ImmunityTime => 1,    # min: 60, max: 259200
+
             },    # OPTIONAL
           },    # OPTIONAL
           OverrideAction => {
@@ -496,7 +1309,10 @@ capacity differently for each rule type, to reflect the relative cost
 of each rule. Simple rules that cost little to run use fewer WCUs than
 more complex rules that use more processing power. Rule group capacity
 is fixed at creation, which helps users plan their web ACL WCU usage
-when they use a rule group. The WCU limit for web ACLs is 1,500.
+when they use a rule group. For more information, see WAF web ACL
+capacity units (WCU)
+(https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html)
+in the I<WAF Developer Guide>.
 
 
 
@@ -510,14 +1326,12 @@ rules that you define in the rule group.
 For information about customizing web requests and responses, see
 Customizing web requests and responses in WAF
 (https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
-in the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+in the I<WAF Developer Guide>.
 
 For information about the limits on count and size for custom request
 and response settings, see WAF quotas
 (https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in
-the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+the I<WAF Developer Guide>.
 
 
 
@@ -537,18 +1351,16 @@ after you create it.
 =head2 Rules => ArrayRef[L<Paws::WAFV2::Rule>]
 
 The Rule statements used to identify the web requests that you want to
-allow, block, or count. Each rule includes one top-level statement that
-WAF uses to identify matching web requests, and parameters that govern
-how WAF handles them.
+manage. Each rule includes one top-level statement that WAF uses to
+identify matching web requests, and parameters that govern how WAF
+handles them.
 
 
 
 =head2 B<REQUIRED> Scope => Str
 
-Specifies whether this is for an Amazon CloudFront distribution or for
-a regional application. A regional application can be an Application
-Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync
-GraphQL API.
+Specifies whether this is for a global resource type, such as a Amazon
+CloudFront distribution. For an Amplify application, use C<CLOUDFRONT>.
 
 To work with CloudFront, you must also specify the Region US East (N.
 Virginia) as follows:

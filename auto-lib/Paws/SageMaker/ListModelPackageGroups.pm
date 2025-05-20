@@ -3,6 +3,7 @@ package Paws::SageMaker::ListModelPackageGroups;
   use Moose;
   has CreationTimeAfter => (is => 'ro', isa => 'Str');
   has CreationTimeBefore => (is => 'ro', isa => 'Str');
+  has CrossAccountFilterOption => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NameContains => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -34,13 +35,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $ListModelPackageGroupsOutput = $api . sagemaker->ListModelPackageGroups(
-      CreationTimeAfter  => '1970-01-01T01:00:00',    # OPTIONAL
-      CreationTimeBefore => '1970-01-01T01:00:00',    # OPTIONAL
-      MaxResults         => 1,                        # OPTIONAL
-      NameContains       => 'MyNameContains',         # OPTIONAL
-      NextToken          => 'MyNextToken',            # OPTIONAL
-      SortBy             => 'Name',                   # OPTIONAL
-      SortOrder          => 'Ascending',              # OPTIONAL
+      CreationTimeAfter        => '1970-01-01T01:00:00',    # OPTIONAL
+      CreationTimeBefore       => '1970-01-01T01:00:00',    # OPTIONAL
+      CrossAccountFilterOption => 'SameAccount',            # OPTIONAL
+      MaxResults               => 1,                        # OPTIONAL
+      NameContains             => 'MyNameContains',         # OPTIONAL
+      NextToken                => 'MyNextToken',            # OPTIONAL
+      SortBy                   => 'Name',                   # OPTIONAL
+      SortOrder                => 'Ascending',              # OPTIONAL
     );
 
     # Results:
@@ -69,6 +71,16 @@ A filter that returns only model groups created before the specified
 time.
 
 
+
+=head2 CrossAccountFilterOption => Str
+
+A filter that returns either model groups shared with you or model
+groups in your own account. When the value is C<CrossAccount>, the
+results show the resources made discoverable to you from other
+accounts. When the value is C<SameAccount> or C<null>, the results show
+resources from your account. The default is C<SameAccount>.
+
+Valid values are: C<"SameAccount">, C<"CrossAccount">
 
 =head2 MaxResults => Int
 

@@ -64,12 +64,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 =head2 Applications => ArrayRef[Str|Undef]
 
 If specified, the version of Microsoft Office to subscribe to. Valid
-only for Windows 10 BYOL images. For more information about subscribing
-to Office for BYOL images, see Bring Your Own Windows Desktop Licenses
+only for Windows 10 and 11 BYOL images. For more information about
+subscribing to Office for BYOL images, see Bring Your Own Windows
+Desktop Licenses
 (https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+
+=over
+
+=item *
 
 Although this parameter is an array, only one item is allowed at this
 time.
+
+=item *
+
+During the image import process, non-GPU DCV (formerly WSP) WorkSpaces
+with Windows 11 support only C<Microsoft_Office_2019>. GPU DCV
+(formerly WSP) WorkSpaces with Windows 11 do not support Office
+installation.
+
+=back
+
 
 
 
@@ -95,15 +110,20 @@ The name of the WorkSpace image.
 
 The ingestion process to be used when importing the image, depending on
 which protocol you want to use for your BYOL Workspace image, either
-PCoIP or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a
+PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a
 value that ends in C<_WSP>. To use PCoIP, specify a value that does not
-end in C<_WSP>.
+end in C<_WSP>. To use BYOP, specify a value that ends in C<_BYOP>.
 
 For non-GPU-enabled bundles (bundles other than Graphics or
-GraphicsPro), specify C<BYOL_REGULAR> or C<BYOL_REGULAR_WSP>, depending
-on the protocol.
+GraphicsPro), specify C<BYOL_REGULAR>, C<BYOL_REGULAR_WSP>, or
+C<BYOL_REGULAR_BYOP>, depending on the protocol.
 
-Valid values are: C<"BYOL_REGULAR">, C<"BYOL_GRAPHICS">, C<"BYOL_GRAPHICSPRO">, C<"BYOL_REGULAR_WSP">
+The C<BYOL_REGULAR_BYOP> and C<BYOL_GRAPHICS_G4DN_BYOP> values are only
+supported by Amazon WorkSpaces Core. Contact your account team to be
+allow-listed to use these values. For more information, see Amazon
+WorkSpaces Core (http://aws.amazon.com/workspaces/core/).
+
+Valid values are: C<"BYOL_REGULAR">, C<"BYOL_GRAPHICS">, C<"BYOL_GRAPHICSPRO">, C<"BYOL_GRAPHICS_G4DN">, C<"BYOL_REGULAR_WSP">, C<"BYOL_GRAPHICS_G4DN_WSP">, C<"BYOL_REGULAR_BYOP">, C<"BYOL_GRAPHICS_G4DN_BYOP">
 
 =head2 Tags => ArrayRef[L<Paws::WorkSpaces::Tag>]
 

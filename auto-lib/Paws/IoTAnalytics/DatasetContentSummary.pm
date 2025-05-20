@@ -59,7 +59,7 @@ The time the creation of the dataset contents was scheduled to start.
 
 =head2 Status => L<Paws::IoTAnalytics::DatasetContentStatus>
 
-The status of the data set contents.
+The status of the dataset contents.
 
 
 =head2 Version => Str

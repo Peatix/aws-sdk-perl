@@ -35,10 +35,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::L
 
 =head1 DESCRIPTION
 
-You can use API filters to narrow down the list of resources returned
-by C<ListLocations>. For example, to retrieve all your Amazon S3
-locations, you can use C<ListLocations> with filter name C<LocationType
-S3> and C<Operator Equals>.
+Narrow down the list of resources returned by C<ListLocations>. For
+example, to see all your Amazon S3 locations, create a filter using
+C<"Name": "LocationType">, C<"Operator": "Equals">, and C<"Values":
+"S3">.
+
+For more information, see filtering resources
+(https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html).
 
 =head1 ATTRIBUTES
 
@@ -53,9 +56,7 @@ C<ListLocations>).
 =head2 B<REQUIRED> Operator => Str
 
 The operator that is used to compare filter values (for example,
-C<Equals> or C<Contains>). For more about API filtering operators, see
-API filters for ListTasks and ListLocations
-(https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html).
+C<Equals> or C<Contains>).
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]

@@ -41,8 +41,8 @@ Specifies the location of the output produced by the labeling job.
 
 =head2 FinalActiveLearningModelArn => Str
 
-The Amazon Resource Name (ARN) for the most recent Amazon SageMaker
-model trained as part of automated data labeling.
+The Amazon Resource Name (ARN) for the most recent SageMaker model
+trained as part of automated data labeling.
 
 
 =head2 B<REQUIRED> OutputDatasetS3Uri => Str

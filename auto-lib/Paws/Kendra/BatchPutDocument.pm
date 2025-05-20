@@ -1,6 +1,7 @@
 
 package Paws::Kendra::BatchPutDocument;
   use Moose;
+  has CustomDocumentEnrichmentConfiguration => (is => 'ro', isa => 'Paws::Kendra::CustomDocumentEnrichmentConfiguration');
   has Documents => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::Document]', required => 1);
   has IndexId => (is => 'ro', isa => 'Str', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str');
@@ -32,13 +33,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BatchPutDocumentResponse = $kendra->BatchPutDocument(
       Documents => [
         {
-          Id                => 'MyDocumentId',    # min: 1, max: 2048
+          Id                           => 'MyDocumentId',    # min: 1, max: 2048
+          AccessControlConfigurationId =>
+            'MyAccessControlConfigurationId',    # min: 1, max: 36; OPTIONAL
           AccessControlList => [
             {
-              Access => 'ALLOW',              # values: ALLOW, DENY
-              Name   => 'MyPrincipalName',    # min: 1, max: 200
-              Type   => 'USER',               # values: USER, GROUP
-
+              Access       => 'ALLOW',              # values: ALLOW, DENY
+              Name         => 'MyPrincipalName',    # min: 1, max: 200
+              Type         => 'USER',               # values: USER, GROUP
+              DataSourceId => 'MyDataSourceId',     # min: 1, max: 100; OPTIONAL
             },
             ...
           ],    # OPTIONAL
@@ -59,8 +62,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ...
           ],    # OPTIONAL
           Blob        => 'BlobBlob',    # OPTIONAL
-          ContentType =>
-            'PDF',    # values: PDF, HTML, MS_WORD, PLAIN_TEXT, PPT; OPTIONAL
+          ContentType => 'PDF'
+          , # values: PDF, HTML, MS_WORD, PLAIN_TEXT, PPT, RTF, XML, XSLT, MS_EXCEL, CSV, JSON, MD; OPTIONAL
+          HierarchicalAccessControlList => [
+            {
+              PrincipalList => [
+                {
+                  Access       => 'ALLOW',              # values: ALLOW, DENY
+                  Name         => 'MyPrincipalName',    # min: 1, max: 200
+                  Type         => 'USER',               # values: USER, GROUP
+                  DataSourceId => 'MyDataSourceId', # min: 1, max: 100; OPTIONAL
+                },
+                ...
+              ],    # OPTIONAL
+
+            },
+            ...
+          ],    # min: 1, max: 30; OPTIONAL
           S3Path => {
             Bucket => 'MyS3BucketName',    # min: 3, max: 63
             Key    => 'MyS3ObjectKey',     # min: 1, max: 1024
@@ -70,7 +88,83 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-      IndexId => 'MyIndexId',
+      IndexId                               => 'MyIndexId',
+      CustomDocumentEnrichmentConfiguration => {
+        InlineConfigurations => [
+          {
+            Condition => {
+              ConditionDocumentAttributeKey =>
+                'MyDocumentAttributeKey',    # min: 1, max: 200
+              Operator => 'GreaterThan'
+              , # values: GreaterThan, GreaterThanOrEquals, LessThan, LessThanOrEquals, Equals, NotEquals, Contains, NotContains, Exists, NotExists, BeginsWith
+              ConditionOnValue => {
+                DateValue       => '1970-01-01T01:00:00',    # OPTIONAL
+                LongValue       => 1,                        # OPTIONAL
+                StringListValue => [
+                  'MyString', ...                            # min: 1, max: 2048
+                ],    # OPTIONAL
+                StringValue => 'MyDocumentAttributeStringValue'
+                ,     # min: 1, max: 2048; OPTIONAL
+              },
+            },    # OPTIONAL
+            DocumentContentDeletion => 1,    # OPTIONAL
+            Target                  => {
+              TargetDocumentAttributeKey =>
+                'MyDocumentAttributeKey',    # min: 1, max: 200
+              TargetDocumentAttributeValue => {
+                DateValue       => '1970-01-01T01:00:00',    # OPTIONAL
+                LongValue       => 1,                        # OPTIONAL
+                StringListValue => [
+                  'MyString', ...                            # min: 1, max: 2048
+                ],    # OPTIONAL
+                StringValue => 'MyDocumentAttributeStringValue'
+                ,     # min: 1, max: 2048; OPTIONAL
+              },
+              TargetDocumentAttributeValueDeletion => 1,    # OPTIONAL
+            },    # OPTIONAL
+          },
+          ...
+        ],    # max: 100; OPTIONAL
+        PostExtractionHookConfiguration => {
+          LambdaArn           => 'MyLambdaArn',       # min: 1, max: 2048
+          S3Bucket            => 'MyS3BucketName',    # min: 3, max: 63
+          InvocationCondition => {
+            ConditionDocumentAttributeKey =>
+              'MyDocumentAttributeKey',               # min: 1, max: 200
+            Operator => 'GreaterThan'
+            , # values: GreaterThan, GreaterThanOrEquals, LessThan, LessThanOrEquals, Equals, NotEquals, Contains, NotContains, Exists, NotExists, BeginsWith
+            ConditionOnValue => {
+              DateValue       => '1970-01-01T01:00:00',    # OPTIONAL
+              LongValue       => 1,                        # OPTIONAL
+              StringListValue => [
+                'MyString', ...                            # min: 1, max: 2048
+              ],    # OPTIONAL
+              StringValue =>
+                'MyDocumentAttributeStringValue',  # min: 1, max: 2048; OPTIONAL
+            },
+          },    # OPTIONAL
+        },    # OPTIONAL
+        PreExtractionHookConfiguration => {
+          LambdaArn           => 'MyLambdaArn',       # min: 1, max: 2048
+          S3Bucket            => 'MyS3BucketName',    # min: 3, max: 63
+          InvocationCondition => {
+            ConditionDocumentAttributeKey =>
+              'MyDocumentAttributeKey',               # min: 1, max: 200
+            Operator => 'GreaterThan'
+            , # values: GreaterThan, GreaterThanOrEquals, LessThan, LessThanOrEquals, Equals, NotEquals, Contains, NotContains, Exists, NotExists, BeginsWith
+            ConditionOnValue => {
+              DateValue       => '1970-01-01T01:00:00',    # OPTIONAL
+              LongValue       => 1,                        # OPTIONAL
+              StringListValue => [
+                'MyString', ...                            # min: 1, max: 2048
+              ],    # OPTIONAL
+              StringValue =>
+                'MyDocumentAttributeStringValue',  # min: 1, max: 2048; OPTIONAL
+            },
+          },    # OPTIONAL
+        },    # OPTIONAL
+        RoleArn => 'MyRoleArn',    # max: 1284; OPTIONAL
+      },    # OPTIONAL
       RoleArn => 'MyRoleArn',    # OPTIONAL
     );
 
@@ -85,15 +179,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 =head1 ATTRIBUTES
 
 
+=head2 CustomDocumentEnrichmentConfiguration => L<Paws::Kendra::CustomDocumentEnrichmentConfiguration>
+
+Configuration information for altering your document metadata and
+content during the document ingestion process when you use the
+C<BatchPutDocument> API.
+
+For more information on how to create, modify and delete document
+metadata, or make other content alterations when you ingest documents
+into Amazon Kendra, see Customizing document metadata during the
+ingestion process
+(https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html).
+
+
+
 =head2 B<REQUIRED> Documents => ArrayRef[L<Paws::Kendra::Document>]
 
 One or more documents to add to the index.
-
-Documents can include custom attributes. For example, 'DataSourceId'
-and 'DataSourceSyncJobId' are custom attributes that provide
-information on the synchronization of documents running on a data
-source. Note, 'DataSourceSyncJobId' could be an optional custom
-attribute as Amazon Kendra will use the ID of a running sync job.
 
 Documents have the following file size limits.
 
@@ -101,11 +203,7 @@ Documents have the following file size limits.
 
 =item *
 
-5 MB total size for inline documents
-
-=item *
-
-50 MB total size for files from an S3 bucket
+50 MB total size for any file
 
 =item *
 
@@ -113,24 +211,23 @@ Documents have the following file size limits.
 
 =back
 
-For more information about file size and transaction per second quotas,
-see Quotas (https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
+For more information, see Quotas
+(https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
 The identifier of the index to add the documents to. You need to create
-the index first using the C<CreateIndex> operation.
+the index first using the C<CreateIndex> API.
 
 
 
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of a role that is allowed to run the
-C<BatchPutDocument> operation. For more information, see IAM Roles for
-Amazon Kendra
-(https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+The Amazon Resource Name (ARN) of an IAM role with permission to access
+your S3 bucket. For more information, see IAM access roles for Amazon
+Kendra (https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
 
 
 

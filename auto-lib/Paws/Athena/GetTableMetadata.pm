@@ -4,6 +4,7 @@ package Paws::Athena::GetTableMetadata;
   has CatalogName => (is => 'ro', isa => 'Str', required => 1);
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
   has TableName => (is => 'ro', isa => 'Str', required => 1);
+  has WorkGroup => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -33,7 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CatalogName  => 'MyCatalogNameString',
       DatabaseName => 'MyNameString',
       TableName    => 'MyNameString',
-
+      WorkGroup    => 'MyWorkGroupName',       # OPTIONAL
     );
 
     # Results:
@@ -63,6 +64,14 @@ The name of the database that contains the table metadata to return.
 =head2 B<REQUIRED> TableName => Str
 
 The name of the table for which metadata is returned.
+
+
+
+=head2 WorkGroup => Str
+
+The name of the workgroup for which the metadata is being fetched.
+Required if requesting an IAM Identity Center enabled Glue Data
+Catalog.
 
 
 

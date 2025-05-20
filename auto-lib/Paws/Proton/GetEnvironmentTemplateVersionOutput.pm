@@ -16,8 +16,7 @@ Paws::Proton::GetEnvironmentTemplateVersionOutput
 
 =head2 B<REQUIRED> EnvironmentTemplateVersion => L<Paws::Proton::EnvironmentTemplateVersion>
 
-The environment template version detail data that's returned by AWS
-Proton.
+The detailed data of the requested environment template version.
 
 
 =head2 _request_id => Str

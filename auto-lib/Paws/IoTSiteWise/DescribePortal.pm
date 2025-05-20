@@ -50,7 +50,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $PortalName     = $DescribePortalResponse->PortalName;
     my $PortalStartUrl = $DescribePortalResponse->PortalStartUrl;
     my $PortalStatus   = $DescribePortalResponse->PortalStatus;
-    my $RoleArn        = $DescribePortalResponse->RoleArn;
+    my $PortalType     = $DescribePortalResponse->PortalType;
+    my $PortalTypeConfiguration =
+      $DescribePortalResponse->PortalTypeConfiguration;
+    my $RoleArn = $DescribePortalResponse->RoleArn;
 
     # Returns a L<Paws::IoTSiteWise::DescribePortalResponse> object.
 

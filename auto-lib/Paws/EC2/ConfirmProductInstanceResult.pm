@@ -18,8 +18,8 @@ Paws::EC2::ConfirmProductInstanceResult
 
 =head2 OwnerId => Str
 
-The account ID of the instance owner. This is only present if the
-product code is attached to the instance.
+The Amazon Web Services account ID of the instance owner. This is only
+present if the product code is attached to the instance.
 
 
 =head2 Return => Bool

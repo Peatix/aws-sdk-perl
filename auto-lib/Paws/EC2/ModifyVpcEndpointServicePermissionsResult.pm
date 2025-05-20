@@ -1,6 +1,7 @@
 
 package Paws::EC2::ModifyVpcEndpointServicePermissionsResult;
   use Moose;
+  has AddedPrincipals => (is => 'ro', isa => 'ArrayRef[Paws::EC2::AddedPrincipal]', request_name => 'addedPrincipalSet', traits => ['NameInRequest',]);
   has ReturnValue => (is => 'ro', isa => 'Bool', request_name => 'return', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -13,6 +14,11 @@ package Paws::EC2::ModifyVpcEndpointServicePermissionsResult;
 Paws::EC2::ModifyVpcEndpointServicePermissionsResult
 
 =head1 ATTRIBUTES
+
+
+=head2 AddedPrincipals => ArrayRef[L<Paws::EC2::AddedPrincipal>]
+
+Information about the added principals.
 
 
 =head2 ReturnValue => Bool

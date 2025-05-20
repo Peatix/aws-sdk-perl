@@ -54,8 +54,7 @@ The ARN for the data set.
 
 =head2 B<REQUIRED> AssetType => Str
 
-The type of file your data is stored in. Currently, the supported asset
-type is S3_SNAPSHOT.
+The type of asset that is added to a data set.
 
 
 =head2 B<REQUIRED> CreatedAt => Str

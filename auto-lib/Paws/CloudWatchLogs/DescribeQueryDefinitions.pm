@@ -4,6 +4,7 @@ package Paws::CloudWatchLogs::DescribeQueryDefinitions;
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has QueryDefinitionNamePrefix => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'queryDefinitionNamePrefix' );
+  has QueryLanguage => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'queryLanguage' );
 
   use MooseX::ClassAttribute;
 
@@ -33,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MaxResults                => 1,                          # OPTIONAL
       NextToken                 => 'MyNextToken',              # OPTIONAL
       QueryDefinitionNamePrefix => 'MyQueryDefinitionName',    # OPTIONAL
+      QueryLanguage             => 'CWLI',                     # OPTIONAL
     );
 
     # Results:
@@ -66,6 +68,15 @@ Use this parameter to filter your results to only the query definitions
 that have names that start with the prefix you specify.
 
 
+
+=head2 QueryLanguage => Str
+
+The query language used for this query. For more information about the
+query languages that CloudWatch Logs supports, see Supported query
+languages
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+
+Valid values are: C<"CWLI">, C<"SQL">, C<"PPL">
 
 
 =head1 SEE ALSO

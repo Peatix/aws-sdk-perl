@@ -44,7 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             CloudwatchLogs => {
               LogGroupName => 'MyLogGroupName',
               RoleArn      => 'MyAwsArn',
-
+              BatchMode    => 1,                  # OPTIONAL
             },    # OPTIONAL
             CloudwatchMetric => {
               MetricName      => 'MyString',
@@ -157,8 +157,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ClientProperties => { 'MyString' => 'MyString', },
               DestinationArn   => 'MyAwsArn',
               Topic            => 'MyString',
-              Key              => 'MyString',
-              Partition        => 'MyString',
+              Headers          => [
+                {
+                  Key   => 'MyKafkaHeaderKey',      # max: 16384
+                  Value => 'MyKafkaHeaderValue',    # max: 16384
+
+                },
+                ...
+              ],    # min: 1, max: 100; OPTIONAL
+              Key       => 'MyString',
+              Partition => 'MyString',
             },    # OPTIONAL
             Kinesis => {
               RoleArn      => 'MyAwsArn',
@@ -169,10 +177,45 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               FunctionArn => 'MyFunctionArn',
 
             },    # OPTIONAL
+            Location => {
+              DeviceId    => 'MyString',
+              Latitude    => 'MyString',
+              Longitude   => 'MyString',
+              RoleArn     => 'MyAwsArn',
+              TrackerName => 'MyString',
+              Timestamp   => {
+                Value => 'MyString',
+                Unit  => 'MyString',
+              },    # OPTIONAL
+            },    # OPTIONAL
+            OpenSearch => {
+              Endpoint => 'MyElasticsearchEndpoint',
+              Id       => 'MyElasticsearchId',
+              Index    => 'MyElasticsearchIndex',
+              RoleArn  => 'MyAwsArn',
+              Type     => 'MyElasticsearchType',
+
+            },    # OPTIONAL
             Republish => {
               RoleArn => 'MyAwsArn',
               Topic   => 'MyTopicPattern',
-              Qos     => 1,                  # max: 1; OPTIONAL
+              Headers => {
+                ContentType     => 'MyContentType',        # max: 1024; OPTIONAL
+                CorrelationData => 'MyCorrelationData',    # max: 1024; OPTIONAL
+                MessageExpiry   => 'MyMessageExpiry',      # max: 1024; OPTIONAL
+                PayloadFormatIndicator =>
+                  'MyPayloadFormatIndicator',              # max: 1024; OPTIONAL
+                ResponseTopic  => 'MyResponseTopic',       # max: 1024; OPTIONAL
+                UserProperties => [
+                  {
+                    Key   => 'MyUserPropertyKey',      # max: 1024
+                    Value => 'MyUserPropertyValue',    # max: 1024
+
+                  },
+                  ...
+                ],    # min: 1, max: 100; OPTIONAL
+              },    # OPTIONAL
+              Qos => 1,    # max: 1; OPTIONAL
             },    # OPTIONAL
             S3 => {
               BucketName => 'MyBucketName',
@@ -236,7 +279,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           CloudwatchLogs => {
             LogGroupName => 'MyLogGroupName',
             RoleArn      => 'MyAwsArn',
-
+            BatchMode    => 1,                  # OPTIONAL
           },    # OPTIONAL
           CloudwatchMetric => {
             MetricName      => 'MyString',
@@ -347,8 +390,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ClientProperties => { 'MyString' => 'MyString', },
             DestinationArn   => 'MyAwsArn',
             Topic            => 'MyString',
-            Key              => 'MyString',
-            Partition        => 'MyString',
+            Headers          => [
+              {
+                Key   => 'MyKafkaHeaderKey',      # max: 16384
+                Value => 'MyKafkaHeaderValue',    # max: 16384
+
+              },
+              ...
+            ],    # min: 1, max: 100; OPTIONAL
+            Key       => 'MyString',
+            Partition => 'MyString',
           },    # OPTIONAL
           Kinesis => {
             RoleArn      => 'MyAwsArn',
@@ -359,10 +410,45 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             FunctionArn => 'MyFunctionArn',
 
           },    # OPTIONAL
+          Location => {
+            DeviceId    => 'MyString',
+            Latitude    => 'MyString',
+            Longitude   => 'MyString',
+            RoleArn     => 'MyAwsArn',
+            TrackerName => 'MyString',
+            Timestamp   => {
+              Value => 'MyString',
+              Unit  => 'MyString',
+            },    # OPTIONAL
+          },    # OPTIONAL
+          OpenSearch => {
+            Endpoint => 'MyElasticsearchEndpoint',
+            Id       => 'MyElasticsearchId',
+            Index    => 'MyElasticsearchIndex',
+            RoleArn  => 'MyAwsArn',
+            Type     => 'MyElasticsearchType',
+
+          },    # OPTIONAL
           Republish => {
             RoleArn => 'MyAwsArn',
             Topic   => 'MyTopicPattern',
-            Qos     => 1,                  # max: 1; OPTIONAL
+            Headers => {
+              ContentType     => 'MyContentType',        # max: 1024; OPTIONAL
+              CorrelationData => 'MyCorrelationData',    # max: 1024; OPTIONAL
+              MessageExpiry   => 'MyMessageExpiry',      # max: 1024; OPTIONAL
+              PayloadFormatIndicator =>
+                'MyPayloadFormatIndicator',              # max: 1024; OPTIONAL
+              ResponseTopic  => 'MyResponseTopic',       # max: 1024; OPTIONAL
+              UserProperties => [
+                {
+                  Key   => 'MyUserPropertyKey',      # max: 1024
+                  Value => 'MyUserPropertyValue',    # max: 1024
+
+                },
+                ...
+              ],    # min: 1, max: 100; OPTIONAL
+            },    # OPTIONAL
+            Qos => 1,    # max: 1; OPTIONAL
           },    # OPTIONAL
           S3 => {
             BucketName => 'MyBucketName',

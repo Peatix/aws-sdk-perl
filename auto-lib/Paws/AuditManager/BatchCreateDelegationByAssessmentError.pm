@@ -43,19 +43,19 @@ is used to provide more meaningful errors than a simple string message.
 
 =head2 CreateDelegationRequest => L<Paws::AuditManager::CreateDelegationRequest>
 
-The API request to batch create delegations in AWS Audit Manager.
+The API request to batch create delegations in Audit Manager.
 
 
 =head2 ErrorCode => Str
 
-The error code returned by the C<BatchCreateDelegationByAssessment>
-API.
+The error code that the C<BatchCreateDelegationByAssessment> API
+returned.
 
 
 =head2 ErrorMessage => Str
 
-The error message returned by the C<BatchCreateDelegationByAssessment>
-API.
+The error message that the C<BatchCreateDelegationByAssessment> API
+returned.
 
 
 

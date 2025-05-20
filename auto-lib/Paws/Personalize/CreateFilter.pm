@@ -4,6 +4,7 @@ package Paws::Personalize::CreateFilter;
   has DatasetGroupArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'datasetGroupArn' , required => 1);
   has FilterExpression => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterExpression' , required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -33,7 +34,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatasetGroupArn  => 'MyArn',
       FilterExpression => 'MyFilterExpression',
       Name             => 'MyName',
+      Tags             => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
 
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -58,13 +66,22 @@ The ARN of the dataset group that the filter will belong to.
 The filter expression defines which items are included or excluded from
 recommendations. Filter expression must follow specific format rules.
 For information about filter expression structure and syntax, see
-filter-expressions.
+Filter expressions
+(https://docs.aws.amazon.com/personalize/latest/dg/filter-expressions.html).
 
 
 
 =head2 B<REQUIRED> Name => Str
 
 The name of the filter to create.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the filter.
 
 
 

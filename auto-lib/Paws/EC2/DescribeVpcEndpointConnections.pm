@@ -70,9 +70,13 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
+
+=item *
+
+C<ip-address-type> - The IP address type (C<ipv4> | C<ipv6>).
 
 =item *
 
@@ -80,8 +84,13 @@ C<service-id> - The ID of the service.
 
 =item *
 
-C<vpc-endpoint-owner> - The AWS account number of the owner of the
-endpoint.
+C<vpc-endpoint-owner> - The ID of the Amazon Web Services account ID
+that owns the endpoint.
+
+=item *
+
+C<vpc-endpoint-region> - The Region of the endpoint or C<cross-region>
+to find endpoints for other Regions.
 
 =item *
 

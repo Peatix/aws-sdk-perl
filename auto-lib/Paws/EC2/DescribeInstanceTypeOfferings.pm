@@ -78,13 +78,15 @@ One or more filters. Filter names and values are case-sensitive.
 
 =item *
 
-C<location> - This depends on the location type. For example, if the
-location type is C<region> (default), the location is the Region code
-(for example, C<us-east-2>.)
+C<instance-type> - The instance type. For a list of possible values,
+see Instance
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Instance.html).
 
 =item *
 
-C<instance-type> - The instance type. For example, C<c5.2xlarge>.
+C<location> - The location. For a list of possible identifiers, see
+Regions and Zones
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html).
 
 =back
 
@@ -95,19 +97,47 @@ C<instance-type> - The instance type. For example, C<c5.2xlarge>.
 
 The location type.
 
-Valid values are: C<"region">, C<"availability-zone">, C<"availability-zone-id">
+=over
+
+=item *
+
+C<availability-zone> - The Availability Zone. When you specify a
+location filter, it must be an Availability Zone for the current
+Region.
+
+=item *
+
+C<availability-zone-id> - The AZ ID. When you specify a location
+filter, it must be an AZ ID for the current Region.
+
+=item *
+
+C<outpost> - The Outpost ARN. When you specify a location filter, it
+must be an Outpost ARN for the current Region.
+
+=item *
+
+C<region> - The current Region. If you specify a location filter, it
+must match the current Region.
+
+=back
+
+
+Valid values are: C<"region">, C<"availability-zone">, C<"availability-zone-id">, C<"outpost">
 
 =head2 MaxResults => Int
 
-The maximum number of results to return for the request in a single
-page. The remaining results can be seen by sending another request with
-the next token value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token to retrieve the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

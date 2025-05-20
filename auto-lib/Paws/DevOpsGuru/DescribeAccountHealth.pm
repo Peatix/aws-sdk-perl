@@ -30,6 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeAccountHealthResponse = $devops -guru->DescribeAccountHealth();
 
     # Results:
+    my $AnalyzedResourceCount =
+      $DescribeAccountHealthResponse->AnalyzedResourceCount;
     my $MetricsAnalyzed = $DescribeAccountHealthResponse->MetricsAnalyzed;
     my $OpenProactiveInsights =
       $DescribeAccountHealthResponse->OpenProactiveInsights;

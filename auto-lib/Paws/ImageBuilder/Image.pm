@@ -2,23 +2,31 @@
 package Paws::ImageBuilder::Image;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
+  has BuildType => (is => 'ro', isa => 'Str', request_name => 'buildType', traits => ['NameInRequest']);
   has ContainerRecipe => (is => 'ro', isa => 'Paws::ImageBuilder::ContainerRecipe', request_name => 'containerRecipe', traits => ['NameInRequest']);
   has DateCreated => (is => 'ro', isa => 'Str', request_name => 'dateCreated', traits => ['NameInRequest']);
+  has DeprecationTime => (is => 'ro', isa => 'Str', request_name => 'deprecationTime', traits => ['NameInRequest']);
   has DistributionConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::DistributionConfiguration', request_name => 'distributionConfiguration', traits => ['NameInRequest']);
   has EnhancedImageMetadataEnabled => (is => 'ro', isa => 'Bool', request_name => 'enhancedImageMetadataEnabled', traits => ['NameInRequest']);
+  has ExecutionRole => (is => 'ro', isa => 'Str', request_name => 'executionRole', traits => ['NameInRequest']);
   has ImageRecipe => (is => 'ro', isa => 'Paws::ImageBuilder::ImageRecipe', request_name => 'imageRecipe', traits => ['NameInRequest']);
+  has ImageScanningConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ImageScanningConfiguration', request_name => 'imageScanningConfiguration', traits => ['NameInRequest']);
+  has ImageSource => (is => 'ro', isa => 'Str', request_name => 'imageSource', traits => ['NameInRequest']);
   has ImageTestsConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ImageTestsConfiguration', request_name => 'imageTestsConfiguration', traits => ['NameInRequest']);
   has InfrastructureConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::InfrastructureConfiguration', request_name => 'infrastructureConfiguration', traits => ['NameInRequest']);
+  has LifecycleExecutionId => (is => 'ro', isa => 'Str', request_name => 'lifecycleExecutionId', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has OsVersion => (is => 'ro', isa => 'Str', request_name => 'osVersion', traits => ['NameInRequest']);
   has OutputResources => (is => 'ro', isa => 'Paws::ImageBuilder::OutputResources', request_name => 'outputResources', traits => ['NameInRequest']);
   has Platform => (is => 'ro', isa => 'Str', request_name => 'platform', traits => ['NameInRequest']);
+  has ScanState => (is => 'ro', isa => 'Paws::ImageBuilder::ImageScanState', request_name => 'scanState', traits => ['NameInRequest']);
   has SourcePipelineArn => (is => 'ro', isa => 'Str', request_name => 'sourcePipelineArn', traits => ['NameInRequest']);
   has SourcePipelineName => (is => 'ro', isa => 'Str', request_name => 'sourcePipelineName', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Paws::ImageBuilder::ImageState', request_name => 'state', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::ImageBuilder::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
   has Version => (is => 'ro', isa => 'Str', request_name => 'version', traits => ['NameInRequest']);
+  has Workflows => (is => 'ro', isa => 'ArrayRef[Paws::ImageBuilder::WorkflowConfiguration]', request_name => 'workflows', traits => ['NameInRequest']);
 
 1;
 
@@ -39,7 +47,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ImageBuilder::Image object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Version => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Workflows => $value  });
 
 =head3 Results returned from an API call
 
@@ -50,7 +58,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ImageBuilde
 
 =head1 DESCRIPTION
 
-An image build version.
+An Image Builder image. You must specify exactly one recipe for the
+image E<ndash> either a container recipe (C<containerRecipe>), which
+creates a container image, or an image recipe (C<imageRecipe>), which
+creates an AMI.
 
 =head1 ATTRIBUTES
 
@@ -59,43 +70,127 @@ An image build version.
 
 The Amazon Resource Name (ARN) of the image.
 
+Semantic versioning is included in each object's Amazon Resource Name
+(ARN), at the level that applies to that object as follows:
+
+=over
+
+=item 1.
+
+Versionless ARNs and Name ARNs do not include specific values in any of
+the nodes. The nodes are either left off entirely, or they are
+specified as wildcards, for example: x.x.x.
+
+=item 2.
+
+Version ARNs have only the first three nodes:
+E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>
+
+=item 3.
+
+Build version ARNs have all four nodes, and point to a specific build
+for a specific version of an object.
+
+=back
+
+
+
+=head2 BuildType => Str
+
+Indicates the type of build that created this image. The build can be
+initiated in the following ways:
+
+=over
+
+=item *
+
+B<USER_INITIATED> E<ndash> A manual pipeline build request.
+
+=item *
+
+B<SCHEDULED> E<ndash> A pipeline build initiated by a cron expression
+in the Image Builder pipeline, or from EventBridge.
+
+=item *
+
+B<IMPORT> E<ndash> A VM import created the image to use as the base
+image for the recipe.
+
+=item *
+
+B<IMPORT_ISO> E<ndash> An ISO disk import created the image.
+
+=back
+
+
 
 =head2 ContainerRecipe => L<Paws::ImageBuilder::ContainerRecipe>
 
-The container recipe used to create the container image type.
+For container images, this is the container recipe that Image Builder
+used to create the image. For images that distribute an AMI, this is
+empty.
 
 
 =head2 DateCreated => Str
 
-The date on which this image was created.
+The date on which Image Builder created this image.
+
+
+=head2 DeprecationTime => Str
+
+The time when deprecation occurs for an image resource. This can be a
+past or future date.
 
 
 =head2 DistributionConfiguration => L<Paws::ImageBuilder::DistributionConfiguration>
 
-The distribution configuration used when creating this image.
+The distribution configuration that Image Builder used to create this
+image.
 
 
 =head2 EnhancedImageMetadataEnabled => Bool
 
-Collects additional information about the image being created,
-including the operating system (OS) version and package list. This
-information is used to enhance the overall experience of using EC2
-Image Builder. Enabled by default.
+Indicates whether Image Builder collects additional information about
+the image, such as the operating system (OS) version and package list.
+
+
+=head2 ExecutionRole => Str
+
+The name or Amazon Resource Name (ARN) for the IAM role you create that
+grants Image Builder access to perform workflow actions.
 
 
 =head2 ImageRecipe => L<Paws::ImageBuilder::ImageRecipe>
 
-The image recipe used when creating the image.
+For images that distribute an AMI, this is the image recipe that Image
+Builder used to create the image. For container images, this is empty.
+
+
+=head2 ImageScanningConfiguration => L<Paws::ImageBuilder::ImageScanningConfiguration>
+
+Contains settings for vulnerability scans.
+
+
+=head2 ImageSource => Str
+
+The origin of the base image that Image Builder used to build this
+image.
 
 
 =head2 ImageTestsConfiguration => L<Paws::ImageBuilder::ImageTestsConfiguration>
 
-The image tests configuration used when creating this image.
+The image tests that ran when that Image Builder created this image.
 
 
 =head2 InfrastructureConfiguration => L<Paws::ImageBuilder::InfrastructureConfiguration>
 
-The infrastructure used when creating this image.
+The infrastructure that Image Builder used to create this image.
+
+
+=head2 LifecycleExecutionId => Str
+
+Identifies the last runtime instance of the lifecycle policy to take
+action on the image.
 
 
 =head2 Name => Str
@@ -105,18 +200,24 @@ The name of the image.
 
 =head2 OsVersion => Str
 
-The operating system version of the instance. For example, Amazon Linux
-2, Ubuntu 18, or Microsoft Windows Server 2019.
+The operating system version for instances that launch from this image.
+For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server
+2019.
 
 
 =head2 OutputResources => L<Paws::ImageBuilder::OutputResources>
 
-The output resources produced when creating this image.
+The output resources that Image Builder produces for this image.
 
 
 =head2 Platform => Str
 
-The platform of the image.
+The image operating system platform, such as Linux or Windows.
+
+
+=head2 ScanState => L<Paws::ImageBuilder::ImageScanState>
+
+Contains information about the current state of scans for this image.
 
 
 =head2 SourcePipelineArn => Str
@@ -137,17 +238,43 @@ The state of the image.
 
 =head2 Tags => L<Paws::ImageBuilder::TagMap>
 
-The tags of the image.
+The tags that apply to this image.
 
 
 =head2 Type => Str
 
-Specifies whether this is an AMI or container image.
+Specifies whether this image produces an AMI or a container image.
 
 
 =head2 Version => Str
 
 The semantic version of the image.
+
+The semantic version has four nodes:
+E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>/E<lt>buildE<gt>. You
+can assign values for the first three, and can filter on all of them.
+
+B<Assignment:> For the first three nodes you can assign any positive
+integer value, including zero, with an upper limit of 2^30-1, or
+1073741823 for each node. Image Builder automatically assigns the build
+number to the fourth node.
+
+B<Patterns:> You can use any numeric pattern that adheres to the
+assignment requirements for the nodes that you can assign. For example,
+you might choose a software version pattern, such as 1.0.0, or a date,
+such as 2021.01.01.
+
+B<Filtering:> With semantic versioning, you have the flexibility to use
+wildcards (x) to specify the most recent versions or nodes when
+selecting the base image or components for your recipe. When you use a
+wildcard in any node, all nodes to the right of the first wildcard must
+also be wildcards.
+
+
+=head2 Workflows => ArrayRef[L<Paws::ImageBuilder::WorkflowConfiguration>]
+
+Contains the build and test workflows that are associated with the
+image.
 
 
 

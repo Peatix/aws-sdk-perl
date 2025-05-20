@@ -6,6 +6,7 @@ package Paws::EC2::LaunchTemplateEbsBlockDevice;
   has KmsKeyId => (is => 'ro', isa => 'Str', request_name => 'kmsKeyId', traits => ['NameInRequest']);
   has SnapshotId => (is => 'ro', isa => 'Str', request_name => 'snapshotId', traits => ['NameInRequest']);
   has Throughput => (is => 'ro', isa => 'Int', request_name => 'throughput', traits => ['NameInRequest']);
+  has VolumeInitializationRate => (is => 'ro', isa => 'Int', request_name => 'volumeInitializationRate', traits => ['NameInRequest']);
   has VolumeSize => (is => 'ro', isa => 'Int', request_name => 'volumeSize', traits => ['NameInRequest']);
   has VolumeType => (is => 'ro', isa => 'Str', request_name => 'volumeType', traits => ['NameInRequest']);
 1;
@@ -61,8 +62,8 @@ supports.
 
 =head2 KmsKeyId => Str
 
-The ARN of the AWS Key Management Service (AWS KMS) CMK used for
-encryption.
+Identifier (key ID, key alias, key ARN, or alias ARN) of the customer
+managed KMS key to use for EBS encryption.
 
 
 =head2 SnapshotId => Str
@@ -73,6 +74,13 @@ The ID of the snapshot.
 =head2 Throughput => Int
 
 The throughput that the volume supports, in MiB/s.
+
+
+=head2 VolumeInitializationRate => Int
+
+The Amazon EBS Provisioned Rate for Volume Initialization (volume
+initialization rate) specified for the volume, in MiB/s. If no volume
+initialization rate was specified, the value is C<null>.
 
 
 =head2 VolumeSize => Int

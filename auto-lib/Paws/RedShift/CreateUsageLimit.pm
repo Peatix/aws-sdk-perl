@@ -93,14 +93,16 @@ The identifier of the cluster that you want to limit usage.
 
 The Amazon Redshift feature that you want to limit.
 
-Valid values are: C<"spectrum">, C<"concurrency-scaling">
+Valid values are: C<"spectrum">, C<"concurrency-scaling">, C<"cross-region-datasharing">
 
 =head2 B<REQUIRED> LimitType => Str
 
 The type of limit. Depending on the feature type, this can be based on
 a time duration or data size. If C<FeatureType> is C<spectrum>, then
 C<LimitType> must be C<data-scanned>. If C<FeatureType> is
-C<concurrency-scaling>, then C<LimitType> must be C<time>.
+C<concurrency-scaling>, then C<LimitType> must be C<time>. If
+C<FeatureType> is C<cross-region-datasharing>, then C<LimitType> must
+be C<data-scanned>.
 
 Valid values are: C<"time">, C<"data-scanned">
 

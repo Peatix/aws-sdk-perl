@@ -2,6 +2,8 @@
 package Paws::IoTSiteWise::AssetModelHierarchyDefinition;
   use Moose;
   has ChildAssetModelId => (is => 'ro', isa => 'Str', request_name => 'childAssetModelId', traits => ['NameInRequest'], required => 1);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
+  has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -43,7 +45,30 @@ belong to a hierarchy.
 
 =head2 B<REQUIRED> ChildAssetModelId => Str
 
-The ID of an asset model for this hierarchy.
+The ID of an asset model for this hierarchy. This can be either the
+actual ID in UUID format, or else C<externalId:> followed by the
+external ID, if it has one. For more information, see Referencing
+objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 ExternalId => Str
+
+An external ID to assign to the asset model hierarchy. The external ID
+must be unique among asset model hierarchies within this asset model.
+For more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 Id => Str
+
+The ID to assign to the asset model hierarchy, if desired. IoT SiteWise
+automatically generates a unique ID for you, so this parameter is never
+required. However, if you prefer to supply your own ID instead, you can
+specify it here in UUID format. If you specify your own ID, it must be
+globally unique.
 
 
 =head2 B<REQUIRED> Name => Str

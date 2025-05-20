@@ -1,7 +1,9 @@
 
 package Paws::RDS::FailoverGlobalCluster;
   use Moose;
+  has AllowDataLoss => (is => 'ro', isa => 'Bool');
   has GlobalClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has Switchover => (is => 'ro', isa => 'Bool');
   has TargetDbClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -31,7 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $FailoverGlobalClusterResult = $rds->FailoverGlobalCluster(
       GlobalClusterIdentifier   => 'MyGlobalClusterIdentifier',
       TargetDbClusterIdentifier => 'MyDBClusterIdentifier',
-
+      AllowDataLoss             => 1,                             # OPTIONAL
+      Switchover                => 1,                             # OPTIONAL
     );
 
     # Results:
@@ -45,12 +48,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> GlobalClusterIdentifier => Str
+=head2 AllowDataLoss => Bool
 
-Identifier of the Aurora global database (GlobalCluster) that should be
-failed over. The identifier is the unique key assigned by the user when
-the Aurora global database was created. In other words, it's the name
-of the Aurora global database that you want to fail over.
+Specifies whether to allow data loss for this global database cluster
+operation. Allowing data loss triggers a global failover operation.
+
+If you don't specify C<AllowDataLoss>, the global database cluster
+operation defaults to a switchover.
 
 Constraints:
 
@@ -58,8 +62,44 @@ Constraints:
 
 =item *
 
-Must match the identifier of an existing GlobalCluster (Aurora global
-database).
+Can't be specified together with the C<Switchover> parameter.
+
+=back
+
+
+
+
+=head2 B<REQUIRED> GlobalClusterIdentifier => Str
+
+The identifier of the global database cluster (Aurora global database)
+this operation should apply to. The identifier is the unique key
+assigned by the user when the Aurora global database is created. In
+other words, it's the name of the Aurora global database.
+
+Constraints:
+
+=over
+
+=item *
+
+Must match the identifier of an existing global database cluster.
+
+=back
+
+
+
+
+=head2 Switchover => Bool
+
+Specifies whether to switch over this global database cluster.
+
+Constraints:
+
+=over
+
+=item *
+
+Can't be specified together with the C<AllowDataLoss> parameter.
 
 =back
 
@@ -68,10 +108,10 @@ database).
 
 =head2 B<REQUIRED> TargetDbClusterIdentifier => Str
 
-Identifier of the secondary Aurora DB cluster that you want to promote
-to primary for the Aurora global database (GlobalCluster.) Use the
-Amazon Resource Name (ARN) for the identifier so that Aurora can locate
-the cluster in its Amazon Web Services Region.
+The identifier of the secondary Aurora DB cluster that you want to
+promote to the primary for the global database cluster. Use the Amazon
+Resource Name (ARN) for the identifier so that Aurora can locate the
+cluster in its Amazon Web Services Region.
 
 
 

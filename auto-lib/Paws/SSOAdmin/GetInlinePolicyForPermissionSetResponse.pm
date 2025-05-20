@@ -16,7 +16,10 @@ Paws::SSOAdmin::GetInlinePolicyForPermissionSetResponse
 
 =head2 InlinePolicy => Str
 
-The IAM inline policy that is attached to the permission set.
+The inline policy that is attached to the permission set.
+
+For C<Length Constraints>, if a valid ARN is provided for a permission
+set, it is possible for an empty inline policy to be returned.
 
 
 =head2 _request_id => Str

@@ -20,22 +20,22 @@ Paws::Datasync::DescribeLocationNfsResponse
 
 =head2 CreationTime => Str
 
-The time that the NFS location was created.
+The time when the NFS location was created.
 
 
 =head2 LocationArn => Str
 
-The Amazon Resource Name (ARN) of the NFS location that was described.
+The ARN of the NFS location.
 
 
 =head2 LocationUri => Str
 
-The URL of the source NFS location that was described.
+The URI of the NFS location.
 
 
 =head2 MountOptions => L<Paws::Datasync::NfsMountOptions>
 
-The NFS mount options that DataSync used to mount your NFS share.
+The mount options that DataSync uses to mount your NFS file server.
 
 
 =head2 OnPremConfig => L<Paws::Datasync::OnPremConfig>

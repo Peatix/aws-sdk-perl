@@ -3,15 +3,15 @@ package Paws::MediaConnect::UpdateFlowEntitlement;
   use Moose;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Encryption => (is => 'ro', isa => 'Paws::MediaConnect::UpdateEncryption', traits => ['NameInRequest'], request_name => 'encryption');
-  has EntitlementArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'entitlementArn', required => 1);
+  has EntitlementArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'EntitlementArn', required => 1);
   has EntitlementStatus => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'entitlementStatus');
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
   has Subscribers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'subscribers');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateFlowEntitlement');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/entitlements/{entitlementArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/entitlements/{EntitlementArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::UpdateFlowEntitlementResponse');
 1;
@@ -34,22 +34,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $UpdateFlowEntitlementResponse = $mediaconnect->UpdateFlowEntitlement(
-      EntitlementArn => 'My__string',
-      FlowArn        => 'My__string',
-      Description    => 'My__string',    # OPTIONAL
+      EntitlementArn => 'MyUpdateFlowEntitlementRequestEntitlementArnString',
+      FlowArn        => 'MyUpdateFlowEntitlementRequestFlowArnString',
+      Description    => 'MyString',    # OPTIONAL
       Encryption     => {
         Algorithm => 'aes128',    # values: aes128, aes192, aes256; OPTIONAL
-        ConstantInitializationVector => 'My__string',
-        DeviceId                     => 'My__string',
+        ConstantInitializationVector => 'MyString',
+        DeviceId                     => 'MyString',
         KeyType => 'speke',  # values: speke, static-key, srt-password; OPTIONAL
-        Region     => 'My__string',
-        ResourceId => 'My__string',
-        RoleArn    => 'My__string',
-        SecretArn  => 'My__string',
-        Url        => 'My__string',
+        Region     => 'MyString',
+        ResourceId => 'MyString',
+        RoleArn    => 'MyString',
+        SecretArn  => 'MyString',
+        Url        => 'MyString',
       },    # OPTIONAL
-      EntitlementStatus => 'ENABLED',                # OPTIONAL
-      Subscribers       => [ 'My__string', ... ],    # OPTIONAL
+      EntitlementStatus => 'ENABLED',              # OPTIONAL
+      Subscribers       => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -67,21 +67,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 =head2 Description => Str
 
 A description of the entitlement. This description appears only on the
-AWS Elemental MediaConnect console and will not be seen by the
-subscriber or end user.
+MediaConnect console and will not be seen by the subscriber or end
+user.
 
 
 
 =head2 Encryption => L<Paws::MediaConnect::UpdateEncryption>
 
 The type of encryption that will be used on the output associated with
-this entitlement.
+this entitlement. Allowable encryption types: static-key, speke.
 
 
 
 =head2 B<REQUIRED> EntitlementArn => Str
 
-The ARN of the entitlement that you want to update.
+The Amazon Resource Name (ARN) of the entitlement that you want to
+update.
 
 
 
@@ -90,23 +91,23 @@ The ARN of the entitlement that you want to update.
 An indication of whether you want to enable the entitlement to allow
 access, or disable it to stop streaming content to the
 subscriberE<rsquo>s flow temporarily. If you donE<rsquo>t specify the
-entitlementStatus field in your request, MediaConnect leaves the value
-unchanged.
+C<entitlementStatus> field in your request, MediaConnect leaves the
+value unchanged.
 
 Valid values are: C<"ENABLED">, C<"DISABLED">
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that is associated with the entitlement that you want to
-update.
+The ARN of the flow that is associated with the entitlement that you
+want to update.
 
 
 
 =head2 Subscribers => ArrayRef[Str|Undef]
 
-The AWS account IDs that you want to share your content with. The
-receiving accounts (subscribers) will be allowed to create their own
-flow using your content as the source.
+The Amazon Web Services account IDs that you want to share your content
+with. The receiving accounts (subscribers) will be allowed to create
+their own flow using your content as the source.
 
 
 

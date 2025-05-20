@@ -41,14 +41,13 @@ The API request rate limits.
 
 =head2 BurstLimit => Int
 
-The API request burst limit, the maximum rate limit over a time ranging
-from one to a few seconds, depending upon whether the underlying token
-bucket is at its full capacity.
+The API target request burst rate limit. This allows more requests
+through for a period of time than the target rate limit.
 
 
 =head2 RateLimit => Num
 
-The API request steady-state rate limit.
+The API target request rate limit.
 
 
 

@@ -4,7 +4,9 @@ package Paws::MarketplaceCatalog::StartChangeSet;
   has Catalog => (is => 'ro', isa => 'Str', required => 1);
   has ChangeSet => (is => 'ro', isa => 'ArrayRef[Paws::MarketplaceCatalog::Change]', required => 1);
   has ChangeSetName => (is => 'ro', isa => 'Str');
+  has ChangeSetTags => (is => 'ro', isa => 'ArrayRef[Paws::MarketplaceCatalog::Tag]');
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has Intent => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -36,17 +38,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ChangeSet => [
         {
           ChangeType => 'MyChangeType',    # min: 1, max: 255
-          Details    => 'MyJson',          # min: 2, max: 16384
           Entity     => {
             Type       => 'MyEntityType',    # min: 1, max: 255
             Identifier => 'MyIdentifier',    # min: 1, max: 255; OPTIONAL
           },
-          ChangeName => 'MyChangeName',      # min: 1, max: 72; OPTIONAL
+          ChangeName      => 'MyChangeName',    # min: 1, max: 72; OPTIONAL
+          Details         => 'MyJson',          # min: 2, max: 16384; OPTIONAL
+          DetailsDocument => {
+
+          },                                    # OPTIONAL
+          EntityTags => [
+            {
+              Key   => 'MyTagKey',      # min: 1, max: 128
+              Value => 'MyTagValue',    # max: 256
+
+            },
+            ...
+          ],    # min: 1, max: 200; OPTIONAL
         },
         ...
       ],
-      ChangeSetName      => 'MyChangeSetName',         # OPTIONAL
+      ChangeSetName => 'MyChangeSetName',    # OPTIONAL
+      ChangeSetTags => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
       ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
+      Intent             => 'VALIDATE',                # OPTIONAL
     );
 
     # Results:
@@ -80,11 +102,28 @@ change set name can be used to filter the list of change sets.
 
 
 
+=head2 ChangeSetTags => ArrayRef[L<Paws::MarketplaceCatalog::Tag>]
+
+A list of objects specifying each key name and value for the
+C<ChangeSetTags> property.
+
+
+
 =head2 ClientRequestToken => Str
 
 A unique token to identify the request to ensure idempotency.
 
 
+
+=head2 Intent => Str
+
+The intent related to the request. The default is C<APPLY>. To test
+your request before applying changes to your entities, use C<VALIDATE>.
+This feature is currently available for adding versions to single-AMI
+products. For more information, see Add a new version
+(https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
+
+Valid values are: C<"VALIDATE">, C<"APPLY">
 
 
 =head1 SEE ALSO

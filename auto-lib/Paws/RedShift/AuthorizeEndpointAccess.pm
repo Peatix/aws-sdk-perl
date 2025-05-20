@@ -58,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 B<REQUIRED> Account => Str
 
-The AWS account ID to grant access to.
+The Amazon Web Services account ID to grant access to.
 
 
 

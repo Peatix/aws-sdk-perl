@@ -16,8 +16,8 @@ Paws::KinesisAnalyticsV2::CreateApplicationResponse
 
 =head2 B<REQUIRED> ApplicationDetail => L<Paws::KinesisAnalyticsV2::ApplicationDetail>
 
-In response to your C<CreateApplication> request, Kinesis Data
-Analytics returns a response with details of the application it
+In response to your C<CreateApplication> request, Managed Service for
+Apache Flink returns a response with details of the application it
 created.
 
 

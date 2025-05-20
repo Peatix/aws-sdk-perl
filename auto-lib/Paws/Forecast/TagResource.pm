@@ -50,9 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/for
 =head2 B<REQUIRED> ResourceArn => Str
 
 The Amazon Resource Name (ARN) that identifies the resource for which
-to list the tags. Currently, the supported resources are Forecast
-dataset groups, datasets, dataset import jobs, predictors, forecasts,
-and forecast export jobs.
+to list the tags.
 
 
 
@@ -96,12 +94,12 @@ Tag keys and values are case sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for keys as it is reserved for AWS use. You cannot
-edit or delete tag keys with this prefix. Values can have this prefix.
-If a tag value has C<aws> as its prefix but the key does not, then
-Forecast considers it to be a user tag and will count against the limit
-of 50 tags. Tags with only the key prefix of C<aws> do not count
-against your tags per resource limit.
+such as a prefix for keys as it is reserved for Amazon Web Services
+use. You cannot edit or delete tag keys with this prefix. Values can
+have this prefix. If a tag value has C<aws> as its prefix but the key
+does not, then Forecast considers it to be a user tag and will count
+against the limit of 50 tags. Tags with only the key prefix of C<aws>
+do not count against your tags per resource limit.
 
 =back
 

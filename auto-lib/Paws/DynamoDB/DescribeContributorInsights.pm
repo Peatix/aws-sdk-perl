@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $dynamodb = Paws->service('DynamoDB');
     my $DescribeContributorInsightsOutput =
       $dynamodb->DescribeContributorInsights(
-      TableName => 'MyTableName',
+      TableName => 'MyTableArn',
       IndexName => 'MyIndexName',    # OPTIONAL
       );
 
@@ -61,7 +61,8 @@ The name of the global secondary index to describe, if applicable.
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table to describe.
+The name of the table to describe. You can also provide the Amazon
+Resource Name (ARN) of the table in this parameter.
 
 
 

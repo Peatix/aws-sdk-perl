@@ -48,15 +48,16 @@ The 12-digit account ID of the member account within an organization.
 =head2 Status => Str
 
 Indicates deployment status for conformance pack in a member account.
-When master account calls C<PutOrganizationConformancePack> action for
-the first time, conformance pack status is created in the member
-account. When master account calls C<PutOrganizationConformancePack>
-action for the second time, conformance pack status is updated in the
-member account. Conformance pack status is deleted when the master
-account deletes C<OrganizationConformancePack> and disables service
-access for C<config-multiaccountsetup.amazonaws.com>.
+When management account calls C<PutOrganizationConformancePack> action
+for the first time, conformance pack status is created in the member
+account. When management account calls
+C<PutOrganizationConformancePack> action for the second time,
+conformance pack status is updated in the member account. Conformance
+pack status is deleted when the management account deletes
+C<OrganizationConformancePack> and disables service access for
+C<config-multiaccountsetup.amazonaws.com>.
 
-AWS Config sets the state of the conformance pack to:
+Config sets the state of the conformance pack to:
 
 =over
 

@@ -3,8 +3,9 @@ package Paws::MQ::User;
   use Moose;
   has ConsoleAccess => (is => 'ro', isa => 'Bool', request_name => 'consoleAccess', traits => ['NameInRequest']);
   has Groups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'groups', traits => ['NameInRequest']);
-  has Password => (is => 'ro', isa => 'Str', request_name => 'password', traits => ['NameInRequest']);
-  has Username => (is => 'ro', isa => 'Str', request_name => 'username', traits => ['NameInRequest']);
+  has Password => (is => 'ro', isa => 'Str', request_name => 'password', traits => ['NameInRequest'], required => 1);
+  has ReplicationUser => (is => 'ro', isa => 'Bool', request_name => 'replicationUser', traits => ['NameInRequest']);
+  has Username => (is => 'ro', isa => 'Str', request_name => 'username', traits => ['NameInRequest'], required => 1);
 
 1;
 
@@ -36,15 +37,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MQ::User ob
 
 =head1 DESCRIPTION
 
-A user associated with the broker.
+A user associated with the broker. For Amazon MQ for RabbitMQ brokers,
+one and only one administrative user is accepted and created when a
+broker is first provisioned. All subsequent broker users are created by
+making RabbitMQ API calls directly to brokers or via the RabbitMQ web
+console.
 
 =head1 ATTRIBUTES
 
 
 =head2 ConsoleAccess => Bool
 
-Enables access to the ActiveMQ Web Console for the ActiveMQ user (Does
-not apply to RabbitMQ brokers).
+Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does
+not apply to RabbitMQ brokers.
 
 
 =head2 Groups => ArrayRef[Str|Undef]
@@ -52,21 +57,49 @@ not apply to RabbitMQ brokers).
 The list of groups (20 maximum) to which the ActiveMQ user belongs.
 This value can contain only alphanumeric characters, dashes, periods,
 underscores, and tildes (- . _ ~). This value must be 2-100 characters
-long.
+long. Does not apply to RabbitMQ brokers.
 
 
-=head2 Password => Str
+=head2 B<REQUIRED> Password => Str
 
-Required. The password of the broker user. This value must be at least
-12 characters long, must contain at least 4 unique characters, and must
-not contain commas.
+Required. The password of the user. This value must be at least 12
+characters long, must contain at least 4 unique characters, and must
+not contain commas, colons, or equal signs (,:=).
 
 
-=head2 Username => Str
+=head2 ReplicationUser => Bool
 
-Required. The username of the broker user. This value can contain only
+Defines if this user is intended for CRDR replication purposes.
+
+
+=head2 B<REQUIRED> Username => Str
+
+The username of the broker user. The following restrictions apply to
+broker usernames:
+
+=over
+
+=item *
+
+For Amazon MQ for ActiveMQ brokers, this value can contain only
 alphanumeric characters, dashes, periods, underscores, and tildes (- .
 _ ~). This value must be 2-100 characters long.
+
+=item *
+
+paraE<gt>For Amazon MQ for RabbitMQ brokers, this value can contain
+only alphanumeric characters, dashes, periods, underscores (- . _).
+This value must not contain a tilde (~) character. Amazon MQ prohibts
+using guest as a valid usename. This value must be 2-100 characters
+long.
+
+=back
+
+Do not add personally identifiable information (PII) or other
+confidential or sensitive information in broker usernames. Broker
+usernames are accessible to other Amazon Web Services services,
+including CloudWatch Logs. Broker usernames are not intended to be used
+for private or sensitive data.
 
 
 

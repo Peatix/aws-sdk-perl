@@ -33,15 +33,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 
 =head1 DESCRIPTION
 
-The AWS Lake Formation principal. Supported principals are IAM users or
-IAM roles.
+The Lake Formation principal. Supported principals are IAM users or IAM
+roles.
 
 =head1 ATTRIBUTES
 
 
 =head2 DataLakePrincipalIdentifier => Str
 
-An identifier for the AWS Lake Formation principal.
+An identifier for the Lake Formation principal.
 
 
 

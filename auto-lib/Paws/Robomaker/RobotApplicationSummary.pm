@@ -60,7 +60,7 @@ The name of the robot application.
 
 =head2 RobotSoftwareSuite => L<Paws::Robomaker::RobotSoftwareSuite>
 
-Information about a robot software suite (ROS distribution).
+Information about a robot software suite.
 
 
 =head2 Version => Str

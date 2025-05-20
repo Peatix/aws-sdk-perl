@@ -43,9 +43,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::OpsWorks::C
 
 =head1 DESCRIPTION
 
-Describes the Amazon CloudWatch logs configuration for a layer. For
-detailed information about members of this data type, see the
-CloudWatch Logs Agent Reference
+Describes the CloudWatch Logs configuration for a layer. For detailed
+information about members of this data type, see the CloudWatch Logs
+Agent Reference
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AgentReference.html).
 
 =head1 ATTRIBUTES

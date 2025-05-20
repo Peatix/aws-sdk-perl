@@ -59,7 +59,7 @@ The IP protocol name (C<tcp>, C<udp>, C<icmp>, C<icmpv6>) or number.
 
 [VPC only] Use C<-1> to specify all protocols.
 
-When authorizing security group rules, specifying -1 or a protocol
+When authorizing security group rules, specifying C<-1> or a protocol
 number other than C<tcp>, C<udp>, C<icmp>, or C<icmpv6> allows traffic
 on all ports, regardless of any port range you specify.
 
@@ -81,9 +81,10 @@ The IPv6 ranges.
 
 =head2 PrefixListIds => ArrayRef[L<Paws::SecurityHub::AwsEc2SecurityGroupPrefixListId>]
 
-[VPC only] The prefix list IDs for an AWS service. With outbound rules,
-this is the AWS service to access through a VPC endpoint from instances
-associated with the security group.
+[VPC only] The prefix list IDs for an Amazon Web Services service. With
+outbound rules, this is the Amazon Web Services service to access
+through a VPC endpoint from instances associated with the security
+group.
 
 
 =head2 ToPort => Int
@@ -91,13 +92,13 @@ associated with the security group.
 The end of the port range for the TCP and UDP protocols, or an
 ICMP/ICMPv6 code.
 
-A value of -1 indicates all ICMP/ICMPv6 codes. If you specify all
+A value of C<-1> indicates all ICMP/ICMPv6 codes. If you specify all
 ICMP/ICMPv6 types, you must specify all codes.
 
 
 =head2 UserIdGroupPairs => ArrayRef[L<Paws::SecurityHub::AwsEc2SecurityGroupUserIdGroupPair>]
 
-The security group and AWS account ID pairs.
+The security group and Amazon Web Services account ID pairs.
 
 
 

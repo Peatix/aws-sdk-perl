@@ -18,7 +18,8 @@ Paws::LocationService::ListGeofenceCollectionsResponse
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::LocationService::ListGeofenceCollectionsResponseEntry>]
 
-Lists the geofence collections that exist in your AWS account.
+Lists the geofence collections that exist in your Amazon Web Services
+account.
 
 
 =head2 NextToken => Str

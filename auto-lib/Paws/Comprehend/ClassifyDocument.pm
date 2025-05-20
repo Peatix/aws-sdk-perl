@@ -1,8 +1,10 @@
 
 package Paws::Comprehend::ClassifyDocument;
   use Moose;
+  has Bytes => (is => 'ro', isa => 'Str');
+  has DocumentReaderConfig => (is => 'ro', isa => 'Paws::Comprehend::DocumentReaderConfig');
   has EndpointArn => (is => 'ro', isa => 'Str', required => 1);
-  has Text => (is => 'ro', isa => 'Str', required => 1);
+  has Text => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,14 +31,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $comprehend = Paws->service('Comprehend');
     my $ClassifyDocumentResponse = $comprehend->ClassifyDocument(
-      EndpointArn => 'MyDocumentClassifierEndpointArn',
-      Text        => 'MyCustomerInputString',
-
+      EndpointArn          => 'MyDocumentClassifierEndpointArn',
+      Bytes                => 'BlobSemiStructuredDocumentBlob',    # OPTIONAL
+      DocumentReaderConfig => {
+        DocumentReadAction => 'TEXTRACT_DETECT_DOCUMENT_TEXT'
+        ,    # values: TEXTRACT_DETECT_DOCUMENT_TEXT, TEXTRACT_ANALYZE_DOCUMENT
+        DocumentReadMode => 'SERVICE_DEFAULT'
+        ,    # values: SERVICE_DEFAULT, FORCE_DOCUMENT_READ_ACTION; OPTIONAL
+        FeatureTypes => [
+          'TABLES', ...    # values: TABLES, FORMS
+        ],    # min: 1, max: 2; OPTIONAL
+      },    # OPTIONAL
+      Text => 'MyCustomerInputString',    # OPTIONAL
     );
 
     # Results:
-    my $Classes = $ClassifyDocumentResponse->Classes;
-    my $Labels  = $ClassifyDocumentResponse->Labels;
+    my $Classes          = $ClassifyDocumentResponse->Classes;
+    my $DocumentMetadata = $ClassifyDocumentResponse->DocumentMetadata;
+    my $DocumentType     = $ClassifyDocumentResponse->DocumentType;
+    my $Errors           = $ClassifyDocumentResponse->Errors;
+    my $Labels           = $ClassifyDocumentResponse->Labels;
+    my $Warnings         = $ClassifyDocumentResponse->Warnings;
 
     # Returns a L<Paws::Comprehend::ClassifyDocumentResponse> object.
 
@@ -46,15 +61,57 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 =head1 ATTRIBUTES
 
 
+=head2 Bytes => Str
+
+Use the C<Bytes> parameter to input a text, PDF, Word or image file.
+
+When you classify a document using a custom model, you can also use the
+C<Bytes> parameter to input an Amazon Textract C<DetectDocumentText> or
+C<AnalyzeDocument> output file.
+
+To classify a document using the prompt safety classifier, use the
+C<Text> parameter for input.
+
+Provide the input document as a sequence of base64-encoded bytes. If
+your code uses an Amazon Web Services SDK to classify documents, the
+SDK may encode the document file bytes for you.
+
+The maximum length of this field depends on the input document type.
+For details, see Inputs for real-time custom analysis
+(https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync.html)
+in the Comprehend Developer Guide.
+
+If you use the C<Bytes> parameter, do not use the C<Text> parameter.
+
+
+
+=head2 DocumentReaderConfig => L<Paws::Comprehend::DocumentReaderConfig>
+
+Provides configuration parameters to override the default actions for
+extracting text from PDF documents and image files.
+
+
+
 =head2 B<REQUIRED> EndpointArn => Str
 
 The Amazon Resource Number (ARN) of the endpoint.
 
+For prompt safety classification, Amazon Comprehend provides the
+endpoint ARN. For more information about prompt safety classifiers, see
+Prompt safety classification
+(https://docs.aws.amazon.com/comprehend/latest/dg/trust-safety.html#prompt-classification)
+in the I<Amazon Comprehend Developer Guide>
+
+For custom classification, you create an endpoint for your custom
+model. For more information, see Using Amazon Comprehend endpoints
+(https://docs.aws.amazon.com/comprehend/latest/dg/using-endpoints.html).
 
 
-=head2 B<REQUIRED> Text => Str
 
-The document text to be analyzed.
+=head2 Text => Str
+
+The document text to be analyzed. If you enter text using this
+parameter, do not use the C<Bytes> parameter.
 
 
 

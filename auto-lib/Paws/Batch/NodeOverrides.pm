@@ -34,11 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Node
 
 =head1 DESCRIPTION
 
-Object representing any node overrides to a job definition that's used
-in a SubmitJob API operation.
+An object that represents any node overrides to a job definition that's
+used in a SubmitJob
+(https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html)
+API operation.
 
-This isn't applicable to jobs running on Fargate resources and
-shouldn't be provided; use C<containerOverrides> instead.
+This parameter isn't applicable to jobs that are running on Fargate
+resources. Don't provide it for these jobs. Rather, use
+C<containerOverrides> instead.
 
 =head1 ATTRIBUTES
 
@@ -52,24 +55,25 @@ The node property overrides for the job.
 
 The number of nodes to use with a multi-node parallel job. This value
 overrides the number of nodes that are specified in the job definition.
-To use this override:
+To use this override, you must meet the following conditions:
 
 =over
 
 =item *
 
 There must be at least one node range in your job definition that has
-an open upper boundary (such as C<:> or C<n:>).
+an open upper boundary, such as C<:> or C<n:>.
 
 =item *
 
-The lower boundary of the node range specified in the job definition
-must be fewer than the number of nodes specified in the override.
+The lower boundary of the node range that's specified in the job
+definition must be fewer than the number of nodes specified in the
+override.
 
 =item *
 
-The main node index specified in the job definition must be fewer than
-the number of nodes specified in the override.
+The main node index that's specified in the job definition must be
+fewer than the number of nodes specified in the override.
 
 =back
 

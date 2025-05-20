@@ -54,9 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 CopyTags => Bool
 
-A value that indicates whether to copy all tags from the source DB
-cluster snapshot to the target DB cluster snapshot. By default, tags
-are not copied.
+Specifies whether to copy all tags from the source DB cluster snapshot
+to the target DB cluster snapshot. By default, tags are not copied.
 
 
 
@@ -64,15 +63,13 @@ are not copied.
 
 The Amazon Web Services KMS key identifier for an encrypted DB cluster
 snapshot. The Amazon Web Services KMS key identifier is the key ARN,
-key ID, alias ARN, or alias name for the Amazon Web Services KMS
-customer master key (CMK).
+key ID, alias ARN, or alias name for the Amazon Web Services KMS key.
 
 If you copy an encrypted DB cluster snapshot from your Amazon Web
 Services account, you can specify a value for C<KmsKeyId> to encrypt
-the copy with a new Amazon Web Services KMS CMK. If you don't specify a
-value for C<KmsKeyId>, then the copy of the DB cluster snapshot is
-encrypted with the same Amazon Web Services KMS key as the source DB
-cluster snapshot.
+the copy with a new KMS key. If you don't specify a value for
+C<KmsKeyId>, then the copy of the DB cluster snapshot is encrypted with
+the same KMS key as the source DB cluster snapshot.
 
 If you copy an encrypted DB cluster snapshot that is shared from
 another Amazon Web Services account, then you must specify a value for
@@ -81,10 +78,10 @@ C<KmsKeyId>.
 To copy an encrypted DB cluster snapshot to another Amazon Web Services
 Region, you must set C<KmsKeyId> to the Amazon Web Services KMS key
 identifier you want to use to encrypt the copy of the DB cluster
-snapshot in the destination Amazon Web Services Region. Amazon Web
-Services KMS CMKs are specific to the Amazon Web Services Region that
-they are created in, and you can't use CMKs from one Amazon Web
-Services Region in another Amazon Web Services Region.
+snapshot in the destination Amazon Web Services Region. KMS keys are
+specific to the Amazon Web Services Region that they are created in,
+and you can't use KMS keys from one Amazon Web Services Region in
+another Amazon Web Services Region.
 
 If you copy an unencrypted DB cluster snapshot and specify a value for
 the C<KmsKeyId> parameter, an error is returned.
@@ -93,30 +90,34 @@ the C<KmsKeyId> parameter, an error is returned.
 
 =head2 PreSignedUrl => Str
 
-The URL that contains a Signature Version 4 signed request for the
-C<CopyDBClusterSnapshot> API action in the Amazon Web Services Region
-that contains the source DB cluster snapshot to copy. The
-C<PreSignedUrl> parameter must be used when copying an encrypted DB
-cluster snapshot from another Amazon Web Services Region. Don't specify
-C<PreSignedUrl> when you are copying an encrypted DB cluster snapshot
-in the same Amazon Web Services Region.
+When you are copying a DB cluster snapshot from one Amazon Web Services
+GovCloud (US) Region to another, the URL that contains a Signature
+Version 4 signed request for the C<CopyDBClusterSnapshot> API operation
+in the Amazon Web Services Region that contains the source DB cluster
+snapshot to copy. Use the C<PreSignedUrl> parameter when copying an
+encrypted DB cluster snapshot from another Amazon Web Services Region.
+Don't specify C<PreSignedUrl> when copying an encrypted DB cluster
+snapshot in the same Amazon Web Services Region.
 
-The pre-signed URL must be a valid request for the
-C<CopyDBClusterSnapshot> API action that can be executed in the source
+This setting applies only to Amazon Web Services GovCloud (US) Regions.
+It's ignored in other Amazon Web Services Regions.
+
+The presigned URL must be a valid request for the
+C<CopyDBClusterSnapshot> API operation that can run in the source
 Amazon Web Services Region that contains the encrypted DB cluster
-snapshot to be copied. The pre-signed URL request must contain the
-following parameter values:
+snapshot to copy. The presigned URL request must contain the following
+parameter values:
 
 =over
 
 =item *
 
-C<KmsKeyId> - The Amazon Web Services KMS key identifier for the
-customer master key (CMK) to use to encrypt the copy of the DB cluster
-snapshot in the destination Amazon Web Services Region. This is the
-same identifier for both the C<CopyDBClusterSnapshot> action that is
-called in the destination Amazon Web Services Region, and the action
-contained in the pre-signed URL.
+C<KmsKeyId> - The KMS key identifier for the KMS key to use to encrypt
+the copy of the DB cluster snapshot in the destination Amazon Web
+Services Region. This is the same identifier for both the
+C<CopyDBClusterSnapshot> operation that is called in the destination
+Amazon Web Services Region, and the operation contained in the
+presigned URL.
 
 =item *
 
@@ -146,9 +147,8 @@ and Signature Version 4 Signing Process
 If you are using an Amazon Web Services SDK tool or the CLI, you can
 specify C<SourceRegion> (or C<--source-region> for the CLI) instead of
 specifying C<PreSignedUrl> manually. Specifying C<SourceRegion>
-autogenerates a pre-signed URL that is a valid request for the
-operation that can be executed in the source Amazon Web Services
-Region.
+autogenerates a presigned URL that is a valid request for the operation
+that can run in the source Amazon Web Services Region.
 
 
 
@@ -179,7 +179,7 @@ If the source snapshot is in a different Amazon Web Services Region
 than the copy, specify a valid DB cluster snapshot ARN. For more
 information, go to Copying Snapshots Across Amazon Web Services Regions
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html#USER_CopySnapshot.AcrossRegions)
-in the I<Amazon Aurora User Guide.>
+in the I<Amazon Aurora User Guide>.
 
 =back
 

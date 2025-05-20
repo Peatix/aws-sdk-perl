@@ -47,7 +47,7 @@ type.
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 =head2 ExpirationTime => Str

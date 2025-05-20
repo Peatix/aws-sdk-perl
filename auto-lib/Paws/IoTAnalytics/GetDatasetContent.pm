@@ -49,16 +49,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> DatasetName => Str
 
-The name of the data set whose contents are retrieved.
+The name of the dataset whose contents are retrieved.
 
 
 
 =head2 VersionId => Str
 
-The version of the data set whose contents are retrieved. You can also
+The version of the dataset whose contents are retrieved. You can also
 use the strings "$LATEST" or "$LATEST_SUCCEEDED" to retrieve the
-contents of the latest or latest successfully completed data set. If
-not specified, "$LATEST_SUCCEEDED" is the default.
+contents of the latest or latest successfully completed dataset. If not
+specified, "$LATEST_SUCCEEDED" is the default.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::LookoutVision::StartModel;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'X-Amzn-Client-Token');
+  has MaxInferenceUnits => (is => 'ro', isa => 'Int');
   has MinInferenceUnits => (is => 'ro', isa => 'Int', required => 1);
   has ModelVersion => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'modelVersion', required => 1);
   has ProjectName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'projectName', required => 1);
@@ -36,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ModelVersion      => 'MyModelVersion',
       ProjectName       => 'MyProjectName',
       ClientToken       => 'MyClientToken',    # OPTIONAL
+      MaxInferenceUnits => 1,                  # OPTIONAL
     );
 
     # Results:
@@ -53,9 +55,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/loo
 
 ClientToken is an idempotency token that ensures a call to
 C<StartModel> completes only once. You choose the value to pass. For
-example, An issue, such as an network outage, might prevent you from
-getting a response from C<StartModel>. In this case, safely retry your
-call to C<StartModel> by using the same C<ClientToken> parameter value.
+example, An issue might prevent you from getting a response from
+C<StartModel>. In this case, safely retry your call to C<StartModel> by
+using the same C<ClientToken> parameter value.
+
+If you don't supply a value for C<ClientToken>, the AWS SDK you are
+using inserts a value for you. This prevents retries after a network
+error from making multiple start requests. You'll need to provide your
+own value for other use cases.
+
 An error occurs if the other input parameters are not the same as in
 the first request. Using a different value for C<ClientToken> is
 considered a new call to C<StartModel>. An idempotency token is active
@@ -63,13 +71,20 @@ for 8 hours.
 
 
 
+=head2 MaxInferenceUnits => Int
+
+The maximum number of inference units to use for auto-scaling the
+model. If you don't specify a value, Amazon Lookout for Vision doesn't
+auto-scale the model.
+
+
+
 =head2 B<REQUIRED> MinInferenceUnits => Int
 
 The minimum number of inference units to use. A single inference unit
-represents 1 hour of processing and can support up to 5 Transaction
-Pers Second (TPS). Use a higher number to increase the TPS throughput
-of your model. You are charged for the number of inference units that
-you use.
+represents 1 hour of processing. Use a higher number to increase the
+TPS throughput of your model. You are charged for the number of
+inference units that you use.
 
 
 

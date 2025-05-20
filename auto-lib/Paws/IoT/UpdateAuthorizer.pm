@@ -3,6 +3,7 @@ package Paws::IoT::UpdateAuthorizer;
   use Moose;
   has AuthorizerFunctionArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'authorizerFunctionArn');
   has AuthorizerName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'authorizerName', required => 1);
+  has EnableCachingForHttp => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableCachingForHttp');
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status');
   has TokenKeyName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'tokenKeyName');
   has TokenSigningPublicKeys => (is => 'ro', isa => 'Paws::IoT::PublicKeyMap', traits => ['NameInRequest'], request_name => 'tokenSigningPublicKeys');
@@ -35,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateAuthorizerResponse = $iot->UpdateAuthorizer(
       AuthorizerName         => 'MyAuthorizerName',
       AuthorizerFunctionArn  => 'MyAuthorizerFunctionArn',    # OPTIONAL
+      EnableCachingForHttp   => 1,                            # OPTIONAL
       Status                 => 'ACTIVE',                     # OPTIONAL
       TokenKeyName           => 'MyTokenKeyName',             # OPTIONAL
       TokenSigningPublicKeys => {
@@ -63,6 +65,14 @@ The ARN of the authorizer's Lambda function.
 =head2 B<REQUIRED> AuthorizerName => Str
 
 The authorizer name.
+
+
+
+=head2 EnableCachingForHttp => Bool
+
+When C<true>, the result from the authorizerE<rsquo>s Lambda function
+is cached for the time specified in C<refreshAfterInSeconds>. The
+cached result is used while the device reuses the same HTTP connection.
 
 
 

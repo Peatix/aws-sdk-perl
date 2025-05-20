@@ -39,7 +39,7 @@ supported resource types are GPUs and Elastic Inference accelerators.
 For more information, see Working with GPUs on Amazon ECS
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html)
 or Working with Amazon Elastic Inference on Amazon ECS
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-eia.html)
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html)
 in the I<Amazon Elastic Container Service Developer Guide>
 
 =head1 ATTRIBUTES
@@ -47,23 +47,23 @@ in the I<Amazon Elastic Container Service Developer Guide>
 
 =head2 B<REQUIRED> Type => Str
 
-The type of resource to assign to a container. The supported values are
-C<GPU> or C<InferenceAccelerator>.
+The type of resource to assign to a container.
 
 
 =head2 B<REQUIRED> Value => Str
 
 The value for the specified resource type.
 
-If the C<GPU> type is used, the value is the number of physical C<GPUs>
-the Amazon ECS container agent will reserve for the container. The
-number of GPUs reserved for all containers in a task should not exceed
-the number of available GPUs on the container instance the task is
+When the type is C<GPU>, the value is the number of physical C<GPUs>
+the Amazon ECS container agent reserves for the container. The number
+of GPUs that's reserved for all containers in a task can't exceed the
+number of available GPUs on the container instance that the task is
 launched on.
 
-If the C<InferenceAccelerator> type is used, the C<value> should match
-the C<deviceName> for an InferenceAccelerator specified in a task
-definition.
+When the type is C<InferenceAccelerator>, the C<value> matches the
+C<deviceName> for an InferenceAccelerator
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html)
+specified in a task definition.
 
 
 

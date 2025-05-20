@@ -2,6 +2,7 @@
 package Paws::AppStream::UserSetting;
   use Moose;
   has Action => (is => 'ro', isa => 'Str', required => 1);
+  has MaximumLength => (is => 'ro', isa => 'Int');
   has Permission => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -43,6 +44,22 @@ users during their streaming sessions.
 =head2 B<REQUIRED> Action => Str
 
 The action that is enabled or disabled.
+
+
+=head2 MaximumLength => Int
+
+Specifies the number of characters that can be copied by end users from
+the local device to the remote session, and to the local device from
+the remote session.
+
+This can be specified only for the C<CLIPBOARD_COPY_FROM_LOCAL_DEVICE>
+and C<CLIPBOARD_COPY_TO_LOCAL_DEVICE> actions.
+
+This defaults to 20,971,520 (20 MB) when unspecified and the permission
+is C<ENABLED>. This can't be specified when the permission is
+C<DISABLED>.
+
+The value can be between 1 and 20,971,520 (20 MB).
 
 
 =head2 B<REQUIRED> Permission => Str

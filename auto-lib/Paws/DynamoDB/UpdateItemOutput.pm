@@ -22,9 +22,9 @@ A map of attribute values as they appear before or after the
 C<UpdateItem> operation, as determined by the C<ReturnValues>
 parameter.
 
-The C<Attributes> map is only present if C<ReturnValues> was specified
-as something other than C<NONE> in the request. Each element represents
-one attribute.
+The C<Attributes> map is only present if the update was successful and
+C<ReturnValues> was specified as something other than C<NONE> in the
+request. Each element represents one attribute.
 
 
 =head2 ConsumedCapacity => L<Paws::DynamoDB::ConsumedCapacity>
@@ -33,9 +33,9 @@ The capacity units consumed by the C<UpdateItem> operation. The data
 returned includes the total provisioned throughput consumed, along with
 statistics for the table and any indexes involved in the operation.
 C<ConsumedCapacity> is only returned if the C<ReturnConsumedCapacity>
-parameter was specified. For more information, see Provisioned
-Throughput
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html)
+parameter was specified. For more information, see Capacity unity
+consumption for write operations
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/read-write-operations.html#write-operation-consumption)
 in the I<Amazon DynamoDB Developer Guide>.
 
 

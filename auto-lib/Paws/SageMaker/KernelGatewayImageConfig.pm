@@ -34,16 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The configuration for the file system and kernels in a SageMaker image
-running as a KernelGateway app.
+The configuration for the file system and kernels in a SageMaker AI
+image running as a KernelGateway app.
 
 =head1 ATTRIBUTES
 
 
 =head2 FileSystemConfig => L<Paws::SageMaker::FileSystemConfig>
 
-The Amazon Elastic File System (EFS) storage configuration for a
-SageMaker image.
+The Amazon Elastic File System storage configuration for a SageMaker AI
+image.
 
 
 =head2 B<REQUIRED> KernelSpecs => ArrayRef[L<Paws::SageMaker::KernelSpec>]

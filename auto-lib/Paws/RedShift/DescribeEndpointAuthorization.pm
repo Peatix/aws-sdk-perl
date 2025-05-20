@@ -54,9 +54,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 Account => Str
 
-The AWS account ID of either the cluster owner (grantor) or grantee. If
-C<Grantee> parameter is true, then the C<Account> value is of the
-grantor.
+The Amazon Web Services account ID of either the cluster owner
+(grantor) or grantee. If C<Grantee> parameter is true, then the
+C<Account> value is of the grantor.
 
 
 

@@ -37,7 +37,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AppImageConfigArn = $DescribeAppImageConfigResponse->AppImageConfigArn;
     my $AppImageConfigName =
       $DescribeAppImageConfigResponse->AppImageConfigName;
+    my $CodeEditorAppImageConfig =
+      $DescribeAppImageConfigResponse->CodeEditorAppImageConfig;
     my $CreationTime = $DescribeAppImageConfigResponse->CreationTime;
+    my $JupyterLabAppImageConfig =
+      $DescribeAppImageConfigResponse->JupyterLabAppImageConfig;
     my $KernelGatewayImageConfig =
       $DescribeAppImageConfigResponse->KernelGatewayImageConfig;
     my $LastModifiedTime = $DescribeAppImageConfigResponse->LastModifiedTime;

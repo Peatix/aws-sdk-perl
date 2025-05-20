@@ -2,6 +2,7 @@
 package Paws::ECR::ReplicationRule;
   use Moose;
   has Destinations => (is => 'ro', isa => 'ArrayRef[Paws::ECR::ReplicationDestination]', request_name => 'destinations', traits => ['NameInRequest'], required => 1);
+  has RepositoryFilters => (is => 'ro', isa => 'ArrayRef[Paws::ECR::RepositoryFilter]', request_name => 'repositoryFilters', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ECR::ReplicationRule object:
 
-  $service_obj->Method(Att1 => { Destinations => $value, ..., Destinations => $value  });
+  $service_obj->Method(Att1 => { Destinations => $value, ..., RepositoryFilters => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,18 +34,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECR::Replic
 
 =head1 DESCRIPTION
 
-An array of objects representing the replication destinations for a
-replication configuration. A replication configuration may contain only
-one replication rule but the rule may contain one or more replication
-destinations.
+An array of objects representing the replication destinations and
+repository filters for a replication configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Destinations => ArrayRef[L<Paws::ECR::ReplicationDestination>]
 
-An array of objects representing the details of a replication
-destination.
+An array of objects representing the destination for a replication
+rule.
+
+
+=head2 RepositoryFilters => ArrayRef[L<Paws::ECR::RepositoryFilter>]
+
+An array of objects representing the filters for a replication rule.
+Specifying a repository filter for a replication rule provides a method
+for controlling which repositories in a private registry are
+replicated.
 
 
 

@@ -3,8 +3,10 @@ package Paws::SageMaker::HyperParameterTuningJobConfig;
   use Moose;
   has HyperParameterTuningJobObjective => (is => 'ro', isa => 'Paws::SageMaker::HyperParameterTuningJobObjective');
   has ParameterRanges => (is => 'ro', isa => 'Paws::SageMaker::ParameterRanges');
+  has RandomSeed => (is => 'ro', isa => 'Int');
   has ResourceLimits => (is => 'ro', isa => 'Paws::SageMaker::ResourceLimits', required => 1);
   has Strategy => (is => 'ro', isa => 'Str', required => 1);
+  has StrategyConfig => (is => 'ro', isa => 'Paws::SageMaker::HyperParameterTuningJobStrategyConfig');
   has TrainingJobEarlyStoppingType => (is => 'ro', isa => 'Str');
   has TuningJobCompletionCriteria => (is => 'ro', isa => 'Paws::SageMaker::TuningJobCompletionCriteria');
 
@@ -45,37 +47,61 @@ Configures a hyperparameter tuning job.
 
 =head2 HyperParameterTuningJobObjective => L<Paws::SageMaker::HyperParameterTuningJobObjective>
 
-The HyperParameterTuningJobObjective object that specifies the
-objective metric for this tuning job.
+The HyperParameterTuningJobObjective
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobObjective.html)
+specifies the objective metric used to evaluate the performance of
+training jobs launched by this tuning job.
 
 
 =head2 ParameterRanges => L<Paws::SageMaker::ParameterRanges>
 
-The ParameterRanges object that specifies the ranges of hyperparameters
-that this tuning job searches.
+The ParameterRanges
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ParameterRanges.html)
+object that specifies the ranges of hyperparameters that this tuning
+job searches over to find the optimal configuration for the highest
+model performance against your chosen objective metric.
+
+
+=head2 RandomSeed => Int
+
+A value used to initialize a pseudo-random number generator. Setting a
+random seed and using the same seed later for the same tuning job will
+allow hyperparameter optimization to find more a consistent
+hyperparameter configuration between the two runs.
 
 
 =head2 B<REQUIRED> ResourceLimits => L<Paws::SageMaker::ResourceLimits>
 
-The ResourceLimits object that specifies the maximum number of training
-jobs and parallel training jobs for this tuning job.
+The ResourceLimits
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ResourceLimits.html)
+object that specifies the maximum number of training and parallel
+training jobs that can be used for this hyperparameter tuning job.
 
 
 =head2 B<REQUIRED> Strategy => Str
 
 Specifies how hyperparameter tuning chooses the combinations of
-hyperparameter values to use for the training job it launches. To use
-the Bayesian search strategy, set this to C<Bayesian>. To randomly
-search, set it to C<Random>. For information about search strategies,
-see How Hyperparameter Tuning Works
+hyperparameter values to use for the training job it launches. For
+information about search strategies, see How Hyperparameter Tuning
+Works
 (https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-how-it-works.html).
+
+
+=head2 StrategyConfig => L<Paws::SageMaker::HyperParameterTuningJobStrategyConfig>
+
+The configuration for the C<Hyperband> optimization strategy. This
+parameter should be provided only if C<Hyperband> is selected as the
+strategy for C<HyperParameterTuningJobConfig>.
 
 
 =head2 TrainingJobEarlyStoppingType => Str
 
 Specifies whether to use early stopping for training jobs launched by
-the hyperparameter tuning job. This can be one of the following values
-(the default value is C<OFF>):
+the hyperparameter tuning job. Because the C<Hyperband> strategy has
+its own advanced internal early stopping mechanism,
+C<TrainingJobEarlyStoppingType> must be C<OFF> to use C<Hyperband>.
+This parameter can take on one of the following values (the default
+value is C<OFF>):
 
 =over
 
@@ -86,10 +112,9 @@ early stopping.
 
 =item AUTO
 
-Amazon SageMaker stops training jobs launched by the hyperparameter
-tuning job when they are unlikely to perform better than previously
-completed training jobs. For more information, see Stop Training Jobs
-Early
+SageMaker stops training jobs launched by the hyperparameter tuning job
+when they are unlikely to perform better than previously completed
+training jobs. For more information, see Stop Training Jobs Early
 (https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-early-stopping.html).
 
 =back

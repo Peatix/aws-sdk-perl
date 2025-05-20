@@ -42,46 +42,69 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Resour
 
 =head1 DESCRIPTION
 
-Describes a resource share.
+Describes a resource share in RAM.
 
 =head1 ATTRIBUTES
 
 
 =head2 AllowExternalPrincipals => Bool
 
-Indicates whether principals outside your AWS organization can be
-associated with a resource share.
-
-
-=head2 CreationTime => Str
-
-The time when the resource share was created.
-
-
-=head2 FeatureSet => Str
-
-Indicates how the resource share was created. Possible values include:
+Indicates whether principals outside your organization in Organizations
+can be associated with a resource share.
 
 =over
 
 =item *
 
-C<CREATED_FROM_POLICY> - Indicates that the resource share was created
-from an AWS Identity and Access Management (AWS IAM) policy attached to
-a resource. These resource shares are visible only to the AWS account
-that created it. They cannot be modified in AWS RAM.
+C<True> E<ndash> the resource share can be shared with any Amazon Web
+Services account.
 
 =item *
 
-C<PROMOTING_TO_STANDARD> - The resource share is in the process of
-being promoted. For more information, see
+C<False> E<ndash> the resource share can be shared with only accounts
+in the same organization as the account that owns the resource share.
+
+=back
+
+
+
+=head2 CreationTime => Str
+
+The date and time when the resource share was created.
+
+
+=head2 FeatureSet => Str
+
+Indicates what features are available for this resource share. This
+parameter can have one of the following values:
+
+=over
+
+=item *
+
+B<STANDARD> E<ndash> A resource share that supports all functionality.
+These resource shares are visible to all principals you share the
+resource share with. You can modify these resource shares in RAM using
+the console or APIs. This resource share might have been created by
+RAM, or it might have been B<CREATED_FROM_POLICY> and then promoted.
+
+=item *
+
+B<CREATED_FROM_POLICY> E<ndash> The customer manually shared a resource
+by attaching a resource-based policy. That policy did not match any
+existing managed permissions, so RAM created this customer managed
+permission automatically on the customer's behalf based on the attached
+policy document. This type of resource share is visible only to the
+Amazon Web Services account that created it. You can't modify it in RAM
+unless you promote it. For more information, see
 PromoteResourceShareCreatedFromPolicy.
 
 =item *
 
-C<STANDARD> - Indicates that the resource share was created in AWS RAM
-using the console or APIs. These resource shares are visible to all
-principals. They can be modified in AWS RAM.
+B<PROMOTING_TO_STANDARD> E<ndash> This resource share was originally
+C<CREATED_FROM_POLICY>, but the customer ran the
+PromoteResourceShareCreatedFromPolicy and that operation is still in
+progress. This value changes to C<STANDARD> when complete.
 
 =back
 
@@ -89,7 +112,7 @@ principals. They can be modified in AWS RAM.
 
 =head2 LastUpdatedTime => Str
 
-The time when the resource share was last updated.
+The date and time when the resource share was last updated.
 
 
 =head2 Name => Str
@@ -99,17 +122,19 @@ The name of the resource share.
 
 =head2 OwningAccountId => Str
 
-The ID of the AWS account that owns the resource share.
+The ID of the Amazon Web Services account that owns the resource share.
 
 
 =head2 ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share
 
 
 =head2 Status => Str
 
-The status of the resource share.
+The current status of the resource share.
 
 
 =head2 StatusMessage => Str
@@ -119,7 +144,7 @@ A message about the status of the resource share.
 
 =head2 Tags => ArrayRef[L<Paws::RAM::Tag>]
 
-The tags for the resource share.
+The tag key and value pairs attached to the resource share.
 
 
 

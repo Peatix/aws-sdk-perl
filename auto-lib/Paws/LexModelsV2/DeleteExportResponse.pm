@@ -24,8 +24,11 @@ The unique identifier of the deleted export.
 =head2 ExportStatus => Str
 
 The current status of the deletion. When the deletion is complete, the
-export will no longer be returned by the operation and calls to the
-with the export identifier will fail.
+export will no longer be returned by the ListExports
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html)
+operation and calls to the DescribeExport
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html)
+operation with the export identifier will fail.
 
 Valid values are: C<"InProgress">, C<"Completed">, C<"Failed">, C<"Deleting">
 =head2 _request_id => Str

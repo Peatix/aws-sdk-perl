@@ -6,6 +6,7 @@ package Paws::SageMaker::ListApps;
   has NextToken => (is => 'ro', isa => 'Str');
   has SortBy => (is => 'ro', isa => 'Str');
   has SortOrder => (is => 'ro', isa => 'Str');
+  has SpaceNameEquals => (is => 'ro', isa => 'Str');
   has UserProfileNameEquals => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -38,6 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       NextToken             => 'MyNextToken',          # OPTIONAL
       SortBy                => 'CreationTime',         # OPTIONAL
       SortOrder             => 'Ascending',            # OPTIONAL
+      SpaceNameEquals       => 'MySpaceName',          # OPTIONAL
       UserProfileNameEquals => 'MyUserProfileName',    # OPTIONAL
     );
 
@@ -61,7 +63,13 @@ A parameter to search for the domain ID.
 
 =head2 MaxResults => Int
 
-Returns a list up to a specified limit.
+This parameter defines the maximum number of results that can be return
+in a single response. The C<MaxResults> parameter is an upper bound,
+not a target. If there are more results available than the value
+specified, a C<NextToken> is provided in the response. The C<NextToken>
+indicates that the user should get the next set of results by providing
+this token as a part of a subsequent call. The default value for
+C<MaxResults> is 10.
 
 
 
@@ -85,9 +93,17 @@ The sort order for the results. The default is Ascending.
 
 Valid values are: C<"Ascending">, C<"Descending">
 
+=head2 SpaceNameEquals => Str
+
+A parameter to search by space name. If C<UserProfileNameEquals> is
+set, then this value cannot be set.
+
+
+
 =head2 UserProfileNameEquals => Str
 
-A parameter to search by user profile name.
+A parameter to search by user profile name. If C<SpaceNameEquals> is
+set, then this value cannot be set.
 
 
 

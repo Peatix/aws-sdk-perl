@@ -4,6 +4,7 @@ package Paws::WellArchitected::PillarReviewSummary;
   has Notes => (is => 'ro', isa => 'Str');
   has PillarId => (is => 'ro', isa => 'Str');
   has PillarName => (is => 'ro', isa => 'Str');
+  has PrioritizedRiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
   has RiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
 
 1;
@@ -52,6 +53,11 @@ A pillar review summary of a lens review.
 
 
 =head2 PillarName => Str
+
+
+
+
+=head2 PrioritizedRiskCounts => L<Paws::WellArchitected::RiskCounts>
 
 
 

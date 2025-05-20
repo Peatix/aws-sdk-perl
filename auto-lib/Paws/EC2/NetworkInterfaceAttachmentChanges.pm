@@ -1,7 +1,9 @@
 package Paws::EC2::NetworkInterfaceAttachmentChanges;
   use Moose;
   has AttachmentId => (is => 'ro', isa => 'Str', request_name => 'attachmentId', traits => ['NameInRequest']);
+  has DefaultEnaQueueCount => (is => 'ro', isa => 'Bool');
   has DeleteOnTermination => (is => 'ro', isa => 'Bool', request_name => 'deleteOnTermination', traits => ['NameInRequest']);
+  has EnaQueueCount => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###
@@ -21,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::NetworkInterfaceAttachmentChanges object:
 
-  $service_obj->Method(Att1 => { AttachmentId => $value, ..., DeleteOnTermination => $value  });
+  $service_obj->Method(Att1 => { AttachmentId => $value, ..., EnaQueueCount => $value  });
 
 =head3 Results returned from an API call
 
@@ -42,10 +44,20 @@ This class has no description
 The ID of the network interface attachment.
 
 
+=head2 DefaultEnaQueueCount => Bool
+
+The default number of the ENA queues.
+
+
 =head2 DeleteOnTermination => Bool
 
 Indicates whether the network interface is deleted when the instance is
 terminated.
+
+
+=head2 EnaQueueCount => Int
+
+The number of ENA queues to be created with the instance.
 
 
 

@@ -50,10 +50,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ComponentArn => 'MyComponentVersionArnOrBuildVersionArn',
           Parameters   => [
             {
-              Name  => 'MyComponentParameterName',    # min: 1, max: 256
-              Value => [
-                'MyComponentParameterValue', ...      # min: 1
-              ],
+              Name  => 'MyComponentParameterName',            # min: 1, max: 256
+              Value => [ 'MyComponentParameterValue', ... ],
 
             },
             ...
@@ -81,10 +79,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Ebs        => {
               DeleteOnTermination => 1,    # OPTIONAL
               Encrypted           => 1,    # OPTIONAL
-              Iops                => 1,    # min: 100, max: 10000; OPTIONAL
-              KmsKeyId   => 'MyNonEmptyString',   # min: 1, max: 1024
-              SnapshotId => 'MyNonEmptyString',   # min: 1, max: 1024
-              VolumeSize => 1,                    # min: 1, max: 16000; OPTIONAL
+              Iops                => 1,    # min: 100, max: 64000; OPTIONAL
+              KmsKeyId   => 'MyNonEmptyString',  # min: 1, max: 1024
+              SnapshotId => 'MyNonEmptyString',  # min: 1, max: 1024
+              Throughput => 1,                   # min: 125, max: 1000; OPTIONAL
+              VolumeSize => 1,                   # min: 1, max: 16000; OPTIONAL
               VolumeType => 'standard'
               ,    # values: standard, io1, io2, gp2, gp3, sc1, st1; OPTIONAL
             },    # OPTIONAL
@@ -118,14 +117,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 B<REQUIRED> ClientToken => Str
 
-The client token used to make this request idempotent.
+Unique, case-sensitive identifier you provide to ensure idempotency of
+the request. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+in the I<Amazon EC2 API Reference>.
 
 
 
 =head2 B<REQUIRED> Components => ArrayRef[L<Paws::ImageBuilder::ComponentConfiguration>]
 
 Components for build and test that are included in the container
-recipe.
+recipe. Recipes require a minimum of one build component, and can have
+a maximum of 20 build and test components in any combination.
 
 
 
@@ -157,7 +160,7 @@ container image.
 
 =head2 ImageOsVersionOverride => Str
 
-Specifies the operating system version for the source image.
+Specifies the operating system version for the base image.
 
 
 
@@ -170,7 +173,7 @@ building and testing container images.
 
 =head2 KmsKeyId => Str
 
-Identifies which KMS key is used to encrypt the container image.
+Identifies which KMS key is used to encrypt the Dockerfile template.
 
 
 
@@ -182,21 +185,35 @@ The name of the container recipe.
 
 =head2 B<REQUIRED> ParentImage => Str
 
-The source image for the container recipe.
+The base image for the container recipe.
 
 
 
 =head2 PlatformOverride => Str
 
-Specifies the operating system platform when you use a custom source
+Specifies the operating system platform when you use a custom base
 image.
 
-Valid values are: C<"Windows">, C<"Linux">
+Valid values are: C<"Windows">, C<"Linux">, C<"macOS">
 
 =head2 B<REQUIRED> SemanticVersion => Str
 
-The semantic version of the container recipe
-(E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>).
+The semantic version of the container recipe. This version follows the
+semantic version syntax.
+
+The semantic version has four nodes:
+E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>/E<lt>buildE<gt>. You
+can assign values for the first three, and can filter on all of them.
+
+B<Assignment:> For the first three nodes you can assign any positive
+integer value, including zero, with an upper limit of 2^30-1, or
+1073741823 for each node. Image Builder automatically assigns the build
+number to the fourth node.
+
+B<Patterns:> You can use any numeric pattern that adheres to the
+assignment requirements for the nodes that you can assign. For example,
+you might choose a software version pattern, such as 1.0.0, or a date,
+such as 2021.01.01.
 
 
 

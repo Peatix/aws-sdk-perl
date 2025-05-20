@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::OpsWorks::A
 =head1 DESCRIPTION
 
 Describes a load-based auto scaling upscaling or downscaling threshold
-configuration, which specifies when AWS OpsWorks Stacks starts or stops
+configuration, which specifies when OpsWorks Stacks starts or stops
 load-based instances.
 
 =head1 ATTRIBUTES
@@ -48,15 +48,15 @@ load-based instances.
 
 =head2 Alarms => ArrayRef[Str|Undef]
 
-Custom Cloudwatch auto scaling alarms, to be used as thresholds. This
+Custom CloudWatch auto scaling alarms, to be used as thresholds. This
 parameter takes a list of up to five alarm names, which are case
 sensitive and must be in the same region as the stack.
 
 To use custom alarms, you must update your service role to allow
-C<cloudwatch:DescribeAlarms>. You can either have AWS OpsWorks Stacks
+C<cloudwatch:DescribeAlarms>. You can either have OpsWorks Stacks
 update the role for you when you first use this feature or you can edit
-the role manually. For more information, see Allowing AWS OpsWorks
-Stacks to Act on Your Behalf
+the role manually. For more information, see Allowing OpsWorks Stacks
+to Act on Your Behalf
 (https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-servicerole.html).
 
 
@@ -68,15 +68,15 @@ value of -1 disables the threshold.
 
 =head2 IgnoreMetricsTime => Int
 
-The amount of time (in minutes) after a scaling event occurs that AWS
+The amount of time (in minutes) after a scaling event occurs that
 OpsWorks Stacks should ignore metrics and suppress additional scaling
-events. For example, AWS OpsWorks Stacks adds new instances following
-an upscaling event but the instances won't start reducing the load
-until they have been booted and configured. There is no point in
-raising additional scaling events during that operation, which
-typically takes several minutes. C<IgnoreMetricsTime> allows you to
-direct AWS OpsWorks Stacks to suppress scaling events long enough to
-get the new instances online.
+events. For example, OpsWorks Stacks adds new instances following an
+upscaling event but the instances won't start reducing the load until
+they have been booted and configured. There is no point in raising
+additional scaling events during that operation, which typically takes
+several minutes. C<IgnoreMetricsTime> allows you to direct OpsWorks
+Stacks to suppress scaling events long enough to get the new instances
+online.
 
 
 =head2 InstanceCount => Int

@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 MaxResults => Int
 
-The maximum number of data sources to return.
+The maximum number of indices to return.
 
 
 
@@ -56,8 +56,7 @@ The maximum number of data sources to return.
 
 If the previous response was incomplete (because there is more data to
 retrieve), Amazon Kendra returns a pagination token in the response.
-You can use this pagination token to retrieve the next set of indexes
-(C<DataSourceSummaryItems>).
+You can use this pagination token to retrieve the next set of indexes.
 
 
 

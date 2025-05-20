@@ -59,7 +59,7 @@ dataset.
 
 =head2 ImageStats => L<Paws::LookoutVision::DatasetImageStats>
 
-
+Statistics about the images in a dataset.
 
 
 =head2 LastUpdatedTimestamp => Str

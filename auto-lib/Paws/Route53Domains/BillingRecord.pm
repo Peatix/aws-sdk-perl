@@ -59,7 +59,8 @@ in the I<Amazon Route 53 Developer Guide>.
 
 =head2 InvoiceId => Str
 
-The ID of the invoice that is associated with the billing record.
+Deprecated property. This field is retained in report structure for
+backwards compatibility, but will appear blank.
 
 
 =head2 Operation => Str

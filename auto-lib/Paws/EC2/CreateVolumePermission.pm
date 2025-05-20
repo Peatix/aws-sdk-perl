@@ -44,7 +44,7 @@ The group to be added or removed. The possible value is C<all>.
 
 =head2 UserId => Str
 
-The AWS account ID to be added or removed.
+The ID of the Amazon Web Services account to be added or removed.
 
 
 

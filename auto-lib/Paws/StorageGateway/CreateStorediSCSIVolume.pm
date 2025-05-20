@@ -79,7 +79,7 @@ to list disk IDs for a gateway.
 =head2 KMSEncrypted => Bool
 
 Set to C<true> to use Amazon S3 server-side encryption with your own
-AWS KMS key, or C<false> to use a key managed by Amazon S3. Optional.
+KMS key, or C<false> to use a key managed by Amazon S3. Optional.
 
 Valid Values: C<true> | C<false>
 

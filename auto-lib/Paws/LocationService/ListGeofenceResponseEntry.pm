@@ -3,6 +3,7 @@ package Paws::LocationService::ListGeofenceResponseEntry;
   use Moose;
   has CreateTime => (is => 'ro', isa => 'Str', required => 1);
   has GeofenceId => (is => 'ro', isa => 'Str', required => 1);
+  has GeofenceProperties => (is => 'ro', isa => 'Paws::LocationService::PropertyMap');
   has Geometry => (is => 'ro', isa => 'Paws::LocationService::GeofenceGeometry', required => 1);
   has Status => (is => 'ro', isa => 'Str', required => 1);
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
@@ -39,6 +40,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 Contains a list of geofences stored in a given geofence collection.
 
+The returned geometry will always match the geometry format used when
+the geofence was created.
+
 =head1 ATTRIBUTES
 
 
@@ -54,9 +58,19 @@ format: C<YYYY-MM-DDThh:mm:ss.sssZ>
 The geofence identifier.
 
 
+=head2 GeofenceProperties => L<Paws::LocationService::PropertyMap>
+
+User defined properties of the geofence. A property is a key-value pair
+stored with the geofence and added to any geofence event triggered with
+that geofence.
+
+Format: C<"key" : "value">
+
+
 =head2 B<REQUIRED> Geometry => L<Paws::LocationService::GeofenceGeometry>
 
-Contains the geofence geometry details describing a polygon.
+Contains the geofence geometry details describing a polygon or a
+circle.
 
 
 =head2 B<REQUIRED> Status => Str

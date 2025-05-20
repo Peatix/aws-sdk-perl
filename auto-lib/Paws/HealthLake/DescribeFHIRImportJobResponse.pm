@@ -17,7 +17,7 @@ Paws::HealthLake::DescribeFHIRImportJobResponse
 =head2 B<REQUIRED> ImportJobProperties => L<Paws::HealthLake::ImportJobProperties>
 
 The properties of the Import job request, including the ID, ARN, name,
-and the status of the job.
+status of the job, and the progress report of the job.
 
 
 =head2 _request_id => Str

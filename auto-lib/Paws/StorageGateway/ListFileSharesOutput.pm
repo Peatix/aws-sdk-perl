@@ -18,7 +18,7 @@ Paws::StorageGateway::ListFileSharesOutput
 
 =head2 FileShareInfoList => ArrayRef[L<Paws::StorageGateway::FileShareInfo>]
 
-An array of information about the file gateway's file shares.
+An array of information about the S3 File Gateway's file shares.
 
 
 =head2 Marker => Str

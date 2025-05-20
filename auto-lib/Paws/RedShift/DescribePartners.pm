@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID that owns the cluster.
+The Amazon Web Services account ID that owns the cluster.
 
 
 

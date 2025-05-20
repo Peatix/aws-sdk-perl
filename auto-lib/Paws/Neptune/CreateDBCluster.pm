@@ -14,6 +14,7 @@ package Paws::Neptune::CreateDBCluster;
   has EnableIAMDatabaseAuthentication => (is => 'ro', isa => 'Bool');
   has Engine => (is => 'ro', isa => 'Str', required => 1);
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has GlobalClusterIdentifier => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str');
   has MasterUserPassword => (is => 'ro', isa => 'Str');
@@ -23,7 +24,9 @@ package Paws::Neptune::CreateDBCluster;
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PreSignedUrl => (is => 'ro', isa => 'Str');
   has ReplicationSourceIdentifier => (is => 'ro', isa => 'Str');
+  has ServerlessV2ScalingConfiguration => (is => 'ro', isa => 'Paws::Neptune::ServerlessV2ScalingConfiguration');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::Tag]');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -54,35 +57,41 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateDBClusterResult = $rds->CreateDBCluster(
       DBClusterIdentifier             => 'MyString',
       Engine                          => 'MyString',
-      AvailabilityZones               => [ 'MyString', ... ],    # OPTIONAL
-      BackupRetentionPeriod           => 1,                      # OPTIONAL
-      CharacterSetName                => 'MyString',             # OPTIONAL
-      CopyTagsToSnapshot              => 1,                      # OPTIONAL
-      DBClusterParameterGroupName     => 'MyString',             # OPTIONAL
-      DBSubnetGroupName               => 'MyString',             # OPTIONAL
-      DatabaseName                    => 'MyString',             # OPTIONAL
-      DeletionProtection              => 1,                      # OPTIONAL
-      EnableCloudwatchLogsExports     => [ 'MyString', ... ],    # OPTIONAL
-      EnableIAMDatabaseAuthentication => 1,                      # OPTIONAL
-      EngineVersion                   => 'MyString',             # OPTIONAL
-      KmsKeyId                        => 'MyString',             # OPTIONAL
-      MasterUserPassword              => 'MyString',             # OPTIONAL
-      MasterUsername                  => 'MyString',             # OPTIONAL
-      OptionGroupName                 => 'MyString',             # OPTIONAL
-      Port                            => 1,                      # OPTIONAL
-      PreSignedUrl                    => 'MyString',             # OPTIONAL
-      PreferredBackupWindow           => 'MyString',             # OPTIONAL
-      PreferredMaintenanceWindow      => 'MyString',             # OPTIONAL
-      ReplicationSourceIdentifier     => 'MyString',             # OPTIONAL
-      StorageEncrypted                => 1,                      # OPTIONAL
-      Tags                            => [
+      AvailabilityZones               => [ 'MyString', ... ],         # OPTIONAL
+      BackupRetentionPeriod           => 1,                           # OPTIONAL
+      CharacterSetName                => 'MyString',                  # OPTIONAL
+      CopyTagsToSnapshot              => 1,                           # OPTIONAL
+      DBClusterParameterGroupName     => 'MyString',                  # OPTIONAL
+      DBSubnetGroupName               => 'MyString',                  # OPTIONAL
+      DatabaseName                    => 'MyString',                  # OPTIONAL
+      DeletionProtection              => 1,                           # OPTIONAL
+      EnableCloudwatchLogsExports     => [ 'MyString', ... ],         # OPTIONAL
+      EnableIAMDatabaseAuthentication => 1,                           # OPTIONAL
+      EngineVersion                   => 'MyString',                  # OPTIONAL
+      GlobalClusterIdentifier         => 'MyGlobalClusterIdentifier', # OPTIONAL
+      KmsKeyId                        => 'MyString',                  # OPTIONAL
+      MasterUserPassword              => 'MyString',                  # OPTIONAL
+      MasterUsername                  => 'MyString',                  # OPTIONAL
+      OptionGroupName                 => 'MyString',                  # OPTIONAL
+      Port                            => 1,                           # OPTIONAL
+      PreSignedUrl                    => 'MyString',                  # OPTIONAL
+      PreferredBackupWindow           => 'MyString',                  # OPTIONAL
+      PreferredMaintenanceWindow      => 'MyString',                  # OPTIONAL
+      ReplicationSourceIdentifier     => 'MyString',                  # OPTIONAL
+      ServerlessV2ScalingConfiguration => {
+        MaxCapacity => 1,                                             # OPTIONAL
+        MinCapacity => 1,                                             # OPTIONAL
+      },    # OPTIONAL
+      StorageEncrypted => 1,             # OPTIONAL
+      StorageType      => 'MyString',    # OPTIONAL
+      Tags             => [
         {
           Key   => 'MyString',
           Value => 'MyString',
         },
         ...
-      ],                                                         # OPTIONAL
-      VpcSecurityGroupIds => [ 'MyString', ... ],                # OPTIONAL
+      ],                                 # OPTIONAL
+      VpcSecurityGroupIds => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -211,8 +220,11 @@ enabled. By default, deletion protection is enabled.
 
 =head2 EnableCloudwatchLogsExports => ArrayRef[Str|Undef]
 
-The list of log types that need to be enabled for exporting to
-CloudWatch Logs.
+A list of the log types that this DB cluster should export to
+CloudWatch Logs. Valid log types are: C<audit> (to publish audit logs)
+and C<slowquery> (to publish slow-query logs). See Publishing Neptune
+logs to Amazon CloudWatch logs
+(https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
 
 
 
@@ -239,7 +251,14 @@ Valid Values: C<neptune>
 The version number of the database engine to use for the new DB
 cluster.
 
-Example: C<1.0.2.1>
+Example: C<1.2.1.0>
+
+
+
+=head2 GlobalClusterIdentifier => Str
+
+The ID of the Neptune global database to which this new DB cluster
+should be added.
 
 
 
@@ -317,8 +336,8 @@ parameter.
 
 The default is a 30-minute window selected at random from an 8-hour
 block of time for each Amazon Region. To see the time blocks available,
-see Adjusting the Preferred Maintenance Window
-(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html)
+see Neptune Maintenance Window
+(https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window)
 in the I<Amazon Neptune User Guide.>
 
 Constraints:
@@ -355,9 +374,8 @@ Format: C<ddd:hh24:mi-ddd:hh24:mi>
 
 The default is a 30-minute window selected at random from an 8-hour
 block of time for each Amazon Region, occurring on a random day of the
-week. To see the time blocks available, see Adjusting the Preferred
-Maintenance Window
-(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/AdjustingTheMaintenanceWindow.html)
+week. To see the time blocks available, see Neptune Maintenance Window
+(https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-maintaining.html#manage-console-maintaining-window)
 in the I<Amazon Neptune User Guide.>
 
 Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
@@ -379,9 +397,50 @@ if this DB cluster is created as a Read Replica.
 
 
 
+=head2 ServerlessV2ScalingConfiguration => L<Paws::Neptune::ServerlessV2ScalingConfiguration>
+
+Contains the scaling configuration of a Neptune Serverless DB cluster.
+
+For more information, see Using Amazon Neptune Serverless
+(https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html)
+in the I<Amazon Neptune User Guide>.
+
+
+
 =head2 StorageEncrypted => Bool
 
 Specifies whether the DB cluster is encrypted.
+
+
+
+=head2 StorageType => Str
+
+The storage type for the new DB cluster.
+
+Valid Values:
+
+=over
+
+=item *
+
+B<C<standard> > E<ndash> ( I<the default> ) Configures cost-effective
+database storage for applications with moderate to small I/O usage.
+When set to C<standard>, the storage type is not returned in the
+response.
+
+=item *
+
+B<C<iopt1> > E<ndash> Enables I/O-Optimized storage
+(https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage)
+that's designed to meet the needs of I/O-intensive graph workloads that
+require predictable pricing with low I/O latency and consistent I/O
+throughput.
+
+Neptune I/O-Optimized storage is only available starting with engine
+release 1.3.0.0.
+
+=back
+
 
 
 

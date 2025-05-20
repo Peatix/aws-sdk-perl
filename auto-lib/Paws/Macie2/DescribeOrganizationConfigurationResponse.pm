@@ -19,13 +19,13 @@ Paws::Macie2::DescribeOrganizationConfigurationResponse
 =head2 AutoEnable => Bool
 
 Specifies whether Amazon Macie is enabled automatically for accounts
-that are added to the Amazon Web Services organization.
+that are added to the organization.
 
 
 =head2 MaxAccountLimitReached => Bool
 
 Specifies whether the maximum number of Amazon Macie member accounts
-are part of the Amazon Web Services organization.
+are part of the organization.
 
 
 =head2 _request_id => Str

@@ -77,7 +77,7 @@ patterns from the console, a C<Low> severity pattern translates to a
 C<750,000> rank. A C<Medium> severity pattern translates to a
 C<500,000> rank. And a C<High> severity pattern translates to a
 C<250,000> rank. Rank values less than C<1> or greater than
-C<1,000,000> are reserved for AWS-provided patterns.
+C<1,000,000> are reserved for Amazon Web Services provided patterns.
 
 
 

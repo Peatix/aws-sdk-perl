@@ -2,7 +2,8 @@
 package Paws::SageMaker::DeploymentConfig;
   use Moose;
   has AutoRollbackConfiguration => (is => 'ro', isa => 'Paws::SageMaker::AutoRollbackConfig');
-  has BlueGreenUpdatePolicy => (is => 'ro', isa => 'Paws::SageMaker::BlueGreenUpdatePolicy', required => 1);
+  has BlueGreenUpdatePolicy => (is => 'ro', isa => 'Paws::SageMaker::BlueGreenUpdatePolicy');
+  has RollingUpdatePolicy => (is => 'ro', isa => 'Paws::SageMaker::RollingUpdatePolicy');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::DeploymentConfig object:
 
-  $service_obj->Method(Att1 => { AutoRollbackConfiguration => $value, ..., BlueGreenUpdatePolicy => $value  });
+  $service_obj->Method(Att1 => { AutoRollbackConfiguration => $value, ..., RollingUpdatePolicy => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,19 +35,33 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Currently, the C<DeploymentConfig> API is not supported.
+The deployment configuration for an endpoint, which contains the
+desired deployment strategy and rollback configurations.
 
 =head1 ATTRIBUTES
 
 
 =head2 AutoRollbackConfiguration => L<Paws::SageMaker::AutoRollbackConfig>
 
+Automatic rollback configuration for handling endpoint deployment
+failures and recovery.
 
 
+=head2 BlueGreenUpdatePolicy => L<Paws::SageMaker::BlueGreenUpdatePolicy>
 
-=head2 B<REQUIRED> BlueGreenUpdatePolicy => L<Paws::SageMaker::BlueGreenUpdatePolicy>
+Update policy for a blue/green deployment. If this update policy is
+specified, SageMaker creates a new fleet during the deployment while
+maintaining the old fleet. SageMaker flips traffic to the new fleet
+according to the specified traffic routing configuration. Only one
+update policy should be used in the deployment configuration. If no
+update policy is specified, SageMaker uses a blue/green deployment
+strategy with all at once traffic shifting by default.
 
 
+=head2 RollingUpdatePolicy => L<Paws::SageMaker::RollingUpdatePolicy>
+
+Specifies a rolling deployment strategy for updating a SageMaker
+endpoint.
 
 
 

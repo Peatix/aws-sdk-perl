@@ -140,7 +140,36 @@ of C<UNSPECIFIED>.
 
 =head2 OverallSeverity => Str
 
-The highest severity for the patches.
+The highest severity for the patches. Valid values are as follows:
+
+=over
+
+=item *
+
+C<CRITICAL>
+
+=item *
+
+C<HIGH>
+
+=item *
+
+C<MEDIUM>
+
+=item *
+
+C<LOW>
+
+=item *
+
+C<INFORMATIONAL>
+
+=item *
+
+C<UNSPECIFIED>
+
+=back
+
 
 
 =head2 PatchBaselineId => Str
@@ -158,9 +187,7 @@ same patch compliance.
 
 =head2 Status => Str
 
-The current patch compliance status.
-
-The possible status values are:
+The current patch compliance status. Valid values are as follows:
 
 =over
 

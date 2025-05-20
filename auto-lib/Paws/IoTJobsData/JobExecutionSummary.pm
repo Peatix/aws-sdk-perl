@@ -56,26 +56,25 @@ The unique identifier you assigned to this job when it was created.
 
 =head2 LastUpdatedAt => Int
 
-The time, in milliseconds since the epoch, when the job execution was
-last updated.
+The time, in seconds since the epoch, when the job execution was last
+updated.
 
 
 =head2 QueuedAt => Int
 
-The time, in milliseconds since the epoch, when the job execution was
+The time, in seconds since the epoch, when the job execution was
 enqueued.
 
 
 =head2 StartedAt => Int
 
-The time, in milliseconds since the epoch, when the job execution
-started.
+The time, in seconds since the epoch, when the job execution started.
 
 
 =head2 VersionNumber => Int
 
 The version of the job execution. Job execution versions are
-incremented each time AWS IoT Jobs receives an update from a device.
+incremented each time IoT Jobs receives an update from a device.
 
 
 

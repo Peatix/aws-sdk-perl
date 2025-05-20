@@ -3,13 +3,17 @@ package Paws::SecurityHub::AwsSecurityFinding;
   use Moose;
   has Action => (is => 'ro', isa => 'Paws::SecurityHub::Action');
   has AwsAccountId => (is => 'ro', isa => 'Str', required => 1);
+  has AwsAccountName => (is => 'ro', isa => 'Str');
+  has CompanyName => (is => 'ro', isa => 'Str');
   has Compliance => (is => 'ro', isa => 'Paws::SecurityHub::Compliance');
   has Confidence => (is => 'ro', isa => 'Int');
   has CreatedAt => (is => 'ro', isa => 'Str', required => 1);
   has Criticality => (is => 'ro', isa => 'Int');
   has Description => (is => 'ro', isa => 'Str', required => 1);
+  has Detection => (is => 'ro', isa => 'Paws::SecurityHub::Detection');
   has FindingProviderFields => (is => 'ro', isa => 'Paws::SecurityHub::FindingProviderFields');
   has FirstObservedAt => (is => 'ro', isa => 'Str');
+  has GeneratorDetails => (is => 'ro', isa => 'Paws::SecurityHub::GeneratorDetails');
   has GeneratorId => (is => 'ro', isa => 'Str', required => 1);
   has Id => (is => 'ro', isa => 'Str', required => 1);
   has LastObservedAt => (is => 'ro', isa => 'Str');
@@ -19,16 +23,21 @@ package Paws::SecurityHub::AwsSecurityFinding;
   has Note => (is => 'ro', isa => 'Paws::SecurityHub::Note');
   has PatchSummary => (is => 'ro', isa => 'Paws::SecurityHub::PatchSummary');
   has Process => (is => 'ro', isa => 'Paws::SecurityHub::ProcessDetails');
+  has ProcessedAt => (is => 'ro', isa => 'Str');
   has ProductArn => (is => 'ro', isa => 'Str', required => 1);
   has ProductFields => (is => 'ro', isa => 'Paws::SecurityHub::FieldMap');
+  has ProductName => (is => 'ro', isa => 'Str');
   has RecordState => (is => 'ro', isa => 'Str');
+  has Region => (is => 'ro', isa => 'Str');
   has RelatedFindings => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::RelatedFinding]');
   has Remediation => (is => 'ro', isa => 'Paws::SecurityHub::Remediation');
   has Resources => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::Resource]', required => 1);
+  has Sample => (is => 'ro', isa => 'Bool');
   has SchemaVersion => (is => 'ro', isa => 'Str', required => 1);
   has Severity => (is => 'ro', isa => 'Paws::SecurityHub::Severity');
   has SourceUrl => (is => 'ro', isa => 'Str');
   has ThreatIntelIndicators => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::ThreatIntelIndicator]');
+  has Threats => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::Threat]');
   has Title => (is => 'ro', isa => 'Str', required => 1);
   has Types => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has UpdatedAt => (is => 'ro', isa => 'Str', required => 1);
@@ -68,14 +77,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Provides consistent format for the contents of the Security
-Hub-aggregated findings. C<AwsSecurityFinding> format enables you to
-share findings between AWS security services and third-party solutions,
-and security standards checks.
+Provides a consistent format for Security Hub findings.
+C<AwsSecurityFinding> format allows you to share findings between
+Amazon Web Services security services and third-party solutions.
 
-A finding is a potential security issue generated either by AWS
-services (Amazon GuardDuty, Amazon Inspector, and Amazon Macie) or by
-the integrated third-party solutions and standards checks.
+A finding is a potential security issue generated either by Amazon Web
+Services services or by the integrated third-party solutions and
+standards checks.
 
 =head1 ATTRIBUTES
 
@@ -88,15 +96,39 @@ resource.
 
 =head2 B<REQUIRED> AwsAccountId => Str
 
-The AWS account ID that a finding is generated in.
+The Amazon Web Services account ID that a finding is generated in.
+
+Length Constraints: 12.
+
+
+=head2 AwsAccountName => Str
+
+The name of the Amazon Web Services account from which a finding was
+generated.
+
+Length Constraints: Minimum length of 1. Maximum length of 50.
+
+
+=head2 CompanyName => Str
+
+The name of the company for the product that generated the finding.
+
+Security Hub populates this attribute automatically for each finding.
+You cannot update this attribute with C<BatchImportFindings> or
+C<BatchUpdateFindings>. The exception to this is a custom integration.
+
+When you use the Security Hub console or API to filter findings by
+company name, you use this attribute.
+
+Length Constraints: Minimum length of 1. Maximum length of 128.
 
 
 =head2 Compliance => L<Paws::SecurityHub::Compliance>
 
 This data type is exclusive to findings that are generated as the
 result of a check run against a specific rule in a supported security
-standard, such as CIS AWS Foundations. Contains security
-standard-related finding details.
+standard, such as CIS Amazon Web Services Foundations. Contains
+security standard-related finding details.
 
 
 =head2 Confidence => Int
@@ -111,13 +143,12 @@ means zero percent confidence and 100 means 100 percent confidence.
 
 =head2 B<REQUIRED> CreatedAt => Str
 
-Indicates when the security-findings provider created the potential
+Indicates when the security findings provider created the potential
 security issue that a finding captured.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Criticality => Int
@@ -131,9 +162,21 @@ and a score of 100 is reserved for the most critical resources.
 
 =head2 B<REQUIRED> Description => Str
 
-A finding's description.
+A finding's description. C<Description> is a required property.
 
-In this release, C<Description> is a required property.
+Length Constraints: Minimum length of 1. Maximum length of 1024.
+
+
+=head2 Detection => L<Paws::SecurityHub::Detection>
+
+Provides details about an Amazon GuardDuty Extended Threat Detection
+attack sequence. GuardDuty generates an attack sequence finding when
+multiple events align to a potentially suspicious activity. To receive
+GuardDuty attack sequence findings in Security Hub, you must have
+GuardDuty enabled. For more information, see GuardDuty Extended Threat
+Detection
+(https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html)
+in the I<Amazon GuardDuty User Guide>.
 
 
 =head2 FindingProviderFields => L<Paws::SecurityHub::FindingProviderFields>
@@ -145,42 +188,56 @@ confidence, criticality, related findings, severity, and types.
 
 =head2 FirstObservedAt => Str
 
-Indicates when the security-findings provider first observed the
+Indicates when the security findings provider first observed the
 potential security issue that a finding captured.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+
+
+=head2 GeneratorDetails => L<Paws::SecurityHub::GeneratorDetails>
+
+Provides metadata for the Amazon CodeGuru detector associated with a
+finding. This field pertains to findings that relate to Lambda
+functions. Amazon Inspector identifies policy violations and
+vulnerabilities in Lambda function code based on internal detectors
+developed in collaboration with Amazon CodeGuru. Security Hub receives
+those findings.
 
 
 =head2 B<REQUIRED> GeneratorId => Str
 
 The identifier for the solution-specific component (a discrete unit of
-logic) that generated a finding. In various security-findings
+logic) that generated a finding. In various security findings
 providers' solutions, this generator can be called a rule, a check, a
-detector, a plugin, etc.
+detector, a plugin, or something else.
+
+Length Constraints: Minimum length of 1. Maximum length of 512.
 
 
 =head2 B<REQUIRED> Id => Str
 
 The security findings provider-specific identifier for a finding.
 
+Length Constraints: Minimum length of 1. Maximum length of 512.
+
 
 =head2 LastObservedAt => Str
 
-Indicates when the security-findings provider most recently observed
-the potential security issue that a finding captured.
+Indicates when the security findings provider most recently observed a
+change in the resource that is involved in the finding.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Malware => ArrayRef[L<Paws::SecurityHub::Malware>]
 
 A list of malware related to a finding.
+
+Array Members: Maximum number of 5 items.
 
 
 =head2 Network => L<Paws::SecurityHub::Network>
@@ -211,6 +268,16 @@ against a selected compliance standard.
 The details of process-related information about a finding.
 
 
+=head2 ProcessedAt => Str
+
+A timestamp that indicates when Security Hub received a finding and
+begins to process it.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+
+
 =head2 B<REQUIRED> ProductArn => Str
 
 The ARN generated by Security Hub that uniquely identifies a product
@@ -218,12 +285,32 @@ that generates findings. This can be the ARN for a third-party product
 that is integrated with Security Hub, or the ARN for a custom
 integration.
 
+Length Constraints: Minimum length of 12. Maximum length of 2048.
+
 
 =head2 ProductFields => L<Paws::SecurityHub::FieldMap>
 
-A data type where security-findings providers can include additional
+A data type where security findings providers can include additional
 solution-specific details that aren't part of the defined
 C<AwsSecurityFinding> format.
+
+Can contain up to 50 key-value pairs. For each key-value pair, the key
+can contain up to 128 characters, and the value can contain up to 2048
+characters.
+
+
+=head2 ProductName => Str
+
+The name of the product that generated the finding.
+
+Security Hub populates this attribute automatically for each finding.
+You cannot update this attribute with C<BatchImportFindings> or
+C<BatchUpdateFindings>. The exception to this is a custom integration.
+
+When you use the Security Hub console or API to filter findings by
+product name, you use this attribute.
+
+Length Constraints: Minimum length of 1. Maximum length of 128.
 
 
 =head2 RecordState => Str
@@ -231,9 +318,22 @@ C<AwsSecurityFinding> format.
 The record state of a finding.
 
 
+=head2 Region => Str
+
+The Region from which the finding was generated.
+
+Security Hub populates this attribute automatically for each finding.
+You cannot update it using C<BatchImportFindings> or
+C<BatchUpdateFindings>.
+
+Length Constraints: Minimum length of 1. Maximum length of 16.
+
+
 =head2 RelatedFindings => ArrayRef[L<Paws::SecurityHub::RelatedFinding>]
 
 A list of related findings.
+
+Array Members: Minimum number of 1 item. Maximum number of 10 items.
 
 
 =head2 Remediation => L<Paws::SecurityHub::Remediation>
@@ -246,10 +346,18 @@ A data type that describes the remediation options for a finding.
 A set of resource data types that describe the resources that the
 finding refers to.
 
+Array Members: Minimum number of 1 item. Maximum number of 32 items.
+
+
+=head2 Sample => Bool
+
+Indicates whether the finding is a sample finding.
+
 
 =head2 B<REQUIRED> SchemaVersion => Str
 
-The schema version that a finding is formatted for.
+The schema version that a finding is formatted for. The value is
+C<2018-10-08>.
 
 
 =head2 Severity => L<Paws::SecurityHub::Severity>
@@ -259,20 +367,30 @@ A finding's severity.
 
 =head2 SourceUrl => Str
 
-A URL that links to a page about the current finding in the
-security-findings provider's solution.
+A URL that links to a page about the current finding in the security
+findings provider's solution.
 
 
 =head2 ThreatIntelIndicators => ArrayRef[L<Paws::SecurityHub::ThreatIntelIndicator>]
 
 Threat intelligence details related to a finding.
 
+Array Members: Minimum number of 1 item. Maximum number of 5 items.
+
+
+=head2 Threats => ArrayRef[L<Paws::SecurityHub::Threat>]
+
+Details about the threat detected in a security finding and the file
+paths that were affected by the threat.
+
+Array Members: Minimum number of 1 item. Maximum number of 32 items.
+
 
 =head2 B<REQUIRED> Title => Str
 
-A finding's title.
+A finding's title. C<Title> is a required property.
 
-In this release, C<Title> is a required property.
+Length Constraints: Minimum length of 1. Maximum length of 256.
 
 
 =head2 Types => ArrayRef[Str|Undef]
@@ -283,22 +401,27 @@ C<namespace/category/classifier> that classify a finding.
 Valid namespace values are: Software and Configuration Checks | TTPs |
 Effects | Unusual Behaviors | Sensitive Data Identifications
 
+Array Members: Maximum number of 50 items.
+
 
 =head2 B<REQUIRED> UpdatedAt => Str
 
-Indicates when the security-findings provider last updated the finding
+Indicates when the security findings provider last updated the finding
 record.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 UserDefinedFields => L<Paws::SecurityHub::FieldMap>
 
 A list of name/value string pairs associated with the finding. These
 are custom, user-defined fields added to a finding.
+
+Can contain up to 50 key-value pairs. For each key-value pair, the key
+can contain up to 128 characters, and the value can contain up to 1024
+characters.
 
 
 =head2 VerificationState => Str

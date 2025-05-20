@@ -47,13 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the data source to synchronize.
+The identifier of the data source connector to synchronize.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index that contains the data source.
+The identifier of the index used with the data source connector.
 
 
 

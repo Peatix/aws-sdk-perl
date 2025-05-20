@@ -51,13 +51,13 @@ are multiples of 8000, from 32000 through 192000. The default value is
 =head2 Channels => Int
 
 Specify the number of channels in this output audio track. Choosing
-Mono on the console gives you 1 output channel; choosing Stereo gives
-you 2. In the API, valid values are 1 and 2.
+Mono on gives you 1 output channel; choosing Stereo gives you 2. In the
+API, valid values are 1 and 2.
 
 
 =head2 SampleRate => Int
 
-Optional. Sample rate in hz. Valid values are 16000, 24000, and 48000.
+Optional. Sample rate in Hz. Valid values are 16000, 24000, and 48000.
 The default value is 48000.
 
 

@@ -7,6 +7,7 @@ package Paws::SSM::Runbook;
   has MaxErrors => (is => 'ro', isa => 'Str');
   has Parameters => (is => 'ro', isa => 'Paws::SSM::AutomationParameterMap');
   has TargetLocations => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetLocation]');
+  has TargetMaps => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetMap]');
   has TargetParameterName => (is => 'ro', isa => 'Str');
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
 
@@ -40,8 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Runboo
 
 =head1 DESCRIPTION
 
-Information about an Automation runbook (Automation document) used in a
-runbook workflow in Change Manager.
+Information about an Automation runbook used in a runbook workflow in
+Change Manager.
 
 The Automation runbooks specified for the runbook workflow can't run
 until all required approvals for the change request have been received.
@@ -51,14 +52,12 @@ until all required approvals for the change request have been received.
 
 =head2 B<REQUIRED> DocumentName => Str
 
-The name of the Automation runbook (Automation document) used in a
-runbook workflow.
+The name of the Automation runbook used in a runbook workflow.
 
 
 =head2 DocumentVersion => Str
 
-The version of the Automation runbook (Automation document) used in a
-runbook workflow.
+The version of the Automation runbook used in a runbook workflow.
 
 
 =head2 MaxConcurrency => Str
@@ -83,8 +82,14 @@ calling C<StartChangeRequestExecution>.
 
 =head2 TargetLocations => ArrayRef[L<Paws::SSM::TargetLocation>]
 
-Information about the AWS Regions and accounts targeted by the current
-Runbook operation.
+Information about the Amazon Web Services Regions and Amazon Web
+Services accounts targeted by the current Runbook operation.
+
+
+=head2 TargetMaps => ArrayRef[L<Paws::SSM::TargetMap>]
+
+A key-value mapping of runbook parameters to target resources. Both
+Targets and TargetMaps can't be specified together.
 
 
 =head2 TargetParameterName => Str
@@ -95,7 +100,7 @@ rate-controlled runbook workflow. Required if you specify C<Targets>.
 
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]
 
-A key-value mapping to target resources that the Runbook operation
+A key-value mapping to target resources that the runbook operation
 performs tasks on. Required if you specify C<TargetParameterName>.
 
 

@@ -100,7 +100,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatabaseName    => 'MyNameString',
       PartitionValues => [
         'MyValueString',
-        ...    # max: 1024
+        ...    # min: 1, max: 1024
       ],
       TableName => 'MyNameString',
       CatalogId => 'MyCatalogIdString',    # OPTIONAL

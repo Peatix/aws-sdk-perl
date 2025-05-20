@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Firele
 
 The FireLens configuration for the container. This is used to specify
 and configure a log router for container logs. For more information,
-see Custom Log Routing
+see Custom log routing
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -51,12 +51,12 @@ add additional metadata, such as the task, task definition, cluster,
 and container instance details to the log event. If specified, the
 syntax to use is
 C<"options":{"enable-ecs-log-metadata":"true|false","config-file-type:"s3|file","config-file-value":"arn:aws:s3:::mybucket/fluent.conf|filepath"}>.
-For more information, see Creating a Task Definition that Uses a
-FireLens Configuration
+For more information, see Creating a task definition that uses a
+FireLens configuration
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html#firelens-taskdef)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-Tasks hosted on AWS Fargate only support the C<file> configuration file
+Tasks hosted on Fargate only support the C<file> configuration file
 type.
 
 

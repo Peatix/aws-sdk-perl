@@ -41,7 +41,7 @@ The date the dashboard was created, in Unix epoch time.
 The dashboard's definition JSON literal. For detailed information, see
 Creating dashboards (CLI)
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 =head2 DashboardDescription => Str

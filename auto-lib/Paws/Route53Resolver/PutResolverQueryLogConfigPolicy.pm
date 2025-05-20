@@ -55,11 +55,11 @@ rules with.
 
 =head2 B<REQUIRED> ResolverQueryLogConfigPolicy => Str
 
-An AWS Identity and Access Management policy statement that lists the
-query logging configurations that you want to share with another AWS
-account and the operations that you want the account to be able to
-perform. You can specify the following operations in the C<Actions>
-section of the statement:
+An Identity and Access Management policy statement that lists the query
+logging configurations that you want to share with another Amazon Web
+Services account and the operations that you want the account to be
+able to perform. You can specify the following operations in the
+C<Actions> section of the statement:
 
 =over
 
@@ -70,10 +70,6 @@ C<route53resolver:AssociateResolverQueryLogConfig>
 =item *
 
 C<route53resolver:DisassociateResolverQueryLogConfig>
-
-=item *
-
-C<route53resolver:ListResolverQueryLogConfigAssociations>
 
 =item *
 

@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $Alias        = $GetAccessPointForObjectLambdaResult->Alias;
     my $CreationDate = $GetAccessPointForObjectLambdaResult->CreationDate;
     my $Name         = $GetAccessPointForObjectLambdaResult->Name;
     my $PublicAccessBlockConfiguration =

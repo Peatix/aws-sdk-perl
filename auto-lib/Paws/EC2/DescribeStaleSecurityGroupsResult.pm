@@ -18,8 +18,8 @@ Paws::EC2::DescribeStaleSecurityGroupsResult
 
 =head2 NextToken => Str
 
-The token to use when requesting the next set of items. If there are no
-additional items to return, the string is empty.
+The token to include in another request to get the next page of items.
+This value is C<null> when there are no more items to return.
 
 
 =head2 StaleSecurityGroupSet => ArrayRef[L<Paws::EC2::StaleSecurityGroup>]

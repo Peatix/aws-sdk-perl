@@ -18,7 +18,7 @@ Paws::GreengrassV2::BatchAssociateClientDeviceWithCoreDeviceResponse
 =head2 ErrorEntries => ArrayRef[L<Paws::GreengrassV2::AssociateClientDeviceWithCoreDeviceErrorEntry>]
 
 The list of any errors for the entries in the request. Each error entry
-contains the name of the AWS IoT thing that failed to associate.
+contains the name of the IoT thing that failed to associate.
 
 
 =head2 _request_id => Str

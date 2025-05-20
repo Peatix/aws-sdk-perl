@@ -65,8 +65,8 @@ A C<StatusDetailFilters> object.
 =head2 Limit => Int
 
 The maximum number of C<OrganizationConfigRuleDetailedStatus> returned
-on each page. If you do not specify a number, AWS Config uses the
-default. The default is 100.
+on each page. If you do not specify a number, Config uses the default.
+The default is 100.
 
 
 
@@ -79,8 +79,8 @@ the next page of results in a paginated response.
 
 =head2 B<REQUIRED> OrganizationConfigRuleName => Str
 
-The name of organization config rule for which you want status details
-for member accounts.
+The name of your organization Config rule for which you want status
+details for member accounts.
 
 
 

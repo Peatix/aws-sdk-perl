@@ -41,16 +41,16 @@ Encryption options for the broker.
 
 =head2 KmsKeyId => Str
 
-The symmetric customer master key (CMK) to use for the AWS Key
-Management Service (KMS). This key is used to encrypt your data at
-rest. If not provided, Amazon MQ will use a default CMK to encrypt your
-data.
+The customer master key (CMK) to use for the A KMS (KMS). This key is
+used to encrypt your data at rest. If not provided, Amazon MQ will use
+a default CMK to encrypt your data.
 
 
 =head2 B<REQUIRED> UseAwsOwnedKey => Bool
 
-Enables the use of an AWS owned CMK using AWS Key Management Service
-(KMS).
+Enables the use of an Amazon Web Services owned CMK using KMS (KMS).
+Set to true by default, if no value is provided, for example, for
+RabbitMQ brokers.
 
 
 

@@ -16,7 +16,7 @@ Paws::Proton::GetEnvironmentOutput
 
 =head2 B<REQUIRED> Environment => L<Paws::Proton::Environment>
 
-The environment detail data that's returned by AWS Proton.
+The detailed data of the requested environment.
 
 
 =head2 _request_id => Str

@@ -36,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       GameSessionId             => 'MyArnStringModel',         # OPTIONAL
       Limit                     => 1,                          # OPTIONAL
       NextToken                 => 'MyNonZeroAndMaxString',    # OPTIONAL
-      PlayerId                  => 'MyNonZeroAndMaxString',    # OPTIONAL
+      PlayerId                  => 'MyPlayerId',               # OPTIONAL
       PlayerSessionId           => 'MyPlayerSessionId',        # OPTIONAL
       PlayerSessionStatusFilter => 'MyNonZeroAndMaxString',    # OPTIONAL
     );
@@ -92,7 +92,10 @@ A unique identifier for a player session to retrieve.
 
 =head2 PlayerSessionStatusFilter => Str
 
-Player session status to filter results on.
+Player session status to filter results on. Note that when a
+PlayerSessionId or PlayerId is provided in a DescribePlayerSessions
+request, then the PlayerSessionStatusFilter has no effect on the
+response.
 
 Possible player session statuses include the following:
 

@@ -39,9 +39,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EndTime => '1970-01-01T01:00:00',
       Filters => {
         Channels => [
-          'VOICE', ...    # values: VOICE, CHAT, TASK
-        ],    # max: 1; OPTIONAL
-        Queues => [ 'MyQueueId', ... ],    # min: 1, max: 100; OPTIONAL
+          'VOICE', ...    # values: VOICE, CHAT, TASK, EMAIL
+        ],    # max: 4; OPTIONAL
+        Queues          => [ 'MyQueueId', ... ],    # min: 1, max: 100; OPTIONAL
+        RoutingProfiles => [ 'MyRoutingProfileId', ... ]
+        ,                                           # min: 1, max: 100; OPTIONAL
+        RoutingStepExpressions => [
+          'MyRoutingExpression', ...                # min: 1, max: 3000
+        ],    # max: 50; OPTIONAL
       },
       HistoricalMetrics => [
         {
@@ -60,7 +65,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       StartTime  => '1970-01-01T01:00:00',
       Groupings  => [
         'QUEUE',
-        ...    # values: QUEUE, CHANNEL
+        ...   # values: QUEUE, CHANNEL, ROUTING_PROFILE, ROUTING_STEP_EXPRESSION
       ],    # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyNextToken',    # OPTIONAL
@@ -98,6 +103,9 @@ with the queues or channels included in the filter. You can include
 both queue IDs and queue ARNs in the same request. VOICE, CHAT, and
 TASK channels are supported.
 
+RoutingStepExpression is not a valid filter for GetMetricData and we
+recommend switching to GetMetricDataV2 for more up-to-date features.
+
 To filter by C<Queues>, enter the queue ID/ARN, not the name of the
 queue.
 
@@ -113,14 +121,17 @@ aggregated for all queues.
 If no grouping is specified, a summary of metrics for all queues is
 returned.
 
+RoutingStepExpression is not a valid filter for GetMetricData and we
+recommend switching to GetMetricDataV2 for more up-to-date features.
+
 
 
 =head2 B<REQUIRED> HistoricalMetrics => ArrayRef[L<Paws::Connect::HistoricalMetric>]
 
 The metrics to retrieve. Specify the name, unit, and statistic for each
 metric. The following historical metrics are available. For a
-description of each metric, see Historical Metrics Definitions
-(https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html)
+description of each metric, see Metrics definition
+(https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html)
 in the I<Amazon Connect Administrator Guide>.
 
 This API does not support a contacts incoming metric (there's no
@@ -292,7 +303,9 @@ Threshold: For C<ThresholdValue>, enter any whole number from 1 to
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

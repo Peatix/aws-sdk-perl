@@ -77,9 +77,9 @@ volumes.
 
 If you specify the C<io1> volume type, you must also specify a value
 for the C<Iops> attribute. The maximum ratio of provisioned IOPS to
-requested volume size (in GiB) is 50:1. AWS uses the default volume
-size (in GiB) specified in the AMI attributes to set IOPS to 50 x
-(volume size).
+requested volume size (in GiB) is 50:1. Amazon Web Services uses the
+default volume size (in GiB) specified in the AMI attributes to set
+IOPS to 50 x (volume size).
 
 
 

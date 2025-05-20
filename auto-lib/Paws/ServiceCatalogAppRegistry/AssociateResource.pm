@@ -2,6 +2,7 @@
 package Paws::ServiceCatalogAppRegistry::AssociateResource;
   use Moose;
   has Application => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'application', required => 1);
+  has Options => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'options');
   has Resource => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resource', required => 1);
   has ResourceType => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceType', required => 1);
 
@@ -35,11 +36,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Application  => 'MyApplicationSpecifier',
       Resource     => 'MyResourceSpecifier',
       ResourceType => 'CFN_STACK',
-
+      Options      => [
+        'APPLY_APPLICATION_TAG',
+        ...    # values: APPLY_APPLICATION_TAG, SKIP_APPLICATION_TAG
+      ],    # OPTIONAL
       );
 
     # Results:
     my $ApplicationArn = $AssociateResourceResponse->ApplicationArn;
+    my $Options        = $AssociateResourceResponse->Options;
     my $ResourceArn    = $AssociateResourceResponse->ResourceArn;
 
 # Returns a L<Paws::ServiceCatalogAppRegistry::AssociateResourceResponse> object.
@@ -52,7 +57,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 
 =head2 B<REQUIRED> Application => Str
 
-The name or ID of the application.
+The name, ID, or ARN of the application.
+
+
+
+=head2 Options => ArrayRef[Str|Undef]
+
+Determines whether an application tag is applied or skipped.
 
 
 
@@ -67,7 +78,7 @@ associated.
 
 The type of resource of which the application will be associated.
 
-Valid values are: C<"CFN_STACK">
+Valid values are: C<"CFN_STACK">, C<"RESOURCE_TAG_VALUE">
 
 
 =head1 SEE ALSO

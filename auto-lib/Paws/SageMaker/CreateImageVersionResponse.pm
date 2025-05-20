@@ -16,7 +16,7 @@ Paws::SageMaker::CreateImageVersionResponse
 
 =head2 ImageVersionArn => Str
 
-The Amazon Resource Name (ARN) of the image version.
+The ARN of the image version.
 
 
 =head2 _request_id => Str

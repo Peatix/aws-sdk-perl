@@ -9,6 +9,7 @@ package Paws::SageMaker::AutoMLCandidate;
   has EndTime => (is => 'ro', isa => 'Str');
   has FailureReason => (is => 'ro', isa => 'Str');
   has FinalAutoMLJobObjectiveMetric => (is => 'ro', isa => 'Paws::SageMaker::FinalAutoMLJobObjectiveMetric');
+  has InferenceContainerDefinitions => (is => 'ro', isa => 'Paws::SageMaker::AutoMLInferenceContainerDefinitions');
   has InferenceContainers => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::AutoMLContainerDefinition]');
   has LastModifiedTime => (is => 'ro', isa => 'Str', required => 1);
   has ObjectiveStatus => (is => 'ro', isa => 'Str', required => 1);
@@ -43,8 +44,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-An Autopilot job returns recommendations, or candidates. Each candidate
-has futher details about the steps involved and the status.
+Information about a candidate produced by an AutoML training job,
+including its status, steps, and other properties.
 
 =head1 ATTRIBUTES
 
@@ -56,7 +57,7 @@ The name of the candidate.
 
 =head2 CandidateProperties => L<Paws::SageMaker::CandidateProperties>
 
-The AutoML candidate's properties.
+The properties of an AutoML candidate job.
 
 
 =head2 B<REQUIRED> CandidateStatus => Str
@@ -89,9 +90,18 @@ The failure reason.
 
 
 
+=head2 InferenceContainerDefinitions => L<Paws::SageMaker::AutoMLInferenceContainerDefinitions>
+
+The mapping of all supported processing unit (CPU, GPU, etc...) to
+inference container definitions for the candidate. This field is
+populated for the AutoML jobs V2 (for example, for jobs created by
+calling C<CreateAutoMLJobV2>) related to image or text classification
+problem types only.
+
+
 =head2 InferenceContainers => ArrayRef[L<Paws::SageMaker::AutoMLContainerDefinition>]
 
-Information about the inference container definitions.
+Information about the recommended inference container definitions.
 
 
 =head2 B<REQUIRED> LastModifiedTime => Str

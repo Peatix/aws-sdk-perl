@@ -2,6 +2,7 @@
 package Paws::SageMaker::UserContext;
   use Moose;
   has DomainId => (is => 'ro', isa => 'Str');
+  has IamIdentity => (is => 'ro', isa => 'Paws::SageMaker::IamIdentity');
   has UserProfileArn => (is => 'ro', isa => 'Str');
   has UserProfileName => (is => 'ro', isa => 'Str');
 
@@ -36,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 Information about the user who created or modified an experiment,
-trial, or trial component.
+trial, trial component, lineage group, project, or model card.
 
 =head1 ATTRIBUTES
 
@@ -44,6 +45,13 @@ trial, or trial component.
 =head2 DomainId => Str
 
 The domain associated with the user.
+
+
+=head2 IamIdentity => L<Paws::SageMaker::IamIdentity>
+
+The IAM Identity details associated with the user. These details are
+associated with model package groups, model packages, and project
+entities only.
 
 
 =head2 UserProfileArn => Str

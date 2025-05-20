@@ -76,8 +76,8 @@ object.
 =head2 Limit => Int
 
 The maximum number of conformance packs compliance details returned on
-each page. The default is maximum. If you specify 0, AWS Config uses
-the default.
+each page. The default is maximum. If you specify 0, Config uses the
+default.
 
 
 

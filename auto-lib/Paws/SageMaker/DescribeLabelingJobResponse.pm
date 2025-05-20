@@ -160,8 +160,8 @@ if any.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) that Amazon SageMaker assumes to perform
-tasks on your behalf during data labeling.
+The Amazon Resource Name (ARN) that SageMaker assumes to perform tasks
+on your behalf during data labeling.
 
 
 =head2 StoppingConditions => L<Paws::SageMaker::LabelingJobStoppingConditions>

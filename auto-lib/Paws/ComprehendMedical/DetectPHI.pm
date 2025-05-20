@@ -48,8 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 =head2 B<REQUIRED> Text => Str
 
 A UTF-8 text string containing the clinical content being examined for
-PHI entities. Each string must contain fewer than 20,000 bytes of
-characters.
+PHI entities.
 
 
 

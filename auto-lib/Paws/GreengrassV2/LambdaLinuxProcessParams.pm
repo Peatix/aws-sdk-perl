@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains parameters for a Linux process that contains an AWS Lambda
+Contains parameters for a Linux process that contains an Lambda
 function.
 
 =head1 ATTRIBUTES
@@ -48,9 +48,8 @@ The parameters for the container in which the Lambda function runs.
 =head2 IsolationMode => Str
 
 The isolation mode for the process that contains the Lambda function.
-The process can run in an isolated runtime environment inside the AWS
-IoT Greengrass container, or as a regular process outside any
-container.
+The process can run in an isolated runtime environment inside the IoT
+Greengrass container, or as a regular process outside any container.
 
 Default: C<GreengrassContainer>
 

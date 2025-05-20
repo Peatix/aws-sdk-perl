@@ -7,12 +7,14 @@ package Paws::SageMaker::DescribeCompilationJobResponse;
   has CompilationJobStatus => (is => 'ro', isa => 'Str', required => 1);
   has CompilationStartTime => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str', required => 1);
+  has DerivedInformation => (is => 'ro', isa => 'Paws::SageMaker::DerivedInformation');
   has FailureReason => (is => 'ro', isa => 'Str', required => 1);
   has InferenceImage => (is => 'ro', isa => 'Str');
   has InputConfig => (is => 'ro', isa => 'Paws::SageMaker::InputConfig', required => 1);
   has LastModifiedTime => (is => 'ro', isa => 'Str', required => 1);
   has ModelArtifacts => (is => 'ro', isa => 'Paws::SageMaker::ModelArtifacts', required => 1);
   has ModelDigests => (is => 'ro', isa => 'Paws::SageMaker::ModelDigests');
+  has ModelPackageVersionArn => (is => 'ro', isa => 'Str');
   has OutputConfig => (is => 'ro', isa => 'Paws::SageMaker::OutputConfig', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has StoppingCondition => (is => 'ro', isa => 'Paws::SageMaker::StoppingCondition', required => 1);
@@ -34,7 +36,7 @@ Paws::SageMaker::DescribeCompilationJobResponse
 The time when the model compilation job on a compilation job instance
 ended. For a successful or stopped job, this is when the job's model
 artifacts have finished uploading. For a failed job, this is when
-Amazon SageMaker detected that the job failed.
+Amazon SageMaker AI detected that the job failed.
 
 
 =head2 B<REQUIRED> CompilationJobArn => Str
@@ -58,15 +60,20 @@ The time when the model compilation job started the C<CompilationJob>
 instances.
 
 You are billed for the time between this timestamp and the timestamp in
-the DescribeCompilationJobResponse$CompilationEndTime field. In Amazon
-CloudWatch Logs, the start time might be later than this time. That's
-because it takes time to download the compilation job, which depends on
-the size of the compilation job container.
+the C<CompilationEndTime> field. In Amazon CloudWatch Logs, the start
+time might be later than this time. That's because it takes time to
+download the compilation job, which depends on the size of the
+compilation job container.
 
 
 =head2 B<REQUIRED> CreationTime => Str
 
 The time that the model compilation job was created.
+
+
+=head2 DerivedInformation => L<Paws::SageMaker::DerivedInformation>
+
+Information that SageMaker Neo automatically derived about the model.
 
 
 =head2 B<REQUIRED> FailureReason => Str
@@ -105,6 +112,12 @@ Provides a BLAKE2 hash value that identifies the compiled model
 artifacts in Amazon S3.
 
 
+=head2 ModelPackageVersionArn => Str
+
+The Amazon Resource Name (ARN) of the versioned model package that was
+provided to SageMaker Neo when you initiated a compilation job.
+
+
 =head2 B<REQUIRED> OutputConfig => L<Paws::SageMaker::OutputConfig>
 
 Information about the output location for the compiled model and the
@@ -113,23 +126,25 @@ target device that the model runs on.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker
+The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI
 assumes to perform the model compilation job.
 
 
 =head2 B<REQUIRED> StoppingCondition => L<Paws::SageMaker::StoppingCondition>
 
 Specifies a limit to how long a model compilation job can run. When the
-job reaches the time limit, Amazon SageMaker ends the compilation job.
-Use this API to cap model training costs.
+job reaches the time limit, Amazon SageMaker AI ends the compilation
+job. Use this API to cap model training costs.
 
 
 =head2 VpcConfig => L<Paws::SageMaker::NeoVpcConfig>
 
-A VpcConfig object that specifies the VPC that you want your
-compilation job to connect to. Control access to your models by
-configuring the VPC. For more information, see Protect Compilation Jobs
-by Using an Amazon Virtual Private Cloud
+A VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that you want your compilation job to
+connect to. Control access to your models by configuring the VPC. For
+more information, see Protect Compilation Jobs by Using an Amazon
+Virtual Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
 
 

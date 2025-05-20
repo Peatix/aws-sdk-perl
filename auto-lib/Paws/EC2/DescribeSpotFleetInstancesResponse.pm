@@ -25,8 +25,8 @@ out of date.
 
 =head2 NextToken => Str
 
-The token required to retrieve the next set of results. This value is
-C<null> when there are no more results to return.
+The token to include in another request to get the next page of items.
+This value is C<null> when there are no more items to return.
 
 
 =head2 SpotFleetRequestId => Str

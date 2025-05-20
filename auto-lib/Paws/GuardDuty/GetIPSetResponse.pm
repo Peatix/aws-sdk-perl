@@ -26,8 +26,7 @@ The format of the file that contains the IPSet.
 Valid values are: C<"TXT">, C<"STIX">, C<"OTX_CSV">, C<"ALIEN_VAULT">, C<"PROOF_POINT">, C<"FIRE_EYE">
 =head2 B<REQUIRED> Location => Str
 
-The URI of the file that contains the IPSet. For example:
-https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+The URI of the file that contains the IPSet.
 
 
 =head2 B<REQUIRED> Name => Str

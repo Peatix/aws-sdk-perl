@@ -3,8 +3,14 @@ package Paws::EC2::ModifySubnetAttribute;
   use Moose;
   has AssignIpv6AddressOnCreation => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
   has CustomerOwnedIpv4Pool => (is => 'ro', isa => 'Str');
+  has DisableLniAtDeviceIndex => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
+  has EnableDns64 => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
+  has EnableLniAtDeviceIndex => (is => 'ro', isa => 'Int');
+  has EnableResourceNameDnsAAAARecordOnLaunch => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
+  has EnableResourceNameDnsARecordOnLaunch => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
   has MapCustomerOwnedIpOnLaunch => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
   has MapPublicIpOnLaunch => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
+  has PrivateDnsHostnameTypeOnLaunch => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'subnetId' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -70,6 +76,52 @@ C<MapCustomerOwnedIpOnLaunch>.
 
 
 
+=head2 DisableLniAtDeviceIndex => L<Paws::EC2::AttributeBooleanValue>
+
+Specify C<true> to indicate that local network interfaces at the
+current position should be disabled.
+
+
+
+=head2 EnableDns64 => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether DNS queries made to the Amazon-provided DNS Resolver
+in this subnet should return synthetic IPv6 addresses for IPv4-only
+destinations.
+
+You must first configure a NAT gateway in a public subnet (separate
+from the subnet containing the IPv6-only workloads). For example, the
+subnet containing the NAT gateway should have a C<0.0.0.0/0> route
+pointing to the internet gateway. For more information, see Configure
+DNS64 and NAT64
+(https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-nat64-dns64.html#nat-gateway-nat64-dns64-walkthrough)
+in the I<Amazon VPC User Guide>.
+
+
+
+=head2 EnableLniAtDeviceIndex => Int
+
+Indicates the device position for local network interfaces in this
+subnet. For example, C<1> indicates local network interfaces in this
+subnet are the secondary network interface (eth1). A local network
+interface cannot be the primary network interface (eth0).
+
+
+
+=head2 EnableResourceNameDnsAAAARecordOnLaunch => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether to respond to DNS queries for instance hostnames with
+DNS AAAA records.
+
+
+
+=head2 EnableResourceNameDnsARecordOnLaunch => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether to respond to DNS queries for instance hostnames with
+DNS A records.
+
+
+
 =head2 MapCustomerOwnedIpOnLaunch => L<Paws::EC2::AttributeBooleanValue>
 
 Specify C<true> to indicate that network interfaces attached to
@@ -87,7 +139,22 @@ Specify C<true> to indicate that network interfaces attached to
 instances created in the specified subnet should be assigned a public
 IPv4 address.
 
+Amazon Web Services charges for all public IPv4 addresses, including
+public IPv4 addresses associated with running instances and Elastic IP
+addresses. For more information, see the I<Public IPv4 Address> tab on
+the Amazon VPC pricing page (http://aws.amazon.com/vpc/pricing/).
 
+
+
+=head2 PrivateDnsHostnameTypeOnLaunch => Str
+
+The type of hostname to assign to instances in the subnet at launch.
+For IPv4-only and dual-stack (IPv4 and IPv6) subnets, an instance DNS
+name can be based on the instance IPv4 address (ip-name) or the
+instance ID (resource-name). For IPv6 only subnets, an instance DNS
+name must be based on the instance ID (resource-name).
+
+Valid values are: C<"ip-name">, C<"resource-name">
 
 =head2 B<REQUIRED> SubnetId => Str
 

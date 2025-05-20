@@ -28,8 +28,8 @@ The amount of cache in bytes allocated to a gateway.
 =head2 CacheDirtyPercentage => Num
 
 The file share's contribution to the overall percentage of the
-gateway's cache that has not been persisted to AWS. The sample is taken
-at the end of the reporting period.
+gateway's cache that has not been persisted to Amazon Web Services. The
+sample is taken at the end of the reporting period.
 
 
 =head2 CacheHitPercentage => Num

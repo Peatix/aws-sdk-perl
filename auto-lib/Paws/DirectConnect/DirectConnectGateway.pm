@@ -7,6 +7,7 @@ package Paws::DirectConnect::DirectConnectGateway;
   has DirectConnectGatewayState => (is => 'ro', isa => 'Str', request_name => 'directConnectGatewayState', traits => ['NameInRequest']);
   has OwnerAccount => (is => 'ro', isa => 'Str', request_name => 'ownerAccount', traits => ['NameInRequest']);
   has StateChangeError => (is => 'ro', isa => 'Str', request_name => 'stateChangeError', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::Tag]', request_name => 'tags', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DirectConnect::DirectConnectGateway object:
 
-  $service_obj->Method(Att1 => { AmazonSideAsn => $value, ..., StateChangeError => $value  });
+  $service_obj->Method(Att1 => { AmazonSideAsn => $value, ..., Tags => $value  });
 
 =head3 Results returned from an API call
 
@@ -92,12 +93,18 @@ traffic.
 
 =head2 OwnerAccount => Str
 
-The ID of the AWS account that owns the Direct Connect gateway.
+The ID of the Amazon Web Services account that owns the Direct Connect
+gateway.
 
 
 =head2 StateChangeError => Str
 
 The error message if the state of an object failed to advance.
+
+
+=head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]
+
+Information about a tag.
 
 
 

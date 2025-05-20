@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The C<GraphqlApi> ARN.
+The C<GraphqlApi> Amazon Resource Name (ARN).
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::CodeCommit::BatchGetRepositoriesOutput;
   use Moose;
+  has Errors => (is => 'ro', isa => 'ArrayRef[Paws::CodeCommit::BatchGetRepositoriesError]', traits => ['NameInRequest'], request_name => 'errors' );
   has Repositories => (is => 'ro', isa => 'ArrayRef[Paws::CodeCommit::RepositoryMetadata]', traits => ['NameInRequest'], request_name => 'repositories' );
   has RepositoriesNotFound => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'repositoriesNotFound' );
 
@@ -13,6 +14,12 @@ package Paws::CodeCommit::BatchGetRepositoriesOutput;
 Paws::CodeCommit::BatchGetRepositoriesOutput
 
 =head1 ATTRIBUTES
+
+
+=head2 Errors => ArrayRef[L<Paws::CodeCommit::BatchGetRepositoriesError>]
+
+Returns information about any errors returned when attempting to
+retrieve information about the repositories.
 
 
 =head2 Repositories => ArrayRef[L<Paws::CodeCommit::RepositoryMetadata>]

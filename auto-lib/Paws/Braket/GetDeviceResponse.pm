@@ -4,6 +4,7 @@ package Paws::Braket::GetDeviceResponse;
   has DeviceArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceArn', required => 1);
   has DeviceCapabilities => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceCapabilities', required => 1);
   has DeviceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceName', required => 1);
+  has DeviceQueueInfo => (is => 'ro', isa => 'ArrayRef[Paws::Braket::DeviceQueueInfo]', traits => ['NameInRequest'], request_name => 'deviceQueueInfo');
   has DeviceStatus => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceStatus', required => 1);
   has DeviceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deviceType', required => 1);
   has ProviderName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'providerName', required => 1);
@@ -33,6 +34,11 @@ Details about the capabilities of the device.
 =head2 B<REQUIRED> DeviceName => Str
 
 The name of the device.
+
+
+=head2 DeviceQueueInfo => ArrayRef[L<Paws::Braket::DeviceQueueInfo>]
+
+List of information about tasks and jobs queued on a device.
 
 
 =head2 B<REQUIRED> DeviceStatus => Str

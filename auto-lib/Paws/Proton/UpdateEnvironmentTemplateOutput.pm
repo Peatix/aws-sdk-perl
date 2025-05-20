@@ -16,7 +16,7 @@ Paws::Proton::UpdateEnvironmentTemplateOutput
 
 =head2 B<REQUIRED> EnvironmentTemplate => L<Paws::Proton::EnvironmentTemplate>
 
-The environment template detail data that's returned by AWS Proton.
+The environment template detail data that's returned by Proton.
 
 
 =head2 _request_id => Str

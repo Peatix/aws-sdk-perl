@@ -18,7 +18,7 @@ Paws::QLDB::ListLedgersResponse
 
 =head2 Ledgers => ArrayRef[L<Paws::QLDB::LedgerSummary>]
 
-The array of ledger summaries that are associated with the current AWS
+The ledgers that are associated with the current Amazon Web Services
 account and Region.
 
 

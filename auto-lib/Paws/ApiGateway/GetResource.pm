@@ -65,13 +65,13 @@ the C<"methods"> string. For example, C<GET
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] The identifier for the Resource resource.
+The identifier for the Resource resource.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

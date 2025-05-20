@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AccessAnaly
 =head1 DESCRIPTION
 
 The proposed virtual private cloud (VPC) configuration for the Amazon
-S3 access point. For more information, see VpcConfiguration
+S3 access point. VPC configuration does not apply to multi-region
+access points. For more information, see VpcConfiguration
 (https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_VpcConfiguration.html).
 
 =head1 ATTRIBUTES

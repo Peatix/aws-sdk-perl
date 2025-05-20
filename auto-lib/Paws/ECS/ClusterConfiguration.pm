@@ -2,6 +2,7 @@
 package Paws::ECS::ClusterConfiguration;
   use Moose;
   has ExecuteCommandConfiguration => (is => 'ro', isa => 'Paws::ECS::ExecuteCommandConfiguration', request_name => 'executeCommandConfiguration', traits => ['NameInRequest']);
+  has ManagedStorageConfiguration => (is => 'ro', isa => 'Paws::ECS::ManagedStorageConfiguration', request_name => 'managedStorageConfiguration', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ECS::ClusterConfiguration object:
 
-  $service_obj->Method(Att1 => { ExecuteCommandConfiguration => $value, ..., ExecuteCommandConfiguration => $value  });
+  $service_obj->Method(Att1 => { ExecuteCommandConfiguration => $value, ..., ManagedStorageConfiguration => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Cluste
 
 =head1 DESCRIPTION
 
-The execute command configuration for the cluster.
+The execute command and managed storage configuration for the cluster.
 
 =head1 ATTRIBUTES
 
@@ -41,6 +42,11 @@ The execute command configuration for the cluster.
 =head2 ExecuteCommandConfiguration => L<Paws::ECS::ExecuteCommandConfiguration>
 
 The details of the execute command configuration.
+
+
+=head2 ManagedStorageConfiguration => L<Paws::ECS::ManagedStorageConfiguration>
+
+The details of the managed storage configuration.
 
 
 

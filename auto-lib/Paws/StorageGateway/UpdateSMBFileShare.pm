@@ -7,6 +7,7 @@ package Paws::StorageGateway::UpdateSMBFileShare;
   has CacheAttributes => (is => 'ro', isa => 'Paws::StorageGateway::CacheAttributes');
   has CaseSensitivity => (is => 'ro', isa => 'Str');
   has DefaultStorageClass => (is => 'ro', isa => 'Str');
+  has EncryptionType => (is => 'ro', isa => 'Str');
   has FileShareARN => (is => 'ro', isa => 'Str', required => 1);
   has FileShareName => (is => 'ro', isa => 'Str');
   has GuessMIMETypeEnabled => (is => 'ro', isa => 'Bool');
@@ -15,6 +16,7 @@ package Paws::StorageGateway::UpdateSMBFileShare;
   has KMSKey => (is => 'ro', isa => 'Str');
   has NotificationPolicy => (is => 'ro', isa => 'Str');
   has ObjectACL => (is => 'ro', isa => 'Str');
+  has OplocksEnabled => (is => 'ro', isa => 'Bool');
   has ReadOnly => (is => 'ro', isa => 'Bool');
   has RequesterPays => (is => 'ro', isa => 'Bool');
   has SMBACLEnabled => (is => 'ro', isa => 'Bool');
@@ -56,6 +58,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       CaseSensitivity      => 'ClientSpecified',    # OPTIONAL
       DefaultStorageClass  => 'MyStorageClass',     # OPTIONAL
+      EncryptionType       => 'SseS3',              # OPTIONAL
       FileShareName        => 'MyFileShareName',    # OPTIONAL
       GuessMIMETypeEnabled => 1,                    # OPTIONAL
       InvalidUserList      => [
@@ -65,6 +68,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       KMSKey             => 'MyKMSKey',                # OPTIONAL
       NotificationPolicy => 'MyNotificationPolicy',    # OPTIONAL
       ObjectACL          => 'private',                 # OPTIONAL
+      OplocksEnabled     => 1,                         # OPTIONAL
       ReadOnly           => 1,                         # OPTIONAL
       RequesterPays      => 1,                         # OPTIONAL
       SMBACLEnabled      => 1,                         # OPTIONAL
@@ -125,13 +129,29 @@ Valid values are: C<"ClientSpecified">, C<"CaseSensitive">
 =head2 DefaultStorageClass => Str
 
 The default storage class for objects put into an Amazon S3 bucket by
-the file gateway. The default value is C<S3_INTELLIGENT_TIERING>.
-Optional.
+the S3 File Gateway. The default value is C<S3_STANDARD>. Optional.
 
 Valid Values: C<S3_STANDARD> | C<S3_INTELLIGENT_TIERING> |
 C<S3_STANDARD_IA> | C<S3_ONEZONE_IA>
 
 
+
+=head2 EncryptionType => Str
+
+A value that specifies the type of server-side encryption that the file
+share will use for the data that it stores in Amazon S3.
+
+We recommend using C<EncryptionType> instead of C<KMSEncrypted> to set
+the file share encryption method. You do not need to provide values for
+both parameters.
+
+If values for both parameters exist in the same request, then the
+specified encryption methods must not conflict. For example, if
+C<EncryptionType> is C<SseS3>, then C<KMSEncrypted> must be C<false>.
+If C<EncryptionType> is C<SseKms> or C<DsseKms>, then C<KMSEncrypted>
+must be C<true>.
+
+Valid values are: C<"SseS3">, C<"SseKms">, C<"DsseKms">
 
 =head2 B<REQUIRED> FileShareARN => Str
 
@@ -145,7 +165,11 @@ update.
 The name of the file share. Optional.
 
 C<FileShareName> must be set if an S3 prefix name is set in
-C<LocationARN>.
+C<LocationARN>, or if an access point or access point alias is used.
+
+A valid SMB file share name cannot contain the following characters:
+C<[>,C<]>,C<#>,C<;>,C<E<lt>>,C<E<gt>>,C<:>,C<">,C<\>,C</>,C<|>,C<?>,C<*>,C<+>,
+or ASCII control characters C<1-31>.
 
 
 
@@ -171,8 +195,20 @@ set to C<ActiveDirectory>.
 
 =head2 KMSEncrypted => Bool
 
-Set to C<true> to use Amazon S3 server-side encryption with your own
-AWS KMS key, or C<false> to use a key managed by Amazon S3. Optional.
+Optional. Set to C<true> to use Amazon S3 server-side encryption with
+your own KMS key (SSE-KMS), or C<false> to use a key managed by Amazon
+S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+C<EncryptionType> parameter instead.
+
+We recommend using C<EncryptionType> instead of C<KMSEncrypted> to set
+the file share encryption method. You do not need to provide values for
+both parameters.
+
+If values for both parameters exist in the same request, then the
+specified encryption methods must not conflict. For example, if
+C<EncryptionType> is C<SseS3>, then C<KMSEncrypted> must be C<false>.
+If C<EncryptionType> is C<SseKms> or C<DsseKms>, then C<KMSEncrypted>
+must be C<true>.
 
 Valid Values: C<true> | C<false>
 
@@ -180,10 +216,11 @@ Valid Values: C<true> | C<false>
 
 =head2 KMSKey => Str
 
-The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-used for Amazon S3 server-side encryption. Storage Gateway does not
-support asymmetric CMKs. This value can only be set when
-C<KMSEncrypted> is C<true>. Optional.
+Optional. The Amazon Resource Name (ARN) of a symmetric customer master
+key (CMK) used for Amazon S3 server-side encryption. Storage Gateway
+does not support asymmetric CMKs. This value must be set if
+C<KMSEncrypted> is C<true>, or if C<EncryptionType> is C<SseKms> or
+C<DsseKms>.
 
 
 
@@ -199,6 +236,10 @@ multiple notifications for the same file in a small time period.
 C<SettlingTimeInSeconds> has no effect on the timing of the object
 uploading to Amazon S3, only the timing of the notification.
 
+This setting is not meant to specify an exact time at which the
+notification will be sent. In some cases, the gateway might require
+more than the specified delay time to generate and send notifications.
+
 The following example sets C<NotificationPolicy> on with
 C<SettlingTimeInSeconds> set to 60.
 
@@ -213,10 +254,23 @@ C<{}>
 =head2 ObjectACL => Str
 
 A value that sets the access control list (ACL) permission for objects
-in the S3 bucket that a file gateway puts objects into. The default
+in the S3 bucket that a S3 File Gateway puts objects into. The default
 value is C<private>.
 
 Valid values are: C<"private">, C<"public-read">, C<"public-read-write">, C<"authenticated-read">, C<"bucket-owner-read">, C<"bucket-owner-full-control">, C<"aws-exec-read">
+
+=head2 OplocksEnabled => Bool
+
+Specifies whether opportunistic locking is enabled for the SMB file
+share.
+
+Enabling opportunistic locking on case-sensitive shares is not
+recommended for workloads that involve access to files with the same
+name in different case.
+
+Valid Values: C<true> | C<false>
+
+
 
 =head2 ReadOnly => Bool
 
@@ -249,10 +303,10 @@ Set this value to C<true> to enable access control list (ACL) on the
 SMB file share. Set it to C<false> to map file and directory
 permissions to the POSIX permissions.
 
-For more information, see Using Microsoft Windows ACLs to control
-access to an SMB file share
-(https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html)
-in the I<AWS Storage Gateway User Guide>.
+For more information, see Using Windows ACLs to limit SMB file share
+access
+(https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html) in
+the I<Amazon S3 File Gateway User Guide>.
 
 Valid Values: C<true> | C<false>
 

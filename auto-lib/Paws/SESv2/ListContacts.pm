@@ -3,14 +3,14 @@ package Paws::SESv2::ListContacts;
   use Moose;
   has ContactListName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ContactListName', required => 1);
   has Filter => (is => 'ro', isa => 'Paws::SESv2::ListContactsFilter');
-  has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
-  has PageSize => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'PageSize');
+  has NextToken => (is => 'ro', isa => 'Str');
+  has PageSize => (is => 'ro', isa => 'Int');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListContacts');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v2/email/contact-lists/{ContactListName}/contacts');
-  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v2/email/contact-lists/{ContactListName}/contacts/list');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::SESv2::ListContactsResponse');
 1;
 

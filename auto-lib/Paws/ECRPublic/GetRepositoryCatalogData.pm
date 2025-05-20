@@ -47,9 +47,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the
-repositories to be described. If you do not specify a registry, the
-default public registry is assumed.
+The Amazon Web Services account ID that's associated with the registry
+that contains the repositories to be described. If you do not specify a
+registry, the default public registry is assumed.
 
 
 

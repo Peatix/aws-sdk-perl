@@ -87,10 +87,9 @@ The identifier of the client certificate for the stage.
 
 Indicates when the stage was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 DeploymentId => Str
@@ -112,10 +111,9 @@ The version of the API documentation that is associated with the stage.
 
 Indicates when the stage was most recently updated.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 MethodSettings => ArrayRef[L<Paws::SecurityHub::AwsApiGatewayMethodSettings>]
@@ -130,8 +128,7 @@ The name of the stage.
 
 =head2 TracingEnabled => Bool
 
-Indicates whether active tracing with AWS X-Ray is enabled for the
-stage.
+Indicates whether active tracing with X-Ray is enabled for the stage.
 
 
 =head2 Variables => L<Paws::SecurityHub::FieldMap>

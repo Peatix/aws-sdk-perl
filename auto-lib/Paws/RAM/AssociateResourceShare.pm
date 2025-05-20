@@ -5,6 +5,7 @@ package Paws::RAM::AssociateResourceShare;
   has Principals => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'principals');
   has ResourceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'resourceArns');
   has ResourceShareArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'resourceShareArn', required => 1);
+  has Sources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'sources');
 
   use MooseX::ClassAttribute;
 
@@ -36,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClientToken      => 'MyString',             # OPTIONAL
       Principals       => [ 'MyString', ... ],    # OPTIONAL
       ResourceArns     => [ 'MyString', ... ],    # OPTIONAL
+      Sources          => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -53,28 +55,90 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 ClientToken => Str
 
-A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+Specifies a unique, case-sensitive identifier that you provide to
+ensure the idempotency of the request. This lets you safely retry the
+request without accidentally performing the same operation a second
+time. Passing the same value to a later call to an operation requires
+that you also pass the same value for all other parameters. We
+recommend that you use a UUID type of value.
+(https://wikipedia.org/wiki/Universally_unique_identifier).
+
+If you don't provide this value, then Amazon Web Services generates a
+random one for you.
+
+If you retry the operation with the same C<ClientToken>, but with
+different parameters, the retry fails with an
+C<IdempotentParameterMismatch> error.
 
 
 
 =head2 Principals => ArrayRef[Str|Undef]
 
-The principals to associate with the resource share. The possible
-values are IDs of AWS accounts, and the ARNs of organizational units
-(OU) or organizations from AWS Organizations.
+Specifies a list of principals to whom you want to the resource share.
+This can be C<null> if you want to add only resources.
+
+What the principals can do with the resources in the share is
+determined by the RAM permissions that you associate with the resource
+share. See AssociateResourceSharePermission.
+
+You can include the following values:
+
+=over
+
+=item *
+
+An Amazon Web Services account ID, for example: C<123456789012>
+
+=item *
+
+An Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of an organization in Organizations, for example:
+C<organizations::123456789012:organization/o-exampleorgid>
+
+=item *
+
+An ARN of an organizational unit (OU) in Organizations, for example:
+C<organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123>
+
+=item *
+
+An ARN of an IAM role, for example: C<iam::123456789012:role/rolename>
+
+=item *
+
+An ARN of an IAM user, for example: C<iam::123456789012user/username>
+
+=back
+
+Not all resource types can be shared with IAM roles and users. For more
+information, see Sharing with IAM roles and users
+(https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+in the I<Resource Access Manager User Guide>.
 
 
 
 =head2 ResourceArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the resources.
+Specifies a list of Amazon Resource Names (ARNs)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resources that you want to share. This can be C<null> if you
+want to add only principals.
 
 
 
 =head2 B<REQUIRED> ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share that you want to add principals or resources to.
+
+
+
+=head2 Sources => ArrayRef[Str|Undef]
+
+Specifies from which source accounts the service principal has access
+to the resources in this resource share.
 
 
 

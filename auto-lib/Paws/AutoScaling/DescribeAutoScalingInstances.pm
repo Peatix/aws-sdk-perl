@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # To describe one or more Auto Scaling instances
     # This example describes the specified Auto Scaling instance.
     my $AutoScalingInstancesType = $autoscaling->DescribeAutoScalingInstances(
-      'InstanceIds' => ['i-4ba0837f'] );
+      'InstanceIds' => ['i-05b4f7d5be44822a6'] );
 
     # Results:
     my $AutoScalingInstances = $AutoScalingInstancesType->AutoScalingInstances;
@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aut
 
 =head2 InstanceIds => ArrayRef[Str|Undef]
 
-The IDs of the instances. If you omit this parameter, all Auto Scaling
+The IDs of the instances. If you omit this property, all Auto Scaling
 instances are described. If you specify an ID that does not exist, it
 is ignored with no error.
 

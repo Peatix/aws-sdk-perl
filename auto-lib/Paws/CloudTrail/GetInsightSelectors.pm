@@ -1,7 +1,8 @@
 
 package Paws::CloudTrail::GetInsightSelectors;
   use Moose;
-  has TrailName => (is => 'ro', isa => 'Str', required => 1);
+  has EventDataStore => (is => 'ro', isa => 'Str');
+  has TrailName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -28,13 +29,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $cloudtrail = Paws->service('CloudTrail');
     my $GetInsightSelectorsResponse = $cloudtrail->GetInsightSelectors(
-      TrailName => 'MyString',
-
+      EventDataStore => 'MyEventDataStoreArn',    # OPTIONAL
+      TrailName      => 'MyString',               # OPTIONAL
     );
 
     # Results:
-    my $InsightSelectors = $GetInsightSelectorsResponse->InsightSelectors;
-    my $TrailARN         = $GetInsightSelectorsResponse->TrailARN;
+    my $EventDataStoreArn   = $GetInsightSelectorsResponse->EventDataStoreArn;
+    my $InsightSelectors    = $GetInsightSelectorsResponse->InsightSelectors;
+    my $InsightsDestination = $GetInsightSelectorsResponse->InsightsDestination;
+    my $TrailARN            = $GetInsightSelectorsResponse->TrailARN;
 
     # Returns a L<Paws::CloudTrail::GetInsightSelectorsResponse> object.
 
@@ -44,7 +47,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> TrailName => Str
+=head2 EventDataStore => Str
+
+Specifies the ARN (or ID suffix of the ARN) of the event data store for
+which you want to get Insights selectors.
+
+You cannot use this parameter with the C<TrailName> parameter.
+
+
+
+=head2 TrailName => Str
 
 Specifies the name of the trail or trail ARN. If you specify a trail
 name, the string must meet the following requirements:
@@ -78,6 +90,8 @@ Not be in IP address format (for example, 192.168.5.4)
 If you specify a trail ARN, it must be in the format:
 
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
+
+You cannot use this parameter with the C<EventDataStore> parameter.
 
 
 

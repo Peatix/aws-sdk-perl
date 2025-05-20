@@ -1,13 +1,13 @@
 
 package Paws::MediaTailor::PutChannelPolicy;
   use Moose;
-  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'channelName', required => 1);
+  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ChannelName', required => 1);
   has Policy => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'PutChannelPolicy');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{channelName}/policy');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{ChannelName}/policy');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::PutChannelPolicyResponse');
 1;
@@ -43,7 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ChannelName => Str
 
-The identifier for the channel you are working on.
+The channel name associated with this Channel Policy.
 
 
 

@@ -51,8 +51,9 @@ for C<TrainingImage>.
 
 =head2 MetricDefinitions => ArrayRef[L<Paws::SageMaker::MetricDefinition>]
 
-An array of MetricDefinition objects that specify the metrics that the
-algorithm emits.
+An array of MetricDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_MetricDefinition.html)
+objects that specify the metrics that the algorithm emits.
 
 
 =head2 TrainingImage => Str
@@ -62,7 +63,7 @@ algorithm. For information about Docker registry paths for built-in
 algorithms, see Algorithms Provided by Amazon SageMaker: Common
 Parameters
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-algo-docker-registry-paths.html).
-Amazon SageMaker supports both C<registry/repository[:tag]> and
+SageMaker supports both C<registry/repository[:tag]> and
 C<registry/repository[@digest]> image path formats. For more
 information, see Using Your Own Algorithms with Amazon SageMaker
 (https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
@@ -70,20 +71,7 @@ information, see Using Your Own Algorithms with Amazon SageMaker
 
 =head2 B<REQUIRED> TrainingInputMode => Str
 
-The input mode that the algorithm supports: File or Pipe. In File input
-mode, Amazon SageMaker downloads the training data from Amazon S3 to
-the storage volume that is attached to the training instance and mounts
-the directory to the Docker volume for the training container. In Pipe
-input mode, Amazon SageMaker streams data directly from Amazon S3 to
-the container.
 
-If you specify File mode, make sure that you provision the storage
-volume that is attached to the training instance with enough capacity
-to accommodate the training data downloaded from Amazon S3, the model
-artifacts, and intermediate information.
-
-For more information about input modes, see Algorithms
-(https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
 
 
 

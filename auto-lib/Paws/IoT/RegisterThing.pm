@@ -31,7 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $iot = Paws->service('IoT');
     my $RegisterThingResponse = $iot->RegisterThing(
       TemplateBody => 'MyTemplateBody',
-      Parameters   => { 'MyParameter' => 'MyValue', },    # OPTIONAL
+      Parameters   => {
+        'MyParameter' => 'MyValue',    # key: max: 2048, value: max: 4096
+      },    # OPTIONAL
     );
 
     # Results:

@@ -60,12 +60,12 @@ Indicates if the data point is a row.
 =head2 ScalarValue => Str
 
 Indicates if the data point is a scalar value such as integer, string,
-double, or boolean.
+double, or Boolean.
 
 
 =head2 TimeSeriesValue => ArrayRef[L<Paws::TimestreamQuery::TimeSeriesDataPoint>]
 
-Indicates if the data point is of timeseries data type.
+Indicates if the data point is a timeseries data type.
 
 
 

@@ -2,13 +2,19 @@
 package Paws::GuardDuty::Service;
   use Moose;
   has Action => (is => 'ro', isa => 'Paws::GuardDuty::Action', request_name => 'action', traits => ['NameInRequest']);
+  has AdditionalInfo => (is => 'ro', isa => 'Paws::GuardDuty::ServiceAdditionalInfo', request_name => 'additionalInfo', traits => ['NameInRequest']);
   has Archived => (is => 'ro', isa => 'Bool', request_name => 'archived', traits => ['NameInRequest']);
   has Count => (is => 'ro', isa => 'Int', request_name => 'count', traits => ['NameInRequest']);
+  has Detection => (is => 'ro', isa => 'Paws::GuardDuty::Detection', request_name => 'detection', traits => ['NameInRequest']);
   has DetectorId => (is => 'ro', isa => 'Str', request_name => 'detectorId', traits => ['NameInRequest']);
+  has EbsVolumeScanDetails => (is => 'ro', isa => 'Paws::GuardDuty::EbsVolumeScanDetails', request_name => 'ebsVolumeScanDetails', traits => ['NameInRequest']);
   has EventFirstSeen => (is => 'ro', isa => 'Str', request_name => 'eventFirstSeen', traits => ['NameInRequest']);
   has EventLastSeen => (is => 'ro', isa => 'Str', request_name => 'eventLastSeen', traits => ['NameInRequest']);
   has Evidence => (is => 'ro', isa => 'Paws::GuardDuty::Evidence', request_name => 'evidence', traits => ['NameInRequest']);
+  has FeatureName => (is => 'ro', isa => 'Str', request_name => 'featureName', traits => ['NameInRequest']);
+  has MalwareScanDetails => (is => 'ro', isa => 'Paws::GuardDuty::MalwareScanDetails', request_name => 'malwareScanDetails', traits => ['NameInRequest']);
   has ResourceRole => (is => 'ro', isa => 'Str', request_name => 'resourceRole', traits => ['NameInRequest']);
+  has RuntimeDetails => (is => 'ro', isa => 'Paws::GuardDuty::RuntimeDetails', request_name => 'runtimeDetails', traits => ['NameInRequest']);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
   has UserFeedback => (is => 'ro', isa => 'Str', request_name => 'userFeedback', traits => ['NameInRequest']);
 
@@ -52,6 +58,11 @@ Contains additional information about the generated finding.
 Information about the activity that is described in a finding.
 
 
+=head2 AdditionalInfo => L<Paws::GuardDuty::ServiceAdditionalInfo>
+
+Contains additional information about the generated finding.
+
+
 =head2 Archived => Bool
 
 Indicates whether this finding is archived.
@@ -62,9 +73,19 @@ Indicates whether this finding is archived.
 The total count of the occurrences of this finding type.
 
 
+=head2 Detection => L<Paws::GuardDuty::Detection>
+
+Contains information about the detected unusual behavior.
+
+
 =head2 DetectorId => Str
 
 The detector ID for the GuardDuty service.
+
+
+=head2 EbsVolumeScanDetails => L<Paws::GuardDuty::EbsVolumeScanDetails>
+
+Returns details from the malware scan that created a finding.
 
 
 =head2 EventFirstSeen => Str
@@ -84,14 +105,32 @@ generate this finding.
 An evidence object associated with the service.
 
 
+=head2 FeatureName => Str
+
+The name of the feature that generated a finding.
+
+
+=head2 MalwareScanDetails => L<Paws::GuardDuty::MalwareScanDetails>
+
+Returns details from the malware scan that generated a GuardDuty
+finding.
+
+
 =head2 ResourceRole => Str
 
 The resource role information for this finding.
 
 
+=head2 RuntimeDetails => L<Paws::GuardDuty::RuntimeDetails>
+
+Information about the process and any required context values for a
+specific finding
+
+
 =head2 ServiceName => Str
 
-The name of the AWS service (GuardDuty) that generated a finding.
+The name of the Amazon Web Services service (GuardDuty) that generated
+a finding.
 
 
 =head2 UserFeedback => Str

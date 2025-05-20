@@ -3,6 +3,7 @@ package Paws::SageMakerEdge::SendHeartbeat;
   use Moose;
   has AgentMetrics => (is => 'ro', isa => 'ArrayRef[Paws::SageMakerEdge::EdgeMetric]');
   has AgentVersion => (is => 'ro', isa => 'Str', required => 1);
+  has DeploymentResult => (is => 'ro', isa => 'Paws::SageMakerEdge::DeploymentResult');
   has DeviceFleetName => (is => 'ro', isa => 'Str', required => 1);
   has DeviceName => (is => 'ro', isa => 'Str', required => 1);
   has Models => (is => 'ro', isa => 'ArrayRef[Paws::SageMakerEdge::Model]');
@@ -45,6 +46,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      DeploymentResult => {
+        DeploymentEndTime => '1970-01-01T01:00:00',    # OPTIONAL
+        DeploymentModels  => [
+          {
+            DesiredState => 'DEPLOY',       # values: DEPLOY, UNDEPLOY; OPTIONAL
+            ModelHandle  => 'MyEntityName', # min: 1, max: 63; OPTIONAL
+            ModelName    => 'MyModelName',  # min: 4, max: 255; OPTIONAL
+            ModelVersion => 'MyVersion',    # min: 1, max: 64
+            RollbackFailureReason => 'MyString',    # OPTIONAL
+            State        => 'DEPLOY',      # values: DEPLOY, UNDEPLOY; OPTIONAL
+            Status       => 'SUCCESS',     # values: SUCCESS, FAIL; OPTIONAL
+            StatusReason => 'MyString',    # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        DeploymentName          => 'MyEntityName',   # min: 1, max: 63; OPTIONAL
+        DeploymentStartTime     => '1970-01-01T01:00:00',    # OPTIONAL
+        DeploymentStatus        => 'MyEntityName',   # min: 1, max: 63; OPTIONAL
+        DeploymentStatusMessage => 'MyString',       # OPTIONAL
+      },    # OPTIONAL
       Models => [
         {
           LatestInference  => '1970-01-01T01:00:00',    # OPTIONAL
@@ -81,6 +102,12 @@ operating metrics.
 =head2 B<REQUIRED> AgentVersion => Str
 
 Returns the version of the agent.
+
+
+
+=head2 DeploymentResult => L<Paws::SageMakerEdge::DeploymentResult>
+
+Returns the result of a deployment on the device.
 
 
 

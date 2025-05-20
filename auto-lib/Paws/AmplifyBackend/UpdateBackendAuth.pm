@@ -78,6 +78,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 ClientId     => 'My__string',
                 ClientSecret => 'My__string',
               },                                                # OPTIONAL
+              SignInWithApple => {
+                ClientId   => 'My__string',
+                KeyId      => 'My__string',
+                PrivateKey => 'My__string',
+                TeamId     => 'My__string',
+              },                                                # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
           PasswordPolicy => {
@@ -86,6 +92,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ... # values: REQUIRE_DIGIT, REQUIRE_LOWERCASE, REQUIRE_SYMBOL, REQUIRE_UPPERCASE
             ],    # OPTIONAL
             MinimumLength => 1,    # OPTIONAL
+          },    # OPTIONAL
+          VerificationMessage => {
+            DeliveryMethod => 'EMAIL',    # values: EMAIL, SMS; OPTIONAL
+            EmailSettings  => {
+              EmailMessage => 'My__string',
+              EmailSubject => 'My__string',
+            },                            # OPTIONAL
+            SmsSettings => { SmsMessage => 'My__string', },    # OPTIONAL
           },    # OPTIONAL
         },
         IdentityPoolConfigs => {

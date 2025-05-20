@@ -37,8 +37,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Ext
 
 =head1 DESCRIPTION
 
-Identifies an AWS resource and indicates whether it complies with the
-AWS Config rule that it was evaluated against.
+Identifies an Amazon Web Services resource and indicates whether it
+complies with the Config rule that it was evaluated against.
 
 =head1 ATTRIBUTES
 
@@ -51,20 +51,20 @@ this task was completed on a specific date.
 
 =head2 B<REQUIRED> ComplianceResourceId => Str
 
-The evaluated compliance resource ID. AWS Config accepts only AWS
-account ID.
+The evaluated compliance resource ID. Config accepts only Amazon Web
+Services account ID.
 
 
 =head2 B<REQUIRED> ComplianceResourceType => Str
 
-The evaluated compliance resource type. AWS Config accepts
+The evaluated compliance resource type. Config accepts
 C<AWS::::Account> resource type.
 
 
 =head2 B<REQUIRED> ComplianceType => Str
 
-The compliance of the AWS resource. The valid values are C<COMPLIANT,
-NON_COMPLIANT, > and C<NOT_APPLICABLE>.
+The compliance of the Amazon Web Services resource. The valid values
+are C<COMPLIANT, NON_COMPLIANT, > and C<NOT_APPLICABLE>.
 
 
 =head2 B<REQUIRED> OrderingTimestamp => Str

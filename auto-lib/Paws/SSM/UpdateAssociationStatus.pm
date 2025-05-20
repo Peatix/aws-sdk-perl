@@ -61,13 +61,13 @@ The association status.
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The ID of the instance.
+The managed node ID.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 

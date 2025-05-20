@@ -40,6 +40,9 @@ by C<ListTasks>. For example, to retrieve all tasks on a source
 location, you can use C<ListTasks> with filter name C<LocationId> and
 C<Operator Equals> with the ARN for the location.
 
+For more information, see filtering DataSync resources
+(https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html).
+
 =head1 ATTRIBUTES
 
 
@@ -53,9 +56,7 @@ C<ListTasks>.
 =head2 B<REQUIRED> Operator => Str
 
 The operator that is used to compare filter values (for example,
-C<Equals> or C<Contains>). For more about API filtering operators, see
-API filters for ListTasks and ListLocations
-(https://docs.aws.amazon.com/datasync/latest/userguide/query-resources.html).
+C<Equals> or C<Contains>).
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]

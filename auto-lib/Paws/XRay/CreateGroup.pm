@@ -85,7 +85,7 @@ the new group or false to disable insights for the new group.
 
 =item *
 
-The NotifcationsEnabled boolean can be set to true to enable insights
+The NotificationsEnabled boolean can be set to true to enable insights
 notifications for the new group. Notifications may only be enabled on a
 group with InsightsEnabled set to true.
 
@@ -98,9 +98,9 @@ group with InsightsEnabled set to true.
 
 A map that contains one or more tag keys and tag values to attach to an
 X-Ray group. For more information about ways to use tags, see Tagging
-AWS resources
+Amazon Web Services resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 The following restrictions apply to tags:
 
@@ -129,7 +129,8 @@ Tag keys and values are case sensitive.
 
 =item *
 
-Don't use C<aws:> as a prefix for keys; it's reserved for AWS use.
+Don't use C<aws:> as a prefix for keys; it's reserved for Amazon Web
+Services use.
 
 =back
 

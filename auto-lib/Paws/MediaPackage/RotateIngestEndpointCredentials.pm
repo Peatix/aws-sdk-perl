@@ -38,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $Arn         = $RotateIngestEndpointCredentialsResponse->Arn;
+    my $CreatedAt   = $RotateIngestEndpointCredentialsResponse->CreatedAt;
     my $Description = $RotateIngestEndpointCredentialsResponse->Description;
     my $EgressAccessLogs =
       $RotateIngestEndpointCredentialsResponse->EgressAccessLogs;

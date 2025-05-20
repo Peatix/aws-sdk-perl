@@ -36,14 +36,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudTrail:
 =head1 DESCRIPTION
 
 Information about a CloudTrail trail, including the trail's name, home
-region, and Amazon Resource Name (ARN).
+Region, and Amazon Resource Name (ARN).
 
 =head1 ATTRIBUTES
 
 
 =head2 HomeRegion => Str
 
-The AWS region in which a trail was created.
+The Amazon Web Services Region in which a trail was created.
 
 
 =head2 Name => Str

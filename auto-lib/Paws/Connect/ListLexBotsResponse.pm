@@ -18,8 +18,8 @@ Paws::Connect::ListLexBotsResponse
 
 =head2 LexBots => ArrayRef[L<Paws::Connect::LexBot>]
 
-The names and Regions of the Amazon Lex bots associated with the
-specified instance.
+The names and Amazon Web Services Regions of the Amazon Lex bots
+associated with the specified instance.
 
 
 =head2 NextToken => Str

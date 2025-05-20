@@ -62,8 +62,8 @@ The ID of the instance.
 
 =head2 B<REQUIRED> LifecycleActionResult => Str
 
-The action for the group to take. This parameter can be either
-C<CONTINUE> or C<ABANDON>.
+The action for the group to take. You can specify either C<CONTINUE> or
+C<ABANDON>.
 
 
 

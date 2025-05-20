@@ -54,16 +54,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 KmsKeyId => Str
 
-The unique identifier of the customer master key (CMK) to which to
-grant Amazon Redshift permission. If no key is specified, the default
-key is used.
+The unique identifier of the encrypted symmetric key to which to grant
+Amazon Redshift permission. If no key is specified, the default key is
+used.
 
 
 
 =head2 B<REQUIRED> SnapshotCopyGrantName => Str
 
 The name of the snapshot copy grant. This name must be unique in the
-region for the AWS account.
+region for the Amazon Web Services account.
 
 Constraints:
 
@@ -87,7 +87,7 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 =item *
 
-Must be unique for all clusters within an AWS account.
+Must be unique for all clusters within an Amazon Web Services account.
 
 =back
 

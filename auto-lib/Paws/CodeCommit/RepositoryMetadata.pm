@@ -7,6 +7,7 @@ package Paws::CodeCommit::RepositoryMetadata;
   has CloneUrlSsh => (is => 'ro', isa => 'Str', request_name => 'cloneUrlSsh', traits => ['NameInRequest']);
   has CreationDate => (is => 'ro', isa => 'Str', request_name => 'creationDate', traits => ['NameInRequest']);
   has DefaultBranch => (is => 'ro', isa => 'Str', request_name => 'defaultBranch', traits => ['NameInRequest']);
+  has KmsKeyId => (is => 'ro', isa => 'Str', request_name => 'kmsKeyId', traits => ['NameInRequest']);
   has LastModifiedDate => (is => 'ro', isa => 'Str', request_name => 'lastModifiedDate', traits => ['NameInRequest']);
   has RepositoryDescription => (is => 'ro', isa => 'Str', request_name => 'repositoryDescription', traits => ['NameInRequest']);
   has RepositoryId => (is => 'ro', isa => 'Str', request_name => 'repositoryId', traits => ['NameInRequest']);
@@ -49,7 +50,8 @@ Information about a repository.
 
 =head2 AccountId => Str
 
-The ID of the AWS account associated with the repository.
+The ID of the Amazon Web Services account associated with the
+repository.
 
 
 =head2 Arn => Str
@@ -75,6 +77,12 @@ The date and time the repository was created, in timestamp format.
 =head2 DefaultBranch => Str
 
 The repository's default branch name.
+
+
+=head2 KmsKeyId => Str
+
+The ID of the Key Management Service encryption key used to encrypt and
+decrypt the repository.
 
 
 =head2 LastModifiedDate => Str

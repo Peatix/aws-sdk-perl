@@ -2,6 +2,7 @@
 package Paws::Personalize::DatasetSchemaSummary;
   use Moose;
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
+  has Domain => (is => 'ro', isa => 'Str', request_name => 'domain', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has SchemaArn => (is => 'ro', isa => 'Str', request_name => 'schemaArn', traits => ['NameInRequest']);
@@ -37,7 +38,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 =head1 DESCRIPTION
 
 Provides a summary of the properties of a dataset schema. For a
-complete listing, call the DescribeSchema API.
+complete listing, call the DescribeSchema
+(https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSchema.html)
+API.
 
 =head1 ATTRIBUTES
 
@@ -45,6 +48,12 @@ complete listing, call the DescribeSchema API.
 =head2 CreationDateTime => Str
 
 The date and time (in Unix time) that the schema was created.
+
+
+=head2 Domain => Str
+
+The domain of a schema that you created for a dataset in a Domain
+dataset group.
 
 
 =head2 LastUpdatedDateTime => Str

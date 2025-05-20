@@ -69,11 +69,11 @@ If you are signed in to the management account, specify C<SELF>.
 If you are signed in to a delegated administrator account, specify
 C<DELEGATED_ADMIN>.
 
-Your AWS account must be registered as a delegated administrator in the
-management account. For more information, see Register a delegated
-administrator
+Your Amazon Web Services account must be registered as a delegated
+administrator in the management account. For more information, see
+Register a delegated administrator
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =back
 
@@ -91,7 +91,7 @@ parameter to get the next set of results.
 
 =head2 NextToken => Str
 
-If the previous paginated request didn't return all of the remaining
+If the previous paginated request didn't return all the remaining
 results, the response object's C<NextToken> parameter value is set to a
 token. To retrieve the next set of results, call C<ListStackSets> again
 and assign that token to the request object's C<NextToken> parameter.

@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Atte
 
 =head1 DESCRIPTION
 
-An object representing the details of a container that's part of a job
-attempt.
+An object that represents the details of a container that's part of a
+job attempt.
 
 =head1 ATTRIBUTES
 
@@ -52,27 +52,27 @@ that hosts the job attempt.
 
 =head2 ExitCode => Int
 
-The exit code for the job attempt. A non-zero exit code is considered a
-failure.
+The exit code for the job attempt. A non-zero exit code is considered
+failed.
 
 
 =head2 LogStreamName => Str
 
-The name of the CloudWatch Logs log stream associated with the
-container. The log group for AWS Batch jobs is C</aws/batch/job>. Each
+The name of the CloudWatch Logs log stream that's associated with the
+container. The log group for Batch jobs is C</aws/batch/job>. Each
 container attempt receives a log stream name when they reach the
 C<RUNNING> status.
 
 
 =head2 NetworkInterfaces => ArrayRef[L<Paws::Batch::NetworkInterface>]
 
-The network interfaces associated with the job attempt.
+The network interfaces that are associated with the job attempt.
 
 
 =head2 Reason => Str
 
 A short (255 max characters) human-readable string to provide
-additional details about a running or stopped container.
+additional details for a running or stopped container.
 
 
 =head2 TaskArn => Str

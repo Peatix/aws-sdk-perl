@@ -34,8 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-A list of nested Filter objects. A resource must satisfy the conditions
-of all filters to be included in the results returned from the Search
+A list of nested Filter
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Filter.html)
+objects. A resource must satisfy the conditions of all filters to be
+included in the results returned from the Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
 API.
 
 For example, to filter on a training job's C<InputDataConfig> property

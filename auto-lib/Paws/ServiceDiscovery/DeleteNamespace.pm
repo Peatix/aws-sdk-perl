@@ -27,10 +27,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
-    my $DeleteNamespaceResponse = $servicediscovery->DeleteNamespace(
-      Id => 'MyResourceId',
-
-    );
+    # Example: Delete namespace
+    # Example: Delete namespace
+    my $DeleteNamespaceResponse =
+      $servicediscovery->DeleteNamespace( 'Id' => 'ns-ylexjili4cdxy3xm' );
 
     # Results:
     my $OperationId = $DeleteNamespaceResponse->OperationId;

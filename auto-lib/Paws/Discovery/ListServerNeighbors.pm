@@ -33,10 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $discovery = Paws->service('Discovery');
     my $ListServerNeighborsResponse = $discovery->ListServerNeighbors(
       ConfigurationId          => 'MyConfigurationId',
-      MaxResults               => 1,                               # OPTIONAL
-      NeighborConfigurationIds => [ 'MyConfigurationId', ... ],    # OPTIONAL
-      NextToken                => 'MyString',                      # OPTIONAL
-      PortInformationNeeded    => 1,                               # OPTIONAL
+      MaxResults               => 1,                     # OPTIONAL
+      NeighborConfigurationIds => [
+        'MyConfigurationId', ...                         # max: 200
+      ],    # OPTIONAL
+      NextToken             => 'MyString',    # OPTIONAL
+      PortInformationNeeded => 1,             # OPTIONAL
     );
 
     # Results:

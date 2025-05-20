@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $PutRepositoryCatalogDataResponse =
       $api . ecr-public->PutRepositoryCatalogData(
       CatalogData => {
-        AboutText     => 'MyAboutText',    # max: 10240; OPTIONAL
+        AboutText     => 'MyAboutText',    # max: 25600; OPTIONAL
         Architectures => [
           'MyArchitecture', ...            # min: 1, max: 50
         ],    # max: 50; OPTIONAL
@@ -41,7 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         OperatingSystems => [
           'MyOperatingSystem', ...                       # min: 1, max: 50
         ],    # max: 50; OPTIONAL
-        UsageText => 'MyUsageText',    # max: 10240; OPTIONAL
+        UsageText => 'MyUsageText',    # max: 25600; OPTIONAL
       },
       RepositoryName => 'MyRepositoryName',
       RegistryId     => 'MyRegistryId',       # OPTIONAL
@@ -67,9 +67,9 @@ publicly visible in the Amazon ECR Public Gallery.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the public registry the repository
-is in. If you do not specify a registry, the default public registry is
-assumed.
+The Amazon Web Services account ID that's associated with the public
+registry the repository is in. If you do not specify a registry, the
+default public registry is assumed.
 
 
 

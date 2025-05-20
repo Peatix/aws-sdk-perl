@@ -53,7 +53,8 @@ The state of a device when it is being shipped.
 
 Set to C<RECEIVED> when the device arrives at your location.
 
-Set to C<RETURNED> when you have returned the device to AWS.
+Set to C<RETURNED> when you have returned the device to Amazon Web
+Services.
 
 Valid values are: C<"RECEIVED">, C<"RETURNED">
 

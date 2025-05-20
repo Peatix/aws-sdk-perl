@@ -55,13 +55,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 AttributeName => Str
 
-The name of the attribute with which to filter the results.
+The name of the attribute to filter the results with.
 
 
 
 =head2 AttributeValue => Str
 
-The value of the attribute with which to filter results. You must also
+The value of the attribute to filter results with. You must also
 specify an attribute name to use this parameter.
 
 
@@ -76,13 +76,13 @@ is assumed.
 
 =head2 MaxResults => Int
 
-The maximum number of cluster results returned by C<ListAttributes> in
-paginated output. When this parameter is used, C<ListAttributes> only
-returns C<maxResults> results in a single page along with a
+The maximum number of cluster results that C<ListAttributes> returned
+in paginated output. When this parameter is used, C<ListAttributes>
+only returns C<maxResults> results in a single page along with a
 C<nextToken> response element. The remaining results of the initial
 request can be seen by sending another C<ListAttributes> request with
 the returned C<nextToken> value. This value can be between 1 and 100.
-If this parameter is not used, then C<ListAttributes> returns up to 100
+If this parameter isn't used, then C<ListAttributes> returns up to 100
 results and a C<nextToken> value if applicable.
 
 
@@ -91,8 +91,8 @@ results and a C<nextToken> value if applicable.
 
 The C<nextToken> value returned from a C<ListAttributes> request
 indicating that more results are available to fulfill the request and
-further calls will be needed. If C<maxResults> was provided, it is
-possible the number of results to be fewer than C<maxResults>.
+further calls are needed. If C<maxResults> was provided, it's possible
+the number of results to be fewer than C<maxResults>.
 
 This token should be treated as an opaque identifier that is only used
 to retrieve the next items in a list and not for other programmatic
@@ -102,7 +102,7 @@ purposes.
 
 =head2 B<REQUIRED> TargetType => Str
 
-The type of the target with which to list attributes.
+The type of the target to list attributes with.
 
 Valid values are: C<"container-instance">
 

@@ -57,7 +57,7 @@ source.
 =head2 B<REQUIRED> OutputDataConfig => L<Paws::SageMaker::OutputDataConfig>
 
 the path to the S3 bucket where you want to store model artifacts.
-Amazon SageMaker creates subfolders for the artifacts.
+SageMaker creates subfolders for the artifacts.
 
 
 =head2 B<REQUIRED> ResourceConfig => L<Paws::SageMaker::ResourceConfig>
@@ -70,25 +70,17 @@ volumes, to use for model training.
 
 Specifies a limit to how long a model training job can run. It also
 specifies how long a managed Spot training job has to complete. When
-the job reaches the time limit, Amazon SageMaker ends the training job.
-Use this API to cap model training costs.
+the job reaches the time limit, SageMaker ends the training job. Use
+this API to cap model training costs.
 
-To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal,
-which delays job termination for 120 seconds. Algorithms can use this
+To stop a job, SageMaker sends the algorithm the SIGTERM signal, which
+delays job termination for 120 seconds. Algorithms can use this
 120-second window to save the model artifacts.
 
 
 =head2 B<REQUIRED> TrainingInputMode => Str
 
-The input mode used by the algorithm for the training job. For the
-input modes that Amazon SageMaker algorithms support, see Algorithms
-(https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html).
 
-If an algorithm supports the C<File> input mode, Amazon SageMaker
-downloads the training data from S3 to the provisioned ML storage
-Volume, and mounts the directory to docker volume for training
-container. If an algorithm supports the C<Pipe> input mode, Amazon
-SageMaker streams data directly from S3 to the container.
 
 
 

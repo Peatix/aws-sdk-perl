@@ -53,7 +53,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/par
 =head2 ClientToken => Str
 
 A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 
 
@@ -67,11 +70,33 @@ The authentication token associated with the connection.
 
 The content of the message.
 
+=over
+
+=item *
+
+For C<text/plain> and C<text/markdown>, the Length Constraints are
+Minimum of 1, Maximum of 1024.
+
+=item *
+
+For C<application/json>, the Length Constraints are Minimum of 1,
+Maximum of 12000.
+
+=item *
+
+For C<application/vnd.amazonaws.connect.message.interactive.response>,
+the Length Constraints are Minimum of 1, Maximum of 12288.
+
+=back
+
+
 
 
 =head2 B<REQUIRED> ContentType => Str
 
-The type of the content. Supported types are text/plain.
+The type of the content. Supported types are C<text/plain>,
+C<text/markdown>, C<application/json>, and
+C<application/vnd.amazonaws.connect.message.interactive.response>.
 
 
 

@@ -26,7 +26,7 @@ package Paws::ApiGatewayV2::UpdateIntegration;
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateIntegration');
   class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v2/apis/{apiId}/integrations/{integrationId}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PATCH');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::ApiGatewayV2::UpdateIntegrationResponseShape');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::ApiGatewayV2::UpdateIntegrationResult');
 1;
 
 ### main pod documentation begin ###
@@ -46,7 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $apigateway = Paws->service('ApiGatewayV2');
-    my $UpdateIntegrationResponseShape = $apigateway->UpdateIntegration(
+    my $UpdateIntegrationResult = $apigateway->UpdateIntegration(
       ApiId                   => 'My__string',
       IntegrationId           => 'My__string',
       ConnectionId            => 'MyStringWithLengthBetween1And1024', # OPTIONAL
@@ -74,35 +74,31 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ApiGatewayManaged = $UpdateIntegrationResponseShape->ApiGatewayManaged;
-    my $ConnectionId      = $UpdateIntegrationResponseShape->ConnectionId;
-    my $ConnectionType    = $UpdateIntegrationResponseShape->ConnectionType;
+    my $ApiGatewayManaged = $UpdateIntegrationResult->ApiGatewayManaged;
+    my $ConnectionId      = $UpdateIntegrationResult->ConnectionId;
+    my $ConnectionType    = $UpdateIntegrationResult->ConnectionType;
     my $ContentHandlingStrategy =
-      $UpdateIntegrationResponseShape->ContentHandlingStrategy;
-    my $CredentialsArn    = $UpdateIntegrationResponseShape->CredentialsArn;
-    my $Description       = $UpdateIntegrationResponseShape->Description;
-    my $IntegrationId     = $UpdateIntegrationResponseShape->IntegrationId;
-    my $IntegrationMethod = $UpdateIntegrationResponseShape->IntegrationMethod;
+      $UpdateIntegrationResult->ContentHandlingStrategy;
+    my $CredentialsArn    = $UpdateIntegrationResult->CredentialsArn;
+    my $Description       = $UpdateIntegrationResult->Description;
+    my $IntegrationId     = $UpdateIntegrationResult->IntegrationId;
+    my $IntegrationMethod = $UpdateIntegrationResult->IntegrationMethod;
     my $IntegrationResponseSelectionExpression =
-      $UpdateIntegrationResponseShape->IntegrationResponseSelectionExpression;
-    my $IntegrationSubtype =
-      $UpdateIntegrationResponseShape->IntegrationSubtype;
-    my $IntegrationType = $UpdateIntegrationResponseShape->IntegrationType;
-    my $IntegrationUri  = $UpdateIntegrationResponseShape->IntegrationUri;
-    my $PassthroughBehavior =
-      $UpdateIntegrationResponseShape->PassthroughBehavior;
-    my $PayloadFormatVersion =
-      $UpdateIntegrationResponseShape->PayloadFormatVersion;
-    my $RequestParameters = $UpdateIntegrationResponseShape->RequestParameters;
-    my $RequestTemplates  = $UpdateIntegrationResponseShape->RequestTemplates;
-    my $ResponseParameters =
-      $UpdateIntegrationResponseShape->ResponseParameters;
+      $UpdateIntegrationResult->IntegrationResponseSelectionExpression;
+    my $IntegrationSubtype   = $UpdateIntegrationResult->IntegrationSubtype;
+    my $IntegrationType      = $UpdateIntegrationResult->IntegrationType;
+    my $IntegrationUri       = $UpdateIntegrationResult->IntegrationUri;
+    my $PassthroughBehavior  = $UpdateIntegrationResult->PassthroughBehavior;
+    my $PayloadFormatVersion = $UpdateIntegrationResult->PayloadFormatVersion;
+    my $RequestParameters    = $UpdateIntegrationResult->RequestParameters;
+    my $RequestTemplates     = $UpdateIntegrationResult->RequestTemplates;
+    my $ResponseParameters   = $UpdateIntegrationResult->ResponseParameters;
     my $TemplateSelectionExpression =
-      $UpdateIntegrationResponseShape->TemplateSelectionExpression;
-    my $TimeoutInMillis = $UpdateIntegrationResponseShape->TimeoutInMillis;
-    my $TlsConfig       = $UpdateIntegrationResponseShape->TlsConfig;
+      $UpdateIntegrationResult->TemplateSelectionExpression;
+    my $TimeoutInMillis = $UpdateIntegrationResult->TimeoutInMillis;
+    my $TlsConfig       = $UpdateIntegrationResult->TlsConfig;
 
-    # Returns a L<Paws::ApiGatewayV2::UpdateIntegrationResponseShape> object.
+    # Returns a L<Paws::ApiGatewayV2::UpdateIntegrationResult> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/apigateway/UpdateIntegration>
@@ -259,7 +255,11 @@ Valid values are: C<"WHEN_NO_MATCH">, C<"NEVER">, C<"WHEN_NO_TEMPLATES">
 =head2 PayloadFormatVersion => Str
 
 Specifies the format of the payload sent to an integration. Required
-for HTTP APIs.
+for HTTP APIs. Supported values for Lambda proxy integrations are 1.0
+and 2.0. For all other integrations, 1.0 is the only supported value.
+To learn more, see Working with AWS Lambda proxy integrations for HTTP
+APIs
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
 
 
 
@@ -292,7 +292,7 @@ where action can be append, overwrite or remove. For values, you can
 provide static values, or map request data, stage variables, or context
 variables that are evaluated at runtime. To learn more, see
 Transforming API requests and responses
-(https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.).
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html).
 
 
 

@@ -83,14 +83,13 @@ policy finding.
 
 The total number of occurrences of the finding. For sensitive data
 findings, this value is always 1. All sensitive data findings are
-considered new (unique) because they derive from individual
-classification jobs.
+considered unique.
 
 
 =head2 CreatedAt => Str
 
-The date and time, in UTC and extended ISO 8601 format, when the
-finding was created.
+The date and time, in UTC and extended ISO 8601 format, when Amazon
+Macie created the finding.
 
 
 =head2 Description => Str
@@ -158,11 +157,10 @@ The type of the finding.
 
 =head2 UpdatedAt => Str
 
-The date and time, in UTC and extended ISO 8601 format, when the
-finding was last updated. For sensitive data findings, this value is
-the same as the value for the createdAt property. All sensitive data
-findings are considered new (unique) because they derive from
-individual classification jobs.
+The date and time, in UTC and extended ISO 8601 format, when Amazon
+Macie last updated the finding. For sensitive data findings, this value
+is the same as the value for the createdAt property. All sensitive data
+findings are considered new.
 
 
 

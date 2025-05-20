@@ -34,6 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AirflowIdentity   = $CreateWebLoginTokenResponse->AirflowIdentity;
+    my $IamIdentity       = $CreateWebLoginTokenResponse->IamIdentity;
     my $WebServerHostname = $CreateWebLoginTokenResponse->WebServerHostname;
     my $WebToken          = $CreateWebLoginTokenResponse->WebToken;
 
@@ -47,7 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/air
 
 =head2 B<REQUIRED> Name => Str
 
-Create an Airflow Web UI login token request for a MWAA environment.
+The name of the Amazon MWAA environment. For example,
+C<MyMWAAEnvironment>.
 
 
 

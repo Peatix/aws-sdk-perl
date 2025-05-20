@@ -18,7 +18,7 @@ Paws::KMS::ListKeysResponse
 
 =head2 Keys => ArrayRef[L<Paws::KMS::KeyListEntry>]
 
-A list of customer master keys (CMKs).
+A list of KMS keys.
 
 
 =head2 NextMarker => Str
@@ -31,7 +31,7 @@ value to use for the C<Marker> parameter in a subsequent request.
 
 A flag that indicates whether there are more items in the list. When
 this value is true, the list in this response is truncated. To get more
-items, pass the value of the C<NextMarker> element in thisresponse to
+items, pass the value of the C<NextMarker> element in this response to
 the C<Marker> parameter in a subsequent request.
 
 

@@ -2,6 +2,8 @@
 package Paws::SageMaker::CreateAppImageConfig;
   use Moose;
   has AppImageConfigName => (is => 'ro', isa => 'Str', required => 1);
+  has CodeEditorAppImageConfig => (is => 'ro', isa => 'Paws::SageMaker::CodeEditorAppImageConfig');
+  has JupyterLabAppImageConfig => (is => 'ro', isa => 'Paws::SageMaker::JupyterLabAppImageConfig');
   has KernelGatewayImageConfig => (is => 'ro', isa => 'Paws::SageMaker::KernelGatewayImageConfig');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
 
@@ -31,6 +33,44 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateAppImageConfigResponse = $api . sagemaker->CreateAppImageConfig(
       AppImageConfigName       => 'MyAppImageConfigName',
+      CodeEditorAppImageConfig => {
+        ContainerConfig => {
+          ContainerArguments => [
+            'MyNonEmptyString64', ...    # max: 64
+          ],    # max: 50; OPTIONAL
+          ContainerEntrypoint => [
+            'MyNonEmptyString256', ...    # max: 256
+          ],    # max: 1; OPTIONAL
+          ContainerEnvironmentVariables => {
+            'MyNonEmptyString256' =>
+              'MyString256',    # key: max: 256, value: max: 256
+          },    # max: 25; OPTIONAL
+        },    # OPTIONAL
+        FileSystemConfig => {
+          DefaultGid => 1,                # max: 65535; OPTIONAL
+          DefaultUid => 1,                # max: 65535; OPTIONAL
+          MountPath  => 'MyMountPath',    # max: 1024; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      JupyterLabAppImageConfig => {
+        ContainerConfig => {
+          ContainerArguments => [
+            'MyNonEmptyString64', ...    # max: 64
+          ],    # max: 50; OPTIONAL
+          ContainerEntrypoint => [
+            'MyNonEmptyString256', ...    # max: 256
+          ],    # max: 1; OPTIONAL
+          ContainerEnvironmentVariables => {
+            'MyNonEmptyString256' =>
+              'MyString256',    # key: max: 256, value: max: 256
+          },    # max: 25; OPTIONAL
+        },    # OPTIONAL
+        FileSystemConfig => {
+          DefaultGid => 1,                # max: 65535; OPTIONAL
+          DefaultUid => 1,                # max: 65535; OPTIONAL
+          MountPath  => 'MyMountPath',    # max: 1024; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       KernelGatewayImageConfig => {
         KernelSpecs => [
           {
@@ -38,7 +78,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             DisplayName => 'MyKernelDisplayName',    # max: 1024; OPTIONAL
           },
           ...
-        ],    # min: 1, max: 1
+        ],    # min: 1, max: 5
         FileSystemConfig => {
           DefaultGid => 1,                # max: 65535; OPTIONAL
           DefaultUid => 1,                # max: 65535; OPTIONAL
@@ -72,9 +112,30 @@ The name of the AppImageConfig. Must be unique to your account.
 
 
 
+=head2 CodeEditorAppImageConfig => L<Paws::SageMaker::CodeEditorAppImageConfig>
+
+The C<CodeEditorAppImageConfig>. You can only specify one image kernel
+in the AppImageConfig API. This kernel is shown to users before the
+image starts. After the image runs, all kernels are visible in Code
+Editor.
+
+
+
+=head2 JupyterLabAppImageConfig => L<Paws::SageMaker::JupyterLabAppImageConfig>
+
+The C<JupyterLabAppImageConfig>. You can only specify one image kernel
+in the C<AppImageConfig> API. This kernel is shown to users before the
+image starts. After the image runs, all kernels are visible in
+JupyterLab.
+
+
+
 =head2 KernelGatewayImageConfig => L<Paws::SageMaker::KernelGatewayImageConfig>
 
-The KernelGatewayImageConfig.
+The KernelGatewayImageConfig. You can only specify one image kernel in
+the AppImageConfig API. This kernel will be shown to users before the
+image starts. Once the image runs, all kernels are visible in
+JupyterLab.
 
 
 

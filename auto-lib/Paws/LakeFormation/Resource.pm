@@ -3,8 +3,10 @@ package Paws::LakeFormation::Resource;
   use Moose;
   has Catalog => (is => 'ro', isa => 'Paws::LakeFormation::CatalogResource');
   has Database => (is => 'ro', isa => 'Paws::LakeFormation::DatabaseResource');
+  has DataCellsFilter => (is => 'ro', isa => 'Paws::LakeFormation::DataCellsFilterResource');
   has DataLocation => (is => 'ro', isa => 'Paws::LakeFormation::DataLocationResource');
   has LFTag => (is => 'ro', isa => 'Paws::LakeFormation::LFTagKeyResource');
+  has LFTagExpression => (is => 'ro', isa => 'Paws::LakeFormation::LFTagExpressionResource');
   has LFTagPolicy => (is => 'ro', isa => 'Paws::LakeFormation::LFTagPolicyResource');
   has Table => (is => 'ro', isa => 'Paws::LakeFormation::TableResource');
   has TableWithColumns => (is => 'ro', isa => 'Paws::LakeFormation::TableWithColumnsResource');
@@ -49,7 +51,7 @@ A structure for the resource.
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
 =head2 Database => L<Paws::LakeFormation::DatabaseResource>
@@ -57,6 +59,11 @@ your AWS Lake Formation environment.
 The database for the resource. Unique to the Data Catalog. A database
 is a set of associated table definitions organized into a logical
 group. You can Grant and Revoke database permissions to a principal.
+
+
+=head2 DataCellsFilter => L<Paws::LakeFormation::DataCellsFilterResource>
+
+A data cell filter.
 
 
 =head2 DataLocation => L<Paws::LakeFormation::DataLocationResource>
@@ -67,12 +74,19 @@ revoked.
 
 =head2 LFTag => L<Paws::LakeFormation::LFTagKeyResource>
 
-The tag key and values attached to a resource.
+The LF-tag key and values attached to a resource.
+
+
+=head2 LFTagExpression => L<Paws::LakeFormation::LFTagExpressionResource>
+
+LF-Tag expression resource. A logical expression composed of one or
+more LF-Tag key:value pairs.
 
 
 =head2 LFTagPolicy => L<Paws::LakeFormation::LFTagPolicyResource>
 
-A list of tag conditions that define a resource's tag policy.
+A list of LF-tag conditions or saved LF-Tag expressions that define a
+resource's LF-tag policy.
 
 
 =head2 Table => L<Paws::LakeFormation::TableResource>

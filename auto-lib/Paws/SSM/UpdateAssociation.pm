@@ -1,6 +1,7 @@
 
 package Paws::SSM::UpdateAssociation;
   use Moose;
+  has AlarmConfiguration => (is => 'ro', isa => 'Paws::SSM::AlarmConfiguration');
   has ApplyOnlyAtCronInterval => (is => 'ro', isa => 'Bool');
   has AssociationId => (is => 'ro', isa => 'Str', required => 1);
   has AssociationName => (is => 'ro', isa => 'Str');
@@ -9,14 +10,17 @@ package Paws::SSM::UpdateAssociation;
   has CalendarNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ComplianceSeverity => (is => 'ro', isa => 'Str');
   has DocumentVersion => (is => 'ro', isa => 'Str');
+  has Duration => (is => 'ro', isa => 'Int');
   has MaxConcurrency => (is => 'ro', isa => 'Str');
   has MaxErrors => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has OutputLocation => (is => 'ro', isa => 'Paws::SSM::InstanceAssociationOutputLocation');
   has Parameters => (is => 'ro', isa => 'Paws::SSM::Parameters');
   has ScheduleExpression => (is => 'ro', isa => 'Str');
+  has ScheduleOffset => (is => 'ro', isa => 'Int');
   has SyncCompliance => (is => 'ro', isa => 'Str');
   has TargetLocations => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetLocation]');
+  has TargetMaps => (is => 'ro', isa => 'ArrayRef[Paws::SSM::TargetMap]');
   has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
 
   use MooseX::ClassAttribute;
@@ -44,7 +48,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ssm = Paws->service('SSM');
     my $UpdateAssociationResult = $ssm->UpdateAssociation(
-      AssociationId                 => 'MyAssociationId',
+      AssociationId      => 'MyAssociationId',
+      AlarmConfiguration => {
+        Alarms => [
+          {
+            Name => 'MyAlarmName',    # min: 1, max: 255
+
+          },
+          ...
+        ],    # min: 1, max: 1
+        IgnorePollAlarmFailure => 1,    # OPTIONAL
+      },    # OPTIONAL
       ApplyOnlyAtCronInterval       => 1,                         # OPTIONAL
       AssociationName               => 'MyAssociationName',       # OPTIONAL
       AssociationVersion            => 'MyAssociationVersion',    # OPTIONAL
@@ -53,6 +67,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CalendarNames      => [ 'MyCalendarNameOrARN', ... ],       # OPTIONAL
       ComplianceSeverity => 'CRITICAL',                           # OPTIONAL
       DocumentVersion    => 'MyDocumentVersion',                  # OPTIONAL
+      Duration           => 1,                                    # OPTIONAL
       MaxConcurrency     => 'MyMaxConcurrency',                   # OPTIONAL
       MaxErrors          => 'MyMaxErrors',                        # OPTIONAL
       Name               => 'MyDocumentARN',                      # OPTIONAL
@@ -66,17 +81,49 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Parameters => { 'MyParameterName' => [ 'MyParameterValue', ... ], }
       ,                                                # OPTIONAL
       ScheduleExpression => 'MyScheduleExpression',    # OPTIONAL
+      ScheduleOffset     => 1,                         # OPTIONAL
       SyncCompliance     => 'AUTO',                    # OPTIONAL
       TargetLocations    => [
         {
-          Accounts          => [ 'MyAccount', ... ], # min: 1, max: 50; OPTIONAL
+          Accounts        => [ 'MyAccount', ... ],   # min: 1, max: 50; OPTIONAL
+          ExcludeAccounts => [
+            'MyExcludeAccount', ...                  # min: 6, max: 68
+          ],    # min: 1, max: 5000; OPTIONAL
           ExecutionRoleName =>
-            'MyExecutionRoleName',                   # min: 1, max: 64; OPTIONAL
-          Regions => [ 'MyRegion', ... ],            # min: 1, max: 50; OPTIONAL
+            'MyExecutionRoleName',    # min: 1, max: 64; OPTIONAL
+          IncludeChildOrganizationUnits => 1,    # OPTIONAL
+          Regions => [ 'MyRegion', ... ],        # min: 1, max: 50; OPTIONAL
+          TargetLocationAlarmConfiguration => {
+            Alarms => [
+              {
+                Name => 'MyAlarmName',    # min: 1, max: 255
+
+              },
+              ...
+            ],    # min: 1, max: 1
+            IgnorePollAlarmFailure => 1,    # OPTIONAL
+          },
           TargetLocationMaxConcurrency => 'MyMaxConcurrency',   # min: 1, max: 7
           TargetLocationMaxErrors      => 'MyMaxErrors',        # min: 1, max: 7
+          Targets                      => [
+            {
+              Key    => 'MyTargetKey',              # min: 1, max: 163; OPTIONAL
+              Values => [ 'MyTargetValue', ... ],   # max: 50; OPTIONAL
+            },
+            ...
+          ],    # max: 5; OPTIONAL
+          TargetsMaxConcurrency => 'MyMaxConcurrency',    # min: 1, max: 7
+          TargetsMaxErrors      => 'MyMaxErrors',         # min: 1, max: 7
         },
         ...
+      ],    # OPTIONAL
+      TargetMaps => [
+        {
+          'MyTargetMapKey' => [
+            'MyTargetMapValue', ...    # min: 1, max: 50
+          ],    # key: min: 1, max: 50, value: max: 25
+        },
+        ...     # min: 1, max: 20
       ],    # OPTIONAL
       Targets => [
         {
@@ -99,16 +146,40 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head1 ATTRIBUTES
 
 
+=head2 AlarmConfiguration => L<Paws::SSM::AlarmConfiguration>
+
+
+
+
+
 =head2 ApplyOnlyAtCronInterval => Bool
 
 By default, when you update an association, the system runs it
 immediately after it is updated and then according to the schedule you
-specified. Specify this option if you don't want an association to run
-immediately after you update it. This parameter is not supported for
-rate expressions.
+specified. Specify C<true> for C<ApplyOnlyAtCronInterval> if you want
+the association to run only according to the schedule you specified.
 
-Also, if you specified this option when you created the association,
-you can reset it. To do so, specify the
+If you chose this option when you created an association and later you
+edit that association or you make changes to the Automation runbook or
+SSM document on which that association is based, State Manager applies
+the association at the next specified cron interval. For example, if
+you chose the C<Latest> version of an SSM document when you created an
+association and you edit the association by choosing a different
+document version on the Documents page, State Manager applies the
+association at the next specified cron interval if you previously set
+C<ApplyOnlyAtCronInterval> to C<true>. If this option wasn't selected,
+State Manager immediately runs the association.
+
+For more information, see Understanding when associations are applied
+to resources
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#state-manager-about-scheduling)
+and About target updates with Automation runbooks
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-about.html#runbook-target-updates)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+This parameter isn't supported for rate expressions.
+
+You can reset this parameter. To do so, specify the
 C<no-apply-only-at-cron-interval> parameter when you update the
 association from the command line. This parameter forces the
 association to run immediately after updating it and according to the
@@ -139,19 +210,21 @@ this parameter.
 
 =head2 AutomationTargetParameterName => Str
 
-Specify the target for the association. This target is required for
-associations that use an Automation document and target resources by
-using rate controls.
+Choose the parameter that will define how your automation will branch
+out. This target is required for associations that use an Automation
+runbook and target resources by using rate controls. Automation is a
+tool in Amazon Web Services Systems Manager.
 
 
 
 =head2 CalendarNames => ArrayRef[Str|Undef]
 
-The names or Amazon Resource Names (ARNs) of the Systems Manager Change
-Calendar type documents you want to gate your associations under. The
-associations only run when that Change Calendar is open. For more
-information, see AWS Systems Manager Change Calendar
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar).
+The names or Amazon Resource Names (ARNs) of the Change Calendar type
+documents you want to gate your associations under. The associations
+only run when that change calendar is open. For more information, see
+Amazon Web Services Systems Manager Change Calendar
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
@@ -165,6 +238,45 @@ Valid values are: C<"CRITICAL">, C<"HIGH">, C<"MEDIUM">, C<"LOW">, C<"UNSPECIFIE
 
 The document version you want update for the association.
 
+State Manager doesn't support running associations that use a new
+version of a document if that document is shared from another account.
+State Manager always runs the C<default> version of a document if
+shared from another account, even though the Systems Manager console
+shows that a new version was processed. If you want to run an
+association using a new version of a document shared form another
+account, you must set the document version to C<default>.
+
+
+
+=head2 Duration => Int
+
+The number of hours the association can run before it is canceled.
+Duration applies to associations that are currently running, and any
+pending and in progress commands on all targets. If a target was taken
+offline for the association to run, it is made available again
+immediately, without a reboot.
+
+The C<Duration> parameter applies only when both these conditions are
+true:
+
+=over
+
+=item *
+
+The association for which you specify a duration is cancelable
+according to the parameters of the SSM command document or Automation
+runbook associated with this execution.
+
+=item *
+
+The command specifies the C< ApplyOnlyAtCronInterval
+(https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_UpdateAssociation.html#systemsmanager-UpdateAssociation-request-ApplyOnlyAtCronInterval)
+> parameter, which means that the association doesn't run immediately
+after it is updated, but only according to the specified schedule.
+
+=back
+
+
 
 
 =head2 MaxConcurrency => Str
@@ -174,11 +286,11 @@ same time. You can specify a number, for example 10, or a percentage of
 the target set, for example 10%. The default value is 100%, which means
 all targets run the association at the same time.
 
-If a new instance starts and attempts to run an association while
-Systems Manager is running MaxConcurrency associations, the association
-is allowed to run. During the next association interval, the new
-instance will process its association within the limit specified for
-MaxConcurrency.
+If a new managed node starts and attempts to run an association while
+Systems Manager is running C<MaxConcurrency> associations, the
+association is allowed to run. During the next association interval,
+the new managed node will process its association within the limit
+specified for C<MaxConcurrency>.
 
 
 
@@ -190,29 +302,29 @@ either an absolute number of errors, for example 10, or a percentage of
 the target set, for example 10%. If you specify 3, for example, the
 system stops sending requests when the fourth error is received. If you
 specify 0, then the system stops sending requests after the first error
-is returned. If you run an association on 50 instances and set MaxError
-to 10%, then the system stops sending the request when the sixth error
-is received.
+is returned. If you run an association on 50 managed nodes and set
+C<MaxError> to 10%, then the system stops sending the request when the
+sixth error is received.
 
-Executions that are already running an association when MaxErrors is
+Executions that are already running an association when C<MaxErrors> is
 reached are allowed to complete, but some of these executions may fail
 as well. If you need to ensure that there won't be more than max-errors
-failed executions, set MaxConcurrency to 1 so that executions proceed
-one at a time.
+failed executions, set C<MaxConcurrency> to 1 so that executions
+proceed one at a time.
 
 
 
 =head2 Name => Str
 
-The name of the SSM document that contains the configuration
-information for the instance. You can specify Command or Automation
-documents.
+The name of the SSM Command document or Automation runbook that
+contains the configuration information for the managed node.
 
-You can specify AWS-predefined documents, documents you created, or a
-document that is shared with you from another account.
+You can specify Amazon Web Services-predefined documents, documents you
+created, or a document that is shared with you from another account.
 
-For SSM documents that are shared with you from other AWS accounts, you
-must specify the complete SSM document ARN, in the following format:
+For Systems Manager document (SSM document) that are shared with you
+from other Amazon Web Services accounts, you must specify the complete
+SSM document ARN, in the following format:
 
 C<arn:aws:ssm:I<region>:I<account-id>:document/I<document-name>>
 
@@ -220,9 +332,9 @@ For example:
 
 C<arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document>
 
-For AWS-predefined documents and SSM documents you created in your
-account, you only need to specify the document name. For example,
-C<AWS-ApplyPatchBaseline> or C<My-Document>.
+For Amazon Web Services-predefined documents and SSM documents you
+created in your account, you only need to specify the document name.
+For example, C<AWS-ApplyPatchBaseline> or C<My-Document>.
 
 
 
@@ -235,8 +347,9 @@ An S3 bucket where you want to store the results of this request.
 =head2 Parameters => L<Paws::SSM::Parameters>
 
 The parameters you want to update for the association. If you create a
-parameter using Parameter Store, you can reference the parameter using
-{{ssm:parameter-name}}
+parameter using Parameter Store, a tool in Amazon Web Services Systems
+Manager, you can reference the parameter using
+C<{{ssm:parameter-name}}>.
 
 
 
@@ -244,6 +357,23 @@ parameter using Parameter Store, you can reference the parameter using
 
 The cron expression used to schedule the association that you want to
 update.
+
+
+
+=head2 ScheduleOffset => Int
+
+Number of days to wait after the scheduled day to run an association.
+For example, if you specified a cron schedule of C<cron(0 0 ? * THU#2
+*)>, you could specify an offset of 3 to run the association each
+Sunday after the second Thursday of the month. For more information
+about cron schedules for associations, see Reference: Cron and rate
+expressions for Systems Manager
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+To use offsets, you must specify the C<ApplyOnlyAtCronInterval>
+parameter. This option tells the system not to run an association
+immediately after you create it.
 
 
 
@@ -257,9 +387,10 @@ C<COMPLIANT>. If the association execution doesn't run successfully,
 the association is C<NON-COMPLIANT>.
 
 In C<MANUAL> mode, you must specify the C<AssociationId> as a parameter
-for the PutComplianceItems API action. In this case, compliance data is
-not managed by State Manager. It is managed by your direct call to the
-PutComplianceItems API action.
+for the PutComplianceItems API operation. In this case, compliance data
+isn't managed by State Manager, a tool in Amazon Web Services Systems
+Manager. It is managed by your direct call to the PutComplianceItems
+API operation.
 
 By default, all associations use C<AUTO> mode.
 
@@ -267,9 +398,17 @@ Valid values are: C<"AUTO">, C<"MANUAL">
 
 =head2 TargetLocations => ArrayRef[L<Paws::SSM::TargetLocation>]
 
-A location is a combination of AWS Regions and AWS accounts where you
-want to run the association. Use this action to update an association
-in multiple Regions and multiple accounts.
+A location is a combination of Amazon Web Services Regions and Amazon
+Web Services accounts where you want to run the association. Use this
+action to update an association in multiple Regions and multiple
+accounts.
+
+
+
+=head2 TargetMaps => ArrayRef[L<Paws::SSM::TargetMap>]
+
+A key-value mapping of document parameters to target resources. Both
+Targets and TargetMaps can't be specified together.
 
 
 

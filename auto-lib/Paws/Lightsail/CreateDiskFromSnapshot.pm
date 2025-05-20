@@ -41,9 +41,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SizeInGb         => 1,
       AddOns           => [
         {
-          AddOnType                => 'AutoSnapshot',    # values: AutoSnapshot
+          AddOnType =>
+            'AutoSnapshot',    # values: AutoSnapshot, StopInstanceOnIdle
           AutoSnapshotAddOnRequest => {
-            SnapshotTimeOfDay => 'MyTimeOfDay',          # OPTIONAL
+            SnapshotTimeOfDay => 'MyTimeOfDay',    # OPTIONAL
+          },    # OPTIONAL
+          StopInstanceOnIdleRequest => {
+            Duration  => 'Mystring',    # OPTIONAL
+            Threshold => 'Mystring',    # OPTIONAL
           },    # OPTIONAL
         },
         ...
@@ -81,8 +86,8 @@ disk.
 
 =head2 B<REQUIRED> AvailabilityZone => Str
 
-The Availability Zone where you want to create the disk (e.g.,
-C<us-east-2a>). Choose the same Availability Zone as the Lightsail
+The Availability Zone where you want to create the disk
+(C<us-east-2a>). Choose the same Availability Zone as the Lightsail
 instance where you want to create the disk.
 
 Use the GetRegions operation to list the Availability Zones where
@@ -92,14 +97,14 @@ Lightsail is currently available.
 
 =head2 B<REQUIRED> DiskName => Str
 
-The unique Lightsail disk name (e.g., C<my-disk>).
+The unique Lightsail disk name (C<my-disk>).
 
 
 
 =head2 DiskSnapshotName => Str
 
-The name of the disk snapshot (e.g., C<my-snapshot>) from which to
-create the new storage disk.
+The name of the disk snapshot (C<my-snapshot>) from which to create the
+new storage disk.
 
 Constraint:
 
@@ -139,8 +144,9 @@ latest restorable auto snapshot> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when creating a new disk from an automatic
-snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+snapshot. For more information, see the Amazon Lightsail Developer
+Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 =back
 
@@ -149,7 +155,7 @@ snapshot. For more information, see the Lightsail Dev Guide
 
 =head2 B<REQUIRED> SizeInGb => Int
 
-The size of the disk in GB (e.g., C<32>).
+The size of the disk in GB (C<32>).
 
 
 
@@ -171,8 +177,9 @@ parameters are mutually exclusive.
 =item *
 
 Define this parameter only when creating a new disk from an automatic
-snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+snapshot. For more information, see the Amazon Lightsail Developer
+Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 =back
 
@@ -205,8 +212,9 @@ date> parameters are mutually exclusive.
 =item *
 
 Define this parameter only when creating a new disk from an automatic
-snapshot. For more information, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
+snapshot. For more information, see the Amazon Lightsail Developer
+Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
 
 =back
 

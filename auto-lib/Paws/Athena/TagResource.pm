@@ -48,15 +48,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ath
 
 =head2 B<REQUIRED> ResourceARN => Str
 
-Specifies the ARN of the Athena resource (workgroup or data catalog) to
-which tags are to be added.
+Specifies the ARN of the Athena resource to which tags are to be added.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Athena::Tag>]
 
 A collection of one or more tags, separated by commas, to be added to
-an Athena workgroup or data catalog resource.
+an Athena resource.
 
 
 

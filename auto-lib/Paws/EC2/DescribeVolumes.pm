@@ -125,14 +125,24 @@ C<false>)
 
 =item *
 
+C<fast-restored> - Indicates whether the volume was created from a
+snapshot that is enabled for fast snapshot restore (C<true> |
+C<false>).
+
+=item *
+
 C<multi-attach-enabled> - Indicates whether the volume is enabled for
 Multi-Attach (C<true> | C<false>)
 
 =item *
 
-C<fast-restored> - Indicates whether the volume was created from a
-snapshot that is enabled for fast snapshot restore (C<true> |
-C<false>).
+C<operator.managed> - A Boolean that indicates whether this is a
+managed volume.
+
+=item *
+
+C<operator.principal> - The principal that manages the volume. Only
+valid for managed volumes, where C<managed> is C<true>.
 
 =item *
 
@@ -177,32 +187,24 @@ C<io2> | C<st1> | C<sc1>| C<standard>)
 
 =head2 MaxResults => Int
 
-The maximum number of volume results returned by C<DescribeVolumes> in
-paginated output. When this parameter is used, C<DescribeVolumes> only
-returns C<MaxResults> results in a single page along with a
-C<NextToken> response element. The remaining results of the initial
-request can be seen by sending another C<DescribeVolumes> request with
-the returned C<NextToken> value. This value can be between 5 and 500;
-if C<MaxResults> is given a value larger than 500, only 500 results are
-returned. If this parameter is not used, then C<DescribeVolumes>
-returns all results. You cannot specify this parameter and the volume
-IDs parameter in the same request.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The C<NextToken> value returned from a previous paginated
-C<DescribeVolumes> request where C<MaxResults> was used and the results
-exceeded the value of that parameter. Pagination continues from the end
-of the previous results that returned the C<NextToken> value. This
-value is C<null> when there are no more results to return.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 VolumeIds => ArrayRef[Str|Undef]
 
-The volume IDs.
+The volume IDs. If not specified, then all volumes are included in the
+response.
 
 
 

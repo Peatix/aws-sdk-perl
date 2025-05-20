@@ -28,13 +28,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+# To remove tags from a contact
+# The following untag-resource example removes the group1 tag from the specified
+# contact.
     my $UntagResourceResult = $ssm -contacts->UntagResource(
-      ResourceARN => 'MyAmazonResourceName',
-      TagKeys     => [
-        'MyTagKey', ...    # min: 1, max: 128
-      ],
-
+      'ResourceARN' =>
+        'arn:aws:ssm-contacts:us-east-1:111122223333:contact/akuam',
+      'TagKeys' => ['group1']
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm-contacts/UntagResource>

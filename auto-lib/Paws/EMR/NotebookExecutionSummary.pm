@@ -3,8 +3,10 @@ package Paws::EMR::NotebookExecutionSummary;
   use Moose;
   has EditorId => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
+  has ExecutionEngineId => (is => 'ro', isa => 'Str');
   has NotebookExecutionId => (is => 'ro', isa => 'Str');
   has NotebookExecutionName => (is => 'ro', isa => 'Str');
+  has NotebookS3Location => (is => 'ro', isa => 'Paws::EMR::NotebookS3LocationForOutput');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
 
@@ -38,7 +40,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Notebo
 
 =head1 DESCRIPTION
 
-This class has no description
+Details for a notebook execution. The details include information such
+as the unique ID and status of the notebook execution.
 
 =head1 ATTRIBUTES
 
@@ -54,6 +57,11 @@ execution.
 The timestamp when notebook execution started.
 
 
+=head2 ExecutionEngineId => Str
+
+The unique ID of the execution engine for the notebook execution.
+
+
 =head2 NotebookExecutionId => Str
 
 The unique identifier of the notebook execution.
@@ -62,6 +70,11 @@ The unique identifier of the notebook execution.
 =head2 NotebookExecutionName => Str
 
 The name of the notebook execution.
+
+
+=head2 NotebookS3Location => L<Paws::EMR::NotebookS3LocationForOutput>
+
+The Amazon S3 location that stores the notebook execution input.
 
 
 =head2 StartTime => Str

@@ -55,37 +55,71 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 ClientToken => Str
 
-A unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request.
+Specifies a unique, case-sensitive identifier that you provide to
+ensure the idempotency of the request. This lets you safely retry the
+request without accidentally performing the same operation a second
+time. Passing the same value to a later call to an operation requires
+that you also pass the same value for all other parameters. We
+recommend that you use a UUID type of value.
+(https://wikipedia.org/wiki/Universally_unique_identifier).
+
+If you don't provide this value, then Amazon Web Services generates a
+random one for you.
+
+If you retry the operation with the same C<ClientToken>, but with
+different parameters, the retry fails with an
+C<IdempotentParameterMismatch> error.
 
 
 
 =head2 B<REQUIRED> PermissionArn => Str
 
-The Amazon Resource Name (ARN) of the AWS RAM permissions to associate
-with the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the RAM permission to associate with the resource share. To find the
+ARN for a permission, use either the ListPermissions operation or go to
+the Permissions library
+(https://console.aws.amazon.com/ram/home#Permissions:) page in the RAM
+console and then choose the name of the permission. The ARN is
+displayed on the detail page.
 
 
 
 =head2 PermissionVersion => Int
 
-The version of the AWS RAM permissions to associate with the resource
-share.
+Specifies the version of the RAM permission to associate with the
+resource share. You can specify I<only> the version that is currently
+set as the default version for the permission. If you also set the
+C<replace> pararameter to C<true>, then this operation updates an
+outdated version of the permission to the current default version.
+
+You don't need to specify this parameter because the default behavior
+is to use the version that is currently set as the default version for
+the permission. This parameter is supported for backwards
+compatibility.
 
 
 
 =head2 Replace => Bool
 
-Indicates whether the permission should replace the permissions that
-are currently associated with the resource share. Use C<true> to
-replace the current permissions. Use C<false> to add the permission to
-the current permission.
+Specifies whether the specified permission should replace the existing
+permission associated with the resource share. Use C<true> to replace
+the current permissions. Use C<false> to add the permission to a
+resource share that currently doesn't have a permission. The default
+value is C<false>.
+
+A resource share can have only one permission per resource type. If a
+resource share already has a permission for the specified resource type
+and you don't set C<replace> to C<true> then the operation returns an
+error. This helps prevent accidental overwriting of a permission.
 
 
 
 =head2 B<REQUIRED> ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share to which you want to add or replace permissions.
 
 
 

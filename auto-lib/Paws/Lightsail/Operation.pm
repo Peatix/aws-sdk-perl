@@ -51,8 +51,7 @@ Describes the API operation.
 
 =head2 CreatedAt => Str
 
-The timestamp when the operation was initialized (e.g.,
-C<1479816991.349>).
+The timestamp when the operation was initialized (C<1479816991.349>).
 
 
 =head2 ErrorCode => Str
@@ -77,12 +76,12 @@ A Boolean value indicating whether the operation is terminal.
 
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
-The AWS Region and Availability Zone.
+The Amazon Web Services Region and Availability Zone.
 
 
 =head2 OperationDetails => Str
 
-Details about the operation (e.g., C<Debian-1GB-Ohio-1>).
+Details about the operation (C<Debian-1GB-Ohio-1>).
 
 
 =head2 OperationType => Str
@@ -107,7 +106,7 @@ The status of the operation.
 
 =head2 StatusChangedAt => Str
 
-The timestamp when the status was changed (e.g., C<1479816991.349>).
+The timestamp when the status was changed (C<1479816991.349>).
 
 
 

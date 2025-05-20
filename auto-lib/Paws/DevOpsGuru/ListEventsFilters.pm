@@ -58,7 +58,8 @@ infrastructure change, a deployment, or a schema change.
 
 =head2 EventSource => Str
 
-The AWS source that emitted the events you want to filter for.
+The Amazon Web Services source that emitted the events you want to
+filter for.
 
 
 =head2 EventTimeRange => L<Paws::DevOpsGuru::EventTimeRange>

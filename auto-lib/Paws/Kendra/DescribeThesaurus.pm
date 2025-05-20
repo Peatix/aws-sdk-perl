@@ -59,13 +59,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The identifier of the thesaurus to describe.
+The identifier of the thesaurus you want to get information on.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index associated with the thesaurus to describe.
+The identifier of the index for the thesaurus.
 
 
 

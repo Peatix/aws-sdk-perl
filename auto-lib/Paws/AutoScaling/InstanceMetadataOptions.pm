@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 =head1 DESCRIPTION
 
 The metadata options for the instances. For more information, see
-Configuring the Instance Metadata Options
+Configure the instance metadata options
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 

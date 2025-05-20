@@ -35,13 +35,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags          => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
       ThingTypeProperties => {
+        Mqtt5Configuration => {
+          PropagatingAttributes => [
+            {
+              ConnectionAttribute =>
+                'MyConnectionAttributeName',    # max: 128; OPTIONAL
+              ThingAttribute  => 'MyAttributeName',         # max: 128; OPTIONAL
+              UserPropertyKey => 'MyUserPropertyKeyName',   # max: 128; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+        },    # OPTIONAL
         SearchableAttributes => [
-          'MyAttributeName', ...    # max: 128
+          'MyAttributeName', ...    # max: 128; OPTIONAL
         ],    # OPTIONAL
         ThingTypeDescription => 'MyThingTypeDescription',  # max: 2028; OPTIONAL
       },    # OPTIONAL

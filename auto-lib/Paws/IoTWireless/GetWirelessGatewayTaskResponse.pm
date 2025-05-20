@@ -23,6 +23,8 @@ Paws::IoTWireless::GetWirelessGatewayTaskResponse
 
 The date and time when the most recent uplink was received.
 
+This value is only valid for 3 months.
+
 
 =head2 Status => Str
 

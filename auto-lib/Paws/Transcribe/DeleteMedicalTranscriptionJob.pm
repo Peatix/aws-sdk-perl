@@ -40,8 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> MedicalTranscriptionJobName => Str
 
-The name you provide to the C<DeleteMedicalTranscriptionJob> object to
-delete a transcription job.
+The name of the medical transcription job you want to delete. Job names
+are case sensitive.
 
 
 

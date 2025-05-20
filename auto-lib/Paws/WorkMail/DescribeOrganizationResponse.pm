@@ -8,6 +8,8 @@ package Paws::WorkMail::DescribeOrganizationResponse;
   has DirectoryId => (is => 'ro', isa => 'Str');
   has DirectoryType => (is => 'ro', isa => 'Str');
   has ErrorMessage => (is => 'ro', isa => 'Str');
+  has InteroperabilityEnabled => (is => 'ro', isa => 'Bool');
+  has MigrationAdmin => (is => 'ro', isa => 'Str');
   has OrganizationId => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
 
@@ -45,7 +47,7 @@ The default mail domain associated with the organization.
 
 =head2 DirectoryId => Str
 
-The identifier for the directory associated with an Amazon WorkMail
+The identifier for the directory associated with an WorkMail
 organization.
 
 
@@ -58,6 +60,17 @@ The type of directory associated with the WorkMail organization.
 
 (Optional) The error message indicating if unexpected behavior was
 encountered with regards to the organization.
+
+
+=head2 InteroperabilityEnabled => Bool
+
+Indicates if interoperability is enabled for this organization.
+
+
+=head2 MigrationAdmin => Str
+
+The user ID of the migration admin if migration is enabled for the
+organization.
 
 
 =head2 OrganizationId => Str

@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Describes the source deployed to an AWS App Runner service. It can be a
+Describes the source deployed to an App Runner service. It can be a
 code or an image repository.
 
 =head1 ATTRIBUTES
@@ -51,10 +51,14 @@ source repositories.
 =head2 AutoDeploymentsEnabled => Bool
 
 If C<true>, continuous integration from the source repository is
-enabled for the App Runner service. Each repository change (source code
-commit or new image version) starts a deployment.
+enabled for the App Runner service. Each repository change (including
+any source code commit or new image version) starts a deployment.
 
-Default: C<true>
+Default: App Runner sets to C<false> for a source image that uses an
+ECR Public repository or an ECR repository that's in an Amazon Web
+Services account other than the one that the service is in. App Runner
+sets to C<true> in all other cases (which currently include a source
+code repository or a source image using a same-account ECR repository).
 
 
 =head2 CodeRepository => L<Paws::AppRunner::CodeRepository>

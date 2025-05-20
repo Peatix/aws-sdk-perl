@@ -2,6 +2,7 @@
 package Paws::Connect::StopContact;
   use Moose;
   has ContactId => (is => 'ro', isa => 'Str', required => 1);
+  has DisconnectReason => (is => 'ro', isa => 'Paws::Connect::DisconnectReason');
   has InstanceId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -30,9 +31,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $connect = Paws->service('Connect');
     my $StopContactResponse = $connect->StopContact(
-      ContactId  => 'MyContactId',
-      InstanceId => 'MyInstanceId',
-
+      ContactId        => 'MyContactId',
+      InstanceId       => 'MyInstanceId',
+      DisconnectReason => {
+        Code => 'MyDisconnectReasonCode',    # OPTIONAL
+      },    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -47,10 +50,19 @@ The ID of the contact.
 
 
 
+=head2 DisconnectReason => L<Paws::Connect::DisconnectReason>
+
+The reason a contact can be disconnected. Only Amazon Connect outbound
+campaigns can provide this field.
+
+
+
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

@@ -52,9 +52,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sts
 The duration, in seconds, that the credentials should remain valid.
 Acceptable durations for IAM user sessions range from 900 seconds (15
 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours)
-as the default. Sessions for AWS account owners are restricted to a
-maximum of 3,600 seconds (one hour). If the duration is longer than one
-hour, the session for AWS account owners defaults to one hour.
+as the default. Sessions for Amazon Web Services account owners are
+restricted to a maximum of 3,600 seconds (one hour). If the duration is
+longer than one hour, the session for Amazon Web Services account
+owners defaults to one hour.
 
 
 
@@ -66,8 +67,8 @@ if the IAM user has a policy that requires MFA authentication. The
 value is either the serial number for a hardware device (such as
 C<GAHT12345678>) or an Amazon Resource Name (ARN) for a virtual device
 (such as C<arn:aws:iam::123456789012:mfa/user>). You can find the
-device for an IAM user by going to the AWS Management Console and
-viewing the user's security credentials.
+device for an IAM user by going to the Amazon Web Services Management
+Console and viewing the user's security credentials.
 
 The regex used to validate this parameter is a string of characters
 consisting of upper- and lower-case alphanumeric characters with no

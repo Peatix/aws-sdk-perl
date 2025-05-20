@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Organizatio
 
 Contains details about a root. A root is a top-level parent node in the
 hierarchy of an organization that can contain organizational units
-(OUs) and accounts. The root contains every AWS account in the
-organization.
+(OUs) and accounts. The root contains every Amazon Web Services account
+in the organization.
 
 =head1 ATTRIBUTES
 
@@ -51,12 +51,13 @@ The Amazon Resource Name (ARN) of the root.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 Id => Str
 
-The unique identifier (ID) for the root.
+The unique identifier (ID) for the root. The ID is unique to the
+organization only.
 
 The regex pattern (http://wikipedia.org/wiki/regex) for a root ID
 string requires "r-" followed by from 4 to 32 lowercase letters or

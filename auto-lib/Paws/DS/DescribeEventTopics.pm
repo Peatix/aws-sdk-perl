@@ -48,16 +48,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ds/
 
 =head2 DirectoryId => Str
 
-The Directory ID for which to get the list of associated SNS topics. If
-this member is null, associations for all Directory IDs are returned.
+The Directory ID for which to get the list of associated Amazon SNS
+topics. If this member is null, associations for all Directory IDs are
+returned.
 
 
 
 =head2 TopicNames => ArrayRef[Str|Undef]
 
-A list of SNS topic names for which to obtain the information. If this
-member is null, all associations for the specified Directory ID are
-returned.
+A list of Amazon SNS topic names for which to obtain the information.
+If this member is null, all associations for the specified Directory ID
+are returned.
 
 An empty list results in an C<InvalidParameterException> being thrown.
 

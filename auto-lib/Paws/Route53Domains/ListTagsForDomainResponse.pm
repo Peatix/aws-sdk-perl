@@ -1,7 +1,7 @@
 
 package Paws::Route53Domains::ListTagsForDomainResponse;
   use Moose;
-  has TagList => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::Tag]', required => 1);
+  has TagList => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::Tag]');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -14,7 +14,7 @@ Paws::Route53Domains::ListTagsForDomainResponse
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> TagList => ArrayRef[L<Paws::Route53Domains::Tag>]
+=head2 TagList => ArrayRef[L<Paws::Route53Domains::Tag>]
 
 A list of the tags that are associated with the specified domain.
 

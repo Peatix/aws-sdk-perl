@@ -58,13 +58,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> SuiteDefinitionId => Str
 
-Suite definition Id for the test suite run.
+Suite definition ID for the test suite run.
 
 
 
 =head2 B<REQUIRED> SuiteRunId => Str
 
-Suite run Id for the test suite run.
+Suite run ID for the test suite run.
 
 
 

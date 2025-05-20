@@ -48,7 +48,7 @@ This class has no description
 
 =head2 Description => Str
 
-The description of the snapshot.
+The description of the disk image being imported.
 
 
 =head2 DiskImageSize => Num
@@ -68,8 +68,8 @@ The format of the disk image from which the snapshot is created.
 
 =head2 KmsKeyId => Str
 
-The identifier for the AWS Key Management Service (AWS KMS) customer
-master key (CMK) that was used to create the encrypted snapshot.
+The identifier for the KMS key that was used to create the encrypted
+snapshot.
 
 
 =head2 Progress => Str

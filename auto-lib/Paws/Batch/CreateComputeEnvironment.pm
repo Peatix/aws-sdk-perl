@@ -3,10 +3,13 @@ package Paws::Batch::CreateComputeEnvironment;
   use Moose;
   has ComputeEnvironmentName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'computeEnvironmentName', required => 1);
   has ComputeResources => (is => 'ro', isa => 'Paws::Batch::ComputeResource', traits => ['NameInRequest'], request_name => 'computeResources');
+  has Context => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'context');
+  has EksConfiguration => (is => 'ro', isa => 'Paws::Batch::EksConfiguration', traits => ['NameInRequest'], request_name => 'eksConfiguration');
   has ServiceRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceRole');
   has State => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'state');
   has Tags => (is => 'ro', isa => 'Paws::Batch::TagrisTagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type', required => 1);
+  has UnmanagedvCpus => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'unmanagedvCpus');
 
   use MooseX::ClassAttribute;
 
@@ -112,8 +115,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bat
 
 =head2 B<REQUIRED> ComputeEnvironmentName => Str
 
-The name for your compute environment. Up to 128 letters (uppercase and
-lowercase), numbers, hyphens, and underscores are allowed.
+The name for your compute environment. It can be up to 128 characters
+long. It can contain uppercase and lowercase letters, numbers, hyphens
+(-), and underscores (_).
 
 
 
@@ -123,35 +127,48 @@ Details about the compute resources managed by the compute environment.
 This parameter is required for managed compute environments. For more
 information, see Compute Environments
 (https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
+
+
+
+=head2 Context => Str
+
+Reserved.
+
+
+
+=head2 EksConfiguration => L<Paws::Batch::EksConfiguration>
+
+The details for the Amazon EKS cluster that supports the compute
+environment.
 
 
 
 =head2 ServiceRole => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that allows AWS
-Batch to make calls to other AWS services on your behalf. For more
-information, see AWS Batch service IAM role
+The full Amazon Resource Name (ARN) of the IAM role that allows Batch
+to make calls to other Amazon Web Services services on your behalf. For
+more information, see Batch service IAM role
 (https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
-If your account has already created the AWS Batch service-linked role,
-that role is used by default for your compute environment unless you
-specify a role here. If the AWS Batch service-linked role does not
-exist in your account, and no role is specified here, the service will
-try to create the AWS Batch service-linked role in your account.
+If your account already created the Batch service-linked role, that
+role is used by default for your compute environment unless you specify
+a different role here. If the Batch service-linked role doesn't exist
+in your account, and no role is specified here, the service attempts to
+create the Batch service-linked role in your account.
 
 If your specified role has a path other than C</>, then you must
 specify either the full role ARN (recommended) or prefix the role name
 with the path. For example, if a role with the name C<bar> has a path
-of C</foo/> then you would specify C</foo/bar> as the role name. For
-more information, see Friendly names and paths
+of C</foo/>, specify C</foo/bar> as the role name. For more
+information, see Friendly names and paths
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names)
 in the I<IAM User Guide>.
 
-Depending on how you created your AWS Batch service role, its ARN might
+Depending on how you created your Batch service role, its ARN might
 contain the C<service-role> path prefix. When you only specify the name
-of the service role, AWS Batch assumes that your ARN doesn't use the
+of the service role, Batch assumes that your ARN doesn't use the
 C<service-role> path prefix. Because of this, we recommend that you
 specify the full ARN of your service role when you create compute
 environments.
@@ -164,17 +181,28 @@ The state of the compute environment. If the state is C<ENABLED>, then
 the compute environment accepts jobs from a queue and can scale out
 automatically based on queues.
 
-If the state is C<ENABLED>, then the AWS Batch scheduler can attempt to
+If the state is C<ENABLED>, then the Batch scheduler can attempt to
 place jobs from an associated job queue on the compute resources within
 the environment. If the compute environment is managed, then it can
 scale its instances out or in automatically, based on the job queue
 demand.
 
-If the state is C<DISABLED>, then the AWS Batch scheduler doesn't
-attempt to place jobs within the environment. Jobs in a C<STARTING> or
+If the state is C<DISABLED>, then the Batch scheduler doesn't attempt
+to place jobs within the environment. Jobs in a C<STARTING> or
 C<RUNNING> state continue to progress normally. Managed compute
-environments in the C<DISABLED> state don't scale out. However, they
-scale in to C<minvCpus> value after instances become idle.
+environments in the C<DISABLED> state don't scale out.
+
+Compute environments in a C<DISABLED> state may continue to incur
+billing charges. To prevent additional charges, turn off and then
+delete the compute environment. For more information, see State
+(https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state)
+in the I<Batch User Guide>.
+
+When an instance is idle, the instance scales down to the C<minvCpus>
+value. However, the instance size doesn't change. For example, consider
+a C<c5.8xlarge> instance with a C<minvCpus> value of C<4> and a
+C<desiredvCpus> value of C<36>. This instance doesn't scale down to a
+C<c5.large> instance.
 
 Valid values are: C<"ENABLED">, C<"DISABLED">
 
@@ -182,9 +210,10 @@ Valid values are: C<"ENABLED">, C<"DISABLED">
 
 The tags that you apply to the compute environment to help you
 categorize and organize your resources. Each tag consists of a key and
-an optional value. For more information, see Tagging AWS Resources
+an optional value. For more information, see Tagging Amazon Web
+Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 These tags can be updated or removed using the TagResource
 (https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html)
@@ -200,9 +229,21 @@ resources.
 The type of the compute environment: C<MANAGED> or C<UNMANAGED>. For
 more information, see Compute Environments
 (https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 Valid values are: C<"MANAGED">, C<"UNMANAGED">
+
+=head2 UnmanagedvCpus => Int
+
+The maximum number of vCPUs for an unmanaged compute environment. This
+parameter is only used for fair-share scheduling to reserve vCPU
+capacity for new share identifiers. If this parameter isn't provided
+for a fair-share job queue, no vCPU capacity is reserved.
+
+This parameter is only supported when the C<type> parameter is set to
+C<UNMANAGED>.
+
+
 
 
 =head1 SEE ALSO

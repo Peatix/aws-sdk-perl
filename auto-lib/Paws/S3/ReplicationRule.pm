@@ -61,7 +61,12 @@ RTC).
 
 =head2 ExistingObjectReplication => L<Paws::S3::ExistingObjectReplication>
 
+Optional configuration to replicate existing source bucket objects.
 
+This parameter is no longer supported. To replicate existing objects,
+see Replicating existing objects with S3 Batch Replication
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html)
+in the I<Amazon S3 User Guide>.
 
 
 =head2 Filter => L<Paws::S3::ReplicationRuleFilter>
@@ -106,8 +111,8 @@ A container that describes additional filters for identifying the
 source objects that you want to replicate. You can choose to enable or
 disable the replication of these objects. Currently, Amazon S3 supports
 only the filter that you can specify for objects created with
-server-side encryption using a customer master key (CMK) stored in AWS
-Key Management Service (SSE-KMS).
+server-side encryption using a customer managed key stored in Amazon
+Web Services Key Management Service (SSE-KMS).
 
 
 =head2 B<REQUIRED> Status => Str

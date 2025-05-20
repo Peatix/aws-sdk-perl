@@ -55,22 +55,22 @@ StartDeliveryStreamEncryption, StopDeliveryStreamEncryption.
 =head2 KeyARN => Str
 
 If C<KeyType> is C<CUSTOMER_MANAGED_CMK>, this field contains the ARN
-of the customer managed CMK. If C<KeyType> is C<AWS_OWNED_CMK>,
-C<DeliveryStreamEncryptionConfiguration> doesn't contain a value for
-C<KeyARN>.
+of the customer managed CMK. If C<KeyType> is C<Amazon Web
+Services_OWNED_CMK>, C<DeliveryStreamEncryptionConfiguration> doesn't
+contain a value for C<KeyARN>.
 
 
 =head2 KeyType => Str
 
 Indicates the type of customer master key (CMK) that is used for
-encryption. The default setting is C<AWS_OWNED_CMK>. For more
-information about CMKs, see Customer Master Keys (CMKs)
+encryption. The default setting is C<Amazon Web Services_OWNED_CMK>.
+For more information about CMKs, see Customer Master Keys (CMKs)
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys).
 
 
 =head2 Status => Str
 
-This is the server-side encryption (SSE) status for the delivery
+This is the server-side encryption (SSE) status for the Firehose
 stream. For a full description of the different values of this status,
 see StartDeliveryStreamEncryption and StopDeliveryStreamEncryption. If
 this status is C<ENABLING_FAILED> or C<DISABLING_FAILED>, it is the

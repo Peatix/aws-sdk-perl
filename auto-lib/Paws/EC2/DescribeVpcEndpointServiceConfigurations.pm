@@ -72,7 +72,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
 
@@ -88,6 +88,11 @@ C<service-id> - The ID of the service.
 
 C<service-state> - The state of the service (C<Pending> | C<Available>
 | C<Deleting> | C<Deleted> | C<Failed>).
+
+=item *
+
+C<supported-ip-address-types> - The IP address type (C<ipv4> |
+C<ipv6>).
 
 =item *
 
@@ -126,7 +131,7 @@ The token to retrieve the next page of results.
 
 =head2 ServiceIds => ArrayRef[Str|Undef]
 
-The IDs of one or more services.
+The IDs of the endpoint services.
 
 
 

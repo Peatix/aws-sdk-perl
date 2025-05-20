@@ -71,16 +71,22 @@ confidence labels ranked from highest confidence to lowest.
 
 =head2 MinConfidence => Num
 
-Specifies the minimum confidence level for the labels to return. Amazon
-Rekognition doesn't return any labels with a confidence lower than this
-specified value. If you specify a value of 0, all labels are return,
-regardless of the default thresholds that the model version applies.
+Specifies the minimum confidence level for the labels to return.
+C<DetectCustomLabels> doesn't return any labels with a confidence value
+that's lower than this specified value. If you specify a value of 0,
+C<DetectCustomLabels> returns all labels, regardless of the assumed
+threshold applied to each label. If you don't specify a value for
+C<MinConfidence>, C<DetectCustomLabels> returns labels based on the
+assumed threshold of each label.
 
 
 
 =head2 B<REQUIRED> ProjectVersionArn => Str
 
-The ARN of the model version that you want to use.
+The ARN of the model version that you want to use. Only models
+associated with Custom Labels projects accepted by the operation. If a
+provided ARN refers to a model version associated with a project for a
+different feature type, then an InvalidParameterException is returned.
 
 
 

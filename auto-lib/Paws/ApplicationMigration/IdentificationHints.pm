@@ -4,6 +4,7 @@ package Paws::ApplicationMigration::IdentificationHints;
   has AwsInstanceID => (is => 'ro', isa => 'Str', request_name => 'awsInstanceID', traits => ['NameInRequest']);
   has Fqdn => (is => 'ro', isa => 'Str', request_name => 'fqdn', traits => ['NameInRequest']);
   has Hostname => (is => 'ro', isa => 'Str', request_name => 'hostname', traits => ['NameInRequest']);
+  has VmPath => (is => 'ro', isa => 'Str', request_name => 'vmPath', traits => ['NameInRequest']);
   has VmWareUuid => (is => 'ro', isa => 'Str', request_name => 'vmWareUuid', traits => ['NameInRequest']);
 
 1;
@@ -54,6 +55,11 @@ FQDN address identification hint.
 =head2 Hostname => Str
 
 Hostname identification hint.
+
+
+=head2 VmPath => Str
+
+vCenter VM path identification hint.
 
 
 =head2 VmWareUuid => Str

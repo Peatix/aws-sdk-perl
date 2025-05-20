@@ -20,7 +20,7 @@ Paws::EMR::AddTags - Arguments for method AddTags on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method AddTags on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method AddTags.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to AddTags.
@@ -48,17 +48,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> ResourceId => Str
 
-The Amazon EMR resource identifier to which tags will be added. This
-value must be a cluster identifier.
+The Amazon EMR resource identifier to which tags will be added. For
+example, a cluster identifier or an Amazon EMR Studio ID.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::EMR::Tag>]
 
-A list of tags to associate with a cluster and propagate to EC2
-instances. Tags are user-defined key-value pairs that consist of a
-required key string with a maximum of 128 characters, and an optional
-value string with a maximum of 256 characters.
+A list of tags to associate with a resource. Tags are user-defined
+key-value pairs that consist of a required key string with a maximum of
+128 characters, and an optional value string with a maximum of 256
+characters.
 
 
 

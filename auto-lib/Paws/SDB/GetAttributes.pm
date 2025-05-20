@@ -1,7 +1,7 @@
 
 package Paws::SDB::GetAttributes;
   use Moose;
-  has AttributeName => (is => 'ro', isa => 'Str');
+  has AttributeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ConsistentRead => (is => 'ro', isa => 'Bool');
   has DomainName => (is => 'ro', isa => 'Str', required => 1);
   has ItemName => (is => 'ro', isa => 'Str', required => 1);
@@ -33,8 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetAttributesResult = $sdb->GetAttributes(
       DomainName     => 'MyString',
       ItemName       => 'MyString',
-      AttributeName  => 'MyString',    # OPTIONAL
-      ConsistentRead => 1,             # OPTIONAL
+      AttributeNames => [ 'MyString', ... ],    # OPTIONAL
+      ConsistentRead => 1,                      # OPTIONAL
     );
 
     # Results:
@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sdb
 =head1 ATTRIBUTES
 
 
-=head2 AttributeName => Str
+=head2 AttributeNames => ArrayRef[Str|Undef]
 
 The names of the attributes.
 

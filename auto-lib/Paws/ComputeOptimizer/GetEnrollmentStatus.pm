@@ -30,8 +30,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $compute -optimizer->GetEnrollmentStatus();
 
     # Results:
+    my $LastUpdatedTimestamp =
+      $GetEnrollmentStatusResponse->LastUpdatedTimestamp;
     my $MemberAccountsEnrolled =
       $GetEnrollmentStatusResponse->MemberAccountsEnrolled;
+    my $NumberOfMemberAccountsOptedIn =
+      $GetEnrollmentStatusResponse->NumberOfMemberAccountsOptedIn;
     my $Status       = $GetEnrollmentStatusResponse->Status;
     my $StatusReason = $GetEnrollmentStatusResponse->StatusReason;
 

@@ -34,10 +34,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::D
 
 =head1 DESCRIPTION
 
-The deserializer you want Kinesis Data Firehose to use for converting
-the input data from JSON. Kinesis Data Firehose then serializes the
-data to its final format using the Serializer. Kinesis Data Firehose
-supports two types of deserializers: the Apache Hive JSON SerDe
+The deserializer you want Firehose to use for converting the input data
+from JSON. Firehose then serializes the data to its final format using
+the Serializer. Firehose supports two types of deserializers: the
+Apache Hive JSON SerDe
 (https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-JSON)
 and the OpenX JSON SerDe (https://github.com/rcongiu/Hive-JSON-Serde).
 
@@ -46,7 +46,7 @@ and the OpenX JSON SerDe (https://github.com/rcongiu/Hive-JSON-Serde).
 
 =head2 HiveJsonSerDe => L<Paws::Firehose::HiveJsonSerDe>
 
-The native Hive / HCatalog JsonSerDe. Used by Kinesis Data Firehose for
+The native Hive / HCatalog JsonSerDe. Used by Firehose for
 deserializing data, which means converting it from the JSON format in
 preparation for serializing it to the Parquet or ORC format. This is
 one of two deserializers you can choose, depending on which one offers
@@ -55,12 +55,11 @@ the functionality you need. The other option is the OpenX SerDe.
 
 =head2 OpenXJsonSerDe => L<Paws::Firehose::OpenXJsonSerDe>
 
-The OpenX SerDe. Used by Kinesis Data Firehose for deserializing data,
-which means converting it from the JSON format in preparation for
-serializing it to the Parquet or ORC format. This is one of two
-deserializers you can choose, depending on which one offers the
-functionality you need. The other option is the native Hive / HCatalog
-JsonSerDe.
+The OpenX SerDe. Used by Firehose for deserializing data, which means
+converting it from the JSON format in preparation for serializing it to
+the Parquet or ORC format. This is one of two deserializers you can
+choose, depending on which one offers the functionality you need. The
+other option is the native Hive / HCatalog JsonSerDe.
 
 
 

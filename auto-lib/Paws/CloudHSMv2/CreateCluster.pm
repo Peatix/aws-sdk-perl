@@ -3,6 +3,8 @@ package Paws::CloudHSMv2::CreateCluster;
   use Moose;
   has BackupRetentionPolicy => (is => 'ro', isa => 'Paws::CloudHSMv2::BackupRetentionPolicy');
   has HsmType => (is => 'ro', isa => 'Str', required => 1);
+  has Mode => (is => 'ro', isa => 'Str');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has SourceBackupId => (is => 'ro', isa => 'Str');
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has TagList => (is => 'ro', isa => 'ArrayRef[Paws::CloudHSMv2::Tag]');
@@ -38,7 +40,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Type  => 'DAYS',                      # values: DAYS; OPTIONAL
         Value => 'MyBackupRetentionValue',    # min: 1, max: 3; OPTIONAL
       },    # OPTIONAL
-      SourceBackupId => 'MyBackupId',    # OPTIONAL
+      Mode           => 'FIPS',           # OPTIONAL
+      NetworkType    => 'IPV4',           # OPTIONAL
+      SourceBackupId => 'MyBackupArn',    # OPTIONAL
       TagList        => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -68,16 +72,32 @@ A policy that defines how the service retains backups.
 
 =head2 B<REQUIRED> HsmType => Str
 
-The type of HSM to use in the cluster. Currently the only allowed value
-is C<hsm1.medium>.
+The type of HSM to use in the cluster. The allowed values are
+C<hsm1.medium> and C<hsm2m.medium>.
 
 
+
+=head2 Mode => Str
+
+The mode to use in the cluster. The allowed values are C<FIPS> and
+C<NON_FIPS>.
+
+Valid values are: C<"FIPS">, C<"NON_FIPS">
+
+=head2 NetworkType => Str
+
+The NetworkType to create a cluster with. The allowed values are
+C<IPV4> and C<DUALSTACK>.
+
+Valid values are: C<"IPV4">, C<"DUALSTACK">
 
 =head2 SourceBackupId => Str
 
-The identifier (ID) of the cluster backup to restore. Use this value to
-restore the cluster from a backup instead of creating a new cluster. To
-find the backup ID, use DescribeBackups.
+The identifier (ID) or the Amazon Resource Name (ARN) of the cluster
+backup to restore. Use this value to restore the cluster from a backup
+instead of creating a new cluster. To find the backup ID or ARN, use
+DescribeBackups. I<If using a backup in another account, the full ARN
+must be supplied.>
 
 
 

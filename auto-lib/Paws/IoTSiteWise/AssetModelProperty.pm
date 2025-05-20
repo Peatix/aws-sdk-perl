@@ -3,8 +3,10 @@ package Paws::IoTSiteWise::AssetModelProperty;
   use Moose;
   has DataType => (is => 'ro', isa => 'Str', request_name => 'dataType', traits => ['NameInRequest'], required => 1);
   has DataTypeSpec => (is => 'ro', isa => 'Str', request_name => 'dataTypeSpec', traits => ['NameInRequest']);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
+  has Path => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetModelPropertyPathSegment]', request_name => 'path', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Paws::IoTSiteWise::PropertyType', request_name => 'type', traits => ['NameInRequest'], required => 1);
   has Unit => (is => 'ro', isa => 'Str', request_name => 'unit', traits => ['NameInRequest']);
 
@@ -47,6 +49,9 @@ Contains information about an asset model property.
 
 The data type of the asset model property.
 
+If you specify C<STRUCT>, you must also specify C<dataTypeSpec> to
+identify the type of the structure for this property.
+
 
 =head2 DataTypeSpec => Str
 
@@ -54,14 +59,58 @@ The data type of the structure for this property. This parameter exists
 on properties that have the C<STRUCT> data type.
 
 
+=head2 ExternalId => Str
+
+The external ID (if any) provided in the CreateAssetModel
+(https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html)
+or UpdateAssetModel
+(https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html)
+operation. You can assign an external ID by specifying this value as
+part of a call to UpdateAssetModel
+(https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html).
+However, you can't change the external ID if one is already assigned.
+For more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
 =head2 Id => Str
 
 The ID of the asset model property.
+
+=over
+
+=item *
+
+If you are callling UpdateAssetModel
+(https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html)
+to create a I<new> property: You can specify its ID here, if desired.
+IoT SiteWise automatically generates a unique ID for you, so this
+parameter is never required. However, if you prefer to supply your own
+ID instead, you can specify it here in UUID format. If you specify your
+own ID, it must be globally unique.
+
+=item *
+
+If you are calling UpdateAssetModel to modify an I<existing> property:
+This can be either the actual ID in UUID format, or else C<externalId:>
+followed by the external ID, if it has one. For more information, see
+Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
+
+=back
+
 
 
 =head2 B<REQUIRED> Name => Str
 
 The name of the asset model property.
+
+
+=head2 Path => ArrayRef[L<Paws::IoTSiteWise::AssetModelPropertyPathSegment>]
+
+The structured path to the property from the root of the asset model.
 
 
 =head2 B<REQUIRED> Type => L<Paws::IoTSiteWise::PropertyType>

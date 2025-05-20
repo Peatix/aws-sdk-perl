@@ -4,6 +4,9 @@ package Paws::FIS::CreateExperimentTemplate;
   has Actions => (is => 'ro', isa => 'Paws::FIS::CreateExperimentTemplateActionInputMap', traits => ['NameInRequest'], request_name => 'actions', required => 1);
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description', required => 1);
+  has ExperimentOptions => (is => 'ro', isa => 'Paws::FIS::CreateExperimentTemplateExperimentOptionsInput', traits => ['NameInRequest'], request_name => 'experimentOptions');
+  has ExperimentReportConfiguration => (is => 'ro', isa => 'Paws::FIS::CreateExperimentTemplateReportConfigurationInput', traits => ['NameInRequest'], request_name => 'experimentReportConfiguration');
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FIS::CreateExperimentTemplateLogConfigurationInput', traits => ['NameInRequest'], request_name => 'logConfiguration');
   has RoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'roleArn', required => 1);
   has StopConditions => (is => 'ro', isa => 'ArrayRef[Paws::FIS::CreateExperimentTemplateStopConditionInput]', traits => ['NameInRequest'], request_name => 'stopConditions', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::FIS::TagMap', traits => ['NameInRequest'], request_name => 'tags');
@@ -64,23 +67,67 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
+      ExperimentOptions => {
+        AccountTargeting =>
+          'single-account',    # values: single-account, multi-account; OPTIONAL
+        EmptyTargetResolutionMode => 'fail',    # values: fail, skip; OPTIONAL
+      },    # OPTIONAL
+      ExperimentReportConfiguration => {
+        DataSources => {
+          CloudWatchDashboards => [
+            {
+              DashboardIdentifier =>
+                'MyReportConfigurationCloudWatchDashboardIdentifier'
+              ,    # max: 512; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+        },    # OPTIONAL
+        Outputs => {
+          S3Configuration => {
+            BucketName => 'MyS3BucketName',    # min: 3, max: 63; OPTIONAL
+            Prefix     =>
+              'MyReportConfigurationS3OutputPrefix',    # max: 256; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        PostExperimentDuration =>
+          'MyReportConfigurationDuration',    # max: 32; OPTIONAL
+        PreExperimentDuration =>
+          'MyReportConfigurationDuration',    # max: 32; OPTIONAL
+      },    # OPTIONAL
+      LogConfiguration => {
+        LogSchemaVersion            => 1,
+        CloudWatchLogsConfiguration => {
+          LogGroupArn => 'MyCloudWatchLogGroupArn',    # min: 20, max: 2048
+
+        },    # OPTIONAL
+        S3Configuration => {
+          BucketName => 'MyS3BucketName',    # min: 3, max: 63; OPTIONAL
+          Prefix     => 'MyS3ObjectKey',     # min: 1, max: 700; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       Tags => {
-        'MyTagKey' => 'MyTagValue',             # key: max: 128, value: max: 256
+        'MyTagKey' => 'MyTagValue',    # key: max: 128, value: max: 256
       },    # OPTIONAL
       Targets => {
         'MyExperimentTemplateTargetName' => {
-          ResourceType  => 'MyResourceType',                           # max: 64
-          SelectionMode => 'MyExperimentTemplateTargetSelectionMode',  # max: 64
+          ResourceType  => 'MyTargetResourceTypeId',                  # max: 128
+          SelectionMode => 'MyExperimentTemplateTargetSelectionMode', # max: 64
           Filters       => [
             {
-              Path   => 'MyExperimentTemplateTargetFilterPath',    # max: 256
+              Path   => 'MyExperimentTemplateTargetFilterPath',       # max: 256
               Values => [
-                'MyExperimentTemplateTargetFilterValue', ...       # max: 128
+                'MyExperimentTemplateTargetFilterValue', ...          # max: 128
               ],
 
             },
             ...
           ],    # OPTIONAL
+          Parameters => {
+            'MyExperimentTemplateTargetParameterName' =>
+              'MyExperimentTemplateTargetParameterValue'
+            ,    # key: max: 64, value: min: 1, max: 1024
+          },    # OPTIONAL
           ResourceArns => [
             'MyResourceArn', ...    # min: 20, max: 2048
           ],    # max: 5; OPTIONAL
@@ -118,14 +165,31 @@ idempotency of the request.
 
 =head2 B<REQUIRED> Description => Str
 
-A description for the experiment template. Can contain up to 64 letters
-(A-Z and a-z).
+A description for the experiment template.
+
+
+
+=head2 ExperimentOptions => L<Paws::FIS::CreateExperimentTemplateExperimentOptionsInput>
+
+The experiment options for the experiment template.
+
+
+
+=head2 ExperimentReportConfiguration => L<Paws::FIS::CreateExperimentTemplateReportConfigurationInput>
+
+The experiment report configuration for the experiment template.
+
+
+
+=head2 LogConfiguration => L<Paws::FIS::CreateExperimentTemplateLogConfigurationInput>
+
+The configuration for experiment logging.
 
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS
+The Amazon Resource Name (ARN) of an IAM role that grants the FIS
 service permission to perform service actions on your behalf.
 
 

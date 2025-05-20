@@ -64,21 +64,26 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 LaunchTemplateId => Str
 
-The ID of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The ID of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 
 =head2 LaunchTemplateName => Str
 
-The name of the launch template. You must specify either the launch
-template ID or launch template name in the request.
+The name of the launch template.
+
+You must specify either the launch template ID or the launch template
+name, but not both.
 
 
 
 =head2 B<REQUIRED> Versions => ArrayRef[Str|Undef]
 
 The version numbers of one or more launch template versions to delete.
+You can specify up to 200 launch template version numbers.
 
 
 

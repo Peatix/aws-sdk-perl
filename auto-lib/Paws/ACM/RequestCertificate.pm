@@ -5,6 +5,8 @@ package Paws::ACM::RequestCertificate;
   has DomainName => (is => 'ro', isa => 'Str', required => 1);
   has DomainValidationOptions => (is => 'ro', isa => 'ArrayRef[Paws::ACM::DomainValidationOption]');
   has IdempotencyToken => (is => 'ro', isa => 'Str');
+  has KeyAlgorithm => (is => 'ro', isa => 'Str');
+  has ManagedBy => (is => 'ro', isa => 'Str');
   has Options => (is => 'ro', isa => 'Paws::ACM::CertificateOptions');
   has SubjectAlternativeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ACM::Tag]');
@@ -36,7 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $acm = Paws->service('ACM');
     my $RequestCertificateResponse = $acm->RequestCertificate(
       DomainName              => 'MyDomainNameString',
-      CertificateAuthorityArn => 'MyArn',                # OPTIONAL
+      CertificateAuthorityArn => 'MyPcaArn',             # OPTIONAL
       DomainValidationOptions => [
         {
           DomainName       => 'MyDomainNameString',    # min: 1, max: 253
@@ -46,6 +48,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],    # OPTIONAL
       IdempotencyToken => 'MyIdempotencyToken',    # OPTIONAL
+      KeyAlgorithm     => 'RSA_1024',              # OPTIONAL
+      ManagedBy        => 'CLOUDFRONT',            # OPTIONAL
       Options          => {
         CertificateTransparencyLoggingPreference =>
           'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
@@ -80,9 +84,8 @@ The Amazon Resource Name (ARN) of the private certificate authority
 (CA) that will be used to issue the certificate. If you do not provide
 an ARN and you are trying to request a private certificate, ACM will
 attempt to issue a public certificate. For more information about
-private CAs, see the AWS Certificate Manager Private Certificate
-Authority (PCA)
-(https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaWelcome.html)
+private CAs, see the Amazon Web Services Private Certificate Authority
+(https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html)
 user guide. The ARN must have the following form:
 
 C<arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012>
@@ -97,9 +100,12 @@ wildcard certificate that protects several sites in the same domain.
 For example, *.example.com protects www.example.com, site.example.com,
 and images.example.com.
 
-The first domain name you enter cannot exceed 64 octets, including
-periods. Each subsequent Subject Alternative Name (SAN), however, can
-be up to 253 octets in length.
+In compliance with RFC 5280
+(https://datatracker.ietf.org/doc/html/rfc5280), the length of the
+domain name (technically, the Common Name) that you provide cannot
+exceed 64 octets (characters), including periods. To add a longer
+domain name, specify it in the Subject Alternative Name field, which
+supports names up to 253 octets in length.
 
 
 
@@ -121,6 +127,56 @@ the idempotency token for each call, ACM recognizes that you are
 requesting multiple certificates.
 
 
+
+=head2 KeyAlgorithm => Str
+
+Specifies the algorithm of the public and private key pair that your
+certificate uses to encrypt data. RSA is the default key algorithm for
+ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA)
+keys are smaller, offering security comparable to RSA keys but with
+greater computing efficiency. However, ECDSA is not supported by all
+network clients. Some Amazon Web Services services may require RSA
+keys, or only support ECDSA keys of a particular size, while others
+allow the use of either RSA and ECDSA keys to ensure that compatibility
+is not broken. Check the requirements for the Amazon Web Services
+service where you plan to deploy your certificate. For more information
+about selecting an algorithm, see Key algorithms
+(https://docs.aws.amazon.com/acm/latest/userguide/acm-certificate.html#algorithms).
+
+Algorithms supported for an ACM certificate request include:
+
+=over
+
+=item *
+
+C<RSA_2048>
+
+=item *
+
+C<EC_prime256v1>
+
+=item *
+
+C<EC_secp384r1>
+
+=back
+
+Other listed algorithms are for imported certificates only.
+
+When you request a private PKI certificate signed by a CA from Amazon
+Web Services Private CA, the specified signing algorithm family (RSA or
+ECDSA) must match the algorithm family of the CA's secret key.
+
+Default: RSA_2048
+
+Valid values are: C<"RSA_1024">, C<"RSA_2048">, C<"RSA_3072">, C<"RSA_4096">, C<"EC_prime256v1">, C<"EC_secp384r1">, C<"EC_secp521r1">
+
+=head2 ManagedBy => Str
+
+Identifies the Amazon Web Services service that manages the certificate
+issued by ACM.
+
+Valid values are: C<"CLOUDFRONT">
 
 =head2 Options => L<Paws::ACM::CertificateOptions>
 
@@ -190,7 +246,7 @@ or validate with email
 (https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html).
 We recommend that you use DNS validation.
 
-Valid values are: C<"EMAIL">, C<"DNS">
+Valid values are: C<"EMAIL">, C<"DNS">, C<"HTTP">
 
 
 =head1 SEE ALSO

@@ -2,7 +2,9 @@
 package Paws::Batch::ContainerProperties;
   use Moose;
   has Command => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'command', traits => ['NameInRequest']);
+  has EnableExecuteCommand => (is => 'ro', isa => 'Bool', request_name => 'enableExecuteCommand', traits => ['NameInRequest']);
   has Environment => (is => 'ro', isa => 'ArrayRef[Paws::Batch::KeyValuePair]', request_name => 'environment', traits => ['NameInRequest']);
+  has EphemeralStorage => (is => 'ro', isa => 'Paws::Batch::EphemeralStorage', request_name => 'ephemeralStorage', traits => ['NameInRequest']);
   has ExecutionRoleArn => (is => 'ro', isa => 'Str', request_name => 'executionRoleArn', traits => ['NameInRequest']);
   has FargatePlatformConfiguration => (is => 'ro', isa => 'Paws::Batch::FargatePlatformConfiguration', request_name => 'fargatePlatformConfiguration', traits => ['NameInRequest']);
   has Image => (is => 'ro', isa => 'Str', request_name => 'image', traits => ['NameInRequest']);
@@ -15,7 +17,9 @@ package Paws::Batch::ContainerProperties;
   has NetworkConfiguration => (is => 'ro', isa => 'Paws::Batch::NetworkConfiguration', request_name => 'networkConfiguration', traits => ['NameInRequest']);
   has Privileged => (is => 'ro', isa => 'Bool', request_name => 'privileged', traits => ['NameInRequest']);
   has ReadonlyRootFilesystem => (is => 'ro', isa => 'Bool', request_name => 'readonlyRootFilesystem', traits => ['NameInRequest']);
+  has RepositoryCredentials => (is => 'ro', isa => 'Paws::Batch::RepositoryCredentials', request_name => 'repositoryCredentials', traits => ['NameInRequest']);
   has ResourceRequirements => (is => 'ro', isa => 'ArrayRef[Paws::Batch::ResourceRequirement]', request_name => 'resourceRequirements', traits => ['NameInRequest']);
+  has RuntimePlatform => (is => 'ro', isa => 'Paws::Batch::RuntimePlatform', request_name => 'runtimePlatform', traits => ['NameInRequest']);
   has Secrets => (is => 'ro', isa => 'ArrayRef[Paws::Batch::Secret]', request_name => 'secrets', traits => ['NameInRequest']);
   has Ulimits => (is => 'ro', isa => 'ArrayRef[Paws::Batch::Ulimit]', request_name => 'ulimits', traits => ['NameInRequest']);
   has User => (is => 'ro', isa => 'Str', request_name => 'user', traits => ['NameInRequest']);
@@ -52,8 +56,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Cont
 
 =head1 DESCRIPTION
 
-Container properties are used in job definitions to describe the
-container that's launched as part of a job.
+Container properties are used for Amazon ECS based job definitions.
+These properties to describe the container that's launched as part of a
+job.
 
 =head1 ATTRIBUTES
 
@@ -70,6 +75,13 @@ see https://docs.docker.com/engine/reference/builder/#cmd
 (https://docs.docker.com/engine/reference/builder/#cmd).
 
 
+=head2 EnableExecuteCommand => Bool
+
+Determines whether execute command functionality is turned on for this
+task. If C<true>, execute command functionality is turned on all the
+containers in the task.
+
+
 =head2 Environment => ArrayRef[L<Paws::Batch::KeyValuePair>]
 
 The environment variables to pass to a container. This parameter maps
@@ -82,35 +94,43 @@ and the C<--env> option to docker run
 We don't recommend using plaintext environment variables for sensitive
 information, such as credential data.
 
-Environment variables must not start with C<AWS_BATCH>; this naming
-convention is reserved for variables that are set by the AWS Batch
-service.
+Environment variables cannot start with "C<AWS_BATCH>". This naming
+convention is reserved for variables that Batch sets.
+
+
+=head2 EphemeralStorage => L<Paws::Batch::EphemeralStorage>
+
+The amount of ephemeral storage to allocate for the task. This
+parameter is used to expand the total amount of ephemeral storage
+available, beyond the default amount, for tasks hosted on Fargate.
 
 
 =head2 ExecutionRoleArn => Str
 
-The Amazon Resource Name (ARN) of the execution role that AWS Batch can
+The Amazon Resource Name (ARN) of the execution role that Batch can
 assume. For jobs that run on Fargate resources, you must provide an
-execution role. For more information, see AWS Batch execution IAM role
+execution role. For more information, see Batch execution IAM role
 (https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 
 =head2 FargatePlatformConfiguration => L<Paws::Batch::FargatePlatformConfiguration>
 
-The platform configuration for jobs running on Fargate resources. Jobs
-running on EC2 resources must not specify this parameter.
+The platform configuration for jobs that are running on Fargate
+resources. Jobs that are running on Amazon EC2 resources must not
+specify this parameter.
 
 
 =head2 Image => Str
 
-The image used to start a container. This string is passed directly to
-the Docker daemon. Images in the Docker Hub registry are available by
-default. Other repositories are specified with C<
-I<repository-url>/I<image>:I<tag> >. Up to 255 letters (uppercase and
-lowercase), numbers, hyphens, underscores, colons, periods, forward
-slashes, and number signs are allowed. This parameter maps to C<Image>
-in the Create a container
+Required. The image used to start a container. This string is passed
+directly to the Docker daemon. Images in the Docker Hub registry are
+available by default. Other repositories are specified with C<
+I<repository-url>/I<image>:I<tag> >. It can be 255 characters long. It
+can contain uppercase and lowercase letters, numbers, hyphens (-),
+underscores (_), colons (:), periods (.), forward slashes (/), and
+number signs (#). This parameter maps to C<Image> in the Create a
+container
 (https://docs.docker.com/engine/api/v1.23/#create-a-container) section
 of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
 and the C<IMAGE> parameter of docker run
@@ -124,9 +144,16 @@ Docker images can only run on ARM-based compute resources.
 
 =item *
 
+Images in Amazon ECR Public repositories use the full
+C<registry/repository[:tag]> or C<registry/repository[@digest]> naming
+conventions. For example,
+C<public.ecr.aws/I<registry_alias>/I<my-web-app>:I<latest> >.
+
+=item *
+
 Images in Amazon ECR repositories use the full registry and repository
 URI (for example,
-C<012345678910.dkr.ecr.E<lt>region-nameE<gt>.amazonaws.com/E<lt>repository-nameE<gt>>).
+C<123456789012.dkr.ecr.E<lt>region-nameE<gt>.amazonaws.com/E<lt>repository-nameE<gt>>).
 
 =item *
 
@@ -152,15 +179,15 @@ name (for example, C<quay.io/assemblyline/ubuntu>).
 The instance type to use for a multi-node parallel job. All node groups
 in a multi-node parallel job must use the same instance type.
 
-This parameter isn't applicable to single-node container jobs or for
-jobs that run on Fargate resources and shouldn't be provided.
+This parameter isn't applicable to single-node container jobs or jobs
+that run on Fargate resources, and shouldn't be provided.
 
 
 =head2 JobRoleArn => Str
 
 The Amazon Resource Name (ARN) of the IAM role that the container can
-assume for AWS permissions. For more information, see IAM Roles for
-Tasks
+assume for Amazon Web Services permissions. For more information, see
+IAM roles for tasks
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -191,12 +218,14 @@ logging drivers
 (https://docs.docker.com/engine/admin/logging/overview/) in the Docker
 documentation.
 
-AWS Batch currently supports a subset of the logging drivers available
-to the Docker daemon (shown in the LogConfiguration data type).
+Batch currently supports a subset of the logging drivers available to
+the Docker daemon (shown in the LogConfiguration
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html)
+data type).
 
 This parameter requires version 1.18 of the Docker Remote API or
 greater on your container instance. To check the Docker Remote API
-version on your container instance, log into your container instance
+version on your container instance, log in to your container instance
 and run the following command: C<sudo docker version | grep "Server API
 version">
 
@@ -204,35 +233,21 @@ The Amazon ECS container agent running on a container instance must
 register the logging drivers available on that instance with the
 C<ECS_AVAILABLE_LOGGING_DRIVERS> environment variable before containers
 placed on that instance can use these log configuration options. For
-more information, see Amazon ECS Container Agent Configuration
+more information, see Amazon ECS container agent configuration
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 =head2 Memory => Int
 
-This parameter indicates the memory hard limit (in MiB) for a
-container. If your container attempts to exceed the specified number,
-it is terminated. You must specify at least 4 MiB of memory for a job
-using this parameter. The memory hard limit can be specified in several
+This parameter is deprecated, use C<resourceRequirements> to specify
+the memory requirements for the job definition. It's not supported for
+jobs running on Fargate resources. For jobs that run on Amazon EC2
+resources, it specifies the memory hard limit (in MiB) for a container.
+If your container attempts to exceed the specified number, it's
+terminated. You must specify at least 4 MiB of memory for a job using
+this parameter. The memory hard limit can be specified in several
 places. It must be specified for each node at least once.
-
-This parameter maps to C<Memory> in the Create a container
-(https://docs.docker.com/engine/api/v1.23/#create-a-container) section
-of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
-and the C<--memory> option to docker run
-(https://docs.docker.com/engine/reference/run/).
-
-This parameter is supported on EC2 resources but isn't supported on
-Fargate resources. For Fargate resources, you should specify the memory
-requirement using C<resourceRequirement>. You can do this for EC2
-resources.
-
-If you're trying to maximize your resource utilization by providing
-your jobs as much memory as possible for a particular instance type,
-see Memory Management
-(https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html)
-in the I<AWS Batch User Guide>.
 
 
 =head2 MountPoints => ArrayRef[L<Paws::Batch::MountPoint>]
@@ -247,8 +262,9 @@ and the C<--volume> option to docker run
 
 =head2 NetworkConfiguration => L<Paws::Batch::NetworkConfiguration>
 
-The network configuration for jobs running on Fargate resources. Jobs
-running on EC2 resources must not specify this parameter.
+The network configuration for jobs that are running on Fargate
+resources. Jobs that are running on Amazon EC2 resources must not
+specify this parameter.
 
 
 =head2 Privileged => Bool
@@ -262,8 +278,8 @@ and the C<--privileged> option to docker run
 (https://docs.docker.com/engine/reference/run/). The default value is
 false.
 
-This parameter isn't applicable to jobs running on Fargate resources
-and shouldn't be provided, or specified as false.
+This parameter isn't applicable to jobs that are running on Fargate
+resources and shouldn't be provided, or specified as false.
 
 
 =head2 ReadonlyRootFilesystem => Bool
@@ -276,10 +292,21 @@ of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
 and the C<--read-only> option to C<docker run>.
 
 
+=head2 RepositoryCredentials => L<Paws::Batch::RepositoryCredentials>
+
+The private repository authentication credentials to use.
+
+
 =head2 ResourceRequirements => ArrayRef[L<Paws::Batch::ResourceRequirement>]
 
 The type and amount of resources to assign to a container. The
 supported resources include C<GPU>, C<MEMORY>, and C<VCPU>.
+
+
+=head2 RuntimePlatform => L<Paws::Batch::RuntimePlatform>
+
+An object that represents the compute environment architecture for
+Batch jobs on Fargate.
 
 
 =head2 Secrets => ArrayRef[L<Paws::Batch::Secret>]
@@ -287,7 +314,7 @@ supported resources include C<GPU>, C<MEMORY>, and C<VCPU>.
 The secrets for the container. For more information, see Specifying
 sensitive data
 (https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 
 =head2 Ulimits => ArrayRef[L<Paws::Batch::Ulimit>]
@@ -299,8 +326,8 @@ of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
 and the C<--ulimit> option to docker run
 (https://docs.docker.com/engine/reference/run/).
 
-This parameter isn't applicable to jobs running on Fargate resources
-and shouldn't be provided.
+This parameter isn't applicable to jobs that are running on Fargate
+resources and shouldn't be provided.
 
 
 =head2 User => Str
@@ -315,25 +342,19 @@ and the C<--user> option to docker run
 
 =head2 Vcpus => Int
 
-The number of vCPUs reserved for the job. Each vCPU is equivalent to
-1,024 CPU shares. This parameter maps to C<CpuShares> in the Create a
-container
+This parameter is deprecated, use C<resourceRequirements> to specify
+the vCPU requirements for the job definition. It's not supported for
+jobs running on Fargate resources. For jobs running on Amazon EC2
+resources, it specifies the number of vCPUs reserved for the job.
+
+Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to
+C<CpuShares> in the Create a container
 (https://docs.docker.com/engine/api/v1.23/#create-a-container) section
 of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
 and the C<--cpu-shares> option to docker run
 (https://docs.docker.com/engine/reference/run/). The number of vCPUs
-must be specified but can be be specified in several places. You must
+must be specified but can be specified in several places. You must
 specify it at least once for each node.
-
-This parameter is supported on EC2 resources but isn't supported for
-jobs that run on Fargate resources. For these resources, use
-C<resourceRequirement> instead. You can use this parameter or
-C<resourceRequirements> structure but not both.
-
-This parameter isn't applicable to jobs running on Fargate resources
-and shouldn't be provided. For jobs that run on Fargate resources, you
-must specify the vCPU requirement for the job using
-C<resourceRequirements>.
 
 
 =head2 Volumes => ArrayRef[L<Paws::Batch::Volume>]

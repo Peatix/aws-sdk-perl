@@ -56,9 +56,7 @@ for 30 days and then removed.
 
 B<Related actions>
 
-CreatePlayerSession | CreatePlayerSessions | DescribePlayerSessions |
-StartGameSessionPlacement | DescribeGameSessionPlacement | All APIs by
-task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -118,14 +116,15 @@ connected to.
 
 =head2 IpAddress => Str
 
-The IP address of the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number.
+The IP address of the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number.
 
 
 =head2 PlayerData => Str
 
-Developer-defined information related to a player. GameLift does not
-use this data, so it can be formatted as needed for use in the game.
+Developer-defined information related to a player. Amazon GameLift does
+not use this data, so it can be formatted as needed for use in the
+game.
 
 
 =head2 PlayerId => Str

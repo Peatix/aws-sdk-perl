@@ -48,7 +48,8 @@ Describes a virtual tape.
 =head2 GatewayARN => Str
 
 The Amazon Resource Name (ARN) of the gateway. Use the ListGateways
-operation to return a list of gateways for your account and AWS Region.
+operation to return a list of gateways for your account and Amazon Web
+Services Region.
 
 
 =head2 PoolEntryDate => Str
@@ -64,8 +65,6 @@ tape in this pool is archived in the S3 storage class that is
 associated with the pool. When you use your backup application to eject
 the tape, the tape is archived directly into the storage class (S3
 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
-
-Valid Values: C<GLACIER> | C<DEEP_ARCHIVE>
 
 
 =head2 RetentionStartDate => Str

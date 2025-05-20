@@ -13,6 +13,8 @@ package Paws::EMRContainers::JobRun;
   has JobDriver => (is => 'ro', isa => 'Paws::EMRContainers::JobDriver', request_name => 'jobDriver', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has ReleaseLabel => (is => 'ro', isa => 'Str', request_name => 'releaseLabel', traits => ['NameInRequest']);
+  has RetryPolicyConfiguration => (is => 'ro', isa => 'Paws::EMRContainers::RetryPolicyConfiguration', request_name => 'retryPolicyConfiguration', traits => ['NameInRequest']);
+  has RetryPolicyExecution => (is => 'ro', isa => 'Paws::EMRContainers::RetryPolicyExecution', request_name => 'retryPolicyExecution', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has StateDetails => (is => 'ro', isa => 'Str', request_name => 'stateDetails', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::EMRContainers::TagMap', request_name => 'tags', traits => ['NameInRequest']);
@@ -114,6 +116,16 @@ The name of the job run.
 =head2 ReleaseLabel => Str
 
 The release version of Amazon EMR.
+
+
+=head2 RetryPolicyConfiguration => L<Paws::EMRContainers::RetryPolicyConfiguration>
+
+The configuration of the retry policy that the job runs on.
+
+
+=head2 RetryPolicyExecution => L<Paws::EMRContainers::RetryPolicyExecution>
+
+The current status of the retry policy executed on the job.
 
 
 =head2 State => Str

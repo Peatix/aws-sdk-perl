@@ -5,10 +5,17 @@ package Paws::S3::HeadObjectOutput;
   has ArchiveStatus => (is => 'ro', isa => 'Str', header_name => 'x-amz-archive-status', traits => ['ParamInHeader']);
   has BucketKeyEnabled => (is => 'ro', isa => 'Bool', header_name => 'x-amz-server-side-encryption-bucket-key-enabled', traits => ['ParamInHeader']);
   has CacheControl => (is => 'ro', isa => 'Str', header_name => 'Cache-Control', traits => ['ParamInHeader']);
+  has ChecksumCRC32 => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-crc32', traits => ['ParamInHeader']);
+  has ChecksumCRC32C => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-crc32c', traits => ['ParamInHeader']);
+  has ChecksumCRC64NVME => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-crc64nvme', traits => ['ParamInHeader']);
+  has ChecksumSHA1 => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-sha1', traits => ['ParamInHeader']);
+  has ChecksumSHA256 => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-sha256', traits => ['ParamInHeader']);
+  has ChecksumType => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-type', traits => ['ParamInHeader']);
   has ContentDisposition => (is => 'ro', isa => 'Str', header_name => 'Content-Disposition', traits => ['ParamInHeader']);
   has ContentEncoding => (is => 'ro', isa => 'Str', header_name => 'Content-Encoding', traits => ['ParamInHeader']);
   has ContentLanguage => (is => 'ro', isa => 'Str', header_name => 'Content-Language', traits => ['ParamInHeader']);
   has ContentLength => (is => 'ro', isa => 'Int', header_name => 'Content-Length', traits => ['ParamInHeader']);
+  has ContentRange => (is => 'ro', isa => 'Str', header_name => 'Content-Range', traits => ['ParamInHeader']);
   has ContentType => (is => 'ro', isa => 'Str', header_name => 'Content-Type', traits => ['ParamInHeader']);
   has DeleteMarker => (is => 'ro', isa => 'Bool', header_name => 'x-amz-delete-marker', traits => ['ParamInHeader']);
   has ETag => (is => 'ro', isa => 'Str', header_name => 'ETag', traits => ['ParamInHeader']);
@@ -55,12 +62,14 @@ Indicates that a range of bytes was specified.
 
 The archive state of the head object.
 
+This functionality is not supported for directory buckets.
+
 Valid values are: C<"ARCHIVE_ACCESS">, C<"DEEP_ARCHIVE_ACCESS">
 
 =head2 BucketKeyEnabled => Bool
 
 Indicates whether the object uses an S3 Bucket Key for server-side
-encryption with AWS KMS (SSE-KMS).
+encryption with Key Management Service (KMS) keys (SSE-KMS).
 
 
 
@@ -70,6 +79,84 @@ Specifies caching behavior along the request/reply chain.
 
 
 
+=head2 ChecksumCRC32 => Str
+
+The Base64 encoded, 32-bit C<CRC32 checksum> of the object. This
+checksum is only be present if the checksum was uploaded with the
+object. When you use an API operation on an object that was uploaded
+using multipart uploads, this value may not be a direct checksum value
+of the full object. Instead, it's a calculation based on the checksum
+values of each individual part. For more information about how
+checksums are calculated with multipart uploads, see Checking object
+integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums)
+in the I<Amazon S3 User Guide>.
+
+
+
+=head2 ChecksumCRC32C => Str
+
+The Base64 encoded, 32-bit C<CRC32C> checksum of the object. This
+checksum is only present if the checksum was uploaded with the object.
+When you use an API operation on an object that was uploaded using
+multipart uploads, this value may not be a direct checksum value of the
+full object. Instead, it's a calculation based on the checksum values
+of each individual part. For more information about how checksums are
+calculated with multipart uploads, see Checking object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums)
+in the I<Amazon S3 User Guide>.
+
+
+
+=head2 ChecksumCRC64NVME => Str
+
+The Base64 encoded, 64-bit C<CRC64NVME> checksum of the object. For
+more information, see Checking object integrity in the Amazon S3 User
+Guide
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
+
+
+
+=head2 ChecksumSHA1 => Str
+
+The Base64 encoded, 160-bit C<SHA1> digest of the object. This will
+only be present if the object was uploaded with the object. When you
+use the API operation on an object that was uploaded using multipart
+uploads, this value may not be a direct checksum value of the full
+object. Instead, it's a calculation based on the checksum values of
+each individual part. For more information about how checksums are
+calculated with multipart uploads, see Checking object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums)
+in the I<Amazon S3 User Guide>.
+
+
+
+=head2 ChecksumSHA256 => Str
+
+The Base64 encoded, 256-bit C<SHA256> digest of the object. This will
+only be present if the object was uploaded with the object. When you
+use an API operation on an object that was uploaded using multipart
+uploads, this value may not be a direct checksum value of the full
+object. Instead, it's a calculation based on the checksum values of
+each individual part. For more information about how checksums are
+calculated with multipart uploads, see Checking object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums)
+in the I<Amazon S3 User Guide>.
+
+
+
+=head2 ChecksumType => Str
+
+The checksum type, which determines how part-level checksums are
+combined to create an object-level checksum for multipart objects. You
+can use this header response to verify that the checksum type that is
+received is the same checksum type that was specified in
+C<CreateMultipartUpload> request. For more information, see Checking
+object integrity in the Amazon S3 User Guide
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
+
+Valid values are: C<"COMPOSITE">, C<"FULL_OBJECT">
+
 =head2 ContentDisposition => Str
 
 Specifies presentational information for the object.
@@ -78,7 +165,7 @@ Specifies presentational information for the object.
 
 =head2 ContentEncoding => Str
 
-Specifies what content encodings have been applied to the object and
+Indicates what content encodings have been applied to the object and
 thus what decoding mechanisms must be applied to obtain the media-type
 referenced by the Content-Type header field.
 
@@ -96,6 +183,13 @@ Size of the body in bytes.
 
 
 
+=head2 ContentRange => Str
+
+The portion of the object returned in the response for a C<GET>
+request.
+
+
+
 =head2 ContentType => Str
 
 A standard MIME type describing the format of the object data.
@@ -108,21 +202,29 @@ Specifies whether the object retrieved was (true) or was not (false) a
 Delete Marker. If false, this response header does not appear in the
 response.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 ETag => Str
 
-An ETag is an opaque identifier assigned by a web server to a specific
-version of a resource found at a URL.
+An entity tag (ETag) is an opaque identifier assigned by a web server
+to a specific version of a resource found at a URL.
 
 
 
 =head2 Expiration => Str
 
-If the object expiration is configured (see PUT Bucket lifecycle), the
-response includes this header. It includes the expiry-date and rule-id
-key-value pairs providing object expiration information. The value of
-the rule-id is URL encoded.
+If the object expiration is configured (see
+C<PutBucketLifecycleConfiguration>
+(https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)),
+the response includes this header. It includes the C<expiry-date> and
+C<rule-id> key-value pairs providing object expiration information. The
+value of the C<rule-id> is URL-encoded.
+
+Object expiration information is not returned in directory buckets and
+this header returns the value "C<NotImplemented>" in all responses for
+directory buckets.
 
 
 
@@ -134,7 +236,7 @@ The date and time at which the object is no longer cacheable.
 
 =head2 LastModified => Str
 
-Creation date of the object.
+Date and time when the object was last modified.
 
 
 
@@ -152,6 +254,8 @@ API like SOAP that supports more flexible metadata than the REST API.
 For example, using SOAP, you can create metadata whose values are not
 legal HTTP headers.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 ObjectLockLegalHoldStatus => Str
@@ -163,6 +267,8 @@ specified version of this object has never had a legal hold applied.
 For more information about S3 Object Lock, see Object Lock
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html).
 
+This functionality is not supported for directory buckets.
+
 Valid values are: C<"ON">, C<"OFF">
 
 =head2 ObjectLockMode => Str
@@ -173,6 +279,8 @@ C<s3:GetObjectRetention> permission. For more information about S3
 Object Lock, see Object Lock
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html).
 
+This functionality is not supported for directory buckets.
+
 Valid values are: C<"GOVERNANCE">, C<"COMPLIANCE">
 
 =head2 ObjectLockRetainUntilDate => Str
@@ -181,11 +289,15 @@ The date and time when the Object Lock retention period expires. This
 header is only returned if the requester has the
 C<s3:GetObjectRetention> permission.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 PartsCount => Int
 
-The count of parts this object has.
+The count of parts this object has. This value is only returned if you
+specify C<partNumber> in your request and the object was uploaded as a
+multipart upload.
 
 
 
@@ -204,7 +316,7 @@ C<x-amz-replication-status> header in the response as follows:
 
 =item *
 
-If requesting an object from the source bucket E<mdash> Amazon S3 will
+B<If requesting an object from the source bucket>, Amazon S3 will
 return the C<x-amz-replication-status> header if the object in your
 request is eligible for replication.
 
@@ -218,14 +330,14 @@ PENDING, COMPLETED or FAILED indicating object replication status.
 
 =item *
 
-If requesting an object from a destination bucket E<mdash> Amazon S3
-will return the C<x-amz-replication-status> header with value REPLICA
-if the object in your request is a replica that Amazon S3 created and
-there is no replica modification replication in progress.
+B<If requesting an object from a destination bucket>, Amazon S3 will
+return the C<x-amz-replication-status> header with value REPLICA if the
+object in your request is a replica that Amazon S3 created and there is
+no replica modification replication in progress.
 
 =item *
 
-When replicating objects to multiple destination buckets the
+B<When replicating objects to multiple destination buckets>, the
 C<x-amz-replication-status> header acts differently. The header of the
 source object will only return a value of COMPLETED when replication is
 successful to all destinations. The header will remain at value PENDING
@@ -237,7 +349,9 @@ destinations fails replication the header will return FAILED.
 For more information, see Replication
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html).
 
-Valid values are: C<"COMPLETE">, C<"PENDING">, C<"FAILED">, C<"REPLICA">
+This functionality is not supported for directory buckets.
+
+Valid values are: C<"COMPLETE">, C<"PENDING">, C<"FAILED">, C<"REPLICA">, C<"COMPLETED">
 
 =head2 RequestCharged => Str
 
@@ -266,39 +380,45 @@ For more information about archiving objects, see Transitioning
 Objects: General Considerations
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations).
 
+This functionality is not supported for directory buckets. Directory
+buckets only support C<EXPRESS_ONEZONE> (the S3 Express One Zone
+storage class) in Availability Zones and C<ONEZONE_IA> (the S3 One
+Zone-Infrequent Access storage class) in Dedicated Local Zones.
+
 
 
 =head2 ServerSideEncryption => Str
 
-If the object is stored using server-side encryption either with an AWS
-KMS customer master key (CMK) or an Amazon S3-managed encryption key,
-the response includes this header with the value of the server-side
-encryption algorithm used when storing this object in Amazon S3 (for
-example, AES256, aws:kms).
+The server-side encryption algorithm used when you store this object in
+Amazon S3 (for example, C<AES256>, C<aws:kms>, C<aws:kms:dsse>).
 
-Valid values are: C<"AES256">, C<"aws:kms">
+Valid values are: C<"AES256">, C<"aws:kms">, C<"aws:kms:dsse">
 
 =head2 SSECustomerAlgorithm => Str
 
 If server-side encryption with a customer-provided encryption key was
-requested, the response will include this header confirming the
-encryption algorithm used.
+requested, the response will include this header to confirm the
+encryption algorithm that's used.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSECustomerKeyMD5 => Str
 
 If server-side encryption with a customer-provided encryption key was
-requested, the response will include this header to provide round-trip
-message integrity verification of the customer-provided encryption key.
+requested, the response will include this header to provide the
+round-trip message integrity verification of the customer-provided
+encryption key.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSEKMSKeyId => Str
 
-If present, specifies the ID of the AWS Key Management Service (AWS
-KMS) symmetric customer managed customer master key (CMK) that was used
-for the object.
+If present, indicates the ID of the KMS key that was used for object
+encryption.
 
 
 
@@ -311,11 +431,18 @@ objects.
 For more information, see Storage Classes
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html).
 
-Valid values are: C<"STANDARD">, C<"REDUCED_REDUNDANCY">, C<"STANDARD_IA">, C<"ONEZONE_IA">, C<"INTELLIGENT_TIERING">, C<"GLACIER">, C<"DEEP_ARCHIVE">, C<"OUTPOSTS">
+B<Directory buckets > - Directory buckets only support
+C<EXPRESS_ONEZONE> (the S3 Express One Zone storage class) in
+Availability Zones and C<ONEZONE_IA> (the S3 One Zone-Infrequent Access
+storage class) in Dedicated Local Zones.
+
+Valid values are: C<"STANDARD">, C<"REDUCED_REDUNDANCY">, C<"STANDARD_IA">, C<"ONEZONE_IA">, C<"INTELLIGENT_TIERING">, C<"GLACIER">, C<"DEEP_ARCHIVE">, C<"OUTPOSTS">, C<"GLACIER_IR">, C<"SNOW">, C<"EXPRESS_ONEZONE">
 
 =head2 VersionId => Str
 
-Version of the object.
+Version ID of the object.
+
+This functionality is not supported for directory buckets.
 
 
 
@@ -324,6 +451,8 @@ Version of the object.
 If the bucket is configured as a website, redirects requests for this
 object to another object in the same bucket or to an external URL.
 Amazon S3 stores the value of this header in the object metadata.
+
+This functionality is not supported for directory buckets.
 
 
 

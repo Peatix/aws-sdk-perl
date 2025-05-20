@@ -3,6 +3,7 @@ package Paws::Personalize::CreateEventTracker;
   use Moose;
   has DatasetGroupArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'datasetGroupArn' , required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -31,7 +32,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateEventTrackerResponse = $personalize->CreateEventTracker(
       DatasetGroupArn => 'MyArn',
       Name            => 'MyName',
+      Tags            => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
 
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -56,6 +64,14 @@ event data.
 =head2 B<REQUIRED> Name => Str
 
 The name for the event tracker.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the event tracker.
 
 
 

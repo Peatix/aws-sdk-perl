@@ -25,7 +25,7 @@ Paws::IAM::GetServiceLastAccessedDetailsWithEntitiesResponse
 
 An C<EntityDetailsList> object that contains details about when an IAM
 entity (user or role) used group or policy permissions in an attempt to
-access the specified AWS service.
+access the specified Amazon Web Services service.
 
 
 =head2 Error => L<Paws::IAM::ErrorDetails>

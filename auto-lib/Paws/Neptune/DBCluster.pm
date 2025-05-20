@@ -25,12 +25,15 @@ package Paws::Neptune::DBCluster;
   has Endpoint => (is => 'ro', isa => 'Str');
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has GlobalClusterIdentifier => (is => 'ro', isa => 'Str');
   has HostedZoneId => (is => 'ro', isa => 'Str');
   has IAMDatabaseAuthenticationEnabled => (is => 'ro', isa => 'Bool');
+  has IOOptimizedNextAllowedModificationTime => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LatestRestorableTime => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has PendingModifiedValues => (is => 'ro', isa => 'Paws::Neptune::ClusterPendingModifiedValues');
   has PercentProgress => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has PreferredBackupWindow => (is => 'ro', isa => 'Str');
@@ -38,8 +41,10 @@ package Paws::Neptune::DBCluster;
   has ReaderEndpoint => (is => 'ro', isa => 'Str');
   has ReadReplicaIdentifiers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'ReadReplicaIdentifier', traits => ['NameInRequest']);
   has ReplicationSourceIdentifier => (is => 'ro', isa => 'Str');
+  has ServerlessV2ScalingConfiguration => (is => 'ro', isa => 'Paws::Neptune::ServerlessV2ScalingConfigurationInfo');
   has Status => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has VpcSecurityGroups => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::VpcSecurityGroupMembership]', request_name => 'VpcSecurityGroupMembership', traits => ['NameInRequest']);
 
 1;
@@ -74,8 +79,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Neptune::DB
 
 Contains the details of an Amazon Neptune DB cluster.
 
-This data type is used as a response element in the DescribeDBClusters
-action.
+This data type is used as a response element in the DescribeDBClusters.
 
 =head1 ATTRIBUTES
 
@@ -201,8 +205,11 @@ point-in-time restore.
 
 =head2 EnabledCloudwatchLogsExports => ArrayRef[Str|Undef]
 
-A list of log types that this DB cluster is configured to export to
-CloudWatch Logs.
+A list of the log types that this DB cluster is configured to export to
+CloudWatch Logs. Valid log types are: C<audit> (to publish audit logs
+to CloudWatch) and slowquery (to publish slow-query logs to
+CloudWatch). See Publishing Neptune logs to Amazon CloudWatch logs
+(https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
 
 
 =head2 Endpoint => Str
@@ -222,6 +229,12 @@ cluster.
 Indicates the database engine version.
 
 
+=head2 GlobalClusterIdentifier => Str
+
+Contains a user-supplied global database cluster identifier. This
+identifier is the unique key that identifies a global database.
+
+
 =head2 HostedZoneId => Str
 
 Specifies the ID that Amazon Route 53 assigns when you create a hosted
@@ -232,6 +245,12 @@ zone.
 
 True if mapping of Amazon Identity and Access Management (IAM) accounts
 to database accounts is enabled, and otherwise false.
+
+
+=head2 IOOptimizedNextAllowedModificationTime => Str
+
+The next time you can modify the DB cluster to use the C<iopt1> storage
+type.
 
 
 =head2 KmsKeyId => Str
@@ -255,6 +274,13 @@ Not supported by Neptune.
 
 Specifies whether the DB cluster has instances in multiple Availability
 Zones.
+
+
+=head2 PendingModifiedValues => L<Paws::Neptune::ClusterPendingModifiedValues>
+
+This data type is used as a response element in the C<ModifyDBCluster>
+operation and contains changes that will be applied during the next
+maintenance window.
 
 
 =head2 PercentProgress => Str
@@ -306,6 +332,15 @@ this DB cluster.
 Not supported by Neptune.
 
 
+=head2 ServerlessV2ScalingConfiguration => L<Paws::Neptune::ServerlessV2ScalingConfigurationInfo>
+
+Shows the scaling configuration for a Neptune Serverless DB cluster.
+
+For more information, see Using Amazon Neptune Serverless
+(https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html)
+in the I<Amazon Neptune User Guide>.
+
+
 =head2 Status => Str
 
 Specifies the current state of this DB cluster.
@@ -314,6 +349,34 @@ Specifies the current state of this DB cluster.
 =head2 StorageEncrypted => Bool
 
 Specifies whether the DB cluster is encrypted.
+
+
+=head2 StorageType => Str
+
+The storage type used by the DB cluster.
+
+Valid Values:
+
+=over
+
+=item *
+
+B<C<standard> > E<ndash> ( I<the default> ) Provides cost-effective
+database storage for applications with moderate to small I/O usage.
+
+=item *
+
+B<C<iopt1> > E<ndash> Enables I/O-Optimized storage
+(https://docs.aws.amazon.com/neptune/latest/userguide/storage-types.html#provisioned-iops-storage)
+that's designed to meet the needs of I/O-intensive graph workloads that
+require predictable pricing with low I/O latency and consistent I/O
+throughput.
+
+Neptune I/O-Optimized storage is only available starting with engine
+release 1.3.0.0.
+
+=back
+
 
 
 =head2 VpcSecurityGroups => ArrayRef[L<Paws::Neptune::VpcSecurityGroupMembership>]

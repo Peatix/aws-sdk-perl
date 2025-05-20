@@ -43,7 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Name         => 'MyAccountName',     # min: 1, max: 50; OPTIONAL
           },
           ...
-        ],    # OPTIONAL
+        ],    # min: 1, max: 200; OPTIONAL
         AwsServices => [
           {
             ServiceName => 'MyAWSServiceName',    # min: 1, max: 40; OPTIONAL
@@ -59,9 +59,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       Roles => [
         {
-          RoleArn  => 'MyIamArn',    # min: 20, max: 2048; OPTIONAL
-          RoleType =>
-            'PROCESS_OWNER',   # values: PROCESS_OWNER, RESOURCE_OWNER; OPTIONAL
+          RoleArn  => 'MyIamArn',        # min: 20, max: 2048
+          RoleType => 'PROCESS_OWNER',   # values: PROCESS_OWNER, RESOURCE_OWNER
+
         },
         ...
       ],    # OPTIONAL
@@ -80,38 +80,38 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 AssessmentDescription => Str
 
-The description of the specified assessment.
+The description of the assessment.
 
 
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 
 =head2 AssessmentName => Str
 
-The name of the specified assessment to be updated.
+The name of the assessment to be updated.
 
 
 
 =head2 AssessmentReportsDestination => L<Paws::AuditManager::AssessmentReportsDestination>
 
-The assessment report storage destination for the specified assessment
-that is being updated.
+The assessment report storage destination for the assessment that's
+being updated.
 
 
 
 =head2 Roles => ArrayRef[L<Paws::AuditManager::Role>]
 
-The list of roles for the specified assessment.
+The list of roles for the assessment.
 
 
 
 =head2 B<REQUIRED> Scope => L<Paws::AuditManager::Scope>
 
-The scope of the specified assessment.
+The scope of the assessment.
 
 
 

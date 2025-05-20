@@ -66,8 +66,9 @@ of C<"*">.
 The level of detail that you want to generate. You can specify whether
 to generate service-level policies.
 
-Access Analyzer uses C<iam:servicelastaccessed> to identify services
-that have been used recently to create this service-level template.
+IAM Access Analyzer uses C<iam:servicelastaccessed> to identify
+services that have been used recently to create this service-level
+template.
 
 
 

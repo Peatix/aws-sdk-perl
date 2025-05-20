@@ -41,7 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 B<REQUIRED> BackupJobId => Str
 
-Uniquely identifies a request to AWS Backup to back up a resource.
+Uniquely identifies a request to Backup to back up a resource.
 
 
 

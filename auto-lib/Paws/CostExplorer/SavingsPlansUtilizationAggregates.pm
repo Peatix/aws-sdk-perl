@@ -48,8 +48,8 @@ sum of the upfront and recurring Savings Plans fees.
 
 =head2 Savings => L<Paws::CostExplorer::SavingsPlansSavings>
 
-The amount saved by using existing Savings Plans. Savings returns both
-net savings from Savings Plans, as well as the
+The amount that's saved by using existing Savings Plans. Savings
+returns both net savings from Savings Plans and also the
 C<onDemandCostEquivalent> of the Savings Plans when considering the
 utilization rate.
 

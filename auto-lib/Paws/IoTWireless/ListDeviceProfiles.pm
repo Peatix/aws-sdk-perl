@@ -1,6 +1,7 @@
 
 package Paws::IoTWireless::ListDeviceProfiles;
   use Moose;
+  has DeviceProfileType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'deviceProfileType');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
 
@@ -30,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.iotwireless = Paws->service('IoTWireless');
     my $ListDeviceProfilesResponse = $api . iotwireless->ListDeviceProfiles(
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
+      DeviceProfileType => 'Sidewalk',       # OPTIONAL
+      MaxResults        => 1,                # OPTIONAL
+      NextToken         => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:
@@ -45,6 +47,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head1 ATTRIBUTES
 
+
+=head2 DeviceProfileType => Str
+
+A filter to list only device profiles that use this type, which can be
+C<LoRaWAN> or C<Sidewalk>.
+
+Valid values are: C<"Sidewalk">, C<"LoRaWAN">
 
 =head2 MaxResults => Int
 

@@ -6,7 +6,7 @@ package Paws::LocationService::DescribeRouteCalculatorResponse;
   has CreateTime => (is => 'ro', isa => 'Str', required => 1);
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
@@ -25,7 +25,7 @@ Paws::LocationService::DescribeRouteCalculatorResponse
 =head2 B<REQUIRED> CalculatorArn => Str
 
 The Amazon Resource Name (ARN) for the Route calculator resource. Use
-the ARN when you specify a resource across AWS.
+the ARN when you specify a resource across Amazon Web Services.
 
 =over
 
@@ -72,6 +72,10 @@ C<Esri>
 
 =item *
 
+C<Grab>
+
+=item *
+
 C<Here>
 
 =back
@@ -86,13 +90,9 @@ data providers
 The optional description of the route calculator resource.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan selected for the specified route calculator resource.
-
-For additional details and restrictions on each pricing plan option,
-see Amazon Location Service pricing
-(https://aws.amazon.com/location/pricing/).
+Always returns C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 =head2 Tags => L<Paws::LocationService::TagMap>

@@ -48,17 +48,18 @@ content delivery.
 
 =head2 B<REQUIRED> ActiveTrustedSigners => L<Paws::CloudFront::ActiveTrustedSigners>
 
-A complex type that lists the AWS accounts, if any, that you included
-in the C<TrustedSigners> complex type for this distribution. These are
-the accounts that you want to allow to create signed URLs for private
-content.
+A complex type that lists the Amazon Web Services accounts, if any,
+that you included in the C<TrustedSigners> complex type for this
+distribution. These are the accounts that you want to allow to create
+signed URLs for private content.
 
-The C<Signer> complex type lists the AWS account number of the trusted
-signer or C<self> if the signer is the AWS account that created the
-distribution. The C<Signer> element also includes the IDs of any active
-CloudFront key pairs that are associated with the trusted signer's AWS
-account. If no C<KeyPairId> element appears for a C<Signer>, that
-signer can't create signed URLs.
+The C<Signer> complex type lists the Amazon Web Services account number
+of the trusted signer or C<self> if the signer is the Amazon Web
+Services account that created the distribution. The C<Signer> element
+also includes the IDs of any active CloudFront key pairs that are
+associated with the trusted signer's Amazon Web Services account. If no
+C<KeyPairId> element appears for a C<Signer>, that signer can't create
+signed URLs.
 
 For more information, see Serving Private Content through CloudFront
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)
@@ -69,7 +70,7 @@ in the I<Amazon CloudFront Developer Guide>.
 
 The ARN (Amazon Resource Name) for the distribution. For example:
 C<arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5>, where
-C<123456789012> is your AWS account ID.
+C<123456789012> is your Amazon Web Services account ID.
 
 
 =head2 B<REQUIRED> DomainName => Str

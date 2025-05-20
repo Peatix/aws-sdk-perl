@@ -41,8 +41,6 @@ Latency policies are used only with placement request that provide
 player latency information. Player latency policies can be stacked to
 gradually relax latency requirements over time.
 
-Latency policies are part of a GameSessionQueue.
-
 =head1 ATTRIBUTES
 
 

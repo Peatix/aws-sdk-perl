@@ -71,14 +71,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 
 =head2 ClientContext => Str
 
-Up to 3583 bytes of base64-encoded data about the invoking client to
-pass to the function in the context object.
+Up to 3,583 bytes of base64-encoded data about the invoking client to
+pass to the function in the context object. Lambda passes the
+C<ClientContext> object to your function for synchronous invocations
+only.
 
 
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function, version, or alias.
+The name or ARN of the Lambda function, version, or alias.
 
 B<Name formats>
 
@@ -86,17 +88,17 @@ B<Name formats>
 
 =item *
 
-B<Function name> - C<my-function> (name-only), C<my-function:v1> (with
-alias).
+B<Function name> E<ndash> C<my-function> (name-only), C<my-function:v1>
+(with alias).
 
 =item *
 
-B<Function ARN> -
+B<Function ARN> E<ndash>
 C<arn:aws:lambda:us-west-2:123456789012:function:my-function>.
 
 =item *
 
-B<Partial ARN> - C<123456789012:function:my-function>.
+B<Partial ARN> E<ndash> C<123456789012:function:my-function>.
 
 =back
 
@@ -114,20 +116,21 @@ Choose from the following options.
 
 =item *
 
-C<RequestResponse> (default) - Invoke the function synchronously. Keep
-the connection open until the function returns a response or times out.
-The API response includes the function response and additional data.
+C<RequestResponse> (default) E<ndash> Invoke the function
+synchronously. Keep the connection open until the function returns a
+response or times out. The API response includes the function response
+and additional data.
 
 =item *
 
-C<Event> - Invoke the function asynchronously. Send events that fail
-multiple times to the function's dead-letter queue (if it's
+C<Event> E<ndash> Invoke the function asynchronously. Send events that
+fail multiple times to the function's dead-letter queue (if one is
 configured). The API response only includes a status code.
 
 =item *
 
-C<DryRun> - Validate parameter values and verify that the user or role
-has permission to invoke the function.
+C<DryRun> E<ndash> Validate parameter values and verify that the user
+or role has permission to invoke the function.
 
 =back
 
@@ -136,13 +139,18 @@ Valid values are: C<"Event">, C<"RequestResponse">, C<"DryRun">
 
 =head2 LogType => Str
 
-Set to C<Tail> to include the execution log in the response.
+Set to C<Tail> to include the execution log in the response. Applies to
+synchronously invoked functions only.
 
 Valid values are: C<"None">, C<"Tail">
 
 =head2 Payload => Str
 
 The JSON that you want to provide to your Lambda function as input.
+
+You can enter the JSON directly. For example, C<--payload '{ "key":
+"value" }'>. You can also specify a file path. For example, C<--payload
+file://payload.json>.
 
 
 

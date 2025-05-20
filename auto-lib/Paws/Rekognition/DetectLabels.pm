@@ -1,9 +1,11 @@
 
 package Paws::Rekognition::DetectLabels;
   use Moose;
+  has Features => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Image => (is => 'ro', isa => 'Paws::Rekognition::Image', required => 1);
   has MaxLabels => (is => 'ro', isa => 'Int');
   has MinConfidence => (is => 'ro', isa => 'Num');
+  has Settings => (is => 'ro', isa => 'Paws::Rekognition::DetectLabelsSettings');
 
   use MooseX::ClassAttribute;
 
@@ -53,6 +55,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head1 ATTRIBUTES
 
 
+=head2 Features => ArrayRef[Str|Undef]
+
+A list of the types of analysis to perform. Specifying GENERAL_LABELS
+uses the label detection feature, while specifying IMAGE_PROPERTIES
+returns information regarding image color and quality. If no option is
+specified GENERAL_LABELS is used by default.
+
+
+
 =head2 B<REQUIRED> Image => L<Paws::Rekognition::Image>
 
 The input image as base64-encoded bytes or an S3 object. If you use the
@@ -70,7 +81,8 @@ more information, see Images in the Amazon Rekognition developer guide.
 
 Maximum number of labels you want the service to return in the
 response. The service returns the specified number of highest
-confidence labels.
+confidence labels. Only valid when GENERAL_LABELS is specified as a
+feature type in the Feature input parameter.
 
 
 
@@ -81,7 +93,20 @@ Rekognition doesn't return any labels with confidence lower than this
 specified value.
 
 If C<MinConfidence> is not specified, the operation returns labels with
-a confidence values greater than or equal to 55 percent.
+a confidence values greater than or equal to 55 percent. Only valid
+when GENERAL_LABELS is specified as a feature type in the Feature input
+parameter.
+
+
+
+=head2 Settings => L<Paws::Rekognition::DetectLabelsSettings>
+
+A list of the filters to be applied to returned detected labels and
+image properties. Specified filters can be inclusive, exclusive, or a
+combination of both. Filters can be used for individual labels or label
+categories. The exact label names or label categories must be supplied.
+For a full list of labels and label categories, see Detecting labels
+(https://docs.aws.amazon.com/rekognition/latest/dg/labels.html).
 
 
 

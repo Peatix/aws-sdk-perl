@@ -1,8 +1,11 @@
 
 package Paws::IAM::GetSAMLProviderResponse;
   use Moose;
+  has AssertionEncryptionMode => (is => 'ro', isa => 'Str');
   has CreateDate => (is => 'ro', isa => 'Str');
+  has PrivateKeyList => (is => 'ro', isa => 'ArrayRef[Paws::IAM::SAMLPrivateKey]');
   has SAMLMetadataDocument => (is => 'ro', isa => 'Str');
+  has SAMLProviderUUID => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IAM::Tag]');
   has ValidUntil => (is => 'ro', isa => 'Str');
 
@@ -18,15 +21,30 @@ Paws::IAM::GetSAMLProviderResponse
 =head1 ATTRIBUTES
 
 
+=head2 AssertionEncryptionMode => Str
+
+Specifies the encryption setting for the SAML provider.
+
+Valid values are: C<"Required">, C<"Allowed">
 =head2 CreateDate => Str
 
 The date and time when the SAML provider was created.
+
+
+=head2 PrivateKeyList => ArrayRef[L<Paws::IAM::SAMLPrivateKey>]
+
+The private key metadata for the SAML provider.
 
 
 =head2 SAMLMetadataDocument => Str
 
 The XML metadata document that includes information about an identity
 provider.
+
+
+=head2 SAMLProviderUUID => Str
+
+The unique identifier assigned to the SAML provider.
 
 
 =head2 Tags => ArrayRef[L<Paws::IAM::Tag>]

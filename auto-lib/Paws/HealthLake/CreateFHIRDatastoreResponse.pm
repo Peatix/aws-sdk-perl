@@ -19,30 +19,27 @@ Paws::HealthLake::CreateFHIRDatastoreResponse
 
 =head2 B<REQUIRED> DatastoreArn => Str
 
-The datastore ARN is generated during the creation of the Data Store
-and can be found in the output from the initial Data Store creation
+The data store ARN is generated during the creation of the data store
+and can be found in the output from the initial data store creation
 call.
 
 
 =head2 B<REQUIRED> DatastoreEndpoint => Str
 
-The AWS endpoint for the created Data Store. For preview, only
-US-east-1 endpoints are supported.
+The AWS endpoint for the created data store.
 
 
 =head2 B<REQUIRED> DatastoreId => Str
 
-The AWS-generated Data Store id. This id is in the output from the
-initial Data Store creation call.
+The AWS-generated data store id. This id is in the output from the
+initial data store creation call.
 
 
 =head2 B<REQUIRED> DatastoreStatus => Str
 
-The status of the FHIR Data Store. Possible statuses are
-E<lsquo>CREATINGE<rsquo>, E<lsquo>ACTIVEE<rsquo>,
-E<lsquo>DELETINGE<rsquo>, E<lsquo>DELETEDE<rsquo>.
+The status of the FHIR data store.
 
-Valid values are: C<"CREATING">, C<"ACTIVE">, C<"DELETING">, C<"DELETED">
+Valid values are: C<"CREATING">, C<"ACTIVE">, C<"DELETING">, C<"DELETED">, C<"CREATE_FAILED">
 =head2 _request_id => Str
 
 

@@ -5,6 +5,7 @@ package Paws::Rekognition::DescribeCollectionResponse;
   has CreationTimestamp => (is => 'ro', isa => 'Str');
   has FaceCount => (is => 'ro', isa => 'Int');
   has FaceModelVersion => (is => 'ro', isa => 'Str');
+  has UserCount => (is => 'ro', isa => 'Int');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -40,8 +41,13 @@ faces into a collection, use IndexFaces.
 The version of the face model that's used by the collection for face
 detection.
 
-For more information, see Model Versioning in the Amazon Rekognition
+For more information, see Model versioning in the Amazon Rekognition
 Developer Guide.
+
+
+=head2 UserCount => Int
+
+The number of UserIDs assigned to the specified colleciton.
 
 
 =head2 _request_id => Str

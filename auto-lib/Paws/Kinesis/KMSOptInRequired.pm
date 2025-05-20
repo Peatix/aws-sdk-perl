@@ -33,7 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kinesis::KM
 
 =head1 DESCRIPTION
 
-The AWS access key ID needs a subscription for the service.
+The Amazon Web Services access key ID needs a subscription for the
+service.
 
 =head1 ATTRIBUTES
 

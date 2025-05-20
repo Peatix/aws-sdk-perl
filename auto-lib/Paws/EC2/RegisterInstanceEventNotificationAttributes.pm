@@ -2,7 +2,7 @@
 package Paws::EC2::RegisterInstanceEventNotificationAttributes;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
-  has InstanceTagAttribute => (is => 'ro', isa => 'Paws::EC2::RegisterInstanceTagAttributeRequest');
+  has InstanceTagAttribute => (is => 'ro', isa => 'Paws::EC2::RegisterInstanceTagAttributeRequest', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -30,11 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $RegisterInstanceEventNotificationAttributesResult =
       $ec2->RegisterInstanceEventNotificationAttributes(
-      DryRun               => 1,    # OPTIONAL
       InstanceTagAttribute => {
-        IncludeAllTagsOfInstance => 1,
+        IncludeAllTagsOfInstance => 1,                      # OPTIONAL
         InstanceTagKeys          => [ 'MyString', ... ],    # OPTIONAL
-      },    # OPTIONAL
+      },
+      DryRun => 1,                                          # OPTIONAL
       );
 
     # Results:
@@ -58,7 +58,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 InstanceTagAttribute => L<Paws::EC2::RegisterInstanceTagAttributeRequest>
+=head2 B<REQUIRED> InstanceTagAttribute => L<Paws::EC2::RegisterInstanceTagAttributeRequest>
 
 Information about the tag keys to register.
 

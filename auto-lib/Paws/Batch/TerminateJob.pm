@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bat
 
 =head2 B<REQUIRED> JobId => Str
 
-The AWS Batch job ID of the job to terminate.
+The Batch job ID of the job to terminate.
 
 
 
@@ -53,7 +53,9 @@ The AWS Batch job ID of the job to terminate.
 
 A message to attach to the job that explains the reason for canceling
 it. This message is returned by future DescribeJobs operations on the
-job. This message is also recorded in the AWS Batch activity logs.
+job. It is also recorded in the Batch activity logs.
+
+This parameter has as limit of 1024 characters.
 
 
 

@@ -45,6 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeAnomalyDetectorResponse->AnomalyDetectorName;
     my $CreationTime  = $DescribeAnomalyDetectorResponse->CreationTime;
     my $FailureReason = $DescribeAnomalyDetectorResponse->FailureReason;
+    my $FailureType   = $DescribeAnomalyDetectorResponse->FailureType;
     my $KmsKeyArn     = $DescribeAnomalyDetectorResponse->KmsKeyArn;
     my $LastModificationTime =
       $DescribeAnomalyDetectorResponse->LastModificationTime;

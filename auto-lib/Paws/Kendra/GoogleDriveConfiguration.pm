@@ -39,8 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Goo
 
 =head1 DESCRIPTION
 
-Provides configuration information for data sources that connect to
-Google Drive.
+Provides the configuration information to connect to Google Drive as
+your data source.
 
 =head1 ATTRIBUTES
 
@@ -70,36 +70,39 @@ indexed unless they are excluded in another way.
 
 =head2 ExclusionPatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns that apply to the path on Google
-Drive. Items that match the pattern are excluded from the index from
-both shared drives and users' My Drives. Items that don't match the
-pattern are included in the index. If an item matches both an exclusion
-pattern and an inclusion pattern, it is excluded from the index.
+A list of regular expression patterns to exclude certain items in your
+Google Drive, including shared drives and users' My Drives. Items that
+match the patterns are excluded from the index. Items that don't match
+the patterns are included in the index. If an item matches both an
+inclusion and exclusion pattern, the exclusion pattern takes precedence
+and the item isn't included in the index.
 
 
 =head2 FieldMappings => ArrayRef[L<Paws::Kendra::DataSourceToIndexFieldMapping>]
 
-Defines mapping between a field in the Google Drive and a Amazon Kendra
-index field.
-
-If you are using the console, you can define index fields when creating
-the mapping. If you are using the API, you must first create the field
-using the C<UpdateIndex> operation.
+Maps Google Drive data source attributes or field names to Amazon
+Kendra index field names. To create custom fields, use the
+C<UpdateIndex> API before you map to Google Drive fields. For more
+information, see Mapping data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+Google Drive data source field names must exist in your Google Drive
+custom metadata.
 
 
 =head2 InclusionPatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns that apply to path on Google
-Drive. Items that match the pattern are included in the index from both
-shared drives and users' My Drives. Items that don't match the pattern
-are excluded from the index. If an item matches both an inclusion
-pattern and an exclusion pattern, it is excluded from the index.
+A list of regular expression patterns to include certain items in your
+Google Drive, including shared drives and users' My Drives. Items that
+match the patterns are included in the index. Items that don't match
+the patterns are excluded from the index. If an item matches both an
+inclusion and exclusion pattern, the exclusion pattern takes precedence
+and the item isn't included in the index.
 
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The Amazon Resource Name (ARN) of a AWS Secrets Manager secret that
-contains the credentials required to connect to Google Drive. For more
+The Amazon Resource Name (ARN) of a Secrets Managersecret that contains
+the credentials required to connect to Google Drive. For more
 information, see Using a Google Workspace Drive data source
 (https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html).
 

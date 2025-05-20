@@ -47,6 +47,24 @@ The ARN of the IAM role.
 =head2 Status => Str
 
 The status of the association between the IAM role and the DB cluster.
+Valid values are as follows:
+
+=over
+
+=item *
+
+C<ACTIVE>
+
+=item *
+
+C<INVALID>
+
+=item *
+
+C<PENDING>
+
+=back
+
 
 
 

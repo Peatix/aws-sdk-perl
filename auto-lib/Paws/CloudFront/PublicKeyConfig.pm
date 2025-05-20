@@ -48,7 +48,7 @@ or with field-level encryption
 =head2 B<REQUIRED> CallerReference => Str
 
 A string included in the request to help make sure that the request
-canE<rsquo>t be replayed.
+can't be replayed.
 
 
 =head2 Comment => Str

@@ -35,26 +35,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodePipelin
 =head1 DESCRIPTION
 
 Represents information about the key used to encrypt data in the
-artifact store, such as an AWS Key Management Service (AWS KMS) key.
+artifact store, such as an Amazon Web Services Key Management Service
+(Key Management Service) key.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Id => Str
 
-The ID used to identify the key. For an AWS KMS key, you can use the
-key ID, the key ARN, or the alias ARN.
+The ID used to identify the key. For an Amazon Web Services KMS key,
+you can use the key ID, the key ARN, or the alias ARN.
 
-Aliases are recognized only in the account that created the customer
-master key (CMK). For cross-account actions, you can only use the key
-ID or key ARN to identify the key.
+Aliases are recognized only in the account that created the KMS key.
+For cross-account actions, you can only use the key ID or key ARN to
+identify the key. Cross-account actions involve using the role from the
+other account (AccountB), so specifying the key ID will use the key
+from the other account (AccountB).
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of encryption key, such as an AWS Key Management Service (AWS
-KMS) key. When creating or updating a pipeline, the value must be set
-to 'KMS'.
+The type of encryption key, such as an Amazon Web Services KMS key.
+When creating or updating a pipeline, the value must be set to 'KMS'.
 
 
 

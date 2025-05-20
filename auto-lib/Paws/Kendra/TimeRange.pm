@@ -41,12 +41,12 @@ Provides a range of time.
 
 =head2 EndTime => Str
 
-The UNIX datetime of the end of the time range.
+The Unix timestamp for the end of the time range.
 
 
 =head2 StartTime => Str
 
-The UNIX datetime of the beginning of the time range.
+The Unix timestamp for the beginning of the time range.
 
 
 

@@ -41,15 +41,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           Identifier => {
             Type => 'ANALYSIS'
-            ,    # values: ANALYSIS, INCIDENT, METRIC, PARENT, ATTACHMENT, OTHER
+            , # values: ANALYSIS, INCIDENT, METRIC, PARENT, ATTACHMENT, OTHER, AUTOMATION, INVOLVED_RESOURCE, TASK
             Value => {
               Arn              => 'MyArn',                 # max: 1000
               MetricDefinition => 'MyMetricDefinition',    # max: 4000; OPTIONAL
-              Url              => 'MyUrl',                 # max: 1000; OPTIONAL
+              PagerDutyIncidentDetail => {
+                Id => 'MyPagerDutyIncidentDetailIdString',    # min: 1, max: 200
+                AutoResolve => 1,                             # OPTIONAL
+                SecretId    => 'MyPagerDutyIncidentDetailSecretIdString'
+                ,    # min: 1, max: 512; OPTIONAL
+              },    # OPTIONAL
+              Url => 'MyUrl',    # max: 1000; OPTIONAL
             },
 
           },
-          Title => 'MyRelatedItemTitleString',             # max: 200; OPTIONAL
+          GeneratedId => 'MyGeneratedId',               # max: 200; OPTIONAL
+          Title       => 'MyRelatedItemTitleString',    # max: 200; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -57,7 +64,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       TriggerDetails => {
         Source     => 'MyIncidentSource',      # max: 50
         Timestamp  => '1970-01-01T01:00:00',
-        RawData    => 'MyRawData',             # max: 4000; OPTIONAL
+        RawData    => 'MyRawData',             # max: 10000; OPTIONAL
         TriggerArn => 'MyArn',                 # max: 1000
       },    # OPTIONAL
     );
@@ -75,8 +82,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token ensuring that the operation is called only once with the
+specified details.
 
 
 
@@ -85,33 +92,29 @@ details.
 Defines the impact to the customers. Providing an impact overwrites the
 impact provided by a response plan.
 
-B<Possible impacts:>
+B<Supported impact codes>
 
 =over
 
 =item *
 
-C<1> - Critical impact, this typically relates to full application
-failure that impacts many to all customers.
+C<1> - Critical
 
 =item *
 
-C<2> - High impact, partial application failure with impact to many
-customers.
+C<2> - High
 
 =item *
 
-C<3> - Medium impact, the application is providing reduced service to
-customers.
+C<3> - Medium
 
 =item *
 
-C<4> - Low impact, customer might aren't impacted by the problem yet.
+C<4> - Low
 
 =item *
 
-C<5> - No impact, customers aren't currently impacted but urgent action
-is needed to avoid impact.
+C<5> - No Impact
 
 =back
 
@@ -121,16 +124,16 @@ is needed to avoid impact.
 =head2 RelatedItems => ArrayRef[L<Paws::SSMIncidents::RelatedItem>]
 
 Add related items to the incident for other responders to use. Related
-items are AWS resources, external links, or files uploaded to an S3
-bucket.
+items are Amazon Web Services resources, external links, or files
+uploaded to an Amazon S3 bucket.
 
 
 
 =head2 B<REQUIRED> ResponsePlanArn => Str
 
 The Amazon Resource Name (ARN) of the response plan that pre-defines
-summary, chat channels, SNS topics, runbooks, title, and impact of the
-incident.
+summary, chat channels, Amazon SNS topics, runbooks, title, and impact
+of the incident.
 
 
 

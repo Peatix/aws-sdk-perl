@@ -96,7 +96,7 @@ C<name> - The name of the AFI.
 
 =item *
 
-C<owner-id> - The AWS account ID of the AFI owner.
+C<owner-id> - The Amazon Web Services account ID of the AFI owner.
 
 =item *
 
@@ -104,8 +104,8 @@ C<product-code> - The product code.
 
 =item *
 
-C<shell-version> - The version of the AWS Shell that was used to create
-the bitstream.
+C<shell-version> - The version of the Amazon Web Services Shell that
+was used to create the bitstream.
 
 =item *
 
@@ -155,9 +155,9 @@ The token to retrieve the next page of results.
 
 =head2 Owners => ArrayRef[Str|Undef]
 
-Filters the AFI by owner. Specify an AWS account ID, C<self> (owner is
-the sender of the request), or an AWS owner alias (valid values are
-C<amazon> | C<aws-marketplace>).
+Filters the AFI by owner. Specify an Amazon Web Services account ID,
+C<self> (owner is the sender of the request), or an Amazon Web Services
+owner alias (valid values are C<amazon> | C<aws-marketplace>).
 
 
 

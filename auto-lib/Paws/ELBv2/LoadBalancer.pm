@@ -6,7 +6,10 @@ package Paws::ELBv2::LoadBalancer;
   has CreatedTime => (is => 'ro', isa => 'Str');
   has CustomerOwnedIpv4Pool => (is => 'ro', isa => 'Str');
   has DNSName => (is => 'ro', isa => 'Str');
+  has EnablePrefixForIpv6SourceNat => (is => 'ro', isa => 'Str');
+  has EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic => (is => 'ro', isa => 'Str');
   has IpAddressType => (is => 'ro', isa => 'Str');
+  has IpamPools => (is => 'ro', isa => 'Paws::ELBv2::IpamPools');
   has LoadBalancerArn => (is => 'ro', isa => 'Str');
   has LoadBalancerName => (is => 'ro', isa => 'Str');
   has Scheme => (is => 'ro', isa => 'Str');
@@ -77,11 +80,39 @@ address pool.
 The public DNS name of the load balancer.
 
 
+=head2 EnablePrefixForIpv6SourceNat => Str
+
+[Network Load Balancers with UDP listeners] Indicates whether to use an
+IPv6 prefix from each subnet for source NAT. The IP address type must
+be C<dualstack>. The default value is C<off>.
+
+
+=head2 EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic => Str
+
+Indicates whether to evaluate inbound security group rules for traffic
+sent to a Network Load Balancer through Amazon Web Services
+PrivateLink.
+
+
 =head2 IpAddressType => Str
 
-The type of IP addresses used by the subnets for your load balancer.
-The possible values are C<ipv4> (for IPv4 addresses) and C<dualstack>
-(for IPv4 and IPv6 addresses).
+The type of IP addresses used for public or private connections by the
+subnets attached to your load balancer.
+
+[Application Load Balancers] The possible values are C<ipv4> (IPv4
+addresses), C<dualstack> (IPv4 and IPv6 addresses), and
+C<dualstack-without-public-ipv4> (public IPv6 addresses and private
+IPv4 and IPv6 addresses).
+
+[Network Load Balancers and Gateway Load Balancers] The possible values
+are C<ipv4> (IPv4 addresses) and C<dualstack> (IPv4 and IPv6
+addresses).
+
+
+=head2 IpamPools => L<Paws::ELBv2::IpamPools>
+
+[Application Load Balancers] The IPAM pool in use by the load balancer,
+if configured.
 
 
 =head2 LoadBalancerArn => Str

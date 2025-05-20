@@ -33,15 +33,27 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-The object used to call your custom language model to your
-transcription job.
+Provides the name of the custom language model that was included in the
+specified transcription job.
+
+Only use C<ModelSettings> with the C<LanguageModelName> sub-parameter
+if you're B<not> using automatic language identification (C<). If using
+C<LanguageIdSettings> in your request, this parameter contains a
+C<LanguageModelName> sub-parameter.>
 
 =head1 ATTRIBUTES
 
 
 =head2 LanguageModelName => Str
 
-The name of your custom language model.
+The name of the custom language model you want to use when processing
+your transcription job. Note that custom language model names are case
+sensitive.
+
+The language of the specified custom language model must match the
+language code that you specify in your transcription request. If the
+languages do not match, the custom language model isn't applied. There
+are no errors or warnings associated with a language mismatch.
 
 
 

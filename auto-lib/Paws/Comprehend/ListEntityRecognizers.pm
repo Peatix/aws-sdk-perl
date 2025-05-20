@@ -31,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $comprehend = Paws->service('Comprehend');
     my $ListEntityRecognizersResponse = $comprehend->ListEntityRecognizers(
       Filter => {
-        Status => 'SUBMITTED'
-        , # values: SUBMITTED, TRAINING, DELETING, STOP_REQUESTED, STOPPED, IN_ERROR, TRAINED; OPTIONAL
+        RecognizerName => 'MyComprehendArnName',      # max: 63; OPTIONAL
+        Status         => 'SUBMITTED'
+        , # values: SUBMITTED, TRAINING, DELETING, STOP_REQUESTED, STOPPED, IN_ERROR, TRAINED, TRAINED_WITH_WARNING; OPTIONAL
         SubmitTimeAfter  => '1970-01-01T01:00:00',    # OPTIONAL
         SubmitTimeBefore => '1970-01-01T01:00:00',    # OPTIONAL
       },    # OPTIONAL

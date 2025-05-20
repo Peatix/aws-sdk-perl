@@ -33,15 +33,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-Details on the modification recommendation.
+Details for the modification recommendation.
 
 =head1 ATTRIBUTES
 
 
 =head2 TargetInstances => ArrayRef[L<Paws::CostExplorer::TargetInstance>]
 
-Identifies whether this instance type is the AWS default
-recommendation.
+Determines whether this instance type is the Amazon Web Services
+default recommendation.
 
 
 

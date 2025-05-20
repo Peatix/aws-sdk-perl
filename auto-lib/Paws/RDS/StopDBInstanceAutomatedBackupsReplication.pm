@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 =head2 B<REQUIRED> SourceDBInstanceArn => Str
 
 The Amazon Resource Name (ARN) of the source DB instance for which to
-stop replicating automated backups, for example,
+stop replicating automate backups, for example,
 C<arn:aws:rds:us-west-2:123456789012:db:mydatabase>.
 
 

@@ -2,7 +2,10 @@
 package Paws::Route53Resolver::UpdateResolverEndpoint;
   use Moose;
   has Name => (is => 'ro', isa => 'Str');
+  has Protocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ResolverEndpointId => (is => 'ro', isa => 'Str', required => 1);
+  has ResolverEndpointType => (is => 'ro', isa => 'Str');
+  has UpdateIpAddresses => (is => 'ro', isa => 'ArrayRef[Paws::Route53Resolver::UpdateIpAddress]');
 
   use MooseX::ClassAttribute;
 
@@ -32,6 +35,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $route53resolver->UpdateResolverEndpoint(
       ResolverEndpointId => 'MyResourceId',
       Name               => 'MyName',         # OPTIONAL
+      Protocols          => [
+        'DoH', ...                            # values: DoH, Do53, DoH-FIPS
+      ],    # OPTIONAL
+      ResolverEndpointType => 'IPV6',    # OPTIONAL
+      UpdateIpAddresses    => [
+        {
+          IpId => 'MyResourceId',    # min: 1, max: 64
+          Ipv6 => 'MyIpv6',          # min: 7, max: 39
+
+        },
+        ...
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -51,9 +66,93 @@ The name of the Resolver endpoint that you want to update.
 
 
 
+=head2 Protocols => ArrayRef[Str|Undef]
+
+The protocols you want to use for the endpoint. DoH-FIPS is applicable
+for inbound endpoints only.
+
+For an inbound endpoint you can apply the protocols as follows:
+
+=over
+
+=item *
+
+Do53 and DoH in combination.
+
+=item *
+
+Do53 and DoH-FIPS in combination.
+
+=item *
+
+Do53 alone.
+
+=item *
+
+DoH alone.
+
+=item *
+
+DoH-FIPS alone.
+
+=item *
+
+None, which is treated as Do53.
+
+=back
+
+For an outbound endpoint you can apply the protocols as follows:
+
+=over
+
+=item *
+
+Do53 and DoH in combination.
+
+=item *
+
+Do53 alone.
+
+=item *
+
+DoH alone.
+
+=item *
+
+None, which is treated as Do53.
+
+=back
+
+You can't change the protocol of an inbound endpoint directly from only
+Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden disruption
+to incoming traffic that relies on Do53. To change the protocol from
+Do53 to DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or
+Do53 and DoH-FIPS, to make sure that all incoming traffic has
+transferred to using the DoH protocol, or DoH-FIPS, and then remove the
+Do53.
+
+
+
 =head2 B<REQUIRED> ResolverEndpointId => Str
 
 The ID of the Resolver endpoint that you want to update.
+
+
+
+=head2 ResolverEndpointType => Str
+
+Specifies the endpoint type for what type of IP address the endpoint
+uses to forward DNS queries.
+
+Updating to C<IPV6> type isn't currently supported.
+
+Valid values are: C<"IPV6">, C<"IPV4">, C<"DUALSTACK">
+
+=head2 UpdateIpAddresses => ArrayRef[L<Paws::Route53Resolver::UpdateIpAddress>]
+
+Specifies the IPv6 address when you update the Resolver endpoint from
+IPv4 to dual-stack. If you don't specify an IPv6 address, one will be
+automatically chosen from your subnet.
 
 
 

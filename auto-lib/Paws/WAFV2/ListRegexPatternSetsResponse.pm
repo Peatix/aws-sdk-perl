@@ -26,7 +26,8 @@ your next request.
 
 =head2 RegexPatternSets => ArrayRef[L<Paws::WAFV2::RegexPatternSetSummary>]
 
-
+Array of regex pattern sets. If you specified a C<Limit> in your
+request, this might not be the full list.
 
 
 =head2 _request_id => Str

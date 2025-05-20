@@ -47,6 +47,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $ConstraintSummaries =
       $DescribeProvisioningParametersOutput->ConstraintSummaries;
+    my $ProvisioningArtifactOutputKeys =
+      $DescribeProvisioningParametersOutput->ProvisioningArtifactOutputKeys;
     my $ProvisioningArtifactOutputs =
       $DescribeProvisioningParametersOutput->ProvisioningArtifactOutputs;
     my $ProvisioningArtifactParameters =
@@ -70,10 +72,6 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 The language code.
 
 =over
-
-=item *
-
-C<en> - English (default)
 
 =item *
 

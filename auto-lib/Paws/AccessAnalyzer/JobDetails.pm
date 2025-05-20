@@ -49,7 +49,7 @@ A timestamp of when the job was completed.
 
 =head2 JobError => L<Paws::AccessAnalyzer::JobError>
 
-
+The job error for the policy generation request.
 
 
 =head2 B<REQUIRED> JobId => Str

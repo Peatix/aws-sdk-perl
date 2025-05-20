@@ -71,8 +71,8 @@ traffic on.
 
 =head2 B<REQUIRED> EndpointGroupRegion => Str
 
-The AWS Region where the endpoint group is located. A listener can have
-only one endpoint group in a specific Region.
+The Amazon Web Services Region where the endpoint group is located. A
+listener can have only one endpoint group in a specific Region.
 
 
 

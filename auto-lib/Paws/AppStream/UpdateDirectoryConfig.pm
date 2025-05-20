@@ -1,6 +1,7 @@
 
 package Paws::AppStream::UpdateDirectoryConfig;
   use Moose;
+  has CertificateBasedAuthProperties => (is => 'ro', isa => 'Paws::AppStream::CertificateBasedAuthProperties');
   has DirectoryName => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationalUnitDistinguishedNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ServiceAccountCredentials => (is => 'ro', isa => 'Paws::AppStream::ServiceAccountCredentials');
@@ -30,7 +31,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $appstream2 = Paws->service('AppStream');
     my $UpdateDirectoryConfigResult = $appstream2->UpdateDirectoryConfig(
-      DirectoryName                        => 'MyDirectoryName',
+      DirectoryName                  => 'MyDirectoryName',
+      CertificateBasedAuthProperties => {
+        CertificateAuthorityArn => 'MyArn',     # OPTIONAL
+        Status                  => 'DISABLED'
+        , # values: DISABLED, ENABLED, ENABLED_NO_DIRECTORY_LOGIN_FALLBACK; OPTIONAL
+      },    # OPTIONAL
       OrganizationalUnitDistinguishedNames => [
         'MyOrganizationalUnitDistinguishedName', ...    # max: 2000
       ],    # OPTIONAL
@@ -50,6 +56,21 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/appstream2/UpdateDirectoryConfig>
 
 =head1 ATTRIBUTES
+
+
+=head2 CertificateBasedAuthProperties => L<Paws::AppStream::CertificateBasedAuthProperties>
+
+The certificate-based authentication properties used to authenticate
+SAML 2.0 Identity Provider (IdP) user identities to Active Directory
+domain-joined streaming instances. Fallback is turned on by default
+when certificate-based authentication is B<Enabled> . Fallback allows
+users to log in using their AD domain password if certificate-based
+authentication is unsuccessful, or to unlock a desktop lock screen.
+B<Enabled_no_directory_login_fallback> enables certificate-based
+authentication, but does not allow users to log in using their AD
+domain password. Users will be disconnected to re-authenticate using
+certificates.
+
 
 
 =head2 B<REQUIRED> DirectoryName => Str

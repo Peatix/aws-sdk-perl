@@ -44,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $IotJobConfiguration = $GetDeploymentResponse->IotJobConfiguration;
     my $IotJobId            = $GetDeploymentResponse->IotJobId;
     my $IsLatestForTarget   = $GetDeploymentResponse->IsLatestForTarget;
+    my $ParentTargetArn     = $GetDeploymentResponse->ParentTargetArn;
     my $RevisionId          = $GetDeploymentResponse->RevisionId;
     my $Tags                = $GetDeploymentResponse->Tags;
     my $TargetArn           = $GetDeploymentResponse->TargetArn;

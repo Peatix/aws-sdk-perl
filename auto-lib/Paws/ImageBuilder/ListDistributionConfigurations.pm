@@ -60,16 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 Filters => ArrayRef[L<Paws::ImageBuilder::Filter>]
 
-The filters.
-
-=over
-
-=item *
-
-C<name> - The name of this distribution configuration.
-
-=back
-
+You can filter on C<name> to streamline results.
 
 
 
@@ -81,7 +72,7 @@ The maximum items to return in a request.
 
 =head2 NextToken => Str
 
-A token to specify where to start paginating. This is the NextToken
+A token to specify where to start paginating. This is the nextToken
 from a previously truncated response.
 
 

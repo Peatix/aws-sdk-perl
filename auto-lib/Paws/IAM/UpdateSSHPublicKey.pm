@@ -55,7 +55,7 @@ consist of any upper or lowercased letter or digit.
 =head2 B<REQUIRED> Status => Str
 
 The status to assign to the SSH public key. C<Active> means that the
-key can be used for authentication with an AWS CodeCommit repository.
+key can be used for authentication with an CodeCommit repository.
 C<Inactive> means that the key cannot be used.
 
 Valid values are: C<"Active">, C<"Inactive">

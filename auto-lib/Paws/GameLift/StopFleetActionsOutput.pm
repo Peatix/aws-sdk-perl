@@ -19,8 +19,8 @@ Paws::GameLift::StopFleetActionsOutput
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift fleet resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift fleet resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 
 

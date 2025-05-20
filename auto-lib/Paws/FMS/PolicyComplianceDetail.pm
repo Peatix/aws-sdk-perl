@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Policy
 =head1 DESCRIPTION
 
 Describes the noncompliant resources in a member account for a specific
-AWS Firewall Manager policy. A maximum of 100 entries are displayed. If
+Firewall Manager policy. A maximum of 100 entries are displayed. If
 more than 100 resources are noncompliant, C<EvaluationLimitExceeded> is
 set to C<True>.
 
@@ -49,7 +49,7 @@ set to C<True>.
 
 =head2 EvaluationLimitExceeded => Bool
 
-Indicates if over 100 resources are noncompliant with the AWS Firewall
+Indicates if over 100 resources are noncompliant with the Firewall
 Manager policy.
 
 
@@ -61,30 +61,30 @@ considered out of date.
 
 =head2 IssueInfoMap => L<Paws::FMS::IssueInfoMap>
 
-Details about problems with dependent services, such as AWS WAF or AWS
-Config, that are causing a resource to be noncompliant. The details
-include the name of the dependent service and the error message
-received that indicates the problem with the service.
+Details about problems with dependent services, such as WAF or Config,
+and the error message received that indicates the problem with the
+service.
 
 
 =head2 MemberAccount => Str
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 
 =head2 PolicyId => Str
 
-The ID of the AWS Firewall Manager policy.
+The ID of the Firewall Manager policy.
 
 
 =head2 PolicyOwner => Str
 
-The AWS account that created the AWS Firewall Manager policy.
+The Amazon Web Services account that created the Firewall Manager
+policy.
 
 
 =head2 Violators => ArrayRef[L<Paws::FMS::ComplianceViolator>]
 
-An array of resources that aren't protected by the AWS WAF or Shield
+An array of resources that aren't protected by the WAF or Shield
 Advanced policy or that aren't in compliance with the security group
 policy.
 

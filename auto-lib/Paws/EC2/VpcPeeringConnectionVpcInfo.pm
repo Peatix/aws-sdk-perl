@@ -59,7 +59,7 @@ The IPv6 CIDR block for the VPC.
 
 =head2 OwnerId => Str
 
-The AWS account ID of the VPC owner.
+The ID of the Amazon Web Services account that owns the VPC.
 
 
 =head2 PeeringOptions => L<Paws::EC2::VpcPeeringConnectionOptionsDescription>

@@ -2,6 +2,7 @@
 package Paws::ApiGateway::GetDomainName;
   use Moose;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domain_name', required => 1);
+  has DomainNameId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domainNameId');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $apigateway = Paws->service('ApiGateway');
     my $DomainName = $apigateway->GetDomainName(
-      DomainName => 'MyString',
-
+      DomainName   => 'MyString',
+      DomainNameId => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -40,16 +41,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DistributionDomainName   = $DomainName->DistributionDomainName;
     my $DistributionHostedZoneId = $DomainName->DistributionHostedZoneId;
     my $DomainName               = $DomainName->DomainName;
+    my $DomainNameArn            = $DomainName->DomainNameArn;
+    my $DomainNameId             = $DomainName->DomainNameId;
     my $DomainNameStatus         = $DomainName->DomainNameStatus;
     my $DomainNameStatusMessage  = $DomainName->DomainNameStatusMessage;
     my $EndpointConfiguration    = $DomainName->EndpointConfiguration;
+    my $ManagementPolicy         = $DomainName->ManagementPolicy;
     my $MutualTlsAuthentication  = $DomainName->MutualTlsAuthentication;
-    my $RegionalCertificateArn   = $DomainName->RegionalCertificateArn;
-    my $RegionalCertificateName  = $DomainName->RegionalCertificateName;
-    my $RegionalDomainName       = $DomainName->RegionalDomainName;
-    my $RegionalHostedZoneId     = $DomainName->RegionalHostedZoneId;
-    my $SecurityPolicy           = $DomainName->SecurityPolicy;
-    my $Tags                     = $DomainName->Tags;
+    my $OwnershipVerificationCertificateArn =
+      $DomainName->OwnershipVerificationCertificateArn;
+    my $Policy                  = $DomainName->Policy;
+    my $RegionalCertificateArn  = $DomainName->RegionalCertificateArn;
+    my $RegionalCertificateName = $DomainName->RegionalCertificateName;
+    my $RegionalDomainName      = $DomainName->RegionalDomainName;
+    my $RegionalHostedZoneId    = $DomainName->RegionalHostedZoneId;
+    my $SecurityPolicy          = $DomainName->SecurityPolicy;
+    my $Tags                    = $DomainName->Tags;
 
     # Returns a L<Paws::ApiGateway::DomainName> object.
 
@@ -61,7 +68,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> DomainName => Str
 
-[Required] The name of the DomainName resource.
+The name of the DomainName resource.
+
+
+
+=head2 DomainNameId => Str
+
+The identifier for the domain name resource. Required for private
+custom domain names.
 
 
 

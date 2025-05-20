@@ -23,9 +23,9 @@ stored.
 
 =head2 UploadCredentials => L<Paws::GameLift::AwsCredentials>
 
-AWS credentials required when uploading a game build to the storage
-location. These credentials have a limited lifespan and are valid only
-for the build they were issued for.
+Amazon Web Services credentials required when uploading a game build to
+the storage location. These credentials have a limited lifespan and are
+valid only for the build they were issued for.
 
 
 =head2 _request_id => Str

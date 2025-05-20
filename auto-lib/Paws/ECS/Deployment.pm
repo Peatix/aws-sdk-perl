@@ -5,17 +5,23 @@ package Paws::ECS::Deployment;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has DesiredCount => (is => 'ro', isa => 'Int', request_name => 'desiredCount', traits => ['NameInRequest']);
   has FailedTasks => (is => 'ro', isa => 'Int', request_name => 'failedTasks', traits => ['NameInRequest']);
+  has FargateEphemeralStorage => (is => 'ro', isa => 'Paws::ECS::DeploymentEphemeralStorage', request_name => 'fargateEphemeralStorage', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has LaunchType => (is => 'ro', isa => 'Str', request_name => 'launchType', traits => ['NameInRequest']);
   has NetworkConfiguration => (is => 'ro', isa => 'Paws::ECS::NetworkConfiguration', request_name => 'networkConfiguration', traits => ['NameInRequest']);
   has PendingCount => (is => 'ro', isa => 'Int', request_name => 'pendingCount', traits => ['NameInRequest']);
+  has PlatformFamily => (is => 'ro', isa => 'Str', request_name => 'platformFamily', traits => ['NameInRequest']);
   has PlatformVersion => (is => 'ro', isa => 'Str', request_name => 'platformVersion', traits => ['NameInRequest']);
   has RolloutState => (is => 'ro', isa => 'Str', request_name => 'rolloutState', traits => ['NameInRequest']);
   has RolloutStateReason => (is => 'ro', isa => 'Str', request_name => 'rolloutStateReason', traits => ['NameInRequest']);
   has RunningCount => (is => 'ro', isa => 'Int', request_name => 'runningCount', traits => ['NameInRequest']);
+  has ServiceConnectConfiguration => (is => 'ro', isa => 'Paws::ECS::ServiceConnectConfiguration', request_name => 'serviceConnectConfiguration', traits => ['NameInRequest']);
+  has ServiceConnectResources => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ServiceConnectServiceResource]', request_name => 'serviceConnectResources', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has TaskDefinition => (is => 'ro', isa => 'Str', request_name => 'taskDefinition', traits => ['NameInRequest']);
   has UpdatedAt => (is => 'ro', isa => 'Str', request_name => 'updatedAt', traits => ['NameInRequest']);
+  has VolumeConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ServiceVolumeConfiguration]', request_name => 'volumeConfigurations', traits => ['NameInRequest']);
+  has VpcLatticeConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ECS::VpcLatticeConfiguration]', request_name => 'vpcLatticeConfigurations', traits => ['NameInRequest']);
 
 1;
 
@@ -36,7 +42,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ECS::Deployment object:
 
-  $service_obj->Method(Att1 => { CapacityProviderStrategy => $value, ..., UpdatedAt => $value  });
+  $service_obj->Method(Att1 => { CapacityProviderStrategy => $value, ..., VpcLatticeConfigurations => $value  });
 
 =head3 Results returned from an API call
 
@@ -60,7 +66,8 @@ The capacity provider strategy that the deployment is using.
 
 =head2 CreatedAt => Str
 
-The Unix timestamp for when the service deployment was created.
+The Unix timestamp for the time when the service deployment was
+created.
 
 
 =head2 DesiredCount => Int
@@ -78,6 +85,11 @@ of its defined health checks and is stopped.
 
 Once a service deployment has one or more successfully running tasks,
 the failed task count resets to zero and stops being evaluated.
+
+
+=head2 FargateEphemeralStorage => L<Paws::ECS::DeploymentEphemeralStorage>
+
+The Fargate ephemeral storage settings for the deployment.
 
 
 =head2 Id => Str
@@ -106,12 +118,22 @@ The number of tasks in the deployment that are in the C<PENDING>
 status.
 
 
+=head2 PlatformFamily => Str
+
+The operating system that your tasks in the service, or tasks are
+running on. A platform family is specified only for tasks using the
+Fargate launch type.
+
+All tasks that run as part of this service must use the same
+C<platformFamily> value as the service, for example, C< LINUX.>.
+
+
 =head2 PlatformVersion => Str
 
-The platform version on which your tasks in the service are running. A
-platform version is only specified for tasks using the Fargate launch
-type. If one is not specified, the C<LATEST> platform version is used
-by default. For more information, see AWS Fargate Platform Versions
+The platform version that your tasks in the service run on. A platform
+version is only specified for tasks using the Fargate launch type. If
+one isn't specified, the C<LATEST> platform version is used. For more
+information, see Fargate Platform Versions
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -119,16 +141,17 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 =head2 RolloutState => Str
 
 The C<rolloutState> of a service is only returned for services that use
-the rolling update (C<ECS>) deployment type that are not behind a
+the rolling update (C<ECS>) deployment type that aren't behind a
 Classic Load Balancer.
 
 The rollout state of the deployment. When a service deployment is
 started, it begins in an C<IN_PROGRESS> state. When the service reaches
-a steady state, the deployment will transition to a C<COMPLETED> state.
-If the service fails to reach a steady state and circuit breaker is
-enabled, the deployment will transition to a C<FAILED> state. A
-deployment in C<FAILED> state will launch no new tasks. For more
-information, see DeploymentCircuitBreaker.
+a steady state, the deployment transitions to a C<COMPLETED> state. If
+the service fails to reach a steady state and circuit breaker is turned
+on, the deployment transitions to a C<FAILED> state. A deployment in
+C<FAILED> state doesn't launch any new tasks. For more information, see
+DeploymentCircuitBreaker
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentCircuitBreaker.html).
 
 
 =head2 RolloutStateReason => Str
@@ -142,9 +165,36 @@ The number of tasks in the deployment that are in the C<RUNNING>
 status.
 
 
+=head2 ServiceConnectConfiguration => L<Paws::ECS::ServiceConnectConfiguration>
+
+The details of the Service Connect configuration that's used by this
+deployment. Compare the configuration between multiple deployments when
+troubleshooting issues with new deployments.
+
+The configuration for this service to discover and connect to services,
+and be discovered by, and connected from, other services within a
+namespace.
+
+Tasks that run in a namespace can use short names to connect to
+services in the namespace. Tasks can connect to services across all of
+the clusters in the namespace. Tasks connect through a managed proxy
+container that collects logs and metrics for increased visibility. Only
+the tasks that Amazon ECS services create are supported with Service
+Connect. For more information, see Service Connect
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+
+=head2 ServiceConnectResources => ArrayRef[L<Paws::ECS::ServiceConnectServiceResource>]
+
+The list of Service Connect resources that are associated with this
+deployment. Each list entry maps a discovery name to a Cloud Map
+service name.
+
+
 =head2 Status => Str
 
-The status of the deployment. The following describes each state:
+The status of the deployment. The following describes each state.
 
 =over
 
@@ -173,7 +223,23 @@ service to use.
 
 =head2 UpdatedAt => Str
 
-The Unix timestamp for when the service deployment was last updated.
+The Unix timestamp for the time when the service deployment was last
+updated.
+
+
+=head2 VolumeConfigurations => ArrayRef[L<Paws::ECS::ServiceVolumeConfiguration>]
+
+The details of the volume that was C<configuredAtLaunch>. You can
+configure different settings like the size, throughput, volumeType, and
+ecryption in ServiceManagedEBSVolumeConfiguration
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html).
+The C<name> of the volume must match the C<name> from the task
+definition.
+
+
+=head2 VpcLatticeConfigurations => ArrayRef[L<Paws::ECS::VpcLatticeConfiguration>]
+
+The VPC Lattice configuration for the service deployment.
 
 
 

@@ -34,8 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 
 =head1 DESCRIPTION
 
-Filters the conformance pack by compliance types and AWS Config rule
-names.
+Filters the conformance pack by compliance types and Config rule names.
 
 =head1 ATTRIBUTES
 
@@ -50,7 +49,7 @@ C<INSUFFICIENT_DATA> is not supported.
 
 =head2 ConfigRuleNames => ArrayRef[Str|Undef]
 
-Filters the results by AWS Config rule names.
+Filters the results by Config rule names.
 
 
 

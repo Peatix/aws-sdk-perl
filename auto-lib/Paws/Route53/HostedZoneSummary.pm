@@ -58,7 +58,8 @@ The name of the private hosted zone, such as C<example.com>.
 =head2 B<REQUIRED> Owner => L<Paws::Route53::HostedZoneOwner>
 
 The owner of a private hosted zone that the specified VPC is associated
-with. The owner can be either an AWS account or an AWS service.
+with. The owner can be either an Amazon Web Services account or an
+Amazon Web Services service.
 
 
 

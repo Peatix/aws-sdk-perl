@@ -2,6 +2,7 @@
 package Paws::Comprehend::EntityRecognizerAnnotations;
   use Moose;
   has S3Uri => (is => 'ro', isa => 'Str', required => 1);
+  has TestS3Uri => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Comprehend::EntityRecognizerAnnotations object:
 
-  $service_obj->Method(Att1 => { S3Uri => $value, ..., S3Uri => $value  });
+  $service_obj->Method(Att1 => { S3Uri => $value, ..., TestS3Uri => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,8 +42,15 @@ Describes the annotations associated with a entity recognizer.
 =head2 B<REQUIRED> S3Uri => Str
 
 Specifies the Amazon S3 location where the annotations for an entity
-recognizer are located. The URI must be in the same region as the API
+recognizer are located. The URI must be in the same Region as the API
 endpoint that you are calling.
+
+
+=head2 TestS3Uri => Str
+
+Specifies the Amazon S3 location where the test annotations for an
+entity recognizer are located. The URI must be in the same Region as
+the API endpoint that you are calling.
 
 
 

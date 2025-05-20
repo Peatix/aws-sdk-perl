@@ -20,7 +20,7 @@ Paws::S3::NotificationConfigurationDeprecated
 
 =head2 CloudFunctionConfiguration => L<Paws::S3::CloudFunctionConfiguration>
 
-Container for specifying the AWS Lambda notification configuration.
+Container for specifying the Lambda notification configuration.
 
 
 

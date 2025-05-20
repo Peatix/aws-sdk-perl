@@ -2,6 +2,8 @@
 package Paws::IoTSiteWise::DescribeAssetModel;
   use Moose;
   has AssetModelId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'assetModelId', required => 1);
+  has AssetModelVersion => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'assetModelVersion');
+  has ExcludeProperties => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'excludeProperties');
 
   use MooseX::ClassAttribute;
 
@@ -29,18 +31,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $DescribeAssetModelResponse = $iotsitewise->DescribeAssetModel(
-      AssetModelId => 'MyID',
-
+      AssetModelId      => 'MyCustomID',
+      AssetModelVersion => 'MyAssetModelVersionFilter',    # OPTIONAL
+      ExcludeProperties => 1,                              # OPTIONAL
     );
 
     # Results:
     my $AssetModelArn = $DescribeAssetModelResponse->AssetModelArn;
+    my $AssetModelCompositeModelSummaries =
+      $DescribeAssetModelResponse->AssetModelCompositeModelSummaries;
     my $AssetModelCompositeModels =
       $DescribeAssetModelResponse->AssetModelCompositeModels;
     my $AssetModelCreationDate =
       $DescribeAssetModelResponse->AssetModelCreationDate;
     my $AssetModelDescription =
       $DescribeAssetModelResponse->AssetModelDescription;
+    my $AssetModelExternalId =
+      $DescribeAssetModelResponse->AssetModelExternalId;
     my $AssetModelHierarchies =
       $DescribeAssetModelResponse->AssetModelHierarchies;
     my $AssetModelId = $DescribeAssetModelResponse->AssetModelId;
@@ -49,7 +56,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AssetModelName = $DescribeAssetModelResponse->AssetModelName;
     my $AssetModelProperties =
       $DescribeAssetModelResponse->AssetModelProperties;
-    my $AssetModelStatus = $DescribeAssetModelResponse->AssetModelStatus;
+    my $AssetModelStatus  = $DescribeAssetModelResponse->AssetModelStatus;
+    my $AssetModelType    = $DescribeAssetModelResponse->AssetModelType;
+    my $AssetModelVersion = $DescribeAssetModelResponse->AssetModelVersion;
+    my $ETag              = $DescribeAssetModelResponse->ETag;
 
     # Returns a L<Paws::IoTSiteWise::DescribeAssetModelResponse> object.
 
@@ -61,7 +71,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetModelId => Str
 
-The ID of the asset model.
+The ID of the asset model. This can be either the actual ID in UUID
+format, or else C<externalId:> followed by the external ID, if it has
+one. For more information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
+
+
+
+=head2 AssetModelVersion => Str
+
+The version alias that specifies the latest or active version of the
+asset model. The details are returned in the response. The default
+value is C<LATEST>. See Asset model versions
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html)
+in the I<IoT SiteWise User Guide>.
+
+
+
+=head2 ExcludeProperties => Bool
+
+Whether or not to exclude asset model properties from the response.
 
 
 

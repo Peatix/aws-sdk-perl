@@ -47,7 +47,8 @@ The name of the data catalog used in the query execution.
 
 =head2 Database => Str
 
-The name of the database used in the query execution.
+The name of the database used in the query execution. The database must
+exist in the catalog.
 
 
 

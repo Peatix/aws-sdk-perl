@@ -18,18 +18,18 @@ Paws::SSM::DeleteInventoryResult
 
 =head2 DeletionId => Str
 
-Every C<DeleteInventory> action is assigned a unique ID. This option
+Every C<DeleteInventory> operation is assigned a unique ID. This option
 returns a unique ID. You can use this ID to query the status of a
 delete operation. This option is useful for ensuring that a delete
-operation has completed before you begin other actions.
+operation has completed before you begin other operations.
 
 
 =head2 DeletionSummary => L<Paws::SSM::InventoryDeletionSummary>
 
 A summary of the delete operation. For more information about this
 summary, see Deleting custom inventory
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary)
-in the I<AWS Systems Manager User Guide>.
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-custom.html#delete-custom-inventory-summary)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 TypeName => Str

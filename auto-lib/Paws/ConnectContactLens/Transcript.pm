@@ -8,7 +8,7 @@ package Paws::ConnectContactLens::Transcript;
   has IssuesDetected => (is => 'ro', isa => 'ArrayRef[Paws::ConnectContactLens::IssueDetected]');
   has ParticipantId => (is => 'ro', isa => 'Str', required => 1);
   has ParticipantRole => (is => 'ro', isa => 'Str', required => 1);
-  has Sentiment => (is => 'ro', isa => 'Str', required => 1);
+  has Sentiment => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -72,7 +72,7 @@ List of positions where issues were detected on the transcript.
 
 =head2 B<REQUIRED> ParticipantId => Str
 
-The identifier of the participant.
+The identifier of the participant. Valid values are CUSTOMER or AGENT.
 
 
 =head2 B<REQUIRED> ParticipantRole => Str
@@ -81,9 +81,9 @@ The role of participant. For example, is it a customer, agent, or
 system.
 
 
-=head2 B<REQUIRED> Sentiment => Str
+=head2 Sentiment => Str
 
-The sentiment of the detected for this piece of transcript.
+The sentiment detected for this piece of transcript.
 
 
 

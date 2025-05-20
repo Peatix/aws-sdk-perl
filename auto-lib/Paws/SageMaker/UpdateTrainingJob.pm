@@ -3,6 +3,8 @@ package Paws::SageMaker::UpdateTrainingJob;
   use Moose;
   has ProfilerConfig => (is => 'ro', isa => 'Paws::SageMaker::ProfilerConfigForUpdate');
   has ProfilerRuleConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::ProfilerRuleConfiguration]');
+  has RemoteDebugConfig => (is => 'ro', isa => 'Paws::SageMaker::RemoteDebugConfigForUpdate');
+  has ResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::ResourceConfigForUpdate');
   has TrainingJobName => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -45,7 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           RuleConfigurationName => 'MyRuleConfigurationName', # min: 1, max: 256
           RuleEvaluatorImage    => 'MyAlgorithmImage',        # max: 255
           InstanceType          => 'ml.t3.medium'
-          , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge; OPTIONAL
+          , # values: ml.t3.medium, ml.t3.large, ml.t3.xlarge, ml.t3.2xlarge, ml.m4.xlarge, ml.m4.2xlarge, ml.m4.4xlarge, ml.m4.10xlarge, ml.m4.16xlarge, ml.c4.xlarge, ml.c4.2xlarge, ml.c4.4xlarge, ml.c4.8xlarge, ml.p2.xlarge, ml.p2.8xlarge, ml.p2.16xlarge, ml.p3.2xlarge, ml.p3.8xlarge, ml.p3.16xlarge, ml.c5.xlarge, ml.c5.2xlarge, ml.c5.4xlarge, ml.c5.9xlarge, ml.c5.18xlarge, ml.m5.large, ml.m5.xlarge, ml.m5.2xlarge, ml.m5.4xlarge, ml.m5.12xlarge, ml.m5.24xlarge, ml.r5.large, ml.r5.xlarge, ml.r5.2xlarge, ml.r5.4xlarge, ml.r5.8xlarge, ml.r5.12xlarge, ml.r5.16xlarge, ml.r5.24xlarge, ml.g4dn.xlarge, ml.g4dn.2xlarge, ml.g4dn.4xlarge, ml.g4dn.8xlarge, ml.g4dn.12xlarge, ml.g4dn.16xlarge, ml.g5.xlarge, ml.g5.2xlarge, ml.g5.4xlarge, ml.g5.8xlarge, ml.g5.16xlarge, ml.g5.12xlarge, ml.g5.24xlarge, ml.g5.48xlarge, ml.r5d.large, ml.r5d.xlarge, ml.r5d.2xlarge, ml.r5d.4xlarge, ml.r5d.8xlarge, ml.r5d.12xlarge, ml.r5d.16xlarge, ml.r5d.24xlarge, ml.g6.xlarge, ml.g6.2xlarge, ml.g6.4xlarge, ml.g6.8xlarge, ml.g6.12xlarge, ml.g6.16xlarge, ml.g6.24xlarge, ml.g6.48xlarge, ml.g6e.xlarge, ml.g6e.2xlarge, ml.g6e.4xlarge, ml.g6e.8xlarge, ml.g6e.12xlarge, ml.g6e.16xlarge, ml.g6e.24xlarge, ml.g6e.48xlarge, ml.m6i.large, ml.m6i.xlarge, ml.m6i.2xlarge, ml.m6i.4xlarge, ml.m6i.8xlarge, ml.m6i.12xlarge, ml.m6i.16xlarge, ml.m6i.24xlarge, ml.m6i.32xlarge, ml.c6i.xlarge, ml.c6i.2xlarge, ml.c6i.4xlarge, ml.c6i.8xlarge, ml.c6i.12xlarge, ml.c6i.16xlarge, ml.c6i.24xlarge, ml.c6i.32xlarge; OPTIONAL
           LocalPath      => 'MyDirectoryPath',    # max: 4096; OPTIONAL
           RuleParameters => {
             'MyConfigKey' =>
@@ -56,6 +58,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      RemoteDebugConfig => {
+        EnableRemoteDebug => 1,    # OPTIONAL
+      },    # OPTIONAL
+      ResourceConfig => {
+        KeepAlivePeriodInSeconds => 1,    # max: 3600
+
+      },    # OPTIONAL
     );
 
     # Results:
@@ -71,15 +80,34 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 ProfilerConfig => L<Paws::SageMaker::ProfilerConfigForUpdate>
 
-Configuration information for Debugger system monitoring, framework
-profiling, and storage paths.
+Configuration information for Amazon SageMaker Debugger system
+monitoring, framework profiling, and storage paths.
 
 
 
 =head2 ProfilerRuleConfigurations => ArrayRef[L<Paws::SageMaker::ProfilerRuleConfiguration>]
 
-Configuration information for Debugger rules for profiling system and
-framework metrics.
+Configuration information for Amazon SageMaker Debugger rules for
+profiling system and framework metrics.
+
+
+
+=head2 RemoteDebugConfig => L<Paws::SageMaker::RemoteDebugConfigForUpdate>
+
+Configuration for remote debugging while the training job is running.
+You can update the remote debugging configuration when the
+C<SecondaryStatus> of the job is C<Downloading> or C<Training>.To learn
+more about the remote debugging functionality of SageMaker, see Access
+a training container through Amazon Web Services Systems Manager (SSM)
+for remote debugging
+(https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
+
+
+
+=head2 ResourceConfig => L<Paws::SageMaker::ResourceConfigForUpdate>
+
+The training job C<ResourceConfig> to update warm pool retention
+length.
 
 
 

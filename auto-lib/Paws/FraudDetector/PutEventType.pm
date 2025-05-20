@@ -3,6 +3,8 @@ package Paws::FraudDetector::PutEventType;
   use Moose;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description' );
   has EntityTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'entityTypes' , required => 1);
+  has EventIngestion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'eventIngestion' );
+  has EventOrchestration => (is => 'ro', isa => 'Paws::FraudDetector::EventOrchestration', traits => ['NameInRequest'], request_name => 'eventOrchestration' );
   has EventVariables => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'eventVariables' , required => 1);
   has Labels => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'labels' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
@@ -33,12 +35,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $frauddetector = Paws->service('FraudDetector');
     my $PutEventTypeResult = $frauddetector->PutEventType(
-      EntityTypes    => [ 'Mystring', ... ],
-      EventVariables => [ 'Mystring', ... ],
-      Name           => 'Myidentifier',
-      Description    => 'Mydescription',        # OPTIONAL
-      Labels         => [ 'Mystring', ... ],    # OPTIONAL
-      Tags           => [
+      EntityTypes        => [ 'Mystring', ... ],
+      EventVariables     => [ 'Mystring', ... ],
+      Name               => 'Myidentifier',
+      Description        => 'Mydescription',    # OPTIONAL
+      EventIngestion     => 'ENABLED',          # OPTIONAL
+      EventOrchestration => {
+        EventBridgeEnabled => 1,
+
+      },                                        # OPTIONAL
+      Labels => [ 'Mystring', ... ],            # OPTIONAL
+      Tags   => [
         {
           Key   => 'MytagKey',      # min: 1, max: 128
           Value => 'MytagValue',    # max: 256
@@ -64,6 +71,20 @@ The description of the event type.
 
 The entity type for the event type. Example entity types: customer,
 merchant, account.
+
+
+
+=head2 EventIngestion => Str
+
+Specifies if ingestion is enabled or disabled.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
+
+=head2 EventOrchestration => L<Paws::FraudDetector::EventOrchestration>
+
+Enables or disables event orchestration. If enabled, you can send event
+predictions to select AWS services for downstream processing of the
+events.
 
 
 

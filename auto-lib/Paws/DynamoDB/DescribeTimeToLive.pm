@@ -28,7 +28,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $dynamodb = Paws->service('DynamoDB');
     my $DescribeTimeToLiveOutput = $dynamodb->DescribeTimeToLive(
-      TableName => 'MyTableName',
+      TableName => 'MyTableArn',
 
     );
 
@@ -46,7 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table to be described.
+The name of the table to be described. You can also provide the Amazon
+Resource Name (ARN) of the table in this parameter.
 
 
 

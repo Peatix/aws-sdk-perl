@@ -91,7 +91,7 @@ related to a reserved DB instance.
 
 =head2 MultiAZ => Bool
 
-Indicates if the reservation applies to Multi-AZ deployments.
+Indicates whether the reservation applies to Multi-AZ deployments.
 
 
 =head2 OfferingType => Str

@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sco
 =head1 DESCRIPTION
 
 Provides a relative ranking that indicates how confident Amazon Kendra
-is that the response matches the query.
+is that the response is relevant to the query.
 
 =head1 ATTRIBUTES
 
 
 =head2 ScoreConfidence => Str
 
-A relative ranking for how well the response matches the query.
+A relative ranking for how relevant the response is to the query.
 
 
 

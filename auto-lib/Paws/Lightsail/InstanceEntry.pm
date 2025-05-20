@@ -51,8 +51,7 @@ The Availability Zone for the new Amazon EC2 instance.
 
 =head2 B<REQUIRED> InstanceType => Str
 
-The instance type (e.g., C<t2.micro>) to use for the new Amazon EC2
-instance.
+The instance type (C<t2.micro>) to use for the new Amazon EC2 instance.
 
 
 =head2 B<REQUIRED> PortInfoSource => Str

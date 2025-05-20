@@ -18,13 +18,13 @@ Paws::Detective::DeleteMembersResponse
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-The list of AWS account identifiers for the member accounts that
-Detective successfully deleted from the behavior graph.
+The list of Amazon Web Services account identifiers for the member
+accounts that Detective successfully removed from the behavior graph.
 
 
 =head2 UnprocessedAccounts => ArrayRef[L<Paws::Detective::UnprocessedAccount>]
 
-The list of member accounts that Detective was not able to delete from
+The list of member accounts that Detective was not able to remove from
 the behavior graph. For each member account, provides the reason that
 the deletion could not be processed.
 

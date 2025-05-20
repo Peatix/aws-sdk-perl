@@ -4,6 +4,7 @@ package Paws::EC2::ResponseLaunchTemplateData;
   has CapacityReservationSpecification => (is => 'ro', isa => 'Paws::EC2::LaunchTemplateCapacityReservationSpecificationResponse', request_name => 'capacityReservationSpecification', traits => ['NameInRequest']);
   has CpuOptions => (is => 'ro', isa => 'Paws::EC2::LaunchTemplateCpuOptions', request_name => 'cpuOptions', traits => ['NameInRequest']);
   has CreditSpecification => (is => 'ro', isa => 'Paws::EC2::CreditSpecification', request_name => 'creditSpecification', traits => ['NameInRequest']);
+  has DisableApiStop => (is => 'ro', isa => 'Bool', request_name => 'disableApiStop', traits => ['NameInRequest']);
   has DisableApiTermination => (is => 'ro', isa => 'Bool', request_name => 'disableApiTermination', traits => ['NameInRequest']);
   has EbsOptimized => (is => 'ro', isa => 'Bool', request_name => 'ebsOptimized', traits => ['NameInRequest']);
   has ElasticGpuSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ElasticGpuSpecificationResponse]', request_name => 'elasticGpuSpecificationSet', traits => ['NameInRequest']);
@@ -14,14 +15,19 @@ package Paws::EC2::ResponseLaunchTemplateData;
   has ImageId => (is => 'ro', isa => 'Str', request_name => 'imageId', traits => ['NameInRequest']);
   has InstanceInitiatedShutdownBehavior => (is => 'ro', isa => 'Str', request_name => 'instanceInitiatedShutdownBehavior', traits => ['NameInRequest']);
   has InstanceMarketOptions => (is => 'ro', isa => 'Paws::EC2::LaunchTemplateInstanceMarketOptions', request_name => 'instanceMarketOptions', traits => ['NameInRequest']);
+  has InstanceRequirements => (is => 'ro', isa => 'Paws::EC2::InstanceRequirements', request_name => 'instanceRequirements', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
   has KernelId => (is => 'ro', isa => 'Str', request_name => 'kernelId', traits => ['NameInRequest']);
   has KeyName => (is => 'ro', isa => 'Str', request_name => 'keyName', traits => ['NameInRequest']);
   has LicenseSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::LaunchTemplateLicenseConfiguration]', request_name => 'licenseSet', traits => ['NameInRequest']);
+  has MaintenanceOptions => (is => 'ro', isa => 'Paws::EC2::LaunchTemplateInstanceMaintenanceOptions', request_name => 'maintenanceOptions', traits => ['NameInRequest']);
   has MetadataOptions => (is => 'ro', isa => 'Paws::EC2::LaunchTemplateInstanceMetadataOptions', request_name => 'metadataOptions', traits => ['NameInRequest']);
   has Monitoring => (is => 'ro', isa => 'Paws::EC2::LaunchTemplatesMonitoring', request_name => 'monitoring', traits => ['NameInRequest']);
   has NetworkInterfaces => (is => 'ro', isa => 'ArrayRef[Paws::EC2::LaunchTemplateInstanceNetworkInterfaceSpecification]', request_name => 'networkInterfaceSet', traits => ['NameInRequest']);
+  has NetworkPerformanceOptions => (is => 'ro', isa => 'Paws::EC2::LaunchTemplateNetworkPerformanceOptions', request_name => 'networkPerformanceOptions', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has Placement => (is => 'ro', isa => 'Paws::EC2::LaunchTemplatePlacement', request_name => 'placement', traits => ['NameInRequest']);
+  has PrivateDnsNameOptions => (is => 'ro', isa => 'Paws::EC2::LaunchTemplatePrivateDnsNameOptions', request_name => 'privateDnsNameOptions', traits => ['NameInRequest']);
   has RamDiskId => (is => 'ro', isa => 'Str', request_name => 'ramDiskId', traits => ['NameInRequest']);
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroupIdSet', traits => ['NameInRequest']);
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroupSet', traits => ['NameInRequest']);
@@ -74,15 +80,23 @@ Information about the Capacity Reservation targeting option.
 
 =head2 CpuOptions => L<Paws::EC2::LaunchTemplateCpuOptions>
 
-The CPU options for the instance. For more information, see Optimizing
-CPU Options
+The CPU options for the instance. For more information, see CPU options
+for Amazon EC2 instances
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 CreditSpecification => L<Paws::EC2::CreditSpecification>
 
 The credit option for CPU usage of the instance.
+
+
+=head2 DisableApiStop => Bool
+
+Indicates whether the instance is enabled for stop protection. For more
+information, see Enable stop protection for your EC2 instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-stop-protection.html)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 DisableApiTermination => Bool
@@ -98,25 +112,36 @@ Indicates whether the instance is optimized for Amazon EBS I/O.
 
 =head2 ElasticGpuSpecifications => ArrayRef[L<Paws::EC2::ElasticGpuSpecificationResponse>]
 
-The elastic GPU specification.
+Deprecated.
+
+Amazon Elastic Graphics reached end of life on January 8, 2024.
 
 
 =head2 ElasticInferenceAccelerators => ArrayRef[L<Paws::EC2::LaunchTemplateElasticInferenceAcceleratorResponse>]
 
-The elastic inference accelerator for the instance.
+Amazon Elastic Inference is no longer available.
+
+An elastic inference accelerator to associate with the instance.
+Elastic inference accelerators are a resource you can attach to your
+Amazon EC2 instances to accelerate your Deep Learning (DL) inference
+workloads.
+
+You cannot specify accelerators from different generations in the same
+request.
 
 
 =head2 EnclaveOptions => L<Paws::EC2::LaunchTemplateEnclaveOptions>
 
-Indicates whether the instance is enabled for AWS Nitro Enclaves.
+Indicates whether the instance is enabled for Amazon Web Services Nitro
+Enclaves.
 
 
 =head2 HibernationOptions => L<Paws::EC2::LaunchTemplateHibernationOptions>
 
 Indicates whether an instance is configured for hibernation. For more
-information, see Hibernate Your Instance
+information, see Hibernate your Amazon EC2 instance
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html) in
-the I<Amazon Elastic Compute Cloud User Guide>.
+the I<Amazon EC2 User Guide>.
 
 
 =head2 IamInstanceProfile => L<Paws::EC2::LaunchTemplateIamInstanceProfileSpecification>
@@ -126,7 +151,36 @@ The IAM instance profile.
 
 =head2 ImageId => Str
 
-The ID of the AMI that was used to launch the instance.
+The ID of the AMI or a Systems Manager parameter. The Systems Manager
+parameter will resolve to the ID of the AMI at instance launch.
+
+The value depends on what you specified in the request. The possible
+values are:
+
+=over
+
+=item *
+
+If an AMI ID was specified in the request, then this is the AMI ID.
+
+=item *
+
+If a Systems Manager parameter was specified in the request, and
+C<ResolveAlias> was configured as C<true>, then this is the AMI ID that
+the parameter is mapped to in the Parameter Store.
+
+=item *
+
+If a Systems Manager parameter was specified in the request, and
+C<ResolveAlias> was configured as C<false>, then this is the parameter
+value.
+
+=back
+
+For more information, see Use a Systems Manager parameter instead of an
+AMI ID
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-launch-template.html#use-an-ssm-parameter-instead-of-an-ami-id)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 InstanceInitiatedShutdownBehavior => Str
@@ -139,6 +193,16 @@ system shutdown).
 =head2 InstanceMarketOptions => L<Paws::EC2::LaunchTemplateInstanceMarketOptions>
 
 The market (purchasing) option for the instances.
+
+
+=head2 InstanceRequirements => L<Paws::EC2::InstanceRequirements>
+
+The attributes for the instance types. When you specify instance
+attributes, Amazon EC2 will identify instance types with these
+attributes.
+
+If you specify C<InstanceRequirements>, you can't specify
+C<InstanceTypes>.
 
 
 =head2 InstanceType => Str
@@ -161,12 +225,17 @@ The name of the key pair.
 The license configurations.
 
 
+=head2 MaintenanceOptions => L<Paws::EC2::LaunchTemplateInstanceMaintenanceOptions>
+
+The maintenance options for your instance.
+
+
 =head2 MetadataOptions => L<Paws::EC2::LaunchTemplateInstanceMetadataOptions>
 
 The metadata options for the instance. For more information, see
-Instance Metadata and User Data
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+Configure the Instance Metadata Service options
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html)
+in the I<Amazon EC2 User Guide>.
 
 
 =head2 Monitoring => L<Paws::EC2::LaunchTemplatesMonitoring>
@@ -179,9 +248,25 @@ The monitoring for the instance.
 The network interfaces.
 
 
+=head2 NetworkPerformanceOptions => L<Paws::EC2::LaunchTemplateNetworkPerformanceOptions>
+
+Contains the launch template settings for network performance options
+for your instance.
+
+
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The entity that manages the launch template.
+
+
 =head2 Placement => L<Paws::EC2::LaunchTemplatePlacement>
 
 The placement of the instance.
+
+
+=head2 PrivateDnsNameOptions => L<Paws::EC2::LaunchTemplatePrivateDnsNameOptions>
+
+The options for the instance hostname.
 
 
 =head2 RamDiskId => Str
@@ -201,7 +286,8 @@ The security group names.
 
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::LaunchTemplateTagSpecification>]
 
-The tags.
+The tags that are applied to the resources that are created during
+instance launch.
 
 
 =head2 UserData => Str

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Au
 
 =head1 DESCRIPTION
 
-The authorization config in case the HTTP endpoint requires
+The authorization configuration in case the HTTP endpoint requires
 authorization.
 
 =head1 ATTRIBUTES
@@ -42,13 +42,13 @@ authorization.
 
 =head2 B<REQUIRED> AuthorizationType => Str
 
-The authorization type required by the HTTP endpoint.
+The authorization type that the HTTP endpoint requires.
 
 =over
 
 =item *
 
-B<AWS_IAM>: The authorization type is Sigv4.
+B<AWS_IAM>: The authorization type is Signature Version 4 (SigV4).
 
 =back
 
@@ -56,7 +56,7 @@ B<AWS_IAM>: The authorization type is Sigv4.
 
 =head2 AwsIamConfig => L<Paws::AppSync::AwsIamConfig>
 
-The AWS IAM settings.
+The Identity and Access Management (IAM) settings.
 
 
 

@@ -16,7 +16,7 @@ Paws::LicenseManager::GetLicenseManagerReportGeneratorResponse
 
 =head2 ReportGenerator => L<Paws::LicenseManager::ReportGenerator>
 
-A report generator that creates periodic reports on your license
+A report generator that creates periodic reports about your license
 configurations.
 
 

@@ -5,6 +5,10 @@ package Paws::Route53Resolver::CreateResolverEndpoint;
   has Direction => (is => 'ro', isa => 'Str', required => 1);
   has IpAddresses => (is => 'ro', isa => 'ArrayRef[Paws::Route53Resolver::IpAddressRequest]', required => 1);
   has Name => (is => 'ro', isa => 'Str');
+  has OutpostArn => (is => 'ro', isa => 'Str');
+  has PreferredInstanceType => (is => 'ro', isa => 'Str');
+  has Protocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ResolverEndpointType => (is => 'ro', isa => 'Str');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Route53Resolver::Tag]');
 
@@ -40,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           SubnetId => 'MySubnetId',    # min: 1, max: 32
           Ip       => 'MyIp',          # min: 7, max: 36; OPTIONAL
+          Ipv6     => 'MyIpv6',        # min: 7, max: 39; OPTIONAL
         },
         ...
       ],
@@ -47,8 +52,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'MyResourceId',
         ...                            # min: 1, max: 64
       ],
-      Name => 'MyName',                # OPTIONAL
-      Tags => [
+      Name                  => 'MyName',                   # OPTIONAL
+      OutpostArn            => 'MyOutpostArn',             # OPTIONAL
+      PreferredInstanceType => 'MyOutpostInstanceType',    # OPTIONAL
+      Protocols             => [
+        'DoH', ...    # values: DoH, Do53, DoH-FIPS
+      ],    # OPTIONAL
+      ResolverEndpointType => 'IPV6',    # OPTIONAL
+      Tags                 => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -105,6 +116,9 @@ The subnets and IP addresses in your VPC that DNS queries originate
 from (for outbound endpoints) or that you forward DNS queries to (for
 inbound endpoints). The subnet ID uniquely identifies a VPC.
 
+Even though the minimum is 1, Route 53 requires that you create at
+least two.
+
 
 
 =head2 Name => Str
@@ -113,6 +127,88 @@ A friendly name that lets you easily find a configuration in the
 Resolver dashboard in the Route 53 console.
 
 
+
+=head2 OutpostArn => Str
+
+The Amazon Resource Name (ARN) of the Outpost. If you specify this, you
+must also specify a value for the C<PreferredInstanceType>.
+
+
+
+=head2 PreferredInstanceType => Str
+
+The instance type. If you specify this, you must also specify a value
+for the C<OutpostArn>.
+
+
+
+=head2 Protocols => ArrayRef[Str|Undef]
+
+The protocols you want to use for the endpoint. DoH-FIPS is applicable
+for inbound endpoints only.
+
+For an inbound endpoint you can apply the protocols as follows:
+
+=over
+
+=item *
+
+Do53 and DoH in combination.
+
+=item *
+
+Do53 and DoH-FIPS in combination.
+
+=item *
+
+Do53 alone.
+
+=item *
+
+DoH alone.
+
+=item *
+
+DoH-FIPS alone.
+
+=item *
+
+None, which is treated as Do53.
+
+=back
+
+For an outbound endpoint you can apply the protocols as follows:
+
+=over
+
+=item *
+
+Do53 and DoH in combination.
+
+=item *
+
+Do53 alone.
+
+=item *
+
+DoH alone.
+
+=item *
+
+None, which is treated as Do53.
+
+=back
+
+
+
+
+=head2 ResolverEndpointType => Str
+
+For the endpoint type you can choose either IPv4, IPv6, or dual-stack.
+A dual-stack endpoint means that it will resolve via both IPv4 and
+IPv6. This endpoint type is applied to all IP addresses.
+
+Valid values are: C<"IPV6">, C<"IPV4">, C<"DUALSTACK">
 
 =head2 B<REQUIRED> SecurityGroupIds => ArrayRef[Str|Undef]
 
@@ -123,6 +219,14 @@ rules (for outbound Resolver endpoints). Inbound and outbound rules
 must allow TCP and UDP access. For inbound access, open port 53. For
 outbound access, open the port that you're using for DNS queries on
 your network.
+
+Some security group rules will cause your connection to be tracked. For
+outbound resolver endpoint, it can potentially impact the maximum
+queries per second from outbound endpoint to your target name server.
+For inbound resolver endpoint, it can bring down the overall maximum
+queries per second per IP address to as low as 1500. To avoid
+connection tracking caused by security group, see Untracked connections
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl).
 
 
 

@@ -44,13 +44,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> Keys => ArrayRef[Str|Undef]
 
-The keys in the key-value pair in the tag to remove.
+Specifies the keys in the tags that you want to remove.
 
 
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource to remove the tag from.
+Specifies the Amazon Resource Name (ARN) of the resource to remove the
+tags from.
 
 
 

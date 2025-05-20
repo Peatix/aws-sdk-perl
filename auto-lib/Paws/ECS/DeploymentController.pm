@@ -33,10 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Deploy
 
 =head1 DESCRIPTION
 
-The deployment controller to use for the service. For more information,
-see Amazon ECS Deployment Types
-(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html)
-in the I<Amazon Elastic Container Service Developer Guide>.
+The deployment controller to use for the service.
 
 =head1 ATTRIBUTES
 
@@ -56,19 +53,35 @@ current running version of the container with the latest version. The
 number of containers Amazon ECS adds or removes from the service during
 a rolling update is controlled by adjusting the minimum and maximum
 number of healthy tasks allowed during a service deployment, as
-specified in the DeploymentConfiguration.
+specified in the DeploymentConfiguration
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentConfiguration.html).
+
+For more information about rolling deployments, see Deploy Amazon ECS
+services by replacing tasks
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =item CODE_DEPLOY
 
 The blue/green (C<CODE_DEPLOY>) deployment type uses the blue/green
-deployment model powered by AWS CodeDeploy, which allows you to verify
-a new deployment of a service before sending production traffic to it.
+deployment model powered by CodeDeploy, which allows you to verify a
+new deployment of a service before sending production traffic to it.
+
+For more information about blue/green deployments, see Validate the
+state of an Amazon ECS service before deployment
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =item EXTERNAL
 
 The external (C<EXTERNAL>) deployment type enables you to use any
 third-party deployment controller for full control over the deployment
 process for an Amazon ECS service.
+
+For more information about external deployments, see Deploy Amazon ECS
+services using a third-party controller
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-external.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =back
 

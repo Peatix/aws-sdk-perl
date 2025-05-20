@@ -61,8 +61,7 @@ action execution.
 =head2 PolicyStatementsTemplate => Str
 
 The policy statement that specifies the permissions in the CodePipeline
-customerE<rsquo>s account that are needed to successfully run an
-action.
+customer account that are needed to successfully run an action.
 
 To grant permission to another account, specify the account ID as the
 Principal, a domain-style identifier defined by the service, for

@@ -18,7 +18,8 @@ Paws::ResourceGroups::UntagOutput
 
 =head2 Arn => Str
 
-The ARN of the resource group from which tags have been removed.
+The Amazon resource name (ARN) of the resource group from which tags
+have been removed.
 
 
 =head2 Keys => ArrayRef[Str|Undef]

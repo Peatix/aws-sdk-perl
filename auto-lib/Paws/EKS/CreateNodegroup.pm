@@ -10,6 +10,7 @@ package Paws::EKS::CreateNodegroup;
   has Labels => (is => 'ro', isa => 'Paws::EKS::LabelsMap', traits => ['NameInRequest'], request_name => 'labels');
   has LaunchTemplate => (is => 'ro', isa => 'Paws::EKS::LaunchTemplateSpecification', traits => ['NameInRequest'], request_name => 'launchTemplate');
   has NodegroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nodegroupName', required => 1);
+  has NodeRepairConfig => (is => 'ro', isa => 'Paws::EKS::NodeRepairConfig', traits => ['NameInRequest'], request_name => 'nodeRepairConfig');
   has NodeRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nodeRole', required => 1);
   has ReleaseVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'releaseVersion');
   has RemoteAccess => (is => 'ro', isa => 'Paws::EKS::RemoteAccessConfig', traits => ['NameInRequest'], request_name => 'remoteAccess');
@@ -64,6 +65,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Name    => 'MyString',
         Version => 'MyString',
       },    # OPTIONAL
+      NodeRepairConfig => {
+        Enabled => 1,    # OPTIONAL
+      },    # OPTIONAL
       ReleaseVersion => 'MyString',    # OPTIONAL
       RemoteAccess   => {
         Ec2SshKey            => 'MyString',
@@ -89,6 +93,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       UpdateConfig => {
         MaxUnavailable           => 1,    # min: 1; OPTIONAL
         MaxUnavailablePercentage => 1,    # min: 1, max: 100; OPTIONAL
+        UpdateStrategy => 'DEFAULT',      # values: DEFAULT, MINIMAL; OPTIONAL
       },    # OPTIONAL
       Version => 'MyString',    # OPTIONAL
     );
@@ -106,58 +111,58 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 AmiType => Str
 
-The AMI type for your node group. GPU instance types should use the
-C<AL2_x86_64_GPU> AMI type. Non-GPU instances should use the
-C<AL2_x86_64> AMI type. Arm instances should use the C<AL2_ARM_64> AMI
-type. All types use the Amazon EKS optimized Amazon Linux 2 AMI. If you
-specify C<launchTemplate>, and your launch template uses a custom AMI,
-then don't specify C<amiType>, or the node group deployment will fail.
-For more information about using launch templates with Amazon EKS, see
-Launch template support
+The AMI type for your node group. If you specify C<launchTemplate>, and
+your launch template uses a custom AMI, then don't specify C<amiType>,
+or the node group deployment will fail. If your launch template uses a
+Windows custom AMI, then add C<eks:kube-proxy-windows> to your Windows
+nodes C<rolearn> in the C<aws-auth> C<ConfigMap>. For more information
+about using launch templates with Amazon EKS, see Customizing managed
+nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
-Valid values are: C<"AL2_x86_64">, C<"AL2_x86_64_GPU">, C<"AL2_ARM_64">, C<"CUSTOM">
+Valid values are: C<"AL2_x86_64">, C<"AL2_x86_64_GPU">, C<"AL2_ARM_64">, C<"CUSTOM">, C<"BOTTLEROCKET_ARM_64">, C<"BOTTLEROCKET_x86_64">, C<"BOTTLEROCKET_ARM_64_FIPS">, C<"BOTTLEROCKET_x86_64_FIPS">, C<"BOTTLEROCKET_ARM_64_NVIDIA">, C<"BOTTLEROCKET_x86_64_NVIDIA">, C<"WINDOWS_CORE_2019_x86_64">, C<"WINDOWS_FULL_2019_x86_64">, C<"WINDOWS_CORE_2022_x86_64">, C<"WINDOWS_FULL_2022_x86_64">, C<"AL2023_x86_64_STANDARD">, C<"AL2023_ARM_64_STANDARD">, C<"AL2023_x86_64_NEURON">, C<"AL2023_x86_64_NVIDIA">, C<"AL2023_ARM_64_NVIDIA">
 
 =head2 CapacityType => Str
 
 The capacity type for your node group.
 
-Valid values are: C<"ON_DEMAND">, C<"SPOT">
+Valid values are: C<"ON_DEMAND">, C<"SPOT">, C<"CAPACITY_BLOCK">
 
 =head2 ClientRequestToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
+A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the request.
 
 
 
 =head2 B<REQUIRED> ClusterName => Str
 
-The name of the cluster to create the node group in.
+The name of your cluster.
 
 
 
 =head2 DiskSize => Int
 
 The root device disk size (in GiB) for your node group instances. The
-default disk size is 20 GiB. If you specify C<launchTemplate>, then
+default disk size is 20 GiB for Linux and Bottlerocket. The default
+disk size is 50 GiB for Windows. If you specify C<launchTemplate>, then
 don't specify C<diskSize>, or the node group deployment will fail. For
 more information about using launch templates with Amazon EKS, see
-Launch template support
+Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 
 =head2 InstanceTypes => ArrayRef[Str|Undef]
 
 Specify the instance types for a node group. If you specify a GPU
-instance type, be sure to specify C<AL2_x86_64_GPU> with the C<amiType>
-parameter. If you specify C<launchTemplate>, then you can specify zero
-or one instance type in your launch template I<or> you can specify 0-20
-instance types for C<instanceTypes>. If however, you specify an
-instance type in your launch template I<and> specify any
+instance type, make sure to also specify an applicable GPU AMI type
+with the C<amiType> parameter. If you specify C<launchTemplate>, then
+you can specify zero or one instance type in your launch template I<or>
+you can specify 0-20 instance types for C<instanceTypes>. If however,
+you specify an instance type in your launch template I<and> specify any
 C<instanceTypes>, the node group deployment will fail. If you don't
 specify an instance type in a launch template or for C<instanceTypes>,
 then C<t3.medium> is used, by default. If you specify C<Spot> for
@@ -165,7 +170,7 @@ C<capacityType>, then we recommend specifying multiple values for
 C<instanceTypes>. For more information, see Managed node group capacity
 types
 (https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types)
-and Launch template support
+and Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
 in the I<Amazon EKS User Guide>.
 
@@ -173,17 +178,23 @@ in the I<Amazon EKS User Guide>.
 
 =head2 Labels => L<Paws::EKS::LabelsMap>
 
-The Kubernetes labels to be applied to the nodes in the node group when
+The Kubernetes C<labels> to apply to the nodes in the node group when
 they are created.
 
 
 
 =head2 LaunchTemplate => L<Paws::EKS::LaunchTemplateSpecification>
 
-An object representing a node group's launch template specification. If
-specified, then do not specify C<instanceTypes>, C<diskSize>, or
-C<remoteAccess> and make sure that the launch template meets the
-requirements in C<launchTemplateSpecification>.
+An object representing a node group's launch template specification.
+When using this object, don't directly specify C<instanceTypes>,
+C<diskSize>, or C<remoteAccess>. You cannot later specify a different
+launch template ID or name than what was used to create the node group.
+
+Make sure that the launch template meets the requirements in
+C<launchTemplateSpecification>. Also refer to Customizing managed nodes
+with launch templates
+(https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+in the I<Amazon EKS User Guide>.
 
 
 
@@ -193,24 +204,30 @@ The unique name to give your node group.
 
 
 
+=head2 NodeRepairConfig => L<Paws::EKS::NodeRepairConfig>
+
+The node auto repair configuration for the node group.
+
+
+
 =head2 B<REQUIRED> NodeRole => Str
 
 The Amazon Resource Name (ARN) of the IAM role to associate with your
 node group. The Amazon EKS worker node C<kubelet> daemon makes calls to
-AWS APIs on your behalf. Nodes receive permissions for these API calls
-through an IAM instance profile and associated policies. Before you can
-launch nodes and register them into a cluster, you must create an IAM
-role for those nodes to use when they are launched. For more
-information, see Amazon EKS node IAM role
-(https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html)
+Amazon Web Services APIs on your behalf. Nodes receive permissions for
+these API calls through an IAM instance profile and associated
+policies. Before you can launch nodes and register them into a cluster,
+you must create an IAM role for those nodes to use when they are
+launched. For more information, see Amazon EKS node IAM role
+(https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html)
 in the I< I<Amazon EKS User Guide> >. If you specify C<launchTemplate>,
-then don't specify C<IamInstanceProfile>
+then don't specify C< IamInstanceProfile
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html)
-in your launch template, or the node group deployment will fail. For
+> in your launch template, or the node group deployment will fail. For
 more information about using launch templates with Amazon EKS, see
-Launch template support
+Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 
@@ -218,27 +235,35 @@ in the Amazon EKS User Guide.
 
 The AMI version of the Amazon EKS optimized AMI to use with your node
 group. By default, the latest available AMI version for the node
-group's current Kubernetes version is used. For more information, see
-Amazon EKS optimized Amazon Linux 2 AMI versions
+group's current Kubernetes version is used. For information about Linux
+versions, see Amazon EKS optimized Amazon Linux AMI versions
 (https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html)
-in the I<Amazon EKS User Guide>. If you specify C<launchTemplate>, and
-your launch template uses a custom AMI, then don't specify
-C<releaseVersion>, or the node group deployment will fail. For more
-information about using launch templates with Amazon EKS, see Launch
-template support
+in the I<Amazon EKS User Guide>. Amazon EKS managed node groups support
+the November 2022 and later releases of the Windows AMIs. For
+information about Windows versions, see Amazon EKS optimized Windows
+AMI versions
+(https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html)
+in the I<Amazon EKS User Guide>.
+
+If you specify C<launchTemplate>, and your launch template uses a
+custom AMI, then don't specify C<releaseVersion>, or the node group
+deployment will fail. For more information about using launch templates
+with Amazon EKS, see Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 
 =head2 RemoteAccess => L<Paws::EKS::RemoteAccessConfig>
 
-The remote access (SSH) configuration to use with your node group. If
-you specify C<launchTemplate>, then don't specify C<remoteAccess>, or
-the node group deployment will fail. For more information about using
-launch templates with Amazon EKS, see Launch template support
+The remote access configuration to use with your node group. For Linux,
+the protocol is SSH. For Windows, the protocol is RDP. If you specify
+C<launchTemplate>, then don't specify C<remoteAccess>, or the node
+group deployment will fail. For more information about using launch
+templates with Amazon EKS, see Customizing managed nodes with launch
+templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 
@@ -252,36 +277,36 @@ created for your node group.
 =head2 B<REQUIRED> Subnets => ArrayRef[Str|Undef]
 
 The subnets to use for the Auto Scaling group that is created for your
-node group. If you specify C<launchTemplate>, then don't specify
-C<SubnetId>
+node group. If you specify C<launchTemplate>, then don't specify C<
+SubnetId
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)
-in your launch template, or the node group deployment will fail. For
+> in your launch template, or the node group deployment will fail. For
 more information about using launch templates with Amazon EKS, see
-Launch template support
+Customizing managed nodes with launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 
 =head2 Tags => L<Paws::EKS::TagMap>
 
-The metadata to apply to the node group to assist with categorization
-and organization. Each tag consists of a key and an optional value,
-both of which you define. Node group tags do not propagate to any other
-resources associated with the node group, such as the Amazon EC2
-instances or subnets.
+Metadata that assists with categorization and organization. Each tag
+consists of a key and an optional value. You define both. Tags don't
+propagate to any other cluster or Amazon Web Services resources.
 
 
 
 =head2 Taints => ArrayRef[L<Paws::EKS::Taint>]
 
-The Kubernetes taints to be applied to the nodes in the node group.
+The Kubernetes taints to be applied to the nodes in the node group. For
+more information, see Node taints on managed node groups
+(https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html).
 
 
 
 =head2 UpdateConfig => L<Paws::EKS::NodegroupUpdateConfig>
 
-
+The node group update configuration.
 
 
 
@@ -292,9 +317,10 @@ Kubernetes version of the cluster is used, and this is the only
 accepted specified value. If you specify C<launchTemplate>, and your
 launch template uses a custom AMI, then don't specify C<version>, or
 the node group deployment will fail. For more information about using
-launch templates with Amazon EKS, see Launch template support
+launch templates with Amazon EKS, see Customizing managed nodes with
+launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
 
 

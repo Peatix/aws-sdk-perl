@@ -2,6 +2,7 @@
 package Paws::MediaConvert::AudioChannelTaggingSettings;
   use Moose;
   has ChannelTag => (is => 'ro', isa => 'Str', request_name => 'channelTag', traits => ['NameInRequest']);
+  has ChannelTags => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'channelTags', traits => ['NameInRequest']);
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MediaConvert::AudioChannelTaggingSettings object:
 
-  $service_obj->Method(Att1 => { ChannelTag => $value, ..., ChannelTag => $value  });
+  $service_obj->Method(Att1 => { ChannelTag => $value, ..., ChannelTags => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,23 +34,35 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-When you mimic a multi-channel audio layout with multiple mono-channel
-tracks, you can tag each channel layout manually. For example, you
-would tag the tracks that contain your left, right, and center audio
-with Left (L), Right (R), and Center (C), respectively. When you don't
-specify a value, MediaConvert labels your track as Center (C) by
-default. To use audio layout tagging, your output must be in a
-QuickTime (.mov) container; your audio codec must be AAC, WAV, or AIFF;
-and you must set up your audio track to have only one channel.
+Specify the QuickTime audio channel layout tags for the audio channels
+in this audio track. When you don't specify a value, MediaConvert
+labels your track as Center (C) by default. To use Audio layout
+tagging, your output must be in a QuickTime (MOV) container and your
+audio codec must be AAC, WAV, or AIFF.
 
 =head1 ATTRIBUTES
 
 
 =head2 ChannelTag => Str
 
-You can add a tag for this mono-channel audio track to mimic its
-placement in a multi-channel layout. For example, if this track is the
-left surround channel, choose Left surround (LS).
+Specify the QuickTime audio channel layout tags for the audio channels
+in this audio track. Enter channel layout tags in the same order as
+your output's audio channel order. For example, if your output audio
+track has a left and a right channel, enter Left (L) for the first
+channel and Right (R) for the second. If your output has multiple
+single-channel audio tracks, enter a single channel layout tag for each
+track.
+
+
+=head2 ChannelTags => ArrayRef[Str|Undef]
+
+Specify the QuickTime audio channel layout tags for the audio channels
+in this audio track. Enter channel layout tags in the same order as
+your output's audio channel order. For example, if your output audio
+track has a left and a right channel, enter Left (L) for the first
+channel and Right (R) for the second. If your output has multiple
+single-channel audio tracks, enter a single channel layout tag for each
+track.
 
 
 

@@ -27,7 +27,7 @@ The description of the event integration.
 
 =head2 EventBridgeBus => Str
 
-The Eventbridge bus.
+The EventBridge bus.
 
 
 =head2 EventFilter => L<Paws::AppIntegrations::EventFilter>
@@ -47,7 +47,8 @@ The name of the event integration.
 
 =head2 Tags => L<Paws::AppIntegrations::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "tags": {"key1":"value1", "key2":"value2"} }.
 
 
 =head2 _request_id => Str

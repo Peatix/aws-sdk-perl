@@ -3,6 +3,7 @@ package Paws::EC2::ModifyTransitGatewayVpcAttachmentRequestOptions;
   has ApplianceModeSupport => (is => 'ro', isa => 'Str');
   has DnsSupport => (is => 'ro', isa => 'Str');
   has Ipv6Support => (is => 'ro', isa => 'Str');
+  has SecurityGroupReferencingSupport => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::ModifyTransitGatewayVpcAttachmentRequestOptions object:
 
-  $service_obj->Method(Att1 => { ApplianceModeSupport => $value, ..., Ipv6Support => $value  });
+  $service_obj->Method(Att1 => { ApplianceModeSupport => $value, ..., SecurityGroupReferencingSupport => $value  });
 
 =head3 Results returned from an API call
 
@@ -54,6 +55,19 @@ Enable or disable DNS support. The default is C<enable>.
 =head2 Ipv6Support => Str
 
 Enable or disable IPv6 support. The default is C<enable>.
+
+
+=head2 SecurityGroupReferencingSupport => Str
+
+Enables you to reference a security group across VPCs attached to a
+transit gateway to simplify security group management.
+
+This option is disabled by default.
+
+For more information about security group referencing, see Security
+group referencing
+(https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security)
+in the I<Amazon Web Services Transit Gateways Guide>.
 
 
 

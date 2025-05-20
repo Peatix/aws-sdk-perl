@@ -55,7 +55,8 @@ The maximum number of results to return at once.
 
 =head2 NextToken => Str
 
-A token to retrieve the next set of results.
+To retrieve the next set of results, the nextToken value from a
+previous response; otherwise null to receive the first set of results.
 
 
 

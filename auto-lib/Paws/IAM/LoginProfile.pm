@@ -56,8 +56,8 @@ sign-in.
 
 =head2 B<REQUIRED> UserName => Str
 
-The name of the user, which can be used for signing in to the AWS
-Management Console.
+The name of the user, which can be used for signing in to the Amazon
+Web Services Management Console.
 
 
 

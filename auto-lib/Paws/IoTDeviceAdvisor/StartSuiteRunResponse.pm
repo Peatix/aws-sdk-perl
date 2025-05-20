@@ -2,6 +2,7 @@
 package Paws::IoTDeviceAdvisor::StartSuiteRunResponse;
   use Moose;
   has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
+  has Endpoint => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'endpoint');
   has SuiteRunArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'suiteRunArn');
   has SuiteRunId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'suiteRunId');
 
@@ -19,17 +20,22 @@ Paws::IoTDeviceAdvisor::StartSuiteRunResponse
 
 =head2 CreatedAt => Str
 
-Date (in Unix epoch time) when the suite run was created.
+Starts a Device Advisor test suite run based on suite create time.
+
+
+=head2 Endpoint => Str
+
+The response of an Device Advisor test endpoint.
 
 
 =head2 SuiteRunArn => Str
 
-Amazon resource name of the started suite run.
+Amazon Resource Name (ARN) of the started suite run.
 
 
 =head2 SuiteRunId => Str
 
-Suite Run Id of the started suite run.
+Suite Run ID of the started suite run.
 
 
 =head2 _request_id => Str

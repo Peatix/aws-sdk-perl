@@ -78,13 +78,13 @@ The location where the association details are saved.
 
 =head2 ResourceId => Str
 
-The resource ID, for example, the instance ID where the association
+The resource ID, for example, the managed node ID where the association
 ran.
 
 
 =head2 ResourceType => Str
 
-The resource type, for example, instance.
+The resource type, for example, EC2.
 
 
 =head2 Status => Str

@@ -3,6 +3,7 @@ package Paws::CodeBuild::Build;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has Artifacts => (is => 'ro', isa => 'Paws::CodeBuild::BuildArtifacts', request_name => 'artifacts', traits => ['NameInRequest']);
+  has AutoRetryConfig => (is => 'ro', isa => 'Paws::CodeBuild::AutoRetryConfig', request_name => 'autoRetryConfig', traits => ['NameInRequest']);
   has BuildBatchArn => (is => 'ro', isa => 'Str', request_name => 'buildBatchArn', traits => ['NameInRequest']);
   has BuildComplete => (is => 'ro', isa => 'Bool', request_name => 'buildComplete', traits => ['NameInRequest']);
   has BuildNumber => (is => 'ro', isa => 'Int', request_name => 'buildNumber', traits => ['NameInRequest']);
@@ -77,6 +78,11 @@ The Amazon Resource Name (ARN) of the build.
 =head2 Artifacts => L<Paws::CodeBuild::BuildArtifacts>
 
 Information about the output artifacts for the build.
+
+
+=head2 AutoRetryConfig => L<Paws::CodeBuild::AutoRetryConfig>
+
+Information about the auto-retry configuration for the build.
 
 
 =head2 BuildBatchArn => Str
@@ -208,8 +214,8 @@ C<codepipeline/my-demo-pipeline>).
 
 =item *
 
-If an Identity and Access Management user started the build, the user's
-name (for example, C<MyUserName>).
+If a user started the build, the user's name (for example,
+C<MyUserName>).
 
 =item *
 
@@ -349,8 +355,8 @@ When the build process started, expressed in Unix time format.
 
 =head2 TimeoutInMinutes => Int
 
-How long, in minutes, for CodeBuild to wait before timing out this
-build if it does not get marked as completed.
+How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait
+before timing out this build if it does not get marked as completed.
 
 
 =head2 VpcConfig => L<Paws::CodeBuild::VpcConfig>

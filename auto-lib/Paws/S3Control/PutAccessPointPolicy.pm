@@ -49,8 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID for owner of the bucket associated with the
-specified access point.
+The Amazon Web Services account ID for owner of the bucket associated
+with the specified access point.
 
 
 
@@ -62,10 +62,11 @@ specified policy.
 For using this parameter with Amazon S3 on Outposts with the REST API,
 you must specify the name and the x-amz-outpost-id as well.
 
-For using this parameter with S3 on Outposts with the AWS SDK and CLI,
-you must specify the ARN of the access point accessed in the format
+For using this parameter with S3 on Outposts with the Amazon Web
+Services SDK and CLI, you must specify the ARN of the access point
+accessed in the format
 C<arn:aws:s3-outposts:E<lt>RegionE<gt>:E<lt>account-idE<gt>:outpost/E<lt>outpost-idE<gt>/accesspoint/E<lt>my-accesspoint-nameE<gt>>.
-For example, to access the access point C<reports-ap> through outpost
+For example, to access the access point C<reports-ap> through Outpost
 C<my-outpost> owned by account C<123456789012> in Region C<us-west-2>,
 use the URL encoding of
 C<arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap>.
@@ -76,10 +77,11 @@ The value must be URL encoded.
 =head2 B<REQUIRED> Policy => Str
 
 The policy that you want to apply to the specified access point. For
-more information about access point policies, see Managing data access
-with Amazon S3 access points
+more information about access point policies, see Managing access to
+shared datasets in general purpose buckets with access points
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html)
-in the I<Amazon S3 User Guide>.
+or Managing access to shared datasets in directory bucekts with access
+points in the I<Amazon S3 User Guide>.
 
 
 

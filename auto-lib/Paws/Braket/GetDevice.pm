@@ -37,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DeviceArn          = $GetDeviceResponse->DeviceArn;
     my $DeviceCapabilities = $GetDeviceResponse->DeviceCapabilities;
     my $DeviceName         = $GetDeviceResponse->DeviceName;
+    my $DeviceQueueInfo    = $GetDeviceResponse->DeviceQueueInfo;
     my $DeviceStatus       = $GetDeviceResponse->DeviceStatus;
     my $DeviceType         = $GetDeviceResponse->DeviceType;
     my $ProviderName       = $GetDeviceResponse->ProviderName;

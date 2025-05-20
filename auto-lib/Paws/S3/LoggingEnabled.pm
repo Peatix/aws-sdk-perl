@@ -3,6 +3,7 @@ package Paws::S3::LoggingEnabled;
   use Moose;
   has TargetBucket => (is => 'ro', isa => 'Str', required => 1);
   has TargetGrants => (is => 'ro', isa => 'ArrayRef[Paws::S3::TargetGrant]', request_name => 'Grant', traits => ['NameInRequest']);
+  has TargetObjectKeyFormat => (is => 'ro', isa => 'Paws::S3::TargetObjectKeyFormat');
   has TargetPrefix => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -58,6 +59,17 @@ key.
 =head2 TargetGrants => ArrayRef[L<Paws::S3::TargetGrant>]
 
 Container for granting information.
+
+Buckets that use the bucket owner enforced setting for Object Ownership
+don't support target grants. For more information, see Permissions for
+server access log delivery
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general)
+in the I<Amazon S3 User Guide>.
+
+
+=head2 TargetObjectKeyFormat => L<Paws::S3::TargetObjectKeyFormat>
+
+Amazon S3 key format for log objects.
 
 
 =head2 B<REQUIRED> TargetPrefix => Str

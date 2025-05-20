@@ -48,8 +48,8 @@ C<ReplicaAvailabilityZones>, C<ReplicaCount>.
 
 =head2 NodeGroupId => Str
 
-Either the ElastiCache for Redis supplied 4-digit id or a user supplied
-id for the node group these configuration values apply to.
+Either the ElastiCache supplied 4-digit id or a user supplied id for
+the node group these configuration values apply to.
 
 
 =head2 PrimaryAvailabilityZone => Str

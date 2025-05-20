@@ -22,11 +22,13 @@ Specify the template source with one of the following options, but not
 both. Keys accepted: [ C<LoadTemplateFromURL>, C<ImportFromPhysicalId>
 ].
 
-The URL of the CloudFormation template in Amazon S3, in JSON format.
+Use the URL of the CloudFormation template in Amazon S3 or GitHub in
+JSON format.
 
 C<LoadTemplateFromURL>
 
-Use the URL of the CloudFormation template in Amazon S3 in JSON format.
+Use the URL of the CloudFormation template in Amazon S3 or GitHub in
+JSON format.
 
 C<ImportFromPhysicalId>
 

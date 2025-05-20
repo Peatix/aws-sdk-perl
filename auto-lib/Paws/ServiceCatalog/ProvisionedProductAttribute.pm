@@ -87,7 +87,7 @@ product of the following types:
 
 =item *
 
-ProvisionedProduct
+ProvisionProduct
 
 =item *
 
@@ -120,7 +120,7 @@ provisioned product of the following types:
 
 =item *
 
-ProvisionedProduct
+ProvisionProduct
 
 =item *
 
@@ -222,19 +222,20 @@ One or more tags.
 
 =head2 Type => Str
 
-The type of provisioned product. The supported values are C<CFN_STACK>
-and C<CFN_STACKSET>.
+The type of provisioned product. The supported values are C<CFN_STACK>,
+C<CFN_STACKSET>, C<TERRAFORM_OPEN_SOURCE>, C<TERRAFORM_CLOUD>, and
+C<EXTERNAL>.
 
 
 =head2 UserArn => Str
 
-The Amazon Resource Name (ARN) of the IAM user.
+The Amazon Resource Name (ARN) of the user.
 
 
 =head2 UserArnSession => Str
 
-The ARN of the IAM user in the session. This ARN might contain a
-session ID.
+The ARN of the user in the session. This ARN might contain a session
+ID.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::FIS::UpdateExperimentTemplateTargetInput;
   use Moose;
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::FIS::ExperimentTemplateTargetInputFilter]', request_name => 'filters', traits => ['NameInRequest']);
+  has Parameters => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateTargetParameterMap', request_name => 'parameters', traits => ['NameInRequest']);
   has ResourceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'resourceArns', traits => ['NameInRequest']);
   has ResourceTags => (is => 'ro', isa => 'Paws::FIS::TagMap', request_name => 'resourceTags', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest'], required => 1);
@@ -50,6 +51,11 @@ The filters to apply to identify target resources using specific
 attributes.
 
 
+=head2 Parameters => L<Paws::FIS::ExperimentTemplateTargetParameterMap>
+
+The resource type parameters.
+
+
 =head2 ResourceArns => ArrayRef[Str|Undef]
 
 The Amazon Resource Names (ARNs) of the targets.
@@ -62,7 +68,7 @@ The tags for the target resources.
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The AWS resource type. The resource type must be supported for the
+The resource type. The resource type must be supported for the
 specified action.
 
 

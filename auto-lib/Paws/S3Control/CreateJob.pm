@@ -5,7 +5,8 @@ package Paws::S3Control::CreateJob;
   has ClientRequestToken => (is => 'ro', isa => 'Str', required => 1);
   has ConfirmationRequired => (is => 'ro', isa => 'Bool');
   has Description => (is => 'ro', isa => 'Str');
-  has Manifest => (is => 'ro', isa => 'Paws::S3Control::JobManifest', required => 1);
+  has Manifest => (is => 'ro', isa => 'Paws::S3Control::JobManifest');
+  has ManifestGenerator => (is => 'ro', isa => 'Paws::S3Control::JobManifestGenerator');
   has Operation => (is => 'ro', isa => 'Paws::S3Control::JobOperation', required => 1);
   has Priority => (is => 'ro', isa => 'Int', required => 1);
   has Report => (is => 'ro', isa => 'Paws::S3Control::JobReport', required => 1);
@@ -44,25 +45,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateJobResult = $s3 -control->CreateJob(
       AccountId          => 'MyAccountId',
       ClientRequestToken => 'MyNonEmptyMaxLength64String',
-      Manifest           => {
-        Location => {
-          ETag      => 'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
-          ObjectArn => 'MyS3KeyArnString',                 # min: 1, max: 2000
-          ObjectVersionId =>
-            'MyS3ObjectVersionId',    # min: 1, max: 2000; OPTIONAL
-        },
-        Spec => {
-          Format => 'S3BatchOperations_CSV_20180820'
-          , # values: S3BatchOperations_CSV_20180820, S3InventoryReport_CSV_20161130
-          Fields => [
-            'Ignore', ...    # values: Ignore, Bucket, Key, VersionId
-          ],    # OPTIONAL
-        },
-
-      },
-      Operation => {
+      Operation          => {
         LambdaInvoke => {
           FunctionArn => 'MyFunctionArnString',    # min: 1, max: 1024; OPTIONAL
+          InvocationSchemaVersion =>
+            'MyNonEmptyMaxLength64String',         # min: 1, max: 64
+          UserArguments => {
+            'MyNonEmptyMaxLength64String' =>
+              'MyMaxLength1024String',  # key: min: 1, max: 64, value: max: 1024
+          },    # min: 1, max: 10; OPTIONAL
         },    # OPTIONAL
         S3DeleteObjectTagging => {
 
@@ -76,16 +67,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             AccessControlList => {
               Owner => {
                 DisplayName =>
-                  'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
-                ID => 'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
+                  'MyNonEmptyMaxLength1024String', # min: 1, max: 1024; OPTIONAL
+                ID =>
+                  'MyNonEmptyMaxLength1024String', # min: 1, max: 1024; OPTIONAL
               },
               Grants => [
                 {
                   Grantee => {
-                    DisplayName =>
-                      'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
-                    Identifier =>
-                      'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
+                    DisplayName => 'MyNonEmptyMaxLength1024String'
+                    ,          # min: 1, max: 1024; OPTIONAL
+                    Identifier => 'MyNonEmptyMaxLength1024String'
+                    ,          # min: 1, max: 1024; OPTIONAL
                     TypeIdentifier =>
                       'id',    # values: id, emailAddress, uri; OPTIONAL
                   },    # OPTIONAL
@@ -104,9 +96,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             {
               Grantee => {
                 DisplayName =>
-                  'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
+                  'MyNonEmptyMaxLength1024String', # min: 1, max: 1024; OPTIONAL
                 Identifier =>
-                  'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
+                  'MyNonEmptyMaxLength1024String', # min: 1, max: 1024; OPTIONAL
                 TypeIdentifier =>
                   'id',    # values: id, emailAddress, uri; OPTIONAL
               },    # OPTIONAL
@@ -115,34 +107,39 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # OPTIONAL
-          BucketKeyEnabled        => 1,                        # OPTIONAL
+          BucketKeyEnabled        => 1,          # OPTIONAL
           CannedAccessControlList => 'private'
           , # values: private, public-read, public-read-write, aws-exec-read, authenticated-read, bucket-owner-read, bucket-owner-full-control; OPTIONAL
+          ChecksumAlgorithm =>
+            'CRC32',  # values: CRC32, CRC32C, SHA1, SHA256, CRC64NVME; OPTIONAL
           MetadataDirective       => 'COPY',   # values: COPY, REPLACE; OPTIONAL
           ModifiedSinceConstraint => '1970-01-01T01:00:00',    # OPTIONAL
           NewObjectMetadata       => {
-            CacheControl => 'MyNonEmptyMaxLength1024String', # min: 1, max: 1024
+            CacheControl =>
+              'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
             ContentDisposition =>
-              'MyNonEmptyMaxLength1024String',               # min: 1, max: 1024
+              'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
             ContentEncoding =>
-              'MyNonEmptyMaxLength1024String',               # min: 1, max: 1024
+              'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
             ContentLanguage =>
-              'MyNonEmptyMaxLength1024String',               # min: 1, max: 1024
-            ContentLength => 1,                              # OPTIONAL
-            ContentMD5  => 'MyNonEmptyMaxLength1024String',  # min: 1, max: 1024
-            ContentType => 'MyNonEmptyMaxLength1024String',  # min: 1, max: 1024
-            HttpExpiresDate  => '1970-01-01T01:00:00',       # OPTIONAL
-            RequesterCharged => 1,                           # OPTIONAL
+              'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
+            ContentLength => 1,                   # OPTIONAL
+            ContentMD5    =>
+              'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
+            ContentType =>
+              'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
+            HttpExpiresDate  => '1970-01-01T01:00:00',    # OPTIONAL
+            RequesterCharged => 1,                        # OPTIONAL
             SSEAlgorithm     => 'AES256',    # values: AES256, KMS; OPTIONAL
             UserMetadata     => {
               'MyNonEmptyMaxLength1024String' => 'MyMaxLength1024String'
-              ,    # key: min: 1, max: 1024, value: max: 1024
+              ,    # key: min: 1, max: 1024; OPTIONAL, value: max: 1024
             },    # max: 8192; OPTIONAL
           },    # OPTIONAL
           NewObjectTagging => [
             {
-              Key   => 'MyTagKeyString',      # min: 1, max: 1024
-              Value => 'MyTagValueString',    # max: 1024
+              Key   => 'MyTagKeyString',      # min: 1, max: 128
+              Value => 'MyTagValueString',    # max: 256
 
             },
             ...
@@ -156,10 +153,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           RequesterPays  => 1,                     # OPTIONAL
           SSEAwsKmsKeyId => 'MyKmsKeyArnString',   # min: 1, max: 2000; OPTIONAL
           StorageClass   => 'STANDARD'
-          , # values: STANDARD, STANDARD_IA, ONEZONE_IA, GLACIER, INTELLIGENT_TIERING, DEEP_ARCHIVE; OPTIONAL
+          , # values: STANDARD, STANDARD_IA, ONEZONE_IA, GLACIER, INTELLIGENT_TIERING, DEEP_ARCHIVE, GLACIER_IR; OPTIONAL
           TargetKeyPrefix =>
-            'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024
-          TargetResource => 'MyS3BucketArnString',  # min: 1, max: 128; OPTIONAL
+            'MyNonEmptyMaxLength1024String',    # min: 1, max: 1024; OPTIONAL
+          TargetResource => 'MyS3RegionalOrS3ExpressBucketArnString'
+          ,                                     # min: 1, max: 128; OPTIONAL
           UnModifiedSinceConstraint => '1970-01-01T01:00:00',    # OPTIONAL
         },    # OPTIONAL
         S3PutObjectLegalHold => {
@@ -179,12 +177,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         S3PutObjectTagging => {
           TagSet => [
             {
-              Key   => 'MyTagKeyString',      # min: 1, max: 1024
-              Value => 'MyTagValueString',    # max: 1024
+              Key   => 'MyTagKeyString',      # min: 1, max: 128
+              Value => 'MyTagValueString',    # max: 256
 
             },
             ...
           ],    # OPTIONAL
+        },    # OPTIONAL
+        S3ReplicateObject => {
+
         },    # OPTIONAL
       },
       Priority => 1,
@@ -198,10 +199,78 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       RoleArn              => 'MyIAMRoleArn',
       ConfirmationRequired => 1,                                 # OPTIONAL
       Description          => 'MyNonEmptyMaxLength256String',    # OPTIONAL
-      Tags                 => [
+      Manifest             => {
+        Location => {
+          ETag => 'MyNonEmptyMaxLength1024String', # min: 1, max: 1024; OPTIONAL
+          ObjectArn       => 'MyS3KeyArnString',    # min: 1, max: 2000
+          ObjectVersionId =>
+            'MyS3ObjectVersionId',    # min: 1, max: 2000; OPTIONAL
+        },
+        Spec => {
+          Format => 'S3BatchOperations_CSV_20180820'
+          , # values: S3BatchOperations_CSV_20180820, S3InventoryReport_CSV_20161130
+          Fields => [
+            'Ignore', ...    # values: Ignore, Bucket, Key, VersionId
+          ],    # OPTIONAL
+        },
+
+      },    # OPTIONAL
+      ManifestGenerator => {
+        S3JobManifestGenerator => {
+          EnableManifestOutput => 1,                # OPTIONAL
+          SourceBucket => 'MyS3BucketArnString',    # min: 1, max: 128; OPTIONAL
+          ExpectedBucketOwner => 'MyAccountId',     # max: 64
+          Filter              => {
+            CreatedAfter           => '1970-01-01T01:00:00',    # OPTIONAL
+            CreatedBefore          => '1970-01-01T01:00:00',    # OPTIONAL
+            EligibleForReplication => 1,                        # OPTIONAL
+            KeyNameConstraint      => {
+              MatchAnyPrefix => [
+                'MyNonEmptyMaxLength1024String',
+                ...    # min: 1, max: 1024; OPTIONAL
+              ],    # OPTIONAL
+              MatchAnySubstring => [
+                'MyNonEmptyMaxLength1024String',
+                ...    # min: 1, max: 1024; OPTIONAL
+              ],    # OPTIONAL
+              MatchAnySuffix => [
+                'MyNonEmptyMaxLength1024String',
+                ...    # min: 1, max: 1024; OPTIONAL
+              ],    # OPTIONAL
+            },    # OPTIONAL
+            MatchAnyStorageClass => [
+              'STANDARD',
+              ... # values: STANDARD, STANDARD_IA, ONEZONE_IA, GLACIER, INTELLIGENT_TIERING, DEEP_ARCHIVE, GLACIER_IR; OPTIONAL
+            ],    # OPTIONAL
+            ObjectReplicationStatuses => [
+              'COMPLETED', ...    # values: COMPLETED, FAILED, REPLICA, NONE
+            ],    # OPTIONAL
+            ObjectSizeGreaterThanBytes => 1,    # OPTIONAL
+            ObjectSizeLessThanBytes    => 1,    # OPTIONAL
+          },    # OPTIONAL
+          ManifestOutputLocation => {
+            Bucket => 'MyS3BucketArnString',    # min: 1, max: 128; OPTIONAL
+            ManifestFormat => 'S3InventoryReport_CSV_20211130'
+            ,    # values: S3InventoryReport_CSV_20211130
+            ExpectedManifestBucketOwner => 'MyAccountId',    # max: 64
+            ManifestEncryption          => {
+              SSEKMS => {
+                KeyId => 'MyKmsKeyArnString',    # min: 1, max: 2000; OPTIONAL
+
+              },    # OPTIONAL
+              SSES3 => {
+
+              },    # OPTIONAL
+            },    # OPTIONAL
+            ManifestPrefix =>
+              'MyManifestPrefixString',    # min: 1, max: 512; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      Tags => [
         {
-          Key   => 'MyTagKeyString',      # min: 1, max: 1024
-          Value => 'MyTagValueString',    # max: 1024
+          Key   => 'MyTagKeyString',      # min: 1, max: 128
+          Value => 'MyTagValueString',    # max: 256
 
         },
         ...
@@ -221,7 +290,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID that creates the job.
+The Amazon Web Services account ID that creates the job.
 
 
 
@@ -248,9 +317,17 @@ multiple jobs.
 
 
 
-=head2 B<REQUIRED> Manifest => L<Paws::S3Control::JobManifest>
+=head2 Manifest => L<Paws::S3Control::JobManifest>
 
 Configuration parameters for the manifest.
+
+
+
+=head2 ManifestGenerator => L<Paws::S3Control::JobManifestGenerator>
+
+The attribute container for the ManifestGenerator details. Jobs must be
+created with either a manifest file or a ManifestGenerator, but not
+both.
 
 
 
@@ -259,7 +336,7 @@ Configuration parameters for the manifest.
 The action that you want this job to perform on every object listed in
 the manifest. For more information about the available actions, see
 Operations
-(https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html)
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html)
 in the I<Amazon S3 User Guide>.
 
 
@@ -279,9 +356,9 @@ Configuration parameters for the optional job-completion report.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The Amazon Resource Name (ARN) for the AWS Identity and Access
-Management (IAM) role that Batch Operations will use to run this job's
-action on every object in the manifest.
+The Amazon Resource Name (ARN) for the Identity and Access Management
+(IAM) role that Batch Operations will use to run this job's action on
+every object in the manifest.
 
 
 

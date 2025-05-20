@@ -72,22 +72,22 @@ A deployment can be in one of the following states:
 
 =item *
 
-C<Activating> - The deployment is being created.
+C<ACTIVATING> - The deployment is being created.
 
 =item *
 
-C<Active> - The deployment was successfully created, and it's currently
+C<ACTIVE> - The deployment was successfully created, and it's currently
 running on the container service. The container service can have only
 one deployment in an active state at a time.
 
 =item *
 
-C<Inactive> - The deployment was previously successfully created, but
+C<INACTIVE> - The deployment was previously successfully created, but
 it is not currently running on the container service.
 
 =item *
 
-C<Failed> - The deployment failed. Use the C<GetContainerLog> action to
+C<FAILED> - The deployment failed. Use the C<GetContainerLog> action to
 view the log events for the containers in the deployment to try to
 determine the reason for the failure.
 

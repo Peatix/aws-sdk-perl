@@ -3,6 +3,7 @@ package Paws::Lightsail::CreateContainerService;
   use Moose;
   has Deployment => (is => 'ro', isa => 'Paws::Lightsail::ContainerServiceDeploymentRequest', traits => ['NameInRequest'], request_name => 'deployment' );
   has Power => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'power' , required => 1);
+  has PrivateRegistryAccess => (is => 'ro', isa => 'Paws::Lightsail::PrivateRegistryAccessRequest', traits => ['NameInRequest'], request_name => 'privateRegistryAccess' );
   has PublicDomainNames => (is => 'ro', isa => 'Paws::Lightsail::ContainerServicePublicDomains', traits => ['NameInRequest'], request_name => 'publicDomainNames' );
   has Scale => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'scale' , required => 1);
   has ServiceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'serviceName' , required => 1);
@@ -60,6 +61,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
+      PrivateRegistryAccess => {
+        EcrImagePullerRole => {
+          IsActive => 1,    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       PublicDomainNames => { 'Mystring' => [ 'Mystring', ... ], },    # OPTIONAL
       Tags              => [
         {
@@ -110,6 +116,19 @@ monthly cost.
 
 Valid values are: C<"nano">, C<"micro">, C<"small">, C<"medium">, C<"large">, C<"xlarge">
 
+=head2 PrivateRegistryAccess => L<Paws::Lightsail::PrivateRegistryAccessRequest>
+
+An object to describe the configuration for the container service to
+access private container image repositories, such as Amazon Elastic
+Container Registry (Amazon ECR) private repositories.
+
+For more information, see Configuring access to an Amazon ECR private
+repository for an Amazon Lightsail container service
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-service-ecr-private-repo-access)
+in the I<Amazon Lightsail Developer Guide>.
+
+
+
 =head2 PublicDomainNames => L<Paws::Lightsail::ContainerServicePublicDomains>
 
 The public domain names to use with the container service, such as
@@ -154,8 +173,9 @@ of its default domain. The default domain of a container service is
 typically
 C<https://E<lt>ServiceNameE<gt>.E<lt>RandomGUIDE<gt>.E<lt>AWSRegionE<gt>.cs.amazonlightsail.com>.
 If the name of your container service is C<container-service-1>, and
-it's located in the US East (Ohio) AWS region (C<us-east-2>), then the
-domain for your container service will be like the following example:
+it's located in the US East (Ohio) Amazon Web Services Region
+(C<us-east-2>), then the domain for your container service will be like
+the following example:
 C<https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com>
 
 The following are the requirements for container service names:
@@ -164,7 +184,8 @@ The following are the requirements for container service names:
 
 =item *
 
-Must be unique within each AWS Region in your Lightsail account.
+Must be unique within each Amazon Web Services Region in your Lightsail
+account.
 
 =item *
 
@@ -186,11 +207,14 @@ the name.
 
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
-The tag keys and optional values for the container service.
+The tag keys and optional values to add to the container service during
+create.
 
-For more information about tags in Lightsail, see the Lightsail Dev
-Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+Use the C<TagResource> action to tag a resource after it's created.
+
+For more information about tags in Lightsail, see the Amazon Lightsail
+Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

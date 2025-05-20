@@ -32,7 +32,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       FleetId   => 'MyFleetIdOrArn',
       Locations => [
         {
-          Location => 'MyLocationStringModel',    # min: 1, max: 64; OPTIONAL
+          Location => 'MyLocationStringModel',    # min: 1, max: 64
+
         },
         ...
       ],
@@ -62,9 +63,9 @@ either the fleet ID or ARN value.
 =head2 B<REQUIRED> Locations => ArrayRef[L<Paws::GameLift::LocationConfiguration>]
 
 A list of locations to deploy additional instances to and manage as
-part of the fleet. You can add any GameLift-supported AWS Region as a
-remote location, in the form of an AWS Region code such as
-C<us-west-2>.
+part of the fleet. You can add any Amazon GameLift-supported Amazon Web
+Services Region as a remote location, in the form of an Amazon Web
+Services Region code such as C<us-west-2>.
 
 
 

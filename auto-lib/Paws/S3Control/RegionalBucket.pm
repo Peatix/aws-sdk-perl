@@ -59,7 +59,7 @@ The creation date of the regional bucket
 
 =head2 OutpostId => Str
 
-The AWS Outposts ID of the regional bucket.
+The Outposts ID of the regional bucket.
 
 
 =head2 B<REQUIRED> PublicAccessBlockEnabled => Bool

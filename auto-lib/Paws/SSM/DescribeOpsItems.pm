@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       OpsItemFilters => [
         {
           Key => 'Status'
-          , # values: Status, CreatedBy, Source, Priority, Title, OpsItemId, CreatedTime, LastModifiedTime, ActualStartTime, ActualEndTime, PlannedStartTime, PlannedEndTime, OperationalData, OperationalDataKey, OperationalDataValue, ResourceId, AutomationId, Category, Severity, OpsItemType, ChangeRequestByRequesterArn, ChangeRequestByRequesterName, ChangeRequestByApproverArn, ChangeRequestByApproverName, ChangeRequestByTemplate, ChangeRequestByTargetsResourceGroup
+          , # values: Status, CreatedBy, Source, Priority, Title, OpsItemId, CreatedTime, LastModifiedTime, ActualStartTime, ActualEndTime, PlannedStartTime, PlannedEndTime, OperationalData, OperationalDataKey, OperationalDataValue, ResourceId, AutomationId, Category, Severity, OpsItemType, AccessRequestByRequesterArn, AccessRequestByRequesterId, AccessRequestByApproverArn, AccessRequestByApproverId, AccessRequestBySourceAccountId, AccessRequestBySourceOpsItemId, AccessRequestBySourceRegion, AccessRequestByIsReplica, AccessRequestByTargetResourceId, ChangeRequestByRequesterArn, ChangeRequestByRequesterName, ChangeRequestByApproverArn, ChangeRequestByApproverName, ChangeRequestByTemplate, ChangeRequestByTargetsResourceGroup, InsightByType, AccountId
           Operator => 'Equal',  # values: Equal, Contains, GreaterThan, LessThan
           Values   => [ 'MyOpsItemFilterValue', ... ],
 
@@ -115,13 +115,13 @@ Operations: Equals
 
 =item *
 
-Key: Title
+Key: Title*
 
-Operations: Contains
+Operations: Equals,Contains
 
 =item *
 
-Key: OperationalData*
+Key: OperationalData**
 
 Operations: Equals
 
@@ -155,9 +155,19 @@ Key: AutomationId
 
 Operations: Equals
 
+=item *
+
+Key: AccountId
+
+Operations: Equals
+
 =back
 
-*If you filter the response by using the OperationalData operator,
+*The Equals operator for Title matches the first 100 characters. If you
+specify more than 100 characters, they system returns an error that the
+filter value exceeds the length limit.
+
+**If you filter the response by using the OperationalData operator,
 specify a key-value pair by using the following JSON format:
 {"key":"key_name","value":"a_value"}
 

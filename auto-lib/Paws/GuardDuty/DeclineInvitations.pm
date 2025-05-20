@@ -48,8 +48,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 =head2 B<REQUIRED> AccountIds => ArrayRef[Str|Undef]
 
-A list of account IDs of the AWS accounts that sent invitations to the
-current member account that you want to decline invitations from.
+A list of account IDs of the Amazon Web Services accounts that sent
+invitations to the current member account that you want to decline
+invitations from.
 
 
 

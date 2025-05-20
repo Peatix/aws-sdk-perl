@@ -36,6 +36,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'MyStackName', ...    # min: 1, max: 128
           ],    # min: 1, max: 1; OPTIONAL
         },    # OPTIONAL
+        Tags => [
+          {
+            AppBoundaryKey => 'MyAppBoundaryKey',    # min: 1, max: 128
+            TagValues      => [
+              'MyTagValue', ...                      # max: 256
+            ],    # min: 1, max: 1
+
+          },
+          ...
+        ],    # OPTIONAL
       },
       ClientToken => 'MyClientToken',    # OPTIONAL
     );
@@ -54,8 +64,8 @@ The idempotency token used to identify each cost estimate request.
 
 =head2 B<REQUIRED> ResourceCollection => L<Paws::DevOpsGuru::CostEstimationResourceCollectionFilter>
 
-The collection of AWS resources used to create a monthly DevOps Guru
-cost estimate.
+The collection of Amazon Web Services resources used to create a
+monthly DevOps Guru cost estimate.
 
 
 

@@ -67,7 +67,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 AutoUpdate => Bool
 
 Whether to automatically update the extension in this account and
-region when a new I<minor> version is published by the extension
+Region when a new I<minor> version is published by the extension
 publisher. Major versions released by the publisher must be manually
 updated.
 
@@ -83,7 +83,7 @@ The name of the IAM execution role to use to activate the extension.
 
 =head2 LoggingConfig => L<Paws::CloudFormation::LoggingConfig>
 
-
+Contains logging configuration information for an extension.
 
 
 
@@ -100,7 +100,7 @@ You can specify C<MajorVersion> or C<VersionBump>, but not both.
 
 =head2 PublicTypeArn => Str
 
-The Amazon Resource Number (ARN) of the public extension.
+The Amazon Resource Name (ARN) of the public extension.
 
 Conditional: You must specify C<PublicTypeArn>, or C<TypeName>,
 C<Type>, and C<PublisherId>.
@@ -123,7 +123,7 @@ The extension type.
 Conditional: You must specify C<PublicTypeArn>, or C<TypeName>,
 C<Type>, and C<PublisherId>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 
@@ -136,15 +136,15 @@ C<Type>, and C<PublisherId>.
 
 =head2 TypeNameAlias => Str
 
-An alias to assign to the public extension, in this account and region.
+An alias to assign to the public extension, in this account and Region.
 If you specify an alias for the extension, CloudFormation treats the
-alias as the extension type name within this account and region. You
+alias as the extension type name within this account and Region. You
 must use the alias to refer to the extension in your templates, API
 calls, and CloudFormation console.
 
-An extension alias must be unique within a given account and region.
+An extension alias must be unique within a given account and Region.
 You can activate the same public resource multiple times in the same
-account and region, using different type name aliases.
+account and Region, using different type name aliases.
 
 
 

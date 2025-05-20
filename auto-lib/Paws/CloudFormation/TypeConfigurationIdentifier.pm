@@ -51,15 +51,15 @@ The type of extension.
 =head2 TypeArn => Str
 
 The Amazon Resource Name (ARN) for the extension, in this account and
-region.
+Region.
 
-For public extensions, this will be the ARN assigned when you activate
-the type
+For public extensions, this will be the ARN assigned when you call the
+ActivateType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html)
-in this account and region. For private extensions, this will be the
-ARN assigned when you register the type
+API operation in this account and Region. For private extensions, this
+will be the ARN assigned when you call the RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html)
-in this account and region.
+API operation in this account and Region.
 
 
 =head2 TypeConfigurationAlias => Str
@@ -71,7 +71,7 @@ the configuration was set.
 =head2 TypeConfigurationArn => Str
 
 The Amazon Resource Name (ARN) for the configuration, in this account
-and region.
+and Region.
 
 
 =head2 TypeName => Str

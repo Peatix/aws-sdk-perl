@@ -17,7 +17,7 @@ Paws::Macie2::GetFindingsResponse
 
 =head2 Findings => ArrayRef[L<Paws::Macie2::Finding>]
 
-An array of objects, one for each finding that meets the criteria
+An array of objects, one for each finding that matches the criteria
 specified in the request.
 
 

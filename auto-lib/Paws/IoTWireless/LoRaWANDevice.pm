@@ -5,6 +5,7 @@ package Paws::IoTWireless::LoRaWANDevice;
   has AbpV1_1 => (is => 'ro', isa => 'Paws::IoTWireless::AbpV1_1');
   has DevEui => (is => 'ro', isa => 'Str');
   has DeviceProfileId => (is => 'ro', isa => 'Str');
+  has FPorts => (is => 'ro', isa => 'Paws::IoTWireless::FPorts');
   has OtaaV1_0_x => (is => 'ro', isa => 'Paws::IoTWireless::OtaaV1_0_x');
   has OtaaV1_1 => (is => 'ro', isa => 'Paws::IoTWireless::OtaaV1_1');
   has ServiceProfileId => (is => 'ro', isa => 'Str');
@@ -62,6 +63,11 @@ The DevEUI value.
 =head2 DeviceProfileId => Str
 
 The ID of the device profile for the new wireless device.
+
+
+=head2 FPorts => L<Paws::IoTWireless::FPorts>
+
+
 
 
 =head2 OtaaV1_0_x => L<Paws::IoTWireless::OtaaV1_0_x>

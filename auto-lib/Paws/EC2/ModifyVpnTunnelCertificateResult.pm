@@ -17,7 +17,7 @@ Paws::EC2::ModifyVpnTunnelCertificateResult
 
 =head2 VpnConnection => L<Paws::EC2::VpnConnection>
 
-
+Information about the VPN connection.
 
 
 =head2 _request_id => Str

@@ -34,25 +34,26 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Resour
 
 =head1 DESCRIPTION
 
-Information about the AwsOrganizationsSource resource data sync source.
-A sync source of this type can synchronize data from AWS Organizations
-or, if an AWS Organization is not present, from multiple AWS Regions.
+Information about the C<AwsOrganizationsSource> resource data sync
+source. A sync source of this type can synchronize data from
+Organizations or, if an Amazon Web Services organization isn't present,
+from multiple Amazon Web Services Regions.
 
 =head1 ATTRIBUTES
 
 
 =head2 OrganizationalUnits => ArrayRef[L<Paws::SSM::ResourceDataSyncOrganizationalUnit>]
 
-The AWS Organizations organization units included in the sync.
+The Organizations organization units included in the sync.
 
 
 =head2 B<REQUIRED> OrganizationSourceType => Str
 
-If an AWS Organization is present, this is either
+If an Amazon Web Services organization is present, this is either
 C<OrganizationalUnits> or C<EntireOrganization>. For
 C<OrganizationalUnits>, the data is aggregated from a set of
 organization units. For C<EntireOrganization>, the data is aggregated
-from the entire AWS Organization.
+from the entire Amazon Web Services organization.
 
 
 

@@ -38,8 +38,8 @@ The launch specification for On-Demand Instances in the instance fleet,
 which determines the allocation strategy.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances
-allocation strategy is available in Amazon EMR version 5.12.1 and
+releases 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances
+allocation strategy is available in Amazon EMR releases 5.12.1 and
 later.
 
 =head1 ATTRIBUTES
@@ -48,8 +48,11 @@ later.
 =head2 B<REQUIRED> AllocationStrategy => Str
 
 Specifies the strategy to use in launching On-Demand instance fleets.
-Currently, the only option is C<lowest-price> (the default), which
-launches the lowest price first.
+Available options are C<lowest-price> and C<prioritized>.
+C<lowest-price> specifies to launch the instances with the lowest price
+first, and C<prioritized> specifies that Amazon EMR should launch the
+instances with the highest priority first. The default is
+C<lowest-price>.
 
 
 =head2 CapacityReservationOptions => L<Paws::EMR::OnDemandCapacityReservationOptions>

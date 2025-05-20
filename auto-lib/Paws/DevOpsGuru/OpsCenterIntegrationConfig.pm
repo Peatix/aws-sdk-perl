@@ -34,15 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 =head1 DESCRIPTION
 
 Information about whether DevOps Guru is configured to create an
-OpsItem in AWS Systems Manager OpsCenter for each created insight.
+OpsItem in Amazon Web Services Systems Manager OpsCenter for each
+created insight. You can use this to update the configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 OptInStatus => Str
 
-Specifies if DevOps Guru is enabled to create an AWS Systems Manager
-OpsItem for each created insight.
+Specifies if DevOps Guru is enabled to create an Amazon Web Services
+Systems Manager OpsItem for each created insight.
 
 
 

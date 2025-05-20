@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DomainName            = $GetDomainResponse->DomainName;
     my $LastUpdatedAt         = $GetDomainResponse->LastUpdatedAt;
     my $Matching              = $GetDomainResponse->Matching;
+    my $RuleBasedMatching     = $GetDomainResponse->RuleBasedMatching;
     my $Stats                 = $GetDomainResponse->Stats;
     my $Tags                  = $GetDomainResponse->Tags;
 

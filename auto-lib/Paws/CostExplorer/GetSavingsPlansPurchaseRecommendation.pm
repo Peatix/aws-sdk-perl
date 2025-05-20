@@ -47,7 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyCostCategoryName',     # min: 1, max: 50; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -55,10 +55,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Dimensions => {
           Key => 'AZ'
-          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE; OPTIONAL
+          , # values: AZ, INSTANCE_TYPE, LINKED_ACCOUNT, LINKED_ACCOUNT_NAME, OPERATION, PURCHASE_TYPE, REGION, SERVICE, SERVICE_CODE, USAGE_TYPE, USAGE_TYPE_GROUP, RECORD_TYPE, OPERATING_SYSTEM, TENANCY, SCOPE, PLATFORM, SUBSCRIPTION_ID, LEGAL_ENTITY_NAME, DEPLOYMENT_OPTION, DATABASE_ENGINE, CACHE_ENGINE, INSTANCE_TYPE_FAMILY, BILLING_ENTITY, RESERVATION_ID, RESOURCE_ID, RIGHTSIZING_TYPE, SAVINGS_PLANS_TYPE, SAVINGS_PLAN_ARN, PAYMENT_OPTION, AGREEMENT_END_DATE_TIME_AFTER, AGREEMENT_END_DATE_TIME_BEFORE, INVOICING_ENTITY, ANOMALY_TOTAL_IMPACT_ABSOLUTE, ANOMALY_TOTAL_IMPACT_PERCENTAGE; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -70,7 +70,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Key          => 'MyTagKey',     # max: 1024; OPTIONAL
           MatchOptions => [
             'EQUALS',
-            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE
+            ... # values: EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
           ],    # OPTIONAL
           Values => [
             'MyValue', ...    # max: 1024
@@ -112,21 +112,21 @@ Valid values are: C<"PAYER">, C<"LINKED">
 You can filter your recommendations by Account ID with the
 C<LINKED_ACCOUNT> dimension. To filter your recommendations by Account
 ID, specify C<Key> as C<LINKED_ACCOUNT> and C<Value> as the
-comma-separated Acount ID(s) for which you want to see Savings Plans
-purchase recommendations.
+comma-separated Acount ID(s) that you want to see Savings Plans
+purchase recommendations for.
 
-For GetSavingsPlansPurchaseRecommendation, the C<Filter> does not
+For GetSavingsPlansPurchaseRecommendation, the C<Filter> doesn't
 include C<CostCategories> or C<Tags>. It only includes C<Dimensions>.
 With C<Dimensions>, C<Key> must be C<LINKED_ACCOUNT> and C<Value> can
-be a single Account ID or multiple comma-separated Account IDs for
-which you want to see Savings Plans Purchase Recommendations. C<AND>
-and C<OR> operators are not supported.
+be a single Account ID or multiple comma-separated Account IDs that you
+want to see Savings Plans Purchase Recommendations for. C<AND> and
+C<OR> operators are not supported.
 
 
 
 =head2 B<REQUIRED> LookbackPeriodInDays => Str
 
-The lookback period used to generate the recommendation.
+The lookback period that's used to generate the recommendation.
 
 Valid values are: C<"SEVEN_DAYS">, C<"THIRTY_DAYS">, C<"SIXTY_DAYS">
 
@@ -147,19 +147,19 @@ response object.
 
 =head2 B<REQUIRED> PaymentOption => Str
 
-The payment option used to generate these recommendations.
+The payment option that's used to generate these recommendations.
 
 Valid values are: C<"NO_UPFRONT">, C<"PARTIAL_UPFRONT">, C<"ALL_UPFRONT">, C<"LIGHT_UTILIZATION">, C<"MEDIUM_UTILIZATION">, C<"HEAVY_UTILIZATION">
 
 =head2 B<REQUIRED> SavingsPlansType => Str
 
-The Savings Plans recommendation type requested.
+The Savings Plans recommendation type that's requested.
 
 Valid values are: C<"COMPUTE_SP">, C<"EC2_INSTANCE_SP">, C<"SAGEMAKER_SP">
 
 =head2 B<REQUIRED> TermInYears => Str
 
-The savings plan recommendation term used to generate these
+The savings plan recommendation term that's used to generate these
 recommendations.
 
 Valid values are: C<"ONE_YEAR">, C<"THREE_YEARS">

@@ -1,6 +1,7 @@
 
 package Paws::Lightsail::GetKeyPairs;
   use Moose;
+  has IncludeDefaultKeyPair => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'includeDefaultKeyPair' );
   has PageToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pageToken' );
 
   use MooseX::ClassAttribute;
@@ -28,7 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lightsail = Paws->service('Lightsail');
     my $GetKeyPairsResult = $lightsail->GetKeyPairs(
-      PageToken => 'Mystring',    # OPTIONAL
+      IncludeDefaultKeyPair => 1,             # OPTIONAL
+      PageToken             => 'Mystring',    # OPTIONAL
     );
 
     # Results:
@@ -41,6 +43,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lightsail/GetKeyPairs>
 
 =head1 ATTRIBUTES
+
+
+=head2 IncludeDefaultKeyPair => Bool
+
+A Boolean value that indicates whether to include the default key pair
+in the response of your request.
+
 
 
 =head2 PageToken => Str

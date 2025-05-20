@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kafka::Node
 
 =head1 DESCRIPTION
 
-Indicates whether you want to enable or disable the Node Exporter.
+Indicates whether you want to turn on or turn off the Node Exporter.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> EnabledInBroker => Bool
 
-Indicates whether you want to enable or disable the Node Exporter.
+Indicates whether you want to turn on or turn off the Node Exporter.
 
 
 

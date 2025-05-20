@@ -4,11 +4,13 @@ package Paws::Lightsail::CreateDistribution;
   has BundleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'bundleId' , required => 1);
   has CacheBehaviors => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::CacheBehaviorPerPath]', traits => ['NameInRequest'], request_name => 'cacheBehaviors' );
   has CacheBehaviorSettings => (is => 'ro', isa => 'Paws::Lightsail::CacheSettings', traits => ['NameInRequest'], request_name => 'cacheBehaviorSettings' );
+  has CertificateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'certificateName' );
   has DefaultCacheBehavior => (is => 'ro', isa => 'Paws::Lightsail::CacheBehavior', traits => ['NameInRequest'], request_name => 'defaultCacheBehavior' , required => 1);
   has DistributionName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'distributionName' , required => 1);
   has IpAddressType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipAddressType' );
   has Origin => (is => 'ro', isa => 'Paws::Lightsail::InputOrigin', traits => ['NameInRequest'], request_name => 'origin' , required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
+  has ViewerMinimumTlsProtocolVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'viewerMinimumTlsProtocolVersion' );
 
   use MooseX::ClassAttribute;
 
@@ -44,7 +46,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Name           => 'MyResourceName',
         ProtocolPolicy => 'http-only', # values: http-only, https-only; OPTIONAL
         RegionName     => 'us-east-1'
-        , # values: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-west-2, eu-west-3, eu-central-1, ca-central-1, ap-south-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2; OPTIONAL
+        , # values: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-west-2, eu-west-3, eu-central-1, ca-central-1, ap-south-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, eu-north-1; OPTIONAL
+        ResponseTimeout => 1,    # OPTIONAL
       },
       CacheBehaviorSettings => {
         AllowedHTTPMethods => 'MyNonEmptyString',    # OPTIONAL
@@ -75,14 +78,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      IpAddressType => 'dualstack',    # OPTIONAL
-      Tags          => [
+      CertificateName => 'MyResourceName',    # OPTIONAL
+      IpAddressType   => 'dualstack',         # OPTIONAL
+      Tags            => [
         {
           Key   => 'MyTagKey',      # OPTIONAL
           Value => 'MyTagValue',    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      ViewerMinimumTlsProtocolVersion => 'TLSv1.1_2016',    # OPTIONAL
     );
 
     # Results:
@@ -124,6 +129,17 @@ distribution.
 
 
 
+=head2 CertificateName => Str
+
+The name of the SSL/TLS certificate that you want to attach to the
+distribution.
+
+Use the GetCertificates
+(https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html)
+action to get a list of certificate names that you can specify.
+
+
+
 =head2 B<REQUIRED> DefaultCacheBehavior => L<Paws::Lightsail::CacheBehavior>
 
 An object that describes the default cache behavior for the
@@ -146,12 +162,12 @@ IPv4 and IPv6.
 
 The default value is C<dualstack>.
 
-Valid values are: C<"dualstack">, C<"ipv4">
+Valid values are: C<"dualstack">, C<"ipv4">, C<"ipv6">
 
 =head2 B<REQUIRED> Origin => L<Paws::Lightsail::InputOrigin>
 
 An object that describes the origin resource for the distribution, such
-as a Lightsail instance or load balancer.
+as a Lightsail instance, bucket, or load balancer.
 
 The distribution pulls, caches, and serves content from the origin.
 
@@ -165,6 +181,12 @@ create.
 Use the C<TagResource> action to tag a resource after it's created.
 
 
+
+=head2 ViewerMinimumTlsProtocolVersion => Str
+
+The minimum TLS protocol version for the SSL/TLS certificate.
+
+Valid values are: C<"TLSv1.1_2016">, C<"TLSv1.2_2018">, C<"TLSv1.2_2019">, C<"TLSv1.2_2021">
 
 
 =head1 SEE ALSO

@@ -61,10 +61,11 @@ not already have cross-region snapshot copy enabled.
 
 =head2 B<REQUIRED> DestinationRegion => Str
 
-The destination AWS Region that you want to copy snapshots to.
+The destination Amazon Web Services Region that you want to copy
+snapshots to.
 
-Constraints: Must be the name of a valid AWS Region. For more
-information, see Regions and Endpoints
+Constraints: Must be the name of a valid Amazon Web Services Region.
+For more information, see Regions and Endpoints
 (https://docs.aws.amazon.com/general/latest/gr/rande.html#redshift_region)
 in the Amazon Web Services General Reference.
 
@@ -73,8 +74,9 @@ in the Amazon Web Services General Reference.
 =head2 ManualSnapshotRetentionPeriod => Int
 
 The number of days to retain newly copied snapshots in the destination
-AWS Region after they are copied from the source AWS Region. If the
-value is -1, the manual snapshot is retained indefinitely.
+Amazon Web Services Region after they are copied from the source Amazon
+Web Services Region. If the value is -1, the manual snapshot is
+retained indefinitely.
 
 The value must be either -1 or an integer between 1 and 3,653.
 
@@ -93,8 +95,9 @@ Constraints: Must be at least 1 and no more than 35.
 
 =head2 SnapshotCopyGrantName => Str
 
-The name of the snapshot copy grant to use when snapshots of an AWS
-KMS-encrypted cluster are copied to the destination region.
+The name of the snapshot copy grant to use when snapshots of an Amazon
+Web Services KMS-encrypted cluster are copied to the destination
+region.
 
 
 

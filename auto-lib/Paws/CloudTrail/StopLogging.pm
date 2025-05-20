@@ -41,8 +41,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 B<REQUIRED> Name => Str
 
 Specifies the name or the CloudTrail ARN of the trail for which
-CloudTrail will stop logging AWS API calls. The format of a trail ARN
-is:
+CloudTrail will stop logging Amazon Web Services API calls. The
+following is the format of a trail ARN.
 
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
 

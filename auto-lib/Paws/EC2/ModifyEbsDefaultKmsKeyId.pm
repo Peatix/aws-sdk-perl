@@ -55,12 +55,11 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 B<REQUIRED> KmsKeyId => Str
 
-The identifier of the AWS Key Management Service (AWS KMS) customer
-master key (CMK) to use for Amazon EBS encryption. If this parameter is
-not specified, your AWS managed CMK for EBS is used. If C<KmsKeyId> is
-specified, the encrypted state must be C<true>.
+The identifier of the KMS key to use for Amazon EBS encryption. If this
+parameter is not specified, your KMS key for Amazon EBS is used. If
+C<KmsKeyId> is specified, the encrypted state must be C<true>.
 
-You can specify the CMK using any of the following:
+You can specify the KMS key using any of the following:
 
 =over
 
@@ -84,11 +83,11 @@ arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
 
 =back
 
-AWS authenticates the CMK asynchronously. Therefore, if you specify an
-ID, alias, or ARN that is not valid, the action can appear to complete,
-but eventually fails.
+Amazon Web Services authenticates the KMS key asynchronously.
+Therefore, if you specify an ID, alias, or ARN that is not valid, the
+action can appear to complete, but eventually fails.
 
-Amazon EBS does not support asymmetric CMKs.
+Amazon EBS does not support asymmetric KMS keys.
 
 
 

@@ -20,7 +20,7 @@ Paws::EMR::PutManagedScalingPolicy - Arguments for method PutManagedScalingPolic
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method PutManagedScalingPolicy on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method PutManagedScalingPolicy.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to PutManagedScalingPolicy.
@@ -40,6 +40,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           MaximumCoreCapacityUnits     => 1,
           MaximumOnDemandCapacityUnits => 1,
         },    # OPTIONAL
+        ScalingStrategy => 'DEFAULT',    # values: DEFAULT, ADVANCED; OPTIONAL
+        UtilizationPerformanceIndex => 1,    # min: 1, max: 100; OPTIONAL
       },
 
       );
@@ -52,8 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> ClusterId => Str
 
-Specifies the ID of an EMR cluster where the managed scaling policy is
-attached.
+Specifies the ID of an Amazon EMR cluster where the managed scaling
+policy is attached.
 
 
 

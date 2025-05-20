@@ -126,9 +126,8 @@ C<maximumCores> | C<minimumCores>
 
 =item *
 
-C<Instances> dimension: C<allowedTenancy> | C<maximumCores> |
-C<minimumCores> | C<maximumSockets> | C<minimumSockets> |
-C<maximumVcpus> | C<minimumVcpus>
+C<Instances> dimension: C<allowedTenancy> | C<maximumVcpus> |
+C<minimumVcpus>
 
 =item *
 

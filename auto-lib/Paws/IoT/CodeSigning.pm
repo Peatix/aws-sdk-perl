@@ -42,7 +42,7 @@ Describes the method to use when code signing a file.
 
 =head2 AwsSignerJobId => Str
 
-The ID of the AWSSignerJob which was created to sign the file.
+The ID of the C<AWSSignerJob> which was created to sign the file.
 
 
 =head2 CustomCodeSigning => L<Paws::IoT::CustomCodeSigning>

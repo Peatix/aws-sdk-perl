@@ -23,7 +23,8 @@ Paws::DevOpsGuru::GetCostEstimationResponse
 =head2 Costs => ArrayRef[L<Paws::DevOpsGuru::ServiceResourceCost>]
 
 An array of C<ResourceCost> objects that each contains details about
-the monthly cost estimate to analyze one of your AWS resources.
+the monthly cost estimate to analyze one of your Amazon Web Services
+resources.
 
 
 =head2 NextToken => Str
@@ -34,8 +35,8 @@ this operation. If there are no more pages, this value is null.
 
 =head2 ResourceCollection => L<Paws::DevOpsGuru::CostEstimationResourceCollectionFilter>
 
-The collection of the AWS resources used to create your monthly DevOps
-Guru cost estimate.
+The collection of the Amazon Web Services resources used to create your
+monthly DevOps Guru cost estimate.
 
 
 =head2 Status => Str
@@ -52,9 +53,9 @@ The start and end time of the cost estimation.
 
 =head2 TotalCost => Num
 
-The estimated monthly cost to analyze the AWS resources. This value is
-the sum of the estimated costs to analyze each resource in the C<Costs>
-object in this response.
+The estimated monthly cost to analyze the Amazon Web Services
+resources. This value is the sum of the estimated costs to analyze each
+resource in the C<Costs> object in this response.
 
 
 =head2 _request_id => Str

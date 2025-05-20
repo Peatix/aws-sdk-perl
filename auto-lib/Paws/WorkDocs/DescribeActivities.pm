@@ -43,7 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EndTime                   => '1970-01-01T01:00:00',           # OPTIONAL
       IncludeIndirectActivities => 1,                               # OPTIONAL
       Limit                     => 1,                               # OPTIONAL
-      Marker                    => 'MyMarkerType',                  # OPTIONAL
+      Marker                    => 'MySearchMarkerType',            # OPTIONAL
       OrganizationId            => 'MyIdType',                      # OPTIONAL
       ResourceId                => 'MyIdType',                      # OPTIONAL
       StartTime                 => '1970-01-01T01:00:00',           # OPTIONAL
@@ -71,8 +71,8 @@ field is left empty, all activity types are returned.
 
 =head2 AuthenticationToken => Str
 
-Amazon WorkDocs authentication token. Not required when using AWS
-administrator credentials to access the API.
+Amazon WorkDocs authentication token. Not required when using Amazon
+Web Services administrator credentials to access the API.
 
 
 

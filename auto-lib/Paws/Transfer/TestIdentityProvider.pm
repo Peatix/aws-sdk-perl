@@ -80,26 +80,30 @@ File Transfer Protocol Secure (FTPS)
 
 File Transfer Protocol (FTP)
 
+=item *
+
+Applicability Statement 2 (AS2)
+
 =back
 
 
-Valid values are: C<"SFTP">, C<"FTP">, C<"FTPS">
+Valid values are: C<"SFTP">, C<"FTP">, C<"FTPS">, C<"AS2">
 
 =head2 SourceIp => Str
 
-The source IP address of the user account to be tested.
+The source IP address of the account to be tested.
 
 
 
 =head2 B<REQUIRED> UserName => Str
 
-The name of the user account to be tested.
+The name of the account to be tested.
 
 
 
 =head2 UserPassword => Str
 
-The password of the user account to be tested.
+The password of the account to be tested.
 
 
 

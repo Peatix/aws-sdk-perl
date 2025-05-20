@@ -58,7 +58,7 @@ three elements is guaranteed to be unique:
 
 =item *
 
-the AWS customer ID.
+the Amazon Web Services customer ID.
 
 =item *
 

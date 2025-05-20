@@ -16,7 +16,7 @@ Paws::Support::DescribeServicesResponse
 
 =head2 Services => ArrayRef[L<Paws::Support::Service>]
 
-A JSON-formatted list of AWS services.
+A JSON-formatted list of Amazon Web Services services.
 
 
 =head2 _request_id => Str

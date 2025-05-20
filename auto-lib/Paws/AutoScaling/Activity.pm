@@ -5,7 +5,7 @@ package Paws::AutoScaling::Activity;
   has AutoScalingGroupARN => (is => 'ro', isa => 'Str');
   has AutoScalingGroupName => (is => 'ro', isa => 'Str', required => 1);
   has AutoScalingGroupState => (is => 'ro', isa => 'Str');
-  has Cause => (is => 'ro', isa => 'Str');
+  has Cause => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str');
   has Details => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
@@ -72,7 +72,7 @@ The state of the Auto Scaling group, which is either C<InService> or
 C<Deleted>.
 
 
-=head2 Cause => Str
+=head2 B<REQUIRED> Cause => Str
 
 The reason the activity began.
 

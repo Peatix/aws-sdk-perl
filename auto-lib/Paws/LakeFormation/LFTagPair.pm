@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 
 =head1 DESCRIPTION
 
-A structure containing a tag key-value pair.
+A structure containing an LF-tag key-value pair.
 
 =head1 ATTRIBUTES
 
@@ -45,12 +45,12 @@ A structure containing a tag key-value pair.
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
 =head2 B<REQUIRED> TagKey => Str
 
-The key-name for the tag.
+The key-name for the LF-tag.
 
 
 =head2 B<REQUIRED> TagValues => ArrayRef[Str|Undef]

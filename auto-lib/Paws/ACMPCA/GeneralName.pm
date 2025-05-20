@@ -41,9 +41,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Gen
 =head1 DESCRIPTION
 
 Describes an ASN.1 X.400 C<GeneralName> as defined in RFC 5280
-(https://tools.ietf.org/html/rfc5280). Only one of the following naming
-options should be provided. Providing more than one option results in
-an C<InvalidArgsException> error.
+(https://datatracker.ietf.org/doc/html/rfc5280). Only one of the
+following naming options should be provided. Providing more than one
+option results in an C<InvalidArgsException> error.
 
 =head1 ATTRIBUTES
 
@@ -81,7 +81,7 @@ Represents C<GeneralName> as an object identifier (OID).
 =head2 Rfc822Name => Str
 
 Represents C<GeneralName> as an RFC 822
-(https://tools.ietf.org/html/rfc822) email address.
+(https://datatracker.ietf.org/doc/html/rfc822) email address.
 
 
 =head2 UniformResourceIdentifier => Str

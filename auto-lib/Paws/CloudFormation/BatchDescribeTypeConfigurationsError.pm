@@ -53,7 +53,8 @@ The error message.
 
 =head2 TypeConfigurationIdentifier => L<Paws::CloudFormation::TypeConfigurationIdentifier>
 
-
+Identifying information for the configuration of a CloudFormation
+extension.
 
 
 

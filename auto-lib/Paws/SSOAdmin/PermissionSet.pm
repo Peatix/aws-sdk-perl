@@ -61,8 +61,8 @@ The name of the permission set.
 =head2 PermissionSetArn => Str
 
 The ARN of the permission set. For more information about ARNs, see
-Amazon Resource Names (ARNs) and AWS Service Namespaces in the I<AWS
-General Reference>.
+Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 RelayState => Str

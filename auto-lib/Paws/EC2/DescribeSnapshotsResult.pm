@@ -18,11 +18,8 @@ Paws::EC2::DescribeSnapshotsResult
 
 =head2 NextToken => Str
 
-The C<NextToken> value to include in a future C<DescribeSnapshots>
-request. When the results of a C<DescribeSnapshots> request exceed
-C<MaxResults>, this value can be used to retrieve the next page of
-results. This value is C<null> when there are no more results to
-return.
+The token to include in another request to get the next page of items.
+This value is C<null> when there are no more items to return.
 
 
 =head2 Snapshots => ArrayRef[L<Paws::EC2::Snapshot>]

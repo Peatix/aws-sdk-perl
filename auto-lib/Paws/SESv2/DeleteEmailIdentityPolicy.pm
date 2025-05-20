@@ -43,7 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The email identity for which you want to delete a policy.
+The email identity.
 
 
 

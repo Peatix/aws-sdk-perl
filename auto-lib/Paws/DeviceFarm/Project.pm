@@ -5,6 +5,7 @@ package Paws::DeviceFarm::Project;
   has Created => (is => 'ro', isa => 'Str', request_name => 'created', traits => ['NameInRequest']);
   has DefaultJobTimeoutMinutes => (is => 'ro', isa => 'Int', request_name => 'defaultJobTimeoutMinutes', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has VpcConfig => (is => 'ro', isa => 'Paws::DeviceFarm::VpcConfig', request_name => 'vpcConfig', traits => ['NameInRequest']);
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DeviceFarm::Project object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Name => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., VpcConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -61,6 +62,11 @@ executes before it times out. The default value is 150 minutes.
 =head2 Name => Str
 
 The project's name.
+
+
+=head2 VpcConfig => L<Paws::DeviceFarm::VpcConfig>
+
+The VPC security groups and subnets that are attached to a project.
 
 
 

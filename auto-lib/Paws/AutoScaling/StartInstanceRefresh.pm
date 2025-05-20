@@ -2,6 +2,7 @@
 package Paws::AutoScaling::StartInstanceRefresh;
   use Moose;
   has AutoScalingGroupName => (is => 'ro', isa => 'Str', required => 1);
+  has DesiredConfiguration => (is => 'ro', isa => 'Paws::AutoScaling::DesiredConfiguration');
   has Preferences => (is => 'ro', isa => 'Paws::AutoScaling::RefreshPreferences');
   has Strategy => (is => 'ro', isa => 'Str');
 
@@ -33,9 +34,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
  # This example starts an instance refresh for the specified Auto Scaling group.
     my $StartInstanceRefreshAnswer = $autoscaling->StartInstanceRefresh(
       'AutoScalingGroupName' => 'my-auto-scaling-group',
-      'Preferences'          => {
-        'InstanceWarmup'       => 400,
-        'MinHealthyPercentage' => 50
+      'DesiredConfiguration' => {
+        'LaunchTemplate' => {
+          'LaunchTemplateName' => 'my-template-for-auto-scaling',
+          'Version'            => '$Latest'
+        }
+      },
+      'Preferences' => {
+        'AlarmSpecification' => {
+          'Alarms' => ['my-alarm']
+        },
+        'AutoRollback'         => 1,
+        'InstanceWarmup'       => 200,
+        'MinHealthyPercentage' => 90
       }
     );
 
@@ -56,18 +67,58 @@ The name of the Auto Scaling group.
 
 
 
+=head2 DesiredConfiguration => L<Paws::AutoScaling::DesiredConfiguration>
+
+The desired configuration. For example, the desired configuration can
+specify a new launch template or a new version of the current launch
+template.
+
+Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the
+settings of the Auto Scaling group to reflect the new desired
+configuration.
+
+When you specify a new launch template or a new version of the current
+launch template for your desired configuration, consider enabling the
+C<SkipMatching> property in preferences. If it's enabled, Amazon EC2
+Auto Scaling skips replacing instances that already use the specified
+launch template and instance types. This can help you reduce the number
+of replacements that are required to apply updates.
+
+
+
 =head2 Preferences => L<Paws::AutoScaling::RefreshPreferences>
 
-Set of preferences associated with the instance refresh request.
+Sets your preferences for the instance refresh so that it performs as
+expected when you start it. Includes the instance warmup time, the
+minimum and maximum healthy percentages, and the behaviors that you
+want Amazon EC2 Auto Scaling to use if instances that are in C<Standby>
+state or protected from scale in are found. You can also choose to
+enable additional features, such as the following:
 
-If not provided, the default values are used. For
-C<MinHealthyPercentage>, the default value is C<90>. For
-C<InstanceWarmup>, the default is to use the value specified for the
-health check grace period for the Auto Scaling group.
+=over
 
-For more information, see RefreshPreferences
-(https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RefreshPreferences.html)
-in the I<Amazon EC2 Auto Scaling API Reference>.
+=item *
+
+Auto rollback
+
+=item *
+
+Checkpoints
+
+=item *
+
+CloudWatch alarms
+
+=item *
+
+Skip matching
+
+=item *
+
+Bake time
+
+=back
+
 
 
 
@@ -75,13 +126,6 @@ in the I<Amazon EC2 Auto Scaling API Reference>.
 
 The strategy to use for the instance refresh. The only valid value is
 C<Rolling>.
-
-A rolling update is an update that is applied to all instances in an
-Auto Scaling group until all instances have been updated. A rolling
-update can fail due to failed health checks or if instances are on
-standby or are protected from scale in. If the rolling update process
-fails, any instances that were already replaced are not rolled back to
-their previous configuration.
 
 Valid values are: C<"Rolling">
 

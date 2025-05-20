@@ -2,16 +2,19 @@
 package Paws::EC2::CreateVolume;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has Encrypted => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'encrypted' );
   has Iops => (is => 'ro', isa => 'Int');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MultiAttachEnabled => (is => 'ro', isa => 'Bool');
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorRequest');
   has OutpostArn => (is => 'ro', isa => 'Str');
   has Size => (is => 'ro', isa => 'Int');
   has SnapshotId => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has Throughput => (is => 'ro', isa => 'Int');
+  has VolumeInitializationRate => (is => 'ro', isa => 'Int');
   has VolumeType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -91,7 +94,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 B<REQUIRED> AvailabilityZone => Str
 
-The Availability Zone in which to create the volume.
+The ID of the Availability Zone in which to create the volume. For
+example, C<us-east-1a>.
+
+
+
+=head2 ClientToken => Str
+
+Unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request. For more information, see Ensure
+Idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 
@@ -111,13 +124,13 @@ the encryption state to C<true> depends on the volume origin (new or
 from a snapshot), starting encryption state, ownership, and whether
 encryption by default is enabled. For more information, see Encryption
 by default
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/work-with-ebs-encr.html#encryption-by-default)
+in the I<Amazon EBS User Guide>.
 
 Encrypted Amazon EBS volumes must be attached to instances that support
 Amazon EBS encryption. For more information, see Supported instance
 types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances).
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
 
 
 
@@ -135,22 +148,22 @@ The following are the supported values for each volume type:
 
 =item *
 
-C<gp3>: 3,000-16,000 IOPS
+C<gp3>: 3,000 - 16,000 IOPS
 
 =item *
 
-C<io1>: 100-64,000 IOPS
+C<io1>: 100 - 64,000 IOPS
 
 =item *
 
-C<io2>: 100-64,000 IOPS
+C<io2>: 100 - 256,000 IOPS
 
 =back
 
-For C<io1> and C<io2> volumes, we guarantee 64,000 IOPS only for
-Instances built on the Nitro System
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
-Other instance families guarantee performance up to 32,000 IOPS.
+For C<io2> volumes, you can achieve up to 256,000 IOPS on instances
+built on the Nitro System
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html).
+On other instances, you can achieve performance up to 32,000 IOPS.
 
 This parameter is required for C<io1> and C<io2> volumes. The default
 for C<gp3> volumes is 3,000 IOPS. This parameter is not supported for
@@ -160,12 +173,11 @@ C<gp2>, C<st1>, C<sc1>, or C<standard> volumes.
 
 =head2 KmsKeyId => Str
 
-The identifier of the AWS Key Management Service (AWS KMS) customer
-master key (CMK) to use for Amazon EBS encryption. If this parameter is
-not specified, your AWS managed CMK for EBS is used. If C<KmsKeyId> is
-specified, the encrypted state must be C<true>.
+The identifier of the KMS key to use for Amazon EBS encryption. If this
+parameter is not specified, your KMS key for Amazon EBS is used. If
+C<KmsKeyId> is specified, the encrypted state must be C<true>.
 
-You can specify the CMK using any of the following:
+You can specify the KMS key using any of the following:
 
 =over
 
@@ -189,9 +201,9 @@ arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
 
 =back
 
-AWS authenticates the CMK asynchronously. Therefore, if you specify an
-ID, alias, or ARN that is not valid, the action can appear to complete,
-but eventually fails.
+Amazon Web Services authenticates the KMS key asynchronously.
+Therefore, if you specify an ID, alias, or ARN that is not valid, the
+action can appear to complete, but eventually fails.
 
 
 
@@ -200,18 +212,30 @@ but eventually fails.
 Indicates whether to enable Amazon EBS Multi-Attach. If you enable
 Multi-Attach, you can attach the volume to up to 16 Instances built on
 the Nitro System
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances)
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html)
 in the same Availability Zone. This parameter is supported with C<io1>
 and C<io2> volumes only. For more information, see Amazon EBS
 Multi-Attach
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes-multi.html)
+in the I<Amazon EBS User Guide>.
+
+
+
+=head2 Operator => L<Paws::EC2::OperatorRequest>
+
+Reserved for internal use.
 
 
 
 =head2 OutpostArn => Str
 
-The Amazon Resource Name (ARN) of the Outpost.
+The Amazon Resource Name (ARN) of the Outpost on which to create the
+volume.
+
+If you intend to use a volume with an instance running on an outpost,
+then you must create the volume on the same outpost as the instance.
+You can't use a volume created in an Amazon Web Services Region with an
+instance on an Amazon Web Services outpost, or the other way around.
 
 
 
@@ -228,19 +252,23 @@ The following are the supported volumes sizes for each volume type:
 
 =item *
 
-C<gp2> and C<gp3>: 1-16,384
+C<gp2> and C<gp3>: 1 - 16,384 GiB
 
 =item *
 
-C<io1> and C<io2>: 4-16,384
+C<io1>: 4 - 16,384 GiB
 
 =item *
 
-C<st1> and C<sc1>: 125-16,384
+C<io2>: 4 - 65,536 GiB
 
 =item *
 
-C<standard>: 1-1,024
+C<st1> and C<sc1>: 125 - 16,384 GiB
+
+=item *
+
+C<standard>: 1 - 1024 GiB
 
 =back
 
@@ -268,6 +296,44 @@ MiB/s.
 This parameter is valid only for C<gp3> volumes.
 
 Valid Range: Minimum value of 125. Maximum value of 1000.
+
+
+
+=head2 VolumeInitializationRate => Int
+
+Specifies the Amazon EBS Provisioned Rate for Volume Initialization
+(volume initialization rate), in MiB/s, at which to download the
+snapshot blocks from Amazon S3 to the volume. This is also known as
+I<volume initialization>. Specifying a volume initialization rate
+ensures that the volume is initialized at a predictable and consistent
+rate after creation.
+
+This parameter is supported only for volumes created from snapshots.
+Omit this parameter if:
+
+=over
+
+=item *
+
+You want to create the volume using fast snapshot restore. You must
+specify a snapshot that is enabled for fast snapshot restore. In this
+case, the volume is fully initialized at creation.
+
+If you specify a snapshot that is enabled for fast snapshot restore and
+a volume initialization rate, the volume will be initialized at the
+specified rate instead of fast snapshot restore.
+
+=item *
+
+You want to create a volume that is initialized at the default rate.
+
+=back
+
+For more information, see Initialize Amazon EBS volumes
+(https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html)
+in the I<Amazon EC2 User Guide>.
+
+Valid range: 100 - 300 MiB/s
 
 
 
@@ -299,9 +365,12 @@ Magnetic: C<standard>
 
 =back
 
+Throughput Optimized HDD (C<st1>) and Cold HDD (C<sc1>) volumes can't
+be used as boot volumes.
+
 For more information, see Amazon EBS volume types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html)
+in the I<Amazon EBS User Guide>.
 
 Default: C<gp2>
 

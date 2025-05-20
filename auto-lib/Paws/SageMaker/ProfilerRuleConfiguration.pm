@@ -46,8 +46,7 @@ Configuration information for profiling rules.
 
 =head2 InstanceType => Str
 
-The instance type to deploy a Debugger custom rule for profiling a
-training job.
+The instance type to deploy a custom rule for profiling a training job.
 
 
 =head2 LocalPath => Str
@@ -64,7 +63,7 @@ rule configuration names.
 
 =head2 B<REQUIRED> RuleEvaluatorImage => Str
 
-The Amazon Elastic Container (ECR) Image for the managed rule
+The Amazon Elastic Container Registry Image for the managed rule
 evaluation.
 
 

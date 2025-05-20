@@ -129,7 +129,7 @@ ModifyDBClusterSnapshotAttribute API action.
 =head2 IncludeShared => Bool
 
 True to include shared manual DB cluster snapshots from other Amazon
-accounts that this AWS account has been given permission to copy or
+accounts that this Amazon account has been given permission to copy or
 restore, and otherwise false. The default is C<false>.
 
 You can give an Amazon account permission to restore a manual DB
@@ -175,7 +175,7 @@ automatically taken by Amazon Neptune for my Amazon account.
 =item *
 
 C<manual> - Return all DB cluster snapshots that have been taken by my
-AWS account.
+Amazon account.
 
 =item *
 

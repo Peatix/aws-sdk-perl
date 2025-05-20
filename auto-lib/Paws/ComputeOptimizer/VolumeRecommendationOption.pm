@@ -4,6 +4,8 @@ package Paws::ComputeOptimizer::VolumeRecommendationOption;
   has Configuration => (is => 'ro', isa => 'Paws::ComputeOptimizer::VolumeConfiguration', request_name => 'configuration', traits => ['NameInRequest']);
   has PerformanceRisk => (is => 'ro', isa => 'Num', request_name => 'performanceRisk', traits => ['NameInRequest']);
   has Rank => (is => 'ro', isa => 'Int', request_name => 'rank', traits => ['NameInRequest']);
+  has SavingsOpportunity => (is => 'ro', isa => 'Paws::ComputeOptimizer::SavingsOpportunity', request_name => 'savingsOpportunity', traits => ['NameInRequest']);
+  has SavingsOpportunityAfterDiscounts => (is => 'ro', isa => 'Paws::ComputeOptimizer::EBSSavingsOpportunityAfterDiscounts', request_name => 'savingsOpportunityAfterDiscounts', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ComputeOptimizer::VolumeRecommendationOption object:
 
-  $service_obj->Method(Att1 => { Configuration => $value, ..., Rank => $value  });
+  $service_obj->Method(Att1 => { Configuration => $value, ..., SavingsOpportunityAfterDiscounts => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,7 +55,7 @@ The performance risk of the volume recommendation option.
 Performance risk is the likelihood of the recommended volume type
 meeting the performance requirement of your workload.
 
-The value ranges from C<0> to C<5>, with C<0> meaning that the
+The value ranges from C<0> - C<4>, with C<0> meaning that the
 recommended resource is predicted to always provide enough hardware
 capability. The higher the performance risk is, the more likely you
 should validate whether the recommendation will meet the performance
@@ -65,6 +67,20 @@ requirements of your workload before migrating your resource.
 The rank of the volume recommendation option.
 
 The top recommendation option is ranked as C<1>.
+
+
+=head2 SavingsOpportunity => L<Paws::ComputeOptimizer::SavingsOpportunity>
+
+An object that describes the savings opportunity for the EBS volume
+recommendation option. Savings opportunity includes the estimated
+monthly savings amount and percentage.
+
+
+=head2 SavingsOpportunityAfterDiscounts => L<Paws::ComputeOptimizer::EBSSavingsOpportunityAfterDiscounts>
+
+An object that describes the savings opportunity for the Amazon EBS
+volume recommendation option with specific discounts. Savings
+opportunity includes the estimated monthly savings and percentage.
 
 
 

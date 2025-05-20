@@ -18,19 +18,19 @@ Paws::CostExplorer::GetReservationUtilizationResponse
 
 =head2 NextPageToken => Str
 
-The token for the next set of retrievable results. AWS provides the
-token when the response from a previous call has more results than the
-maximum page size.
+The token for the next set of retrievable results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 =head2 Total => L<Paws::CostExplorer::ReservationAggregates>
 
-The total amount of time that you used your RIs.
+The total amount of time that you used your Reserved Instances (RIs).
 
 
 =head2 B<REQUIRED> UtilizationsByTime => ArrayRef[L<Paws::CostExplorer::UtilizationByTime>]
 
-The amount of time that you used your RIs.
+The amount of time that you used your Reserved Instances (RIs).
 
 
 =head2 _request_id => Str

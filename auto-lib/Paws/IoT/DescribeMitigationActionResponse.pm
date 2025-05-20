@@ -50,8 +50,8 @@ The type of mitigation action.
 Valid values are: C<"UPDATE_DEVICE_CERTIFICATE">, C<"UPDATE_CA_CERTIFICATE">, C<"ADD_THINGS_TO_THING_GROUP">, C<"REPLACE_DEFAULT_POLICY_VERSION">, C<"ENABLE_IOT_LOGGING">, C<"PUBLISH_FINDING_TO_SNS">
 =head2 CreationDate => Str
 
-The date and time when the mitigation action was added to your AWS
-account.
+The date and time when the mitigation action was added to your Amazon
+Web Services accounts.
 
 
 =head2 LastModifiedDate => Str

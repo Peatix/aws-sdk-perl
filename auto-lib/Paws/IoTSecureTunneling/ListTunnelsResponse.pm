@@ -17,12 +17,13 @@ Paws::IoTSecureTunneling::ListTunnelsResponse
 
 =head2 NextToken => Str
 
-A token to used to retrieve the next set of results.
+The token to use to get the next set of results, or null if there are
+no additional results.
 
 
 =head2 TunnelSummaries => ArrayRef[L<Paws::IoTSecureTunneling::TunnelSummary>]
 
-A short description of the tunnels in an AWS account.
+A short description of the tunnels in an Amazon Web Services account.
 
 
 =head2 _request_id => Str

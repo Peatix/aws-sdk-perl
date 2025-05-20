@@ -47,7 +47,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Docume
 
 =head1 DESCRIPTION
 
-Describes the name of a Systems Manager document.
+Describes the name of a SSM document.
 
 =head1 ATTRIBUTES
 
@@ -59,14 +59,14 @@ The user in your organization who created the document.
 
 =head2 CreatedDate => Str
 
-The date the Systems Manager document was created.
+The date the SSM document was created.
 
 
 =head2 DisplayName => Str
 
-An optional field where you can specify a friendly name for the Systems
-Manager document. This value can differ for each version of the
-document. If you want to update this value, see UpdateDocument.
+An optional field where you can specify a friendly name for the SSM
+document. This value can differ for each version of the document. If
+you want to update this value, see UpdateDocument.
 
 
 =head2 DocumentFormat => Str
@@ -86,12 +86,12 @@ The document version.
 
 =head2 Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 =head2 Owner => Str
 
-The AWS user account that created the document.
+The Amazon Web Services user that created the document.
 
 
 =head2 PlatformTypes => ArrayRef[Str|Undef]
@@ -124,17 +124,18 @@ The tags, or metadata, that have been applied to the document.
 =head2 TargetType => Str
 
 The target type which defines the kinds of resources the document can
-run on. For example, /AWS::EC2::Instance. For a list of valid resource
-types, see AWS resource and property types reference
+run on. For example, C</AWS::EC2::Instance>. For a list of valid
+resource types, see Amazon Web Services resource and property types
+reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 
 =head2 VersionName => Str
 
 An optional field specifying the version of the artifact associated
-with the document. For example, "Release 12, Update 6". This value is
-unique across all versions of a document, and cannot be changed.
+with the document. For example, 12.6. This value is unique across all
+versions of a document, and can't be changed.
 
 
 

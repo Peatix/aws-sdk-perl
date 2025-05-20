@@ -39,7 +39,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $FailureReason    = $DescribePipelineExecutionResponse->FailureReason;
     my $LastModifiedBy   = $DescribePipelineExecutionResponse->LastModifiedBy;
     my $LastModifiedTime = $DescribePipelineExecutionResponse->LastModifiedTime;
-    my $PipelineArn      = $DescribePipelineExecutionResponse->PipelineArn;
+    my $ParallelismConfiguration =
+      $DescribePipelineExecutionResponse->ParallelismConfiguration;
+    my $PipelineArn = $DescribePipelineExecutionResponse->PipelineArn;
     my $PipelineExecutionArn =
       $DescribePipelineExecutionResponse->PipelineExecutionArn;
     my $PipelineExecutionDescription =
@@ -50,6 +52,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribePipelineExecutionResponse->PipelineExecutionStatus;
     my $PipelineExperimentConfig =
       $DescribePipelineExecutionResponse->PipelineExperimentConfig;
+    my $SelectiveExecutionConfig =
+      $DescribePipelineExecutionResponse->SelectiveExecutionConfig;
 
     # Returns a L<Paws::SageMaker::DescribePipelineExecutionResponse> object.
 

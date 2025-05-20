@@ -125,10 +125,10 @@ Deprecated.
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
+idempotency of the request. For more information, see Ensuring
+idempotency in Amazon EC2 API requests
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html)
-in the I<Amazon EC2 User Guide for Linux Instances>.
+in the I<Amazon EC2 User Guide>.
 
 
 
@@ -173,8 +173,13 @@ The launch specification.
 
 =head2 SpotPrice => Str
 
-The maximum price per hour that you are willing to pay for a Spot
-Instance. The default is the On-Demand price.
+The maximum price per unit hour that you are willing to pay for a Spot
+Instance. We do not recommend using this parameter because it can lead
+to increased interruptions. If you do not specify this parameter, you
+will pay the current Spot price.
+
+If you specify a maximum price, your instances will be interrupted more
+frequently than if you do not specify this parameter.
 
 
 

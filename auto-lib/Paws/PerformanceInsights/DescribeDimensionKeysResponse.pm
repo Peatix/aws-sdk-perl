@@ -41,9 +41,10 @@ The dimension keys that were requested.
 
 =head2 NextToken => Str
 
-An optional pagination token provided by a previous request. If this
-parameter is specified, the response includes only records beyond the
-token, up to the value specified by C<MaxRecords>.
+A pagination token that indicates the response didnE<rsquo>t return all
+available records because C<MaxRecords> was specified in the previous
+request. To get the remaining records, specify C<NextToken> in a
+separate request with this value.
 
 
 =head2 PartitionKeys => ArrayRef[L<Paws::PerformanceInsights::ResponsePartitionKey>]

@@ -8,7 +8,7 @@ package Paws::EC2::DeleteKeyPair;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DeleteKeyPair');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::EC2::DeleteKeyPairResult');
   class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     # To delete a key pair
     # This example deletes the specified key pair.
-    $ec2->DeleteKeyPair( 'KeyName' => 'my-key-pair' );
+    my $DeleteKeyPairResult = $ec2->DeleteKeyPair( 'KeyName' => 'my-key-pair' );
 
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.

@@ -37,6 +37,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Tag ob
 Metadata assigned to an Amazon RDS resource consisting of a key-value
 pair.
 
+For more information, see Tagging Amazon RDS resources
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html)
+in the I<Amazon RDS User Guide> or Tagging Amazon Aurora and Amazon RDS
+resources
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html)
+in the I<Amazon Aurora User Guide>.
+
 =head1 ATTRIBUTES
 
 

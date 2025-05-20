@@ -44,7 +44,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies summary information about a training job.
+The container for the summary information about a training job.
 
 =head1 ATTRIBUTES
 
@@ -61,9 +61,10 @@ The reason that the training job failed.
 
 =head2 FinalHyperParameterTuningJobObjectiveMetric => L<Paws::SageMaker::FinalHyperParameterTuningJobObjectiveMetric>
 
-The FinalHyperParameterTuningJobObjectiveMetric object that specifies
-the value of the objective metric of the tuning job that launched this
-training job.
+The FinalHyperParameterTuningJobObjectiveMetric
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_FinalHyperParameterTuningJobObjectiveMetric.html)
+object that specifies the value of the objective metric of the tuning
+job that launched this training job.
 
 
 =head2 ObjectiveStatus => Str
@@ -108,7 +109,7 @@ Specifies the time when the training job ends on training instances.
 You are billed for the time interval between the value of
 C<TrainingStartTime> and this time. For successful jobs and stopped
 jobs, this is the time after model artifacts are uploaded. For failed
-jobs, this is the time when Amazon SageMaker detects a job failure.
+jobs, this is the time when SageMaker detects a job failure.
 
 
 =head2 B<REQUIRED> TrainingJobArn => Str

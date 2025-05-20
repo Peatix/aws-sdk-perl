@@ -30,7 +30,7 @@ The name of the dataset being created.
 
 Indicates the status of the C<CreateDataset> operation.
 
-Valid values are: C<"CREATED">, C<"INGESTION_IN_PROGRESS">, C<"ACTIVE">
+Valid values are: C<"CREATED">, C<"INGESTION_IN_PROGRESS">, C<"ACTIVE">, C<"IMPORT_IN_PROGRESS">
 =head2 _request_id => Str
 
 

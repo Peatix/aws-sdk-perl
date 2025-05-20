@@ -22,7 +22,7 @@ The Amazon Resource Name (ARN) of the host to be created.
 
 =head2 Tags => ArrayRef[L<Paws::CodeStarConnections::Tag>]
 
-
+Tags for the created host.
 
 
 =head2 _request_id => Str

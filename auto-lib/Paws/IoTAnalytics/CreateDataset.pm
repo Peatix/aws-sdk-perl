@@ -161,7 +161,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> Actions => ArrayRef[L<Paws::IoTAnalytics::DatasetAction>]
 
-A list of actions that create the data set contents.
+A list of actions that create the dataset contents.
 
 
 
@@ -174,14 +174,14 @@ specified here.
 
 =head2 B<REQUIRED> DatasetName => Str
 
-The name of the data set.
+The name of the dataset.
 
 
 
 =head2 LateDataRules => ArrayRef[L<Paws::IoTAnalytics::LateDataRule>]
 
-A list of data rules that send notifications to Amazon CloudWatch, when
-data arrives late. To specify C<lateDataRules>, the dataset must use a
+A list of data rules that send notifications to CloudWatch, when data
+arrives late. To specify C<lateDataRules>, the dataset must use a
 DeltaTimer
 (https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
 filter.
@@ -195,22 +195,22 @@ the dataset. If not specified or set to C<null>, versions of dataset
 contents are retained for at most 90 days. The number of versions of
 dataset contents retained is determined by the
 C<versioningConfiguration> parameter. For more information, see Keeping
-Multiple Versions of AWS IoT Analytics Data Sets
+Multiple Versions of IoT Analytics datasets
 (https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
-in the I<AWS IoT Analytics User Guide>.
+in the I<IoT Analytics User Guide>.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::IoTAnalytics::Tag>]
 
-Metadata which can be used to manage the data set.
+Metadata which can be used to manage the dataset.
 
 
 
 =head2 Triggers => ArrayRef[L<Paws::IoTAnalytics::DatasetTrigger>]
 
-A list of triggers. A trigger causes data set contents to be populated
-at a specified time interval or when another data set's contents are
+A list of triggers. A trigger causes dataset contents to be populated
+at a specified time interval or when another dataset's contents are
 created. The list of triggers can be empty or contain up to five
 C<DataSetTrigger> objects.
 
@@ -222,9 +222,9 @@ Optional. How many versions of dataset contents are kept. If not
 specified or set to null, only the latest version plus the latest
 succeeded version (if they are different) are kept for the time period
 specified by the C<retentionPeriod> parameter. For more information,
-see Keeping Multiple Versions of AWS IoT Analytics Data Sets
+see Keeping Multiple Versions of IoT Analytics datasets
 (https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
-in the I<AWS IoT Analytics User Guide>.
+in the I<IoT Analytics User Guide>.
 
 
 

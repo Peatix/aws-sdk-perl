@@ -65,7 +65,7 @@ Default: C<HARD>
 
 The component version requirement for the component dependency.
 
-AWS IoT Greengrass V2 uses semantic version constraints. For more
+IoT Greengrass V2 uses semantic version constraints. For more
 information, see Semantic Versioning (https://semver.org/).
 
 

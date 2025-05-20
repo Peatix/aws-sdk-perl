@@ -1,10 +1,15 @@
 
 package Paws::ApplicationInsights::CreateApplication;
   use Moose;
+  has AttachMissingPermission => (is => 'ro', isa => 'Bool');
+  has AutoConfigEnabled => (is => 'ro', isa => 'Bool');
+  has AutoCreate => (is => 'ro', isa => 'Bool');
   has CWEMonitorEnabled => (is => 'ro', isa => 'Bool');
+  has GroupingType => (is => 'ro', isa => 'Str');
   has OpsCenterEnabled => (is => 'ro', isa => 'Bool');
   has OpsItemSNSTopicArn => (is => 'ro', isa => 'Str');
-  has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
+  has ResourceGroupName => (is => 'ro', isa => 'Str');
+  has SNSNotificationArn => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ApplicationInsights::Tag]');
 
   use MooseX::ClassAttribute;
@@ -32,11 +37,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $CreateApplicationResponse = $applicationinsights->CreateApplication(
-      ResourceGroupName  => 'MyResourceGroupName',
-      CWEMonitorEnabled  => 1,                         # OPTIONAL
-      OpsCenterEnabled   => 1,                         # OPTIONAL
-      OpsItemSNSTopicArn => 'MyOpsItemSNSTopicArn',    # OPTIONAL
-      Tags               => [
+      AttachMissingPermission => 1,                         # OPTIONAL
+      AutoConfigEnabled       => 1,                         # OPTIONAL
+      AutoCreate              => 1,                         # OPTIONAL
+      CWEMonitorEnabled       => 1,                         # OPTIONAL
+      GroupingType            => 'ACCOUNT_BASED',           # OPTIONAL
+      OpsCenterEnabled        => 1,                         # OPTIONAL
+      OpsItemSNSTopicArn      => 'MyOpsItemSNSTopicArn',    # OPTIONAL
+      ResourceGroupName       => 'MyResourceGroupName',     # OPTIONAL
+      SNSNotificationArn      => 'MySNSNotificationArn',    # OPTIONAL
+      Tags                    => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -57,6 +67,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head1 ATTRIBUTES
 
 
+=head2 AttachMissingPermission => Bool
+
+If set to true, the managed policies for SSM and CW will be attached to
+the instance roles if they are missing.
+
+
+
+=head2 AutoConfigEnabled => Bool
+
+Indicates whether Application Insights automatically configures
+unmonitored resources in the resource group.
+
+
+
+=head2 AutoCreate => Bool
+
+Configures all of the resources in the resource group by applying the
+recommended configurations.
+
+
+
 =head2 CWEMonitorEnabled => Bool
 
 Indicates whether Application Insights can listen to CloudWatch events
@@ -64,6 +95,14 @@ for the application resources, such as C<instance terminated>, C<failed
 deployment>, and others.
 
 
+
+=head2 GroupingType => Str
+
+Application Insights can create applications based on a resource group
+or on an account. To create an account-based application using all of
+the resources in the account, set this parameter to C<ACCOUNT_BASED>.
+
+Valid values are: C<"ACCOUNT_BASED">
 
 =head2 OpsCenterEnabled => Bool
 
@@ -80,9 +119,15 @@ the opsItem.
 
 
 
-=head2 B<REQUIRED> ResourceGroupName => Str
+=head2 ResourceGroupName => Str
 
 The name of the resource group.
+
+
+
+=head2 SNSNotificationArn => Str
+
+The SNS notification topic ARN.
 
 
 

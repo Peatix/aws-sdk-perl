@@ -51,10 +51,10 @@ Describes plugin details.
 
 =head2 Name => Str
 
-The name of the plugin. Must be one of the following: aws:updateAgent,
-aws:domainjoin, aws:applications, aws:runPowerShellScript,
-aws:psmodule, aws:cloudWatch, aws:runShellScript, or
-aws:updateSSMAgent.
+The name of the plugin. Must be one of the following:
+C<aws:updateAgent>, C<aws:domainjoin>, C<aws:applications>,
+C<aws:runPowerShellScript>, C<aws:psmodule>, C<aws:cloudWatch>,
+C<aws:runShellScript>, or C<aws:updateSSMAgent>.
 
 
 =head2 Output => Str
@@ -68,15 +68,15 @@ The S3 bucket where the responses to the command executions should be
 stored. This was requested when issuing the command. For example, in
 the following response:
 
-doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript
+C<amzn-s3-demo-bucket/my-prefix/i-02573cafcfEXAMPLE/awsrunShellScript>
 
-doc-example-bucket is the name of the S3 bucket;
+C<amzn-s3-demo-bucket> is the name of the S3 bucket;
 
-ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;
+C<my-prefix> is the name of the S3 prefix;
 
-i-02573cafcfEXAMPLE is the instance ID;
+C<i-02573cafcfEXAMPLE> is the managed node ID;
 
-awsrunShellScript is the name of the plugin.
+C<awsrunShellScript> is the name of the plugin.
 
 
 =head2 OutputS3KeyPrefix => Str
@@ -85,22 +85,22 @@ The S3 directory path inside the bucket where the responses to the
 command executions should be stored. This was requested when issuing
 the command. For example, in the following response:
 
-doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript
+C<amzn-s3-demo-bucket/my-prefix/i-02573cafcfEXAMPLE/awsrunShellScript>
 
-doc-example-bucket is the name of the S3 bucket;
+C<amzn-s3-demo-bucket> is the name of the S3 bucket;
 
-ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;
+C<my-prefix> is the name of the S3 prefix;
 
-i-02573cafcfEXAMPLE is the instance ID;
+C<i-02573cafcfEXAMPLE> is the managed node ID;
 
-awsrunShellScript is the name of the plugin.
+C<awsrunShellScript> is the name of the plugin.
 
 
 =head2 OutputS3Region => Str
 
 (Deprecated) You can no longer specify this parameter. The system
-ignores it. Instead, Systems Manager automatically determines the S3
-bucket region.
+ignores it. Instead, Amazon Web Services Systems Manager automatically
+determines the S3 bucket region.
 
 
 =head2 ResponseCode => Int
@@ -122,14 +122,14 @@ The time the plugin started running.
 =head2 StandardErrorUrl => Str
 
 The URL for the complete text written by the plugin to stderr. If
-execution is not yet complete, then this string is empty.
+execution isn't yet complete, then this string is empty.
 
 
 =head2 StandardOutputUrl => Str
 
 The URL for the complete text written by the plugin to stdout in Amazon
-S3. If the S3 bucket for the command was not specified, then this
-string is empty.
+S3. If the S3 bucket for the command wasn't specified, then this string
+is empty.
 
 
 =head2 Status => Str
@@ -140,24 +140,24 @@ plugins.
 
 =head2 StatusDetails => Str
 
-A detailed status of the plugin execution. StatusDetails includes more
-information than Status because it includes states resulting from error
-and concurrency control parameters. StatusDetails can show different
-results than Status. For more information about these statuses, see
-Understanding command statuses
+A detailed status of the plugin execution. C<StatusDetails> includes
+more information than Status because it includes states resulting from
+error and concurrency control parameters. StatusDetails can show
+different results than Status. For more information about these
+statuses, see Understanding command statuses
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html)
-in the I<AWS Systems Manager User Guide>. StatusDetails can be one of
-the following values:
+in the I<Amazon Web Services Systems Manager User Guide>. StatusDetails
+can be one of the following values:
 
 =over
 
 =item *
 
-Pending: The command has not been sent to the instance.
+Pending: The command hasn't been sent to the managed node.
 
 =item *
 
-In Progress: The command has been sent to the instance but has not
+In Progress: The command has been sent to the managed node but hasn't
 reached a terminal state.
 
 =item *
@@ -167,39 +167,39 @@ completed. This is a terminal state.
 
 =item *
 
-Delivery Timed Out: The command was not delivered to the instance
-before the delivery timeout expired. Delivery timeouts do not count
-against the parent command's MaxErrors limit, but they do contribute to
-whether the parent command status is Success or Incomplete. This is a
-terminal state.
+Delivery Timed Out: The command wasn't delivered to the managed node
+before the delivery timeout expired. Delivery timeouts don't count
+against the parent command's C<MaxErrors> limit, but they do contribute
+to whether the parent command status is Success or Incomplete. This is
+a terminal state.
 
 =item *
 
-Execution Timed Out: Command execution started on the instance, but the
-execution was not complete before the execution timeout expired.
-Execution timeouts count against the MaxErrors limit of the parent
+Execution Timed Out: Command execution started on the managed node, but
+the execution wasn't complete before the execution timeout expired.
+Execution timeouts count against the C<MaxErrors> limit of the parent
 command. This is a terminal state.
 
 =item *
 
-Failed: The command was not successful on the instance. For a plugin,
-this indicates that the result code was not zero. For a command
+Failed: The command wasn't successful on the managed node. For a
+plugin, this indicates that the result code wasn't zero. For a command
 invocation, this indicates that the result code for one or more plugins
-was not zero. Invocation failures count against the MaxErrors limit of
+wasn't zero. Invocation failures count against the MaxErrors limit of
 the parent command. This is a terminal state.
 
 =item *
 
-Canceled: The command was terminated before it was completed. This is a
-terminal state.
+Cancelled: The command was terminated before it was completed. This is
+a terminal state.
 
 =item *
 
-Undeliverable: The command can't be delivered to the instance. The
-instance might not exist, or it might not be responding. Undeliverable
-invocations don't count against the parent command's MaxErrors limit,
-and they don't contribute to whether the parent command status is
-Success or Incomplete. This is a terminal state.
+Undeliverable: The command can't be delivered to the managed node. The
+managed node might not exist, or it might not be responding.
+Undeliverable invocations don't count against the parent command's
+MaxErrors limit, and they don't contribute to whether the parent
+command status is Success or Incomplete. This is a terminal state.
 
 =item *
 

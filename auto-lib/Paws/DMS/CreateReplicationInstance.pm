@@ -6,8 +6,10 @@ package Paws::DMS::CreateReplicationInstance;
   has AvailabilityZone => (is => 'ro', isa => 'Str');
   has DnsNameServers => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
+  has KerberosAuthenticationSettings => (is => 'ro', isa => 'Paws::DMS::KerberosAuthenticationSettings');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MultiAZ => (is => 'ro', isa => 'Bool');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PubliclyAccessible => (is => 'ro', isa => 'Bool');
   has ReplicationInstanceClass => (is => 'ro', isa => 'Str', required => 1);
@@ -100,7 +102,7 @@ Default: C<true>
 
 The Availability Zone where the replication instance will be created.
 The default value is a random, system-chosen Availability Zone in the
-endpoint's AWS Region, for example: C<us-east-1d>
+endpoint's Amazon Web Services Region, for example: C<us-east-1d>.
 
 
 
@@ -125,16 +127,24 @@ available.
 
 
 
+=head2 KerberosAuthenticationSettings => L<Paws::DMS::KerberosAuthenticationSettings>
+
+Specifies the settings required for kerberos authentication when
+creating the replication instance.
+
+
+
 =head2 KmsKeyId => Str
 
-An AWS KMS key identifier that is used to encrypt the data on the
+An KMS key identifier that is used to encrypt the data on the
 replication instance.
 
-If you don't specify a value for the C<KmsKeyId> parameter, then AWS
-DMS uses your default encryption key.
+If you don't specify a value for the C<KmsKeyId> parameter, then DMS
+uses your default encryption key.
 
-AWS KMS creates the default encryption key for your AWS account. Your
-AWS account has a different default encryption key for each AWS Region.
+KMS creates the default encryption key for your Amazon Web Services
+account. Your Amazon Web Services account has a different default
+encryption key for each Amazon Web Services Region.
 
 
 
@@ -146,6 +156,14 @@ parameter is set to C<true>.
 
 
 
+=head2 NetworkType => Str
+
+The type of IP address protocol used by a replication instance, such as
+IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.
+IPv6 only is not yet supported.
+
+
+
 =head2 PreferredMaintenanceWindow => Str
 
 The weekly time range during which system maintenance can occur, in
@@ -154,7 +172,8 @@ Universal Coordinated Time (UTC).
 Format: C<ddd:hh24:mi-ddd:hh24:mi>
 
 Default: A 30-minute window selected at random from an 8-hour block of
-time per AWS Region, occurring on a random day of the week.
+time per Amazon Web Services Region, occurring on a random day of the
+week.
 
 Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
 
@@ -179,9 +198,11 @@ the instance class dms.c4.large, set this parameter to
 C<"dms.c4.large">.
 
 For more information on the settings and capacities for the available
-replication instance classes, see Selecting the right AWS DMS
-replication instance for your migration
-(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
+replication instance classes, see Choosing the right DMS replication
+instance
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html
+); and, Selecting the best size for a replication instance
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html).
 
 
 
@@ -228,8 +249,8 @@ characters. It can contain only ASCII letters, digits, and hyphen
 hyphens, and can only begin with a letter, such as C<Example-App-ARN1>.
 For example, this value might result in the C<EndpointArn> value
 C<arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1>. If you
-don't specify a C<ResourceIdentifier> value, AWS DMS generates a
-default identifier value for the end of C<EndpointArn>.
+don't specify a C<ResourceIdentifier> value, DMS generates a default
+identifier value for the end of C<EndpointArn>.
 
 
 

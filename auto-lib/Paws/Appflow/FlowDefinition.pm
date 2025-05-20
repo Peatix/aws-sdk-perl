@@ -4,6 +4,7 @@ package Paws::Appflow::FlowDefinition;
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has CreatedBy => (is => 'ro', isa => 'Str', request_name => 'createdBy', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has DestinationConnectorLabel => (is => 'ro', isa => 'Str', request_name => 'destinationConnectorLabel', traits => ['NameInRequest']);
   has DestinationConnectorType => (is => 'ro', isa => 'Str', request_name => 'destinationConnectorType', traits => ['NameInRequest']);
   has FlowArn => (is => 'ro', isa => 'Str', request_name => 'flowArn', traits => ['NameInRequest']);
   has FlowName => (is => 'ro', isa => 'Str', request_name => 'flowName', traits => ['NameInRequest']);
@@ -11,6 +12,7 @@ package Paws::Appflow::FlowDefinition;
   has LastRunExecutionDetails => (is => 'ro', isa => 'Paws::Appflow::ExecutionDetails', request_name => 'lastRunExecutionDetails', traits => ['NameInRequest']);
   has LastUpdatedAt => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedAt', traits => ['NameInRequest']);
   has LastUpdatedBy => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedBy', traits => ['NameInRequest']);
+  has SourceConnectorLabel => (is => 'ro', isa => 'Str', request_name => 'sourceConnectorLabel', traits => ['NameInRequest']);
   has SourceConnectorType => (is => 'ro', isa => 'Str', request_name => 'sourceConnectorType', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::Appflow::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has TriggerType => (is => 'ro', isa => 'Str', request_name => 'triggerType', traits => ['NameInRequest']);
@@ -66,6 +68,11 @@ The ARN of the user who created the flow.
 A user-entered description of the flow.
 
 
+=head2 DestinationConnectorLabel => Str
+
+The label of the destination connector in the flow.
+
+
 =head2 DestinationConnectorType => Str
 
 Specifies the destination connector type, such as Salesforce, Amazon
@@ -101,6 +108,11 @@ Specifies when the flow was last updated.
 =head2 LastUpdatedBy => Str
 
 Specifies the account user name that most recently updated the flow.
+
+
+=head2 SourceConnectorLabel => Str
+
+The label of the source connector in the flow.
 
 
 =head2 SourceConnectorType => Str

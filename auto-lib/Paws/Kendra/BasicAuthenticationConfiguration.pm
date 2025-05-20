@@ -43,7 +43,8 @@ require basic user authentication.
 
 =head2 B<REQUIRED> Credentials => Str
 
-Your secret ARN, which you can create in AWS Secrets Manager
+The Amazon Resource Name (ARN) of an Secrets Manager secret. You create
+a secret to store your credentials in Secrets Manager
 (https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html)
 
 You use a secret if basic authentication credentials are required to

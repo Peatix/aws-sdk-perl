@@ -1,7 +1,8 @@
 
 package Paws::Kinesis::DescribeStreamSummary;
   use Moose;
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -28,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $kinesis = Paws->service('Kinesis');
     my $DescribeStreamSummaryOutput = $kinesis->DescribeStreamSummary(
-      StreamName => 'MyStreamName',
-
+      StreamARN  => 'MyStreamARN',     # OPTIONAL
+      StreamName => 'MyStreamName',    # OPTIONAL
     );
 
     # Results:
@@ -44,7 +45,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kin
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream to describe.
 

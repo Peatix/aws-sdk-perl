@@ -7,6 +7,7 @@ package Paws::EC2::RevokeSecurityGroupEgress;
   has GroupId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'groupId' , required => 1);
   has IpPermissions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]', traits => ['NameInRequest'], request_name => 'ipPermissions' );
   has IpProtocol => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipProtocol' );
+  has SecurityGroupRuleIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecurityGroupRuleId' );
   has SourceSecurityGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceSecurityGroupName' );
   has SourceSecurityGroupOwnerId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceSecurityGroupOwnerId' );
   has ToPort => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'toPort' );
@@ -81,14 +82,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      IpProtocol                 => 'MyString',    # OPTIONAL
-      SourceSecurityGroupName    => 'MyString',    # OPTIONAL
-      SourceSecurityGroupOwnerId => 'MyString',    # OPTIONAL
-      ToPort                     => 1,             # OPTIONAL
+      IpProtocol                 => 'MyString',             # OPTIONAL
+      SecurityGroupRuleIds       => [ 'MyString', ... ],    # OPTIONAL
+      SourceSecurityGroupName    => 'MyString',             # OPTIONAL
+      SourceSecurityGroupOwnerId => 'MyString',             # OPTIONAL
+      ToPort                     => 1,                      # OPTIONAL
     );
 
     # Results:
     my $Return = $RevokeSecurityGroupEgressResult->Return;
+    my $RevokedSecurityGroupRules =
+      $RevokeSecurityGroupEgressResult->RevokedSecurityGroupRules;
     my $UnknownIpPermissions =
       $RevokeSecurityGroupEgressResult->UnknownIpPermissions;
 
@@ -138,6 +142,12 @@ group and a CIDR IP address range in the same set of permissions.
 
 Not supported. Use a set of IP permissions to specify the protocol name
 or number.
+
+
+
+=head2 SecurityGroupRuleIds => ArrayRef[Str|Undef]
+
+The IDs of the security group rules.
 
 
 

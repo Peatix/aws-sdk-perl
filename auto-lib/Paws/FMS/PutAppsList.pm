@@ -80,8 +80,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 B<REQUIRED> AppsList => L<Paws::FMS::AppsListData>
 
-The details of the AWS Firewall Manager applications list to be
-created.
+The details of the Firewall Manager applications list to be created.
 
 
 

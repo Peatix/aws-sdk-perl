@@ -4,9 +4,11 @@ package Paws::EMR::InstanceTypeSpecification;
   has BidPrice => (is => 'ro', isa => 'Str');
   has BidPriceAsPercentageOfOnDemandPrice => (is => 'ro', isa => 'Num');
   has Configurations => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Configuration]');
+  has CustomAmiId => (is => 'ro', isa => 'Str');
   has EbsBlockDevices => (is => 'ro', isa => 'ArrayRef[Paws::EMR::EbsBlockDevice]');
   has EbsOptimized => (is => 'ro', isa => 'Bool');
   has InstanceType => (is => 'ro', isa => 'Str');
+  has Priority => (is => 'ro', isa => 'Num');
   has WeightedCapacity => (is => 'ro', isa => 'Int');
 
 1;
@@ -43,21 +45,21 @@ The configuration specification for each instance type in an instance
 fleet.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions.
+releases 4.8.0 and later, excluding 5.0.x versions.
 
 =head1 ATTRIBUTES
 
 
 =head2 BidPrice => Str
 
-The bid price for each EC2 Spot Instance type as defined by
+The bid price for each Amazon EC2 Spot Instance type as defined by
 C<InstanceType>. Expressed in USD.
 
 
 =head2 BidPriceAsPercentageOfOnDemandPrice => Num
 
-The bid price, as a percentage of On-Demand price, for each EC2 Spot
-Instance as defined by C<InstanceType>. Expressed as a number (for
+The bid price, as a percentage of On-Demand price, for each Amazon EC2
+Spot Instance as defined by C<InstanceType>. Expressed as a number (for
 example, 20 specifies 20%).
 
 
@@ -68,9 +70,14 @@ instances, which can include configurations for applications and
 software bundled with Amazon EMR.
 
 
+=head2 CustomAmiId => Str
+
+The custom AMI ID to use for the instance type.
+
+
 =head2 EbsBlockDevices => ArrayRef[L<Paws::EMR::EbsBlockDevice>]
 
-The configuration of Amazon Elastic Block Storage (Amazon EBS) attached
+The configuration of Amazon Elastic Block Store (Amazon EBS) attached
 to each instance as defined by C<InstanceType>.
 
 
@@ -82,7 +89,14 @@ EBS-optimized.
 
 =head2 InstanceType => Str
 
-The EC2 instance type, for example C<m3.xlarge>.
+The Amazon EC2 instance type, for example C<m3.xlarge>.
+
+
+=head2 Priority => Num
+
+The priority at which Amazon EMR launches the Amazon EC2 instances with
+this instance type. Priority starts at 0, which is the highest
+priority. Amazon EMR considers the highest priority first.
 
 
 =head2 WeightedCapacity => Int

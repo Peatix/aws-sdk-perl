@@ -7,10 +7,12 @@ package Paws::SageMaker::HyperParameterTrainingJobDefinition;
   has EnableInterContainerTrafficEncryption => (is => 'ro', isa => 'Bool');
   has EnableManagedSpotTraining => (is => 'ro', isa => 'Bool');
   has EnableNetworkIsolation => (is => 'ro', isa => 'Bool');
+  has Environment => (is => 'ro', isa => 'Paws::SageMaker::HyperParameterTrainingJobEnvironmentMap');
   has HyperParameterRanges => (is => 'ro', isa => 'Paws::SageMaker::ParameterRanges');
+  has HyperParameterTuningResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::HyperParameterTuningResourceConfig');
   has InputDataConfig => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Channel]');
   has OutputDataConfig => (is => 'ro', isa => 'Paws::SageMaker::OutputDataConfig', required => 1);
-  has ResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::ResourceConfig', required => 1);
+  has ResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::ResourceConfig');
   has RetryStrategy => (is => 'ro', isa => 'Paws::SageMaker::RetryStrategy');
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has StaticHyperParameters => (is => 'ro', isa => 'Paws::SageMaker::HyperParameters');
@@ -55,9 +57,10 @@ Defines the training jobs launched by a hyperparameter tuning job.
 
 =head2 B<REQUIRED> AlgorithmSpecification => L<Paws::SageMaker::HyperParameterAlgorithmSpecification>
 
-The HyperParameterAlgorithmSpecification object that specifies the
-resource algorithm to use for the training jobs that the tuning job
-launches.
+The HyperParameterAlgorithmSpecification
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterAlgorithmSpecification.html)
+object that specifies the resource algorithm to use for the training
+jobs that the tuning job launches.
 
 
 =head2 CheckpointConfig => L<Paws::SageMaker::CheckpointConfig>
@@ -91,9 +94,29 @@ or not (C<False>).
 Isolates the training container. No inbound or outbound network calls
 can be made, except for calls between peers within a training cluster
 for distributed training. If network isolation is used for training
-jobs that are configured to use a VPC, Amazon SageMaker downloads and
-uploads customer data and model artifacts through the specified VPC,
-but the training container does not have network access.
+jobs that are configured to use a VPC, SageMaker downloads and uploads
+customer data and model artifacts through the specified VPC, but the
+training container does not have network access.
+
+
+=head2 Environment => L<Paws::SageMaker::HyperParameterTrainingJobEnvironmentMap>
+
+An environment variable that you can pass into the SageMaker
+CreateTrainingJob
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html)
+API. You can use an existing environment variable from the training
+container
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html#sagemaker-CreateTrainingJob-request-Environment)
+or use your own. See Define metrics and variables
+(https://docs.aws.amazon.com/sagemaker/latest/dg/automatic-model-tuning-define-metrics-variables.html)
+for more information.
+
+The maximum number of items specified for C<Map Entries> refers to the
+maximum number of environment variables for each
+C<TrainingJobDefinition> and also the maximum for the hyperparameter
+tuning job itself. That is, the sum of the number of environment
+variables for all the training job definitions can't exceed the maximum
+number specified.
 
 
 =head2 HyperParameterRanges => L<Paws::SageMaker::ParameterRanges>
@@ -101,10 +124,22 @@ but the training container does not have network access.
 
 
 
+=head2 HyperParameterTuningResourceConfig => L<Paws::SageMaker::HyperParameterTuningResourceConfig>
+
+The configuration for the hyperparameter tuning resources, including
+the compute instances and storage volumes, used for training jobs
+launched by the tuning job. By default, storage volumes hold model
+artifacts and incremental states. Choose C<File> for
+C<TrainingInputMode> in the C<AlgorithmSpecification> parameter to
+additionally store training data in the storage volume (optional).
+
+
 =head2 InputDataConfig => ArrayRef[L<Paws::SageMaker::Channel>]
 
-An array of Channel objects that specify the input for the training
-jobs that the tuning job launches.
+An array of Channel
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Channel.html)
+objects that specify the input for the training jobs that the tuning
+job launches.
 
 
 =head2 B<REQUIRED> OutputDataConfig => L<Paws::SageMaker::OutputDataConfig>
@@ -113,17 +148,20 @@ Specifies the path to the Amazon S3 bucket where you store model
 artifacts from the training jobs that the tuning job launches.
 
 
-=head2 B<REQUIRED> ResourceConfig => L<Paws::SageMaker::ResourceConfig>
+=head2 ResourceConfig => L<Paws::SageMaker::ResourceConfig>
 
 The resources, including the compute instances and storage volumes, to
 use for the training jobs that the tuning job launches.
 
 Storage volumes store model artifacts and incremental states. Training
 algorithms might also use storage volumes for scratch space. If you
-want Amazon SageMaker to use the storage volume to store the training
-data, choose C<File> as the C<TrainingInputMode> in the algorithm
+want SageMaker to use the storage volume to store the training data,
+choose C<File> as the C<TrainingInputMode> in the algorithm
 specification. For distributed training algorithms, specify an instance
 count greater than 1.
+
+If you want to use hyperparameter optimization with instance type
+flexibility, use C<HyperParameterTuningResourceConfig> instead.
 
 
 =head2 RetryStrategy => L<Paws::SageMaker::RetryStrategy>
@@ -148,8 +186,8 @@ tuning job.
 
 Specifies a limit to how long a model hyperparameter training job can
 run. It also specifies how long a managed spot training job has to
-complete. When the job reaches the time limit, Amazon SageMaker ends
-the training job. Use this API to cap model training costs.
+complete. When the job reaches the time limit, SageMaker ends the
+training job. Use this API to cap model training costs.
 
 
 =head2 TuningObjective => L<Paws::SageMaker::HyperParameterTuningJobObjective>
@@ -159,11 +197,13 @@ the training job. Use this API to cap model training costs.
 
 =head2 VpcConfig => L<Paws::SageMaker::VpcConfig>
 
-The VpcConfig object that specifies the VPC that you want the training
-jobs that this hyperparameter tuning job launches to connect to.
-Control access to and from your training container by configuring the
-VPC. For more information, see Protect Training Jobs by Using an Amazon
-Virtual Private Cloud
+The VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that you want the training jobs that this
+hyperparameter tuning job launches to connect to. Control access to and
+from your training container by configuring the VPC. For more
+information, see Protect Training Jobs by Using an Amazon Virtual
+Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
 
 

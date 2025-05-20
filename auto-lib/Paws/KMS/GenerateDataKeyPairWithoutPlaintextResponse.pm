@@ -21,24 +21,26 @@ Paws::KMS::GenerateDataKeyPairWithoutPlaintextResponse
 
 The Amazon Resource Name (key ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN))
-of the CMK that encrypted the private key.
+of the KMS key that encrypted the private key.
 
 
 =head2 KeyPairSpec => Str
 
 The type of data key pair that was generated.
 
-Valid values are: C<"RSA_2048">, C<"RSA_3072">, C<"RSA_4096">, C<"ECC_NIST_P256">, C<"ECC_NIST_P384">, C<"ECC_NIST_P521">, C<"ECC_SECG_P256K1">
+Valid values are: C<"RSA_2048">, C<"RSA_3072">, C<"RSA_4096">, C<"ECC_NIST_P256">, C<"ECC_NIST_P384">, C<"ECC_NIST_P521">, C<"ECC_SECG_P256K1">, C<"SM2">
 =head2 PrivateKeyCiphertextBlob => Str
 
 The encrypted copy of the private key. When you use the HTTP API or the
-AWS CLI, the value is Base64-encoded. Otherwise, it is not
-Base64-encoded.
+Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is
+not Base64-encoded.
 
 
 =head2 PublicKey => Str
 
-The public key (in plaintext).
+The public key (in plaintext). When you use the HTTP API or the Amazon
+Web Services CLI, the value is Base64-encoded. Otherwise, it is not
+Base64-encoded.
 
 
 =head2 _request_id => Str

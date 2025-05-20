@@ -42,7 +42,7 @@ Represents information about the details of a job.
 
 =head2 AccountId => Str
 
-The AWS account ID associated with the job.
+The Amazon Web Services account ID associated with the job.
 
 
 =head2 Data => L<Paws::CodePipeline::JobData>

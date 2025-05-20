@@ -79,8 +79,8 @@ The actions to be performed when a device has unexpected behavior.
 
 Each mitigation action task must have a unique client request token. If
 you try to create a new task with the same token as a task that already
-exists, an exception occurs. If you omit this value, AWS SDKs will
-automatically generate a unique client request.
+exists, an exception occurs. If you omit this value, Amazon Web
+Services SDKs will automatically generate a unique client request.
 
 
 

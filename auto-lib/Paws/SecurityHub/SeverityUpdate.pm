@@ -77,7 +77,7 @@ escalating.
 The normalized severity for the finding. This attribute is to be
 deprecated in favor of C<Label>.
 
-If you provide C<Normalized> and do not provide C<Label>, C<Label> is
+If you provide C<Normalized> and don't provide C<Label>, C<Label> is
 set automatically as follows.
 
 =over
@@ -108,8 +108,8 @@ set automatically as follows.
 
 =head2 Product => Num
 
-The native severity as defined by the AWS service or integrated partner
-product that generated the finding.
+The native severity as defined by the Amazon Web Services service or
+integrated partner product that generated the finding.
 
 
 

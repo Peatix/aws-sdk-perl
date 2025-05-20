@@ -39,21 +39,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Violat
 
 =head1 DESCRIPTION
 
-Violations for a resource based on the specified AWS Firewall Manager
-policy and AWS account.
+Violations for a resource based on the specified Firewall Manager
+policy and Amazon Web Services account.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> MemberAccount => Str
 
-The AWS account that the violation details were requested for.
+The Amazon Web Services account that the violation details were
+requested for.
 
 
 =head2 B<REQUIRED> PolicyId => Str
 
-The ID of the AWS Firewall Manager policy that the violation details
-were requested for.
+The ID of the Firewall Manager policy that the violation details were
+requested for.
 
 
 =head2 ResourceDescription => Str

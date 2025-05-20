@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::DescribeProblem;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has ProblemId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,11 +30,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $DescribeProblemResponse = $applicationinsights->DescribeProblem(
       ProblemId => 'MyProblemId',
-
+      AccountId => 'MyAccountId',    # OPTIONAL
     );
 
     # Results:
-    my $Problem = $DescribeProblemResponse->Problem;
+    my $Problem            = $DescribeProblemResponse->Problem;
+    my $SNSNotificationArn = $DescribeProblemResponse->SNSNotificationArn;
 
     # Returns a L<Paws::ApplicationInsights::DescribeProblemResponse> object.
 
@@ -41,6 +43,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/DescribeProblem>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the owner of the resource group
+affected by the problem.
+
 
 
 =head2 B<REQUIRED> ProblemId => Str

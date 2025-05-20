@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 =head1 DESCRIPTION
 
 A complex type that contains information about origins and origin
-groups for this distribution.
+groups for this CloudFront distribution.
 
 =head1 ATTRIBUTES
 

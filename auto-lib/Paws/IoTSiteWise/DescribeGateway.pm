@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GatewayId       = $DescribeGatewayResponse->GatewayId;
     my $GatewayName     = $DescribeGatewayResponse->GatewayName;
     my $GatewayPlatform = $DescribeGatewayResponse->GatewayPlatform;
+    my $GatewayVersion  = $DescribeGatewayResponse->GatewayVersion;
     my $LastUpdateDate  = $DescribeGatewayResponse->LastUpdateDate;
 
     # Returns a L<Paws::IoTSiteWise::DescribeGatewayResponse> object.

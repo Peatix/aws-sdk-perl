@@ -35,6 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $CreatedBy          = $DescribeProjectOutput->CreatedBy;
     my $CreationTime       = $DescribeProjectOutput->CreationTime;
+    my $LastModifiedBy     = $DescribeProjectOutput->LastModifiedBy;
+    my $LastModifiedTime   = $DescribeProjectOutput->LastModifiedTime;
     my $ProjectArn         = $DescribeProjectOutput->ProjectArn;
     my $ProjectDescription = $DescribeProjectOutput->ProjectDescription;
     my $ProjectId          = $DescribeProjectOutput->ProjectId;

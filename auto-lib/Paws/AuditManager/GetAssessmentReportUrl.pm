@@ -48,13 +48,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 
 =head2 B<REQUIRED> AssessmentReportId => Str
 
-The identifier for the assessment report.
+The unique identifier for the assessment report.
 
 
 

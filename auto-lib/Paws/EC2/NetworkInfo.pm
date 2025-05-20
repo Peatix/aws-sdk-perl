@@ -1,9 +1,13 @@
 package Paws::EC2::NetworkInfo;
   use Moose;
+  has BandwidthWeightings => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'bandwidthWeightings', traits => ['NameInRequest']);
   has DefaultNetworkCardIndex => (is => 'ro', isa => 'Int', request_name => 'defaultNetworkCardIndex', traits => ['NameInRequest']);
   has EfaInfo => (is => 'ro', isa => 'Paws::EC2::EfaInfo', request_name => 'efaInfo', traits => ['NameInRequest']);
   has EfaSupported => (is => 'ro', isa => 'Bool', request_name => 'efaSupported', traits => ['NameInRequest']);
+  has EnaSrdSupported => (is => 'ro', isa => 'Bool', request_name => 'enaSrdSupported', traits => ['NameInRequest']);
   has EnaSupport => (is => 'ro', isa => 'Str', request_name => 'enaSupport', traits => ['NameInRequest']);
+  has EncryptionInTransitSupported => (is => 'ro', isa => 'Bool', request_name => 'encryptionInTransitSupported', traits => ['NameInRequest']);
+  has FlexibleEnaQueuesSupport => (is => 'ro', isa => 'Str', request_name => 'flexibleEnaQueuesSupport', traits => ['NameInRequest']);
   has Ipv4AddressesPerInterface => (is => 'ro', isa => 'Int', request_name => 'ipv4AddressesPerInterface', traits => ['NameInRequest']);
   has Ipv6AddressesPerInterface => (is => 'ro', isa => 'Int', request_name => 'ipv6AddressesPerInterface', traits => ['NameInRequest']);
   has Ipv6Supported => (is => 'ro', isa => 'Bool', request_name => 'ipv6Supported', traits => ['NameInRequest']);
@@ -30,20 +34,26 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::NetworkInfo object:
 
-  $service_obj->Method(Att1 => { DefaultNetworkCardIndex => $value, ..., NetworkPerformance => $value  });
+  $service_obj->Method(Att1 => { BandwidthWeightings => $value, ..., NetworkPerformance => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::NetworkInfo object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->DefaultNetworkCardIndex
+  $result->Att1->BandwidthWeightings
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 BandwidthWeightings => ArrayRef[Str|Undef]
+
+A list of valid settings for configurable bandwidth weighting for the
+instance type, if supported.
 
 
 =head2 DefaultNetworkCardIndex => Int
@@ -61,9 +71,28 @@ Describes the Elastic Fabric Adapters for the instance type.
 Indicates whether Elastic Fabric Adapter (EFA) is supported.
 
 
+=head2 EnaSrdSupported => Bool
+
+Indicates whether the instance type supports ENA Express. ENA Express
+uses Amazon Web Services Scalable Reliable Datagram (SRD) technology to
+increase the maximum bandwidth used per stream and minimize tail
+latency of network traffic between EC2 instances.
+
+
 =head2 EnaSupport => Str
 
 Indicates whether Elastic Network Adapter (ENA) is supported.
+
+
+=head2 EncryptionInTransitSupported => Bool
+
+Indicates whether the instance type automatically encrypts in-transit
+traffic between instances.
+
+
+=head2 FlexibleEnaQueuesSupport => Str
+
+Indicates whether changing the number of ENA queues is supported.
 
 
 =head2 Ipv4AddressesPerInterface => Int

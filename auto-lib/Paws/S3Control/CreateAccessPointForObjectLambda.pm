@@ -43,7 +43,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         TransformationConfigurations => [
           {
             Actions => [
-              'GetObject', ...    # values: GetObject
+              'GetObject',
+              ...    # values: GetObject, HeadObject, ListObjects, ListObjectsV2
             ],
             ContentTransformation => {
               AwsLambda => {
@@ -58,7 +59,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         AllowedFeatures => [
           'GetObject-Range',
-          ...    # values: GetObject-Range, GetObject-PartNumber
+          ... # values: GetObject-Range, GetObject-PartNumber, HeadObject-Range, HeadObject-PartNumber
         ],    # OPTIONAL
         CloudWatchMetricsEnabled => 1,    # OPTIONAL
       },
@@ -67,6 +68,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $Alias = $CreateAccessPointForObjectLambdaResult->Alias;
     my $ObjectLambdaAccessPointArn =
       $CreateAccessPointForObjectLambdaResult->ObjectLambdaAccessPointArn;
 
@@ -80,8 +82,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID for owner of the specified Object Lambda Access
-Point.
+The Amazon Web Services account ID for owner of the specified Object
+Lambda Access Point.
 
 
 

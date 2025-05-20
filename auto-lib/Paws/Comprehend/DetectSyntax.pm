@@ -56,8 +56,7 @@ Valid values are: C<"en">, C<"es">, C<"fr">, C<"de">, C<"it">, C<"pt">
 
 =head2 B<REQUIRED> Text => Str
 
-A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF
-encoded characters.
+A UTF-8 string. The maximum string size is 5 KB.
 
 
 

@@ -38,14 +38,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Option
 
 =head1 DESCRIPTION
 
-A list of all available options
+A list of all available options for an option group.
 
 =head1 ATTRIBUTES
 
 
 =head2 DBSecurityGroupMemberships => ArrayRef[Str|Undef]
 
-A list of DBSecurityGroupMembership name strings used for this option.
+A list of DB security groups used for this option.
 
 
 =head2 B<REQUIRED> OptionName => Str
@@ -70,7 +70,7 @@ The optional port for the option.
 
 =head2 VpcSecurityGroupMemberships => ArrayRef[Str|Undef]
 
-A list of VpcSecurityGroupMembership name strings used for this option.
+A list of VPC security group names used for this option.
 
 
 

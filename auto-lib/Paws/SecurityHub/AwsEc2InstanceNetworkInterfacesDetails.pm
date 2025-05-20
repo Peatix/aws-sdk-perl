@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Identifies a network interface for the EC2 instance.
+Identifies a network interface for the Amazon EC2 instance.
 
 =head1 ATTRIBUTES
 

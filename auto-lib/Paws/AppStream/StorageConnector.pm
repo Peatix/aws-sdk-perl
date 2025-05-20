@@ -3,6 +3,7 @@ package Paws::AppStream::StorageConnector;
   use Moose;
   has ConnectorType => (is => 'ro', isa => 'Str', required => 1);
   has Domains => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has DomainsRequireAdminConsent => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ResourceIdentifier => (is => 'ro', isa => 'Str');
 
 1;
@@ -48,6 +49,13 @@ The type of storage connector.
 =head2 Domains => ArrayRef[Str|Undef]
 
 The names of the domains for the account.
+
+
+=head2 DomainsRequireAdminConsent => ArrayRef[Str|Undef]
+
+The OneDrive for Business domains where you require admin consent when
+users try to link their OneDrive account to AppStream 2.0. The
+attribute can only be specified when ConnectorType=ONE_DRIVE.
 
 
 =head2 ResourceIdentifier => Str

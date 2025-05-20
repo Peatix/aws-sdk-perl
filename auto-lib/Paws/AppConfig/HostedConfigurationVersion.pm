@@ -6,6 +6,8 @@ package Paws::AppConfig::HostedConfigurationVersion;
   has Content => (is => 'ro', isa => 'Str');
   has ContentType => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Content-Type');
   has Description => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Description');
+  has KmsKeyArn => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'KmsKeyArn');
+  has VersionLabel => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'VersionLabel');
   has VersionNumber => (is => 'ro', isa => 'Int', traits => ['ParamInHeader'], header_name => 'Version-Number');
   use MooseX::ClassAttribute;
   class_has _stream_param => (is => 'ro', default => 'Content');
@@ -40,12 +42,24 @@ The content of the configuration or the configuration data.
 
 A standard MIME type describing the format of the configuration
 content. For more information, see Content-Type
-(https://docs.aws.amazon.com/https:/www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
+(https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
 
 
 =head2 Description => Str
 
 A description of the configuration.
+
+
+=head2 KmsKeyArn => Str
+
+The Amazon Resource Name of the Key Management Service key that was
+used to encrypt this specific version of the configuration data in the
+AppConfig hosted configuration store.
+
+
+=head2 VersionLabel => Str
+
+A user-defined label for an AppConfig hosted configuration version.
 
 
 =head2 VersionNumber => Int

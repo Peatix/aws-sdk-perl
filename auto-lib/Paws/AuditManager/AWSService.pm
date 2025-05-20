@@ -33,14 +33,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-An AWS service such as Amazon S3, AWS CloudTrail, and so on.
+An Amazon Web Service such as Amazon S3 or CloudTrail.
+
+For an example of how to find an Amazon Web Service name and how to
+define it in your assessment scope, see the following:
+
+=over
+
+=item *
+
+Finding an Amazon Web Service name to use in your assessment scope
+(https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2)
+
+=item *
+
+Defining an Amazon Web Service name in your assessment scope
+(https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3)
+
+=back
+
 
 =head1 ATTRIBUTES
 
 
 =head2 ServiceName => Str
 
-The name of the AWS service.
+The name of the Amazon Web Service.
 
 
 

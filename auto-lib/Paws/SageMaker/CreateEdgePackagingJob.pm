@@ -97,8 +97,8 @@ Provides information about the output location for the packaged model.
 
 =head2 ResourceKey => Str
 
-The CMK to use when encrypting the EBS volume the edge packaging job
-runs on.
+The Amazon Web Services KMS key to use when encrypting the EBS volume
+the edge packaging job runs on.
 
 
 

@@ -118,7 +118,8 @@ Protocol support is enabled (C<enable> | C<disable>).
 
 =item *
 
-C<owner-id> - The ID of the AWS account that owns the transit gateway.
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+transit gateway.
 
 =item *
 
@@ -128,6 +129,14 @@ C<state> - The state of the transit gateway (C<available> | C<deleted>
 =item *
 
 C<transit-gateway-id> - The ID of the transit gateway.
+
+=item *
+
+C<tag-key >- The key/value combination of a tag assigned to the
+resource. Use the tag key in the filter name and the tag value as the
+filter value. For example, to find all resources that have a tag with
+the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for the
+filter name and C<TeamA> for the filter value.
 
 =back
 

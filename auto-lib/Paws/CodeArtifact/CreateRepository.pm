@@ -80,8 +80,8 @@ The name of the domain that contains the created repository.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
@@ -101,8 +101,8 @@ One or more tag key-value pairs for the repository.
 
 A list of upstream repositories to associate with the repository. The
 order of the upstream repositories in the list determines their
-priority order when AWS CodeArtifact looks for a requested package
-version. For more information, see Working with upstream repositories
+priority order when CodeArtifact looks for a requested package version.
+For more information, see Working with upstream repositories
 (https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 
 

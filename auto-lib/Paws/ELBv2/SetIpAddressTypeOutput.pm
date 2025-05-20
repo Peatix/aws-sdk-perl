@@ -19,7 +19,7 @@ Paws::ELBv2::SetIpAddressTypeOutput
 
 The IP address type.
 
-Valid values are: C<"ipv4">, C<"dualstack">
+Valid values are: C<"ipv4">, C<"dualstack">, C<"dualstack-without-public-ipv4">
 =head2 _request_id => Str
 
 

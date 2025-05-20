@@ -54,7 +54,8 @@ The maximum number of results per page.
 
 =head2 NextToken => Str
 
-The pagination token to continue to the next page of results.
+The pagination token for the next set of items to return. (You received
+this token from a previous call.)
 
 
 

@@ -31,7 +31,7 @@ follows: C<role_arn>/C<certificate_arn>.
 
 =head2 EncryptionKmsKeyId => Str
 
-The ID of the AWS KMS CMK used to encrypt the private key of the
+The ID of the KMS key used to encrypt the private key of the
 certificate.
 
 

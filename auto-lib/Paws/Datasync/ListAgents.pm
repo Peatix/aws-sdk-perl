@@ -47,14 +47,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 MaxResults => Int
 
-The maximum number of agents to list.
+Specifies the maximum number of DataSync agents to list in a response.
+By default, a response shows a maximum of 100 agents.
 
 
 
 =head2 NextToken => Str
 
-An opaque string that indicates the position at which to begin the next
-list of agents.
+Specifies an opaque string that indicates the position to begin the
+next list of results in the response.
 
 
 

@@ -50,13 +50,13 @@ after the value of C<maxReceiveCount> is exceeded.
 =head2 KmsDataKeyReusePeriodSeconds => Int
 
 The length of time, in seconds, for which Amazon SQS can reuse a data
-key to encrypt or decrypt messages before calling AWS KMS again.
+key to encrypt or decrypt messages before calling KMS again.
 
 
 =head2 KmsMasterKeyId => Str
 
-The ID of an AWS managed customer master key (CMK) for Amazon SQS or a
-custom CMK.
+The ID of an Amazon Web Services managed key for Amazon SQS or a custom
+KMS key.
 
 
 =head2 QueueName => Str

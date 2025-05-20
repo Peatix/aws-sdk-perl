@@ -64,8 +64,8 @@ the C<Accept> header for direct API requests.
 
 =head2 B<REQUIRED> ExportType => Str
 
-[Required] The type of export. Acceptable values are 'oas30' for
-OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
+The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and
+'swagger' for Swagger/OpenAPI 2.0.
 
 
 
@@ -85,13 +85,13 @@ import to the Postman tool
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> StageName => Str
 
-[Required] The name of the Stage that will be exported.
+The name of the Stage that will be exported.
 
 
 

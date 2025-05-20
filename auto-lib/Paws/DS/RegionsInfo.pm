@@ -48,7 +48,7 @@ the primary Region.
 
 =head2 PrimaryRegion => Str
 
-The Region where the AWS Managed Microsoft AD directory was originally
+The Region where the Managed Microsoft AD directory was originally
 created.
 
 

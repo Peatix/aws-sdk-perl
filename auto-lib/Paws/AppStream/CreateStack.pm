@@ -10,6 +10,7 @@ package Paws::AppStream::CreateStack;
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has RedirectURL => (is => 'ro', isa => 'Str');
   has StorageConnectors => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::StorageConnector]');
+  has StreamingExperienceSettings => (is => 'ro', isa => 'Paws::AppStream::StreamingExperienceSettings');
   has Tags => (is => 'ro', isa => 'Paws::AppStream::Tags');
   has UserSettings => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::UserSetting]');
 
@@ -64,20 +65,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Domains => [
             'MyDomain', ...    # min: 1, max: 64
           ],    # max: 50; OPTIONAL
+          DomainsRequireAdminConsent => [
+            'MyDomain', ...    # min: 1, max: 64
+          ],    # max: 50; OPTIONAL
           ResourceIdentifier =>
             'MyResourceIdentifier',    # min: 1, max: 2048; OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      StreamingExperienceSettings => {
+        PreferredProtocol => 'TCP',    # values: TCP, UDP; OPTIONAL
+      },    # OPTIONAL
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
       UserSettings => [
         {
           Action => 'CLIPBOARD_COPY_FROM_LOCAL_DEVICE'
-          , # values: CLIPBOARD_COPY_FROM_LOCAL_DEVICE, CLIPBOARD_COPY_TO_LOCAL_DEVICE, FILE_UPLOAD, FILE_DOWNLOAD, PRINTING_TO_LOCAL_DEVICE, DOMAIN_PASSWORD_SIGNIN, DOMAIN_SMART_CARD_SIGNIN
-          Permission => 'ENABLED',    # values: ENABLED, DISABLED
-
+          , # values: CLIPBOARD_COPY_FROM_LOCAL_DEVICE, CLIPBOARD_COPY_TO_LOCAL_DEVICE, FILE_UPLOAD, FILE_DOWNLOAD, PRINTING_TO_LOCAL_DEVICE, DOMAIN_PASSWORD_SIGNIN, DOMAIN_SMART_CARD_SIGNIN, AUTO_TIME_ZONE_REDIRECTION
+          Permission    => 'ENABLED',    # values: ENABLED, DISABLED
+          MaximumLength => 1,            # OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -154,6 +161,13 @@ ends.
 =head2 StorageConnectors => ArrayRef[L<Paws::AppStream::StorageConnector>]
 
 The storage connectors to enable.
+
+
+
+=head2 StreamingExperienceSettings => L<Paws::AppStream::StreamingExperienceSettings>
+
+The streaming protocol you want your stack to prefer. This can be UDP
+or TCP. Currently, UDP is only supported in the Windows native client.
 
 
 

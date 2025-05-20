@@ -6,9 +6,15 @@ package Paws::MediaConnect::Transport;
   has MaxLatency => (is => 'ro', isa => 'Int', request_name => 'maxLatency', traits => ['NameInRequest']);
   has MaxSyncBuffer => (is => 'ro', isa => 'Int', request_name => 'maxSyncBuffer', traits => ['NameInRequest']);
   has MinLatency => (is => 'ro', isa => 'Int', request_name => 'minLatency', traits => ['NameInRequest']);
+  has NdiProgramName => (is => 'ro', isa => 'Str', request_name => 'ndiProgramName', traits => ['NameInRequest']);
+  has NdiSpeedHqQuality => (is => 'ro', isa => 'Int', request_name => 'ndiSpeedHqQuality', traits => ['NameInRequest']);
   has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest'], required => 1);
   has RemoteId => (is => 'ro', isa => 'Str', request_name => 'remoteId', traits => ['NameInRequest']);
+  has SenderControlPort => (is => 'ro', isa => 'Int', request_name => 'senderControlPort', traits => ['NameInRequest']);
+  has SenderIpAddress => (is => 'ro', isa => 'Str', request_name => 'senderIpAddress', traits => ['NameInRequest']);
   has SmoothingLatency => (is => 'ro', isa => 'Int', request_name => 'smoothingLatency', traits => ['NameInRequest']);
+  has SourceListenerAddress => (is => 'ro', isa => 'Str', request_name => 'sourceListenerAddress', traits => ['NameInRequest']);
+  has SourceListenerPort => (is => 'ro', isa => 'Int', request_name => 'sourceListenerPort', traits => ['NameInRequest']);
   has StreamId => (is => 'ro', isa => 'Str', request_name => 'streamId', traits => ['NameInRequest']);
 
 1;
@@ -51,12 +57,12 @@ output.
 
 The range of IP addresses that should be allowed to initiate output
 requests to this flow. These IP addresses should be in the form of a
-Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16
 
 
 =head2 MaxBitrate => Int
 
-The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
 
 
 =head2 MaxLatency => Int
@@ -81,14 +87,40 @@ between the senderE<rsquo>s minimum latency and the receiverE<rsquo>s
 minimum latency.
 
 
+=head2 NdiProgramName => Str
+
+A suffix for the names of the NDI sources that the flow creates. If a
+custom name isn't specified, MediaConnect uses the output name.
+
+
+=head2 NdiSpeedHqQuality => Int
+
+A quality setting for the NDI Speed HQ encoder.
+
+
 =head2 B<REQUIRED> Protocol => Str
 
 The protocol that is used by the source or output.
+
+Elemental MediaConnect no longer supports the Fujitsu QoS protocol.
+This reference is maintained for legacy purposes only.
 
 
 =head2 RemoteId => Str
 
 The remote ID for the Zixi-pull stream.
+
+
+=head2 SenderControlPort => Int
+
+The port that the flow uses to send outbound requests to initiate
+connection with the sender.
+
+
+=head2 SenderIpAddress => Str
+
+The IP address that the flow communicates with to initiate connection
+with the sender.
 
 
 =head2 SmoothingLatency => Int
@@ -97,10 +129,20 @@ The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC
 streams.
 
 
+=head2 SourceListenerAddress => Str
+
+Source IP or domain name for SRT-caller protocol.
+
+
+=head2 SourceListenerPort => Int
+
+Source port for SRT-caller protocol.
+
+
 =head2 StreamId => Str
 
 The stream ID that you want to use for this transport. This parameter
-applies only to Zixi-based streams.
+applies only to Zixi and SRT caller-based streams.
 
 
 

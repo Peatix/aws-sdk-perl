@@ -1,6 +1,7 @@
 
 package Paws::SSM::GetOpsItem;
   use Moose;
+  has OpsItemArn => (is => 'ro', isa => 'Str');
   has OpsItemId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -28,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ssm = Paws->service('SSM');
     my $GetOpsItemResponse = $ssm->GetOpsItem(
-      OpsItemId => 'MyOpsItemId',
-
+      OpsItemId  => 'MyOpsItemId',
+      OpsItemArn => 'MyOpsItemArn',    # OPTIONAL
     );
 
     # Results:
@@ -41,6 +42,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm/GetOpsItem>
 
 =head1 ATTRIBUTES
+
+
+=head2 OpsItemArn => Str
+
+The OpsItem Amazon Resource Name (ARN).
+
 
 
 =head2 B<REQUIRED> OpsItemId => Str

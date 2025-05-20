@@ -4,7 +4,9 @@ package Paws::Forecast::CreateDatasetImportJob;
   has DatasetArn => (is => 'ro', isa => 'Str', required => 1);
   has DatasetImportJobName => (is => 'ro', isa => 'Str', required => 1);
   has DataSource => (is => 'ro', isa => 'Paws::Forecast::DataSource', required => 1);
+  has Format => (is => 'ro', isa => 'Str');
   has GeolocationFormat => (is => 'ro', isa => 'Str');
+  has ImportMode => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Forecast::Tag]');
   has TimestampFormat => (is => 'ro', isa => 'Str');
   has TimeZone => (is => 'ro', isa => 'Str');
@@ -37,7 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateDatasetImportJobResponse = $forecast->CreateDatasetImportJob(
       DataSource => {
         S3Config => {
-          Path      => 'MyS3Path',
+          Path      => 'MyS3Path',       # min: 7, max: 4096
           RoleArn   => 'MyArn',          # max: 256
           KMSKeyArn => 'MyKMSKeyArn',    # max: 256; OPTIONAL
         },
@@ -45,7 +47,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       DatasetArn           => 'MyArn',
       DatasetImportJobName => 'MyName',
+      Format               => 'MyFormat',               # OPTIONAL
       GeolocationFormat    => 'MyGeolocationFormat',    # OPTIONAL
+      ImportMode           => 'FULL',                   # OPTIONAL
       Tags                 => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -88,15 +92,23 @@ help you avoid getting a C<ResourceAlreadyExistsException> exception.
 
 =head2 B<REQUIRED> DataSource => L<Paws::Forecast::DataSource>
 
-The location of the training data to import and an AWS Identity and
-Access Management (IAM) role that Amazon Forecast can assume to access
-the data. The training data must be stored in an Amazon S3 bucket.
+The location of the training data to import and an Identity and Access
+Management (IAM) role that Amazon Forecast can assume to access the
+data. The training data must be stored in an Amazon S3 bucket.
 
-If encryption is used, C<DataSource> must include an AWS Key Management
+If encryption is used, C<DataSource> must include an Key Management
 Service (KMS) key and the IAM role must allow Amazon Forecast
 permission to access the key. The KMS key and IAM role must match those
 specified in the C<EncryptionConfig> parameter of the CreateDataset
+(https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html)
 operation.
+
+
+
+=head2 Format => Str
+
+The format of the imported data, CSV or PARQUET. The default value is
+CSV.
 
 
 
@@ -121,6 +133,15 @@ C<CC_POSTALCODE> (US Only) - the country code (US), followed by the
 
 
 
+
+=head2 ImportMode => Str
+
+Specifies whether the dataset import job is a C<FULL> or C<INCREMENTAL>
+import. A C<FULL> dataset import replaces all of the existing data with
+the newly imported data. An C<INCREMENTAL> import appends the imported
+data to the existing data.
+
+Valid values are: C<"FULL">, C<"INCREMENTAL">
 
 =head2 Tags => ArrayRef[L<Paws::Forecast::Tag>]
 
@@ -164,12 +185,12 @@ Tag keys and values are case sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for keys as it is reserved for AWS use. You cannot
-edit or delete tag keys with this prefix. Values can have this prefix.
-If a tag value has C<aws> as its prefix but the key does not, then
-Forecast considers it to be a user tag and will count against the limit
-of 50 tags. Tags with only the key prefix of C<aws> do not count
-against your tags per resource limit.
+such as a prefix for keys as it is reserved for Amazon Web Services
+use. You cannot edit or delete tag keys with this prefix. Values can
+have this prefix. If a tag value has C<aws> as its prefix but the key
+does not, then Forecast considers it to be a user tag and will count
+against the limit of 50 tags. Tags with only the key prefix of C<aws>
+do not count against your tags per resource limit.
 
 =back
 

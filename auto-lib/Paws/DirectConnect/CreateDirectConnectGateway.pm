@@ -3,6 +3,7 @@ package Paws::DirectConnect::CreateDirectConnectGateway;
   use Moose;
   has AmazonSideAsn => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'amazonSideAsn' );
   has DirectConnectGatewayName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'directConnectGatewayName' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -32,6 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $directconnect->CreateDirectConnectGateway(
       DirectConnectGatewayName => 'MyDirectConnectGatewayName',
       AmazonSideAsn            => 1,                              # OPTIONAL
+      Tags                     => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -58,6 +66,12 @@ the private range of 64,512 to 65,534 or 4,200,000,000 to
 =head2 B<REQUIRED> DirectConnectGatewayName => Str
 
 The name of the Direct Connect gateway.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]
+
+The key-value pair tags associated with the request.
 
 
 

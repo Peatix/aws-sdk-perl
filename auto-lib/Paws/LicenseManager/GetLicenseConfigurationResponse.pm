@@ -77,7 +77,7 @@ Sets the number of available licenses as a hard limit.
 
 =head2 LicenseCountingType => Str
 
-Dimension on which the licenses are counted.
+Dimension for which the licenses are counted.
 
 Valid values are: C<"vCPU">, C<"Instance">, C<"Core">, C<"Socket">
 =head2 LicenseRules => ArrayRef[Str|Undef]

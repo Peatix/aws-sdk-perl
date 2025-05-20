@@ -5,6 +5,11 @@ package Paws::S3::WriteGetObjectResponse;
   has Body => (is => 'ro', isa => 'Str', traits => ['ParamInBody']);
   has BucketKeyEnabled => (is => 'ro', isa => 'Bool', header_name => 'x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled', traits => ['ParamInHeader']);
   has CacheControl => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-Cache-Control', traits => ['ParamInHeader']);
+  has ChecksumCRC32 => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-x-amz-checksum-crc32', traits => ['ParamInHeader']);
+  has ChecksumCRC32C => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-x-amz-checksum-crc32c', traits => ['ParamInHeader']);
+  has ChecksumCRC64NVME => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-x-amz-checksum-crc64nvme', traits => ['ParamInHeader']);
+  has ChecksumSHA1 => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-x-amz-checksum-sha1', traits => ['ParamInHeader']);
+  has ChecksumSHA256 => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-x-amz-checksum-sha256', traits => ['ParamInHeader']);
   has ContentDisposition => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-Content-Disposition', traits => ['ParamInHeader']);
   has ContentEncoding => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-Content-Encoding', traits => ['ParamInHeader']);
   has ContentLanguage => (is => 'ro', isa => 'Str', header_name => 'x-amz-fwd-header-Content-Language', traits => ['ParamInHeader']);
@@ -74,6 +79,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Body               => 'BlobBody',                            # OPTIONAL
       BucketKeyEnabled   => 1,                                     # OPTIONAL
       CacheControl       => 'MyCacheControl',                      # OPTIONAL
+      ChecksumCRC32      => 'MyChecksumCRC32',                     # OPTIONAL
+      ChecksumCRC32C     => 'MyChecksumCRC32C',                    # OPTIONAL
+      ChecksumCRC64NVME  => 'MyChecksumCRC64NVME',                 # OPTIONAL
+      ChecksumSHA1       => 'MyChecksumSHA1',                      # OPTIONAL
+      ChecksumSHA256     => 'MyChecksumSHA256',                    # OPTIONAL
       ContentDisposition => 'MyContentDisposition',                # OPTIONAL
       ContentEncoding    => 'MyContentEncoding',                   # OPTIONAL
       ContentLanguage    => 'MyContentLanguage',                   # OPTIONAL
@@ -127,13 +137,96 @@ The object data.
 =head2 BucketKeyEnabled => Bool
 
 Indicates whether the object stored in Amazon S3 uses an S3 bucket key
-for server-side encryption with AWS KMS (SSE-KMS).
+for server-side encryption with Amazon Web Services KMS (SSE-KMS).
 
 
 
 =head2 CacheControl => Str
 
 Specifies caching behavior along the request/reply chain.
+
+
+
+=head2 ChecksumCRC32 => Str
+
+This header can be used as a data integrity check to verify that the
+data received is the same data that was originally sent. This specifies
+the Base64 encoded, 32-bit C<CRC32> checksum of the object returned by
+the Object Lambda function. This may not match the checksum for the
+object stored in Amazon S3. Amazon S3 will perform validation of the
+checksum values only when the original C<GetObject> request required
+checksum validation. For more information about checksums, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
+
+Only one checksum header can be specified at a time. If you supply
+multiple checksum headers, this request will fail.
+
+
+
+=head2 ChecksumCRC32C => Str
+
+This header can be used as a data integrity check to verify that the
+data received is the same data that was originally sent. This specifies
+the Base64 encoded, 32-bit C<CRC32C> checksum of the object returned by
+the Object Lambda function. This may not match the checksum for the
+object stored in Amazon S3. Amazon S3 will perform validation of the
+checksum values only when the original C<GetObject> request required
+checksum validation. For more information about checksums, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
+
+Only one checksum header can be specified at a time. If you supply
+multiple checksum headers, this request will fail.
+
+
+
+=head2 ChecksumCRC64NVME => Str
+
+This header can be used as a data integrity check to verify that the
+data received is the same data that was originally sent. This header
+specifies the Base64 encoded, 64-bit C<CRC64NVME> checksum of the part.
+For more information, see Checking object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
+
+
+
+=head2 ChecksumSHA1 => Str
+
+This header can be used as a data integrity check to verify that the
+data received is the same data that was originally sent. This specifies
+the Base64 encoded, 160-bit C<SHA1> digest of the object returned by
+the Object Lambda function. This may not match the checksum for the
+object stored in Amazon S3. Amazon S3 will perform validation of the
+checksum values only when the original C<GetObject> request required
+checksum validation. For more information about checksums, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
+
+Only one checksum header can be specified at a time. If you supply
+multiple checksum headers, this request will fail.
+
+
+
+=head2 ChecksumSHA256 => Str
+
+This header can be used as a data integrity check to verify that the
+data received is the same data that was originally sent. This specifies
+the Base64 encoded, 256-bit C<SHA256> digest of the object returned by
+the Object Lambda function. This may not match the checksum for the
+object stored in Amazon S3. Amazon S3 will perform validation of the
+checksum values only when the original C<GetObject> request required
+checksum validation. For more information about checksums, see Checking
+object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
+
+Only one checksum header can be specified at a time. If you supply
+multiple checksum headers, this request will fail.
 
 
 
@@ -178,7 +271,9 @@ A standard MIME type describing the format of the object data.
 =head2 DeleteMarker => Bool
 
 Specifies whether an object stored in Amazon S3 is (C<true>) or is not
-(C<false>) a delete marker.
+(C<false>) a delete marker. To learn more about delete markers, see
+Working with delete markers
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html).
 
 
 
@@ -188,8 +283,8 @@ A string that uniquely identifies an error condition. Returned in the
 E<lt>CodeE<gt> tag of the error XML response for a corresponding
 C<GetObject> call. Cannot be used with a successful C<StatusCode>
 header or when the transformed object is provided in the body. All
-error codes from S3 are sentence-cased. Regex value is
-"^[A-Z][a-zA-Z]+$".
+error codes from S3 are sentence-cased. The regular expression (regex)
+value is C<"^[A-Z][a-zA-Z]+$">.
 
 
 
@@ -211,10 +306,10 @@ a resource found at a URL.
 
 =head2 Expiration => Str
 
-If object stored in Amazon S3 expiration is configured (see PUT Bucket
-lifecycle) it includes expiry-date and rule-id key-value pairs
-providing object expiration information. The value of the rule-id is
-URL encoded.
+If the object expiration is configured (see PUT Bucket lifecycle), the
+response includes this header. It includes the C<expiry-date> and
+C<rule-id> key-value pairs that provide the object expiration
+information. The value of the C<rule-id> is URL-encoded.
 
 
 
@@ -280,7 +375,7 @@ destination in a Replication rule. For more information about S3
 Replication, see Replication
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
 
-Valid values are: C<"COMPLETE">, C<"PENDING">, C<"FAILED">, C<"REPLICA">
+Valid values are: C<"COMPLETE">, C<"PENDING">, C<"FAILED">, C<"REPLICA">, C<"COMPLETED">
 
 =head2 RequestCharged => Str
 
@@ -311,9 +406,9 @@ time of the restored object copy.
 =head2 ServerSideEncryption => Str
 
 The server-side encryption algorithm used when storing requested object
-in Amazon S3 (for example, AES256, aws:kms).
+in Amazon S3 (for example, AES256, C<aws:kms>).
 
-Valid values are: C<"AES256">, C<"aws:kms">
+Valid values are: C<"AES256">, C<"aws:kms">, C<"aws:kms:dsse">
 
 =head2 SSECustomerAlgorithm => Str
 
@@ -335,76 +430,75 @@ keys (SSE-C)
 
 =head2 SSEKMSKeyId => Str
 
-If present, specifies the ID of the AWS Key Management Service (AWS
-KMS) symmetric customer managed customer master key (CMK) that was used
-for stored in Amazon S3 object.
+If present, specifies the ID (Key ID, Key ARN, or Key Alias) of the
+Amazon Web Services Key Management Service (Amazon Web Services KMS)
+symmetric encryption customer managed key that was used for stored in
+Amazon S3 object.
 
 
 
 =head2 StatusCode => Int
 
 The integer status code for an HTTP response of a corresponding
-C<GetObject> request.
-
-B<Status Codes>
+C<GetObject> request. The following is a list of status codes.
 
 =over
 
 =item *
 
-I<200 - OK>
+C<200 - OK>
 
 =item *
 
-I<206 - Partial Content>
+C<206 - Partial Content>
 
 =item *
 
-I<304 - Not Modified>
+C<304 - Not Modified>
 
 =item *
 
-I<400 - Bad Request>
+C<400 - Bad Request>
 
 =item *
 
-I<401 - Unauthorized>
+C<401 - Unauthorized>
 
 =item *
 
-I<403 - Forbidden>
+C<403 - Forbidden>
 
 =item *
 
-I<404 - Not Found>
+C<404 - Not Found>
 
 =item *
 
-I<405 - Method Not Allowed>
+C<405 - Method Not Allowed>
 
 =item *
 
-I<409 - Conflict>
+C<409 - Conflict>
 
 =item *
 
-I<411 - Length Required>
+C<411 - Length Required>
 
 =item *
 
-I<412 - Precondition Failed>
+C<412 - Precondition Failed>
 
 =item *
 
-I<416 - Range Not Satisfiable>
+C<416 - Range Not Satisfiable>
 
 =item *
 
-I<500 - Internal Server Error>
+C<500 - Internal Server Error>
 
 =item *
 
-I<503 - Service Unavailable>
+C<503 - Service Unavailable>
 
 =back
 
@@ -413,9 +507,14 @@ I<503 - Service Unavailable>
 
 =head2 StorageClass => Str
 
-The class of storage used to store object in Amazon S3.
+Provides storage class information of the object. Amazon S3 returns
+this header for all objects except for S3 Standard storage class
+objects.
 
-Valid values are: C<"STANDARD">, C<"REDUCED_REDUNDANCY">, C<"STANDARD_IA">, C<"ONEZONE_IA">, C<"INTELLIGENT_TIERING">, C<"GLACIER">, C<"DEEP_ARCHIVE">, C<"OUTPOSTS">
+For more information, see Storage Classes
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html).
+
+Valid values are: C<"STANDARD">, C<"REDUCED_REDUNDANCY">, C<"STANDARD_IA">, C<"ONEZONE_IA">, C<"INTELLIGENT_TIERING">, C<"GLACIER">, C<"DEEP_ARCHIVE">, C<"OUTPOSTS">, C<"GLACIER_IR">, C<"SNOW">, C<"EXPRESS_ONEZONE">
 
 =head2 TagCount => Int
 

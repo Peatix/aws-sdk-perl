@@ -92,9 +92,11 @@ see KMS-Managed Encryption Keys
 in the I<Amazon Simple Storage Service Developer Guide.>
 
 The KMS key policy must grant permission to the IAM role that you
-specify in your CreateModel request. For more information, see Using
-Key Policies in Amazon Web Services KMS
-(http://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
+specify in your CreateModel
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModel.html)
+request. For more information, see Using Key Policies in Amazon Web
+Services KMS
+(https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
 in the I<Amazon Web Services Key Management Service Developer Guide>.
 
 

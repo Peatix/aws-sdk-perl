@@ -2,18 +2,31 @@
 package Paws::DMS::PostgreSQLSettings;
   use Moose;
   has AfterConnectScript => (is => 'ro', isa => 'Str');
+  has AuthenticationMethod => (is => 'ro', isa => 'Str');
+  has BabelfishDatabaseName => (is => 'ro', isa => 'Str');
   has CaptureDdls => (is => 'ro', isa => 'Bool');
+  has DatabaseMode => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has DdlArtifactsSchema => (is => 'ro', isa => 'Str');
+  has DisableUnicodeSourceFilter => (is => 'ro', isa => 'Bool');
   has ExecuteTimeout => (is => 'ro', isa => 'Int');
   has FailTasksOnLobTruncation => (is => 'ro', isa => 'Bool');
+  has HeartbeatEnable => (is => 'ro', isa => 'Bool');
+  has HeartbeatFrequency => (is => 'ro', isa => 'Int');
+  has HeartbeatSchema => (is => 'ro', isa => 'Str');
+  has MapBooleanAsBoolean => (is => 'ro', isa => 'Bool');
+  has MapJsonbAsClob => (is => 'ro', isa => 'Bool');
+  has MapLongVarcharAs => (is => 'ro', isa => 'Str');
   has MaxFileSize => (is => 'ro', isa => 'Int');
   has Password => (is => 'ro', isa => 'Str');
+  has PluginName => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has SecretsManagerAccessRoleArn => (is => 'ro', isa => 'Str');
   has SecretsManagerSecretId => (is => 'ro', isa => 'Str');
   has ServerName => (is => 'ro', isa => 'Str');
+  has ServiceAccessRoleArn => (is => 'ro', isa => 'Str');
   has SlotName => (is => 'ro', isa => 'Str');
+  has TrimSpaceInChar => (is => 'ro', isa => 'Bool');
   has Username => (is => 'ro', isa => 'Str');
 
 1;
@@ -53,21 +66,40 @@ Provides information that defines a PostgreSQL endpoint.
 
 =head2 AfterConnectScript => Str
 
-For use with change data capture (CDC) only, this attribute has AWS DMS
+For use with change data capture (CDC) only, this attribute has DMS
 bypass foreign keys and user triggers to reduce the time it takes to
 bulk load data.
 
 Example: C<afterConnectScript=SET session_replication_role='replica'>
 
 
+=head2 AuthenticationMethod => Str
+
+This attribute allows you to specify the authentication method as "iam
+auth".
+
+
+=head2 BabelfishDatabaseName => Str
+
+The Babelfish for Aurora PostgreSQL database name for the endpoint.
+
+
 =head2 CaptureDdls => Bool
 
-To capture DDL events, AWS DMS creates various artifacts in the
-PostgreSQL database when the task starts. You can later remove these
-artifacts.
+To capture DDL events, DMS creates various artifacts in the PostgreSQL
+database when the task starts. You can later remove these artifacts.
+
+The default value is C<true>.
 
 If this value is set to C<N>, you don't have to create tables or
 triggers on the source database.
+
+
+=head2 DatabaseMode => Str
+
+Specifies the default behavior of the replication's handling of
+PostgreSQL- compatible endpoints that require some additional
+configuration, such as Babelfish endpoints.
 
 
 =head2 DatabaseName => Str
@@ -79,7 +111,21 @@ Database name for the endpoint.
 
 The schema in which the operational DDL database artifacts are created.
 
+The default value is C<public>.
+
 Example: C<ddlArtifactsSchema=xyzddlschema;>
+
+
+=head2 DisableUnicodeSourceFilter => Bool
+
+Disables the Unicode source filter with PostgreSQL, for values passed
+into the Selection rule filter on Source Endpoint column values. By
+default DMS performs source filter comparisons using a Unicode string
+which can cause look ups to ignore the indexes in the text columns and
+slow down migrations.
+
+Unicode support should only be disabled when using a selection rule
+filter is on a text column in the Source database that is indexed.
 
 
 =head2 ExecuteTimeout => Int
@@ -95,14 +141,67 @@ Example: C<executeTimeout=100;>
 When set to C<true>, this value causes a task to fail if the actual
 size of a LOB column is greater than the specified C<LobMaxSize>.
 
+The default value is C<false>.
+
 If task is set to Limited LOB mode and this option is set to true, the
 task fails instead of truncating the LOB data.
+
+
+=head2 HeartbeatEnable => Bool
+
+The write-ahead log (WAL) heartbeat feature mimics a dummy transaction.
+By doing this, it prevents idle logical replication slots from holding
+onto old WAL logs, which can result in storage full situations on the
+source. This heartbeat keeps C<restart_lsn> moving and prevents storage
+full scenarios.
+
+The default value is C<false>.
+
+
+=head2 HeartbeatFrequency => Int
+
+Sets the WAL heartbeat frequency (in minutes).
+
+The default value is 5 minutes.
+
+
+=head2 HeartbeatSchema => Str
+
+Sets the schema in which the heartbeat artifacts are created.
+
+The default value is C<public>.
+
+
+=head2 MapBooleanAsBoolean => Bool
+
+When true, lets PostgreSQL migrate the boolean type as boolean. By
+default, PostgreSQL migrates booleans as C<varchar(5)>. You must set
+this setting on both the source and target endpoints for it to take
+effect.
+
+The default value is C<false>.
+
+
+=head2 MapJsonbAsClob => Bool
+
+When true, DMS migrates JSONB values as CLOB.
+
+The default value is C<false>.
+
+
+=head2 MapLongVarcharAs => Str
+
+Sets what datatype to map LONG values as.
+
+The default value is C<wstring>.
 
 
 =head2 MaxFileSize => Int
 
 Specifies the maximum size (in KB) of any .csv file used to transfer
 data to PostgreSQL.
+
+The default value is 32,768 KB (32 MB).
 
 Example: C<maxFileSize=512>
 
@@ -112,17 +211,25 @@ Example: C<maxFileSize=512>
 Endpoint connection password.
 
 
+=head2 PluginName => Str
+
+Specifies the plugin to use to create a replication slot.
+
+The default value is C<pglogical>.
+
+
 =head2 Port => Int
 
-Endpoint TCP port.
+Endpoint TCP port. The default is 5432.
 
 
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
 PostgreSQL endpoint.
 
 You can specify one of two sets of values for these permissions. You
@@ -131,10 +238,10 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerSecretId => Str
@@ -146,16 +253,57 @@ connection details.
 
 =head2 ServerName => Str
 
-Fully qualified domain name of the endpoint.
+The host name of the endpoint database.
+
+For an Amazon RDS PostgreSQL instance, this is the output of
+DescribeDBInstances
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html),
+in the C< Endpoint
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address>
+field.
+
+For an Aurora PostgreSQL instance, this is the output of
+DescribeDBClusters
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html),
+in the C<Endpoint> field.
+
+
+=head2 ServiceAccessRoleArn => Str
+
+The IAM role arn you can use to authenticate the connection to your
+endpoint. Ensure to include C<iam:PassRole> and C<rds-db:connect>
+actions in permission policy.
 
 
 =head2 SlotName => Str
 
 Sets the name of a previously created logical replication slot for a
-CDC load of the PostgreSQL source instance.
+change data capture (CDC) load of the PostgreSQL source instance.
 
-When used with the AWS DMS API C<CdcStartPosition> request parameter,
-this attribute also enables using native CDC start points.
+When used with the C<CdcStartPosition> request parameter for the DMS
+API , this attribute also makes it possible to use native CDC start
+points. DMS verifies that the specified logical replication slot exists
+before starting the CDC load task. It also verifies that the task was
+created with a valid setting of C<CdcStartPosition>. If the specified
+slot doesn't exist or the task doesn't have a valid C<CdcStartPosition>
+setting, DMS raises an error.
+
+For more information about setting the C<CdcStartPosition> request
+parameter, see Determining a CDC native start point
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native)
+in the I<Database Migration Service User Guide>. For more information
+about using C<CdcStartPosition>, see CreateReplicationTask
+(https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html),
+StartReplicationTask
+(https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html),
+and ModifyReplicationTask
+(https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html).
+
+
+=head2 TrimSpaceInChar => Bool
+
+Use the C<TrimSpaceInChar> source endpoint setting to trim data on CHAR
+and NCHAR data types during migration. The default value is C<true>.
 
 
 =head2 Username => Str

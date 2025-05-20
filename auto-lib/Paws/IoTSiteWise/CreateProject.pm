@@ -83,9 +83,9 @@ A friendly name for the project.
 =head2 Tags => L<Paws::IoTSiteWise::TagMap>
 
 A list of key-value pairs that contain metadata for the project. For
-more information, see Tagging your AWS IoT SiteWise resources
+more information, see Tagging your IoT SiteWise resources
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

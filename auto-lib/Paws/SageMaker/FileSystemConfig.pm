@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The Amazon Elastic File System (EFS) storage configuration for a
-SageMaker image.
+The Amazon Elastic File System storage configuration for a SageMaker AI
+image.
 
 =head1 ATTRIBUTES
 

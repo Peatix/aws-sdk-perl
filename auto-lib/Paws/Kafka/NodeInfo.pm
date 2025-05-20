@@ -3,6 +3,7 @@ package Paws::Kafka::NodeInfo;
   use Moose;
   has AddedToClusterTime => (is => 'ro', isa => 'Str', request_name => 'addedToClusterTime', traits => ['NameInRequest']);
   has BrokerNodeInfo => (is => 'ro', isa => 'Paws::Kafka::BrokerNodeInfo', request_name => 'brokerNodeInfo', traits => ['NameInRequest']);
+  has ControllerNodeInfo => (is => 'ro', isa => 'Paws::Kafka::ControllerNodeInfo', request_name => 'controllerNodeInfo', traits => ['NameInRequest']);
   has InstanceType => (is => 'ro', isa => 'Str', request_name => 'instanceType', traits => ['NameInRequest']);
   has NodeARN => (is => 'ro', isa => 'Str', request_name => 'nodeARN', traits => ['NameInRequest']);
   has NodeType => (is => 'ro', isa => 'Str', request_name => 'nodeType', traits => ['NameInRequest']);
@@ -51,6 +52,11 @@ The start time.
 =head2 BrokerNodeInfo => L<Paws::Kafka::BrokerNodeInfo>
 
 The broker node info.
+
+
+=head2 ControllerNodeInfo => L<Paws::Kafka::ControllerNodeInfo>
+
+The ControllerNodeInfo.
 
 
 =head2 InstanceType => Str

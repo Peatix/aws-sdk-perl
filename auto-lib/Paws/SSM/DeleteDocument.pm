@@ -55,8 +55,8 @@ all versions of the document are deleted.
 Some SSM document types require that you specify a C<Force> flag before
 you can delete the document. For example, you must specify a C<Force>
 flag to delete a document of type C<ApplicationConfigurationSchema>.
-You can restrict access to the C<Force> flag in an AWS Identity and
-Access Management (IAM) policy.
+You can restrict access to the C<Force> flag in an Identity and Access
+Management (IAM) policy.
 
 
 

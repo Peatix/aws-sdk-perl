@@ -7,6 +7,7 @@ package Paws::Connect::CreateInstance;
   has InboundCallsEnabled => (is => 'ro', isa => 'Bool', required => 1);
   has InstanceAlias => (is => 'ro', isa => 'Str');
   has OutboundCallsEnabled => (is => 'ro', isa => 'Bool', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
 
   use MooseX::ClassAttribute;
 
@@ -40,6 +41,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClientToken            => 'MyClientToken',       # OPTIONAL
       DirectoryId            => 'MyDirectoryId',       # OPTIONAL
       InstanceAlias          => 'MyDirectoryAlias',    # OPTIONAL
+      Tags                   => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -87,6 +91,13 @@ The name for your instance.
 =head2 B<REQUIRED> OutboundCallsEnabled => Bool
 
 Your contact center allows outbound calls.
+
+
+
+=head2 Tags => L<Paws::Connect::TagMap>
+
+The tags used to organize, track, or control access for this resource.
+For example, C<{ "tags": {"key1":"value1", "key2":"value2"} }>.
 
 
 

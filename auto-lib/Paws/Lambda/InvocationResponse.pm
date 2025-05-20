@@ -34,7 +34,7 @@ Details about the error are included in the response payload.
 
 =head2 LogResult => Str
 
-The last 4 KB of the execution log, which is base64 encoded.
+The last 4 KB of the execution log, which is base64-encoded.
 
 
 =head2 Payload => Str

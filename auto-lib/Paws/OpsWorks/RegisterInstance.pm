@@ -59,7 +59,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ops
 
 =head2 Hostname => Str
 
-The instance's hostname.
+The instance's host name. The following are character limits for
+instance host names.
+
+=over
+
+=item *
+
+Linux-based instances: 63 characters
+
+=item *
+
+Windows-based instances: 15 characters
+
+=back
+
 
 
 

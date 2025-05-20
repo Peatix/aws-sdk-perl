@@ -58,13 +58,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Url                             => 'My__string',
             CertificateArn                  => 'My__string',
             EncryptionContractConfiguration => {
-              PresetSpeke20Audio => 'PRESET-AUDIO-1',   # values: PRESET-AUDIO-1
-              PresetSpeke20Video => 'PRESET-VIDEO-1',   # values: PRESET-VIDEO-1
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
             },    # OPTIONAL
           },
           ConstantInitializationVector => 'My__string',
-          KeyRotationIntervalSeconds   => 1,              # OPTIONAL
+          EncryptionMethod             =>
+            'SAMPLE_AES',    # values: SAMPLE_AES, AES_CTR; OPTIONAL
+          KeyRotationIntervalSeconds => 1,    # OPTIONAL
         },    # OPTIONAL
         HlsManifests => [
           {
@@ -109,22 +113,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Url                             => 'My__string',
             CertificateArn                  => 'My__string',
             EncryptionContractConfiguration => {
-              PresetSpeke20Audio => 'PRESET-AUDIO-1',   # values: PRESET-AUDIO-1
-              PresetSpeke20Video => 'PRESET-VIDEO-1',   # values: PRESET-VIDEO-1
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
             },    # OPTIONAL
           },
           KeyRotationIntervalSeconds => 1,    # OPTIONAL
         },    # OPTIONAL
-        ManifestLayout         => 'FULL',    # values: FULL, COMPACT; OPTIONAL
-        ManifestWindowSeconds  => 1,         # OPTIONAL
-        MinBufferTimeSeconds   => 1,         # OPTIONAL
-        MinUpdatePeriodSeconds => 1,         # OPTIONAL
+        IncludeIframeOnlyStream => 1,    # OPTIONAL
+        ManifestLayout          =>
+          'FULL',    # values: FULL, COMPACT, DRM_TOP_LEVEL_COMPACT; OPTIONAL
+        ManifestWindowSeconds  => 1,    # OPTIONAL
+        MinBufferTimeSeconds   => 1,    # OPTIONAL
+        MinUpdatePeriodSeconds => 1,    # OPTIONAL
         PeriodTriggers         => [
-          'ADS', ...                         # values: ADS
+          'ADS', ...                    # values: ADS
         ],    # OPTIONAL
-        Profile                => 'NONE',    # values: NONE, HBBTV_1_5; OPTIONAL
-        SegmentDurationSeconds => 1,         # OPTIONAL
+        Profile =>
+          'NONE', # values: NONE, HBBTV_1_5, HYBRIDCAST, DVB_DASH_2014; OPTIONAL
+        SegmentDurationSeconds => 1,                       # OPTIONAL
         SegmentTemplateFormat  => 'NUMBER_WITH_TIMELINE'
         , # values: NUMBER_WITH_TIMELINE, TIME_WITH_TIMELINE, NUMBER_WITH_DURATION; OPTIONAL
         StreamSelection => {
@@ -134,7 +143,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           , # values: ORIGINAL, VIDEO_BITRATE_ASCENDING, VIDEO_BITRATE_DESCENDING; OPTIONAL
         },    # OPTIONAL
         SuggestedPresentationDelaySeconds => 1,    # OPTIONAL
-        UtcTiming    => 'NONE',    # values: NONE, HTTP-HEAD, HTTP-ISO; OPTIONAL
+        UtcTiming                         =>
+          'NONE',    # values: NONE, HTTP-HEAD, HTTP-ISO, HTTP-XSDATE; OPTIONAL
         UtcTimingUri => 'My__string',
       },    # OPTIONAL
       Description => 'My__string',    # OPTIONAL
@@ -155,8 +165,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Url                             => 'My__string',
             CertificateArn                  => 'My__string',
             EncryptionContractConfiguration => {
-              PresetSpeke20Audio => 'PRESET-AUDIO-1',   # values: PRESET-AUDIO-1
-              PresetSpeke20Video => 'PRESET-VIDEO-1',   # values: PRESET-VIDEO-1
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
             },    # OPTIONAL
           },
@@ -165,6 +177,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           KeyRotationIntervalSeconds => 1,    # OPTIONAL
           RepeatExtXKey              => 1,    # OPTIONAL
         },    # OPTIONAL
+        IncludeDvbSubtitles     => 1,       # OPTIONAL
         IncludeIframeOnlyStream => 1,       # OPTIONAL
         PlaylistType            => 'NONE',  # values: NONE, EVENT, VOD; OPTIONAL
         PlaylistWindowSeconds   => 1,       # OPTIONAL
@@ -188,8 +201,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Url                             => 'My__string',
             CertificateArn                  => 'My__string',
             EncryptionContractConfiguration => {
-              PresetSpeke20Audio => 'PRESET-AUDIO-1',   # values: PRESET-AUDIO-1
-              PresetSpeke20Video => 'PRESET-VIDEO-1',   # values: PRESET-VIDEO-1
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
             },    # OPTIONAL
           },
@@ -216,6 +231,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Authorization = $CreateOriginEndpointResponse->Authorization;
     my $ChannelId     = $CreateOriginEndpointResponse->ChannelId;
     my $CmafPackage   = $CreateOriginEndpointResponse->CmafPackage;
+    my $CreatedAt     = $CreateOriginEndpointResponse->CreatedAt;
     my $DashPackage   = $CreateOriginEndpointResponse->DashPackage;
     my $Description   = $CreateOriginEndpointResponse->Description;
     my $HlsPackage    = $CreateOriginEndpointResponse->HlsPackage;

@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
@@ -57,10 +57,17 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Force => Bool
 
-Forces the instances to stop. The instances do not have an opportunity
-to flush file system caches or file system metadata. If you use this
-option, you must perform file system check and repair procedures. This
-option is not recommended for Windows instances.
+Forces the instance to stop. The instance will first attempt a graceful
+shutdown, which includes flushing file system caches and metadata. If
+the graceful shutdown fails to complete within the timeout period, the
+instance shuts down forcibly without flushing the file system caches
+and metadata.
+
+After using this option, you must perform file system check and repair
+procedures. This option is not recommended for Windows instances. For
+more information, see Troubleshoot Amazon EC2 instance stop issues
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html)
+in the I<Amazon EC2 User Guide>.
 
 Default: C<false>
 

@@ -3,6 +3,7 @@ package Paws::AppSync::ApiCache;
   use Moose;
   has ApiCachingBehavior => (is => 'ro', isa => 'Str', request_name => 'apiCachingBehavior', traits => ['NameInRequest']);
   has AtRestEncryptionEnabled => (is => 'ro', isa => 'Bool', request_name => 'atRestEncryptionEnabled', traits => ['NameInRequest']);
+  has HealthMetricsConfig => (is => 'ro', isa => 'Str', request_name => 'healthMetricsConfig', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has TransitEncryptionEnabled => (is => 'ro', isa => 'Bool', request_name => 'transitEncryptionEnabled', traits => ['NameInRequest']);
   has Ttl => (is => 'ro', isa => 'Int', request_name => 'ttl', traits => ['NameInRequest']);
@@ -51,12 +52,19 @@ Caching behavior.
 
 =item *
 
-B<FULL_REQUEST_CACHING>: All requests are fully cached.
+B<FULL_REQUEST_CACHING>: All requests from the same user are cached.
+Individual resolvers are automatically cached. All API calls will try
+to return responses from the cache.
 
 =item *
 
 B<PER_RESOLVER_CACHING>: Individual resolvers that you specify are
 cached.
+
+=item *
+
+B<OPERATION_LEVEL_CACHING>: Full requests are cached together and
+returned without executing resolvers.
 
 =back
 
@@ -64,8 +72,33 @@ cached.
 
 =head2 AtRestEncryptionEnabled => Bool
 
-At rest encryption flag for cache. This setting cannot be updated after
+At-rest encryption flag for cache. You cannot update this setting after
 creation.
+
+
+=head2 HealthMetricsConfig => Str
+
+Controls how cache health metrics will be emitted to CloudWatch. Cache
+health metrics include:
+
+=over
+
+=item *
+
+NetworkBandwidthOutAllowanceExceeded: The network packets dropped
+because the throughput exceeded the aggregated bandwidth limit. This is
+useful for diagnosing bottlenecks in a cache configuration.
+
+=item *
+
+EngineCPUUtilization: The CPU utilization (percentage) allocated to the
+Redis process. This is useful for diagnosing bottlenecks in a cache
+configuration.
+
+=back
+
+Metrics will be recorded by API ID. You can set the value to C<ENABLED>
+or C<DISABLED>.
 
 
 =head2 Status => Str
@@ -100,15 +133,15 @@ B<FAILED>: The instance has failed creation.
 
 =head2 TransitEncryptionEnabled => Bool
 
-Transit encryption flag when connecting to cache. This setting cannot
-be updated after creation.
+Transit encryption flag when connecting to cache. You cannot update
+this setting after creation.
 
 
 =head2 Ttl => Int
 
 TTL in seconds for cache entries.
 
-Valid values are between 1 and 3600 seconds.
+Valid values are 1E<ndash>3,600 seconds.
 
 
 =head2 Type => Str

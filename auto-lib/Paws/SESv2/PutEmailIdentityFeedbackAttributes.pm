@@ -59,8 +59,7 @@ setting is disabled).
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The email identity that you want to configure bounce and complaint
-feedback forwarding for.
+The email identity.
 
 
 

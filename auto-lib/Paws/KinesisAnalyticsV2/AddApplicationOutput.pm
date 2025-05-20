@@ -89,8 +89,8 @@ current version, the C<ConcurrentModificationException> is returned.
 An array of objects, each describing one output configuration. In the
 output configuration, you specify the name of an in-application stream,
 a destination (that is, a Kinesis data stream, a Kinesis Data Firehose
-delivery stream, or an AWS Lambda function), and record the formation
-to use when writing to the destination.
+delivery stream, or an Amazon Lambda function), and record the
+formation to use when writing to the destination.
 
 
 

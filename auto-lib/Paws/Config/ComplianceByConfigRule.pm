@@ -34,21 +34,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Com
 
 =head1 DESCRIPTION
 
-Indicates whether an AWS Config rule is compliant. A rule is compliant
-if all of the resources that the rule evaluated comply with it. A rule
-is noncompliant if any of these resources do not comply.
+Indicates whether an Config rule is compliant. A rule is compliant if
+all of the resources that the rule evaluated comply with it. A rule is
+noncompliant if any of these resources do not comply.
 
 =head1 ATTRIBUTES
 
 
 =head2 Compliance => L<Paws::Config::Compliance>
 
-Indicates whether the AWS Config rule is compliant.
+Indicates whether the Config rule is compliant.
 
 
 =head2 ConfigRuleName => Str
 
-The name of the AWS Config rule.
+The name of the Config rule.
 
 
 

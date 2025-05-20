@@ -64,12 +64,13 @@ specify approvers in an approval pool in one of two ways:
 
 =item *
 
-B<CodeCommitApprovers>: This option only requires an AWS account and a
-resource. It can be used for both IAM users and federated access users
-whose name matches the provided resource name. This is a very powerful
-option that offers a great deal of flexibility. For example, if you
-specify the AWS account I<123456789012> and I<Mary_Major>, all of the
-following are counted as approvals coming from that user:
+B<CodeCommitApprovers>: This option only requires an Amazon Web
+Services account and a resource. It can be used for both IAM users and
+federated access users whose name matches the provided resource name.
+This is a very powerful option that offers a great deal of flexibility.
+For example, if you specify the Amazon Web Services account
+I<123456789012> and I<Mary_Major>, all of the following are counted as
+approvals coming from that user:
 
 =over
 

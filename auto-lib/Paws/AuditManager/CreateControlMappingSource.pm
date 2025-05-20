@@ -39,8 +39,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-Control mapping fields that represent the source for evidence
-collection, along with related parameters and metadata. This does not
+The mapping attributes that determine the evidence source for a given
+control, along with related parameters and metadata. This doesn't
 contain C<mappingID>.
 
 =head1 ATTRIBUTES
@@ -48,13 +48,13 @@ contain C<mappingID>.
 
 =head2 SourceDescription => Str
 
-The description of the data source that determines from where AWS Audit
-Manager collects evidence for the control.
+The description of the data source that determines where Audit Manager
+collects evidence from for the control.
 
 
 =head2 SourceFrequency => Str
 
-The frequency of evidence collection for the specified control mapping
+Specifies how often evidence is collected from the control mapping
 source.
 
 
@@ -70,19 +70,37 @@ The name of the control mapping data source.
 
 =head2 SourceSetUpOption => Str
 
-The setup option for the data source, which reflects if the evidence
-collection is automated or manual.
+The setup option for the data source. This option reflects if the
+evidence collection method is automated or manual. If you donE<rsquo>t
+provide a value for C<sourceSetUpOption>, Audit Manager automatically
+infers and populates the correct value based on the C<sourceType> that
+you specify.
 
 
 =head2 SourceType => Str
 
-Specifies one of the five types of data sources for evidence
-collection.
+Specifies which type of data source is used to collect evidence.
+
+=over
+
+=item *
+
+The source can be an individual data source type, such as
+C<AWS_Cloudtrail>, C<AWS_Config>, C<AWS_Security_Hub>, C<AWS_API_Call>,
+or C<MANUAL>.
+
+=item *
+
+The source can also be a managed grouping of data sources, such as a
+C<Core_Control> or a C<Common_Control>.
+
+=back
+
 
 
 =head2 TroubleshootingText => Str
 
-The instructions for troubleshooting the specified control.
+The instructions for troubleshooting the control.
 
 
 

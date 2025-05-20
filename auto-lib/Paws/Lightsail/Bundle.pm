@@ -9,7 +9,9 @@ package Paws::Lightsail::Bundle;
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has Power => (is => 'ro', isa => 'Int', request_name => 'power', traits => ['NameInRequest']);
   has Price => (is => 'ro', isa => 'Num', request_name => 'price', traits => ['NameInRequest']);
+  has PublicIpv4AddressCount => (is => 'ro', isa => 'Int', request_name => 'publicIpv4AddressCount', traits => ['NameInRequest']);
   has RamSizeInGb => (is => 'ro', isa => 'Num', request_name => 'ramSizeInGb', traits => ['NameInRequest']);
+  has SupportedAppCategories => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedAppCategories', traits => ['NameInRequest']);
   has SupportedPlatforms => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedPlatforms', traits => ['NameInRequest']);
   has TransferPerMonthInGb => (is => 'ro', isa => 'Int', request_name => 'transferPerMonthInGb', traits => ['NameInRequest']);
 
@@ -51,22 +53,22 @@ private server (or I<instance>).
 
 =head2 BundleId => Str
 
-The bundle ID (e.g., C<micro_1_0>).
+The bundle ID (C<micro_x_x>).
 
 
 =head2 CpuCount => Int
 
-The number of vCPUs included in the bundle (e.g., C<2>).
+The number of vCPUs included in the bundle (C<2>).
 
 
 =head2 DiskSizeInGb => Int
 
-The size of the SSD (e.g., C<30>).
+The size of the SSD (C<30>).
 
 
 =head2 InstanceType => Str
 
-The Amazon EC2 instance type (e.g., C<t2.micro>).
+The instance type (C<micro>).
 
 
 =head2 IsActive => Bool
@@ -76,13 +78,13 @@ A Boolean value indicating whether the bundle is active.
 
 =head2 Name => Str
 
-A friendly name for the bundle (e.g., C<Micro>).
+A friendly name for the bundle (C<Micro>).
 
 
 =head2 Power => Int
 
-A numeric value that represents the power of the bundle (e.g., C<500>).
-You can use the bundle's power value in conjunction with a blueprint's
+A numeric value that represents the power of the bundle (C<500>). You
+can use the bundle's power value in conjunction with a blueprint's
 minimum power value to determine whether the blueprint will run on the
 bundle. For example, you need a bundle with a power value of 500 or
 more to create an instance that uses a blueprint with a minimum power
@@ -91,12 +93,26 @@ value of 500.
 
 =head2 Price => Num
 
-The price in US dollars (e.g., C<5.0>) of the bundle.
+The price in US dollars (C<5.0>) of the bundle.
+
+
+=head2 PublicIpv4AddressCount => Int
+
+An integer that indicates the public ipv4 address count included in the
+bundle, the value is either 0 or 1.
 
 
 =head2 RamSizeInGb => Num
 
-The amount of RAM in GB (e.g., C<2.0>).
+The amount of RAM in GB (C<2.0>).
+
+
+=head2 SupportedAppCategories => ArrayRef[Str|Undef]
+
+Virtual computer blueprints that are supported by a Lightsail for
+Research bundle.
+
+This parameter only applies to Lightsail for Research resources.
 
 
 =head2 SupportedPlatforms => ArrayRef[Str|Undef]
@@ -109,7 +125,7 @@ C<LINUX_UNIX> blueprints require a C<LINUX_UNIX> bundle.
 
 =head2 TransferPerMonthInGb => Int
 
-The data transfer rate per month in GB (e.g., C<2000>).
+The data transfer rate per month in GB (C<2000>).
 
 
 

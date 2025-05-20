@@ -43,8 +43,8 @@ Applies only to Hyperledger Fabric.
 
 =head2 Invitations => ArrayRef[L<Paws::ManagedBlockchain::InviteAction>]
 
-The actions to perform for an C<APPROVED> proposal to invite an AWS
-account to create a member and join the network.
+The actions to perform for an C<APPROVED> proposal to invite an Amazon
+Web Services account to create a member and join the network.
 
 
 =head2 Removals => ArrayRef[L<Paws::ManagedBlockchain::RemoveAction>]

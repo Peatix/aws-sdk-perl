@@ -1,6 +1,7 @@
 
 package Paws::Braket::GetQuantumTask;
   use Moose;
+  has AdditionalAttributeNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'additionalAttributeNames');
   has QuantumTaskArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'quantumTaskArn', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,19 +30,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $braket = Paws->service('Braket');
     my $GetQuantumTaskResponse = $braket->GetQuantumTask(
-      QuantumTaskArn => 'MyQuantumTaskArn',
-
+      QuantumTaskArn           => 'MyQuantumTaskArn',
+      AdditionalAttributeNames => [
+        'QueueInfo', ...    # values: QueueInfo
+      ],    # OPTIONAL
     );
 
     # Results:
+    my $Associations      = $GetQuantumTaskResponse->Associations;
     my $CreatedAt         = $GetQuantumTaskResponse->CreatedAt;
     my $DeviceArn         = $GetQuantumTaskResponse->DeviceArn;
     my $DeviceParameters  = $GetQuantumTaskResponse->DeviceParameters;
     my $EndedAt           = $GetQuantumTaskResponse->EndedAt;
     my $FailureReason     = $GetQuantumTaskResponse->FailureReason;
+    my $JobArn            = $GetQuantumTaskResponse->JobArn;
     my $OutputS3Bucket    = $GetQuantumTaskResponse->OutputS3Bucket;
     my $OutputS3Directory = $GetQuantumTaskResponse->OutputS3Directory;
     my $QuantumTaskArn    = $GetQuantumTaskResponse->QuantumTaskArn;
+    my $QueueInfo         = $GetQuantumTaskResponse->QueueInfo;
     my $Shots             = $GetQuantumTaskResponse->Shots;
     my $Status            = $GetQuantumTaskResponse->Status;
     my $Tags              = $GetQuantumTaskResponse->Tags;
@@ -54,9 +60,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bra
 =head1 ATTRIBUTES
 
 
+=head2 AdditionalAttributeNames => ArrayRef[Str|Undef]
+
+A list of attributes to return information for.
+
+
+
 =head2 B<REQUIRED> QuantumTaskArn => Str
 
-the ARN of the task to retrieve.
+The ARN of the task to retrieve.
 
 
 

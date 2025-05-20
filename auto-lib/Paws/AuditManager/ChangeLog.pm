@@ -37,35 +37,37 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The record of a change within AWS Audit Manager, such as a modified
-assessment, a delegated control set, and so on.
+The record of a change within Audit Manager. For example, this could be
+the status change of an assessment or the delegation of a control set.
 
 =head1 ATTRIBUTES
 
 
 =head2 Action => Str
 
-The action performed.
+The action that was performed.
 
 
 =head2 CreatedAt => Str
 
-The time of creation for the changelog object.
+The time when the action was performed and the changelog record was
+created.
 
 
 =head2 CreatedBy => Str
 
-The IAM user or role that performed the action.
+The user or role that performed the action.
 
 
 =head2 ObjectName => Str
 
-The name of the changelog object.
+The name of the object that changed. This could be the name of an
+assessment, control, or control set.
 
 
 =head2 ObjectType => Str
 
-The changelog object type, such as an assessment, control, or control
+The object that was changed, such as an assessment, control, or control
 set.
 
 

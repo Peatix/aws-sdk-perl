@@ -4,6 +4,8 @@ package Paws::GreengrassV2::CloudComponentStatus;
   has ComponentState => (is => 'ro', isa => 'Str', request_name => 'componentState', traits => ['NameInRequest']);
   has Errors => (is => 'ro', isa => 'Paws::GreengrassV2::StringMap', request_name => 'errors', traits => ['NameInRequest']);
   has Message => (is => 'ro', isa => 'Str', request_name => 'message', traits => ['NameInRequest']);
+  has VendorGuidance => (is => 'ro', isa => 'Str', request_name => 'vendorGuidance', traits => ['NameInRequest']);
+  has VendorGuidanceMessage => (is => 'ro', isa => 'Str', request_name => 'vendorGuidanceMessage', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GreengrassV2::CloudComponentStatus object:
 
-  $service_obj->Method(Att1 => { ComponentState => $value, ..., Message => $value  });
+  $service_obj->Method(Att1 => { ComponentState => $value, ..., VendorGuidanceMessage => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,28 +37,65 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains the status of a component in the AWS IoT Greengrass service.
+Contains the status of a component version in the IoT Greengrass
+service.
 
 =head1 ATTRIBUTES
 
 
 =head2 ComponentState => Str
 
-The state of the component.
+The state of the component version.
 
 
 =head2 Errors => L<Paws::GreengrassV2::StringMap>
 
-A dictionary of errors that communicate why the component is in an
-error state. For example, if AWS IoT Greengrass can't access an
-artifact for the component, then C<errors> contains the artifact's URI
+A dictionary of errors that communicate why the component version is in
+an error state. For example, if IoT Greengrass can't access an artifact
+for the component version, then C<errors> contains the artifact's URI
 as a key, and the error message as the value for that key.
 
 
 =head2 Message => Str
 
 A message that communicates details, such as errors, about the status
-of the component.
+of the component version.
+
+
+=head2 VendorGuidance => Str
+
+The vendor guidance state for the component version. This state
+indicates whether the component version has any issues that you should
+consider before you deploy it. The vendor guidance state can be:
+
+=over
+
+=item *
+
+C<ACTIVE> E<ndash> This component version is available and recommended
+for use.
+
+=item *
+
+C<DISCONTINUED> E<ndash> This component version has been discontinued
+by its publisher. You can deploy this component version, but we
+recommend that you use a different version of this component.
+
+=item *
+
+C<DELETED> E<ndash> This component version has been deleted by its
+publisher, so you can't deploy it. If you have any existing deployments
+that specify this component version, those deployments will fail.
+
+=back
+
+
+
+=head2 VendorGuidanceMessage => Str
+
+A message that communicates details about the vendor guidance state of
+the component version. This message communicates why a component
+version is discontinued or deleted.
 
 
 

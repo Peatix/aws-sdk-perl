@@ -2,9 +2,10 @@
 package Paws::Personalize::CreateCampaign;
   use Moose;
   has CampaignConfig => (is => 'ro', isa => 'Paws::Personalize::CampaignConfig', traits => ['NameInRequest'], request_name => 'campaignConfig' );
-  has MinProvisionedTPS => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'minProvisionedTPS' , required => 1);
+  has MinProvisionedTPS => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'minProvisionedTPS' );
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
   has SolutionVersionArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'solutionVersionArn' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -31,15 +32,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $personalize = Paws->service('Personalize');
     my $CreateCampaignResponse = $personalize->CreateCampaign(
-      MinProvisionedTPS  => 1,
       Name               => 'MyName',
       SolutionVersionArn => 'MyArn',
       CampaignConfig     => {
-        ItemExplorationConfig => {
+        EnableMetadataWithRecommendations => 1,    # OPTIONAL
+        ItemExplorationConfig             => {
           'MyParameterName' =>
             'MyParameterValue',    # key: max: 256, value: max: 1000
         },    # max: 100; OPTIONAL
+        SyncWithLatestSolutionVersion => 1,    # OPTIONAL
       },    # OPTIONAL
+      MinProvisionedTPS => 1,    # OPTIONAL
+      Tags              => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -59,10 +70,14 @@ The configuration details of a campaign.
 
 
 
-=head2 B<REQUIRED> MinProvisionedTPS => Int
+=head2 MinProvisionedTPS => Int
 
 Specifies the requested minimum provisioned transactions
-(recommendations) per second that Amazon Personalize will support.
+(recommendations) per second that Amazon Personalize will support. A
+high C<minProvisionedTPS> will increase your bill. We recommend
+starting with 1 for C<minProvisionedTPS> (the default). Track your
+usage using Amazon CloudWatch metrics, and increase the
+C<minProvisionedTPS> as necessary.
 
 
 
@@ -75,7 +90,27 @@ your account.
 
 =head2 B<REQUIRED> SolutionVersionArn => Str
 
-The Amazon Resource Name (ARN) of the solution version to deploy.
+The Amazon Resource Name (ARN) of the trained model to deploy with the
+campaign. To specify the latest solution version of your solution,
+specify the ARN of your I<solution> in C<SolutionArn/$LATEST> format.
+You must use this format if you set C<syncWithLatestSolutionVersion> to
+C<True> in the CampaignConfig
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CampaignConfig.html).
+
+To deploy a model that isn't the latest solution version of your
+solution, specify the ARN of the solution version.
+
+For more information about automatic campaign updates, see Enabling
+automatic campaign updates
+(https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the campaign.
 
 
 

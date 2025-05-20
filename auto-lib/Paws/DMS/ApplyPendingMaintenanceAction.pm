@@ -53,6 +53,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 
 The pending maintenance action to apply to this resource.
 
+Valid values: C<os-upgrade>, C<system-update>, C<db-upgrade>,
+C<os-patch>
+
 
 
 =head2 B<REQUIRED> OptInType => Str
@@ -85,7 +88,7 @@ requests.
 
 =head2 B<REQUIRED> ReplicationInstanceArn => Str
 
-The Amazon Resource Name (ARN) of the AWS DMS resource that the pending
+The Amazon Resource Name (ARN) of the DMS resource that the pending
 maintenance action applies to.
 
 

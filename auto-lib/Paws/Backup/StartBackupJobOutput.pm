@@ -3,6 +3,7 @@ package Paws::Backup::StartBackupJobOutput;
   use Moose;
   has BackupJobId => (is => 'ro', isa => 'Str');
   has CreationDate => (is => 'ro', isa => 'Str');
+  has IsParent => (is => 'ro', isa => 'Bool');
   has RecoveryPointArn => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -19,7 +20,7 @@ Paws::Backup::StartBackupJobOutput
 
 =head2 BackupJobId => Str
 
-Uniquely identifies a request to AWS Backup to back up a resource.
+Uniquely identifies a request to Backup to back up a resource.
 
 
 =head2 CreationDate => Str
@@ -30,7 +31,16 @@ accurate to milliseconds. For example, the value 1516925490.087
 represents Friday, January 26, 2018 12:11:30.087 AM.
 
 
+=head2 IsParent => Bool
+
+This is a returned boolean value indicating this is a parent
+(composite) backup job.
+
+
 =head2 RecoveryPointArn => Str
+
+I<Note: This field is only returned for Amazon EFS and Advanced
+DynamoDB resources.>
 
 An ARN that uniquely identifies a recovery point; for example,
 C<arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45>.

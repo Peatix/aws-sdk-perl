@@ -29,7 +29,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $discovery = Paws->service('Discovery');
     my $StartDataCollectionByAgentIdsResponse =
       $discovery->StartDataCollectionByAgentIds(
-      AgentIds => [ 'MyAgentId', ... ],
+      AgentIds => [
+        'MyAgentId', ...    # min: 10, max: 20
+      ],
 
       );
 
@@ -47,14 +49,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dis
 
 =head2 B<REQUIRED> AgentIds => ArrayRef[Str|Undef]
 
-The IDs of the agents or connectors from which to start collecting
-data. If you send a request to an agent/connector ID that you do not
-have permission to contact, according to your AWS account, the service
-does not throw an exception. Instead, it returns the error in the
-I<Description> field. If you send a request to multiple
-agents/connectors and you do not have permission to contact some of
-those agents/connectors, the system does not throw an exception.
-Instead, the system shows C<Failed> in the I<Description> field.
+The IDs of the agents from which to start collecting data. If you send
+a request to an agent ID that you do not have permission to contact,
+according to your Amazon Web Services account, the service does not
+throw an exception. Instead, it returns the error in the I<Description>
+field. If you send a request to multiple agents and you do not have
+permission to contact some of those agents, the system does not throw
+an exception. Instead, the system shows C<Failed> in the I<Description>
+field.
 
 
 

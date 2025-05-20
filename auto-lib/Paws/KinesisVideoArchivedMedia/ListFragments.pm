@@ -66,6 +66,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kin
 Describes the timestamp range and timestamp origin for the range of
 fragments to return.
 
+This is only required when the C<NextToken> isn't passed in the API.
+
 
 
 =head2 MaxResults => Int

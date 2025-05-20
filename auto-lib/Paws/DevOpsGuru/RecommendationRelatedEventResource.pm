@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-Information about an AWS resource that emitted and event that is
-related to a recommendation in an insight.
+Information about an Amazon Web Services resource that emitted and
+event that is related to a recommendation in an insight.
 
 =head1 ATTRIBUTES
 

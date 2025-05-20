@@ -39,7 +39,7 @@ Describes resource being monitored by an alarm.
 
 An alarm is a way to monitor your Amazon Lightsail resource metrics.
 For more information, see Alarms in Amazon Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
 
 =head1 ATTRIBUTES
 

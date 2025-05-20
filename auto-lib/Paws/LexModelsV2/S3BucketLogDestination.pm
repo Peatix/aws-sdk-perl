@@ -42,8 +42,9 @@ Specifies an Amazon S3 bucket for logging audio conversations
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS)
-key for encrypting audio log files stored in an S3 bucket.
+The Amazon Resource Name (ARN) of an Amazon Web Services Key Management
+Service (KMS) key for encrypting audio log files stored in an S3
+bucket.
 
 
 =head2 B<REQUIRED> LogPrefix => Str

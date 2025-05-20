@@ -64,7 +64,7 @@ pool for the target group.
 
 =head2 B<REQUIRED> DBProxyName => Str
 
-The name of the new proxy to which to assign the target group.
+The name of the proxy.
 
 
 
@@ -74,11 +74,13 @@ The new name for the modified C<DBProxyTarget>. An identifier must
 begin with a letter and must contain only ASCII letters, digits, and
 hyphens; it can't end with a hyphen or contain two consecutive hyphens.
 
+You can't rename the C<default> target group.
+
 
 
 =head2 B<REQUIRED> TargetGroupName => Str
 
-The name of the new target group to assign to the proxy.
+The name of the target group to modify.
 
 
 

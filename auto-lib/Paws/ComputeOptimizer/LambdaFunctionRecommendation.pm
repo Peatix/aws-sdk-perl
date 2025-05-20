@@ -3,6 +3,8 @@ package Paws::ComputeOptimizer::LambdaFunctionRecommendation;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest']);
   has CurrentMemorySize => (is => 'ro', isa => 'Int', request_name => 'currentMemorySize', traits => ['NameInRequest']);
+  has CurrentPerformanceRisk => (is => 'ro', isa => 'Str', request_name => 'currentPerformanceRisk', traits => ['NameInRequest']);
+  has EffectiveRecommendationPreferences => (is => 'ro', isa => 'Paws::ComputeOptimizer::LambdaEffectiveRecommendationPreferences', request_name => 'effectiveRecommendationPreferences', traits => ['NameInRequest']);
   has Finding => (is => 'ro', isa => 'Str', request_name => 'finding', traits => ['NameInRequest']);
   has FindingReasonCodes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'findingReasonCodes', traits => ['NameInRequest']);
   has FunctionArn => (is => 'ro', isa => 'Str', request_name => 'functionArn', traits => ['NameInRequest']);
@@ -11,6 +13,7 @@ package Paws::ComputeOptimizer::LambdaFunctionRecommendation;
   has LookbackPeriodInDays => (is => 'ro', isa => 'Num', request_name => 'lookbackPeriodInDays', traits => ['NameInRequest']);
   has MemorySizeRecommendationOptions => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::LambdaFunctionMemoryRecommendationOption]', request_name => 'memorySizeRecommendationOptions', traits => ['NameInRequest']);
   has NumberOfInvocations => (is => 'ro', isa => 'Int', request_name => 'numberOfInvocations', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has UtilizationMetrics => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::LambdaFunctionUtilizationMetric]', request_name => 'utilizationMetrics', traits => ['NameInRequest']);
 
 1;
@@ -43,19 +46,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 =head1 DESCRIPTION
 
-Describes an AWS Lambda function recommendation.
+Describes an Lambda function recommendation.
 
 =head1 ATTRIBUTES
 
 
 =head2 AccountId => Str
 
-The AWS account ID of the function.
+The Amazon Web Services account ID of the function.
 
 
 =head2 CurrentMemorySize => Int
 
 The amount of memory, in MB, that's allocated to the current function.
+
+
+=head2 CurrentPerformanceRisk => Str
+
+The risk of the current Lambda function not meeting the performance
+needs of its workloads. The higher the risk, the more likely the
+current Lambda function requires more memory.
+
+
+=head2 EffectiveRecommendationPreferences => L<Paws::ComputeOptimizer::LambdaEffectiveRecommendationPreferences>
+
+Describes the effective recommendation preferences for Lambda
+functions.
 
 
 =head2 Finding => Str
@@ -133,7 +149,7 @@ B<C<InsufficientData> > E<mdash> The function does not have sufficient
 metric data for Compute Optimizer to generate a recommendation. For
 more information, see the Supported resources and requirements
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html)
-in the I<AWS Compute Optimizer User Guide>. This finding reason code is
+in the I<Compute Optimizer User Guide>. This finding reason code is
 part of the C<Unavailable> finding classification.
 
 =item *
@@ -159,7 +175,7 @@ The version number of the current function.
 
 =head2 LastRefreshTimestamp => Str
 
-The time stamp of when the function recommendation was last refreshed.
+The timestamp of when the function recommendation was last generated.
 
 
 =head2 LookbackPeriodInDays => Num
@@ -176,8 +192,13 @@ recommendation options for the function.
 
 =head2 NumberOfInvocations => Int
 
-The number of times your function code was executed during the
-look-back period.
+The number of times your function code was applied during the look-back
+period.
+
+
+=head2 Tags => ArrayRef[L<Paws::ComputeOptimizer::Tag>]
+
+A list of tags assigned to your Lambda function recommendations.
 
 
 =head2 UtilizationMetrics => ArrayRef[L<Paws::ComputeOptimizer::LambdaFunctionUtilizationMetric>]

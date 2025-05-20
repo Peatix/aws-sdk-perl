@@ -5,6 +5,7 @@ package Paws::MediaPackage::CreateOriginEndpointResponse;
   has Authorization => (is => 'ro', isa => 'Paws::MediaPackage::Authorization', traits => ['NameInRequest'], request_name => 'authorization');
   has ChannelId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'channelId');
   has CmafPackage => (is => 'ro', isa => 'Paws::MediaPackage::CmafPackage', traits => ['NameInRequest'], request_name => 'cmafPackage');
+  has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has DashPackage => (is => 'ro', isa => 'Paws::MediaPackage::DashPackage', traits => ['NameInRequest'], request_name => 'dashPackage');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has HlsPackage => (is => 'ro', isa => 'Paws::MediaPackage::HlsPackage', traits => ['NameInRequest'], request_name => 'hlsPackage');
@@ -48,6 +49,11 @@ The ID of the Channel the OriginEndpoint is associated with.
 =head2 CmafPackage => L<Paws::MediaPackage::CmafPackage>
 
 
+
+
+=head2 CreatedAt => Str
+
+The date and time the OriginEndpoint was created.
 
 
 =head2 DashPackage => L<Paws::MediaPackage::DashPackage>

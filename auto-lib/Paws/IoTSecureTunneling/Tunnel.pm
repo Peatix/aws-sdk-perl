@@ -97,8 +97,7 @@ Timeout configuration for the tunnel.
 
 =head2 TunnelArn => Str
 
-The Amazon Resource Name (ARN) of a tunnel. The tunnel ARN format is
-C<arn:aws:tunnel:E<lt>regionE<gt>:E<lt>account-idE<gt>:tunnel/E<lt>tunnel-idE<gt>>
+The Amazon Resource Name (ARN) of a tunnel.
 
 
 =head2 TunnelId => Str

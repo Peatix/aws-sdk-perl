@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 
 =head2 B<REQUIRED> ProjectVersionArn => Str
 
-The Amazon Resource Name (ARN) of the model version that you want to
+The Amazon Resource Name (ARN) of the project version that you want to
 delete.
 
 

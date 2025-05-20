@@ -44,7 +44,7 @@ The details of a public registry.
 
 =head2 B<REQUIRED> Aliases => ArrayRef[L<Paws::ECRPublic::RegistryAlias>]
 
-An array of objects representing the aliases for a public registry.
+An array of objects that represents the aliases for a public registry.
 
 
 =head2 B<REQUIRED> RegistryArn => Str
@@ -54,8 +54,9 @@ The Amazon Resource Name (ARN) of the public registry.
 
 =head2 B<REQUIRED> RegistryId => Str
 
-The AWS account ID associated with the registry. If you do not specify
-a registry, the default public registry is assumed.
+The Amazon Web Services account ID that's associated with the registry.
+If you do not specify a registry, the default public registry is
+assumed.
 
 
 =head2 B<REQUIRED> RegistryUri => Str
@@ -66,10 +67,9 @@ the registry alias.
 
 =head2 B<REQUIRED> Verified => Bool
 
-Whether the account is verified. This indicates whether the account is
-an AWS Marketplace vendor. If an account is verified, each public
-repository will received a verified account badge on the Amazon ECR
-Public Gallery.
+Indicates whether the account is a verified Amazon Web Services
+Marketplace vendor. If an account is verified, each public repository
+receives a verified account badge on the Amazon ECR Public Gallery.
 
 
 

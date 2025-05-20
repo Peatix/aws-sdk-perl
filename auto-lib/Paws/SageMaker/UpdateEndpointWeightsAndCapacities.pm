@@ -32,9 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $api . sagemaker->UpdateEndpointWeightsAndCapacities(
       DesiredWeightsAndCapacities => [
         {
-          VariantName          => 'MyVariantName',    # max: 63
-          DesiredInstanceCount => 1,                  # min: 1; OPTIONAL
-          DesiredWeight        => 1.0,                # OPTIONAL
+          VariantName            => 'MyVariantName',    # max: 63
+          DesiredInstanceCount   => 1,                  # OPTIONAL
+          DesiredWeight          => 1.0,                # OPTIONAL
+          ServerlessUpdateConfig => {
+            MaxConcurrency         => 1,    # min: 1, max: 200; OPTIONAL
+            ProvisionedConcurrency => 1,    # min: 1, max: 200; OPTIONAL
+          },    # OPTIONAL
         },
         ...
       ],
@@ -61,7 +65,7 @@ An object that provides new capacity and weight values for a variant.
 
 =head2 B<REQUIRED> EndpointName => Str
 
-The name of an existing Amazon SageMaker endpoint.
+The name of an existing SageMaker endpoint.
 
 
 

@@ -2,7 +2,9 @@
 package Paws::Transfer::IdentityProviderDetails;
   use Moose;
   has DirectoryId => (is => 'ro', isa => 'Str');
+  has Function => (is => 'ro', isa => 'Str');
   has InvocationRole => (is => 'ro', isa => 'Str');
+  has SftpAuthenticationMethods => (is => 'ro', isa => 'Str');
   has Url => (is => 'ro', isa => 'Str');
 
 1;
@@ -44,14 +46,53 @@ can have only one method of authentication.
 
 =head2 DirectoryId => Str
 
-The identifier of the Amazon Web ServicesDirectory Service directory
-that you want to stop sharing.
+The identifier of the Directory Service directory that you want to use
+as your identity provider.
+
+
+=head2 Function => Str
+
+The ARN for a Lambda function to use for the Identity provider.
 
 
 =head2 InvocationRole => Str
 
-Provides the type of C<InvocationRole> used to authenticate the user
-account.
+This parameter is only applicable if your C<IdentityProviderType> is
+C<API_GATEWAY>. Provides the type of C<InvocationRole> used to
+authenticate the user account.
+
+
+=head2 SftpAuthenticationMethods => Str
+
+For SFTP-enabled servers, and for custom identity providers I<only>,
+you can specify whether to authenticate using a password, SSH key pair,
+or both.
+
+=over
+
+=item *
+
+C<PASSWORD> - users must provide their password to connect.
+
+=item *
+
+C<PUBLIC_KEY> - users must provide their private key to connect.
+
+=item *
+
+C<PUBLIC_KEY_OR_PASSWORD> - users can authenticate with either their
+password or their key. This is the default value.
+
+=item *
+
+C<PUBLIC_KEY_AND_PASSWORD> - users must provide both their private key
+and their password to connect. The server checks the key first, and
+then if the key is valid, the system prompts for a password. If the
+private key provided does not match the public key that is stored,
+authentication fails.
+
+=back
+
 
 
 =head2 Url => Str

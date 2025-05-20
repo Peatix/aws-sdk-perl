@@ -17,7 +17,7 @@ Paws::FMS::PutPolicyResponse
 
 =head2 Policy => L<Paws::FMS::Policy>
 
-The details of the AWS Firewall Manager policy.
+The details of the Firewall Manager policy.
 
 
 =head2 PolicyArn => Str

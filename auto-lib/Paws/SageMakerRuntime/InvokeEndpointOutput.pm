@@ -2,9 +2,11 @@
 package Paws::SageMakerRuntime::InvokeEndpointOutput;
   use Moose;
   has Body => (is => 'ro', isa => 'Str', required => 1);
+  has ClosedSessionId => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'X-Amzn-SageMaker-Closed-Session-Id');
   has ContentType => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Content-Type');
   has CustomAttributes => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'X-Amzn-SageMaker-Custom-Attributes');
   has InvokedProductionVariant => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-Amzn-Invoked-Production-Variant');
+  has NewSessionId => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'X-Amzn-SageMaker-New-Session-Id');
   use MooseX::ClassAttribute;
   class_has _stream_param => (is => 'ro', default => 'Body');
   has _request_id => (is => 'ro', isa => 'Str');
@@ -27,10 +29,22 @@ For information about the format of the response body, see Common Data
 Formats-Inference
 (https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
 
+If the explainer is activated, the body includes the explanations
+provided by the model. For more information, see the B<Response
+section> under Invoke the Endpoint
+(https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response)
+in the Developer Guide.
+
+
+=head2 ClosedSessionId => Str
+
+If you closed a stateful session with your request, the ID of that
+session.
+
 
 =head2 ContentType => Str
 
-The MIME type of the inference returned in the response body.
+The MIME type of the inference returned from the model container.
 
 
 =head2 CustomAttributes => Str
@@ -54,13 +68,19 @@ in the response, an empty value is returned. For example, if a custom
 attribute represents the trace ID, your model can prepend the custom
 attribute with C<Trace ID:> in your post-processing function.
 
-This feature is currently supported in the AWS SDKs but not in the
-Amazon SageMaker Python SDK.
+This feature is currently supported in the Amazon Web Services SDKs but
+not in the Amazon SageMaker Python SDK.
 
 
 =head2 InvokedProductionVariant => Str
 
 Identifies the production variant that was invoked.
+
+
+=head2 NewSessionId => Str
+
+If you created a stateful session with your request, the ID and
+expiration time that the model assigns to that session.
 
 
 =head2 _request_id => Str

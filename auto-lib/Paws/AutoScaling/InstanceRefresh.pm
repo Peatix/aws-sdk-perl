@@ -2,11 +2,14 @@
 package Paws::AutoScaling::InstanceRefresh;
   use Moose;
   has AutoScalingGroupName => (is => 'ro', isa => 'Str');
+  has DesiredConfiguration => (is => 'ro', isa => 'Paws::AutoScaling::DesiredConfiguration');
   has EndTime => (is => 'ro', isa => 'Str');
   has InstanceRefreshId => (is => 'ro', isa => 'Str');
   has InstancesToUpdate => (is => 'ro', isa => 'Int');
   has PercentageComplete => (is => 'ro', isa => 'Int');
+  has Preferences => (is => 'ro', isa => 'Paws::AutoScaling::RefreshPreferences');
   has ProgressDetails => (is => 'ro', isa => 'Paws::AutoScaling::InstanceRefreshProgressDetails');
+  has RollbackDetails => (is => 'ro', isa => 'Paws::AutoScaling::RollbackDetails');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StatusReason => (is => 'ro', isa => 'Str');
@@ -51,6 +54,11 @@ Describes an instance refresh for an Auto Scaling group.
 The name of the Auto Scaling group.
 
 
+=head2 DesiredConfiguration => L<Paws::AutoScaling::DesiredConfiguration>
+
+Describes the desired configuration for the instance refresh.
+
+
 =head2 EndTime => Str
 
 The date and time at which the instance refresh ended.
@@ -66,6 +74,11 @@ The instance refresh ID.
 The number of instances remaining to update before the instance refresh
 is complete.
 
+If you roll back the instance refresh, C<InstancesToUpdate> shows you
+the number of instances that were not yet updated by the instance
+refresh. Therefore, these instances don't need to be replaced as part
+of the rollback.
+
 
 =head2 PercentageComplete => Int
 
@@ -75,11 +88,25 @@ health status and warm-up time. When the instance's health status
 changes to healthy and the specified warm-up time passes, the instance
 is considered updated and is added to the percentage complete.
 
+C<PercentageComplete> does not include instances that are replaced
+during a rollback. This value gradually goes back down to zero during a
+rollback.
+
+
+=head2 Preferences => L<Paws::AutoScaling::RefreshPreferences>
+
+The preferences for an instance refresh.
+
 
 =head2 ProgressDetails => L<Paws::AutoScaling::InstanceRefreshProgressDetails>
 
 Additional progress details for an Auto Scaling group that has a warm
 pool.
+
+
+=head2 RollbackDetails => L<Paws::AutoScaling::RollbackDetails>
+
+The rollback details.
 
 
 =head2 StartTime => Str
@@ -95,31 +122,47 @@ The current status for the instance refresh operation:
 
 =item *
 
-C<Pending> - The request was created, but the operation has not
+C<Pending> - The request was created, but the instance refresh has not
 started.
 
 =item *
 
-C<InProgress> - The operation is in progress.
+C<InProgress> - An instance refresh is in progress.
 
 =item *
 
-C<Successful> - The operation completed successfully.
+C<Successful> - An instance refresh completed successfully.
 
 =item *
 
-C<Failed> - The operation failed to complete. You can troubleshoot
-using the status reason and the scaling activities.
+C<Failed> - An instance refresh failed to complete. You can
+troubleshoot using the status reason and the scaling activities.
 
 =item *
 
-C<Cancelling> - An ongoing operation is being cancelled. Cancellation
-does not roll back any replacements that have already been completed,
-but it prevents new replacements from being started.
+C<Cancelling> - An ongoing instance refresh is being cancelled.
 
 =item *
 
-C<Cancelled> - The operation is cancelled.
+C<Cancelled> - The instance refresh is cancelled.
+
+=item *
+
+C<RollbackInProgress> - An instance refresh is being rolled back.
+
+=item *
+
+C<RollbackFailed> - The rollback failed to complete. You can
+troubleshoot using the status reason and the scaling activities.
+
+=item *
+
+C<RollbackSuccessful> - The rollback completed successfully.
+
+=item *
+
+C<Baking> - Waiting the specified bake time after an instance refresh
+has finished updating instances.
 
 =back
 
@@ -127,7 +170,7 @@ C<Cancelled> - The operation is cancelled.
 
 =head2 StatusReason => Str
 
-Provides more details about the current status of the instance refresh.
+The explanation for the specific status assigned to this operation.
 
 
 

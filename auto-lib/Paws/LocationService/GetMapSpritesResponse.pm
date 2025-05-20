@@ -2,6 +2,7 @@
 package Paws::LocationService::GetMapSpritesResponse;
   use Moose;
   has Blob => (is => 'ro', isa => 'Str');
+  has CacheControl => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Cache-Control');
   has ContentType => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'Content-Type');
   use MooseX::ClassAttribute;
   class_has _stream_param => (is => 'ro', default => 'Blob');
@@ -20,6 +21,11 @@ Paws::LocationService::GetMapSpritesResponse
 =head2 Blob => Str
 
 Contains the body of the sprite sheet or JSON offset le.
+
+
+=head2 CacheControl => Str
+
+The HTTP Cache-Control directive for the value.
 
 
 =head2 ContentType => Str

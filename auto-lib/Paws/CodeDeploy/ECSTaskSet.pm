@@ -40,10 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-Information about a set of Amazon ECS tasks in an AWS CodeDeploy
+Information about a set of Amazon ECS tasks in an CodeDeploy
 deployment. An Amazon ECS task set includes details such as the desired
 number of tasks, how many tasks are running, and whether the task set
-serves production traffic. An AWS CodeDeploy application that uses the
+serves production traffic. An CodeDeploy application that uses the
 Amazon ECS compute platform deploys a containerized application in an
 Amazon ECS service as a task set.
 
@@ -107,7 +107,7 @@ group.
 =head2 TargetGroup => L<Paws::CodeDeploy::TargetGroupInfo>
 
 The target group associated with the task set. The target group is used
-by AWS CodeDeploy to manage traffic to a task set.
+by CodeDeploy to manage traffic to a task set.
 
 
 =head2 TaskSetLabel => Str

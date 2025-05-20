@@ -33,8 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::S
 
 =head1 DESCRIPTION
 
-Defines the fields of a dataset. You specify this object in the
-CreateDataset request.
+Defines the fields of a dataset.
 
 =head1 ATTRIBUTES
 

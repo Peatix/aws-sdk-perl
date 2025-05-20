@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeArtifac
 =head1 DESCRIPTION
 
 A tag is a key-value pair that can be used to manage, search for, or
-filter resources in AWS CodeArtifact.
+filter resources in CodeArtifact.
 
 =head1 ATTRIBUTES
 

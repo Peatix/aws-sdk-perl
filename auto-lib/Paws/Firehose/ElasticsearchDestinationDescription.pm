@@ -4,6 +4,7 @@ package Paws::Firehose::ElasticsearchDestinationDescription;
   has BufferingHints => (is => 'ro', isa => 'Paws::Firehose::ElasticsearchBufferingHints');
   has CloudWatchLoggingOptions => (is => 'ro', isa => 'Paws::Firehose::CloudWatchLoggingOptions');
   has ClusterEndpoint => (is => 'ro', isa => 'Str');
+  has DocumentIdOptions => (is => 'ro', isa => 'Paws::Firehose::DocumentIdOptions');
   has DomainARN => (is => 'ro', isa => 'Str');
   has IndexName => (is => 'ro', isa => 'Str');
   has IndexRotationPeriod => (is => 'ro', isa => 'Str');
@@ -45,7 +46,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::E
 
 =head1 DESCRIPTION
 
-The destination description in Amazon ES.
+The destination description in Amazon OpenSearch Service.
 
 =head1 ATTRIBUTES
 
@@ -62,19 +63,27 @@ The Amazon CloudWatch logging options.
 
 =head2 ClusterEndpoint => Str
 
-The endpoint to use when communicating with the cluster. Kinesis Data
-Firehose uses either this C<ClusterEndpoint> or the C<DomainARN> field
-to send data to Amazon ES.
+The endpoint to use when communicating with the cluster. Firehose uses
+either this C<ClusterEndpoint> or the C<DomainARN> field to send data
+to Amazon OpenSearch Service.
+
+
+=head2 DocumentIdOptions => L<Paws::Firehose::DocumentIdOptions>
+
+Indicates the method for setting up document ID. The supported methods
+are Firehose generated document ID and OpenSearch Service generated
+document ID.
 
 
 =head2 DomainARN => Str
 
-The ARN of the Amazon ES domain. For more information, see Amazon
-Resource Names (ARNs) and AWS Service Namespaces
+The ARN of the Amazon OpenSearch Service domain. For more information,
+see Amazon Resource Names (ARNs) and Amazon Web Services Service
+Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
-Kinesis Data Firehose uses either C<ClusterEndpoint> or C<DomainARN> to
-send data to Amazon ES.
+Firehose uses either C<ClusterEndpoint> or C<DomainARN> to send data to
+Amazon OpenSearch Service.
 
 
 =head2 IndexName => Str
@@ -94,14 +103,14 @@ The data processing configuration.
 
 =head2 RetryOptions => L<Paws::Firehose::ElasticsearchRetryOptions>
 
-The Amazon ES retry options.
+The Amazon OpenSearch Service retry options.
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of the AWS credentials. For more
-information, see Amazon Resource Names (ARNs) and AWS Service
-Namespaces
+The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+For more information, see Amazon Resource Names (ARNs) and Amazon Web
+Services Service Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
@@ -118,13 +127,14 @@ The Amazon S3 destination.
 =head2 TypeName => Str
 
 The Elasticsearch type name. This applies to Elasticsearch 6.x and
-lower versions. For Elasticsearch 7.x, there's no value for
-C<TypeName>.
+lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x,
+there's no value for C<TypeName>.
 
 
 =head2 VpcConfigurationDescription => L<Paws::Firehose::VpcConfigurationDescription>
 
-The details of the VPC of the Amazon ES destination.
+The details of the VPC of the Amazon OpenSearch or the Amazon
+OpenSearch Serverless destination.
 
 
 

@@ -39,6 +39,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeCommit:
 
 Information about a trigger for a repository.
 
+If you want to receive notifications about repository events, consider
+using notifications instead of triggers. For more information, see
+Configuring notifications for repository events
+(https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-repository-email.html).
+
 =head1 ATTRIBUTES
 
 

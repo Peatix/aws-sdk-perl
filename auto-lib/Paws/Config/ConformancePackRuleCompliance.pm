@@ -35,24 +35,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 
 =head1 DESCRIPTION
 
-Compliance information of one or more AWS Config rules within a
-conformance pack. You can filter using AWS Config rule names and
-compliance types.
+Compliance information of one or more Config rules within a conformance
+pack. You can filter using Config rule names and compliance types.
 
 =head1 ATTRIBUTES
 
 
 =head2 ComplianceType => Str
 
-Compliance of the AWS Config rule.
-
-The allowed values are C<COMPLIANT>, C<NON_COMPLIANT>, and
-C<INSUFFICIENT_DATA>.
+Compliance of the Config rule.
 
 
 =head2 ConfigRuleName => Str
 
-Name of the config rule.
+Name of the Config rule.
 
 
 =head2 Controls => ArrayRef[Str|Undef]

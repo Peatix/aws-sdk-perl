@@ -2,6 +2,7 @@
 package Paws::LocationService::SearchPlaceIndexForPositionSummary;
   use Moose;
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
+  has Language => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has Position => (is => 'ro', isa => 'ArrayRef[Num]', required => 1);
 
@@ -35,16 +36,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 =head1 DESCRIPTION
 
-A summary of the reverse geocoding request sent using
-C<SearchPlaceIndexForPosition>.
+A summary of the request sent by using C<SearchPlaceIndexForPosition>.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DataSource => Str
 
-The data provider of geospatial data. Indicates one of the available
-providers:
+The geospatial data provider attached to the place index resource
+specified in the request. Values can be one of the following:
 
 =over
 
@@ -54,18 +54,30 @@ Esri
 
 =item *
 
-HERE
+Grab
+
+=item *
+
+Here
 
 =back
 
-For additional details on data providers, see the Amazon Location
-Service data providers page
+For more information about data providers, see Amazon Location Service
+data providers
 (https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+
+
+=head2 Language => Str
+
+The preferred language used to return results. Matches the language in
+the request. The value is a valid BCP 47
+(https://tools.ietf.org/search/bcp47) language tag, for example, C<en>
+for English.
 
 
 =head2 MaxResults => Int
 
-An optional parameter. The maximum number of results returned per
+Contains the optional result count limit that is specified in the
 request.
 
 Default value: C<50>
@@ -73,7 +85,7 @@ Default value: C<50>
 
 =head2 B<REQUIRED> Position => ArrayRef[Num]
 
-The position given in the reverse geocoding request.
+The position specified in the request.
 
 
 

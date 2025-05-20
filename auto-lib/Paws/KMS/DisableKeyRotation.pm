@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kms = Paws->service('KMS');
   # To disable automatic rotation of key material
   # The following example disables automatic annual rotation of the key material
-  # for the specified CMK.
+  # for the specified KMS key.
     $kms->DisableKeyRotation(
       'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab' );
 
@@ -42,15 +42,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies a symmetric customer master key (CMK). You cannot enable or
-disable automatic rotation of asymmetric CMKs
+Identifies a symmetric encryption KMS key. You cannot enable or disable
+automatic rotation of asymmetric KMS keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html#asymmetric-cmks),
-CMKs with imported key material
+HMAC KMS keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), KMS
+keys with imported key material
 (https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html),
-or CMKs in a custom key store
+or KMS keys in a custom key store
 (https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -67,7 +69,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 

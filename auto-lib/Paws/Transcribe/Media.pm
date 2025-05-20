@@ -2,6 +2,7 @@
 package Paws::Transcribe::Media;
   use Moose;
   has MediaFileUri => (is => 'ro', isa => 'Str');
+  has RedactedMediaFileUri => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Transcribe::Media object:
 
-  $service_obj->Method(Att1 => { MediaFileUri => $value, ..., MediaFileUri => $value  });
+  $service_obj->Method(Att1 => { MediaFileUri => $value, ..., RedactedMediaFileUri => $value  });
 
 =head3 Results returned from an API call
 
@@ -33,22 +34,63 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Describes the input media file in a transcription request.
+Describes the Amazon S3 location of the media file you want to use in
+your request.
+
+For information on supported media formats, refer to the C<MediaFormat>
+parameter or the Media formats
+(https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio)
+section in the Amazon S3 Developer Guide.
 
 =head1 ATTRIBUTES
 
 
 =head2 MediaFileUri => Str
 
-The S3 object location of the input media file. The URI must be in the
-same region as the API endpoint that you are calling. The general form
-is:
+The Amazon S3 location of the media file you want to transcribe. For
+example:
 
-For example:
+=over
 
-For more information about S3 object names, see Object Keys
-(http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys)
-in the I<Amazon S3 Developer Guide>.
+=item *
+
+C<s3://DOC-EXAMPLE-BUCKET/my-media-file.flac>
+
+=item *
+
+C<s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac>
+
+=back
+
+Note that the Amazon S3 bucket that contains your input media must be
+located in the same Amazon Web Services Region where you're making your
+transcription request.
+
+
+=head2 RedactedMediaFileUri => Str
+
+The Amazon S3 location of the media file you want to redact. For
+example:
+
+=over
+
+=item *
+
+C<s3://DOC-EXAMPLE-BUCKET/my-media-file.flac>
+
+=item *
+
+C<s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac>
+
+=back
+
+Note that the Amazon S3 bucket that contains your input media must be
+located in the same Amazon Web Services Region where you're making your
+transcription request.
+
+C<RedactedMediaFileUri> produces a redacted audio file in addition to a
+redacted transcript. It is only supported for Call Analytics
+(C<StartCallAnalyticsJob>) transcription requests.
 
 
 

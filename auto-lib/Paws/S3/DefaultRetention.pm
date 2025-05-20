@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::Default
 
 =head1 DESCRIPTION
 
-The container element for specifying the default Object Lock retention
-settings for new objects placed in the specified bucket.
+The container element for optionally specifying the default Object Lock
+retention settings for new objects placed in the specified bucket.
 
 =over
 

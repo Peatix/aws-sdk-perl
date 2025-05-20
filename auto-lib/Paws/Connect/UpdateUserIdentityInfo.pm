@@ -32,9 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $connect = Paws->service('Connect');
     $connect->UpdateUserIdentityInfo(
       IdentityInfo => {
-        Email     => 'MyEmail',             # OPTIONAL
-        FirstName => 'MyAgentFirstName',    # min: 1, max: 100; OPTIONAL
-        LastName  => 'MyAgentLastName',     # min: 1, max: 100; OPTIONAL
+        Email          => 'MyEmail',             # OPTIONAL
+        FirstName      => 'MyAgentFirstName',    # max: 255; OPTIONAL
+        LastName       => 'MyAgentLastName',     # max: 300; OPTIONAL
+        Mobile         => 'MyPhoneNumber',       # OPTIONAL
+        SecondaryEmail => 'MyEmail',             # OPTIONAL
       },
       InstanceId => 'MyInstanceId',
       UserId     => 'MyUserId',
@@ -56,7 +58,9 @@ The identity information for the user.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

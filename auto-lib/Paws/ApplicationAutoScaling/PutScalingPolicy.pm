@@ -3,6 +3,7 @@ package Paws::ApplicationAutoScaling::PutScalingPolicy;
   use Moose;
   has PolicyName => (is => 'ro', isa => 'Str', required => 1);
   has PolicyType => (is => 'ro', isa => 'Str');
+  has PredictiveScalingPolicyConfiguration => (is => 'ro', isa => 'Paws::ApplicationAutoScaling::PredictiveScalingPolicyConfiguration');
   has ResourceId => (is => 'ro', isa => 'Str', required => 1);
   has ScalableDimension => (is => 'ro', isa => 'Str', required => 1);
   has ServiceNamespace => (is => 'ro', isa => 'Str', required => 1);
@@ -33,59 +34,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $application-autoscaling = Paws->service('ApplicationAutoScaling');
- # To apply a scaling policy to an Amazon ECS service
- # This example applies a scaling policy to an Amazon ECS service called web-app
- # in the default cluster. The policy increases the desired count of the service
- # by 200%, with a cool down period of 60 seconds.
+# To apply a target tracking scaling policy with a predefined metric specification
+# The following example applies a target tracking scaling policy with a
+# predefined metric specification to an Amazon ECS service called web-app in the
+# default cluster. The policy keeps the average CPU utilization of the service
+# at 75 percent, with scale-out and scale-in cooldown periods of 60 seconds.
     my $PutScalingPolicyResponse = $application -autoscaling->PutScalingPolicy(
-      'PolicyName'                     => 'web-app-cpu-gt-75',
-      'PolicyType'                     => 'StepScaling',
-      'ResourceId'                     => 'service/default/web-app',
-      'ScalableDimension'              => 'ecs:service:DesiredCount',
-      'ServiceNamespace'               => 'ecs',
-      'StepScalingPolicyConfiguration' => {
-        'AdjustmentType'  => 'PercentChangeInCapacity',
-        'Cooldown'        => 60,
-        'StepAdjustments' => [
-
-          {
-            'MetricIntervalLowerBound' => 0,
-            'ScalingAdjustment'        => 200
-          }
-        ]
+      'PolicyName'        => 'cpu75-target-tracking-scaling-policy',
+      'PolicyType'        => 'TargetTrackingScaling',
+      'ResourceId'        => 'service/default/web-app',
+      'ScalableDimension' => 'ecs:service:DesiredCount',
+      'ServiceNamespace'  => 'ecs',
+      'TargetTrackingScalingPolicyConfiguration' => {
+        'PredefinedMetricSpecification' => {
+          'PredefinedMetricType' => 'ECSServiceAverageCPUUtilization'
+        },
+        'ScaleInCooldown'  => 60,
+        'ScaleOutCooldown' => 60,
+        'TargetValue'      => 75
       }
     );
 
     # Results:
-    my $PolicyARN = $PutScalingPolicyResponse->PolicyARN;
-
- # Returns a L<Paws::ApplicationAutoScaling::PutScalingPolicyResponse> object.
- # To apply a scaling policy to an Amazon EC2 Spot fleet
- # This example applies a scaling policy to an Amazon EC2 Spot fleet. The policy
- # increases the target capacity of the spot fleet by 200%, with a cool down
- # period of 180 seconds.",
-
-    my $PutScalingPolicyResponse = $application -autoscaling->PutScalingPolicy(
-      'PolicyName' => 'fleet-cpu-gt-75',
-      'PolicyType' => 'StepScaling',
-      'ResourceId' =>
-        'spot-fleet-request/sfr-45e69d8a-be48-4539-bbf3-3464e99c50c3',
-      'ScalableDimension' => 'ec2:spot-fleet-request:TargetCapacity',
-      'ServiceNamespace'  => 'ec2',
-      'StepScalingPolicyConfiguration' => {
-        'AdjustmentType'  => 'PercentChangeInCapacity',
-        'Cooldown'        => 180,
-        'StepAdjustments' => [
-
-          {
-            'MetricIntervalLowerBound' => 0,
-            'ScalingAdjustment'        => 200
-          }
-        ]
-      }
-    );
-
-    # Results:
+    my $Alarms    = $PutScalingPolicyResponse->Alarms;
     my $PolicyARN = $PutScalingPolicyResponse->PolicyARN;
 
    # Returns a L<Paws::ApplicationAutoScaling::PutScalingPolicyResponse> object.
@@ -100,27 +71,41 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 
 The name of the scaling policy.
 
+You cannot change the name of a scaling policy, but you can delete the
+original scaling policy and create a new scaling policy with the same
+settings and a different name.
+
 
 
 =head2 PolicyType => Str
 
-The policy type. This parameter is required if you are creating a
-scaling policy.
+The scaling policy type. This parameter is required if you are creating
+a scaling policy.
 
 The following policy types are supported:
 
-C<TargetTrackingScaling>E<mdash>Not supported for Amazon EMR
+C<TargetTrackingScaling>E<mdash>Not supported for Amazon EMR.
 
 C<StepScaling>E<mdash>Not supported for DynamoDB, Amazon Comprehend,
-Lambda, Amazon Keyspaces (for Apache Cassandra), or Amazon MSK.
+Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
+
+C<PredictiveScaling>E<mdash>Only supported for Amazon ECS.
 
 For more information, see Target tracking scaling policies
-(https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html)
-and Step scaling policies
-(https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html)
+(https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html),
+Step scaling policies
+(https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html),
+and Predictive scaling policies
+(https://docs.aws.amazon.com/autoscaling/application/userguide/aas-create-predictive-scaling-policy.html)
 in the I<Application Auto Scaling User Guide>.
 
-Valid values are: C<"StepScaling">, C<"TargetTrackingScaling">
+Valid values are: C<"StepScaling">, C<"TargetTrackingScaling">, C<"PredictiveScaling">
+
+=head2 PredictiveScalingPolicyConfiguration => L<Paws::ApplicationAutoScaling::PredictiveScalingPolicyConfiguration>
+
+The configuration of the predictive scaling policy.
+
+
 
 =head2 B<REQUIRED> ResourceId => Str
 
@@ -133,12 +118,12 @@ string consists of the resource type and unique identifier.
 
 ECS service - The resource type is C<service> and the unique identifier
 is the cluster name and service name. Example:
-C<service/default/sample-webapp>.
+C<service/my-cluster/my-service>.
 
 =item *
 
-Spot Fleet request - The resource type is C<spot-fleet-request> and the
-unique identifier is the Spot Fleet request ID. Example:
+Spot Fleet - The resource type is C<spot-fleet-request> and the unique
+identifier is the Spot Fleet request ID. Example:
 C<spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE>.
 
 =item *
@@ -170,8 +155,8 @@ identifier is the cluster name. Example: C<cluster:my-db-cluster>.
 
 =item *
 
-Amazon SageMaker endpoint variant - The resource type is C<variant> and
-the unique identifier is the resource ID. Example:
+SageMaker endpoint variant - The resource type is C<variant> and the
+unique identifier is the resource ID. Example:
 C<endpoint/my-end-point/variant/KMeansClustering>.
 
 =item *
@@ -213,6 +198,41 @@ Amazon MSK cluster - The resource type and unique identifier are
 specified using the cluster ARN. Example:
 C<arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5>.
 
+=item *
+
+Amazon ElastiCache replication group - The resource type is
+C<replication-group> and the unique identifier is the replication group
+name. Example: C<replication-group/mycluster>.
+
+=item *
+
+Amazon ElastiCache cache cluster - The resource type is
+C<cache-cluster> and the unique identifier is the cache cluster name.
+Example: C<cache-cluster/mycluster>.
+
+=item *
+
+Neptune cluster - The resource type is C<cluster> and the unique
+identifier is the cluster name. Example: C<cluster:mycluster>.
+
+=item *
+
+SageMaker serverless endpoint - The resource type is C<variant> and the
+unique identifier is the resource ID. Example:
+C<endpoint/my-end-point/variant/KMeansClustering>.
+
+=item *
+
+SageMaker inference component - The resource type is
+C<inference-component> and the unique identifier is the resource ID.
+Example: C<inference-component/my-inference-component>.
+
+=item *
+
+Pool of WorkSpaces - The resource type is C<workspacespool> and the
+unique identifier is the pool ID. Example:
+C<workspacespool/wspool-123456>.
+
 =back
 
 
@@ -227,12 +247,7 @@ resource type, and scaling property.
 
 =item *
 
-C<ecs:service:DesiredCount> - The desired task count of an ECS service.
-
-=item *
-
-C<ec2:spot-fleet-request:TargetCapacity> - The target capacity of a
-Spot Fleet request.
+C<ecs:service:DesiredCount> - The task count of an ECS service.
 
 =item *
 
@@ -241,8 +256,13 @@ an EMR Instance Group.
 
 =item *
 
-C<appstream:fleet:DesiredCapacity> - The desired capacity of an
-AppStream 2.0 fleet.
+C<ec2:spot-fleet-request:TargetCapacity> - The target capacity of a
+Spot Fleet.
+
+=item *
+
+C<appstream:fleet:DesiredCapacity> - The capacity of an AppStream 2.0
+fleet.
 
 =item *
 
@@ -273,7 +293,7 @@ Aurora PostgreSQL-compatible edition.
 =item *
 
 C<sagemaker:variant:DesiredInstanceCount> - The number of EC2 instances
-for an Amazon SageMaker model endpoint variant.
+for a SageMaker model endpoint variant.
 
 =item *
 
@@ -312,18 +332,53 @@ for an Amazon Keyspaces table.
 C<kafka:broker-storage:VolumeSize> - The provisioned volume size (in
 GiB) for brokers in an Amazon MSK cluster.
 
+=item *
+
+C<elasticache:cache-cluster:Nodes> - The number of nodes for an Amazon
+ElastiCache cache cluster.
+
+=item *
+
+C<elasticache:replication-group:NodeGroups> - The number of node groups
+for an Amazon ElastiCache replication group.
+
+=item *
+
+C<elasticache:replication-group:Replicas> - The number of replicas per
+node group for an Amazon ElastiCache replication group.
+
+=item *
+
+C<neptune:cluster:ReadReplicaCount> - The count of read replicas in an
+Amazon Neptune DB cluster.
+
+=item *
+
+C<sagemaker:variant:DesiredProvisionedConcurrency> - The provisioned
+concurrency for a SageMaker serverless endpoint.
+
+=item *
+
+C<sagemaker:inference-component:DesiredCopyCount> - The number of
+copies across an endpoint for a SageMaker inference component.
+
+=item *
+
+C<workspaces:workspacespool:DesiredUserSessions> - The number of user
+sessions for the WorkSpaces in the pool.
+
 =back
 
 
-Valid values are: C<"ecs:service:DesiredCount">, C<"ec2:spot-fleet-request:TargetCapacity">, C<"elasticmapreduce:instancegroup:InstanceCount">, C<"appstream:fleet:DesiredCapacity">, C<"dynamodb:table:ReadCapacityUnits">, C<"dynamodb:table:WriteCapacityUnits">, C<"dynamodb:index:ReadCapacityUnits">, C<"dynamodb:index:WriteCapacityUnits">, C<"rds:cluster:ReadReplicaCount">, C<"sagemaker:variant:DesiredInstanceCount">, C<"custom-resource:ResourceType:Property">, C<"comprehend:document-classifier-endpoint:DesiredInferenceUnits">, C<"comprehend:entity-recognizer-endpoint:DesiredInferenceUnits">, C<"lambda:function:ProvisionedConcurrency">, C<"cassandra:table:ReadCapacityUnits">, C<"cassandra:table:WriteCapacityUnits">, C<"kafka:broker-storage:VolumeSize">
+Valid values are: C<"ecs:service:DesiredCount">, C<"ec2:spot-fleet-request:TargetCapacity">, C<"elasticmapreduce:instancegroup:InstanceCount">, C<"appstream:fleet:DesiredCapacity">, C<"dynamodb:table:ReadCapacityUnits">, C<"dynamodb:table:WriteCapacityUnits">, C<"dynamodb:index:ReadCapacityUnits">, C<"dynamodb:index:WriteCapacityUnits">, C<"rds:cluster:ReadReplicaCount">, C<"sagemaker:variant:DesiredInstanceCount">, C<"custom-resource:ResourceType:Property">, C<"comprehend:document-classifier-endpoint:DesiredInferenceUnits">, C<"comprehend:entity-recognizer-endpoint:DesiredInferenceUnits">, C<"lambda:function:ProvisionedConcurrency">, C<"cassandra:table:ReadCapacityUnits">, C<"cassandra:table:WriteCapacityUnits">, C<"kafka:broker-storage:VolumeSize">, C<"elasticache:cache-cluster:Nodes">, C<"elasticache:replication-group:NodeGroups">, C<"elasticache:replication-group:Replicas">, C<"neptune:cluster:ReadReplicaCount">, C<"sagemaker:variant:DesiredProvisionedConcurrency">, C<"sagemaker:inference-component:DesiredCopyCount">, C<"workspaces:workspacespool:DesiredUserSessions">
 
 =head2 B<REQUIRED> ServiceNamespace => Str
 
-The namespace of the AWS service that provides the resource. For a
-resource provided by your own application or service, use
-C<custom-resource> instead.
+The namespace of the Amazon Web Services service that provides the
+resource. For a resource provided by your own application or service,
+use C<custom-resource> instead.
 
-Valid values are: C<"ecs">, C<"elasticmapreduce">, C<"ec2">, C<"appstream">, C<"dynamodb">, C<"rds">, C<"sagemaker">, C<"custom-resource">, C<"comprehend">, C<"lambda">, C<"cassandra">, C<"kafka">
+Valid values are: C<"ecs">, C<"elasticmapreduce">, C<"ec2">, C<"appstream">, C<"dynamodb">, C<"rds">, C<"sagemaker">, C<"custom-resource">, C<"comprehend">, C<"lambda">, C<"cassandra">, C<"kafka">, C<"elasticache">, C<"neptune">, C<"workspaces">
 
 =head2 StepScalingPolicyConfiguration => L<Paws::ApplicationAutoScaling::StepScalingPolicyConfiguration>
 

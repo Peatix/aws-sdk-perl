@@ -86,6 +86,11 @@ must be supplied.
 If the source type is a DB cluster snapshot, a
 C<DBClusterSnapshotIdentifier> value must be supplied.
 
+=item *
+
+If the source type is an RDS Proxy, a C<DBProxyName> value must be
+supplied.
+
 =back
 
 

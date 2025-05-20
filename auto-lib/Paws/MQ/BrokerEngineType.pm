@@ -41,7 +41,7 @@ Types of broker engines.
 
 =head2 EngineType => Str
 
-The type of broker engine.
+The broker's engine type.
 
 
 =head2 EngineVersions => ArrayRef[L<Paws::MQ::EngineVersion>]

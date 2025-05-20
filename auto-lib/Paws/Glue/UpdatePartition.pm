@@ -41,6 +41,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'MyParametersMapValue',  # key: min: 1, max: 255, value: max: 512000
         },    # OPTIONAL
         StorageDescriptor => {
+          AdditionalLocations => [
+            'MyLocationString', ...    # max: 2056
+          ],    # OPTIONAL
           BucketColumns => [
             'MyNameString', ...    # min: 1, max: 255
           ],    # OPTIONAL
@@ -58,7 +61,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],    # OPTIONAL
           Compressed      => 1,                     # OPTIONAL
           InputFormat     => 'MyFormatString',      # max: 128; OPTIONAL
-          Location        => 'MyLocationString',    # max: 2056; OPTIONAL
+          Location        => 'MyLocationString',    # max: 2056
           NumberOfBuckets => 1,                     # OPTIONAL
           OutputFormat    => 'MyFormatString',      # max: 128; OPTIONAL
           Parameters      => {
@@ -104,11 +107,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           StoredAsSubDirectories => 1,    # OPTIONAL
         },    # OPTIONAL
         Values => [
-          'MyValueString', ...    # max: 1024
+          'MyValueString', ...    # min: 1, max: 1024
         ],    # OPTIONAL
       },
       PartitionValueList => [
-        'MyValueString', ...    # max: 1024
+        'MyValueString', ...    # min: 1, max: 1024
       ],
       TableName => 'MyNameString',
       CatalogId => 'MyCatalogIdString',    # OPTIONAL

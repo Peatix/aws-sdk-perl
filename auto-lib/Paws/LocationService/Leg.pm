@@ -39,12 +39,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 =head1 DESCRIPTION
 
 Contains the calculated route's details for each path between a pair of
-positions. The number of legs returned corresponds to one less than the
-total number of positions in the request.
+positions. The number of legs returned corresponds to one fewer than
+the total number of positions in the request.
 
 For example, a route with a departure position and destination position
 returns one leg with the positions snapped to a nearby road
-(https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road):
+(https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html):
 
 =over
 
@@ -59,7 +59,7 @@ The C<EndPosition> is the destination position.
 =back
 
 A route with a waypoint between the departure and destination position
-returns two legs with the positions snapped to a nearby road.:
+returns two legs with the positions snapped to a nearby road:
 
 =over
 
@@ -109,7 +109,7 @@ C<[longitude,latitude]>.
 
 If the C<EndPosition> isn't located on a road, it's snapped to a nearby
 road
-(https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road).
+(https://docs.aws.amazon.com/location/latest/developerguide/nap-to-nearby-road.html).
 
 
 =head2 Geometry => L<Paws::LocationService::LegGeometry>
@@ -124,7 +124,7 @@ C<[longitude,latitude]>.
 
 If the C<StartPosition> isn't located on a road, it's snapped to a
 nearby road
-(https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road).
+(https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
 
 
 =head2 B<REQUIRED> Steps => ArrayRef[L<Paws::LocationService::Step>]

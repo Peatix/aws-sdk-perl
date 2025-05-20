@@ -62,23 +62,21 @@ Whether the specified extension version is set as the default version.
 
 This applies only to private extensions you have registered in your
 account, and extensions published by Amazon. For public third-party
-extensions, whether or not they are activated in your account,
-CloudFormation returns C<null>.
+extensions, CloudFormation returns C<null>.
 
 
 =head2 PublicVersionNumber => Str
 
 For public extensions that have been activated for this account and
-region, the version of the public extension to be used for
-CloudFormation operations in this account and region. For any
-extensions other than activated third-arty extensions, CloudFormation
+Region, the version of the public extension to be used for
+CloudFormation operations in this account and Region. For any
+extensions other than activated third-party extensions, CloudFormation
 returns C<null>.
 
 How you specified C<AutoUpdate> when enabling the extension affects
-whether CloudFormation automatically updates the extention in this
-account and region when a new version is released. For more
-information, see Setting CloudFormation to automatically use new
-versions of extensions
+whether CloudFormation automatically updates the extension in this
+account and Region when a new version is released. For more
+information, see Automatically use new versions of extensions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto)
 in the I<CloudFormation User Guide>.
 
@@ -102,7 +100,7 @@ The name of the extension.
 
 The ID of a specific version of the extension. The version ID is the
 value at the end of the Amazon Resource Name (ARN) assigned to the
-extension version when it is registered.
+extension version when it's registered.
 
 
 

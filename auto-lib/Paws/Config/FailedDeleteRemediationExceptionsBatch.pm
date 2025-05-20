@@ -48,7 +48,7 @@ Returns remediation exception resource key object of the failed items.
 =head2 FailureMessage => Str
 
 Returns a failure message for delete remediation exception. For
-example, AWS Config creates an exception due to an internal error.
+example, Config creates an exception due to an internal error.
 
 
 

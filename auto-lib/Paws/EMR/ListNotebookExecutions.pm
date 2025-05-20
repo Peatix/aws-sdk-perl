@@ -2,6 +2,7 @@
 package Paws::EMR::ListNotebookExecutions;
   use Moose;
   has EditorId => (is => 'ro', isa => 'Str');
+  has ExecutionEngineId => (is => 'ro', isa => 'Str');
   has From => (is => 'ro', isa => 'Str');
   has Marker => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -23,7 +24,7 @@ Paws::EMR::ListNotebookExecutions - Arguments for method ListNotebookExecutions 
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ListNotebookExecutions on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method ListNotebookExecutions.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ListNotebookExecutions.
@@ -33,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $elasticmapreduce = Paws->service('EMR');
     my $ListNotebookExecutionsOutput =
       $elasticmapreduce->ListNotebookExecutions(
-      EditorId => 'MyXmlStringMaxLen256',    # OPTIONAL
-      From     => '1970-01-01T01:00:00',     # OPTIONAL
-      Marker   => 'MyMarker',                # OPTIONAL
-      Status   => 'START_PENDING',           # OPTIONAL
-      To       => '1970-01-01T01:00:00',     # OPTIONAL
+      EditorId          => 'MyXmlStringMaxLen256',    # OPTIONAL
+      ExecutionEngineId => 'MyXmlString',             # OPTIONAL
+      From              => '1970-01-01T01:00:00',     # OPTIONAL
+      Marker            => 'MyMarker',                # OPTIONAL
+      Status            => 'START_PENDING',           # OPTIONAL
+      To                => '1970-01-01T01:00:00',     # OPTIONAL
       );
 
     # Results:
@@ -55,6 +57,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 =head2 EditorId => Str
 
 The unique ID of the editor associated with the notebook execution.
+
+
+
+=head2 ExecutionEngineId => Str
+
+The unique ID of the execution engine.
 
 
 

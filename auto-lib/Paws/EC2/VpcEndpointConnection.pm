@@ -3,10 +3,14 @@ package Paws::EC2::VpcEndpointConnection;
   has CreationTimestamp => (is => 'ro', isa => 'Str', request_name => 'creationTimestamp', traits => ['NameInRequest']);
   has DnsEntries => (is => 'ro', isa => 'ArrayRef[Paws::EC2::DnsEntry]', request_name => 'dnsEntrySet', traits => ['NameInRequest']);
   has GatewayLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'gatewayLoadBalancerArnSet', traits => ['NameInRequest']);
+  has IpAddressType => (is => 'ro', isa => 'Str', request_name => 'ipAddressType', traits => ['NameInRequest']);
   has NetworkLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'networkLoadBalancerArnSet', traits => ['NameInRequest']);
   has ServiceId => (is => 'ro', isa => 'Str', request_name => 'serviceId', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
+  has VpcEndpointConnectionId => (is => 'ro', isa => 'Str', request_name => 'vpcEndpointConnectionId', traits => ['NameInRequest']);
   has VpcEndpointId => (is => 'ro', isa => 'Str', request_name => 'vpcEndpointId', traits => ['NameInRequest']);
   has VpcEndpointOwner => (is => 'ro', isa => 'Str', request_name => 'vpcEndpointOwner', traits => ['NameInRequest']);
+  has VpcEndpointRegion => (is => 'ro', isa => 'Str', request_name => 'vpcEndpointRegion', traits => ['NameInRequest']);
   has VpcEndpointState => (is => 'ro', isa => 'Str', request_name => 'vpcEndpointState', traits => ['NameInRequest']);
 1;
 
@@ -59,6 +63,11 @@ The Amazon Resource Names (ARNs) of the Gateway Load Balancers for the
 service.
 
 
+=head2 IpAddressType => Str
+
+The IP address type for the endpoint.
+
+
 =head2 NetworkLoadBalancerArns => ArrayRef[Str|Undef]
 
 The Amazon Resource Names (ARNs) of the network load balancers for the
@@ -70,6 +79,16 @@ service.
 The ID of the service to which the endpoint is connected.
 
 
+=head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
+
+The tags.
+
+
+=head2 VpcEndpointConnectionId => Str
+
+The ID of the VPC endpoint connection.
+
+
 =head2 VpcEndpointId => Str
 
 The ID of the VPC endpoint.
@@ -77,7 +96,12 @@ The ID of the VPC endpoint.
 
 =head2 VpcEndpointOwner => Str
 
-The AWS account ID of the owner of the VPC endpoint.
+The ID of the Amazon Web Services account that owns the VPC endpoint.
+
+
+=head2 VpcEndpointRegion => Str
+
+The Region of the endpoint.
 
 
 =head2 VpcEndpointState => Str

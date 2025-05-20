@@ -4,6 +4,7 @@ package Paws::Route53Resolver::IpAddressResponse;
   has CreationTime => (is => 'ro', isa => 'Str');
   has Ip => (is => 'ro', isa => 'Str');
   has IpId => (is => 'ro', isa => 'Str');
+  has Ipv6 => (is => 'ro', isa => 'Str');
   has ModificationTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StatusMessage => (is => 'ro', isa => 'Str');
@@ -55,12 +56,17 @@ and Coordinated Universal Time (UTC).
 
 =head2 Ip => Str
 
-One IP address that the Resolver endpoint uses for DNS queries.
+One IPv4 address that the Resolver endpoint uses for DNS queries.
 
 
 =head2 IpId => Str
 
 The ID of one IP address.
+
+
+=head2 Ipv6 => Str
+
+One IPv6 address that the Resolver endpoint uses for DNS queries.
 
 
 =head2 ModificationTime => Str

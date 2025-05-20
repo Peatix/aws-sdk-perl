@@ -4,6 +4,7 @@ package Paws::LakeFormation::DescribeResourceResponse;
   has ResourceInfo => (is => 'ro', isa => 'Paws::LakeFormation::ResourceInfo');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -16,8 +17,7 @@ Paws::LakeFormation::DescribeResourceResponse
 
 =head2 ResourceInfo => L<Paws::LakeFormation::ResourceInfo>
 
-A structure containing information about an AWS Lake Formation
-resource.
+A structure containing information about an Lake Formation resource.
 
 
 =head2 _request_id => Str
@@ -25,4 +25,3 @@ resource.
 
 =cut
 
-1;

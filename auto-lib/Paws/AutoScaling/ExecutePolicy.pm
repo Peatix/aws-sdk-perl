@@ -69,7 +69,7 @@ to complete before executing the policy.
 
 Valid only if the policy type is C<SimpleScaling>. For more
 information, see Scaling cooldowns for Amazon EC2 Auto Scaling
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
 

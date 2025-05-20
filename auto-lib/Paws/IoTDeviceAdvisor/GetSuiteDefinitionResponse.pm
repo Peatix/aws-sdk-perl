@@ -49,7 +49,7 @@ Suite configuration of the suite definition.
 
 =head2 SuiteDefinitionId => Str
 
-Suite definition Id of the suite definition.
+Suite definition ID of the suite definition.
 
 
 =head2 SuiteDefinitionVersion => Str

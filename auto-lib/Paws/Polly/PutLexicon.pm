@@ -32,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # To save a lexicon
     # Stores a pronunciation lexicon in an AWS Region.
     my $PutLexiconOutput = $polly->PutLexicon(
-      'Content' => 'file://example.pls',
+      'Content' => '<Lexicon Content>',
       'Name'    => 'W3C'
     );
 

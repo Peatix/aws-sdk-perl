@@ -66,35 +66,33 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] Specifies an update integration response request's HTTP
-method.
+Specifies an update integration response request's HTTP method.
 
 
 
 =head2 PatchOperations => ArrayRef[L<Paws::ApiGateway::PatchOperation>]
 
-A list of update operations to be applied to the specified resource and
-in the order specified in this list.
+For more information about supported patch operations, see Patch
+Operations
+(https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 
 
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] Specifies an update integration response request's resource
-identifier.
+Specifies an update integration response request's resource identifier.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 
 =head2 B<REQUIRED> StatusCode => Str
 
-[Required] Specifies an update integration response request's status
-code.
+Specifies an update integration response request's status code.
 
 
 

@@ -62,7 +62,7 @@ hosts the service that the task sets exist in.
 
 Specifies whether to see the resource tags for the task set. If C<TAGS>
 is specified, the tags are included in the response. If this field is
-omitted, tags are not included in the response.
+omitted, tags aren't included in the response.
 
 
 

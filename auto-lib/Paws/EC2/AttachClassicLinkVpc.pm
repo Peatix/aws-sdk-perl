@@ -31,10 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $AttachClassicLinkVpcResult = $ec2->AttachClassicLinkVpc(
-      Groups     => [ 'MyString', ... ],
+      Groups     => [ 'MySecurityGroupId', ... ],
       InstanceId => 'MyInstanceId',
       VpcId      => 'MyVpcId',
-      DryRun     => 1,                     # OPTIONAL
+      DryRun     => 1,                              # OPTIONAL
     );
 
     # Results:
@@ -59,21 +59,20 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 B<REQUIRED> Groups => ArrayRef[Str|Undef]
 
-The ID of one or more of the VPC's security groups. You cannot specify
-security groups from a different VPC.
+The IDs of the security groups. You cannot specify security groups from
+a different VPC.
 
 
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The ID of an EC2-Classic instance to link to the ClassicLink-enabled
-VPC.
+The ID of the EC2-Classic instance.
 
 
 
 =head2 B<REQUIRED> VpcId => Str
 
-The ID of a ClassicLink-enabled VPC.
+The ID of the ClassicLink-enabled VPC.
 
 
 

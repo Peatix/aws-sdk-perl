@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 =head1 DESCRIPTION
 
 Describes configuration parameters for Amazon CloudWatch logging for a
-Kinesis Data Analytics Studio notebook. For more information about
-CloudWatch logging, see Monitoring
+Managed Service for Apache Flink Studio notebook. For more information
+about CloudWatch logging, see Monitoring
 (https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html).
 
 =head1 ATTRIBUTES

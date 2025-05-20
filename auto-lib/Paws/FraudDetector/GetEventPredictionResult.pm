@@ -1,6 +1,7 @@
 
 package Paws::FraudDetector::GetEventPredictionResult;
   use Moose;
+  has ExternalModelOutputs => (is => 'ro', isa => 'ArrayRef[Paws::FraudDetector::ExternalModelOutputs]', traits => ['NameInRequest'], request_name => 'externalModelOutputs' );
   has ModelScores => (is => 'ro', isa => 'ArrayRef[Paws::FraudDetector::ModelScores]', traits => ['NameInRequest'], request_name => 'modelScores' );
   has RuleResults => (is => 'ro', isa => 'ArrayRef[Paws::FraudDetector::RuleResult]', traits => ['NameInRequest'], request_name => 'ruleResults' );
 
@@ -15,6 +16,11 @@ Paws::FraudDetector::GetEventPredictionResult
 =head1 ATTRIBUTES
 
 
+=head2 ExternalModelOutputs => ArrayRef[L<Paws::FraudDetector::ExternalModelOutputs>]
+
+The model scores for Amazon SageMaker models.
+
+
 =head2 ModelScores => ArrayRef[L<Paws::FraudDetector::ModelScores>]
 
 The model scores. Amazon Fraud Detector generates model scores between
@@ -27,7 +33,7 @@ positive rate.
 
 =head2 RuleResults => ArrayRef[L<Paws::FraudDetector::RuleResult>]
 
-The results.
+The results from the rules.
 
 
 =head2 _request_id => Str

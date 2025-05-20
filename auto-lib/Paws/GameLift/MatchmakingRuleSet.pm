@@ -39,7 +39,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::M
 Set of rule statements, used with FlexMatch, that determine how to
 build your player matches. Each rule set describes a type of group to
 be created and defines the parameters for acceptable player matches.
-Rule sets are used in MatchmakingConfiguration objects.
 
 A rule set may define the following elements for a match. For detailed
 information and examples showing how to construct a rule set, see Build
@@ -99,7 +98,7 @@ C<"1469498468.057">).
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift matchmaking rule set resource and
+that is assigned to a Amazon GameLift matchmaking rule set resource and
 uniquely identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::matchmakingruleset/E<lt>ruleset
 nameE<gt>>. In a GameLift rule set ARN, the resource ID matches the

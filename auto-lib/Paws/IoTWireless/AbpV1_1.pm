@@ -2,6 +2,7 @@
 package Paws::IoTWireless::AbpV1_1;
   use Moose;
   has DevAddr => (is => 'ro', isa => 'Str');
+  has FCntStart => (is => 'ro', isa => 'Int');
   has SessionKeys => (is => 'ro', isa => 'Paws::IoTWireless::SessionKeysAbpV1_1');
 
 1;
@@ -42,6 +43,11 @@ ABP device object for LoRaWAN specification v1.1
 =head2 DevAddr => Str
 
 The DevAddr value.
+
+
+=head2 FCntStart => Int
+
+The FCnt init value.
 
 
 =head2 SessionKeys => L<Paws::IoTWireless::SessionKeysAbpV1_1>

@@ -47,9 +47,9 @@ invites another account (the recipient) to join its organization, the
 two accounts exchange information as a series of handshake requests and
 responses.
 
-B<Note:> Handshakes that are C<CANCELED>, C<ACCEPTED>, or C<DECLINED>
-show up in lists for only 30 days after entering that state After that
-they are deleted.
+B<Note:> Handshakes that are C<CANCELED>, C<ACCEPTED>, C<DECLINED>, or
+C<EXPIRED> show up in lists for only 30 days after entering that state
+After that they are deleted.
 
 =head1 ATTRIBUTES
 
@@ -94,7 +94,7 @@ The Amazon Resource Name (ARN) of a handshake.
 For more information about ARNs in Organizations, see ARN Formats
 Supported by Organizations
 (https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies)
-in the I<AWS Service Authorization Reference>.
+in the I<Amazon Web Services Service Authorization Reference>.
 
 
 =head2 ExpirationTimestamp => Str

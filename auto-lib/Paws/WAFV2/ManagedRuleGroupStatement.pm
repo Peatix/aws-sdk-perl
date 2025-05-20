@@ -2,9 +2,12 @@
 package Paws::WAFV2::ManagedRuleGroupStatement;
   use Moose;
   has ExcludedRules => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::ExcludedRule]');
+  has ManagedRuleGroupConfigs => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::ManagedRuleGroupConfig]');
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has RuleActionOverrides => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::RuleActionOverride]');
   has ScopeDownStatement => (is => 'ro', isa => 'Paws::WAFV2::Statement');
   has VendorName => (is => 'ro', isa => 'Str', required => 1);
+  has Version => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::WAFV2::ManagedRuleGroupStatement object:
 
-  $service_obj->Method(Att1 => { ExcludedRules => $value, ..., VendorName => $value  });
+  $service_obj->Method(Att1 => { ExcludedRules => $value, ..., Version => $value  });
 
 =head3 Results returned from an API call
 
@@ -42,23 +45,86 @@ rule group in this statement. You can retrieve the required names by
 calling ListAvailableManagedRuleGroups.
 
 You cannot nest a C<ManagedRuleGroupStatement>, for example for use
-inside a C<NotStatement> or C<OrStatement>. It can only be referenced
-as a top-level statement within a rule.
+inside a C<NotStatement> or C<OrStatement>. You cannot use a managed
+rule group inside another rule group. You can only reference a managed
+rule group as a top-level statement within a rule that you define in a
+web ACL.
+
+You are charged additional fees when you use the WAF Bot Control
+managed rule group C<AWSManagedRulesBotControlRuleSet>, the WAF Fraud
+Control account takeover prevention (ATP) managed rule group
+C<AWSManagedRulesATPRuleSet>, or the WAF Fraud Control account creation
+fraud prevention (ACFP) managed rule group
+C<AWSManagedRulesACFPRuleSet>. For more information, see WAF Pricing
+(http://aws.amazon.com/waf/pricing/).
 
 =head1 ATTRIBUTES
 
 
 =head2 ExcludedRules => ArrayRef[L<Paws::WAFV2::ExcludedRule>]
 
-The rules whose actions are set to C<COUNT> by the web ACL, regardless
-of the action that is set on the rule. This effectively excludes the
-rule from acting on web requests.
+Rules in the referenced rule group whose actions are set to C<Count>.
+
+Instead of this option, use C<RuleActionOverrides>. It accepts any
+valid action setting, including C<Count>.
+
+
+=head2 ManagedRuleGroupConfigs => ArrayRef[L<Paws::WAFV2::ManagedRuleGroupConfig>]
+
+Additional information that's used by a managed rule group. Many
+managed rule groups don't require this.
+
+The rule groups used for intelligent threat mitigation require
+additional configuration:
+
+=over
+
+=item *
+
+Use the C<AWSManagedRulesACFPRuleSet> configuration object to configure
+the account creation fraud prevention managed rule group. The
+configuration includes the registration and sign-up pages of your
+application and the locations in the account creation request payload
+of data, such as the user email and phone number fields.
+
+=item *
+
+Use the C<AWSManagedRulesATPRuleSet> configuration object to configure
+the account takeover prevention managed rule group. The configuration
+includes the sign-in page of your application and the locations in the
+login request payload of data such as the username and password.
+
+=item *
+
+Use the C<AWSManagedRulesBotControlRuleSet> configuration object to
+configure the protection level that you want the Bot Control rule group
+to use.
+
+=back
+
 
 
 =head2 B<REQUIRED> Name => Str
 
 The name of the managed rule group. You use this, along with the vendor
 name, to identify the rule group.
+
+
+=head2 RuleActionOverrides => ArrayRef[L<Paws::WAFV2::RuleActionOverride>]
+
+Action settings to use in the place of the rule actions that are
+configured inside the rule group. You specify one override for each
+rule whose action you want to change.
+
+Take care to verify the rule names in your overrides. If you provide a
+rule name that doesn't match the name of any rule in the rule group,
+WAF doesn't return an error and doesn't apply the override setting.
+
+You can use overrides for testing, for example you can override all of
+rule actions to C<Count> and then monitor the resulting count metrics
+to understand how the rule group would handle your web traffic. You can
+also permanently override some or all actions, to modify how the rule
+group manages your web traffic.
 
 
 =head2 ScopeDownStatement => L<Paws::WAFV2::Statement>
@@ -73,7 +139,16 @@ nest statements at any level, the same as you can for a rule statement.
 =head2 B<REQUIRED> VendorName => Str
 
 The name of the managed rule group vendor. You use this, along with the
-rule group name, to identify the rule group.
+rule group name, to identify a rule group.
+
+
+=head2 Version => Str
+
+The version of the managed rule group to use. If you specify this, the
+version setting is fixed until you change it. If you don't specify
+this, WAF uses the vendor's default version, and then keeps the version
+at the vendor's default when the vendor updates the managed rule group
+settings.
 
 
 

@@ -2,7 +2,8 @@
 package Paws::Kinesis::DisableEnhancedMonitoring;
   use Moose;
   has ShardLevelMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -33,8 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'IncomingBytes',
         ... # values: IncomingBytes, IncomingRecords, OutgoingBytes, OutgoingRecords, WriteProvisionedThroughputExceeded, ReadProvisionedThroughputExceeded, IteratorAgeMilliseconds, ALL
       ],
-      StreamName => 'MyStreamName',
-
+      StreamARN  => 'MyStreamARN',     # OPTIONAL
+      StreamName => 'MyStreamName',    # OPTIONAL
     );
 
     # Results:
@@ -42,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $EnhancedMonitoringOutput->CurrentShardLevelMetrics;
     my $DesiredShardLevelMetrics =
       $EnhancedMonitoringOutput->DesiredShardLevelMetrics;
+    my $StreamARN  = $EnhancedMonitoringOutput->StreamARN;
     my $StreamName = $EnhancedMonitoringOutput->StreamName;
 
     # Returns a L<Paws::Kinesis::EnhancedMonitoringOutput> object.
@@ -102,7 +104,13 @@ in the I<Amazon Kinesis Data Streams Developer Guide>.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the Kinesis data stream for which to disable enhanced
 monitoring.

@@ -5,7 +5,8 @@ package Paws::Kinesis::PutRecord;
   has ExplicitHashKey => (is => 'ro', isa => 'Str');
   has PartitionKey => (is => 'ro', isa => 'Str', required => 1);
   has SequenceNumberForOrdering => (is => 'ro', isa => 'Str');
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -34,9 +35,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $PutRecordOutput = $kinesis->PutRecord(
       Data                      => 'BlobData',
       PartitionKey              => 'MyPartitionKey',
-      StreamName                => 'MyStreamName',
       ExplicitHashKey           => 'MyHashKey',           # OPTIONAL
       SequenceNumberForOrdering => 'MySequenceNumber',    # OPTIONAL
+      StreamARN                 => 'MyStreamARN',         # OPTIONAL
+      StreamName                => 'MyStreamName',        # OPTIONAL
     );
 
     # Results:
@@ -93,7 +95,13 @@ arrival time.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream to put the data record into.
 

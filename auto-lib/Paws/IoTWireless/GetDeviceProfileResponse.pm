@@ -5,6 +5,7 @@ package Paws::IoTWireless::GetDeviceProfileResponse;
   has Id => (is => 'ro', isa => 'Str');
   has LoRaWAN => (is => 'ro', isa => 'Paws::IoTWireless::LoRaWANDeviceProfile');
   has Name => (is => 'ro', isa => 'Str');
+  has Sidewalk => (is => 'ro', isa => 'Paws::IoTWireless::SidewalkGetDeviceProfile');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -36,6 +37,11 @@ Information about the device profile.
 =head2 Name => Str
 
 The name of the resource.
+
+
+=head2 Sidewalk => L<Paws::IoTWireless::SidewalkGetDeviceProfile>
+
+Information about the Sidewalk parameters in the device profile.
 
 
 =head2 _request_id => Str

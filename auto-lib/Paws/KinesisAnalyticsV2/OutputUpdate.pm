@@ -62,7 +62,7 @@ Describes a Kinesis data stream as the destination for the output.
 
 =head2 LambdaOutputUpdate => L<Paws::KinesisAnalyticsV2::LambdaOutputUpdate>
 
-Describes an AWS Lambda function as the destination for the output.
+Describes an Amazon Lambda function as the destination for the output.
 
 
 =head2 NameUpdate => Str

@@ -36,13 +36,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 Describes a filter that returns a more specific list of
 recommendations. Use this filter with the
-C<GetAutoScalingGroupRecommendations> and
-C<GetEC2InstanceRecommendations> actions.
+GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations
+actions.
 
-You can use C<EBSFilter> with the C<GetEBSVolumeRecommendations>
-action, C<LambdaFunctionRecommendationFilter> with the
-C<GetLambdaFunctionRecommendations> action, and C<JobFilter> with the
-C<DescribeRecommendationExportJobs> action.
+You can use C<EBSFilter> with the GetEBSVolumeRecommendations action,
+C<LambdaFunctionRecommendationFilter> with the
+GetLambdaFunctionRecommendations action, and C<JobFilter> with the
+DescribeRecommendationExportJobs action.
 
 =head1 ATTRIBUTES
 
@@ -52,13 +52,31 @@ C<DescribeRecommendationExportJobs> action.
 The name of the filter.
 
 Specify C<Finding> to return recommendations with a specific finding
-classification (e.g., C<Underprovisioned>).
+classification. For example, C<Underprovisioned>.
 
 Specify C<RecommendationSourceType> to return recommendations of a
-specific resource type (e.g., C<Ec2Instance>).
+specific resource type. For example, C<Ec2Instance>.
 
 Specify C<FindingReasonCodes> to return recommendations with a specific
-finding reason code (e.g., C<CPUUnderprovisioned>).
+finding reason code. For example, C<CPUUnderprovisioned>.
+
+Specify C<InferredWorkloadTypes> to return recommendations of a
+specific inferred workload. For example, C<Redis>.
+
+You can filter your EC2 instance recommendations by C<tag:key> and
+C<tag-key> tags.
+
+A C<tag:key> is a key and value combination of a tag assigned to your
+recommendations. Use the tag key in the filter name and the tag value
+as the filter value. For example, to find all recommendations that have
+a tag with the key of C<Owner> and the value of C<TeamA>, specify
+C<tag:Owner> for the filter name and C<TeamA> for the filter value.
+
+A C<tag-key> is the key of a tag assigned to your recommendations. Use
+this filter to find all of your recommendations that have a tag with a
+specific key. This doesnE<rsquo>t consider the tag value. For example,
+you can find your recommendations with a tag key value of C<Owner> or
+without any tag keys assigned.
 
 
 =head2 Values => ArrayRef[Str|Undef]

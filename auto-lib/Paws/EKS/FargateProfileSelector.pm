@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Fargat
 
 =head1 DESCRIPTION
 
-An object representing an AWS Fargate profile selector.
+An object representing an Fargate profile selector.
 
 =head1 ATTRIBUTES
 
@@ -48,7 +48,7 @@ be considered a match.
 
 =head2 Namespace => Str
 
-The Kubernetes namespace that the selector should match.
+The Kubernetes C<namespace> that the selector should match.
 
 
 

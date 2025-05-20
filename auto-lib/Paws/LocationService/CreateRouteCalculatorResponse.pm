@@ -20,7 +20,7 @@ Paws::LocationService::CreateRouteCalculatorResponse
 =head2 B<REQUIRED> CalculatorArn => Str
 
 The Amazon Resource Name (ARN) for the route calculator resource. Use
-the ARN when you specify a resource across all AWS.
+the ARN when you specify a resource across all Amazon Web Services.
 
 =over
 

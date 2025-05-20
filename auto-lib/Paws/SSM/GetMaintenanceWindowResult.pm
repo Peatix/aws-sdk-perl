@@ -42,7 +42,8 @@ The date the maintenance window was created.
 =head2 Cutoff => Int
 
 The number of hours before the end of the maintenance window that
-Systems Manager stops scheduling new tasks for execution.
+Amazon Web Services Systems Manager stops scheduling new tasks for
+execution.
 
 
 =head2 Description => Str
@@ -64,7 +65,7 @@ Indicates whether the maintenance window is enabled.
 
 The date and time, in ISO-8601 Extended format, for when the
 maintenance window is scheduled to become inactive. The maintenance
-window will not run after this specified time.
+window won't run after this specified time.
 
 
 =head2 ModifiedDate => Str
@@ -93,7 +94,7 @@ expression.
 =head2 ScheduleOffset => Int
 
 The number of days to wait to run a maintenance window after the
-scheduled CRON expression date and time.
+scheduled cron expression date and time.
 
 
 =head2 ScheduleTimezone => Str
@@ -109,7 +110,7 @@ information, see the Time Zone Database
 
 The date and time, in ISO-8601 Extended format, for when the
 maintenance window is scheduled to become active. The maintenance
-window will not run before this specified time.
+window won't run before this specified time.
 
 
 =head2 WindowId => Str

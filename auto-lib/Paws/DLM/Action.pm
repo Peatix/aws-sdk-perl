@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::Action
 
 =head1 DESCRIPTION
 
-Specifies an action for an event-based policy.
+B<[Event-based policies only]> Specifies an action for an event-based
+policy.
 
 =head1 ATTRIBUTES
 

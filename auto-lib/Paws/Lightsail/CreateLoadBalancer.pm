@@ -9,6 +9,7 @@ package Paws::Lightsail::CreateLoadBalancer;
   has IpAddressType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipAddressType' );
   has LoadBalancerName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'loadBalancerName' , required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
+  has TlsPolicyName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'tlsPolicyName' );
 
   use MooseX::ClassAttribute;
 
@@ -49,6 +50,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      TlsPolicyName => 'Mystring',    # OPTIONAL
     );
 
     # Results:
@@ -65,15 +67,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 =head2 CertificateAlternativeNames => ArrayRef[Str|Undef]
 
 The optional alternative domains and subdomains to use with your
-SSL/TLS certificate (e.g., C<www.example.com>, C<example.com>,
+SSL/TLS certificate (C<www.example.com>, C<example.com>,
 C<m.example.com>, C<blog.example.com>).
 
 
 
 =head2 CertificateDomainName => Str
 
-The domain name with which your certificate is associated (e.g.,
-C<example.com>).
+The domain name with which your certificate is associated
+(C<example.com>).
 
 If you specify C<certificateDomainName>, then C<certificateName> is
 required (and vice-versa).
@@ -93,7 +95,7 @@ required (and vice-versa).
 
 The path you provided to perform the load balancer health check. If you
 didn't specify a health check path, Lightsail uses the root path of
-your website (e.g., C<"/">).
+your website (C<"/">).
 
 You may want to specify a custom health check path other than the root
 of your application if your home page loads slowly or has a lot of
@@ -111,12 +113,12 @@ The instance port where you're creating your load balancer.
 
 The IP address type for the load balancer.
 
-The possible values are C<ipv4> for IPv4 only, and C<dualstack> for
-IPv4 and IPv6.
+The possible values are C<ipv4> for IPv4 only, C<ipv6> for IPv6 only,
+and C<dualstack> for IPv4 and IPv6.
 
 The default value is C<dualstack>.
 
-Valid values are: C<"dualstack">, C<"ipv4">
+Valid values are: C<"dualstack">, C<"ipv4">, C<"ipv6">
 
 =head2 B<REQUIRED> LoadBalancerName => Str
 
@@ -129,6 +131,21 @@ The name of your load balancer.
 The tag keys and optional values to add to the resource during create.
 
 Use the C<TagResource> action to tag a resource after it's created.
+
+
+
+=head2 TlsPolicyName => Str
+
+The name of the TLS policy to apply to the load balancer.
+
+Use the GetLoadBalancerTlsPolicies
+(https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html)
+action to get a list of TLS policy names that you can specify.
+
+For more information about load balancer TLS policies, see Configuring
+TLS security policies on your Amazon Lightsail load balancers
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy)
+in the I<Amazon Lightsail Developer Guide>.
 
 
 

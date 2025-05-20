@@ -31,18 +31,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $discovery = Paws->service('Discovery');
     my $DescribeExportTasksResponse = $discovery->DescribeExportTasks(
-      ExportIds => [ 'MyConfigurationsExportId', ... ],    # OPTIONAL
-      Filters   => [
+      ExportIds => [
+        'MyConfigurationsExportId', ...    # max: 200
+      ],    # OPTIONAL
+      Filters => [
         {
-          Condition => 'MyCondition',
-          Name      => 'MyFilterName',
-          Values    => [ 'MyFilterValue', ... ],
+          Condition => 'MyCondition',     # max: 200
+          Name      => 'MyFilterName',    # max: 1000
+          Values    => [
+            'MyFilterValue', ...          # max: 1000
+          ],
 
         },
         ...
-      ],                                                   # OPTIONAL
-      MaxResults => 1,                                     # OPTIONAL
-      NextToken  => 'MyNextToken',                         # OPTIONAL
+      ],    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:

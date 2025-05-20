@@ -19,7 +19,7 @@ Paws::SESv2::ListConfigurationSetsResponse
 =head2 ConfigurationSets => ArrayRef[Str|Undef]
 
 An array that contains all of the configuration sets in your Amazon SES
-account in the current AWS Region.
+account in the current Amazon Web Services Region.
 
 
 =head2 NextToken => Str

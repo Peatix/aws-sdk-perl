@@ -68,10 +68,10 @@ The default is that all clusters defined for an account are returned.
 
 An optional parameter that specifies the starting point to return a set
 of response records. When the results of a DescribeClusters request
-exceed the value specified in C<MaxRecords>, AWS returns a value in the
-C<Marker> field of the response. You can retrieve the next set of
-response records by providing the returned marker value in the
-C<Marker> parameter and retrying the request.
+exceed the value specified in C<MaxRecords>, Amazon Web Services
+returns a value in the C<Marker> field of the response. You can
+retrieve the next set of response records by providing the returned
+marker value in the C<Marker> parameter and retrying the request.
 
 Constraints: You can specify either the B<ClusterIdentifier> parameter
 or the B<Marker> parameter, but not both.

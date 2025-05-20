@@ -43,7 +43,28 @@ A dependency that is defined for container startup and shutdown.
 
 The dependency condition of the dependent container. Indicates the
 required status of the dependent container before the current container
-can start.
+can start. Valid values are as follows:
+
+=over
+
+=item *
+
+C<COMPLETE>
+
+=item *
+
+C<HEALTHY>
+
+=item *
+
+C<SUCCESS>
+
+=item *
+
+C<START>
+
+=back
+
 
 
 =head2 ContainerName => Str

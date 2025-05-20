@@ -23,13 +23,12 @@ The ARN of the secret.
 
 =head2 Name => Str
 
-The friendly name of the secret.
+The name of the secret.
 
 
 =head2 VersionId => Str
 
-The ID of the new version of the secret created by the rotation started
-by this request.
+The ID of the new version of the secret.
 
 
 =head2 _request_id => Str

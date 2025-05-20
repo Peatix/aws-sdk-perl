@@ -47,7 +47,7 @@ The ID of the carrier gateway.
 
 =head2 OwnerId => Str
 
-The AWS account ID of the owner of the carrier gateway.
+The Amazon Web Services account ID of the owner of the carrier gateway.
 
 
 =head2 State => Str

@@ -43,13 +43,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> SuiteDefinitionId => Str
 
-Suite definition Id of the test suite run to be stopped.
+Suite definition ID of the test suite run to be stopped.
 
 
 
 =head2 B<REQUIRED> SuiteRunId => Str
 
-Suite run Id of the test suite run to be stopped.
+Suite run ID of the test suite run to be stopped.
 
 
 

@@ -43,7 +43,7 @@ User accounts whose documents should be indexed.
 
 A list of users whose documents should be indexed. Specify the user
 names in email format, for example, C<username@tenantdomain>. If you
-need to index the documents of more than 100 users, use the
+need to index the documents of more than 10 users, use the
 C<OneDriveUserS3Path> field to specify the location of a file
 containing a list of users.
 

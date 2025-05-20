@@ -42,7 +42,7 @@ transferring files from source to destination.
 
 =head2 FilterType => Str
 
-The type of filter rule to apply. AWS DataSync only supports the
+The type of filter rule to apply. DataSync only supports the
 SIMPLE_PATTERN rule type.
 
 

@@ -33,14 +33,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $CreatedAt   = $DescribeDatasetResponse->CreatedAt;
-    my $DatasetArn  = $DescribeDatasetResponse->DatasetArn;
-    my $DatasetName = $DescribeDatasetResponse->DatasetName;
+    my $CreatedAt            = $DescribeDatasetResponse->CreatedAt;
+    my $DataEndTime          = $DescribeDatasetResponse->DataEndTime;
+    my $DataQualitySummary   = $DescribeDatasetResponse->DataQualitySummary;
+    my $DataStartTime        = $DescribeDatasetResponse->DataStartTime;
+    my $DatasetArn           = $DescribeDatasetResponse->DatasetArn;
+    my $DatasetName          = $DescribeDatasetResponse->DatasetName;
+    my $IngestedFilesSummary = $DescribeDatasetResponse->IngestedFilesSummary;
     my $IngestionInputConfiguration =
       $DescribeDatasetResponse->IngestionInputConfiguration;
     my $LastUpdatedAt      = $DescribeDatasetResponse->LastUpdatedAt;
+    my $RoleArn            = $DescribeDatasetResponse->RoleArn;
     my $Schema             = $DescribeDatasetResponse->Schema;
     my $ServerSideKmsKeyId = $DescribeDatasetResponse->ServerSideKmsKeyId;
+    my $SourceDatasetArn   = $DescribeDatasetResponse->SourceDatasetArn;
     my $Status             = $DescribeDatasetResponse->Status;
 
     # Returns a L<Paws::LookoutEquipment::DescribeDatasetResponse> object.

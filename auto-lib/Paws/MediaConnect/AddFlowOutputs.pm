@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::AddFlowOutputs;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
   has Outputs => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::AddOutputRequest]', traits => ['NameInRequest'], request_name => 'outputs', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AddFlowOutputs');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/outputs');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/outputs');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::AddFlowOutputsResponse');
 1;
@@ -30,37 +30,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $AddFlowOutputsResponse = $mediaconnect->AddFlowOutputs(
-      FlowArn => 'My__string',
+      FlowArn => 'MyAddFlowOutputsRequestFlowArnString',
       Outputs => [
         {
           Protocol => 'zixi-push'
-          , # values: zixi-push, rtp-fec, rtp, zixi-pull, rist, st2110-jpegxs, cdi, srt-listener
-          CidrAllowList => [ 'My__string', ... ],    # OPTIONAL
-          Description   => 'My__string',
-          Destination   => 'My__string',
+          , # values: zixi-push, rtp-fec, rtp, zixi-pull, rist, st2110-jpegxs, cdi, srt-listener, srt-caller, fujitsu-qos, udp, ndi-speed-hq
+          CidrAllowList => [ 'MyString', ... ],    # OPTIONAL
+          Description   => 'MyString',
+          Destination   => 'MyString',
           Encryption    => {
-            RoleArn   => 'My__string',
+            RoleArn   => 'MyString',
             Algorithm => 'aes128',    # values: aes128, aes192, aes256; OPTIONAL
-            ConstantInitializationVector => 'My__string',
-            DeviceId                     => 'My__string',
+            ConstantInitializationVector => 'MyString',
+            DeviceId                     => 'MyString',
             KeyType                      =>
               'speke',    # values: speke, static-key, srt-password; OPTIONAL
-            Region     => 'My__string',
-            ResourceId => 'My__string',
-            SecretArn  => 'My__string',
-            Url        => 'My__string',
+            Region     => 'MyString',
+            ResourceId => 'MyString',
+            SecretArn  => 'MyString',
+            Url        => 'MyString',
           },    # OPTIONAL
           MaxLatency                      => 1,    # OPTIONAL
           MediaStreamOutputConfigurations => [
             {
               EncodingName    => 'jxsv',      # values: jxsv, raw, smpte291, pcm
-              MediaStreamName => 'My__string',
+              MediaStreamName => 'MyString',
               DestinationConfigurations => [
                 {
-                  DestinationIp   => 'My__string',
-                  DestinationPort => 1,              # OPTIONAL
+                  DestinationIp   => 'MyString',
+                  DestinationPort => 1,            # OPTIONAL
                   Interface       => {
-                    Name => 'My__string',
+                    Name => 'MyString',
 
                   },
 
@@ -75,14 +75,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # OPTIONAL
-          MinLatency             => 1,              # OPTIONAL
-          Name                   => 'My__string',
-          Port                   => 1,              # OPTIONAL
-          RemoteId               => 'My__string',
-          SmoothingLatency       => 1,              # OPTIONAL
-          StreamId               => 'My__string',
-          VpcInterfaceAttachment => { VpcInterfaceName => 'My__string', }
-          ,                                         # OPTIONAL
+          MinLatency        => 1,          # OPTIONAL
+          Name              => 'MyString',
+          NdiProgramName    => 'MyString',
+          NdiSpeedHqQuality => 1,          # OPTIONAL
+          OutputStatus      => 'ENABLED',  # values: ENABLED, DISABLED; OPTIONAL
+          Port              => 1,          # OPTIONAL
+          RemoteId          => 'MyString',
+          SenderControlPort => 1,          # OPTIONAL
+          SmoothingLatency  => 1,          # OPTIONAL
+          StreamId          => 'MyString',
+          VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
+          ,                                # OPTIONAL
         },
         ...
       ],
@@ -103,13 +107,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The flow that you want to add outputs to.
+The Amazon Resource Name (ARN) of the flow that you want to add outputs
+to.
 
 
 
 =head2 B<REQUIRED> Outputs => ArrayRef[L<Paws::MediaConnect::AddOutputRequest>]
 
-A list of outputs that you want to add.
+A list of outputs that you want to add to the flow.
 
 
 

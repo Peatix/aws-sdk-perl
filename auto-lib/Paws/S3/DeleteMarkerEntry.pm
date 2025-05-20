@@ -55,12 +55,12 @@ The object key.
 
 =head2 LastModified => Str
 
-Date and time the object was last modified.
+Date and time when the object was last modified.
 
 
 =head2 Owner => L<Paws::S3::Owner>
 
-The account that created the delete marker.E<gt>
+The account that created the delete marker.
 
 
 =head2 VersionId => Str

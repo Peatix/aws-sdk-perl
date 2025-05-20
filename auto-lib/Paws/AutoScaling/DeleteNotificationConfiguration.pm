@@ -51,8 +51,7 @@ The name of the Auto Scaling group.
 
 =head2 B<REQUIRED> TopicARN => Str
 
-The Amazon Resource Name (ARN) of the Amazon Simple Notification
-Service (Amazon SNS) topic.
+The Amazon Resource Name (ARN) of the Amazon SNS topic.
 
 
 

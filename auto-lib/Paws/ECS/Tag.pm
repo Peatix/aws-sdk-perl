@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Tag ob
 =head1 DESCRIPTION
 
 The metadata that you apply to a resource to help you categorize and
-organize them. Each tag consists of a key and an optional value, both
-of which you define.
+organize them. Each tag consists of a key and an optional value. You
+define them.
 
 The following basic restrictions apply to tags:
 
@@ -74,10 +74,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 

@@ -49,16 +49,18 @@ Service Quotas returns the following error values:
 
 C<DEPENDENCY_ACCESS_DENIED_ERROR> - The caller does not have the
 required permissions to complete the action. To resolve the error, you
-must have permission to access the service or quota.
+must have permission to access the Amazon Web Services service or
+quota.
 
 =item *
 
-C<DEPENDENCY_THROTTLING_ERROR> - The service is throttling Service
-Quotas.
+C<DEPENDENCY_THROTTLING_ERROR> - The Amazon Web Services service is
+throttling Service Quotas.
 
 =item *
 
-C<DEPENDENCY_SERVICE_ERROR> - The service is not available.
+C<DEPENDENCY_SERVICE_ERROR> - The Amazon Web Services service is not
+available.
 
 =item *
 

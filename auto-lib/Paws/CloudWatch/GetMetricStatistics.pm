@@ -44,7 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Dimensions => [
         {
           Name  => 'MyDimensionName',     # min: 1, max: 255
-          Value => 'MyDimensionValue',    # min: 1, max: 255
+          Value => 'MyDimensionValue',    # min: 1, max: 1024
 
         },
         ...

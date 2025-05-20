@@ -39,16 +39,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Ser
 
 =head1 DESCRIPTION
 
-Provides configuration information for crawling knowledge articles in
-the ServiceNow site.
+Provides the configuration information for crawling knowledge articles
+in the ServiceNow site.
 
 =head1 ATTRIBUTES
 
 
 =head2 CrawlAttachments => Bool
 
-Indicates whether Amazon Kendra should index attachments to knowledge
-articles.
+C<TRUE> to index attachments to knowledge articles.
 
 
 =head2 B<REQUIRED> DocumentDataFieldName => Str
@@ -65,15 +64,23 @@ title field.
 
 =head2 ExcludeAttachmentFilePatterns => ArrayRef[Str|Undef]
 
-List of regular expressions applied to knowledge articles. Items that
-don't match the inclusion pattern are not indexed. The regex is applied
-to the field specified in the C<PatternTargetField>
+A list of regular expression patterns applied to exclude certain
+knowledge article attachments. Attachments that match the patterns are
+excluded from the index. Items that don't match the patterns are
+included in the index. If an item matches both an inclusion and
+exclusion pattern, the exclusion pattern takes precedence and the item
+isn't included in the index.
 
 
 =head2 FieldMappings => ArrayRef[L<Paws::Kendra::DataSourceToIndexFieldMapping>]
 
-Mapping between ServiceNow fields and Amazon Kendra index fields. You
-must create the index field before you map the field.
+Maps attributes or field names of knoweldge articles to Amazon Kendra
+index field names. To create custom fields, use the C<UpdateIndex> API
+before you map to ServiceNow fields. For more information, see Mapping
+data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+ServiceNow data source field names must exist in your ServiceNow custom
+metadata.
 
 
 =head2 FilterQuery => Str
@@ -89,9 +96,12 @@ more information, see Specifying documents to index with a query
 
 =head2 IncludeAttachmentFilePatterns => ArrayRef[Str|Undef]
 
-List of regular expressions applied to knowledge articles. Items that
-don't match the inclusion pattern are not indexed. The regex is applied
-to the field specified in the C<PatternTargetField>.
+A list of regular expression patterns applied to include knowledge
+article attachments. Attachments that match the patterns are included
+in the index. Items that don't match the patterns are excluded from the
+index. If an item matches both an inclusion and exclusion pattern, the
+exclusion pattern takes precedence and the item isn't included in the
+index.
 
 
 

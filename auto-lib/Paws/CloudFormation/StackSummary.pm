@@ -60,12 +60,12 @@ The time the stack was deleted.
 
 =head2 DriftInformation => L<Paws::CloudFormation::StackDriftInformationSummary>
 
-Summarizes information on whether a stack's actual configuration
-differs, or has I<drifted>, from it's expected configuration, as
-defined in the stack template and any values specified as template
-parameters. For more information, see Detecting Unregulated
-Configuration Changes to Stacks and Resources
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
+Summarizes information about whether a stack's actual configuration
+differs, or has I<drifted>, from its expected configuration, as defined
+in the stack template and any values specified as template parameters.
+For more information, see Detect unmanaged configuration changes to
+stacks and resources with drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
 
 
 =head2 LastUpdatedTime => Str
@@ -80,9 +80,10 @@ For nested stacks--stacks created as resources for another stack--the
 stack ID of the direct parent of this stack. For the first level of
 nested stacks, the root stack is also the parent stack.
 
-For more information, see Working with Nested Stacks
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
-in the I<AWS CloudFormation User Guide>.
+For more information, see Embed stacks within other stacks using nested
+stacks
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 RootId => Str
@@ -91,9 +92,10 @@ For nested stacks--stacks created as resources for another stack--the
 stack ID of the top-level stack to which the nested stack ultimately
 belongs.
 
-For more information, see Working with Nested Stacks
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
-in the I<AWS CloudFormation User Guide>.
+For more information, see Embed stacks within other stacks using nested
+stacks
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 StackId => Str

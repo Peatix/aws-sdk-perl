@@ -1,12 +1,12 @@
 
 package Paws::MediaConnect::StartFlow;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'StartFlow');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/start/{flowArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/start/{FlowArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::StartFlowResponse');
 1;
@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $StartFlowResponse = $mediaconnect->StartFlow(
-      FlowArn => 'My__string',
+      FlowArn => 'MyStartFlowRequestFlowArnString',
 
     );
 
@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> FlowArn => Str
 
-The ARN of the flow that you want to start.
+The Amazon Resource Name (ARN) of the flow that you want to start.
 
 
 

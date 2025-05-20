@@ -3,6 +3,7 @@ package Paws::SSMIncidents::ItemValue;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has MetricDefinition => (is => 'ro', isa => 'Str', request_name => 'metricDefinition', traits => ['NameInRequest']);
+  has PagerDutyIncidentDetail => (is => 'ro', isa => 'Paws::SSMIncidents::PagerDutyIncidentDetail', request_name => 'pagerDutyIncidentDetail', traits => ['NameInRequest']);
   has Url => (is => 'ro', isa => 'Str', request_name => 'url', traits => ['NameInRequest']);
 
 1;
@@ -48,12 +49,18 @@ is an Amazon resource.
 
 =head2 MetricDefinition => Str
 
-The metric definition, if the related item is a metric in CloudWatch.
+The metric definition, if the related item is a metric in Amazon
+CloudWatch.
+
+
+=head2 PagerDutyIncidentDetail => L<Paws::SSMIncidents::PagerDutyIncidentDetail>
+
+Details about an incident that is associated with a PagerDuty incident.
 
 
 =head2 Url => Str
 
-The URL, if the related item is a non-AWS resource.
+The URL, if the related item is a non-Amazon Web Services resource.
 
 
 

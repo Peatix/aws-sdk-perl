@@ -61,7 +61,13 @@ A parameter by which to filter the results.
 
 =head2 MaxResults => Int
 
-Returns a list up to a specified limit.
+This parameter defines the maximum number of results that can be return
+in a single response. The C<MaxResults> parameter is an upper bound,
+not a target. If there are more results available than the value
+specified, a C<NextToken> is provided in the response. The C<NextToken>
+indicates that the user should get the next set of results by providing
+this token as a part of a subsequent call. The default value for
+C<MaxResults> is 10.
 
 
 

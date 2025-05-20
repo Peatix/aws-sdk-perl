@@ -1,6 +1,8 @@
 
 package Paws::IAM::CreateSAMLProvider;
   use Moose;
+  has AddPrivateKey => (is => 'ro', isa => 'Str');
+  has AssertionEncryptionMode => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has SAMLMetadataDocument => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IAM::Tag]');
@@ -30,9 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iam = Paws->service('IAM');
     my $CreateSAMLProviderResponse = $iam->CreateSAMLProvider(
-      Name                 => 'MySAMLProviderNameType',
-      SAMLMetadataDocument => 'MySAMLMetadataDocumentType',
-      Tags                 => [
+      Name                    => 'MySAMLProviderNameType',
+      SAMLMetadataDocument    => 'MySAMLMetadataDocumentType',
+      AddPrivateKey           => 'MyprivateKeyType',             # OPTIONAL
+      AssertionEncryptionMode => 'Required',                     # OPTIONAL
+      Tags                    => [
         {
           Key   => 'MytagKeyType',      # min: 1, max: 128
           Value => 'MytagValueType',    # max: 256
@@ -53,6 +57,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 
 =head1 ATTRIBUTES
 
+
+=head2 AddPrivateKey => Str
+
+The private key generated from your external identity provider. The
+private key must be a .pem file that uses AES-GCM or AES-CBC encryption
+algorithm to decrypt SAML assertions.
+
+
+
+=head2 AssertionEncryptionMode => Str
+
+Specifies the encryption setting for the SAML provider.
+
+Valid values are: C<"Required">, C<"Allowed">
 
 =head2 B<REQUIRED> Name => Str
 

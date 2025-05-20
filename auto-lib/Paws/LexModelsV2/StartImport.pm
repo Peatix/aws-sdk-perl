@@ -45,6 +45,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           BotTags => {
             'MyTagKey' => 'MyTagValue', # key: min: 1, max: 128, value: max: 256
           },    # max: 200; OPTIONAL
+          ErrorLogSettings => {
+            Enabled => 1,
+
+          },    # OPTIONAL
           IdleSessionTTLInSeconds => 1,    # min: 60, max: 86400; OPTIONAL
           TestBotAliasTags        => {
             'MyTagKey' => 'MyTagValue', # key: min: 1, max: 128, value: max: 256
@@ -57,8 +61,34 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           NluIntentConfidenceThreshold => 1,    # max: 1; OPTIONAL
           VoiceSettings                => {
             VoiceId => 'MyVoiceId',
+            Engine  => 'standard'
+            ,    # values: standard, neural, long-form, generative; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        CustomVocabularyImportSpecification => {
+          BotId      => 'MyId',                 # min: 10, max: 10
+          BotVersion => 'MyDraftBotVersion',    # min: 5, max: 5
+          LocaleId   => 'MyLocaleId',
 
-          },                                    # OPTIONAL
+        },    # OPTIONAL
+        TestSetImportResourceSpecification => {
+          ImportInputLocation => {
+            S3BucketName => 'MyS3BucketName',    # min: 3, max: 63
+            S3Path       => 'MyS3ObjectPath',    # min: 1, max: 1024
+
+          },
+          Modality        => 'Text',             # values: Text, Audio
+          RoleArn         => 'MyRoleArn',        # min: 32, max: 2048
+          StorageLocation => {
+            S3BucketName => 'MyS3BucketName',    # min: 3, max: 63
+            S3Path       => 'MyS3ObjectPath',    # min: 1, max: 1024
+            KmsKeyArn    => 'MyKmsKeyArn',       # min: 20, max: 2048; OPTIONAL
+          },
+          TestSetName => 'MyName',               # min: 1, max: 100
+          Description => 'MyDescription',        # max: 200; OPTIONAL
+          TestSetTags => {
+            'MyTagKey' => 'MyTagValue', # key: min: 1, max: 128, value: max: 256
+          },    # max: 200; OPTIONAL
         },    # OPTIONAL
       },
       FilePassword => 'MyImportExportFilePassword',    # OPTIONAL
@@ -81,16 +111,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mod
 
 =head2 FilePassword => Str
 
-The password used to encrypt the zip archive that contains the bot or
-bot locale definition. You should always encrypt the zip archive to
-protect it during transit between your site and Amazon Lex.
+The password used to encrypt the zip archive that contains the resource
+definition. You should always encrypt the zip archive to protect it
+during transit between your site and Amazon Lex.
 
 
 
 =head2 B<REQUIRED> ImportId => Str
 
 The unique identifier for the import. It is included in the response
-from the operation.
+from the CreateUploadUrl
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateUploadUrl.html)
+operation.
 
 
 
@@ -101,11 +133,11 @@ resource and an existing resource. When the merge strategy is
 C<FailOnConflict> existing resources are not overwritten and the import
 fails.
 
-Valid values are: C<"Overwrite">, C<"FailOnConflict">
+Valid values are: C<"Overwrite">, C<"FailOnConflict">, C<"Append">
 
 =head2 B<REQUIRED> ResourceSpecification => L<Paws::LexModelsV2::ImportResourceSpecification>
 
-Parameters for creating the bot or bot locale.
+Parameters for creating the bot, bot locale or custom vocabulary.
 
 
 

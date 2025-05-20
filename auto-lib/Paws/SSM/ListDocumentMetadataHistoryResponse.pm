@@ -20,23 +20,23 @@ Paws::SSM::ListDocumentMetadataHistoryResponse
 
 =head2 Author => Str
 
-The user ID of the person in the organization who requested the
-document review.
+The user ID of the person in the organization who requested the review
+of the change template.
 
 
 =head2 DocumentVersion => Str
 
-The version of the document.
+The version of the change template.
 
 
 =head2 Metadata => L<Paws::SSM::DocumentMetadataResponseInfo>
 
-Information about the response to the document approval request.
+Information about the response to the change template approval request.
 
 
 =head2 Name => Str
 
-The name of the document.
+The name of the change template.
 
 
 =head2 NextToken => Str

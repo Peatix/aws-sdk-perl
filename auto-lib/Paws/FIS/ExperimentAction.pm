@@ -3,8 +3,10 @@ package Paws::FIS::ExperimentAction;
   use Moose;
   has ActionId => (is => 'ro', isa => 'Str', request_name => 'actionId', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has EndTime => (is => 'ro', isa => 'Str', request_name => 'endTime', traits => ['NameInRequest']);
   has Parameters => (is => 'ro', isa => 'Paws::FIS::ExperimentActionParameterMap', request_name => 'parameters', traits => ['NameInRequest']);
   has StartAfter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'startAfter', traits => ['NameInRequest']);
+  has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Paws::FIS::ExperimentActionState', request_name => 'state', traits => ['NameInRequest']);
   has Targets => (is => 'ro', isa => 'Paws::FIS::ExperimentActionTargetMap', request_name => 'targets', traits => ['NameInRequest']);
 
@@ -53,6 +55,11 @@ The ID of the action.
 The description for the action.
 
 
+=head2 EndTime => Str
+
+The time that the action ended.
+
+
 =head2 Parameters => L<Paws::FIS::ExperimentActionParameterMap>
 
 The parameters for the action.
@@ -62,6 +69,11 @@ The parameters for the action.
 
 The name of the action that must be completed before this action
 starts.
+
+
+=head2 StartTime => Str
+
+The time that the action started.
 
 
 =head2 State => L<Paws::FIS::ExperimentActionState>

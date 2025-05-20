@@ -1,6 +1,7 @@
 
 package Paws::Lightsail::AttachDisk;
   use Moose;
+  has AutoMounting => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'autoMounting' );
   has DiskName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'diskName' , required => 1);
   has DiskPath => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'diskPath' , required => 1);
   has InstanceName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'instanceName' , required => 1);
@@ -33,7 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DiskName     => 'MyResourceName',
       DiskPath     => 'MyNonEmptyString',
       InstanceName => 'MyResourceName',
-
+      AutoMounting => 1,                    # OPTIONAL
     );
 
     # Results:
@@ -47,15 +48,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 =head1 ATTRIBUTES
 
 
+=head2 AutoMounting => Bool
+
+A Boolean value used to determine the automatic mounting of a storage
+volume to a virtual computer. The default value is C<False>.
+
+This value only applies to Lightsail for Research resources.
+
+
+
 =head2 B<REQUIRED> DiskName => Str
 
-The unique Lightsail disk name (e.g., C<my-disk>).
+The unique Lightsail disk name (C<my-disk>).
 
 
 
 =head2 B<REQUIRED> DiskPath => Str
 
-The disk path to expose to the instance (e.g., C</dev/xvdf>).
+The disk path to expose to the instance (C</dev/xvdf>).
 
 
 

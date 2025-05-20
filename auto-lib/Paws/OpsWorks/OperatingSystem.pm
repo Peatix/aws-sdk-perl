@@ -39,26 +39,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::OpsWorks::O
 
 =head1 DESCRIPTION
 
-Describes supported operating systems in AWS OpsWorks Stacks.
+Describes supported operating systems in OpsWorks Stacks.
 
 =head1 ATTRIBUTES
 
 
 =head2 ConfigurationManagers => ArrayRef[L<Paws::OpsWorks::OperatingSystemConfigurationManager>]
 
-Supported configuration manager name and versions for an AWS OpsWorks
+Supported configuration manager name and versions for an OpsWorks
 Stacks operating system.
 
 
 =head2 Id => Str
 
-The ID of a supported operating system, such as C<Amazon Linux
-2018.03>.
+The ID of a supported operating system, such as C<Amazon Linux 2>.
 
 
 =head2 Name => Str
 
-The name of the operating system, such as C<Amazon Linux 2018.03>.
+The name of the operating system, such as C<Amazon Linux 2>.
 
 
 =head2 ReportedName => Str

@@ -30,12 +30,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To create an application
+    # The following create-application example creates an application in AWS
+    # AppConfig.
     my $Application = $appconfig->CreateApplication(
-      Name        => 'MyName',
-      Description => 'MyDescription',    # OPTIONAL
-      Tags        => {
-        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
-      },    # OPTIONAL
+      'Description' => 'An application used for creating an example.',
+      'Name'        => 'example-application'
     );
 
     # Results:

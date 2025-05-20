@@ -74,8 +74,7 @@ The environment template name as displayed in the developer interface.
 
 =head2 EncryptionKey => Str
 
-A customer provided encryption key that AWS Proton uses to encrypt
-data.
+A customer provided encryption key that Proton uses to encrypt data.
 
 
 
@@ -94,12 +93,12 @@ Valid values are: C<"CUSTOMER_MANAGED">
 
 =head2 Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-Create tags for your environment template. For more information, see
-I<AWS Proton resources and tagging> in the AWS Proton Administration
-Guide
-(https://docs.aws.amazon.com/proton/latest/adminguide/resources.html)
-or AWS Proton User Guide
-(https://docs.aws.amazon.com/proton/latest/userguide/resources.html).
+An optional list of metadata items that you can associate with the
+Proton environment template. A tag is a key-value pair.
+
+For more information, see Proton resources and tagging
+(https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in
+the I<Proton User Guide>.
 
 
 

@@ -16,7 +16,7 @@ Paws::DirectConnect::CreateTransitVirtualInterfaceResult
 
 =head2 VirtualInterface => L<Paws::DirectConnect::VirtualInterface>
 
-
+Information about a virtual interface.
 
 
 =head2 _request_id => Str

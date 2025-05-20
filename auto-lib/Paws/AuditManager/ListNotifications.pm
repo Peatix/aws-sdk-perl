@@ -48,14 +48,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 MaxResults => Int
 
-Represents the maximum number of results per page, or per API request
-call.
+Represents the maximum number of results on a page or for an API
+request call.
 
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 

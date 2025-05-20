@@ -3,6 +3,7 @@ package Paws::EMR::VolumeSpecification;
   use Moose;
   has Iops => (is => 'ro', isa => 'Int');
   has SizeInGB => (is => 'ro', isa => 'Int', required => 1);
+  has Throughput => (is => 'ro', isa => 'Int');
   has VolumeType => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -35,9 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Volume
 
 =head1 DESCRIPTION
 
-EBS volume specifications such as volume type, IOPS, and size (GiB)
-that will be requested for the EBS volume attached to an EC2 instance
-in the cluster.
+EBS volume specifications such as volume type, IOPS, size (GiB) and
+throughput (MiB/s) that are requested for the EBS volume attached to an
+Amazon EC2 instance in the cluster.
 
 =head1 ATTRIBUTES
 
@@ -54,9 +55,16 @@ The volume size, in gibibytes (GiB). This can be a number from 1 -
 1024. If the volume type is EBS-optimized, the minimum value is 10.
 
 
+=head2 Throughput => Int
+
+The throughput, in mebibyte per second (MiB/s). This optional parameter
+can be a number from 125 - 1000 and is valid only for gp3 volumes.
+
+
 =head2 B<REQUIRED> VolumeType => Str
 
-The volume type. Volume types supported are gp2, io1, standard.
+The volume type. Volume types supported are gp3, gp2, io1, st1, sc1,
+and standard.
 
 
 

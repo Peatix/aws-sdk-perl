@@ -16,7 +16,7 @@ Paws::SageMaker::CreateModelOutput
 
 =head2 B<REQUIRED> ModelArn => Str
 
-The ARN of the model created in Amazon SageMaker.
+The ARN of the model created in SageMaker.
 
 
 =head2 _request_id => Str

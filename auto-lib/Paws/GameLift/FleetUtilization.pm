@@ -41,11 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::F
 
 Current resource utilization statistics in a specified fleet or
 location. The location value might refer to a fleet's remote location
-or its home Region.
-
-B<Related actions>
-
-DescribeFleetUtilization | DescribeFleetLocationUtilization
+or its home region.
 
 =head1 ATTRIBUTES
 
@@ -72,8 +68,8 @@ across all instances in the fleet location.
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift fleet resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift fleet resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 
 
@@ -85,7 +81,7 @@ A unique identifier for the fleet associated with the location.
 =head2 Location => Str
 
 The fleet location for the fleet utilization information, expressed as
-an AWS Region code, such as C<us-west-2>.
+an Amazon Web Services Region code, such as C<us-west-2>.
 
 
 =head2 MaximumPlayerSessionCount => Int

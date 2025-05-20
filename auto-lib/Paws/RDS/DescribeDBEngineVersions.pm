@@ -63,7 +63,7 @@ Constraints:
 
 =item *
 
-If supplied, must match an existing DBParameterGroupFamily.
+If supplied, must match an existing DB parameter group family.
 
 =back
 
@@ -72,14 +72,14 @@ If supplied, must match an existing DBParameterGroupFamily.
 
 =head2 DefaultOnly => Bool
 
-A value that indicates whether only the default version of the
-specified engine or engine and major version combination is returned.
+Specifies whether to return only the default version of the specified
+engine or the engine and major version combination.
 
 
 
 =head2 Engine => Str
 
-The database engine to return.
+The database engine to return version details for.
 
 Valid Values:
 
@@ -87,15 +87,35 @@ Valid Values:
 
 =item *
 
-C<aurora> (for MySQL 5.6-compatible Aurora)
-
-=item *
-
-C<aurora-mysql> (for MySQL 5.7-compatible Aurora)
+C<aurora-mysql>
 
 =item *
 
 C<aurora-postgresql>
+
+=item *
+
+C<custom-oracle-ee>
+
+=item *
+
+C<custom-oracle-ee-cdb>
+
+=item *
+
+C<custom-oracle-se2>
+
+=item *
+
+C<custom-oracle-se2-cdb>
+
+=item *
+
+C<db2-ae>
+
+=item *
+
+C<db2-se>
 
 =item *
 
@@ -148,7 +168,7 @@ C<sqlserver-web>
 
 =head2 EngineVersion => Str
 
-The database engine version to return.
+A specific database engine version to return details for.
 
 Example: C<5.1.49>
 
@@ -156,37 +176,114 @@ Example: C<5.1.49>
 
 =head2 Filters => ArrayRef[L<Paws::RDS::Filter>]
 
-This parameter isn't currently supported.
+A filter that specifies one or more DB engine versions to describe.
+
+Supported filters:
+
+=over
+
+=item *
+
+C<db-parameter-group-family> - Accepts parameter groups family names.
+The results list only includes information about the DB engine versions
+for these parameter group families.
+
+=item *
+
+C<engine> - Accepts engine names. The results list only includes
+information about the DB engine versions for these engines.
+
+=item *
+
+C<engine-mode> - Accepts DB engine modes. The results list only
+includes information about the DB engine versions for these engine
+modes. Valid DB engine modes are the following:
+
+=over
+
+=item *
+
+C<global>
+
+=item *
+
+C<multimaster>
+
+=item *
+
+C<parallelquery>
+
+=item *
+
+C<provisioned>
+
+=item *
+
+C<serverless>
+
+=back
+
+=item *
+
+C<engine-version> - Accepts engine versions. The results list only
+includes information about the DB engine versions for these engine
+versions.
+
+=item *
+
+C<status> - Accepts engine version statuses. The results list only
+includes information about the DB engine versions for these statuses.
+Valid statuses are the following:
+
+=over
+
+=item *
+
+C<available>
+
+=item *
+
+C<deprecated>
+
+=back
+
+=back
+
 
 
 
 =head2 IncludeAll => Bool
 
-A value that indicates whether to include engine versions that aren't
-available in the list. The default is to list only available engine
-versions.
+Specifies whether to also list the engine versions that aren't
+available. The default is to list only available engine versions.
 
 
 
 =head2 ListSupportedCharacterSets => Bool
 
-A value that indicates whether to list the supported character sets for
-each engine version.
+Specifies whether to list the supported character sets for each engine
+version.
 
 If this parameter is enabled and the requested engine supports the
 C<CharacterSetName> parameter for C<CreateDBInstance>, the response
 includes a list of supported character sets for each engine version.
 
+For RDS Custom, the default is not to list supported character sets. If
+you enable this parameter, RDS Custom returns no results.
+
 
 
 =head2 ListSupportedTimezones => Bool
 
-A value that indicates whether to list the supported time zones for
-each engine version.
+Specifies whether to list the supported time zones for each engine
+version.
 
 If this parameter is enabled and the requested engine supports the
 C<TimeZone> parameter for C<CreateDBInstance>, the response includes a
 list of supported time zones for each engine version.
+
+For RDS Custom, the default is not to list supported time zones. If you
+enable this parameter, RDS Custom returns no results.
 
 
 

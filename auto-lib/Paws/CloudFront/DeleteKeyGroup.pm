@@ -54,8 +54,8 @@ identifier, use C<ListKeyGroups>.
 =head2 IfMatch => Str
 
 The version of the key group that you are deleting. The version is the
-key groupE<rsquo>s C<ETag> value. To get the C<ETag>, use
-C<GetKeyGroup> or C<GetKeyGroupConfig>.
+key group's C<ETag> value. To get the C<ETag>, use C<GetKeyGroup> or
+C<GetKeyGroupConfig>.
 
 
 

@@ -39,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeStarCon
 =head1 DESCRIPTION
 
 A resource that is used to connect third-party source providers with
-services like AWS CodePipeline.
+services like CodePipeline.
 
 Note: A connection created through CloudFormation, the CLI, or the SDK
 is in `PENDING` status by default. You can make its status `AVAILABLE`
@@ -51,16 +51,16 @@ by updating the connection in the console.
 =head2 ConnectionArn => Str
 
 The Amazon Resource Name (ARN) of the connection. The ARN is used as
-the connection reference when the connection is shared between AWS
-services.
+the connection reference when the connection is shared between Amazon
+Web Services.
 
 The ARN is never reused if the connection is deleted.
 
 
 =head2 ConnectionName => Str
 
-The name of the connection. Connection names must be unique in an AWS
-user account.
+The name of the connection. Connection names must be unique in an
+Amazon Web Services account.
 
 
 =head2 ConnectionStatus => Str

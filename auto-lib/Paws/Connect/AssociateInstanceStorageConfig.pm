@@ -1,6 +1,7 @@
 
 package Paws::Connect::AssociateInstanceStorageConfig;
   use Moose;
+  has ClientToken => (is => 'ro', isa => 'Str');
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InstanceId', required => 1);
   has ResourceType => (is => 'ro', isa => 'Str', required => 1);
   has StorageConfig => (is => 'ro', isa => 'Paws::Connect::InstanceStorageConfig', required => 1);
@@ -66,7 +67,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
         },    # OPTIONAL
       },
-
+      ClientToken => 'MyClientToken',    # OPTIONAL
       );
 
     # Results:
@@ -80,18 +81,54 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head1 ATTRIBUTES
 
 
+=head2 ClientToken => Str
+
+A unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request. If not provided, the Amazon Web Services
+SDK populates this field. For more information about idempotency, see
+Making retries safe with idempotent APIs
+(https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+
+
+
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 B<REQUIRED> ResourceType => Str
 
-A valid resource type.
+A valid resource type. To enable streaming for real-time analysis of
+contacts
+(https://docs.aws.amazon.com/connect/latest/adminguide/enable-contact-analysis-segment-streams.html),
+use the following types:
 
-Valid values are: C<"CHAT_TRANSCRIPTS">, C<"CALL_RECORDINGS">, C<"SCHEDULED_REPORTS">, C<"MEDIA_STREAMS">, C<"CONTACT_TRACE_RECORDS">, C<"AGENT_EVENTS">
+=over
+
+=item *
+
+For chat contacts, use C<REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS>.
+
+=item *
+
+For voice contacts, use C<REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS>.
+
+=back
+
+C<REAL_TIME_CONTACT_ANALYSIS_SEGMENTS> is deprecated, but it is still
+supported and will apply only to VOICE channel contacts. Use
+C<REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS> for voice contacts moving
+forward.
+
+If you have previously associated a stream with
+C<REAL_TIME_CONTACT_ANALYSIS_SEGMENTS>, no action is needed to update
+the stream to C<REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS>.
+
+Valid values are: C<"CHAT_TRANSCRIPTS">, C<"CALL_RECORDINGS">, C<"SCHEDULED_REPORTS">, C<"MEDIA_STREAMS">, C<"CONTACT_TRACE_RECORDS">, C<"AGENT_EVENTS">, C<"REAL_TIME_CONTACT_ANALYSIS_SEGMENTS">, C<"ATTACHMENTS">, C<"CONTACT_EVALUATIONS">, C<"SCREEN_RECORDINGS">, C<"REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS">, C<"REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS">, C<"EMAIL_MESSAGES">
 
 =head2 B<REQUIRED> StorageConfig => L<Paws::Connect::InstanceStorageConfig>
 

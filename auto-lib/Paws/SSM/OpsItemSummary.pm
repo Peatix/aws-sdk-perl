@@ -106,8 +106,33 @@ The ID of the OpsItem.
 
 =head2 OpsItemType => Str
 
-The type of OpsItem. Currently, the only valid values are
-C</aws/changerequest> and C</aws/issue>.
+The type of OpsItem. Systems Manager supports the following types of
+OpsItems:
+
+=over
+
+=item *
+
+C</aws/issue>
+
+This type of OpsItem is used for default OpsItems created by OpsCenter.
+
+=item *
+
+C</aws/changerequest>
+
+This type of OpsItem is used by Change Manager for reviewing and
+approving or rejecting change requests.
+
+=item *
+
+C</aws/insight>
+
+This type of OpsItem is used by OpsCenter for aggregating and reporting
+on duplicate OpsItems.
+
+=back
+
 
 
 =head2 PlannedEndTime => Str
@@ -135,13 +160,12 @@ A list of OpsItems by severity.
 
 =head2 Source => Str
 
-The impacted AWS resource.
+The impacted Amazon Web Services resource.
 
 
 =head2 Status => Str
 
-The OpsItem status. Status can be C<Open>, C<In Progress>, or
-C<Resolved>.
+The OpsItem status.
 
 
 =head2 Title => Str

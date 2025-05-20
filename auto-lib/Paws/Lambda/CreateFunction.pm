@@ -1,22 +1,26 @@
 
 package Paws::Lambda::CreateFunction;
   use Moose;
+  has Architectures => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Code => (is => 'ro', isa => 'Paws::Lambda::FunctionCode', required => 1);
   has CodeSigningConfigArn => (is => 'ro', isa => 'Str');
   has DeadLetterConfig => (is => 'ro', isa => 'Paws::Lambda::DeadLetterConfig');
   has Description => (is => 'ro', isa => 'Str');
   has Environment => (is => 'ro', isa => 'Paws::Lambda::Environment');
+  has EphemeralStorage => (is => 'ro', isa => 'Paws::Lambda::EphemeralStorage');
   has FileSystemConfigs => (is => 'ro', isa => 'ArrayRef[Paws::Lambda::FileSystemConfig]');
   has FunctionName => (is => 'ro', isa => 'Str', required => 1);
   has Handler => (is => 'ro', isa => 'Str');
   has ImageConfig => (is => 'ro', isa => 'Paws::Lambda::ImageConfig');
   has KMSKeyArn => (is => 'ro', isa => 'Str');
   has Layers => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has LoggingConfig => (is => 'ro', isa => 'Paws::Lambda::LoggingConfig');
   has MemorySize => (is => 'ro', isa => 'Int');
   has PackageType => (is => 'ro', isa => 'Str');
   has Publish => (is => 'ro', isa => 'Bool');
   has Role => (is => 'ro', isa => 'Str', required => 1);
   has Runtime => (is => 'ro', isa => 'Str');
+  has SnapStart => (is => 'ro', isa => 'Paws::Lambda::SnapStart');
   has Tags => (is => 'ro', isa => 'Paws::Lambda::Tags');
   has Timeout => (is => 'ro', isa => 'Int');
   has TracingConfig => (is => 'ro', isa => 'Paws::Lambda::TracingConfig');
@@ -107,6 +111,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 =head1 ATTRIBUTES
 
 
+=head2 Architectures => ArrayRef[Str|Undef]
+
+The instruction set architecture that the function supports. Enter a
+string array with one of the valid values (arm64 or x86_64). The
+default value is C<x86_64>.
+
+
+
 =head2 B<REQUIRED> Code => L<Paws::Lambda::FunctionCode>
 
 The code for the function.
@@ -124,10 +136,10 @@ function.
 
 =head2 DeadLetterConfig => L<Paws::Lambda::DeadLetterConfig>
 
-A dead letter queue configuration that specifies the queue or topic
+A dead-letter queue configuration that specifies the queue or topic
 where Lambda sends asynchronous events when they fail processing. For
-more information, see Dead Letter Queues
-(https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq).
+more information, see Dead-letter queues
+(https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq).
 
 
 
@@ -144,6 +156,15 @@ execution.
 
 
 
+=head2 EphemeralStorage => L<Paws::Lambda::EphemeralStorage>
+
+The size of the function's C</tmp> directory in MB. The default value
+is 512, but can be any whole number between 512 and 10,240 MB. For more
+information, see Configuring ephemeral storage (console)
+(https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+
+
+
 =head2 FileSystemConfigs => ArrayRef[L<Paws::Lambda::FileSystemConfig>]
 
 Connection settings for an Amazon EFS file system.
@@ -152,7 +173,7 @@ Connection settings for an Amazon EFS file system.
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function.
+The name or ARN of the Lambda function.
 
 B<Name formats>
 
@@ -160,16 +181,16 @@ B<Name formats>
 
 =item *
 
-B<Function name> - C<my-function>.
+B<Function name> E<ndash> C<my-function>.
 
 =item *
 
-B<Function ARN> -
+B<Function ARN> E<ndash>
 C<arn:aws:lambda:us-west-2:123456789012:function:my-function>.
 
 =item *
 
-B<Partial ARN> - C<123456789012:function:my-function>.
+B<Partial ARN> E<ndash> C<123456789012:function:my-function>.
 
 =back
 
@@ -180,27 +201,63 @@ the function name, it is limited to 64 characters in length.
 
 =head2 Handler => Str
 
-The name of the method within your code that Lambda calls to execute
-your function. The format includes the file name. It can also include
+The name of the method within your code that Lambda calls to run your
+function. Handler is required if the deployment package is a .zip file
+archive. The format includes the file name. It can also include
 namespaces and other qualifiers, depending on the runtime. For more
-information, see Programming Model
-(https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html).
+information, see Lambda programming model
+(https://docs.aws.amazon.com/lambda/latest/dg/foundation-progmodel.html).
 
 
 
 =head2 ImageConfig => L<Paws::Lambda::ImageConfig>
 
 Container image configuration values
-(https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html#configuration-images-settings)
+(https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms)
 that override the values in the container image Dockerfile.
 
 
 
 =head2 KMSKeyArn => Str
 
-The ARN of the Amazon Web Services Key Management Service (KMS) key
-that's used to encrypt your function's environment variables. If it's
-not provided, Lambda uses a default service key.
+The ARN of the Key Management Service (KMS) customer managed key that's
+used to encrypt the following resources:
+
+=over
+
+=item *
+
+The function's environment variables
+(https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+
+=item *
+
+The function's Lambda SnapStart
+(https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html)
+snapshots.
+
+=item *
+
+When used with C<SourceKMSKeyArn>, the unzipped version of the .zip
+deployment package that's used for function invocations. For more
+information, see Specifying a customer managed key for Lambda
+(https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+
+=item *
+
+The optimized version of the container image that's used for function
+invocations. Note that this is not the same key that's used to protect
+your container image in the Amazon Elastic Container Registry (Amazon
+ECR). For more information, see Function lifecycle
+(https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+
+=back
+
+If you don't provide a customer managed key, Lambda uses an Amazon Web
+Services owned key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk)
+or an Amazon Web Services managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 
 
 
@@ -213,10 +270,16 @@ its ARN, including the version.
 
 
 
+=head2 LoggingConfig => L<Paws::Lambda::LoggingConfig>
+
+The function's Amazon CloudWatch Logs configuration settings.
+
+
+
 =head2 MemorySize => Int
 
 The amount of memory available to the function
-(https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html)
+(https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-memory-console)
 at runtime. Increasing the function memory also increases its CPU
 allocation. The default value is 128 MB. The value can be any multiple
 of 1 MB.
@@ -226,7 +289,7 @@ of 1 MB.
 =head2 PackageType => Str
 
 The type of deployment package. Set to C<Image> for container image and
-set C<Zip> for ZIP archive.
+set to C<Zip> for .zip file archive.
 
 Valid values are: C<"Zip">, C<"Image">
 
@@ -247,8 +310,27 @@ The Amazon Resource Name (ARN) of the function's execution role.
 
 The identifier of the function's runtime
 (https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
+Runtime is required if the deployment package is a .zip file archive.
+Specifying a runtime results in an error if you're deploying a function
+using a container image.
 
-Valid values are: C<"nodejs">, C<"nodejs4.3">, C<"nodejs6.10">, C<"nodejs8.10">, C<"nodejs10.x">, C<"nodejs12.x">, C<"nodejs14.x">, C<"java8">, C<"java8.al2">, C<"java11">, C<"python2.7">, C<"python3.6">, C<"python3.7">, C<"python3.8">, C<"dotnetcore1.0">, C<"dotnetcore2.0">, C<"dotnetcore2.1">, C<"dotnetcore3.1">, C<"nodejs4.3-edge">, C<"go1.x">, C<"ruby2.5">, C<"ruby2.7">, C<"provided">, C<"provided.al2">
+The following list includes deprecated runtimes. Lambda blocks creating
+new functions and updating existing functions shortly after each
+runtime is deprecated. For more information, see Runtime use after
+deprecation
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels).
+
+For a list of all currently supported runtimes, see Supported runtimes
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+
+Valid values are: C<"nodejs">, C<"nodejs4.3">, C<"nodejs6.10">, C<"nodejs8.10">, C<"nodejs10.x">, C<"nodejs12.x">, C<"nodejs14.x">, C<"nodejs16.x">, C<"java8">, C<"java8.al2">, C<"java11">, C<"python2.7">, C<"python3.6">, C<"python3.7">, C<"python3.8">, C<"python3.9">, C<"dotnetcore1.0">, C<"dotnetcore2.0">, C<"dotnetcore2.1">, C<"dotnetcore3.1">, C<"dotnet6">, C<"dotnet8">, C<"nodejs4.3-edge">, C<"go1.x">, C<"ruby2.5">, C<"ruby2.7">, C<"provided">, C<"provided.al2">, C<"nodejs18.x">, C<"python3.10">, C<"java17">, C<"ruby3.2">, C<"ruby3.3">, C<"ruby3.4">, C<"python3.11">, C<"nodejs20.x">, C<"provided.al2023">, C<"python3.12">, C<"java21">, C<"python3.13">, C<"nodejs22.x">
+
+=head2 SnapStart => L<Paws::Lambda::SnapStart>
+
+The function's SnapStart
+(https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
+
+
 
 =head2 Tags => L<Paws::Lambda::Tags>
 
@@ -260,9 +342,9 @@ the function.
 
 =head2 Timeout => Int
 
-The amount of time that Lambda allows a function to run before stopping
-it. The default is 3 seconds. The maximum allowed value is 900 seconds.
-For additional information, see Lambda execution environment
+The amount of time (in seconds) that Lambda allows a function to run
+before stopping it. The default is 3 seconds. The maximum allowed value
+is 900 seconds. For more information, see Lambda execution environment
 (https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
 
 
@@ -279,8 +361,9 @@ requests with X-Ray
 
 For network connectivity to Amazon Web Services resources in a VPC,
 specify a list of security groups and subnets in the VPC. When you
-connect a function to a VPC, it can only access resources and the
-internet through that VPC. For more information, see VPC Settings
+connect a function to a VPC, it can access resources and the internet
+only through that VPC. For more information, see Configuring a Lambda
+function to access resources in a VPC
 (https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
 
 

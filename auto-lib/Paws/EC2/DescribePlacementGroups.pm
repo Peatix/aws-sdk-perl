@@ -58,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
@@ -77,6 +77,15 @@ C<group-name> - The name of the placement group.
 
 =item *
 
+C<group-arn> - The Amazon Resource Name (ARN) of the placement group.
+
+=item *
+
+C<spread-level> - The spread level for the placement group (C<host> |
+C<rack>).
+
+=item *
+
 C<state> - The state of the placement group (C<pending> | C<available>
 | C<deleting> | C<deleted>).
 
@@ -87,7 +96,7 @@ C<spread> | C<partition>).
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
+C<tag:E<lt>keyE<gt>> - The key/value combination of a tag assigned to
 the resource. Use the tag key in the filter name and the tag value as
 the filter value. For example, to find all resources that have a tag
 with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for
@@ -114,8 +123,23 @@ The IDs of the placement groups.
 
 The names of the placement groups.
 
-Default: Describes all your placement groups, or only those otherwise
-specified.
+Constraints:
+
+=over
+
+=item *
+
+You can specify a name only if the placement group is owned by your
+account.
+
+=item *
+
+If a placement group is I<shared> with your account, specifying the
+name results in an error. You must use the C<GroupId> parameter
+instead.
+
+=back
+
 
 
 

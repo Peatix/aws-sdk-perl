@@ -18,12 +18,14 @@ Paws::S3Outposts::ListEndpointsResult
 
 =head2 Endpoints => ArrayRef[L<Paws::S3Outposts::Endpoint>]
 
-Returns an array of endpoints associated with AWS Outpost.
+The list of endpoints associated with the specified Outpost.
 
 
 =head2 NextToken => Str
 
-The next endpoint returned in the list.
+If the number of endpoints associated with the specified Outpost
+exceeds C<MaxResults>, you can include this value in subsequent calls
+to this operation to retrieve more results.
 
 
 =head2 _request_id => Str

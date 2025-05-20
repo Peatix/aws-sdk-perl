@@ -19,7 +19,7 @@ Paws::IoT::CreateProvisioningTemplateResponse
 
 =head2 DefaultVersionId => Int
 
-The default version of the fleet provisioning template.
+The default version of the provisioning template.
 
 
 =head2 TemplateArn => Str
@@ -29,7 +29,7 @@ The ARN that identifies the provisioning template.
 
 =head2 TemplateName => Str
 
-The name of the fleet provisioning template.
+The name of the provisioning template.
 
 
 =head2 _request_id => Str

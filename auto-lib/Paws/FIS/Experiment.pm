@@ -2,15 +2,21 @@
 package Paws::FIS::Experiment;
   use Moose;
   has Actions => (is => 'ro', isa => 'Paws::FIS::ExperimentActionMap', request_name => 'actions', traits => ['NameInRequest']);
+  has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
   has EndTime => (is => 'ro', isa => 'Str', request_name => 'endTime', traits => ['NameInRequest']);
+  has ExperimentOptions => (is => 'ro', isa => 'Paws::FIS::ExperimentOptions', request_name => 'experimentOptions', traits => ['NameInRequest']);
+  has ExperimentReport => (is => 'ro', isa => 'Paws::FIS::ExperimentReport', request_name => 'experimentReport', traits => ['NameInRequest']);
+  has ExperimentReportConfiguration => (is => 'ro', isa => 'Paws::FIS::ExperimentReportConfiguration', request_name => 'experimentReportConfiguration', traits => ['NameInRequest']);
   has ExperimentTemplateId => (is => 'ro', isa => 'Str', request_name => 'experimentTemplateId', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FIS::ExperimentLogConfiguration', request_name => 'logConfiguration', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has StartTime => (is => 'ro', isa => 'Str', request_name => 'startTime', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Paws::FIS::ExperimentState', request_name => 'state', traits => ['NameInRequest']);
   has StopConditions => (is => 'ro', isa => 'ArrayRef[Paws::FIS::ExperimentStopCondition]', request_name => 'stopConditions', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::FIS::TagMap', request_name => 'tags', traits => ['NameInRequest']);
+  has TargetAccountConfigurationsCount => (is => 'ro', isa => 'Int', request_name => 'targetAccountConfigurationsCount', traits => ['NameInRequest']);
   has Targets => (is => 'ro', isa => 'Paws::FIS::ExperimentTargetMap', request_name => 'targets', traits => ['NameInRequest']);
 
 1;
@@ -53,14 +59,34 @@ Describes an experiment.
 The actions for the experiment.
 
 
+=head2 Arn => Str
+
+The Amazon Resource Name (ARN) of the experiment.
+
+
 =head2 CreationTime => Str
 
-The time the experiment was created.
+The time that the experiment was created.
 
 
 =head2 EndTime => Str
 
 The time that the experiment ended.
+
+
+=head2 ExperimentOptions => L<Paws::FIS::ExperimentOptions>
+
+The experiment options for the experiment.
+
+
+=head2 ExperimentReport => L<Paws::FIS::ExperimentReport>
+
+The experiment report for the experiment.
+
+
+=head2 ExperimentReportConfiguration => L<Paws::FIS::ExperimentReportConfiguration>
+
+The experiment report configuration for the experiment.
 
 
 =head2 ExperimentTemplateId => Str
@@ -73,15 +99,20 @@ The ID of the experiment template.
 The ID of the experiment.
 
 
+=head2 LogConfiguration => L<Paws::FIS::ExperimentLogConfiguration>
+
+The configuration for experiment logging.
+
+
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS
+The Amazon Resource Name (ARN) of an IAM role that grants the FIS
 service permission to perform service actions on your behalf.
 
 
 =head2 StartTime => Str
 
-The time that the experiment was started.
+The time that the experiment started.
 
 
 =head2 State => L<Paws::FIS::ExperimentState>
@@ -97,6 +128,11 @@ The stop conditions for the experiment.
 =head2 Tags => L<Paws::FIS::TagMap>
 
 The tags for the experiment.
+
+
+=head2 TargetAccountConfigurationsCount => Int
+
+The count of target account configurations for the experiment.
 
 
 =head2 Targets => L<Paws::FIS::ExperimentTargetMap>

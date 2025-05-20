@@ -3,10 +3,13 @@ package Paws::FSX::CreateFileSystem;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
   has FileSystemType => (is => 'ro', isa => 'Str', required => 1);
+  has FileSystemTypeVersion => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LustreConfiguration => (is => 'ro', isa => 'Paws::FSX::CreateFileSystemLustreConfiguration');
+  has OntapConfiguration => (is => 'ro', isa => 'Paws::FSX::CreateFileSystemOntapConfiguration');
+  has OpenZFSConfiguration => (is => 'ro', isa => 'Paws::FSX::CreateFileSystemOpenZFSConfiguration');
   has SecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has StorageCapacity => (is => 'ro', isa => 'Int', required => 1);
+  has StorageCapacity => (is => 'ro', isa => 'Int');
   has StorageType => (is => 'ro', isa => 'Str');
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::FSX::Tag]');
@@ -36,78 +39,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
+  # To create a new file system
+  # This operation creates a new Amazon FSx for Windows File Server file system.
     my $CreateFileSystemResponse = $fsx->CreateFileSystem(
-      FileSystemType  => 'WINDOWS',
-      StorageCapacity => 1,
-      SubnetIds       => [
-        'MySubnetId', ...    # min: 15, max: 24
-      ],
-      ClientRequestToken  => 'MyClientRequestToken',    # OPTIONAL
-      KmsKeyId            => 'MyKmsKeyId',              # OPTIONAL
-      LustreConfiguration => {
-        AutoImportPolicy => 'NONE',   # values: NONE, NEW, NEW_CHANGED; OPTIONAL
-        AutomaticBackupRetentionDays  => 1,    # max: 90; OPTIONAL
-        CopyTagsToBackups             => 1,    # OPTIONAL
-        DailyAutomaticBackupStartTime =>
-          'MyDailyTime',                       # min: 5, max: 5; OPTIONAL
-        DataCompressionType => 'NONE',         # values: NONE, LZ4; OPTIONAL
-        DeploymentType      =>
-          'SCRATCH_1',    # values: SCRATCH_1, SCRATCH_2, PERSISTENT_1; OPTIONAL
-        DriveCacheType => 'NONE',             # values: NONE, READ; OPTIONAL
-        ExportPath     => 'MyArchivePath',    # min: 3, max: 4357; OPTIONAL
-        ImportPath     => 'MyArchivePath',    # min: 3, max: 4357; OPTIONAL
-        ImportedFileChunkSize      => 1,      # min: 1, max: 512000; OPTIONAL
-        PerUnitStorageThroughput   => 1,      # min: 12, max: 200; OPTIONAL
-        WeeklyMaintenanceStartTime => 'MyWeeklyTime', # min: 7, max: 7; OPTIONAL
-      },    # OPTIONAL
-      SecurityGroupIds => [
-        'MySecurityGroupId', ...    # min: 11, max: 20
-      ],    # OPTIONAL
-      StorageType => 'SSD',    # OPTIONAL
-      Tags        => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
+      'ClientRequestToken' => 'a8ca07e4-61ec-4399-99f4-19853801bcd5',
+      'FileSystemType'     => 'WINDOWS',
+      'KmsKeyId'           =>
+'arn:aws:kms:us-east-1:012345678912:key/1111abcd-2222-3333-4444-55556666eeff',
+      'SecurityGroupIds' => ['sg-edcd9784'],
+      'StorageCapacity'  => 3200,
+      'StorageType'      => 'HDD',
+      'SubnetIds'        => ['subnet-1234abcd'],
+      'Tags'             => [
 
-        },
-        ...
-      ],    # OPTIONAL
-      WindowsConfiguration => {
-        ThroughputCapacity => 1,                  # min: 8, max: 2048
-        ActiveDirectoryId  => 'MyDirectoryId',    # min: 12, max: 12; OPTIONAL
-        Aliases            => [
-          'MyAlternateDNSName', ...               # min: 4, max: 253
-        ],    # max: 50; OPTIONAL
-        AuditLogConfiguration => {
-          FileAccessAuditLogLevel => 'DISABLED'
-          ,  # values: DISABLED, SUCCESS_ONLY, FAILURE_ONLY, SUCCESS_AND_FAILURE
-          FileShareAccessAuditLogLevel => 'DISABLED'
-          ,  # values: DISABLED, SUCCESS_ONLY, FAILURE_ONLY, SUCCESS_AND_FAILURE
-          AuditLogDestination => 'MyGeneralARN',   # min: 8, max: 1024; OPTIONAL
-        },    # OPTIONAL
-        AutomaticBackupRetentionDays  => 1,    # max: 90; OPTIONAL
-        CopyTagsToBackups             => 1,    # OPTIONAL
-        DailyAutomaticBackupStartTime =>
-          'MyDailyTime',                       # min: 5, max: 5; OPTIONAL
-        DeploymentType =>
-          'MULTI_AZ_1', # values: MULTI_AZ_1, SINGLE_AZ_1, SINGLE_AZ_2; OPTIONAL
-        PreferredSubnetId => 'MySubnetId',    # min: 15, max: 24
-        SelfManagedActiveDirectoryConfiguration => {
-          DnsIps => [
-            'MyIpAddress', ...                # min: 7, max: 15
-          ],    # min: 1, max: 2
-          DomainName =>
-            'MyActiveDirectoryFullyQualifiedName',    # min: 1, max: 255
-          Password => 'MyDirectoryPassword',          # min: 1, max: 256
-          UserName => 'MyDirectoryUserName',          # min: 1, max: 256
-          FileSystemAdministratorsGroup =>
-            'MyFileSystemAdministratorsGroupName',  # min: 1, max: 256; OPTIONAL
-          OrganizationalUnitDistinguishedName =>
-            'MyOrganizationalUnitDistinguishedName'
-          ,    # min: 1, max: 2000; OPTIONAL
-        },    # OPTIONAL
-        WeeklyMaintenanceStartTime => 'MyWeeklyTime', # min: 7, max: 7; OPTIONAL
-      },    # OPTIONAL
+        {
+          'Key'   => 'Name',
+          'Value' => 'MyFileSystem'
+        }
+      ],
+      'WindowsConfiguration' => {
+        'ActiveDirectoryId'             => 'd-1234abcd12',
+        'Aliases'                       => ['accounting.corp.example.com'],
+        'AutomaticBackupRetentionDays'  => 30,
+        'DailyAutomaticBackupStartTime' => '05:00',
+        'ThroughputCapacity'            => 32,
+        'WeeklyMaintenanceStartTime'    => '1:05:00'
+      }
     );
 
     # Results:
@@ -123,18 +80,63 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx
 
 =head2 ClientRequestToken => Str
 
-A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+A string of up to 63 ASCII characters that Amazon FSx uses to ensure
 idempotent creation. This string is automatically filled on your behalf
-when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+when you use the Command Line Interface (CLI) or an Amazon Web Services
+SDK.
 
 
 
 =head2 B<REQUIRED> FileSystemType => Str
 
-The type of Amazon FSx file system to create, either C<WINDOWS> or
-C<LUSTRE>.
+The type of Amazon FSx file system to create. Valid values are
+C<WINDOWS>, C<LUSTRE>, C<ONTAP>, and C<OPENZFS>.
 
-Valid values are: C<"WINDOWS">, C<"LUSTRE">
+Valid values are: C<"WINDOWS">, C<"LUSTRE">, C<"ONTAP">, C<"OPENZFS">
+
+=head2 FileSystemTypeVersion => Str
+
+For FSx for Lustre file systems, sets the Lustre version for the file
+system that you're creating. Valid values are C<2.10>, C<2.12>, and
+C<2.15>:
+
+=over
+
+=item *
+
+C<2.10> is supported by the Scratch and Persistent_1 Lustre deployment
+types.
+
+=item *
+
+C<2.12> is supported by all Lustre deployment types, except for
+C<PERSISTENT_2> with a metadata configuration mode.
+
+=item *
+
+C<2.15> is supported by all Lustre deployment types and is recommended
+for all new file systems.
+
+=back
+
+Default value is C<2.10>, except for the following deployments:
+
+=over
+
+=item *
+
+Default value is C<2.12> when C<DeploymentType> is set to
+C<PERSISTENT_2> without a metadata configuration mode.
+
+=item *
+
+Default value is C<2.15> when C<DeploymentType> is set to
+C<PERSISTENT_2> with a metadata configuration mode.
+
+=back
+
+
+
 
 =head2 KmsKeyId => Str
 
@@ -148,31 +150,50 @@ Valid values are: C<"WINDOWS">, C<"LUSTRE">
 
 
 
+=head2 OntapConfiguration => L<Paws::FSX::CreateFileSystemOntapConfiguration>
+
+
+
+
+
+=head2 OpenZFSConfiguration => L<Paws::FSX::CreateFileSystemOpenZFSConfiguration>
+
+The OpenZFS configuration for the file system that's being created.
+
+
+
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]
 
 A list of IDs specifying the security groups to apply to all network
 interfaces created for file system access. This list isn't returned in
 later requests to describe the file system.
 
+You must specify a security group if you are creating a Multi-AZ FSx
+for ONTAP file system in a VPC subnet that has been shared with you.
 
 
-=head2 B<REQUIRED> StorageCapacity => Int
 
-Sets the storage capacity of the file system that you're creating.
+=head2 StorageCapacity => Int
 
-For Lustre file systems:
+Sets the storage capacity of the file system that you're creating, in
+gibibytes (GiB).
+
+B<FSx for Lustre file systems> - The amount of storage capacity that
+you can configure depends on the value that you set for C<StorageType>
+and the Lustre C<DeploymentType>, as follows:
 
 =over
 
 =item *
 
-For C<SCRATCH_2> and C<PERSISTENT_1 SSD> deployment types, valid values
-are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
+For C<SCRATCH_2>, C<PERSISTENT_2>, and C<PERSISTENT_1> deployment types
+using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and
+increments of 2400 GiB.
 
 =item *
 
-For C<PERSISTENT HDD> file systems, valid values are increments of 6000
-GiB for 12 MB/s/TiB file systems and increments of 1800 GiB for 40
+For C<PERSISTENT_1> HDD file systems, valid values are increments of
+6000 GiB for 12 MB/s/TiB file systems and increments of 1800 GiB for 40
 MB/s/TiB file systems.
 
 =item *
@@ -182,17 +203,27 @@ and increments of 3600 GiB.
 
 =back
 
-For Windows file systems:
+B<FSx for ONTAP file systems> - The amount of storage capacity that you
+can configure depends on the value of the C<HAPairs> property. The
+minimum value is calculated as 1,024 * C<HAPairs> and the maximum is
+calculated as 524,288 * C<HAPairs>.
+
+B<FSx for OpenZFS file systems> - The amount of storage capacity that
+you can configure is from 64 GiB up to 524,288 GiB (512 TiB).
+
+B<FSx for Windows File Server file systems> - The amount of storage
+capacity that you can configure depends on the value that you set for
+C<StorageType> as follows:
 
 =over
 
 =item *
 
-If C<StorageType=SSD>, valid values are 32 GiB - 65,536 GiB (64 TiB).
+For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
 
 =item *
 
-If C<StorageType=HDD>, valid values are 2000 GiB - 65,536 GiB (64 TiB).
+For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
 
 =back
 
@@ -201,60 +232,77 @@ If C<StorageType=HDD>, valid values are 2000 GiB - 65,536 GiB (64 TiB).
 
 =head2 StorageType => Str
 
-Sets the storage type for the file system you're creating. Valid values
-are C<SSD> and C<HDD>.
+Sets the storage class for the file system that you're creating. Valid
+values are C<SSD>, C<HDD>, and C<INTELLIGENT_TIERING>.
 
 =over
 
 =item *
 
 Set to C<SSD> to use solid state drive storage. SSD is supported on all
-Windows and Lustre deployment types.
+Windows, Lustre, ONTAP, and OpenZFS deployment types.
 
 =item *
 
 Set to C<HDD> to use hard disk drive storage. HDD is supported on
 C<SINGLE_AZ_2> and C<MULTI_AZ_1> Windows file system deployment types,
-and on C<PERSISTENT> Lustre file system deployment types.
+and on C<PERSISTENT_1> Lustre file system deployment types.
+
+=item *
+
+Set to C<INTELLIGENT_TIERING> to use fully elastic,
+intelligently-tiered storage. Intelligent-Tiering is only available for
+OpenZFS file systems with the Multi-AZ deployment type.
 
 =back
 
-Default value is C<SSD>. For more information, see Storage Type Options
+Default value is C<SSD>. For more information, see Storage type options
 (https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options)
-in the I<Amazon FSx for Windows User Guide> and Multiple Storage
-Options
+in the I<FSx for Windows File Server User Guide>, Multiple storage
+options
 (https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options)
-in the I<Amazon FSx for Lustre User Guide>.
+in the I<FSx for Lustre User Guide>, and Working with
+Intelligent-Tiering
+(https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering)
+in the I<Amazon FSx for OpenZFS User Guide>.
 
-Valid values are: C<"SSD">, C<"HDD">
+Valid values are: C<"SSD">, C<"HDD">, C<"INTELLIGENT_TIERING">
 
 =head2 B<REQUIRED> SubnetIds => ArrayRef[Str|Undef]
 
 Specifies the IDs of the subnets that the file system will be
-accessible from. For Windows C<MULTI_AZ_1> file system deployment
-types, provide exactly two subnet IDs, one for the preferred file
-server and one for the standby file server. You specify one of these
-subnets as the preferred subnet using the C<WindowsConfiguration E<gt>
-PreferredSubnetID> property. For more information, see Availability and
-durability: Single-AZ and Multi-AZ file systems
-(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html).
+accessible from. For Windows and ONTAP C<MULTI_AZ_1> deployment
+types,provide exactly two subnet IDs, one for the preferred file server
+and one for the standby file server. You specify one of these subnets
+as the preferred subnet using the C<WindowsConfiguration E<gt>
+PreferredSubnetID> or C<OntapConfiguration E<gt> PreferredSubnetID>
+properties. For more information about Multi-AZ file system
+configuration, see Availability and durability: Single-AZ and Multi-AZ
+file systems
+(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html)
+in the I<Amazon FSx for Windows User Guide> and Availability and
+durability
+(https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html)
+in the I<Amazon FSx for ONTAP User Guide>.
 
-For Windows C<SINGLE_AZ_1> and C<SINGLE_AZ_2> file system deployment
-types and Lustre file systems, provide exactly one subnet ID. The file
-server is launched in that subnet's Availability Zone.
+For Windows C<SINGLE_AZ_1> and C<SINGLE_AZ_2> and all Lustre deployment
+types, provide exactly one subnet ID. The file server is launched in
+that subnet's Availability Zone.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::FSX::Tag>]
 
-The tags to apply to the file system being created. The key value of
-the C<Name> tag appears in the console as the file system name.
+The tags to apply to the file system that's being created. The key
+value of the C<Name> tag appears in the console as the file system
+name.
 
 
 
 =head2 WindowsConfiguration => L<Paws::FSX::CreateFileSystemWindowsConfiguration>
 
-The Microsoft Windows configuration for the file system being created.
+The Microsoft Windows configuration for the file system that's being
+created.
 
 
 

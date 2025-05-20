@@ -42,8 +42,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 =head2 B<REQUIRED> AdminAccountId => Str
 
-The AWS Account ID for the organizations account to be disabled as a
-GuardDuty delegated administrator.
+The Amazon Web Services Account ID for the organizations account to be
+disabled as a GuardDuty delegated administrator.
 
 
 

@@ -3,6 +3,7 @@ package Paws::SSMIncidents::CreateReplicationSet;
   use Moose;
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
   has Regions => (is => 'ro', isa => 'Paws::SSMIncidents::RegionMapInput', traits => ['NameInRequest'], request_name => 'regions', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::SSMIncidents::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
 
@@ -36,6 +37,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # key: max: 20
       },
       ClientToken => 'MyClientToken',    # OPTIONAL
+      Tags        => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
     # Results:
@@ -51,8 +55,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token that ensures that the operation is called only once with the
+specified details.
 
 
 
@@ -60,6 +64,12 @@ details.
 
 The Regions that Incident Manager replicates your data to. You can have
 up to three Regions in your replication set.
+
+
+
+=head2 Tags => L<Paws::SSMIncidents::TagMap>
+
+A list of tags to add to the replication set.
 
 
 

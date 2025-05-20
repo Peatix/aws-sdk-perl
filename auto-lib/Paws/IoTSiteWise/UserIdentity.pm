@@ -40,7 +40,7 @@ Contains information for a user identity in an access policy.
 
 =head2 B<REQUIRED> Id => Str
 
-The AWS SSO ID of the user.
+The IAM Identity Center ID of the user.
 
 
 

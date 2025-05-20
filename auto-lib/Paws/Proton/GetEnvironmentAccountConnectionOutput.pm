@@ -16,8 +16,7 @@ Paws::Proton::GetEnvironmentAccountConnectionOutput
 
 =head2 B<REQUIRED> EnvironmentAccountConnection => L<Paws::Proton::EnvironmentAccountConnection>
 
-The environment account connection detail data that's returned by AWS
-Proton.
+The detailed data of the requested environment account connection.
 
 
 =head2 _request_id => Str

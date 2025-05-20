@@ -3,7 +3,7 @@ package Paws::IAM::CreateOpenIDConnectProvider;
   use Moose;
   has ClientIDList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IAM::Tag]');
-  has ThumbprintList => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has ThumbprintList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Url => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -54,10 +54,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 
 =head2 ClientIDList => ArrayRef[Str|Undef]
 
-A list of client IDs (also known as audiences). When a mobile or web
-app registers with an OpenID Connect provider, they establish a value
-that identifies the application. (This is the value that's sent as the
-C<client_id> parameter on OAuth requests.)
+Provides a list of client IDs, also known as audiences. When a mobile
+or web app registers with an OpenID Connect provider, they establish a
+value that identifies the application. This is the value that's sent as
+the C<client_id> parameter on OAuth requests.
 
 You can register multiple client IDs with the same provider. For
 example, you might have multiple applications that use the same OIDC
@@ -84,7 +84,7 @@ created.
 
 
 
-=head2 B<REQUIRED> ThumbprintList => ArrayRef[Str|Undef]
+=head2 ThumbprintList => ArrayRef[Str|Undef]
 
 A list of server certificate thumbprints for the OpenID Connect (OIDC)
 identity provider's server certificates. Typically this list includes
@@ -92,21 +92,24 @@ only one entry. However, IAM lets you have up to five thumbprints for
 an OIDC provider. This lets you maintain multiple thumbprints if the
 identity provider is rotating certificates.
 
+This parameter is optional. If it is not included, IAM will retrieve
+and use the top intermediate certificate authority (CA) thumbprint of
+the OpenID Connect identity provider server certificate.
+
 The server certificate thumbprint is the hex-encoded SHA-1 hash value
 of the X.509 certificate used by the domain where the OpenID Connect
 provider makes its keys available. It is always a 40-character string.
 
-You must provide at least one thumbprint when creating an IAM OIDC
-provider. For example, assume that the OIDC provider is
-C<server.example.com> and the provider stores its keys at
+For example, assume that the OIDC provider is C<server.example.com> and
+the provider stores its keys at
 https://keys.server.example.com/openid-connect. In that case, the
 thumbprint string would be the hex-encoded SHA-1 hash value of the
-certificate used by https://keys.server.example.com.
+certificate used by C<https://keys.server.example.com.>
 
-For more information about obtaining the OIDC provider's thumbprint,
-see Obtaining the thumbprint for an OpenID Connect provider
+For more information about obtaining the OIDC provider thumbprint, see
+Obtaining the thumbprint for an OpenID Connect provider
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html)
-in the I<IAM User Guide>.
+in the I<IAM user Guide>.
 
 
 
@@ -117,10 +120,12 @@ and should correspond to the C<iss> claim in the provider's OpenID
 Connect ID tokens. Per the OIDC standard, path components are allowed
 but query parameters are not. Typically the URL consists of only a
 hostname, like C<https://server.example.org> or C<https://example.com>.
+The URL should not contain a port number.
 
-You cannot register the same provider multiple times in a single AWS
-account. If you try to submit a URL that has already been used for an
-OpenID Connect provider in the AWS account, you will get an error.
+You cannot register the same provider multiple times in a single Amazon
+Web Services account. If you try to submit a URL that has already been
+used for an OpenID Connect provider in the Amazon Web Services account,
+you will get an error.
 
 
 

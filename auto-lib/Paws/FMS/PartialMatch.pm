@@ -42,7 +42,7 @@ and violation reason.
 
 =head2 Reference => Str
 
-The reference rule from the master security group of the AWS Firewall
+The reference rule from the primary security group of the Firewall
 Manager policy.
 
 

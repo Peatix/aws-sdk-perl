@@ -35,26 +35,48 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Cluste
 =head1 DESCRIPTION
 
 The settings to use when creating a cluster. This parameter is used to
-enable CloudWatch Container Insights for a cluster.
+turn on CloudWatch Container Insights with enhanced observability or
+CloudWatch Container Insights for a cluster.
+
+Container Insights with enhanced observability provides all the
+Container Insights metrics, plus additional task and container metrics.
+This version supports enhanced observability for Amazon ECS clusters
+using the Amazon EC2 and Fargate launch types. After you configure
+Container Insights with enhanced observability on Amazon ECS, Container
+Insights auto-collects detailed infrastructure telemetry from the
+cluster level down to the container level in your environment and
+displays these critical performance data in curated dashboards removing
+the heavy lifting in observability set-up.
+
+For more information, see Monitor Amazon ECS containers using Container
+Insights with enhanced observability
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 Name => Str
 
-The name of the cluster setting. The only supported value is
-C<containerInsights>.
+The name of the cluster setting. The value is C<containerInsights> .
 
 
 =head2 Value => Str
 
 The value to set for the cluster setting. The supported values are
-C<enabled> and C<disabled>. If C<enabled> is specified, CloudWatch
-Container Insights will be enabled for the cluster, otherwise it will
-be disabled unless the C<containerInsights> account setting is enabled.
+C<enhanced>, C<enabled>, and C<disabled>.
+
+To use Container Insights with enhanced observability, set the
+C<containerInsights> account setting to C<enhanced>.
+
+To use Container Insights, set the C<containerInsights> account setting
+to C<enabled>.
+
 If a cluster value is specified, it will override the
-C<containerInsights> value set with PutAccountSetting or
-PutAccountSettingDefault.
+C<containerInsights> value set with PutAccountSetting
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html)
+or PutAccountSettingDefault
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html).
 
 
 

@@ -61,9 +61,9 @@ the grant permits.
 
 =head2 B<REQUIRED> IssuingAccount => Str
 
-The AWS account under which the grant was issued. The account is used
-to propose KMS grants issued by accounts other than the owner of the
-key.
+The Amazon Web Services account under which the grant was issued. The
+account is used to propose KMS grants issued by accounts other than the
+owner of the key.
 
 
 =head2 B<REQUIRED> Operations => ArrayRef[Str|Undef]

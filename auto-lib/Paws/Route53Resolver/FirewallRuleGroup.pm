@@ -87,9 +87,9 @@ The name of the rule group.
 
 =head2 OwnerId => Str
 
-The AWS account ID for the account that created the rule group. When a
-rule group is shared with your account, this is the account that has
-shared the rule group with you.
+The Amazon Web Services account ID for the account that created the
+rule group. When a rule group is shared with your account, this is the
+account that has shared the rule group with you.
 
 
 =head2 RuleCount => Int
@@ -99,9 +99,10 @@ The number of rules in the rule group.
 
 =head2 ShareStatus => Str
 
-Whether the rule group is shared with other AWS accounts, or was shared
-with the current account by another AWS account. Sharing is configured
-through AWS Resource Access Manager (AWS RAM).
+Whether the rule group is shared with other Amazon Web Services
+accounts, or was shared with the current account by another Amazon Web
+Services account. Sharing is configured through Resource Access Manager
+(RAM).
 
 
 =head2 Status => Str

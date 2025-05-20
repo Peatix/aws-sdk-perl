@@ -1,8 +1,10 @@
 
 package Paws::MediaPackageVod::DescribePackagingGroupResponse;
   use Moose;
+  has ApproximateAssetCount => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'approximateAssetCount');
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
   has Authorization => (is => 'ro', isa => 'Paws::MediaPackageVod::Authorization', traits => ['NameInRequest'], request_name => 'authorization');
+  has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has DomainName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domainName');
   has EgressAccessLogs => (is => 'ro', isa => 'Paws::MediaPackageVod::EgressAccessLogs', traits => ['NameInRequest'], request_name => 'egressAccessLogs');
   has Id => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'id');
@@ -20,6 +22,11 @@ Paws::MediaPackageVod::DescribePackagingGroupResponse
 =head1 ATTRIBUTES
 
 
+=head2 ApproximateAssetCount => Int
+
+The approximate asset count of the PackagingGroup.
+
+
 =head2 Arn => Str
 
 The ARN of the PackagingGroup.
@@ -28,6 +35,11 @@ The ARN of the PackagingGroup.
 =head2 Authorization => L<Paws::MediaPackageVod::Authorization>
 
 
+
+
+=head2 CreatedAt => Str
+
+The time the PackagingGroup was created.
 
 
 =head2 DomainName => Str

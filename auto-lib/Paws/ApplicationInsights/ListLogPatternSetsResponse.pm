@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::ListLogPatternSetsResponse;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has LogPatternSets => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NextToken => (is => 'ro', isa => 'Str');
   has ResourceGroupName => (is => 'ro', isa => 'Str');
@@ -14,6 +15,11 @@ package Paws::ApplicationInsights::ListLogPatternSetsResponse;
 Paws::ApplicationInsights::ListLogPatternSetsResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
 
 
 =head2 LogPatternSets => ArrayRef[Str|Undef]

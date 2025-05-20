@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::ListConfigurationHistory;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
   has EventStatus => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $ListConfigurationHistoryResponse =
       $applicationinsights->ListConfigurationHistory(
+      AccountId         => 'MyAccountId',            # OPTIONAL
       EndTime           => '1970-01-01T01:00:00',    # OPTIONAL
       EventStatus       => 'INFO',                   # OPTIONAL
       MaxResults        => 1,                        # OPTIONAL
@@ -52,6 +54,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/ListConfigurationHistory>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
+
 
 
 =head2 EndTime => Str

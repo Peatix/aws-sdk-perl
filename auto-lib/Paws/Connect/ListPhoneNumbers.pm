@@ -41,7 +41,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ... # values: AF, AL, DZ, AS, AD, AO, AI, AQ, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BM, BT, BO, BA, BW, BR, IO, VG, BN, BG, BF, BI, KH, CM, CA, CV, KY, CF, TD, CL, CN, CX, CC, CO, KM, CK, CR, HR, CU, CW, CY, CZ, CD, DK, DJ, DM, DO, TL, EC, EG, SV, GQ, ER, EE, ET, FK, FO, FJ, FI, FR, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IM, IL, IT, CI, JM, JP, JE, JO, KZ, KE, KI, KW, KG, LA, LV, LB, LS, LR, LY, LI, LT, LU, MO, MK, MG, MW, MY, MV, ML, MT, MH, MR, MU, YT, MX, FM, MD, MC, MN, ME, MS, MA, MZ, MM, NA, NR, NP, NL, AN, NC, NZ, NI, NE, NG, NU, KP, MP, NO, OM, PK, PW, PA, PG, PY, PE, PH, PN, PL, PT, PR, QA, CG, RE, RO, RU, RW, BL, SH, KN, LC, MF, PM, VC, WS, SM, ST, SA, SN, RS, SC, SL, SG, SX, SK, SI, SB, SO, ZA, KR, ES, LK, SD, SR, SJ, SZ, SE, CH, SY, TW, TJ, TZ, TH, TG, TK, TO, TT, TN, TR, TM, TC, TV, VI, UG, UA, AE, GB, US, UY, UZ, VU, VA, VE, VN, WF, EH, YE, ZM, ZW
       ],    # OPTIONAL
       PhoneNumberTypes => [
-        'TOLL_FREE', ...    # values: TOLL_FREE, DID
+        'TOLL_FREE',
+        ... # values: TOLL_FREE, DID, UIFN, SHARED, THIRD_PARTY_TF, THIRD_PARTY_DID, SHORT_CODE
       ],    # OPTIONAL
     );
 
@@ -61,13 +62,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return per page.
+The maximum number of results to return per page. The default MaxResult
+size is 100.
 
 
 
@@ -88,6 +92,12 @@ The ISO country code.
 =head2 PhoneNumberTypes => ArrayRef[Str|Undef]
 
 The type of phone number.
+
+We recommend using ListPhoneNumbersV2
+(https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html)
+to return phone number types. While ListPhoneNumbers returns number
+types C<UIFN>, C<SHARED>, C<THIRD_PARTY_TF>, and C<THIRD_PARTY_DID>, it
+incorrectly lists them as C<TOLL_FREE> or C<DID>.
 
 
 

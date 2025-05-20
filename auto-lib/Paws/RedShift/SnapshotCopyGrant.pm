@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RedShift::S
 =head1 DESCRIPTION
 
 The snapshot copy grant that grants Amazon Redshift permission to
-encrypt copied snapshots with the specified customer master key (CMK)
-from AWS KMS in the destination region.
+encrypt copied snapshots with the specified encrypted symmetric key
+from Amazon Web Services KMS in the destination region.
 
 For more information about managing snapshot copy grants, go to Amazon
 Redshift Database Encryption
@@ -49,8 +49,8 @@ in the I<Amazon Redshift Cluster Management Guide>.
 
 =head2 KmsKeyId => Str
 
-The unique identifier of the customer master key (CMK) in AWS KMS to
-which Amazon Redshift is granted permission.
+The unique identifier of the encrypted symmetric key in Amazon Web
+Services KMS to which Amazon Redshift is granted permission.
 
 
 =head2 SnapshotCopyGrantName => Str

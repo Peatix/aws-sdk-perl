@@ -88,6 +88,8 @@ character from the ! (C<\u0021>) through the DEL character (C<\u007F>),
 including most punctuation characters, digits, and upper and lowercased
 letters.
 
+You cannot use an asterisk (*) in the path name.
+
 
 
 =head2 B<REQUIRED> PolicyDocument => Str
@@ -95,10 +97,16 @@ letters.
 The JSON policy document that you want to use as the content for the
 new policy.
 
-You must provide policies in JSON format in IAM. However, for AWS
+You must provide policies in JSON format in IAM. However, for
 CloudFormation templates formatted in YAML, you can provide the policy
-in JSON or YAML format. AWS CloudFormation always converts a YAML
-policy to JSON format before submitting it to IAM.
+in JSON or YAML format. CloudFormation always converts a YAML policy to
+JSON format before submitting it to IAM.
+
+The maximum length of the policy document that you can pass in this
+operation, including whitespace, is listed below. To view the maximum
+character counts of a managed policy with no whitespaces, see IAM and
+STS character quotas
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
 To learn more about JSON policy grammar, see Grammar of the IAM JSON
 policy language

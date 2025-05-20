@@ -29,13 +29,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $batch = Paws->service('Batch');
+    # TagResource Example
+    # This demonstrates calling the TagResource action.
     my $TagResourceResponse = $batch->TagResource(
-      ResourceArn => 'MyString',
-      Tags        => {
-        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
-      },
-
+      'ResourceArn' =>
+        'arn:aws:batch:us-east-1:123456789012:job-definition/sleep30:1',
+      'Tags' => {
+        'Stage' => 'Alpha'
+      }
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/batch/TagResource>
@@ -46,9 +49,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bat
 =head2 B<REQUIRED> ResourceArn => Str
 
 The Amazon Resource Name (ARN) of the resource that tags are added to.
-AWS Batch resources that support tags are compute environments, jobs,
-job definitions, and job queues. ARNs for child jobs of array and
-multi-node parallel (MNP) jobs are not supported.
+Batch resources that support tags are compute environments, jobs, job
+definitions, job queues, and scheduling policies. ARNs for child jobs
+of array and multi-node parallel (MNP) jobs aren't supported.
 
 
 
@@ -56,9 +59,9 @@ multi-node parallel (MNP) jobs are not supported.
 
 The tags that you apply to the resource to help you categorize and
 organize your resources. Each tag consists of a key and an optional
-value. For more information, see Tagging AWS Resources
+value. For more information, see Tagging Amazon Web Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in
-I<AWS General Reference>.
+I<Amazon Web Services General Reference>.
 
 
 

@@ -3,7 +3,9 @@ package Paws::ECS::NetworkBinding;
   use Moose;
   has BindIP => (is => 'ro', isa => 'Str', request_name => 'bindIP', traits => ['NameInRequest']);
   has ContainerPort => (is => 'ro', isa => 'Int', request_name => 'containerPort', traits => ['NameInRequest']);
+  has ContainerPortRange => (is => 'ro', isa => 'Str', request_name => 'containerPortRange', traits => ['NameInRequest']);
   has HostPort => (is => 'ro', isa => 'Int', request_name => 'hostPort', traits => ['NameInRequest']);
+  has HostPortRange => (is => 'ro', isa => 'Str', request_name => 'hostPortRange', traits => ['NameInRequest']);
   has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest']);
 
 1;
@@ -39,7 +41,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Networ
 Details on the network bindings between a container and its host
 container instance. After a task reaches the C<RUNNING> status, manual
 and automatic host and container port assignments are visible in the
-C<networkBindings> section of DescribeTasks API responses.
+C<networkBindings> section of DescribeTasks
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html)
+API responses.
 
 =head1 ATTRIBUTES
 
@@ -52,12 +56,110 @@ instance.
 
 =head2 ContainerPort => Int
 
-The port number on the container that is used with the network binding.
+The port number on the container that's used with the network binding.
+
+
+=head2 ContainerPortRange => Str
+
+The port number range on the container that's bound to the dynamically
+mapped host port range.
+
+The following rules apply when you specify a C<containerPortRange>:
+
+=over
+
+=item *
+
+You must use either the C<bridge> network mode or the C<awsvpc> network
+mode.
+
+=item *
+
+This parameter is available for both the EC2 and Fargate launch types.
+
+=item *
+
+This parameter is available for both the Linux and Windows operating
+systems.
+
+=item *
+
+The container instance must have at least version 1.67.0 of the
+container agent and at least version 1.67.0-1 of the C<ecs-init>
+package
+
+=item *
+
+You can specify a maximum of 100 port ranges per container.
+
+=item *
+
+You do not specify a C<hostPortRange>. The value of the
+C<hostPortRange> is set as follows:
+
+=over
+
+=item *
+
+For containers in a task with the C<awsvpc> network mode, the
+C<hostPortRange> is set to the same value as the C<containerPortRange>.
+This is a static mapping strategy.
+
+=item *
+
+For containers in a task with the C<bridge> network mode, the Amazon
+ECS agent finds open host ports from the default ephemeral range and
+passes it to docker to bind them to the container ports.
+
+=back
+
+=item *
+
+The C<containerPortRange> valid values are between 1 and 65535.
+
+=item *
+
+A port can only be included in one port mapping per container.
+
+=item *
+
+You cannot specify overlapping port ranges.
+
+=item *
+
+The first port in the range must be less than last port in the range.
+
+=item *
+
+Docker recommends that you turn off the docker-proxy in the Docker
+daemon config file when you have a large number of ports.
+
+For more information, see Issue #11185
+(https://github.com/moby/moby/issues/11185) on the Github website.
+
+For information about how to turn off the docker-proxy in the Docker
+daemon config file, see Docker daemon
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/bootstrap_container_instance.html#bootstrap_docker_daemon)
+in the I<Amazon ECS Developer Guide>.
+
+=back
+
+You can call C<DescribeTasks>
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html)
+to view the C<hostPortRange> which are the host ports that are bound to
+the container ports.
 
 
 =head2 HostPort => Int
 
-The port number on the host that is used with the network binding.
+The port number on the host that's used with the network binding.
+
+
+=head2 HostPortRange => Str
+
+The port number range on the host that's used with the network binding.
+This is assigned is assigned by Docker and delivered by the Amazon ECS
+agent.
 
 
 =head2 Protocol => Str

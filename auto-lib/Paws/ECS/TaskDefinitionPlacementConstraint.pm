@@ -34,13 +34,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::TaskDe
 
 =head1 DESCRIPTION
 
-An object representing a constraint on task placement in the task
-definition. For more information, see Task placement constraints
+The constraint on task placement in the task definition. For more
+information, see Task placement constraints
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-Task placement constraints are not supported for tasks run on AWS
-Fargate.
+Task placement constraints aren't supported for tasks run on Fargate.
 
 =head1 ATTRIBUTES
 

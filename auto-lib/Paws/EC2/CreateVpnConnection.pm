@@ -38,21 +38,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Type              => 'MyString',
       DryRun            => 1,                       # OPTIONAL
       Options           => {
-        EnableAcceleration    => 1,
-        LocalIpv4NetworkCidr  => 'MyString',
-        LocalIpv6NetworkCidr  => 'MyString',
-        RemoteIpv4NetworkCidr => 'MyString',
-        RemoteIpv6NetworkCidr => 'MyString',
-        StaticRoutesOnly      => 1,
-        TunnelInsideIpVersion => 'ipv4',       # values: ipv4, ipv6; OPTIONAL
+        EnableAcceleration                  => 1,
+        LocalIpv4NetworkCidr                => 'MyString',
+        LocalIpv6NetworkCidr                => 'MyString',
+        OutsideIpAddressType                => 'MyString',
+        RemoteIpv4NetworkCidr               => 'MyString',
+        RemoteIpv6NetworkCidr               => 'MyString',
+        StaticRoutesOnly                    => 1,
+        TransportTransitGatewayAttachmentId =>
+          'MyTransitGatewayAttachmentId',    # OPTIONAL
+        TunnelInsideIpVersion => 'ipv4',     # values: ipv4, ipv6; OPTIONAL
         TunnelOptions         => [
           {
-            DPDTimeoutAction  => 'MyString',
-            DPDTimeoutSeconds => 1,                                   # OPTIONAL
-            IKEVersions       => [ { Value => 'MyString', }, ... ],   # OPTIONAL
+            DPDTimeoutAction             => 'MyString',
+            DPDTimeoutSeconds            => 1,                   # OPTIONAL
+            EnableTunnelLifecycleControl => 1,
+            IKEVersions => [ { Value => 'MyString', }, ... ],    # OPTIONAL
+            LogOptions  => {
+              CloudWatchLogOptions => {
+                LogEnabled      => 1,
+                LogGroupArn     => 'MyCloudWatchLogGroupArn',    # OPTIONAL
+                LogOutputFormat => 'MyString',
+              },    # OPTIONAL
+            },    # OPTIONAL
             Phase1DHGroupNumbers => [
               {
-                Value => 1,                                           # OPTIONAL
+                Value => 1,    # OPTIONAL
               },
               ...
             ],    # OPTIONAL
@@ -68,14 +79,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ...
             ],    # OPTIONAL
             Phase2EncryptionAlgorithms => [ { Value => 'MyString', }, ... ]
-            ,                                       # OPTIONAL
+            ,                                              # OPTIONAL
             Phase2IntegrityAlgorithms => [ { Value => 'MyString', }, ... ]
-            ,                                       # OPTIONAL
-            Phase2LifetimeSeconds  => 1,            # OPTIONAL
-            PreSharedKey           => 'MyString',
-            RekeyFuzzPercentage    => 1,            # OPTIONAL
-            RekeyMarginTimeSeconds => 1,            # OPTIONAL
-            ReplayWindowSize       => 1,            # OPTIONAL
+            ,                                              # OPTIONAL
+            Phase2LifetimeSeconds  => 1,                   # OPTIONAL
+            PreSharedKey           => 'MypreSharedKey',    # OPTIONAL
+            RekeyFuzzPercentage    => 1,                   # OPTIONAL
+            RekeyMarginTimeSeconds => 1,                   # OPTIONAL
+            ReplayWindowSize       => 1,                   # OPTIONAL
             StartupAction          => 'MyString',
             TunnelInsideCidr       => 'MyString',
             TunnelInsideIpv6Cidr   => 'MyString',
@@ -85,8 +96,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       TagSpecifications => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',

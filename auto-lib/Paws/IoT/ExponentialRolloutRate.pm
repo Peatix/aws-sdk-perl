@@ -51,8 +51,8 @@ define the initial rate of rollout.
 
 The exponential factor to increase the rate of rollout for a job.
 
-AWS IoT supports up to one digit after the decimal (for example, 1.5,
-but not 1.55).
+Amazon Web Services IoT Core supports up to one digit after the decimal
+(for example, 1.5, but not 1.55).
 
 
 =head2 B<REQUIRED> RateIncreaseCriteria => L<Paws::IoT::RateIncreaseCriteria>

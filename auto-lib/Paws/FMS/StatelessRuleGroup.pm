@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::Statel
 
 =head1 DESCRIPTION
 
-AWS Network Firewall stateless rule group, used in a
+Network Firewall stateless rule group, used in a
 NetworkFirewallPolicyDescription.
 
 =head1 ATTRIBUTES
@@ -43,7 +43,7 @@ NetworkFirewallPolicyDescription.
 
 =head2 Priority => Int
 
-The priority of the rule group. AWS Network Firewall evaluates the
+The priority of the rule group. Network Firewall evaluates the
 stateless rule groups in a firewall policy starting from the lowest
 priority setting.
 

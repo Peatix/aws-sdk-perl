@@ -29,15 +29,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $ListPagesByEngagementResult = $ssm -contacts->ListPagesByEngagement(
-      EngagementId => 'MySsmContactsArn',
-      MaxResults   => 1,                      # OPTIONAL
-      NextToken    => 'MyPaginationToken',    # OPTIONAL
-    );
+  # To list pages to contact channels started from an engagement.
+  # The following list-pages-by-engagement example lists the pages that occurred
+  # while engaging the defined engagement plan.
+    my $ListPagesByEngagementResult =
+      $ssm -
+      contacts->ListPagesByEngagement( 'EngagementId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:engagement/akuam/78a29753-3674-4ac5-9f83-0468563567f0'
+      );
 
     # Results:
-    my $NextToken = $ListPagesByEngagementResult->NextToken;
-    my $Pages     = $ListPagesByEngagementResult->Pages;
+    my $Pages = $ListPagesByEngagementResult->Pages;
 
     # Returns a L<Paws::SSMContacts::ListPagesByEngagementResult> object.
 

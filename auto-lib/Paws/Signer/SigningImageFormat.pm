@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::Sig
 
 =head1 DESCRIPTION
 
-The image format of a code signing platform or profile.
+The image format of a AWS Signer platform or profile.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> DefaultFormat => Str
 
-The default format of a code signing image.
+The default format of a signing image.
 
 
 =head2 B<REQUIRED> SupportedFormats => ArrayRef[Str|Undef]
 
-The supported formats of a code signing image.
+The supported formats of a signing image.
 
 
 

@@ -38,40 +38,41 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The metadata associated with the specified standard or custom control.
+The metadata that's associated with the standard control or custom
+control.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the specified control.
+The Amazon Resource Name (ARN) of the control.
 
 
 =head2 ControlSources => Str
 
-The data source that determines from where AWS Audit Manager collects
-evidence for the control.
+The data source that determines where Audit Manager collects evidence
+from for the control.
 
 
 =head2 CreatedAt => Str
 
-Specifies when the control was created.
+The time when the control was created.
 
 
 =head2 Id => Str
 
-The unique identifier for the specified control.
+The unique identifier for the control.
 
 
 =head2 LastUpdatedAt => Str
 
-Specifies when the control was most recently updated.
+The time when the control was most recently updated.
 
 
 =head2 Name => Str
 
-The name of the specified control.
+The name of the control.
 
 
 

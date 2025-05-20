@@ -36,16 +36,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes the login information for the container image registry of an
-Amazon Lightsail account.
+Describes the sign-in credentials for the container image registry of
+an Amazon Lightsail account.
 
 =head1 ATTRIBUTES
 
 
 =head2 ExpiresAt => Str
 
-The timestamp of when the container image registry username and
-password expire.
+The timestamp of when the container image registry sign-in credentials
+expire.
 
 The log in credentials expire 12 hours after they are created, at which
 point you will need to create a new set of log in credentials using the

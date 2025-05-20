@@ -2,7 +2,9 @@
 package Paws::EC2::CreateKeyPair;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
+  has KeyFormat => (is => 'ro', isa => 'Str');
   has KeyName => (is => 'ro', isa => 'Str', required => 1);
+  has KeyType => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
 
   use MooseX::ClassAttribute;
@@ -49,6 +51,14 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 KeyFormat => Str
+
+The format of the key pair.
+
+Default: C<pem>
+
+Valid values are: C<"pem">, C<"ppk">
+
 =head2 B<REQUIRED> KeyName => Str
 
 A unique name for the key pair.
@@ -56,6 +66,15 @@ A unique name for the key pair.
 Constraints: Up to 255 ASCII characters
 
 
+
+=head2 KeyType => Str
+
+The type of key pair. Note that ED25519 keys are not supported for
+Windows instances.
+
+Default: C<rsa>
+
+Valid values are: C<"rsa">, C<"ed25519">
 
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
 

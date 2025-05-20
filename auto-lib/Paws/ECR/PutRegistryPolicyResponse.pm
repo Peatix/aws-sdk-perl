@@ -22,7 +22,7 @@ The JSON policy text for your registry.
 
 =head2 RegistryId => Str
 
-The registry ID.
+The registry ID associated with the request.
 
 
 =head2 _request_id => Str

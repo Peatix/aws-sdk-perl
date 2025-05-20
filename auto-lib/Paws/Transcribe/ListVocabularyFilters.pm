@@ -49,24 +49,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 MaxResults => Int
 
-The maximum number of filters to return in the response. If there are
-fewer results in the list, this response contains only the actual
-results.
+The maximum number of custom vocabulary filters to return in each page
+of results. If there are fewer results than the value that you specify,
+only the actual results are returned. If you do not specify a value, a
+default of 5 is used.
 
 
 
 =head2 NameContains => Str
 
-Filters the response so that it only contains vocabulary filters whose
-name contains the specified string.
+Returns only the custom vocabulary filters that contain the specified
+string. The search is not case sensitive.
 
 
 
 =head2 NextToken => Str
 
-If the result of the previous request to C<ListVocabularyFilters> was
-truncated, include the C<NextToken> to fetch the next set of
-collections.
+If your C<ListVocabularyFilters> request returns more results than can
+be displayed, C<NextToken> is displayed in the response with an
+associated string. To get the next page of results, copy this string
+and repeat your request, including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 

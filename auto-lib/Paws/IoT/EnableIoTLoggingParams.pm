@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::Enable
 
 =head1 DESCRIPTION
 
-Parameters used when defining a mitigation action that enable AWS IoT
-logging.
+Parameters used when defining a mitigation action that enable Amazon
+Web Services IoT Core logging.
 
 =head1 ATTRIBUTES
 

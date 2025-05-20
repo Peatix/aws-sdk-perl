@@ -45,7 +45,7 @@ Contains one or more certificates or a certificate signing request
 
 =head2 AwsHardwareCertificate => Str
 
-The HSM hardware certificate issued (signed) by AWS CloudHSM.
+The HSM hardware certificate issued (signed) by CloudHSM.
 
 
 =head2 ClusterCertificate => Str

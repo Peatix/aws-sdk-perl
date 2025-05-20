@@ -35,16 +35,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::NetworkFire
 
 =head1 DESCRIPTION
 
-Defines where AWS Network Firewall sends logs for the firewall for one
-log type. This is used in LoggingConfiguration. You can send each type
-of log to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis
-Data Firehose delivery stream.
+Defines where Network Firewall sends logs for the firewall for one log
+type. This is used in LoggingConfiguration. You can send each type of
+log to an Amazon S3 bucket, a CloudWatch log group, or a Firehose
+delivery stream.
 
 Network Firewall generates logs for stateful rule groups. You can save
-alert and flow log types. The stateful rules engine records flow logs
-for all network traffic that it receives. It records alert logs for
-traffic that matches stateful rules that have the rule action set to
-C<DROP> or C<ALERT>.
+alert, flow, and TLS log types.
 
 =head1 ATTRIBUTES
 
@@ -59,8 +56,9 @@ is specific to the chosen destination type.
 =item *
 
 For an Amazon S3 bucket, provide the name of the bucket, with key
-C<bucketName>, and optionally provide a prefix, with key C<prefix>. The
-following example specifies an Amazon S3 bucket named
+C<bucketName>, and optionally provide a prefix, with key C<prefix>.
+
+The following example specifies an Amazon S3 bucket named
 C<DOC-EXAMPLE-BUCKET> and the prefix C<alerts>:
 
 C<"LogDestination": { "bucketName": "DOC-EXAMPLE-BUCKET", "prefix":
@@ -76,9 +74,9 @@ C<"LogDestination": { "logGroup": "alert-log-group" }>
 
 =item *
 
-For a Kinesis Data Firehose delivery stream, provide the name of the
-delivery stream, with key C<deliveryStream>. The following example
-specifies a delivery stream named C<alert-delivery-stream>:
+For a Firehose delivery stream, provide the name of the delivery
+stream, with key C<deliveryStream>. The following example specifies a
+delivery stream named C<alert-delivery-stream>:
 
 C<"LogDestination": { "deliveryStream": "alert-delivery-stream" }>
 
@@ -89,15 +87,41 @@ C<"LogDestination": { "deliveryStream": "alert-delivery-stream" }>
 =head2 B<REQUIRED> LogDestinationType => Str
 
 The type of storage destination to send these logs to. You can send
-logs to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis Data
-Firehose delivery stream.
+logs to an Amazon S3 bucket, a CloudWatch log group, or a Firehose
+delivery stream.
 
 
 =head2 B<REQUIRED> LogType => Str
 
-The type of log to send. Alert logs report traffic that matches a
-StatefulRule with an action setting that sends an alert log message.
-Flow logs are standard network traffic flow logs.
+The type of log to record. You can record the following types of logs
+from your Network Firewall stateful engine.
+
+=over
+
+=item *
+
+C<ALERT> - Logs for traffic that matches your stateful rules and that
+have an action that sends an alert. A stateful rule sends alerts for
+the rule actions DROP, ALERT, and REJECT. For more information, see
+StatefulRule.
+
+=item *
+
+C<FLOW> - Standard network traffic flow logs. The stateful rules engine
+records flow logs for all network traffic that it receives. Each flow
+log record captures the network flow for a specific standard stateless
+rule group.
+
+=item *
+
+C<TLS> - Logs for events that are related to TLS inspection. For more
+information, see Inspecting SSL/TLS traffic with TLS inspection
+configurations
+(https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-configurations.html)
+in the I<Network Firewall Developer Guide>.
+
+=back
+
 
 
 

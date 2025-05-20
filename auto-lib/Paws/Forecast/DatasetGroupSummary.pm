@@ -37,9 +37,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::D
 =head1 DESCRIPTION
 
 Provides a summary of the dataset group properties used in the
-ListDatasetGroups operation. To get the complete set of properties,
-call the DescribeDatasetGroup operation, and provide the
-C<DatasetGroupArn>.
+ListDatasetGroups
+(https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html)
+operation. To get the complete set of properties, call the
+DescribeDatasetGroup
+(https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html)
+operation, and provide the C<DatasetGroupArn>.
 
 =head1 ATTRIBUTES
 
@@ -62,7 +65,9 @@ The name of the dataset group.
 =head2 LastModificationTime => Str
 
 When the dataset group was created or last updated from a call to the
-UpdateDatasetGroup operation. While the dataset group is being updated,
+UpdateDatasetGroup
+(https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html)
+operation. While the dataset group is being updated,
 C<LastModificationTime> is the current time of the C<ListDatasetGroups>
 call.
 

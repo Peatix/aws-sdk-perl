@@ -3,6 +3,7 @@ package Paws::Personalize::BatchInferenceJob;
   use Moose;
   has BatchInferenceJobArn => (is => 'ro', isa => 'Str', request_name => 'batchInferenceJobArn', traits => ['NameInRequest']);
   has BatchInferenceJobConfig => (is => 'ro', isa => 'Paws::Personalize::BatchInferenceJobConfig', request_name => 'batchInferenceJobConfig', traits => ['NameInRequest']);
+  has BatchInferenceJobMode => (is => 'ro', isa => 'Str', request_name => 'batchInferenceJobMode', traits => ['NameInRequest']);
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
   has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
   has FilterArn => (is => 'ro', isa => 'Str', request_name => 'filterArn', traits => ['NameInRequest']);
@@ -14,6 +15,7 @@ package Paws::Personalize::BatchInferenceJob;
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has SolutionVersionArn => (is => 'ro', isa => 'Str', request_name => 'solutionVersionArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
+  has ThemeGenerationConfig => (is => 'ro', isa => 'Paws::Personalize::ThemeGenerationConfig', request_name => 'themeGenerationConfig', traits => ['NameInRequest']);
 
 1;
 
@@ -34,7 +36,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Personalize::BatchInferenceJob object:
 
-  $service_obj->Method(Att1 => { BatchInferenceJobArn => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { BatchInferenceJobArn => $value, ..., ThemeGenerationConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -59,6 +61,11 @@ The Amazon Resource Name (ARN) of the batch inference job.
 
 A string to string map of the configuration details of a batch
 inference job.
+
+
+=head2 BatchInferenceJobMode => Str
+
+The job's mode.
 
 
 =head2 CreationDateTime => Str
@@ -142,6 +149,11 @@ CREATE FAILED
 
 =back
 
+
+
+=head2 ThemeGenerationConfig => L<Paws::Personalize::ThemeGenerationConfig>
+
+The job's theme generation settings.
 
 
 

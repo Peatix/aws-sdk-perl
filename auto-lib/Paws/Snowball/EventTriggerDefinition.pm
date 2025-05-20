@@ -41,7 +41,7 @@ The container for the EventTriggerDefinition$EventResourceARN.
 =head2 EventResourceARN => Str
 
 The Amazon Resource Name (ARN) for any local Amazon S3 resource that is
-an AWS Lambda function's event trigger associated with this job.
+an Lambda function's event trigger associated with this job.
 
 
 

@@ -2,6 +2,8 @@
 package Paws::LocationService::SearchPlaceIndexForPosition;
   use Moose;
   has IndexName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'IndexName', required => 1);
+  has Key => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'key');
+  has Language => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has Position => (is => 'ro', isa => 'ArrayRef[Num]', required => 1);
 
@@ -33,6 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $SearchPlaceIndexForPositionResponse = $geo->SearchPlaceIndexForPosition(
       IndexName  => 'MyResourceName',
       Position   => [ 1, ... ],
+      Key        => 'MyApiKey',         # OPTIONAL
+      Language   => 'MyLanguageTag',    # OPTIONAL
       MaxResults => 1,                  # OPTIONAL
     );
 
@@ -54,9 +58,41 @@ The name of the place index resource you want to use for the search.
 
 
 
+=head2 Key => Str
+
+The optional API key
+(https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
+to authorize the request.
+
+
+
+=head2 Language => Str
+
+The preferred language used to return results. The value must be a
+valid BCP 47 (https://tools.ietf.org/search/bcp47) language tag, for
+example, C<en> for English.
+
+This setting affects the languages used in the results, but not the
+results themselves. If no language is specified, or not supported for a
+particular result, the partner automatically chooses a language for the
+result.
+
+For an example, we'll use the Greek language. You search for a location
+around Athens, Greece, with the C<language> parameter set to C<en>. The
+C<city> in the results will most likely be returned as C<Athens>.
+
+If you set the C<language> parameter to C<el>, for Greek, then the
+C<city> in the results will more likely be returned as
+C<E<Alpha>E<theta>E<nu>E<alpha>>.
+
+If the data provider does not have a value for Greek, the result will
+be in a language that the provider does support.
+
+
+
 =head2 MaxResults => Int
 
-An optional paramer. The maximum number of results returned per
+An optional parameter. The maximum number of results returned per
 request.
 
 Default value: C<50>
@@ -65,22 +101,14 @@ Default value: C<50>
 
 =head2 B<REQUIRED> Position => ArrayRef[Num]
 
-Specifies a coordinate for the query defined by a longitude, and
-latitude.
+Specifies the longitude and latitude of the position to query.
 
-=over
+This parameter must contain a pair of numbers. The first number
+represents the X coordinate, or longitude; the second number represents
+the Y coordinate, or latitude.
 
-=item *
-
-The first position is the X coordinate, or longitude.
-
-=item *
-
-The second position is the Y coordinate, or latitude.
-
-=back
-
-For example, C<position=xLongitude&position=yLatitude> .
+For example, C<[-123.1174, 49.2847]> represents a position with
+longitude C<-123.1174> and latitude C<49.2847>.
 
 
 

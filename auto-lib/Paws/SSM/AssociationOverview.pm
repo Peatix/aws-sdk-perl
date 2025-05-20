@@ -43,8 +43,8 @@ Information about the association.
 =head2 AssociationStatusAggregatedCount => L<Paws::SSM::AssociationStatusAggregatedCount>
 
 Returns the number of targets for the association status. For example,
-if you created an association with two instances, and one of them was
-successful, this would return the count of instances by status.
+if you created an association with two managed nodes, and one of them
+was successful, this would return the count of managed nodes by status.
 
 
 =head2 DetailedStatus => Str

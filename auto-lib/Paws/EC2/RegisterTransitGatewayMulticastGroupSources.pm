@@ -3,8 +3,8 @@ package Paws::EC2::RegisterTransitGatewayMulticastGroupSources;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
   has GroupIpAddress => (is => 'ro', isa => 'Str');
-  has NetworkInterfaceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has TransitGatewayMulticastDomainId => (is => 'ro', isa => 'Str');
+  has NetworkInterfaceIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has TransitGatewayMulticastDomainId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $RegisterTransitGatewayMulticastGroupSourcesResult =
       $ec2->RegisterTransitGatewayMulticastGroupSources(
-      DryRun              => 1,                                  # OPTIONAL
-      GroupIpAddress      => 'MyString',                         # OPTIONAL
-      NetworkInterfaceIds => [ 'MyNetworkInterfaceId', ... ],    # OPTIONAL
-      TransitGatewayMulticastDomainId =>
-        'MyTransitGatewayMulticastDomainId',                     # OPTIONAL
+      NetworkInterfaceIds             => [ 'MyNetworkInterfaceId', ... ],
+      TransitGatewayMulticastDomainId => 'MyTransitGatewayMulticastDomainId',
+      DryRun                          => 1,             # OPTIONAL
+      GroupIpAddress                  => 'MyString',    # OPTIONAL
       );
 
     # Results:
@@ -67,14 +66,14 @@ The IP address assigned to the transit gateway multicast group.
 
 
 
-=head2 NetworkInterfaceIds => ArrayRef[Str|Undef]
+=head2 B<REQUIRED> NetworkInterfaceIds => ArrayRef[Str|Undef]
 
 The group sources' network interface IDs to register with the transit
 gateway multicast group.
 
 
 
-=head2 TransitGatewayMulticastDomainId => Str
+=head2 B<REQUIRED> TransitGatewayMulticastDomainId => Str
 
 The ID of the transit gateway multicast domain.
 

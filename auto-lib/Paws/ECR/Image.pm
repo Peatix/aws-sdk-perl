@@ -60,7 +60,8 @@ The manifest media type of the image.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry containing the image.
+The Amazon Web Services account ID associated with the registry
+containing the image.
 
 
 =head2 RepositoryName => Str

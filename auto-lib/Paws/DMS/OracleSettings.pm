@@ -10,13 +10,17 @@ package Paws::DMS::OracleSettings;
   has AsmPassword => (is => 'ro', isa => 'Str');
   has AsmServer => (is => 'ro', isa => 'Str');
   has AsmUser => (is => 'ro', isa => 'Str');
+  has AuthenticationMethod => (is => 'ro', isa => 'Str');
   has CharLengthSemantics => (is => 'ro', isa => 'Str');
+  has ConvertTimestampWithZoneToUTC => (is => 'ro', isa => 'Bool');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has DirectPathNoLog => (is => 'ro', isa => 'Bool');
   has DirectPathParallelLoad => (is => 'ro', isa => 'Bool');
   has EnableHomogenousTablespace => (is => 'ro', isa => 'Bool');
+  has ExtraArchivedLogDestIds => (is => 'ro', isa => 'ArrayRef[Int]');
   has FailTasksOnLobTruncation => (is => 'ro', isa => 'Bool');
   has NumberDatatypeScale => (is => 'ro', isa => 'Int');
+  has OpenTransactionWindow => (is => 'ro', isa => 'Int');
   has OraclePathPrefix => (is => 'ro', isa => 'Str');
   has ParallelAsmReadThreads => (is => 'ro', isa => 'Int');
   has Password => (is => 'ro', isa => 'Str');
@@ -33,7 +37,12 @@ package Paws::DMS::OracleSettings;
   has SecurityDbEncryptionName => (is => 'ro', isa => 'Str');
   has ServerName => (is => 'ro', isa => 'Str');
   has SpatialDataOptionToGeoJsonFunctionName => (is => 'ro', isa => 'Str');
+  has StandbyDelayTime => (is => 'ro', isa => 'Int');
+  has TrimSpaceInChar => (is => 'ro', isa => 'Bool');
   has UseAlternateFolderForOnline => (is => 'ro', isa => 'Bool');
+  has UseBFile => (is => 'ro', isa => 'Bool');
+  has UseDirectPathFullLoad => (is => 'ro', isa => 'Bool');
+  has UseLogminerReader => (is => 'ro', isa => 'Bool');
   has UsePathPrefix => (is => 'ro', isa => 'Str');
   has Username => (is => 'ro', isa => 'Str');
 
@@ -82,11 +91,17 @@ path prefix replacement using direct file access.
 
 =head2 AdditionalArchivedLogDestId => Int
 
-Set this attribute with C<archivedLogDestId> in a primary/ standby
+Set this attribute with C<ArchivedLogDestId> in a primary/ standby
 setup. This attribute is useful in the case of a switchover. In this
-case, AWS DMS needs to know which destination to get archive redo logs
-from to read changes. This need arises because the previous primary
-instance is now a standby instance after switchover.
+case, DMS needs to know which destination to get archive redo logs from
+to read changes. This need arises because the previous primary instance
+is now a standby instance after switchover.
+
+Although DMS supports the use of the Oracle C<RESETLOGS> option to open
+the database, never use C<RESETLOGS> unless necessary. For additional
+information about C<RESETLOGS>, see RMAN Data Repair Concepts
+(https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-data-repair-concepts.html#GUID-1805CCF7-4AF2-482D-B65A-998192F89C2B)
+in the I<Oracle Database Backup and Recovery User's Guide>.
 
 
 =head2 AddSupplementalLogging => Bool
@@ -107,19 +122,20 @@ containing columns that are nested tables or defined types.
 
 =head2 ArchivedLogDestId => Int
 
-Specifies the destination of the archived redo logs. The value should
-be the same as the DEST_ID number in the v$archived_log table. When
-working with multiple log destinations (DEST_ID), we recommend that you
-to specify an archived redo logs location identifier. Doing this
-improves performance by ensuring that the correct logs are accessed
-from the outset.
+Specifies the ID of the destination for the archived redo logs. This
+value should be the same as a number in the dest_id column of the
+v$archived_log view. If you work with an additional redo log
+destination, use the C<AdditionalArchivedLogDestId> option to specify
+the additional destination ID. Doing this improves performance by
+ensuring that the correct logs are accessed from the outset.
 
 
 =head2 ArchivedLogsOnly => Bool
 
-When this field is set to C<Y>, AWS DMS only accesses the archived redo
-logs. If the archived redo logs are stored on Oracle ASM only, the AWS
-DMS user account needs to be granted ASM privileges.
+When this field is set to C<True>, DMS only accesses the archived redo
+logs. If the archived redo logs are stored on Automatic Storage
+Management (ASM) only, the DMS user account needs to be granted ASM
+privileges.
 
 
 =head2 AsmPassword => Str
@@ -155,6 +171,11 @@ for change data capture (CDC) on an Oracle source database
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
 
 
+=head2 AuthenticationMethod => Str
+
+Specifies the authentication method to be used with Oracle.
+
+
 =head2 CharLengthSemantics => Str
 
 Specifies whether the length of a character column is in bytes or in
@@ -163,6 +184,12 @@ characters, set this attribute to C<CHAR>. Otherwise, the character
 column length is in bytes.
 
 Example: C<charLengthSemantics=CHAR;>
+
+
+=head2 ConvertTimestampWithZoneToUTC => Bool
+
+When true, converts timestamps with the C<timezone> datatype to their
+UTC value.
 
 
 =head2 DatabaseName => Str
@@ -181,7 +208,7 @@ writing a trail to database logs.
 
 When set to C<true>, this attribute specifies a parallel load when
 C<useDirectPathFullLoad> is set to C<Y>. This attribute also only
-applies when you use the AWS DMS parallel load feature. Note that the
+applies when you use the DMS parallel load feature. Note that the
 target table cannot have any constraints or indexes.
 
 
@@ -190,6 +217,35 @@ target table cannot have any constraints or indexes.
 Set this attribute to enable homogenous tablespace replication and
 create existing tables or indexes under the same tablespace on the
 target.
+
+
+=head2 ExtraArchivedLogDestIds => ArrayRef[Int]
+
+Specifies the IDs of one more destinations for one or more archived
+redo logs. These IDs are the values of the C<dest_id> column in the
+C<v$archived_log> view. Use this setting with the C<archivedLogDestId>
+extra connection attribute in a primary-to-single setup or a
+primary-to-multiple-standby setup.
+
+This setting is useful in a switchover when you use an Oracle Data
+Guard database as a source. In this case, DMS needs information about
+what destination to get archive redo logs from to read changes. DMS
+needs this because after the switchover the previous primary is a
+standby instance. For example, in a primary-to-single standby setup you
+might apply the following settings.
+
+C<archivedLogDestId=1; ExtraArchivedLogDestIds=[2]>
+
+In a primary-to-multiple-standby setup, you might apply the following
+settings.
+
+C<archivedLogDestId=1; ExtraArchivedLogDestIds=[2,3,4]>
+
+Although DMS supports the use of the Oracle C<RESETLOGS> option to open
+the database, never use C<RESETLOGS> unless it's necessary. For more
+information about C<RESETLOGS>, see RMAN Data Repair Concepts
+(https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-data-repair-concepts.html#GUID-1805CCF7-4AF2-482D-B65A-998192F89C2B)
+in the I<Oracle Database Backup and Recovery User's Guide>.
 
 
 =head2 FailTasksOnLobTruncation => Bool
@@ -210,6 +266,17 @@ precision 38, scale 10.
 Example: C<numberDataTypeScale=12>
 
 
+=head2 OpenTransactionWindow => Int
+
+The timeframe in minutes to check for open transactions for a CDC-only
+task.
+
+You can specify an integer value between 0 (the default) and 240 (the
+maximum).
+
+This parameter is only valid in DMS version 3.5.0 and later.
+
+
 =head2 OraclePathPrefix => Str
 
 Set this string attribute to the required value in order to use the
@@ -221,7 +288,7 @@ the redo logs.
 =head2 ParallelAsmReadThreads => Int
 
 Set this attribute to change the number of threads that DMS configures
-to perform a Change Data Capture (CDC) load using Oracle Automatic
+to perform a change data capture (CDC) load using Oracle Automatic
 Storage Management (ASM). You can specify an integer value between 2
 (the default) and 8 (the maximum). Use this attribute together with the
 C<readAheadBlocks> attribute.
@@ -240,7 +307,7 @@ Endpoint TCP port.
 =head2 ReadAheadBlocks => Int
 
 Set this attribute to change the number of read-ahead blocks that DMS
-configures to perform a Change Data Capture (CDC) load using Oracle
+configures to perform a change data capture (CDC) load using Oracle
 Automatic Storage Management (ASM). You can specify an integer value
 between 1000 (the default) and 200,000 (the maximum).
 
@@ -268,10 +335,11 @@ Example: C<retryInterval=6;>
 
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
 Oracle endpoint.
 
 You can specify one of two sets of values for these permissions. You
@@ -280,17 +348,17 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerOracleAsmAccessRoleArn => Str
 
-Required only if your Oracle endpoint uses Advanced Storage Manager
-(ASM). The full ARN of the IAM role that specifies AWS DMS as the
-trusted entity and grants the required permissions to access the
+Required only if your Oracle endpoint uses Automatic Storage Management
+(ASM). The full ARN of the IAM role that specifies DMS as the trusted
+entity and grants the required permissions to access the
 C<SecretsManagerOracleAsmSecret>. This C<SecretsManagerOracleAsmSecret>
 has the secret value that allows access to the Oracle ASM of the
 endpoint.
@@ -298,19 +366,19 @@ endpoint.
 You can specify one of two sets of values for these permissions. You
 can specify the values for this setting and
 C<SecretsManagerOracleAsmSecretId>. Or you can specify clear-text
-values for C<AsmUserName>, C<AsmPassword>, and C<AsmServerName>. You
-can't specify both. For more information on creating this
+values for C<AsmUser>, C<AsmPassword>, and C<AsmServerName>. You can't
+specify both. For more information on creating this
 C<SecretsManagerOracleAsmSecret> and the
 C<SecretsManagerOracleAsmAccessRoleArn> and
 C<SecretsManagerOracleAsmSecretId> required to access it, see Using
-secrets to access AWS Database Migration Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+secrets to access Database Migration Service resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerOracleAsmSecretId => Str
 
-Required only if your Oracle endpoint uses Advanced Storage Manager
+Required only if your Oracle endpoint uses Automatic Storage Management
 (ASM). The full ARN, partial ARN, or friendly name of the
 C<SecretsManagerOracleAsmSecret> that contains the Oracle ASM
 connection details for the Oracle endpoint.
@@ -332,9 +400,9 @@ the comma-separated value you set to the C<Password> request parameter
 when you create the endpoint. The C<SecurityDbEncryptian> setting is
 related to this C<SecurityDbEncryptionName> setting. For more
 information, see Supported encryption methods for using Oracle as a
-source for AWS DMS
+source for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption)
-in the I<AWS Database Migration Service User Guide>.
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecurityDbEncryptionName => Str
@@ -346,14 +414,21 @@ the value of the C<SecurityDbEncryption> setting. For more information
 on setting the key name value of C<SecurityDbEncryptionName>, see the
 information and example for setting the C<securityDbEncryptionName>
 extra connection attribute in Supported encryption methods for using
-Oracle as a source for AWS DMS
+Oracle as a source for DMS
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption)
-in the I<AWS Database Migration Service User Guide>.
+in the I<Database Migration Service User Guide>.
 
 
 =head2 ServerName => Str
 
 Fully qualified domain name of the endpoint.
+
+For an Amazon RDS Oracle instance, this is the output of
+DescribeDBInstances
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html),
+in the C< Endpoint
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address>
+field.
 
 
 =head2 SpatialDataOptionToGeoJsonFunctionName => Str
@@ -365,12 +440,62 @@ operation of C<SDOGEOJSON> and set
 C<SpatialDataOptionToGeoJsonFunctionName> to call it instead.
 
 
+=head2 StandbyDelayTime => Int
+
+Use this attribute to specify a time in minutes for the delay in
+standby sync. If the source is an Oracle Active Data Guard standby
+database, use this attribute to specify the time lag between primary
+and standby databases.
+
+In DMS, you can create an Oracle CDC task that uses an Active Data
+Guard standby instance as a source for replicating ongoing changes.
+Doing this eliminates the need to connect to an active database that
+might be in production.
+
+
+=head2 TrimSpaceInChar => Bool
+
+Use the C<TrimSpaceInChar> source endpoint setting to trim data on CHAR
+and NCHAR data types during migration. The default value is C<true>.
+
+
 =head2 UseAlternateFolderForOnline => Bool
 
 Set this attribute to C<true> in order to use the Binary Reader to
 capture change data for an Amazon RDS for Oracle as the source. This
 tells the DMS instance to use any specified prefix replacement to
 access all online redo logs.
+
+
+=head2 UseBFile => Bool
+
+Set this attribute to True to capture change data using the Binary
+Reader utility. Set C<UseLogminerReader> to False to set this attribute
+to True. To use Binary Reader with Amazon RDS for Oracle as the source,
+you set additional attributes. For more information about using this
+setting with Oracle Automatic Storage Management (ASM), see Using
+Oracle LogMiner or DMS Binary Reader for CDC
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC).
+
+
+=head2 UseDirectPathFullLoad => Bool
+
+Set this attribute to True to have DMS use a direct path full load.
+Specify this value to use the direct path protocol in the Oracle Call
+Interface (OCI). By using this OCI protocol, you can bulk-load Oracle
+target tables during a full load.
+
+
+=head2 UseLogminerReader => Bool
+
+Set this attribute to True to capture change data using the Oracle
+LogMiner utility (the default). Set this attribute to False if you want
+to access the redo logs as a binary file. When you set
+C<UseLogminerReader> to False, also set C<UseBfile> to True. For more
+information on this setting and using Oracle ASM, see Using Oracle
+LogMiner or DMS Binary Reader for CDC
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC)
+in the I<DMS User Guide>.
 
 
 =head2 UsePathPrefix => Str

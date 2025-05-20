@@ -4,6 +4,7 @@ package Paws::CloudFront::OriginGroup;
   has FailoverCriteria => (is => 'ro', isa => 'Paws::CloudFront::OriginGroupFailoverCriteria', required => 1);
   has Id => (is => 'ro', isa => 'Str', required => 1);
   has Members => (is => 'ro', isa => 'Paws::CloudFront::OriginGroupMembers', required => 1);
+  has SelectionCriteria => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CloudFront::OriginGroup object:
 
-  $service_obj->Method(Att1 => { FailoverCriteria => $value, ..., Members => $value  });
+  $service_obj->Method(Att1 => { FailoverCriteria => $value, ..., SelectionCriteria => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,13 +36,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-An origin group includes two origins (a primary origin and a second
+An origin group includes two origins (a primary origin and a secondary
 origin to failover to) and a failover criteria that you specify. You
 create an origin group to support origin failover in CloudFront. When
-you create or update a distribution, you can specifiy the origin group
+you create or update a distribution, you can specify the origin group
 instead of a single origin, and CloudFront will failover from the
-primary origin to the second origin under the failover conditions that
-you've chosen.
+primary origin to the secondary origin under the failover conditions
+that you've chosen.
+
+Optionally, you can choose selection criteria for your origin group to
+specify how your origins are selected when your distribution routes
+viewer requests.
 
 =head1 ATTRIBUTES
 
@@ -61,6 +66,14 @@ The origin group's ID.
 
 A complex type that contains information about the origins in an origin
 group.
+
+
+=head2 SelectionCriteria => Str
+
+The selection criteria for the origin group. For more information, see
+Create an origin group
+(https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html#concept_origin_groups.creating)
+in the I<Amazon CloudFront Developer Guide>.
 
 
 

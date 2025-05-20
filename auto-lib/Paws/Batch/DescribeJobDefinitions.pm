@@ -56,8 +56,11 @@ The name of the job definition to describe.
 
 =head2 JobDefinitions => ArrayRef[Str|Undef]
 
-A list of up to 100 job definition names or full Amazon Resource Name
-(ARN) entries.
+A list of up to 100 job definitions. Each entry in the list can either
+be an ARN in the format
+C<arn:aws:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}>
+or a short version using the form C<${JobDefinitionName}:${Revision}>.
+This parameter can't be used with other parameters.
 
 
 
@@ -83,9 +86,8 @@ results exceeded the value of that parameter. Pagination continues from
 the end of the previous results that returned the C<nextToken> value.
 This value is C<null> when there are no more results to return.
 
-This token should be treated as an opaque identifier that's only used
-to retrieve the next items in a list and not for other programmatic
-purposes.
+Treat this token as an opaque identifier that's only used to retrieve
+the next items in a list and not for other programmatic purposes.
 
 
 

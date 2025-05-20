@@ -31,29 +31,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # CreatePublicDnsNamespace example
+    # This example creates a public namespace based on DNS.
     my $CreatePublicDnsNamespaceResponse =
       $servicediscovery->CreatePublicDnsNamespace(
-      Name             => 'MyNamespaceNamePublic',
-      CreatorRequestId => 'MyResourceId',             # OPTIONAL
-      Description      => 'MyResourceDescription',    # OPTIONAL
-      Properties       => {
-        DnsProperties => {
-          SOA => {
-            TTL => 1,    # max: 2147483647
-
-          },
-
-        },
-
-      },    # OPTIONAL
-      Tags => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
-
-        },
-        ...
-      ],    # OPTIONAL
+      'CreatorRequestId' => 'example-creator-request-id-0003',
+      'Description'      => 'Example.com AWS Cloud Map Public DNS Namespace',
+      'Name'             => 'example-public-dns.com'
       );
 
     # Results:
@@ -85,6 +69,9 @@ A description for the namespace.
 =head2 B<REQUIRED> Name => Str
 
 The name that you want to assign to this namespace.
+
+Do not include sensitive information in the name. The name is publicly
+available using DNS queries.
 
 
 

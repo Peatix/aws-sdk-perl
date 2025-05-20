@@ -2,7 +2,7 @@
 package Paws::Transcribe::UpdateMedicalVocabulary;
   use Moose;
   has LanguageCode => (is => 'ro', isa => 'Str', required => 1);
-  has VocabularyFileUri => (is => 'ro', isa => 'Str');
+  has VocabularyFileUri => (is => 'ro', isa => 'Str', required => 1);
   has VocabularyName => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -31,8 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $transcribe = Paws->service('Transcribe');
     my $UpdateMedicalVocabularyResponse = $transcribe->UpdateMedicalVocabulary(
       LanguageCode      => 'af-ZA',
+      VocabularyFileUri => 'MyUri',
       VocabularyName    => 'MyVocabularyName',
-      VocabularyFileUri => 'MyUri',              # OPTIONAL
+
     );
 
     # Results:
@@ -51,40 +52,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> LanguageCode => Str
 
-The language code of the language used for the entries in the updated
-vocabulary. US English (en-US) is the only valid language code in
-Amazon Transcribe Medical.
+The language code that represents the language of the entries in the
+custom vocabulary you want to update. US English (C<en-US>) is the only
+language supported with Amazon Transcribe Medical.
 
-Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"cy-GB">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"ga-IE">, C<"gd-GB">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">
+Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">, C<"zh-TW">, C<"th-TH">, C<"en-ZA">, C<"en-NZ">, C<"vi-VN">, C<"sv-SE">, C<"ab-GE">, C<"ast-ES">, C<"az-AZ">, C<"ba-RU">, C<"be-BY">, C<"bg-BG">, C<"bn-IN">, C<"bs-BA">, C<"ca-ES">, C<"ckb-IQ">, C<"ckb-IR">, C<"cs-CZ">, C<"cy-WL">, C<"el-GR">, C<"et-ET">, C<"eu-ES">, C<"fi-FI">, C<"gl-ES">, C<"gu-IN">, C<"ha-NG">, C<"hr-HR">, C<"hu-HU">, C<"hy-AM">, C<"is-IS">, C<"ka-GE">, C<"kab-DZ">, C<"kk-KZ">, C<"kn-IN">, C<"ky-KG">, C<"lg-IN">, C<"lt-LT">, C<"lv-LV">, C<"mhr-RU">, C<"mi-NZ">, C<"mk-MK">, C<"ml-IN">, C<"mn-MN">, C<"mr-IN">, C<"mt-MT">, C<"no-NO">, C<"or-IN">, C<"pa-IN">, C<"pl-PL">, C<"ps-AF">, C<"ro-RO">, C<"rw-RW">, C<"si-LK">, C<"sk-SK">, C<"sl-SI">, C<"so-SO">, C<"sr-RS">, C<"su-ID">, C<"sw-BI">, C<"sw-KE">, C<"sw-RW">, C<"sw-TZ">, C<"sw-UG">, C<"tl-PH">, C<"tt-RU">, C<"ug-CN">, C<"uk-UA">, C<"uz-UZ">, C<"wo-SN">, C<"zh-HK">, C<"zu-ZA">
 
-=head2 VocabularyFileUri => Str
+=head2 B<REQUIRED> VocabularyFileUri => Str
 
-The location in Amazon S3 of the text file that contains the you use
-for your custom vocabulary. The URI must be in the same AWS Region as
-the resource that you are calling. The following is the format for a
-URI:
+The Amazon S3 location of the text file that contains your custom
+medical vocabulary. The URI must be located in the same Amazon Web
+Services Region as the resource you're calling.
 
-C<https://s3.E<lt>aws-regionE<gt>.amazonaws.com/E<lt>bucket-nameE<gt>/E<lt>keyprefixE<gt>/E<lt>objectkeyE<gt>>
-
-For example:
-
-C<https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt>
-
-For more information about Amazon S3 object names, see Object Keys
-(http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys)
-in the I<Amazon S3 Developer Guide>.
-
-For more information about custom vocabularies in Amazon Transcribe
-Medical, see Medical Custom Vocabularies
-(http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary).
+Here's an example URI path:
+C<s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt>
 
 
 
 =head2 B<REQUIRED> VocabularyName => Str
 
-The name of the vocabulary to update. The name is case sensitive. If
-you try to update a vocabulary with the same name as a vocabulary
-you've already made, you get a C<ConflictException> error.
+The name of the custom medical vocabulary you want to update. Custom
+medical vocabulary names are case sensitive.
 
 
 

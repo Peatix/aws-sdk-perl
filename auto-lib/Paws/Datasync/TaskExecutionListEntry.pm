@@ -3,6 +3,7 @@ package Paws::Datasync::TaskExecutionListEntry;
   use Moose;
   has Status => (is => 'ro', isa => 'Str');
   has TaskExecutionArn => (is => 'ro', isa => 'Str');
+  has TaskMode => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Datasync::TaskExecutionListEntry object:
 
-  $service_obj->Method(Att1 => { Status => $value, ..., TaskExecutionArn => $value  });
+  $service_obj->Method(Att1 => { Status => $value, ..., TaskMode => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,23 +35,31 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::T
 
 =head1 DESCRIPTION
 
-Represents a single entry in a list of task executions.
-C<TaskExecutionListEntry> returns an array that contains a list of
-specific invocations of a task when the ListTaskExecutions
+Represents a single entry in a list of DataSync task executions that's
+returned with the ListTaskExecutions
 (https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html)
-operation is called.
+operation.
 
 =head1 ATTRIBUTES
 
 
 =head2 Status => Str
 
-The status of a task execution.
+The status of a task execution. For more information, see Task
+execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-execution-statuses).
 
 
 =head2 TaskExecutionArn => Str
 
-The Amazon Resource Name (ARN) of the task that was executed.
+The Amazon Resource Name (ARN) of a task execution.
+
+
+=head2 TaskMode => Str
+
+The task mode that you're using. For more information, see Choosing a
+task mode for your data transfer
+(https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
 
 
 

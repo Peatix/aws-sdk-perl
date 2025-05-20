@@ -247,7 +247,11 @@ Valid values are: C<"WHEN_NO_MATCH">, C<"NEVER">, C<"WHEN_NO_TEMPLATES">
 =head2 PayloadFormatVersion => Str
 
 Specifies the format of the payload sent to an integration. Required
-for HTTP APIs.
+for HTTP APIs. Supported values for Lambda proxy integrations are 1.0
+and 2.0. For all other integrations, 1.0 is the only supported value.
+To learn more, see Working with AWS Lambda proxy integrations for HTTP
+APIs
+(https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html).
 
 
 

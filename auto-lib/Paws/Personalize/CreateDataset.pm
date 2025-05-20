@@ -5,6 +5,7 @@ package Paws::Personalize::CreateDataset;
   has DatasetType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'datasetType' , required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name' , required => 1);
   has SchemaArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'schemaArn' , required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Personalize::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
 
   use MooseX::ClassAttribute;
 
@@ -35,7 +36,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatasetType     => 'MyDatasetType',
       Name            => 'MyName',
       SchemaArn       => 'MyArn',
+      Tags            => [
+        {
+          TagKey   => 'MyTagKey',      # min: 1, max: 128
+          TagValue => 'MyTagValue',    # max: 256
 
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -76,6 +84,14 @@ Items
 
 Users
 
+=item *
+
+Actions
+
+=item *
+
+Action_Interactions
+
 =back
 
 
@@ -91,6 +107,14 @@ The name for the dataset.
 
 The ARN of the schema to associate with the dataset. The schema defines
 the dataset fields.
+
+
+
+=head2 Tags => ArrayRef[L<Paws::Personalize::Tag>]
+
+A list of tags
+(https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
+to apply to the dataset.
 
 
 

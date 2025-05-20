@@ -42,8 +42,8 @@ differs, or has I<drifted>, from its expected configuration.
 
 =head2 LastCheckTimestamp => Str
 
-When AWS CloudFormation last checked if the resource had drifted from
-its expected configuration.
+When CloudFormation last checked if the resource had drifted from its
+expected configuration.
 
 
 =head2 B<REQUIRED> StackResourceDriftStatus => Str
@@ -64,17 +64,17 @@ C<MODIFIED>: The resource differs from its expected configuration.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked if the resource
-differs from its expected configuration.
+C<NOT_CHECKED>: CloudFormation has not checked if the resource differs
+from its expected configuration.
 
 Any resources that do not currently support drift detection have a
-status of C<NOT_CHECKED>. For more information, see Resources that
-Support Drift Detection
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift-resource-list.html).
+status of C<NOT_CHECKED>. For more information, see Resource type
+support for imports and drift detection
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
 
 =item *
 
-C<IN_SYNC>: The resources's actual configuration matches its expected
+C<IN_SYNC>: The resource's actual configuration matches its expected
 configuration.
 
 =back

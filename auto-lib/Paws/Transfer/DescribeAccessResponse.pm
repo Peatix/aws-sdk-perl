@@ -17,7 +17,7 @@ Paws::Transfer::DescribeAccessResponse
 
 =head2 B<REQUIRED> Access => L<Paws::Transfer::DescribedAccess>
 
-The external ID of the server that the access is attached to.
+The external identifier of the server that the access is attached to.
 
 
 =head2 B<REQUIRED> ServerId => Str

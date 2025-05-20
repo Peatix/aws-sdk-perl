@@ -43,7 +43,7 @@ to retrieve organization details.
 
 =head2 AllAwsRegions => Bool
 
-If true, aggregate existing AWS Config regions and future regions.
+If true, aggregate existing Config regions and future regions.
 
 
 =head2 AwsRegions => ArrayRef[Str|Undef]
@@ -53,8 +53,8 @@ The source regions being aggregated.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-ARN of the IAM role used to retrieve AWS Organization details
-associated with the aggregator account.
+ARN of the IAM role used to retrieve Amazon Web Services Organization
+details associated with the aggregator account.
 
 
 

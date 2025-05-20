@@ -20,31 +20,37 @@ Paws::Transcribe::CreateMedicalVocabularyResponse
 
 =head2 FailureReason => Str
 
-If the C<VocabularyState> field is C<FAILED>, this field contains
-information about why the job failed.
+If C<VocabularyState> is C<FAILED>, C<FailureReason> contains
+information about why the medical transcription job request failed. See
+also: Common Errors
+(https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
 
 
 =head2 LanguageCode => Str
 
-The language code for the entries in your custom vocabulary. US English
-(en-US) is the only valid language code for Amazon Transcribe Medical.
+The language code you selected for your custom medical vocabulary. US
+English (C<en-US>) is the only language supported with Amazon
+Transcribe Medical.
 
-Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"cy-GB">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"ga-IE">, C<"gd-GB">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">
+Valid values are: C<"af-ZA">, C<"ar-AE">, C<"ar-SA">, C<"da-DK">, C<"de-CH">, C<"de-DE">, C<"en-AB">, C<"en-AU">, C<"en-GB">, C<"en-IE">, C<"en-IN">, C<"en-US">, C<"en-WL">, C<"es-ES">, C<"es-US">, C<"fa-IR">, C<"fr-CA">, C<"fr-FR">, C<"he-IL">, C<"hi-IN">, C<"id-ID">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">, C<"ms-MY">, C<"nl-NL">, C<"pt-BR">, C<"pt-PT">, C<"ru-RU">, C<"ta-IN">, C<"te-IN">, C<"tr-TR">, C<"zh-CN">, C<"zh-TW">, C<"th-TH">, C<"en-ZA">, C<"en-NZ">, C<"vi-VN">, C<"sv-SE">, C<"ab-GE">, C<"ast-ES">, C<"az-AZ">, C<"ba-RU">, C<"be-BY">, C<"bg-BG">, C<"bn-IN">, C<"bs-BA">, C<"ca-ES">, C<"ckb-IQ">, C<"ckb-IR">, C<"cs-CZ">, C<"cy-WL">, C<"el-GR">, C<"et-ET">, C<"eu-ES">, C<"fi-FI">, C<"gl-ES">, C<"gu-IN">, C<"ha-NG">, C<"hr-HR">, C<"hu-HU">, C<"hy-AM">, C<"is-IS">, C<"ka-GE">, C<"kab-DZ">, C<"kk-KZ">, C<"kn-IN">, C<"ky-KG">, C<"lg-IN">, C<"lt-LT">, C<"lv-LV">, C<"mhr-RU">, C<"mi-NZ">, C<"mk-MK">, C<"ml-IN">, C<"mn-MN">, C<"mr-IN">, C<"mt-MT">, C<"no-NO">, C<"or-IN">, C<"pa-IN">, C<"pl-PL">, C<"ps-AF">, C<"ro-RO">, C<"rw-RW">, C<"si-LK">, C<"sk-SK">, C<"sl-SI">, C<"so-SO">, C<"sr-RS">, C<"su-ID">, C<"sw-BI">, C<"sw-KE">, C<"sw-RW">, C<"sw-TZ">, C<"sw-UG">, C<"tl-PH">, C<"tt-RU">, C<"ug-CN">, C<"uk-UA">, C<"uz-UZ">, C<"wo-SN">, C<"zh-HK">, C<"zu-ZA">
 =head2 LastModifiedTime => Str
 
-The date and time that you created the vocabulary.
+The date and time you created your custom medical vocabulary.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents 12:32 PM UTC-7
+on May 4, 2022.
 
 
 =head2 VocabularyName => Str
 
-The name of the vocabulary. The name must be unique within an AWS
-account and is case sensitive.
+The name you chose for your custom medical vocabulary.
 
 
 =head2 VocabularyState => Str
 
-The processing state of your custom vocabulary in Amazon Transcribe
-Medical. If the state is C<READY>, you can use the vocabulary in a
+The processing state of your custom medical vocabulary. If the state is
+C<READY>, you can use the custom vocabulary in a
 C<StartMedicalTranscriptionJob> request.
 
 Valid values are: C<"PENDING">, C<"READY">, C<"FAILED">

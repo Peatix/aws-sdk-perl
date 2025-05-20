@@ -3,7 +3,9 @@ package Paws::Batch::CreateJobQueue;
   use Moose;
   has ComputeEnvironmentOrder => (is => 'ro', isa => 'ArrayRef[Paws::Batch::ComputeEnvironmentOrder]', traits => ['NameInRequest'], request_name => 'computeEnvironmentOrder', required => 1);
   has JobQueueName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobQueueName', required => 1);
+  has JobStateTimeLimitActions => (is => 'ro', isa => 'ArrayRef[Paws::Batch::JobStateTimeLimitAction]', traits => ['NameInRequest'], request_name => 'jobStateTimeLimitActions');
   has Priority => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'priority', required => 1);
+  has SchedulingPolicyArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'schedulingPolicyArn');
   has State => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'state');
   has Tags => (is => 'ro', isa => 'Paws::Batch::TagrisTagsMap', traits => ['NameInRequest'], request_name => 'tags');
 
@@ -91,7 +93,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bat
 
 The set of compute environments mapped to a job queue and their order
 relative to each other. The job scheduler uses this parameter to
-determine which compute environment should run a specific job. Compute
+determine which compute environment runs a specific job. Compute
 environments must be in the C<VALID> state before you can associate
 them with a job queue. You can associate up to three compute
 environments with a job queue. All of the compute environments must be
@@ -99,15 +101,26 @@ either EC2 (C<EC2> or C<SPOT>) or Fargate (C<FARGATE> or
 C<FARGATE_SPOT>); EC2 and Fargate compute environments can't be mixed.
 
 All compute environments that are associated with a job queue must
-share the same architecture. AWS Batch doesn't support mixing compute
+share the same architecture. Batch doesn't support mixing compute
 environment architecture types in a single job queue.
 
 
 
 =head2 B<REQUIRED> JobQueueName => Str
 
-The name of the job queue. Up to 128 letters (uppercase and lowercase),
-numbers, and underscores are allowed.
+The name of the job queue. It can be up to 128 letters long. It can
+contain uppercase and lowercase letters, numbers, hyphens (-), and
+underscores (_).
+
+
+
+=head2 JobStateTimeLimitActions => ArrayRef[L<Paws::Batch::JobStateTimeLimitAction>]
+
+The set of actions that Batch performs on jobs that remain at the head
+of the job queue in the specified state longer than specified times.
+Batch will perform each action after C<maxTimeSeconds> has passed.
+(B<Note>: The minimum value for maxTimeSeconds is 600 (10 minutes) and
+its maximum value is 86,400 (24 hours).)
 
 
 
@@ -120,7 +133,29 @@ determined in descending order. For example, a job queue with a
 priority value of C<10> is given scheduling preference over a job queue
 with a priority value of C<1>. All of the compute environments must be
 either EC2 (C<EC2> or C<SPOT>) or Fargate (C<FARGATE> or
-C<FARGATE_SPOT>); EC2 and Fargate compute environments cannot be mixed.
+C<FARGATE_SPOT>); EC2 and Fargate compute environments can't be mixed.
+
+
+
+=head2 SchedulingPolicyArn => Str
+
+The Amazon Resource Name (ARN) of the fair-share scheduling policy. Job
+queues that don't have a fair-share scheduling policy are scheduled in
+a first-in, first-out (FIFO) model. After a job queue has a fair-share
+scheduling policy, it can be replaced but can't be removed.
+
+The format is
+C<aws:I<Partition>:batch:I<Region>:I<Account>:scheduling-policy/I<Name>
+>.
+
+An example is
+C<aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy>.
+
+A job queue without a fair-share scheduling policy is scheduled as a
+FIFO job queue and can't have a fair-share scheduling policy added.
+Jobs queues with a fair-share scheduling policy can have a maximum of
+500 active share identifiers. When the limit has been reached,
+submissions of any jobs that add a new share identifier fail.
 
 
 
@@ -136,9 +171,9 @@ Valid values are: C<"ENABLED">, C<"DISABLED">
 
 The tags that you apply to the job queue to help you categorize and
 organize your resources. Each tag consists of a key and an optional
-value. For more information, see Tagging your AWS Batch resources
+value. For more information, see Tagging your Batch resources
 (https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html) in
-I<AWS Batch User Guide>.
+I<Batch User Guide>.
 
 
 

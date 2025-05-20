@@ -2,6 +2,7 @@
 package Paws::RDS::DescribeDBClusterSnapshots;
   use Moose;
   has DBClusterIdentifier => (is => 'ro', isa => 'Str');
+  has DbClusterResourceId => (is => 'ro', isa => 'Str');
   has DBClusterSnapshotIdentifier => (is => 'ro', isa => 'Str');
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Filter]');
   has IncludePublic => (is => 'ro', isa => 'Bool');
@@ -69,6 +70,12 @@ If supplied, must match the identifier of an existing DBCluster.
 
 
 
+=head2 DbClusterResourceId => Str
+
+A specific DB cluster resource ID to describe.
+
+
+
 =head2 DBClusterSnapshotIdentifier => Str
 
 A specific DB cluster snapshot identifier to describe. This parameter
@@ -126,9 +133,9 @@ C<engine> - Accepts names of database engines.
 
 =head2 IncludePublic => Bool
 
-A value that indicates whether to include manual DB cluster snapshots
-that are public and can be copied or restored by any Amazon Web
-Services account. By default, the public snapshots are not included.
+Specifies whether to include manual DB cluster snapshots that are
+public and can be copied or restored by any Amazon Web Services
+account. By default, the public snapshots are not included.
 
 You can share a manual DB cluster snapshot as public by using the
 ModifyDBClusterSnapshotAttribute API action.
@@ -137,10 +144,10 @@ ModifyDBClusterSnapshotAttribute API action.
 
 =head2 IncludeShared => Bool
 
-A value that indicates whether to include shared manual DB cluster
-snapshots from other Amazon Web Services accounts that this Amazon Web
-Services account has been given permission to copy or restore. By
-default, these snapshots are not included.
+Specifies whether to include shared manual DB cluster snapshots from
+other Amazon Web Services accounts that this Amazon Web Services
+account has been given permission to copy or restore. By default, these
+snapshots are not included.
 
 You can give an Amazon Web Services account permission to restore a
 manual DB cluster snapshot from another Amazon Web Services account by

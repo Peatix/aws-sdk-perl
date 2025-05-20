@@ -5,9 +5,12 @@ package Paws::AppSync::DataSource;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has DynamodbConfig => (is => 'ro', isa => 'Paws::AppSync::DynamodbDataSourceConfig', request_name => 'dynamodbConfig', traits => ['NameInRequest']);
   has ElasticsearchConfig => (is => 'ro', isa => 'Paws::AppSync::ElasticsearchDataSourceConfig', request_name => 'elasticsearchConfig', traits => ['NameInRequest']);
+  has EventBridgeConfig => (is => 'ro', isa => 'Paws::AppSync::EventBridgeDataSourceConfig', request_name => 'eventBridgeConfig', traits => ['NameInRequest']);
   has HttpConfig => (is => 'ro', isa => 'Paws::AppSync::HttpDataSourceConfig', request_name => 'httpConfig', traits => ['NameInRequest']);
   has LambdaConfig => (is => 'ro', isa => 'Paws::AppSync::LambdaDataSourceConfig', request_name => 'lambdaConfig', traits => ['NameInRequest']);
+  has MetricsConfig => (is => 'ro', isa => 'Str', request_name => 'metricsConfig', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has OpenSearchServiceConfig => (is => 'ro', isa => 'Paws::AppSync::OpenSearchServiceDataSourceConfig', request_name => 'openSearchServiceConfig', traits => ['NameInRequest']);
   has RelationalDatabaseConfig => (is => 'ro', isa => 'Paws::AppSync::RelationalDatabaseDataSourceConfig', request_name => 'relationalDatabaseConfig', traits => ['NameInRequest']);
   has ServiceRoleArn => (is => 'ro', isa => 'Str', request_name => 'serviceRoleArn', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
@@ -49,7 +52,7 @@ Describes a data source.
 
 =head2 DataSourceArn => Str
 
-The data source ARN.
+The data source Amazon Resource Name (ARN).
 
 
 =head2 Description => Str
@@ -59,12 +62,17 @@ The description of the data source.
 
 =head2 DynamodbConfig => L<Paws::AppSync::DynamodbDataSourceConfig>
 
-Amazon DynamoDB settings.
+DynamoDB settings.
 
 
 =head2 ElasticsearchConfig => L<Paws::AppSync::ElasticsearchDataSourceConfig>
 
-Amazon Elasticsearch Service settings.
+Amazon OpenSearch Service settings.
+
+
+=head2 EventBridgeConfig => L<Paws::AppSync::EventBridgeDataSourceConfig>
+
+Amazon EventBridge settings.
 
 
 =head2 HttpConfig => L<Paws::AppSync::HttpDataSourceConfig>
@@ -74,12 +82,29 @@ HTTP endpoint settings.
 
 =head2 LambdaConfig => L<Paws::AppSync::LambdaDataSourceConfig>
 
-AWS Lambda settings.
+Lambda settings.
+
+
+=head2 MetricsConfig => Str
+
+Enables or disables enhanced data source metrics for specified data
+sources. Note that C<metricsConfig> won't be used unless the
+C<dataSourceLevelMetricsBehavior> value is set to
+C<PER_DATA_SOURCE_METRICS>. If the C<dataSourceLevelMetricsBehavior> is
+set to C<FULL_REQUEST_DATA_SOURCE_METRICS> instead, C<metricsConfig>
+will be ignored. However, you can still set its value.
+
+C<metricsConfig> can be C<ENABLED> or C<DISABLED>.
 
 
 =head2 Name => Str
 
 The name of the data source.
+
+
+=head2 OpenSearchServiceConfig => L<Paws::AppSync::OpenSearchServiceDataSourceConfig>
+
+Amazon OpenSearch Service settings.
 
 
 =head2 RelationalDatabaseConfig => L<Paws::AppSync::RelationalDatabaseDataSourceConfig>
@@ -89,8 +114,9 @@ Relational database settings.
 
 =head2 ServiceRoleArn => Str
 
-The AWS IAM service role ARN for the data source. The system assumes
-this role when accessing the data source.
+The Identity and Access Management (IAM) service role Amazon Resource
+Name (ARN) for the data source. The system assumes this role when
+accessing the data source.
 
 
 =head2 Type => Str
@@ -101,23 +127,38 @@ The type of the data source.
 
 =item *
 
+B<AWS_LAMBDA>: The data source is an Lambda function.
+
+=item *
+
 B<AMAZON_DYNAMODB>: The data source is an Amazon DynamoDB table.
 
 =item *
 
-B<AMAZON_ELASTICSEARCH>: The data source is an Amazon Elasticsearch
+B<AMAZON_ELASTICSEARCH>: The data source is an Amazon OpenSearch
 Service domain.
 
 =item *
 
-B<AWS_LAMBDA>: The data source is an AWS Lambda function.
+B<AMAZON_OPENSEARCH_SERVICE>: The data source is an Amazon OpenSearch
+Service domain.
 
 =item *
 
-B<NONE>: There is no data source. This type is used when you wish to
-invoke a GraphQL operation without connecting to a data source, such as
-performing data transformation with resolvers or triggering a
-subscription to be invoked from a mutation.
+B<AMAZON_EVENTBRIDGE>: The data source is an Amazon EventBridge
+configuration.
+
+=item *
+
+B<AMAZON_BEDROCK_RUNTIME>: The data source is the Amazon Bedrock
+runtime.
+
+=item *
+
+B<NONE>: There is no data source. Use this type when you want to invoke
+a GraphQL operation without connecting to a data source, such as when
+you're performing data transformation with resolvers or invoking a
+subscription from a mutation.
 
 =item *
 

@@ -4,7 +4,9 @@ package Paws::Lambda::AddPermission;
   has Action => (is => 'ro', isa => 'Str', required => 1);
   has EventSourceToken => (is => 'ro', isa => 'Str');
   has FunctionName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FunctionName', required => 1);
+  has FunctionUrlAuthType => (is => 'ro', isa => 'Str');
   has Principal => (is => 'ro', isa => 'Str', required => 1);
+  has PrincipalOrgID => (is => 'ro', isa => 'Str');
   has Qualifier => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'Qualifier');
   has RevisionId => (is => 'ro', isa => 'Str');
   has SourceAccount => (is => 'ro', isa => 'Str');
@@ -83,14 +85,13 @@ C<lambda:InvokeFunction> or C<lambda:GetFunction>.
 
 =head2 EventSourceToken => Str
 
-For Alexa Smart Home functions, a token that must be supplied by the
-invoker.
+For Alexa Smart Home functions, a token that the invoker must supply.
 
 
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function, version, or alias.
+The name or ARN of the Lambda function, version, or alias.
 
 B<Name formats>
 
@@ -98,17 +99,17 @@ B<Name formats>
 
 =item *
 
-B<Function name> - C<my-function> (name-only), C<my-function:v1> (with
-alias).
+B<Function name> E<ndash> C<my-function> (name-only), C<my-function:v1>
+(with alias).
 
 =item *
 
-B<Function ARN> -
+B<Function ARN> E<ndash>
 C<arn:aws:lambda:us-west-2:123456789012:function:my-function>.
 
 =item *
 
-B<Partial ARN> - C<123456789012:function:my-function>.
+B<Partial ARN> E<ndash> C<123456789012:function:my-function>.
 
 =back
 
@@ -118,11 +119,31 @@ function name, it is limited to 64 characters in length.
 
 
 
+=head2 FunctionUrlAuthType => Str
+
+The type of authentication that your function URL uses. Set to
+C<AWS_IAM> if you want to restrict access to authenticated users only.
+Set to C<NONE> if you want to bypass IAM authentication to create a
+public endpoint. For more information, see Security and auth model for
+Lambda function URLs
+(https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+
+Valid values are: C<"NONE">, C<"AWS_IAM">
+
 =head2 B<REQUIRED> Principal => Str
 
-The Amazon Web Services service or account that invokes the function.
-If you specify a service, use C<SourceArn> or C<SourceAccount> to limit
-who can invoke the function through that service.
+The Amazon Web Services service, Amazon Web Services account, IAM user,
+or IAM role that invokes the function. If you specify a service, use
+C<SourceArn> or C<SourceAccount> to limit who can invoke the function
+through that service.
+
+
+
+=head2 PrincipalOrgID => Str
+
+The identifier for your organization in Organizations. Use this to
+grant permissions to all the Amazon Web Services accounts under this
+organization.
 
 
 
@@ -135,7 +156,7 @@ the function.
 
 =head2 RevisionId => Str
 
-Only update the policy if the revision ID matches the ID that's
+Update the policy only if the revision ID matches the ID that's
 specified. Use this option to avoid modifying a policy that has changed
 since you last read it.
 
@@ -143,10 +164,11 @@ since you last read it.
 
 =head2 SourceAccount => Str
 
-For Amazon S3, the ID of the account that owns the resource. Use this
-together with C<SourceArn> to ensure that the resource is owned by the
-specified account. It is possible for an Amazon S3 bucket to be deleted
-by its owner and recreated by another account.
+For Amazon Web Services service, the ID of the Amazon Web Services
+account that owns the resource. Use this together with C<SourceArn> to
+ensure that the specified account owns the resource. It is possible for
+an Amazon S3 bucket to be deleted by its owner and recreated by another
+account.
 
 
 
@@ -155,6 +177,9 @@ by its owner and recreated by another account.
 For Amazon Web Services services, the ARN of the Amazon Web Services
 resource that invokes the function. For example, an Amazon S3 bucket or
 Amazon SNS topic.
+
+Note that Lambda configures the comparison using the C<StringLike>
+operator.
 
 
 

@@ -21,12 +21,26 @@ Paws::EC2::KeyPair
 
 =head2 KeyFingerprint => Str
 
-The SHA-1 digest of the DER encoded private key.
+=over
+
+=item *
+
+For RSA key pairs, the key fingerprint is the SHA-1 digest of the DER
+encoded private key.
+
+=item *
+
+For ED25519 key pairs, the key fingerprint is the base64-encoded
+SHA-256 digest, which is the default for OpenSSH, starting with OpenSSH
+6.8.
+
+=back
+
 
 
 =head2 KeyMaterial => Str
 
-An unencrypted PEM encoded RSA private key.
+An unencrypted PEM encoded RSA or ED25519 private key.
 
 
 =head2 KeyName => Str

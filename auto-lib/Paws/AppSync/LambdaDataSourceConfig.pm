@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::La
 
 =head1 DESCRIPTION
 
-Describes an AWS Lambda data source configuration.
+Describes an Lambda data source configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> LambdaFunctionArn => Str
 
-The ARN for the Lambda function.
+The Amazon Resource Name (ARN) for the Lambda function.
 
 
 

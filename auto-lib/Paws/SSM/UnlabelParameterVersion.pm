@@ -58,14 +58,18 @@ One or more labels to delete from the specified parameter version.
 
 =head2 B<REQUIRED> Name => Str
 
-The parameter name of which you want to delete one or more labels.
+The name of the parameter from which you want to delete one or more
+labels.
+
+You can't enter the Amazon Resource Name (ARN) for a parameter, only
+the parameter name itself.
 
 
 
 =head2 B<REQUIRED> ParameterVersion => Int
 
 The specific version of the parameter which you want to delete one or
-more labels from. If it is not present, the call will fail.
+more labels from. If it isn't present, the call will fail.
 
 
 

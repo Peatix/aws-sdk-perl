@@ -31,8 +31,8 @@ The timestamp when the API Key was created.
 
 =head2 CustomerId => Str
 
-An AWS Marketplace customer identifier , when integrating with the AWS
-SaaS Marketplace.
+An Amazon Web Services Marketplace customer identifier, when
+integrating with the Amazon Web Services SaaS Marketplace.
 
 
 =head2 Description => Str

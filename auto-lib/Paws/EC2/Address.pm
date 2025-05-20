@@ -13,6 +13,7 @@ package Paws::EC2::Address;
   has PrivateIpAddress => (is => 'ro', isa => 'Str', request_name => 'privateIpAddress', traits => ['NameInRequest']);
   has PublicIp => (is => 'ro', isa => 'Str', request_name => 'publicIp', traits => ['NameInRequest']);
   has PublicIpv4Pool => (is => 'ro', isa => 'Str', request_name => 'publicIpv4Pool', traits => ['NameInRequest']);
+  has ServiceManaged => (is => 'ro', isa => 'Str', request_name => 'serviceManaged', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
 1;
 
@@ -51,13 +52,12 @@ This class has no description
 
 =head2 AllocationId => Str
 
-The ID representing the allocation of the address for use with EC2-VPC.
+The ID representing the allocation of the address.
 
 
 =head2 AssociationId => Str
 
-The ID representing the association of the address with an instance in
-a VPC.
+The ID representing the association of the address with an instance.
 
 
 =head2 CarrierIp => Str
@@ -79,8 +79,7 @@ The ID of the customer-owned address pool.
 
 =head2 Domain => Str
 
-Indicates whether this Elastic IP address is for use with instances in
-EC2-Classic (C<standard>) or instances in a VPC (C<vpc>).
+The network (C<vpc>).
 
 
 =head2 InstanceId => Str
@@ -91,7 +90,8 @@ The ID of the instance that the address is associated with (if any).
 =head2 NetworkBorderGroup => Str
 
 The name of the unique set of Availability Zones, Local Zones, or
-Wavelength Zones from which AWS advertises IP addresses.
+Wavelength Zones from which Amazon Web Services advertises IP
+addresses.
 
 
 =head2 NetworkInterfaceId => Str
@@ -101,7 +101,8 @@ The ID of the network interface.
 
 =head2 NetworkInterfaceOwnerId => Str
 
-The ID of the account that owns the network interface.
+The ID of the Amazon Web Services account that owns the network
+interface.
 
 
 =head2 PrivateIpAddress => Str
@@ -117,6 +118,13 @@ The Elastic IP address.
 =head2 PublicIpv4Pool => Str
 
 The ID of an address pool.
+
+
+=head2 ServiceManaged => Str
+
+The service that manages the elastic IP address.
+
+The only option supported today is C<alb>.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

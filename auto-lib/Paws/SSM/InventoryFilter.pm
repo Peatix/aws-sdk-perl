@@ -52,15 +52,16 @@ The type of filter.
 
 The C<Exists> filter must be used with aggregators. For more
 information, see Aggregating inventory data
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-aggregate.html)
-in the I<AWS Systems Manager User Guide>.
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-aggregate.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]
 
-Inventory filter values. Example: inventory filter where instance IDs
-are specified as values Key=AWS:InstanceInformation.InstanceId,Values=
-i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal
+Inventory filter values. Example: inventory filter where managed node
+IDs are specified as values
+C<Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g,
+i-1a2b3c4d5e6,Type=Equal>.
 
 
 

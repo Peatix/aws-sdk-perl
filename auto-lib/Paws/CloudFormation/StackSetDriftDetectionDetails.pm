@@ -44,14 +44,15 @@ Detailed information about the drift status of the stack set.
 
 For stack sets, contains information about the last I<completed> drift
 operation performed on the stack set. Information about drift
-operations in-progress is not included.
+operations in-progress isn't included.
 
 For stack set operations, includes information about drift operations
 currently being performed on the stack set.
 
-For more information, see Detecting Unmanaged Changes in Stack Sets
+For more information, see Performing drift detection on CloudFormation
+StackSets
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -84,7 +85,7 @@ performed.
 
 =item *
 
-C<STOPPED>: The user has cancelled the drift detection operation.
+C<STOPPED>: The user has canceled the drift detection operation.
 
 =back
 
@@ -95,7 +96,7 @@ C<STOPPED>: The user has cancelled the drift detection operation.
 The number of stack instances that have drifted from the expected
 template and parameter configuration of the stack set. A stack instance
 is considered to have drifted if one or more of the resources in the
-associated stack do not match their expected configuration.
+associated stack don't match their expected configuration.
 
 
 =head2 DriftStatus => Str
@@ -116,8 +117,7 @@ more of the resources in the associated stack have drifted.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked the stack set for
-drift.
+C<NOT_CHECKED>: CloudFormation hasn't checked the stack set for drift.
 
 =item *
 
@@ -150,7 +150,7 @@ parameter configuration of the stack set.
 
 Most recent time when CloudFormation performed a drift detection
 operation on the stack set. This value will be C<NULL> for any stack
-set on which drift detection has not yet been performed.
+set on which drift detection hasn't yet been performed.
 
 
 =head2 TotalStackInstancesCount => Int

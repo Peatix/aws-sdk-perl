@@ -44,8 +44,7 @@ parameters for that association.
 
 =head2 DestinationConfigurations => ArrayRef[L<Paws::MediaConnect::DestinationConfigurationRequest>]
 
-The transport parameters that you want to associate with the media
-stream.
+The media streams that you want to associate with the output.
 
 
 =head2 B<REQUIRED> EncodingName => Str

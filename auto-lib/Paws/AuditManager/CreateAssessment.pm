@@ -43,9 +43,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Name        => 'MyAssessmentName',
       Roles       => [
         {
-          RoleArn  => 'MyIamArn',    # min: 20, max: 2048; OPTIONAL
-          RoleType =>
-            'PROCESS_OWNER',   # values: PROCESS_OWNER, RESOURCE_OWNER; OPTIONAL
+          RoleArn  => 'MyIamArn',        # min: 20, max: 2048
+          RoleType => 'PROCESS_OWNER',   # values: PROCESS_OWNER, RESOURCE_OWNER
+
         },
         ...
       ],
@@ -57,7 +57,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Name         => 'MyAccountName',     # min: 1, max: 50; OPTIONAL
           },
           ...
-        ],    # OPTIONAL
+        ],    # min: 1, max: 200; OPTIONAL
         AwsServices => [
           {
             ServiceName => 'MyAWSServiceName',    # min: 1, max: 40; OPTIONAL
@@ -84,8 +84,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentReportsDestination => L<Paws::AuditManager::AssessmentReportsDestination>
 
-The assessment report storage destination for the specified assessment
-that is being created.
+The assessment report storage destination for the assessment that's
+being created.
 
 
 
@@ -97,7 +97,8 @@ The optional description of the assessment to be created.
 
 =head2 B<REQUIRED> FrameworkId => Str
 
-The identifier for the specified framework.
+The identifier for the framework that the assessment will be created
+from.
 
 
 
@@ -109,7 +110,7 @@ The name of the assessment to be created.
 
 =head2 B<REQUIRED> Roles => ArrayRef[L<Paws::AuditManager::Role>]
 
-The list of roles for the specified assessment.
+The list of roles for the assessment.
 
 
 
@@ -121,7 +122,7 @@ The list of roles for the specified assessment.
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
 
-The tags associated with the assessment.
+The tags that are associated with the assessment.
 
 
 

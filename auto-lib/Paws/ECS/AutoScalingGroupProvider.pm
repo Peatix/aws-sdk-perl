@@ -2,6 +2,7 @@
 package Paws::ECS::AutoScalingGroupProvider;
   use Moose;
   has AutoScalingGroupArn => (is => 'ro', isa => 'Str', request_name => 'autoScalingGroupArn', traits => ['NameInRequest'], required => 1);
+  has ManagedDraining => (is => 'ro', isa => 'Str', request_name => 'managedDraining', traits => ['NameInRequest']);
   has ManagedScaling => (is => 'ro', isa => 'Paws::ECS::ManagedScaling', request_name => 'managedScaling', traits => ['NameInRequest']);
   has ManagedTerminationProtection => (is => 'ro', isa => 'Str', request_name => 'managedTerminationProtection', traits => ['NameInRequest']);
 
@@ -42,7 +43,16 @@ The details of the Auto Scaling group for the capacity provider.
 
 =head2 B<REQUIRED> AutoScalingGroupArn => Str
 
-The Amazon Resource Name (ARN) that identifies the Auto Scaling group.
+The Amazon Resource Name (ARN) that identifies the Auto Scaling group,
+or the Auto Scaling group name.
+
+
+=head2 ManagedDraining => Str
+
+The managed draining option for the Auto Scaling group capacity
+provider. When you enable this, Amazon ECS manages and gracefully
+drains the EC2 container instances that are in the Auto Scaling group
+capacity provider.
 
 
 =head2 ManagedScaling => L<Paws::ECS::ManagedScaling>
@@ -55,23 +65,23 @@ provider.
 
 The managed termination protection setting to use for the Auto Scaling
 group capacity provider. This determines whether the Auto Scaling group
-has managed termination protection.
+has managed termination protection. The default is off.
 
 When using managed termination protection, managed scaling must also be
-used otherwise managed termination protection will not work.
+used otherwise managed termination protection doesn't work.
 
-When managed termination protection is enabled, Amazon ECS prevents the
+When managed termination protection is on, Amazon ECS prevents the
 Amazon EC2 instances in an Auto Scaling group that contain tasks from
 being terminated during a scale-in action. The Auto Scaling group and
 each instance in the Auto Scaling group must have instance protection
-from scale-in actions enabled as well. For more information, see
-Instance Protection
+from scale-in actions on as well. For more information, see Instance
+Protection
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection)
-in the I<AWS Auto Scaling User Guide>.
+in the I<Auto Scaling User Guide>.
 
-When managed termination protection is disabled, your Amazon EC2
-instances are not protected from termination when the Auto Scaling
-group scales in.
+When managed termination protection is off, your Amazon EC2 instances
+aren't protected from termination when the Auto Scaling group scales
+in.
 
 
 

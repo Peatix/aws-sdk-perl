@@ -84,147 +84,105 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 ClientRequestToken => Str
 
-(Optional) If you want to add a new version to the secret, this
-parameter specifies a unique identifier for the new version that helps
-ensure idempotency.
+If you include C<SecretString> or C<SecretBinary>, then Secrets Manager
+creates a new version for the secret, and this parameter specifies the
+unique identifier for the new version.
 
-If you use the AWS CLI or one of the AWS SDK to call this operation,
-then you can leave this parameter empty. The CLI or SDK generates a
-random UUID for you and includes that in the request. If you don't use
-the SDK and instead generate a raw HTTP request to the Secrets Manager
-service endpoint, then you must generate a C<ClientRequestToken>
-yourself for new versions and include that value in the request.
+If you use the Amazon Web Services CLI or one of the Amazon Web
+Services SDKs to call this operation, then you can leave this parameter
+empty. The CLI or SDK generates a random UUID for you and includes it
+as the value for this parameter in the request.
 
-You typically only need to interact with this value if you implement
-your own retry logic and want to ensure that a given secret is not
-created twice. We recommend that you generate a UUID-type
-(https://wikipedia.org/wiki/Universally_unique_identifier) value to
-ensure uniqueness within the specified secret.
+If you generate a raw HTTP request to the Secrets Manager service
+endpoint, then you must generate a C<ClientRequestToken> and include it
+in the request.
 
-Secrets Manager uses this value to prevent the accidental creation of
-duplicate versions if there are failures and retries during the Lambda
-rotation function's processing.
-
-=over
-
-=item *
-
-If the C<ClientRequestToken> value isn't already associated with a
-version of the secret then a new version of the secret is created.
-
-=item *
-
-If a version with this value already exists and that version's
-C<SecretString> and C<SecretBinary> values are the same as those in the
-request then the request is ignored (the operation is idempotent).
-
-=item *
-
-If a version with this value already exists and that version's
-C<SecretString> and C<SecretBinary> values are different from the
-request then an error occurs because you cannot modify an existing
-secret value.
-
-=back
-
-This value becomes the C<VersionId> of the new version.
+This value helps ensure idempotency. Secrets Manager uses this value to
+prevent the accidental creation of duplicate versions if there are
+failures and retries during a rotation. We recommend that you generate
+a UUID-type (https://wikipedia.org/wiki/Universally_unique_identifier)
+value to ensure uniqueness of your versions within the specified
+secret.
 
 
 
 =head2 Description => Str
 
-(Optional) Specifies an updated user-provided description of the
-secret.
+The description of the secret.
 
 
 
 =head2 KmsKeyId => Str
 
-(Optional) Specifies an updated ARN or alias of the AWS KMS customer
-master key (CMK) to be used to encrypt the protected text in new
-versions of this secret.
+The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
+encrypt new secret versions as well as any existing versions with the
+staging labels C<AWSCURRENT>, C<AWSPENDING>, or C<AWSPREVIOUS>. If you
+don't have C<kms:Encrypt> permission to the new key, Secrets Manager
+does not re-encrypt existing secret versions with the new key. For more
+information about versions and staging labels, see Concepts: Version
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version).
 
-You can only use the account's default CMK to encrypt and decrypt if
-you call this operation using credentials from the same account that
-owns the secret. If the secret is in a different account, then you must
-create a custom CMK and provide the ARN of that CMK in this field. The
-user making the call must have permissions to both the secret and the
-CMK in their respective accounts.
+A key alias is always prefixed by C<alias/>, for example
+C<alias/aws/secretsmanager>. For more information, see About aliases
+(https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html).
+
+If you set this to an empty string, Secrets Manager uses the Amazon Web
+Services managed key C<aws/secretsmanager>. If this key doesn't already
+exist in your account, then Secrets Manager creates it for you
+automatically. All users and roles in the Amazon Web Services account
+automatically have access to use C<aws/secretsmanager>. Creating
+C<aws/secretsmanager> can result in a one-time significant delay in
+returning the result.
+
+You can only use the Amazon Web Services managed key
+C<aws/secretsmanager> if you call this operation using credentials from
+the same Amazon Web Services account that owns the secret. If the
+secret is in a different account, then you must use a customer managed
+key and provide the ARN of that KMS key in this field. The user making
+the call must have permissions to both the secret and the KMS key in
+their respective accounts.
 
 
 
 =head2 SecretBinary => Str
 
-(Optional) Specifies updated binary data that you want to encrypt and
-store in the new version of the secret. To use this parameter in the
-command-line tools, we recommend that you store your binary data in a
-file and then use the appropriate technique for your tool to pass the
-contents of the file as a parameter. Either C<SecretBinary> or
-C<SecretString> must have a value, but not both. They cannot both be
-empty.
+The binary data to encrypt and store in the new version of the secret.
+We recommend that you store your binary data in a file and then pass
+the contents of the file as a parameter.
 
-This parameter is not accessible using the Secrets Manager console.
+Either C<SecretBinary> or C<SecretString> must have a value, but not
+both.
+
+You can't access this parameter in the Secrets Manager console.
+
+Sensitive: This field contains sensitive information, so the service
+does not include it in CloudTrail log entries. If you create your own
+log entries, you must also avoid logging the information in this field.
 
 
 
 =head2 B<REQUIRED> SecretId => Str
 
-Specifies the secret that you want to modify or to which you want to
-add a new version. You can specify either the Amazon Resource Name
-(ARN) or the friendly name of the secret.
+The ARN or name of the secret.
 
-If you specify an ARN, we generally recommend that you specify a
-complete ARN. You can specify a partial ARN tooE<mdash>for example, if
-you donE<rsquo>t include the final hyphen and six random characters
-that Secrets Manager adds at the end of the ARN when you created the
-secret. A partial ARN match can work as long as it uniquely matches
-only one secret. However, if your secret has a name that ends in a
-hyphen followed by six characters (before Secrets Manager adds the
-hyphen and six characters to the ARN) and you try to use that as a
-partial ARN, then those characters cause Secrets Manager to assume that
-youE<rsquo>re specifying a complete ARN. This confusion can cause
-unexpected results. To avoid this situation, we recommend that you
-donE<rsquo>t create secret names ending with a hyphen followed by six
-characters.
-
-If you specify an incomplete ARN without the random suffix, and instead
-provide the 'friendly name', you I<must> not include the random suffix.
-If you do include the random suffix added by Secrets Manager, you
-receive either a I<ResourceNotFoundException> or an
-I<AccessDeniedException> error, depending on your permissions.
+For an ARN, we recommend that you specify a complete ARN rather than a
+partial ARN. See Finding a secret from a partial ARN
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 
 
 
 =head2 SecretString => Str
 
-(Optional) Specifies updated text data that you want to encrypt and
-store in this new version of the secret. Either C<SecretBinary> or
-C<SecretString> must have a value, but not both. They cannot both be
-empty.
+The text data to encrypt and store in the new version of the secret. We
+recommend you use a JSON structure of key/value pairs for your secret
+value.
 
-If you create this secret by using the Secrets Manager console then
-Secrets Manager puts the protected secret text in only the
-C<SecretString> parameter. The Secrets Manager console stores the
-information as a JSON structure of key/value pairs that the default
-Lambda rotation function knows how to parse.
+Either C<SecretBinary> or C<SecretString> must have a value, but not
+both.
 
-For storing multiple values, we recommend that you use a JSON text
-string argument and specify key/value pairs. For information on how to
-format a JSON parameter for the various command line tool environments,
-see Using JSON for Parameters
-(https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json)
-in the I<AWS CLI User Guide>. For example:
-
-C<[{"username":"bob"},{"password":"abc123xyz456"}]>
-
-If your command-line tool or SDK requires quotation marks around the
-parameter, you should use single quotes to avoid confusion with the
-double quotes required in the JSON text. You can also 'escape' the
-double quote character in the embedded JSON text by prefacing each with
-a backslash. For example, the following string is surrounded by
-double-quotes. All of the embedded double quotes are escaped:
-
-C<"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]">
+Sensitive: This field contains sensitive information, so the service
+does not include it in CloudTrail log entries. If you create your own
+log entries, you must also avoid logging the information in this field.
 
 
 

@@ -14,6 +14,7 @@ package Paws::ApplicationMigration::CreateReplicationConfigurationTemplate;
   has StagingAreaTags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'stagingAreaTags', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has UseDedicatedReplicationServer => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useDedicatedReplicationServer', required => 1);
+  has UseFipsEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useFipsEndpoint');
 
   use MooseX::ClassAttribute;
 
@@ -61,6 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags                          => {
         'MyTagKey' => 'MyTagValue',    # key: max: 256, value: max: 256
       },    # OPTIONAL
+      UseFipsEndpoint => 1,    # OPTIONAL
       );
 
     # Results:
@@ -88,6 +90,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Tags            = $ReplicationConfigurationTemplate->Tags;
     my $UseDedicatedReplicationServer =
       $ReplicationConfigurationTemplate->UseDedicatedReplicationServer;
+    my $UseFipsEndpoint = $ReplicationConfigurationTemplate->UseFipsEndpoint;
 
 # Returns a L<Paws::ApplicationMigration::ReplicationConfigurationTemplate> object.
 
@@ -127,21 +130,21 @@ Valid values are: C<"PRIVATE_IP">, C<"PUBLIC_IP">
 
 =head2 B<REQUIRED> DefaultLargeStagingDiskType => Str
 
-Request to configure the Staging Disk EBS volume type to "gp2" during
-Replication Settings template creation.
+Request to configure the default large staging disk EBS volume type
+during Replication Settings template creation.
 
-Valid values are: C<"GP2">, C<"ST1">
+Valid values are: C<"GP2">, C<"ST1">, C<"GP3">
 
 =head2 B<REQUIRED> EbsEncryption => Str
 
-Request to configure EBS enryption during Replication Settings template
-creation.
+Request to configure EBS encryption during Replication Settings
+template creation.
 
 Valid values are: C<"DEFAULT">, C<"CUSTOM">
 
 =head2 EbsEncryptionKeyArn => Str
 
-Request to configure an EBS enryption key during Replication Settings
+Request to configure an EBS encryption key during Replication Settings
 template creation.
 
 
@@ -155,7 +158,7 @@ Replication Settings template creation.
 
 =head2 B<REQUIRED> ReplicationServersSecurityGroupsIDs => ArrayRef[Str|Undef]
 
-Request to configure the Replication Server Secuirity group ID during
+Request to configure the Replication Server Security group ID during
 Replication Settings template creation.
 
 
@@ -169,7 +172,7 @@ Settings template creation.
 
 =head2 B<REQUIRED> StagingAreaTags => L<Paws::ApplicationMigration::TagsMap>
 
-Request to configure Staiging Area tags during Replication Settings
+Request to configure Staging Area tags during Replication Settings
 template creation.
 
 
@@ -185,6 +188,13 @@ creation.
 
 Request to use Dedicated Replication Servers during Replication
 Settings template creation.
+
+
+
+=head2 UseFipsEndpoint => Bool
+
+Request to use Fips Endpoint during Replication Settings template
+creation.
 
 
 

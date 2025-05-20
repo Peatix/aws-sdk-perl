@@ -18,7 +18,7 @@ Paws::EC2::AssociateSubnetCidrBlockResult
 
 =head2 Ipv6CidrBlockAssociation => L<Paws::EC2::SubnetIpv6CidrBlockAssociation>
 
-Information about the IPv6 CIDR block association.
+Information about the IPv6 association.
 
 
 =head2 SubnetId => Str

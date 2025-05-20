@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes configuration parameters for a Flink-based Kinesis Data
-Analytics application or a Studio notebook.
+Describes configuration parameters for a Managed Service for Apache
+Flink application or a Studio notebook.
 
 =head1 ATTRIBUTES
 
@@ -46,9 +46,9 @@ Analytics application or a Studio notebook.
 Describes an application's checkpointing configuration. Checkpointing
 is the process of persisting application state for fault tolerance. For
 more information, see Checkpoints for Fault Tolerance
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance)
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing)
 in the Apache Flink Documentation
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/).
 
 
 =head2 MonitoringConfiguration => L<Paws::KinesisAnalyticsV2::MonitoringConfiguration>

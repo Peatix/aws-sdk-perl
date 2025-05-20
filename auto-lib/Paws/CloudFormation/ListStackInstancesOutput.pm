@@ -18,9 +18,9 @@ Paws::CloudFormation::ListStackInstancesOutput
 
 =head2 NextToken => Str
 
-If the request doesn't return all of the remaining results,
-C<NextToken> is set to a token. To retrieve the next set of results,
-call C<ListStackInstances> again and assign that token to the request
+If the request doesn't return all the remaining results, C<NextToken>
+is set to a token. To retrieve the next set of results, call
+C<ListStackInstances> again and assign that token to the request
 object's C<NextToken> parameter. If the request returns all results,
 C<NextToken> is set to C<null>.
 

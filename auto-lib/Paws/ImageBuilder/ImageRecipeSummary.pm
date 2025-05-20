@@ -66,7 +66,7 @@ The owner of the image recipe.
 
 =head2 ParentImage => Str
 
-The parent image of the image recipe.
+The base image of the image recipe.
 
 
 =head2 Platform => Str

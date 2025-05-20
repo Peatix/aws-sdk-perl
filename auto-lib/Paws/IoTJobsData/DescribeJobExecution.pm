@@ -59,8 +59,8 @@ returned.
 
 =head2 IncludeJobDocument => Bool
 
-Optional. When set to true, the response contains the job document. The
-default is false.
+Optional. Unless set to false, the response contains the job document.
+The default is true.
 
 
 

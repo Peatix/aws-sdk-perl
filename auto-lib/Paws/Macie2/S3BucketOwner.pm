@@ -34,19 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::S3B
 
 =head1 DESCRIPTION
 
-Provides information about the user who owns an S3 bucket.
+Provides information about the Amazon Web Services account that owns an
+S3 bucket.
 
 =head1 ATTRIBUTES
 
 
 =head2 DisplayName => Str
 
-The display name of the user who owns the bucket.
+The display name of the account that owns the bucket.
 
 
 =head2 Id => Str
 
-The Amazon Web Services account ID for the user who owns the bucket.
+The canonical user ID for the account that owns the bucket.
 
 
 

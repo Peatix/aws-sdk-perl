@@ -37,9 +37,55 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-In a C<BatchImportFindings> request, finding providers use
-C<FindingProviderFields> to provide and update values for confidence,
-criticality, related findings, severity, and types.
+In a C<BatchImportFindings>
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html)
+request, finding providers use C<FindingProviderFields> to provide and
+update values for the following fields:
+
+=over
+
+=item *
+
+C<Confidence>
+
+=item *
+
+C<Criticality>
+
+=item *
+
+C<RelatedFindings>
+
+=item *
+
+C<Severity>
+
+=item *
+
+C<Types>
+
+=back
+
+The preceding fields are nested under the C<FindingProviderFields>
+object, but also have analogues of the same name as top-level ASFF
+fields. When a new finding is sent to Security Hub by a finding
+provider, Security Hub populates the C<FindingProviderFields> object
+automatically, if it is empty, based on the corresponding top-level
+fields.
+
+Finding providers can update C<FindingProviderFields> only by using the
+C<BatchImportFindings> operation. Finding providers can't update this
+object with the C<BatchUpdateFindings>
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html)
+operation. Customers can update the top-level fields by using the
+C<BatchUpdateFindings> operation. Customers can't update
+C<FindingProviderFields>.
+
+For information about how Security Hub handles updates from
+C<BatchImportFindings> to C<FindingProviderFields> and to the
+corresponding top-level attributes, see Using C<FindingProviderFields>
+(https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchimportfindings.html#batchimportfindings-findingproviderfields)
+in the I<Security Hub User Guide>.
 
 =head1 ATTRIBUTES
 

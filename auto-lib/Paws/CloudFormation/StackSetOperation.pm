@@ -13,6 +13,8 @@ package Paws::CloudFormation::StackSetOperation;
   has StackSetDriftDetectionDetails => (is => 'ro', isa => 'Paws::CloudFormation::StackSetDriftDetectionDetails');
   has StackSetId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
+  has StatusDetails => (is => 'ro', isa => 'Paws::CloudFormation::StackSetOperationStatusDetails');
+  has StatusReason => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -33,7 +35,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CloudFormation::StackSetOperation object:
 
-  $service_obj->Method(Att1 => { Action => $value, ..., Status => $value  });
+  $service_obj->Method(Att1 => { Action => $value, ..., StatusReason => $value  });
 
 =head3 Results returned from an API call
 
@@ -54,27 +56,27 @@ The structure that contains information about a stack set operation.
 The type of stack set operation: C<CREATE>, C<UPDATE>, or C<DELETE>.
 Create and delete operations affect only the specified stack set
 instances that are associated with the specified stack set. Update
-operations affect both the stack set itself, as well as I<all>
+operations affect both the stack set itself, in addition to I<all>
 associated stack set instances.
 
 
 =head2 AdministrationRoleARN => Str
 
-The Amazon Resource Number (ARN) of the IAM role used to perform this
+The Amazon Resource Name (ARN) of the IAM role used to perform this
 stack set operation.
 
 Use customized administrator roles to control which users or groups can
 manage specific stack sets within the same administrator account. For
-more information, see Define Permissions for Multiple Administrators
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
-in the I<AWS CloudFormation User Guide>.
+more information, see Grant self-managed permissions
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 CreationTimestamp => Str
 
 The time at which the operation was initiated. Note that the creation
 times for the stack set operation might differ from the creation time
-of the individual stacks themselves. This is because AWS CloudFormation
+of the individual stacks themselves. This is because CloudFormation
 needs to perform preparatory work for the operation, such as
 dispatching the work to the requested Regions, before actually creating
 the first stacks.
@@ -82,8 +84,8 @@ the first stacks.
 
 =head2 DeploymentTargets => L<Paws::CloudFormation::DeploymentTargets>
 
-[Service-managed permissions] The AWS Organizations accounts affected
-by the stack operation.
+[Service-managed permissions] The Organizations accounts affected by
+the stack operation.
 
 
 =head2 EndTimestamp => Str
@@ -110,7 +112,7 @@ The unique ID of a stack set operation.
 
 =head2 OperationPreferences => L<Paws::CloudFormation::StackSetOperationPreferences>
 
-The preferences for how AWS CloudFormation performs this stack set
+The preferences for how CloudFormation performs this stack set
 operation.
 
 
@@ -118,7 +120,7 @@ operation.
 
 For stack set operations of action type C<DELETE>, specifies whether to
 remove the stack instances from the specified stack set, but doesn't
-delete the stacks. You can't reassociate a retained stack, or add an
+delete the stacks. You can't re-associate a retained stack, or add an
 existing, saved stack to a new stack set.
 
 
@@ -128,12 +130,13 @@ Detailed information about the drift status of the stack set. This
 includes information about drift operations currently being performed
 on the stack set.
 
-this information will only be present for stack set operations whose
+This information will only be present for stack set operations whose
 C<Action> type is C<DETECT_DRIFT>.
 
-For more information, see Detecting Unmanaged Changes in Stack Sets
+For more information, see Performing drift detection on CloudFormation
+StackSets
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html)
-in the AWS CloudFormation User Guide.
+in the I<CloudFormation User Guide>.
 
 
 =head2 StackSetId => Str
@@ -154,17 +157,16 @@ failure tolerance value that you've set for an operation is applied for
 each Region during stack create and update operations. If the number of
 failed stacks within a Region exceeds the failure tolerance, the status
 of the operation in the Region is set to C<FAILED>. This in turn sets
-the status of the operation as a whole to C<FAILED>, and AWS
-CloudFormation cancels the operation in any remaining Regions.
+the status of the operation as a whole to C<FAILED>, and CloudFormation
+cancels the operation in any remaining Regions.
 
 =item *
 
 C<QUEUED>: [Service-managed permissions] For automatic deployments that
 require a sequence of operations, the operation is queued to be
-performed. For more information, see the stack set operation status
-codes
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes)
-in the AWS CloudFormation User Guide.
+performed. For more information, see the StackSets status codes
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-status-codes)
+in the I<CloudFormation User Guide>.
 
 =item *
 
@@ -172,7 +174,7 @@ C<RUNNING>: The operation is currently being performed.
 
 =item *
 
-C<STOPPED>: The user has cancelled the operation.
+C<STOPPED>: The user has canceled the operation.
 
 =item *
 
@@ -187,6 +189,16 @@ operation.
 
 =back
 
+
+
+=head2 StatusDetails => L<Paws::CloudFormation::StackSetOperationStatusDetails>
+
+Detailed information about the StackSet operation.
+
+
+=head2 StatusReason => Str
+
+The status of the operation in details.
 
 
 

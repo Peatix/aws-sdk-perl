@@ -39,7 +39,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Name     => 'MyControlSetName',    # min: 1, max: 300
           Controls => [
             {
-              Id => 'MyUUID',                # min: 36, max: 36; OPTIONAL
+              Id => 'MyUUID',                # min: 36, max: 36
+
             },
             ...
           ],    # min: 1; OPTIONAL
@@ -74,7 +75,7 @@ or HIPAA.
 
 =head2 B<REQUIRED> ControlSets => ArrayRef[L<Paws::AuditManager::CreateAssessmentFrameworkControlSet>]
 
-The control sets to be associated with the framework.
+The control sets that are associated with the framework.
 
 
 
@@ -92,7 +93,7 @@ The name of the new custom framework.
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
 
-The tags associated with the framework.
+The tags that are associated with the framework.
 
 
 

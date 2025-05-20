@@ -5,6 +5,7 @@ package Paws::CloudFormation::GetTemplateSummary;
   has StackName => (is => 'ro', isa => 'Str');
   has StackSetName => (is => 'ro', isa => 'Str');
   has TemplateBody => (is => 'ro', isa => 'Str');
+  has TemplateSummaryConfig => (is => 'ro', isa => 'Paws::CloudFormation::TemplateSummaryConfig');
   has TemplateURL => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -32,11 +33,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $cloudformation = Paws->service('CloudFormation');
     my $GetTemplateSummaryOutput = $cloudformation->GetTemplateSummary(
-      CallAs       => 'SELF',                  # OPTIONAL
-      StackName    => 'MyStackNameOrId',       # OPTIONAL
-      StackSetName => 'MyStackSetNameOrId',    # OPTIONAL
-      TemplateBody => 'MyTemplateBody',        # OPTIONAL
-      TemplateURL  => 'MyTemplateURL',         # OPTIONAL
+      CallAs                => 'SELF',                  # OPTIONAL
+      StackName             => 'MyStackNameOrId',       # OPTIONAL
+      StackSetName          => 'MyStackSetNameOrId',    # OPTIONAL
+      TemplateBody          => 'MyTemplateBody',        # OPTIONAL
+      TemplateSummaryConfig => {
+        TreatUnrecognizedResourceTypesAsWarnings => 1,    # OPTIONAL
+      },    # OPTIONAL
+      TemplateURL => 'MyTemplateURL',    # OPTIONAL
     );
 
     # Results:
@@ -50,6 +54,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $GetTemplateSummaryOutput->ResourceIdentifierSummaries;
     my $ResourceTypes = $GetTemplateSummaryOutput->ResourceTypes;
     my $Version       = $GetTemplateSummaryOutput->Version;
+    my $Warnings      = $GetTemplateSummaryOutput->Warnings;
 
     # Returns a L<Paws::CloudFormation::GetTemplateSummaryOutput> object.
 
@@ -79,11 +84,11 @@ If you are signed in to the management account, specify C<SELF>.
 If you are signed in to a delegated administrator account, specify
 C<DELEGATED_ADMIN>.
 
-Your AWS account must be registered as a delegated administrator in the
-management account. For more information, see Register a delegated
-administrator
+Your Amazon Web Services account must be registered as a delegated
+administrator in the management account. For more information, see
+Register a delegated administrator
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
-in the I<AWS CloudFormation User Guide>.
+in the I<CloudFormation User Guide>.
 
 =back
 
@@ -92,9 +97,9 @@ Valid values are: C<"SELF">, C<"DELEGATED_ADMIN">
 
 =head2 StackName => Str
 
-The name or the stack ID that is associated with the stack, which are
-not always interchangeable. For running stacks, you can specify either
-the stack's name or its unique stack ID. For deleted stack, you must
+The name or the stack ID that's associated with the stack, which aren't
+always interchangeable. For running stacks, you can specify either the
+stack's name or its unique stack ID. For deleted stack, you must
 specify the unique stack ID.
 
 Conditional: You must specify only one of the following parameters:
@@ -115,24 +120,25 @@ C<StackName>, C<StackSetName>, C<TemplateBody>, or C<TemplateURL>.
 =head2 TemplateBody => Str
 
 Structure containing the template body with a minimum length of 1 byte
-and a maximum length of 51,200 bytes. For more information about
-templates, see Template Anatomy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-in the AWS CloudFormation User Guide.
+and a maximum length of 51,200 bytes.
 
 Conditional: You must specify only one of the following parameters:
 C<StackName>, C<StackSetName>, C<TemplateBody>, or C<TemplateURL>.
 
 
 
+=head2 TemplateSummaryConfig => L<Paws::CloudFormation::TemplateSummaryConfig>
+
+Specifies options for the C<GetTemplateSummary> API action.
+
+
+
 =head2 TemplateURL => Str
 
-Location of file containing the template body. The URL must point to a
-template (max size: 460,800 bytes) that is located in an Amazon S3
-bucket or a Systems Manager document. For more information about
-templates, see Template Anatomy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)
-in the AWS CloudFormation User Guide.
+The URL of a file containing the template body. The URL must point to a
+template (max size: 1 MB) that's located in an Amazon S3 bucket or a
+Systems Manager document. The location for an Amazon S3 bucket must
+start with C<https://>.
 
 Conditional: You must specify only one of the following parameters:
 C<StackName>, C<StackSetName>, C<TemplateBody>, or C<TemplateURL>.

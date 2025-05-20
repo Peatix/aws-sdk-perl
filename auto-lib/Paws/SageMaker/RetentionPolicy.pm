@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 The retention policy for data stored on an Amazon Elastic File System
-(EFS) volume.
+volume.
 
 =head1 ATTRIBUTES
 
@@ -42,9 +42,9 @@ The retention policy for data stored on an Amazon Elastic File System
 =head2 HomeEfsFileSystem => Str
 
 The default is C<Retain>, which specifies to keep the data stored on
-the EFS volume.
+the Amazon EFS volume.
 
-Specify C<Delete> to delete the data stored on the EFS volume.
+Specify C<Delete> to delete the data stored on the Amazon EFS volume.
 
 
 

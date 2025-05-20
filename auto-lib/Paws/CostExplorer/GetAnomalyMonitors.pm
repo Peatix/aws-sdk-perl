@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ce/
 
 =head2 MaxResults => Int
 
-The number of entries a paginated response contains.
+The number of entries that a paginated response contains.
 
 
 
@@ -63,9 +63,9 @@ A list of cost anomaly monitor ARNs.
 
 =head2 NextPageToken => Str
 
-The token to retrieve the next set of results. AWS provides the token
-when the response from a previous call has more results than the
-maximum page size.
+The token to retrieve the next set of results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 

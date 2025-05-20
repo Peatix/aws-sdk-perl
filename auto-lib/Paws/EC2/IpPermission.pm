@@ -44,10 +44,9 @@ This class has no description
 
 =head2 FromPort => Int
 
-The start of port range for the TCP and UDP protocols, or an
-ICMP/ICMPv6 type number. A value of C<-1> indicates all ICMP/ICMPv6
-types. If you specify all ICMP/ICMPv6 types, you must specify all
-codes.
+If the protocol is TCP or UDP, this is the start of the port range. If
+the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP
+types).
 
 
 =head2 IpProtocol => Str
@@ -56,40 +55,40 @@ The IP protocol name (C<tcp>, C<udp>, C<icmp>, C<icmpv6>) or number
 (see Protocol Numbers
 (http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml)).
 
-[VPC only] Use C<-1> to specify all protocols. When authorizing
-security group rules, specifying C<-1> or a protocol number other than
-C<tcp>, C<udp>, C<icmp>, or C<icmpv6> allows traffic on all ports,
-regardless of any port range you specify. For C<tcp>, C<udp>, and
-C<icmp>, you must specify a port range. For C<icmpv6>, the port range
-is optional; if you omit the port range, traffic for all types and
-codes is allowed.
+Use C<-1> to specify all protocols. When authorizing security group
+rules, specifying C<-1> or a protocol number other than C<tcp>, C<udp>,
+C<icmp>, or C<icmpv6> allows traffic on all ports, regardless of any
+port range you specify. For C<tcp>, C<udp>, and C<icmp>, you must
+specify a port range. For C<icmpv6>, the port range is optional; if you
+omit the port range, traffic for all types and codes is allowed.
 
 
 =head2 IpRanges => ArrayRef[L<Paws::EC2::IpRange>]
 
-The IPv4 ranges.
+The IPv4 address ranges.
 
 
 =head2 Ipv6Ranges => ArrayRef[L<Paws::EC2::Ipv6Range>]
 
-[VPC only] The IPv6 ranges.
+The IPv6 address ranges.
 
 
 =head2 PrefixListIds => ArrayRef[L<Paws::EC2::PrefixListId>]
 
-[VPC only] The prefix list IDs.
+The prefix list IDs.
 
 
 =head2 ToPort => Int
 
-The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6
-code. A value of C<-1> indicates all ICMP/ICMPv6 codes. If you specify
-all ICMP/ICMPv6 types, you must specify all codes.
+If the protocol is TCP or UDP, this is the end of the port range. If
+the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP
+codes). If the start port is -1 (all ICMP types), then the end port
+must be -1 (all ICMP codes).
 
 
 =head2 UserIdGroupPairs => ArrayRef[L<Paws::EC2::UserIdGroupPair>]
 
-The security group and AWS account ID pairs.
+The security group and Amazon Web Services account ID pairs.
 
 
 

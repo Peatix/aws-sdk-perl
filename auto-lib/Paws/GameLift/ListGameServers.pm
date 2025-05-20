@@ -52,7 +52,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 =head2 B<REQUIRED> GameServerGroupName => Str
 
 An identifier for the game server group to retrieve a list of game
-servers from. Use either the GameServerGroup name or ARN value.
+servers from. Use either the name or ARN value.
 
 
 

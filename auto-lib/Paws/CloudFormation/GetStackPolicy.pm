@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 
 =head2 B<REQUIRED> StackName => Str
 
-The name or unique stack ID that is associated with the stack whose
+The name or unique stack ID that's associated with the stack whose
 policy you want to get.
 
 

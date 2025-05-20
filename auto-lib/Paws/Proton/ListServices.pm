@@ -53,7 +53,7 @@ The maximum number of services to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next service in the array of
+A token that indicates the location of the next service in the array of
 services, after the list of services that was previously requested.
 
 

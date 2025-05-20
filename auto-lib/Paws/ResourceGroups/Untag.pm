@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $UntagOutput = $resource -groups->Untag(
-      Arn  => 'MyGroupArn',
+      Arn  => 'MyGroupArnV2',
       Keys => [
         'MyTagKey', ...    # min: 1, max: 128
       ],
@@ -51,9 +51,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 B<REQUIRED> Arn => Str
 
-The ARN of the resource group from which to remove tags. The command
-removed both the specified keys and any values associated with those
-keys.
+The Amazon resource name (ARN) of the resource group from which to
+remove tags. The command removed both the specified keys and any values
+associated with those keys.
 
 
 

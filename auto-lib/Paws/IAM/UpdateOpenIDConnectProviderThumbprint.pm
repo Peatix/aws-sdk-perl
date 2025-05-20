@@ -50,7 +50,7 @@ provider ARNs by using the ListOpenIDConnectProviders operation.
 
 For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 

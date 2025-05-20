@@ -17,8 +17,8 @@ Paws::CloudFormation::EstimateTemplateCostOutput
 
 =head2 Url => Str
 
-An AWS Simple Monthly Calculator URL with a query string that describes
-the resources required to run the template.
+An Amazon Web Services Simple Monthly Calculator URL with a query
+string that describes the resources required to run the template.
 
 
 =head2 _request_id => Str

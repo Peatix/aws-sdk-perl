@@ -35,28 +35,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LookoutEqui
 
 =head1 DESCRIPTION
 
-E<gt> Specifies configuration information for the input data for the
-inference, including S3 location of input data..
+Specifies configuration information for the input data for the
+inference, including Amazon S3 location of input data..
 
 =head1 ATTRIBUTES
 
 
 =head2 InferenceInputNameConfiguration => L<Paws::LookoutEquipment::InferenceInputNameConfiguration>
 
-E<gt> Specifies configuration information for the input data for the
+Specifies configuration information for the input data for the
 inference, including timestamp format and delimiter.
 
 
 =head2 InputTimeZoneOffset => Str
 
-Indicates the difference between your time zone and Greenwich Mean Time
-(GMT).
+Indicates the difference between your time zone and Coordinated
+Universal Time (UTC).
 
 
 =head2 S3InputConfiguration => L<Paws::LookoutEquipment::InferenceS3InputConfiguration>
 
 Specifies configuration information for the input data for the
-inference, including S3 location of input data..
+inference, including Amazon S3 location of input data.
 
 
 

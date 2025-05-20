@@ -9,6 +9,8 @@ package Paws::GroundStation::GetMissionProfileResponse;
   has MissionProfileId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'missionProfileId');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has Region => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'region');
+  has StreamsKmsKey => (is => 'ro', isa => 'Paws::GroundStation::KmsKey', traits => ['NameInRequest'], request_name => 'streamsKmsKey');
+  has StreamsKmsRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'streamsKmsRole');
   has Tags => (is => 'ro', isa => 'Paws::GroundStation::TagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has TrackingConfigArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'trackingConfigArn');
 
@@ -67,6 +69,16 @@ Name of a mission profile.
 =head2 Region => Str
 
 Region of a mission profile.
+
+
+=head2 StreamsKmsKey => L<Paws::GroundStation::KmsKey>
+
+KMS key to use for encrypting streams.
+
+
+=head2 StreamsKmsRole => Str
+
+Role to use for encrypting streams with KMS key.
 
 
 =head2 Tags => L<Paws::GroundStation::TagsMap>

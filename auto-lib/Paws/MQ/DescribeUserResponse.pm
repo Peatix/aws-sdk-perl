@@ -5,6 +5,7 @@ package Paws::MQ::DescribeUserResponse;
   has ConsoleAccess => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'consoleAccess');
   has Groups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'groups');
   has Pending => (is => 'ro', isa => 'Paws::MQ::UserPendingChanges', traits => ['NameInRequest'], request_name => 'pending');
+  has ReplicationUser => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'replicationUser');
   has Username => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'username');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -40,6 +41,11 @@ long.
 =head2 Pending => L<Paws::MQ::UserPendingChanges>
 
 The status of the changes pending for the ActiveMQ user.
+
+
+=head2 ReplicationUser => Bool
+
+Describes whether the user is intended for data replication
 
 
 =head2 Username => Str

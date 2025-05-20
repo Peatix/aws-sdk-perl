@@ -2,12 +2,16 @@ package Paws::EC2::InstanceNetworkInterface;
   use Moose;
   has Association => (is => 'ro', isa => 'Paws::EC2::InstanceNetworkInterfaceAssociation', request_name => 'association', traits => ['NameInRequest']);
   has Attachment => (is => 'ro', isa => 'Paws::EC2::InstanceNetworkInterfaceAttachment', request_name => 'attachment', traits => ['NameInRequest']);
+  has ConnectionTrackingConfiguration => (is => 'ro', isa => 'Paws::EC2::ConnectionTrackingSpecificationResponse', request_name => 'connectionTrackingConfiguration', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has Groups => (is => 'ro', isa => 'ArrayRef[Paws::EC2::GroupIdentifier]', request_name => 'groupSet', traits => ['NameInRequest']);
   has InterfaceType => (is => 'ro', isa => 'Str', request_name => 'interfaceType', traits => ['NameInRequest']);
+  has Ipv4Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceIpv4Prefix]', request_name => 'ipv4PrefixSet', traits => ['NameInRequest']);
   has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceIpv6Address]', request_name => 'ipv6AddressesSet', traits => ['NameInRequest']);
+  has Ipv6Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceIpv6Prefix]', request_name => 'ipv6PrefixSet', traits => ['NameInRequest']);
   has MacAddress => (is => 'ro', isa => 'Str', request_name => 'macAddress', traits => ['NameInRequest']);
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', request_name => 'networkInterfaceId', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has PrivateDnsName => (is => 'ro', isa => 'Str', request_name => 'privateDnsName', traits => ['NameInRequest']);
   has PrivateIpAddress => (is => 'ro', isa => 'Str', request_name => 'privateIpAddress', traits => ['NameInRequest']);
@@ -62,6 +66,15 @@ network interface.
 The network interface attachment.
 
 
+=head2 ConnectionTrackingConfiguration => L<Paws::EC2::ConnectionTrackingSpecificationResponse>
+
+A security group connection tracking configuration that enables you to
+set the timeout for connection tracking on an Elastic network
+interface. For more information, see Connection tracking timeouts
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts)
+in the I<Amazon EC2 User Guide>.
+
+
 =head2 Description => Str
 
 The description.
@@ -69,19 +82,29 @@ The description.
 
 =head2 Groups => ArrayRef[L<Paws::EC2::GroupIdentifier>]
 
-One or more security groups.
+The security groups.
 
 
 =head2 InterfaceType => Str
 
-Describes the type of network interface.
+The type of network interface.
 
-Valid values: C<interface> | C<efa> | C<trunk>
+Valid values: C<interface> | C<efa> | C<efa-only> | C<trunk>
+
+
+=head2 Ipv4Prefixes => ArrayRef[L<Paws::EC2::InstanceIpv4Prefix>]
+
+The IPv4 delegated prefixes that are assigned to the network interface.
 
 
 =head2 Ipv6Addresses => ArrayRef[L<Paws::EC2::InstanceIpv6Address>]
 
-One or more IPv6 addresses associated with the network interface.
+The IPv6 addresses associated with the network interface.
+
+
+=head2 Ipv6Prefixes => ArrayRef[L<Paws::EC2::InstanceIpv6Prefix>]
+
+The IPv6 delegated prefixes that are assigned to the network interface.
 
 
 =head2 MacAddress => Str
@@ -94,9 +117,15 @@ The MAC address.
 The ID of the network interface.
 
 
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The service provider that manages the network interface.
+
+
 =head2 OwnerId => Str
 
-The ID of the account that created the network interface.
+The ID of the Amazon Web Services account that created the network
+interface.
 
 
 =head2 PrivateDnsName => Str
@@ -111,8 +140,7 @@ The IPv4 address of the network interface within the subnet.
 
 =head2 PrivateIpAddresses => ArrayRef[L<Paws::EC2::InstancePrivateIpAddress>]
 
-One or more private IPv4 addresses associated with the network
-interface.
+The private IPv4 addresses associated with the network interface.
 
 
 =head2 SourceDestCheck => Bool

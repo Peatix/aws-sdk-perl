@@ -16,7 +16,7 @@ Paws::Shield::DescribeAttackResponse
 
 =head2 Attack => L<Paws::Shield::AttackDetail>
 
-The attack that is described.
+The attack that you requested.
 
 
 =head2 _request_id => Str

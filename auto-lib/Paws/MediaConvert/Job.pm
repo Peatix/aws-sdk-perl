@@ -5,12 +5,15 @@ package Paws::MediaConvert::Job;
   has AccelerationStatus => (is => 'ro', isa => 'Str', request_name => 'accelerationStatus', traits => ['NameInRequest']);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has BillingTagsSource => (is => 'ro', isa => 'Str', request_name => 'billingTagsSource', traits => ['NameInRequest']);
+  has ClientRequestToken => (is => 'ro', isa => 'Str', request_name => 'clientRequestToken', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has CurrentPhase => (is => 'ro', isa => 'Str', request_name => 'currentPhase', traits => ['NameInRequest']);
   has ErrorCode => (is => 'ro', isa => 'Int', request_name => 'errorCode', traits => ['NameInRequest']);
   has ErrorMessage => (is => 'ro', isa => 'Str', request_name => 'errorMessage', traits => ['NameInRequest']);
   has HopDestinations => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::HopDestination]', request_name => 'hopDestinations', traits => ['NameInRequest']);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
+  has JobEngineVersionRequested => (is => 'ro', isa => 'Str', request_name => 'jobEngineVersionRequested', traits => ['NameInRequest']);
+  has JobEngineVersionUsed => (is => 'ro', isa => 'Str', request_name => 'jobEngineVersionUsed', traits => ['NameInRequest']);
   has JobPercentComplete => (is => 'ro', isa => 'Int', request_name => 'jobPercentComplete', traits => ['NameInRequest']);
   has JobTemplate => (is => 'ro', isa => 'Str', request_name => 'jobTemplate', traits => ['NameInRequest']);
   has Messages => (is => 'ro', isa => 'Paws::MediaConvert::JobMessages', request_name => 'messages', traits => ['NameInRequest']);
@@ -26,6 +29,7 @@ package Paws::MediaConvert::Job;
   has StatusUpdateInterval => (is => 'ro', isa => 'Str', request_name => 'statusUpdateInterval', traits => ['NameInRequest']);
   has Timing => (is => 'ro', isa => 'Paws::MediaConvert::Timing', request_name => 'timing', traits => ['NameInRequest']);
   has UserMetadata => (is => 'ro', isa => 'Paws::MediaConvert::__mapOf__string', request_name => 'userMetadata', traits => ['NameInRequest']);
+  has Warnings => (is => 'ro', isa => 'ArrayRef[Paws::MediaConvert::WarningGroup]', request_name => 'warnings', traits => ['NameInRequest']);
 
 1;
 
@@ -46,7 +50,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::MediaConvert::Job object:
 
-  $service_obj->Method(Att1 => { AccelerationSettings => $value, ..., UserMetadata => $value  });
+  $service_obj->Method(Att1 => { AccelerationSettings => $value, ..., Warnings => $value  });
 
 =head3 Results returned from an API call
 
@@ -98,6 +102,16 @@ The tag type that AWS Billing and Cost Management will use to sort your
 AWS Elemental MediaConvert costs on any billing report that you set up.
 
 
+=head2 ClientRequestToken => Str
+
+Prevent duplicate jobs from being created and ensure idempotency for
+your requests. A client request token can be any string that includes
+up to 64 ASCII characters. If you reuse a client request token within
+one minute of a successful request, the API returns the job details of
+the original request instead. For more information see
+https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
+
+
 =head2 CreatedAt => Str
 
 The time, in Unix epoch format in seconds, when the job got created.
@@ -127,6 +141,24 @@ Optional list of hop destinations.
 
 A portion of the job's ARN, unique within your AWS Elemental
 MediaConvert resources
+
+
+=head2 JobEngineVersionRequested => Str
+
+The Job engine version that you requested for your job. Valid versions
+are in a YYYY-MM-DD format.
+
+
+=head2 JobEngineVersionUsed => Str
+
+The Job engine version that your job used. Job engine versions are in a
+YYYY-MM-DD format. When you request an expired version, the response
+for this property will be empty. Requests to create jobs with an
+expired version result in a regular job, as if no specific Job engine
+version was requested. When you request an invalid version, the
+response for this property will be empty. Requests to create jobs with
+an invalid version result in a 400 error message, and no job is
+created.
 
 
 =head2 JobPercentComplete => Int
@@ -229,6 +261,14 @@ specified in Unix epoch format in seconds.
 
 User-defined metadata that you want to associate with an MediaConvert
 job. You specify metadata in key/value pairs.
+
+
+=head2 Warnings => ArrayRef[L<Paws::MediaConvert::WarningGroup>]
+
+Contains any warning messages for the job. Use to help identify
+potential issues with your input, output, or job. For more information,
+see
+https://docs.aws.amazon.com/mediaconvert/latest/ug/warning_codes.html
 
 
 

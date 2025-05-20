@@ -6,6 +6,7 @@ package Paws::EC2::TransitGatewayRequestOptions;
   has DefaultRouteTablePropagation => (is => 'ro', isa => 'Str');
   has DnsSupport => (is => 'ro', isa => 'Str');
   has MulticastSupport => (is => 'ro', isa => 'Str');
+  has SecurityGroupReferencingSupport => (is => 'ro', isa => 'Str');
   has TransitGatewayCidrBlocks => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpnEcmpSupport => (is => 'ro', isa => 'Str');
 1;
@@ -76,6 +77,19 @@ Enable or disable DNS support. Enabled by default.
 =head2 MulticastSupport => Str
 
 Indicates whether multicast is enabled on the transit gateway
+
+
+=head2 SecurityGroupReferencingSupport => Str
+
+Enables you to reference a security group across VPCs attached to a
+transit gateway to simplify security group management.
+
+This option is disabled by default.
+
+For more information about security group referencing, see Security
+group referencing
+(https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security)
+in the I<Amazon Web Services Transit Gateways Guide>.
 
 
 =head2 TransitGatewayCidrBlocks => ArrayRef[Str|Undef]

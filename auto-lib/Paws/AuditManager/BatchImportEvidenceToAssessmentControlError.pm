@@ -44,20 +44,19 @@ message.
 
 =head2 ErrorCode => Str
 
-The error code returned by the
-C<BatchImportEvidenceToAssessmentControl> API.
+The error code that the C<BatchImportEvidenceToAssessmentControl> API
+returned.
 
 
 =head2 ErrorMessage => Str
 
-The error message returned by the
-C<BatchImportEvidenceToAssessmentControl> API.
+The error message that the C<BatchImportEvidenceToAssessmentControl>
+API returned.
 
 
 =head2 ManualEvidence => L<Paws::AuditManager::ManualEvidence>
 
-Manual evidence that cannot be collected automatically by AWS Audit
-Manager.
+Manual evidence that can't be collected automatically by Audit Manager.
 
 
 

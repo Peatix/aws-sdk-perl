@@ -121,13 +121,13 @@ generated:
 
 =item *
 
-License configuration report - Reports on the number and details of
+License configuration report - Reports the number and details of
 consumed licenses for a license configuration.
 
 =item *
 
-Resource report - Reports on the tracked licenses and resource
-consumption for a license configuration.
+Resource report - Reports the tracked licenses and resource consumption
+for a license configuration.
 
 =back
 

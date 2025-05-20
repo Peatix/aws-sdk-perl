@@ -3,6 +3,7 @@ package Paws::EC2::TargetCapacitySpecification;
   has DefaultTargetCapacityType => (is => 'ro', isa => 'Str', request_name => 'defaultTargetCapacityType', traits => ['NameInRequest']);
   has OnDemandTargetCapacity => (is => 'ro', isa => 'Int', request_name => 'onDemandTargetCapacity', traits => ['NameInRequest']);
   has SpotTargetCapacity => (is => 'ro', isa => 'Int', request_name => 'spotTargetCapacity', traits => ['NameInRequest']);
+  has TargetCapacityUnitType => (is => 'ro', isa => 'Str', request_name => 'targetCapacityUnitType', traits => ['NameInRequest']);
   has TotalTargetCapacity => (is => 'ro', isa => 'Int', request_name => 'totalTargetCapacity', traits => ['NameInRequest']);
 1;
 
@@ -41,8 +42,7 @@ This class has no description
 
 =head2 DefaultTargetCapacityType => Str
 
-The default C<TotalTargetCapacity>, which is either C<Spot> or
-C<On-Demand>.
+The default target capacity type.
 
 
 =head2 OnDemandTargetCapacity => Int
@@ -59,10 +59,15 @@ capacity for On-Demand units, you cannot specify a target capacity for
 Spot units.
 
 
+=head2 TargetCapacityUnitType => Str
+
+The unit for the target capacity.
+
+
 =head2 TotalTargetCapacity => Int
 
-The number of units to request, filled using
-C<DefaultTargetCapacityType>.
+The number of units to request, filled the default target capacity
+type.
 
 
 

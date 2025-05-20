@@ -27,7 +27,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $autoscaling = Paws->service('AutoScaling');
     # To describe your Auto Scaling account limits
-    # This example describes the Auto Scaling limits for your AWS account.
+    # This example describes the Amazon EC2 Auto Scaling service quotas for your
+    # account.
     my $DescribeAccountLimitsAnswer = $autoscaling->DescribeAccountLimits();
 
     # Results:

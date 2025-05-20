@@ -39,12 +39,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::E
 
 =head1 DESCRIPTION
 
-Resource capacity settings. Fleet capacity is measured in EC2
+Resource capacity settings. Fleet capacity is measured in Amazon EC2
 instances. Pending and terminating counts are non-zero when the fleet
 capacity is adjusting to a scaling event or if access to resources is
 temporarily affected.
-
-EC2 instance counts are part of FleetCapacity.
 
 =head1 ATTRIBUTES
 
@@ -56,9 +54,11 @@ Actual number of instances that are ready to host game sessions.
 
 =head2 DESIRED => Int
 
-Ideal number of active instances. GameLift will always try to maintain
-the desired number of instances. Capacity is scaled up or down by
-changing the desired instances.
+Requested number of active instances. Amazon GameLift takes action as
+needed to maintain the desired number of instances. Capacity is scaled
+up or down by changing the desired instances. A change in the desired
+instances value can take up to 1 minute to be reflected when viewing a
+fleet's capacity settings.
 
 
 =head2 IDLE => Int

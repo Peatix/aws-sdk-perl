@@ -61,6 +61,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dms
 
 Filters applied to event subscriptions.
 
+Valid filter names: C<event-subscription-arn> |
+C<event-subscription-id>
+
 
 
 =head2 Marker => Str
@@ -86,7 +89,7 @@ Constraints: Minimum 20, maximum 100.
 
 =head2 SubscriptionName => Str
 
-The name of the AWS DMS event subscription to be described.
+The name of the DMS event subscription to be described.
 
 
 

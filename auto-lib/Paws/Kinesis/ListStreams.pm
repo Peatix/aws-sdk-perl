@@ -3,6 +3,7 @@ package Paws::Kinesis::ListStreams;
   use Moose;
   has ExclusiveStartStreamName => (is => 'ro', isa => 'Str');
   has Limit => (is => 'ro', isa => 'Int');
+  has NextToken => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,11 +32,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ListStreamsOutput = $kinesis->ListStreams(
       ExclusiveStartStreamName => 'MyStreamName',    # OPTIONAL
       Limit                    => 1,                 # OPTIONAL
+      NextToken                => 'MyNextToken',     # OPTIONAL
     );
 
     # Results:
-    my $HasMoreStreams = $ListStreamsOutput->HasMoreStreams;
-    my $StreamNames    = $ListStreamsOutput->StreamNames;
+    my $HasMoreStreams  = $ListStreamsOutput->HasMoreStreams;
+    my $NextToken       = $ListStreamsOutput->NextToken;
+    my $StreamNames     = $ListStreamsOutput->StreamNames;
+    my $StreamSummaries = $ListStreamsOutput->StreamSummaries;
 
     # Returns a L<Paws::Kinesis::ListStreamsOutput> object.
 
@@ -53,7 +57,14 @@ The name of the stream to start the list with.
 
 =head2 Limit => Int
 
-The maximum number of streams to list.
+The maximum number of streams to list. The default value is 100. If you
+specify a value greater than 100, at most 100 results are returned.
+
+
+
+=head2 NextToken => Str
+
+
 
 
 

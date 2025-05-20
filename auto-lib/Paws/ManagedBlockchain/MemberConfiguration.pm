@@ -58,10 +58,12 @@ member.
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the customer managed key in AWS Key
-Management Service (AWS KMS) to use for encryption at rest in the
-member. This parameter is inherited by any nodes that this member
-creates.
+The Amazon Resource Name (ARN) of the customer managed key in Key
+Management Service (KMS) to use for encryption at rest in the member.
+This parameter is inherited by any nodes that this member creates. For
+more information, see Encryption at Rest
+(https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/managed-blockchain-encryption-at-rest.html)
+in the I<Amazon Managed Blockchain Hyperledger Fabric Developer Guide>.
 
 Use one of the following options to specify this parameter:
 
@@ -69,18 +71,18 @@ Use one of the following options to specify this parameter:
 
 =item *
 
-B<Undefined or empty string> - The member uses an AWS owned KMS key for
-encryption by default.
+B<Undefined or empty string> - By default, use an KMS key that is owned
+and managed by Amazon Web Services on your behalf.
 
 =item *
 
-B<A valid symmetric customer managed KMS key> - The member uses the
-specified key for encryption.
+B<A valid symmetric customer managed KMS key> - Use the specified KMS
+key in your account that you create, own, and manage.
 
 Amazon Managed Blockchain doesn't support asymmetric keys. For more
 information, see Using symmetric and asymmetric keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 The following is an example of a KMS key ARN:
 C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
@@ -103,13 +105,17 @@ The name of the member.
 =head2 Tags => L<Paws::ManagedBlockchain::InputTagMap>
 
 Tags assigned to the member. Tags consist of a key and optional value.
-For more information about tags, see Tagging Resources
-(https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
-in the I<Amazon Managed Blockchain Hyperledger Fabric Developer Guide>.
 
 When specifying tags during creation, you can specify multiple
 key-value pairs in a single request, with an overall maximum of 50 tags
 added to each resource.
+
+For more information about tags, see Tagging Resources
+(https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+in the I<Amazon Managed Blockchain Ethereum Developer Guide>, or
+Tagging Resources
+(https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+in the I<Amazon Managed Blockchain Hyperledger Fabric Developer Guide>.
 
 
 

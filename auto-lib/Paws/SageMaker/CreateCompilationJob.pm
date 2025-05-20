@@ -2,7 +2,8 @@
 package Paws::SageMaker::CreateCompilationJob;
   use Moose;
   has CompilationJobName => (is => 'ro', isa => 'Str', required => 1);
-  has InputConfig => (is => 'ro', isa => 'Paws::SageMaker::InputConfig', required => 1);
+  has InputConfig => (is => 'ro', isa => 'Paws::SageMaker::InputConfig');
+  has ModelPackageVersionArn => (is => 'ro', isa => 'Str');
   has OutputConfig => (is => 'ro', isa => 'Paws::SageMaker::OutputConfig', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has StoppingCondition => (is => 'ro', isa => 'Paws::SageMaker::StoppingCondition', required => 1);
@@ -35,35 +36,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateCompilationJobResponse = $api . sagemaker->CreateCompilationJob(
       CompilationJobName => 'MyEntityName',
-      InputConfig        => {
-        DataInputConfig => 'MyDataInputConfig',      # min: 1, max: 1024
-        Framework       => 'TENSORFLOW'
-        , # values: TENSORFLOW, KERAS, MXNET, ONNX, PYTORCH, XGBOOST, TFLITE, DARKNET, SKLEARN
-        S3Uri            => 'MyS3Uri',               # max: 1024
-        FrameworkVersion => 'MyFrameworkVersion',    # min: 3, max: 10; OPTIONAL
-      },
-      OutputConfig => {
+      OutputConfig       => {
         S3OutputLocation => 'MyS3Uri',             # max: 1024
         CompilerOptions  => 'MyCompilerOptions',   # min: 3, max: 1024; OPTIONAL
         KmsKeyId         => 'MyKmsKeyId',          # max: 2048; OPTIONAL
         TargetDevice     => 'lambda'
-        , # values: lambda, ml_m4, ml_m5, ml_c4, ml_c5, ml_p2, ml_p3, ml_g4dn, ml_inf1, ml_eia2, jetson_tx1, jetson_tx2, jetson_nano, jetson_xavier, rasp3b, imx8qm, deeplens, rk3399, rk3288, aisage, sbe_c, qcs605, qcs603, sitara_am57x, amba_cv22, amba_cv25, x86_win32, x86_win64, coreml, jacinto_tda4vm; OPTIONAL
+        , # values: lambda, ml_m4, ml_m5, ml_m6g, ml_c4, ml_c5, ml_c6g, ml_p2, ml_p3, ml_g4dn, ml_inf1, ml_inf2, ml_trn1, ml_eia2, jetson_tx1, jetson_tx2, jetson_nano, jetson_xavier, rasp3b, rasp4b, imx8qm, deeplens, rk3399, rk3288, aisage, sbe_c, qcs605, qcs603, sitara_am57x, amba_cv2, amba_cv22, amba_cv25, x86_win32, x86_win64, coreml, jacinto_tda4vm, imx8mplus; OPTIONAL
         TargetPlatform => {
           Arch => 'X86_64',   # values: X86_64, X86, ARM64, ARM_EABI, ARM_EABIHF
           Os   => 'ANDROID',  # values: ANDROID, LINUX
-          Accelerator =>
-            'INTEL_GRAPHICS',   # values: INTEL_GRAPHICS, MALI, NVIDIA; OPTIONAL
+          Accelerator => 'INTEL_GRAPHICS'
+          ,    # values: INTEL_GRAPHICS, MALI, NVIDIA, NNA; OPTIONAL
         },    # OPTIONAL
       },
       RoleArn           => 'MyRoleArn',
       StoppingCondition => {
-        MaxRuntimeInSeconds  => 1,    # min: 1; OPTIONAL
-        MaxWaitTimeInSeconds => 1,    # min: 1; OPTIONAL
+        MaxPendingTimeInSeconds => 1,    # min: 7200, max: 2419200; OPTIONAL
+        MaxRuntimeInSeconds     => 1,    # min: 1; OPTIONAL
+        MaxWaitTimeInSeconds    => 1,    # min: 1; OPTIONAL
       },
-      Tags => [
+      InputConfig => {
+        Framework => 'TENSORFLOW'
+        , # values: TENSORFLOW, KERAS, MXNET, ONNX, PYTORCH, XGBOOST, TFLITE, DARKNET, SKLEARN
+        S3Uri            => 'MyS3Uri',            # max: 1024
+        DataInputConfig  => 'MyDataInputConfig',  # min: 1, max: 16384; OPTIONAL
+        FrameworkVersion => 'MyFrameworkVersion', # min: 3, max: 10; OPTIONAL
+      },    # OPTIONAL
+      ModelPackageVersionArn => 'MyModelPackageArn',    # OPTIONAL
+      Tags                   => [
         {
-          Key   => 'MyTagKey',        # min: 1, max: 128
-          Value => 'MyTagValue',      # max: 256
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -98,11 +101,20 @@ account.
 
 
 
-=head2 B<REQUIRED> InputConfig => L<Paws::SageMaker::InputConfig>
+=head2 InputConfig => L<Paws::SageMaker::InputConfig>
 
 Provides information about the location of input model artifacts, the
 name and shape of the expected data inputs, and the framework in which
 the model was trained.
+
+
+
+=head2 ModelPackageVersionArn => Str
+
+The Amazon Resource Name (ARN) of a versioned model package. Provide
+either a C<ModelPackageVersionArn> or an C<InputConfig> object in the
+request syntax. The presence of both objects in the
+C<CreateCompilationJob> request will return an exception.
 
 
 
@@ -116,9 +128,9 @@ and the target device the model runs on.
 =head2 B<REQUIRED> RoleArn => Str
 
 The Amazon Resource Name (ARN) of an IAM role that enables Amazon
-SageMaker to perform tasks on your behalf.
+SageMaker AI to perform tasks on your behalf.
 
-During model compilation, Amazon SageMaker needs your permission to:
+During model compilation, Amazon SageMaker AI needs your permission to:
 
 =over
 
@@ -141,9 +153,9 @@ Publish metrics to Amazon CloudWatch
 =back
 
 You grant permissions for all of these tasks to an IAM role. To pass
-this role to Amazon SageMaker, the caller of this API must have the
+this role to Amazon SageMaker AI, the caller of this API must have the
 C<iam:PassRole> permission. For more information, see Amazon SageMaker
-Roles.
+AI Roles.
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)
 
 
@@ -151,8 +163,8 @@ Roles.
 =head2 B<REQUIRED> StoppingCondition => L<Paws::SageMaker::StoppingCondition>
 
 Specifies a limit to how long a model compilation job can run. When the
-job reaches the time limit, Amazon SageMaker ends the compilation job.
-Use this API to cap model training costs.
+job reaches the time limit, Amazon SageMaker AI ends the compilation
+job. Use this API to cap model training costs.
 
 
 
@@ -168,10 +180,12 @@ Services Resources
 
 =head2 VpcConfig => L<Paws::SageMaker::NeoVpcConfig>
 
-A VpcConfig object that specifies the VPC that you want your
-compilation job to connect to. Control access to your models by
-configuring the VPC. For more information, see Protect Compilation Jobs
-by Using an Amazon Virtual Private Cloud
+A VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that you want your compilation job to
+connect to. Control access to your models by configuring the VPC. For
+more information, see Protect Compilation Jobs by Using an Amazon
+Virtual Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/neo-vpc.html).
 
 

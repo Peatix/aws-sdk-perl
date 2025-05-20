@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ingest.timestream = Paws->service('TimestreamWrite');
     my $CreateDatabaseResponse = $ingest . timestream->CreateDatabase(
-      DatabaseName => 'MyResourceName',
-      KmsKeyId     => 'MyStringValue2048',    # OPTIONAL
+      DatabaseName => 'MyResourceCreateAPIName',
+      KmsKeyId     => 'MyStringValue2048',         # OPTIONAL
       Tags         => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -63,9 +63,9 @@ The name of the Timestream database.
 
 The KMS key for the database. If the KMS key is not specified, the
 database will be encrypted with a Timestream managed KMS key located in
-your account. Refer to AWS managed KMS keys
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
-for more info.
+your account. For more information, see Amazon Web Services managed
+keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
 
 
 

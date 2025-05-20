@@ -17,7 +17,7 @@ Paws::Proton::ListServiceTemplatesOutput
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next service template in the
+A token that indicates the location of the next service template in the
 array of service templates, after the current requested list of service
 templates.
 

@@ -34,19 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kafka::Comp
 
 =head1 DESCRIPTION
 
-Contains source Kafka versions and compatible target Kafka versions.
+Contains source Apache Kafka versions and compatible target Apache
+Kafka versions.
 
 =head1 ATTRIBUTES
 
 
 =head2 SourceVersion => Str
 
-A Kafka version.
+An Apache Kafka version.
 
 
 =head2 TargetVersions => ArrayRef[Str|Undef]
 
-A list of Kafka versions.
+A list of Apache Kafka versions.
 
 
 

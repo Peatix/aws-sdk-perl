@@ -34,9 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTAnalytic
 
 =head1 DESCRIPTION
 
-Contains the configuration information of file formats. AWS IoT
-Analytics data stores support JSON and Parquet
-(https://parquet.apache.org/).
+Contains the configuration information of file formats. IoT Analytics
+data stores support JSON and Parquet (https://parquet.apache.org/).
 
 The default file format is JSON. You can specify only one format.
 

@@ -58,8 +58,8 @@ The name of the domain that contains the repository.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
@@ -73,6 +73,10 @@ following values are supported:
 =item *
 
 C<public:npmjs> - for the npm public repository.
+
+=item *
+
+C<public:nuget-org> - for the NuGet Gallery.
 
 =item *
 
@@ -93,6 +97,18 @@ C<public:maven-gradleplugins> - for the Gradle plugins repository.
 =item *
 
 C<public:maven-commonsware> - for the CommonsWare Android repository.
+
+=item *
+
+C<public:maven-clojars> - for the Clojars repository.
+
+=item *
+
+C<public:ruby-gems-org> - for RubyGems.org.
+
+=item *
+
+C<public:crates-io> - for Crates.io.
 
 =back
 

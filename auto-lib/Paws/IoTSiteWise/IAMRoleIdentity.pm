@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains information about an AWS Identity and Access Management (IAM)
-role. For more information, see IAM roles
+Contains information about an Identity and Access Management role. For
+more information, see IAM roles
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the
 I<IAM User Guide>.
 

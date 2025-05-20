@@ -55,15 +55,15 @@ version or the default version.
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 
 =head2 VersionName => Str
 
 An optional field specifying the version of the artifact associated
-with the document. For example, "Release 12, Update 6". This value is
-unique across all versions of a document, and cannot be changed.
+with the document. For example, 12.6. This value is unique across all
+versions of a document, and can't be changed.
 
 
 

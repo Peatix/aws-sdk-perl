@@ -58,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 AdministratorAccount => Str
 
 Filter the list of repositories to only include those that are managed
-by the AWS account ID.
+by the Amazon Web Services account ID.
 
 
 
@@ -70,8 +70,8 @@ The name of the domain that contains the returned list of repositories.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 

@@ -10,6 +10,7 @@ package Paws::SecretsManager::DescribeSecretResponse;
   has LastChangedDate => (is => 'ro', isa => 'Str');
   has LastRotatedDate => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has NextRotationDate => (is => 'ro', isa => 'Str');
   has OwningService => (is => 'ro', isa => 'Str');
   has PrimaryRegion => (is => 'ro', isa => 'Str');
   has ReplicationStatus => (is => 'ro', isa => 'ArrayRef[Paws::SecretsManager::ReplicationStatusType]');
@@ -37,38 +38,39 @@ The ARN of the secret.
 
 =head2 CreatedDate => Str
 
-The date you created the secret.
+The date the secret was created.
 
 
 =head2 DeletedDate => Str
 
-This value exists if the secret is scheduled for deletion. Some time
-after the specified date and time, Secrets Manager deletes the secret
-and all of its versions.
+The date the secret is scheduled for deletion. If it is not scheduled
+for deletion, this field is omitted. When you delete a secret, Secrets
+Manager requires a recovery window of at least 7 days before deleting
+the secret. Some time after the deleted date, Secrets Manager deletes
+the secret, including all of its versions.
 
 If a secret is scheduled for deletion, then its details, including the
-encrypted secret information, is not accessible. To cancel a scheduled
-deletion and restore access, use RestoreSecret.
+encrypted secret value, is not accessible. To cancel a scheduled
+deletion and restore access to the secret, use RestoreSecret.
 
 
 =head2 Description => Str
 
-The user-provided description of the secret.
+The description of the secret.
 
 
 =head2 KmsKeyId => Str
 
-The ARN or alias of the AWS KMS customer master key (CMK) that's used
-to encrypt the C<SecretString> or C<SecretBinary> fields in each
-version of the secret. If you don't provide a key, then Secrets Manager
-defaults to encrypting the secret fields with the default AWS KMS CMK
-(the one named C<awssecretsmanager>) for this account.
+The key ID or alias ARN of the KMS key that Secrets Manager uses to
+encrypt the secret value. If the secret is encrypted with the Amazon
+Web Services managed key C<aws/secretsmanager>, this field is omitted.
+Secrets created using the console use an KMS key ID.
 
 
 =head2 LastAccessedDate => Str
 
-The last date that this secret was accessed. This value is truncated to
-midnight of the date and therefore shows only the date, not the time.
+The date that the secret was last accessed in the Region. This field is
+omitted if the secret has never been retrieved in the Region.
 
 
 =head2 LastChangedDate => Str
@@ -78,72 +80,131 @@ The last date and time that this secret was modified in any way.
 
 =head2 LastRotatedDate => Str
 
-The last date and time that the rotation process for this secret was
-invoked.
-
-The most recent date and time that the Secrets Manager rotation process
-successfully completed. If the secret doesn't rotate, Secrets Manager
-returns a null value.
+The last date and time that Secrets Manager rotated the secret. If the
+secret isn't configured for rotation or rotation has been disabled,
+Secrets Manager returns null.
 
 
 =head2 Name => Str
 
-The user-provided friendly name of the secret.
+The name of the secret.
+
+
+=head2 NextRotationDate => Str
+
+The next rotation is scheduled to occur on or before this date. If the
+secret isn't configured for rotation or rotation has been disabled,
+Secrets Manager returns null. If rotation fails, Secrets Manager
+retries the entire rotation process multiple times. If rotation is
+unsuccessful, this date may be in the past.
+
+This date represents the latest date that rotation will occur, but it
+is not an approximate rotation date. In some cases, for example if you
+turn off automatic rotation and then turn it back on, the next rotation
+may occur much sooner than this date.
 
 
 =head2 OwningService => Str
 
-Returns the name of the service that created this secret.
+The ID of the service that created this secret. For more information,
+see Secrets managed by other Amazon Web Services services
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
 
 
 =head2 PrimaryRegion => Str
 
-Specifies the primary region for secret replication.
+The Region the secret is in. If a secret is replicated to other
+Regions, the replicas are listed in C<ReplicationStatus>.
 
 
 =head2 ReplicationStatus => ArrayRef[L<Paws::SecretsManager::ReplicationStatusType>]
 
-Describes a list of replication status objects as C<InProgress>,
-C<Failed> or C<InSync>.C<P>
+A list of the replicas of this secret and their status:
+
+=over
+
+=item *
+
+C<Failed>, which indicates that the replica was not created.
+
+=item *
+
+C<InProgress>, which indicates that Secrets Manager is in the process
+of creating the replica.
+
+=item *
+
+C<InSync>, which indicates that the replica was created.
+
+=back
+
 
 
 =head2 RotationEnabled => Bool
 
-Specifies whether automatic rotation is enabled for this secret.
+Specifies whether automatic rotation is turned on for this secret. If
+the secret has never been configured for rotation, Secrets Manager
+returns null.
 
-To enable rotation, use RotateSecret with
-C<AutomaticallyRotateAfterDays> set to a value greater than 0. To
-disable rotation, use CancelRotateSecret.
+To turn on rotation, use RotateSecret. To turn off rotation, use
+CancelRotateSecret.
 
 
 =head2 RotationLambdaARN => Str
 
-The ARN of a Lambda function that's invoked by Secrets Manager to
-rotate the secret either automatically per the schedule or manually by
-a call to C<RotateSecret>.
+The ARN of the Lambda function that Secrets Manager invokes to rotate
+the secret.
 
 
 =head2 RotationRules => L<Paws::SecretsManager::RotationRulesType>
 
-A structure with the rotation configuration for this secret.
+The rotation schedule and Lambda function for this secret. If the
+secret previously had rotation turned on, but it is now turned off,
+this field shows the previous rotation schedule and rotation function.
+If the secret never had rotation turned on, this field is omitted.
 
 
 =head2 Tags => ArrayRef[L<Paws::SecretsManager::Tag>]
 
-The list of user-defined tags that are associated with the secret. To
-add tags to a secret, use TagResource. To remove tags, use
-UntagResource.
+The list of tags attached to the secret. To add tags to a secret, use
+TagResource. To remove tags, use UntagResource.
 
 
 =head2 VersionIdsToStages => L<Paws::SecretsManager::SecretVersionsToStagesMapType>
 
-A list of all of the currently assigned C<VersionStage> staging labels
-and the C<VersionId> that each is attached to. Staging labels are used
-to keep track of the different versions during the rotation process.
+A list of the versions of the secret that have staging labels attached.
+Versions that don't have staging labels are considered deprecated and
+Secrets Manager can delete them.
 
-A version that does not have any staging labels attached is considered
-deprecated and subject to deletion. Such versions are not included in
-this list.
+Secrets Manager uses staging labels to indicate the status of a secret
+version during rotation. The three staging labels for rotation are:
+
+=over
+
+=item *
+
+C<AWSCURRENT>, which indicates the current version of the secret.
+
+=item *
+
+C<AWSPENDING>, which indicates the version of the secret that contains
+new secret information that will become the next current version when
+rotation finishes.
+
+During rotation, Secrets Manager creates an C<AWSPENDING> version ID
+before creating the new secret version. To check if a secret version
+exists, call GetSecretValue.
+
+=item *
+
+C<AWSPREVIOUS>, which indicates the previous current version of the
+secret. You can use this as the I<last known good> version.
+
+=back
+
+For more information about rotation and staging labels, see How
+rotation works
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html).
 
 
 =head2 _request_id => Str

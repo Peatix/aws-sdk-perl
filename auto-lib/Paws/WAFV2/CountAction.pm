@@ -49,8 +49,7 @@ Defines custom handling for the web request.
 For information about customizing web requests and responses, see
 Customizing web requests and responses in WAF
 (https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
-in the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+in the I<WAF Developer Guide>.
 
 
 

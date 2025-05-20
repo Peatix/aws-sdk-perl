@@ -56,8 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 Use this field when paginating results to indicate where to begin in
 your list of functions. The response includes functions in the list
 that occur after the marker. To get the next page of the list, set this
-fieldE<rsquo>s value to the value of C<NextMarker> from the current
-pageE<rsquo>s response.
+field's value to the value of C<NextMarker> from the current page's
+response.
 
 
 

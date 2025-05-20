@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Launch
 =head1 DESCRIPTION
 
 An object representing a node group launch template specification. The
-launch template cannot include C<SubnetId>
+launch template can't include C<SubnetId>
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html),
 C<IamInstanceProfile>
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html),
@@ -50,11 +50,13 @@ or the node group deployment or update will fail. For more information
 about launch templates, see C<CreateLaunchTemplate>
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html)
 in the Amazon EC2 API Reference. For more information about using
-launch templates with Amazon EKS, see Launch template support
+launch templates with Amazon EKS, see Customizing managed nodes with
+launch templates
 (https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
-in the Amazon EKS User Guide.
+in the I<Amazon EKS User Guide>.
 
-Specify either C<name> or C<id>, but not both.
+You must specify either the launch template ID or the launch template
+name in the request, but not both.
 
 =head1 ATTRIBUTES
 
@@ -63,16 +65,25 @@ Specify either C<name> or C<id>, but not both.
 
 The ID of the launch template.
 
+You must specify either the launch template ID or the launch template
+name in the request, but not both. After node group creation, you
+cannot use a different ID.
+
 
 =head2 Name => Str
 
 The name of the launch template.
 
+You must specify either the launch template name or the launch template
+ID in the request, but not both. After node group creation, you cannot
+use a different name.
+
 
 =head2 Version => Str
 
-The version of the launch template to use. If no version is specified,
-then the template's default version is used.
+The version number of the launch template to use. If no version is
+specified, then the template's default version is used. You can use a
+different version for node group updates.
 
 
 

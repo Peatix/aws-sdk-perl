@@ -6,6 +6,7 @@ package Paws::WellArchitected::ListLensReviewImprovements;
   has MilestoneNumber => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'MilestoneNumber');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
   has PillarId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'PillarId');
+  has QuestionPriority => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'QuestionPriority');
   has WorkloadId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'WorkloadId', required => 1);
 
   use MooseX::ClassAttribute;
@@ -35,18 +36,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $wellarchitected = Paws->service('WellArchitected');
     my $ListLensReviewImprovementsOutput =
       $wellarchitected->ListLensReviewImprovements(
-      LensAlias       => 'MyLensAlias',
-      WorkloadId      => 'MyWorkloadId',
-      MaxResults      => 1,                # OPTIONAL
-      MilestoneNumber => 1,                # OPTIONAL
-      NextToken       => 'MyNextToken',    # OPTIONAL
-      PillarId        => 'MyPillarId',     # OPTIONAL
+      LensAlias        => 'MyLensAlias',
+      WorkloadId       => 'MyWorkloadId',
+      MaxResults       => 1,                # OPTIONAL
+      MilestoneNumber  => 1,                # OPTIONAL
+      NextToken        => 'MyNextToken',    # OPTIONAL
+      PillarId         => 'MyPillarId',     # OPTIONAL
+      QuestionPriority => 'PRIORITIZED',    # OPTIONAL
       );
 
     # Results:
     my $ImprovementSummaries =
       $ListLensReviewImprovementsOutput->ImprovementSummaries;
     my $LensAlias       = $ListLensReviewImprovementsOutput->LensAlias;
+    my $LensArn         = $ListLensReviewImprovementsOutput->LensArn;
     my $MilestoneNumber = $ListLensReviewImprovementsOutput->MilestoneNumber;
     my $NextToken       = $ListLensReviewImprovementsOutput->NextToken;
     my $WorkloadId      = $ListLensReviewImprovementsOutput->WorkloadId;
@@ -88,6 +91,12 @@ The maximum number of results to return for this request.
 
 
 
+
+=head2 QuestionPriority => Str
+
+The priority of the question.
+
+Valid values are: C<"PRIORITIZED">, C<"NONE">
 
 =head2 B<REQUIRED> WorkloadId => Str
 

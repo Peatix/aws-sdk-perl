@@ -35,11 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppConfig::
 =head1 DESCRIPTION
 
 A validator provides a syntactic or semantic check to ensure the
-configuration you want to deploy functions as intended. To validate
-your application configuration data, you provide a schema or a Lambda
-function that runs against the configuration. The configuration
-deployment or update can only proceed when the configuration data is
-valid.
+configuration that you want to deploy functions as intended. To
+validate your application configuration data, you provide a schema or
+an Amazon Web Services Lambda function that runs against the
+configuration. The configuration deployment or update can only proceed
+when the configuration data is valid. For more information, see About
+validators
+(https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators)
+in the I<AppConfig User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -47,7 +50,7 @@ valid.
 =head2 B<REQUIRED> Content => Str
 
 Either the JSON Schema content or the Amazon Resource Name (ARN) of an
-AWS Lambda function.
+Lambda function.
 
 
 =head2 B<REQUIRED> Type => Str

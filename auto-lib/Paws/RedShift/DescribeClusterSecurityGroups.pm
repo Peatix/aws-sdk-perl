@@ -59,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 =head2 ClusterSecurityGroupName => Str
 
 The name of a cluster security group for which you are requesting
-details. You can specify either the B<Marker> parameter or a
+details. You must specify either the B<Marker> parameter or a
 B<ClusterSecurityGroupName> parameter, but not both.
 
 Example: C<securitygroup1>
@@ -71,12 +71,12 @@ Example: C<securitygroup1>
 An optional parameter that specifies the starting point to return a set
 of response records. When the results of a
 DescribeClusterSecurityGroups request exceed the value specified in
-C<MaxRecords>, AWS returns a value in the C<Marker> field of the
-response. You can retrieve the next set of response records by
-providing the returned marker value in the C<Marker> parameter and
-retrying the request.
+C<MaxRecords>, Amazon Web Services returns a value in the C<Marker>
+field of the response. You can retrieve the next set of response
+records by providing the returned marker value in the C<Marker>
+parameter and retrying the request.
 
-Constraints: You can specify either the B<ClusterSecurityGroupName>
+Constraints: You must specify either the B<ClusterSecurityGroupName>
 parameter or the B<Marker> parameter, but not both.
 
 

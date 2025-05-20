@@ -3,6 +3,7 @@ package Paws::S3::GetBucketAccelerateConfiguration;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
+  has RequestPayer => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-payer', traits => ['ParamInHeader']);
 
 
   use MooseX::ClassAttribute;
@@ -37,9 +38,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $s3->GetBucketAccelerateConfiguration(
       Bucket              => 'MyBucketName',
       ExpectedBucketOwner => 'MyAccountId',    # OPTIONAL
+      RequestPayer        => 'requester',      # OPTIONAL
       );
 
     # Results:
+    my $RequestCharged =
+      $GetBucketAccelerateConfigurationOutput->RequestCharged;
     my $Status = $GetBucketAccelerateConfigurationOutput->Status;
 
     # Returns a L<Paws::S3::GetBucketAccelerateConfigurationOutput> object.
@@ -59,11 +63,17 @@ retrieved.
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
+
+=head2 RequestPayer => Str
+
+
+
+Valid values are: C<"requester">
 
 
 =head1 SEE ALSO

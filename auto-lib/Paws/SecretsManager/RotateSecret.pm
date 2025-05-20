@@ -2,6 +2,7 @@
 package Paws::SecretsManager::RotateSecret;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
+  has RotateImmediately => (is => 'ro', isa => 'Bool');
   has RotationLambdaARN => (is => 'ro', isa => 'Str');
   has RotationRules => (is => 'ro', isa => 'Paws::SecretsManager::RotationRulesType');
   has SecretId => (is => 'ro', isa => 'Str', required => 1);
@@ -31,18 +32,32 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $secretsmanager = Paws->service('SecretsManager');
 # To configure rotation for a secret
-# The following example configures rotation for a secret by providing the ARN of
-# a Lambda rotation function (which must already exist) and the number of days
-# between rotation. The first rotation happens immediately upon completion of
-# this command. The rotation function runs asynchronously in the background.
+# The following example configures rotation for a secret using a cron
+# expression. The first rotation happens immediately after the changes are
+# stored in the secret. The rotation schedule is the first and 15th day of every
+# month. The rotation window begins at 4:00 PM UTC and ends at 6:00 PM.
     my $RotateSecretResponse = $secretsmanager->RotateSecret(
       'RotationLambdaARN' =>
 'arn:aws:lambda:us-west-2:123456789012:function:MyTestDatabaseRotationLambda',
       'RotationRules' => {
-        'AutomaticallyAfterDays' => 30
+        'Duration'           => '2h',
+        'ScheduleExpression' => 'cron(0 16 1,15 * ? *)'
       },
       'SecretId' => 'MyTestDatabaseSecret'
     );
+
+    # Results:
+    my $ARN       = $RotateSecretResponse->ARN;
+    my $Name      = $RotateSecretResponse->Name;
+    my $VersionId = $RotateSecretResponse->VersionId;
+
+ # Returns a L<Paws::SecretsManager::RotateSecretResponse> object.
+ # To request an immediate rotation for a secret
+ # The following example requests an immediate invocation of the secret's Lambda
+ # rotation function. It assumes that the specified secret already has rotation
+ # configured. The rotation function runs asynchronously in the background.
+    my $RotateSecretResponse =
+      $secretsmanager->RotateSecret( 'SecretId' => 'MyTestDatabaseSecret' );
 
     # Results:
     my $ARN       = $RotateSecretResponse->ARN;
@@ -59,34 +74,55 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 ClientRequestToken => Str
 
-(Optional) Specifies a unique identifier for the new version of the
-secret that helps ensure idempotency.
+A unique identifier for the new version of the secret. You only need to
+specify this value if you implement your own retry logic and you want
+to ensure that Secrets Manager doesn't attempt to create a secret
+version twice.
 
-If you use the AWS CLI or one of the AWS SDK to call this operation,
-then you can leave this parameter empty. The CLI or SDK generates a
-random UUID for you and includes that in the request for this
-parameter. If you don't use the SDK and instead generate a raw HTTP
-request to the Secrets Manager service endpoint, then you must generate
-a C<ClientRequestToken> yourself for new versions and include that
-value in the request.
+If you use the Amazon Web Services CLI or one of the Amazon Web
+Services SDKs to call this operation, then you can leave this parameter
+empty. The CLI or SDK generates a random UUID for you and includes it
+as the value for this parameter in the request.
 
-You only need to specify your own value if you implement your own retry
-logic and want to ensure that a given secret is not created twice. We
-recommend that you generate a UUID-type
-(https://wikipedia.org/wiki/Universally_unique_identifier) value to
-ensure uniqueness within the specified secret.
+If you generate a raw HTTP request to the Secrets Manager service
+endpoint, then you must generate a C<ClientRequestToken> and include it
+in the request.
 
-Secrets Manager uses this value to prevent the accidental creation of
-duplicate versions if there are failures and retries during the
-function's processing. This value becomes the C<VersionId> of the new
-version.
+This value helps ensure idempotency. Secrets Manager uses this value to
+prevent the accidental creation of duplicate versions if there are
+failures and retries during a rotation. We recommend that you generate
+a UUID-type (https://wikipedia.org/wiki/Universally_unique_identifier)
+value to ensure uniqueness of your versions within the specified
+secret.
+
+
+
+=head2 RotateImmediately => Bool
+
+Specifies whether to rotate the secret immediately or wait until the
+next scheduled rotation window. The rotation schedule is defined in
+RotateSecretRequest$RotationRules.
+
+For secrets that use a Lambda rotation function to rotate, if you don't
+immediately rotate the secret, Secrets Manager tests the rotation
+configuration by running the C<testSecret> step
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code)
+of the Lambda rotation function. The test creates an C<AWSPENDING>
+version of the secret and then removes it.
+
+By default, Secrets Manager rotates the secret immediately.
 
 
 
 =head2 RotationLambdaARN => Str
 
-(Optional) Specifies the ARN of the Lambda function that can rotate the
-secret.
+For secrets that use a Lambda rotation function to rotate, the ARN of
+the Lambda rotation function.
+
+For secrets that use I<managed rotation>, omit this field. For more
+information, see Managed rotation
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_managed.html)
+in the I<Secrets Manager User Guide>.
 
 
 
@@ -98,28 +134,11 @@ A structure that defines the rotation configuration for this secret.
 
 =head2 B<REQUIRED> SecretId => Str
 
-Specifies the secret that you want to rotate. You can specify either
-the Amazon Resource Name (ARN) or the friendly name of the secret.
+The ARN or name of the secret to rotate.
 
-If you specify an ARN, we generally recommend that you specify a
-complete ARN. You can specify a partial ARN tooE<mdash>for example, if
-you donE<rsquo>t include the final hyphen and six random characters
-that Secrets Manager adds at the end of the ARN when you created the
-secret. A partial ARN match can work as long as it uniquely matches
-only one secret. However, if your secret has a name that ends in a
-hyphen followed by six characters (before Secrets Manager adds the
-hyphen and six characters to the ARN) and you try to use that as a
-partial ARN, then those characters cause Secrets Manager to assume that
-youE<rsquo>re specifying a complete ARN. This confusion can cause
-unexpected results. To avoid this situation, we recommend that you
-donE<rsquo>t create secret names ending with a hyphen followed by six
-characters.
-
-If you specify an incomplete ARN without the random suffix, and instead
-provide the 'friendly name', you I<must> not include the random suffix.
-If you do include the random suffix added by Secrets Manager, you
-receive either a I<ResourceNotFoundException> or an
-I<AccessDeniedException> error, depending on your permissions.
+For an ARN, we recommend that you specify a complete ARN rather than a
+partial ARN. See Finding a secret from a partial ARN
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 
 
 

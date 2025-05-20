@@ -51,9 +51,9 @@ The ARN of the application.
 
 =head2 ApplicationMode => Str
 
-For a Kinesis Data Analytics for Apache Flink application, the mode is
-C<STREAMING>. For a Kinesis Data Analytics Studio notebook, it is
-C<INTERACTIVE>.
+For a Managed Service for Apache Flink application, the mode is
+C<STREAMING>. For a Managed Service for Apache Flink Studio notebook,
+it is C<INTERACTIVE>.
 
 
 =head2 B<REQUIRED> ApplicationName => Str

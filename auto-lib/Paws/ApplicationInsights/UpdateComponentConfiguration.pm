@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::UpdateComponentConfiguration;
   use Moose;
+  has AutoConfigEnabled => (is => 'ro', isa => 'Bool');
   has ComponentConfiguration => (is => 'ro', isa => 'Str');
   has ComponentName => (is => 'ro', isa => 'Str', required => 1);
   has Monitor => (is => 'ro', isa => 'Bool');
@@ -35,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $applicationinsights->UpdateComponentConfiguration(
       ComponentName          => 'MyComponentName',
       ResourceGroupName      => 'MyResourceGroupName',
+      AutoConfigEnabled      => 1,                             # OPTIONAL
       ComponentConfiguration => 'MyComponentConfiguration',    # OPTIONAL
       Monitor                => 1,                             # OPTIONAL
       Tier                   => 'CUSTOM',                      # OPTIONAL
@@ -44,6 +46,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/UpdateComponentConfiguration>
 
 =head1 ATTRIBUTES
+
+
+=head2 AutoConfigEnabled => Bool
+
+Automatically configures the component by applying the recommended
+configurations.
+
 
 
 =head2 ComponentConfiguration => Str
@@ -80,11 +89,9 @@ The name of the resource group.
 
 =head2 Tier => Str
 
-The tier of the application component. Supported tiers include
-C<DOT_NET_WORKER>, C<DOT_NET_WEB>, C<DOT_NET_CORE>, C<SQL_SERVER>, and
-C<DEFAULT>.
+The tier of the application component.
 
-Valid values are: C<"CUSTOM">, C<"DEFAULT">, C<"DOT_NET_CORE">, C<"DOT_NET_WORKER">, C<"DOT_NET_WEB_TIER">, C<"DOT_NET_WEB">, C<"SQL_SERVER">, C<"SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP">, C<"MYSQL">, C<"POSTGRESQL">, C<"JAVA_JMX">, C<"ORACLE">
+Valid values are: C<"CUSTOM">, C<"DEFAULT">, C<"DOT_NET_CORE">, C<"DOT_NET_WORKER">, C<"DOT_NET_WEB_TIER">, C<"DOT_NET_WEB">, C<"SQL_SERVER">, C<"SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP">, C<"MYSQL">, C<"POSTGRESQL">, C<"JAVA_JMX">, C<"ORACLE">, C<"SAP_HANA_MULTI_NODE">, C<"SAP_HANA_SINGLE_NODE">, C<"SAP_HANA_HIGH_AVAILABILITY">, C<"SAP_ASE_SINGLE_NODE">, C<"SAP_ASE_HIGH_AVAILABILITY">, C<"SQL_SERVER_FAILOVER_CLUSTER_INSTANCE">, C<"SHAREPOINT">, C<"ACTIVE_DIRECTORY">, C<"SAP_NETWEAVER_STANDARD">, C<"SAP_NETWEAVER_DISTRIBUTED">, C<"SAP_NETWEAVER_HIGH_AVAILABILITY">
 
 
 =head1 SEE ALSO

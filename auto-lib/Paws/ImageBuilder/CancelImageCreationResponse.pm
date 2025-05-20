@@ -19,13 +19,12 @@ Paws::ImageBuilder::CancelImageCreationResponse
 
 =head2 ClientToken => Str
 
-The idempotency token used to make this request idempotent.
+The client token that uniquely identifies the request.
 
 
 =head2 ImageBuildVersionArn => Str
 
-The Amazon Resource Name (ARN) of the image whose creation has been
-cancelled.
+The ARN of the image whose creation this request canceled.
 
 
 =head2 RequestId => Str

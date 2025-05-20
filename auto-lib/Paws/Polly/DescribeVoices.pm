@@ -52,10 +52,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pol
 
 =head2 Engine => Str
 
-Specifies the engine (C<standard> or C<neural>) used by Amazon Polly
-when processing input text for speech synthesis.
+Specifies the engine (C<standard>, C<neural>, C<long-form> or
+C<generative>) used by Amazon Polly when processing input text for
+speech synthesis.
 
-Valid values are: C<"standard">, C<"neural">
+Valid values are: C<"standard">, C<"neural">, C<"long-form">, C<"generative">
 
 =head2 IncludeAdditionalLanguageCodes => Bool
 
@@ -75,7 +76,7 @@ The language identification tag (ISO 639 code for the language name-ISO
 don't specify this optional parameter, all available voices are
 returned.
 
-Valid values are: C<"arb">, C<"cmn-CN">, C<"cy-GB">, C<"da-DK">, C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-GB-WLS">, C<"en-IN">, C<"en-US">, C<"es-ES">, C<"es-MX">, C<"es-US">, C<"fr-CA">, C<"fr-FR">, C<"is-IS">, C<"it-IT">, C<"ja-JP">, C<"hi-IN">, C<"ko-KR">, C<"nb-NO">, C<"nl-NL">, C<"pl-PL">, C<"pt-BR">, C<"pt-PT">, C<"ro-RO">, C<"ru-RU">, C<"sv-SE">, C<"tr-TR">
+Valid values are: C<"arb">, C<"cmn-CN">, C<"cy-GB">, C<"da-DK">, C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-GB-WLS">, C<"en-IN">, C<"en-US">, C<"es-ES">, C<"es-MX">, C<"es-US">, C<"fr-CA">, C<"fr-FR">, C<"is-IS">, C<"it-IT">, C<"ja-JP">, C<"hi-IN">, C<"ko-KR">, C<"nb-NO">, C<"nl-NL">, C<"pl-PL">, C<"pt-BR">, C<"pt-PT">, C<"ro-RO">, C<"ru-RU">, C<"sv-SE">, C<"tr-TR">, C<"en-NZ">, C<"en-ZA">, C<"ca-ES">, C<"de-AT">, C<"yue-CN">, C<"ar-AE">, C<"fi-FI">, C<"en-IE">, C<"nl-BE">, C<"fr-BE">, C<"cs-CZ">, C<"de-CH">, C<"en-SG">
 
 =head2 NextToken => Str
 

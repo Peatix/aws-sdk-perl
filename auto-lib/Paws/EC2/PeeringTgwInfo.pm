@@ -1,5 +1,6 @@
 package Paws::EC2::PeeringTgwInfo;
   use Moose;
+  has CoreNetworkId => (is => 'ro', isa => 'Str', request_name => 'coreNetworkId', traits => ['NameInRequest']);
   has OwnerId => (is => 'ro', isa => 'Str', request_name => 'ownerId', traits => ['NameInRequest']);
   has Region => (is => 'ro', isa => 'Str', request_name => 'region', traits => ['NameInRequest']);
   has TransitGatewayId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayId', traits => ['NameInRequest']);
@@ -22,14 +23,14 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::PeeringTgwInfo object:
 
-  $service_obj->Method(Att1 => { OwnerId => $value, ..., TransitGatewayId => $value  });
+  $service_obj->Method(Att1 => { CoreNetworkId => $value, ..., TransitGatewayId => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::PeeringTgwInfo object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->OwnerId
+  $result->Att1->CoreNetworkId
 
 =head1 DESCRIPTION
 
@@ -38,9 +39,15 @@ This class has no description
 =head1 ATTRIBUTES
 
 
+=head2 CoreNetworkId => Str
+
+The ID of the core network where the transit gateway peer is located.
+
+
 =head2 OwnerId => Str
 
-The AWS account ID of the owner of the transit gateway.
+The ID of the Amazon Web Services account that owns the transit
+gateway.
 
 
 =head2 Region => Str

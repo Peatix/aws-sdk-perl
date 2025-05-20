@@ -41,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $FileFormat   = $DescribeFaqResponse->FileFormat;
     my $Id           = $DescribeFaqResponse->Id;
     my $IndexId      = $DescribeFaqResponse->IndexId;
+    my $LanguageCode = $DescribeFaqResponse->LanguageCode;
     my $Name         = $DescribeFaqResponse->Name;
     my $RoleArn      = $DescribeFaqResponse->RoleArn;
     my $S3Path       = $DescribeFaqResponse->S3Path;
@@ -57,13 +58,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> Id => Str
 
-The unique identifier of the FAQ.
+The identifier of the FAQ you want to get information on.
 
 
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index that contains the FAQ.
+The identifier of the index for the FAQ.
 
 
 

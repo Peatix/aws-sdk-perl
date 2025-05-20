@@ -11,6 +11,8 @@ package Paws::SageMaker::ListTrainingJobs;
   has SortBy => (is => 'ro', isa => 'Str');
   has SortOrder => (is => 'ro', isa => 'Str');
   has StatusEquals => (is => 'ro', isa => 'Str');
+  has TrainingPlanArnEquals => (is => 'ro', isa => 'Str');
+  has WarmPoolStatusEquals => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -47,6 +49,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SortBy                 => 'Name',                   # OPTIONAL
       SortOrder              => 'Ascending',              # OPTIONAL
       StatusEquals           => 'InProgress',             # OPTIONAL
+      TrainingPlanArnEquals  => 'MyTrainingPlanArn',      # OPTIONAL
+      WarmPoolStatusEquals   => 'Available',              # OPTIONAL
     );
 
     # Results:
@@ -127,6 +131,24 @@ Valid values are: C<"Ascending">, C<"Descending">
 A filter that retrieves only training jobs with a specific status.
 
 Valid values are: C<"InProgress">, C<"Completed">, C<"Failed">, C<"Stopping">, C<"Stopped">
+
+=head2 TrainingPlanArnEquals => Str
+
+The Amazon Resource Name (ARN); of the training plan to filter training
+jobs by. For more information about reserving GPU capacity for your
+SageMaker training jobs using Amazon SageMaker Training Plan, see C<
+CreateTrainingPlan
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html)
+>.
+
+
+
+=head2 WarmPoolStatusEquals => Str
+
+A filter that retrieves only training jobs with a specific warm pool
+status.
+
+Valid values are: C<"Available">, C<"Terminated">, C<"Reused">, C<"InUse">
 
 
 =head1 SEE ALSO

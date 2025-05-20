@@ -29,7 +29,7 @@ Disables all logs.
 
 =head2 RoleArn => Str
 
-The IAM role ARN AWS IoT uses to write to your CloudWatch logs.
+The IAM role ARN IoT uses to write to your CloudWatch logs.
 
 
 =head2 _request_id => Str

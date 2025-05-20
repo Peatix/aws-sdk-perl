@@ -10,6 +10,7 @@ package Paws::WAFV2::Statement;
   has NotStatement => (is => 'ro', isa => 'Paws::WAFV2::NotStatement');
   has OrStatement => (is => 'ro', isa => 'Paws::WAFV2::OrStatement');
   has RateBasedStatement => (is => 'ro', isa => 'Paws::WAFV2::RateBasedStatement');
+  has RegexMatchStatement => (is => 'ro', isa => 'Paws::WAFV2::RegexMatchStatement');
   has RegexPatternSetReferenceStatement => (is => 'ro', isa => 'Paws::WAFV2::RegexPatternSetReferenceStatement');
   has RuleGroupReferenceStatement => (is => 'ro', isa => 'Paws::WAFV2::RuleGroupReferenceStatement');
   has SizeConstraintStatement => (is => 'ro', isa => 'Paws::WAFV2::SizeConstraintStatement');
@@ -49,6 +50,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Stat
 The processing guidance for a Rule, used by WAF to determine whether a
 web request matches the rule.
 
+For example specifications, see the examples section of CreateWebACL.
+
 =head1 ATTRIBUTES
 
 
@@ -65,13 +68,53 @@ web requests. The byte match statement provides the bytes to search
 for, the location in requests that you want WAF to search, and other
 settings. The bytes to search for are typically a string that
 corresponds with ASCII characters. In the WAF console and the developer
-guide, this is refered to as a string match statement.
+guide, this is called a string match statement.
 
 
 =head2 GeoMatchStatement => L<Paws::WAFV2::GeoMatchStatement>
 
-A rule statement used to identify web requests based on country of
-origin.
+A rule statement that labels web requests by country and region and
+that matches against web requests based on country code. A geo match
+rule labels every request that it inspects regardless of whether it
+finds a match.
+
+=over
+
+=item *
+
+To manage requests only by country, you can use this statement by
+itself and specify the countries that you want to match against in the
+C<CountryCodes> array.
+
+=item *
+
+Otherwise, configure your geo match rule with Count action so that it
+only labels requests. Then, add one or more label match rules to run
+after the geo match rule and configure them to match against the
+geographic labels and handle the requests as needed.
+
+=back
+
+WAF labels requests using the alpha-2 country and region codes from the
+International Organization for Standardization (ISO) 3166 standard. WAF
+determines the codes using either the IP address in the web request
+origin or, if you specify it, the address in the geo match
+C<ForwardedIPConfig>.
+
+If you use the web request origin, the label formats are
+C<awswaf:clientip:geo:region:E<lt>ISO country codeE<gt>-E<lt>ISO region
+codeE<gt>> and C<awswaf:clientip:geo:country:E<lt>ISO country
+codeE<gt>>.
+
+If you use a forwarded IP address, the label formats are
+C<awswaf:forwardedip:geo:region:E<lt>ISO country codeE<gt>-E<lt>ISO
+region codeE<gt>> and C<awswaf:forwardedip:geo:country:E<lt>ISO country
+codeE<gt>>.
+
+For additional details, see Geographic match rule statement
+(https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html)
+in the WAF Developer Guide
+(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
 
 
 =head2 IPSetReferenceStatement => L<Paws::WAFV2::IPSetReferenceStatement>
@@ -89,9 +132,8 @@ automatically updates all rules that reference it.
 
 =head2 LabelMatchStatement => L<Paws::WAFV2::LabelMatchStatement>
 
-A rule statement that defines a string match search against labels that
-have been added to the web request by rules that have already run in
-the web ACL.
+A rule statement to match against labels that have been added to the
+web request by rules that have already run in the web ACL.
 
 The label match statement provides the label or namespace string to
 search for. The label string can represent a part or all of the fully
@@ -111,8 +153,18 @@ rule group in this statement. You can retrieve the required names by
 calling ListAvailableManagedRuleGroups.
 
 You cannot nest a C<ManagedRuleGroupStatement>, for example for use
-inside a C<NotStatement> or C<OrStatement>. It can only be referenced
-as a top-level statement within a rule.
+inside a C<NotStatement> or C<OrStatement>. You cannot use a managed
+rule group inside another rule group. You can only reference a managed
+rule group as a top-level statement within a rule that you define in a
+web ACL.
+
+You are charged additional fees when you use the WAF Bot Control
+managed rule group C<AWSManagedRulesBotControlRuleSet>, the WAF Fraud
+Control account takeover prevention (ATP) managed rule group
+C<AWSManagedRulesATPRuleSet>, or the WAF Fraud Control account creation
+fraud prevention (ACFP) managed rule group
+C<AWSManagedRulesACFPRuleSet>. For more information, see WAF Pricing
+(http://aws.amazon.com/waf/pricing/).
 
 
 =head2 NotStatement => L<Paws::WAFV2::NotStatement>
@@ -129,46 +181,155 @@ logic. You provide more than one Statement within the C<OrStatement>.
 
 =head2 RateBasedStatement => L<Paws::WAFV2::RateBasedStatement>
 
-A rate-based rule tracks the rate of requests for each originating IP
-address, and triggers the rule action when the rate exceeds a limit
-that you specify on the number of requests in any 5-minute time span.
-You can use this to put a temporary block on requests from an IP
-address that is sending excessive requests.
+A rate-based rule counts incoming requests and rate limits requests
+when they are coming at too fast a rate. The rule categorizes requests
+according to your aggregation criteria, collects them into aggregation
+instances, and counts and rate limits the requests for each instance.
 
-When the rule action triggers, WAF blocks additional requests from the
-IP address until the request rate falls below the limit.
+If you change any of these settings in a rule that's currently in use,
+the change resets the rule's rate limiting counts. This can pause the
+rule's rate limiting activities for up to a minute.
 
-You can optionally nest another statement inside the rate-based
-statement, to narrow the scope of the rule so that it only counts
-requests that match the nested statement. For example, based on recent
-requests that you have seen from an attacker, you might create a
-rate-based rule with a nested AND rule statement that contains the
-following nested statements:
+You can specify individual aggregation keys, like IP address or HTTP
+method. You can also specify aggregation key combinations, like IP
+address and HTTP method, or HTTP method, query argument, and cookie.
+
+Each unique set of values for the aggregation keys that you specify is
+a separate aggregation instance, with the value from each key
+contributing to the aggregation instance definition.
+
+For example, assume the rule evaluates web requests with the following
+IP address and HTTP method values:
 
 =over
 
 =item *
 
-An IP match statement with an IP set that specified the address
-192.0.2.44.
+IP address 10.1.1.1, HTTP method POST
 
 =item *
 
-A string match statement that searches in the User-Agent header for the
-string BadBot.
+IP address 10.1.1.1, HTTP method GET
+
+=item *
+
+IP address 127.0.0.0, HTTP method POST
+
+=item *
+
+IP address 10.1.1.1, HTTP method GET
 
 =back
 
-In this rate-based rule, you also define a rate limit. For this
-example, the rate limit is 1,000. Requests that meet both of the
-conditions in the statements are counted. If the count exceeds 1,000
-requests per five minutes, the rule action triggers. Requests that do
-not meet both conditions are not counted towards the rate limit and are
-not affected by this rule.
+The rule would create different aggregation instances according to your
+aggregation criteria, for example:
 
-You cannot nest a C<RateBasedStatement>, for example for use inside a
-C<NotStatement> or C<OrStatement>. It can only be referenced as a
-top-level statement within a rule.
+=over
+
+=item *
+
+If the aggregation criteria is just the IP address, then each
+individual address is an aggregation instance, and WAF counts requests
+separately for each. The aggregation instances and request counts for
+our example would be the following:
+
+=over
+
+=item *
+
+IP address 10.1.1.1: count 3
+
+=item *
+
+IP address 127.0.0.0: count 1
+
+=back
+
+=item *
+
+If the aggregation criteria is HTTP method, then each individual HTTP
+method is an aggregation instance. The aggregation instances and
+request counts for our example would be the following:
+
+=over
+
+=item *
+
+HTTP method POST: count 2
+
+=item *
+
+HTTP method GET: count 2
+
+=back
+
+=item *
+
+If the aggregation criteria is IP address and HTTP method, then each IP
+address and each HTTP method would contribute to the combined
+aggregation instance. The aggregation instances and request counts for
+our example would be the following:
+
+=over
+
+=item *
+
+IP address 10.1.1.1, HTTP method POST: count 1
+
+=item *
+
+IP address 10.1.1.1, HTTP method GET: count 2
+
+=item *
+
+IP address 127.0.0.0, HTTP method POST: count 1
+
+=back
+
+=back
+
+For any n-tuple of aggregation keys, each unique combination of values
+for the keys defines a separate aggregation instance, which WAF counts
+and rate-limits individually.
+
+You can optionally nest another statement inside the rate-based
+statement, to narrow the scope of the rule so that it only counts and
+rate limits requests that match the nested statement. You can use this
+nested scope-down statement in conjunction with your aggregation key
+specifications or you can just count and rate limit all requests that
+match the scope-down statement, without additional aggregation. When
+you choose to just manage all requests that match a scope-down
+statement, the aggregation instance is singular for the rule.
+
+You cannot nest a C<RateBasedStatement> inside another statement, for
+example inside a C<NotStatement> or C<OrStatement>. You can define a
+C<RateBasedStatement> inside a web ACL and inside a rule group.
+
+For additional information about the options, see Rate limiting web
+requests using rate-based rules
+(https://docs.aws.amazon.com/waf/latest/developerguide/waf-rate-based-rules.html)
+in the I<WAF Developer Guide>.
+
+If you only aggregate on the individual IP address or forwarded IP
+address, you can retrieve the list of IP addresses that WAF is
+currently rate limiting for a rule through the API call
+C<GetRateBasedStatementManagedKeys>. This option is not available for
+other aggregation configurations.
+
+WAF tracks and manages web requests separately for each instance of a
+rate-based rule that you use. For example, if you provide the same
+rate-based rule settings in two web ACLs, each of the two rule
+statements represents a separate instance of the rate-based rule and
+gets its own tracking and management by WAF. If you define a rate-based
+rule inside a rule group, and then use that rule group in multiple
+places, each use creates a separate instance of the rate-based rule
+that gets its own tracking and management by WAF.
+
+
+=head2 RegexMatchStatement => L<Paws::WAFV2::RegexMatchStatement>
+
+A rule statement used to search web request components for a match
+against a single regular expression.
 
 
 =head2 RegexPatternSetReferenceStatement => L<Paws::WAFV2::RegexPatternSetReferenceStatement>
@@ -193,8 +354,10 @@ To use this, create a rule group with your rules, then provide the ARN
 of the rule group in this statement.
 
 You cannot nest a C<RuleGroupReferenceStatement>, for example for use
-inside a C<NotStatement> or C<OrStatement>. It can only be referenced
-as a top-level statement within a rule.
+inside a C<NotStatement> or C<OrStatement>. You cannot use a rule group
+reference statement inside another rule group. You can only reference a
+rule group as a top-level statement within a rule that you define in a
+web ACL.
 
 
 =head2 SizeConstraintStatement => L<Paws::WAFV2::SizeConstraintStatement>
@@ -206,9 +369,12 @@ constraint statement to look for query strings that are longer than 100
 bytes.
 
 If you configure WAF to inspect the request body, WAF inspects only the
-first 8192 bytes (8 KB). If the request body for your web requests
-never exceeds 8192 bytes, you can create a size constraint condition
-and block requests that have a request body greater than 8192 bytes.
+number of bytes in the body up to the limit for the web ACL and
+protected resource type. If you know that the request body for your web
+requests should never exceed the inspection limit, you can use a size
+constraint statement to block requests that have a larger request body
+size. For more information about the inspection limits, see C<Body> and
+C<JsonBody> settings for the C<FieldToMatch> data type.
 
 If you choose URI for the value of Part of the request to filter on,
 the slash (/) in the URI counts as one character. For example, the URI
@@ -217,26 +383,17 @@ C</logo.jpg> is nine characters long.
 
 =head2 SqliMatchStatement => L<Paws::WAFV2::SqliMatchStatement>
 
-Attackers sometimes insert malicious SQL code into web requests in an
-effort to extract data from your database. To allow or block web
-requests that appear to contain malicious SQL code, create one or more
-SQL injection match conditions. An SQL injection match condition
-identifies the part of web requests, such as the URI or the query
-string, that you want WAF to inspect. Later in the process, when you
-create a web ACL, you specify whether to allow or block requests that
-appear to contain malicious SQL code.
+A rule statement that inspects for malicious SQL code. Attackers insert
+malicious SQL code into web requests to do things like modify your
+database or extract data from it.
 
 
 =head2 XssMatchStatement => L<Paws::WAFV2::XssMatchStatement>
 
-A rule statement that defines a cross-site scripting (XSS) match search
-for WAF to apply to web requests. XSS attacks are those where the
-attacker uses vulnerabilities in a benign website as a vehicle to
-inject malicious client-site scripts into other legitimate web
-browsers. The XSS match statement provides the location in requests
-that you want WAF to search and text transformations to use on the
-search area before WAF searches for character sequences that are likely
-to be malicious strings.
+A rule statement that inspects for cross-site scripting (XSS) attacks.
+In XSS attacks, the attacker uses vulnerabilities in a benign website
+as a vehicle to inject malicious client-site scripts into other
+legitimate web browsers.
 
 
 

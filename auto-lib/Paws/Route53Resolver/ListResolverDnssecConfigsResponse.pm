@@ -18,8 +18,8 @@ Paws::Route53Resolver::ListResolverDnssecConfigsResponse
 =head2 NextToken => Str
 
 If a response includes the last of the DNSSEC configurations that are
-associated with the current AWS account, C<NextToken> doesn't appear in
-the response.
+associated with the current Amazon Web Services account, C<NextToken>
+doesn't appear in the response.
 
 If a response doesn't include the last of the configurations, you can
 get more configurations by submitting another ListResolverDnssecConfigs
@@ -34,7 +34,8 @@ request.
 An array that contains one ResolverDnssecConfig
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html)
 element for each configuration for DNSSEC validation that is associated
-with the current AWS account.
+with the current Amazon Web Services account. It doesn't contain
+disabled DNSSEC configurations for the resource.
 
 
 =head2 _request_id => Str

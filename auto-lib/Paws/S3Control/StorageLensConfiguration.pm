@@ -53,8 +53,8 @@ Lens configuration.
 
 =head2 AwsOrg => L<Paws::S3Control::StorageLensAwsOrg>
 
-A container for the AWS organization for this S3 Storage Lens
-configuration.
+A container for the Amazon Web Services organization for this S3
+Storage Lens configuration.
 
 
 =head2 DataExport => L<Paws::S3Control::StorageLensDataExport>

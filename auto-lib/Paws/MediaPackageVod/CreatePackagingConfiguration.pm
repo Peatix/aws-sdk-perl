@@ -58,10 +58,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         Encryption => {
           SpekeKeyProvider => {
-            RoleArn   => 'My__string',
-            SystemIds => [ 'My__string', ... ],
-            Url       => 'My__string',
+            RoleArn                         => 'My__string',
+            SystemIds                       => [ 'My__string', ... ],
+            Url                             => 'My__string',
+            EncryptionContractConfiguration => {
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
+            },    # OPTIONAL
           },
           ConstantInitializationVector => 'My__string',
         },    # OPTIONAL
@@ -75,7 +81,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ManifestName   => 'My__string',
             MinBufferTimeSeconds => 1,       # OPTIONAL
             Profile              => 'NONE',  # values: NONE, HBBTV_1_5; OPTIONAL
-            StreamSelection      => {
+            ScteMarkersSource    =>
+              'SEGMENTS',    # values: SEGMENTS, MANIFEST; OPTIONAL
+            StreamSelection => {
               MaxVideoBitsPerSecond => 1,           # OPTIONAL
               MinVideoBitsPerSecond => 1,           # OPTIONAL
               StreamOrder           => 'ORIGINAL'
@@ -86,14 +94,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         Encryption => {
           SpekeKeyProvider => {
-            RoleArn   => 'My__string',
-            SystemIds => [ 'My__string', ... ],
-            Url       => 'My__string',
+            RoleArn                         => 'My__string',
+            SystemIds                       => [ 'My__string', ... ],
+            Url                             => 'My__string',
+            EncryptionContractConfiguration => {
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
+            },    # OPTIONAL
           },
 
         },    # OPTIONAL
         IncludeEncoderConfigurationInSegments => 1,    # OPTIONAL
+        IncludeIframeOnlyStream               => 1,    # OPTIONAL
         PeriodTriggers                        => [
           'ADS', ...                                   # values: ADS
         ],    # OPTIONAL
@@ -121,14 +136,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         Encryption => {
           SpekeKeyProvider => {
-            RoleArn   => 'My__string',
-            SystemIds => [ 'My__string', ... ],
-            Url       => 'My__string',
+            RoleArn                         => 'My__string',
+            SystemIds                       => [ 'My__string', ... ],
+            Url                             => 'My__string',
+            EncryptionContractConfiguration => {
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
+            },    # OPTIONAL
           },
           ConstantInitializationVector => 'My__string',
           EncryptionMethod => 'AES_128', # values: AES_128, SAMPLE_AES; OPTIONAL
         },    # OPTIONAL
+        IncludeDvbSubtitles    => 1,    # OPTIONAL
         SegmentDurationSeconds => 1,    # OPTIONAL
         UseAudioRenditionGroup => 1,    # OPTIONAL
       },    # OPTIONAL
@@ -147,10 +169,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         Encryption => {
           SpekeKeyProvider => {
-            RoleArn   => 'My__string',
-            SystemIds => [ 'My__string', ... ],
-            Url       => 'My__string',
+            RoleArn                         => 'My__string',
+            SystemIds                       => [ 'My__string', ... ],
+            Url                             => 'My__string',
+            EncryptionContractConfiguration => {
+              PresetSpeke20Audio => 'PRESET-AUDIO-1'
+              , # values: PRESET-AUDIO-1, PRESET-AUDIO-2, PRESET-AUDIO-3, SHARED, UNENCRYPTED
+              PresetSpeke20Video => 'PRESET-VIDEO-1'
+              , # values: PRESET-VIDEO-1, PRESET-VIDEO-2, PRESET-VIDEO-3, PRESET-VIDEO-4, PRESET-VIDEO-5, PRESET-VIDEO-6, PRESET-VIDEO-7, PRESET-VIDEO-8, SHARED, UNENCRYPTED
 
+            },    # OPTIONAL
           },
 
         },    # OPTIONAL
@@ -162,6 +190,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $Arn         = $CreatePackagingConfigurationResponse->Arn;
     my $CmafPackage = $CreatePackagingConfigurationResponse->CmafPackage;
+    my $CreatedAt   = $CreatePackagingConfigurationResponse->CreatedAt;
     my $DashPackage = $CreatePackagingConfigurationResponse->DashPackage;
     my $HlsPackage  = $CreatePackagingConfigurationResponse->HlsPackage;
     my $Id          = $CreatePackagingConfigurationResponse->Id;

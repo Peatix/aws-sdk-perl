@@ -30,19 +30,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $ListEngagementsResult = $ssm -contacts->ListEngagements(
-      IncidentId     => 'MyIncidentId',         # OPTIONAL
-      MaxResults     => 1,                      # OPTIONAL
-      NextToken      => 'MyPaginationToken',    # OPTIONAL
-      TimeRangeValue => {
-        EndTime   => '1970-01-01T01:00:00',     # OPTIONAL
-        StartTime => '1970-01-01T01:00:00',     # OPTIONAL
-      },    # OPTIONAL
-    );
+  # To list all engagements
+  # The following list-engagements example lists engagements to escalation plans
+  # and contacts. You can also list engagements for a single incident.
+    my $ListEngagementsResult = $ssm -contacts->ListEngagements();
 
     # Results:
     my $Engagements = $ListEngagementsResult->Engagements;
-    my $NextToken   = $ListEngagementsResult->NextToken;
 
     # Returns a L<Paws::SSMContacts::ListEngagementsResult> object.
 

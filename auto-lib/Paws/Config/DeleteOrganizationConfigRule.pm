@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> OrganizationConfigRuleName => Str
 
-The name of organization config rule that you want to delete.
+The name of organization Config rule that you want to delete.
 
 
 

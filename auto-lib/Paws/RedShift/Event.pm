@@ -53,7 +53,7 @@ The date and time of the event.
 
 A list of the event categories.
 
-Values: Configuration, Management, Monitoring, Security
+Values: Configuration, Management, Monitoring, Security, Pending
 
 
 =head2 EventId => Str

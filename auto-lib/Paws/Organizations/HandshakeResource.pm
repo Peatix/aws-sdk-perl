@@ -55,7 +55,7 @@ interpreted by the other party:
 
 =item *
 
-C<ACCOUNT> - Specifies an AWS account ID number.
+C<ACCOUNT> - Specifies an Amazon Web Services account ID number.
 
 =item *
 

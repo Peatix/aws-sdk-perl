@@ -17,9 +17,9 @@ Paws::SageMaker::ListTagsOutput
 
 =head2 NextToken => Str
 
-If response is truncated, Amazon SageMaker includes a token in the
-response. You can use this token in your subsequent request to fetch
-next set of tokens.
+If response is truncated, SageMaker includes a token in the response.
+You can use this token in your subsequent request to fetch next set of
+tokens.
 
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]

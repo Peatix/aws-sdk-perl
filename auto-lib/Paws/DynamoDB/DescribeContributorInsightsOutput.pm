@@ -21,17 +21,17 @@ Paws::DynamoDB::DescribeContributorInsightsOutput
 
 =head2 ContributorInsightsRuleList => ArrayRef[Str|Undef]
 
-List of names of the associated Alpine rules.
+List of names of the associated contributor insights rules.
 
 
 =head2 ContributorInsightsStatus => Str
 
-Current Status contributor insights.
+Current status of contributor insights.
 
 Valid values are: C<"ENABLING">, C<"ENABLED">, C<"DISABLING">, C<"DISABLED">, C<"FAILED">
 =head2 FailureException => L<Paws::DynamoDB::FailureException>
 
-Returns information about the last failure that encountered.
+Returns information about the last failure that was encountered.
 
 The most common exceptions for a FAILED status are:
 

@@ -41,15 +41,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sal
 
 =head1 DESCRIPTION
 
-Provides configuration information for connecting to a Salesforce data
-source.
+Provides the configuration information to connect to Salesforce as your
+data source.
 
 =head1 ATTRIBUTES
 
 
 =head2 ChatterFeedConfiguration => L<Paws::Kendra::SalesforceChatterFeedConfiguration>
 
-Specifies configuration information for Salesforce chatter feeds.
+Configuration information for Salesforce chatter feeds.
 
 
 =head2 CrawlAttachments => Bool
@@ -60,37 +60,39 @@ objects.
 
 =head2 ExcludeAttachmentFilePatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns. Documents that match the
-patterns are excluded from the index. Documents that don't match the
-patterns are included in the index. If a document matches both an
-exclusion pattern and an inclusion pattern, the document is not
-included in the index.
+A list of regular expression patterns to exclude certain documents in
+your Salesforce. Documents that match the patterns are excluded from
+the index. Documents that don't match the patterns are included in the
+index. If a document matches both an inclusion and exclusion pattern,
+the exclusion pattern takes precedence and the document isn't included
+in the index.
 
-The regex is applied to the name of the attached file.
+The pattern is applied to the name of the attached file.
 
 
 =head2 IncludeAttachmentFilePatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns. Documents that match the
-patterns are included in the index. Documents that don't match the
-patterns are excluded from the index. If a document matches both an
-inclusion pattern and an exclusion pattern, the document is not
-included in the index.
+A list of regular expression patterns to include certain documents in
+your Salesforce. Documents that match the patterns are included in the
+index. Documents that don't match the patterns are excluded from the
+index. If a document matches both an inclusion and exclusion pattern,
+the exclusion pattern takes precedence and the document isn't included
+in the index.
 
-The regex is applied to the name of the attached file.
+The pattern is applied to the name of the attached file.
 
 
 =head2 KnowledgeArticleConfiguration => L<Paws::Kendra::SalesforceKnowledgeArticleConfiguration>
 
-Specifies configuration information for the knowledge article types
-that Amazon Kendra indexes. Amazon Kendra indexes standard knowledge
-articles and the standard fields of knowledge articles, or the custom
-fields of custom knowledge articles, but not both.
+Configuration information for the knowledge article types that Amazon
+Kendra indexes. Amazon Kendra indexes standard knowledge articles and
+the standard fields of knowledge articles, or the custom fields of
+custom knowledge articles, but not both.
 
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that
+The Amazon Resource Name (ARN) of an Secrets Managersecret that
 contains the key/value pairs required to connect to your Salesforce
 instance. The secret must contain a JSON structure with the following
 keys:
@@ -119,8 +121,8 @@ Salesforce instance.
 
 =item *
 
-securityToken - The token associated with the user account logging in
-to the Salesforce instance.
+securityToken - The token associated with the user logging in to the
+Salesforce instance.
 
 =item *
 
@@ -138,13 +140,14 @@ The instance URL for the Salesforce site that you want to index.
 
 =head2 StandardObjectAttachmentConfiguration => L<Paws::Kendra::SalesforceStandardObjectAttachmentConfiguration>
 
-Provides configuration information for processing attachments to
-Salesforce standard objects.
+Configuration information for processing attachments to Salesforce
+standard objects.
 
 
 =head2 StandardObjectConfigurations => ArrayRef[L<Paws::Kendra::SalesforceStandardObjectConfiguration>]
 
-Specifies the Salesforce standard objects that Amazon Kendra indexes.
+Configuration of the Salesforce standard objects that Amazon Kendra
+indexes.
 
 
 

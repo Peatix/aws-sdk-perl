@@ -53,10 +53,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ImageDigest     => 'MyString',
           NetworkBindings => [
             {
-              BindIP        => 'MyString',
-              ContainerPort => 1,            # OPTIONAL
-              HostPort      => 1,            # OPTIONAL
-              Protocol      => 'tcp',        # values: tcp, udp; OPTIONAL
+              BindIP             => 'MyString',
+              ContainerPort      => 1,            # OPTIONAL
+              ContainerPortRange => 'MyString',
+              HostPort           => 1,            # OPTIONAL
+              HostPortRange      => 'MyString',
+              Protocol           => 'tcp',        # values: tcp, udp; OPTIONAL
             },
             ...
           ],    # OPTIONAL
@@ -110,31 +112,32 @@ hosts the task.
 
 =head2 Containers => ArrayRef[L<Paws::ECS::ContainerStateChange>]
 
-Any containers associated with the state change request.
+Any containers that's associated with the state change request.
 
 
 
 =head2 ExecutionStoppedAt => Str
 
-The Unix timestamp for when the task execution stopped.
+The Unix timestamp for the time when the task execution stopped.
 
 
 
 =head2 ManagedAgents => ArrayRef[L<Paws::ECS::ManagedAgentStateChange>]
 
-The details for the managed agent associated with the task.
+The details for the managed agent that's associated with the task.
 
 
 
 =head2 PullStartedAt => Str
 
-The Unix timestamp for when the container image pull began.
+The Unix timestamp for the time when the container image pull started.
 
 
 
 =head2 PullStoppedAt => Str
 
-The Unix timestamp for when the container image pull completed.
+The Unix timestamp for the time when the container image pull
+completed.
 
 
 

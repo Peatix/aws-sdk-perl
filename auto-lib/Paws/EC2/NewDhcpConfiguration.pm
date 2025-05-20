@@ -1,6 +1,6 @@
 package Paws::EC2::NewDhcpConfiguration;
   use Moose;
-  has Key => (is => 'ro', isa => 'Str', request_name => 'key', traits => ['NameInRequest']);
+  has Key => (is => 'ro', isa => 'Str');
   has Values => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'Value', traits => ['NameInRequest']);
 1;
 
@@ -39,12 +39,12 @@ This class has no description
 
 =head2 Key => Str
 
-
+The name of a DHCP option.
 
 
 =head2 Values => ArrayRef[Str|Undef]
 
-
+The values for the DHCP option.
 
 
 

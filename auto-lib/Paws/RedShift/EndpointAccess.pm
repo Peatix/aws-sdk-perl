@@ -56,7 +56,7 @@ The port number on which the cluster accepts incoming connections.
 
 =head2 ResourceOwner => Str
 
-The AWS account ID of the owner of the cluster.
+The Amazon Web Services account ID of the owner of the cluster.
 
 
 =head2 SubnetGroupName => Str

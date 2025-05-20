@@ -55,6 +55,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SnapshotsEnabled => 1,
 
         },    # OPTIONAL
+        ApplicationSystemRollbackConfiguration => {
+          RollbackEnabled => 1,
+
+        },    # OPTIONAL
         EnvironmentProperties => {
           PropertyGroups => [
             {
@@ -290,9 +294,9 @@ A summary description of the application.
 
 =head2 ApplicationMode => Str
 
-Use the C<STREAMING> mode to create a Kinesis Data Analytics Studio
-notebook. To create a Kinesis Data Analytics Studio notebook, use the
-C<INTERACTIVE> mode.
+Use the C<STREAMING> mode to create a Managed Service for Apache Flink
+application. To create a Managed Service for Apache Flink Studio
+notebook, use the C<INTERACTIVE> mode.
 
 Valid values are: C<"STREAMING">, C<"INTERACTIVE">
 
@@ -311,10 +315,9 @@ monitor application configuration errors.
 
 =head2 B<REQUIRED> RuntimeEnvironment => Str
 
-The runtime environment for the application (C<SQL-1_0>, C<FLINK-1_6>,
-C<FLINK-1_8>, or C<FLINK-1_11>).
+The runtime environment for the application.
 
-Valid values are: C<"SQL-1_0">, C<"FLINK-1_6">, C<"FLINK-1_8">, C<"FLINK-1_11">, C<"ZEPPELIN-FLINK-1_0">
+Valid values are: C<"SQL-1_0">, C<"FLINK-1_6">, C<"FLINK-1_8">, C<"ZEPPELIN-FLINK-1_0">, C<"FLINK-1_11">, C<"FLINK-1_13">, C<"ZEPPELIN-FLINK-2_0">, C<"FLINK-1_15">, C<"ZEPPELIN-FLINK-3_0">, C<"FLINK-1_18">, C<"FLINK-1_19">, C<"FLINK-1_20">
 
 =head2 B<REQUIRED> ServiceExecutionRole => Str
 

@@ -142,14 +142,15 @@ C<Name>: The name of the configuration
 
 =item *
 
-C<OwnerId>: The AWS account number of the account that created the
-configuration
+C<OwnerId>: The Amazon Web Services account number of the account that
+created the configuration
 
 =item *
 
-C<ShareStatus>: Whether the configuration is shared with other AWS
-accounts or shared with the current account by another AWS account.
-Sharing is configured through AWS Resource Access Manager (AWS RAM).
+C<ShareStatus>: Whether the configuration is shared with other Amazon
+Web Services accounts or shared with the current account by another
+Amazon Web Services account. Sharing is configured through Resource
+Access Manager (RAM).
 
 =item *
 

@@ -36,35 +36,36 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Op
 
 =head1 DESCRIPTION
 
-Describes an OpenID Connect configuration.
+Describes an OpenID Connect (OIDC) configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 AuthTTL => Int
 
-The number of milliseconds a token is valid after being authenticated.
+The number of milliseconds that a token is valid after being
+authenticated.
 
 
 =head2 ClientId => Str
 
-The client identifier of the Relying party at the OpenID identity
-provider. This identifier is typically obtained when the Relying party
+The client identifier of the relying party at the OpenID identity
+provider. This identifier is typically obtained when the relying party
 is registered with the OpenID identity provider. You can specify a
-regular expression so the AWS AppSync can validate against multiple
-client identifiers at a time.
+regular expression so that AppSync can validate against multiple client
+identifiers at a time.
 
 
 =head2 IatTTL => Int
 
-The number of milliseconds a token is valid after being issued to a
+The number of milliseconds that a token is valid after it's issued to a
 user.
 
 
 =head2 B<REQUIRED> Issuer => Str
 
-The issuer for the OpenID Connect configuration. The issuer returned by
-discovery must exactly match the value of C<iss> in the ID token.
+The issuer for the OIDC configuration. The issuer returned by discovery
+must exactly match the value of C<iss> in the ID token.
 
 
 

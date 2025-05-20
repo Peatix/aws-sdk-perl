@@ -44,7 +44,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 Arn => Str
 
 The Amazon Resource Name (ARN) for the extension, in this account and
-region.
+Region.
 
 Conditional: You must specify either C<Arn>, or C<TypeName> and
 C<Type>.
@@ -58,11 +58,11 @@ The extension type.
 Conditional: You must specify either C<Arn>, or C<TypeName> and
 C<Type>.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 
 =head2 TypeName => Str
 
-The type name of the extension, in this account and region. If you
+The type name of the extension, in this account and Region. If you
 specified a type name alias when enabling the extension, use the type
 name alias.
 

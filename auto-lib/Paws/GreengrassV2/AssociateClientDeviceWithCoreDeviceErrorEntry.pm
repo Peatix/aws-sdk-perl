@@ -55,7 +55,7 @@ A message that provides additional information about the error.
 
 =head2 ThingName => Str
 
-The name of the AWS IoT thing whose associate request failed.
+The name of the IoT thing whose associate request failed.
 
 
 

@@ -36,23 +36,36 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ItemToAdd => {
           Identifier => {
             Type => 'ANALYSIS'
-            ,    # values: ANALYSIS, INCIDENT, METRIC, PARENT, ATTACHMENT, OTHER
+            , # values: ANALYSIS, INCIDENT, METRIC, PARENT, ATTACHMENT, OTHER, AUTOMATION, INVOLVED_RESOURCE, TASK
             Value => {
               Arn              => 'MyArn',                 # max: 1000
               MetricDefinition => 'MyMetricDefinition',    # max: 4000; OPTIONAL
-              Url              => 'MyUrl',                 # max: 1000; OPTIONAL
+              PagerDutyIncidentDetail => {
+                Id => 'MyPagerDutyIncidentDetailIdString',    # min: 1, max: 200
+                AutoResolve => 1,                             # OPTIONAL
+                SecretId    => 'MyPagerDutyIncidentDetailSecretIdString'
+                ,    # min: 1, max: 512; OPTIONAL
+              },    # OPTIONAL
+              Url => 'MyUrl',    # max: 1000; OPTIONAL
             },
 
           },
-          Title => 'MyRelatedItemTitleString',             # max: 200; OPTIONAL
+          GeneratedId => 'MyGeneratedId',               # max: 200; OPTIONAL
+          Title       => 'MyRelatedItemTitleString',    # max: 200; OPTIONAL
         },    # OPTIONAL
         ItemToRemove => {
           Type => 'ANALYSIS'
-          ,    # values: ANALYSIS, INCIDENT, METRIC, PARENT, ATTACHMENT, OTHER
+          , # values: ANALYSIS, INCIDENT, METRIC, PARENT, ATTACHMENT, OTHER, AUTOMATION, INVOLVED_RESOURCE, TASK
           Value => {
             Arn              => 'MyArn',                 # max: 1000
             MetricDefinition => 'MyMetricDefinition',    # max: 4000; OPTIONAL
-            Url              => 'MyUrl',                 # max: 1000; OPTIONAL
+            PagerDutyIncidentDetail => {
+              Id => 'MyPagerDutyIncidentDetailIdString',    # min: 1, max: 200
+              AutoResolve => 1,                                       # OPTIONAL
+              SecretId    => 'MyPagerDutyIncidentDetailSecretIdString'
+              ,    # min: 1, max: 512; OPTIONAL
+            },    # OPTIONAL
+            Url => 'MyUrl',    # max: 1000; OPTIONAL
           },
 
         },
@@ -68,21 +81,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 ClientToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token that ensures that a client calls the operation only once with
+the specified details.
 
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str
 
-The Amazon Resource Name (ARN) of the incident record you are updating
-related items in.
+The Amazon Resource Name (ARN) of the incident record that contains the
+related items that you update.
 
 
 
 =head2 B<REQUIRED> RelatedItemsUpdate => L<Paws::SSMIncidents::RelatedItemsUpdate>
 
-Details about the item you are adding or deleting.
+Details about the item that you are add to, or delete from, an
+incident.
 
 
 

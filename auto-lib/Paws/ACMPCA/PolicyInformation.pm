@@ -49,8 +49,9 @@ definition of Object Identifier (OID)
 
 =head2 PolicyQualifiers => ArrayRef[L<Paws::ACMPCA::PolicyQualifierInfo>]
 
-Modifies the given C<CertPolicyId> with a qualifier. ACM Private CA
-supports the certification practice statement (CPS) qualifier.
+Modifies the given C<CertPolicyId> with a qualifier. Amazon Web
+Services Private CA supports the certification practice statement (CPS)
+qualifier.
 
 
 

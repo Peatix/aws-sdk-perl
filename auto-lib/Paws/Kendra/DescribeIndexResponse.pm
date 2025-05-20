@@ -15,6 +15,7 @@ package Paws::Kendra::DescribeIndexResponse;
   has Status => (is => 'ro', isa => 'Str');
   has UpdatedAt => (is => 'ro', isa => 'Str');
   has UserContextPolicy => (is => 'ro', isa => 'Str');
+  has UserGroupResolutionConfiguration => (is => 'ro', isa => 'Paws::Kendra::UserGroupResolutionConfiguration');
   has UserTokenConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::UserTokenConfiguration]');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -30,27 +31,30 @@ Paws::Kendra::DescribeIndexResponse
 
 =head2 CapacityUnits => L<Paws::Kendra::CapacityUnitsConfiguration>
 
-For Enterprise edition indexes, you can choose to use additional
+For Enterprise Edition indexes, you can choose to use additional
 capacity to meet the needs of your application. This contains the
-capacity units used for the index. A 0 for the query capacity or the
-storage capacity indicates that the index is using the default capacity
-for the index.
+capacity units used for the index. A query or document storage capacity
+of zero indicates that the index is using the default capacity. For
+more information on the default capacity for an index and adjusting
+this, see Adjusting capacity
+(https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
 
 
 =head2 CreatedAt => Str
 
-The Unix datetime that the index was created.
+The Unix timestamp when the index was created.
 
 
 =head2 Description => Str
 
-The description of the index.
+The description for the index.
 
 
 =head2 DocumentMetadataConfigurations => ArrayRef[L<Paws::Kendra::DocumentMetadataConfiguration>]
 
-Configuration settings for any metadata applied to the documents in the
-index.
+Configuration information for document metadata or fields. Document
+metadata are fields or attributes associated with your documents. For
+example, the company department name associated with each document.
 
 
 =head2 Edition => Str
@@ -58,16 +62,16 @@ index.
 The Amazon Kendra edition used for the index. You decide the edition
 when you create the index.
 
-Valid values are: C<"DEVELOPER_EDITION">, C<"ENTERPRISE_EDITION">
+Valid values are: C<"DEVELOPER_EDITION">, C<"ENTERPRISE_EDITION">, C<"GEN_AI_ENTERPRISE_EDITION">
 =head2 ErrorMessage => Str
 
-When th eC<Status> field value is C<FAILED>, the C<ErrorMessage> field
+When the C<Status> field value is C<FAILED>, the C<ErrorMessage> field
 contains a message that explains why.
 
 
 =head2 Id => Str
 
-The name of the index.
+The identifier of the index.
 
 
 =head2 IndexStatistics => L<Paws::Kendra::IndexStatistics>
@@ -84,13 +88,13 @@ The name of the index.
 =head2 RoleArn => Str
 
 The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra
-permission to write to your Amazon Cloudwatch logs.
+permission to write to your Amazon CloudWatch logs.
 
 
 =head2 ServerSideEncryptionConfiguration => L<Paws::Kendra::ServerSideEncryptionConfiguration>
 
-The identifier of the AWS KMS customer master key (CMK) used to encrypt
-your data. Amazon Kendra doesn't support asymmetric CMKs.
+The identifier of the KMS customer master key (CMK) that is used to
+encrypt your data. Amazon Kendra doesn't support asymmetric CMKs.
 
 
 =head2 Status => Str
@@ -102,7 +106,7 @@ C<ErrorMessage> field contains a message that explains why.
 Valid values are: C<"CREATING">, C<"ACTIVE">, C<"DELETING">, C<"FAILED">, C<"UPDATING">, C<"SYSTEM_UPDATING">
 =head2 UpdatedAt => Str
 
-The Unix datetime that the index was last updated.
+The Unix timestamp when the index was last updated.
 
 
 =head2 UserContextPolicy => Str
@@ -110,6 +114,14 @@ The Unix datetime that the index was last updated.
 The user context policy for the Amazon Kendra index.
 
 Valid values are: C<"ATTRIBUTE_FILTER">, C<"USER_TOKEN">
+=head2 UserGroupResolutionConfiguration => L<Paws::Kendra::UserGroupResolutionConfiguration>
+
+Whether you have enabled IAM Identity Center identity source for your
+users and groups. This is useful for user context filtering, where
+search results are filtered based on the user or their group access to
+documents.
+
+
 =head2 UserTokenConfigurations => ArrayRef[L<Paws::Kendra::UserTokenConfiguration>]
 
 The user token configuration for the Amazon Kendra index.

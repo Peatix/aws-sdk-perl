@@ -17,8 +17,8 @@ Paws::AuditManager::CreateAssessmentFrameworkResponse
 
 =head2 Framework => L<Paws::AuditManager::Framework>
 
-The name of the new framework returned by the
-C<CreateAssessmentFramework> API.
+The name of the new framework that the C<CreateAssessmentFramework> API
+returned.
 
 
 =head2 _request_id => Str

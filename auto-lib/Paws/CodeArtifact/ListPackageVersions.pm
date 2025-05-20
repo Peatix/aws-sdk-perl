@@ -7,6 +7,7 @@ package Paws::CodeArtifact::ListPackageVersions;
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'max-results');
   has Namespace => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'namespace');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next-token');
+  has OriginType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'originType');
   has Package => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'package', required => 1);
   has Repository => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'repository', required => 1);
   has SortBy => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'sortBy');
@@ -46,6 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MaxResults  => 1,                       # OPTIONAL
       Namespace   => 'MyPackageNamespace',    # OPTIONAL
       NextToken   => 'MyPaginationToken',     # OPTIONAL
+      OriginType  => 'INTERNAL',              # OPTIONAL
       SortBy      => 'PUBLISHED_TIME',        # OPTIONAL
       Status      => 'Published',             # OPTIONAL
     );
@@ -70,40 +72,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 B<REQUIRED> Domain => Str
 
 The name of the domain that contains the repository that contains the
-returned package versions.
+requested package versions.
 
 
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain. It
-does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain. It does not include dashes or spaces.
 
 
 
 =head2 B<REQUIRED> Format => Str
 
-The format of the returned packages. The valid package types are:
+The format of the package versions you want to list.
 
-=over
-
-=item *
-
-C<npm>: A Node Package Manager (npm) package.
-
-=item *
-
-C<pypi>: A Python Package Index (PyPI) package.
-
-=item *
-
-C<maven>: A Maven package that contains compiled code in a
-distributable format, such as a JAR file.
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 
 =head2 MaxResults => Int
 
@@ -113,23 +97,48 @@ The maximum number of results to return per page.
 
 =head2 Namespace => Str
 
-The namespace of the package. The package component that specifies its
-namespace depends on its type. For example:
+The namespace of the package that contains the requested package
+versions. The package component that specifies its namespace depends on
+its type. For example:
+
+The namespace is required when deleting package versions of the
+following formats:
 
 =over
 
 =item *
 
-The namespace of a Maven package is its C<groupId>.
+Maven
 
 =item *
 
-The namespace of an npm package is its C<scope>.
+Swift
 
 =item *
 
-A Python package does not contain a corresponding component, so Python
-packages do not have a namespace.
+generic
+
+=back
+
+=over
+
+=item *
+
+The namespace of a Maven package version is its C<groupId>.
+
+=item *
+
+The namespace of an npm or Swift package version is its C<scope>.
+
+=item *
+
+The namespace of a generic package is its C<namespace>.
+
+=item *
+
+Python, NuGet, Ruby, and Cargo package versions do not contain a
+corresponding component, package versions of those formats do not have
+a namespace.
 
 =back
 
@@ -144,54 +153,35 @@ results.
 
 
 
+=head2 OriginType => Str
+
+The C<originType> used to filter package versions. Only package
+versions with the provided C<originType> will be returned.
+
+Valid values are: C<"INTERNAL">, C<"EXTERNAL">, C<"UNKNOWN">
+
 =head2 B<REQUIRED> Package => Str
 
-The name of the package for which you want to return a list of package
-versions.
+The name of the package for which you want to request package versions.
 
 
 
 =head2 B<REQUIRED> Repository => Str
 
-The name of the repository that contains the package.
+The name of the repository that contains the requested package
+versions.
 
 
 
 =head2 SortBy => Str
 
-How to sort the returned list of package versions.
+How to sort the requested list of package versions.
 
 Valid values are: C<"PUBLISHED_TIME">
 
 =head2 Status => Str
 
-A string that specifies the status of the package versions to include
-in the returned list. It can be one of the following:
-
-=over
-
-=item *
-
-C<Published>
-
-=item *
-
-C<Unfinished>
-
-=item *
-
-C<Unlisted>
-
-=item *
-
-C<Archived>
-
-=item *
-
-C<Disposed>
-
-=back
-
+A string that filters the requested package versions by status.
 
 Valid values are: C<"Published">, C<"Unfinished">, C<"Unlisted">, C<"Archived">, C<"Disposed">, C<"Deleted">
 

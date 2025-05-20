@@ -44,7 +44,10 @@ rule.
 
 =head2 EventTypeId => Str
 
-The system-generated ID of the event.
+The system-generated ID of the event. For a complete list of event
+types and IDs, see Notification concepts
+(https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api)
+in the I<Developer Tools Console User Guide>.
 
 
 =head2 EventTypeName => Str

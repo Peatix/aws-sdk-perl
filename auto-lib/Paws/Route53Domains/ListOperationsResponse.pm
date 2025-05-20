@@ -2,7 +2,7 @@
 package Paws::Route53Domains::ListOperationsResponse;
   use Moose;
   has NextPageMarker => (is => 'ro', isa => 'Str');
-  has Operations => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::OperationSummary]', required => 1);
+  has Operations => (is => 'ro', isa => 'ArrayRef[Paws::Route53Domains::OperationSummary]');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -22,7 +22,7 @@ request, submit another request and include the value of
 C<NextPageMarker> in the value of C<Marker>.
 
 
-=head2 B<REQUIRED> Operations => ArrayRef[L<Paws::Route53Domains::OperationSummary>]
+=head2 Operations => ArrayRef[L<Paws::Route53Domains::OperationSummary>]
 
 Lists summaries of the operations.
 

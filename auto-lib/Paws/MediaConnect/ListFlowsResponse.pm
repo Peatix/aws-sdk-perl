@@ -23,11 +23,13 @@ A list of flow summaries.
 
 =head2 NextToken => Str
 
-The token that identifies which batch of results that you want to see.
-For example, you submit a ListFlows request with MaxResults set at 5.
-The service returns the first batch of results (up to 5) and a
-NextToken value. To see the next batch of results, you can submit the
-ListFlows request a second time and specify the NextToken value.
+The token that identifies the batch of results that you want to see.
+
+For example, you submit a C<ListFlows> request with MaxResults set at
+5. The service returns the first batch of results (up to 5) and a
+C<NextToken> value. To see the next batch of results, you can submit
+the C<ListFlows> request a second time and specify the C<NextToken>
+value.
 
 
 =head2 _request_id => Str

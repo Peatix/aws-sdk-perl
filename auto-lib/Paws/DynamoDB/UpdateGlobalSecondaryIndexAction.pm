@@ -2,7 +2,9 @@
 package Paws::DynamoDB::UpdateGlobalSecondaryIndexAction;
   use Moose;
   has IndexName => (is => 'ro', isa => 'Str', required => 1);
-  has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput', required => 1);
+  has OnDemandThroughput => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
+  has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput');
+  has WarmThroughput => (is => 'ro', isa => 'Paws::DynamoDB::WarmThroughput');
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::UpdateGlobalSecondaryIndexAction object:
 
-  $service_obj->Method(Att1 => { IndexName => $value, ..., ProvisionedThroughput => $value  });
+  $service_obj->Method(Att1 => { IndexName => $value, ..., WarmThroughput => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,7 +47,14 @@ global secondary index.
 The name of the global secondary index to be updated.
 
 
-=head2 B<REQUIRED> ProvisionedThroughput => L<Paws::DynamoDB::ProvisionedThroughput>
+=head2 OnDemandThroughput => L<Paws::DynamoDB::OnDemandThroughput>
+
+Updates the maximum number of read and write units for the specified
+global secondary index. If you use this parameter, you must specify
+C<MaxReadRequestUnits>, C<MaxWriteRequestUnits>, or both.
+
+
+=head2 ProvisionedThroughput => L<Paws::DynamoDB::ProvisionedThroughput>
 
 Represents the provisioned throughput settings for the specified global
 secondary index.
@@ -54,6 +63,12 @@ For current minimum and maximum provisioned throughput values, see
 Service, Account, and Table Quotas
 (https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html)
 in the I<Amazon DynamoDB Developer Guide>.
+
+
+=head2 WarmThroughput => L<Paws::DynamoDB::WarmThroughput>
+
+Represents the warm throughput value of the new provisioned throughput
+settings to be applied to a global secondary index.
 
 
 

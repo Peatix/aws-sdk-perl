@@ -2,10 +2,16 @@
 package Paws::SSM::TargetLocation;
   use Moose;
   has Accounts => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has ExcludeAccounts => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ExecutionRoleName => (is => 'ro', isa => 'Str');
+  has IncludeChildOrganizationUnits => (is => 'ro', isa => 'Bool');
   has Regions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has TargetLocationAlarmConfiguration => (is => 'ro', isa => 'Paws::SSM::AlarmConfiguration');
   has TargetLocationMaxConcurrency => (is => 'ro', isa => 'Str');
   has TargetLocationMaxErrors => (is => 'ro', isa => 'Str');
+  has Targets => (is => 'ro', isa => 'ArrayRef[Paws::SSM::Target]');
+  has TargetsMaxConcurrency => (is => 'ro', isa => 'Str');
+  has TargetsMaxErrors => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -26,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SSM::TargetLocation object:
 
-  $service_obj->Method(Att1 => { Accounts => $value, ..., TargetLocationMaxErrors => $value  });
+  $service_obj->Method(Att1 => { Accounts => $value, ..., TargetsMaxErrors => $value  });
 
 =head3 Results returned from an API call
 
@@ -37,15 +43,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Target
 
 =head1 DESCRIPTION
 
-The combination of AWS Regions and accounts targeted by the current
-Automation execution.
+The combination of Amazon Web Services Regions and Amazon Web Services
+accounts targeted by the current Automation execution.
 
 =head1 ATTRIBUTES
 
 
 =head2 Accounts => ArrayRef[Str|Undef]
 
-The AWS accounts targeted by the current Automation execution.
+The Amazon Web Services accounts targeted by the current Automation
+execution.
+
+
+=head2 ExcludeAccounts => ArrayRef[Str|Undef]
+
+Amazon Web Services accounts or organizational units to exclude as
+expanded targets.
 
 
 =head2 ExecutionRoleName => Str
@@ -55,21 +68,59 @@ If not specified, the default value is
 C<AWS-SystemsManager-AutomationExecutionRole>.
 
 
+=head2 IncludeChildOrganizationUnits => Bool
+
+Indicates whether to include child organizational units (OUs) that are
+children of the targeted OUs. The default is C<false>.
+
+
 =head2 Regions => ArrayRef[Str|Undef]
 
-The AWS Regions targeted by the current Automation execution.
+The Amazon Web Services Regions targeted by the current Automation
+execution.
+
+
+=head2 TargetLocationAlarmConfiguration => L<Paws::SSM::AlarmConfiguration>
+
+
 
 
 =head2 TargetLocationMaxConcurrency => Str
 
-The maximum number of AWS accounts and AWS regions allowed to run the
-Automation concurrently.
+The maximum number of Amazon Web Services Regions and Amazon Web
+Services accounts allowed to run the Automation concurrently.
 
 
 =head2 TargetLocationMaxErrors => Str
 
 The maximum number of errors allowed before the system stops queueing
 additional Automation executions for the currently running Automation.
+
+
+=head2 Targets => ArrayRef[L<Paws::SSM::Target>]
+
+A list of key-value mappings to target resources. If you specify values
+for this data type, you must also specify a value for
+C<TargetParameterName>.
+
+This C<Targets> parameter takes precedence over the
+C<StartAutomationExecution:Targets> parameter if both are supplied.
+
+
+=head2 TargetsMaxConcurrency => Str
+
+The maximum number of targets allowed to run this task in parallel.
+This C<TargetsMaxConcurrency> takes precedence over the
+C<StartAutomationExecution:MaxConcurrency> parameter if both are
+supplied.
+
+
+=head2 TargetsMaxErrors => Str
+
+The maximum number of errors that are allowed before the system stops
+running the automation on additional targets. This C<TargetsMaxErrors>
+parameter takes precedence over the
+C<StartAutomationExecution:MaxErrors> parameter if both are supplied.
 
 
 

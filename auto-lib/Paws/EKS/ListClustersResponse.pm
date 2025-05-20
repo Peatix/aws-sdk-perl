@@ -18,15 +18,21 @@ Paws::EKS::ListClustersResponse
 
 =head2 Clusters => ArrayRef[Str|Undef]
 
-A list of all of the clusters for your account in the specified Region.
+A list of all of the clusters for your account in the specified Amazon
+Web Services Region .
 
 
 =head2 NextToken => Str
 
-The C<nextToken> value to include in a future C<ListClusters> request.
-When the results of a C<ListClusters> request exceed C<maxResults>, you
-can use this value to retrieve the next page of results. This value is
-C<null> when there are no more results to return.
+The C<nextToken> value returned from a previous paginated request,
+where C<maxResults> was used and the results exceeded the value of that
+parameter. Pagination continues from the end of the previous results
+that returned the C<nextToken> value. This value is null when there are
+no more results to return.
+
+This token should be treated as an opaque identifier that is used only
+to retrieve the next items in a list and not for other programmatic
+purposes.
 
 
 =head2 _request_id => Str

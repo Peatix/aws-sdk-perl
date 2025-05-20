@@ -35,7 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $ListPipelineExecutionsResponse =
       $api . sagemaker->ListPipelineExecutions(
-      PipelineName  => 'MyPipelineName',
+      PipelineName  => 'MyPipelineNameOrArn',
       CreatedAfter  => '1970-01-01T01:00:00',    # OPTIONAL
       CreatedBefore => '1970-01-01T01:00:00',    # OPTIONAL
       MaxResults    => 1,                        # OPTIONAL
@@ -87,7 +87,7 @@ set of pipeline executions, use the token in the next request.
 
 =head2 B<REQUIRED> PipelineName => Str
 
-The name of the pipeline.
+The name or Amazon Resource Name (ARN) of the pipeline.
 
 
 

@@ -29,11 +29,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $groundstation = Paws->service('GroundStation');
     my $GetSatelliteResponse = $groundstation->GetSatellite(
-      SatelliteId => 'MyString',
+      SatelliteId => 'MyUuid',
 
     );
 
     # Results:
+    my $CurrentEphemeris = $GetSatelliteResponse->CurrentEphemeris;
     my $GroundStations   = $GetSatelliteResponse->GroundStations;
     my $NoradSatelliteID = $GetSatelliteResponse->NoradSatelliteID;
     my $SatelliteArn     = $GetSatelliteResponse->SatelliteArn;

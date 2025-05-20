@@ -56,16 +56,17 @@ Endpoint connection password.
 
 =head2 Port => Int
 
-Endpoint TCP port.
+Endpoint TCP port. The default is 5000.
 
 
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the SAP
-ASE endpoint.
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
+SAP ASE endpoint.
 
 You can specify one of two sets of values for these permissions. You
 can specify the values for this setting and C<SecretsManagerSecretId>.
@@ -73,10 +74,10 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerSecretId => Str

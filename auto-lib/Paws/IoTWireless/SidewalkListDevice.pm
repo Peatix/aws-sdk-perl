@@ -3,8 +3,10 @@ package Paws::IoTWireless::SidewalkListDevice;
   use Moose;
   has AmazonId => (is => 'ro', isa => 'Str');
   has DeviceCertificates => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::CertificateList]');
+  has DeviceProfileId => (is => 'ro', isa => 'Str');
   has SidewalkId => (is => 'ro', isa => 'Str');
   has SidewalkManufacturingSn => (is => 'ro', isa => 'Str');
+  has Status => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -25,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTWireless::SidewalkListDevice object:
 
-  $service_obj->Method(Att1 => { AmazonId => $value, ..., SidewalkManufacturingSn => $value  });
+  $service_obj->Method(Att1 => { AmazonId => $value, ..., Status => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,6 +53,11 @@ The Sidewalk Amazon ID.
 The sidewalk device certificates for Ed25519 and P256r1.
 
 
+=head2 DeviceProfileId => Str
+
+Sidewalk object used by list functions.
+
+
 =head2 SidewalkId => Str
 
 The sidewalk device identification.
@@ -59,6 +66,11 @@ The sidewalk device identification.
 =head2 SidewalkManufacturingSn => Str
 
 The Sidewalk manufacturing series number.
+
+
+=head2 Status => Str
+
+The status of the Sidewalk devices, such as provisioned or registered.
 
 
 

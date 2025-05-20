@@ -3,7 +3,7 @@ package Paws::Route53::ListReusableDelegationSetsResponse;
   use Moose;
   has DelegationSets => (is => 'ro', isa => 'ArrayRef[Paws::Route53::DelegationSet]', request_name => 'DelegationSet', traits => ['NameInRequest'], required => 1);
   has IsTruncated => (is => 'ro', isa => 'Bool', required => 1);
-  has Marker => (is => 'ro', isa => 'Str');
+  has Marker => (is => 'ro', isa => 'Str', required => 1);
   has MaxItems => (is => 'ro', isa => 'Str', required => 1);
   has NextMarker => (is => 'ro', isa => 'Str');
 
@@ -23,7 +23,8 @@ Paws::Route53::ListReusableDelegationSetsResponse
 =head2 B<REQUIRED> DelegationSets => ArrayRef[L<Paws::Route53::DelegationSet>]
 
 A complex type that contains one C<DelegationSet> element for each
-reusable delegation set that was created by the current AWS account.
+reusable delegation set that was created by the current Amazon Web
+Services account.
 
 
 
@@ -34,7 +35,7 @@ to be listed.
 
 
 
-=head2 Marker => Str
+=head2 B<REQUIRED> Marker => Str
 
 For the second and subsequent calls to C<ListReusableDelegationSets>,
 C<Marker> is the value that you specified for the C<marker> parameter

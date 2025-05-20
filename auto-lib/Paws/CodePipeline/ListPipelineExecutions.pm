@@ -1,6 +1,7 @@
 
 package Paws::CodePipeline::ListPipelineExecutions;
   use Moose;
+  has Filter => (is => 'ro', isa => 'Paws::CodePipeline::PipelineExecutionFilter', traits => ['NameInRequest'], request_name => 'filter' );
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has PipelineName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pipelineName' , required => 1);
@@ -31,8 +32,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $codepipeline = Paws->service('CodePipeline');
     my $ListPipelineExecutionsOutput = $codepipeline->ListPipelineExecutions(
       PipelineName => 'MyPipelineName',
-      MaxResults   => 1,                  # OPTIONAL
-      NextToken    => 'MyNextToken',      # OPTIONAL
+      Filter       => {
+        SucceededInStage => {
+          StageName => 'MyStageName',    # min: 1, max: 100; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
     );
 
     # Results:
@@ -46,6 +52,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/codepipeline/ListPipelineExecutions>
 
 =head1 ATTRIBUTES
+
+
+=head2 Filter => L<Paws::CodePipeline::PipelineExecutionFilter>
+
+The pipeline execution to filter on.
+
 
 
 =head2 MaxResults => Int

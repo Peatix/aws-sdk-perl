@@ -3,6 +3,9 @@ package Paws::DMS::IBMDb2Settings;
   use Moose;
   has CurrentLsn => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str');
+  has KeepCsvFiles => (is => 'ro', isa => 'Bool');
+  has LoadTimeout => (is => 'ro', isa => 'Int');
+  has MaxFileSize => (is => 'ro', isa => 'Int');
   has MaxKBytesPerRead => (is => 'ro', isa => 'Int');
   has Password => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
@@ -11,6 +14,7 @@ package Paws::DMS::IBMDb2Settings;
   has ServerName => (is => 'ro', isa => 'Str');
   has SetDataCaptureChanges => (is => 'ro', isa => 'Bool');
   has Username => (is => 'ro', isa => 'Str');
+  has WriteBufferSize => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -31,7 +35,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DMS::IBMDb2Settings object:
 
-  $service_obj->Method(Att1 => { CurrentLsn => $value, ..., Username => $value  });
+  $service_obj->Method(Att1 => { CurrentLsn => $value, ..., WriteBufferSize => $value  });
 
 =head3 Results returned from an API call
 
@@ -58,6 +62,28 @@ number (LSN) where you want the replication to start.
 Database name for the endpoint.
 
 
+=head2 KeepCsvFiles => Bool
+
+If true, DMS saves any .csv files to the Db2 LUW target that were used
+to replicate data. DMS uses these files for analysis and
+troubleshooting.
+
+The default value is false.
+
+
+=head2 LoadTimeout => Int
+
+The amount of time (in milliseconds) before DMS times out operations
+performed by DMS on the Db2 target. The default value is 1200 (20
+minutes).
+
+
+=head2 MaxFileSize => Int
+
+Specifies the maximum size (in KB) of .csv files used to transfer data
+to Db2 LUW.
+
+
 =head2 MaxKBytesPerRead => Int
 
 Maximum number of bytes per read, as a NUMBER value. The default is 64
@@ -71,16 +97,17 @@ Endpoint connection password.
 
 =head2 Port => Int
 
-Endpoint TCP port.
+Endpoint TCP port. The default value is 50000.
 
 
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the Db2
-LUW endpoint.
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
+Db2 LUW endpoint.
 
 You can specify one of two sets of values for these permissions. You
 can specify the values for this setting and C<SecretsManagerSecretId>.
@@ -88,10 +115,10 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerSecretId => Str
@@ -115,6 +142,13 @@ true.
 =head2 Username => Str
 
 Endpoint connection user name.
+
+
+=head2 WriteBufferSize => Int
+
+The size (in KB) of the in-memory file write buffer used when
+generating .csv files on the local disk on the DMS replication
+instance. The default value is 1024 (1 MB).
 
 
 

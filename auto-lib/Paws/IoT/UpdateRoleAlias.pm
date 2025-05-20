@@ -52,6 +52,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 The number of seconds the credential will be valid.
 
+This value must be less than or equal to the maximum session duration
+of the IAM role that the role alias references.
+
 
 
 =head2 B<REQUIRED> RoleAlias => Str

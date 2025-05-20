@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The name, Arn, C<CreationTime>, C<FeatureGroup> values,
+The name, ARN, C<CreationTime>, C<FeatureGroup> values,
 C<LastUpdatedTime> and C<EnableOnlineStorage> status of a
 C<FeatureGroup>.
 

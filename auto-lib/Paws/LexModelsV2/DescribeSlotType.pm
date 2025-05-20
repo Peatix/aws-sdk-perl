@@ -40,10 +40,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $BotId               = $DescribeSlotTypeResponse->BotId;
-    my $BotVersion          = $DescribeSlotTypeResponse->BotVersion;
-    my $CreationDateTime    = $DescribeSlotTypeResponse->CreationDateTime;
-    my $Description         = $DescribeSlotTypeResponse->Description;
+    my $BotId      = $DescribeSlotTypeResponse->BotId;
+    my $BotVersion = $DescribeSlotTypeResponse->BotVersion;
+    my $CompositeSlotTypeSetting =
+      $DescribeSlotTypeResponse->CompositeSlotTypeSetting;
+    my $CreationDateTime = $DescribeSlotTypeResponse->CreationDateTime;
+    my $Description      = $DescribeSlotTypeResponse->Description;
+    my $ExternalSourceSetting =
+      $DescribeSlotTypeResponse->ExternalSourceSetting;
     my $LastUpdatedDateTime = $DescribeSlotTypeResponse->LastUpdatedDateTime;
     my $LocaleId            = $DescribeSlotTypeResponse->LocaleId;
     my $ParentSlotTypeSignature =

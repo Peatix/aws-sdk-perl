@@ -7,7 +7,7 @@ package Paws::AppConfig::CreateDeploymentStrategy;
   has GrowthFactor => (is => 'ro', isa => 'Num', required => 1);
   has GrowthType => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
-  has ReplicateTo => (is => 'ro', isa => 'Str', required => 1);
+  has ReplicateTo => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::AppConfig::TagMap');
 
   use MooseX::ClassAttribute;
@@ -35,23 +35,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+# To create a deployment strategy
+# The following create-deployment-strategy example creates a deployment strategy
+# called Example-Deployment that takes 15 minutes and deploys the configuration
+# to 25% of the application at a time. The strategy is also copied to an SSM
+# Document.
     my $DeploymentStrategy = $appconfig->CreateDeploymentStrategy(
-      DeploymentDurationInMinutes => 1,
-      GrowthFactor                => 1.0,
-      Name                        => 'MyName',
-      ReplicateTo                 => 'NONE',
-      Description                 => 'MyDescription',    # OPTIONAL
-      FinalBakeTimeInMinutes      => 1,                  # OPTIONAL
-      GrowthType                  => 'LINEAR',           # OPTIONAL
-      Tags                        => {
-        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
-      },    # OPTIONAL
+      'DeploymentDurationInMinutes' => 15,
+      'GrowthFactor'                => 25,
+      'Name'                        => 'Example-Deployment',
+      'ReplicateTo'                 => 'SSM_DOCUMENT'
     );
 
     # Results:
     my $DeploymentDurationInMinutes =
       $DeploymentStrategy->DeploymentDurationInMinutes;
-    my $Description            = $DeploymentStrategy->Description;
     my $FinalBakeTimeInMinutes = $DeploymentStrategy->FinalBakeTimeInMinutes;
     my $GrowthFactor           = $DeploymentStrategy->GrowthFactor;
     my $GrowthType             = $DeploymentStrategy->GrowthType;
@@ -81,9 +79,15 @@ A description of the deployment strategy.
 
 =head2 FinalBakeTimeInMinutes => Int
 
-The amount of time AppConfig monitors for alarms before considering the
-deployment to be complete and no longer eligible for automatic roll
-back.
+Specifies the amount of time AppConfig monitors for Amazon CloudWatch
+alarms after the configuration has been deployed to 100% of its
+targets, before considering the deployment to be complete. If an alarm
+is triggered during this time, AppConfig rolls back the deployment. You
+must configure permissions for AppConfig to roll back based on
+CloudWatch alarms. For more information, see Configuring permissions
+for rollback based on Amazon CloudWatch alarms
+(https://docs.aws.amazon.com/appconfig/latest/userguide/getting-started-with-appconfig-cloudwatch-alarms-permissions.html)
+in the I<AppConfig User Guide>.
 
 
 
@@ -96,8 +100,8 @@ each interval.
 
 =head2 GrowthType => Str
 
-The algorithm used to define how percentage grows over time. AWS
-AppConfig supports the following growth types:
+The algorithm used to define how percentage grows over time. AppConfig
+supports the following growth types:
 
 B<Linear>: For this type, AppConfig processes the deployment by
 dividing the total number of targets by the value specified for C<Step
@@ -132,7 +136,7 @@ A name for the deployment strategy.
 
 
 
-=head2 B<REQUIRED> ReplicateTo => Str
+=head2 ReplicateTo => Str
 
 Save the deployment strategy to a Systems Manager (SSM) document.
 

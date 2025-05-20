@@ -46,28 +46,30 @@ encryption, or aren't encrypted.
 
 =head2 CustomerManaged => Int
 
-The total number of objects that are encrypted with a customer-managed
-key. The objects use customer-provided server-side encryption (SSE-C).
+The total number of objects that are encrypted with customer-provided
+keys. The objects use server-side encryption with customer-provided
+keys (SSE-C).
 
 
 =head2 KmsManaged => Int
 
-The total number of objects that are encrypted with an Key Management
-Service (KMS) customer master key (CMK). The objects use Amazon Web
-Services managed KMS encryption (AWS-KMS) or customer managed KMS
-encryption (SSE-KMS).
+The total number of objects that are encrypted with KMS keys, either
+Amazon Web Services managed keys or customer managed keys. The objects
+use dual-layer server-side encryption or server-side encryption with
+KMS keys (DSSE-KMS or SSE-KMS).
 
 
 =head2 S3Managed => Int
 
-The total number of objects that are encrypted with an Amazon S3
-managed key. The objects use Amazon S3 managed encryption (SSE-S3).
+The total number of objects that are encrypted with Amazon S3 managed
+keys. The objects use server-side encryption with Amazon S3 managed
+keys (SSE-S3).
 
 
 =head2 Unencrypted => Int
 
-The total number of objects that aren't encrypted or use client-side
-encryption.
+The total number of objects that use client-side encryption or aren't
+encrypted.
 
 
 =head2 Unknown => Int

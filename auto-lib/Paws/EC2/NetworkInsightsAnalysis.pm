@@ -1,8 +1,10 @@
 package Paws::EC2::NetworkInsightsAnalysis;
   use Moose;
+  has AdditionalAccounts => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'additionalAccountSet', traits => ['NameInRequest']);
   has AlternatePathHints => (is => 'ro', isa => 'ArrayRef[Paws::EC2::AlternatePathHint]', request_name => 'alternatePathHintSet', traits => ['NameInRequest']);
   has Explanations => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Explanation]', request_name => 'explanationSet', traits => ['NameInRequest']);
   has FilterInArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'filterInArnSet', traits => ['NameInRequest']);
+  has FilterOutArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'filterOutArnSet', traits => ['NameInRequest']);
   has ForwardPathComponents => (is => 'ro', isa => 'ArrayRef[Paws::EC2::PathComponent]', request_name => 'forwardPathComponentSet', traits => ['NameInRequest']);
   has NetworkInsightsAnalysisArn => (is => 'ro', isa => 'Str', request_name => 'networkInsightsAnalysisArn', traits => ['NameInRequest']);
   has NetworkInsightsAnalysisId => (is => 'ro', isa => 'Str', request_name => 'networkInsightsAnalysisId', traits => ['NameInRequest']);
@@ -12,7 +14,9 @@ package Paws::EC2::NetworkInsightsAnalysis;
   has StartDate => (is => 'ro', isa => 'Str', request_name => 'startDate', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has StatusMessage => (is => 'ro', isa => 'Str', request_name => 'statusMessage', traits => ['NameInRequest']);
+  has SuggestedAccounts => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'suggestedAccountSet', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
+  has WarningMessage => (is => 'ro', isa => 'Str', request_name => 'warningMessage', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -32,20 +36,25 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::NetworkInsightsAnalysis object:
 
-  $service_obj->Method(Att1 => { AlternatePathHints => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { AdditionalAccounts => $value, ..., WarningMessage => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::EC2::NetworkInsightsAnalysis object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->AlternatePathHints
+  $result->Att1->AdditionalAccounts
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 AdditionalAccounts => ArrayRef[Str|Undef]
+
+The member accounts that contain resources that the path can traverse.
 
 
 =head2 AlternatePathHints => ArrayRef[L<Paws::EC2::AlternatePathHint>]
@@ -62,8 +71,14 @@ explanation codes
 
 =head2 FilterInArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the AWS resources that the path must
+The Amazon Resource Names (ARN) of the resources that the path must
 traverse.
+
+
+=head2 FilterOutArns => ArrayRef[Str|Undef]
+
+The Amazon Resource Names (ARN) of the resources that the path must
+ignore.
 
 
 =head2 ForwardPathComponents => ArrayRef[L<Paws::EC2::PathComponent>]
@@ -111,9 +126,19 @@ The status of the network insights analysis.
 The status message, if the status is C<failed>.
 
 
+=head2 SuggestedAccounts => ArrayRef[Str|Undef]
+
+Potential intermediate accounts.
+
+
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
 The tags.
+
+
+=head2 WarningMessage => Str
+
+The warning message.
 
 
 

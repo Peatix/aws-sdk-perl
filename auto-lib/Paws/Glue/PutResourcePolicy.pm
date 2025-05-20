@@ -63,7 +63,8 @@ By directly updating the resource policy with C<PutResourePolicy>
 
 =item *
 
-By using the B<Grant permissions> command on the Management Console.
+By using the B<Grant permissions> command on the Amazon Web Services
+Management Console.
 
 =back
 

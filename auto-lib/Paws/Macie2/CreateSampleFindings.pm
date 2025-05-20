@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateSampleFindingsResponse = $macie2->CreateSampleFindings(
       FindingTypes => [
         'SensitiveData:S3Object/Multiple',
-        ... # values: SensitiveData:S3Object/Multiple, SensitiveData:S3Object/Financial, SensitiveData:S3Object/Personal, SensitiveData:S3Object/Credentials, SensitiveData:S3Object/CustomIdentifier, Policy:IAMUser/S3BucketPublic, Policy:IAMUser/S3BucketSharedExternally, Policy:IAMUser/S3BucketReplicatedExternally, Policy:IAMUser/S3BucketEncryptionDisabled, Policy:IAMUser/S3BlockPublicAccessDisabled
+        ... # values: SensitiveData:S3Object/Multiple, SensitiveData:S3Object/Financial, SensitiveData:S3Object/Personal, SensitiveData:S3Object/Credentials, SensitiveData:S3Object/CustomIdentifier, Policy:IAMUser/S3BucketPublic, Policy:IAMUser/S3BucketSharedExternally, Policy:IAMUser/S3BucketReplicatedExternally, Policy:IAMUser/S3BucketEncryptionDisabled, Policy:IAMUser/S3BlockPublicAccessDisabled, Policy:IAMUser/S3BucketSharedWithCloudFront
       ],    # OPTIONAL
     );
 
@@ -43,9 +43,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 
 =head2 FindingTypes => ArrayRef[Str|Undef]
 
-An array that lists one or more types of findings to include in the set
-of sample findings. Currently, the only supported value is
-Policy:IAMUser/S3BucketEncryptionDisabled.
+An array of finding types, one for each type of sample finding to
+create. To create a sample of every type of finding that Amazon Macie
+supports, don't include this array in your request.
 
 
 

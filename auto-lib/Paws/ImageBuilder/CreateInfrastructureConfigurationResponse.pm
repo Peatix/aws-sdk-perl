@@ -19,7 +19,7 @@ Paws::ImageBuilder::CreateInfrastructureConfigurationResponse
 
 =head2 ClientToken => Str
 
-The idempotency token used to make this request idempotent.
+The client token that uniquely identifies the request.
 
 
 =head2 InfrastructureConfigurationArn => Str

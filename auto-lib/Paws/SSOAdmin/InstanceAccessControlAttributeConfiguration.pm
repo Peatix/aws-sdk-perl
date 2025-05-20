@@ -41,8 +41,8 @@ Specifies the attributes to add to your attribute-based access control
 
 =head2 B<REQUIRED> AccessControlAttributes => ArrayRef[L<Paws::SSOAdmin::AccessControlAttribute>]
 
-Lists the attributes that are configured for ABAC in the specified AWS
-SSO instance.
+Lists the attributes that are configured for ABAC in the specified IAM
+Identity Center instance.
 
 
 

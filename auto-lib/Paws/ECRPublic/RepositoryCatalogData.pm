@@ -66,12 +66,13 @@ The short description of the repository.
 
 =head2 LogoUrl => Str
 
-The URL containing the logo associated with the repository.
+The URL that contains the logo that's associated with the repository.
 
 
 =head2 MarketplaceCertified => Bool
 
-Whether or not the repository is certified by AWS Marketplace.
+Indicates whether the repository is certified by Amazon Web Services
+Marketplace.
 
 
 =head2 OperatingSystems => ArrayRef[Str|Undef]

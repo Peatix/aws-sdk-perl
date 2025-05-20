@@ -43,14 +43,14 @@ Describes a tag.
 
 The tag key.
 
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters.
 
 
 =head2 Value => Str
 
 The tag value.
 
-Length Constraints: Maximum length of 256 characters.
+Constraints: Maximum length of 256 characters.
 
 
 

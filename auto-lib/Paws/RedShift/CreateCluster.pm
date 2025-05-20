@@ -14,22 +14,29 @@ package Paws::RedShift::CreateCluster;
   has ClusterType => (is => 'ro', isa => 'Str');
   has ClusterVersion => (is => 'ro', isa => 'Str');
   has DBName => (is => 'ro', isa => 'Str');
+  has DefaultIamRoleArn => (is => 'ro', isa => 'Str');
   has ElasticIp => (is => 'ro', isa => 'Str');
   has Encrypted => (is => 'ro', isa => 'Bool');
   has EnhancedVpcRouting => (is => 'ro', isa => 'Bool');
   has HsmClientCertificateIdentifier => (is => 'ro', isa => 'Str');
   has HsmConfigurationIdentifier => (is => 'ro', isa => 'Str');
   has IamRoles => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
+  has LoadSampleData => (is => 'ro', isa => 'Str');
   has MaintenanceTrackName => (is => 'ro', isa => 'Str');
+  has ManageMasterPassword => (is => 'ro', isa => 'Bool');
   has ManualSnapshotRetentionPeriod => (is => 'ro', isa => 'Int');
+  has MasterPasswordSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str', required => 1);
-  has MasterUserPassword => (is => 'ro', isa => 'Str', required => 1);
+  has MasterUserPassword => (is => 'ro', isa => 'Str');
+  has MultiAZ => (is => 'ro', isa => 'Bool');
   has NodeType => (is => 'ro', isa => 'Str', required => 1);
   has NumberOfNodes => (is => 'ro', isa => 'Int');
   has Port => (is => 'ro', isa => 'Int');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PubliclyAccessible => (is => 'ro', isa => 'Bool');
+  has RedshiftIdcApplicationArn => (is => 'ro', isa => 'Str');
   has SnapshotScheduleIdentifier => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RedShift::Tag]');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -60,7 +67,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $redshift = Paws->service('RedShift');
     my $CreateClusterResult = $redshift->CreateCluster(
       ClusterIdentifier                => 'MyString',
-      MasterUserPassword               => 'MyString',
       MasterUsername                   => 'MyString',
       NodeType                         => 'MyString',
       AdditionalInfo                   => 'MyString',    # OPTIONAL
@@ -77,6 +83,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClusterType                    => 'MyString',    # OPTIONAL
       ClusterVersion                 => 'MyString',    # OPTIONAL
       DBName                         => 'MyString',    # OPTIONAL
+      DefaultIamRoleArn              => 'MyString',    # OPTIONAL
       ElasticIp                      => 'MyString',    # OPTIONAL
       Encrypted                      => 1,             # OPTIONAL
       EnhancedVpcRouting             => 1,             # OPTIONAL
@@ -85,14 +92,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       IamRoles                       => [
         'MyString', ...                                # max: 2147483647
       ],    # OPTIONAL
-      KmsKeyId                      => 'MyString',    # OPTIONAL
-      MaintenanceTrackName          => 'MyString',    # OPTIONAL
-      ManualSnapshotRetentionPeriod => 1,             # OPTIONAL
-      NumberOfNodes                 => 1,             # OPTIONAL
-      Port                          => 1,             # OPTIONAL
-      PreferredMaintenanceWindow    => 'MyString',    # OPTIONAL
-      PubliclyAccessible            => 1,             # OPTIONAL
-      SnapshotScheduleIdentifier    => 'MyString',    # OPTIONAL
+      IpAddressType                 => 'MyString',             # OPTIONAL
+      KmsKeyId                      => 'MyString',             # OPTIONAL
+      LoadSampleData                => 'MyString',             # OPTIONAL
+      MaintenanceTrackName          => 'MyString',             # OPTIONAL
+      ManageMasterPassword          => 1,                      # OPTIONAL
+      ManualSnapshotRetentionPeriod => 1,                      # OPTIONAL
+      MasterPasswordSecretKmsKeyId  => 'MyString',             # OPTIONAL
+      MasterUserPassword            => 'MySensitiveString',    # OPTIONAL
+      MultiAZ                       => 1,                      # OPTIONAL
+      NumberOfNodes                 => 1,                      # OPTIONAL
+      Port                          => 1,                      # OPTIONAL
+      PreferredMaintenanceWindow    => 'MyString',             # OPTIONAL
+      PubliclyAccessible            => 1,                      # OPTIONAL
+      RedshiftIdcApplicationArn     => 'MyString',             # OPTIONAL
+      SnapshotScheduleIdentifier    => 'MyString',             # OPTIONAL
       Tags                          => [
         {
           Key   => 'MyString',    # max: 2147483647
@@ -139,27 +153,9 @@ Default: C<true>
 
 =head2 AquaConfigurationStatus => Str
 
-The value represents how the cluster is configured to use AQUA
-(Advanced Query Accelerator) when it is created. Possible values
-include the following.
-
-=over
-
-=item *
-
-enabled - Use AQUA if it is available for the current AWS Region and
-Amazon Redshift node type.
-
-=item *
-
-disabled - Don't use AQUA.
-
-=item *
-
-auto - Amazon Redshift determines whether to use AQUA.
-
-=back
-
+This parameter is retired. It does not set the AQUA configuration
+status. Amazon Redshift automatically determines whether to use AQUA
+(Advanced Query Accelerator).
 
 Valid values are: C<"enabled">, C<"disabled">, C<"auto">
 
@@ -233,7 +229,7 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 =item *
 
-Must be unique for all clusters within an AWS account.
+Must be unique for all clusters within an Amazon Web Services account.
 
 =back
 
@@ -360,14 +356,22 @@ the Amazon Redshift Database Developer Guide.
 
 
 
+=head2 DefaultIamRoleArn => Str
+
+The Amazon Resource Name (ARN) for the IAM role that was set as default
+for the cluster when the cluster was created.
+
+
+
 =head2 ElasticIp => Str
 
 The Elastic IP (EIP) address for the cluster.
 
 Constraints: The cluster must be provisioned in EC2-VPC and
-publicly-accessible through an Internet gateway. For more information
-about provisioning clusters in EC2-VPC, go to Supported Platforms to
-Launch Your Cluster
+publicly-accessible through an Internet gateway. Don't specify the
+Elastic IP address for a publicly accessible cluster with availability
+zone relocation turned on. For more information about provisioning
+clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster
 (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms)
 in the Amazon Redshift Cluster Management Guide.
 
@@ -375,9 +379,10 @@ in the Amazon Redshift Cluster Management Guide.
 
 =head2 Encrypted => Bool
 
-If C<true>, the data in the cluster is encrypted at rest.
+If C<true>, the data in the cluster is encrypted at rest. If you set
+the value on this parameter to C<false>, the request will fail.
 
-Default: false
+Default: true
 
 
 
@@ -413,19 +418,35 @@ keys in an HSM.
 
 =head2 IamRoles => ArrayRef[Str|Undef]
 
-A list of AWS Identity and Access Management (IAM) roles that can be
-used by the cluster to access other AWS services. You must supply the
-IAM roles in their Amazon Resource Name (ARN) format. You can supply up
-to 10 IAM roles in a single request.
+A list of Identity and Access Management (IAM) roles that can be used
+by the cluster to access other Amazon Web Services services. You must
+supply the IAM roles in their Amazon Resource Name (ARN) format.
 
-A cluster can have up to 10 IAM roles associated with it at any time.
+The maximum number of IAM roles that you can associate is subject to a
+quota. For more information, go to Quotas and limits
+(https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html)
+in the I<Amazon Redshift Cluster Management Guide>.
+
+
+
+=head2 IpAddressType => Str
+
+The IP address types that the cluster supports. Possible values are
+C<ipv4> and C<dualstack>.
 
 
 
 =head2 KmsKeyId => Str
 
-The AWS Key Management Service (KMS) key ID of the encryption key that
-you want to use to encrypt data in the cluster.
+The Key Management Service (KMS) key ID of the encryption key that you
+want to use to encrypt data in the cluster.
+
+
+
+=head2 LoadSampleData => Str
+
+A flag that specifies whether to load sample data once the cluster is
+created.
 
 
 
@@ -434,6 +455,16 @@ you want to use to encrypt data in the cluster.
 An optional parameter for the name of the maintenance track for the
 cluster. If you don't provide a maintenance track name, the cluster is
 assigned to the C<current> track.
+
+
+
+=head2 ManageMasterPassword => Bool
+
+If C<true>, Amazon Redshift uses Secrets Manager to manage this
+cluster's admin credentials. You can't use C<MasterUserPassword> if
+C<ManageMasterPassword> is true. If C<ManageMasterPassword> is false or
+not set, Amazon Redshift uses C<MasterUserPassword> for the admin user
+account's password.
 
 
 
@@ -447,9 +478,17 @@ The value must be either -1 or an integer between 1 and 3,653.
 
 
 
+=head2 MasterPasswordSecretKmsKeyId => Str
+
+The ID of the Key Management Service (KMS) key used to encrypt and
+store the cluster's admin credentials secret. You can only use this
+parameter if C<ManageMasterPassword> is true.
+
+
+
 =head2 B<REQUIRED> MasterUsername => Str
 
-The user name associated with the master user account for the cluster
+The user name associated with the admin user account for the cluster
 that is being created.
 
 Constraints:
@@ -458,12 +497,21 @@ Constraints:
 
 =item *
 
-Must be 1 - 128 alphanumeric characters. The user name can't be
-C<PUBLIC>.
+Must be 1 - 128 alphanumeric characters or hyphens. The user name can't
+be C<PUBLIC>.
 
 =item *
 
-First character must be a letter.
+Must contain only lowercase letters, numbers, underscore, plus sign,
+period (dot), at symbol (@), or hyphen.
+
+=item *
+
+The first character must be a letter.
+
+=item *
+
+Must not contain a colon (:) or a slash (/).
 
 =item *
 
@@ -477,10 +525,13 @@ the Amazon Redshift Database Developer Guide.
 
 
 
-=head2 B<REQUIRED> MasterUserPassword => Str
+=head2 MasterUserPassword => Str
 
-The password associated with the master user account for the cluster
+The password associated with the admin user account for the cluster
 that is being created.
+
+You can't use C<MasterUserPassword> if C<ManageMasterPassword> is
+C<true>.
 
 Constraints:
 
@@ -504,11 +555,18 @@ Must contain one number.
 
 =item *
 
-Can be any printable ASCII character (ASCII code 33 to 126) except '
-(single quote), " (double quote), \, /, @, or space.
+Can be any printable ASCII character (ASCII code 33-126) except C<'>
+(single quote), C<"> (double quote), C<\>, C</>, or C<@>.
 
 =back
 
+
+
+
+=head2 MultiAZ => Bool
+
+If true, Amazon Redshift will deploy the cluster in two Availability
+Zones (AZ).
 
 
 
@@ -519,9 +577,8 @@ node types, go to Working with Clusters
 (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes)
 in the I<Amazon Redshift Cluster Management Guide>.
 
-Valid Values: C<ds2.xlarge> | C<ds2.8xlarge> | C<dc1.large> |
-C<dc1.8xlarge> | C<dc2.large> | C<dc2.8xlarge> | C<ra3.xlplus> |
-C<ra3.4xlarge> | C<ra3.16xlarge>
+Valid Values: C<dc2.large> | C<dc2.8xlarge> | C<ra3.large> |
+C<ra3.xlplus> | C<ra3.4xlarge> | C<ra3.16xlarge>
 
 
 
@@ -555,7 +612,23 @@ cluster will listen for incoming connections.
 
 Default: C<5439>
 
-Valid Values: C<1150-65535>
+Valid Values:
+
+=over
+
+=item *
+
+For clusters with ra3 nodes - Select a port within the ranges
+C<5431-5455> or C<8191-8215>. (If you have an existing cluster with ra3
+nodes, it isn't required that you change the port to these ranges.)
+
+=item *
+
+For clusters with dc2 nodes - Select a port within the range
+C<1150-65535>.
+
+=back
+
 
 
 
@@ -582,6 +655,15 @@ Constraints: Minimum 30-minute window.
 =head2 PubliclyAccessible => Bool
 
 If C<true>, the cluster can be accessed from a public network.
+
+Default: false
+
+
+
+=head2 RedshiftIdcApplicationArn => Str
+
+The Amazon resource name (ARN) of the Amazon Redshift IAM Identity
+Center application.
 
 
 

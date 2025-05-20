@@ -2,6 +2,7 @@
 package Paws::Route53::ListHostedZones;
   use Moose;
   has DelegationSetId => (is => 'ro', isa => 'Str', query_name => 'delegationsetid', traits => ['ParamInQuery']);
+  has HostedZoneType => (is => 'ro', isa => 'Str', query_name => 'hostedzonetype', traits => ['ParamInQuery']);
   has Marker => (is => 'ro', isa => 'Str', query_name => 'marker', traits => ['ParamInQuery']);
   has MaxItems => (is => 'ro', isa => 'Str', query_name => 'maxitems', traits => ['ParamInQuery']);
 
@@ -35,9 +36,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $route53 = Paws->service('Route53');
     my $ListHostedZonesResponse = $route53->ListHostedZones(
-      DelegationSetId => 'MyResourceId',      # OPTIONAL
-      Marker          => 'MyPageMarker',      # OPTIONAL
-      MaxItems        => 'MyPageMaxItems',    # OPTIONAL
+      DelegationSetId => 'MyResourceId',         # OPTIONAL
+      HostedZoneType  => 'PrivateHostedZone',    # OPTIONAL
+      Marker          => 'MyPageMarker',         # OPTIONAL
+      MaxItems        => 'MyPageMaxItems',       # OPTIONAL
     );
 
     # Results:
@@ -62,6 +64,12 @@ the hosted zones that are associated with a reusable delegation set,
 specify the ID of that reusable delegation set.
 
 
+
+=head2 HostedZoneType => Str
+
+(Optional) Specifies if the hosted zone is private.
+
+Valid values are: C<"PrivateHostedZone">
 
 =head2 Marker => Str
 

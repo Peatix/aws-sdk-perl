@@ -41,7 +41,7 @@ Returns information about the created broker.
 
 =head2 BrokerArn => Str
 
-The Amazon Resource Name (ARN) of the broker.
+The broker's Amazon Resource Name (ARN).
 
 
 =head2 BrokerId => Str

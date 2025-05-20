@@ -40,11 +40,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Health
 An object representing a container health check. Health check
 parameters that are specified in a container definition override any
 Docker health checks that exist in the container image (such as those
-specified in a parent image or from the image's Dockerfile).
+specified in a parent image or from the image's Dockerfile). This
+configuration maps to the C<HEALTHCHECK> parameter of docker run.
+
+The Amazon ECS container agent only monitors and reports on the health
+checks specified in the task definition. Amazon ECS does not monitor
+Docker health checks that are embedded in a container image and not
+specified in the container definition. Health check parameters that are
+specified in a container definition override any Docker health checks
+that exist in the container image.
 
 You can view the health status of both individual containers and a task
 with the DescribeTasks API operation or when viewing the task details
 in the console.
+
+The health check is designed to make sure that your containers survive
+agent restarts, upgrades, or temporary unavailability.
+
+Amazon ECS performs health checks on containers with the default that
+launched the container instance or the task.
 
 The following describes the possible C<healthStatus> values for a
 container:
@@ -61,21 +75,17 @@ C<UNHEALTHY>-The container health check has failed.
 
 =item *
 
-C<UNKNOWN>-The container health check is being evaluated or there is no
-container health check defined.
+C<UNKNOWN>-The container health check is being evaluated, there's no
+container health check defined, or Amazon ECS doesn't have the health
+status of the container.
 
 =back
 
-The following describes the possible C<healthStatus> values for a task.
-The container health check status of nonessential containers do not
-have an effect on the health status of a task.
+The following describes the possible C<healthStatus> values based on
+the container health checker status of essential containers in the task
+with the following priority order (high to low):
 
 =over
-
-=item *
-
-C<HEALTHY>-All essential containers within the task have passed their
-health checks.
 
 =item *
 
@@ -84,9 +94,76 @@ check.
 
 =item *
 
-C<UNKNOWN>-The essential containers within the task are still having
-their health checks evaluated or there are no container health checks
-defined.
+C<UNKNOWN>-Any essential container running within the task is in an
+C<UNKNOWN> state and no other essential containers have an C<UNHEALTHY>
+state.
+
+=item *
+
+C<HEALTHY>-All essential containers within the task have passed their
+health checks.
+
+=back
+
+Consider the following task health example with 2 containers.
+
+=over
+
+=item *
+
+If Container1 is C<UNHEALTHY> and Container2 is C<UNKNOWN>, the task
+health is C<UNHEALTHY>.
+
+=item *
+
+If Container1 is C<UNHEALTHY> and Container2 is C<HEALTHY>, the task
+health is C<UNHEALTHY>.
+
+=item *
+
+If Container1 is C<HEALTHY> and Container2 is C<UNKNOWN>, the task
+health is C<UNKNOWN>.
+
+=item *
+
+If Container1 is C<HEALTHY> and Container2 is C<HEALTHY>, the task
+health is C<HEALTHY>.
+
+=back
+
+Consider the following task health example with 3 containers.
+
+=over
+
+=item *
+
+If Container1 is C<UNHEALTHY> and Container2 is C<UNKNOWN>, and
+Container3 is C<UNKNOWN>, the task health is C<UNHEALTHY>.
+
+=item *
+
+If Container1 is C<UNHEALTHY> and Container2 is C<UNKNOWN>, and
+Container3 is C<HEALTHY>, the task health is C<UNHEALTHY>.
+
+=item *
+
+If Container1 is C<UNHEALTHY> and Container2 is C<HEALTHY>, and
+Container3 is C<HEALTHY>, the task health is C<UNHEALTHY>.
+
+=item *
+
+If Container1 is C<HEALTHY> and Container2 is C<UNKNOWN>, and
+Container3 is C<HEALTHY>, the task health is C<UNKNOWN>.
+
+=item *
+
+If Container1 is C<HEALTHY> and Container2 is C<UNKNOWN>, and
+Container3 is C<UNKNOWN>, the task health is C<UNKNOWN>.
+
+=item *
+
+If Container1 is C<HEALTHY> and Container2 is C<HEALTHY>, and
+Container3 is C<HEALTHY>, the task health is C<HEALTHY>.
 
 =back
 
@@ -101,25 +178,42 @@ The following are notes about container health check support:
 
 =item *
 
-Container health checks require version 1.17.0 or greater of the Amazon
-ECS container agent. For more information, see Updating the Amazon ECS
-Container Agent
+If the Amazon ECS container agent becomes disconnected from the Amazon
+ECS service, this won't cause a container to transition to an
+C<UNHEALTHY> status. This is by design, to ensure that containers
+remain running during agent restarts or temporary unavailability. The
+health check status is the "last heard from" response from the Amazon
+ECS agent, so if the container was considered C<HEALTHY> prior to the
+disconnect, that status will remain until the agent reconnects and
+another health check occurs. There are no assumptions made about the
+status of the container health checks.
+
+=item *
+
+Container health checks require version C<1.17.0> or greater of the
+Amazon ECS container agent. For more information, see Updating the
+Amazon ECS container agent
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html).
 
 =item *
 
-Container health checks are supported for Fargate tasks if you are
-using platform version 1.1.0 or greater. For more information, see AWS
-Fargate Platform Versions
+Container health checks are supported for Fargate tasks if you're using
+platform version C<1.1.0> or greater. For more information, see Fargate
+platform versions
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html).
 
 =item *
 
-Container health checks are not supported for tasks that are part of a
-service that is configured to use a Classic Load Balancer.
+Container health checks aren't supported for tasks that are part of a
+service that's configured to use a Classic Load Balancer.
 
 =back
 
+For an example of how to specify a task definition with multiple
+containers where container dependency is specified, see Container
+dependency
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head1 ATTRIBUTES
 
@@ -128,38 +222,47 @@ service that is configured to use a Classic Load Balancer.
 
 A string array representing the command that the container runs to
 determine if it is healthy. The string array must start with C<CMD> to
-execute the command arguments directly, or C<CMD-SHELL> to run the
-command with the container's default shell. For example:
+run the command arguments directly, or C<CMD-SHELL> to run the command
+with the container's default shell.
+
+When you use the Amazon Web Services Management Console JSON panel, the
+Command Line Interface, or the APIs, enclose the list of commands in
+double quotes and brackets.
 
 C<[ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]>
 
+You don't include the double quotes and brackets when you use the
+Amazon Web Services Management Console.
+
+C<CMD-SHELL, curl -f http://localhost/ || exit 1>
+
 An exit code of 0 indicates success, and non-zero exit code indicates
-failure. For more information, see C<HealthCheck> in the Create a
-container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/).
+failure. For more information, see C<HealthCheck> in the docker
+container create command.
 
 
 =head2 Interval => Int
 
 The time period in seconds between each health check execution. You may
 specify between 5 and 300 seconds. The default value is 30 seconds.
+This value applies only when you specify a C<command>.
 
 
 =head2 Retries => Int
 
 The number of times to retry a failed health check before the container
 is considered unhealthy. You may specify between 1 and 10 retries. The
-default value is 3.
+default value is 3. This value applies only when you specify a
+C<command>.
 
 
 =head2 StartPeriod => Int
 
-The optional grace period within which to provide containers time to
-bootstrap before failed health checks count towards the maximum number
-of retries. You may specify between 0 and 300 seconds. The
-C<startPeriod> is disabled by default.
+The optional grace period to provide containers time to bootstrap
+before failed health checks count towards the maximum number of
+retries. You can specify between 0 and 300 seconds. By default, the
+C<startPeriod> is off. This value applies only when you specify a
+C<command>.
 
 If a health check succeeds within the C<startPeriod>, then the
 container is considered healthy and any subsequent failures count
@@ -170,7 +273,8 @@ toward the maximum number of retries.
 
 The time period in seconds to wait for a health check to succeed before
 it is considered a failure. You may specify between 2 and 60 seconds.
-The default value is 5.
+The default value is 5. This value applies only when you specify a
+C<command>.
 
 
 

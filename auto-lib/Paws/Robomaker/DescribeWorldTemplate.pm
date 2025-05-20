@@ -40,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $LastUpdatedAt      = $DescribeWorldTemplateResponse->LastUpdatedAt;
     my $Name               = $DescribeWorldTemplateResponse->Name;
     my $Tags               = $DescribeWorldTemplateResponse->Tags;
+    my $Version            = $DescribeWorldTemplateResponse->Version;
 
     # Returns a L<Paws::Robomaker::DescribeWorldTemplateResponse> object.
 

@@ -35,8 +35,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodePipelin
 
 =head1 DESCRIPTION
 
-Represents information about an artifact that is worked on by actions
-in the pipeline.
+Artifacts are the files that are worked on by actions in the pipeline.
+See the action configuration for each action for details about artifact
+parameters. For example, the S3 source action artifact is a file name
+(or file path), and the files are generally provided as a ZIP file.
+Example artifact name: SampleApp_Windows.zip
 
 =head1 ATTRIBUTES
 

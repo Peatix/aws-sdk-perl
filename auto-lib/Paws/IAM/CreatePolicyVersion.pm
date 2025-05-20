@@ -53,7 +53,7 @@ add a new version.
 
 For more information about ARNs, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 
@@ -62,10 +62,16 @@ in the I<AWS General Reference>.
 The JSON policy document that you want to use as the content for this
 new version of the policy.
 
-You must provide policies in JSON format in IAM. However, for AWS
+You must provide policies in JSON format in IAM. However, for
 CloudFormation templates formatted in YAML, you can provide the policy
-in JSON or YAML format. AWS CloudFormation always converts a YAML
-policy to JSON format before submitting it to IAM.
+in JSON or YAML format. CloudFormation always converts a YAML policy to
+JSON format before submitting it to IAM.
+
+The maximum length of the policy document that you can pass in this
+operation, including whitespace, is listed below. To view the maximum
+character counts of a managed policy with no whitespaces, see IAM and
+STS character quotas
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length).
 
 The regex pattern (http://wikipedia.org/wiki/regex) used to validate
 this parameter is a string of characters consisting of the following:

@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Athena::Eng
 
 =head1 DESCRIPTION
 
-The Athena engine version for running queries.
+The Athena engine version for running queries, or the PySpark engine
+version for running sessions.
 
 =head1 ATTRIBUTES
 
@@ -53,8 +54,8 @@ C<EffectiveEngineVersion> field is ignored.
 =head2 SelectedEngineVersion => Str
 
 The engine version requested by the user. Possible values are
-determined by the output of C<ListEngineVersions>, including Auto. The
-default is Auto.
+determined by the output of C<ListEngineVersions>, including AUTO. The
+default is AUTO.
 
 
 

@@ -1,7 +1,9 @@
 package Paws::EC2::TransitGatewayPeeringAttachment;
   use Moose;
   has AccepterTgwInfo => (is => 'ro', isa => 'Paws::EC2::PeeringTgwInfo', request_name => 'accepterTgwInfo', traits => ['NameInRequest']);
+  has AccepterTransitGatewayAttachmentId => (is => 'ro', isa => 'Str', request_name => 'accepterTransitGatewayAttachmentId', traits => ['NameInRequest']);
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
+  has Options => (is => 'ro', isa => 'Paws::EC2::TransitGatewayPeeringAttachmentOptions', request_name => 'options', traits => ['NameInRequest']);
   has RequesterTgwInfo => (is => 'ro', isa => 'Paws::EC2::PeeringTgwInfo', request_name => 'requesterTgwInfo', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Paws::EC2::PeeringAttachmentStatus', request_name => 'status', traits => ['NameInRequest']);
@@ -47,9 +49,19 @@ This class has no description
 Information about the accepter transit gateway.
 
 
+=head2 AccepterTransitGatewayAttachmentId => Str
+
+The ID of the accepter transit gateway attachment.
+
+
 =head2 CreationTime => Str
 
 The time the transit gateway peering attachment was created.
+
+
+=head2 Options => L<Paws::EC2::TransitGatewayPeeringAttachmentOptions>
+
+Details about the transit gateway peering attachment.
 
 
 =head2 RequesterTgwInfo => L<Paws::EC2::PeeringTgwInfo>

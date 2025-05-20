@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DirectConne
 
 =head1 DESCRIPTION
 
-Information about a tag associated with an AWS Direct Connect resource.
+Information about a tag associated with an Direct Connect resource.
 
 =head1 ATTRIBUTES
 

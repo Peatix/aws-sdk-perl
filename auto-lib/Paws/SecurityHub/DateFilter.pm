@@ -47,12 +47,20 @@ A date range for the date filter.
 
 =head2 End => Str
 
-An end date for the date filter.
+A timestamp that provides the end date for the date filter.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Start => Str
 
-A start date for the date filter.
+A timestamp that provides the start date for the date filter.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 

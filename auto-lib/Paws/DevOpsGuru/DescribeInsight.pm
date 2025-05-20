@@ -1,6 +1,7 @@
 
 package Paws::DevOpsGuru::DescribeInsight;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'AccountId');
   has Id => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'Id', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $devops-guru = Paws->service('DevOpsGuru');
     my $DescribeInsightResponse = $devops -guru->DescribeInsight(
-      Id => 'MyInsightId',
-
+      Id        => 'MyInsightId',
+      AccountId => 'MyAwsAccountId',    # OPTIONAL
     );
 
     # Results:
@@ -43,6 +44,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/devops-guru/DescribeInsight>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The ID of the member account in the organization.
+
 
 
 =head2 B<REQUIRED> Id => Str

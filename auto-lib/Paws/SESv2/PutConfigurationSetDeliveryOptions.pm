@@ -2,6 +2,7 @@
 package Paws::SESv2::PutConfigurationSetDeliveryOptions;
   use Moose;
   has ConfigurationSetName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ConfigurationSetName', required => 1);
+  has MaxDeliverySeconds => (is => 'ro', isa => 'Int');
   has SendingPoolName => (is => 'ro', isa => 'Str');
   has TlsPolicy => (is => 'ro', isa => 'Str');
 
@@ -33,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $PutConfigurationSetDeliveryOptionsResponse =
       $email->PutConfigurationSetDeliveryOptions(
       ConfigurationSetName => 'MyConfigurationSetName',
+      MaxDeliverySeconds   => 1,                          # OPTIONAL
       SendingPoolName      => 'MySendingPoolName',        # OPTIONAL
       TlsPolicy            => 'REQUIRE',                  # OPTIONAL
       );
@@ -45,15 +47,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
-The name of the configuration set that you want to associate with a
-dedicated IP pool.
+The name of the configuration set to associate with a dedicated IP
+pool.
+
+
+
+=head2 MaxDeliverySeconds => Int
+
+The maximum amount of time, in seconds, that Amazon SES API v2 will
+attempt delivery of email. If specified, the value must greater than or
+equal to 300 seconds (5 minutes) and less than or equal to 50400
+seconds (840 minutes).
 
 
 
 =head2 SendingPoolName => Str
 
-The name of the dedicated IP pool that you want to associate with the
-configuration set.
+The name of the dedicated IP pool to associate with the configuration
+set.
 
 
 

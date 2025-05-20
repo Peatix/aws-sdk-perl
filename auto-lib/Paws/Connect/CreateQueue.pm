@@ -7,6 +7,7 @@ package Paws::Connect::CreateQueue;
   has MaxContacts => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has OutboundCallerConfig => (is => 'ro', isa => 'Paws::Connect::OutboundCallerConfig');
+  has OutboundEmailConfig => (is => 'ro', isa => 'Paws::Connect::OutboundEmailConfig');
   has QuickConnectIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
 
@@ -47,6 +48,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         OutboundCallerIdNumberId => 'MyPhoneNumberId',    # OPTIONAL
         OutboundFlowId           => 'MyContactFlowId',    # max: 500; OPTIONAL
       },    # OPTIONAL
+      OutboundEmailConfig => {
+        OutboundEmailAddressId =>
+          'MyEmailAddressId',    # min: 1, max: 500; OPTIONAL
+      },    # OPTIONAL
       QuickConnectIds => [ 'MyQuickConnectId', ... ],    # OPTIONAL
       Tags            => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
@@ -80,7 +85,9 @@ The identifier for the hours of operation.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
@@ -103,6 +110,12 @@ The outbound caller ID name, number, and outbound whisper flow.
 
 
 
+=head2 OutboundEmailConfig => L<Paws::Connect::OutboundEmailConfig>
+
+The outbound email address ID for a specified queue.
+
+
+
 =head2 QuickConnectIds => ArrayRef[Str|Undef]
 
 The quick connects available to agents who are working the queue.
@@ -111,7 +124,8 @@ The quick connects available to agents who are working the queue.
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

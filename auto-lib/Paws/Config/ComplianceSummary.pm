@@ -35,27 +35,27 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Com
 
 =head1 DESCRIPTION
 
-The number of AWS Config rules or AWS resources that are compliant and
-noncompliant.
+The number of Config rules or Amazon Web Services resources that are
+compliant and noncompliant.
 
 =head1 ATTRIBUTES
 
 
 =head2 ComplianceSummaryTimestamp => Str
 
-The time that AWS Config created the compliance summary.
+The time that Config created the compliance summary.
 
 
 =head2 CompliantResourceCount => L<Paws::Config::ComplianceContributorCount>
 
-The number of AWS Config rules or AWS resources that are compliant, up
-to a maximum of 25 for rules and 100 for resources.
+The number of Config rules or Amazon Web Services resources that are
+compliant, up to a maximum of 25 for rules and 100 for resources.
 
 
 =head2 NonCompliantResourceCount => L<Paws::Config::ComplianceContributorCount>
 
-The number of AWS Config rules or AWS resources that are noncompliant,
-up to a maximum of 25 for rules and 100 for resources.
+The number of Config rules or Amazon Web Services resources that are
+noncompliant, up to a maximum of 25 for rules and 100 for resources.
 
 
 

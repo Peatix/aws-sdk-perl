@@ -54,31 +54,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 
 =head2 CommentBody => Str
 
-The comment body text for the specified control.
+The comment body text for the control.
 
 
 
 =head2 B<REQUIRED> ControlId => Str
 
-The identifier for the specified control.
+The unique identifier for the control.
 
 
 
 =head2 B<REQUIRED> ControlSetId => Str
 
-The identifier for the specified control set.
+The unique identifier for the control set.
 
 
 
 =head2 ControlStatus => Str
 
-The status of the specified control.
+The status of the control.
 
 Valid values are: C<"UNDER_REVIEW">, C<"REVIEWED">, C<"INACTIVE">
 

@@ -11,23 +11,32 @@ package Paws::RedShift::RestoreFromClusterSnapshot;
   has ClusterParameterGroupName => (is => 'ro', isa => 'Str');
   has ClusterSecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ClusterSubnetGroupName => (is => 'ro', isa => 'Str');
+  has DefaultIamRoleArn => (is => 'ro', isa => 'Str');
   has ElasticIp => (is => 'ro', isa => 'Str');
+  has Encrypted => (is => 'ro', isa => 'Bool');
   has EnhancedVpcRouting => (is => 'ro', isa => 'Bool');
   has HsmClientCertificateIdentifier => (is => 'ro', isa => 'Str');
   has HsmConfigurationIdentifier => (is => 'ro', isa => 'Str');
   has IamRoles => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has IpAddressType => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has MaintenanceTrackName => (is => 'ro', isa => 'Str');
+  has ManageMasterPassword => (is => 'ro', isa => 'Bool');
   has ManualSnapshotRetentionPeriod => (is => 'ro', isa => 'Int');
+  has MasterPasswordSecretKmsKeyId => (is => 'ro', isa => 'Str');
+  has MultiAZ => (is => 'ro', isa => 'Bool');
   has NodeType => (is => 'ro', isa => 'Str');
   has NumberOfNodes => (is => 'ro', isa => 'Int');
   has OwnerAccount => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str');
   has PubliclyAccessible => (is => 'ro', isa => 'Bool');
+  has ReservedNodeId => (is => 'ro', isa => 'Str');
+  has SnapshotArn => (is => 'ro', isa => 'Str');
   has SnapshotClusterIdentifier => (is => 'ro', isa => 'Str');
-  has SnapshotIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has SnapshotIdentifier => (is => 'ro', isa => 'Str');
   has SnapshotScheduleIdentifier => (is => 'ro', isa => 'Str');
+  has TargetReservedNodeOfferingId => (is => 'ro', isa => 'Str');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
@@ -57,7 +66,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $RestoreFromClusterSnapshotResult =
       $redshift->RestoreFromClusterSnapshot(
       ClusterIdentifier                => 'MyString',
-      SnapshotIdentifier               => 'MyString',
       AdditionalInfo                   => 'MyString',    # OPTIONAL
       AllowVersionUpgrade              => 1,             # OPTIONAL
       AquaConfigurationStatus          => 'enabled',     # OPTIONAL
@@ -69,24 +77,34 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'MyString', ...                                  # max: 2147483647
       ],    # OPTIONAL
       ClusterSubnetGroupName         => 'MyString',    # OPTIONAL
+      DefaultIamRoleArn              => 'MyString',    # OPTIONAL
       ElasticIp                      => 'MyString',    # OPTIONAL
+      Encrypted                      => 1,             # OPTIONAL
       EnhancedVpcRouting             => 1,             # OPTIONAL
       HsmClientCertificateIdentifier => 'MyString',    # OPTIONAL
       HsmConfigurationIdentifier     => 'MyString',    # OPTIONAL
       IamRoles                       => [
         'MyString', ...                                # max: 2147483647
       ],    # OPTIONAL
+      IpAddressType                 => 'MyString',    # OPTIONAL
       KmsKeyId                      => 'MyString',    # OPTIONAL
       MaintenanceTrackName          => 'MyString',    # OPTIONAL
+      ManageMasterPassword          => 1,             # OPTIONAL
       ManualSnapshotRetentionPeriod => 1,             # OPTIONAL
+      MasterPasswordSecretKmsKeyId  => 'MyString',    # OPTIONAL
+      MultiAZ                       => 1,             # OPTIONAL
       NodeType                      => 'MyString',    # OPTIONAL
       NumberOfNodes                 => 1,             # OPTIONAL
       OwnerAccount                  => 'MyString',    # OPTIONAL
       Port                          => 1,             # OPTIONAL
       PreferredMaintenanceWindow    => 'MyString',    # OPTIONAL
       PubliclyAccessible            => 1,             # OPTIONAL
+      ReservedNodeId                => 'MyString',    # OPTIONAL
+      SnapshotArn                   => 'MyString',    # OPTIONAL
       SnapshotClusterIdentifier     => 'MyString',    # OPTIONAL
+      SnapshotIdentifier            => 'MyString',    # OPTIONAL
       SnapshotScheduleIdentifier    => 'MyString',    # OPTIONAL
+      TargetReservedNodeOfferingId  => 'MyString',    # OPTIONAL
       VpcSecurityGroupIds           => [
         'MyString', ...                               # max: 2147483647
       ],    # OPTIONAL
@@ -121,27 +139,9 @@ Default: C<true>
 
 =head2 AquaConfigurationStatus => Str
 
-The value represents how the cluster is configured to use AQUA
-(Advanced Query Accelerator) after the cluster is restored. Possible
-values include the following.
-
-=over
-
-=item *
-
-enabled - Use AQUA if it is available for the current AWS Region and
-Amazon Redshift node type.
-
-=item *
-
-disabled - Don't use AQUA.
-
-=item *
-
-auto - Amazon Redshift determines whether to use AQUA.
-
-=back
-
+This parameter is retired. It does not set the AQUA configuration
+status. Amazon Redshift automatically determines whether to use AQUA
+(Advanced Query Accelerator).
 
 Valid values are: C<"enabled">, C<"disabled">, C<"auto">
 
@@ -206,7 +206,7 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 =item *
 
-Must be unique for all clusters within an AWS account.
+Must be unique for all clusters within an Amazon Web Services account.
 
 =back
 
@@ -262,9 +262,26 @@ you must provide subnet group name where you want the cluster restored.
 
 
 
+=head2 DefaultIamRoleArn => Str
+
+The Amazon Resource Name (ARN) for the IAM role that was set as default
+for the cluster when the cluster was last modified while it was
+restored from a snapshot.
+
+
+
 =head2 ElasticIp => Str
 
-The elastic IP (EIP) address for the cluster.
+The Elastic IP (EIP) address for the cluster. Don't specify the Elastic
+IP address for a publicly accessible cluster with availability zone
+relocation turned on.
+
+
+
+=head2 Encrypted => Bool
+
+Enables support for restoring an unencrypted snapshot to a cluster
+encrypted with Key Management Service (KMS) and a customer managed key.
 
 
 
@@ -300,20 +317,33 @@ keys in an HSM.
 
 =head2 IamRoles => ArrayRef[Str|Undef]
 
-A list of AWS Identity and Access Management (IAM) roles that can be
-used by the cluster to access other AWS services. You must supply the
-IAM roles in their Amazon Resource Name (ARN) format. You can supply up
-to 10 IAM roles in a single request.
+A list of Identity and Access Management (IAM) roles that can be used
+by the cluster to access other Amazon Web Services services. You must
+supply the IAM roles in their Amazon Resource Name (ARN) format.
 
-A cluster can have up to 10 IAM roles associated at any time.
+The maximum number of IAM roles that you can associate is subject to a
+quota. For more information, go to Quotas and limits
+(https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html)
+in the I<Amazon Redshift Cluster Management Guide>.
+
+
+
+=head2 IpAddressType => Str
+
+The IP address type for the cluster. Possible values are C<ipv4> and
+C<dualstack>.
 
 
 
 =head2 KmsKeyId => Str
 
-The AWS Key Management Service (KMS) key ID of the encryption key that
-you want to use to encrypt data in the cluster that you restore from a
-shared snapshot.
+The Key Management Service (KMS) key ID of the encryption key that
+encrypts data in the cluster restored from a shared snapshot. You can
+also provide the key ID when you restore from an unencrypted snapshot
+to an encrypted cluster in the same account. Additionally, you can
+specify a new KMS key ID when you restore from an encrypted snapshot in
+the same account in order to change it. In that case, the restored
+cluster is encrypted with the new KMS key ID.
 
 
 
@@ -329,6 +359,15 @@ snapshot and the source cluster are on different tracks.
 
 
 
+=head2 ManageMasterPassword => Bool
+
+If C<true>, Amazon Redshift uses Secrets Manager to manage the restored
+cluster's admin credentials. If C<ManageMasterPassword> is false or not
+set, Amazon Redshift uses the admin credentials the cluster had at the
+time the snapshot was taken.
+
+
+
 =head2 ManualSnapshotRetentionPeriod => Int
 
 The default number of days to retain a manual snapshot. If the value is
@@ -339,21 +378,29 @@ The value must be either -1 or an integer between 1 and 3,653.
 
 
 
+=head2 MasterPasswordSecretKmsKeyId => Str
+
+The ID of the Key Management Service (KMS) key used to encrypt and
+store the cluster's admin credentials secret. You can only use this
+parameter if C<ManageMasterPassword> is true.
+
+
+
+=head2 MultiAZ => Bool
+
+If true, the snapshot will be restored to a cluster deployed in two
+Availability Zones.
+
+
+
 =head2 NodeType => Str
 
 The node type that the restored cluster will be provisioned with.
 
-Default: The node type of the cluster from which the snapshot was
-taken. You can modify this if you are using any DS node type. In that
-case, you can choose to restore into another DS node type of the same
-size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or
-ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must
-restore into that same instance type and size. In other words, you can
-only restore a dc1.large instance type into another dc1.large instance
-type or dc2.large instance type. You can't restore dc1.8xlarge to
-dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a
-dc2.8large cluster. For more information about node types, see About
-Clusters and Nodes
+If you have a DC instance type, you must restore into that same
+instance type and size. In other words, you can only restore a
+dc2.large node type into another dc2 type. For more information about
+node types, see About Clusters and Nodes
 (https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes)
 in the I<Amazon Redshift Cluster Management Guide>.
 
@@ -367,9 +414,9 @@ The number of nodes specified when provisioning the restored cluster.
 
 =head2 OwnerAccount => Str
 
-The AWS customer account used to create or copy the snapshot. Required
-if you are restoring a snapshot you do not own, optional if you own the
-snapshot.
+The Amazon Web Services account used to create or copy the snapshot.
+Required if you are restoring a snapshot you do not own, optional if
+you own the snapshot.
 
 
 
@@ -379,7 +426,9 @@ The port number on which the cluster accepts connections.
 
 Default: The same port as the original cluster.
 
-Constraints: Must be between C<1115> and C<65535>.
+Valid values: For clusters with DC2 nodes, must be within the range
+C<1150>-C<65535>. For clusters with ra3 nodes, must be within the
+ranges C<5431>-C<5455> or C<8191>-C<8215>.
 
 
 
@@ -406,6 +455,22 @@ Constraints: Minimum 30-minute window.
 
 If C<true>, the cluster can be accessed from a public network.
 
+Default: false
+
+
+
+=head2 ReservedNodeId => Str
+
+The identifier of the target reserved node offering.
+
+
+
+=head2 SnapshotArn => Str
+
+The Amazon Resource Name (ARN) of the snapshot associated with the
+message to restore from a cluster. You must specify this parameter or
+C<snapshotIdentifier>, but not both.
+
 
 
 =head2 SnapshotClusterIdentifier => Str
@@ -417,10 +482,11 @@ cluster name.
 
 
 
-=head2 B<REQUIRED> SnapshotIdentifier => Str
+=head2 SnapshotIdentifier => Str
 
 The name of the snapshot from which to create the new cluster. This
-parameter isn't case sensitive.
+parameter isn't case sensitive. You must specify this parameter or
+C<snapshotArn>, but not both.
 
 Example: C<my-snapshot-id>
 
@@ -429,6 +495,12 @@ Example: C<my-snapshot-id>
 =head2 SnapshotScheduleIdentifier => Str
 
 A unique identifier for the snapshot schedule.
+
+
+
+=head2 TargetReservedNodeOfferingId => Str
+
+The identifier of the target reserved node offering.
 
 
 

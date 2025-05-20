@@ -51,21 +51,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to and uniquely identifies the GameLift resource that
-you want to assign tags to. GameLift resource ARNs are included in the
-data object for the resource, which can be retrieved by calling a List
-or Describe operation for the resource type.
+that uniquely identifies the Amazon GameLift resource that you want to
+assign tags to. Amazon GameLift includes resource ARNs in the data
+object for the resource. You can retrieve the ARN by calling a C<List>
+or C<Describe> operation for the resource type.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
-A list of one or more tags to assign to the specified GameLift
+A list of one or more tags to assign to the specified Amazon GameLift
 resource. Tags are developer-defined and structured as key-value pairs.
-The maximum tag limit may be lower than stated. See Tagging AWS
-Resources
+The maximum tag limit may be lower than stated. See Tagging Amazon Web
+Services Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for
-actual tagging limits.
+tagging limits.
 
 
 

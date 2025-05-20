@@ -2,7 +2,8 @@
 package Paws::LakeFormation::LFTagPolicyResource;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
-  has Expression => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::LFTag]', required => 1);
+  has Expression => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::LFTag]');
+  has ExpressionName => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -35,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 
 =head1 DESCRIPTION
 
-A structure containing a list of tag conditions that apply to a
-resource's tag policy.
+A structure containing a list of LF-tag conditions or saved LF-Tag
+expressions that apply to a resource's LF-tag policy.
 
 =head1 ATTRIBUTES
 
@@ -46,17 +47,25 @@ resource's tag policy.
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
-=head2 B<REQUIRED> Expression => ArrayRef[L<Paws::LakeFormation::LFTag>]
+=head2 Expression => ArrayRef[L<Paws::LakeFormation::LFTag>]
 
-A list of tag conditions that apply to the resource's tag policy.
+A list of LF-tag conditions or a saved expression that apply to the
+resource's LF-tag policy.
+
+
+=head2 ExpressionName => Str
+
+If provided, permissions are granted to the Data Catalog resources
+whose assigned LF-Tags match the expression body of the saved
+expression under the provided C<ExpressionName>.
 
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The resource type for which the tag policy applies.
+The resource type for which the LF-tag policy applies.
 
 
 

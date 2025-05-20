@@ -1,6 +1,7 @@
 
 package Paws::Macie2::DescribeClassificationJobResponse;
   use Moose;
+  has AllowListIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'allowListIds');
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
   has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has CustomDataIdentifierIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'customDataIdentifierIds');
@@ -12,6 +13,8 @@ package Paws::Macie2::DescribeClassificationJobResponse;
   has JobType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobType');
   has LastRunErrorStatus => (is => 'ro', isa => 'Paws::Macie2::LastRunErrorStatus', traits => ['NameInRequest'], request_name => 'lastRunErrorStatus');
   has LastRunTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastRunTime');
+  has ManagedDataIdentifierIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'managedDataIdentifierIds');
+  has ManagedDataIdentifierSelector => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'managedDataIdentifierSelector');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has S3JobDefinition => (is => 'ro', isa => 'Paws::Macie2::S3JobDefinition', traits => ['NameInRequest'], request_name => 's3JobDefinition');
   has SamplingPercentage => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'samplingPercentage');
@@ -32,6 +35,12 @@ Paws::Macie2::DescribeClassificationJobResponse
 =head1 ATTRIBUTES
 
 
+=head2 AllowListIds => ArrayRef[Str|Undef]
+
+An array of unique identifiers, one for each allow list that the job is
+configured to use when it analyzes data.
+
+
 =head2 ClientToken => Str
 
 The token that was provided to ensure the idempotency of the request to
@@ -46,7 +55,10 @@ was created.
 
 =head2 CustomDataIdentifierIds => ArrayRef[Str|Undef]
 
-The custom data identifiers that the job uses to analyze data.
+An array of unique identifiers, one for each custom data identifier
+that the job is configured to use when it analyzes data. This value is
+null if the job is configured to use only managed data identifiers to
+analyze data.
 
 
 =head2 Description => Str
@@ -56,8 +68,12 @@ The custom description of the job.
 
 =head2 InitialRun => Bool
 
-Specifies whether the job is configured to analyze all existing,
-eligible objects immediately after it's created.
+For a recurring job, specifies whether you configured the job to
+analyze all existing, eligible objects immediately after the job was
+created (true). If you configured the job to analyze only those objects
+that were created or changed after the job was created and before the
+job's first scheduled run, this value is false. This value is also
+false for a one-time job.
 
 
 =head2 JobArn => Str
@@ -94,9 +110,9 @@ jobs.
 
 =item *
 
-PAUSED - Amazon Macie started running the job but additional processing
-would exceed the monthly sensitive data discovery quota for your
-account or one or more member accounts that the job analyzes data for.
+PAUSED - Macie started running the job but additional processing would
+exceed the monthly sensitive data discovery quota for your account or
+one or more member accounts that the job analyzes data for.
 
 =item *
 
@@ -146,9 +162,72 @@ status of the job's most recent run.
 
 The date and time, in UTC and extended ISO 8601 format, when the job
 started. If the job is a recurring job, this value indicates when the
-most recent run started.
+most recent run started or, if the job hasn't run yet, when the job was
+created.
 
 
+=head2 ManagedDataIdentifierIds => ArrayRef[Str|Undef]
+
+An array of unique identifiers, one for each managed data identifier
+that the job is explicitly configured to include (use) or exclude (not
+use) when it analyzes data. Inclusion or exclusion depends on the
+managed data identifier selection type specified for the job
+(managedDataIdentifierSelector).
+
+This value is null if the job's managed data identifier selection type
+is ALL, NONE, or RECOMMENDED.
+
+
+=head2 ManagedDataIdentifierSelector => Str
+
+The selection type that determines which managed data identifiers the
+job uses when it analyzes data. Possible values are:
+
+=over
+
+=item *
+
+ALL - Use all managed data identifiers.
+
+=item *
+
+EXCLUDE - Use all managed data identifiers except the ones specified by
+the managedDataIdentifierIds property.
+
+=item *
+
+INCLUDE - Use only the managed data identifiers specified by the
+managedDataIdentifierIds property.
+
+=item *
+
+NONE - Don't use any managed data identifiers. Use only custom data
+identifiers (customDataIdentifierIds).
+
+=item *
+
+RECOMMENDED (default) - Use the recommended set of managed data
+identifiers.
+
+=back
+
+If this value is null, the job uses the recommended set of managed data
+identifiers.
+
+If the job is a recurring job and this value is ALL or EXCLUDE, each
+job run automatically uses new managed data identifiers that are
+released. If this value is null or RECOMMENDED for a recurring job,
+each job run uses all the managed data identifiers that are in the
+recommended set when the run starts.
+
+To learn about individual managed data identifiers or determine which
+ones are in the recommended set, see Using managed data identifiers
+(https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html)
+or Recommended managed data identifiers
+(https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-mdis-recommended.html)
+in the I<Amazon Macie User Guide>.
+
+Valid values are: C<"ALL">, C<"EXCLUDE">, C<"INCLUDE">, C<"NONE">, C<"RECOMMENDED">
 =head2 Name => Str
 
 The custom name of the job.
@@ -168,8 +247,8 @@ eligible objects that the job analyzes.
 
 =head2 ScheduleFrequency => L<Paws::Macie2::JobScheduleFrequency>
 
-The recurrence pattern for running the job. If the job is configured to
-run only once, this value is null.
+The recurrence pattern for running the job. This value is null if the
+job is configured to run only once.
 
 
 =head2 Statistics => L<Paws::Macie2::Statistics>
@@ -181,7 +260,7 @@ the job's current run.
 =head2 Tags => L<Paws::Macie2::TagMap>
 
 A map of key-value pairs that specifies which tags (keys and values)
-are associated with the classification job.
+are associated with the job.
 
 
 =head2 UserPausedDetails => L<Paws::Macie2::UserPausedDetails>

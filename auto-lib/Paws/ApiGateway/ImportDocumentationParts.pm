@@ -52,8 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Body => Str
 
-[Required] Raw byte array representing the to-be-imported documentation
-parts. To import from an OpenAPI file, this is a JSON object.
+Raw byte array representing the to-be-imported documentation parts. To
+import from an OpenAPI file, this is a JSON object.
 
 
 
@@ -67,15 +67,15 @@ The default value is C<false>.
 
 =head2 Mode => Str
 
-A query parameter to indicate whether to overwrite (C<OVERWRITE>) any
-existing DocumentationParts definition or to merge (C<MERGE>) the new
-definition into the existing one. The default value is C<MERGE>.
+A query parameter to indicate whether to overwrite (C<overwrite>) any
+existing DocumentationParts definition or to merge (C<merge>) the new
+definition into the existing one. The default value is C<merge>.
 
 Valid values are: C<"merge">, C<"overwrite">
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

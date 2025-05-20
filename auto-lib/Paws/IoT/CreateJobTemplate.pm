@@ -3,11 +3,14 @@ package Paws::IoT::CreateJobTemplate;
   use Moose;
   has AbortConfig => (is => 'ro', isa => 'Paws::IoT::AbortConfig', traits => ['NameInRequest'], request_name => 'abortConfig');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description', required => 1);
+  has DestinationPackageVersions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'destinationPackageVersions');
   has Document => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'document');
   has DocumentSource => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'documentSource');
   has JobArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'jobArn');
+  has JobExecutionsRetryConfig => (is => 'ro', isa => 'Paws::IoT::JobExecutionsRetryConfig', traits => ['NameInRequest'], request_name => 'jobExecutionsRetryConfig');
   has JobExecutionsRolloutConfig => (is => 'ro', isa => 'Paws::IoT::JobExecutionsRolloutConfig', traits => ['NameInRequest'], request_name => 'jobExecutionsRolloutConfig');
   has JobTemplateId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'jobTemplateId', required => 1);
+  has MaintenanceWindows => (is => 'ro', isa => 'ArrayRef[Paws::IoT::MaintenanceWindow]', traits => ['NameInRequest'], request_name => 'maintenanceWindows');
   has PresignedUrlConfig => (is => 'ro', isa => 'Paws::IoT::PresignedUrlConfig', traits => ['NameInRequest'], request_name => 'presignedUrlConfig');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Tag]', traits => ['NameInRequest'], request_name => 'tags');
   has TimeoutConfig => (is => 'ro', isa => 'Paws::IoT::TimeoutConfig', traits => ['NameInRequest'], request_name => 'timeoutConfig');
@@ -53,13 +56,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # min: 1
 
       },    # OPTIONAL
-      Document                   => 'MyJobDocument',          # OPTIONAL
-      DocumentSource             => 'MyJobDocumentSource',    # OPTIONAL
-      JobArn                     => 'MyJobArn',               # OPTIONAL
+      DestinationPackageVersions => [
+        'MyPackageVersionArn', ...    # min: 1, max: 1600
+      ],    # OPTIONAL
+      Document                 => 'MyJobDocument',          # OPTIONAL
+      DocumentSource           => 'MyJobDocumentSource',    # OPTIONAL
+      JobArn                   => 'MyJobArn',               # OPTIONAL
+      JobExecutionsRetryConfig => {
+        CriteriaList => [
+          {
+            FailureType     => 'FAILED',    # values: FAILED, TIMED_OUT, ALL
+            NumberOfRetries => 1,           # max: 10
+
+          },
+          ...
+        ],    # min: 1, max: 2
+
+      },    # OPTIONAL
       JobExecutionsRolloutConfig => {
         ExponentialRate => {
           BaseRatePerMinute    => 1,    # min: 1, max: 1000
-          IncrementFactor      => 1,    # min: 1, max: 5
+          IncrementFactor      => 1,    # min: 1.1, max: 5
           RateIncreaseCriteria => {
             NumberOfNotifiedThings  => 1,    # min: 1; OPTIONAL
             NumberOfSucceededThings => 1,    # min: 1; OPTIONAL
@@ -68,6 +85,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         MaximumPerMinute => 1,    # min: 1; OPTIONAL
       },    # OPTIONAL
+      MaintenanceWindows => [
+        {
+          DurationInMinutes => 1,                     # min: 1, max: 1430
+          StartTime         => 'MyCronExpression',    # min: 1, max: 256
+
+        },
+        ...
+      ],    # OPTIONAL
       PresignedUrlConfig => {
         ExpiresInSec => 1,              # min: 60, max: 3600; OPTIONAL
         RoleArn      => 'MyRoleArn',    # min: 20, max: 2048; OPTIONAL
@@ -75,7 +100,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -108,6 +133,19 @@ A description of the job document.
 
 
 
+=head2 DestinationPackageVersions => ArrayRef[Str|Undef]
+
+The package version Amazon Resource Names (ARNs) that are installed on
+the device when the job successfully completes. The package version
+must be in either the Published or Deprecated state when the job
+deploys. For more information, see Package version lifecycle
+(https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+
+B<Note:>The following Length Constraints relates to a single ARN. Up to
+25 package version ARNs are allowed.
+
+
+
 =head2 Document => Str
 
 The job document. Required if you don't specify a value for
@@ -117,24 +155,27 @@ C<documentSource>.
 
 =head2 DocumentSource => Str
 
-An S3 link to the job document to use in the template. Required if you
-don't specify a value for C<document>.
+An S3 link, or S3 object URL, to the job document. The link is an
+Amazon S3 object URL and is required if you don't specify a value for
+C<document>.
 
-If the job document resides in an S3 bucket, you must use a placeholder
-link when specifying the document.
+For example, C<--document-source
+https://s3.I<region-code>.amazonaws.com/example-firmware/device-firmware.1.0>
 
-The placeholder link is of the following form:
-
-C<${aws:iot:s3-presigned-url:https://s3.amazonaws.com/I<bucket>/I<key>}>
-
-where I<bucket> is your bucket name and I<key> is the object in the
-bucket to which you are linking.
+For more information, see Methods for accessing a bucket
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html).
 
 
 
 =head2 JobArn => Str
 
 The ARN of the job to use as the basis for the job template.
+
+
+
+=head2 JobExecutionsRetryConfig => L<Paws::IoT::JobExecutionsRetryConfig>
+
+Allows you to create the criteria to retry a job.
 
 
 
@@ -148,6 +189,13 @@ The ARN of the job to use as the basis for the job template.
 
 A unique identifier for the job template. We recommend using a UUID.
 Alpha-numeric characters, "-", and "_" are valid for use here.
+
+
+
+=head2 MaintenanceWindows => ArrayRef[L<Paws::IoT::MaintenanceWindow>]
+
+Allows you to configure an optional maintenance window for the rollout
+of a job document to all devices in the target group for a job.
 
 
 

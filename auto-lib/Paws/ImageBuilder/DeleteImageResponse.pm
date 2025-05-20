@@ -18,7 +18,7 @@ Paws::ImageBuilder::DeleteImageResponse
 
 =head2 ImageBuildVersionArn => Str
 
-The Amazon Resource Name (ARN) of the image that was deleted.
+The ARN of the Image Builder image resource that this request deleted.
 
 
 =head2 RequestId => Str

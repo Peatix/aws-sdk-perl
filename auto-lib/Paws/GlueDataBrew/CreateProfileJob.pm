@@ -1,6 +1,7 @@
 
 package Paws::GlueDataBrew::CreateProfileJob;
   use Moose;
+  has Configuration => (is => 'ro', isa => 'Paws::GlueDataBrew::ProfileConfiguration');
   has DatasetName => (is => 'ro', isa => 'Str', required => 1);
   has EncryptionKeyArn => (is => 'ro', isa => 'Str');
   has EncryptionMode => (is => 'ro', isa => 'Str');
@@ -13,6 +14,7 @@ package Paws::GlueDataBrew::CreateProfileJob;
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::GlueDataBrew::TagMap');
   has Timeout => (is => 'ro', isa => 'Int');
+  has ValidationConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::ValidationConfiguration]');
 
   use MooseX::ClassAttribute;
 
@@ -43,10 +45,78 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DatasetName    => 'MyDatasetName',
       Name           => 'MyJobName',
       OutputLocation => {
-        Bucket => 'MyBucket',    # min: 3, max: 63
-        Key    => 'MyKey',       # min: 1, max: 1280; OPTIONAL
+        Bucket      => 'MyBucket',         # min: 3, max: 63
+        BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+        Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
       },
-      RoleArn          => 'MyArn',
+      RoleArn       => 'MyArn',
+      Configuration => {
+        ColumnStatisticsConfigurations => [
+          {
+            Statistics => {
+              IncludedStatistics => [
+                'MyStatistic', ...    # min: 1, max: 128
+              ],    # min: 1; OPTIONAL
+              Overrides => [
+                {
+                  Parameters => {
+                    'MyParameterName' => 'MyParameterValue'
+                    ,    # key: min: 1, max: 128, value: min: 1, max: 32768
+                  },
+                  Statistic => 'MyStatistic',    # min: 1, max: 128
+
+                },
+                ...
+              ],    # min: 1; OPTIONAL
+            },
+            Selectors => [
+              {
+                Name  => 'MyColumnName',    # min: 1, max: 255; OPTIONAL
+                Regex => 'MyColumnName',    # min: 1, max: 255; OPTIONAL
+              },
+              ...
+            ],    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # min: 1; OPTIONAL
+        DatasetStatisticsConfiguration => {
+          IncludedStatistics => [
+            'MyStatistic', ...    # min: 1, max: 128
+          ],    # min: 1; OPTIONAL
+          Overrides => [
+            {
+              Parameters => {
+                'MyParameterName' => 'MyParameterValue'
+                ,    # key: min: 1, max: 128, value: min: 1, max: 32768
+              },
+              Statistic => 'MyStatistic',    # min: 1, max: 128
+
+            },
+            ...
+          ],    # min: 1; OPTIONAL
+        },
+        EntityDetectorConfiguration => {
+          EntityTypes => [
+            'MyEntityType', ...    # min: 1, max: 128
+          ],    # min: 1
+          AllowedStatistics => [
+            {
+              Statistics => [
+                'MyStatistic', ...    # min: 1, max: 128
+              ],    # min: 1; OPTIONAL
+
+            },
+            ...
+          ],    # min: 1; OPTIONAL
+        },    # OPTIONAL
+        ProfileColumns => [
+          {
+            Name  => 'MyColumnName',    # min: 1, max: 255; OPTIONAL
+            Regex => 'MyColumnName',    # min: 1, max: 255; OPTIONAL
+          },
+          ...
+        ],    # min: 1; OPTIONAL
+      },    # OPTIONAL
       EncryptionKeyArn => 'MyEncryptionKeyArn',    # OPTIONAL
       EncryptionMode   => 'SSE-KMS',               # OPTIONAL
       JobSample        => {
@@ -59,7 +129,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags            => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
-      Timeout => 1,    # OPTIONAL
+      Timeout                  => 1,    # OPTIONAL
+      ValidationConfigurations => [
+        {
+          RulesetArn     => 'MyArn',        # min: 20, max: 2048
+          ValidationMode => 'CHECK_ALL',    # values: CHECK_ALL; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -71,6 +148,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/databrew/CreateProfileJob>
 
 =head1 ATTRIBUTES
+
+
+=head2 Configuration => L<Paws::GlueDataBrew::ProfileConfiguration>
+
+Configuration for profile jobs. Used to select columns, do evaluations,
+and override default parameters of evaluations. When configuration is
+null, the profile job will run with default settings.
+
 
 
 =head2 B<REQUIRED> DatasetName => Str
@@ -164,6 +249,12 @@ Metadata tags to apply to this job.
 
 The job's timeout in minutes. A job that attempts to run longer than
 this timeout period ends with a status of C<TIMEOUT>.
+
+
+
+=head2 ValidationConfigurations => ArrayRef[L<Paws::GlueDataBrew::ValidationConfiguration>]
+
+List of validation configurations that are applied to the profile job.
 
 
 

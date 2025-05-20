@@ -44,14 +44,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-The properties of a trial as returned by the Search API.
+The properties of a trial as returned by the Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedBy => L<Paws::SageMaker::UserContext>
 
-
+Who created the trial.
 
 
 =head2 CreationTime => Str
@@ -93,6 +95,7 @@ Who last modified the trial.
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
 The list of tags that are associated with the trial. You can use Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
 API to search on the tags.
 
 

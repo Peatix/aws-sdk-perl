@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource to which to add tags.
+The Amazon Resource Name (ARN) of the resource to add tags to.
 Currently, the supported resource is an Amazon ECR Public repository.
 
 

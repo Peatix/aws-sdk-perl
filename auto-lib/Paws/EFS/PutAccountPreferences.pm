@@ -48,7 +48,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> ResourceIdType => Str
 
+Specifies the EFS resource ID preference to set for the user's Amazon
+Web Services account, in the current Amazon Web Services Region, either
+C<LONG_ID> (17 characters), or C<SHORT_ID> (8 characters).
 
+Starting in October, 2021, you will receive an error when setting the
+account preference to C<SHORT_ID>. Contact Amazon Web Services support
+if you receive an error and must use short IDs for file system and
+mount target resources.
 
 Valid values are: C<"LONG_ID">, C<"SHORT_ID">
 

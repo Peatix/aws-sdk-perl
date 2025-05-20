@@ -47,9 +47,9 @@ The device name that is exposed to the instance, such as /dev/sdh.
 
 =head2 VolumeSpecification => L<Paws::EMR::VolumeSpecification>
 
-EBS volume specifications such as volume type, IOPS, and size (GiB)
-that will be requested for the EBS volume attached to an EC2 instance
-in the cluster.
+EBS volume specifications such as volume type, IOPS, size (GiB) and
+throughput (MiB/s) that are requested for the EBS volume attached to an
+Amazon EC2 instance in the cluster.
 
 
 

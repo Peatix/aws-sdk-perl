@@ -48,9 +48,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ExternalModelEndpoints => [ 'Mystring', ... ],    # OPTIONAL
       ModelVersions          => [
         {
-          ModelId   => 'MymodelIdentifier',      # min: 1, max: 64
-          ModelType => 'ONLINE_FRAUD_INSIGHTS',  # values: ONLINE_FRAUD_INSIGHTS
-          ModelVersionNumber => 'MynonEmptyString',    # min: 1
+          ModelId   => 'MymodelIdentifier',                # min: 1, max: 64
+          ModelType => 'ONLINE_FRAUD_INSIGHTS'
+          , # values: ONLINE_FRAUD_INSIGHTS, TRANSACTION_FRAUD_INSIGHTS, ACCOUNT_TAKEOVER_INSIGHTS
+          ModelVersionNumber => 'MyfloatVersionString',    # min: 3, max: 7
           Arn => 'MyfraudDetectorArn',    # min: 1, max: 256; OPTIONAL
         },
         ...

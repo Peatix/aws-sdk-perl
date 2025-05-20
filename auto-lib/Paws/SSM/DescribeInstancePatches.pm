@@ -59,15 +59,49 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Filters => ArrayRef[L<Paws::SSM::PatchOrchestratorFilter>]
 
-An array of structures. Each entry in the array is a structure
-containing a Key, Value combination. Valid values for Key are
-C<Classification> | C<KBId> | C<Severity> | C<State>.
+Each element in the array is a structure containing a key-value pair.
+
+Supported keys for C<DescribeInstancePatches>include the following:
+
+=over
+
+=item *
+
+B<C<Classification>>
+
+Sample values: C<Security> | C<SecurityUpdates>
+
+=item *
+
+B<C<KBId>>
+
+Sample values: C<KB4480056> | C<java-1.7.0-openjdk.x86_64>
+
+=item *
+
+B<C<Severity>>
+
+Sample values: C<Important> | C<Medium> | C<Low>
+
+=item *
+
+B<C<State>>
+
+Sample values: C<Installed> | C<InstalledOther> |
+C<InstalledPendingReboot>
+
+For lists of all C<State> values, see Patch compliance state values
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+=back
+
 
 
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The ID of the instance whose patch state information should be
+The ID of the managed node whose patch state information should be
 retrieved.
 
 

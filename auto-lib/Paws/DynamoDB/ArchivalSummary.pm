@@ -64,7 +64,7 @@ value is:
 =item *
 
 C<INACCESSIBLE_ENCRYPTION_CREDENTIALS> - The table was archived due to
-the table's AWS KMS key being inaccessible for more than seven days. An
+the table's KMS key being inaccessible for more than seven days. An
 On-Demand backup was created at the archival time.
 
 =back

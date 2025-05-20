@@ -66,8 +66,8 @@ An C<OrganizationResourceDetailedStatusFilters> object.
 =head2 Limit => Int
 
 The maximum number of C<OrganizationConformancePackDetailedStatuses>
-returned on each page. If you do not specify a number, AWS Config uses
-the default. The default is 100.
+returned on each page. If you do not specify a number, Config uses the
+default. The default is 100.
 
 
 

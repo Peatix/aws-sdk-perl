@@ -4,6 +4,7 @@ package Paws::IoTWireless::UpdateWirelessGateway;
   has Description => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'Id', required => 1);
   has JoinEuiFilters => (is => 'ro', isa => 'ArrayRef[ArrayRef[Str|Undef]]');
+  has MaxEirp => (is => 'ro', isa => 'Num');
   has Name => (is => 'ro', isa => 'Str');
   has NetIdFilters => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -39,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       JoinEuiFilters => [
         [ 'MyJoinEui', ... ], ...                # min: 2, max: 2
       ],    # OPTIONAL
+      MaxEirp      => 1.0,                        # OPTIONAL
       Name         => 'MyWirelessGatewayName',    # OPTIONAL
       NetIdFilters => [ 'MyNetId', ... ],         # OPTIONAL
       );
@@ -64,6 +66,12 @@ The ID of the resource to update.
 =head2 JoinEuiFilters => ArrayRef[ArrayRef[Str|Undef]]
 
 
+
+
+
+=head2 MaxEirp => Num
+
+The MaxEIRP value.
 
 
 

@@ -4,6 +4,7 @@ package Paws::GlueDataBrew::Job;
   has AccountId => (is => 'ro', isa => 'Str');
   has CreateDate => (is => 'ro', isa => 'Str');
   has CreatedBy => (is => 'ro', isa => 'Str');
+  has DatabaseOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DatabaseOutput]');
   has DataCatalogOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DataCatalogOutput]');
   has DatasetName => (is => 'ro', isa => 'Str');
   has EncryptionKeyArn => (is => 'ro', isa => 'Str');
@@ -23,6 +24,7 @@ package Paws::GlueDataBrew::Job;
   has Tags => (is => 'ro', isa => 'Paws::GlueDataBrew::TagMap');
   has Timeout => (is => 'ro', isa => 'Int');
   has Type => (is => 'ro', isa => 'Str');
+  has ValidationConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::ValidationConfiguration]');
 
 1;
 
@@ -43,7 +45,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GlueDataBrew::Job object:
 
-  $service_obj->Method(Att1 => { AccountId => $value, ..., Type => $value  });
+  $service_obj->Method(Att1 => { AccountId => $value, ..., ValidationConfigurations => $value  });
 
 =head3 Results returned from an API call
 
@@ -74,10 +76,16 @@ The date and time that the job was created.
 The Amazon Resource Name (ARN) of the user who created the job.
 
 
+=head2 DatabaseOutputs => ArrayRef[L<Paws::GlueDataBrew::DatabaseOutput>]
+
+Represents a list of JDBC database output objects which defines the
+output destination for a DataBrew recipe job to write into.
+
+
 =head2 DataCatalogOutputs => ArrayRef[L<Paws::GlueDataBrew::DataCatalogOutput>]
 
-One or more artifacts that represent the AWS Glue Data Catalog output
-from running the job.
+One or more artifacts that represent the Glue Data Catalog output from
+running the job.
 
 
 =head2 DatasetName => Str
@@ -203,6 +211,11 @@ C<RECIPE> - A job to apply one or more transformations to a dataset.
 
 =back
 
+
+
+=head2 ValidationConfigurations => ArrayRef[L<Paws::GlueDataBrew::ValidationConfiguration>]
+
+List of validation configurations that are applied to the profile job.
 
 
 

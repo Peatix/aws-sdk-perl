@@ -3,7 +3,10 @@ package Paws::GuardDuty::GetFindingsStatistics;
   use Moose;
   has DetectorId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'detectorId', required => 1);
   has FindingCriteria => (is => 'ro', isa => 'Paws::GuardDuty::FindingCriteria', traits => ['NameInRequest'], request_name => 'findingCriteria');
-  has FindingStatisticTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'findingStatisticTypes', required => 1);
+  has FindingStatisticTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'findingStatisticTypes');
+  has GroupBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'groupBy');
+  has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
+  has OrderBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'orderBy');
 
   use MooseX::ClassAttribute;
 
@@ -31,10 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $guardduty = Paws->service('GuardDuty');
     my $GetFindingsStatisticsResponse = $guardduty->GetFindingsStatistics(
-      DetectorId            => 'MyDetectorId',
-      FindingStatisticTypes => [
-        'COUNT_BY_SEVERITY', ...    # values: COUNT_BY_SEVERITY
-      ],
+      DetectorId      => 'MyDetectorId',
       FindingCriteria => {
         Criterion => {
           'MyString' => {
@@ -53,10 +53,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
         },    # OPTIONAL
       },    # OPTIONAL
+      FindingStatisticTypes => [
+        'COUNT_BY_SEVERITY', ...    # values: COUNT_BY_SEVERITY
+      ],    # OPTIONAL
+      GroupBy    => 'ACCOUNT',    # OPTIONAL
+      MaxResults => 1,            # OPTIONAL
+      OrderBy    => 'ASC',        # OPTIONAL
     );
 
     # Results:
     my $FindingStatistics = $GetFindingsStatisticsResponse->FindingStatistics;
+    my $NextToken         = $GetFindingsStatisticsResponse->NextToken;
 
     # Returns a L<Paws::GuardDuty::GetFindingsStatisticsResponse> object.
 
@@ -68,8 +75,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gua
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The ID of the detector that specifies the GuardDuty service whose
-findings' statistics you want to retrieve.
+The ID of the detector whose findings statistics you want to retrieve.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 
@@ -79,11 +90,36 @@ Represents the criteria that is used for querying findings.
 
 
 
-=head2 B<REQUIRED> FindingStatisticTypes => ArrayRef[Str|Undef]
+=head2 FindingStatisticTypes => ArrayRef[Str|Undef]
 
 The types of finding statistics to retrieve.
 
 
+
+=head2 GroupBy => Str
+
+Displays the findings statistics grouped by one of the listed valid
+values.
+
+Valid values are: C<"ACCOUNT">, C<"DATE">, C<"FINDING_TYPE">, C<"RESOURCE">, C<"SEVERITY">
+
+=head2 MaxResults => Int
+
+The maximum number of results to be returned in the response. The
+default value is 25.
+
+You can use this parameter only with the C<groupBy> parameter.
+
+
+
+=head2 OrderBy => Str
+
+Displays the sorted findings in the requested order. The default value
+of C<orderBy> is C<DESC>.
+
+You can use this parameter only with the C<groupBy> parameter.
+
+Valid values are: C<"ASC">, C<"DESC">
 
 
 =head1 SEE ALSO

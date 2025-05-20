@@ -50,7 +50,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags        => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -84,8 +84,8 @@ The files to stream.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-An IAM role that allows the IoT service principal assumes to access
-your S3 files.
+An IAM role that allows the IoT service principal to access your S3
+files.
 
 
 

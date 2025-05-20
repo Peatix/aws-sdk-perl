@@ -34,9 +34,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Tag
 
 =head1 DESCRIPTION
 
-A list of key/value pairs that identify an index, FAQ, or data source.
-Tag keys and values can consist of Unicode letters, digits, white
-space, and any of the following symbols: _ . : / = + - @.
+A key-value pair that identifies or categorizes an index, FAQ, data
+source, or other resource. TA tag key and value can consist of Unicode
+letters, digits, white space, and any of the following symbols: _ . : /
+= + - @.
 
 =head1 ATTRIBUTES
 
@@ -44,7 +45,7 @@ space, and any of the following symbols: _ . : / = + - @.
 =head2 B<REQUIRED> Key => Str
 
 The key for the tag. Keys are not case sensitive and must be unique for
-the index, FAQ, or data source.
+the index, FAQ, data source, or other resource.
 
 
 =head2 B<REQUIRED> Value => Str

@@ -40,12 +40,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $BotId                = $DescribeIntentResponse->BotId;
-    my $BotVersion           = $DescribeIntentResponse->BotVersion;
-    my $CreationDateTime     = $DescribeIntentResponse->CreationDateTime;
-    my $Description          = $DescribeIntentResponse->Description;
-    my $DialogCodeHook       = $DescribeIntentResponse->DialogCodeHook;
-    my $FulfillmentCodeHook  = $DescribeIntentResponse->FulfillmentCodeHook;
+    my $BotId               = $DescribeIntentResponse->BotId;
+    my $BotVersion          = $DescribeIntentResponse->BotVersion;
+    my $CreationDateTime    = $DescribeIntentResponse->CreationDateTime;
+    my $Description         = $DescribeIntentResponse->Description;
+    my $DialogCodeHook      = $DescribeIntentResponse->DialogCodeHook;
+    my $FulfillmentCodeHook = $DescribeIntentResponse->FulfillmentCodeHook;
+    my $InitialResponseSetting =
+      $DescribeIntentResponse->InitialResponseSetting;
     my $InputContexts        = $DescribeIntentResponse->InputContexts;
     my $IntentClosingSetting = $DescribeIntentResponse->IntentClosingSetting;
     my $IntentConfirmationSetting =
@@ -57,8 +59,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $LocaleId              = $DescribeIntentResponse->LocaleId;
     my $OutputContexts        = $DescribeIntentResponse->OutputContexts;
     my $ParentIntentSignature = $DescribeIntentResponse->ParentIntentSignature;
-    my $SampleUtterances      = $DescribeIntentResponse->SampleUtterances;
-    my $SlotPriorities        = $DescribeIntentResponse->SlotPriorities;
+    my $QInConnectIntentConfiguration =
+      $DescribeIntentResponse->QInConnectIntentConfiguration;
+    my $QnAIntentConfiguration =
+      $DescribeIntentResponse->QnAIntentConfiguration;
+    my $SampleUtterances = $DescribeIntentResponse->SampleUtterances;
+    my $SlotPriorities   = $DescribeIntentResponse->SlotPriorities;
 
     # Returns a L<Paws::LexModelsV2::DescribeIntentResponse> object.
 

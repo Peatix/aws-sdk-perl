@@ -55,7 +55,7 @@ permissions for.
 =head2 B<REQUIRED> ConnectionAliasPermission => L<Paws::WorkSpaces::ConnectionAliasPermission>
 
 Indicates whether to share or unshare the connection alias with the
-specified AWS account.
+specified Amazon Web Services account.
 
 
 

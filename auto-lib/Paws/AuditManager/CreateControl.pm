@@ -40,15 +40,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SourceDescription => 'MySourceDescription',    # max: 1000; OPTIONAL
           SourceFrequency => 'DAILY', # values: DAILY, WEEKLY, MONTHLY; OPTIONAL
           SourceKeyword   => {
-            KeywordInputType =>
-              'SELECT_FROM_LIST',     # values: SELECT_FROM_LIST; OPTIONAL
+            KeywordInputType => 'SELECT_FROM_LIST'
+            ,    # values: SELECT_FROM_LIST, UPLOAD_FILE, INPUT_TEXT; OPTIONAL
             KeywordValue => 'MyKeywordValue',    # min: 1, max: 100; OPTIONAL
           },    # OPTIONAL
-          SourceName        => 'MySourceName',    # min: 1, max: 100; OPTIONAL
+          SourceName        => 'MySourceName',    # min: 1, max: 300; OPTIONAL
           SourceSetUpOption => 'System_Controls_Mapping'
           , # values: System_Controls_Mapping, Procedural_Controls_Mapping; OPTIONAL
           SourceType => 'AWS_Cloudtrail'
-          , # values: AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL; OPTIONAL
+          , # values: AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL, Common_Control, Core_Control; OPTIONAL
           TroubleshootingText => 'MyTroubleshootingText',  # max: 1000; OPTIONAL
         },
         ...
@@ -76,7 +76,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 ActionPlanInstructions => Str
 
-The recommended actions to carry out if the control is not fulfilled.
+The recommended actions to carry out if the control isn't fulfilled.
 
 
 
@@ -88,7 +88,7 @@ The title of the action plan for remediating the control.
 
 =head2 B<REQUIRED> ControlMappingSources => ArrayRef[L<Paws::AuditManager::CreateControlMappingSource>]
 
-The data mapping sources for the specified control.
+The data mapping sources for the control.
 
 
 
@@ -106,13 +106,13 @@ The name of the control.
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
 
-The tags associated with the control.
+The tags that are associated with the control.
 
 
 
 =head2 TestingInformation => Str
 
-The steps to follow to determine if the control has been satisfied.
+The steps to follow to determine if the control is satisfied.
 
 
 

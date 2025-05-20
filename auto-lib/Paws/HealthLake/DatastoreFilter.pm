@@ -36,33 +36,33 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::HealthLake:
 
 =head1 DESCRIPTION
 
-The filters applied to Data Store query.
+The filters applied to data store query.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedAfter => Str
 
-A filter that allows the user to set cutoff dates for records. All Data
-Stores created after the specified date will be included in the
+A filter that allows the user to set cutoff dates for records. All data
+stores created after the specified date will be included in the
 results.
 
 
 =head2 CreatedBefore => Str
 
-A filter that allows the user to set cutoff dates for records. All Data
-Stores created before the specified date will be included in the
+A filter that allows the user to set cutoff dates for records. All data
+stores created before the specified date will be included in the
 results.
 
 
 =head2 DatastoreName => Str
 
-Allows the user to filter Data Store results by name.
+Allows the user to filter data store results by name.
 
 
 =head2 DatastoreStatus => Str
 
-Allows the user to filter Data Store results by status.
+Allows the user to filter data store results by status.
 
 
 

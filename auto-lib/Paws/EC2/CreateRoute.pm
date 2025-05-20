@@ -2,6 +2,7 @@
 package Paws::EC2::CreateRoute;
   use Moose;
   has CarrierGatewayId => (is => 'ro', isa => 'Str');
+  has CoreNetworkArn => (is => 'ro', isa => 'Str');
   has DestinationCidrBlock => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationCidrBlock' );
   has DestinationIpv6CidrBlock => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationIpv6CidrBlock' );
   has DestinationPrefixListId => (is => 'ro', isa => 'Str');
@@ -63,6 +64,12 @@ The ID of the carrier gateway.
 
 You can only use this option when the VPC contains a subnet which is
 associated with a Wavelength Zone.
+
+
+
+=head2 CoreNetworkArn => Str
+
+The Amazon Resource Name (ARN) of the core network.
 
 
 

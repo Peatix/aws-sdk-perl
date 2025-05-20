@@ -4,7 +4,9 @@ package Paws::GreengrassV2::ResolvedComponentVersion;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has ComponentName => (is => 'ro', isa => 'Str', request_name => 'componentName', traits => ['NameInRequest']);
   has ComponentVersion => (is => 'ro', isa => 'Str', request_name => 'componentVersion', traits => ['NameInRequest']);
+  has Message => (is => 'ro', isa => 'Str', request_name => 'message', traits => ['NameInRequest']);
   has Recipe => (is => 'ro', isa => 'Str', request_name => 'recipe', traits => ['NameInRequest']);
+  has VendorGuidance => (is => 'ro', isa => 'Str', request_name => 'vendorGuidance', traits => ['NameInRequest']);
 
 1;
 
@@ -25,7 +27,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GreengrassV2::ResolvedComponentVersion object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Recipe => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., VendorGuidance => $value  });
 
 =head3 Results returned from an API call
 
@@ -37,7 +39,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 =head1 DESCRIPTION
 
 Contains information about a component version that is compatible to
-run on a AWS IoT Greengrass core device.
+run on a Greengrass core device.
 
 =head1 ATTRIBUTES
 
@@ -59,9 +61,45 @@ The name of the component.
 The version of the component.
 
 
+=head2 Message => Str
+
+A message that communicates details about the vendor guidance state of
+the component version. This message communicates why a component
+version is discontinued or deleted.
+
+
 =head2 Recipe => Str
 
 The recipe of the component version.
+
+
+=head2 VendorGuidance => Str
+
+The vendor guidance state for the component version. This state
+indicates whether the component version has any issues that you should
+consider before you deploy it. The vendor guidance state can be:
+
+=over
+
+=item *
+
+C<ACTIVE> E<ndash> This component version is available and recommended
+for use.
+
+=item *
+
+C<DISCONTINUED> E<ndash> This component version has been discontinued
+by its publisher. You can deploy this component version, but we
+recommend that you use a different version of this component.
+
+=item *
+
+C<DELETED> E<ndash> This component version has been deleted by its
+publisher, so you can't deploy it. If you have any existing deployments
+that specify this component version, those deployments will fail.
+
+=back
+
 
 
 

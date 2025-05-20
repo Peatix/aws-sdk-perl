@@ -53,7 +53,7 @@ The name of the record.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<ExportSnapshotRecord>).
+The Lightsail resource type (C<ExportSnapshotRecord>).
 
 
 

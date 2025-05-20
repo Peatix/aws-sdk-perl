@@ -45,13 +45,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ivs
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-ARN of the resource for which tags are to be removed.
+ARN of the resource for which tags are to be removed. The ARN must be
+URL-encoded.
 
 
 
 =head2 B<REQUIRED> TagKeys => ArrayRef[Str|Undef]
 
-Array of tags to be removed.
+Array of tags to be removed. Array of maps, each of the form
+C<string:string (key:value)>. See Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
 
 
 

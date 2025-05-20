@@ -36,31 +36,35 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Url
 
 Provides the configuration information of the URLs to crawl.
 
+You can only crawl websites that use the secure communication protocol,
+Hypertext Transfer Protocol Secure (HTTPS). If you receive an error
+when crawling a website, it could be that the website is blocked from
+crawling.
+
 I<When selecting websites to index, you must adhere to the Amazon
 Acceptable Use Policy (https://aws.amazon.com/aup/) and all other
-Amazon terms. Remember that you must only use the Amazon Kendra web
-crawler to index your own webpages, or webpages that you have
-authorization to index.>
+Amazon terms. Remember that you must only use Amazon Kendra Web Crawler
+to index your own web pages, or web pages that you have authorization
+to index.>
 
 =head1 ATTRIBUTES
 
 
 =head2 SeedUrlConfiguration => L<Paws::Kendra::SeedUrlConfiguration>
 
-Provides the configuration of the seed or starting point URLs of the
-websites you want to crawl.
+Configuration of the seed or starting point URLs of the websites you
+want to crawl.
 
 You can choose to crawl only the website host names, or the website
 host names with subdomains, or the website host names with subdomains
-and other domains that the webpages link to.
+and other domains that the web pages link to.
 
 You can list up to 100 seed URLs.
 
 
 =head2 SiteMapsConfiguration => L<Paws::Kendra::SiteMapsConfiguration>
 
-Provides the configuration of the sitemap URLs of the websites you want
-to crawl.
+Configuration of the sitemap URLs of the websites you want to crawl.
 
 Only URLs belonging to the same website host names are crawled. You can
 list up to three sitemap URLs.

@@ -41,7 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Resour
 
 =head1 DESCRIPTION
 
-Describes an invitation to join a resource share.
+Describes an invitation for an Amazon Web Services account to join a
+resource share.
 
 =head1 ATTRIBUTES
 
@@ -53,30 +54,34 @@ The date and time when the invitation was sent.
 
 =head2 ReceiverAccountId => Str
 
-The ID of the AWS account that received the invitation.
+The ID of the Amazon Web Services account that received the invitation.
 
 
 =head2 ReceiverArn => Str
 
-The Amazon Resource Name (ARN) of the IAM user or IAM role that
-received the invitation.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the IAM user or role that received the invitation.
 
 
 =head2 ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share
 
 
 =head2 ResourceShareAssociations => ArrayRef[L<Paws::RAM::ResourceShareAssociation>]
 
 To view the resources associated with a pending resource share
-invitation, use ListPendingInvitationResources
-(https://docs.aws.amazon.com/ram/latest/APIReference/API_ListPendingInvitationResources.html).
+invitation, use ListPendingInvitationResources.
 
 
 =head2 ResourceShareInvitationArn => Str
 
-The Amazon Resource Name (ARN) of the invitation.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the invitation.
 
 
 =head2 ResourceShareName => Str
@@ -86,12 +91,12 @@ The name of the resource share.
 
 =head2 SenderAccountId => Str
 
-The ID of the AWS account that sent the invitation.
+The ID of the Amazon Web Services account that sent the invitation.
 
 
 =head2 Status => Str
 
-The status of the invitation.
+The current status of the invitation.
 
 
 

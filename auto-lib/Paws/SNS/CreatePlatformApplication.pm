@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sns
 
 =head2 B<REQUIRED> Attributes => L<Paws::SNS::MapStringToString>
 
-For a list of attributes, see SetPlatformApplicationAttributes
+For a list of attributes, see C<SetPlatformApplicationAttributes>
 (https://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html).
 
 

@@ -50,21 +50,26 @@ Stateful inspection criteria for a domain list rule group.
 
 =head2 RulesString => Str
 
-Stateful inspection criteria, provided in Suricata compatible intrusion
-prevention system (IPS) rules. Suricata is an open-source network IPS
-that includes a standard rule-based language for network traffic
-inspection.
+Stateful inspection criteria, provided in Suricata compatible rules.
+Suricata is an open-source threat detection framework that includes a
+standard rule-based language for network traffic inspection.
 
 These rules contain the inspection criteria and the action to take for
 traffic that matches the criteria, so this type of rule group doesn't
 have a separate action setting.
 
+You can't use the C<priority> keyword if the C<RuleOrder> option in
+StatefulRuleOptions is set to C<STRICT_ORDER>.
+
 
 =head2 StatefulRules => ArrayRef[L<Paws::NetworkFirewall::StatefulRule>]
 
-The 5-tuple stateful inspection criteria. This contains an array of
-individual 5-tuple stateful rules to be used together in a stateful
-rule group.
+An array of individual stateful rules inspection criteria to be used
+together in a stateful rule group. Use this option to specify simple
+Suricata rules with protocol, source and destination, ports, direction,
+and rule options. For information about the Suricata C<Rules> format,
+see Rules Format
+(https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
 
 
 =head2 StatelessRulesAndCustomActions => L<Paws::NetworkFirewall::StatelessRulesAndCustomActions>

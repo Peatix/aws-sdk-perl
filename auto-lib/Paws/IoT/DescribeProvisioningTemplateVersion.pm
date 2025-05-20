@@ -61,7 +61,7 @@ The template name.
 
 =head2 B<REQUIRED> VersionId => Int
 
-The fleet provisioning template version ID.
+The provisioning template version ID.
 
 
 

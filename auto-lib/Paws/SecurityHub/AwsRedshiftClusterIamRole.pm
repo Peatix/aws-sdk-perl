@@ -34,7 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-An IAM role that the cluster can use to access other AWS services.
+An IAM role that the cluster can use to access other Amazon Web
+Services services.
 
 =head1 ATTRIBUTES
 

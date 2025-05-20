@@ -38,7 +38,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ControlSetId   => 'MyControlSetId',
       ManualEvidence => [
         {
-          S3ResourcePath => 'MyS3Url',    # min: 1, max: 1024; OPTIONAL
+          EvidenceFileName =>
+            'MyManualEvidenceLocalFileName',    # min: 1, max: 300; OPTIONAL
+          S3ResourcePath => 'MyS3Url',          # min: 1, max: 1024; OPTIONAL
+          TextResponse   =>
+            'MyManualEvidenceTextResponse',     # min: 1, max: 1000; OPTIONAL
         },
         ...
       ],
@@ -58,19 +62,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The identifier for the assessment.
 
 
 
 =head2 B<REQUIRED> ControlId => Str
 
-The identifier for the specified control.
+The identifier for the control.
 
 
 
 =head2 B<REQUIRED> ControlSetId => Str
 
-The identifier for the specified control set.
+The identifier for the control set.
 
 
 

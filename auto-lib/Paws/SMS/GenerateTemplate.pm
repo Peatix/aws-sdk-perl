@@ -46,14 +46,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sms
 
 =head2 AppId => Str
 
-The ID of the application associated with the AWS CloudFormation
-template.
+The ID of the application associated with the CloudFormation template.
 
 
 
 =head2 TemplateFormat => Str
 
-The format for generating the AWS CloudFormation template.
+The format for generating the CloudFormation template.
 
 Valid values are: C<"JSON">, C<"YAML">
 

@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> Configuration => Str
 
 The configuration object of the resource in valid JSON format. It must
-match the schema registered with AWS CloudFormation.
+match the schema registered with CloudFormation.
 
 The configuration JSON must not exceed 64 KB.
 
@@ -71,18 +71,18 @@ Name of the resource.
 =head2 B<REQUIRED> ResourceType => Str
 
 The type of the resource. The custom resource type must be registered
-with AWS CloudFormation.
+with CloudFormation.
 
-You cannot use the organization names E<ldquo>awsE<rdquo>,
-E<ldquo>amznE<rdquo>, E<ldquo>amazonE<rdquo>, E<ldquo>alexaE<rdquo>,
-E<ldquo>customE<rdquo> with custom resource types. It is the first part
-of the ResourceType up to the first ::.
+You cannot use the organization names E<ldquo>amznE<rdquo>,
+E<ldquo>amazonE<rdquo>, E<ldquo>alexaE<rdquo>, E<ldquo>customE<rdquo>
+with custom resource types. It is the first part of the ResourceType up
+to the first ::.
 
 
 
 =head2 B<REQUIRED> SchemaVersionId => Str
 
-Version of the schema registered for the ResourceType in AWS
+Version of the schema registered for the ResourceType in
 CloudFormation.
 
 
@@ -90,6 +90,11 @@ CloudFormation.
 =head2 Tags => L<Paws::Config::Tags>
 
 Tags associated with the resource.
+
+This field is not to be confused with the Amazon Web Services-wide tag
+feature for Amazon Web Services resources. Tags for
+C<PutResourceConfig> are tags that you supply for the configuration
+items of your custom resources.
 
 
 

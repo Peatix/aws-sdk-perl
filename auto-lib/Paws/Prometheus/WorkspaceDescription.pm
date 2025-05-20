@@ -4,8 +4,10 @@ package Paws::Prometheus::WorkspaceDescription;
   has Alias => (is => 'ro', isa => 'Str', request_name => 'alias', traits => ['NameInRequest']);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest'], required => 1);
+  has KmsKeyArn => (is => 'ro', isa => 'Str', request_name => 'kmsKeyArn', traits => ['NameInRequest']);
   has PrometheusEndpoint => (is => 'ro', isa => 'Str', request_name => 'prometheusEndpoint', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Paws::Prometheus::WorkspaceStatus', request_name => 'status', traits => ['NameInRequest'], required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::Prometheus::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has WorkspaceId => (is => 'ro', isa => 'Str', request_name => 'workspaceId', traits => ['NameInRequest'], required => 1);
 
 1;
@@ -38,39 +40,55 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Prometheus:
 
 =head1 DESCRIPTION
 
-Represents the properties of a workspace.
+The full details about one Amazon Managed Service for Prometheus
+workspace in your account.
 
 =head1 ATTRIBUTES
 
 
 =head2 Alias => Str
 
-Alias of this workspace.
+The alias that is assigned to this workspace to help identify it. It
+does not need to be unique.
 
 
 =head2 B<REQUIRED> Arn => Str
 
-The Amazon Resource Name (ARN) of this workspace.
+The ARN of the workspace. For example,
+C<arn:aws:aps:E<lt>regionE<gt>:123456789012:workspace/ws-example1-1234-abcd-5678-ef90abcd1234>.
 
 
 =head2 B<REQUIRED> CreatedAt => Str
 
-The time when the workspace was created.
+The date and time that the workspace was created.
+
+
+=head2 KmsKeyArn => Str
+
+(optional) If the workspace was created with a customer managed KMS
+key, the ARN for the key used.
 
 
 =head2 PrometheusEndpoint => Str
 
-Prometheus endpoint URI.
+The Prometheus endpoint available for this workspace. For example,
+C<https://aps-workspaces.E<lt>regionE<gt>.amazonaws.com/workspaces/ws-example1-1234-abcd-5678-ef90abcd1234/api/v1/>.
 
 
 =head2 B<REQUIRED> Status => L<Paws::Prometheus::WorkspaceStatus>
 
-The status of this workspace.
+The current status of the workspace.
+
+
+=head2 Tags => L<Paws::Prometheus::TagMap>
+
+The list of tag keys and values that are associated with the workspace.
 
 
 =head2 B<REQUIRED> WorkspaceId => Str
 
-Unique string identifying this workspace.
+The unique ID for the workspace. For example,
+C<ws-example1-1234-abcd-5678-ef90abcd1234>.
 
 
 

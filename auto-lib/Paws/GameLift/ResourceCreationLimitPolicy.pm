@@ -39,19 +39,23 @@ can create within a specified span of time. With this policy, you can
 control players' ability to consume available resources.
 
 The policy is evaluated when a player tries to create a new game
-session. On receiving a C<CreateGameSession> request, GameLift checks
-that the player (identified by C<CreatorId>) has created fewer than
-game session limit in the specified time period.
-
-The resource creation limit policy is included in FleetAttributes.
+session. On receiving a C<CreateGameSession> request, Amazon GameLift
+checks that the player (identified by C<CreatorId>) has created fewer
+than game session limit in the specified time period.
 
 =head1 ATTRIBUTES
 
 
 =head2 NewGameSessionsPerCreator => Int
 
-The maximum number of game sessions that an individual can create
-during the policy period.
+A policy that puts limits on the number of game sessions that a player
+can create within a specified span of time. With this policy, you can
+control players' ability to consume available resources.
+
+The policy is evaluated when a player tries to create a new game
+session. On receiving a C<CreateGameSession> request, Amazon GameLift
+checks that the player (identified by C<CreatorId>) has created fewer
+than game session limit in the specified time period.
 
 
 =head2 PolicyPeriodInMinutes => Int

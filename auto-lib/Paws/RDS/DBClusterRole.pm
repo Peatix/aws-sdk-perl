@@ -44,8 +44,8 @@ role that is associated with a DB cluster.
 =head2 FeatureName => Str
 
 The name of the feature associated with the Amazon Web Services
-Identity and Access Management (IAM) role. For the list of supported
-feature names, see DBEngineVersion.
+Identity and Access Management (IAM) role. For information about
+supported feature names, see DBEngineVersion.
 
 
 =head2 RoleArn => Str

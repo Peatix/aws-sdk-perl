@@ -70,8 +70,8 @@ Constraints:
 =item *
 
 Must contain a valid universally unique identifier (UUID). For more
-information about UUIDs, see A Universally Unique Identifier (UUID) URN
-Namespace (http://www.ietf.org/rfc/rfc4122.txt).
+information about UUIDs, see Universally unique identifier
+(https://en.wikipedia.org/wiki/Universally_unique_identifier).
 
 =back
 

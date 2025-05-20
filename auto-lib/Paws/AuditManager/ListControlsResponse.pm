@@ -18,13 +18,13 @@ Paws::AuditManager::ListControlsResponse
 
 =head2 ControlMetadataList => ArrayRef[L<Paws::AuditManager::ControlMetadata>]
 
-The list of control metadata objects returned by the C<ListControls>
-API.
+A list of metadata that the C<ListControls> API returns for each
+control.
 
 
 =head2 NextToken => Str
 
-The pagination token used to fetch the next set of results.
+The pagination token that's used to fetch the next set of results.
 
 
 =head2 _request_id => Str

@@ -17,9 +17,8 @@ Paws::GreengrassV2::BatchDisassociateClientDeviceFromCoreDeviceResponse
 
 =head2 ErrorEntries => ArrayRef[L<Paws::GreengrassV2::DisassociateClientDeviceFromCoreDeviceErrorEntry>]
 
-The list of errors (if any) for the entries in the request. Each error
-entry contains the name of the AWS IoT thing that failed to
-disassociate.
+The list of any errors for the entries in the request. Each error entry
+contains the name of the IoT thing that failed to disassociate.
 
 
 =head2 _request_id => Str

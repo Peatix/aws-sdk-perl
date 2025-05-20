@@ -50,6 +50,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationDateTime    = $DescribeBotAliasResponse->CreationDateTime;
     my $Description         = $DescribeBotAliasResponse->Description;
     my $LastUpdatedDateTime = $DescribeBotAliasResponse->LastUpdatedDateTime;
+    my $ParentBotNetworks   = $DescribeBotAliasResponse->ParentBotNetworks;
     my $SentimentAnalysisSettings =
       $DescribeBotAliasResponse->SentimentAnalysisSettings;
 

@@ -6,6 +6,7 @@ package Paws::Lightsail::Domain;
   has DomainEntries => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::DomainEntry]', request_name => 'domainEntries', traits => ['NameInRequest']);
   has Location => (is => 'ro', isa => 'Paws::Lightsail::ResourceLocation', request_name => 'location', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has RegisteredDomainDelegationInfo => (is => 'ro', isa => 'Paws::Lightsail::RegisteredDomainDelegationInfo', request_name => 'registeredDomainDelegationInfo', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
   has SupportCode => (is => 'ro', isa => 'Str', request_name => 'supportCode', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::Tag]', request_name => 'tags', traits => ['NameInRequest']);
@@ -40,15 +41,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes a domain where you are storing recordsets in Lightsail.
+Describes a domain where you are storing recordsets.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the domain recordset (e.g.,
-C<arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE>).
+The Amazon Resource Name (ARN) of the domain recordset
+(C<arn:aws:lightsail:global:123456789101:Domain/824cede0-abc7-4f84-8dbc-12345EXAMPLE>).
 
 
 =head2 CreatedAt => Str
@@ -73,6 +74,12 @@ created.
 The name of the domain.
 
 
+=head2 RegisteredDomainDelegationInfo => L<Paws::Lightsail::RegisteredDomainDelegationInfo>
+
+An object that describes the state of the Route 53 domain delegation to
+a Lightsail DNS zone.
+
+
 =head2 ResourceType => Str
 
 The resource type.
@@ -89,8 +96,8 @@ more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

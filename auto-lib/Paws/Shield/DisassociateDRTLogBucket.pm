@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/shi
 
 =head2 B<REQUIRED> LogBucket => Str
 
-The Amazon S3 bucket that contains your AWS WAF logs.
+The Amazon S3 bucket that contains the logs that you want to share.
 
 
 

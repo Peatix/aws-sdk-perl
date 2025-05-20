@@ -35,31 +35,29 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-A list of AWS accounts and the active CloudFront key pairs in each
-account that CloudFront can use to verify the signatures of signed URLs
-and signed cookies.
+A list of Amazon Web Services accounts and the active CloudFront key
+pairs in each account that CloudFront can use to verify the signatures
+of signed URLs and signed cookies.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Enabled => Bool
 
-This field is C<true> if any of the AWS accounts in the list have
-active CloudFront key pairs that CloudFront can use to verify the
-signatures of signed URLs and signed cookies. If not, this field is
-C<false>.
+This field is C<true> if any of the Amazon Web Services accounts in the
+list are configured as trusted signers. If not, this field is C<false>.
 
 
 =head2 Items => ArrayRef[L<Paws::CloudFront::Signer>]
 
-A list of AWS accounts and the identifiers of active CloudFront key
-pairs in each account that CloudFront can use to verify the signatures
-of signed URLs and signed cookies.
+A list of Amazon Web Services accounts and the identifiers of active
+CloudFront key pairs in each account that CloudFront can use to verify
+the signatures of signed URLs and signed cookies.
 
 
 =head2 B<REQUIRED> Quantity => Int
 
-The number of AWS accounts in the list.
+The number of Amazon Web Services accounts in the list.
 
 
 

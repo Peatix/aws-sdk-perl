@@ -54,7 +54,7 @@ A description of the service template update.
 
 =head2 DisplayName => Str
 
-The name of the service template to update as displayed in the
+The name of the service template to update that's displayed in the
 developer interface.
 
 

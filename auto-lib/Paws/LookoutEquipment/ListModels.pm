@@ -53,34 +53,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/loo
 
 =head2 DatasetNameBeginsWith => Str
 
-The beginning of the name of the dataset of the ML models to be listed.
+The beginning of the name of the dataset of the machine learning models
+to be listed.
 
 
 
 =head2 MaxResults => Int
 
-Specifies the maximum number of ML models to list.
+Specifies the maximum number of machine learning models to list.
 
 
 
 =head2 ModelNameBeginsWith => Str
 
-The beginning of the name of the ML models being listed.
+The beginning of the name of the machine learning models being listed.
 
 
 
 =head2 NextToken => Str
 
 An opaque pagination token indicating where to continue the listing of
-ML models.
+machine learning models.
 
 
 
 =head2 Status => Str
 
-The status of the ML model.
+The status of the machine learning model.
 
-Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">
+Valid values are: C<"IN_PROGRESS">, C<"SUCCESS">, C<"FAILED">, C<"IMPORT_IN_PROGRESS">
 
 
 =head1 SEE ALSO

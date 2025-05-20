@@ -2,6 +2,7 @@
 package Paws::DynamoDB::ParameterizedStatement;
   use Moose;
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::AttributeValue]');
+  has ReturnValuesOnConditionCheckFailure => (is => 'ro', isa => 'Str');
   has Statement => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -34,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DynamoDB::P
 
 =head1 DESCRIPTION
 
-Represents a PartiQL statment that uses parameters.
+Represents a PartiQL statement that uses parameters.
 
 =head1 ATTRIBUTES
 
@@ -44,9 +45,19 @@ Represents a PartiQL statment that uses parameters.
 The parameter values.
 
 
+=head2 ReturnValuesOnConditionCheckFailure => Str
+
+An optional parameter that returns the item attributes for a PartiQL
+C<ParameterizedStatement> operation that failed a condition check.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
+
+
 =head2 B<REQUIRED> Statement => Str
 
-A PartiQL statment that uses parameters.
+A PartiQL statement that uses parameters.
 
 
 

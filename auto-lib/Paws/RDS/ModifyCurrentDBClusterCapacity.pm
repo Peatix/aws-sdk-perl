@@ -56,8 +56,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 The DB cluster capacity.
 
-When you change the capacity of a paused Aurora Serverless DB cluster,
-it automatically resumes.
+When you change the capacity of a paused Aurora Serverless v1 DB
+cluster, it automatically resumes.
 
 Constraints:
 
@@ -98,18 +98,11 @@ Must match the identifier of an existing DB cluster.
 
 =head2 SecondsBeforeTimeout => Int
 
-The amount of time, in seconds, that Aurora Serverless tries to find a
-scaling point to perform seamless scaling before enforcing the timeout
-action. The default is 300.
+The amount of time, in seconds, that Aurora Serverless v1 tries to find
+a scaling point to perform seamless scaling before enforcing the
+timeout action. The default is 300.
 
-=over
-
-=item *
-
-Value must be from 10 through 600.
-
-=back
-
+Specify a value between 10 and 600 seconds.
 
 
 

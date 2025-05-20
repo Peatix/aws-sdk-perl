@@ -3,8 +3,14 @@ package Paws::SecurityHub::SoftwarePackage;
   use Moose;
   has Architecture => (is => 'ro', isa => 'Str');
   has Epoch => (is => 'ro', isa => 'Str');
+  has FilePath => (is => 'ro', isa => 'Str');
+  has FixedInVersion => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has PackageManager => (is => 'ro', isa => 'Str');
   has Release => (is => 'ro', isa => 'Str');
+  has Remediation => (is => 'ro', isa => 'Str');
+  has SourceLayerArn => (is => 'ro', isa => 'Str');
+  has SourceLayerHash => (is => 'ro', isa => 'Str');
   has Version => (is => 'ro', isa => 'Str');
 
 1;
@@ -52,14 +58,46 @@ The architecture used for the software package.
 The epoch of the software package.
 
 
+=head2 FilePath => Str
+
+The file system path to the package manager inventory file.
+
+
+=head2 FixedInVersion => Str
+
+The version of the software package in which the vulnerability has been
+resolved.
+
+
 =head2 Name => Str
 
 The name of the software package.
 
 
+=head2 PackageManager => Str
+
+The source of the package.
+
+
 =head2 Release => Str
 
 The release of the software package.
+
+
+=head2 Remediation => Str
+
+Describes the actions a customer can take to resolve the vulnerability
+in the software package.
+
+
+=head2 SourceLayerArn => Str
+
+The Amazon Resource Name (ARN) of the source layer.
+
+
+=head2 SourceLayerHash => Str
+
+The source layer hash of the vulnerable package.
 
 
 =head2 Version => Str

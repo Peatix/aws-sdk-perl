@@ -3,6 +3,7 @@ package Paws::DynamoDB::BatchStatementRequest;
   use Moose;
   has ConsistentRead => (is => 'ro', isa => 'Bool');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::AttributeValue]');
+  has ReturnValuesOnConditionCheckFailure => (is => 'ro', isa => 'Str');
   has Statement => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -49,6 +50,16 @@ The read consistency of the PartiQL batch request.
 
 The parameters associated with a PartiQL statement in the batch
 request.
+
+
+=head2 ReturnValuesOnConditionCheckFailure => Str
+
+An optional parameter that returns the item attributes for a PartiQL
+batch request operation that failed a condition check.
+
+There is no additional cost associated with requesting a return value
+aside from the small network and processing overhead of receiving a
+larger response. No read capacity units are consumed.
 
 
 =head2 B<REQUIRED> Statement => Str

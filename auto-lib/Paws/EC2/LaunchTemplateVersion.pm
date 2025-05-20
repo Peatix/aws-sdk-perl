@@ -6,6 +6,7 @@ package Paws::EC2::LaunchTemplateVersion;
   has LaunchTemplateData => (is => 'ro', isa => 'Paws::EC2::ResponseLaunchTemplateData', request_name => 'launchTemplateData', traits => ['NameInRequest']);
   has LaunchTemplateId => (is => 'ro', isa => 'Str', request_name => 'launchTemplateId', traits => ['NameInRequest']);
   has LaunchTemplateName => (is => 'ro', isa => 'Str', request_name => 'launchTemplateName', traits => ['NameInRequest']);
+  has Operator => (is => 'ro', isa => 'Paws::EC2::OperatorResponse', request_name => 'operator', traits => ['NameInRequest']);
   has VersionDescription => (is => 'ro', isa => 'Str', request_name => 'versionDescription', traits => ['NameInRequest']);
   has VersionNumber => (is => 'ro', isa => 'Int', request_name => 'versionNumber', traits => ['NameInRequest']);
 1;
@@ -71,6 +72,11 @@ The ID of the launch template.
 =head2 LaunchTemplateName => Str
 
 The name of the launch template.
+
+
+=head2 Operator => L<Paws::EC2::OperatorResponse>
+
+The entity that manages the launch template.
 
 
 =head2 VersionDescription => Str

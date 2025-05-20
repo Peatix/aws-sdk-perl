@@ -36,7 +36,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           DeviceId   => 'MyId',                  # min: 1, max: 100
           Position   => [ 1, ... ],              # min: 2, max: 2
           SampleTime => '1970-01-01T01:00:00',
+          Accuracy   => {
+            Horizontal => 1,                     # max: 10000000
 
+          },    # OPTIONAL
+          PositionProperties => {
+            'MyPositionPropertyMapKeyString' =>
+              'MyPositionPropertyMapValueString'
+            ,    # key: min: 1, max: 20, value: min: 1, max: 150
+          },    # max: 4; OPTIONAL
         },
         ...
       ],

@@ -17,10 +17,8 @@ Paws::CloudWatchLogs::DescribeLogGroupsResponse
 
 =head2 LogGroups => ArrayRef[L<Paws::CloudWatchLogs::LogGroup>]
 
-The log groups.
-
-If the C<retentionInDays> value if not included for a log group, then
-that log group is set to have its events never expire.
+An array of structures, where each structure contains the information
+about one log group.
 
 
 =head2 NextToken => Str

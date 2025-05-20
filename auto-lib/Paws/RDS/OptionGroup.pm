@@ -2,12 +2,15 @@
 package Paws::RDS::OptionGroup;
   use Moose;
   has AllowsVpcAndNonVpcInstanceMemberships => (is => 'ro', isa => 'Bool');
+  has CopyTimestamp => (is => 'ro', isa => 'Str');
   has EngineName => (is => 'ro', isa => 'Str');
   has MajorEngineVersion => (is => 'ro', isa => 'Str');
   has OptionGroupArn => (is => 'ro', isa => 'Str');
   has OptionGroupDescription => (is => 'ro', isa => 'Str');
   has OptionGroupName => (is => 'ro', isa => 'Str');
   has Options => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Option]', request_name => 'Option', traits => ['NameInRequest']);
+  has SourceAccountId => (is => 'ro', isa => 'Str');
+  has SourceOptionGroup => (is => 'ro', isa => 'Str');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -52,6 +55,11 @@ non-VPC instances. The value C<true> indicates the option group can be
 applied to both VPC and non-VPC instances.
 
 
+=head2 CopyTimestamp => Str
+
+Indicates when the option group was copied.
+
+
 =head2 EngineName => Str
 
 Indicates the name of the engine that this option group can be applied
@@ -65,7 +73,7 @@ Indicates the major engine version associated with this option group.
 
 =head2 OptionGroupArn => Str
 
-The Amazon Resource Name (ARN) for the option group.
+Specifies the Amazon Resource Name (ARN) for the option group.
 
 
 =head2 OptionGroupDescription => Str
@@ -81,6 +89,18 @@ Specifies the name of the option group.
 =head2 Options => ArrayRef[L<Paws::RDS::Option>]
 
 Indicates what options are available in the option group.
+
+
+=head2 SourceAccountId => Str
+
+Specifies the Amazon Web Services account ID for the option group from
+which this option group is copied.
+
+
+=head2 SourceOptionGroup => Str
+
+Specifies the name of the option group from which this option group is
+copied.
 
 
 =head2 VpcId => Str

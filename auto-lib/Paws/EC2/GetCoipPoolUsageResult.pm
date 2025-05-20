@@ -4,6 +4,7 @@ package Paws::EC2::GetCoipPoolUsageResult;
   has CoipAddressUsages => (is => 'ro', isa => 'ArrayRef[Paws::EC2::CoipAddressUsage]', request_name => 'coipAddressUsageSet', traits => ['NameInRequest',]);
   has CoipPoolId => (is => 'ro', isa => 'Str', request_name => 'coipPoolId', traits => ['NameInRequest',]);
   has LocalGatewayRouteTableId => (is => 'ro', isa => 'Str', request_name => 'localGatewayRouteTableId', traits => ['NameInRequest',]);
+  has NextToken => (is => 'ro', isa => 'Str', request_name => 'nextToken', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -30,6 +31,12 @@ The ID of the customer-owned address pool.
 =head2 LocalGatewayRouteTableId => Str
 
 The ID of the local gateway route table.
+
+
+=head2 NextToken => Str
+
+The token to use to retrieve the next page of results. This value is
+C<null> when there are no more results to return.
 
 
 =head2 _request_id => Str

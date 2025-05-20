@@ -25,8 +25,8 @@ An identity pool ID in the format REGION:GUID.
 
 How users for a specific identity provider are to mapped to roles. This
 is a String-to-RoleMapping object map. The string identifies the
-identity provider, for example, "graph.facebook.com" or
-"cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+identity provider, for example, C<graph.facebook.com> or
+C<cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id>.
 
 
 =head2 Roles => L<Paws::CognitoIdentity::RolesMap>

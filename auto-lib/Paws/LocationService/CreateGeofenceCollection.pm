@@ -4,7 +4,7 @@ package Paws::LocationService::CreateGeofenceCollection;
   has CollectionName => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has PricingPlanDataSource => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::LocationService::TagMap');
 
@@ -35,9 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $geo = Paws->service('LocationService');
     my $CreateGeofenceCollectionResponse = $geo->CreateGeofenceCollection(
       CollectionName        => 'MyResourceName',
-      PricingPlan           => 'RequestBasedUsage',
       Description           => 'MyResourceDescription',    # OPTIONAL
       KmsKeyId              => 'MyKmsKeyId',               # OPTIONAL
+      PricingPlan           => 'RequestBasedUsage',        # OPTIONAL
       PricingPlanDataSource => 'MyString',                 # OPTIONAL
       Tags                  => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
@@ -91,46 +91,22 @@ An optional description for the geofence collection.
 
 =head2 KmsKeyId => Str
 
-A key identifier for an AWS KMS customer managed key
+A key identifier for an Amazon Web Services KMS customer managed key
 (https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 Enter a key ID, key ARN, alias name, or alias ARN.
 
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-Specifies the pricing plan for the geofence collection.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. If included, the only allowed value is
+C<RequestBasedUsage>.
 
 Valid values are: C<"RequestBasedUsage">, C<"MobileAssetTracking">, C<"MobileAssetManagement">
 
 =head2 PricingPlanDataSource => Str
 
-Specifies the data provider for the geofence collection.
-
-=over
-
-=item *
-
-Required value for the following pricing plans: C<MobileAssetTracking
->| C<MobileAssetManagement>
-
-=back
-
-For more information about Data Providers
-(https://aws.amazon.com/location/data-providers/), and Pricing plans
-(https://aws.amazon.com/location/pricing/), see the Amazon Location
-Service product page.
-
-Amazon Location Service only uses C<PricingPlanDataSource> to calculate
-billing for your geofence collection. Your data won't be shared with
-the data provider, and will remain in your AWS account or Region unless
-you move it.
-
-Valid Values: C<Esri >| C<Here>
+This parameter is no longer used.
 
 
 
@@ -166,6 +142,10 @@ Maximum value length: 256 Unicode characters in UTF-8
 
 Can use alphanumeric characters (AE<ndash>Z, aE<ndash>z, 0E<ndash>9),
 and the following characters: + - = . _ : / @.
+
+=item *
+
+Cannot use "aws:" as a prefix for a key.
 
 =back
 

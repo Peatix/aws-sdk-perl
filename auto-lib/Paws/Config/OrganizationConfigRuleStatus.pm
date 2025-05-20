@@ -37,20 +37,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Org
 
 =head1 DESCRIPTION
 
-Returns the status for an organization config rule in an organization.
+Returns the status for an organization Config rule in an organization.
 
 =head1 ATTRIBUTES
 
 
 =head2 ErrorCode => Str
 
-An error code that is returned when organization config rule creation
+An error code that is returned when organization Config rule creation
 or deletion has failed.
 
 
 =head2 ErrorMessage => Str
 
-An error message indicating that organization config rule creation or
+An error message indicating that organization Config rule creation or
 deletion failed due to an error.
 
 
@@ -61,68 +61,69 @@ The timestamp of the last update.
 
 =head2 B<REQUIRED> OrganizationConfigRuleName => Str
 
-The name that you assign to organization config rule.
+The name that you assign to organization Config rule.
 
 
 =head2 B<REQUIRED> OrganizationRuleStatus => Str
 
-Indicates deployment status of an organization config rule. When master
-account calls PutOrganizationConfigRule action for the first time,
-config rule status is created in all the member accounts. When master
-account calls PutOrganizationConfigRule action for the second time,
-config rule status is updated in all the member accounts. Additionally,
-config rule status is updated when one or more member accounts join or
-leave an organization. Config rule status is deleted when the master
-account deletes OrganizationConfigRule in all the member accounts and
-disables service access for C<config-multiaccountsetup.amazonaws.com>.
+Indicates deployment status of an organization Config rule. When
+management account calls PutOrganizationConfigRule action for the first
+time, Config rule status is created in all the member accounts. When
+management account calls PutOrganizationConfigRule action for the
+second time, Config rule status is updated in all the member accounts.
+Additionally, Config rule status is updated when one or more member
+accounts join or leave an organization. Config rule status is deleted
+when the management account deletes OrganizationConfigRule in all the
+member accounts and disables service access for
+C<config-multiaccountsetup.amazonaws.com>.
 
-AWS Config sets the state of the rule to:
+Config sets the state of the rule to:
 
 =over
 
 =item *
 
-C<CREATE_SUCCESSFUL> when an organization config rule has been
+C<CREATE_SUCCESSFUL> when an organization Config rule has been
 successfully created in all the member accounts.
 
 =item *
 
-C<CREATE_IN_PROGRESS> when an organization config rule creation is in
+C<CREATE_IN_PROGRESS> when an organization Config rule creation is in
 progress.
 
 =item *
 
-C<CREATE_FAILED> when an organization config rule creation failed in
+C<CREATE_FAILED> when an organization Config rule creation failed in
 one or more member accounts within that organization.
 
 =item *
 
-C<DELETE_FAILED> when an organization config rule deletion failed in
+C<DELETE_FAILED> when an organization Config rule deletion failed in
 one or more member accounts within that organization.
 
 =item *
 
-C<DELETE_IN_PROGRESS> when an organization config rule deletion is in
+C<DELETE_IN_PROGRESS> when an organization Config rule deletion is in
 progress.
 
 =item *
 
-C<DELETE_SUCCESSFUL> when an organization config rule has been
+C<DELETE_SUCCESSFUL> when an organization Config rule has been
 successfully deleted from all the member accounts.
 
 =item *
 
-C<UPDATE_SUCCESSFUL> when an organization config rule has been
+C<UPDATE_SUCCESSFUL> when an organization Config rule has been
 successfully updated in all the member accounts.
 
 =item *
 
-C<UPDATE_IN_PROGRESS> when an organization config rule update is in
+C<UPDATE_IN_PROGRESS> when an organization Config rule update is in
 progress.
 
 =item *
 
-C<UPDATE_FAILED> when an organization config rule update failed in one
+C<UPDATE_FAILED> when an organization Config rule update failed in one
 or more member accounts within that organization.
 
 =back

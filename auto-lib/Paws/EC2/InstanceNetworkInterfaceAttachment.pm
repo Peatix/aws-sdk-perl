@@ -4,6 +4,8 @@ package Paws::EC2::InstanceNetworkInterfaceAttachment;
   has AttachTime => (is => 'ro', isa => 'Str', request_name => 'attachTime', traits => ['NameInRequest']);
   has DeleteOnTermination => (is => 'ro', isa => 'Bool', request_name => 'deleteOnTermination', traits => ['NameInRequest']);
   has DeviceIndex => (is => 'ro', isa => 'Int', request_name => 'deviceIndex', traits => ['NameInRequest']);
+  has EnaQueueCount => (is => 'ro', isa => 'Int', request_name => 'enaQueueCount', traits => ['NameInRequest']);
+  has EnaSrdSpecification => (is => 'ro', isa => 'Paws::EC2::InstanceAttachmentEnaSrdSpecification', request_name => 'enaSrdSpecification', traits => ['NameInRequest']);
   has NetworkCardIndex => (is => 'ro', isa => 'Int', request_name => 'networkCardIndex', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
 1;
@@ -61,6 +63,17 @@ terminated.
 
 The index of the device on the instance for the network interface
 attachment.
+
+
+=head2 EnaQueueCount => Int
+
+The number of ENA queues created with the instance.
+
+
+=head2 EnaSrdSpecification => L<Paws::EC2::InstanceAttachmentEnaSrdSpecification>
+
+Contains the ENA Express settings for the network interface that's
+attached to the instance.
 
 
 =head2 NetworkCardIndex => Int

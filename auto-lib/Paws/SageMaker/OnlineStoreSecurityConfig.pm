@@ -40,12 +40,12 @@ The security configuration for C<OnlineStore>.
 
 =head2 KmsKeyId => Str
 
-The ID of the Amazon Web Services Key Management Service (Amazon Web
-Services KMS) key that SageMaker Feature Store uses to encrypt the
-Amazon S3 objects at rest using Amazon S3 server-side encryption.
+The Amazon Web Services Key Management Service (KMS) key ARN that
+SageMaker Feature Store uses to encrypt the Amazon S3 objects at rest
+using Amazon S3 server-side encryption.
 
-The caller (either IAM user or IAM role) of C<CreateFeatureGroup> must
-have below permissions to the C<OnlineStore> C<KmsKeyId>:
+The caller (either user or IAM role) of C<CreateFeatureGroup> must have
+below permissions to the C<OnlineStore> C<KmsKeyId>:
 
 =over
 
@@ -95,7 +95,7 @@ C<"kms:RevokeGrant">
 
 =back
 
-The caller (either IAM user or IAM role) to all DataPlane operations
+The caller (either user or IAM role) to all DataPlane operations
 (C<PutRecord>, C<GetRecord>, C<DeleteRecord>) must have the following
 permissions to the C<KmsKeyId>:
 

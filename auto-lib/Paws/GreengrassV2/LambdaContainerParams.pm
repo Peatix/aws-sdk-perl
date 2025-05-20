@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GreengrassV
 
 =head1 DESCRIPTION
 
-Contains information about a container in which AWS Lambda functions
-run on AWS IoT Greengrass core devices.
+Contains information about a container in which Lambda functions run on
+Greengrass core devices.
 
 =head1 ATTRIBUTES
 

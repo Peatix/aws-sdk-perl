@@ -54,8 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 The deployment type.
 
-There are four modes for updating a service pipeline as described in
-the following. The C<deploymentType> field defines the mode.
+There are four modes for updating a service pipeline. The
+C<deploymentType> field defines the mode.
 
 =over
 
@@ -68,23 +68,22 @@ metadata parameters are updated.
 
 In this mode, the service pipeline is deployed and updated with the new
 spec that you provide. Only requested parameters are updated.
-I<DonE<rsquo>t> include minor or major version parameters when you use
+I<DonE<rsquo>t> include major or minor version parameters when you use
 this C<deployment-type>.
 
 =item C<MINOR_VERSION>
 
 In this mode, the service pipeline is deployed and updated with the
 published, recommended (latest) minor version of the current major
-version in use, by default. You can also specify a different minor
-version of the current major version in use.
+version in use, by default. You can specify a different minor version
+of the current major version in use.
 
 =item C<MAJOR_VERSION>
 
 In this mode, the service pipeline is deployed and updated with the
 published, recommended (latest) major and minor version of the current
-template, by default. You can also specify a different major version
-that is higher than the major version in use and a minor version
-(optional).
+template, by default. You can specify a different major version that's
+higher than the major version in use and a minor version.
 
 =back
 

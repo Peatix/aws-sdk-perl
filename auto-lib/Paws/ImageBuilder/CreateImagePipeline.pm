@@ -6,13 +6,16 @@ package Paws::ImageBuilder::CreateImagePipeline;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has DistributionConfigurationArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'distributionConfigurationArn');
   has EnhancedImageMetadataEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enhancedImageMetadataEnabled');
+  has ExecutionRole => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'executionRole');
   has ImageRecipeArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'imageRecipeArn');
+  has ImageScanningConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ImageScanningConfiguration', traits => ['NameInRequest'], request_name => 'imageScanningConfiguration');
   has ImageTestsConfiguration => (is => 'ro', isa => 'Paws::ImageBuilder::ImageTestsConfiguration', traits => ['NameInRequest'], request_name => 'imageTestsConfiguration');
   has InfrastructureConfigurationArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'infrastructureConfigurationArn', required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
   has Schedule => (is => 'ro', isa => 'Paws::ImageBuilder::Schedule', traits => ['NameInRequest'], request_name => 'schedule');
   has Status => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'status');
   has Tags => (is => 'ro', isa => 'Paws::ImageBuilder::TagMap', traits => ['NameInRequest'], request_name => 'tags');
+  has Workflows => (is => 'ro', isa => 'ArrayRef[Paws::ImageBuilder::WorkflowConfiguration]', traits => ['NameInRequest'], request_name => 'workflows');
 
   use MooseX::ClassAttribute;
 
@@ -48,8 +51,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DistributionConfigurationArn   =>
         'MyDistributionConfigurationArn',                          # OPTIONAL
       EnhancedImageMetadataEnabled => 1,                           # OPTIONAL
+      ExecutionRole                => 'MyRoleNameOrArn',           # OPTIONAL
       ImageRecipeArn               => 'MyImageRecipeArn',          # OPTIONAL
-      ImageTestsConfiguration      => {
+      ImageScanningConfiguration   => {
+        EcrConfiguration => {
+          ContainerTags => [
+            'MyNonEmptyString', ...    # min: 1, max: 1024
+          ],    # OPTIONAL
+          RepositoryName => 'MyNonEmptyString',    # min: 1, max: 1024
+        },    # OPTIONAL
+        ImageScanningEnabled => 1,
+      },    # OPTIONAL
+      ImageTestsConfiguration => {
         ImageTestsEnabled => 1,
         TimeoutMinutes    => 1,    # min: 60, max: 1440; OPTIONAL
       },    # OPTIONAL
@@ -63,6 +76,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags   => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
+      Workflows => [
+        {
+          WorkflowArn   => 'MyWorkflowVersionArnOrBuildVersionArn',
+          OnFailure     => 'CONTINUE',    # values: CONTINUE, ABORT; OPTIONAL
+          ParallelGroup => 'MyParallelGroup',    # min: 1, max: 100; OPTIONAL
+          Parameters    => [
+            {
+              Name  => 'MyWorkflowParameterName',             # min: 1, max: 128
+              Value => [ 'MyWorkflowParameterValue', ... ],
+
+            },
+            ...
+          ],    # min: 1; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -80,7 +109,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 B<REQUIRED> ClientToken => Str
 
-The idempotency token used to make this request idempotent.
+Unique, case-sensitive identifier you provide to ensure idempotency of
+the request. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+in the I<Amazon EC2 API Reference>.
 
 
 
@@ -114,10 +146,23 @@ Image Builder. Enabled by default.
 
 
 
+=head2 ExecutionRole => Str
+
+The name or Amazon Resource Name (ARN) for the IAM role you create that
+grants Image Builder access to perform workflow actions.
+
+
+
 =head2 ImageRecipeArn => Str
 
 The Amazon Resource Name (ARN) of the image recipe that will be used to
 configure images created by this image pipeline.
+
+
+
+=head2 ImageScanningConfiguration => L<Paws::ImageBuilder::ImageScanningConfiguration>
+
+Contains settings for vulnerability scans.
 
 
 
@@ -155,6 +200,12 @@ Valid values are: C<"DISABLED">, C<"ENABLED">
 =head2 Tags => L<Paws::ImageBuilder::TagMap>
 
 The tags of the image pipeline.
+
+
+
+=head2 Workflows => ArrayRef[L<Paws::ImageBuilder::WorkflowConfiguration>]
+
+Contains an array of workflow configuration objects.
 
 
 

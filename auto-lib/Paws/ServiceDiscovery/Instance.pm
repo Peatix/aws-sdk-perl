@@ -59,6 +59,9 @@ For each attribute, the applicable value.
 
 =back
 
+Do not include sensitive information in the attributes if the namespace
+is discoverable by public DNS queries.
+
 Supported attribute keys include the following:
 
 =over

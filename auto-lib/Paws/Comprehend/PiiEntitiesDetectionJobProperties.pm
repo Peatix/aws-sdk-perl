@@ -4,6 +4,7 @@ package Paws::Comprehend::PiiEntitiesDetectionJobProperties;
   has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::InputDataConfig');
+  has JobArn => (is => 'ro', isa => 'Str');
   has JobId => (is => 'ro', isa => 'Str');
   has JobName => (is => 'ro', isa => 'Str');
   has JobStatus => (is => 'ro', isa => 'Str');
@@ -51,8 +52,8 @@ Provides information about a PII entities detection job.
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) that gives Amazon Comprehend read access
-to your input data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data.
 
 
 =head2 EndTime => Str
@@ -63,6 +64,20 @@ The time that the PII entities detection job completed.
 =head2 InputDataConfig => L<Paws::Comprehend::InputDataConfig>
 
 The input properties for a PII entities detection job.
+
+
+=head2 JobArn => Str
+
+The Amazon Resource Name (ARN) of the PII entities detection job. It is
+a unique, fully qualified identifier for the job. It includes the
+Amazon Web Services account, Amazon Web Services Region, and the job
+ID. The format of the ARN is as follows:
+
+C<arn:E<lt>partitionE<gt>:comprehend:E<lt>regionE<gt>:E<lt>account-idE<gt>:pii-entities-detection-job/E<lt>job-idE<gt>>
+
+The following is an example job ARN:
+
+C<arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab>
 
 
 =head2 JobId => Str
@@ -83,7 +98,7 @@ C<FAILED>, the C<Message> field shows the reason for the failure.
 
 =head2 LanguageCode => Str
 
-The language code of the input documents
+The language code of the input documents.
 
 
 =head2 Message => Str

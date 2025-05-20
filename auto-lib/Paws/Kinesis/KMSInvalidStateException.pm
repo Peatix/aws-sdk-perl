@@ -37,7 +37,7 @@ The request was rejected because the state of the specified resource
 isn't valid for this request. For more information, see How Key State
 Affects Use of a Customer Master Key
 (https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Amazon Web Services Key Management Service Developer Guide>.
 
 =head1 ATTRIBUTES
 

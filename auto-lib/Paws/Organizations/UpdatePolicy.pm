@@ -69,9 +69,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/org
 
 If provided, the new content for the policy. The text must be correctly
 formatted JSON that complies with the syntax for the policy's type. For
-more information, see Service Control Policy Syntax
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html)
-in the I<AWS Organizations User Guide.>
+more information, see SCP syntax
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html)
+in the I<Organizations User Guide>.
+
+The maximum size of a policy document depends on the policy's type. For
+more information, see Maximum and minimum values
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values)
+in the I<Organizations User Guide>.
 
 
 

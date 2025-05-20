@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 
 =head1 DESCRIPTION
 
-An object that describes the image tag details returned by a
+An object that describes the image tag details that are returned by a
 DescribeImageTags action.
 
 =head1 ATTRIBUTES
@@ -60,21 +60,21 @@ The media type of the image manifest.
 
 =head2 ImagePushedAt => Str
 
-The date and time, expressed in standard JavaScript date format, at
-which the current image tag was pushed to the repository.
+The date and time, expressed in standard JavaScript date format, which
+the current image tag was pushed to the repository at.
 
 
 =head2 ImageSizeInBytes => Int
 
 The size, in bytes, of the image in the repository.
 
-If the image is a manifest list, this will be the max size of all
-manifests in the list.
+If the image is a manifest list, this is the max size of all manifests
+in the list.
 
 Beginning with Docker version 1.9, the Docker client compresses image
 layers before pushing them to a V2 Docker registry. The output of the
-C<docker images> command shows the uncompressed image size, so it may
-return a larger image size than the image sizes returned by
+C<docker images> command shows the uncompressed image size, so it might
+return a larger image size than the image sizes that are returned by
 DescribeImages.
 
 

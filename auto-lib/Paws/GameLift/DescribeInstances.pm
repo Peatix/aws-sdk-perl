@@ -75,7 +75,7 @@ C<NextToken> to get results as a set of sequential pages.
 =head2 Location => Str
 
 The name of a location to retrieve instance information for, in the
-form of an AWS Region code such as C<us-west-2>.
+form of an Amazon Web Services Region code such as C<us-west-2>.
 
 
 

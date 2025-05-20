@@ -16,7 +16,7 @@ Paws::Kendra::CreateQuerySuggestionsBlockListResponse
 
 =head2 Id => Str
 
-The unique identifier of the created block list.
+The identifier of the block list.
 
 
 =head2 _request_id => Str

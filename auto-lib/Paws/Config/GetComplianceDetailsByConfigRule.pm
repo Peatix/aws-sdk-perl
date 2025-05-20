@@ -58,15 +58,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 Filters the results by compliance.
 
-The allowed values are C<COMPLIANT>, C<NON_COMPLIANT>, and
-C<NOT_APPLICABLE>.
+C<INSUFFICIENT_DATA> is a valid C<ComplianceType> that is returned when
+an Config rule cannot be evaluated. However, C<INSUFFICIENT_DATA>
+cannot be used as a C<ComplianceType> for filtering results.
 
 
 
 =head2 B<REQUIRED> ConfigRuleName => Str
 
-The name of the AWS Config rule for which you want compliance
-information.
+The name of the Config rule for which you want compliance information.
 
 
 
@@ -74,7 +74,7 @@ information.
 
 The maximum number of evaluation results returned on each page. The
 default is 10. You cannot specify a number greater than 100. If you
-specify 0, AWS Config uses the default.
+specify 0, Config uses the default.
 
 
 

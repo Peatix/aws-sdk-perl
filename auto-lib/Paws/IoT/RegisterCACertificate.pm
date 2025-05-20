@@ -3,10 +3,11 @@ package Paws::IoT::RegisterCACertificate;
   use Moose;
   has AllowAutoRegistration => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'allowAutoRegistration');
   has CaCertificate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'caCertificate', required => 1);
+  has CertificateMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'certificateMode');
   has RegistrationConfig => (is => 'ro', isa => 'Paws::IoT::RegistrationConfig', traits => ['NameInRequest'], request_name => 'registrationConfig');
   has SetAsActive => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'setAsActive');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Tag]', traits => ['NameInRequest'], request_name => 'tags');
-  has VerificationCertificate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'verificationCertificate', required => 1);
+  has VerificationCertificate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'verificationCertificate');
 
   use MooseX::ClassAttribute;
 
@@ -34,21 +35,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iot = Paws->service('IoT');
     my $RegisterCACertificateResponse = $iot->RegisterCACertificate(
-      CaCertificate           => 'MyCertificatePem',
-      VerificationCertificate => 'MyCertificatePem',
-      AllowAutoRegistration   => 1,                    # OPTIONAL
-      RegistrationConfig      => {
+      CaCertificate         => 'MyCertificatePem',
+      AllowAutoRegistration => 1,                    # OPTIONAL
+      CertificateMode       => 'DEFAULT',            # OPTIONAL
+      RegistrationConfig    => {
         RoleArn      => 'MyRoleArn',         # min: 20, max: 2048; OPTIONAL
-        TemplateBody => 'MyTemplateBody',    # OPTIONAL
+        TemplateBody => 'MyTemplateBody',    # max: 10240; OPTIONAL
+        TemplateName => 'MyTemplateName',    # min: 1, max: 36; OPTIONAL
       },    # OPTIONAL
       SetAsActive => 1,    # OPTIONAL
       Tags        => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      VerificationCertificate => 'MyCertificatePem',    # OPTIONAL
     );
 
     # Results:
@@ -76,6 +79,21 @@ The CA certificate.
 
 
 
+=head2 CertificateMode => Str
+
+Describes the certificate mode in which the Certificate Authority (CA)
+will be registered. If the C<verificationCertificate> field is not
+provided, set C<certificateMode> to be C<SNI_ONLY>. If the
+C<verificationCertificate> field is provided, set C<certificateMode> to
+be C<DEFAULT>. When C<certificateMode> is not provided, it defaults to
+C<DEFAULT>. All the device certificates that are registered using this
+CA will be registered in the same certificate mode as the CA. For more
+information about certificate mode for device certificates, see
+certificate mode
+(https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode).
+
+Valid values are: C<"DEFAULT">, C<"SNI_ONLY">
+
 =head2 RegistrationConfig => L<Paws::IoT::RegistrationConfig>
 
 Information about the registration configuration.
@@ -85,6 +103,8 @@ Information about the registration configuration.
 =head2 SetAsActive => Bool
 
 A boolean value that specifies if the CA certificate is set to active.
+
+Valid values: C<ACTIVE | INACTIVE>
 
 
 
@@ -102,9 +122,12 @@ For the cli-input-json file use format: "tags":
 
 
 
-=head2 B<REQUIRED> VerificationCertificate => Str
+=head2 VerificationCertificate => Str
 
-The private key verification certificate.
+The private key verification certificate. If C<certificateMode> is
+C<SNI_ONLY>, the C<verificationCertificate> field must be empty. If
+C<certificateMode> is C<DEFAULT> or not provided, the
+C<verificationCertificate> field must not be empty.
 
 
 

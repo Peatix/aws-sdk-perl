@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $DeleteResourceResponse = $workmail->DeleteResource(
       OrganizationId => 'MyOrganizationId',
-      ResourceId     => 'MyResourceId',
+      ResourceId     => 'MyEntityIdentifier',
 
     );
 
@@ -50,6 +50,22 @@ is deleted.
 =head2 B<REQUIRED> ResourceId => Str
 
 The identifier of the resource to be deleted.
+
+The identifier can accept I<ResourceId>, or I<Resourcename>. The
+following identity formats are available:
+
+=over
+
+=item *
+
+Resource ID: r-0123456789a0123456789b0123456789
+
+=item *
+
+Resource name: resource
+
+=back
+
 
 
 

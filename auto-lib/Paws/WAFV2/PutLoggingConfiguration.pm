@@ -33,15 +33,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'MyResourceArn', ...    # min: 20, max: 2048
         ],    # min: 1, max: 100
         ResourceArn   => 'MyResourceArn',    # min: 20, max: 2048
+        LogScope      => 'CUSTOMER', # values: CUSTOMER, SECURITY_LAKE; OPTIONAL
+        LogType       => 'WAF_LOGS', # values: WAF_LOGS; OPTIONAL
         LoggingFilter => {
-          DefaultBehavior => 'KEEP',         # values: KEEP, DROP
+          DefaultBehavior => 'KEEP',    # values: KEEP, DROP
           Filters         => [
             {
-              Behavior   => 'KEEP',          # values: KEEP, DROP
+              Behavior   => 'KEEP',     # values: KEEP, DROP
               Conditions => [
                 {
                   ActionCondition => {
-                    Action => 'ALLOW',    # values: ALLOW, BLOCK, COUNT
+                    Action => 'ALLOW'
+                    , # values: ALLOW, BLOCK, COUNT, CAPTCHA, CHALLENGE, EXCLUDED_AS_COUNT
 
                   },    # OPTIONAL
                   LabelNameCondition => {
@@ -65,6 +68,54 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
             },    # OPTIONAL
             Body => {
+              OversizeHandling =>
+                'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+            },    # OPTIONAL
+            Cookies => {
+              MatchPattern => {
+                All => {
+
+                },    # OPTIONAL
+                ExcludedCookies => [
+                  'MySingleCookieName', ...    # min: 1, max: 60
+                ],    # min: 1, max: 199; OPTIONAL
+                IncludedCookies => [
+                  'MySingleCookieName', ...    # min: 1, max: 60
+                ],    # min: 1, max: 199; OPTIONAL
+              },
+              MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+              OversizeHandling =>
+                'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+            },    # OPTIONAL
+            HeaderOrder => {
+              OversizeHandling =>
+                'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+            },    # OPTIONAL
+            Headers => {
+              MatchPattern => {
+                All => {
+
+                },    # OPTIONAL
+                ExcludedHeaders => [
+                  'MyFieldToMatchData', ...    # min: 1, max: 64
+                ],    # min: 1, max: 199; OPTIONAL
+                IncludedHeaders => [
+                  'MyFieldToMatchData', ...    # min: 1, max: 64
+                ],    # min: 1, max: 199; OPTIONAL
+              },
+              MatchScope       => 'ALL',    # values: ALL, KEY, VALUE
+              OversizeHandling =>
+                'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
+
+            },    # OPTIONAL
+            JA3Fingerprint => {
+              FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
+
+            },    # OPTIONAL
+            JA4Fingerprint => {
+              FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
 
             },    # OPTIONAL
             JsonBody => {
@@ -79,6 +130,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               MatchScope              => 'ALL',    # values: ALL, KEY, VALUE
               InvalidFallbackBehavior =>
                 'MATCH', # values: MATCH, NO_MATCH, EVALUATE_AS_STRING; OPTIONAL
+              OversizeHandling =>
+                'CONTINUE',    # values: CONTINUE, MATCH, NO_MATCH; OPTIONAL
             },    # OPTIONAL
             Method => {
 
@@ -93,6 +146,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             SingleQueryArgument => {
               Name => 'MyFieldToMatchData',    # min: 1, max: 64
 
+            },    # OPTIONAL
+            UriFragment => {
+              FallbackBehavior => 'MATCH',    # values: MATCH, NO_MATCH
             },    # OPTIONAL
             UriPath => {
 

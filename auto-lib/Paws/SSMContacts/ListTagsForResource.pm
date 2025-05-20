@@ -27,10 +27,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $ListTagsForResourceResult = $ssm -contacts->ListTagsForResource(
-      ResourceARN => 'MyAmazonResourceName',
-
-    );
+  # To list tags for a contact
+  # The following list-tags-for-resource example lists the tags of the specified
+  # contact.
+    my $ListTagsForResourceResult =
+      $ssm -
+      contacts->ListTagsForResource( 'ResourceARN' =>
+        'arn:aws:ssm-contacts:us-east-1:111122223333:contact/akuam' );
 
     # Results:
     my $Tags = $ListTagsForResourceResult->Tags;

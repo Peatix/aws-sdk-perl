@@ -2,8 +2,11 @@
 package Paws::CustomerProfiles::PutIntegration;
   use Moose;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'DomainName', required => 1);
+  has EventTriggerNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has FlowDefinition => (is => 'ro', isa => 'Paws::CustomerProfiles::FlowDefinition');
-  has ObjectTypeName => (is => 'ro', isa => 'Str', required => 1);
+  has ObjectTypeName => (is => 'ro', isa => 'Str');
+  has ObjectTypeNames => (is => 'ro', isa => 'Paws::CustomerProfiles::ObjectTypeNames');
+  has RoleArn => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::CustomerProfiles::TagMap');
   has Uri => (is => 'ro', isa => 'Str');
 
@@ -33,8 +36,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $profile = Paws->service('CustomerProfiles');
     my $PutIntegrationResponse = $profile->PutIntegration(
-      DomainName     => 'Myname',
-      ObjectTypeName => 'MytypeName',
+      DomainName        => 'Myname',
+      EventTriggerNames => [
+        'Myname', ...    # min: 1, max: 64
+      ],    # OPTIONAL
       FlowDefinition => {
         FlowName         => 'MyFlowName',    # max: 256
         KmsArn           => 'MyKmsArn',      # min: 20, max: 2048
@@ -114,19 +119,30 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         Description => 'MyFlowDescription',    # max: 2048; OPTIONAL
       },    # OPTIONAL
-      Tags => {
+      ObjectTypeName  => 'MytypeName',    # OPTIONAL
+      ObjectTypeNames => {
+        'Mystring1To255' =>
+          'MytypeName',    # key: min: 1, max: 255, value: min: 1, max: 255
+      },    # OPTIONAL
+      RoleArn => 'MyRoleArn',    # OPTIONAL
+      Tags    => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
       Uri => 'Mystring1To255',    # OPTIONAL
     );
 
     # Results:
-    my $CreatedAt      = $PutIntegrationResponse->CreatedAt;
-    my $DomainName     = $PutIntegrationResponse->DomainName;
-    my $LastUpdatedAt  = $PutIntegrationResponse->LastUpdatedAt;
-    my $ObjectTypeName = $PutIntegrationResponse->ObjectTypeName;
-    my $Tags           = $PutIntegrationResponse->Tags;
-    my $Uri            = $PutIntegrationResponse->Uri;
+    my $CreatedAt         = $PutIntegrationResponse->CreatedAt;
+    my $DomainName        = $PutIntegrationResponse->DomainName;
+    my $EventTriggerNames = $PutIntegrationResponse->EventTriggerNames;
+    my $IsUnstructured    = $PutIntegrationResponse->IsUnstructured;
+    my $LastUpdatedAt     = $PutIntegrationResponse->LastUpdatedAt;
+    my $ObjectTypeName    = $PutIntegrationResponse->ObjectTypeName;
+    my $ObjectTypeNames   = $PutIntegrationResponse->ObjectTypeNames;
+    my $RoleArn           = $PutIntegrationResponse->RoleArn;
+    my $Tags              = $PutIntegrationResponse->Tags;
+    my $Uri               = $PutIntegrationResponse->Uri;
+    my $WorkflowId        = $PutIntegrationResponse->WorkflowId;
 
     # Returns a L<Paws::CustomerProfiles::PutIntegrationResponse> object.
 
@@ -142,6 +158,13 @@ The unique name of the domain.
 
 
 
+=head2 EventTriggerNames => ArrayRef[Str|Undef]
+
+A list of unique names for active event triggers associated with the
+integration.
+
+
+
 =head2 FlowDefinition => L<Paws::CustomerProfiles::FlowDefinition>
 
 The configuration that controls how Customer Profiles retrieves data
@@ -149,9 +172,28 @@ from the source.
 
 
 
-=head2 B<REQUIRED> ObjectTypeName => Str
+=head2 ObjectTypeName => Str
 
 The name of the profile object type.
+
+
+
+=head2 ObjectTypeNames => L<Paws::CustomerProfiles::ObjectTypeNames>
+
+A map in which each key is an event type from an external application
+such as Segment or Shopify, and each value is an C<ObjectTypeName>
+(template) used to ingest the event. It supports the following event
+types: C<SegmentIdentify>, C<ShopifyCreateCustomers>,
+C<ShopifyUpdateCustomers>, C<ShopifyCreateDraftOrders>,
+C<ShopifyUpdateDraftOrders>, C<ShopifyCreateOrders>, and
+C<ShopifyUpdatedOrders>.
+
+
+
+=head2 RoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM role. The Integration uses
+this role to make Customer Profiles requests on your behalf.
 
 
 

@@ -5,6 +5,7 @@ package Paws::ApplicationMigration::ReplicationConfigurationReplicatedDisk;
   has Iops => (is => 'ro', isa => 'Int', request_name => 'iops', traits => ['NameInRequest']);
   has IsBootDisk => (is => 'ro', isa => 'Bool', request_name => 'isBootDisk', traits => ['NameInRequest']);
   has StagingDiskType => (is => 'ro', isa => 'Str', request_name => 'stagingDiskType', traits => ['NameInRequest']);
+  has Throughput => (is => 'ro', isa => 'Int', request_name => 'throughput', traits => ['NameInRequest']);
 
 1;
 
@@ -25,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ApplicationMigration::ReplicationConfigurationReplicatedDisk object:
 
-  $service_obj->Method(Att1 => { DeviceName => $value, ..., StagingDiskType => $value  });
+  $service_obj->Method(Att1 => { DeviceName => $value, ..., Throughput => $value  });
 
 =head3 Results returned from an API call
 
@@ -59,6 +60,11 @@ Replication Configuration replicated disk boot disk.
 =head2 StagingDiskType => Str
 
 Replication Configuration replicated disk staging disk type.
+
+
+=head2 Throughput => Int
+
+Replication Configuration replicated disk throughput.
 
 
 

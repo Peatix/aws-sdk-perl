@@ -7,10 +7,26 @@ package Paws::FMS::ResourceViolation;
   has DnsDuplicateRuleGroupViolation => (is => 'ro', isa => 'Paws::FMS::DnsDuplicateRuleGroupViolation');
   has DnsRuleGroupLimitExceededViolation => (is => 'ro', isa => 'Paws::FMS::DnsRuleGroupLimitExceededViolation');
   has DnsRuleGroupPriorityConflictViolation => (is => 'ro', isa => 'Paws::FMS::DnsRuleGroupPriorityConflictViolation');
+  has FirewallSubnetIsOutOfScopeViolation => (is => 'ro', isa => 'Paws::FMS::FirewallSubnetIsOutOfScopeViolation');
+  has FirewallSubnetMissingVPCEndpointViolation => (is => 'ro', isa => 'Paws::FMS::FirewallSubnetMissingVPCEndpointViolation');
+  has InvalidNetworkAclEntriesViolation => (is => 'ro', isa => 'Paws::FMS::InvalidNetworkAclEntriesViolation');
+  has NetworkFirewallBlackHoleRouteDetectedViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallBlackHoleRouteDetectedViolation');
+  has NetworkFirewallInternetTrafficNotInspectedViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallInternetTrafficNotInspectedViolation');
+  has NetworkFirewallInvalidRouteConfigurationViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallInvalidRouteConfigurationViolation');
+  has NetworkFirewallMissingExpectedRoutesViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallMissingExpectedRoutesViolation');
   has NetworkFirewallMissingExpectedRTViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallMissingExpectedRTViolation');
   has NetworkFirewallMissingFirewallViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallMissingFirewallViolation');
   has NetworkFirewallMissingSubnetViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallMissingSubnetViolation');
   has NetworkFirewallPolicyModifiedViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallPolicyModifiedViolation');
+  has NetworkFirewallUnexpectedFirewallRoutesViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallUnexpectedFirewallRoutesViolation');
+  has NetworkFirewallUnexpectedGatewayRoutesViolation => (is => 'ro', isa => 'Paws::FMS::NetworkFirewallUnexpectedGatewayRoutesViolation');
+  has PossibleRemediationActions => (is => 'ro', isa => 'Paws::FMS::PossibleRemediationActions');
+  has RouteHasOutOfScopeEndpointViolation => (is => 'ro', isa => 'Paws::FMS::RouteHasOutOfScopeEndpointViolation');
+  has ThirdPartyFirewallMissingExpectedRouteTableViolation => (is => 'ro', isa => 'Paws::FMS::ThirdPartyFirewallMissingExpectedRouteTableViolation');
+  has ThirdPartyFirewallMissingFirewallViolation => (is => 'ro', isa => 'Paws::FMS::ThirdPartyFirewallMissingFirewallViolation');
+  has ThirdPartyFirewallMissingSubnetViolation => (is => 'ro', isa => 'Paws::FMS::ThirdPartyFirewallMissingSubnetViolation');
+  has WebACLHasIncompatibleConfigurationViolation => (is => 'ro', isa => 'Paws::FMS::WebACLHasIncompatibleConfigurationViolation');
+  has WebACLHasOutOfScopeResourcesViolation => (is => 'ro', isa => 'Paws::FMS::WebACLHasOutOfScopeResourcesViolation');
 
 1;
 
@@ -31,7 +47,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::FMS::ResourceViolation object:
 
-  $service_obj->Method(Att1 => { AwsEc2InstanceViolation => $value, ..., NetworkFirewallPolicyModifiedViolation => $value  });
+  $service_obj->Method(Att1 => { AwsEc2InstanceViolation => $value, ..., WebACLHasOutOfScopeResourcesViolation => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,17 +65,17 @@ Violation detail based on resource type.
 
 =head2 AwsEc2InstanceViolation => L<Paws::FMS::AwsEc2InstanceViolation>
 
-Violation details for an EC2 instance.
+Violation detail for an EC2 instance.
 
 
 =head2 AwsEc2NetworkInterfaceViolation => L<Paws::FMS::AwsEc2NetworkInterfaceViolation>
 
-Violation details for network interface.
+Violation detail for a network interface.
 
 
 =head2 AwsVPCSecurityGroupViolation => L<Paws::FMS::AwsVPCSecurityGroupViolation>
 
-Violation details for security groups.
+Violation detail for security groups.
 
 
 =head2 DnsDuplicateRuleGroupViolation => L<Paws::FMS::DnsDuplicateRuleGroupViolation>
@@ -71,7 +87,7 @@ associated with the VPC and can't be associated again.
 
 =head2 DnsRuleGroupLimitExceededViolation => L<Paws::FMS::DnsRuleGroupLimitExceededViolation>
 
-Violation details for a DNS Firewall policy that indicates that the VPC
+Violation detail for a DNS Firewall policy that indicates that the VPC
 reached the limit for associated DNS Firewall rule groups. Firewall
 Manager tried to associate another rule group with the VPC and failed.
 
@@ -81,6 +97,44 @@ Manager tried to associate another rule group with the VPC and failed.
 Violation detail for a DNS Firewall policy that indicates that a rule
 group that Firewall Manager tried to associate with a VPC has the same
 priority as a rule group that's already associated.
+
+
+=head2 FirewallSubnetIsOutOfScopeViolation => L<Paws::FMS::FirewallSubnetIsOutOfScopeViolation>
+
+Contains details about the firewall subnet that violates the policy
+scope.
+
+
+=head2 FirewallSubnetMissingVPCEndpointViolation => L<Paws::FMS::FirewallSubnetMissingVPCEndpointViolation>
+
+The violation details for a third-party firewall's VPC endpoint subnet
+that was deleted.
+
+
+=head2 InvalidNetworkAclEntriesViolation => L<Paws::FMS::InvalidNetworkAclEntriesViolation>
+
+Violation detail for the entries in a network ACL resource.
+
+
+=head2 NetworkFirewallBlackHoleRouteDetectedViolation => L<Paws::FMS::NetworkFirewallBlackHoleRouteDetectedViolation>
+
+
+
+
+=head2 NetworkFirewallInternetTrafficNotInspectedViolation => L<Paws::FMS::NetworkFirewallInternetTrafficNotInspectedViolation>
+
+Violation detail for the subnet for which internet traffic hasn't been
+inspected.
+
+
+=head2 NetworkFirewallInvalidRouteConfigurationViolation => L<Paws::FMS::NetworkFirewallInvalidRouteConfigurationViolation>
+
+The route configuration is invalid.
+
+
+=head2 NetworkFirewallMissingExpectedRoutesViolation => L<Paws::FMS::NetworkFirewallMissingExpectedRoutesViolation>
+
+Expected routes are missing from Network Firewall.
 
 
 =head2 NetworkFirewallMissingExpectedRTViolation => L<Paws::FMS::NetworkFirewallMissingExpectedRTViolation>
@@ -110,6 +164,58 @@ firewall policy in an individual account has been modified in a way
 that makes it noncompliant. For example, the individual account owner
 might have deleted a rule group, changed the priority of a stateless
 rule group, or changed a policy default action.
+
+
+=head2 NetworkFirewallUnexpectedFirewallRoutesViolation => L<Paws::FMS::NetworkFirewallUnexpectedFirewallRoutesViolation>
+
+There's an unexpected firewall route.
+
+
+=head2 NetworkFirewallUnexpectedGatewayRoutesViolation => L<Paws::FMS::NetworkFirewallUnexpectedGatewayRoutesViolation>
+
+There's an unexpected gateway route.
+
+
+=head2 PossibleRemediationActions => L<Paws::FMS::PossibleRemediationActions>
+
+A list of possible remediation action lists. Each individual possible
+remediation action is a list of individual remediation actions.
+
+
+=head2 RouteHasOutOfScopeEndpointViolation => L<Paws::FMS::RouteHasOutOfScopeEndpointViolation>
+
+Contains details about the route endpoint that violates the policy
+scope.
+
+
+=head2 ThirdPartyFirewallMissingExpectedRouteTableViolation => L<Paws::FMS::ThirdPartyFirewallMissingExpectedRouteTableViolation>
+
+The violation details for a third-party firewall that has the Firewall
+Manager managed route table that was associated with the third-party
+firewall has been deleted.
+
+
+=head2 ThirdPartyFirewallMissingFirewallViolation => L<Paws::FMS::ThirdPartyFirewallMissingFirewallViolation>
+
+The violation details for a third-party firewall that's been deleted.
+
+
+=head2 ThirdPartyFirewallMissingSubnetViolation => L<Paws::FMS::ThirdPartyFirewallMissingSubnetViolation>
+
+The violation details for a third-party firewall's subnet that's been
+deleted.
+
+
+=head2 WebACLHasIncompatibleConfigurationViolation => L<Paws::FMS::WebACLHasIncompatibleConfigurationViolation>
+
+The violation details for a web ACL whose configuration is incompatible
+with the Firewall Manager policy.
+
+
+=head2 WebACLHasOutOfScopeResourcesViolation => L<Paws::FMS::WebACLHasOutOfScopeResourcesViolation>
+
+The violation details for a web ACL that's associated with at least one
+resource that's out of scope of the Firewall Manager policy.
 
 
 

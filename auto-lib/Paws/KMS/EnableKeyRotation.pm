@@ -2,6 +2,7 @@
 package Paws::KMS::EnableKeyRotation;
   use Moose;
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
+  has RotationPeriodInDays => (is => 'ro', isa => 'Int');
 
   use MooseX::ClassAttribute;
 
@@ -29,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kms = Paws->service('KMS');
    # To enable automatic rotation of key material
    # The following example enables automatic annual rotation of the key material
-   # for the specified CMK.
+   # for the specified KMS key.
     $kms->EnableKeyRotation(
       'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab' );
 
@@ -42,19 +43,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies a symmetric customer master key (CMK). You cannot enable
-automatic rotation of asymmetric CMKs
-(https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html#asymmetric-cmks),
-CMKs with imported key material
+Identifies a symmetric encryption KMS key. You cannot enable automatic
+rotation of asymmetric KMS keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html),
+HMAC KMS keys
+(https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), KMS
+keys with imported key material
 (https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html),
-or CMKs in a custom key store
+or KMS keys in a custom key store
 (https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
 To enable or disable automatic rotation of a set of related
 multi-Region keys
-(https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html#mrk-replica-key),
+(https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate),
 set the property on the primary key.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -71,7 +74,24 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
+
+
+
+=head2 RotationPeriodInDays => Int
+
+Use this parameter to specify a custom period of time between each
+rotation date. If no value is specified, the default value is 365 days.
+
+The rotation period defines the number of days after you enable
+automatic key rotation that KMS will rotate your key material, and the
+number of days between each automatic rotation thereafter.
+
+You can use the C<kms:RotationPeriodInDays>
+(https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-rotation-period-in-days)
+condition key to further constrain the values that principals can
+specify in the C<RotationPeriodInDays> parameter.
 
 
 

@@ -75,14 +75,15 @@ C<AggregateConformancePackComplianceSummaryFilters> object.
 
 =head2 GroupByKey => Str
 
-Groups the result based on AWS Account ID or AWS Region.
+Groups the result based on Amazon Web Services account ID or Amazon Web
+Services Region.
 
 Valid values are: C<"ACCOUNT_ID">, C<"AWS_REGION">
 
 =head2 Limit => Int
 
 The maximum number of results returned on each page. The default is
-maximum. If you specify 0, AWS Config uses the default.
+maximum. If you specify 0, Config uses the default.
 
 
 

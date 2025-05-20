@@ -1,6 +1,7 @@
 
 package Paws::DynamoDB::BatchExecuteStatement;
   use Moose;
+  has ReturnConsumedCapacity => (is => 'ro', isa => 'Str');
   has Statements => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::BatchStatementRequest]', required => 1);
 
   use MooseX::ClassAttribute;
@@ -55,14 +56,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # min: 1; OPTIONAL
+          ReturnValuesOnConditionCheckFailure =>
+            'ALL_OLD',    # values: ALL_OLD, NONE; OPTIONAL
         },
         ...
       ],
-
+      ReturnConsumedCapacity => 'INDEXES',    # OPTIONAL
     );
 
     # Results:
-    my $Responses = $BatchExecuteStatementOutput->Responses;
+    my $ConsumedCapacity = $BatchExecuteStatementOutput->ConsumedCapacity;
+    my $Responses        = $BatchExecuteStatementOutput->Responses;
 
     # Returns a L<Paws::DynamoDB::BatchExecuteStatementOutput> object.
 
@@ -71,6 +75,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dyn
 
 =head1 ATTRIBUTES
 
+
+=head2 ReturnConsumedCapacity => Str
+
+
+
+Valid values are: C<"INDEXES">, C<"TOTAL">, C<"NONE">
 
 =head2 B<REQUIRED> Statements => ArrayRef[L<Paws::DynamoDB::BatchStatementRequest>]
 

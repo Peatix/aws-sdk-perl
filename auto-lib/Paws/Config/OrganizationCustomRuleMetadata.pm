@@ -42,24 +42,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Org
 =head1 DESCRIPTION
 
 An object that specifies organization custom rule metadata such as
-resource type, resource ID of AWS resource, Lamdba function ARN, and
-organization trigger types that trigger AWS Config to evaluate your AWS
-resources against a rule. It also provides the frequency with which you
-want AWS Config to run evaluations for the rule if the trigger type is
-periodic.
+resource type, resource ID of Amazon Web Services resource, Lambda
+function ARN, and organization trigger types that trigger Config to
+evaluate your Amazon Web Services resources against a rule. It also
+provides the frequency with which you want Config to run evaluations
+for the rule if the trigger type is periodic.
 
 =head1 ATTRIBUTES
 
 
 =head2 Description => Str
 
-The description that you provide for organization config rule.
+The description that you provide for your organization Config rule.
 
 
 =head2 InputParameters => Str
 
-A string, in JSON format, that is passed to organization config rule
-Lambda function.
+A string, in JSON format, that is passed to your organization Config
+rule Lambda function.
 
 
 =head2 B<REQUIRED> LambdaFunctionArn => Str
@@ -69,10 +69,9 @@ The lambda function ARN.
 
 =head2 MaximumExecutionFrequency => Str
 
-The maximum frequency with which AWS Config runs evaluations for a
-rule. Your custom rule is triggered when AWS Config delivers the
-configuration snapshot. For more information, see
-ConfigSnapshotDeliveryProperties.
+The maximum frequency with which Config runs evaluations for a rule.
+Your custom rule is triggered when Config delivers the configuration
+snapshot. For more information, see ConfigSnapshotDeliveryProperties.
 
 By default, rules with a periodic trigger are evaluated every 24 hours.
 To change the frequency, specify a valid value for the
@@ -81,23 +80,22 @@ C<MaximumExecutionFrequency> parameter.
 
 =head2 B<REQUIRED> OrganizationConfigRuleTriggerTypes => ArrayRef[Str|Undef]
 
-The type of notification that triggers AWS Config to run an evaluation
-for a rule. You can specify the following notification types:
+The type of notification that triggers Config to run an evaluation for
+a rule. You can specify the following notification types:
 
 =over
 
 =item *
 
 C<ConfigurationItemChangeNotification> - Triggers an evaluation when
-AWS Config delivers a configuration item as a result of a resource
-change.
+Config delivers a configuration item as a result of a resource change.
 
 =item *
 
 C<OversizedConfigurationItemChangeNotification> - Triggers an
-evaluation when AWS Config delivers an oversized configuration item.
-AWS Config may generate this notification type when a resource changes
-and the notification exceeds the maximum size allowed by Amazon SNS.
+evaluation when Config delivers an oversized configuration item. Config
+may generate this notification type when a resource changes and the
+notification exceeds the maximum size allowed by Amazon SNS.
 
 =item *
 
@@ -110,12 +108,12 @@ frequency specified for C<MaximumExecutionFrequency>.
 
 =head2 ResourceIdScope => Str
 
-The ID of the AWS resource that was evaluated.
+The ID of the Amazon Web Services resource that was evaluated.
 
 
 =head2 ResourceTypesScope => ArrayRef[Str|Undef]
 
-The type of the AWS resource that was evaluated.
+The type of the Amazon Web Services resource that was evaluated.
 
 
 =head2 TagKeyScope => Str

@@ -1,6 +1,9 @@
 
 package Paws::Outposts::ListOutposts;
   use Moose;
+  has AvailabilityZoneFilter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'AvailabilityZoneFilter');
+  has AvailabilityZoneIdFilter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'AvailabilityZoneIdFilter');
+  has LifeCycleStatusFilter => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['ParamInQuery'], query_name => 'LifeCycleStatusFilter');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'MaxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
 
@@ -30,6 +33,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $outposts = Paws->service('Outposts');
     my $ListOutpostsOutput = $outposts->ListOutposts(
+      AvailabilityZoneFilter => [
+        'MyAvailabilityZone', ...    # min: 1, max: 1000
+      ],    # OPTIONAL
+      AvailabilityZoneIdFilter => [
+        'MyAvailabilityZoneId', ...    # min: 1, max: 255
+      ],    # OPTIONAL
+      LifeCycleStatusFilter => [
+        'MyLifeCycleStatus', ...    # min: 1, max: 20
+      ],    # OPTIONAL
       MaxResults => 1,            # OPTIONAL
       NextToken  => 'MyToken',    # OPTIONAL
     );
@@ -44,6 +56,24 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/outposts/ListOutposts>
 
 =head1 ATTRIBUTES
+
+
+=head2 AvailabilityZoneFilter => ArrayRef[Str|Undef]
+
+Filters the results by Availability Zone (for example, C<us-east-1a>).
+
+
+
+=head2 AvailabilityZoneIdFilter => ArrayRef[Str|Undef]
+
+Filters the results by AZ ID (for example, C<use1-az1>).
+
+
+
+=head2 LifeCycleStatusFilter => ArrayRef[Str|Undef]
+
+Filters the results by the lifecycle status.
+
 
 
 =head2 MaxResults => Int

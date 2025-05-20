@@ -3,6 +3,7 @@ package Paws::AppMesh::GrpcGatewayRouteMatch;
   use Moose;
   has Hostname => (is => 'ro', isa => 'Paws::AppMesh::GatewayRouteHostnameMatch', request_name => 'hostname', traits => ['NameInRequest']);
   has Metadata => (is => 'ro', isa => 'ArrayRef[Paws::AppMesh::GrpcGatewayRouteMetadata]', request_name => 'metadata', traits => ['NameInRequest']);
+  has Port => (is => 'ro', isa => 'Int', request_name => 'port', traits => ['NameInRequest']);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
 
 1;
@@ -48,6 +49,11 @@ The gateway route host name to be matched on.
 =head2 Metadata => ArrayRef[L<Paws::AppMesh::GrpcGatewayRouteMetadata>]
 
 The gateway route metadata to be matched on.
+
+
+=head2 Port => Int
+
+The gateway route port to be matched on.
 
 
 =head2 ServiceName => Str

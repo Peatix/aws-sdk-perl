@@ -3,6 +3,7 @@ package Paws::ECS::ContainerDefinition;
   use Moose;
   has Command => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'command', traits => ['NameInRequest']);
   has Cpu => (is => 'ro', isa => 'Int', request_name => 'cpu', traits => ['NameInRequest']);
+  has CredentialSpecs => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'credentialSpecs', traits => ['NameInRequest']);
   has DependsOn => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ContainerDependency]', request_name => 'dependsOn', traits => ['NameInRequest']);
   has DisableNetworking => (is => 'ro', isa => 'Bool', request_name => 'disableNetworking', traits => ['NameInRequest']);
   has DnsSearchDomains => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'dnsSearchDomains', traits => ['NameInRequest']);
@@ -32,12 +33,14 @@ package Paws::ECS::ContainerDefinition;
   has ReadonlyRootFilesystem => (is => 'ro', isa => 'Bool', request_name => 'readonlyRootFilesystem', traits => ['NameInRequest']);
   has RepositoryCredentials => (is => 'ro', isa => 'Paws::ECS::RepositoryCredentials', request_name => 'repositoryCredentials', traits => ['NameInRequest']);
   has ResourceRequirements => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ResourceRequirement]', request_name => 'resourceRequirements', traits => ['NameInRequest']);
+  has RestartPolicy => (is => 'ro', isa => 'Paws::ECS::ContainerRestartPolicy', request_name => 'restartPolicy', traits => ['NameInRequest']);
   has Secrets => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Secret]', request_name => 'secrets', traits => ['NameInRequest']);
   has StartTimeout => (is => 'ro', isa => 'Int', request_name => 'startTimeout', traits => ['NameInRequest']);
   has StopTimeout => (is => 'ro', isa => 'Int', request_name => 'stopTimeout', traits => ['NameInRequest']);
   has SystemControls => (is => 'ro', isa => 'ArrayRef[Paws::ECS::SystemControl]', request_name => 'systemControls', traits => ['NameInRequest']);
   has Ulimits => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Ulimit]', request_name => 'ulimits', traits => ['NameInRequest']);
   has User => (is => 'ro', isa => 'Str', request_name => 'user', traits => ['NameInRequest']);
+  has VersionConsistency => (is => 'ro', isa => 'Str', request_name => 'versionConsistency', traits => ['NameInRequest']);
   has VolumesFrom => (is => 'ro', isa => 'ArrayRef[Paws::ECS::VolumeFrom]', request_name => 'volumesFrom', traits => ['NameInRequest']);
   has WorkingDirectory => (is => 'ro', isa => 'Str', request_name => 'workingDirectory', traits => ['NameInRequest']);
 
@@ -79,29 +82,17 @@ different containers that are launched as part of a task.
 
 =head2 Command => ArrayRef[Str|Undef]
 
-The command that is passed to the container. This parameter maps to
-C<Cmd> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<COMMAND>
-parameter to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-For more information, see
-https://docs.docker.com/engine/reference/builder/#cmd
-(https://docs.docker.com/engine/reference/builder/#cmd). If there are
-multiple arguments, each argument should be a separated string in the
-array.
+The command that's passed to the container. This parameter maps to
+C<Cmd> in the docker container create command and the C<COMMAND>
+parameter to docker run. If there are multiple arguments, each argument
+is a separated string in the array.
 
 
 =head2 Cpu => Int
 
 The number of C<cpu> units reserved for the container. This parameter
-maps to C<CpuShares> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--cpu-shares>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+maps to C<CpuShares> in the docker container create commandand the
+C<--cpu-shares> option to docker run.
 
 This field is optional for tasks using the Fargate launch type, and the
 only requirement is that the total amount of CPU reserved for all
@@ -115,24 +106,24 @@ detail page by 1,024.
 Linux containers share unallocated CPU units with other containers on
 the container instance with the same ratio as their allocated amount.
 For example, if you run a single-container task on a single-core
-instance type with 512 CPU units specified for that container, and that
-is the only task running on the container instance, that container
+instance type with 512 CPU units specified for that container, and
+that's the only task running on the container instance, that container
 could use the full 1,024 CPU unit share at any given time. However, if
 you launched another copy of the same task on that container instance,
-each task would be guaranteed a minimum of 512 CPU units when needed,
-and each container could float to higher CPU usage if the other
-container was not using it, but if both tasks were 100% active all of
-the time, they would be limited to 512 CPU units.
+each task is guaranteed a minimum of 512 CPU units when needed.
+Moreover, each container could float to higher CPU usage if the other
+container was not using it. If both tasks were 100% active all of the
+time, they would be limited to 512 CPU units.
 
 On Linux container instances, the Docker daemon on the container
 instance uses the CPU value to calculate the relative CPU share ratios
-for running containers. For more information, see CPU share constraint
-(https://docs.docker.com/engine/reference/run/#cpu-share-constraint) in
-the Docker documentation. The minimum valid CPU share value that the
-Linux kernel allows is 2. However, the CPU parameter is not required,
-and you can use CPU values below 2 in your container definitions. For
-CPU values below 2 (including null), the behavior varies based on your
-Amazon ECS container agent version:
+for running containers. The minimum valid CPU share value that the
+Linux kernel allows is 2, and the maximum valid CPU share value that
+the Linux kernel allows is 262144. However, the CPU parameter isn't
+required, and you can use CPU values below 2 or above 262144 in your
+container definitions. For CPU values below 2 (including null) or above
+262144, the behavior varies based on your Amazon ECS container agent
+version:
 
 =over
 
@@ -148,28 +139,83 @@ kernel converts to two CPU shares.
 B<Agent versions greater than or equal to 1.2.0:> Null, zero, and CPU
 values of 1 are passed to Docker as 2.
 
+=item *
+
+B<Agent versions greater than or equal to 1.84.0:> CPU values greater
+than 256 vCPU are passed to Docker as 256, which is equivalent to
+262144 CPU shares.
+
 =back
 
 On Windows container instances, the CPU limit is enforced as an
 absolute limit, or a quota. Windows containers only have access to the
-specified amount of CPU that is described in the task definition. A
-null or zero CPU value is passed to Docker as C<0>, which Windows
-interprets as 1% of one CPU.
+specified amount of CPU that's described in the task definition. A null
+or zero CPU value is passed to Docker as C<0>, which Windows interprets
+as 1% of one CPU.
+
+
+=head2 CredentialSpecs => ArrayRef[Str|Undef]
+
+A list of ARNs in SSM or Amazon S3 to a credential spec (C<CredSpec>)
+file that configures the container for Active Directory authentication.
+We recommend that you use this parameter instead of the
+C<dockerSecurityOptions>. The maximum number of ARNs is 1.
+
+There are two formats for each ARN.
+
+=over
+
+=item credentialspecdomainless:MyARN
+
+You use C<credentialspecdomainless:MyARN> to provide a C<CredSpec> with
+an additional section for a secret in Secrets Manager. You provide the
+login credentials to the domain in the secret.
+
+Each task that runs on any container instance can join different
+domains.
+
+You can use this format without joining the container instance to a
+domain.
+
+=item credentialspec:MyARN
+
+You use C<credentialspec:MyARN> to provide a C<CredSpec> for a single
+domain.
+
+You must join the container instance to the domain before you start any
+tasks that use this task definition.
+
+=back
+
+In both formats, replace C<MyARN> with the ARN in SSM or Amazon S3.
+
+If you provide a C<credentialspecdomainless:MyARN>, the C<credspec>
+must provide a ARN in Secrets Manager for a secret containing the
+username, password, and the domain to connect to. For better security,
+the instance isn't joined to the domain for domainless authentication.
+Other applications on the instance can't use the domainless
+credentials. You can use this parameter to run tasks on the same
+instance, even it the tasks need to join different domains. For more
+information, see Using gMSAs for Windows Containers
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows-gmsa.html)
+and Using gMSAs for Linux Containers
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/linux-gmsa.html).
 
 
 =head2 DependsOn => ArrayRef[L<Paws::ECS::ContainerDependency>]
 
 The dependencies defined for container startup and shutdown. A
-container can contain multiple dependencies. When a dependency is
-defined for container startup, for container shutdown it is reversed.
+container can contain multiple dependencies on other containers in a
+task definition. When a dependency is defined for container startup,
+for container shutdown it is reversed.
 
 For tasks using the EC2 launch type, the container instances require at
-least version 1.26.0 of the container agent to enable container
+least version 1.26.0 of the container agent to turn on container
 dependencies. However, we recommend using the latest container agent
 version. For information about checking your agent version and updating
 to the latest version, see Updating the Amazon ECS Container Agent
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html)
-in the I<Amazon Elastic Container Service Developer Guide>. If you are
+in the I<Amazon Elastic Container Service Developer Guide>. If you're
 using an Amazon ECS-optimized Linux AMI, your instance needs at least
 version 1.26.0-1 of the C<ecs-init> package. If your container
 instances are launched from version C<20190301> or later, then they
@@ -179,17 +225,27 @@ For more information, see Amazon ECS-optimized Linux AMI
 in the I<Amazon Elastic Container Service Developer Guide>.
 
 For tasks using the Fargate launch type, the task or service requires
-platform version C<1.3.0> or later.
+the following platforms:
+
+=over
+
+=item *
+
+Linux platform version C<1.3.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
+
 
 
 =head2 DisableNetworking => Bool
 
-When this parameter is true, networking is disabled within the
-container. This parameter maps to C<NetworkDisabled> in the Create a
-container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/).
+When this parameter is true, networking is off within the container.
+This parameter maps to C<NetworkDisabled> in the docker container
+create command.
 
 This parameter is not supported for Windows containers.
 
@@ -197,12 +253,8 @@ This parameter is not supported for Windows containers.
 =head2 DnsSearchDomains => ArrayRef[Str|Undef]
 
 A list of DNS search domains that are presented to the container. This
-parameter maps to C<DnsSearch> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--dns-search>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to C<DnsSearch> in the docker container create command
+and the C<--dns-search> option to docker run.
 
 This parameter is not supported for Windows containers.
 
@@ -210,12 +262,8 @@ This parameter is not supported for Windows containers.
 =head2 DnsServers => ArrayRef[Str|Undef]
 
 A list of DNS servers that are presented to the container. This
-parameter maps to C<Dns> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--dns> option to
-docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to C<Dns> in the docker container create command and the
+C<--dns> option to docker run.
 
 This parameter is not supported for Windows containers.
 
@@ -223,38 +271,34 @@ This parameter is not supported for Windows containers.
 =head2 DockerLabels => L<Paws::ECS::DockerLabelsMap>
 
 A key/value map of labels to add to the container. This parameter maps
-to C<Labels> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--label> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-This parameter requires version 1.18 of the Docker Remote API or
-greater on your container instance. To check the Docker Remote API
-version on your container instance, log in to your container instance
-and run the following command: C<sudo docker version --format
-'{{.Server.APIVersion}}'>
+to C<Labels> in the docker container create command and the C<--label>
+option to docker run. This parameter requires version 1.18 of the
+Docker Remote API or greater on your container instance. To check the
+Docker Remote API version on your container instance, log in to your
+container instance and run the following command: C<sudo docker version
+--format '{{.Server.APIVersion}}'>
 
 
 =head2 DockerSecurityOptions => ArrayRef[Str|Undef]
 
-A list of strings to provide custom labels for SELinux and AppArmor
-multi-level security systems. This field is not valid for containers in
-tasks using the Fargate launch type.
+A list of strings to provide custom configuration for multiple security
+systems. This field isn't valid for containers in tasks using the
+Fargate launch type.
 
-With Windows containers, this parameter can be used to reference a
-credential spec file when configuring a container for Active Directory
+For Linux tasks on EC2, this parameter can be used to reference custom
+labels for SELinux and AppArmor multi-level security systems.
+
+For any tasks on EC2, this parameter can be used to reference a
+credential spec file that configures a container for Active Directory
 authentication. For more information, see Using gMSAs for Windows
 Containers
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows-gmsa.html)
+and Using gMSAs for Linux Containers
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/linux-gmsa.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-This parameter maps to C<SecurityOpt> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--security-opt>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+This parameter maps to C<SecurityOpt> in the docker container create
+command and the C<--security-opt> option to docker run.
 
 The Amazon ECS container agent running on a container instance must
 register with the C<ECS_SELINUX_CAPABLE=true> or
@@ -264,67 +308,48 @@ information, see Amazon ECS Container Agent Configuration
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-For more information about valid values, see Docker Run Security
-Configuration
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-
 Valid values: "no-new-privileges" | "apparmor:PROFILE" | "label:value"
 | "credentialspec:CredentialSpecFilePath"
 
 
 =head2 EntryPoint => ArrayRef[Str|Undef]
 
-Early versions of the Amazon ECS container agent do not properly handle
+Early versions of the Amazon ECS container agent don't properly handle
 C<entryPoint> parameters. If you have problems using C<entryPoint>,
 update your container agent or enter your commands and arguments as
 C<command> array items instead.
 
-The entry point that is passed to the container. This parameter maps to
-C<Entrypoint> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--entrypoint>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-For more information, see
-https://docs.docker.com/engine/reference/builder/#entrypoint
-(https://docs.docker.com/engine/reference/builder/#entrypoint).
+The entry point that's passed to the container. This parameter maps to
+C<Entrypoint> in the docker container create command and the
+C<--entrypoint> option to docker run.
 
 
 =head2 Environment => ArrayRef[L<Paws::ECS::KeyValuePair>]
 
 The environment variables to pass to a container. This parameter maps
-to C<Env> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--env> option to
-docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+to C<Env> in the docker container create command and the C<--env>
+option to docker run.
 
-We do not recommend using plaintext environment variables for sensitive
-information, such as credential data.
+We don't recommend that you use plaintext environment variables for
+sensitive information, such as credential data.
 
 
 =head2 EnvironmentFiles => ArrayRef[L<Paws::ECS::EnvironmentFile>]
 
 A list of files containing the environment variables to pass to a
 container. This parameter maps to the C<--env-file> option to docker
-run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+run.
 
 You can specify up to ten environment files. The file must have a
-C<.env> file extension. Each line in an environment file should contain
-an environment variable in C<VARIABLE=VALUE> format. Lines beginning
-with C<#> are treated as comments and are ignored. For more information
-on the environment variable file syntax, see Declare default
-environment variables in file
-(https://docs.docker.com/compose/env-file/).
+C<.env> file extension. Each line in an environment file contains an
+environment variable in C<VARIABLE=VALUE> format. Lines beginning with
+C<#> are treated as comments and are ignored.
 
 If there are environment variables specified using the C<environment>
 parameter in a container definition, they take precedence over the
 variables contained within an environment file. If multiple environment
-files are specified that contain the same variable, they are processed
-from the top down. It is recommended to use unique variable names. For
+files are specified that contain the same variable, they're processed
+from the top down. We recommend that you use unique variable names. For
 more information, see Specifying Environment Variables
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
@@ -335,15 +360,15 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 If the C<essential> parameter of a container is marked as C<true>, and
 that container fails or stops for any reason, all other containers that
 are part of the task are stopped. If the C<essential> parameter of a
-container is marked as C<false>, then its failure does not affect the
-rest of the containers in a task. If this parameter is omitted, a
-container is assumed to be essential.
+container is marked as C<false>, its failure doesn't affect the rest of
+the containers in a task. If this parameter is omitted, a container is
+assumed to be essential.
 
 All tasks must have at least one essential container. If you have an
-application that is composed of multiple containers, you should group
-containers that are used for a common purpose into components, and
-separate the different components into multiple task definitions. For
-more information, see Application Architecture
+application that's composed of multiple containers, group containers
+that are used for a common purpose into components, and separate the
+different components into multiple task definitions. For more
+information, see Application Architecture
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -352,15 +377,11 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 A list of hostnames and IP address mappings to append to the
 C</etc/hosts> file on the container. This parameter maps to
-C<ExtraHosts> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--add-host>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+C<ExtraHosts> in the docker container create command and the
+C<--add-host> option to docker run.
 
-This parameter is not supported for Windows containers or tasks that
-use the C<awsvpc> network mode.
+This parameter isn't supported for Windows containers or tasks that use
+the C<awsvpc> network mode.
 
 
 =head2 FirelensConfiguration => L<Paws::ECS::FirelensConfiguration>
@@ -376,43 +397,31 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 The container health check command and associated configuration
 parameters for the container. This parameter maps to C<HealthCheck> in
-the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<HEALTHCHECK>
-parameter of docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+the docker container create command and the C<HEALTHCHECK> parameter of
+docker run.
 
 
 =head2 Hostname => Str
 
 The hostname to use for your container. This parameter maps to
-C<Hostname> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--hostname>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+C<Hostname> in the docker container create command and the
+C<--hostname> option to docker run.
 
-The C<hostname> parameter is not supported if you are using the
+The C<hostname> parameter is not supported if you're using the
 C<awsvpc> network mode.
 
 
 =head2 Image => Str
 
 The image used to start a container. This string is passed directly to
-the Docker daemon. Images in the Docker Hub registry are available by
-default. Other repositories are specified with either C<
+the Docker daemon. By default, images in the Docker Hub registry are
+available. Other repositories are specified with either C<
 I<repository-url>/I<image>:I<tag> > or C<
 I<repository-url>/I<image>@I<digest> >. Up to 255 letters (uppercase
 and lowercase), numbers, hyphens, underscores, colons, periods, forward
 slashes, and number signs are allowed. This parameter maps to C<Image>
-in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<IMAGE> parameter
-of docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+in the docker container create command and the C<IMAGE> parameter of
+docker run.
 
 =over
 
@@ -420,7 +429,7 @@ of docker run
 
 When a new task starts, the Amazon ECS container agent pulls the latest
 version of the specified image and tag for the container to use.
-However, subsequent updates to a repository image are not propagated to
+However, subsequent updates to a repository image aren't propagated to
 already running tasks.
 
 =item *
@@ -453,14 +462,10 @@ name (for example, C<quay.io/assemblyline/ubuntu>).
 
 =head2 Interactive => Bool
 
-When this parameter is C<true>, this allows you to deploy containerized
+When this parameter is C<true>, you can deploy containerized
 applications that require C<stdin> or a C<tty> to be allocated. This
-parameter maps to C<OpenStdin> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--interactive>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to C<OpenStdin> in the docker container create command
+and the C<--interactive> option to docker run.
 
 
 =head2 Links => ArrayRef[Str|Undef]
@@ -470,15 +475,9 @@ without the need for port mappings. This parameter is only supported if
 the network mode of a task definition is C<bridge>. The
 C<name:internalName> construct is analogous to C<name:alias> in Docker
 links. Up to 255 letters (uppercase and lowercase), numbers,
-underscores, and hyphens are allowed. For more information about
-linking Docker containers, go to Legacy container links
-(https://docs.docker.com/network/links/) in the Docker documentation.
-This parameter maps to C<Links> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--link> option to
-docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+underscores, and hyphens are allowed.. This parameter maps to C<Links>
+in the docker container create command and the C<--link> option to
+docker run.
 
 This parameter is not supported for Windows containers.
 
@@ -490,8 +489,10 @@ using security groups and VPC settings.
 
 =head2 LinuxParameters => L<Paws::ECS::LinuxParameters>
 
-Linux-specific modifications that are applied to the container, such as
-Linux kernel capabilities. For more information see KernelCapabilities.
+Linux-specific modifications that are applied to the default Docker
+container configuration, such as Linux kernel capabilities. For more
+information see KernelCapabilities
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
 
 This parameter is not supported for Windows containers.
 
@@ -500,27 +501,20 @@ This parameter is not supported for Windows containers.
 
 The log configuration specification for the container.
 
-This parameter maps to C<LogConfig> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--log-driver>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-By default, containers use the same logging driver that the Docker
-daemon uses. However the container may use a different logging driver
-than the Docker daemon by specifying a log driver with this parameter
-in the container definition. To use a different logging driver for a
+This parameter maps to C<LogConfig> in the docker container create
+command and the C<--log-driver> option to docker run. By default,
+containers use the same logging driver that the Docker daemon uses.
+However the container can use a different logging driver than the
+Docker daemon by specifying a log driver with this parameter in the
+container definition. To use a different logging driver for a
 container, the log system must be configured properly on the container
-instance (or on a different log server for remote logging options). For
-more information on the options for different supported log drivers,
-see Configure logging drivers
-(https://docs.docker.com/engine/admin/logging/overview/) in the Docker
-documentation.
+instance (or on a different log server for remote logging options).
 
 Amazon ECS currently supports a subset of the logging drivers available
-to the Docker daemon (shown in the LogConfiguration data type).
-Additional log drivers may be available in future releases of the
-Amazon ECS container agent.
+to the Docker daemon (shown in the LogConfiguration
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html)
+data type). Additional log drivers may be available in future releases
+of the Amazon ECS container agent.
 
 This parameter requires version 1.18 of the Docker Remote API or
 greater on your container instance. To check the Docker Remote API
@@ -543,12 +537,8 @@ The amount (in MiB) of memory to present to the container. If your
 container attempts to exceed the memory specified here, the container
 is killed. The total amount of memory reserved for all containers
 within a task must be lower than the task C<memory> value, if one is
-specified. This parameter maps to C<Memory> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--memory> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+specified. This parameter maps to C<Memory> in the docker container
+create command and the C<--memory> option to docker run.
 
 If using the Fargate launch type, this parameter is optional.
 
@@ -557,11 +547,15 @@ memory value or a container-level memory value. If you specify both a
 container-level C<memory> and C<memoryReservation> value, C<memory>
 must be greater than C<memoryReservation>. If you specify
 C<memoryReservation>, then that value is subtracted from the available
-memory resources for the container instance on which the container is
+memory resources for the container instance where the container is
 placed. Otherwise, the value of C<memory> is used.
 
-The Docker daemon reserves a minimum of 4 MiB of memory for a
-container, so you should not specify fewer than 4 MiB of memory for
+The Docker 20.10.0 or later daemon reserves a minimum of 6 MiB of
+memory for a container. So, don't specify less than 6 MiB of memory for
+your containers.
+
+The Docker 19.03.13-ce or earlier daemon reserves a minimum of 4 MiB of
+memory for a container. So, don't specify less than 4 MiB of memory for
 your containers.
 
 
@@ -573,19 +567,15 @@ container memory to this soft limit. However, your container can
 consume more memory when it needs to, up to either the hard limit
 specified with the C<memory> parameter (if applicable), or all of the
 available memory on the container instance, whichever comes first. This
-parameter maps to C<MemoryReservation> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the
-C<--memory-reservation> option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to C<MemoryReservation> in the docker container create
+command and the C<--memory-reservation> option to docker run.
 
 If a task-level memory value is not specified, you must specify a
 non-zero integer for one or both of C<memory> or C<memoryReservation>
 in a container definition. If you specify both, C<memory> must be
 greater than C<memoryReservation>. If you specify C<memoryReservation>,
 then that value is subtracted from the available memory resources for
-the container instance on which the container is placed. Otherwise, the
+the container instance where the container is placed. Otherwise, the
 value of C<memory> is used.
 
 For example, if your container normally uses 128 MiB of memory, but
@@ -596,8 +586,12 @@ reserve 128 MiB of memory from the remaining resources on the container
 instance, but also allow the container to consume more memory resources
 when needed.
 
-The Docker daemon reserves a minimum of 4 MiB of memory for a
-container, so you should not specify fewer than 4 MiB of memory for
+The Docker 20.10.0 or later daemon reserves a minimum of 6 MiB of
+memory for a container. So, don't specify less than 6 MiB of memory for
+your containers.
+
+The Docker 19.03.13-ce or earlier daemon reserves a minimum of 4 MiB of
+memory for a container. So, don't specify less than 4 MiB of memory for
 your containers.
 
 
@@ -605,31 +599,22 @@ your containers.
 
 The mount points for data volumes in your container.
 
-This parameter maps to C<Volumes> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--volume> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+This parameter maps to C<Volumes> in the docker container create
+command and the C<--volume> option to docker run.
 
 Windows containers can mount whole directories on the same drive as
-C<$env:ProgramData>. Windows containers cannot mount directories on a
-different drive, and mount point cannot be across drives.
+C<$env:ProgramData>. Windows containers can't mount directories on a
+different drive, and mount point can't be across drives.
 
 
 =head2 Name => Str
 
-The name of a container. If you are linking multiple containers
-together in a task definition, the C<name> of one container can be
-entered in the C<links> of another container to connect the containers.
-Up to 255 letters (uppercase and lowercase), numbers, underscores, and
-hyphens are allowed. This parameter maps to C<name> in the Create a
-container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--name> option to
-docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+The name of a container. If you're linking multiple containers together
+in a task definition, the C<name> of one container can be entered in
+the C<links> of another container to connect the containers. Up to 255
+letters (uppercase and lowercase), numbers, underscores, and hyphens
+are allowed. This parameter maps to C<name> in the docker container
+create command and the C<--name> option to docker run.
 
 
 =head2 PortMappings => ArrayRef[L<Paws::ECS::PortMapping>]
@@ -638,68 +623,54 @@ The list of port mappings for the container. Port mappings allow
 containers to access ports on the host container instance to send or
 receive traffic.
 
-For task definitions that use the C<awsvpc> network mode, you should
-only specify the C<containerPort>. The C<hostPort> can be left blank or
-it must be the same value as the C<containerPort>.
+For task definitions that use the C<awsvpc> network mode, only specify
+the C<containerPort>. The C<hostPort> can be left blank or it must be
+the same value as the C<containerPort>.
 
 Port mappings on Windows use the C<NetNAT> gateway address rather than
-C<localhost>. There is no loopback for port mappings on Windows, so you
-cannot access a container's mapped port from the host itself.
+C<localhost>. There's no loopback for port mappings on Windows, so you
+can't access a container's mapped port from the host itself.
 
-This parameter maps to C<PortBindings> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--publish> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-If the network mode of a task definition is set to C<none>, then you
-can't specify port mappings. If the network mode of a task definition
-is set to C<host>, then host ports must either be undefined or they
-must match the container port in the port mapping.
+This parameter maps to C<PortBindings> in the the docker container
+create command and the C<--publish> option to docker run. If the
+network mode of a task definition is set to C<none>, then you can't
+specify port mappings. If the network mode of a task definition is set
+to C<host>, then host ports must either be undefined or they must match
+the container port in the port mapping.
 
 After a task reaches the C<RUNNING> status, manual and automatic host
 and container port assignments are visible in the B<Network Bindings>
 section of a container description for a selected task in the Amazon
 ECS console. The assignments are also visible in the C<networkBindings>
-section DescribeTasks responses.
+section DescribeTasks
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html)
+responses.
 
 
 =head2 Privileged => Bool
 
 When this parameter is true, the container is given elevated privileges
 on the host container instance (similar to the C<root> user). This
-parameter maps to C<Privileged> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--privileged>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to C<Privileged> in the docker container create command
+and the C<--privileged> option to docker run
 
 This parameter is not supported for Windows containers or tasks run on
-AWS Fargate.
+Fargate.
 
 
 =head2 PseudoTerminal => Bool
 
 When this parameter is C<true>, a TTY is allocated. This parameter maps
-to C<Tty> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--tty> option to
-docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+to C<Tty> in the docker container create command and the C<--tty>
+option to docker run.
 
 
 =head2 ReadonlyRootFilesystem => Bool
 
 When this parameter is true, the container is given read-only access to
 its root file system. This parameter maps to C<ReadonlyRootfs> in the
-Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--read-only>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+docker container create command and the C<--read-only> option to docker
+run.
 
 This parameter is not supported for Windows containers.
 
@@ -713,6 +684,16 @@ The private repository authentication credentials to use.
 
 The type and amount of a resource to assign to a container. The only
 supported resource is a GPU.
+
+
+=head2 RestartPolicy => L<Paws::ECS::ContainerRestartPolicy>
+
+The restart policy for a container. When you set up a restart policy,
+Amazon ECS can restart the container without needing to replace the
+task. For more information, see Restart individual containers in Amazon
+ECS tasks with container restart policies
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-restart-policy.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 =head2 Secrets => ArrayRef[L<Paws::ECS::Secret>]
@@ -729,26 +710,37 @@ Time duration (in seconds) to wait before giving up on resolving
 dependencies for a container. For example, you specify two containers
 in a task definition with containerA having a dependency on containerB
 reaching a C<COMPLETE>, C<SUCCESS>, or C<HEALTHY> status. If a
-C<startTimeout> value is specified for containerB and it does not reach
-the desired status within that time then containerA will give up and
-not start. This results in the task transitioning to a C<STOPPED>
-state.
+C<startTimeout> value is specified for containerB and it doesn't reach
+the desired status within that time then containerA gives up and not
+start. This results in the task transitioning to a C<STOPPED> state.
 
 When the C<ECS_CONTAINER_START_TIMEOUT> container agent configuration
-variable is used, it is enforced indendently from this start timeout
+variable is used, it's enforced independently from this start timeout
 value.
 
-For tasks using the Fargate launch type, this parameter requires that
-the task or service uses platform version 1.3.0 or later.
+For tasks using the Fargate launch type, the task or service requires
+the following platforms:
+
+=over
+
+=item *
+
+Linux platform version C<1.3.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
 
 For tasks using the EC2 launch type, your container instances require
-at least version C<1.26.0> of the container agent to enable a container
+at least version C<1.26.0> of the container agent to use a container
 start timeout value. However, we recommend using the latest container
 agent version. For information about checking your agent version and
 updating to the latest version, see Updating the Amazon ECS Container
 Agent
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html)
-in the I<Amazon Elastic Container Service Developer Guide>. If you are
+in the I<Amazon Elastic Container Service Developer Guide>. If you're
 using an Amazon ECS-optimized Linux AMI, your instance needs at least
 version C<1.26.0-1> of the C<ecs-init> package. If your container
 instances are launched from version C<20190301> or later, then they
@@ -757,6 +749,8 @@ For more information, see Amazon ECS-optimized Linux AMI
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
+The valid values for Fargate are 2-120 seconds.
+
 
 =head2 StopTimeout => Int
 
@@ -764,24 +758,38 @@ Time duration (in seconds) to wait before the container is forcefully
 killed if it doesn't exit normally on its own.
 
 For tasks using the Fargate launch type, the task or service requires
-platform version 1.3.0 or later. The max stop timeout value is 120
-seconds and if the parameter is not specified, the default value of 30
-seconds is used.
+the following platforms:
 
-For tasks using the EC2 launch type, if the C<stopTimeout> parameter is
-not specified, the value set for the Amazon ECS container agent
-configuration variable C<ECS_CONTAINER_STOP_TIMEOUT> is used by
-default. If neither the C<stopTimeout> parameter or the
+=over
+
+=item *
+
+Linux platform version C<1.3.0> or later.
+
+=item *
+
+Windows platform version C<1.0.0> or later.
+
+=back
+
+For tasks that use the Fargate launch type, the max stop timeout value
+is 120 seconds and if the parameter is not specified, the default value
+of 30 seconds is used.
+
+For tasks that use the EC2 launch type, if the C<stopTimeout> parameter
+isn't specified, the value set for the Amazon ECS container agent
+configuration variable C<ECS_CONTAINER_STOP_TIMEOUT> is used. If
+neither the C<stopTimeout> parameter or the
 C<ECS_CONTAINER_STOP_TIMEOUT> agent configuration variable are set,
 then the default values of 30 seconds for Linux containers and 30
 seconds on Windows containers are used. Your container instances
-require at least version 1.26.0 of the container agent to enable a
+require at least version 1.26.0 of the container agent to use a
 container stop timeout value. However, we recommend using the latest
 container agent version. For information about checking your agent
 version and updating to the latest version, see Updating the Amazon ECS
 Container Agent
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html)
-in the I<Amazon Elastic Container Service Developer Guide>. If you are
+in the I<Amazon Elastic Container Service Developer Guide>. If you're
 using an Amazon ECS-optimized Linux AMI, your instance needs at least
 version 1.26.0-1 of the C<ecs-init> package. If your container
 instances are launched from version C<20190301> or later, then they
@@ -790,44 +798,34 @@ For more information, see Amazon ECS-optimized Linux AMI
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
+The valid values for Fargate are 2-120 seconds.
+
 
 =head2 SystemControls => ArrayRef[L<Paws::ECS::SystemControl>]
 
 A list of namespaced kernel parameters to set in the container. This
-parameter maps to C<Sysctls> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--sysctl> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-
-It is not recommended that you specify network-related
-C<systemControls> parameters for multiple containers in a single task
-that also uses either the C<awsvpc> or C<host> network modes. For tasks
-that use the C<awsvpc> network mode, the container that is started last
-determines which C<systemControls> parameters take effect. For tasks
-that use the C<host> network mode, it changes the container instance's
-namespaced kernel parameters as well as the containers.
+parameter maps to C<Sysctls> in the docker container create command and
+the C<--sysctl> option to docker run. For example, you can configure
+C<net.ipv4.tcp_keepalive_time> setting to maintain longer lived
+connections.
 
 
 =head2 Ulimits => ArrayRef[L<Paws::ECS::Ulimit>]
 
-A list of C<ulimits> to set in the container. If a ulimit value is
-specified in a task definition, it will override the default values set
-by Docker. This parameter maps to C<Ulimits> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--ulimit> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
-Valid naming values are displayed in the Ulimit data type.
+A list of C<ulimits> to set in the container. If a C<ulimit> value is
+specified in a task definition, it overrides the default values set by
+Docker. This parameter maps to C<Ulimits> in the docker container
+create command and the C<--ulimit> option to docker run. Valid naming
+values are displayed in the Ulimit
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Ulimit.html)
+data type.
 
 Amazon ECS tasks hosted on Fargate use the default resource limit
 values set by the operating system with the exception of the C<nofile>
 resource limit parameter which Fargate overrides. The C<nofile>
 resource limit sets a restriction on the number of open files that a
-container can use. The default C<nofile> soft limit is C<1024> and hard
-limit is C<4096>.
+container can use. The default C<nofile> soft limit is C< 65535> and
+the default hard limit is C<65535>.
 
 This parameter requires version 1.18 of the Docker Remote API or
 greater on your container instance. To check the Docker Remote API
@@ -841,16 +839,12 @@ This parameter is not supported for Windows containers.
 =head2 User => Str
 
 The user to use inside the container. This parameter maps to C<User> in
-the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--user> option to
-docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+the docker container create command and the C<--user> option to docker
+run.
 
-When running tasks using the C<host> network mode, you should not run
-containers using the root user (UID 0). It is considered best practice
-to use a non-root user.
+When running tasks using the C<host> network mode, don't run containers
+using the root user (UID 0). We recommend using a non-root user for
+better security.
 
 You can specify the C<user> using the following formats. If specifying
 a UID or GID, you must specify it as a positive integer.
@@ -886,26 +880,31 @@ C<uid:group>
 This parameter is not supported for Windows containers.
 
 
+=head2 VersionConsistency => Str
+
+Specifies whether Amazon ECS will resolve the container image tag
+provided in the container definition to an image digest. By default,
+the value is C<enabled>. If you set the value for a container as
+C<disabled>, Amazon ECS will not resolve the provided container image
+tag to a digest and will use the original image URI specified in the
+container definition for deployment. For more information about
+container image resolution, see Container image resolution
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html#deployment-container-image-stability)
+in the I<Amazon ECS Developer Guide>.
+
+
 =head2 VolumesFrom => ArrayRef[L<Paws::ECS::VolumeFrom>]
 
 Data volumes to mount from another container. This parameter maps to
-C<VolumesFrom> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--volumes-from>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+C<VolumesFrom> in the docker container create command and the
+C<--volumes-from> option to docker run.
 
 
 =head2 WorkingDirectory => Str
 
-The working directory in which to run commands inside the container.
-This parameter maps to C<WorkingDir> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--workdir> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+The working directory to run commands inside the container in. This
+parameter maps to C<WorkingDir> in the docker container create command
+and the C<--workdir> option to docker run.
 
 
 

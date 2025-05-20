@@ -41,7 +41,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 =head1 DESCRIPTION
 
 Describes information used for one or more scheduled scaling action
-updates in a BatchPutScheduledUpdateGroupAction operation.
+updates in a BatchPutScheduledUpdateGroupAction
+(https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_BatchPutScheduledUpdateGroupAction.html)
+operation.
 
 =head1 ATTRIBUTES
 

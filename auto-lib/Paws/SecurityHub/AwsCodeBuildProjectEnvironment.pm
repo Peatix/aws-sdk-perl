@@ -2,7 +2,9 @@
 package Paws::SecurityHub::AwsCodeBuildProjectEnvironment;
   use Moose;
   has Certificate => (is => 'ro', isa => 'Str');
+  has EnvironmentVariables => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails]');
   has ImagePullCredentialsType => (is => 'ro', isa => 'Str');
+  has PrivilegedMode => (is => 'ro', isa => 'Bool');
   has RegistryCredential => (is => 'ro', isa => 'Paws::SecurityHub::AwsCodeBuildProjectEnvironmentRegistryCredential');
   has Type => (is => 'ro', isa => 'Str');
 
@@ -46,10 +48,15 @@ Information about the build environment for this build project.
 The certificate to use with this build project.
 
 
+=head2 EnvironmentVariables => ArrayRef[L<Paws::SecurityHub::AwsCodeBuildProjectEnvironmentEnvironmentVariablesDetails>]
+
+A set of environment variables to make available to builds for the
+build project.
+
+
 =head2 ImagePullCredentialsType => Str
 
-The type of credentials AWS CodeBuild uses to pull images in your
-build.
+The type of credentials CodeBuild uses to pull images in your build.
 
 Valid values:
 
@@ -57,20 +64,26 @@ Valid values:
 
 =item *
 
-C<CODEBUILD> specifies that AWS CodeBuild uses its own credentials.
-This requires that you modify your ECR repository policy to trust the
-AWS CodeBuild service principal.
+C<CODEBUILD> specifies that CodeBuild uses its own credentials. This
+requires that you modify your ECR repository policy to trust the
+CodeBuild service principal.
 
 =item *
 
-C<SERVICE_ROLE> specifies that AWS CodeBuild uses your build project's
+C<SERVICE_ROLE> specifies that CodeBuild uses your build project's
 service role.
 
 =back
 
 When you use a cross-account or private registry image, you must use
-C<SERVICE_ROLE> credentials. When you use an AWS CodeBuild curated
-image, you must use C<CODEBUILD> credentials.
+C<SERVICE_ROLE> credentials. When you use an CodeBuild curated image,
+you must use C<CODEBUILD> credentials.
+
+
+=head2 PrivilegedMode => Bool
+
+Whether to allow the Docker daemon to run inside a Docker container.
+Set to C<true> if the build project is used to build Docker images.
 
 
 =head2 RegistryCredential => L<Paws::SecurityHub::AwsCodeBuildProjectEnvironmentRegistryCredential>

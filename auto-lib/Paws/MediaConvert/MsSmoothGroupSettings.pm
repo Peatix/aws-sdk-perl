@@ -7,6 +7,7 @@ package Paws::MediaConvert::MsSmoothGroupSettings;
   has DestinationSettings => (is => 'ro', isa => 'Paws::MediaConvert::DestinationSettings', request_name => 'destinationSettings', traits => ['NameInRequest']);
   has Encryption => (is => 'ro', isa => 'Paws::MediaConvert::MsSmoothEncryptionSettings', request_name => 'encryption', traits => ['NameInRequest']);
   has FragmentLength => (is => 'ro', isa => 'Int', request_name => 'fragmentLength', traits => ['NameInRequest']);
+  has FragmentLengthControl => (is => 'ro', isa => 'Str', request_name => 'fragmentLengthControl', traits => ['NameInRequest']);
   has ManifestEncoding => (is => 'ro', isa => 'Str', request_name => 'manifestEncoding', traits => ['NameInRequest']);
 
 1;
@@ -42,9 +43,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 Settings related to your Microsoft Smooth Streaming output package. For
 more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set Type, under
-OutputGroupSettings, to MS_SMOOTH_GROUP_SETTINGS.
 
 =head1 ATTRIBUTES
 
@@ -66,11 +64,11 @@ across a Microsoft Smooth output group into a single audio stream.
 
 =head2 Destination => Str
 
-Use Destination (Destination) to specify the S3 output location and the
-output filename base. Destination accepts format identifiers. If you do
-not specify the base filename in the URI, the service will use the
-filename of the input file. If your job has multiple inputs, the
-service uses the filename of the first input file.
+Use Destination to specify the S3 output location and the output
+filename base. Destination accepts format identifiers. If you do not
+specify the base filename in the URI, the service will use the filename
+of the input file. If your job has multiple inputs, the service uses
+the filename of the first input file.
 
 
 =head2 DestinationSettings => L<Paws::MediaConvert::DestinationSettings>
@@ -81,22 +79,32 @@ of destination
 
 =head2 Encryption => L<Paws::MediaConvert::MsSmoothEncryptionSettings>
 
-If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to
-specify the value SpekeKeyProvider.
+If you are using DRM, set DRM System to specify the value
+SpekeKeyProvider.
 
 
 =head2 FragmentLength => Int
 
-Use Fragment length (FragmentLength) to specify the mp4 fragment sizes
-in seconds. Fragment length must be compatible with GOP size and frame
-rate.
+Specify how you want MediaConvert to determine the fragment length.
+Choose Exact to have the encoder use the exact length that you specify
+with the setting Fragment length. This might result in extra I-frames.
+Choose Multiple of GOP to have the encoder round up the segment lengths
+to match the next GOP boundary.
+
+
+=head2 FragmentLengthControl => Str
+
+Specify how you want MediaConvert to determine the fragment length.
+Choose Exact to have the encoder use the exact length that you specify
+with the setting Fragment length. This might result in extra I-frames.
+Choose Multiple of GOP to have the encoder round up the segment lengths
+to match the next GOP boundary.
 
 
 =head2 ManifestEncoding => Str
 
-Use Manifest encoding (MsSmoothManifestEncoding) to specify the
-encoding format for the server and client manifest. Valid options are
-utf8 and utf16.
+Use Manifest encoding to specify the encoding format for the server and
+client manifest. Valid options are utf8 and utf16.
 
 
 

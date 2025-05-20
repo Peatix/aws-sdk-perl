@@ -51,9 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ivs
 
 =head2 Name => Str
 
-An arbitrary string (a nickname) assigned to a playback key pair that
-helps the customer identify that resource. The value does not need to
-be unique.
+Playback-key-pair name. The value does not need to be unique.
 
 
 
@@ -66,7 +64,12 @@ The public portion of a customer-generated key pair.
 =head2 Tags => L<Paws::IVS::Tags>
 
 Any tags provided with the request are added to the playback key pair
-tags.
+tags. See Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
 
 
 

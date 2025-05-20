@@ -18,8 +18,8 @@ Paws::QLDB::ListJournalS3ExportsResponse
 
 =head2 JournalS3Exports => ArrayRef[L<Paws::QLDB::JournalS3ExportDescription>]
 
-The array of journal export job descriptions for all ledgers that are
-associated with the current AWS account and Region.
+The journal export jobs for all ledgers that are associated with the
+current Amazon Web Services account and Region.
 
 
 =head2 NextToken => Str

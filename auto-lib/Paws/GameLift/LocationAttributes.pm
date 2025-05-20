@@ -35,11 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::L
 
 =head1 DESCRIPTION
 
-Represents a location in a multi-location fleet.
-
-B<Related actions>
-
-DescribeFleetLocationAttributes
+Details about a location in a multi-location fleet.
 
 =head1 ATTRIBUTES
 
@@ -57,9 +53,9 @@ A list of fleet actions that have been suspended in the fleet location.
 =head2 UpdateStatus => Str
 
 The status of fleet activity updates to the location. The status
-C<PENDING_UPDATE> indicates that StopFleetActions or StartFleetActions
-has been requested but the update has not yet been completed for the
-location.
+C<PENDING_UPDATE> indicates that C<StopFleetActions> or
+C<StartFleetActions> has been requested but the update has not yet been
+completed for the location.
 
 
 

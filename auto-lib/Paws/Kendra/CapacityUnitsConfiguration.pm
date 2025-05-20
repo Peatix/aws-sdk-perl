@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Cap
 
 =head1 DESCRIPTION
 
-Specifies capacity units configured for your enterprise edition index.
-You can add and remove capacity units to tune an index to your
+Specifies additional capacity units configured for your Enterprise
+Edition index. You can add and remove capacity units to fit your usage
 requirements.
 
 =head1 ATTRIBUTES
@@ -48,7 +48,8 @@ The amount of extra query capacity for an index and GetQuerySuggestions
 capacity.
 
 A single extra capacity unit for an index provides 0.1 queries per
-second or approximately 8,000 queries per day.
+second or approximately 8,000 queries per day. You can add up to 100
+extra capacity units.
 
 C<GetQuerySuggestions> capacity is five times the provisioned query
 capacity for an index, or the base capacity of 2.5 calls per second,
@@ -64,7 +65,7 @@ per second).
 
 The amount of extra storage capacity for an index. A single capacity
 unit provides 30 GB of storage space or 100,000 documents, whichever is
-reached first.
+reached first. You can add up to 100 extra capacity units.
 
 
 

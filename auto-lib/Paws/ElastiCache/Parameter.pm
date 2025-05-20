@@ -58,7 +58,7 @@ Indicates whether a change to the parameter is applied immediately or
 requires a reboot for the change to be applied. You can force a reboot
 or wait until the next maintenance window's reboot. For more
 information, see Rebooting a Cluster
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html).
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.Rebooting.html).
 
 
 =head2 DataType => Str

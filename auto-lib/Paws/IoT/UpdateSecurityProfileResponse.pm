@@ -7,6 +7,7 @@ package Paws::IoT::UpdateSecurityProfileResponse;
   has Behaviors => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Behavior]', traits => ['NameInRequest'], request_name => 'behaviors');
   has CreationDate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationDate');
   has LastModifiedDate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastModifiedDate');
+  has MetricsExportConfig => (is => 'ro', isa => 'Paws::IoT::MetricsExportConfig', traits => ['NameInRequest'], request_name => 'metricsExportConfig');
   has SecurityProfileArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityProfileArn');
   has SecurityProfileDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityProfileDescription');
   has SecurityProfileName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityProfileName');
@@ -61,6 +62,11 @@ The time the security profile was created.
 =head2 LastModifiedDate => Str
 
 The time the security profile was last modified.
+
+
+=head2 MetricsExportConfig => L<Paws::IoT::MetricsExportConfig>
+
+Specifies the MQTT topic and role ARN required for metric export.
 
 
 =head2 SecurityProfileArn => Str

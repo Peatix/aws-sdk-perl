@@ -29,7 +29,7 @@ Paws::CloudTrail::UpdateTrailResponse
 =head2 CloudWatchLogsLogGroupArn => Str
 
 Specifies the Amazon Resource Name (ARN) of the log group to which
-CloudTrail logs will be delivered.
+CloudTrail logs are delivered.
 
 
 =head2 CloudWatchLogsRoleArn => Str
@@ -46,7 +46,7 @@ such as IAM to the log files.
 
 =head2 IsMultiRegionTrail => Bool
 
-Specifies whether the trail exists in one region or in all regions.
+Specifies whether the trail exists in one Region or in all Regions.
 
 
 =head2 IsOrganizationTrail => Bool
@@ -58,7 +58,7 @@ Specifies whether the trail is an organization trail.
 
 Specifies the KMS key ID that encrypts the logs delivered by
 CloudTrail. The value is a fully specified ARN to a KMS key in the
-format:
+following format.
 
 C<arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012>
 
@@ -83,28 +83,28 @@ log files.
 
 Specifies the Amazon S3 key prefix that comes after the name of the
 bucket you have designated for log file delivery. For more information,
-see Finding Your CloudTrail Log Files
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html).
+see Finding Your IAM Log Files
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
 
 
 =head2 SnsTopicARN => Str
 
 Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send
-notifications when log files are delivered. The format of a topic ARN
-is:
+notifications when log files are delivered. The following is the format
+of a topic ARN.
 
 C<arn:aws:sns:us-east-2:123456789012:MyTopic>
 
 
 =head2 SnsTopicName => Str
 
-This field is no longer in use. Use SnsTopicARN.
+This field is no longer in use. Use C<SnsTopicARN>.
 
 
 =head2 TrailARN => Str
 
-Specifies the ARN of the trail that was updated. The format of a trail
-ARN is:
+Specifies the ARN of the trail that was updated. The following is the
+format of a trail ARN.
 
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
 

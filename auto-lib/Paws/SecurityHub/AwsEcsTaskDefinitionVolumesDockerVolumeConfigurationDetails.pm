@@ -68,7 +68,8 @@ Custom metadata to add to the Docker volume.
 The scope for the Docker volume that determines its lifecycle. Docker
 volumes that are scoped to a task are provisioned automatically when
 the task starts and destroyed when the task stops. Docker volumes that
-are shared persist after the task stops.
+are shared persist after the task stops. Valid values are C<shared> or
+C<task>.
 
 
 

@@ -45,7 +45,7 @@ finding.
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the custom data identifier.
+The unique identifier for the custom data identifier.
 
 
 =head2 Count => Int

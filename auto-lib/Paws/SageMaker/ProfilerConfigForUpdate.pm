@@ -36,15 +36,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Configuration information for updating the Debugger profile parameters,
-system and framework metrics configurations, and storage paths.
+Configuration information for updating the Amazon SageMaker Debugger
+profile parameters, system and framework metrics configurations, and
+storage paths.
 
 =head1 ATTRIBUTES
 
 
 =head2 DisableProfiler => Bool
 
-To disable Debugger monitoring and profiling, set to C<True>.
+To turn off Amazon SageMaker Debugger monitoring and profiling while a
+training job is in progress, set to C<True>.
 
 
 =head2 ProfilingIntervalInMilliseconds => Int

@@ -2,9 +2,11 @@
 package Paws::DMS::MySQLSettings;
   use Moose;
   has AfterConnectScript => (is => 'ro', isa => 'Str');
+  has AuthenticationMethod => (is => 'ro', isa => 'Str');
   has CleanSourceMetadataOnMismatch => (is => 'ro', isa => 'Bool');
   has DatabaseName => (is => 'ro', isa => 'Str');
   has EventsPollInterval => (is => 'ro', isa => 'Int');
+  has ExecuteTimeout => (is => 'ro', isa => 'Int');
   has MaxFileSize => (is => 'ro', isa => 'Int');
   has ParallelLoadThreads => (is => 'ro', isa => 'Int');
   has Password => (is => 'ro', isa => 'Str');
@@ -13,6 +15,7 @@ package Paws::DMS::MySQLSettings;
   has SecretsManagerSecretId => (is => 'ro', isa => 'Str');
   has ServerName => (is => 'ro', isa => 'Str');
   has ServerTimezone => (is => 'ro', isa => 'Str');
+  has ServiceAccessRoleArn => (is => 'ro', isa => 'Str');
   has TargetDbType => (is => 'ro', isa => 'Str');
   has Username => (is => 'ro', isa => 'Str');
 
@@ -53,33 +56,54 @@ Provides information that defines a MySQL endpoint.
 
 =head2 AfterConnectScript => Str
 
-Specifies a script to run immediately after AWS DMS connects to the
+Specifies a script to run immediately after DMS connects to the
 endpoint. The migration task continues running regardless if the SQL
 statement succeeds or fails.
+
+For this parameter, provide the code of the script itself, not the name
+of a file containing the script.
+
+
+=head2 AuthenticationMethod => Str
+
+This attribute allows you to specify the authentication method as "iam
+auth".
 
 
 =head2 CleanSourceMetadataOnMismatch => Bool
 
-Adjusts the behavior of DMS when migrating from an SQL Server source
-database that is hosted as part of an Always On availability group
-cluster. If you need DMS to poll all the nodes in the Always On cluster
-for transaction backups, set this attribute to C<false>.
+Cleans and recreates table metadata information on the replication
+instance when a mismatch occurs. For example, in a situation where
+running an alter DDL on the table could result in different information
+about the table cached in the replication instance.
 
 
 =head2 DatabaseName => Str
 
-Database name for the endpoint.
+Database name for the endpoint. For a MySQL source or target endpoint,
+don't explicitly specify the database using the C<DatabaseName> request
+parameter on either the C<CreateEndpoint> or C<ModifyEndpoint> API
+call. Specifying C<DatabaseName> when you create or modify a MySQL
+endpoint replicates all the task tables to this single database. For
+MySQL endpoints, you specify the database only when you specify the
+schema in the table-mapping rules of the DMS task.
 
 
 =head2 EventsPollInterval => Int
 
 Specifies how often to check the binary log for new changes/events when
-the database is idle.
+the database is idle. The default is five seconds.
 
 Example: C<eventsPollInterval=5;>
 
-In the example, AWS DMS checks for changes in the binary logs every
-five seconds.
+In the example, DMS checks for changes in the binary logs every five
+seconds.
+
+
+=head2 ExecuteTimeout => Int
+
+Sets the client statement timeout (in seconds) for a MySQL source
+endpoint.
 
 
 =head2 MaxFileSize => Int
@@ -96,7 +120,7 @@ Improves performance when loading data into the MySQL-compatible target
 database. Specifies how many threads to use to load the data into the
 MySQL-compatible target database. Setting a large number of threads can
 have an adverse effect on database performance, because a separate
-connection is required for each thread.
+connection is required for each thread. The default is one.
 
 Example: C<parallelLoadThreads=1>
 
@@ -113,11 +137,12 @@ Endpoint TCP port.
 
 =head2 SecretsManagerAccessRoleArn => Str
 
-The full Amazon Resource Name (ARN) of the IAM role that specifies AWS
-DMS as the trusted entity and grants the required permissions to access
-the value in C<SecretsManagerSecret>. C<SecretsManagerSecret> has the
-value of the AWS Secrets Manager secret that allows access to the MySQL
-endpoint.
+The full Amazon Resource Name (ARN) of the IAM role that specifies DMS
+as the trusted entity and grants the required permissions to access the
+value in C<SecretsManagerSecret>. The role must allow the
+C<iam:PassRole> action. C<SecretsManagerSecret> has the value of the
+Amazon Web Services Secrets Manager secret that allows access to the
+MySQL endpoint.
 
 You can specify one of two sets of values for these permissions. You
 can specify the values for this setting and C<SecretsManagerSecretId>.
@@ -125,10 +150,10 @@ Or you can specify clear-text values for C<UserName>, C<Password>,
 C<ServerName>, and C<Port>. You can't specify both. For more
 information on creating this C<SecretsManagerSecret> and the
 C<SecretsManagerAccessRoleArn> and C<SecretsManagerSecretId> required
-to access it, see Using secrets to access AWS Database Migration
-Service resources
-(https://docs.aws.amazon.com/https:/docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
-in the I<AWS Database Migration Service User Guide>.
+to access it, see Using secrets to access Database Migration Service
+resources
+(https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager)
+in the I<Database Migration Service User Guide>.
 
 
 =head2 SecretsManagerSecretId => Str
@@ -140,7 +165,18 @@ details.
 
 =head2 ServerName => Str
 
-Fully qualified domain name of the endpoint.
+The host name of the endpoint database.
+
+For an Amazon RDS MySQL instance, this is the output of
+DescribeDBInstances
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html),
+in the C< Endpoint
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address>
+field.
+
+For an Aurora MySQL instance, this is the output of DescribeDBClusters
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html),
+in the C<Endpoint> field.
 
 
 =head2 ServerTimezone => Str
@@ -152,10 +188,19 @@ Example: C<serverTimezone=US/Pacific;>
 Note: Do not enclose time zones in single quotes.
 
 
+=head2 ServiceAccessRoleArn => Str
+
+The IAM role you can use to authenticate when connecting to your
+endpoint. Ensure to include C<iam:PassRole> and C<rds-db:connect>
+actions in permission policy.
+
+
 =head2 TargetDbType => Str
 
 Specifies where to migrate source tables on the target, either to a
-single database or multiple databases.
+single database or multiple databases. If you specify
+C<SPECIFIC_DATABASE>, specify the database name using the
+C<DatabaseName> parameter of the C<Endpoint> object.
 
 Example: C<targetDbType=MULTIPLE_DATABASES>
 

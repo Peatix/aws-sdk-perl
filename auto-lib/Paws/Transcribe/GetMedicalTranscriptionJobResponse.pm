@@ -16,7 +16,8 @@ Paws::Transcribe::GetMedicalTranscriptionJobResponse
 
 =head2 MedicalTranscriptionJob => L<Paws::Transcribe::MedicalTranscriptionJob>
 
-An object that contains the results of the medical transcription job.
+Provides detailed information about the specified medical transcription
+job, including job status and, if applicable, failure reason.
 
 
 =head2 _request_id => Str

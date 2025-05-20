@@ -34,15 +34,38 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+# Example 1: To page a contact's contact channels
+# The following start-engagement pages contact's contact channels. Sender,
+# subject, public-subject, and public-content are all free from fields. Incident
+# Manager sends the subject and content to the provided VOICE or EMAIL contact
+# channels. Incident Manager sends the public-subject and public-content to the
+# provided SMS contact channels. Sender is used to track who started the
+# engagement.
     my $StartEngagementResult = $ssm -contacts->StartEngagement(
-      ContactId        => 'MySsmContactsArn',
-      Content          => 'MyContent',
-      Sender           => 'MySender',
-      Subject          => 'MySubject',
-      IdempotencyToken => 'MyIdempotencyToken',    # OPTIONAL
-      IncidentId       => 'MyIncidentId',          # OPTIONAL
-      PublicContent    => 'MyPublicContent',       # OPTIONAL
-      PublicSubject    => 'MyPublicSubject',       # OPTIONAL
+      'ContactId' =>
+        'arn:aws:ssm-contacts:us-east-2:111122223333:contact/akuam',
+      'Content'       => 'Testing engagements',
+      'PublicContent' => 'Testing engagements',
+      'PublicSubject' => 'test',
+      'Sender'        => 'tester',
+      'Subject'       => 'test'
+    );
+
+    # Results:
+    my $EngagementArn = $StartEngagementResult->EngagementArn;
+
+  # Returns a L<Paws::SSMContacts::StartEngagementResult> object.
+  # Example 2: To page a contact in the provided escalation plan.
+  # The following start-engagement engages contact's through an escalation plan.
+  # Each contact is paged according to their engagement plan.
+    my $StartEngagementResult = $ssm -contacts->StartEngagement(
+      'ContactId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:contact/example_escalation',
+      'Content'       => 'Testing engagements',
+      'PublicContent' => 'Testing engagements',
+      'PublicSubject' => 'test',
+      'Sender'        => 'tester',
+      'Subject'       => 'test'
     );
 
     # Results:
@@ -71,8 +94,8 @@ this field for engagements to C<VOICE> or C<EMAIL>.
 
 =head2 IdempotencyToken => Str
 
-A token ensuring that the action is called only once with the specified
-details.
+A token ensuring that the operation is called only once with the
+specified details.
 
 
 

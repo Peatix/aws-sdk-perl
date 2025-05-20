@@ -2,6 +2,8 @@
 package Paws::SecretsManager::RotationRulesType;
   use Moose;
   has AutomaticallyAfterDays => (is => 'ro', isa => 'Int');
+  has Duration => (is => 'ro', isa => 'Str');
+  has ScheduleExpression => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -22,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SecretsManager::RotationRulesType object:
 
-  $service_obj->Method(Att1 => { AutomaticallyAfterDays => $value, ..., AutomaticallyAfterDays => $value  });
+  $service_obj->Method(Att1 => { AutomaticallyAfterDays => $value, ..., ScheduleExpression => $value  });
 
 =head3 Results returned from an API call
 
@@ -40,16 +42,64 @@ A structure that defines the rotation configuration for the secret.
 
 =head2 AutomaticallyAfterDays => Int
 
-Specifies the number of days between automatic scheduled rotations of
-the secret.
+The number of days between rotations of the secret. You can use this
+value to check that your secret meets your compliance guidelines for
+how often secrets must be rotated. If you use this field to set the
+rotation schedule, Secrets Manager calculates the next rotation date
+based on the previous rotation. Manually updating the secret value by
+calling C<PutSecretValue> or C<UpdateSecret> is considered a valid
+rotation.
 
-Secrets Manager schedules the next rotation when the previous one is
-complete. Secrets Manager schedules the date by adding the rotation
-interval (number of days) to the actual date of the last rotation. The
-service chooses the hour within that 24-hour date window randomly. The
-minute is also chosen somewhat randomly, but weighted towards the top
-of the hour and influenced by a variety of factors that help distribute
-load.
+In C<DescribeSecret> and C<ListSecrets>, this value is calculated from
+the rotation schedule after every successful rotation. In
+C<RotateSecret>, you can set the rotation schedule in C<RotationRules>
+with C<AutomaticallyAfterDays> or C<ScheduleExpression>, but not both.
+To set a rotation schedule in hours, use C<ScheduleExpression>.
+
+
+=head2 Duration => Str
+
+The length of the rotation window in hours, for example C<3h> for a
+three hour window. Secrets Manager rotates your secret at any time
+during this window. The window must not extend into the next rotation
+window or the next UTC day. The window starts according to the
+C<ScheduleExpression>. If you don't specify a C<Duration>, for a
+C<ScheduleExpression> in hours, the window automatically closes after
+one hour. For a C<ScheduleExpression> in days, the window automatically
+closes at the end of the UTC day. For more information, including
+examples, see Schedule expressions in Secrets Manager rotation
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html)
+in the I<Secrets Manager Users Guide>.
+
+
+=head2 ScheduleExpression => Str
+
+A C<cron()> or C<rate()> expression that defines the schedule for
+rotating your secret. Secrets Manager rotation schedules use UTC time
+zone. Secrets Manager rotates your secret any time during a rotation
+window.
+
+Secrets Manager C<rate()> expressions represent the interval in hours
+or days that you want to rotate your secret, for example C<rate(12
+hours)> or C<rate(10 days)>. You can rotate a secret as often as every
+four hours. If you use a C<rate()> expression, the rotation window
+starts at midnight. For a rate in hours, the default rotation window
+closes after one hour. For a rate in days, the default rotation window
+closes at the end of the day. You can set the C<Duration> to change the
+rotation window. The rotation window must not extend into the next UTC
+day or into the next rotation window.
+
+You can use a C<cron()> expression to create a rotation schedule that
+is more detailed than a rotation interval. For more information,
+including examples, see Schedule expressions in Secrets Manager
+rotation
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html)
+in the I<Secrets Manager Users Guide>. For a cron expression that
+represents a schedule in hours, the default rotation window closes
+after one hour. For a cron expression that represents a schedule in
+days, the default rotation window closes at the end of the day. You can
+set the C<Duration> to change the rotation window. The rotation window
+must not extend into the next UTC day or into the next rotation window.
 
 
 

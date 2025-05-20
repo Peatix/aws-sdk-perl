@@ -3,6 +3,7 @@ package Paws::KMS::GenerateRandom;
   use Moose;
   has CustomKeyStoreId => (is => 'ro', isa => 'Str');
   has NumberOfBytes => (is => 'ro', isa => 'Int');
+  has Recipient => (is => 'ro', isa => 'Paws::KMS::RecipientInfo');
 
   use MooseX::ClassAttribute;
 
@@ -29,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $kms = Paws->service('KMS');
     # To generate random data
-    # The following example uses AWS KMS to generate 32 bytes of random data.
+    # The following example generates 32 bytes of random data.
     my $GenerateRandomResponse = $kms->GenerateRandom( 'NumberOfBytes' => 32 );
 
     # Results:
@@ -45,17 +46,48 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 CustomKeyStoreId => Str
 
-Generates the random byte string in the AWS CloudHSM cluster that is
-associated with the specified custom key store
-(https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html).
-To find the ID of a custom key store, use the DescribeCustomKeyStores
-operation.
+Generates the random byte string in the CloudHSM cluster that is
+associated with the specified CloudHSM key store. To find the ID of a
+custom key store, use the DescribeCustomKeyStores operation.
+
+External key store IDs are not valid for this parameter. If you specify
+the ID of an external key store, C<GenerateRandom> throws an
+C<UnsupportedOperationException>.
 
 
 
 =head2 NumberOfBytes => Int
 
-The length of the byte string.
+The length of the random byte string. This parameter is required.
+
+
+
+=head2 Recipient => L<Paws::KMS::RecipientInfo>
+
+A signed attestation document
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc)
+from an Amazon Web Services Nitro enclave and the encryption algorithm
+to use with the enclave's public key. The only valid encryption
+algorithm is C<RSAES_OAEP_SHA_256>.
+
+This parameter only supports attestation documents for Amazon Web
+Services Nitro Enclaves. To include this parameter, use the Amazon Web
+Services Nitro Enclaves SDK
+(https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk)
+or any Amazon Web Services SDK.
+
+When you use this parameter, instead of returning plaintext bytes, KMS
+encrypts the plaintext bytes under the public key in the attestation
+document, and returns the resulting ciphertext in the
+C<CiphertextForRecipient> field in the response. This ciphertext can be
+decrypted only with the private key in the enclave. The C<Plaintext>
+field in the response is null or empty.
+
+For information about the interaction between KMS and Amazon Web
+Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves
+uses KMS
+(https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html)
+in the I<Key Management Service Developer Guide>.
 
 
 

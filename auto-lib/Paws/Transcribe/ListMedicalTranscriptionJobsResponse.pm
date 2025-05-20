@@ -18,23 +18,23 @@ Paws::Transcribe::ListMedicalTranscriptionJobsResponse
 
 =head2 MedicalTranscriptionJobSummaries => ArrayRef[L<Paws::Transcribe::MedicalTranscriptionJobSummary>]
 
-A list of objects containing summary information for a transcription
-job.
+Provides a summary of information about each result.
 
 
 =head2 NextToken => Str
 
-The C<ListMedicalTranscriptionJobs> operation returns a page of jobs at
-a time. The maximum size of the page is set by the C<MaxResults>
-parameter. If the number of jobs exceeds what can fit on a page, Amazon
-Transcribe Medical returns the C<NextPage> token. Include the token in
-the next request to the C<ListMedicalTranscriptionJobs> operation to
-return in the next page of jobs.
+If C<NextToken> is present in your response, it indicates that not all
+results are displayed. To view the next set of results, copy the string
+associated with the C<NextToken> parameter in your results output, then
+run your request again including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 =head2 Status => Str
 
-The requested status of the medical transcription jobs returned.
+Lists all medical transcription jobs that have the status specified in
+your request. Jobs are ordered by creation date, with the newest job
+first.
 
 Valid values are: C<"QUEUED">, C<"IN_PROGRESS">, C<"FAILED">, C<"COMPLETED">
 =head2 _request_id => Str

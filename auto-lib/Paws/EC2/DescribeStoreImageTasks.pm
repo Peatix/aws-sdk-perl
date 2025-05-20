@@ -87,6 +87,9 @@ bucket. For the filter value, specify the bucket name.
 
 =back
 
+When you specify the C<ImageIds> parameter, any filters that you
+specify are ignored. To use the filters, you must remove the
+C<ImageIds> parameter.
 
 
 
@@ -99,16 +102,20 @@ included in a request.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. To retrieve
-the remaining results, make another call with the returned C<NextToken>
-value. This value can be between 1 and 200. You cannot specify this
-parameter and the C<ImageIDs> parameter in the same call.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+
+You cannot specify this parameter and the C<ImageIds> parameter in the
+same call.
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

@@ -46,7 +46,7 @@ ARN of the bucket used.
 
 =head2 KeyTemplate => Str
 
-Template of the S3 key used.
+Key template used for the S3 Recording Configuration
 
 
 

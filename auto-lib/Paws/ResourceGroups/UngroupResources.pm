@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $resource-groups = Paws->service('ResourceGroups');
     my $UngroupResourcesOutput = $resource -groups->UngroupResources(
-      Group        => 'MyGroupString',
+      Group        => 'MyGroupStringV2',
       ResourceArns => [ 'MyResourceArn', ... ],
 
     );
@@ -50,14 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/res
 
 =head2 B<REQUIRED> Group => Str
 
-The name or the ARN of the resource group from which to remove the
-resources.
+The name or the Amazon resource name (ARN) of the resource group from
+which to remove the resources.
 
 
 
 =head2 B<REQUIRED> ResourceArns => ArrayRef[Str|Undef]
 
-The ARNs of the resources to be removed from the group.
+The Amazon resource names (ARNs) of the resources to be removed from
+the group.
 
 
 

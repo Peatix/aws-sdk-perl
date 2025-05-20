@@ -22,7 +22,7 @@ The data that describes the attacks detected during the time period.
 
 =head2 B<REQUIRED> TimeRange => L<Paws::Shield::TimeRange>
 
-
+The time range of the attack.
 
 
 =head2 _request_id => Str

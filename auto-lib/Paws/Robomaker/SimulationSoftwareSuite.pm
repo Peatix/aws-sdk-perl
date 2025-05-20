@@ -41,12 +41,14 @@ Information about a simulation software suite.
 
 =head2 Name => Str
 
-The name of the simulation software suite.
+The name of the simulation software suite. C<SimulationRuntime> is the
+only supported value.
 
 
 =head2 Version => Str
 
-The version of the simulation software suite.
+The version of the simulation software suite. Not applicable for
+C<SimulationRuntime>.
 
 
 

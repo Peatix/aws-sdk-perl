@@ -34,31 +34,52 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Identifies the location of a transcription.
+Provides you with the Amazon S3 URI you can use to access your
+transcript.
 
 =head1 ATTRIBUTES
 
 
 =head2 RedactedTranscriptFileUri => Str
 
-The S3 object location of the redacted transcript.
+The Amazon S3 location of your redacted transcript. You can use this
+URI to access or download your transcript.
 
-Use this URI to access the redacted transcript. If you specified an S3
-bucket in the C<OutputBucketName> field when you created the job, this
-is the URI of that bucket. If you chose to store the transcript in
-Amazon Transcribe, this is a shareable URL that provides secure access
-to that location.
+If you included C<OutputBucketName> in your transcription job request,
+this is the URI of that bucket. If you also included C<OutputKey> in
+your request, your output is located in the path you specified in your
+request.
+
+If you didn't include C<OutputBucketName> in your transcription job
+request, your transcript is stored in a service-managed bucket, and
+C<RedactedTranscriptFileUri> provides you with a temporary URI you can
+use for secure access to your transcript.
+
+Temporary URIs for service-managed Amazon S3 buckets are only valid for
+15 minutes. If you get an C<AccesDenied> error, you can get a new
+temporary URI by running a C<GetTranscriptionJob> or
+C<ListTranscriptionJob> request.
 
 
 =head2 TranscriptFileUri => Str
 
-The S3 object location of the transcript.
+The Amazon S3 location of your transcript. You can use this URI to
+access or download your transcript.
 
-Use this URI to access the transcript. If you specified an S3 bucket in
-the C<OutputBucketName> field when you created the job, this is the URI
-of that bucket. If you chose to store the transcript in Amazon
-Transcribe, this is a shareable URL that provides secure access to that
-location.
+If you included C<OutputBucketName> in your transcription job request,
+this is the URI of that bucket. If you also included C<OutputKey> in
+your request, your output is located in the path you specified in your
+request.
+
+If you didn't include C<OutputBucketName> in your transcription job
+request, your transcript is stored in a service-managed bucket, and
+C<TranscriptFileUri> provides you with a temporary URI you can use for
+secure access to your transcript.
+
+Temporary URIs for service-managed Amazon S3 buckets are only valid for
+15 minutes. If you get an C<AccesDenied> error, you can get a new
+temporary URI by running a C<GetTranscriptionJob> or
+C<ListTranscriptionJob> request.
 
 
 

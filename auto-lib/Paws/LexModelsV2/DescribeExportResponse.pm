@@ -53,9 +53,9 @@ export could not be completed.
 
 =head2 FileFormat => Str
 
-The file format used in the files that describe the bot or bot locale.
+The file format used in the files that describe the resource.
 
-Valid values are: C<"LexJson">
+Valid values are: C<"LexJson">, C<"TSV">, C<"CSV">
 =head2 LastUpdatedDateTime => Str
 
 The last date and time that the export was updated.

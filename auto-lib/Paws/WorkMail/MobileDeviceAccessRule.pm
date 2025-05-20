@@ -46,8 +46,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WorkMail::M
 
 =head1 DESCRIPTION
 
-A rule that controls access to mobile devices for an Amazon WorkMail
-group.
+A rule that controls access to mobile devices for an WorkMail group.
 
 =head1 ATTRIBUTES
 

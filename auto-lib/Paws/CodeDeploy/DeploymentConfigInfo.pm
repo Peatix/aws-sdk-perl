@@ -7,6 +7,7 @@ package Paws::CodeDeploy::DeploymentConfigInfo;
   has DeploymentConfigName => (is => 'ro', isa => 'Str', request_name => 'deploymentConfigName', traits => ['NameInRequest']);
   has MinimumHealthyHosts => (is => 'ro', isa => 'Paws::CodeDeploy::MinimumHealthyHosts', request_name => 'minimumHealthyHosts', traits => ['NameInRequest']);
   has TrafficRoutingConfig => (is => 'ro', isa => 'Paws::CodeDeploy::TrafficRoutingConfig', request_name => 'trafficRoutingConfig', traits => ['NameInRequest']);
+  has ZonalConfig => (is => 'ro', isa => 'Paws::CodeDeploy::ZonalConfig', request_name => 'zonalConfig', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +28,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CodeDeploy::DeploymentConfigInfo object:
 
-  $service_obj->Method(Att1 => { ComputePlatform => $value, ..., TrafficRoutingConfig => $value  });
+  $service_obj->Method(Att1 => { ComputePlatform => $value, ..., ZonalConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -66,13 +67,19 @@ The deployment configuration name.
 
 =head2 MinimumHealthyHosts => L<Paws::CodeDeploy::MinimumHealthyHosts>
 
-Information about the number or percentage of minimum healthy instance.
+Information about the number or percentage of minimum healthy
+instances.
 
 
 =head2 TrafficRoutingConfig => L<Paws::CodeDeploy::TrafficRoutingConfig>
 
 The configuration that specifies how the deployment traffic is routed.
-Used for deployments with a Lambda or ECS compute platform only.
+Used for deployments with a Lambda or Amazon ECS compute platform only.
+
+
+=head2 ZonalConfig => L<Paws::CodeDeploy::ZonalConfig>
+
+Information about a zonal configuration.
 
 
 

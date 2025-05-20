@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-When creating or updating a cost category, you can define the
+When you create or update a cost category, you can define the
 C<CostCategoryRule> rule type as C<INHERITED_VALUE>. This rule type
-adds the flexibility of defining a rule that dynamically inherits the
-cost category value from the dimension value defined by
-C<CostCategoryInheritedValueDimension>. For example, if you wanted to
-dynamically group costs based on the value of a specific tag key, you
-would first choose an inherited value rule type, then choose the tag
-dimension and specify the tag key to use.
+adds the flexibility to define a rule that dynamically inherits the
+cost category value from the dimension value that's defined by
+C<CostCategoryInheritedValueDimension>. For example, suppose that you
+want to dynamically group costs that are based on the value of a
+specific tag key. First, choose an inherited value rule type, and then
+choose the tag dimension and specify the tag key to use.
 
 =head1 ATTRIBUTES
 
@@ -53,11 +53,11 @@ The key to extract cost category values.
 
 =head2 DimensionName => Str
 
-The name of dimension for which to group costs.
+The name of the dimension that's used to group costs.
 
-If you specify C<LINKED_ACCOUNT_NAME>, the cost category value will be
-based on account name. If you specify C<TAG>, the cost category value
-will be based on the value of the specified tag key.
+If you specify C<LINKED_ACCOUNT_NAME>, the cost category value is based
+on account name. If you specify C<TAG>, the cost category value is
+based on the value of the specified tag key.
 
 
 

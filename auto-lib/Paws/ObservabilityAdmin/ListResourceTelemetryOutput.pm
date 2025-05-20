@@ -1,0 +1,35 @@
+
+package Paws::ObservabilityAdmin::ListResourceTelemetryOutput;
+  use Moose;
+  has NextToken => (is => 'ro', isa => 'Str');
+  has TelemetryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ObservabilityAdmin::TelemetryConfiguration]');
+
+  has _request_id => (is => 'ro', isa => 'Str');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::ObservabilityAdmin::ListResourceTelemetryOutput
+
+=head1 ATTRIBUTES
+
+
+=head2 NextToken => Str
+
+The token for the next set of items to return. A previous call
+generates this token.
+
+
+=head2 TelemetryConfigurations => ArrayRef[L<Paws::ObservabilityAdmin::TelemetryConfiguration>]
+
+A list of telemetry configurations for AWS resources supported by
+telemetry config in the caller's account.
+
+
+=head2 _request_id => Str
+
+
+=cut
+

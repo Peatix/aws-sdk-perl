@@ -40,8 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ConfigurationRecorderName => Str
 
-The name of the recorder object that records each configuration change
-made to the resources.
+The name of the customer managed configuration recorder that you want
+to stop.
 
 
 

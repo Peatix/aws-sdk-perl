@@ -37,14 +37,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::The
 
 =head1 DESCRIPTION
 
-An array of summary information for one or more thesauruses.
+An array of summary information for a thesaurus or multiple thesauri.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedAt => Str
 
-The Unix datetime that the thesaurus was created.
+The Unix timestamp when the thesaurus was created.
 
 
 =head2 Id => Str
@@ -64,7 +64,7 @@ The status of the thesaurus.
 
 =head2 UpdatedAt => Str
 
-The Unix datetime that the thesaurus was last updated.
+The Unix timestamp when the thesaurus was last updated.
 
 
 

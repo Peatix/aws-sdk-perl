@@ -1,6 +1,7 @@
 
 package Paws::Lightsail::DeleteKeyPair;
   use Moose;
+  has ExpectedFingerprint => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'expectedFingerprint' );
   has KeyPairName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'keyPairName' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -28,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lightsail = Paws->service('Lightsail');
     my $DeleteKeyPairResult = $lightsail->DeleteKeyPair(
-      KeyPairName => 'MyResourceName',
-
+      KeyPairName         => 'MyResourceName',
+      ExpectedFingerprint => 'Mystring',         # OPTIONAL
     );
 
     # Results:
@@ -41,6 +42,15 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lightsail/DeleteKeyPair>
 
 =head1 ATTRIBUTES
+
+
+=head2 ExpectedFingerprint => Str
+
+The RSA fingerprint of the Lightsail default key pair to delete.
+
+The C<expectedFingerprint> parameter is required only when specifying
+to delete a Lightsail default key pair.
+
 
 
 =head2 B<REQUIRED> KeyPairName => Str

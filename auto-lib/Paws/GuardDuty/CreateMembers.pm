@@ -62,8 +62,13 @@ want to associate with the GuardDuty administrator account.
 
 =head2 B<REQUIRED> DetectorId => Str
 
-The unique ID of the detector of the GuardDuty account that you want to
-associate member accounts with.
+The unique ID of the detector of the GuardDuty account for which you
+want to associate member accounts.
+
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
 
 
 

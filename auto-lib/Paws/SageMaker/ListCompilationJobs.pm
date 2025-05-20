@@ -126,7 +126,7 @@ Valid values are: C<"Ascending">, C<"Descending">
 =head2 StatusEquals => Str
 
 A filter that retrieves model compilation jobs with a specific
-DescribeCompilationJobResponse$CompilationJobStatus status.
+C<CompilationJobStatus> status.
 
 Valid values are: C<"INPROGRESS">, C<"COMPLETED">, C<"FAILED">, C<"STARTING">, C<"STOPPING">, C<"STOPPED">
 

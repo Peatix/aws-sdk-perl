@@ -45,8 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(VideoDescription)E<gt>(CodecSettings) to the value VP9.
+Required when you set Codec to the value VP9.
 
 =head1 ATTRIBUTES
 
@@ -65,28 +64,29 @@ the input video, choose Follow source. If you want to do frame rate
 conversion, choose a frame rate from the dropdown list or choose
 Custom. The framerates shown in the dropdown list are decimal
 approximations of fractions. If you choose Custom, specify your frame
-rate as a fraction. If you are creating your transcoding job
-specification as a JSON file without the console, use FramerateControl
-to specify which value the service uses for the frame rate for this
-output. Choose INITIALIZE_FROM_SOURCE if you want the service to use
-the frame rate from the input. Choose SPECIFIED if you want the service
-to use the frame rate you specify in the settings FramerateNumerator
-and FramerateDenominator.
+rate as a fraction.
 
 
 =head2 FramerateConversionAlgorithm => Str
 
 Choose the method that you want MediaConvert to use when increasing or
-decreasing the frame rate. We recommend using drop duplicate
-(DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to
-30 fps. For numerically complex conversions, you can use interpolate
-(INTERPOLATE) to avoid stutter. This results in a smooth picture, but
-might introduce undesirable video artifacts. For complex frame rate
+decreasing your video's frame rate. For numerically simple conversions,
+such as 60 fps to 30 fps: We recommend that you keep the default value,
+Drop duplicate. For numerically complex conversions, to avoid stutter:
+Choose Interpolate. This results in a smooth picture, but might
+introduce undesirable video artifacts. For complex frame rate
 conversions, especially if your source video has already been converted
-from its original cadence, use FrameFormer (FRAMEFORMER) to do
-motion-compensated interpolation. FrameFormer chooses the best
-conversion method frame by frame. Note that using FrameFormer increases
-the transcoding time and incurs a significant add-on cost.
+from its original cadence: Choose FrameFormer to do motion-compensated
+interpolation. FrameFormer uses the best conversion method frame by
+frame. Note that using FrameFormer increases the transcoding time and
+incurs a significant add-on cost. When you choose FrameFormer, your
+input video resolution must be at least 128x96. To create an output
+with the same number of frames as your input: Choose Maintain frame
+count. When you do, MediaConvert will not drop, interpolate, add, or
+otherwise change the frame count from your input to your output. Note
+that since the frame count is maintained, the duration of your output
+will become shorter at higher frame rates and longer at lower frame
+rates.
 
 
 =head2 FramerateDenominator => Int
@@ -139,29 +139,29 @@ as your input video.
 
 =head2 ParDenominator => Int
 
-Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On
-the console, this corresponds to any value other than Follow source.
-When you specify an output pixel aspect ratio (PAR) that is different
-from your input video PAR, provide your output PAR as a ratio. For
-example, for D1/DV NTSC widescreen, you would specify the ratio 40:33.
-In this example, the value for parDenominator is 33.
+Required when you set Pixel aspect ratio to SPECIFIED. On the console,
+this corresponds to any value other than Follow source. When you
+specify an output pixel aspect ratio (PAR) that is different from your
+input video PAR, provide your output PAR as a ratio. For example, for
+D1/DV NTSC widescreen, you would specify the ratio 40:33. In this
+example, the value for parDenominator is 33.
 
 
 =head2 ParNumerator => Int
 
-Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On
-the console, this corresponds to any value other than Follow source.
-When you specify an output pixel aspect ratio (PAR) that is different
-from your input video PAR, provide your output PAR as a ratio. For
-example, for D1/DV NTSC widescreen, you would specify the ratio 40:33.
-In this example, the value for parNumerator is 40.
+Required when you set Pixel aspect ratio to SPECIFIED. On the console,
+this corresponds to any value other than Follow source. When you
+specify an output pixel aspect ratio (PAR) that is different from your
+input video PAR, provide your output PAR as a ratio. For example, for
+D1/DV NTSC widescreen, you would specify the ratio 40:33. In this
+example, the value for parNumerator is 40.
 
 
 =head2 QualityTuningLevel => Str
 
-Optional. Use Quality tuning level (qualityTuningLevel) to choose how
-you want to trade off encoding speed for output video quality. The
-default behavior is faster, lower quality, multi-pass encoding.
+Optional. Use Quality tuning level to choose how you want to trade off
+encoding speed for output video quality. The default behavior is
+faster, lower quality, multi-pass encoding.
 
 
 =head2 RateControlMode => Str

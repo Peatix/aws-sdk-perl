@@ -10,7 +10,7 @@ package Paws::Connect::UpdateContactFlowContent;
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'UpdateContactFlowContent');
   class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/contact-flows/{InstanceId}/{ContactFlowId}/content');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::Connect::UpdateContactFlowContentResponse');
 1;
 
 ### main pod documentation begin ###
@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $connect = Paws->service('Connect');
-    $connect->UpdateContactFlowContent(
+    my $UpdateContactFlowContentResponse = $connect->UpdateContactFlowContent(
       ContactFlowId => 'MyContactFlowId',
       Content       => 'MyContactFlowContent',
       InstanceId    => 'MyInstanceId',
@@ -45,16 +45,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 =head2 B<REQUIRED> ContactFlowId => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
 
 
 
 =head2 B<REQUIRED> Content => Str
 
-The JSON string that represents contact flowE<rsquo>s content. For an
-example, see Example contact flow in Amazon Connect Flow language
-(https://docs.aws.amazon.com/connect/latest/adminguide/flow-language-example.html)
-in the I<Amazon Connect Administrator Guide>.
+The JSON string that represents the content of the flow. For an
+example, see Example flow in Amazon Connect Flow language
+(https://docs.aws.amazon.com/connect/latest/APIReference/flow-language-example.html).
+
+Length Constraints: Minimum length of 1. Maximum length of 256000.
 
 
 

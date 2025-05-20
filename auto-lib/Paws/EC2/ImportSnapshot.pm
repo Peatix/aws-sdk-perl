@@ -45,12 +45,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClientToken   => 'MyString',    # OPTIONAL
       Description   => 'MyString',    # OPTIONAL
       DiskContainer => {
-        Description => 'MyString',    # OPTIONAL
-        Format      => 'MyString',    # OPTIONAL
-        Url         => 'MyString',    # OPTIONAL
+        Description => 'MyString',          # OPTIONAL
+        Format      => 'MyString',          # OPTIONAL
+        Url         => 'MySensitiveUrl',    # OPTIONAL
         UserBucket  => {
-          S3Bucket => 'MyString',     # OPTIONAL
-          S3Key    => 'MyString',     # OPTIONAL
+          S3Bucket => 'MyString',           # OPTIONAL
+          S3Key    => 'MyString',           # OPTIONAL
         },    # OPTIONAL
       },    # OPTIONAL
       DryRun            => 1,               # OPTIONAL
@@ -59,8 +59,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       RoleName          => 'MyString',      # OPTIONAL
       TagSpecifications => [
         {
-          ResourceType => 'client-vpn-endpoint'
-          , # values: client-vpn-endpoint, customer-gateway, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, internet-gateway, key-pair, launch-template, local-gateway-route-table-vpc-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, placement-group, reserved-instances, route-table, security-group, snapshot, spot-fleet-request, spot-instances-request, subnet, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-route-table, volume, vpc, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log; OPTIONAL
+          ResourceType => 'capacity-reservation'
+          , # values: capacity-reservation, client-vpn-endpoint, customer-gateway, carrier-gateway, coip-pool, declarative-policies-report, dedicated-host, dhcp-options, egress-only-internet-gateway, elastic-ip, elastic-gpu, export-image-task, export-instance-task, fleet, fpga-image, host-reservation, image, import-image-task, import-snapshot-task, instance, instance-event-window, internet-gateway, ipam, ipam-pool, ipam-scope, ipv4pool-ec2, ipv6pool-ec2, key-pair, launch-template, local-gateway, local-gateway-route-table, local-gateway-virtual-interface, local-gateway-virtual-interface-group, local-gateway-route-table-vpc-association, local-gateway-route-table-virtual-interface-group-association, natgateway, network-acl, network-interface, network-insights-analysis, network-insights-path, network-insights-access-scope, network-insights-access-scope-analysis, outpost-lag, placement-group, prefix-list, replace-root-volume-task, reserved-instances, route-table, security-group, security-group-rule, service-link-virtual-interface, snapshot, spot-fleet-request, spot-instances-request, subnet, subnet-cidr-reservation, traffic-mirror-filter, traffic-mirror-session, traffic-mirror-target, transit-gateway, transit-gateway-attachment, transit-gateway-connect-peer, transit-gateway-multicast-domain, transit-gateway-policy-table, transit-gateway-route-table, transit-gateway-route-table-announcement, volume, vpc, vpc-endpoint, vpc-endpoint-connection, vpc-endpoint-service, vpc-endpoint-service-permission, vpc-peering-connection, vpn-connection, vpn-gateway, vpc-flow-log, capacity-reservation-fleet, traffic-mirror-filter-rule, vpc-endpoint-connection-device-type, verified-access-instance, verified-access-group, verified-access-endpoint, verified-access-policy, verified-access-trust-provider, vpn-connection-device-type, vpc-block-public-access-exclusion, route-server, route-server-endpoint, route-server-peer, ipam-resource-discovery, ipam-resource-discovery-association, instance-connect-endpoint, verified-access-endpoint-target, ipam-external-resource-verification-token, mac-modification-task; OPTIONAL
           Tags => [
             {
               Key   => 'MyString',    # OPTIONAL
@@ -123,9 +123,9 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 =head2 Encrypted => Bool
 
 Specifies whether the destination snapshot of the imported image should
-be encrypted. The default CMK for EBS is used unless you specify a
-non-default AWS Key Management Service (AWS KMS) CMK using C<KmsKeyId>.
-For more information, see Amazon EBS Encryption
+be encrypted. The default KMS key for EBS is used unless you specify a
+non-default KMS key using C<KmsKeyId>. For more information, see Amazon
+EBS Encryption
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html)
 in the I<Amazon Elastic Compute Cloud User Guide>.
 
@@ -133,13 +133,13 @@ in the I<Amazon Elastic Compute Cloud User Guide>.
 
 =head2 KmsKeyId => Str
 
-An identifier for the symmetric AWS Key Management Service (AWS KMS)
-customer master key (CMK) to use when creating the encrypted snapshot.
-This parameter is only required if you want to use a non-default CMK;
-if this parameter is not specified, the default CMK for EBS is used. If
-a C<KmsKeyId> is specified, the C<Encrypted> flag must also be set.
+An identifier for the symmetric KMS key to use when creating the
+encrypted snapshot. This parameter is only required if you want to use
+a non-default KMS key; if this parameter is not specified, the default
+KMS key for EBS is used. If a C<KmsKeyId> is specified, the
+C<Encrypted> flag must also be set.
 
-The CMK identifier may be provided in any of the following formats:
+The KMS key identifier may be provided in any of the following formats:
 
 =over
 
@@ -149,35 +149,34 @@ Key ID
 
 =item *
 
-Key alias. The alias ARN contains the C<arn:aws:kms> namespace,
-followed by the Region of the CMK, the AWS account ID of the CMK owner,
-the C<alias> namespace, and then the CMK alias. For example,
-arn:aws:kms:I<us-east-1>:I<012345678910>:alias/I<ExampleAlias>.
+Key alias
 
 =item *
 
 ARN using key ID. The ID ARN contains the C<arn:aws:kms> namespace,
-followed by the Region of the CMK, the AWS account ID of the CMK owner,
-the C<key> namespace, and then the CMK ID. For example,
+followed by the Region of the key, the Amazon Web Services account ID
+of the key owner, the C<key> namespace, and then the key ID. For
+example,
 arn:aws:kms:I<us-east-1>:I<012345678910>:key/I<abcd1234-a123-456a-a12b-a123b4cd56ef>.
 
 =item *
 
 ARN using key alias. The alias ARN contains the C<arn:aws:kms>
-namespace, followed by the Region of the CMK, the AWS account ID of the
-CMK owner, the C<alias> namespace, and then the CMK alias. For example,
+namespace, followed by the Region of the key, the Amazon Web Services
+account ID of the key owner, the C<alias> namespace, and then the key
+alias. For example,
 arn:aws:kms:I<us-east-1>:I<012345678910>:alias/I<ExampleAlias>.
 
 =back
 
-AWS parses C<KmsKeyId> asynchronously, meaning that the action you call
-may appear to complete even though you provided an invalid identifier.
-This action will eventually report failure.
+Amazon Web Services parses C<KmsKeyId> asynchronously, meaning that the
+action you call may appear to complete even though you provided an
+invalid identifier. This action will eventually report failure.
 
-The specified CMK must exist in the Region that the snapshot is being
-copied to.
+The specified KMS key must exist in the Region that the snapshot is
+being copied to.
 
-Amazon EBS does not support asymmetric CMKs.
+Amazon EBS does not support asymmetric KMS keys.
 
 
 

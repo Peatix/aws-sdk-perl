@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::K
 =head1 DESCRIPTION
 
 The stream and role Amazon Resource Names (ARNs) for a Kinesis data
-stream used as the source for a delivery stream.
+stream used as the source for a Firehose stream.
 
 =head1 ATTRIBUTES
 
@@ -50,8 +50,8 @@ Amazon Kinesis Data Streams ARN Format
 =head2 B<REQUIRED> RoleARN => Str
 
 The ARN of the role that provides access to the source Kinesis data
-stream. For more information, see AWS Identity and Access Management
-(IAM) ARN Format
+stream. For more information, see Amazon Web Services Identity and
+Access Management (IAM) ARN Format
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam).
 
 

@@ -17,7 +17,7 @@ Paws::SSM::ResetServiceSettingResult
 =head2 ServiceSetting => L<Paws::SSM::ServiceSetting>
 
 The current, effective service setting after calling the
-ResetServiceSetting API action.
+ResetServiceSetting API operation.
 
 
 =head2 _request_id => Str

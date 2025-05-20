@@ -2,6 +2,7 @@
 package Paws::AutoScaling::PutWarmPool;
   use Moose;
   has AutoScalingGroupName => (is => 'ro', isa => 'Str', required => 1);
+  has InstanceReusePolicy => (is => 'ro', isa => 'Paws::AutoScaling::InstanceReusePolicy');
   has MaxGroupPreparedCapacity => (is => 'ro', isa => 'Int');
   has MinSize => (is => 'ro', isa => 'Int');
   has PoolState => (is => 'ro', isa => 'Str');
@@ -30,12 +31,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $autoscaling = Paws->service('AutoScaling');
-    # To add a warm pool to an Auto Scaling group
-    # This example adds a warm pool to the specified Auto Scaling group.
+    # To create a warm pool for an Auto Scaling group
+    # This example creates a warm pool for the specified Auto Scaling group.
     my $PutWarmPoolAnswer = $autoscaling->PutWarmPool(
       'AutoScalingGroupName' => 'my-auto-scaling-group',
-      'MinSize'              => 30,
-      'PoolState'            => 'Stopped'
+      'InstanceReusePolicy'  => {
+        'ReuseOnScaleIn' => 1
+      },
+      'MinSize'   => 30,
+      'PoolState' => 'Hibernated'
     );
 
 
@@ -48,6 +52,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aut
 =head2 B<REQUIRED> AutoScalingGroupName => Str
 
 The name of the Auto Scaling group.
+
+
+
+=head2 InstanceReusePolicy => L<Paws::AutoScaling::InstanceReusePolicy>
+
+Indicates whether instances in the Auto Scaling group can be returned
+to the warm pool on scale in. The default is to terminate instances in
+the Auto Scaling group when the group scales in.
 
 
 
@@ -91,7 +103,7 @@ not specified.
 Sets the instance state to transition to after the lifecycle actions
 are complete. Default is C<Stopped>.
 
-Valid values are: C<"Stopped">, C<"Running">
+Valid values are: C<"Stopped">, C<"Running">, C<"Hibernated">
 
 
 =head1 SEE ALSO

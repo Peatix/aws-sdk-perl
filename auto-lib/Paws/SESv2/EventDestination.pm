@@ -3,6 +3,7 @@ package Paws::SESv2::EventDestination;
   use Moose;
   has CloudWatchDestination => (is => 'ro', isa => 'Paws::SESv2::CloudWatchDestination');
   has Enabled => (is => 'ro', isa => 'Bool');
+  has EventBridgeDestination => (is => 'ro', isa => 'Paws::SESv2::EventBridgeDestination');
   has KinesisFirehoseDestination => (is => 'ro', isa => 'Paws::SESv2::KinesisFirehoseDestination');
   has MatchingEventTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
@@ -68,6 +69,13 @@ destination is disabled, events aren't sent to the specified
 destinations.
 
 
+=head2 EventBridgeDestination => L<Paws::SESv2::EventBridgeDestination>
+
+An object that defines an Amazon EventBridge destination for email
+events. You can use Amazon EventBridge to send notifications when
+certain email events occur.
+
+
 =head2 KinesisFirehoseDestination => L<Paws::SESv2::KinesisFirehoseDestination>
 
 An object that defines an Amazon Kinesis Data Firehose destination for
@@ -79,6 +87,75 @@ to other services, such as Amazon S3 and Amazon Redshift.
 
 The types of events that Amazon SES sends to the specified event
 destinations.
+
+=over
+
+=item *
+
+C<SEND> - The send request was successful and SES will attempt to
+deliver the message to the recipientE<rsquo>s mail server. (If
+account-level or global suppression is being used, SES will still count
+it as a send, but delivery is suppressed.)
+
+=item *
+
+C<REJECT> - SES accepted the email, but determined that it contained a
+virus and didnE<rsquo>t attempt to deliver it to the recipientE<rsquo>s
+mail server.
+
+=item *
+
+C<BOUNCE> - (I<Hard bounce>) The recipient's mail server permanently
+rejected the email. (I<Soft bounces> are only included when SES fails
+to deliver the email after retrying for a period of time.)
+
+=item *
+
+C<COMPLAINT> - The email was successfully delivered to the
+recipientE<rsquo>s mail server, but the recipient marked it as spam.
+
+=item *
+
+C<DELIVERY> - SES successfully delivered the email to the recipient's
+mail server.
+
+=item *
+
+C<OPEN> - The recipient received the message and opened it in their
+email client.
+
+=item *
+
+C<CLICK> - The recipient clicked one or more links in the email.
+
+=item *
+
+C<RENDERING_FAILURE> - The email wasn't sent because of a template
+rendering issue. This event type can occur when template data is
+missing, or when there is a mismatch between template parameters and
+data. (This event type only occurs when you send email using the
+C<SendTemplatedEmail>
+(https://docs.aws.amazon.com/ses/latest/APIReference/API_SendTemplatedEmail.html)
+or C<SendBulkTemplatedEmail>
+(https://docs.aws.amazon.com/ses/latest/APIReference/API_SendBulkTemplatedEmail.html)
+API operations.)
+
+=item *
+
+C<DELIVERY_DELAY> - The email couldn't be delivered to the
+recipientE<rsquo>s mail server because a temporary issue occurred.
+Delivery delays can occur, for example, when the recipient's inbox is
+full, or when the receiving email server experiences a transient issue.
+
+=item *
+
+C<SUBSCRIPTION> - The email was successfully delivered, but the
+recipient updated their subscription preferences by clicking on an
+I<unsubscribe> link as part of your subscription management
+(https://docs.aws.amazon.com/ses/latest/dg/sending-email-subscription-management.html).
+
+=back
+
 
 
 =head2 B<REQUIRED> Name => Str
@@ -100,7 +177,7 @@ in the I<Amazon Pinpoint User Guide>.
 =head2 SnsDestination => L<Paws::SESv2::SnsDestination>
 
 An object that defines an Amazon SNS destination for email events. You
-can use Amazon SNS to send notification when certain email events
+can use Amazon SNS to send notifications when certain email events
 occur.
 
 

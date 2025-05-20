@@ -56,6 +56,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
+        DeviceDefenderIndexingMode => 'OFF', # values: OFF, VIOLATIONS; OPTIONAL
+        Filter                     => {
+          GeoLocations => [
+            {
+              Name  => 'MyTargetFieldName',   # OPTIONAL
+              Order => 'LatLon',              # values: LatLon, LonLat; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          NamedShadowNames => [
+            'MyShadowName', ...    # min: 1, max: 64
+          ],    # OPTIONAL
+        },    # OPTIONAL
         ManagedFields => [
           {
             Name => 'MyFieldName',   # OPTIONAL
@@ -63,6 +76,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
+        NamedShadowIndexingMode       => 'OFF',  # values: OFF, ON; OPTIONAL
         ThingConnectivityIndexingMode => 'OFF',  # values: OFF, STATUS; OPTIONAL
       },    # OPTIONAL
     );

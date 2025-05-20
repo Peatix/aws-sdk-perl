@@ -7,6 +7,7 @@ package Paws::MediaTailor::SourceLocation;
   has DefaultSegmentDeliveryConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::DefaultSegmentDeliveryConfiguration');
   has HttpConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::HttpConfiguration', required => 1);
   has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has SegmentDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::SegmentDeliveryConfiguration]');
   has SourceLocationName => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::MediaTailor::__mapOf__string', request_name => 'tags', traits => ['NameInRequest']);
 
@@ -40,7 +41,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaTailor
 
 =head1 DESCRIPTION
 
-This response includes only the "type" : "object" property.
+A source location is a container for sources. For more information
+about source locations, see Working with source locations
+(https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html)
+in the I<MediaTailor User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -76,6 +80,11 @@ The timestamp that indicates when the source location was last
 modified.
 
 
+=head2 SegmentDeliveryConfigurations => ArrayRef[L<Paws::MediaTailor::SegmentDeliveryConfiguration>]
+
+The segment delivery configurations for the source location.
+
+
 =head2 B<REQUIRED> SourceLocationName => Str
 
 The name of the source location.
@@ -83,7 +92,11 @@ The name of the source location.
 
 =head2 Tags => L<Paws::MediaTailor::__mapOf__string>
 
-The tags assigned to the source location.
+The tags assigned to the source location. Tags are key-value pairs that
+you can associate with Amazon resources to help with organization,
+access control, and cost tracking. For more information, see Tagging
+AWS Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 

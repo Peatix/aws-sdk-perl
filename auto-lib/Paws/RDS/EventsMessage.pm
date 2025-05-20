@@ -25,7 +25,7 @@ A list of C<Event> instances.
 
 An optional pagination token provided by a previous Events request. If
 this parameter is specified, the response includes only records beyond
-the marker, up to the value specified by C<MaxRecords> .
+the marker, up to the value specified by C<MaxRecords>.
 
 
 =head2 _request_id => Str

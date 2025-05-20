@@ -1,6 +1,7 @@
 
 package Paws::GroundStation::GetSatelliteResponse;
   use Moose;
+  has CurrentEphemeris => (is => 'ro', isa => 'Paws::GroundStation::EphemerisMetaData', traits => ['NameInRequest'], request_name => 'currentEphemeris');
   has GroundStations => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'groundStations');
   has NoradSatelliteID => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'noradSatelliteID');
   has SatelliteArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'satelliteArn');
@@ -16,6 +17,12 @@ package Paws::GroundStation::GetSatelliteResponse;
 Paws::GroundStation::GetSatelliteResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 CurrentEphemeris => L<Paws::GroundStation::EphemerisMetaData>
+
+The current ephemeris being used to compute the trajectory of the
+satellite.
 
 
 =head2 GroundStations => ArrayRef[Str|Undef]

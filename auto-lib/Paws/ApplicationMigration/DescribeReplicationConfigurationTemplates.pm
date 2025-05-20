@@ -3,7 +3,7 @@ package Paws::ApplicationMigration::DescribeReplicationConfigurationTemplates;
   use Moose;
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
-  has ReplicationConfigurationTemplateIDs => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'replicationConfigurationTemplateIDs', required => 1);
+  has ReplicationConfigurationTemplateIDs => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'replicationConfigurationTemplateIDs');
 
   use MooseX::ClassAttribute;
 
@@ -32,11 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mgn = Paws->service('ApplicationMigration');
     my $DescribeReplicationConfigurationTemplatesResponse =
       $mgn->DescribeReplicationConfigurationTemplates(
+      MaxResults                          => 1,                      # OPTIONAL
+      NextToken                           => 'MyPaginationToken',    # OPTIONAL
       ReplicationConfigurationTemplateIDs => [
         'MyReplicationConfigurationTemplateID', ...    # min: 21, max: 21
-      ],
-      MaxResults => 1,                                 # OPTIONAL
-      NextToken  => 'MyPaginationToken',               # OPTIONAL
+      ],    # OPTIONAL
       );
 
     # Results:
@@ -64,7 +64,7 @@ Request to describe Replication Configuration template by next token.
 
 
 
-=head2 B<REQUIRED> ReplicationConfigurationTemplateIDs => ArrayRef[Str|Undef]
+=head2 ReplicationConfigurationTemplateIDs => ArrayRef[Str|Undef]
 
 Request to describe Replication Configuration template by template IDs.
 

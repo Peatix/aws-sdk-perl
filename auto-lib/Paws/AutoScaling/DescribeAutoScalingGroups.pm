@@ -2,6 +2,7 @@
 package Paws::AutoScaling::DescribeAutoScalingGroups;
   use Moose;
   has AutoScalingGroupNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Filters => (is => 'ro', isa => 'ArrayRef[Paws::AutoScaling::Filter]');
   has MaxRecords => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
 
@@ -49,9 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aut
 
 The names of the Auto Scaling groups. By default, you can only specify
 up to 50 names. You can optionally increase this limit using the
-C<MaxRecords> parameter.
+C<MaxRecords> property.
 
-If you omit this parameter, all Auto Scaling groups are described.
+If you omit this property, all Auto Scaling groups are described.
+
+
+
+=head2 Filters => ArrayRef[L<Paws::AutoScaling::Filter>]
+
+One or more filters to limit the results based on specific tags.
 
 
 

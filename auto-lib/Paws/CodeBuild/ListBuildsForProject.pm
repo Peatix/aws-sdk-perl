@@ -66,8 +66,9 @@ The name of the CodeBuild project.
 
 =head2 SortOrder => Str
 
-The order to list results in. The results are sorted by build number,
-not the build identifier.
+The order to sort the results in. The results are sorted by build
+number, not the build identifier. If this is not specified, the results
+are sorted in descending order.
 
 Valid values include:
 
@@ -75,11 +76,13 @@ Valid values include:
 
 =item *
 
-C<ASCENDING>: List the build IDs in ascending order by build ID.
+C<ASCENDING>: List the build identifiers in ascending order, by build
+number.
 
 =item *
 
-C<DESCENDING>: List the build IDs in descending order by build ID.
+C<DESCENDING>: List the build identifiers in descending order, by build
+number.
 
 =back
 

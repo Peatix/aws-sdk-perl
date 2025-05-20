@@ -46,6 +46,10 @@ Each rule can optionally include up to one of each of the following
 conditions: C<http-request-method>, C<host-header>, C<path-pattern>,
 and C<source-ip>. Each rule can also optionally include one or more of
 each of the following conditions: C<http-header> and C<query-string>.
+Note that the value for a condition can't be empty.
+
+For more information, see Quotas for your Application Load Balancers
+(https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
 
 =head1 ATTRIBUTES
 

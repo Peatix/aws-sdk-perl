@@ -32,8 +32,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DomainName   => 'MyDomainName',
       TagsToUpdate => [
         {
-          Key   => 'MyTagKey',      # OPTIONAL
-          Value => 'MyTagValue',    # OPTIONAL
+          Key   => 'MyTagKey',      # min: 1, max: 128; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL

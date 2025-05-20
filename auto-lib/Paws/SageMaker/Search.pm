@@ -1,12 +1,14 @@
 
 package Paws::SageMaker::Search;
   use Moose;
+  has CrossAccountFilterOption => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has Resource => (is => 'ro', isa => 'Str', required => 1);
   has SearchExpression => (is => 'ro', isa => 'Paws::SageMaker::SearchExpression');
   has SortBy => (is => 'ro', isa => 'Str');
   has SortOrder => (is => 'ro', isa => 'Str');
+  has VisibilityConditions => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::VisibilityConditions]');
 
   use MooseX::ClassAttribute;
 
@@ -33,10 +35,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $api.sagemaker = Paws->service('SageMaker');
     my $SearchResponse = $api . sagemaker->Search(
-      Resource         => 'TrainingJob',
-      MaxResults       => 1,                # OPTIONAL
-      NextToken        => 'MyNextToken',    # OPTIONAL
-      SearchExpression => {
+      Resource                 => 'TrainingJob',
+      CrossAccountFilterOption => 'SameAccount',    # OPTIONAL
+      MaxResults               => 1,                # OPTIONAL
+      NextToken                => 'MyNextToken',    # OPTIONAL
+      SearchExpression         => {
         Filters => [
           {
             Name     => 'MyResourcePropertyName',    # min: 1, max: 255
@@ -66,13 +69,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SubExpressions => [ <SearchExpression>, ... ]
         ,                                            # min: 1, max: 20; OPTIONAL
       },    # OPTIONAL
-      SortBy    => 'MyResourcePropertyName',    # OPTIONAL
-      SortOrder => 'Ascending',                 # OPTIONAL
+      SortBy               => 'MyResourcePropertyName',    # OPTIONAL
+      SortOrder            => 'Ascending',                 # OPTIONAL
+      VisibilityConditions => [
+        {
+          Key   => 'MyVisibilityConditionsKey',     # min: 1, max: 128; OPTIONAL
+          Value => 'MyVisibilityConditionsValue',   # max: 256; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
     my $NextToken = $SearchResponse->NextToken;
     my $Results   = $SearchResponse->Results;
+    my $TotalHits = $SearchResponse->TotalHits;
 
     # Returns a L<Paws::SageMaker::SearchResponse> object.
 
@@ -81,6 +92,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head1 ATTRIBUTES
 
+
+=head2 CrossAccountFilterOption => Str
+
+A cross account filter option. When the value is C<"CrossAccount"> the
+search results will only include resources made discoverable to you
+from other accounts. When the value is C<"SameAccount"> or C<null> the
+search results will only include resources from your account. Default
+is C<null>. For more information on searching for resources made
+discoverable to your account, see Search discoverable resources
+(https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html)
+in the SageMaker Developer Guide. The maximum number of
+C<ResourceCatalog>s viewable is 1000.
+
+Valid values are: C<"SameAccount">, C<"CrossAccount">
 
 =head2 MaxResults => Int
 
@@ -99,9 +124,9 @@ retrieving results.
 
 =head2 B<REQUIRED> Resource => Str
 
-The name of the Amazon SageMaker resource to search for.
+The name of the SageMaker resource to search for.
 
-Valid values are: C<"TrainingJob">, C<"Experiment">, C<"ExperimentTrial">, C<"ExperimentTrialComponent">, C<"Endpoint">, C<"ModelPackage">, C<"ModelPackageGroup">, C<"Pipeline">, C<"PipelineExecution">, C<"FeatureGroup">
+Valid values are: C<"TrainingJob">, C<"Experiment">, C<"ExperimentTrial">, C<"ExperimentTrialComponent">, C<"Endpoint">, C<"Model">, C<"ModelPackage">, C<"ModelPackageGroup">, C<"Pipeline">, C<"PipelineExecution">, C<"FeatureGroup">, C<"FeatureMetadata">, C<"Image">, C<"ImageVersion">, C<"Project">, C<"HyperParameterTuningJob">, C<"ModelCard">
 
 =head2 SearchExpression => L<Paws::SageMaker::SearchExpression>
 
@@ -126,6 +151,13 @@ How C<SearchResults> are ordered. Valid values are C<Ascending> or
 C<Descending>. The default is C<Descending>.
 
 Valid values are: C<"Ascending">, C<"Descending">
+
+=head2 VisibilityConditions => ArrayRef[L<Paws::SageMaker::VisibilityConditions>]
+
+Limits the results of your search request to the resources that you can
+access.
+
+
 
 
 =head1 SEE ALSO

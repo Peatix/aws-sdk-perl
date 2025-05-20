@@ -7,6 +7,7 @@ package Paws::Snowball::UpdateJob;
   has JobId => (is => 'ro', isa => 'Str', required => 1);
   has Notification => (is => 'ro', isa => 'Paws::Snowball::Notification');
   has OnDeviceServiceConfiguration => (is => 'ro', isa => 'Paws::Snowball::OnDeviceServiceConfiguration');
+  has PickupDetails => (is => 'ro', isa => 'Paws::Snowball::PickupDetails');
   has Resources => (is => 'ro', isa => 'Paws::Snowball::JobResource');
   has RoleARN => (is => 'ro', isa => 'Str');
   has ShippingOption => (is => 'ro', isa => 'Str');
@@ -41,11 +42,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
   # changes to a different job state, usually within 60 minutes of the job being
   # created, this action is no longer available.
     my $UpdateJobResult = $snowball->UpdateJob(
-      'AddressId'   => 'ADID1234ab12-3eec-4eb3-9be6-9374c10eb51b',
-      'Description' =>
-'Upgraded to Edge, shipped to Finance Dept, and requested faster shipping speed - TS.',
-      'JobId'                      => 'JID123e4567-e89b-12d3-a456-426655440000',
-      'ShippingOption'             => 'NEXT_DAY',
+      'AddressId'      => 'ADID1234ab12-3eec-4eb3-9be6-9374c10eb51b',
+      'Description'    => 'updated-job-name',
+      'JobId'          => 'JID123e4567-e89b-12d3-a456-426655440000',
+      'ShippingOption' => 'NEXT_DAY',
       'SnowballCapacityPreference' => 'T100'
     );
 
@@ -91,8 +91,15 @@ The new or updated Notification object.
 =head2 OnDeviceServiceConfiguration => L<Paws::Snowball::OnDeviceServiceConfiguration>
 
 Specifies the service or services on the Snow Family device that your
-transferred data will be exported from or imported into. AWS Snow
-Family supports Amazon S3 and NFS (Network File System).
+transferred data will be exported from or imported into. Amazon Web
+Services Snow Family supports Amazon S3 and NFS (Network File System)
+and the Amazon Web Services Storage Gateway service Tape Gateway type.
+
+
+
+=head2 PickupDetails => L<Paws::Snowball::PickupDetails>
+
+
 
 
 
@@ -106,8 +113,8 @@ The updated C<JobResource> object, or the updated JobResource object.
 
 The new role Amazon Resource Name (ARN) that you want to associate with
 this job. To create a role ARN, use the CreateRole
-(https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)AWS
-Identity and Access Management (IAM) API action.
+(https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html)Identity
+and Access Management (IAM) API action.
 
 
 
@@ -128,7 +135,7 @@ For more information, see
 "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
 (Snow Family Devices and Capacity) in the I<Snowcone User Guide>.
 
-Valid values are: C<"T50">, C<"T80">, C<"T100">, C<"T42">, C<"T98">, C<"T8">, C<"T14">, C<"NoPreference">
+Valid values are: C<"T50">, C<"T80">, C<"T100">, C<"T42">, C<"T98">, C<"T8">, C<"T14">, C<"T32">, C<"NoPreference">, C<"T240">, C<"T13">
 
 
 =head1 SEE ALSO

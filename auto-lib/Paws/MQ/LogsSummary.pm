@@ -3,8 +3,8 @@ package Paws::MQ::LogsSummary;
   use Moose;
   has Audit => (is => 'ro', isa => 'Bool', request_name => 'audit', traits => ['NameInRequest']);
   has AuditLogGroup => (is => 'ro', isa => 'Str', request_name => 'auditLogGroup', traits => ['NameInRequest']);
-  has General => (is => 'ro', isa => 'Bool', request_name => 'general', traits => ['NameInRequest']);
-  has GeneralLogGroup => (is => 'ro', isa => 'Str', request_name => 'generalLogGroup', traits => ['NameInRequest']);
+  has General => (is => 'ro', isa => 'Bool', request_name => 'general', traits => ['NameInRequest'], required => 1);
+  has GeneralLogGroup => (is => 'ro', isa => 'Str', request_name => 'generalLogGroup', traits => ['NameInRequest'], required => 1);
   has Pending => (is => 'ro', isa => 'Paws::MQ::PendingLogs', request_name => 'pending', traits => ['NameInRequest']);
 
 1;
@@ -55,12 +55,12 @@ The location of the CloudWatch Logs log group where audit logs are
 sent.
 
 
-=head2 General => Bool
+=head2 B<REQUIRED> General => Bool
 
 Enables general logging.
 
 
-=head2 GeneralLogGroup => Str
+=head2 B<REQUIRED> GeneralLogGroup => Str
 
 The location of the CloudWatch Logs log group where general logs are
 sent.

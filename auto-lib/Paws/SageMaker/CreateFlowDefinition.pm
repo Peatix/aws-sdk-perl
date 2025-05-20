@@ -3,7 +3,7 @@ package Paws::SageMaker::CreateFlowDefinition;
   use Moose;
   has FlowDefinitionName => (is => 'ro', isa => 'Str', required => 1);
   has HumanLoopActivationConfig => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopActivationConfig');
-  has HumanLoopConfig => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopConfig', required => 1);
+  has HumanLoopConfig => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopConfig');
   has HumanLoopRequestSource => (is => 'ro', isa => 'Paws::SageMaker::HumanLoopRequestSource');
   has OutputConfig => (is => 'ro', isa => 'Paws::SageMaker::FlowDefinitionOutputConfig', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str', required => 1);
@@ -35,7 +35,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateFlowDefinitionResponse = $api . sagemaker->CreateFlowDefinition(
       FlowDefinitionName => 'MyFlowDefinitionName',
-      HumanLoopConfig    => {
+      OutputConfig       => {
+        S3OutputPath => 'MyS3Uri',       # max: 1024
+        KmsKeyId     => 'MyKmsKeyId',    # max: 2048; OPTIONAL
+      },
+      RoleArn                   => 'MyRoleArn',
+      HumanLoopActivationConfig => {
+        HumanLoopActivationConditionsConfig => {
+          HumanLoopActivationConditions =>
+            'MyHumanLoopActivationConditions',    # max: 10240
+
+        },
+
+      },    # OPTIONAL
+      HumanLoopConfig => {
         HumanTaskUiArn  => 'MyHumanTaskUiArn',                # max: 1024
         TaskCount       => 1,                                 # min: 1, max: 3
         TaskDescription => 'MyFlowDefinitionTaskDescription', # min: 1, max: 255
@@ -48,24 +61,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             TenthFractionsOfACent => 1,    # max: 9; OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
-        TaskAvailabilityLifetimeInSeconds => 1,  # min: 1, max: 864000; OPTIONAL
+        TaskAvailabilityLifetimeInSeconds => 1,    # min: 1; OPTIONAL
         TaskKeywords                      => [
-          'MyFlowDefinitionTaskKeyword', ...     # min: 1, max: 30
+          'MyFlowDefinitionTaskKeyword', ...       # min: 1, max: 30
         ],    # min: 1, max: 5; OPTIONAL
-        TaskTimeLimitInSeconds => 1,    # min: 30, max: 28800; OPTIONAL
-      },
-      OutputConfig => {
-        S3OutputPath => 'MyS3Uri',       # max: 1024
-        KmsKeyId     => 'MyKmsKeyId',    # max: 2048; OPTIONAL
-      },
-      RoleArn                   => 'MyRoleArn',
-      HumanLoopActivationConfig => {
-        HumanLoopActivationConditionsConfig => {
-          HumanLoopActivationConditions =>
-            'MyHumanLoopActivationConditions',    # max: 10240
-
-        },
-
+        TaskTimeLimitInSeconds => 1,    # min: 30; OPTIONAL
       },    # OPTIONAL
       HumanLoopRequestSource => {
         AwsManagedHumanLoopRequestSource =>
@@ -107,7 +107,7 @@ workflow.
 
 
 
-=head2 B<REQUIRED> HumanLoopConfig => L<Paws::SageMaker::HumanLoopConfig>
+=head2 HumanLoopConfig => L<Paws::SageMaker::HumanLoopConfig>
 
 An object containing information about the tasks the human reviewers
 will perform.

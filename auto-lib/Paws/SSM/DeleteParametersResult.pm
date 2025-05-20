@@ -22,8 +22,8 @@ The names of the deleted parameters.
 
 =head2 InvalidParameters => ArrayRef[Str|Undef]
 
-The names of parameters that weren't deleted because the parameters are
-not valid.
+The names of parameters that weren't deleted because the parameters
+aren't valid.
 
 
 =head2 _request_id => Str

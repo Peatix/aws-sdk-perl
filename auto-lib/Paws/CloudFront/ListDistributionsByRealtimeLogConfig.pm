@@ -10,7 +10,7 @@ package Paws::CloudFront::ListDistributionsByRealtimeLogConfig;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListDistributionsByRealtimeLogConfig');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/2020-05-31/distributionsByRealtimeLogConfig/');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/2020-05-31/distributionsByRealtimeLogConfig');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::CloudFront::ListDistributionsByRealtimeLogConfigResult');
   class_has _result_key => (isa => 'Str', is => 'ro');
@@ -60,8 +60,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 Use this field when paginating results to indicate where to begin in
 your list of distributions. The response includes distributions in the
 list that occur after the marker. To get the next page of the list, set
-this fieldE<rsquo>s value to the value of C<NextMarker> from the
-current pageE<rsquo>s response.
+this field's value to the value of C<NextMarker> from the current
+page's response.
 
 
 

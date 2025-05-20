@@ -3,18 +3,22 @@ package Paws::WorkSpaces::Workspace;
   use Moose;
   has BundleId => (is => 'ro', isa => 'Str');
   has ComputerName => (is => 'ro', isa => 'Str');
+  has DataReplicationSettings => (is => 'ro', isa => 'Paws::WorkSpaces::DataReplicationSettings');
   has DirectoryId => (is => 'ro', isa => 'Str');
   has ErrorCode => (is => 'ro', isa => 'Str');
   has ErrorMessage => (is => 'ro', isa => 'Str');
   has IpAddress => (is => 'ro', isa => 'Str');
   has ModificationStates => (is => 'ro', isa => 'ArrayRef[Paws::WorkSpaces::ModificationState]');
+  has RelatedWorkspaces => (is => 'ro', isa => 'ArrayRef[Paws::WorkSpaces::RelatedWorkspaceProperties]');
   has RootVolumeEncryptionEnabled => (is => 'ro', isa => 'Bool');
+  has StandbyWorkspacesProperties => (is => 'ro', isa => 'ArrayRef[Paws::WorkSpaces::StandbyWorkspacesProperties]');
   has State => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str');
   has UserName => (is => 'ro', isa => 'Str');
   has UserVolumeEncryptionEnabled => (is => 'ro', isa => 'Bool');
   has VolumeEncryptionKey => (is => 'ro', isa => 'Str');
   has WorkspaceId => (is => 'ro', isa => 'Str');
+  has WorkspaceName => (is => 'ro', isa => 'Str');
   has WorkspaceProperties => (is => 'ro', isa => 'Paws::WorkSpaces::WorkspaceProperties');
 
 1;
@@ -64,10 +68,14 @@ of this name varies. For more information, see Launch a WorkSpace
 (https://docs.aws.amazon.com/workspaces/latest/adminguide/launch-workspaces-tutorials.html).
 
 
+=head2 DataReplicationSettings => L<Paws::WorkSpaces::DataReplicationSettings>
+
+Indicates the settings of the data replication.
+
+
 =head2 DirectoryId => Str
 
-The identifier of the AWS Directory Service directory for the
-WorkSpace.
+The identifier of the Directory Service directory for the WorkSpace.
 
 
 =head2 ErrorCode => Str
@@ -91,14 +99,104 @@ The IP address of the WorkSpace.
 The modification states of the WorkSpace.
 
 
+=head2 RelatedWorkspaces => ArrayRef[L<Paws::WorkSpaces::RelatedWorkspaceProperties>]
+
+The standby WorkSpace or primary WorkSpace related to the specified
+WorkSpace.
+
+
 =head2 RootVolumeEncryptionEnabled => Bool
 
 Indicates whether the data stored on the root volume is encrypted.
 
 
+=head2 StandbyWorkspacesProperties => ArrayRef[L<Paws::WorkSpaces::StandbyWorkspacesProperties>]
+
+The properties of the standby WorkSpace
+
+
 =head2 State => Str
 
 The operational state of the WorkSpace.
+
+=over
+
+=item *
+
+C<PENDING> E<ndash> The WorkSpace is in a waiting state (for example,
+the WorkSpace is being created).
+
+=item *
+
+C<AVAILABLE> E<ndash> The WorkSpace is running and has passed the
+health checks.
+
+=item *
+
+C<IMPAIRED> E<ndash> Refer to C<UNHEALTHY> state.
+
+=item *
+
+C<UNHEALTHY> E<ndash> The WorkSpace is not responding to health checks.
+
+=item *
+
+C<REBOOTING> E<ndash> The WorkSpace is being rebooted (restarted).
+
+=item *
+
+C<STARTING> E<ndash> The WorkSpace is starting up and health checks are
+being run.
+
+=item *
+
+C<REBUILDING> E<ndash> The WorkSpace is being rebuilt.
+
+=item *
+
+C<RESTORING> E<ndash> The WorkSpace is being restored.
+
+=item *
+
+C<MAINTENANCE> E<ndash> The WorkSpace is undergoing scheduled
+maintenance by Amazon Web Services.
+
+=item *
+
+C<ADMIN_MAINTENANCE> E<ndash> The WorkSpace is undergoing maintenance
+by the WorkSpaces administrator.
+
+=item *
+
+C<TERMINATING> E<ndash> The WorkSpace is being deleted.
+
+=item *
+
+C<TERMINATED> E<ndash> The WorkSpace has been deleted.
+
+=item *
+
+C<SUSPENDED> E<ndash> The WorkSpace has been suspended for image
+creation.
+
+=item *
+
+C<UPDATING> E<ndash> The WorkSpace is undergoing an update.
+
+=item *
+
+C<STOPPING> E<ndash> The WorkSpace is being stopped.
+
+=item *
+
+C<STOPPED> E<ndash> The WorkSpace has been stopped.
+
+=item *
+
+C<ERROR > E<ndash> The WorkSpace is an error state (for example, an
+error occurred during startup).
+
+=back
 
 After a WorkSpace is terminated, the C<TERMINATED> state is returned
 only briefly before the WorkSpace directory metadata is cleaned up, so
@@ -126,14 +224,18 @@ Indicates whether the data stored on the user volume is encrypted.
 
 =head2 VolumeEncryptionKey => Str
 
-The symmetric AWS KMS customer master key (CMK) used to encrypt data
-stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric
-CMKs.
+The ARN of the symmetric KMS key used to encrypt data stored on your
+WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
 
 
 =head2 WorkspaceId => Str
 
 The identifier of the WorkSpace.
+
+
+=head2 WorkspaceName => Str
+
+The name of the user-decoupled WorkSpace.
 
 
 =head2 WorkspaceProperties => L<Paws::WorkSpaces::WorkspaceProperties>

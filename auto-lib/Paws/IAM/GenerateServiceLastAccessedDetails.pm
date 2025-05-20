@@ -28,11 +28,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
+    # To generate a service last accessed data report for a policy
+    # The following operation generates a report for the policy: ExamplePolicy1
     my $GenerateServiceLastAccessedDetailsResponse =
       $iam->GenerateServiceLastAccessedDetails(
-      Arn         => 'MyarnType',
-      Granularity => 'SERVICE_LEVEL',    # OPTIONAL
-      );
+      'Arn' => 'arn:aws:iam::123456789012:policy/ExamplePolicy1' );
 
     # Results:
     my $JobId = $GenerateServiceLastAccessedDetailsResponse->JobId;
@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iam
 
 The ARN of the IAM resource (user, group, role, or managed policy) used
 to generate information about when the resource was last used in an
-attempt to access an AWS service.
+attempt to access an Amazon Web Services service.
 
 
 

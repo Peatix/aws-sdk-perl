@@ -41,8 +41,9 @@ The region for the S3 bucket containing the S3 object must match the
 region you use for Amazon Rekognition operations.
 
 For Amazon Rekognition to process an S3 object, the user must have
-permission to access the S3 object. For more information, see
-Resource-Based Policies in the Amazon Rekognition Developer Guide.
+permission to access the S3 object. For more information, see How
+Amazon Rekognition works with IAM in the Amazon Rekognition Developer
+Guide.
 
 =head1 ATTRIBUTES
 

@@ -40,10 +40,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Contai
 
 =head1 DESCRIPTION
 
-The overrides that should be sent to a container. An empty container
-override can be passed in. An example of an empty container override
-would be C<{"containerOverrides": [ ] }>. If a non-empty container
-override is specified, the C<name> parameter must be included.
+The overrides that are sent to a container. An empty container override
+can be passed in. An example of an empty container override is
+C<{"containerOverrides": [ ] }>. If a non-empty container override is
+specified, the C<name> parameter must be included.
+
+You can use Secrets Manager or Amazon Web Services Systems Manager
+Parameter Store to store the sensitive data. For more information, see
+Retrieve secrets through environment variables
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/secrets-envvar.html)
+in the Amazon ECS Developer Guide.
 
 =head1 ATTRIBUTES
 

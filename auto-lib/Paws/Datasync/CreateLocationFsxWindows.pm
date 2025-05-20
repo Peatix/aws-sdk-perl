@@ -45,7 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags         => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 256
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -64,57 +64,86 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 Domain => Str
 
-The name of the Windows domain that the FSx for Windows File Server
-belongs to.
+Specifies the name of the Windows domain that the FSx for Windows File
+Server file system belongs to.
+
+If you have multiple Active Directory domains in your environment,
+configuring this parameter makes sure that DataSync connects to the
+right file system.
 
 
 
 =head2 B<REQUIRED> FsxFilesystemArn => Str
 
-The Amazon Resource Name (ARN) for the FSx for Windows File Server file
-system.
+Specifies the Amazon Resource Name (ARN) for the FSx for Windows File
+Server file system.
 
 
 
 =head2 B<REQUIRED> Password => Str
 
-The password of the user who has the permissions to access files and
-folders in the FSx for Windows File Server file system.
+Specifies the password of the user with the permissions to mount and
+access the files, folders, and file metadata in your FSx for Windows
+File Server file system.
 
 
 
 =head2 B<REQUIRED> SecurityGroupArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARNs) of the security groups that are to use
-to configure the FSx for Windows File Server file system.
+Specifies the ARNs of the Amazon EC2 security groups that provide
+access to your file system's preferred subnet.
+
+The security groups that you specify must be able to communicate with
+your file system's security groups. For information about configuring
+security groups for file system access, see the I<Amazon FSx for
+Windows File Server User Guide>
+(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html).
+
+If you choose a security group that doesn't allow connections from
+within itself, do one of the following:
+
+=over
+
+=item *
+
+Configure the security group to allow it to communicate within itself.
+
+=item *
+
+Choose a different security group that can communicate with the mount
+target's security group.
+
+=back
+
 
 
 
 =head2 Subdirectory => Str
 
-A subdirectory in the locationE<rsquo>s path. This subdirectory in the
-Amazon FSx for Windows File Server file system is used to read data
-from the Amazon FSx for Windows File Server source location or write
-data to the FSx for Windows File Server destination.
+Specifies a mount path for your file system using forward slashes. This
+is where DataSync reads or writes data (depending on if this is a
+source or destination location).
 
 
 
 =head2 Tags => ArrayRef[L<Paws::Datasync::TagListEntry>]
 
-The key-value pair that represents a tag that you want to add to the
-resource. The value can be an empty string. This value helps you
-manage, filter, and search for your resources. We recommend that you
-create a name tag for your location.
+Specifies labels that help you categorize, filter, and search for your
+Amazon Web Services resources. We recommend creating at least a name
+tag for your location.
 
 
 
 =head2 B<REQUIRED> User => Str
 
-The user who has the permissions to access files and folders in the FSx
-for Windows File Server file system.
+Specifies the user with the permissions to mount and access the files,
+folders, and file metadata in your FSx for Windows File Server file
+system.
 
-For information about choosing a user name that ensures sufficient
-permissions to files, folders, and metadata, see user.
+For information about choosing a user with the right level of access
+for your transfer, see required permissions
+(https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions)
+for FSx for Windows File Server locations.
 
 
 

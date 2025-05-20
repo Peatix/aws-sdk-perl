@@ -16,7 +16,7 @@ Paws::LicenseManager::CreateLicenseManagerReportGeneratorResponse
 
 =head2 LicenseManagerReportGeneratorArn => Str
 
-The Amazon Resource Number (ARN) of the new report generator.
+The Amazon Resource Name (ARN) of the new report generator.
 
 
 =head2 _request_id => Str

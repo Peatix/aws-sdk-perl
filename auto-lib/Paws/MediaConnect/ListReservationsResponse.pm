@@ -18,17 +18,19 @@ Paws::MediaConnect::ListReservationsResponse
 
 =head2 NextToken => Str
 
-The token that identifies which batch of results that you want to see.
-For example, you submit a ListReservations request with MaxResults set
-at 5. The service returns the first batch of results (up to 5) and a
-NextToken value. To see the next batch of results, you can submit the
-ListReservations request a second time and specify the NextToken value.
+The token that identifies the batch of results that you want to see.
+
+For example, you submit a C<ListReservations> request with
+C<MaxResults> set at 5. The service returns the first batch of results
+(up to 5) and a C<NextToken> value. To see the next batch of results,
+you can submit the C<ListReservations> request a second time and
+specify the C<NextToken> value.
 
 
 =head2 Reservations => ArrayRef[L<Paws::MediaConnect::Reservation>]
 
 A list of all reservations that have been purchased by this account in
-the current AWS Region.
+the current Amazon Web Services Region.
 
 
 =head2 _request_id => Str

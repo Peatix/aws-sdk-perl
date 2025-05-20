@@ -6,12 +6,16 @@ package Paws::EC2::ServiceConfiguration;
   has GatewayLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'gatewayLoadBalancerArnSet', traits => ['NameInRequest']);
   has ManagesVpcEndpoints => (is => 'ro', isa => 'Bool', request_name => 'managesVpcEndpoints', traits => ['NameInRequest']);
   has NetworkLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'networkLoadBalancerArnSet', traits => ['NameInRequest']);
+  has PayerResponsibility => (is => 'ro', isa => 'Str', request_name => 'payerResponsibility', traits => ['NameInRequest']);
   has PrivateDnsName => (is => 'ro', isa => 'Str', request_name => 'privateDnsName', traits => ['NameInRequest']);
   has PrivateDnsNameConfiguration => (is => 'ro', isa => 'Paws::EC2::PrivateDnsNameConfiguration', request_name => 'privateDnsNameConfiguration', traits => ['NameInRequest']);
+  has RemoteAccessEnabled => (is => 'ro', isa => 'Bool', request_name => 'remoteAccessEnabled', traits => ['NameInRequest']);
   has ServiceId => (is => 'ro', isa => 'Str', request_name => 'serviceId', traits => ['NameInRequest']);
   has ServiceName => (is => 'ro', isa => 'Str', request_name => 'serviceName', traits => ['NameInRequest']);
   has ServiceState => (is => 'ro', isa => 'Str', request_name => 'serviceState', traits => ['NameInRequest']);
   has ServiceType => (is => 'ro', isa => 'ArrayRef[Paws::EC2::ServiceTypeDetail]', request_name => 'serviceType', traits => ['NameInRequest']);
+  has SupportedIpAddressTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'supportedIpAddressTypeSet', traits => ['NameInRequest']);
+  has SupportedRegions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::SupportedRegionDetail]', request_name => 'supportedRegionSet', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
 1;
 
@@ -50,8 +54,8 @@ This class has no description
 
 =head2 AcceptanceRequired => Bool
 
-Indicates whether requests from other AWS accounts to create an
-endpoint to the service must first be accepted.
+Indicates whether requests from other Amazon Web Services accounts to
+create an endpoint to the service must first be accepted.
 
 
 =head2 AvailabilityZones => ArrayRef[Str|Undef]
@@ -82,6 +86,11 @@ The Amazon Resource Names (ARNs) of the Network Load Balancers for the
 service.
 
 
+=head2 PayerResponsibility => Str
+
+The payer responsibility.
+
+
 =head2 PrivateDnsName => Str
 
 The private DNS name for the service.
@@ -90,6 +99,12 @@ The private DNS name for the service.
 =head2 PrivateDnsNameConfiguration => L<Paws::EC2::PrivateDnsNameConfiguration>
 
 Information about the endpoint service private DNS name configuration.
+
+
+=head2 RemoteAccessEnabled => Bool
+
+Indicates whether consumers can access the service from a Region other
+than the Region where the service is hosted.
 
 
 =head2 ServiceId => Str
@@ -112,9 +127,19 @@ The service state.
 The type of service.
 
 
+=head2 SupportedIpAddressTypes => ArrayRef[Str|Undef]
+
+The supported IP address types.
+
+
+=head2 SupportedRegions => ArrayRef[L<Paws::EC2::SupportedRegionDetail>]
+
+The supported Regions.
+
+
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
-Any tags assigned to the service.
+The tags assigned to the service.
 
 
 

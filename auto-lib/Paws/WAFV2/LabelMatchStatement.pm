@@ -34,9 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Labe
 
 =head1 DESCRIPTION
 
-A rule statement that defines a string match search against labels that
-have been added to the web request by rules that have already run in
-the web ACL.
+A rule statement to match against labels that have been added to the
+web request by rules that have already run in the web ACL.
 
 The label match statement provides the label or namespace string to
 search for. The label string can represent a part or all of the fully

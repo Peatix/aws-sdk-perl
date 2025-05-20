@@ -47,10 +47,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to and uniquely identifies the GameLift resource that
-you want to retrieve tags for. GameLift resource ARNs are included in
-the data object for the resource, which can be retrieved by calling a
-List or Describe operation for the resource type.
+that uniquely identifies the Amazon GameLift resource that you want to
+retrieve tags for. Amazon GameLift includes resource ARNs in the data
+object for the resource. You can retrieve the ARN by calling a C<List>
+or C<Describe> operation for the resource type.
 
 
 

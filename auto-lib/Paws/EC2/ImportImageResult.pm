@@ -16,6 +16,7 @@ package Paws::EC2::ImportImageResult;
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest',]);
   has StatusMessage => (is => 'ro', isa => 'Str', request_name => 'statusMessage', traits => ['NameInRequest',]);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest',]);
+  has UsageOperation => (is => 'ro', isa => 'Str', request_name => 'usageOperation', traits => ['NameInRequest',]);
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -61,8 +62,8 @@ The task ID of the import image task.
 
 =head2 KmsKeyId => Str
 
-The identifier for the symmetric AWS Key Management Service (AWS KMS)
-customer master key (CMK) that was used to create the encrypted AMI.
+The identifier for the symmetric KMS key that was used to create the
+encrypted AMI.
 
 
 =head2 LicenseSpecifications => ArrayRef[L<Paws::EC2::ImportImageLicenseConfigurationResponse>]
@@ -103,6 +104,11 @@ A detailed status message of the import task.
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
 
 Any tags assigned to the import image task.
+
+
+=head2 UsageOperation => Str
+
+The usage operation value.
 
 
 =head2 _request_id => Str

@@ -3,6 +3,7 @@ package Paws::MediaConvert::DolbyVision;
   use Moose;
   has L6Metadata => (is => 'ro', isa => 'Paws::MediaConvert::DolbyVisionLevel6Metadata', request_name => 'l6Metadata', traits => ['NameInRequest']);
   has L6Mode => (is => 'ro', isa => 'Str', request_name => 'l6Mode', traits => ['NameInRequest']);
+  has Mapping => (is => 'ro', isa => 'Str', request_name => 'mapping', traits => ['NameInRequest']);
   has Profile => (is => 'ro', isa => 'Str', request_name => 'profile', traits => ['NameInRequest']);
 
 1;
@@ -35,9 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-With AWS Elemental MediaConvert, you can create profile 5 Dolby Vision
-outputs from MXF and IMF sources that contain mastering information as
-frame-interleaved Dolby Vision metadata.
+Create Dolby Vision Profile 5 or Profile 8.1 compatible video output.
 
 =head1 ATTRIBUTES
 
@@ -54,11 +53,27 @@ Use Dolby Vision Mode to choose how the service will handle Dolby
 Vision MaxCLL and MaxFALL properies.
 
 
+=head2 Mapping => Str
+
+Required when you set Dolby Vision Profile to Profile 8.1. When you set
+Content mapping to None, content mapping is not applied to the
+HDR10-compatible signal. Depending on the source peak nit level,
+clipping might occur on HDR devices without Dolby Vision. When you set
+Content mapping to HDR10 1000, the transcoder creates a 1,000 nits peak
+HDR10-compatible signal by applying static content mapping to the
+source. This mode is speed-optimized for PQ10 sources with metadata
+that is created from analysis. For graded Dolby Vision content, be
+aware that creative intent might not be guaranteed with extreme 1,000
+nits trims.
+
+
 =head2 Profile => Str
 
-In the current MediaConvert implementation, the Dolby Vision profile is
-always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby
-Vision frame interleaved data.
+Required when you enable Dolby Vision. Use Profile 5 to include
+frame-interleaved Dolby Vision metadata in your output. Your input must
+include Dolby Vision metadata or an HDR10 YUV color space. Use Profile
+8.1 to include frame-interleaved Dolby Vision metadata and HDR10
+metadata in your output. Your input must include Dolby Vision metadata.
 
 
 

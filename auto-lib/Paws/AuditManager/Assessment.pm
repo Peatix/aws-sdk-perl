@@ -37,9 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-An entity that defines the scope of audit evidence collected by AWS
-Audit Manager. An AWS Audit Manager assessment is an implementation of
-an AWS Audit Manager framework.
+An entity that defines the scope of audit evidence collected by Audit
+Manager. An Audit Manager assessment is an implementation of an Audit
+Manager framework.
 
 =head1 ATTRIBUTES
 
@@ -51,22 +51,22 @@ The Amazon Resource Name (ARN) of the assessment.
 
 =head2 AwsAccount => L<Paws::AuditManager::AWSAccount>
 
-The AWS account associated with the assessment.
+The Amazon Web Services account that's associated with the assessment.
 
 
 =head2 Framework => L<Paws::AuditManager::AssessmentFramework>
 
-The framework from which the assessment was created.
+The framework that the assessment was created from.
 
 
 =head2 Metadata => L<Paws::AuditManager::AssessmentMetadata>
 
-The metadata for the specified assessment.
+The metadata for the assessment.
 
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
 
-The tags associated with the assessment.
+The tags that are associated with the assessment.
 
 
 

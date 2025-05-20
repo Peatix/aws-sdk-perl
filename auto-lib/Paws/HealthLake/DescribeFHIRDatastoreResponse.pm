@@ -16,9 +16,10 @@ Paws::HealthLake::DescribeFHIRDatastoreResponse
 
 =head2 B<REQUIRED> DatastoreProperties => L<Paws::HealthLake::DatastoreProperties>
 
-All properties associated with a Data Store, including the Data Store
-ID, Data Store ARN, Data Store name, Data Store status, created at,
-Data Store type version, and Data Store endpoint.
+All properties associated with a data store, including the data store
+ID, data store ARN, data store name, data store status, when the data
+store was created, data store type version, and the data store's
+endpoint.
 
 
 =head2 _request_id => Str

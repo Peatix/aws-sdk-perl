@@ -1,6 +1,7 @@
 
 package Paws::SageMakerFeatureStoreRuntime::GetRecordResponse;
   use Moose;
+  has ExpiresAt => (is => 'ro', isa => 'Str');
   has Record => (is => 'ro', isa => 'ArrayRef[Paws::SageMakerFeatureStoreRuntime::FeatureValue]');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -13,6 +14,11 @@ package Paws::SageMakerFeatureStoreRuntime::GetRecordResponse;
 Paws::SageMakerFeatureStoreRuntime::GetRecordResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ExpiresAt => Str
+
+The C<ExpiresAt> ISO string of the requested record.
 
 
 =head2 Record => ArrayRef[L<Paws::SageMakerFeatureStoreRuntime::FeatureValue>]

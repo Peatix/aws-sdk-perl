@@ -38,39 +38,42 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MWAA::Metri
 
 =head1 DESCRIPTION
 
-Internal only API.
+B<Internal only>. Collects Apache Airflow metrics. To learn more about
+the metrics published to Amazon CloudWatch, see Amazon MWAA performance
+metrics in Amazon CloudWatch
+(https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 Dimensions => ArrayRef[L<Paws::MWAA::Dimension>]
 
-Internal only API.
+B<Internal only>. The dimensions associated with the metric.
 
 
 =head2 B<REQUIRED> MetricName => Str
 
-Internal only API.
+B<Internal only>. The name of the metric.
 
 
 =head2 StatisticValues => L<Paws::MWAA::StatisticSet>
 
-Internal only API.
+B<Internal only>. The statistical values for the metric.
 
 
 =head2 B<REQUIRED> Timestamp => Str
 
-Internal only API.
+B<Internal only>. The time the metric data was received.
 
 
 =head2 Unit => Str
 
-
+B<Internal only>. The unit used to store the metric.
 
 
 =head2 Value => Num
 
-Internal only API.
+B<Internal only>. The value for the metric.
 
 
 

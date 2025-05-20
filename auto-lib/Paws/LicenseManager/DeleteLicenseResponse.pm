@@ -17,7 +17,7 @@ Paws::LicenseManager::DeleteLicenseResponse
 
 =head2 DeletionDate => Str
 
-Date on which the license is deleted.
+Date when the license is deleted.
 
 
 =head2 Status => Str

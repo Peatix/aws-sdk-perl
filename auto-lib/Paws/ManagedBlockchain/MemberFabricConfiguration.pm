@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ManagedBloc
 =head1 DESCRIPTION
 
 Configuration properties for Hyperledger Fabric for a member in a
-Managed Blockchain network using the Hyperledger Fabric framework.
+Managed Blockchain network that is using the Hyperledger Fabric
+framework.
 
 =head1 ATTRIBUTES
 
@@ -43,8 +44,8 @@ Managed Blockchain network using the Hyperledger Fabric framework.
 =head2 B<REQUIRED> AdminPassword => Str
 
 The password for the member's initial administrative user. The
-C<AdminPassword> must be at least eight characters long and no more
-than 32 characters. It must contain at least one uppercase letter, one
+C<AdminPassword> must be at least 8 characters long and no more than 32
+characters. It must contain at least one uppercase letter, one
 lowercase letter, and one digit. It cannot have a single quotation mark
 (E<lsquo>), a double quotation marks (E<ldquo>), a forward slash(/), a
 backward slash(\), @, or a space.

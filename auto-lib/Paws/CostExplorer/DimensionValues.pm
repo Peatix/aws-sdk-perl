@@ -46,12 +46,27 @@ use C<GetDimensionValues> to find specific values.
 The names of the metadata types that you can use to filter and group
 your results. For example, C<AZ> returns a list of Availability Zones.
 
+Not all dimensions are supported in each API. Refer to the
+documentation for each specific API to see what is supported.
+
+C<LINKED_ACCOUNT_NAME> and C<SERVICE_CODE> can only be used in
+CostCategoryRule
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html).
+
+C<ANOMALY_TOTAL_IMPACT_ABSOLUTE> and C<ANOMALY_TOTAL_IMPACT_PERCENTAGE>
+can only be used in AnomalySubscriptions
+(https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html).
+
 
 =head2 MatchOptions => ArrayRef[Str|Undef]
 
 The match options that you can use to filter your results.
-C<MatchOptions> is only applicable for actions related to Cost
-Category. The default values for C<MatchOptions> are C<EQUALS> and
+
+C<MatchOptions> is only applicable for actions related to Cost Category
+and Anomaly Subscriptions. Refer to the documentation for each specific
+API to see what is supported.
+
+The default values for C<MatchOptions> are C<EQUALS> and
 C<CASE_SENSITIVE>.
 
 

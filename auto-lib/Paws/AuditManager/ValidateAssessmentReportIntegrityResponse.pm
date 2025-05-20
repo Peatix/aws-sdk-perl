@@ -21,7 +21,8 @@ Paws::AuditManager::ValidateAssessmentReportIntegrityResponse
 
 =head2 SignatureAlgorithm => Str
 
-The signature algorithm used to code sign the assessment report file.
+The signature algorithm that's used to code sign the assessment report
+file.
 
 
 =head2 SignatureDateTime => Str

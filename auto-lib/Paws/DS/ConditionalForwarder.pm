@@ -59,7 +59,7 @@ by the conditional forwarder.
 
 The replication scope of the conditional forwarder. The only allowed
 value is C<Domain>, which will replicate the conditional forwarder to
-all of the domain controllers for your AWS directory.
+all of the domain controllers for your Amazon Web Services directory.
 
 
 

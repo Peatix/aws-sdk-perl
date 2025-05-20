@@ -43,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $S3Prefix               = $ExportTask->S3Prefix;
     my $SnapshotTime           = $ExportTask->SnapshotTime;
     my $SourceArn              = $ExportTask->SourceArn;
+    my $SourceType             = $ExportTask->SourceType;
     my $Status                 = $ExportTask->Status;
     my $TaskEndTime            = $ExportTask->TaskEndTime;
     my $TaskStartTime          = $ExportTask->TaskStartTime;
@@ -59,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 B<REQUIRED> ExportTaskIdentifier => Str
 
-The identifier of the snapshot export task to cancel.
+The identifier of the snapshot or cluster export task to cancel.
 
 
 

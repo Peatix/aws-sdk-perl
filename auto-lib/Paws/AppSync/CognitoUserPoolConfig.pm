@@ -43,12 +43,12 @@ Describes an Amazon Cognito user pool configuration.
 =head2 AppIdClientRegex => Str
 
 A regular expression for validating the incoming Amazon Cognito user
-pool app client ID.
+pool app client ID. If this value isn't set, no filtering is applied.
 
 
 =head2 B<REQUIRED> AwsRegion => Str
 
-The AWS Region in which the user pool was created.
+The Amazon Web Services Region in which the user pool was created.
 
 
 =head2 B<REQUIRED> UserPoolId => Str

@@ -6,6 +6,7 @@ package Paws::EC2::ConnectionNotification;
   has ConnectionNotificationState => (is => 'ro', isa => 'Str', request_name => 'connectionNotificationState', traits => ['NameInRequest']);
   has ConnectionNotificationType => (is => 'ro', isa => 'Str', request_name => 'connectionNotificationType', traits => ['NameInRequest']);
   has ServiceId => (is => 'ro', isa => 'Str', request_name => 'serviceId', traits => ['NameInRequest']);
+  has ServiceRegion => (is => 'ro', isa => 'Str', request_name => 'serviceRegion', traits => ['NameInRequest']);
   has VpcEndpointId => (is => 'ro', isa => 'Str', request_name => 'vpcEndpointId', traits => ['NameInRequest']);
 1;
 
@@ -71,6 +72,11 @@ The type of notification.
 =head2 ServiceId => Str
 
 The ID of the endpoint service.
+
+
+=head2 ServiceRegion => Str
+
+The Region for the endpoint service.
 
 
 =head2 VpcEndpointId => Str

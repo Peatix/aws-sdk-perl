@@ -47,13 +47,14 @@ The current state of the canary.
 
 =head2 StateReason => Str
 
-If the canary has insufficient permissions to run, this field provides
-more details.
+If the canary creation or update failed, this field provides details on
+the failure.
 
 
 =head2 StateReasonCode => Str
 
-If the canary cannot run or has failed, this field displays the reason.
+If the canary creation or update failed, this field displays the reason
+code.
 
 
 

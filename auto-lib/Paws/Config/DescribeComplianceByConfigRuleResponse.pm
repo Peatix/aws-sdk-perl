@@ -17,7 +17,7 @@ Paws::Config::DescribeComplianceByConfigRuleResponse
 
 =head2 ComplianceByConfigRules => ArrayRef[L<Paws::Config::ComplianceByConfigRule>]
 
-Indicates whether each of the specified AWS Config rules is compliant.
+Indicates whether each of the specified Config rules is compliant.
 
 
 =head2 NextToken => Str

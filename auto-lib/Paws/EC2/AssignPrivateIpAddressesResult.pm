@@ -1,6 +1,7 @@
 
 package Paws::EC2::AssignPrivateIpAddressesResult;
   use Moose;
+  has AssignedIpv4Prefixes => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Ipv4PrefixSpecification]', request_name => 'assignedIpv4PrefixSet', traits => ['NameInRequest',]);
   has AssignedPrivateIpAddresses => (is => 'ro', isa => 'ArrayRef[Paws::EC2::AssignedPrivateIpAddress]', request_name => 'assignedPrivateIpAddressesSet', traits => ['NameInRequest',]);
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', request_name => 'networkInterfaceId', traits => ['NameInRequest',]);
 
@@ -14,6 +15,11 @@ package Paws::EC2::AssignPrivateIpAddressesResult;
 Paws::EC2::AssignPrivateIpAddressesResult
 
 =head1 ATTRIBUTES
+
+
+=head2 AssignedIpv4Prefixes => ArrayRef[L<Paws::EC2::Ipv4PrefixSpecification>]
+
+The IPv4 prefixes that are assigned to the network interface.
 
 
 =head2 AssignedPrivateIpAddresses => ArrayRef[L<Paws::EC2::AssignedPrivateIpAddress>]

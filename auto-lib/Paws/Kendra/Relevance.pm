@@ -37,9 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Rel
 
 =head1 DESCRIPTION
 
-Provides information for manually tuning the relevance of a field in a
-search. When a query includes terms that match the field, the results
-are given a boost in the response based on these tuning parameters.
+Provides information for tuning the relevance of a field in a search.
+When a query includes terms that match the field, the results are given
+a boost in the response based on these tuning parameters.
 
 =head1 ATTRIBUTES
 
@@ -62,9 +62,8 @@ Only applies to C<DATE> fields.
 
 Indicates that this field determines how "fresh" a document is. For
 example, if document 1 was created on November 5, and document 2 was
-created on October 31, document 1 is "fresher" than document 2. You can
-only set the C<Freshness> field on one C<DATE> type field. Only applies
-to C<DATE> fields.
+created on October 31, document 1 is "fresher" than document 2. Only
+applies to C<DATE> fields.
 
 
 =head2 Importance => Int
@@ -85,14 +84,14 @@ When the C<RankOrder> field is C<DESCENDING>, lower numbers are better.
 For example, in a task tracking application, a priority 1 task is more
 important than a priority 5 task.
 
-Only applies to C<LONG> and C<DOUBLE> fields.
+Only applies to C<LONG> fields.
 
 
 =head2 ValueImportanceMap => L<Paws::Kendra::ValueImportanceMap>
 
 A list of values that should be given a different boost when they
 appear in the result list. For example, if you are boosting a field
-called "department," query terms that match the department field are
+called "department", query terms that match the department field are
 boosted in the result. However, you can add entries from the department
 field to boost documents with those values higher.
 

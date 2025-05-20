@@ -46,9 +46,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> Attribute => Str
 
-The list of C<SettingAttribute> enum values.
+The list of setting attribute enum values.
 
-Valid values are: C<"ALL">, C<"IS_AWS_ORG_ENABLED">, C<"SNS_TOPIC">, C<"DEFAULT_ASSESSMENT_REPORTS_DESTINATION">, C<"DEFAULT_PROCESS_OWNERS">
+Valid values are: C<"ALL">, C<"IS_AWS_ORG_ENABLED">, C<"SNS_TOPIC">, C<"DEFAULT_ASSESSMENT_REPORTS_DESTINATION">, C<"DEFAULT_PROCESS_OWNERS">, C<"EVIDENCE_FINDER_ENABLEMENT">, C<"DEREGISTRATION_POLICY">, C<"DEFAULT_EXPORT_DESTINATION">
 
 
 =head1 SEE ALSO

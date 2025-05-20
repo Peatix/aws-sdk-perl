@@ -2,6 +2,7 @@
 package Paws::ServiceCatalog::DescribeProvisioningParametersOutput;
   use Moose;
   has ConstraintSummaries => (is => 'ro', isa => 'ArrayRef[Paws::ServiceCatalog::ConstraintSummary]');
+  has ProvisioningArtifactOutputKeys => (is => 'ro', isa => 'ArrayRef[Paws::ServiceCatalog::ProvisioningArtifactOutput]');
   has ProvisioningArtifactOutputs => (is => 'ro', isa => 'ArrayRef[Paws::ServiceCatalog::ProvisioningArtifactOutput]');
   has ProvisioningArtifactParameters => (is => 'ro', isa => 'ArrayRef[Paws::ServiceCatalog::ProvisioningArtifactParameter]');
   has ProvisioningArtifactPreferences => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactPreferences');
@@ -24,6 +25,13 @@ Paws::ServiceCatalog::DescribeProvisioningParametersOutput
 Information about the constraints used to provision the product.
 
 
+=head2 ProvisioningArtifactOutputKeys => ArrayRef[L<Paws::ServiceCatalog::ProvisioningArtifactOutput>]
+
+A list of the keys and descriptions of the outputs. These outputs can
+be referenced from a provisioned product launched from this
+provisioning artifact.
+
+
 =head2 ProvisioningArtifactOutputs => ArrayRef[L<Paws::ServiceCatalog::ProvisioningArtifactOutput>]
 
 The output of the provisioning artifact.
@@ -36,7 +44,7 @@ Information about the parameters used to provision the product.
 
 =head2 ProvisioningArtifactPreferences => L<Paws::ServiceCatalog::ProvisioningArtifactPreferences>
 
-An object that contains information about preferences, such as regions
+An object that contains information about preferences, such as Regions
 and accounts, for the provisioning artifact.
 
 

@@ -8,6 +8,8 @@ package Paws::SESv2::GetEmailIdentityResponse;
   has MailFromAttributes => (is => 'ro', isa => 'Paws::SESv2::MailFromAttributes');
   has Policies => (is => 'ro', isa => 'Paws::SESv2::PolicyMap');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SESv2::Tag]');
+  has VerificationInfo => (is => 'ro', isa => 'Paws::SESv2::VerificationInfo');
+  has VerificationStatus => (is => 'ro', isa => 'Str');
   has VerifiedForSendingStatus => (is => 'ro', isa => 'Bool');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -50,7 +52,8 @@ setting is disabled).
 
 =head2 IdentityType => Str
 
-The email identity type.
+The email identity type. Note: the C<MANAGED_DOMAIN> identity type is
+not supported.
 
 Valid values are: C<"EMAIL_ADDRESS">, C<"DOMAIN">, C<"MANAGED_DOMAIN">
 =head2 MailFromAttributes => L<Paws::SESv2::MailFromAttributes>
@@ -70,6 +73,46 @@ An array of objects that define the tags (keys and values) that are
 associated with the email identity.
 
 
+=head2 VerificationInfo => L<Paws::SESv2::VerificationInfo>
+
+An object that contains additional information about the verification
+status for the identity.
+
+
+=head2 VerificationStatus => Str
+
+The verification status of the identity. The status can be one of the
+following:
+
+=over
+
+=item *
+
+C<PENDING> E<ndash> The verification process was initiated, but Amazon
+SES hasn't yet been able to verify the identity.
+
+=item *
+
+C<SUCCESS> E<ndash> The verification process completed successfully.
+
+=item *
+
+C<FAILED> E<ndash> The verification process failed.
+
+=item *
+
+C<TEMPORARY_FAILURE> E<ndash> A temporary issue is preventing Amazon
+SES from determining the verification status of the identity.
+
+=item *
+
+C<NOT_STARTED> E<ndash> The verification process hasn't been initiated
+for the identity.
+
+=back
+
+
+Valid values are: C<"PENDING">, C<"SUCCESS">, C<"FAILED">, C<"TEMPORARY_FAILURE">, C<"NOT_STARTED">
 =head2 VerifiedForSendingStatus => Bool
 
 Specifies whether or not the identity is verified. You can only send

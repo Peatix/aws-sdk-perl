@@ -29,13 +29,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
+    # To update a contact channel
+    # The following update-contact-channel example updates the name and delivery
+    # address of a contact channel.
     my $UpdateContactChannelResult = $ssm -contacts->UpdateContactChannel(
-      ContactChannelId => 'MySsmContactsArn',
-      DeliveryAddress  => {
-        SimpleAddress => 'MySimpleAddress',    # min: 1, max: 320; OPTIONAL
-      },    # OPTIONAL
-      Name => 'MyChannelName',    # OPTIONAL
+      'ContactChannelId' =>
+'arn:aws:ssm-contacts:us-east-2:111122223333:contact-channel/akuam/49f3c24d-5f9f-4638-ae25-3f49e04229ad',
+      'DeliveryAddress' => {
+        'SimpleAddress' => +15005550198
+      },
+      'Name' => 'akuas voice channel'
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm-contacts/UpdateContactChannel>
@@ -59,7 +64,7 @@ contact channel.
 
 =head2 Name => Str
 
-The name of the contact channel
+The name of the contact channel.
 
 
 

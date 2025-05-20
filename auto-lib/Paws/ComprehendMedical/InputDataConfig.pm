@@ -45,9 +45,6 @@ name of the S3 bucket and the path to the files to be analyzed.
 The URI of the S3 bucket that contains the input data. The bucket must
 be in the same region as the API endpoint that you are calling.
 
-Each file in the document collection must be less than 40 KB. You can
-store a maximum of 30 GB in the bucket.
-
 
 =head2 S3Key => Str
 

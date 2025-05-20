@@ -49,15 +49,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> ResourceARN => Str
 
-The Amazon Resource Name (ARN) of the index, FAQ, or data source to
-tag.
+The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+resource to add a tag. For example, the ARN of an index is constructed
+as follows:
+I<arn:aws:kendra:your-region:your-account-id:index/index-id> For
+information on how to construct an ARN for all types of Amazon Kendra
+resources, see Resource types
+(https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Kendra::Tag>]
 
-A list of tag keys to add to the index, FAQ, or data source. If a tag
-already exists, the existing value is replaced with the new value.
+A list of tag keys to add to the index, FAQ, data source, or other
+resource. If a tag already exists, the existing value is replaced with
+the new value.
 
 
 

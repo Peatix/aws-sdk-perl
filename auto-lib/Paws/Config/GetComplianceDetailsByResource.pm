@@ -3,8 +3,9 @@ package Paws::Config::GetComplianceDetailsByResource;
   use Moose;
   has ComplianceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has NextToken => (is => 'ro', isa => 'Str');
-  has ResourceId => (is => 'ro', isa => 'Str', required => 1);
-  has ResourceType => (is => 'ro', isa => 'Str', required => 1);
+  has ResourceEvaluationId => (is => 'ro', isa => 'Str');
+  has ResourceId => (is => 'ro', isa => 'Str');
+  has ResourceType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -32,13 +33,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $config = Paws->service('Config');
     my $GetComplianceDetailsByResourceResponse =
       $config->GetComplianceDetailsByResource(
-      ResourceId      => 'MyBaseResourceId',
-      ResourceType    => 'MyStringWithCharLimit256',
       ComplianceTypes => [
         'COMPLIANT',
         ... # values: COMPLIANT, NON_COMPLIANT, NOT_APPLICABLE, INSUFFICIENT_DATA
       ],    # OPTIONAL
-      NextToken => 'MyString',    # OPTIONAL
+      NextToken            => 'MyString',                    # OPTIONAL
+      ResourceEvaluationId => 'MyResourceEvaluationId',      # OPTIONAL
+      ResourceId           => 'MyBaseResourceId',            # OPTIONAL
+      ResourceType         => 'MyStringWithCharLimit256',    # OPTIONAL
       );
 
     # Results:
@@ -58,8 +60,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 Filters the results by compliance.
 
-The allowed values are C<COMPLIANT>, C<NON_COMPLIANT>, and
-C<NOT_APPLICABLE>.
+C<INSUFFICIENT_DATA> is a valid C<ComplianceType> that is returned when
+an Config rule cannot be evaluated. However, C<INSUFFICIENT_DATA>
+cannot be used as a C<ComplianceType> for filtering results.
 
 
 
@@ -70,15 +73,27 @@ the next page of results in a paginated response.
 
 
 
-=head2 B<REQUIRED> ResourceId => Str
+=head2 ResourceEvaluationId => Str
 
-The ID of the AWS resource for which you want compliance information.
+The unique ID of Amazon Web Services resource execution for which you
+want to retrieve evaluation results.
+
+You need to only provide either a C<ResourceEvaluationID> or a
+C<ResourceID >and C<ResourceType>.
 
 
 
-=head2 B<REQUIRED> ResourceType => Str
+=head2 ResourceId => Str
 
-The type of the AWS resource for which you want compliance information.
+The ID of the Amazon Web Services resource for which you want
+compliance information.
+
+
+
+=head2 ResourceType => Str
+
+The type of the Amazon Web Services resource for which you want
+compliance information.
 
 
 

@@ -35,22 +35,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::R
 
 =head1 DESCRIPTION
 
-A collection of server process configurations that describe the set of
-processes to run on each instance in a fleet. Server processes run
-either an executable in a custom game build or a Realtime Servers
-script. GameLift launches the configured processes, manages their life
-cycle, and replaces them as needed. Each instance checks regularly for
-an updated runtime configuration.
+A set of instructions that define the set of server processes to run on
+computes in a fleet. Server processes run either an executable in a
+custom game build or a Amazon GameLift Realtime script. Amazon GameLift
+launches the processes, manages their life cycle, and replaces them as
+needed. Computes check regularly for an updated runtime configuration.
 
-A GameLift instance is limited to 50 processes running concurrently. To
-calculate the total number of processes in a runtime configuration, add
-the values of the C<ConcurrentExecutions> parameter for each
-ServerProcess. Learn more about Running Multiple Processes on a Fleet
+An Amazon GameLift instance is limited to 50 processes running
+concurrently. To calculate the total number of processes defined in a
+runtime configuration, add the values of the C<ConcurrentExecutions>
+parameter for each server process. Learn more about Running Multiple
+Processes on a Fleet
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-multiprocess.html).
-
-B<Related actions>
-
-DescribeRuntimeConfiguration | UpdateRuntimeConfiguration
 
 =head1 ATTRIBUTES
 
@@ -67,14 +63,14 @@ status is changed to C<TERMINATED>.
 =head2 MaxConcurrentGameSessionActivations => Int
 
 The number of game sessions in status C<ACTIVATING> to allow on an
-instance. This setting limits the instance resources that can be used
-for new game activations at any one time.
+instance or compute. This setting limits the instance resources that
+can be used for new game activations at any one time.
 
 
 =head2 ServerProcesses => ArrayRef[L<Paws::GameLift::ServerProcess>]
 
 A collection of server process configurations that identify what server
-processes to run on each instance in a fleet.
+processes to run on fleet computes.
 
 
 

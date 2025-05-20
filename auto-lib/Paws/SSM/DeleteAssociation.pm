@@ -49,13 +49,22 @@ The association ID that you want to delete.
 
 =head2 InstanceId => Str
 
-The ID of the instance.
+The managed node ID.
+
+C<InstanceId> has been deprecated. To specify a managed node ID for an
+association, use the C<Targets> parameter. Requests that include the
+parameter C<InstanceID> with Systems Manager documents (SSM documents)
+that use schema version 2.0 or later will fail. In addition, if you use
+the parameter C<InstanceId>, you can't use the parameters
+C<AssociationName>, C<DocumentVersion>, C<MaxErrors>,
+C<MaxConcurrency>, C<OutputLocation>, or C<ScheduleExpression>. To use
+these parameters, you must use the C<Targets> parameter.
 
 
 
 =head2 Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 

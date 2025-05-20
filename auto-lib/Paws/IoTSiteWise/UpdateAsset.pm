@@ -1,6 +1,8 @@
 
 package Paws::IoTSiteWise::UpdateAsset;
   use Moose;
+  has AssetDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetDescription');
+  has AssetExternalId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetExternalId');
   has AssetId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'assetId', required => 1);
   has AssetName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetName', required => 1);
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
@@ -31,9 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $UpdateAssetResponse = $iotsitewise->UpdateAsset(
-      AssetId     => 'MyID',
-      AssetName   => 'MyName',
-      ClientToken => 'MyClientToken',    # OPTIONAL
+      AssetId          => 'MyCustomID',
+      AssetName        => 'MyName',
+      AssetDescription => 'MyDescription',    # OPTIONAL
+      AssetExternalId  => 'MyExternalId',     # OPTIONAL
+      ClientToken      => 'MyClientToken',    # OPTIONAL
     );
 
     # Results:
@@ -47,15 +51,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head1 ATTRIBUTES
 
 
+=head2 AssetDescription => Str
+
+A description for the asset.
+
+
+
+=head2 AssetExternalId => Str
+
+An external ID to assign to the asset. The asset must not already have
+an external ID. The external ID must be unique within your Amazon Web
+Services account. For more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset to update.
+The ID of the asset to update. This can be either the actual ID in UUID
+format, or else C<externalId:> followed by the external ID, if it has
+one. For more information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 B<REQUIRED> AssetName => Str
 
-A unique, friendly name for the asset.
+A friendly name for the asset.
 
 
 

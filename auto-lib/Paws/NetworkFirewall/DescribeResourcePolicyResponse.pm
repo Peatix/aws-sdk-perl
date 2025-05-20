@@ -16,7 +16,7 @@ Paws::NetworkFirewall::DescribeResourcePolicyResponse
 
 =head2 Policy => Str
 
-The AWS Identity and Access Management policy for the resource.
+The IAM policy for the resource.
 
 
 =head2 _request_id => Str

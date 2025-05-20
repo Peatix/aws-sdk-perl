@@ -61,8 +61,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Filters => ArrayRef[L<Paws::SSM::MaintenanceWindowFilter>]
 
 Optional filters that can be used to narrow down the scope of the
-returned window targets. The supported filter keys are Type,
-WindowTargetId and OwnerInformation.
+returned window targets. The supported filter keys are C<Type>,
+C<WindowTargetId>, and C<OwnerInformation>.
 
 
 

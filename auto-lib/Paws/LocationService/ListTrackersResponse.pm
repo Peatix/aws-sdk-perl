@@ -18,9 +18,9 @@ Paws::LocationService::ListTrackersResponse
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::LocationService::ListTrackersResponseEntry>]
 
-Contains tracker resources in your AWS account. Details include tracker
-name, description and timestamps for when the tracker was created and
-last updated.
+Contains tracker resources in your Amazon Web Services account. Details
+include tracker name, description and timestamps for when the tracker
+was created and last updated.
 
 
 =head2 NextToken => Str

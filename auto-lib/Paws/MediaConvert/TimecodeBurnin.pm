@@ -43,20 +43,20 @@ output.
 
 =head2 FontSize => Int
 
-Use Font Size (FontSize) to set the font size of any burned-in
-timecode. Valid values are 10, 16, 32, 48.
+Use Font size to set the font size of any burned-in timecode. Valid
+values are 10, 16, 32, 48.
 
 
 =head2 Position => Str
 
-Use Position (Position) under under Timecode burn-in (TimecodeBurnIn)
-to specify the location the burned-in timecode on output video.
+Use Position under Timecode burn-in to specify the location the
+burned-in timecode on output video.
 
 
 =head2 Prefix => Str
 
-Use Prefix (Prefix) to place ASCII characters before any burned-in
-timecode. For example, a prefix of "EZ-" will result in the timecode
+Use Prefix to place ASCII characters before any burned-in timecode. For
+example, a prefix of "EZ-" will result in the timecode
 "EZ-00:00:00:00". Provide either the characters themselves or the ASCII
 code equivalents. The supported range of characters is 0x20 through
 0x7e. This includes letters, numbers, and all special characters

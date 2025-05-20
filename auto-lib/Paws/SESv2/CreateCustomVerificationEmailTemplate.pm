@@ -74,9 +74,9 @@ or her address is successfully verified.
 
 The content of the custom verification email. The total size of the
 email must be less than 10 MB. The message body may contain HTML, with
-some limitations. For more information, see Custom Verification Email
-Frequently Asked Questions
-(https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq)
+some limitations. For more information, see Custom verification email
+frequently asked questions
+(https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq)
 in the I<Amazon SES Developer Guide>.
 
 

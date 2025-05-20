@@ -76,7 +76,7 @@ your app again. For public devices, Device Farm always signs your apps
 again.
 
 For more information about how Device Farm re-signs your apps, see Do
-you modify my app? (https://aws.amazon.com/device-farm/faq/) in the
+you modify my app? (http://aws.amazon.com/device-farm/faqs/) in the
 I<AWS Device Farm FAQs>.
 
 

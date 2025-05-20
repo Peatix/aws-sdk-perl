@@ -60,7 +60,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 Account => Str
 
-The AWS account ID whose access is to be revoked.
+The Amazon Web Services account ID whose access is to be revoked.
 
 
 

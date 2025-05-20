@@ -55,7 +55,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head2 B<REQUIRED> ConnectionName => Str
 
 A name for the new connection. It must be unique across all App Runner
-connections for the AWS account in the AWS Region.
+connections for the Amazon Web Services account in the Amazon Web
+Services Region.
 
 
 
@@ -63,7 +64,7 @@ connections for the AWS account in the AWS Region.
 
 The source repository provider.
 
-Valid values are: C<"GITHUB">
+Valid values are: C<"GITHUB">, C<"BITBUCKET">
 
 =head2 Tags => ArrayRef[L<Paws::AppRunner::Tag>]
 

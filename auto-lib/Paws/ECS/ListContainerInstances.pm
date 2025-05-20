@@ -69,15 +69,15 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head2 MaxResults => Int
 
-The maximum number of container instance results returned by
-C<ListContainerInstances> in paginated output. When this parameter is
-used, C<ListContainerInstances> only returns C<maxResults> results in a
-single page along with a C<nextToken> response element. The remaining
-results of the initial request can be seen by sending another
-C<ListContainerInstances> request with the returned C<nextToken> value.
-This value can be between 1 and 100. If this parameter is not used,
-then C<ListContainerInstances> returns up to 100 results and a
-C<nextToken> value if applicable.
+The maximum number of container instance results that
+C<ListContainerInstances> returned in paginated output. When this
+parameter is used, C<ListContainerInstances> only returns C<maxResults>
+results in a single page along with a C<nextToken> response element.
+The remaining results of the initial request can be seen by sending
+another C<ListContainerInstances> request with the returned
+C<nextToken> value. This value can be between 1 and 100. If this
+parameter isn't used, then C<ListContainerInstances> returns up to 100
+results and a C<nextToken> value if applicable.
 
 
 
@@ -85,9 +85,8 @@ C<nextToken> value if applicable.
 
 The C<nextToken> value returned from a C<ListContainerInstances>
 request indicating that more results are available to fulfill the
-request and further calls will be needed. If C<maxResults> was
-provided, it is possible the number of results to be fewer than
-C<maxResults>.
+request and further calls are needed. If C<maxResults> was provided,
+it's possible the number of results to be fewer than C<maxResults>.
 
 This token should be treated as an opaque identifier that is only used
 to retrieve the next items in a list and not for other programmatic
@@ -99,8 +98,9 @@ purposes.
 
 Filters the container instances by status. For example, if you specify
 the C<DRAINING> status, the results include only container instances
-that have been set to C<DRAINING> using UpdateContainerInstancesState.
-If you do not specify this parameter, the default is to include
+that have been set to C<DRAINING> using UpdateContainerInstancesState
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html).
+If you don't specify this parameter, the default is to include
 container instances set to all states other than C<INACTIVE>.
 
 Valid values are: C<"ACTIVE">, C<"DRAINING">, C<"REGISTERING">, C<"DEREGISTERING">, C<"REGISTRATION_FAILED">

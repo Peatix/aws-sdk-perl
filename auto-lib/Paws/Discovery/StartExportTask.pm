@@ -4,6 +4,7 @@ package Paws::Discovery::StartExportTask;
   has EndTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'endTime' );
   has ExportDataFormat => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'exportDataFormat' );
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::Discovery::ExportFilter]', traits => ['NameInRequest'], request_name => 'filters' );
+  has Preferences => (is => 'ro', isa => 'Paws::Discovery::ExportPreferences', traits => ['NameInRequest'], request_name => 'preferences' );
   has StartTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'startTime' );
 
   use MooseX::ClassAttribute;
@@ -33,17 +34,45 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StartExportTaskResponse = $discovery->StartExportTask(
       EndTime          => '1970-01-01T01:00:00',    # OPTIONAL
       ExportDataFormat => [
-        'CSV', ...                                  # values: CSV, GRAPHML
+        'CSV', ...                                  # values: CSV
       ],    # OPTIONAL
       Filters => [
         {
-          Condition => 'MyCondition',
-          Name      => 'MyFilterName',
-          Values    => [ 'MyFilterValue', ... ],
+          Condition => 'MyCondition',     # max: 200
+          Name      => 'MyFilterName',    # max: 1000
+          Values    => [
+            'MyFilterValue', ...          # max: 1000
+          ],
 
         },
         ...
       ],    # OPTIONAL
+      Preferences => {
+        Ec2RecommendationsPreferences => {
+          CpuPerformanceMetricBasis => {
+            Name             => 'MyUsageMetricBasisName',   # OPTIONAL
+            PercentageAdjust => 1,                          # max: 100; OPTIONAL
+          },    # OPTIONAL
+          Enabled               => 1,    # OPTIONAL
+          ExcludedInstanceTypes => [
+            'MyEC2InstanceType', ...     # min: 1, max: 25
+          ],    # OPTIONAL
+          PreferredRegion =>
+            'MyUserPreferredRegion',    # min: 1, max: 30; OPTIONAL
+          RamPerformanceMetricBasis => {
+            Name             => 'MyUsageMetricBasisName',   # OPTIONAL
+            PercentageAdjust => 1,                          # max: 100; OPTIONAL
+          },    # OPTIONAL
+          ReservedInstanceOptions => {
+            OfferingClass    => 'STANDARD',    # values: STANDARD, CONVERTIBLE
+            PurchasingOption =>
+              'ALL_UPFRONT',  # values: ALL_UPFRONT, PARTIAL_UPFRONT, NO_UPFRONT
+            TermLength => 'ONE_YEAR',    # values: ONE_YEAR, THREE_YEAR
+
+          },    # OPTIONAL
+          Tenancy => 'DEDICATED',    # values: DEDICATED, SHARED; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       StartTime => '1970-01-01T01:00:00',    # OPTIONAL
     );
 
@@ -79,8 +108,18 @@ If a filter is present, it selects the single C<agentId> of the
 Application Discovery Agent for which data is exported. The C<agentId>
 can be found in the results of the C<DescribeAgents> API or CLI. If no
 filter is present, C<startTime> and C<endTime> are ignored and exported
-data includes both Agentless Discovery Connector data and summary data
-from Application Discovery agents.
+data includes both Amazon Web Services Application Discovery Service
+Agentless Collector collectors data and summary data from Application
+Discovery Agent agents.
+
+
+
+=head2 Preferences => L<Paws::Discovery::ExportPreferences>
+
+Indicates the type of data that needs to be exported. Only one
+ExportPreferences
+(https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_ExportPreferences.html)
+can be enabled at any time.
 
 
 

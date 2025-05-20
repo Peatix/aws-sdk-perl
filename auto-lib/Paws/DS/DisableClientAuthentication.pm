@@ -48,10 +48,10 @@ The identifier of the directory
 
 =head2 B<REQUIRED> Type => Str
 
-The type of client authentication to disable. Currently, only the
-parameter, C<SmartCard> is supported.
+The type of client authentication to disable. Currently the only
+parameter C<"SmartCard"> is supported.
 
-Valid values are: C<"SmartCard">
+Valid values are: C<"SmartCard">, C<"SmartCardOrPassword">
 
 
 =head1 SEE ALSO

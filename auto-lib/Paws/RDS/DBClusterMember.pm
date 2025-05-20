@@ -54,8 +54,8 @@ Specifies the instance identifier for this member of the DB cluster.
 
 =head2 IsClusterWriter => Bool
 
-Value that is C<true> if the cluster member is the primary instance for
-the DB cluster and C<false> otherwise.
+Indicates whether the cluster member is the primary DB instance for the
+DB cluster.
 
 
 =head2 PromotionTier => Int

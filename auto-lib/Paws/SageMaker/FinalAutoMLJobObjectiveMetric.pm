@@ -2,6 +2,7 @@
 package Paws::SageMaker::FinalAutoMLJobObjectiveMetric;
   use Moose;
   has MetricName => (is => 'ro', isa => 'Str', required => 1);
+  has StandardMetricName => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
   has Value => (is => 'ro', isa => 'Num', required => 1);
 
@@ -43,7 +44,15 @@ The best candidate result from an AutoML training job.
 =head2 B<REQUIRED> MetricName => Str
 
 The name of the metric with the best result. For a description of the
-possible objective metrics, see AutoMLJobObjective$MetricName.
+possible objective metrics, see AutoMLJobObjective$MetricName
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLJobObjective.html).
+
+
+=head2 StandardMetricName => Str
+
+The name of the standard metric. For a description of the standard
+metrics, see Autopilot candidate metrics
+(https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-metrics-validation.html#autopilot-metrics).
 
 
 =head2 Type => Str

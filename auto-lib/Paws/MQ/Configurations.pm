@@ -42,7 +42,7 @@ Broker configuration information
 
 =head2 Current => L<Paws::MQ::ConfigurationId>
 
-The current configuration of the broker.
+The broker's current configuration.
 
 
 =head2 History => ArrayRef[L<Paws::MQ::ConfigurationId>]
@@ -52,7 +52,7 @@ The history of configurations applied to the broker.
 
 =head2 Pending => L<Paws::MQ::ConfigurationId>
 
-The pending configuration of the broker.
+The broker's pending configuration.
 
 
 

@@ -25,7 +25,7 @@ A list of C<ApplicationSummary> objects.
 The pagination token for the next set of results, or C<null> if there
 are no additional results. Pass this token into a subsequent command to
 retrieve the next set of items For more information about pagination,
-see Using the AWS Command Line Interface's Pagination Options
+see Using the Amazon Command Line Interface's Pagination Options
 (https://docs.aws.amazon.com/cli/latest/userguide/pagination.html).
 
 

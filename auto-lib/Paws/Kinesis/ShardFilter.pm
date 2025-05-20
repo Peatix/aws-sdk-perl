@@ -35,23 +35,73 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kinesis::Sh
 
 =head1 DESCRIPTION
 
-This class has no description
+The request parameter used to filter out the response of the
+C<ListShards> API.
 
 =head1 ATTRIBUTES
 
 
 =head2 ShardId => Str
 
-
+The exclusive start C<shardID> speified in the C<ShardFilter>
+parameter. This property can only be used if the C<AFTER_SHARD_ID>
+shard type is specified.
 
 
 =head2 Timestamp => Str
 
-
+The timestamps specified in the C<ShardFilter> parameter. A timestamp
+is a Unix epoch date with precision in milliseconds. For example,
+2016-04-04T19:58:46.480-00:00 or 1459799926.480. This property can only
+be used if C<FROM_TIMESTAMP> or C<AT_TIMESTAMP> shard types are
+specified.
 
 
 =head2 B<REQUIRED> Type => Str
 
+The shard type specified in the C<ShardFilter> parameter. This is a
+required property of the C<ShardFilter> parameter.
+
+You can specify the following valid values:
+
+=over
+
+=item *
+
+C<AFTER_SHARD_ID> - the response includes all the shards, starting with
+the shard whose ID immediately follows the C<ShardId> that you
+provided.
+
+=item *
+
+C<AT_TRIM_HORIZON> - the response includes all the shards that were
+open at C<TRIM_HORIZON>.
+
+=item *
+
+C<FROM_TRIM_HORIZON> - (default), the response includes all the shards
+within the retention period of the data stream (trim to tip).
+
+=item *
+
+C<AT_LATEST> - the response includes only the currently open shards of
+the data stream.
+
+=item *
+
+C<AT_TIMESTAMP> - the response includes all shards whose start
+timestamp is less than or equal to the given timestamp and end
+timestamp is greater than or equal to the given timestamp or still
+open.
+
+=item *
+
+C<FROM_TIMESTAMP> - the response incldues all closed shards whose end
+timestamp is greater than or equal to the given timestamp and also all
+open shards. Corrected to C<TRIM_HORIZON> of the data stream if
+C<FROM_TIMESTAMP> is less than the C<TRIM_HORIZON> value.
+
+=back
 
 
 

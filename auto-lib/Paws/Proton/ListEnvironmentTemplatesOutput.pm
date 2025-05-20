@@ -17,7 +17,7 @@ Paws::Proton::ListEnvironmentTemplatesOutput
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next environment template in
+A token that indicates the location of the next environment template in
 the array of environment templates, after the current requested list of
 environment templates.
 

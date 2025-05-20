@@ -1,6 +1,7 @@
 
 package Paws::Athena::DeleteDataCatalog;
   use Moose;
+  has DeleteCatalogOnly => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -28,14 +29,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $athena = Paws->service('Athena');
     my $DeleteDataCatalogOutput = $athena->DeleteDataCatalog(
-      Name => 'MyCatalogNameString',
-
+      Name              => 'MyCatalogNameString',
+      DeleteCatalogOnly => 1,                       # OPTIONAL
     );
+
+    # Results:
+    my $DataCatalog = $DeleteDataCatalogOutput->DataCatalog;
+
+    # Returns a L<Paws::Athena::DeleteDataCatalogOutput> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/athena/DeleteDataCatalog>
 
 =head1 ATTRIBUTES
+
+
+=head2 DeleteCatalogOnly => Bool
+
+Deletes the Athena Data Catalog. You can only use this with the
+C<FEDERATED> catalogs. You usually perform this before registering the
+connector with Glue Data Catalog. After deletion, you will have to
+manage the Glue Connection and Lambda function.
+
 
 
 =head2 B<REQUIRED> Name => Str

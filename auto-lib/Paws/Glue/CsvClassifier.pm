@@ -4,12 +4,15 @@ package Paws::Glue::CsvClassifier;
   has AllowSingleColumn => (is => 'ro', isa => 'Bool');
   has ContainsHeader => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str');
+  has CustomDatatypeConfigured => (is => 'ro', isa => 'Bool');
+  has CustomDatatypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Delimiter => (is => 'ro', isa => 'Str');
   has DisableValueTrimming => (is => 'ro', isa => 'Bool');
   has Header => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has LastUpdated => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has QuoteSymbol => (is => 'ro', isa => 'Str');
+  has Serde => (is => 'ro', isa => 'Str');
   has Version => (is => 'ro', isa => 'Int');
 
 1;
@@ -62,6 +65,18 @@ Indicates whether the CSV file contains a header.
 The time that this classifier was registered.
 
 
+=head2 CustomDatatypeConfigured => Bool
+
+Enables the custom datatype to be configured.
+
+
+=head2 CustomDatatypes => ArrayRef[Str|Undef]
+
+A list of custom datatypes including "BINARY", "BOOLEAN", "DATE",
+"DECIMAL", "DOUBLE", "FLOAT", "INT", "LONG", "SHORT", "STRING",
+"TIMESTAMP".
+
+
 =head2 Delimiter => Str
 
 A custom symbol to denote what separates each column entry in the row.
@@ -92,6 +107,14 @@ The name of the classifier.
 
 A custom symbol to denote what combines content into a single column
 value. It must be different from the column delimiter.
+
+
+=head2 Serde => Str
+
+Sets the SerDe for processing CSV in the classifier, which will be
+applied in the Data Catalog. Valid values are C<OpenCSVSerDe>,
+C<LazySimpleSerDe>, and C<None>. You can specify the C<None> value when
+you want the crawler to do the detection.
 
 
 =head2 Version => Int

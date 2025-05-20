@@ -17,16 +17,17 @@ Paws::Transcribe::ListLanguageModelsResponse
 
 =head2 Models => ArrayRef[L<Paws::Transcribe::LanguageModel>]
 
-A list of objects containing information about custom language models.
+Provides information about the custom language models that match the
+criteria specified in your request.
 
 
 =head2 NextToken => Str
 
-The operation returns a page of jobs at a time. The maximum size of the
-list is set by the MaxResults parameter. If there are more language
-models in the list than the page size, Amazon Transcribe returns the
-C<NextPage> token. Include the token in the next request to the
-operation to return the next page of language models.
+If C<NextToken> is present in your response, it indicates that not all
+results are displayed. To view the next set of results, copy the string
+associated with the C<NextToken> parameter in your results output, then
+run your request again including C<NextToken> with the value of the
+copied string. Repeat as needed to view all your results.
 
 
 =head2 _request_id => Str

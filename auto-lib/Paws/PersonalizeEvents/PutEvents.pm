@@ -41,7 +41,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Impression => [
             'MyItemId', ...                      # min: 1, max: 256
           ],    # min: 1, max: 25; OPTIONAL
-          ItemId     => 'MyItemId',                # min: 1, max: 256
+          ItemId            => 'MyItemId',    # min: 1, max: 256
+          MetricAttribution => {
+            EventAttributionSource => 'MyEventAttributionSource',    # max: 1024
+
+          },    # OPTIONAL
           Properties => 'MyEventPropertiesJSON',   # min: 1, max: 1024; OPTIONAL
           RecommendationId => 'MyRecommendationId',  # min: 1, max: 40; OPTIONAL
         },
@@ -70,8 +74,8 @@ The session ID associated with the user's visit. Your application
 generates the sessionId when a user first visits your website or uses
 your application. Amazon Personalize uses the sessionId to associate
 events with the user before they log in. For more information, see
-Recording Events
-(https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
+Recording item interaction events
+(https://docs.aws.amazon.com/personalize/latest/dg/recording-item-interaction-events.html).
 
 
 

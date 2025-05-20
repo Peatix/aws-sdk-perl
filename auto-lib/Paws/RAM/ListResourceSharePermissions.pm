@@ -51,21 +51,35 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+Specifies the total number of results that you want included on each
+page of the response. If you do not include this parameter, it defaults
+to a value that is specific to the operation. If additional items exist
+beyond the number you specify, the C<NextToken> response element is
+returned with a value (not null). Include the specified value as the
+C<NextToken> request parameter in the next call to the operation to get
+the next part of the results. Note that the service might return fewer
+results than the maximum even when there are more results available.
+You should check C<NextToken> after every operation to ensure that you
+receive all of the results.
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+Specifies that you want to receive the next page of results. Valid only
+if you received a C<NextToken> response in the previous request. If you
+did, it indicates that more output is available. Set this parameter to
+the value provided by the previous call's C<NextToken> response to
+request the next page of results.
 
 
 
 =head2 B<REQUIRED> ResourceShareArn => Str
 
-The Amazon Resource Name (ARN) of the resource share.
+Specifies the Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the resource share for which you want to retrieve the associated
+permissions.
 
 
 

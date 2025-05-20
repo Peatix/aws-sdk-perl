@@ -8,6 +8,9 @@ package Paws::CloudHSMv2::Cluster;
   has CreateTimestamp => (is => 'ro', isa => 'Str');
   has Hsms => (is => 'ro', isa => 'ArrayRef[Paws::CloudHSMv2::Hsm]');
   has HsmType => (is => 'ro', isa => 'Str');
+  has HsmTypeRollbackExpiration => (is => 'ro', isa => 'Str');
+  has Mode => (is => 'ro', isa => 'Str');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has PreCoPassword => (is => 'ro', isa => 'Str');
   has SecurityGroup => (is => 'ro', isa => 'Str');
   has SourceBackupId => (is => 'ro', isa => 'Str');
@@ -47,7 +50,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudHSMv2:
 
 =head1 DESCRIPTION
 
-Contains information about an AWS CloudHSM cluster.
+Contains information about an CloudHSM cluster.
 
 =head1 ATTRIBUTES
 
@@ -86,6 +89,32 @@ Contains information about the HSMs in the cluster.
 =head2 HsmType => Str
 
 The type of HSM that the cluster contains.
+
+
+=head2 HsmTypeRollbackExpiration => Str
+
+The timestamp until when the cluster can be rolled back to its original
+HSM type.
+
+
+=head2 Mode => Str
+
+The mode of the cluster.
+
+
+=head2 NetworkType => Str
+
+The cluster's NetworkType can be IPv4 (the default) or DUALSTACK. The
+IPv4 NetworkType restricts communication between your application and
+the hardware security modules (HSMs) to the IPv4 protocol only. The
+DUALSTACK NetworkType enables communication over both IPv4 and IPv6
+protocols. To use DUALSTACK, configure your virtual private cloud (VPC)
+and subnets to support both IPv4 and IPv6. This configuration involves
+adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the
+existing IPv4 CIDR blocks in your subnets. The NetworkType you choose
+affects the network addressing options for your cluster. DUALSTACK
+provides more flexibility by supporting both IPv4 and IPv6
+communication.
 
 
 =head2 PreCoPassword => Str

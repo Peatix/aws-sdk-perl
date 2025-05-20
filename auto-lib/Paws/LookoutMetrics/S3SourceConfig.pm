@@ -3,7 +3,7 @@ package Paws::LookoutMetrics::S3SourceConfig;
   use Moose;
   has FileFormatDescriptor => (is => 'ro', isa => 'Paws::LookoutMetrics::FileFormatDescriptor');
   has HistoricalDataPathList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has RoleArn => (is => 'ro', isa => 'Str', required => 1);
+  has RoleArn => (is => 'ro', isa => 'Str');
   has TemplatedPathList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -52,7 +52,7 @@ Contains information about a source file's formatting.
 A list of paths to the historical data files.
 
 
-=head2 B<REQUIRED> RoleArn => Str
+=head2 RoleArn => Str
 
 The ARN of an IAM role that has read and write access permissions to
 the source S3 bucket.

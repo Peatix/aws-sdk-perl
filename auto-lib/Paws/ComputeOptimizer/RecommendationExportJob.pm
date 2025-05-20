@@ -41,12 +41,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 Describes a recommendation export job.
 
-Use the C<DescribeRecommendationExportJobs> action to view your
+Use the DescribeRecommendationExportJobs action to view your
 recommendation export jobs.
 
-Use the C<ExportAutoScalingGroupRecommendations> or
-C<ExportEC2InstanceRecommendations> actions to request an export of
-your recommendations.
+Use the ExportAutoScalingGroupRecommendations or
+ExportEC2InstanceRecommendations actions to request an export of your
+recommendations.
 
 =head1 ATTRIBUTES
 

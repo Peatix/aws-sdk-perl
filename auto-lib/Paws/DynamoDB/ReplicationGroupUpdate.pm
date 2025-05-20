@@ -58,6 +58,9 @@ replica and all if its items in the destination Region.
 
 =back
 
+When you manually remove a table or global table replica, you do not
+automatically remove any associated scalable targets, scaling policies,
+or CloudWatch alarms.
 
 =head1 ATTRIBUTES
 

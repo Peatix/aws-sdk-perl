@@ -27,6 +27,12 @@ The configuration version.
 
 The content of the configuration or the configuration data.
 
+The C<Content> attribute only contains data if the system finds new or
+updated configuration data. If there is no new or updated data and
+C<ClientConfigurationVersion> matches the version of the current
+configuration, AppConfig returns a C<204 No Content> HTTP response code
+and the C<Content> value will be empty.
+
 
 =head2 ContentType => Str
 

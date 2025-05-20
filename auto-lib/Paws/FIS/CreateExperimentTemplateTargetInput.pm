@@ -2,6 +2,7 @@
 package Paws::FIS::CreateExperimentTemplateTargetInput;
   use Moose;
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::FIS::ExperimentTemplateTargetInputFilter]', request_name => 'filters', traits => ['NameInRequest']);
+  has Parameters => (is => 'ro', isa => 'Paws::FIS::ExperimentTemplateTargetParameterMap', request_name => 'parameters', traits => ['NameInRequest']);
   has ResourceArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'resourceArns', traits => ['NameInRequest']);
   has ResourceTags => (is => 'ro', isa => 'Paws::FIS::TagMap', request_name => 'resourceTags', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest'], required => 1);
@@ -41,6 +42,10 @@ Specifies a target for an experiment. You must specify at least one
 Amazon Resource Name (ARN) or at least one resource tag. You cannot
 specify both ARNs and tags.
 
+For more information, see Targets
+(https://docs.aws.amazon.com/fis/latest/userguide/targets.html) in the
+I<Fault Injection Service User Guide>.
+
 =head1 ATTRIBUTES
 
 
@@ -48,6 +53,11 @@ specify both ARNs and tags.
 
 The filters to apply to identify target resources using specific
 attributes.
+
+
+=head2 Parameters => L<Paws::FIS::ExperimentTemplateTargetParameterMap>
+
+The resource type parameters.
 
 
 =head2 ResourceArns => ArrayRef[Str|Undef]
@@ -62,7 +72,7 @@ The tags for the target resources.
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The AWS resource type. The resource type must be supported for the
+The resource type. The resource type must be supported for the
 specified action.
 
 

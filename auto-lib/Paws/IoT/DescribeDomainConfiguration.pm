@@ -34,8 +34,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $ApplicationProtocol =
+      $DescribeDomainConfigurationResponse->ApplicationProtocol;
+    my $AuthenticationType =
+      $DescribeDomainConfigurationResponse->AuthenticationType;
     my $AuthorizerConfig =
       $DescribeDomainConfigurationResponse->AuthorizerConfig;
+    my $ClientCertificateConfig =
+      $DescribeDomainConfigurationResponse->ClientCertificateConfig;
     my $DomainConfigurationArn =
       $DescribeDomainConfigurationResponse->DomainConfigurationArn;
     my $DomainConfigurationName =
@@ -46,9 +52,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DomainType = $DescribeDomainConfigurationResponse->DomainType;
     my $LastStatusChangeDate =
       $DescribeDomainConfigurationResponse->LastStatusChangeDate;
+    my $ServerCertificateConfig =
+      $DescribeDomainConfigurationResponse->ServerCertificateConfig;
     my $ServerCertificates =
       $DescribeDomainConfigurationResponse->ServerCertificates;
     my $ServiceType = $DescribeDomainConfigurationResponse->ServiceType;
+    my $TlsConfig   = $DescribeDomainConfigurationResponse->TlsConfig;
 
     # Returns a L<Paws::IoT::DescribeDomainConfigurationResponse> object.
 

@@ -2,7 +2,8 @@
 package Paws::SageMakerFeatureStoreRuntime::FeatureValue;
   use Moose;
   has FeatureName => (is => 'ro', isa => 'Str', required => 1);
-  has ValueAsString => (is => 'ro', isa => 'Str', required => 1);
+  has ValueAsString => (is => 'ro', isa => 'Str');
+  has ValueAsStringList => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMakerFeatureStoreRuntime::FeatureValue object:
 
-  $service_obj->Method(Att1 => { FeatureName => $value, ..., ValueAsString => $value  });
+  $service_obj->Method(Att1 => { FeatureName => $value, ..., ValueAsStringList => $value  });
 
 =head3 Results returned from an API call
 
@@ -44,11 +45,20 @@ The value associated with a feature.
 The name of a feature that a feature value corresponds to.
 
 
-=head2 B<REQUIRED> ValueAsString => Str
+=head2 ValueAsString => Str
 
-The value associated with a feature, in string format. Note that
-features types can be String, Integral, or Fractional. This value
-represents all three types as a string.
+The value in string format associated with a feature. Used when your
+C<CollectionType> is C<None>. Note that features types can be
+C<String>, C<Integral>, or C<Fractional>. This value represents all
+three types as a string.
+
+
+=head2 ValueAsStringList => ArrayRef[Str|Undef]
+
+The list of values in string format associated with a feature. Used
+when your C<CollectionType> is a C<List>, C<Set>, or C<Vector>. Note
+that features types can be C<String>, C<Integral>, or C<Fractional>.
+These values represents all three types as a string.
 
 
 

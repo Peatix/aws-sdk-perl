@@ -42,12 +42,12 @@ cluster.
 
 =head2 Name => Str
 
-The name of the setting.
+The name of the setting. The valid value is C<containerInsights>.
 
 
 =head2 Value => Str
 
-The value of the setting.
+The value of the setting. Valid values are C<disabled> or C<enabled>.
 
 
 

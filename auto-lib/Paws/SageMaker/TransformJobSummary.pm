@@ -41,6 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 Provides a summary of a transform job. Multiple C<TransformJobSummary>
 objects are returned as a list after in response to a ListTransformJobs
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTransformJobs.html)
 call.
 
 =head1 ATTRIBUTES

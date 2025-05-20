@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::S3S
 
 =head1 DESCRIPTION
 
-Information about the S3 bucket where you saved your unsigned code.
+Information about the Amazon S3 bucket where you saved your unsigned
+code.
 
 =head1 ATTRIBUTES
 

@@ -78,19 +78,19 @@ C<InsightSelector> list.
 
 =head2 HomeRegion => Str
 
-The region in which the trail was created.
+The Region in which the trail was created.
 
 
 =head2 IncludeGlobalServiceEvents => Bool
 
-Set to B<True> to include AWS API calls from AWS global services such
-as IAM. Otherwise, B<False>.
+Set to B<True> to include Amazon Web Services API calls from Amazon Web
+Services global services such as IAM. Otherwise, B<False>.
 
 
 =head2 IsMultiRegionTrail => Bool
 
-Specifies whether the trail exists only in one region or exists in all
-regions.
+Specifies whether the trail exists only in one Region or exists in all
+Regions.
 
 
 =head2 IsOrganizationTrail => Bool
@@ -102,7 +102,7 @@ Specifies whether the trail is an organization trail.
 
 Specifies the KMS key ID that encrypts the logs delivered by
 CloudTrail. The value is a fully specified ARN to a KMS key in the
-format:
+following format.
 
 C<arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012>
 
@@ -121,8 +121,8 @@ characters.
 =head2 S3BucketName => Str
 
 Name of the Amazon S3 bucket into which CloudTrail delivers your trail
-files. See Amazon S3 Bucket Naming Requirements
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/create_trail_naming_policy.html).
+files. See Amazon S3 Bucket naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
 
 
 =head2 S3KeyPrefix => Str
@@ -130,27 +130,28 @@ files. See Amazon S3 Bucket Naming Requirements
 Specifies the Amazon S3 key prefix that comes after the name of the
 bucket you have designated for log file delivery. For more information,
 see Finding Your CloudTrail Log Files
-(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-find-log-files.html).The
-maximum length is 200 characters.
+(https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files).
+The maximum length is 200 characters.
 
 
 =head2 SnsTopicARN => Str
 
 Specifies the ARN of the Amazon SNS topic that CloudTrail uses to send
-notifications when log files are delivered. The format of a topic ARN
-is:
+notifications when log files are delivered. The following is the format
+of a topic ARN.
 
 C<arn:aws:sns:us-east-2:123456789012:MyTopic>
 
 
 =head2 SnsTopicName => Str
 
-This field is no longer in use. Use SnsTopicARN.
+This field is no longer in use. Use C<SnsTopicARN>.
 
 
 =head2 TrailARN => Str
 
-Specifies the ARN of the trail. The format of a trail ARN is:
+Specifies the ARN of the trail. The following is the format of a trail
+ARN.
 
 C<arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail>
 

@@ -41,7 +41,7 @@ This class has no description
 
 =head2 Groups => ArrayRef[L<Paws::EC2::GroupIdentifier>]
 
-A list of security groups.
+The security groups.
 
 
 =head2 InstanceId => Str

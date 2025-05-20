@@ -19,8 +19,8 @@ Paws::IAM::ListAccountAliasesResponse
 
 =head2 B<REQUIRED> AccountAliases => ArrayRef[Str|Undef]
 
-A list of aliases associated with the account. AWS supports only one
-alias per account.
+A list of aliases associated with the account. Amazon Web Services
+supports only one alias per account.
 
 
 =head2 IsTruncated => Bool

@@ -55,10 +55,11 @@ this operation. If this value is null, it retrieves the first page.
 
 =head2 B<REQUIRED> ResourceCollectionType => Str
 
-The type of AWS resource collections to return. The one valid value is
-C<CLOUD_FORMATION> for AWS CloudFormation stacks.
+The type of Amazon Web Services resource collections to return. The one
+valid value is C<CLOUD_FORMATION> for Amazon Web Services
+CloudFormation stacks.
 
-Valid values are: C<"AWS_CLOUD_FORMATION">, C<"AWS_SERVICE">
+Valid values are: C<"AWS_CLOUD_FORMATION">, C<"AWS_SERVICE">, C<"AWS_TAGS">
 
 
 =head1 SEE ALSO

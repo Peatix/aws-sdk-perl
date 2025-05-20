@@ -43,7 +43,8 @@ in a batch.
 
 =head2 B<REQUIRED> FeatureGroupName => Str
 
-A C<FeatureGroupName> containing Records you are retrieving in a batch.
+The name or Amazon Resource Name (ARN) of the C<FeatureGroup>
+containing the records you are retrieving in a batch.
 
 
 =head2 FeatureNames => ArrayRef[Str|Undef]

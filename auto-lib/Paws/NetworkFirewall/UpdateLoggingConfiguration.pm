@@ -42,7 +42,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             LogDestinationType => 'S3'
             ,   # values: S3, CloudWatchLogs, KinesisDataFirehosemin: 2, max: 30
-            LogType => 'ALERT',    # values: ALERT, FLOW
+            LogType => 'ALERT',    # values: ALERT, FLOW, TLS
 
           },
           ...

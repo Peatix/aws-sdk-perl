@@ -5,6 +5,7 @@ package Paws::ServiceCatalog::CreatePortfolioShare;
   has AccountId => (is => 'ro', isa => 'Str');
   has OrganizationNode => (is => 'ro', isa => 'Paws::ServiceCatalog::OrganizationNode');
   has PortfolioId => (is => 'ro', isa => 'Str', required => 1);
+  has SharePrincipals => (is => 'ro', isa => 'Bool');
   has ShareTagOptions => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
@@ -40,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ,    # values: ORGANIZATION, ORGANIZATIONAL_UNIT, ACCOUNT; OPTIONAL
         Value => 'MyOrganizationNodeValue',    # OPTIONAL
       },    # OPTIONAL
+      SharePrincipals => 1,    # OPTIONAL
       ShareTagOptions => 1,    # OPTIONAL
     );
 
@@ -62,10 +64,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -79,24 +77,43 @@ C<zh> - Chinese
 
 =head2 AccountId => Str
 
-The AWS account ID. For example, C<123456789012>.
+The Amazon Web Services account ID. For example, C<123456789012>.
 
 
 
 =head2 OrganizationNode => L<Paws::ServiceCatalog::OrganizationNode>
 
-The organization node to whom you are going to share. If
-C<OrganizationNode> is passed in, C<PortfolioShare> will be created for
-the node an ListOrganizationPortfolioAccessd its children (when
-applies), and a C<PortfolioShareToken> will be returned in the output
-in order for the administrator to monitor the status of the
-C<PortfolioShare> creation process.
+The organization node to whom you are going to share. When you pass
+C<OrganizationNode>, it creates C<PortfolioShare> for all of the Amazon
+Web Services accounts that are associated to the C<OrganizationNode>.
+The output returns a C<PortfolioShareToken>, which enables the
+administrator to monitor the status of the C<PortfolioShare> creation
+process.
 
 
 
 =head2 B<REQUIRED> PortfolioId => Str
 
 The portfolio identifier.
+
+
+
+=head2 SharePrincipals => Bool
+
+This parameter is only supported for portfolios with an
+B<OrganizationalNode> Type of C<ORGANIZATION> or
+C<ORGANIZATIONAL_UNIT>.
+
+Enables or disables C<Principal> sharing when creating the portfolio
+share. If you do B<not> provide this flag, principal sharing is
+disabled.
+
+When you enable Principal Name Sharing for a portfolio share, the share
+recipient account end users with a principal that matches any of the
+associated IAM patterns can provision products from the portfolio. Once
+shared, the share recipient can view associations of C<PrincipalType>:
+C<IAM_PATTERN> on their portfolio. You can create the principals in the
+recipient account before or after creating the share.
 
 
 

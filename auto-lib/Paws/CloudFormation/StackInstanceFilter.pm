@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFormat
 
 =head1 DESCRIPTION
 
-The status that stack instances are filtered by.
+The filter to apply to stack instances
 
 =head1 ATTRIBUTES
 

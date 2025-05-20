@@ -39,18 +39,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         DownloadSpeed => 1,    # OPTIONAL
         UploadSpeed   => 1,    # OPTIONAL
       },
-      GlobalNetworkId => 'MyString',
-      SiteId          => 'MyString',
-      Description     => 'MyString',    # OPTIONAL
-      Provider        => 'MyString',    # OPTIONAL
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      SiteId          => 'MySiteId',
+      Description     => 'MyConstrainedString',    # OPTIONAL
+      Provider        => 'MyConstrainedString',    # OPTIONAL
       Tags            => [
         {
-          Key   => 'MyTagKey',      # OPTIONAL
-          Value => 'MyTagValue',    # OPTIONAL
+          Key   => 'MyTagKey',      # max: 10000000; OPTIONAL
+          Value => 'MyTagValue',    # max: 10000000; OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      Type => 'MyString',    # OPTIONAL
+      Type => 'MyConstrainedString',    # OPTIONAL
     );
 
     # Results:
@@ -74,7 +74,7 @@ The upload speed and download speed in Mbps.
 
 A description of the link.
 
-Length Constraints: Maximum length of 256 characters.
+Constraints: Maximum length of 256 characters.
 
 
 
@@ -88,9 +88,8 @@ The ID of the global network.
 
 The provider of the link.
 
-Constraints: Cannot include the following characters: | \ ^
-
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters. Cannot include the
+following characters: | \ ^
 
 
 
@@ -110,9 +109,8 @@ The tags to apply to the resource during creation.
 
 The type of the link.
 
-Constraints: Cannot include the following characters: | \ ^
-
-Length Constraints: Maximum length of 128 characters.
+Constraints: Maximum length of 128 characters. Cannot include the
+following characters: | \ ^
 
 
 

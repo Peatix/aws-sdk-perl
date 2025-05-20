@@ -1,0 +1,100 @@
+
+package Paws::BedrockAgentRuntime::ListInvocationSteps;
+  use Moose;
+  has InvocationIdentifier => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'invocationIdentifier');
+  has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
+  has SessionIdentifier => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'sessionIdentifier', required => 1);
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'ListInvocationSteps');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/sessions/{sessionIdentifier}/invocationSteps/');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::BedrockAgentRuntime::ListInvocationStepsResponse');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::BedrockAgentRuntime::ListInvocationSteps - Arguments for method ListInvocationSteps on L<Paws::BedrockAgentRuntime>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method ListInvocationSteps on the
+L<Agents for Amazon Bedrock Runtime|Paws::BedrockAgentRuntime> service. Use the attributes of this class
+as arguments to method ListInvocationSteps.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ListInvocationSteps.
+
+=head1 SYNOPSIS
+
+    my $bedrock-agent-runtime = Paws->service('BedrockAgentRuntime');
+    my $ListInvocationStepsResponse =
+      $bedrock -agent-runtime->ListInvocationSteps(
+      SessionIdentifier    => 'MySessionIdentifier',
+      InvocationIdentifier => 'MyInvocationIdentifier',    # OPTIONAL
+      MaxResults           => 1,                           # OPTIONAL
+      NextToken            => 'MyNextToken',               # OPTIONAL
+      );
+
+    # Results:
+    my $InvocationStepSummaries =
+      $ListInvocationStepsResponse->InvocationStepSummaries;
+    my $NextToken = $ListInvocationStepsResponse->NextToken;
+
+   # Returns a L<Paws::BedrockAgentRuntime::ListInvocationStepsResponse> object.
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bedrock-agent-runtime/ListInvocationSteps>
+
+=head1 ATTRIBUTES
+
+
+=head2 InvocationIdentifier => Str
+
+The unique identifier (in UUID format) for the invocation to list
+invocation steps for.
+
+
+
+=head2 MaxResults => Int
+
+The maximum number of results to return in the response. If the total
+number of results is greater than this value, use the token returned in
+the response in the C<nextToken> field when making another request to
+return the next batch of results.
+
+
+
+=head2 NextToken => Str
+
+If the total number of results is greater than the C<maxResults> value
+provided in the request, enter the token returned in the C<nextToken>
+field in the response in this field to return the next batch of
+results.
+
+
+
+=head2 B<REQUIRED> SessionIdentifier => Str
+
+The unique identifier for the session associated with the invocation
+steps. You can specify either the session's C<sessionId> or its Amazon
+Resource Name (ARN).
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method ListInvocationSteps in L<Paws::BedrockAgentRuntime>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

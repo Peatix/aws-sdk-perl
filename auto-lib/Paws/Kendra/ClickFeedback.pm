@@ -35,20 +35,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Cli
 =head1 DESCRIPTION
 
 Gathers information about when a particular result was clicked by a
-user. Your application uses the C<SubmitFeedback> operation to provide
-click information.
+user. Your application uses the C<SubmitFeedback> API to provide click
+information.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> ClickTime => Str
 
-The Unix timestamp of the date and time that the result was clicked.
+The Unix timestamp when the result was clicked.
 
 
 =head2 B<REQUIRED> ResultId => Str
 
-The unique identifier of the search result that was clicked.
+The identifier of the search result that was clicked.
 
 
 

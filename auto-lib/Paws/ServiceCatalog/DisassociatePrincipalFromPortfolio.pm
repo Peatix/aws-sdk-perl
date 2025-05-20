@@ -4,6 +4,7 @@ package Paws::ServiceCatalog::DisassociatePrincipalFromPortfolio;
   has AcceptLanguage => (is => 'ro', isa => 'Str');
   has PortfolioId => (is => 'ro', isa => 'Str', required => 1);
   has PrincipalARN => (is => 'ro', isa => 'Str', required => 1);
+  has PrincipalType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -34,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PortfolioId    => 'MyId',
       PrincipalARN   => 'MyPrincipalARN',
       AcceptLanguage => 'MyAcceptLanguage',    # OPTIONAL
+      PrincipalType  => 'IAM',                 # OPTIONAL
       );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -47,10 +49,6 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 The language code.
 
 =over
-
-=item *
-
-C<en> - English (default)
 
 =item *
 
@@ -73,9 +71,19 @@ The portfolio identifier.
 
 =head2 B<REQUIRED> PrincipalARN => Str
 
-The ARN of the principal (IAM user, role, or group).
+The ARN of the principal (user, role, or group). This field allows an
+ARN with no C<accountID> with or without wildcard characters if
+C<PrincipalType> is C<IAM_PATTERN>.
 
 
+
+=head2 PrincipalType => Str
+
+The supported value is C<IAM> if you use a fully defined ARN, or
+C<IAM_PATTERN> if you specify an C<IAM> ARN with no AccountId, with or
+without wildcard characters.
+
+Valid values are: C<"IAM">, C<"IAM_PATTERN">
 
 
 =head1 SEE ALSO

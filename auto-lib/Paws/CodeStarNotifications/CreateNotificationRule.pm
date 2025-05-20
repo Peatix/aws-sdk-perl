@@ -76,18 +76,19 @@ parameter. If a request with the same parameters is received and a
 token is included, the request returns information about the initial
 request that used that token.
 
-The AWS SDKs prepopulate client request tokens. If you are using an AWS
-SDK, an idempotency token is created for you.
+The Amazon Web Services SDKs prepopulate client request tokens. If you
+are using an Amazon Web Services SDK, an idempotency token is created
+for you.
 
 
 
 =head2 B<REQUIRED> DetailType => Str
 
 The level of detail to include in the notifications for this resource.
-BASIC will include only the contents of the event as it would appear in
-AWS CloudWatch. FULL will include any supplemental information provided
-by AWS CodeStar Notifications and/or the service for the resource for
-which the notification is created.
+C<BASIC> will include only the contents of the event as it would appear
+in Amazon CloudWatch. C<FULL> will include any supplemental information
+provided by AWS CodeStar Notifications and/or the service for the
+resource for which the notification is created.
 
 Valid values are: C<"BASIC">, C<"FULL">
 
@@ -100,24 +101,24 @@ list of allowed events, see EventTypeSummary.
 
 =head2 B<REQUIRED> Name => Str
 
-The name for the notification rule. Notifictaion rule names must be
-unique in your AWS account.
+The name for the notification rule. Notification rule names must be
+unique in your Amazon Web Services account.
 
 
 
 =head2 B<REQUIRED> Resource => Str
 
 The Amazon Resource Name (ARN) of the resource to associate with the
-notification rule. Supported resources include pipelines in AWS
-CodePipeline, repositories in AWS CodeCommit, and build projects in AWS
+notification rule. Supported resources include pipelines in
+CodePipeline, repositories in CodeCommit, and build projects in
 CodeBuild.
 
 
 
 =head2 Status => Str
 
-The status of the notification rule. The default value is ENABLED. If
-the status is set to DISABLED, notifications aren't sent for the
+The status of the notification rule. The default value is C<ENABLED>.
+If the status is set to C<DISABLED>, notifications aren't sent for the
 notification rule.
 
 Valid values are: C<"ENABLED">, C<"DISABLED">
@@ -125,14 +126,15 @@ Valid values are: C<"ENABLED">, C<"DISABLED">
 =head2 Tags => L<Paws::CodeStarNotifications::Tags>
 
 A list of tags to apply to this notification rule. Key names cannot
-start with "aws".
+start with "C<aws>".
 
 
 
 =head2 B<REQUIRED> Targets => ArrayRef[L<Paws::CodeStarNotifications::Target>]
 
-A list of Amazon Resource Names (ARNs) of SNS topics to associate with
-the notification rule.
+A list of Amazon Resource Names (ARNs) of Amazon Simple Notification
+Service topics and Chatbot clients to associate with the notification
+rule.
 
 
 

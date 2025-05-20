@@ -59,11 +59,14 @@ A system-assigned unique identifier for a server.
 
 The public key portion of an SSH key pair.
 
+Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+
 
 
 =head2 B<REQUIRED> UserName => Str
 
-The name of the user account that is assigned to one or more servers.
+The name of the Transfer Family user that is assigned to one or more
+servers.
 
 
 

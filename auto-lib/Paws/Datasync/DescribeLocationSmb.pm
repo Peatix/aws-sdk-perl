@@ -33,13 +33,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $AgentArns    = $DescribeLocationSmbResponse->AgentArns;
-    my $CreationTime = $DescribeLocationSmbResponse->CreationTime;
-    my $Domain       = $DescribeLocationSmbResponse->Domain;
-    my $LocationArn  = $DescribeLocationSmbResponse->LocationArn;
-    my $LocationUri  = $DescribeLocationSmbResponse->LocationUri;
-    my $MountOptions = $DescribeLocationSmbResponse->MountOptions;
-    my $User         = $DescribeLocationSmbResponse->User;
+    my $AgentArns          = $DescribeLocationSmbResponse->AgentArns;
+    my $AuthenticationType = $DescribeLocationSmbResponse->AuthenticationType;
+    my $CreationTime       = $DescribeLocationSmbResponse->CreationTime;
+    my $DnsIpAddresses     = $DescribeLocationSmbResponse->DnsIpAddresses;
+    my $Domain             = $DescribeLocationSmbResponse->Domain;
+    my $KerberosPrincipal  = $DescribeLocationSmbResponse->KerberosPrincipal;
+    my $LocationArn        = $DescribeLocationSmbResponse->LocationArn;
+    my $LocationUri        = $DescribeLocationSmbResponse->LocationUri;
+    my $MountOptions       = $DescribeLocationSmbResponse->MountOptions;
+    my $User               = $DescribeLocationSmbResponse->User;
 
     # Returns a L<Paws::Datasync::DescribeLocationSmbResponse> object.
 
@@ -51,7 +54,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 B<REQUIRED> LocationArn => Str
 
-The Amazon Resource Name (ARN) of the SMB location to describe.
+Specifies the Amazon Resource Name (ARN) of the SMB location that you
+want information about.
 
 
 

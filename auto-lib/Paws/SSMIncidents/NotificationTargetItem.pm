@@ -33,8 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-The SNS topic that's used by AWS Chatbot to notify the incidents chat
-channel.
+The SNS targets that are notified when updates are made to an incident.
 
 =head1 ATTRIBUTES
 

@@ -47,7 +47,26 @@ in the I<Amazon SNS Developer Guide>.
 
 =item *
 
-C<Owner> E<ndash> The account ID of the subscription's owner.
+C<FilterPolicyScope> E<ndash> This attribute lets you choose the
+filtering scope by using one of the following string value types:
+
+=over
+
+=item *
+
+C<MessageAttributes> (default) E<ndash> The filter is applied on the
+message attributes.
+
+=item *
+
+C<MessageBody> E<ndash> The filter is applied on the message body.
+
+=back
+
+=item *
+
+C<Owner> E<ndash> The Amazon Web Services account ID of the
+subscription's owner.
 
 =item *
 
@@ -81,8 +100,8 @@ with.
 
 =back
 
-The following attribute applies only to Amazon Kinesis Data Firehose
-delivery stream subscriptions:
+The following attribute applies only to Amazon Data Firehose delivery
+stream subscriptions:
 
 =over
 
@@ -95,7 +114,7 @@ following:
 
 =item *
 
-Permission to write to the Kinesis Data Firehose delivery stream
+Permission to write to the Firehose delivery stream
 
 =item *
 
@@ -103,9 +122,9 @@ Amazon SNS listed as a trusted entity
 
 =back
 
-Specifying a valid ARN for this attribute is required for Kinesis Data
-Firehose delivery stream subscriptions. For more information, see
-Fanout to Kinesis Data Firehose delivery streams
+Specifying a valid ARN for this attribute is required for Firehose
+delivery stream subscriptions. For more information, see Fanout to
+Firehose delivery streams
 (https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html)
 in the I<Amazon SNS Developer Guide>.
 

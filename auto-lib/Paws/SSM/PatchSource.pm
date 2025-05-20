@@ -35,9 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::PatchS
 
 =head1 DESCRIPTION
 
-Information about the patches to use to update the instances, including
-target operating systems and source repository. Applies to Linux
-instances only.
+Information about the patches to use to update the managed nodes,
+including target operating systems and source repository. Applies to
+Linux managed nodes only.
 
 =head1 ATTRIBUTES
 

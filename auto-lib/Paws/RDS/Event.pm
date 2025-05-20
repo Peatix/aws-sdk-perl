@@ -38,7 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Event 
 
 =head1 DESCRIPTION
 
-This data type is used as a response element in the C<DescribeEvents>
+This data type is used as a response element in the DescribeEvents
+(https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEvents.html)
 action.
 
 =head1 ATTRIBUTES

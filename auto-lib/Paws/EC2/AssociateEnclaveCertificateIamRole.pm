@@ -1,9 +1,9 @@
 
 package Paws::EC2::AssociateEnclaveCertificateIamRole;
   use Moose;
-  has CertificateArn => (is => 'ro', isa => 'Str');
+  has CertificateArn => (is => 'ro', isa => 'Str', required => 1);
   has DryRun => (is => 'ro', isa => 'Bool');
-  has RoleArn => (is => 'ro', isa => 'Str');
+  has RoleArn => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -31,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ec2 = Paws->service('EC2');
     my $AssociateEnclaveCertificateIamRoleResult =
       $ec2->AssociateEnclaveCertificateIamRole(
-      CertificateArn => 'MyResourceArn',    # OPTIONAL
-      DryRun         => 1,                  # OPTIONAL
-      RoleArn        => 'MyResourceArn',    # OPTIONAL
+      CertificateArn => 'MyCertificateId',
+      RoleArn        => 'MyRoleId',
+      DryRun         => 1,                   # OPTIONAL
       );
 
     # Results:
@@ -52,7 +52,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 CertificateArn => Str
+=head2 B<REQUIRED> CertificateArn => Str
 
 The ARN of the ACM certificate with which to associate the IAM role.
 
@@ -67,7 +67,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 RoleArn => Str
+=head2 B<REQUIRED> RoleArn => Str
 
 The ARN of the IAM role to associate with the ACM certificate. You can
 associate up to 16 IAM roles with an ACM certificate.

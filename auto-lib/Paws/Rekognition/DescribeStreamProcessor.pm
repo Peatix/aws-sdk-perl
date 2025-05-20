@@ -34,15 +34,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $CreationTimestamp = $DescribeStreamProcessorResponse->CreationTimestamp;
-    my $Input             = $DescribeStreamProcessorResponse->Input;
+    my $DataSharingPreference =
+      $DescribeStreamProcessorResponse->DataSharingPreference;
+    my $Input    = $DescribeStreamProcessorResponse->Input;
+    my $KmsKeyId = $DescribeStreamProcessorResponse->KmsKeyId;
     my $LastUpdateTimestamp =
       $DescribeStreamProcessorResponse->LastUpdateTimestamp;
-    my $Name          = $DescribeStreamProcessorResponse->Name;
-    my $Output        = $DescribeStreamProcessorResponse->Output;
-    my $RoleArn       = $DescribeStreamProcessorResponse->RoleArn;
-    my $Settings      = $DescribeStreamProcessorResponse->Settings;
-    my $Status        = $DescribeStreamProcessorResponse->Status;
-    my $StatusMessage = $DescribeStreamProcessorResponse->StatusMessage;
+    my $Name = $DescribeStreamProcessorResponse->Name;
+    my $NotificationChannel =
+      $DescribeStreamProcessorResponse->NotificationChannel;
+    my $Output            = $DescribeStreamProcessorResponse->Output;
+    my $RegionsOfInterest = $DescribeStreamProcessorResponse->RegionsOfInterest;
+    my $RoleArn           = $DescribeStreamProcessorResponse->RoleArn;
+    my $Settings          = $DescribeStreamProcessorResponse->Settings;
+    my $Status            = $DescribeStreamProcessorResponse->Status;
+    my $StatusMessage     = $DescribeStreamProcessorResponse->StatusMessage;
     my $StreamProcessorArn =
       $DescribeStreamProcessorResponse->StreamProcessorArn;
 

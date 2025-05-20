@@ -4,12 +4,16 @@ package Paws::EMR::NotebookExecution;
   has Arn => (is => 'ro', isa => 'Str');
   has EditorId => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
+  has EnvironmentVariables => (is => 'ro', isa => 'Paws::EMR::EnvironmentVariablesMap');
   has ExecutionEngine => (is => 'ro', isa => 'Paws::EMR::ExecutionEngineConfig');
   has LastStateChangeReason => (is => 'ro', isa => 'Str');
   has NotebookExecutionId => (is => 'ro', isa => 'Str');
   has NotebookExecutionName => (is => 'ro', isa => 'Str');
   has NotebookInstanceSecurityGroupId => (is => 'ro', isa => 'Str');
   has NotebookParams => (is => 'ro', isa => 'Str');
+  has NotebookS3Location => (is => 'ro', isa => 'Paws::EMR::NotebookS3LocationForOutput');
+  has OutputNotebookFormat => (is => 'ro', isa => 'Str');
+  has OutputNotebookS3Location => (is => 'ro', isa => 'Paws::EMR::OutputNotebookS3LocationForOutput');
   has OutputNotebookURI => (is => 'ro', isa => 'Str');
   has StartTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -45,8 +49,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Notebo
 
 =head1 DESCRIPTION
 
-A notebook execution. An execution is a specific instance that an EMR
-Notebook is run using the C<StartNotebookExecution> action.
+A notebook execution. An execution is a specific instance that an
+Amazon EMR Notebook is run using the C<StartNotebookExecution> action.
 
 =head1 ATTRIBUTES
 
@@ -58,8 +62,8 @@ The Amazon Resource Name (ARN) of the notebook execution.
 
 =head2 EditorId => Str
 
-The unique identifier of the EMR Notebook that is used for the notebook
-execution.
+The unique identifier of the Amazon EMR Notebook that is used for the
+notebook execution.
 
 
 =head2 EndTime => Str
@@ -67,10 +71,15 @@ execution.
 The timestamp when notebook execution ended.
 
 
+=head2 EnvironmentVariables => L<Paws::EMR::EnvironmentVariablesMap>
+
+The environment variables associated with the notebook execution.
+
+
 =head2 ExecutionEngine => L<Paws::EMR::ExecutionEngineConfig>
 
-The execution engine, such as an EMR cluster, used to run the EMR
-notebook and perform the notebook execution.
+The execution engine, such as an Amazon EMR cluster, used to run the
+Amazon EMR notebook and perform the notebook execution.
 
 
 =head2 LastStateChangeReason => Str
@@ -90,17 +99,32 @@ A name for the notebook execution.
 
 =head2 NotebookInstanceSecurityGroupId => Str
 
-The unique identifier of the EC2 security group associated with the EMR
-Notebook instance. For more information see Specifying EC2 Security
-Groups for EMR Notebooks
+The unique identifier of the Amazon EC2 security group associated with
+the Amazon EMR Notebook instance. For more information see Specifying
+Amazon EC2 Security Groups for Amazon EMR Notebooks
 (https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-notebooks-security-groups.html)
-in the I<EMR Management Guide>.
+in the I<Amazon EMR Management Guide>.
 
 
 =head2 NotebookParams => Str
 
-Input parameters in JSON format passed to the EMR Notebook at runtime
-for execution.
+Input parameters in JSON format passed to the Amazon EMR Notebook at
+runtime for execution.
+
+
+=head2 NotebookS3Location => L<Paws::EMR::NotebookS3LocationForOutput>
+
+The Amazon S3 location that stores the notebook execution input.
+
+
+=head2 OutputNotebookFormat => Str
+
+The output format for the notebook execution.
+
+
+=head2 OutputNotebookS3Location => L<Paws::EMR::OutputNotebookS3LocationForOutput>
+
+The Amazon S3 location for the notebook execution output.
 
 
 =head2 OutputNotebookURI => Str

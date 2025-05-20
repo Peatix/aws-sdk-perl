@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $DescribeGroupResponse = $workmail->DescribeGroup(
-      GroupId        => 'MyWorkMailIdentifier',
+      GroupId        => 'MyEntityIdentifier',
       OrganizationId => 'MyOrganizationId',
 
     );
@@ -39,8 +39,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Email        = $DescribeGroupResponse->Email;
     my $EnabledDate  = $DescribeGroupResponse->EnabledDate;
     my $GroupId      = $DescribeGroupResponse->GroupId;
-    my $Name         = $DescribeGroupResponse->Name;
-    my $State        = $DescribeGroupResponse->State;
+    my $HiddenFromGlobalAddressList =
+      $DescribeGroupResponse->HiddenFromGlobalAddressList;
+    my $Name  = $DescribeGroupResponse->Name;
+    my $State = $DescribeGroupResponse->State;
 
     # Returns a L<Paws::WorkMail::DescribeGroupResponse> object.
 
@@ -53,6 +55,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/wor
 =head2 B<REQUIRED> GroupId => Str
 
 The identifier for the group to be described.
+
+The identifier can accept I<GroupId>, I<Groupname>, or I<email>. The
+following identity formats are available:
+
+=over
+
+=item *
+
+Group ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: group@domain.tld
+
+=item *
+
+Group name: group
+
+=back
+
 
 
 

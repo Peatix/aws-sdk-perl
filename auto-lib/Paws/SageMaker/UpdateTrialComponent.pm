@@ -42,28 +42,28 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DisplayName        => 'MyExperimentEntityName',    # OPTIONAL
       EndTime            => '1970-01-01T01:00:00',       # OPTIONAL
       InputArtifacts     => {
-        'MyTrialComponentKey64' => {
+        'MyTrialComponentKey128' => {
           Value     => 'MyTrialComponentArtifactValue',    # max: 2048
           MediaType => 'MyMediaType',                      # max: 64; OPTIONAL
-        },    # key: max: 64
+        },    # key: max: 128
       },    # OPTIONAL
       InputArtifactsToRemove => [
         'MyTrialComponentKey256', ...    # max: 256
       ],    # OPTIONAL
       OutputArtifacts => {
-        'MyTrialComponentKey64' => {
+        'MyTrialComponentKey128' => {
           Value     => 'MyTrialComponentArtifactValue',    # max: 2048
           MediaType => 'MyMediaType',                      # max: 64; OPTIONAL
-        },    # key: max: 64
+        },    # key: max: 128
       },    # OPTIONAL
       OutputArtifactsToRemove => [
         'MyTrialComponentKey256', ...    # max: 256
       ],    # OPTIONAL
       Parameters => {
-        'MyTrialComponentKey256' => {
+        'MyTrialComponentKey320' => {
           NumberValue => 1,                           # OPTIONAL
-          StringValue => 'MyStringParameterValue',    # max: 256; OPTIONAL
-        },    # key: max: 256
+          StringValue => 'MyStringParameterValue',    # max: 2500; OPTIONAL
+        },    # key: max: 320
       },    # OPTIONAL
       ParametersToRemove => [
         'MyTrialComponentKey256', ...    # max: 256
@@ -104,7 +104,9 @@ When the component ended.
 =head2 InputArtifacts => L<Paws::SageMaker::TrialComponentArtifacts>
 
 Replaces all of the component's input artifacts with the specified
-artifacts.
+artifacts or adds new input artifacts. Existing input artifacts are
+replaced if the trial component is updated with an identical input
+artifact key.
 
 
 
@@ -117,7 +119,9 @@ The input artifacts to remove from the component.
 =head2 OutputArtifacts => L<Paws::SageMaker::TrialComponentArtifacts>
 
 Replaces all of the component's output artifacts with the specified
-artifacts.
+artifacts or adds new output artifacts. Existing output artifacts are
+replaced if the trial component is updated with an identical output
+artifact key.
 
 
 
@@ -130,7 +134,9 @@ The output artifacts to remove from the component.
 =head2 Parameters => L<Paws::SageMaker::TrialComponentParameters>
 
 Replaces all of the component's hyperparameters with the specified
-hyperparameters.
+hyperparameters or add new hyperparameters. Existing hyperparameters
+are replaced if the trial component is updated with an identical
+hyperparameter key.
 
 
 

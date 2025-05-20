@@ -18,9 +18,9 @@ Paws::Rekognition::DescribeProjectsResponse
 =head2 NextToken => Str
 
 If the previous response was incomplete (because there is more results
-to retrieve), Amazon Rekognition Custom Labels returns a pagination
-token in the response. You can use this pagination token to retrieve
-the next set of results.
+to retrieve), Amazon Rekognition returns a pagination token in the
+response. You can use this pagination token to retrieve the next set of
+results.
 
 
 =head2 ProjectDescriptions => ArrayRef[L<Paws::Rekognition::ProjectDescription>]

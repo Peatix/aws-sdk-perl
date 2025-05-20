@@ -5,6 +5,7 @@ package Paws::DMS::ReplicationSubnetGroup;
   has ReplicationSubnetGroupIdentifier => (is => 'ro', isa => 'Str');
   has SubnetGroupStatus => (is => 'ro', isa => 'Str');
   has Subnets => (is => 'ro', isa => 'ArrayRef[Paws::DMS::Subnet]');
+  has SupportedNetworkTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has VpcId => (is => 'ro', isa => 'Str');
 
 1;
@@ -61,6 +62,14 @@ The status of the subnet group.
 =head2 Subnets => ArrayRef[L<Paws::DMS::Subnet>]
 
 The subnets that are in the subnet group.
+
+
+=head2 SupportedNetworkTypes => ArrayRef[Str|Undef]
+
+The IP addressing protocol supported by the subnet group. This is used
+by a replication instance with values such as IPv4 only or Dual-stack
+that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+supported.
 
 
 =head2 VpcId => Str

@@ -1,9 +1,11 @@
 
 package Paws::Synthetics::GetCanaryRuns;
   use Moose;
+  has DryRunId => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has Name => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'name', required => 1);
   has NextToken => (is => 'ro', isa => 'Str');
+  has RunType => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -32,8 +34,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $synthetics = Paws->service('Synthetics');
     my $GetCanaryRunsResponse = $synthetics->GetCanaryRuns(
       Name       => 'MyCanaryName',
+      DryRunId   => 'MyUUID',         # OPTIONAL
       MaxResults => 1,                # OPTIONAL
       NextToken  => 'MyToken',        # OPTIONAL
+      RunType    => 'CANARY_RUN',     # OPTIONAL
     );
 
     # Results:
@@ -46,6 +50,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/synthetics/GetCanaryRuns>
 
 =head1 ATTRIBUTES
+
+
+=head2 DryRunId => Str
+
+The DryRunId associated with an existing canaryE<rsquo>s dry run. You
+can use this DryRunId to retrieve information about the dry run.
+
 
 
 =head2 MaxResults => Int
@@ -68,7 +79,40 @@ A token that indicates that there is more data available. You can use
 this token in a subsequent C<GetCanaryRuns> operation to retrieve the
 next set of results.
 
+When auto retry is enabled for the canary, the first subsequent retry
+is suffixed with *1 indicating its the first retry and the next
+subsequent try is suffixed with *2.
 
+
+
+=head2 RunType => Str
+
+=over
+
+=item *
+
+When you provide C<RunType=CANARY_RUN> and C<dryRunId>, you will get an
+exception
+
+=item *
+
+When a value is not provided for C<RunType>, the default value is
+C<CANARY_RUN>
+
+=item *
+
+When C<CANARY_RUN> is provided, all canary runs excluding dry runs are
+returned
+
+=item *
+
+When C<DRY_RUN> is provided, all dry runs excluding canary runs are
+returned
+
+=back
+
+
+Valid values are: C<"CANARY_RUN">, C<"DRY_RUN">
 
 
 =head1 SEE ALSO

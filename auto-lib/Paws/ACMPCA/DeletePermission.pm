@@ -46,7 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/acm
 The Amazon Resource Number (ARN) of the private CA that issued the
 permissions. You can find the CA's ARN by calling the
 ListCertificateAuthorities
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html)
 action. This must have the following form:
 
 C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-1234-1234-123456789012>
@@ -56,14 +56,15 @@ C<arn:aws:acm-pca:I<region>:I<account>:certificate-authority/I<12345678-1234-123
 
 =head2 B<REQUIRED> Principal => Str
 
-The AWS service or identity that will have its CA permissions revoked.
-At this time, the only valid service principal is C<acm.amazonaws.com>
+The Amazon Web Services service or identity that will have its CA
+permissions revoked. At this time, the only valid service principal is
+C<acm.amazonaws.com>
 
 
 
 =head2 SourceAccount => Str
 
-The AWS account that calls this action.
+The Amazon Web Services account that calls this action.
 
 
 

@@ -110,11 +110,10 @@ process used to calculate the value is described in RFC-4034 Appendix B
 =head2 KmsArn => Str
 
 The Amazon resource name (ARN) used to identify the customer managed
-customer master key (CMK) in AWS Key Management Service (AWS KMS). The
-C<KmsArn> must be unique for each key-signing key (KSK) in a single
-hosted zone.
+key in Key Management Service (KMS). The C<KmsArn> must be unique for
+each key-signing key (KSK) in a single hosted zone.
 
-You must configure the CMK as follows:
+You must configure the customer managed key as follows:
 
 =over
 
@@ -157,14 +156,14 @@ principal for your account. Specify the following:
 
 =item *
 
-C<"Service": "api-service.dnssec.route53.aws.internal">
+C<"Service": "dnssec-route53.amazonaws.com">
 
 =back
 
 =back
 
-For more information about working with the customer managed CMK in AWS
-KMS, see AWS Key Management Service concepts
+For more information about working with the customer managed key in
+KMS, see Key Management Service concepts
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html).
 
 
@@ -223,9 +222,9 @@ The KSK is in the process of being deleted.
 =item ACTION_NEEDED
 
 There is a problem with the KSK that requires you to take action to
-resolve. For example, the customer managed customer master key (CMK)
-might have been deleted, or the permissions for the customer managed
-CMK might have been changed.
+resolve. For example, the customer managed key might have been deleted,
+or the permissions for the customer managed key might have been
+changed.
 
 =item INTERNAL_FAILURE
 

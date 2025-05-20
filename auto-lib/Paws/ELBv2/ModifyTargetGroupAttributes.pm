@@ -57,7 +57,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> Attributes => ArrayRef[L<Paws::ELBv2::TargetGroupAttribute>]
 
-The attributes.
+The target group attributes.
 
 
 

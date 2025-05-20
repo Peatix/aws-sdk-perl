@@ -44,7 +44,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream.
+The name of the Firehose stream.
 
 
 

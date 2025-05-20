@@ -56,10 +56,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> Domain => Str
 
-The name of the domain to create. All domain names in an AWS Region
-that are in the same AWS account must be unique. The domain name is
-used as the prefix in DNS hostnames. Do not use sensitive information
-in a domain name because it is publicly discoverable.
+The name of the domain to create. All domain names in an Amazon Web
+Services Region that are in the same Amazon Web Services account must
+be unique. The domain name is used as the prefix in DNS hostnames. Do
+not use sensitive information in a domain name because it is publicly
+discoverable.
 
 
 
@@ -72,16 +73,16 @@ C<encryptionKey>, your IAM role must have C<kms:DescribeKey> and
 C<kms:CreateGrant> permissions on the encryption key that is used. For
 more information, see DescribeKey
 (https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestSyntax)
-in the I<AWS Key Management Service API Reference> and AWS KMS API
-Permissions Reference
+in the I<Key Management Service API Reference> and Key Management
+Service API Permissions Reference
 (https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 CodeArtifact supports only symmetric CMKs. Do not associate an
 asymmetric CMK with your domain. For more information, see Using
 symmetric and asymmetric keys
 (https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 

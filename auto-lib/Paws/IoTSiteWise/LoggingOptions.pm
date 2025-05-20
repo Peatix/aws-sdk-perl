@@ -40,7 +40,7 @@ Contains logging options.
 
 =head2 B<REQUIRED> Level => Str
 
-The AWS IoT SiteWise logging verbosity level.
+The IoT SiteWise logging verbosity level.
 
 
 

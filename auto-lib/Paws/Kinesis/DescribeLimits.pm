@@ -29,6 +29,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeLimitsOutput = $kinesis->DescribeLimits();
 
     # Results:
+    my $OnDemandStreamCount = $DescribeLimitsOutput->OnDemandStreamCount;
+    my $OnDemandStreamCountLimit =
+      $DescribeLimitsOutput->OnDemandStreamCountLimit;
     my $OpenShardCount = $DescribeLimitsOutput->OpenShardCount;
     my $ShardLimit     = $DescribeLimitsOutput->ShardLimit;
 

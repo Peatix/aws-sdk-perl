@@ -87,7 +87,7 @@ The ID of the VPC.
 
 =head2 VpcOwnerId => Str
 
-The ID of the AWS account that owns the VPC.
+The ID of the Amazon Web Services account that owns the VPC.
 
 
 

@@ -46,7 +46,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
           },
           ...
-        ],    # min: 1, max: 1; OPTIONAL
+        ],    # OPTIONAL
       },
       VirtualRouterName => 'MyResourceName',
       ClientToken       => 'MyString',         # OPTIONAL
@@ -88,11 +88,11 @@ The name of the service mesh to create the virtual router in.
 
 =head2 MeshOwner => Str
 
-The AWS IAM account ID of the service mesh owner. If the account ID is
-not your own, then the account that you specify must share the mesh
-with your account before you can create the resource in the service
-mesh. For more information about mesh sharing, see Working with shared
-meshes
+The Amazon Web Services IAM account ID of the service mesh owner. If
+the account ID is not your own, then the account that you specify must
+share the mesh with your account before you can create the resource in
+the service mesh. For more information about mesh sharing, see Working
+with shared meshes
 (https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 
 

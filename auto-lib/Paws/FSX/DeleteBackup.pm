@@ -28,10 +28,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
-    my $DeleteBackupResponse = $fsx->DeleteBackup(
-      BackupId           => 'MyBackupId',
-      ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
-    );
+    # To delete a backup
+    # This operation deletes an Amazon FSx file system backup.
+    my $DeleteBackupResponse =
+      $fsx->DeleteBackup( 'BackupId' => 'backup-03e3c82e0183b7b6b' );
 
     # Results:
     my $BackupId  = $DeleteBackupResponse->BackupId;
@@ -47,15 +47,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx
 
 =head2 B<REQUIRED> BackupId => Str
 
-The ID of the backup you want to delete.
+The ID of the backup that you want to delete.
 
 
 
 =head2 ClientRequestToken => Str
 
-A string of up to 64 ASCII characters that Amazon FSx uses to ensure
-idempotent deletion. This is automatically filled on your behalf when
-using the AWS CLI or SDK.
+A string of up to 63 ASCII characters that Amazon FSx uses to ensure
+idempotent deletion. This parameter is automatically filled on your
+behalf when using the CLI or SDK.
 
 
 

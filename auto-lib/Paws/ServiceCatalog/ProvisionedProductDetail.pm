@@ -82,7 +82,7 @@ product of the following types:
 
 =item *
 
-ProvisionedProduct
+ProvisionProduct
 
 =item *
 
@@ -115,7 +115,7 @@ provisioned product of the following types:
 
 =item *
 
-ProvisionedProduct
+ProvisionProduct
 
 =item *
 
@@ -202,8 +202,9 @@ The current status message of the provisioned product.
 
 =head2 Type => Str
 
-The type of provisioned product. The supported values are C<CFN_STACK>
-and C<CFN_STACKSET>.
+The type of provisioned product. The supported values are C<CFN_STACK>,
+C<CFN_STACKSET>, C<TERRAFORM_OPEN_SOURCE>, C<TERRAFORM_CLOUD>, and
+C<EXTERNAL>.
 
 
 

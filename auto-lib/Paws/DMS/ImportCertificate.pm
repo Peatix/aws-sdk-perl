@@ -65,6 +65,10 @@ The contents of a C<.pem> file, which contains an X.509 certificate.
 =head2 CertificateWallet => Str
 
 The location of an imported Oracle Wallet certificate for use with SSL.
+Provide the name of a C<.sso> file using the C<fileb://> prefix. You
+can't provide the certificate inline.
+
+Example: C<filebase64("${path.root}/rds-ca-2019-root.sso")>
 
 
 

@@ -9,6 +9,7 @@ package Paws::CostExplorer::CostCategory;
   has ProcessingStatus => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::CostCategoryProcessingStatus]');
   has Rules => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::CostCategoryRule]', required => 1);
   has RuleVersion => (is => 'ro', isa => 'Str', required => 1);
+  has SplitChargeRules => (is => 'ro', isa => 'ArrayRef[Paws::CostExplorer::CostCategorySplitChargeRule]');
 
 1;
 
@@ -29,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CostExplorer::CostCategory object:
 
-  $service_obj->Method(Att1 => { CostCategoryArn => $value, ..., RuleVersion => $value  });
+  $service_obj->Method(Att1 => { CostCategoryArn => $value, ..., SplitChargeRules => $value  });
 
 =head3 Results returned from an API call
 
@@ -58,12 +59,12 @@ The unique identifier for your Cost Category.
 
 =head2 EffectiveEnd => Str
 
-The Cost Category's effective end date.
+The effective end date of your Cost Category.
 
 
 =head2 B<REQUIRED> EffectiveStart => Str
 
-The Cost Category's effective start date.
+The effective start date of your Cost Category.
 
 
 =head2 B<REQUIRED> Name => Str
@@ -79,14 +80,20 @@ specific cost category.
 
 =head2 B<REQUIRED> Rules => ArrayRef[L<Paws::CostExplorer::CostCategoryRule>]
 
-Rules are processed in order. If there are multiple rules that match
-the line item, then the first rule to match is used to determine that
-Cost Category value.
+The rules are processed in order. If there are multiple rules that
+match the line item, then the first rule to match is used to determine
+that Cost Category value.
 
 
 =head2 B<REQUIRED> RuleVersion => Str
 
 
+
+
+=head2 SplitChargeRules => ArrayRef[L<Paws::CostExplorer::CostCategorySplitChargeRule>]
+
+The split charge rules that are used to allocate your charges between
+your Cost Category values.
 
 
 

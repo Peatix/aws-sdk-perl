@@ -49,8 +49,8 @@ Information about an Elastic IP address.
 
 =head2 AllocationId => Str
 
-The identifier that AWS assigns to represent the allocation of the
-Elastic IP address for use with Amazon VPC.
+The identifier that Amazon Web Services assigns to represent the
+allocation of the Elastic IP address for use with Amazon VPC.
 
 
 =head2 AssociationId => Str
@@ -85,7 +85,8 @@ The identifier of the network interface.
 
 =head2 NetworkInterfaceOwnerId => Str
 
-The AWS account ID of the owner of the network interface.
+The Amazon Web Services account ID of the owner of the network
+interface.
 
 
 =head2 PrivateIpAddress => Str

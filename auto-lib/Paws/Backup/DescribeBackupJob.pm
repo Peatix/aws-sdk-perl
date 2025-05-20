@@ -42,19 +42,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $BackupVaultArn    = $DescribeBackupJobOutput->BackupVaultArn;
     my $BackupVaultName   = $DescribeBackupJobOutput->BackupVaultName;
     my $BytesTransferred  = $DescribeBackupJobOutput->BytesTransferred;
+    my $ChildJobsInState  = $DescribeBackupJobOutput->ChildJobsInState;
     my $CompletionDate    = $DescribeBackupJobOutput->CompletionDate;
     my $CreatedBy         = $DescribeBackupJobOutput->CreatedBy;
     my $CreationDate      = $DescribeBackupJobOutput->CreationDate;
     my $ExpectedCompletionDate =
       $DescribeBackupJobOutput->ExpectedCompletionDate;
-    my $IamRoleArn       = $DescribeBackupJobOutput->IamRoleArn;
-    my $PercentDone      = $DescribeBackupJobOutput->PercentDone;
-    my $RecoveryPointArn = $DescribeBackupJobOutput->RecoveryPointArn;
-    my $ResourceArn      = $DescribeBackupJobOutput->ResourceArn;
-    my $ResourceType     = $DescribeBackupJobOutput->ResourceType;
-    my $StartBy          = $DescribeBackupJobOutput->StartBy;
-    my $State            = $DescribeBackupJobOutput->State;
-    my $StatusMessage    = $DescribeBackupJobOutput->StatusMessage;
+    my $IamRoleArn        = $DescribeBackupJobOutput->IamRoleArn;
+    my $InitiationDate    = $DescribeBackupJobOutput->InitiationDate;
+    my $IsParent          = $DescribeBackupJobOutput->IsParent;
+    my $MessageCategory   = $DescribeBackupJobOutput->MessageCategory;
+    my $NumberOfChildJobs = $DescribeBackupJobOutput->NumberOfChildJobs;
+    my $ParentJobId       = $DescribeBackupJobOutput->ParentJobId;
+    my $PercentDone       = $DescribeBackupJobOutput->PercentDone;
+    my $RecoveryPointArn  = $DescribeBackupJobOutput->RecoveryPointArn;
+    my $ResourceArn       = $DescribeBackupJobOutput->ResourceArn;
+    my $ResourceName      = $DescribeBackupJobOutput->ResourceName;
+    my $ResourceType      = $DescribeBackupJobOutput->ResourceType;
+    my $StartBy           = $DescribeBackupJobOutput->StartBy;
+    my $State             = $DescribeBackupJobOutput->State;
+    my $StatusMessage     = $DescribeBackupJobOutput->StatusMessage;
 
     # Returns a L<Paws::Backup::DescribeBackupJobOutput> object.
 
@@ -66,7 +73,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/bac
 
 =head2 B<REQUIRED> BackupJobId => Str
 
-Uniquely identifies a request to AWS Backup to back up a resource.
+Uniquely identifies a request to Backup to back up a resource.
 
 
 

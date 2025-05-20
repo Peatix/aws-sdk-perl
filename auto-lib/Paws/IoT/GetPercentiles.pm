@@ -73,7 +73,7 @@ The percentile groups returned.
 
 =head2 B<REQUIRED> QueryString => Str
 
-The query string.
+The search query string.
 
 
 

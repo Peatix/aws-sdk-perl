@@ -43,14 +43,17 @@ Contains data about the state of a job execution.
 =head2 Status => Str
 
 The status of the job execution. Can be one of: "QUEUED",
-"IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or
-"REMOVED".
+"IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "TIMED_OUT",
+"REJECTED", or "REMOVED".
 
 
 =head2 StatusDetails => L<Paws::IoTJobsData::DetailsMap>
 
 A collection of name/value pairs that describe the status of the job
 execution.
+
+The maximum length of the value in the name/value pair is 1,024
+characters.
 
 
 =head2 VersionNumber => Int

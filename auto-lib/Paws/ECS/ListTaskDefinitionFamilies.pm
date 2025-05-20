@@ -56,7 +56,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 FamilyPrefix => Str
 
-The C<familyPrefix> is a string that is used to filter the results of
+The C<familyPrefix> is a string that's used to filter the results of
 C<ListTaskDefinitionFamilies>. If you specify a C<familyPrefix>, only
 task definition family names that begin with the C<familyPrefix> string
 are returned.
@@ -65,15 +65,15 @@ are returned.
 
 =head2 MaxResults => Int
 
-The maximum number of task definition family results returned by
-C<ListTaskDefinitionFamilies> in paginated output. When this parameter
-is used, C<ListTaskDefinitions> only returns C<maxResults> results in a
-single page along with a C<nextToken> response element. The remaining
-results of the initial request can be seen by sending another
-C<ListTaskDefinitionFamilies> request with the returned C<nextToken>
-value. This value can be between 1 and 100. If this parameter is not
-used, then C<ListTaskDefinitionFamilies> returns up to 100 results and
-a C<nextToken> value if applicable.
+The maximum number of task definition family results that
+C<ListTaskDefinitionFamilies> returned in paginated output. When this
+parameter is used, C<ListTaskDefinitions> only returns C<maxResults>
+results in a single page along with a C<nextToken> response element.
+The remaining results of the initial request can be seen by sending
+another C<ListTaskDefinitionFamilies> request with the returned
+C<nextToken> value. This value can be between 1 and 100. If this
+parameter isn't used, then C<ListTaskDefinitionFamilies> returns up to
+100 results and a C<nextToken> value if applicable.
 
 
 
@@ -93,12 +93,12 @@ purposes.
 
 =head2 Status => Str
 
-The task definition family status with which to filter the
-C<ListTaskDefinitionFamilies> results. By default, both C<ACTIVE> and
-C<INACTIVE> task definition families are listed. If this parameter is
-set to C<ACTIVE>, only task definition families that have an C<ACTIVE>
-task definition revision are returned. If this parameter is set to
-C<INACTIVE>, only task definition families that do not have any
+The task definition family status to filter the
+C<ListTaskDefinitionFamilies> results with. By default, both C<ACTIVE>
+and C<INACTIVE> task definition families are listed. If this parameter
+is set to C<ACTIVE>, only task definition families that have an
+C<ACTIVE> task definition revision are returned. If this parameter is
+set to C<INACTIVE>, only task definition families that do not have any
 C<ACTIVE> task definition revisions are returned. If you paginate the
 resulting output, be sure to keep the C<status> value constant in each
 subsequent request.

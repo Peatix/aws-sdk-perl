@@ -36,15 +36,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Updates to the configuration of Kinesis Data Analytics Studio notebook.
+Updates to the configuration of Managed Service for Apache Flink Studio
+notebook.
 
 =head1 ATTRIBUTES
 
 
 =head2 CatalogConfigurationUpdate => L<Paws::KinesisAnalyticsV2::CatalogConfigurationUpdate>
 
-Updates to the configuration of the AWS Glue Data Catalog that is
-associated with the Kinesis Data Analytics Studio notebook.
+Updates to the configuration of the Amazon Glue Data Catalog that is
+associated with the Managed Service for Apache Flink Studio notebook.
 
 
 =head2 CustomArtifactsConfigurationUpdate => ArrayRef[L<Paws::KinesisAnalyticsV2::CustomArtifactConfiguration>]
@@ -60,8 +61,8 @@ files and user-defined functions (UDF).
 
 =head2 MonitoringConfigurationUpdate => L<Paws::KinesisAnalyticsV2::ZeppelinMonitoringConfigurationUpdate>
 
-Updates to the monitoring configuration of a Kinesis Data Analytics
-Studio notebook.
+Updates to the monitoring configuration of a Managed Service for Apache
+Flink Studio notebook.
 
 
 

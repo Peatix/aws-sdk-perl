@@ -49,14 +49,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource that the resource tag is
-applied to.
+The Amazon Resource Name (ARN) of the Proton resource to apply customer
+tags to.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::Proton::Tag>]
 
-An array of resource tags to apply to a resource.
+A list of customer tags to apply to the Proton resource.
 
 
 

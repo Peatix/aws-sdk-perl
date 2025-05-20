@@ -83,7 +83,7 @@ Job status.
 
 =head2 Tags => L<Paws::ApplicationMigration::TagsMap>
 
-Tags associated with spcific Job.
+Tags associated with specific Job.
 
 
 =head2 Type => Str

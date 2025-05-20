@@ -3,7 +3,7 @@ package Paws::GameLift::AttributeValue;
   use Moose;
   has N => (is => 'ro', isa => 'Num');
   has S => (is => 'ro', isa => 'Str');
-  has SDM => (is => 'ro', isa => 'Paws::GameLift::StringDoubleMap');
+  has SDM => (is => 'ro', isa => 'Paws::GameLift::PlayerAttributeStringDoubleMap');
   has SL => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::A
 
 =head1 DESCRIPTION
 
-Values for use in Player attribute key-value pairs. This object lets
+Values for use in player attribute key-value pairs. This object lets
 you specify an attribute value using any of the valid data types:
 string, number, string array, or data map. Each C<AttributeValue>
 object can use only one of the available properties.
@@ -54,7 +54,7 @@ For number values, expressed as double.
 For single string values. Maximum string length is 100 characters.
 
 
-=head2 SDM => L<Paws::GameLift::StringDoubleMap>
+=head2 SDM => L<Paws::GameLift::PlayerAttributeStringDoubleMap>
 
 For a map of up to 10 data type:value pairs. Maximum length for each
 string value is 100 characters.
@@ -62,7 +62,7 @@ string value is 100 characters.
 
 =head2 SL => ArrayRef[Str|Undef]
 
-For a list of up to 10 strings. Maximum length for each string is 100
+For a list of up to 100 strings. Maximum length for each string is 100
 characters. Duplicate values are not recognized; all occurrences of the
 repeated value after the first of a repeated value are ignored.
 

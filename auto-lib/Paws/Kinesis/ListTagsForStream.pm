@@ -3,7 +3,8 @@ package Paws::Kinesis::ListTagsForStream;
   use Moose;
   has ExclusiveStartTagKey => (is => 'ro', isa => 'Str');
   has Limit => (is => 'ro', isa => 'Int');
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $kinesis = Paws->service('Kinesis');
     my $ListTagsForStreamOutput = $kinesis->ListTagsForStream(
-      StreamName           => 'MyStreamName',
-      ExclusiveStartTagKey => 'MyTagKey',       # OPTIONAL
-      Limit                => 1,                # OPTIONAL
+      ExclusiveStartTagKey => 'MyTagKey',        # OPTIONAL
+      Limit                => 1,                 # OPTIONAL
+      StreamARN            => 'MyStreamARN',     # OPTIONAL
+      StreamName           => 'MyStreamName',    # OPTIONAL
     );
 
     # Results:
@@ -64,7 +66,13 @@ last key in the response.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream.
 

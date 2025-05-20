@@ -28,10 +28,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # GetInstance example
+    # This example gets information about a specified instance.
     my $GetInstanceResponse = $servicediscovery->GetInstance(
-      InstanceId => 'MyResourceId',
-      ServiceId  => 'MyResourceId',
-
+      'InstanceId' => 'i-abcd1234',
+      'ServiceId'  => 'srv-e4anhexample0004'
     );
 
     # Results:

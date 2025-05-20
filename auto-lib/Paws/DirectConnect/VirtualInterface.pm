@@ -7,6 +7,7 @@ package Paws::DirectConnect::VirtualInterface;
   has Asn => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'asn' );
   has AuthKey => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'authKey' );
   has AwsDeviceV2 => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDeviceV2' );
+  has AwsLogicalDeviceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsLogicalDeviceId' );
   has BgpPeers => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::BGPPeer]', traits => ['NameInRequest'], request_name => 'bgpPeers' );
   has ConnectionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectionId' );
   has CustomerAddress => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'customerAddress' );
@@ -18,6 +19,7 @@ package Paws::DirectConnect::VirtualInterface;
   has OwnerAccount => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ownerAccount' );
   has Region => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'region' );
   has RouteFilterPrefixes => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::RouteFilterPrefix]', traits => ['NameInRequest'], request_name => 'routeFilterPrefixes' );
+  has SiteLinkEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'siteLinkEnabled' );
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::DirectConnect::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
   has VirtualGatewayId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'virtualGatewayId' );
   has VirtualInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'virtualInterfaceId' );
@@ -69,7 +71,14 @@ length of 6 characters and and a maximun lenth of 80 characters.
 
 =head2 AwsDeviceV2 => Str
 
-The Direct Connect endpoint on which the virtual interface terminates.
+The Direct Connect endpoint that terminates the physical connection.
+
+
+=head2 AwsLogicalDeviceId => Str
+
+The Direct Connect endpoint that terminates the logical connection.
+This device might be different than the device that terminates the
+physical connection.
 
 
 =head2 BgpPeers => ArrayRef[L<Paws::DirectConnect::BGPPeer>]
@@ -99,7 +108,7 @@ The ID of the Direct Connect gateway.
 
 =head2 JumboFrameCapable => Bool
 
-Indicates whether jumbo frames (9001 MTU) are supported.
+Indicates whether jumbo frames are supported.
 
 
 =head2 Location => Str
@@ -110,23 +119,29 @@ The location of the connection.
 =head2 Mtu => Int
 
 The maximum transmission unit (MTU), in bytes. The supported values are
-1500 and 9001. The default value is 1500.
+1500 and 8500. The default value is 1500
 
 
 =head2 OwnerAccount => Str
 
-The ID of the AWS account that owns the virtual interface.
+The ID of the Amazon Web Services account that owns the virtual
+interface.
 
 
 =head2 Region => Str
 
-The AWS Region where the virtual interface is located.
+The Amazon Web Services Region where the virtual interface is located.
 
 
 =head2 RouteFilterPrefixes => ArrayRef[L<Paws::DirectConnect::RouteFilterPrefix>]
 
-The routes to be advertised to the AWS network in this Region. Applies
-to public virtual interfaces.
+The routes to be advertised to the Amazon Web Services network in this
+Region. Applies to public virtual interfaces.
+
+
+=head2 SiteLinkEnabled => Bool
+
+Indicates whether SiteLink is enabled.
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]
@@ -188,6 +203,12 @@ C<down>: A virtual interface that is BGP down.
 
 =item *
 
+C<testing>: A virtual interface is in this state immediately after
+calling StartBgpFailoverTest and remains in this state during the
+duration of the test.
+
+=item *
+
 C<deleting>: A virtual interface is in this state immediately after
 calling DeleteVirtualInterface until it can no longer forward traffic.
 
@@ -212,8 +233,8 @@ C<unknown>: The state of the virtual interface is not available.
 Valid values are: C<"confirming">, C<"verifying">, C<"pending">, C<"available">, C<"down">, C<"deleting">, C<"deleted">, C<"rejected">, C<"unknown">
 =head2 VirtualInterfaceType => Str
 
-The type of virtual interface. The possible values are C<private> and
-C<public>.
+The type of virtual interface. The possible values are C<private>,
+C<public> and C<transit>.
 
 
 =head2 Vlan => Int

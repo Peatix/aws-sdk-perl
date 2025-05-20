@@ -2,6 +2,7 @@
 package Paws::DynamoDB::BatchStatementError;
   use Moose;
   has Code => (is => 'ro', isa => 'Str');
+  has Item => (is => 'ro', isa => 'Paws::DynamoDB::AttributeMap');
   has Message => (is => 'ro', isa => 'Str');
 
 1;
@@ -44,9 +45,15 @@ An error associated with a statement in a PartiQL batch that was run.
 The error code associated with the failed PartiQL batch statement.
 
 
+=head2 Item => L<Paws::DynamoDB::AttributeMap>
+
+The item which caused the condition check to fail. This will be set if
+ReturnValuesOnConditionCheckFailure is specified as C<ALL_OLD>.
+
+
 =head2 Message => Str
 
-The error message associated with the PartiQL batch resposne.
+The error message associated with the PartiQL batch response.
 
 
 

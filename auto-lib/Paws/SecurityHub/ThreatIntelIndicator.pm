@@ -53,15 +53,16 @@ The category of a threat intelligence indicator.
 Indicates when the most recent instance of a threat intelligence
 indicator was observed.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Source => Str
 
 The source of the threat intelligence indicator.
+
+Length Constraints: Minimum of 1 length. Maximum of 64 length.
 
 
 =head2 SourceUrl => Str
@@ -78,6 +79,8 @@ The type of threat intelligence indicator.
 =head2 Value => Str
 
 The value of a threat intelligence indicator.
+
+Length Constraints: Minimum of 1 length. Maximum of 512 length.
 
 
 

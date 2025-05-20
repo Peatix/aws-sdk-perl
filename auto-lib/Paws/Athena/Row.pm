@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Athena::Row
 
 =head1 DESCRIPTION
 
-The rows that comprise a query result table.
+The rows that make up a query result table.
 
 =head1 ATTRIBUTES
 

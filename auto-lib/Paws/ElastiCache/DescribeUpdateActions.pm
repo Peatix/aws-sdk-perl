@@ -77,8 +77,8 @@ The cache cluster IDs
 
 =head2 Engine => Str
 
-The Elasticache engine to which the update applies. Either Redis or
-Memcached
+The Elasticache engine to which the update applies. Either Valkey,
+Redis OSS or Memcached.
 
 
 

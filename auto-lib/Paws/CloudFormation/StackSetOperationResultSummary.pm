@@ -46,14 +46,14 @@ results for a given account in a given Region.
 
 =head2 Account => Str
 
-[Self-managed permissions] The name of the AWS account for this
-operation result.
+[Self-managed permissions] The name of the Amazon Web Services account
+for this operation result.
 
 
 =head2 AccountGateResult => L<Paws::CloudFormation::AccountGateResult>
 
-The results of the account gate function AWS CloudFormation invokes, if
-present, before proceeding with stack set operations in an account
+The results of the account gate function CloudFormation invokes, if
+present, before proceeding with stack set operations in an account.
 
 
 =head2 OrganizationalUnitId => Str
@@ -65,7 +65,7 @@ organizational unit (OU) IDs that you specified for DeploymentTargets
 
 =head2 Region => Str
 
-The name of the AWS Region for this operation result.
+The name of the Amazon Web Services Region for this operation result.
 
 
 =head2 Status => Str
@@ -78,7 +78,7 @@ the given Region.
 =item *
 
 C<CANCELLED>: The operation in the specified account and Region has
-been cancelled. This is either because a user has stopped the stack set
+been canceled. This is either because a user has stopped the stack set
 operation, or because the failure tolerance of the stack set operation
 has been exceeded.
 

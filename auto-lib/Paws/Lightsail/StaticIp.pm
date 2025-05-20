@@ -41,26 +41,26 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 =head1 DESCRIPTION
 
-Describes the static IP.
+Describes a static IP.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the static IP (e.g.,
-C<arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE>).
+The Amazon Resource Name (ARN) of the static IP
+(C<arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE>).
 
 
 =head2 AttachedTo => Str
 
-The instance where the static IP is attached (e.g.,
-C<Amazon_Linux-1GB-Ohio-1>).
+The instance where the static IP is attached
+(C<Amazon_Linux-1GB-Ohio-1>).
 
 
 =head2 CreatedAt => Str
 
-The timestamp when the static IP was created (e.g., C<1479735304.222>).
+The timestamp when the static IP was created (C<1479735304.222>).
 
 
 =head2 IpAddress => Str
@@ -80,7 +80,7 @@ The region and Availability Zone where the static IP was created.
 
 =head2 Name => Str
 
-The name of the static IP (e.g., C<StaticIP-Ohio-EXAMPLE>).
+The name of the static IP (C<StaticIP-Ohio-EXAMPLE>).
 
 
 =head2 ResourceType => Str

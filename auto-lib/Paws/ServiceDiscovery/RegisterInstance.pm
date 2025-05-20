@@ -30,13 +30,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # Example: Register Instance
+    # Example: Register Instance
     my $RegisterInstanceResponse = $servicediscovery->RegisterInstance(
-      Attributes => {
-        'MyAttrKey' => 'MyAttrValue',    # key: max: 255, value: max: 1024
+      'Attributes' => {
+        'AWS_INSTANCE_IPV4' => '172.2.1.3',
+        'AWS_INSTANCE_PORT' => 808
       },
-      InstanceId       => 'MyInstanceId',
-      ServiceId        => 'MyResourceId',
-      CreatorRequestId => 'MyResourceId',    # OPTIONAL
+      'CreatorRequestId' => '7a48a98a-72e6-4849-bfa7-1a458e030d7b',
+      'InstanceId'       => 'myservice-53',
+      'ServiceId'        => 'srv-p5zdwlg5uvvzjita'
     );
 
     # Results:
@@ -68,7 +71,10 @@ For each attribute, the applicable value.
 
 =back
 
-Supported attribute keys include the following:
+Do not include sensitive information in the attributes if the namespace
+is discoverable by public DNS queries.
+
+The following are the supported attribute keys.
 
 =over
 
@@ -104,7 +110,7 @@ record.
 
 =item *
 
-Auto naming currently doesn't support creating alias records that route
+Cloud Map currently doesn't support creating alias records that route
 traffic to Amazon Web Services resources other than Elastic Load
 Balancing load balancers.
 
@@ -112,6 +118,11 @@ Balancing load balancers.
 
 If you specify a value for C<AWS_ALIAS_DNS_NAME>, don't specify values
 for any of the C<AWS_INSTANCE> attributes.
+
+=item *
+
+The C<AWS_ALIAS_DNS_NAME> is not supported in the GovCloud (US)
+Regions.
 
 =back
 
@@ -235,6 +246,10 @@ a while if you submit a C<ListHealthChecks> request, for example.
 
 =back
 
+Do not include sensitive information in C<InstanceId> if the namespace
+is discoverable by public DNS queries and any C<Type> member of
+C<DnsRecord> for the service contains C<SRV> because the C<InstanceId>
+is discoverable by public DNS queries.
 
 
 

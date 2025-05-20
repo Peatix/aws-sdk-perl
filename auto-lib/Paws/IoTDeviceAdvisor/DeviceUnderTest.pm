@@ -2,6 +2,7 @@
 package Paws::IoTDeviceAdvisor::DeviceUnderTest;
   use Moose;
   has CertificateArn => (is => 'ro', isa => 'Str', request_name => 'certificateArn', traits => ['NameInRequest']);
+  has DeviceRoleArn => (is => 'ro', isa => 'Str', request_name => 'deviceRoleArn', traits => ['NameInRequest']);
   has ThingArn => (is => 'ro', isa => 'Str', request_name => 'thingArn', traits => ['NameInRequest']);
 
 1;
@@ -34,19 +35,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTDeviceAd
 
 =head1 DESCRIPTION
 
-Lists all the devices under test
+Information of a test device. A thing ARN, certificate ARN or device
+role ARN is required.
 
 =head1 ATTRIBUTES
 
 
 =head2 CertificateArn => Str
 
-Lists devices certificate arn
+Lists device's certificate ARN.
+
+
+=head2 DeviceRoleArn => Str
+
+Lists device's role ARN.
 
 
 =head2 ThingArn => Str
 
-Lists devices thing arn
+Lists device's thing ARN.
 
 
 

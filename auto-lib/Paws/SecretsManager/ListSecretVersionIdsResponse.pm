@@ -19,37 +19,26 @@ Paws::SecretsManager::ListSecretVersionIdsResponse
 
 =head2 ARN => Str
 
-The Amazon Resource Name (ARN) for the secret.
-
-Secrets Manager automatically adds several random characters to the
-name at the end of the ARN when you initially create a secret. This
-affects only the ARN and not the actual friendly name. This ensures
-that if you create a new secret with the same name as an old secret
-that you previously deleted, then users with access to the old secret
-I<don't> automatically get access to the new secret because the ARNs
-are different.
+The ARN of the secret.
 
 
 =head2 Name => Str
 
-The friendly name of the secret.
+The name of the secret.
 
 
 =head2 NextToken => Str
 
-If present in the response, this value indicates that there's more
-output available than included in the current response. This can occur
-even when the response includes no values at all, such as when you ask
-for a filtered view of a very long list. Use this value in the
-C<NextToken> request parameter in a subsequent call to the operation to
-continue processing and get the next part of the output. You should
-repeat this until the C<NextToken> response element comes back empty
-(as C<null>).
+Secrets Manager includes this value if there's more output available
+than what is included in the current response. This can occur even when
+the response includes no values at all, such as when you ask for a
+filtered view of a long list. To get the next results, call
+C<ListSecretVersionIds> again with this value.
 
 
 =head2 Versions => ArrayRef[L<Paws::SecretsManager::SecretVersionsListEntry>]
 
-The list of the currently available versions of the specified secret.
+A list of the versions of the secret.
 
 
 =head2 _request_id => Str

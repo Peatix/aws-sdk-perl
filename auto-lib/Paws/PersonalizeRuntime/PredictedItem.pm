@@ -2,6 +2,9 @@
 package Paws::PersonalizeRuntime::PredictedItem;
   use Moose;
   has ItemId => (is => 'ro', isa => 'Str', request_name => 'itemId', traits => ['NameInRequest']);
+  has Metadata => (is => 'ro', isa => 'Paws::PersonalizeRuntime::Metadata', request_name => 'metadata', traits => ['NameInRequest']);
+  has PromotionName => (is => 'ro', isa => 'Str', request_name => 'promotionName', traits => ['NameInRequest']);
+  has Reason => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'reason', traits => ['NameInRequest']);
   has Score => (is => 'ro', isa => 'Num', request_name => 'score', traits => ['NameInRequest']);
 
 1;
@@ -44,6 +47,50 @@ The and APIs return a list of C<PredictedItem>s.
 =head2 ItemId => Str
 
 The recommended item ID.
+
+
+=head2 Metadata => L<Paws::PersonalizeRuntime::Metadata>
+
+Metadata about the item from your Items dataset.
+
+
+=head2 PromotionName => Str
+
+The name of the promotion that included the predicted item.
+
+
+=head2 Reason => ArrayRef[Str|Undef]
+
+If you use User-Personalization-v2, a list of reasons for why the item
+was included in recommendations. Possible reasons include the
+following:
+
+=over
+
+=item *
+
+Promoted item - Indicates the item was included as part of a promotion
+that you applied in your recommendation request.
+
+=item *
+
+Exploration - Indicates the item was included with exploration. With
+exploration, recommendations include items with less interactions data
+or relevance for the user. For more information about exploration, see
+Exploration
+(https://docs.aws.amazon.com/personalize/latest/dg/use-case-recipe-features.html#about-exploration).
+
+=item *
+
+Popular item - Indicates the item was included as a placeholder popular
+item. If you use a filter, depending on how many recommendations the
+filter removes, Amazon Personalize might add placeholder items to meet
+the C<numResults> for your recommendation request. These items are
+popular items, based on interactions data, that satisfy your filter
+criteria. They don't have a relevance score for the user.
+
+=back
+
 
 
 =head2 Score => Num

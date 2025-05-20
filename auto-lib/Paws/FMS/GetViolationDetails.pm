@@ -51,15 +51,47 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 B<REQUIRED> MemberAccount => Str
 
-The AWS account ID that you want the details for.
+The Amazon Web Services account ID that you want the details for.
 
 
 
 =head2 B<REQUIRED> PolicyId => Str
 
-The ID of the AWS Firewall Manager policy that you want the details
-for. This currently only supports security group content audit
-policies.
+The ID of the Firewall Manager policy that you want the details for.
+You can get violation details for the following policy types:
+
+=over
+
+=item *
+
+WAF
+
+=item *
+
+DNS Firewall
+
+=item *
+
+Imported Network Firewall
+
+=item *
+
+Network Firewall
+
+=item *
+
+Security group content audit
+
+=item *
+
+Network ACL
+
+=item *
+
+Third-party firewall
+
+=back
+
 
 
 
@@ -71,12 +103,13 @@ The ID of the resource that has violations.
 
 =head2 B<REQUIRED> ResourceType => Str
 
-The resource type. This is in the format shown in the AWS Resource
-Types Reference
+The resource type. This is in the format shown in the Amazon Web
+Services Resource Types Reference
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html).
-Supported resource types are: C<AWS::EC2::Instance>,
-C<AWS::EC2::NetworkInterface>, C<AWS::EC2::SecurityGroup>,
-C<AWS::NetworkFirewall::FirewallPolicy>, and C<AWS::EC2::Subnet>.
+Supported resource types are: C<AWS::WAFv2::WebACL>,
+C<AWS::EC2::Instance>, C<AWS::EC2::NetworkInterface>,
+C<AWS::EC2::SecurityGroup>, C<AWS::NetworkFirewall::FirewallPolicy>,
+and C<AWS::EC2::Subnet>.
 
 
 

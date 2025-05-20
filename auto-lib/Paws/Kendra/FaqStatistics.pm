@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Faq
 =head1 DESCRIPTION
 
 Provides statistical information about the FAQ questions and answers
-contained in an index.
+for an index.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> IndexedQuestionAnswersCount => Int
 
-The total number of FAQ questions and answers contained in the index.
+The total number of FAQ questions and answers for an index.
 
 
 

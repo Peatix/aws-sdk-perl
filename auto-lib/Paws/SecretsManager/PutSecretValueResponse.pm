@@ -19,27 +19,24 @@ Paws::SecretsManager::PutSecretValueResponse
 
 =head2 ARN => Str
 
-The Amazon Resource Name (ARN) for the secret for which you just
-created a version.
+The ARN of the secret.
 
 
 =head2 Name => Str
 
-The friendly name of the secret for which you just created or updated a
-version.
+The name of the secret.
 
 
 =head2 VersionId => Str
 
-The unique identifier of the version of the secret you just created or
-updated.
+The unique identifier of the version of the secret.
 
 
 =head2 VersionStages => ArrayRef[Str|Undef]
 
 The list of staging labels that are currently attached to this version
-of the secret. Staging labels are used to track a version as it
-progresses through the secret rotation process.
+of the secret. Secrets Manager uses staging labels to track a version
+as it progresses through the secret rotation process.
 
 
 =head2 _request_id => Str

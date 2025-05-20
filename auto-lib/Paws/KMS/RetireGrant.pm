@@ -1,6 +1,7 @@
 
 package Paws::KMS::RetireGrant;
   use Moose;
+  has DryRun => (is => 'ro', isa => 'Bool');
   has GrantId => (is => 'ro', isa => 'Str');
   has GrantToken => (is => 'ro', isa => 'Str');
   has KeyId => (is => 'ro', isa => 'Str');
@@ -45,6 +46,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head1 ATTRIBUTES
 
 
+=head2 DryRun => Bool
+
+Checks if your request will succeed. C<DryRun> is an optional
+parameter.
+
+To learn more about how to use this parameter, see Testing your KMS API
+calls
+(https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
+in the I<Key Management Service Developer Guide>.
+
+
+
 =head2 GrantId => Str
 
 Identifies the grant to retire. To get the grant ID, use CreateGrant,
@@ -72,14 +85,14 @@ Grant token
 (https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
 and Eventual consistency
 (https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#terms-eventual-consistency)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 KeyId => Str
 
-The key ARN CMK associated with the grant. To find the key ARN, use the
-ListKeys operation.
+The key ARN KMS key associated with the grant. To find the key ARN, use
+the ListKeys operation.
 
 For example:
 C<arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab>

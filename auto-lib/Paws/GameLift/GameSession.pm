@@ -56,16 +56,11 @@ Properties describing a game session.
 A game session in ACTIVE status can host players. When a game session
 ends, its status is set to C<TERMINATED>.
 
-Once the session ends, the game session object is retained for 30 days.
-This means you can reuse idempotency token values after this time. Game
-session logs are retained for 14 days.
+Amazon GameLift retains a game session resource for 30 days after the
+game session ends. You can reuse idempotency token values after this
+time. Game session logs are retained for 14 days.
 
-B<Related actions>
-
-CreateGameSession | DescribeGameSessions | DescribeGameSessionDetails |
-SearchGameSessions | UpdateGameSession | GetGameSessionLogUrl |
-StartGameSessionPlacement | DescribeGameSessionPlacement |
-StopGameSessionPlacement | All APIs by task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -130,52 +125,51 @@ A unique identifier for the fleet that the game session is running on.
 
 =head2 GameProperties => ArrayRef[L<Paws::GameLift::GameProperty>]
 
-A set of custom properties for a game session, formatted as key:value
-pairs. These properties are passed to a game server process in the
-GameSession object with a request to start a new game session. You can
-search for active game sessions based on this custom data with
-SearchGameSessions.
+A set of key-value pairs that can store custom data in a game session.
+For example: C<{"Key": "difficulty", "Value": "novice"}>.
 
 
 =head2 GameSessionData => Str
 
 A set of custom game session properties, formatted as a single string
-value. This data is passed to a game server process in the GameSession
-object with a request to start a new game session.
+value. This data is passed to a game server process with a request to
+start a new game session. For more information, see Start a game
+session
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession).
 
 
 =head2 GameSessionId => Str
 
 A unique identifier for the game session. A game session ARN has the
 following format:
-C<arn:aws:gamelift:E<lt>regionE<gt>::gamesession/E<lt>fleet
+C<arn:aws:gamelift:E<lt>locationE<gt>::gamesession/E<lt>fleet
 IDE<gt>/E<lt>custom ID string or idempotency tokenE<gt>>.
 
 
 =head2 IpAddress => Str
 
-The IP address of the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number.
+The IP address of the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number.
 
 
 =head2 Location => Str
 
 The fleet location where the game session is running. This value might
 specify the fleet's home Region or a remote location. Location is
-expressed as an AWS Region code such as C<us-west-2>.
+expressed as an Amazon Web Services Region code such as C<us-west-2>.
 
 
 =head2 MatchmakerData => Str
 
-Information about the matchmaking process that was used to create the
-game session. It is in JSON syntax, formatted as a string. In addition
-the matchmaking configuration used, it contains data on all players
-assigned to the match, including player attributes and team
-assignments. For more details on matchmaker data, see Match Data
+Information about the matchmaking process that resulted in the game
+session, if matchmaking was used. Data is in JSON syntax, formatted as
+a string. Information includes the matchmaker ID as well as player
+attributes and team assignments. For more details on matchmaker data,
+see Match Data
 (https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).
-Matchmaker data is useful when requesting match backfills, and is
-updated whenever new players are added during a successful backfill
-(see StartMatchBackfill).
+Matchmaker data is updated whenever new players are added during a
+successful backfill (see StartMatchBackfill
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartMatchBackfill.html)).
 
 
 =head2 MaximumPlayerSessionCount => Int
@@ -192,13 +186,13 @@ names do not need to be unique.
 
 =head2 PlayerSessionCreationPolicy => Str
 
-Indicates whether or not the game session is accepting new players.
+Indicates whether the game session is accepting new players.
 
 
 =head2 Port => Int
 
-The port number for the game session. To connect to a GameLift game
-server, an app needs both the IP address and port number.
+The port number for the game session. To connect to a Amazon GameLift
+game server, an app needs both the IP address and port number.
 
 
 =head2 Status => Str
@@ -210,9 +204,27 @@ C<ACTIVE> status to have player sessions.
 =head2 StatusReason => Str
 
 Provides additional information about game session status.
-C<INTERRUPTED> indicates that the game session was hosted on a spot
-instance that was reclaimed, causing the active game session to be
-terminated.
+
+=over
+
+=item *
+
+C<INTERRUPTED> -- The game session was hosted on an EC2 Spot instance
+that was reclaimed, causing the active game session to be stopped.
+
+=item *
+
+C<TRIGGERED_ON_PROCESS_TERMINATE> E<ndash> The game session was stopped
+by calling C<TerminateGameSession> with the termination mode
+C<TRIGGER_ON_PROCESS_TERMINATE>.
+
+=item *
+
+C<FORCE_TERMINATED> E<ndash> The game session was stopped by calling
+C<TerminateGameSession> with the termination mode C<FORCE_TERMINATE>.
+
+=back
+
 
 
 =head2 TerminationTime => Str

@@ -35,40 +35,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # Example: Create service
+    # Example: Create service
     my $CreateServiceResponse = $servicediscovery->CreateService(
-      Name             => 'MyServiceName',
-      CreatorRequestId => 'MyResourceId',             # OPTIONAL
-      Description      => 'MyResourceDescription',    # OPTIONAL
-      DnsConfig        => {
-        DnsRecords => [
+      'CreatorRequestId' => '567c1193-6b00-4308-bd57-ad38a8822d25',
+      'DnsConfig'        => {
+        'DnsRecords' => [
+
           {
-            TTL  => 1,        # max: 2147483647
-            Type => 'SRV',    # values: SRV, A, AAAA, CNAME
-
-          },
-          ...
+            'TTL'  => 60,
+            'Type' => 'A'
+          }
         ],
-        NamespaceId   => 'MyResourceId',    # max: 64
-        RoutingPolicy => 'MULTIVALUE',  # values: MULTIVALUE, WEIGHTED; OPTIONAL
-      },    # OPTIONAL
-      HealthCheckConfig => {
-        Type             => 'HTTP',              # values: HTTP, HTTPS, TCP
-        FailureThreshold => 1,                   # min: 1, max: 10; OPTIONAL
-        ResourcePath     => 'MyResourcePath',    # max: 255; OPTIONAL
-      },    # OPTIONAL
-      HealthCheckCustomConfig => {
-        FailureThreshold => 1,    # min: 1, max: 10; OPTIONAL
-      },    # OPTIONAL
-      NamespaceId => 'MyResourceId',    # OPTIONAL
-      Tags        => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
-
-        },
-        ...
-      ],    # OPTIONAL
-      Type => 'HTTP',    # OPTIONAL
+        'NamespaceId'   => 'ns-ylexjili4cdxy3xm',
+        'RoutingPolicy' => 'MULTIVALUE'
+      },
+      'Name'        => 'myservice',
+      'NamespaceId' => 'ns-ylexjili4cdxy3xm'
     );
 
     # Results:
@@ -136,6 +119,9 @@ configuration from an existing service.
 =head2 B<REQUIRED> Name => Str
 
 The name that you want to assign to the service.
+
+Do not include sensitive information in the name if the namespace is
+discoverable by public DNS queries.
 
 If you want Cloud Map to create an C<SRV> record when you register an
 instance and you're using a system that requires a specific C<SRV>

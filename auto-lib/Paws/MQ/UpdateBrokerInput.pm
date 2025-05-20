@@ -4,10 +4,12 @@ package Paws::MQ::UpdateBrokerInput;
   has AuthenticationStrategy => (is => 'ro', isa => 'Str', request_name => 'authenticationStrategy', traits => ['NameInRequest']);
   has AutoMinorVersionUpgrade => (is => 'ro', isa => 'Bool', request_name => 'autoMinorVersionUpgrade', traits => ['NameInRequest']);
   has Configuration => (is => 'ro', isa => 'Paws::MQ::ConfigurationId', request_name => 'configuration', traits => ['NameInRequest']);
+  has DataReplicationMode => (is => 'ro', isa => 'Str', request_name => 'dataReplicationMode', traits => ['NameInRequest']);
   has EngineVersion => (is => 'ro', isa => 'Str', request_name => 'engineVersion', traits => ['NameInRequest']);
   has HostInstanceType => (is => 'ro', isa => 'Str', request_name => 'hostInstanceType', traits => ['NameInRequest']);
   has LdapServerMetadata => (is => 'ro', isa => 'Paws::MQ::LdapServerMetadataInput', request_name => 'ldapServerMetadata', traits => ['NameInRequest']);
   has Logs => (is => 'ro', isa => 'Paws::MQ::Logs', request_name => 'logs', traits => ['NameInRequest']);
+  has MaintenanceWindowStartTime => (is => 'ro', isa => 'Paws::MQ::WeeklyStartTime', request_name => 'maintenanceWindowStartTime', traits => ['NameInRequest']);
   has SecurityGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'securityGroups', traits => ['NameInRequest']);
 
 1;
@@ -47,14 +49,19 @@ Updates the broker using the specified properties.
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy used to secure the broker.
+Optional. The authentication strategy used to secure the broker. The
+default is SIMPLE.
 
 
 =head2 AutoMinorVersionUpgrade => Bool
 
-Enables automatic upgrades to new minor versions for brokers, as Apache
-releases the versions. The automatic upgrades occur during the
-maintenance window of the broker or after a manual broker reboot.
+Enables automatic upgrades to new patch versions for brokers as new
+versions are released and supported by Amazon MQ. Automatic upgrades
+occur during the scheduled maintenance window or after a manual broker
+reboot.
+
+Must be set to true for ActiveMQ brokers version 5.18 and above and for
+RabbitMQ brokers version 3.13 and above.
 
 
 =head2 Configuration => L<Paws::MQ::ConfigurationId>
@@ -62,29 +69,47 @@ maintenance window of the broker or after a manual broker reboot.
 A list of information about the configuration.
 
 
+=head2 DataReplicationMode => Str
+
+Defines whether this broker is a part of a data replication pair.
+
+
 =head2 EngineVersion => Str
 
-The version of the broker engine. For a list of supported engine
-versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+The broker engine version. For more information, see the ActiveMQ
+version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+and the RabbitMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+sections in the Amazon MQ Developer Guide.
+
+When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version
+3.13 and above, you must have autoMinorVersionUpgrade set to true for
+the broker.
 
 
 =head2 HostInstanceType => Str
 
-The host instance type of the broker to upgrade to. For a list of
-supported instance types, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
+The broker's host instance type to upgrade to. For a list of supported
+instance types, see Broker instance types
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types).
 
 
 =head2 LdapServerMetadata => L<Paws::MQ::LdapServerMetadataInput>
 
-The metadata of the LDAP server used to authenticate and authorize
-connections to the broker.
+Optional. The metadata of the LDAP server used to authenticate and
+authorize connections to the broker. Does not apply to RabbitMQ
+brokers.
 
 
 =head2 Logs => L<Paws::MQ::Logs>
 
 Enables Amazon CloudWatch logging for brokers.
+
+
+=head2 MaintenanceWindowStartTime => L<Paws::MQ::WeeklyStartTime>
+
+The parameters that determine the WeeklyStartTime.
 
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]

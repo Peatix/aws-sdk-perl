@@ -4,8 +4,13 @@ package Paws::GuardDuty::Action;
   has ActionType => (is => 'ro', isa => 'Str', request_name => 'actionType', traits => ['NameInRequest']);
   has AwsApiCallAction => (is => 'ro', isa => 'Paws::GuardDuty::AwsApiCallAction', request_name => 'awsApiCallAction', traits => ['NameInRequest']);
   has DnsRequestAction => (is => 'ro', isa => 'Paws::GuardDuty::DnsRequestAction', request_name => 'dnsRequestAction', traits => ['NameInRequest']);
+  has KubernetesApiCallAction => (is => 'ro', isa => 'Paws::GuardDuty::KubernetesApiCallAction', request_name => 'kubernetesApiCallAction', traits => ['NameInRequest']);
+  has KubernetesPermissionCheckedDetails => (is => 'ro', isa => 'Paws::GuardDuty::KubernetesPermissionCheckedDetails', request_name => 'kubernetesPermissionCheckedDetails', traits => ['NameInRequest']);
+  has KubernetesRoleBindingDetails => (is => 'ro', isa => 'Paws::GuardDuty::KubernetesRoleBindingDetails', request_name => 'kubernetesRoleBindingDetails', traits => ['NameInRequest']);
+  has KubernetesRoleDetails => (is => 'ro', isa => 'Paws::GuardDuty::KubernetesRoleDetails', request_name => 'kubernetesRoleDetails', traits => ['NameInRequest']);
   has NetworkConnectionAction => (is => 'ro', isa => 'Paws::GuardDuty::NetworkConnectionAction', request_name => 'networkConnectionAction', traits => ['NameInRequest']);
   has PortProbeAction => (is => 'ro', isa => 'Paws::GuardDuty::PortProbeAction', request_name => 'portProbeAction', traits => ['NameInRequest']);
+  has RdsLoginAttemptAction => (is => 'ro', isa => 'Paws::GuardDuty::RdsLoginAttemptAction', request_name => 'rdsLoginAttemptAction', traits => ['NameInRequest']);
 
 1;
 
@@ -26,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GuardDuty::Action object:
 
-  $service_obj->Method(Att1 => { ActionType => $value, ..., PortProbeAction => $value  });
+  $service_obj->Method(Att1 => { ActionType => $value, ..., RdsLoginAttemptAction => $value  });
 
 =head3 Results returned from an API call
 
@@ -57,6 +62,29 @@ Information about the AWS_API_CALL action described in this finding.
 Information about the DNS_REQUEST action described in this finding.
 
 
+=head2 KubernetesApiCallAction => L<Paws::GuardDuty::KubernetesApiCallAction>
+
+Information about the Kubernetes API call action described in this
+finding.
+
+
+=head2 KubernetesPermissionCheckedDetails => L<Paws::GuardDuty::KubernetesPermissionCheckedDetails>
+
+Information whether the user has the permission to use a specific
+Kubernetes API.
+
+
+=head2 KubernetesRoleBindingDetails => L<Paws::GuardDuty::KubernetesRoleBindingDetails>
+
+Information about the role binding that grants the permission defined
+in a Kubernetes role.
+
+
+=head2 KubernetesRoleDetails => L<Paws::GuardDuty::KubernetesRoleDetails>
+
+Information about the Kubernetes role name and role type.
+
+
 =head2 NetworkConnectionAction => L<Paws::GuardDuty::NetworkConnectionAction>
 
 Information about the NETWORK_CONNECTION action described in this
@@ -66,6 +94,12 @@ finding.
 =head2 PortProbeAction => L<Paws::GuardDuty::PortProbeAction>
 
 Information about the PORT_PROBE action described in this finding.
+
+
+=head2 RdsLoginAttemptAction => L<Paws::GuardDuty::RdsLoginAttemptAction>
+
+Information about C<RDS_LOGIN_ATTEMPT> action described in this
+finding.
 
 
 

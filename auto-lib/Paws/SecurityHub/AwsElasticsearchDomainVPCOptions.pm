@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Information that Amazon ES derives based on C<VPCOptions> for the
+Information that OpenSearch derives based on C<VPCOptions> for the
 domain.
 
 =head1 ATTRIBUTES

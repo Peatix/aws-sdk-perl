@@ -49,6 +49,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo
 The Amazon Resource Name (ARN) of the resource whose tags you want to
 retrieve.
 
+=over
+
+=item *
+
+Format example:
+C<arn:aws:geo:region:account-id:resourcetype/ExampleResource>
+
+=back
+
+
 
 
 

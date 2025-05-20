@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Provid
 
 =head1 DESCRIPTION
 
-Identifies the AWS Key Management Service (AWS KMS) key used to encrypt
-the secrets.
+Identifies the Key Management Service (KMS) key used to encrypt the
+secrets.
 
 =head1 ATTRIBUTES
 
@@ -42,12 +42,14 @@ the secrets.
 =head2 KeyArn => Str
 
 Amazon Resource Name (ARN) or alias of the KMS key. The KMS key must be
-symmetric, created in the same region as the cluster, and if the KMS
-key was created in a different account, the user must have access to
-the KMS key. For more information, see Allowing Users in Other Accounts
-to Use a KMS key
+symmetric and created in the same Amazon Web Services Region as the
+cluster. If the KMS key was created in a different account, the IAM
+principal
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html)
+must have access to the KMS key. For more information, see Allowing
+users in other accounts to use a KMS key
 (https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-modifying-external-accounts.html)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 

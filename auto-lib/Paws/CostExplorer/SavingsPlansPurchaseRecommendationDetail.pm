@@ -15,6 +15,7 @@ package Paws::CostExplorer::SavingsPlansPurchaseRecommendationDetail;
   has EstimatedSavingsPercentage => (is => 'ro', isa => 'Str');
   has EstimatedSPCost => (is => 'ro', isa => 'Str');
   has HourlyCommitmentToPurchase => (is => 'ro', isa => 'Str');
+  has RecommendationDetailId => (is => 'ro', isa => 'Str');
   has SavingsPlansDetails => (is => 'ro', isa => 'Paws::CostExplorer::SavingsPlansDetails');
   has UpfrontCost => (is => 'ro', isa => 'Str');
 
@@ -60,8 +61,8 @@ The C<AccountID> the recommendation is generated for.
 
 =head2 CurrencyCode => Str
 
-The currency code AWS used to generate the recommendations and present
-potential savings.
+The currency code that Amazon Web Services used to generate the
+recommendations and present potential savings.
 
 
 =head2 CurrentAverageHourlyOnDemandSpend => Str
@@ -89,7 +90,7 @@ The estimated utilization of the recommended Savings Plans.
 
 =head2 EstimatedMonthlySavingsAmount => Str
 
-The estimated monthly savings amount, based on the recommended Savings
+The estimated monthly savings amount based on the recommended Savings
 Plans.
 
 
@@ -101,22 +102,22 @@ recommended Savings Plans, over the length of the lookback period.
 
 =head2 EstimatedOnDemandCostWithCurrentCommitment => Str
 
-The estimated On-Demand costs you would expect with no additional
-commitment, based on your usage of the selected time period and the
-Savings Plans you own.
+The estimated On-Demand costs you expect with no additional commitment,
+based on your usage of the selected time period and the Savings Plans
+you own.
 
 
 =head2 EstimatedROI => Str
 
-The estimated return on investment based on the recommended Savings
-Plans purchased. This is calculated as C<estimatedSavingsAmount>/
-C<estimatedSPCost>*100.
+The estimated return on investment that's based on the recommended
+Savings Plans that you purchased. This is calculated as
+C<estimatedSavingsAmount>/ C<estimatedSPCost>*100.
 
 
 =head2 EstimatedSavingsAmount => Str
 
-The estimated savings amount based on the recommended Savings Plans
-over the length of the lookback period.
+The estimated savings amount that's based on the recommended Savings
+Plans over the length of the lookback period.
 
 
 =head2 EstimatedSavingsPercentage => Str
@@ -133,8 +134,14 @@ lookback period.
 
 =head2 HourlyCommitmentToPurchase => Str
 
-The recommended hourly commitment level for the Savings Plans type, and
-configuration based on the usage during the lookback period.
+The recommended hourly commitment level for the Savings Plans type and
+the configuration that's based on the usage during the lookback period.
+
+
+=head2 RecommendationDetailId => Str
+
+Contains detailed information about a specific Savings Plan
+recommendation.
 
 
 =head2 SavingsPlansDetails => L<Paws::CostExplorer::SavingsPlansDetails>

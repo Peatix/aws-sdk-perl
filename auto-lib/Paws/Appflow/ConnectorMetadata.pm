@@ -10,9 +10,11 @@ package Paws::Appflow::ConnectorMetadata;
   has Honeycode => (is => 'ro', isa => 'Paws::Appflow::HoneycodeMetadata');
   has InforNexus => (is => 'ro', isa => 'Paws::Appflow::InforNexusMetadata');
   has Marketo => (is => 'ro', isa => 'Paws::Appflow::MarketoMetadata');
+  has Pardot => (is => 'ro', isa => 'Paws::Appflow::PardotMetadata');
   has Redshift => (is => 'ro', isa => 'Paws::Appflow::RedshiftMetadata');
   has S3 => (is => 'ro', isa => 'Paws::Appflow::S3Metadata');
   has Salesforce => (is => 'ro', isa => 'Paws::Appflow::SalesforceMetadata');
+  has SAPOData => (is => 'ro', isa => 'Paws::Appflow::SAPODataMetadata');
   has ServiceNow => (is => 'ro', isa => 'Paws::Appflow::ServiceNowMetadata');
   has Singular => (is => 'ro', isa => 'Paws::Appflow::SingularMetadata');
   has Slack => (is => 'ro', isa => 'Paws::Appflow::SlackMetadata');
@@ -104,6 +106,11 @@ The connector metadata specific to Infor Nexus.
 The connector metadata specific to Marketo.
 
 
+=head2 Pardot => L<Paws::Appflow::PardotMetadata>
+
+The connector metadata specific to Salesforce Pardot.
+
+
 =head2 Redshift => L<Paws::Appflow::RedshiftMetadata>
 
 The connector metadata specific to Amazon Redshift.
@@ -117,6 +124,11 @@ The connector metadata specific to Amazon S3.
 =head2 Salesforce => L<Paws::Appflow::SalesforceMetadata>
 
 The connector metadata specific to Salesforce.
+
+
+=head2 SAPOData => L<Paws::Appflow::SAPODataMetadata>
+
+
 
 
 =head2 ServiceNow => L<Paws::Appflow::ServiceNowMetadata>

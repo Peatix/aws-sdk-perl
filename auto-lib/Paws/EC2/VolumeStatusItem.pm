@@ -3,6 +3,7 @@ package Paws::EC2::VolumeStatusItem;
   has Actions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VolumeStatusAction]', request_name => 'actionsSet', traits => ['NameInRequest']);
   has AttachmentStatuses => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VolumeStatusAttachmentStatus]', request_name => 'attachmentStatuses', traits => ['NameInRequest']);
   has AvailabilityZone => (is => 'ro', isa => 'Str', request_name => 'availabilityZone', traits => ['NameInRequest']);
+  has AvailabilityZoneId => (is => 'ro', isa => 'Str', request_name => 'availabilityZoneId', traits => ['NameInRequest']);
   has Events => (is => 'ro', isa => 'ArrayRef[Paws::EC2::VolumeStatusEvent]', request_name => 'eventsSet', traits => ['NameInRequest']);
   has OutpostArn => (is => 'ro', isa => 'Str', request_name => 'outpostArn', traits => ['NameInRequest']);
   has VolumeId => (is => 'ro', isa => 'Str', request_name => 'volumeId', traits => ['NameInRequest']);
@@ -55,6 +56,11 @@ Information about the instances to which the volume is attached.
 =head2 AvailabilityZone => Str
 
 The Availability Zone of the volume.
+
+
+=head2 AvailabilityZoneId => Str
+
+The ID of the Availability Zone.
 
 
 =head2 Events => ArrayRef[L<Paws::EC2::VolumeStatusEvent>]

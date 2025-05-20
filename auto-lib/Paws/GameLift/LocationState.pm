@@ -40,17 +40,51 @@ Life-cycle state tracks the progress of launching the first instance in
 a new location and preparing it for game hosting, and then removing all
 instances and deleting the location from the fleet.
 
-B<Related actions>
+=over
 
-CreateFleet | CreateFleetLocations | DeleteFleetLocations
+=item *
+
+B<NEW> -- A new fleet location has been defined and desired instances
+is set to 1.
+
+=item *
+
+B<DOWNLOADING/VALIDATING/BUILDING/ACTIVATING> -- Amazon GameLift is
+setting up the new fleet location, creating new instances with the game
+build or Realtime script and starting server processes.
+
+=item *
+
+B<ACTIVE> -- Hosts can now accept game sessions.
+
+=item *
+
+B<ERROR> -- An error occurred when downloading, validating, building,
+or activating the fleet location.
+
+=item *
+
+B<DELETING> -- Hosts are responding to a delete fleet location request.
+
+=item *
+
+B<TERMINATED> -- The fleet location no longer exists.
+
+=item *
+
+B<NOT_FOUND> -- The fleet location was not found. This could be because
+the custom location was removed or not created.
+
+=back
+
 
 =head1 ATTRIBUTES
 
 
 =head2 Location => Str
 
-The fleet location, expressed as an AWS Region code such as
-C<us-west-2>.
+The fleet location, expressed as an Amazon Web Services Region code
+such as C<us-west-2>.
 
 
 =head2 Status => Str

@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $GetMailboxDetailsResponse = $workmail->GetMailboxDetails(
       OrganizationId => 'MyOrganizationId',
-      UserId         => 'MyWorkMailIdentifier',
+      UserId         => 'MyEntityIdentifier',
 
     );
 
@@ -56,6 +56,27 @@ mailbox details are being requested.
 =head2 B<REQUIRED> UserId => Str
 
 The identifier for the user whose mailbox details are being requested.
+
+The identifier can be the I<UserId>, I<Username>, or I<email>. The
+following identity formats are available:
+
+=over
+
+=item *
+
+User ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: user@domain.tld
+
+=item *
+
+User name: user
+
+=back
+
 
 
 

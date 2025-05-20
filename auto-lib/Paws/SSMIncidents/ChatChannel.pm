@@ -34,16 +34,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-The AWS Chatbot chat channel used for collaboration during an incident.
+The Chatbot chat channel used for collaboration during an incident.
 
 =head1 ATTRIBUTES
 
 
 =head2 ChatbotSns => ArrayRef[Str|Undef]
 
-The SNS targets that AWS Chatbot uses to notify the chat channel of
+The Amazon SNS targets that Chatbot uses to notify the chat channel of
 updates to an incident. You can also make updates to the incident
-through the chat channel by using the SNS topics.
+through the chat channel by using the Amazon SNS topics.
 
 
 =head2 Empty => L<Paws::SSMIncidents::EmptyChatChannel>

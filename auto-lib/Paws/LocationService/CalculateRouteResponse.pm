@@ -21,12 +21,12 @@ Paws::LocationService::CalculateRouteResponse
 Contains details about each path between a pair of positions included
 along a route such as: C<StartPosition>, C<EndPosition>, C<Distance>,
 C<DurationSeconds>, C<Geometry>, and C<Steps>. The number of legs
-returned corresponds to one less than the total number of positions in
+returned corresponds to one fewer than the total number of positions in
 the request.
 
 For example, a route with a departure position and destination position
 returns one leg with the positions snapped to a nearby road
-(https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road):
+(https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html):
 
 =over
 
@@ -41,7 +41,7 @@ The C<EndPosition> is the destination position.
 =back
 
 A route with a waypoint between the departure and destination position
-returns two legs with the positions snapped to a nearby road.:
+returns two legs with the positions snapped to a nearby road:
 
 =over
 
@@ -62,7 +62,7 @@ C<EndPosition> is the destination position.
 =head2 B<REQUIRED> Summary => L<Paws::LocationService::CalculateRouteSummary>
 
 Contains information about the whole route, such as: C<RouteBBox>,
-C<DataSource>, C<Distance>, C<DistanceUnit>, and C<DurationSeconds>
+C<DataSource>, C<Distance>, C<DistanceUnit>, and C<DurationSeconds>.
 
 
 =head2 _request_id => Str

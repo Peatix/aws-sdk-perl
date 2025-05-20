@@ -16,8 +16,8 @@ Paws::Rekognition::StartContentModerationResponse
 
 =head2 JobId => Str
 
-The identifier for the unsafe content analysis job. Use C<JobId> to
-identify the job in a subsequent call to C<GetContentModeration>.
+The identifier for the content analysis job. Use C<JobId> to identify
+the job in a subsequent call to C<GetContentModeration>.
 
 
 =head2 _request_id => Str

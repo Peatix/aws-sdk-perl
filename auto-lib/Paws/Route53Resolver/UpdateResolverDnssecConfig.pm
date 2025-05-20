@@ -60,7 +60,7 @@ The new value that you are specifying for DNSSEC validation for the
 VPC. The value can be C<ENABLE> or C<DISABLE>. Be aware that it can
 take time for a validation status change to be completed.
 
-Valid values are: C<"ENABLE">, C<"DISABLE">
+Valid values are: C<"ENABLE">, C<"DISABLE">, C<"USE_LOCAL_RESOURCE_SETTING">
 
 
 =head1 SEE ALSO

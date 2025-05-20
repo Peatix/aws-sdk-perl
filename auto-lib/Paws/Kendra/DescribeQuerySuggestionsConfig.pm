@@ -34,6 +34,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $AttributeSuggestionsConfig =
+      $DescribeQuerySuggestionsConfigResponse->AttributeSuggestionsConfig;
     my $IncludeQueriesWithoutUserInformation =
       $DescribeQuerySuggestionsConfigResponse
       ->IncludeQueriesWithoutUserInformation;
@@ -61,8 +63,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> IndexId => Str
 
-The identifier of the index you want to describe query suggestions
-settings for.
+The identifier of the index with query suggestions that you want to get
+information on.
 
 
 

@@ -5,6 +5,7 @@ package Paws::IoT::CreateSecurityProfile;
   has AdditionalMetricsToRetainV2 => (is => 'ro', isa => 'ArrayRef[Paws::IoT::MetricToRetain]', traits => ['NameInRequest'], request_name => 'additionalMetricsToRetainV2');
   has AlertTargets => (is => 'ro', isa => 'Paws::IoT::AlertTargets', traits => ['NameInRequest'], request_name => 'alertTargets');
   has Behaviors => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Behavior]', traits => ['NameInRequest'], request_name => 'behaviors');
+  has MetricsExportConfig => (is => 'ro', isa => 'Paws::IoT::MetricsExportConfig', traits => ['NameInRequest'], request_name => 'metricsExportConfig');
   has SecurityProfileDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'securityProfileDescription');
   has SecurityProfileName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'securityProfileName', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoT::Tag]', traits => ['NameInRequest'], request_name => 'tags');
@@ -40,6 +41,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AdditionalMetricsToRetainV2 => [
         {
           Metric          => 'MyBehaviorMetric',
+          ExportMetric    => 1,                                      # OPTIONAL
           MetricDimension => {
             DimensionName => 'MyDimensionName',   # min: 1, max: 128
             Operator      => 'IN',                # values: IN, NOT_IN; OPTIONAL
@@ -85,6 +87,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Strings => [ 'MystringValue', ... ],    # OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
+          ExportMetric    => 1,                    # OPTIONAL
           Metric          => 'MyBehaviorMetric',
           MetricDimension => {
             DimensionName => 'MyDimensionName',   # min: 1, max: 128
@@ -94,11 +97,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      MetricsExportConfig => {
+        MqttTopic => 'MyMqttTopic',    # min: 1, max: 512
+        RoleArn   => 'MyRoleArn',      # min: 20, max: 2048
+
+      },    # OPTIONAL
       SecurityProfileDescription => 'MySecurityProfileDescription',   # OPTIONAL
       Tags                       => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256; OPTIONAL
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -150,6 +158,12 @@ violates a behavior.
 
 Specifies the behaviors that, when violated by a device (thing), cause
 an alert.
+
+
+
+=head2 MetricsExportConfig => L<Paws::IoT::MetricsExportConfig>
+
+Specifies the MQTT topic and role ARN required for metric export.
 
 
 

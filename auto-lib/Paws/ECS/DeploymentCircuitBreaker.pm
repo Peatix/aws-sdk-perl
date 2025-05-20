@@ -35,16 +35,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Deploy
 =head1 DESCRIPTION
 
 The deployment circuit breaker can only be used for services using the
-rolling update (C<ECS>) deployment type that are not behind a Classic
-Load Balancer.
+rolling update (C<ECS>) deployment type.
 
 The B<deployment circuit breaker> determines whether a service
-deployment will fail if the service can't reach a steady state. If
-enabled, a service deployment will transition to a failed state and
-stop launching new tasks. You can also enable Amazon ECS to roll back
-your service to the last completed deployment after a failure. For more
-information, see Rolling update
+deployment will fail if the service can't reach a steady state. If it
+is turned on, a service deployment will transition to a failed state
+and stop launching new tasks. You can also configure Amazon ECS to roll
+back your service to the last completed deployment after a failure. For
+more information, see Rolling update
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
+
+For more information about API failure reasons, see API failure reasons
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head1 ATTRIBUTES
@@ -52,15 +55,16 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head2 B<REQUIRED> Enable => Bool
 
-Whether to enable the deployment circuit breaker logic for the service.
+Determines whether to use the deployment circuit breaker logic for the
+service.
 
 
 =head2 B<REQUIRED> Rollback => Bool
 
-Whether to enable Amazon ECS to roll back the service if a service
-deployment fails. If rollback is enabled, when a service deployment
-fails, the service is rolled back to the last deployment that completed
-successfully.
+Determines whether to configure Amazon ECS to roll back the service if
+a service deployment fails. If rollback is on, when a service
+deployment fails, the service is rolled back to the last deployment
+that completed successfully.
 
 
 

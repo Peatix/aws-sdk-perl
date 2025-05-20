@@ -77,22 +77,22 @@ Status of the last report generation attempt.
 
 =head2 LicenseManagerReportGeneratorArn => Str
 
-Amazon Resource Number (ARN) of the report generator.
+Amazon Resource Name (ARN) of the report generator.
 
 
 =head2 ReportContext => L<Paws::LicenseManager::ReportContext>
 
-License configuration type this generator reports on.
+License configuration type for this generator.
 
 
 =head2 ReportCreatorAccount => Str
 
-The AWS account ID used to create the report generator.
+The Amazon Web Services account ID used to create the report generator.
 
 
 =head2 ReportFrequency => L<Paws::LicenseManager::ReportFrequency>
 
-Details on how frequently reports are generated.
+Details about how frequently reports are generated.
 
 
 =head2 ReportGeneratorName => Str

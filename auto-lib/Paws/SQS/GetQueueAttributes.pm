@@ -8,7 +8,7 @@ package Paws::SQS::GetQueueAttributes;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'GetQueueAttributes');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::SQS::GetQueueAttributesResult');
-  class_has _result_key => (isa => 'Str', is => 'ro', default => 'GetQueueAttributesResult');
+  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -31,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetQueueAttributesResult = $sqs->GetQueueAttributes(
       QueueUrl       => 'MyString',
       AttributeNames => [
-        'SenderId',
-        ... # values: SenderId, SentTimestamp, ApproximateReceiveCount, ApproximateFirstReceiveTimestamp
+        'All',
+        ... # values: All, Policy, VisibilityTimeout, MaximumMessageSize, MessageRetentionPeriod, ApproximateNumberOfMessages, ApproximateNumberOfMessagesNotVisible, CreatedTimestamp, LastModifiedTimestamp, QueueArn, ApproximateNumberOfMessagesDelayed, DelaySeconds, ReceiveMessageWaitTimeSeconds, RedrivePolicy, FifoQueue, ContentBasedDeduplication, KmsMasterKeyId, KmsDataKeyReusePeriodSeconds, DeduplicationScope, FifoThroughputLimit, RedriveAllowPolicy, SqsManagedSseEnabled
       ],    # OPTIONAL
     );
 
@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sqs
 
 A list of attributes for which to retrieve information.
 
-The C<AttributeName.N> parameter is optional, but if you don't specify
+The C<AttributeNames> parameter is optional, but if you don't specify
 values for this parameter, the request returns empty results.
 
 In the future, new attributes might be added. If you write code that
@@ -62,10 +62,10 @@ The following attributes are supported:
 
 The C<ApproximateNumberOfMessagesDelayed>,
 C<ApproximateNumberOfMessagesNotVisible>, and
-C<ApproximateNumberOfMessagesVisible> metrics may not achieve
-consistency until at least 1 minute after the producers stop sending
-messages. This period is required for the queue metadata to reach
-eventual consistency.
+C<ApproximateNumberOfMessages> metrics may not achieve consistency
+until at least 1 minute after the producers stop sending messages. This
+period is required for the queue metadata to reach eventual
+consistency.
 
 =over
 
@@ -118,7 +118,13 @@ message can contain before Amazon SQS rejects it.
 =item *
 
 C<MessageRetentionPeriod> E<ndash> Returns the length of time, in
-seconds, for which Amazon SQS retains a message.
+seconds, for which Amazon SQS retains a message. When you change a
+queue's attributes, the change can take up to 60 seconds for most of
+the attributes to propagate throughout the Amazon SQS system. Changes
+made to the C<MessageRetentionPeriod> attribute can take up to 15
+minutes and will impact existing messages in the queue potentially
+causing them to be expired and deleted if the C<MessageRetentionPeriod>
+is reduced below the age of existing messages.
 
 =item *
 
@@ -137,12 +143,24 @@ to arrive.
 
 =item *
 
+C<VisibilityTimeout> E<ndash> Returns the visibility timeout for the
+queue. For more information about the visibility timeout, see
+Visibility Timeout
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
+in the I<Amazon SQS Developer Guide>.
+
+=back
+
+The following attributes apply only to dead-letter queues:
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+
+=over
+
+=item *
+
 C<RedrivePolicy> E<ndash> The string that includes the parameters for
 the dead-letter queue functionality of the source queue as a JSON
-object. For more information about the redrive policy and dead-letter
-queues, see Using Amazon SQS Dead-Letter Queues
-(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
-in the I<Amazon SQS Developer Guide>.
+object. The parameters are as follows:
 
 =over
 
@@ -155,21 +173,65 @@ C<maxReceiveCount> is exceeded.
 =item *
 
 C<maxReceiveCount> E<ndash> The number of times a message is delivered
-to the source queue before being moved to the dead-letter queue. When
-the C<ReceiveCount> for a message exceeds the C<maxReceiveCount> for a
-queue, Amazon SQS moves the message to the dead-letter-queue.
+to the source queue before being moved to the dead-letter queue.
+Default: 10. When the C<ReceiveCount> for a message exceeds the
+C<maxReceiveCount> for a queue, Amazon SQS moves the message to the
+dead-letter-queue.
 
 =back
 
 =item *
 
-C<VisibilityTimeout> E<ndash> Returns the visibility timeout for the
-queue. For more information about the visibility timeout, see
-Visibility Timeout
-(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html)
-in the I<Amazon SQS Developer Guide>.
+C<RedriveAllowPolicy> E<ndash> The string that includes the parameters
+for the permissions for the dead-letter queue redrive permission and
+which source queues can specify dead-letter queues as a JSON object.
+The parameters are as follows:
+
+=over
+
+=item *
+
+C<redrivePermission> E<ndash> The permission type that defines which
+source queues can specify the current queue as the dead-letter queue.
+Valid values are:
+
+=over
+
+=item *
+
+C<allowAll> E<ndash> (Default) Any source queues in this Amazon Web
+Services account in the same Region can specify this queue as the
+dead-letter queue.
+
+=item *
+
+C<denyAll> E<ndash> No source queues can specify this queue as the
+dead-letter queue.
+
+=item *
+
+C<byQueue> E<ndash> Only queues specified by the C<sourceQueueArns>
+parameter can specify this queue as the dead-letter queue.
 
 =back
+
+=item *
+
+C<sourceQueueArns> E<ndash> The Amazon Resource Names (ARN)s of the
+source queues that can specify this queue as the dead-letter queue and
+redrive messages. You can specify this parameter only when the
+C<redrivePermission> parameter is set to C<byQueue>. You can specify up
+to 10 source queue ARNs. To allow more than 10 source queues to specify
+dead-letter queues, set the C<redrivePermission> parameter to
+C<allowAll>.
+
+=back
+
+=back
+
+The dead-letter queue of a FIFO queue must also be a FIFO queue.
+Similarly, the dead-letter queue of a standard queue must also be a
+standard queue.
 
 The following attributes apply only to server-side-encryption
 (https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html):
@@ -190,6 +252,16 @@ seconds, for which Amazon SQS can reuse a data key to encrypt or
 decrypt messages before calling KMS again. For more information, see
 How Does the Data Key Reuse Period Work?
 (https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-server-side-encryption.html#sqs-how-does-the-data-key-reuse-period-work).
+
+=item *
+
+C<SqsManagedSseEnabled> E<ndash> Returns information about whether the
+queue is using SSE-SQS encryption using SQS owned encryption keys. Only
+one server-side encryption option is supported per queue (for example,
+SSE-KMS
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sse-existing-queue.html)
+or SSE-SQS
+(https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-sqs-sse-queue.html)).
 
 =back
 

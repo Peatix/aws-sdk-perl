@@ -56,13 +56,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 Optional additional filter for the rules to retrieve.
 
 The action that DNS Firewall should take on a DNS query when it matches
-one of the domains in the rule's domain list:
+one of the domains in the rule's domain list, or a threat in a DNS
+Firewall Advanced rule:
 
 =over
 
 =item *
 
-C<ALLOW> - Permit the request to go through.
+C<ALLOW> - Permit the request to go through. Not availabe for DNS
+Firewall Advanced rules.
 
 =item *
 

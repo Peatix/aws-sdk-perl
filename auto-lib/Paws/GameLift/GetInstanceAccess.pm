@@ -48,17 +48,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 =head2 B<REQUIRED> FleetId => Str
 
 A unique identifier for the fleet that contains the instance you want
-access to. You can use either the fleet ID or ARN value. The fleet can
-be in any of the following statuses: C<ACTIVATING>, C<ACTIVE>, or
-C<ERROR>. Fleets with an C<ERROR> status may be accessible for a short
-time before they are deleted.
+to access. You can request access to instances in EC2 fleets with the
+following statuses: C<ACTIVATING>, C<ACTIVE>, or C<ERROR>. Use either a
+fleet ID or an ARN value.
+
+You can access fleets in C<ERROR> status for a short period of time
+before Amazon GameLift deletes them.
 
 
 
 =head2 B<REQUIRED> InstanceId => Str
 
-A unique identifier for the instance you want to get access to. You can
-access an instance in any status.
+A unique identifier for the instance you want to access. You can access
+an instance in any status.
 
 
 

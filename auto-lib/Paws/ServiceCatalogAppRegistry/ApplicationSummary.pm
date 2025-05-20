@@ -38,7 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ServiceCata
 
 =head1 DESCRIPTION
 
-Summary of a Service Catalog AppRegistry application.
+Summary of a Amazon Web Services Service Catalog AppRegistry
+application.
 
 =head1 ATTRIBUTES
 

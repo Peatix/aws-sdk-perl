@@ -17,7 +17,7 @@ Paws::FMS::PutProtocolsListResponse
 
 =head2 ProtocolsList => L<Paws::FMS::ProtocolsListData>
 
-The details of the AWS Firewall Manager protocols list.
+The details of the Firewall Manager protocols list.
 
 
 =head2 ProtocolsListArn => Str

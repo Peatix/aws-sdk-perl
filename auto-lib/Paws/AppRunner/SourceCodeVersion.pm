@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppRunner::
 
 =head1 DESCRIPTION
 
-Identifies a version of code that AWS App Runner refers to within a
-source code repository.
+Identifies a version of code that App Runner refers to within a source
+code repository.
 
 =head1 ATTRIBUTES
 

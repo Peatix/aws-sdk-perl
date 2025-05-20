@@ -21,7 +21,7 @@ Paws::Backup::CreateBackupVaultOutput
 
 An Amazon Resource Name (ARN) that uniquely identifies a backup vault;
 for example,
-C<arn:aws:backup:us-east-1:123456789012:vault:aBackupVault>.
+C<arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault>.
 
 
 =head2 BackupVaultName => Str

@@ -39,7 +39,7 @@ This class has no description
 
 =head2 ResourceType => Str
 
-The type of resource.
+The type of resource to tag.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

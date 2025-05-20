@@ -2,12 +2,17 @@
 package Paws::Macie2::MatchingBucket;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str', request_name => 'accountId', traits => ['NameInRequest']);
+  has AutomatedDiscoveryMonitoringStatus => (is => 'ro', isa => 'Str', request_name => 'automatedDiscoveryMonitoringStatus', traits => ['NameInRequest']);
   has BucketName => (is => 'ro', isa => 'Str', request_name => 'bucketName', traits => ['NameInRequest']);
   has ClassifiableObjectCount => (is => 'ro', isa => 'Int', request_name => 'classifiableObjectCount', traits => ['NameInRequest']);
   has ClassifiableSizeInBytes => (is => 'ro', isa => 'Int', request_name => 'classifiableSizeInBytes', traits => ['NameInRequest']);
+  has ErrorCode => (is => 'ro', isa => 'Str', request_name => 'errorCode', traits => ['NameInRequest']);
+  has ErrorMessage => (is => 'ro', isa => 'Str', request_name => 'errorMessage', traits => ['NameInRequest']);
   has JobDetails => (is => 'ro', isa => 'Paws::Macie2::JobDetails', request_name => 'jobDetails', traits => ['NameInRequest']);
+  has LastAutomatedDiscoveryTime => (is => 'ro', isa => 'Str', request_name => 'lastAutomatedDiscoveryTime', traits => ['NameInRequest']);
   has ObjectCount => (is => 'ro', isa => 'Int', request_name => 'objectCount', traits => ['NameInRequest']);
   has ObjectCountByEncryptionType => (is => 'ro', isa => 'Paws::Macie2::ObjectCountByEncryptionType', request_name => 'objectCountByEncryptionType', traits => ['NameInRequest']);
+  has SensitivityScore => (is => 'ro', isa => 'Int', request_name => 'sensitivityScore', traits => ['NameInRequest']);
   has SizeInBytes => (is => 'ro', isa => 'Int', request_name => 'sizeInBytes', traits => ['NameInRequest']);
   has SizeInBytesCompressed => (is => 'ro', isa => 'Int', request_name => 'sizeInBytesCompressed', traits => ['NameInRequest']);
   has UnclassifiableObjectCount => (is => 'ro', isa => 'Paws::Macie2::ObjectLevelStatistics', request_name => 'unclassifiableObjectCount', traits => ['NameInRequest']);
@@ -44,7 +49,18 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Mat
 =head1 DESCRIPTION
 
 Provides statistical data and other information about an S3 bucket that
-Amazon Macie monitors and analyzes.
+Amazon Macie monitors and analyzes for your account. By default, object
+count and storage size values include data for object parts that are
+the result of incomplete multipart uploads. For more information, see
+How Macie monitors Amazon S3 data security
+(https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html)
+in the I<Amazon Macie User Guide>.
+
+If an error or issue prevents Macie from retrieving and processing
+information about the bucket or the bucket's objects, the value for
+many of these properties is null. Key exceptions are accountId and
+bucketName. To identify the cause, refer to the errorCode and
+errorMessage values.
 
 =head1 ATTRIBUTES
 
@@ -53,6 +69,15 @@ Amazon Macie monitors and analyzes.
 
 The unique identifier for the Amazon Web Services account that owns the
 bucket.
+
+
+=head2 AutomatedDiscoveryMonitoringStatus => Str
+
+Specifies whether automated sensitive data discovery is currently
+configured to analyze objects in the bucket. Possible values are:
+MONITORED, the bucket is included in analyses; and, NOT_MONITORED, the
+bucket is excluded from analyses. If automated sensitive data discovery
+is disabled for your account, this value is NOT_MONITORED.
 
 
 =head2 BucketName => Str
@@ -79,11 +104,53 @@ the bucket. This value doesn't reflect the storage size of all versions
 of each applicable object in the bucket.
 
 
+=head2 ErrorCode => Str
+
+The code for an error or issue that prevented Amazon Macie from
+retrieving and processing information about the bucket and the bucket's
+objects. Possible values are:
+
+=over
+
+=item *
+
+ACCESS_DENIED - Macie doesn't have permission to retrieve the
+information. For example, the bucket has a restrictive bucket policy
+and Amazon S3 denied the request.
+
+=item *
+
+BUCKET_COUNT_EXCEEDS_QUOTA - Retrieving and processing the information
+would exceed the quota for the number of buckets that Macie monitors
+for an account (10,000).
+
+=back
+
+If this value is null, Macie was able to retrieve and process the
+information.
+
+
+=head2 ErrorMessage => Str
+
+A brief description of the error or issue (errorCode) that prevented
+Amazon Macie from retrieving and processing information about the
+bucket and the bucket's objects. This value is null if Macie was able
+to retrieve and process the information.
+
+
 =head2 JobDetails => L<Paws::Macie2::JobDetails>
 
 Specifies whether any one-time or recurring classification jobs are
 configured to analyze objects in the bucket, and, if so, the details of
 the job that ran most recently.
+
+
+=head2 LastAutomatedDiscoveryTime => Str
+
+The date and time, in UTC and extended ISO 8601 format, when Amazon
+Macie most recently analyzed objects in the bucket while performing
+automated sensitive data discovery. This value is null if this analysis
+hasn't occurred.
 
 
 =head2 ObjectCount => Int
@@ -93,10 +160,21 @@ The total number of objects in the bucket.
 
 =head2 ObjectCountByEncryptionType => L<Paws::Macie2::ObjectCountByEncryptionType>
 
-The total number of objects that are in the bucket, grouped by
-server-side encryption type. This includes a grouping that reports the
-total number of objects that aren't encrypted or use client-side
-encryption.
+The total number of objects in the bucket, grouped by server-side
+encryption type. This includes a grouping that reports the total number
+of objects that aren't encrypted or use client-side encryption.
+
+
+=head2 SensitivityScore => Int
+
+The sensitivity score for the bucket, ranging from -1 (classification
+error) to 100 (sensitive).
+
+If automated sensitive data discovery has never been enabled for your
+account or it's been disabled for your organization or standalone
+account for more than 30 days, possible values are: 1, the bucket is
+empty; or, 50, the bucket stores objects but it's been excluded from
+recent analyses.
 
 
 =head2 SizeInBytes => Int
@@ -114,10 +192,10 @@ each object in the bucket.
 The total storage size, in bytes, of the objects that are compressed
 (.gz, .gzip, .zip) files in the bucket.
 
-If versioning is enabled for the bucket, Macie calculates this value
-based on the size of the latest version of each applicable object in
-the bucket. This value doesn't reflect the storage size of all versions
-of each applicable object in the bucket.
+If versioning is enabled for the bucket, Amazon Macie calculates this
+value based on the size of the latest version of each applicable object
+in the bucket. This value doesn't reflect the storage size of all
+versions of each applicable object in the bucket.
 
 
 =head2 UnclassifiableObjectCount => L<Paws::Macie2::ObjectLevelStatistics>

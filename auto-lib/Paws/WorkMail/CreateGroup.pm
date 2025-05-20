@@ -1,6 +1,7 @@
 
 package Paws::WorkMail::CreateGroup;
   use Moose;
+  has HiddenFromGlobalAddressList => (is => 'ro', isa => 'Bool');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
 
@@ -29,9 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $CreateGroupResponse = $workmail->CreateGroup(
-      Name           => 'MyGroupName',
-      OrganizationId => 'MyOrganizationId',
-
+      Name                        => 'MyGroupName',
+      OrganizationId              => 'MyOrganizationId',
+      HiddenFromGlobalAddressList => 1,                    # OPTIONAL
     );
 
     # Results:
@@ -43,6 +44,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/workmail/CreateGroup>
 
 =head1 ATTRIBUTES
+
+
+=head2 HiddenFromGlobalAddressList => Bool
+
+If this parameter is enabled, the group will be hidden from the address
+book.
+
 
 
 =head2 B<REQUIRED> Name => Str

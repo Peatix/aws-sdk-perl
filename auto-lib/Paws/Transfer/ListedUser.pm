@@ -56,27 +56,37 @@ server using the client.
 
 A C<HomeDirectory> example is C</bucket_name/home/mydirectory>.
 
+The C<HomeDirectory> parameter is only used if C<HomeDirectoryType> is
+set to C<PATH>.
+
 
 =head2 HomeDirectoryType => Str
 
-The type of landing directory (folder) you want your users' home
-directory to be when they log into the server. If you set it to
-C<PATH>, the user will see the absolute Amazon S3 bucket or EFS paths
-as is in their file transfer protocol clients. If you set it
-C<LOGICAL>, you will need to provide mappings in the
-C<HomeDirectoryMappings> for how you want to make Amazon S3 or EFS
-paths visible to your users.
+The type of landing directory (folder) that you want your users' home
+directory to be when they log in to the server. If you set it to
+C<PATH>, the user will see the absolute Amazon S3 bucket or Amazon EFS
+path as is in their file transfer protocol clients. If you set it to
+C<LOGICAL>, you need to provide mappings in the
+C<HomeDirectoryMappings> for how you want to make Amazon S3 or Amazon
+EFS paths visible to your users.
+
+If C<HomeDirectoryType> is C<LOGICAL>, you must provide mappings, using
+the C<HomeDirectoryMappings> parameter. If, on the other hand,
+C<HomeDirectoryType> is C<PATH>, you provide an absolute path using the
+C<HomeDirectory> parameter. You cannot have both C<HomeDirectory> and
+C<HomeDirectoryMappings> in your template.
 
 
 =head2 Role => Str
 
-Specifies the Amazon Resource Name (ARN) of the IAM role that controls
-your users' access to your Amazon S3 bucket or EFS file system. The
-policies attached to this role determine the level of access that you
-want to provide your users when transferring files into and out of your
-Amazon S3 bucket or EFS file system. The IAM role should also contain a
-trust relationship that allows the server to access your resources when
-servicing your users' transfer requests.
+The Amazon Resource Name (ARN) of the Identity and Access Management
+(IAM) role that controls your users' access to your Amazon S3 bucket or
+Amazon EFS file system. The policies attached to this role determine
+the level of access that you want to provide your users when
+transferring files into and out of your Amazon S3 bucket or Amazon EFS
+file system. The IAM role should also contain a trust relationship that
+allows the server to access your resources when servicing your users'
+transfer requests.
 
 The IAM role that controls your users' access to your Amazon S3 bucket
 for servers with C<Domain=S3>, or your EFS file system for servers with

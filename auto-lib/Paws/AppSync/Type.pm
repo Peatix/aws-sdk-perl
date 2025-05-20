@@ -44,7 +44,7 @@ Describes a type.
 
 =head2 Arn => Str
 
-The type ARN.
+The type Amazon Resource Name (ARN).
 
 
 =head2 Definition => Str

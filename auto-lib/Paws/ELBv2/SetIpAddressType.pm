@@ -47,12 +47,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> IpAddressType => Str
 
-The IP address type. The possible values are C<ipv4> (for IPv4
-addresses) and C<dualstack> (for IPv4 and IPv6 addresses). Internal
-load balancers must use C<ipv4>. You canE<rsquo>t specify C<dualstack>
-for a load balancer with a UDP or TCP_UDP listener.
+The IP address type. Internal load balancers must use C<ipv4>.
 
-Valid values are: C<"ipv4">, C<"dualstack">
+[Application Load Balancers] The possible values are C<ipv4> (IPv4
+addresses), C<dualstack> (IPv4 and IPv6 addresses), and
+C<dualstack-without-public-ipv4> (public IPv6 addresses and private
+IPv4 and IPv6 addresses).
+
+Application Load Balancer authentication supports IPv4 addresses only
+when connecting to an Identity Provider (IdP) or Amazon Cognito
+endpoint. Without a public IPv4 address the load balancer can't
+complete the authentication process, resulting in HTTP 500 errors.
+
+[Network Load Balancers and Gateway Load Balancers] The possible values
+are C<ipv4> (IPv4 addresses) and C<dualstack> (IPv4 and IPv6
+addresses).
+
+Valid values are: C<"ipv4">, C<"dualstack">, C<"dualstack-without-public-ipv4">
 
 =head2 B<REQUIRED> LoadBalancerArn => Str
 

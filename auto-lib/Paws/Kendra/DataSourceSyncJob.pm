@@ -40,7 +40,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Dat
 
 =head1 DESCRIPTION
 
-Provides information about a synchronization job.
+Provides information about a data source synchronization job.
 
 =head1 ATTRIBUTES
 
@@ -54,13 +54,13 @@ the error.
 
 =head2 EndTime => Str
 
-The UNIX datetime that the synchronization job was completed.
+The Unix timestamp when the synchronization job completed.
 
 
 =head2 ErrorCode => Str
 
 If the C<Status> field is set to C<FAILED>, the C<ErrorCode> field
-contains a the reason that the synchronization failed.
+indicates the reason the synchronization failed.
 
 
 =head2 ErrorMessage => Str
@@ -72,7 +72,7 @@ fail.
 
 =head2 ExecutionId => Str
 
-A unique identifier for the synchronization job.
+A identifier for the synchronization job.
 
 
 =head2 Metrics => L<Paws::Kendra::DataSourceSyncJobMetrics>
@@ -84,7 +84,7 @@ deleted by a data source connector.
 
 =head2 StartTime => Str
 
-The UNIX datetime that the synchronization job was started.
+The Unix timestamp when the synchronization job started.
 
 
 =head2 Status => Str

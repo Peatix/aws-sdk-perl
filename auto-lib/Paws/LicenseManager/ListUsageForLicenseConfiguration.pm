@@ -66,19 +66,16 @@ operators are supported:
 
 =item *
 
-C<resourceArn> - The ARN of the license configuration resource. Logical
-operators are C<EQUALS> | C<NOT_EQUALS>.
+C<resourceArn> - The ARN of the license configuration resource.
 
 =item *
 
 C<resourceType> - The resource type (C<EC2_INSTANCE> | C<EC2_HOST> |
-C<EC2_AMI> | C<SYSTEMS_MANAGER_MANAGED_INSTANCE>). Logical operators
-are C<EQUALS> | C<NOT_EQUALS>.
+C<EC2_AMI> | C<SYSTEMS_MANAGER_MANAGED_INSTANCE>).
 
 =item *
 
 C<resourceAccount> - The ID of the account that owns the resource.
-Logical operators are C<EQUALS> | C<NOT_EQUALS>.
 
 =back
 

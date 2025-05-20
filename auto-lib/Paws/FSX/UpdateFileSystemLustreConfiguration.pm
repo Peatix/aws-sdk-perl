@@ -5,6 +5,10 @@ package Paws::FSX::UpdateFileSystemLustreConfiguration;
   has AutomaticBackupRetentionDays => (is => 'ro', isa => 'Int');
   has DailyAutomaticBackupStartTime => (is => 'ro', isa => 'Str');
   has DataCompressionType => (is => 'ro', isa => 'Str');
+  has LogConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreLogCreateConfiguration');
+  has MetadataConfiguration => (is => 'ro', isa => 'Paws::FSX::UpdateFileSystemLustreMetadataConfiguration');
+  has PerUnitStorageThroughput => (is => 'ro', isa => 'Int');
+  has RootSquashConfiguration => (is => 'ro', isa => 'Paws::FSX::LustreRootSquashConfiguration');
   has WeeklyMaintenanceStartTime => (is => 'ro', isa => 'Str');
 
 1;
@@ -73,16 +77,24 @@ file and directory listings of any new objects added to the S3 bucket
 and any existing objects that are changed in the S3 bucket after you
 choose this option.
 
+=item *
+
+C<NEW_CHANGED_DELETED> - AutoImport is on. Amazon FSx automatically
+imports file and directory listings of any new objects added to the S3
+bucket, any existing objects that are changed in the S3 bucket, and any
+objects that were deleted in the S3 bucket.
+
 =back
 
-For more information, see Automatically import updates from your S3
-bucket
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html).
+This parameter is not supported for file systems with a data repository
+association.
 
 
 =head2 AutomaticBackupRetentionDays => Int
 
-
+The number of days to retain automatic backups. Setting this property
+to C<0> disables automatic backups. You can retain automatic backups
+for a maximum of 90 days. The default is C<0>.
 
 
 =head2 DailyAutomaticBackupStartTime => Str
@@ -112,6 +124,54 @@ current data compression configuration.
 
 For more information, see Lustre data compression
 (https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-compression.html).
+
+
+=head2 LogConfiguration => L<Paws::FSX::LustreLogCreateConfiguration>
+
+The Lustre logging configuration used when updating an Amazon FSx for
+Lustre file system. When logging is enabled, Lustre logs error and
+warning events for data repositories associated with your file system
+to Amazon CloudWatch Logs.
+
+
+=head2 MetadataConfiguration => L<Paws::FSX::UpdateFileSystemLustreMetadataConfiguration>
+
+The Lustre metadata performance configuration for an Amazon FSx for
+Lustre file system using a C<PERSISTENT_2> deployment type. When this
+configuration is enabled, the file system supports increasing metadata
+performance.
+
+
+=head2 PerUnitStorageThroughput => Int
+
+The throughput of an Amazon FSx for Lustre Persistent SSD-based file
+system, measured in megabytes per second per tebibyte (MB/s/TiB). You
+can increase or decrease your file system's throughput. Valid values
+depend on the deployment type of the file system, as follows:
+
+=over
+
+=item *
+
+For C<PERSISTENT_1> SSD-based deployment types, valid values are 50,
+100, and 200 MB/s/TiB.
+
+=item *
+
+For C<PERSISTENT_2> SSD-based deployment types, valid values are 125,
+250, 500, and 1000 MB/s/TiB.
+
+=back
+
+For more information, see Managing throughput capacity
+(https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-throughput-capacity.html).
+
+
+=head2 RootSquashConfiguration => L<Paws::FSX::LustreRootSquashConfiguration>
+
+The Lustre root squash configuration used when updating an Amazon FSx
+for Lustre file system. When enabled, root squash restricts root-level
+access from clients that try to access your file system as a root user.
 
 
 =head2 WeeklyMaintenanceStartTime => Str

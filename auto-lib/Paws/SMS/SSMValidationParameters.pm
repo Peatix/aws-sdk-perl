@@ -45,7 +45,7 @@ Contains validation parameters.
 
 =head2 Command => Str
 
-The command to run the validation script
+The command to run the validation script.
 
 
 =head2 ExecutionTimeoutSeconds => Int

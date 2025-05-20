@@ -45,8 +45,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
-The name of the configuration set that you want to change the
-suppression list preferences for.
+The name of the configuration set to change the suppression list
+preferences for.
 
 
 

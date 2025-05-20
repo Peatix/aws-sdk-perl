@@ -75,8 +75,7 @@ example: KB4010320.
 
 =head2 ResourceId => Str
 
-An ID for the resource. For a managed instance, this is the instance
-ID.
+An ID for the resource. For a managed node, this is the node ID.
 
 
 =head2 ResourceType => Str

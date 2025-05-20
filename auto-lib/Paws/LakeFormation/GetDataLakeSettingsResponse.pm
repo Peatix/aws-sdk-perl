@@ -4,6 +4,7 @@ package Paws::LakeFormation::GetDataLakeSettingsResponse;
   has DataLakeSettings => (is => 'ro', isa => 'Paws::LakeFormation::DataLakeSettings');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -16,8 +17,8 @@ Paws::LakeFormation::GetDataLakeSettingsResponse
 
 =head2 DataLakeSettings => L<Paws::LakeFormation::DataLakeSettings>
 
-A structure representing a list of AWS Lake Formation principals
-designated as data lake administrators.
+A structure representing a list of Lake Formation principals designated
+as data lake administrators.
 
 
 =head2 _request_id => Str
@@ -25,4 +26,3 @@ designated as data lake administrators.
 
 =cut
 
-1;

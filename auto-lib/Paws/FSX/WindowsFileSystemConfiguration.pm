@@ -8,6 +8,7 @@ package Paws::FSX::WindowsFileSystemConfiguration;
   has CopyTagsToBackups => (is => 'ro', isa => 'Bool');
   has DailyAutomaticBackupStartTime => (is => 'ro', isa => 'Str');
   has DeploymentType => (is => 'ro', isa => 'Str');
+  has DiskIopsConfiguration => (is => 'ro', isa => 'Paws::FSX::DiskIopsConfiguration');
   has MaintenanceOperationsInProgress => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has PreferredFileServerIp => (is => 'ro', isa => 'Str');
   has PreferredSubnetId => (is => 'ro', isa => 'Str');
@@ -53,8 +54,8 @@ The configuration for this Microsoft Windows file system.
 
 =head2 ActiveDirectoryId => Str
 
-The ID for an existing AWS Managed Microsoft Active Directory instance
-that the file system is joined to.
+The ID for an existing Amazon Web Services Managed Microsoft Active
+Directory instance that the file system is joined to.
 
 
 =head2 Aliases => ArrayRef[L<Paws::FSX::Alias>]
@@ -122,6 +123,15 @@ SSD and HDD storage.
 
 For more information, see Single-AZ and Multi-AZ File Systems
 (https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html).
+
+
+=head2 DiskIopsConfiguration => L<Paws::FSX::DiskIopsConfiguration>
+
+The SSD IOPS (input/output operations per second) configuration for an
+Amazon FSx for Windows file system. By default, Amazon FSx
+automatically provisions 3 IOPS per GiB of storage capacity. You can
+provision additional IOPS per GiB of storage, up to the maximum limit
+associated with your chosen throughput capacity.
 
 
 =head2 MaintenanceOperationsInProgress => ArrayRef[Str|Undef]

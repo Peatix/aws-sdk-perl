@@ -43,22 +43,22 @@ The parameters for task execution.
 
 =head2 Automation => L<Paws::SSM::MaintenanceWindowAutomationParameters>
 
-The parameters for an AUTOMATION task type.
+The parameters for an C<AUTOMATION> task type.
 
 
 =head2 Lambda => L<Paws::SSM::MaintenanceWindowLambdaParameters>
 
-The parameters for a LAMBDA task type.
+The parameters for a C<LAMBDA> task type.
 
 
 =head2 RunCommand => L<Paws::SSM::MaintenanceWindowRunCommandParameters>
 
-The parameters for a RUN_COMMAND task type.
+The parameters for a C<RUN_COMMAND> task type.
 
 
 =head2 StepFunctions => L<Paws::SSM::MaintenanceWindowStepFunctionsParameters>
 
-The parameters for a STEP_FUNCTIONS task type.
+The parameters for a C<STEP_FUNCTIONS> task type.
 
 
 

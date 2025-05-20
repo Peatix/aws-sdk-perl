@@ -57,19 +57,31 @@ The Amazon Resource Name (ARN) of the event source.
 
 =item *
 
-B<Amazon Kinesis> - The ARN of the data stream or a stream consumer.
+B<Amazon Kinesis> E<ndash> The ARN of the data stream or a stream
+consumer.
 
 =item *
 
-B<Amazon DynamoDB Streams> - The ARN of the stream.
+B<Amazon DynamoDB Streams> E<ndash> The ARN of the stream.
 
 =item *
 
-B<Amazon Simple Queue Service> - The ARN of the queue.
+B<Amazon Simple Queue Service> E<ndash> The ARN of the queue.
 
 =item *
 
-B<Amazon Managed Streaming for Apache Kafka> - The ARN of the cluster.
+B<Amazon Managed Streaming for Apache Kafka> E<ndash> The ARN of the
+cluster or the ARN of the VPC connection (for cross-account event
+source mappings
+(https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
+
+=item *
+
+B<Amazon MQ> E<ndash> The ARN of the broker.
+
+=item *
+
+B<Amazon DocumentDB> E<ndash> The ARN of the DocumentDB change stream.
 
 =back
 
@@ -78,7 +90,7 @@ B<Amazon Managed Streaming for Apache Kafka> - The ARN of the cluster.
 
 =head2 FunctionName => Str
 
-The name of the Lambda function.
+The name or ARN of the Lambda function.
 
 B<Name formats>
 
@@ -86,21 +98,21 @@ B<Name formats>
 
 =item *
 
-B<Function name> - C<MyFunction>.
+B<Function name> E<ndash> C<MyFunction>.
 
 =item *
 
-B<Function ARN> -
+B<Function ARN> E<ndash>
 C<arn:aws:lambda:us-west-2:123456789012:function:MyFunction>.
 
 =item *
 
-B<Version or Alias ARN> -
+B<Version or Alias ARN> E<ndash>
 C<arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD>.
 
 =item *
 
-B<Partial ARN> - C<123456789012:function:MyFunction>.
+B<Partial ARN> E<ndash> C<123456789012:function:MyFunction>.
 
 =back
 
@@ -117,7 +129,9 @@ A pagination token returned by a previous call.
 
 =head2 MaxItems => Int
 
-The maximum number of event source mappings to return.
+The maximum number of event source mappings to return. Note that
+ListEventSourceMappings returns a maximum of 100 items in each
+response, even if you set the number higher.
 
 
 

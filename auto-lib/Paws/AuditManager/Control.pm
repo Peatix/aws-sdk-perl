@@ -13,6 +13,7 @@ package Paws::AuditManager::Control;
   has LastUpdatedAt => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedAt', traits => ['NameInRequest']);
   has LastUpdatedBy => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedBy', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::AuditManager::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has TestingInformation => (is => 'ro', isa => 'Str', request_name => 'testingInformation', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
@@ -47,14 +48,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A control in AWS Audit Manager.
+A control in Audit Manager.
 
 =head1 ATTRIBUTES
 
 
 =head2 ActionPlanInstructions => Str
 
-The recommended actions to carry out if the control is not fulfilled.
+The recommended actions to carry out if the control isn't fulfilled.
 
 
 =head2 ActionPlanTitle => Str
@@ -64,33 +65,33 @@ The title of the action plan for remediating the control.
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the specified control.
+The Amazon Resource Name (ARN) of the control.
 
 
 =head2 ControlMappingSources => ArrayRef[L<Paws::AuditManager::ControlMappingSource>]
 
-The data mapping sources for the specified control.
+The data mapping sources for the control.
 
 
 =head2 ControlSources => Str
 
-The data source that determines from where AWS Audit Manager collects
-evidence for the control.
+The data source types that determine where Audit Manager collects
+evidence from for the control.
 
 
 =head2 CreatedAt => Str
 
-Specifies when the control was created.
+The time when the control was created.
 
 
 =head2 CreatedBy => Str
 
-The IAM user or role that created the control.
+The user or role that created the control.
 
 
 =head2 Description => Str
 
-The description of the specified control.
+The description of the control.
 
 
 =head2 Id => Str
@@ -100,17 +101,25 @@ The unique identifier for the control.
 
 =head2 LastUpdatedAt => Str
 
-Specifies when the control was most recently updated.
+The time when the control was most recently updated.
 
 
 =head2 LastUpdatedBy => Str
 
-The IAM user or role that most recently updated the control.
+The user or role that most recently updated the control.
 
 
 =head2 Name => Str
 
-The name of the specified control.
+The name of the control.
+
+
+=head2 State => Str
+
+The state of the control. The C<END_OF_SUPPORT> state is applicable to
+standard controls only. This state indicates that the standard control
+can still be used to collect evidence, but Audit Manager is no longer
+updating or maintaining that control.
 
 
 =head2 Tags => L<Paws::AuditManager::TagMap>
@@ -120,12 +129,14 @@ The tags associated with the control.
 
 =head2 TestingInformation => Str
 
-The steps to follow to determine if the control has been satisfied.
+The steps that you should follow to determine if the control has been
+satisfied.
 
 
 =head2 Type => Str
 
-The type of control, such as custom or standard.
+Specifies whether the control is a standard control or a custom
+control.
 
 
 

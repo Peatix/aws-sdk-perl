@@ -16,7 +16,7 @@ Paws::Proton::CancelServicePipelineDeploymentOutput
 
 =head2 B<REQUIRED> Pipeline => L<Paws::Proton::ServicePipeline>
 
-The service pipeline detail data that's returned by AWS Proton.
+The service pipeline detail data that's returned by Proton.
 
 
 =head2 _request_id => Str

@@ -50,15 +50,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 (Optional) The specific time for which you want to get calendar state
 information, in ISO 8601 (https://en.wikipedia.org/wiki/ISO_8601)
-format. If you do not add C<AtTime>, the current time is assumed.
+format. If you don't specify a value or C<AtTime>, the current time is
+used.
 
 
 
 =head2 B<REQUIRED> CalendarNames => ArrayRef[Str|Undef]
 
-The names or Amazon Resource Names (ARNs) of the Systems Manager
-documents that represent the calendar entries for which you want to get
-the state.
+The names of Amazon Resource Names (ARNs) of the Systems Manager
+documents (SSM documents) that represent the calendar entries for which
+you want to get the state.
 
 
 

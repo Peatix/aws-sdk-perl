@@ -47,8 +47,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sto
 
 =head2 B<REQUIRED> GatewayARN => Str
 
-The Amazon Resource Name (ARN) of the file gateway the SMB file share
-is associated with.
+The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file
+share is associated with.
 
 
 

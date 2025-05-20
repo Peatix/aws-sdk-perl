@@ -2,18 +2,18 @@
 package Paws::SQS::SendMessage;
   use Moose;
   has DelaySeconds => (is => 'ro', isa => 'Int');
-  has MessageAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodyAttributeMap', traits => ['NameInRequest'], request_name => 'MessageAttribute' );
+  has MessageAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodyAttributeMap');
   has MessageBody => (is => 'ro', isa => 'Str', required => 1);
   has MessageDeduplicationId => (is => 'ro', isa => 'Str');
   has MessageGroupId => (is => 'ro', isa => 'Str');
-  has MessageSystemAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodySystemAttributeMap', traits => ['NameInRequest'], request_name => 'MessageSystemAttribute' );
+  has MessageSystemAttributes => (is => 'ro', isa => 'Paws::SQS::MessageBodySystemAttributeMap');
   has QueueUrl => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'SendMessage');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::SQS::SendMessageResult');
-  class_has _result_key => (isa => 'Str', is => 'ro', default => 'SendMessageResult');
+  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -100,17 +100,20 @@ in the I<Amazon SQS Developer Guide>.
 =head2 B<REQUIRED> MessageBody => Str
 
 The message to send. The minimum size is one character. The maximum
-size is 256 KB.
+size is 256 KiB.
 
 A message can include only XML, JSON, and unformatted text. The
-following Unicode characters are allowed:
+following Unicode characters are allowed. For more information, see the
+W3C specification for characters
+(http://www.w3.org/TR/REC-xml/#charsets).
 
 C<#x9> | C<#xA> | C<#xD> | C<#x20> to C<#xD7FF> | C<#xE000> to
 C<#xFFFD> | C<#x10000> to C<#x10FFFF>
 
-Any characters not included in this list will be rejected. For more
-information, see the W3C specification for characters
-(http://www.w3.org/TR/REC-xml/#charsets).
+Amazon SQS does not throw an exception or completely reject the message
+if it contains invalid characters. Instead, it replaces those invalid
+characters with C<U+FFFD> before storing the message in the queue, as
+long as the message body contains at least one valid character.
 
 
 
@@ -223,8 +226,8 @@ sent. The caller can't specify a C<MessageGroupId>.
 
 =back
 
-The length of C<MessageGroupId> is 128 characters. Valid values:
-alphanumeric characters and punctuation
+The maximum length of C<MessageGroupId> is 128 characters. Valid
+values: alphanumeric characters and punctuation
 C<(!"#$%&'()*+,-./:;E<lt>=E<gt>?@[\]^_`{|}~)>.
 
 For best practices of using C<MessageGroupId>, see Using the

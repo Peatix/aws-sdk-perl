@@ -9,12 +9,13 @@ package Paws::EC2::AuthorizeSecurityGroupEgress;
   has IpProtocol => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipProtocol' );
   has SourceSecurityGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceSecurityGroupName' );
   has SourceSecurityGroupOwnerId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceSecurityGroupOwnerId' );
+  has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has ToPort => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'toPort' );
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AuthorizeSecurityGroupEgress');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::EC2::AuthorizeSecurityGroupEgressResult');
   class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
@@ -38,7 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 # To add a rule that allows outbound traffic to a specific address range
 # This example adds a rule that grants access to the specified address ranges on
 # TCP port 80.
-    $ec2->AuthorizeSecurityGroupEgress(
+    my $AuthorizeSecurityGroupEgressResult = $ec2->AuthorizeSecurityGroupEgress(
       'GroupId'       => 'sg-1a2b3c4d',
       'IpPermissions' => [
 
@@ -59,7 +60,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 # To add a rule that allows outbound traffic to a specific security group
 # This example adds a rule that grants access to the specified security group on
 # TCP port 80.
-    $ec2->AuthorizeSecurityGroupEgress(
+    my $AuthorizeSecurityGroupEgressResult = $ec2->AuthorizeSecurityGroupEgress(
       'GroupId'       => 'sg-1a2b3c4d',
       'IpPermissions' => [
 
@@ -86,7 +87,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 CidrIp => Str
 
-Not supported. Use a set of IP permissions to specify the CIDR.
+Not supported. Use IP permissions instead.
 
 
 
@@ -101,7 +102,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 FromPort => Int
 
-Not supported. Use a set of IP permissions to specify the port.
+Not supported. Use IP permissions instead.
 
 
 
@@ -113,35 +114,37 @@ The ID of the security group.
 
 =head2 IpPermissions => ArrayRef[L<Paws::EC2::IpPermission>]
 
-The sets of IP permissions. You can't specify a destination security
-group and a CIDR IP address range in the same set of permissions.
+The permissions for the security group rules.
 
 
 
 =head2 IpProtocol => Str
 
-Not supported. Use a set of IP permissions to specify the protocol name
-or number.
+Not supported. Use IP permissions instead.
 
 
 
 =head2 SourceSecurityGroupName => Str
 
-Not supported. Use a set of IP permissions to specify a destination
-security group.
+Not supported. Use IP permissions instead.
 
 
 
 =head2 SourceSecurityGroupOwnerId => Str
 
-Not supported. Use a set of IP permissions to specify a destination
-security group.
+Not supported. Use IP permissions instead.
+
+
+
+=head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
+
+The tags applied to the security group rule.
 
 
 
 =head2 ToPort => Int
 
-Not supported. Use a set of IP permissions to specify the port.
+Not supported. Use IP permissions instead.
 
 
 

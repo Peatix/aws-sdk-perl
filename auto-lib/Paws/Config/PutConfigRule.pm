@@ -31,9 +31,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     $config->PutConfigRule(
       ConfigRule => {
         Source => {
-          Owner            => 'CUSTOM_LAMBDA',    # values: CUSTOM_LAMBDA, AWS
-          SourceIdentifier => 'MyStringWithCharLimit256',    # min: 1, max: 256
-          SourceDetails    => [
+          Owner => 'CUSTOM_LAMBDA',  # values: CUSTOM_LAMBDA, AWS, CUSTOM_POLICY
+          CustomPolicyDetails => {
+            PolicyRuntime          => 'MyPolicyRuntime',    # min: 1, max: 64
+            PolicyText             => 'MyPolicyText',       # max: 10000
+            EnableDebugLogDelivery => 1,                    # OPTIONAL
+          },    # OPTIONAL
+          SourceDetails => [
             {
               EventSource => 'aws.config',    # values: aws.config; OPTIONAL
               MaximumExecutionFrequency => 'One_Hour'
@@ -43,14 +47,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             },
             ...
           ],    # max: 25; OPTIONAL
+          SourceIdentifier =>
+            'MyStringWithCharLimit256',    # min: 1, max: 256; OPTIONAL
         },
-        ConfigRuleArn => 'MyStringWithCharLimit256', # min: 1, max: 256
-        ConfigRuleId  => 'MyStringWithCharLimit64',  # min: 1, max: 64; OPTIONAL
-        ConfigRuleName  => 'MyConfigRuleName',    # min: 1, max: 128; OPTIONAL
+        ConfigRuleArn =>
+          'MyStringWithCharLimit256',      # min: 1, max: 256; OPTIONAL
+        ConfigRuleId => 'MyStringWithCharLimit64',  # min: 1, max: 64; OPTIONAL
+        ConfigRuleName  => 'MyConfigRuleName',      # min: 1, max: 128; OPTIONAL
         ConfigRuleState => 'ACTIVE'
         ,    # values: ACTIVE, DELETING, DELETING_RESULTS, EVALUATING; OPTIONAL
-        CreatedBy   => 'MyStringWithCharLimit256',          # min: 1, max: 256
+        CreatedBy   => 'MyStringWithCharLimit256',  # min: 1, max: 256; OPTIONAL
         Description => 'MyEmptiableStringWithCharLimit256', # max: 256; OPTIONAL
+        EvaluationModes => [
+          {
+            Mode => 'DETECTIVE',    # values: DETECTIVE, PROACTIVE; OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
         InputParameters =>
           'MyStringWithCharLimit1024',    # min: 1, max: 1024; OPTIONAL
         MaximumExecutionFrequency => 'One_Hour'
@@ -59,10 +72,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ComplianceResourceId =>
             'MyBaseResourceId',    # min: 1, max: 768; OPTIONAL
           ComplianceResourceTypes => [
-            'MyStringWithCharLimit256', ...    # min: 1, max: 256
+            'MyStringWithCharLimit256', ...    # min: 1, max: 256; OPTIONAL
           ],    # max: 100; OPTIONAL
           TagKey   => 'MyStringWithCharLimit128',   # min: 1, max: 128; OPTIONAL
-          TagValue => 'MyStringWithCharLimit256',   # min: 1, max: 256
+          TagValue => 'MyStringWithCharLimit256',   # min: 1, max: 256; OPTIONAL
         },    # OPTIONAL
       },
       Tags => [

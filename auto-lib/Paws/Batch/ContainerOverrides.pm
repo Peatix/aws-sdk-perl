@@ -40,6 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Cont
 
 The overrides that should be sent to a container.
 
+For information about using Batch overrides when you connect event
+sources to targets, see BatchContainerOverrides
+(https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_BatchContainerOverrides.html).
+
 =head1 ATTRIBUTES
 
 
@@ -47,6 +51,8 @@ The overrides that should be sent to a container.
 
 The command to send to the container that overrides the default command
 from the Docker image or the job definition.
+
+This parameter can't contain an empty string.
 
 
 =head2 Environment => ArrayRef[L<Paws::Batch::KeyValuePair>]
@@ -56,29 +62,34 @@ environment variables, which are added to the container at launch, or
 you can override the existing environment variables from the Docker
 image or the job definition.
 
-Environment variables must not start with C<AWS_BATCH>; this naming
-convention is reserved for variables that are set by the AWS Batch
-service.
+Environment variables cannot start with "C<AWS_BATCH>". This naming
+convention is reserved for variables that Batch sets.
 
 
 =head2 InstanceType => Str
 
 The instance type to use for a multi-node parallel job.
 
-This parameter isn't applicable to single-node container jobs or for
-jobs running on Fargate resources and shouldn't be provided.
+This parameter isn't applicable to single-node container jobs or jobs
+that run on Fargate resources, and shouldn't be provided.
 
 
 =head2 Memory => Int
 
-This parameter indicates the amount of memory (in MiB) that's reserved
-for the job. It overrides the C<memory> parameter set in the job
-definition, but doesn't override any memory requirement specified in
-the C<ResourceRequirement> structure in the job definition.
-
-This parameter is supported for jobs that run on EC2 resources, but
-isn't supported for jobs that run on Fargate resources. For these
-resources, use C<resourceRequirement> instead.
+This parameter is deprecated, use C<resourceRequirements> to override
+the memory requirements specified in the job definition. It's not
+supported for jobs running on Fargate resources. For jobs that run on
+Amazon EC2 resources, it overrides the C<memory> parameter set in the
+job definition, but doesn't override any memory requirement that's
+specified in the C<resourceRequirements> structure in the job
+definition. To override memory requirements that are specified in the
+C<resourceRequirements> structure in the job definition,
+C<resourceRequirements> must be specified in the C<SubmitJob> request,
+with C<type> set to C<MEMORY> and C<value> set to the new value. For
+more information, see Can't override job definition resource
+requirements
+(https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements)
+in the I<Batch User Guide>.
 
 
 =head2 ResourceRequirements => ArrayRef[L<Paws::Batch::ResourceRequirement>]
@@ -90,28 +101,19 @@ include C<GPU>, C<MEMORY>, and C<VCPU>.
 
 =head2 Vcpus => Int
 
-This parameter indicates the number of vCPUs reserved for the
-container.It overrides the C<vcpus> parameter that's set in the job
-definition, but doesn't override any vCPU requirement specified in the
-C<resourceRequirement> structure in the job definition.
-
-This parameter is supported for jobs that run on EC2 resources, but
-isn't supported for jobs that run on Fargate resources. For Fargate
-resources, you can only use C<resourceRequirement>. For EC2 resources,
-you can use either this parameter or C<resourceRequirement> but not
-both.
-
-This parameter maps to C<CpuShares> in the Create a container
-(https://docs.docker.com/engine/api/v1.23/#create-a-container) section
-of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
-and the C<--cpu-shares> option to docker run
-(https://docs.docker.com/engine/reference/run/). Each vCPU is
-equivalent to 1,024 CPU shares. You must specify at least one vCPU.
-
-This parameter isn't applicable to jobs that run on Fargate resources
-and shouldn't be provided. For jobs that run on Fargate resources, you
-must specify the vCPU requirement for the job using
-C<resourceRequirements>.
+This parameter is deprecated, use C<resourceRequirements> to override
+the C<vcpus> parameter that's set in the job definition. It's not
+supported for jobs running on Fargate resources. For jobs that run on
+Amazon EC2 resources, it overrides the C<vcpus> parameter set in the
+job definition, but doesn't override any vCPU requirement specified in
+the C<resourceRequirements> structure in the job definition. To
+override vCPU requirements that are specified in the
+C<resourceRequirements> structure in the job definition,
+C<resourceRequirements> must be specified in the C<SubmitJob> request,
+with C<type> set to C<VCPU> and C<value> set to the new value. For more
+information, see Can't override job definition resource requirements
+(https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements)
+in the I<Batch User Guide>.
 
 
 

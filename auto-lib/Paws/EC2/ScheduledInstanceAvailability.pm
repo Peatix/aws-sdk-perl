@@ -86,7 +86,7 @@ The minimum term. The only possible value is 365 days.
 
 =head2 NetworkPlatform => Str
 
-The network platform (C<EC2-Classic> or C<EC2-VPC>).
+The network platform.
 
 
 =head2 Platform => Str

@@ -6,8 +6,10 @@ package Paws::Personalize::DatasetImportJob;
   has DatasetImportJobArn => (is => 'ro', isa => 'Str', request_name => 'datasetImportJobArn', traits => ['NameInRequest']);
   has DataSource => (is => 'ro', isa => 'Paws::Personalize::DataSource', request_name => 'dataSource', traits => ['NameInRequest']);
   has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
+  has ImportMode => (is => 'ro', isa => 'Str', request_name => 'importMode', traits => ['NameInRequest']);
   has JobName => (is => 'ro', isa => 'Str', request_name => 'jobName', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
+  has PublishAttributionMetricsToS3 => (is => 'ro', isa => 'Bool', request_name => 'publishAttributionMetricsToS3', traits => ['NameInRequest']);
   has RoleArn => (is => 'ro', isa => 'Str', request_name => 'roleArn', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
 
@@ -43,7 +45,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 Describes a job that imports training data from a data source (Amazon
 S3 bucket) to an Amazon Personalize dataset. For more information, see
-CreateDatasetImportJob.
+CreateDatasetImportJob
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html).
 
 A dataset import job can be in one of the following states:
 
@@ -85,6 +88,11 @@ The Amazon S3 bucket that contains the training data to import.
 If a dataset import job fails, provides the reason why.
 
 
+=head2 ImportMode => Str
+
+The import mode used by the dataset import job to import new records.
+
+
 =head2 JobName => Str
 
 The name of the import job.
@@ -95,10 +103,16 @@ The name of the import job.
 The date and time (in Unix time) the dataset was last updated.
 
 
+=head2 PublishAttributionMetricsToS3 => Bool
+
+Whether the job publishes metrics to Amazon S3 for a metric
+attribution.
+
+
 =head2 RoleArn => Str
 
-The ARN of the AWS Identity and Access Management (IAM) role that has
-permissions to read from the Amazon S3 data source.
+The ARN of the IAM role that has permissions to read from the Amazon S3
+data source.
 
 
 =head2 Status => Str

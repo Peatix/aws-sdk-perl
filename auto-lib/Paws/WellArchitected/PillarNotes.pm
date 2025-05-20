@@ -35,6 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WellArchite
 
 List of pillar notes of a lens review in a workload.
 
+For a review template, these are the notes that will be associated with
+the workload when the template is applied.
+
 =head1 ATTRIBUTES
 
 =head2 Map => Str

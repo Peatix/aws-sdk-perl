@@ -3,6 +3,7 @@ package Paws::Route53Resolver::IpAddressUpdate;
   use Moose;
   has Ip => (is => 'ro', isa => 'Str');
   has IpId => (is => 'ro', isa => 'Str');
+  has Ipv6 => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str');
 
 1;
@@ -44,7 +45,7 @@ request, information about an IP address to update.
 
 =head2 Ip => Str
 
-The new IP address.
+The new IPv4 address.
 
 
 =head2 IpId => Str
@@ -53,6 +54,11 @@ I<Only when removing an IP address from a Resolver endpoint>: The ID of
 the IP address that you want to remove. To get this ID, use
 GetResolverEndpoint
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html).
+
+
+=head2 Ipv6 => Str
+
+The new IPv6 address.
 
 
 =head2 SubnetId => Str

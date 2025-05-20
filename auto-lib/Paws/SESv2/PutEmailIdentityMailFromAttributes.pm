@@ -45,10 +45,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 BehaviorOnMxFailure => Str
 
-The action that you want to take if the required MX record isn't found
-when you send an email. When you set this value to C<UseDefaultValue>,
-the mail is sent using I<amazonses.com> as the MAIL FROM domain. When
-you set this value to C<RejectMessage>, the Amazon SES API v2 returns a
+The action to take if the required MX record isn't found when you send
+an email. When you set this value to C<UseDefaultValue>, the mail is
+sent using I<amazonses.com> as the MAIL FROM domain. When you set this
+value to C<RejectMessage>, the Amazon SES API v2 returns a
 C<MailFromDomainNotVerified> error, and doesn't attempt to deliver the
 email.
 
@@ -60,8 +60,7 @@ Valid values are: C<"USE_DEFAULT_VALUE">, C<"REJECT_MESSAGE">
 
 =head2 B<REQUIRED> EmailIdentity => Str
 
-The verified email identity that you want to set up the custom MAIL
-FROM domain for.
+The verified email identity.
 
 
 

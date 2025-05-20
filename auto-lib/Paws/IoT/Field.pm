@@ -46,7 +46,7 @@ The name of the field.
 
 =head2 Type => Str
 
-The datatype of the field.
+The data type of the field.
 
 
 

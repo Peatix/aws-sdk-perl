@@ -65,8 +65,8 @@ On-Demand Instance.
 
 =head2 Platform => Str
 
-The value is C<Windows> for Windows instances. Otherwise, the value is
-blank.
+The value is C<windows> for Windows instances in an EC2 Fleet.
+Otherwise, the value is blank.
 
 
 

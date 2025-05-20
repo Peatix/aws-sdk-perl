@@ -2,6 +2,7 @@
 package Paws::FraudDetector::UpdateModelVersion;
   use Moose;
   has ExternalEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::ExternalEventsDetail', traits => ['NameInRequest'], request_name => 'externalEventsDetail' );
+  has IngestedEventsDetail => (is => 'ro', isa => 'Paws::FraudDetector::IngestedEventsDetail', traits => ['NameInRequest'], request_name => 'ingestedEventsDetail' );
   has MajorVersionNumber => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'majorVersionNumber' , required => 1);
   has ModelId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelId' , required => 1);
   has ModelType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'modelType' , required => 1);
@@ -40,6 +41,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         DataLocation      => 'Mys3BucketLocation',    # min: 1, max: 512
 
       },    # OPTIONAL
+      IngestedEventsDetail => {
+        IngestedEventsTimeWindow => {
+          EndTime   => 'Mytime',    # min: 11, max: 30
+          StartTime => 'Mytime',    # min: 11, max: 30
+
+        },
+
+      },    # OPTIONAL
       Tags => [
         {
           Key   => 'MytagKey',      # min: 1, max: 128
@@ -66,7 +75,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fra
 
 =head2 ExternalEventsDetail => L<Paws::FraudDetector::ExternalEventsDetail>
 
-The event details.
+The details of the external events data used for training the model
+version. Required if C<trainingDataSource> is C<EXTERNAL_EVENTS>.
+
+
+
+=head2 IngestedEventsDetail => L<Paws::FraudDetector::IngestedEventsDetail>
+
+The details of the ingested event used for training the model version.
+Required if your C<trainingDataSource> is C<INGESTED_EVENTS>.
 
 
 
@@ -86,7 +103,7 @@ The model ID.
 
 The model type.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 
 =head2 Tags => ArrayRef[L<Paws::FraudDetector::Tag>]
 

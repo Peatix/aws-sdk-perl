@@ -42,12 +42,12 @@ A list of attributes that are associated with a MAIL FROM domain.
 
 =head2 B<REQUIRED> BehaviorOnMxFailure => Str
 
-The action that you want to take if the required MX record can't be
-found when you send an email. When you set this value to
-C<UseDefaultValue>, the mail is sent using I<amazonses.com> as the MAIL
-FROM domain. When you set this value to C<RejectMessage>, the Amazon
-SES API v2 returns a C<MailFromDomainNotVerified> error, and doesn't
-attempt to deliver the email.
+The action to take if the required MX record can't be found when you
+send an email. When you set this value to C<USE_DEFAULT_VALUE>, the
+mail is sent using I<amazonses.com> as the MAIL FROM domain. When you
+set this value to C<REJECT_MESSAGE>, the Amazon SES API v2 returns a
+C<MailFromDomainNotVerified> error, and doesn't attempt to deliver the
+email.
 
 These behaviors are taken when the custom MAIL FROM domain
 configuration is in the C<Pending>, C<Failed>, and C<TemporaryFailure>

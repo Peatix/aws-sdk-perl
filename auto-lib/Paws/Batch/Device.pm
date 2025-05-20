@@ -35,17 +35,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Devi
 
 =head1 DESCRIPTION
 
-An object representing a container instance host device.
+An object that represents a container instance host device.
 
-This object isn't applicable to jobs running on Fargate resources and
-shouldn't be provided.
+This object isn't applicable to jobs that are running on Fargate
+resources and shouldn't be provided.
 
 =head1 ATTRIBUTES
 
 
 =head2 ContainerPath => Str
 
-The path inside the container used to expose the host device. By
+The path inside the container that's used to expose the host device. By
 default, the C<hostPath> value is used.
 
 

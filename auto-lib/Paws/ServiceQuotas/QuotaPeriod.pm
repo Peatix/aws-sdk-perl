@@ -46,7 +46,7 @@ The time unit.
 
 =head2 PeriodValue => Int
 
-The value.
+The value associated with the reported C<PeriodUnit>.
 
 
 

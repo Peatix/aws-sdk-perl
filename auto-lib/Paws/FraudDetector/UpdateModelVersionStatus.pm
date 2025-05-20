@@ -55,7 +55,7 @@ The model ID of the model version to update.
 
 The model type.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 
 =head2 B<REQUIRED> ModelVersionNumber => Str
 

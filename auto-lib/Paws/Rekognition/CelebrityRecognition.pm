@@ -49,7 +49,8 @@ Information about a recognized celebrity.
 =head2 Timestamp => Int
 
 The time, in milliseconds from the start of the video, that the
-celebrity was recognized.
+celebrity was recognized. Note that C<Timestamp> is not guaranteed to
+be accurate to the individual frame where the celebrity first appears.
 
 
 

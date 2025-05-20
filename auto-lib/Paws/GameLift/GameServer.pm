@@ -43,22 +43,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::G
 
 =head1 DESCRIPTION
 
-B<This data type is used with the GameLift FleetIQ and game server
-groups.>
+B<This data type is used with the Amazon GameLift FleetIQ and game
+server groups.>
 
 Properties describing a game server that is running on an instance in a
-GameServerGroup.
+game server group.
 
 A game server is created by a successful call to C<RegisterGameServer>
 and deleted by calling C<DeregisterGameServer>. A game server is
 claimed to host a game session by calling C<ClaimGameServer>.
-
-B<Related actions>
-
-RegisterGameServer | ListGameServers | ClaimGameServer |
-DescribeGameServer | UpdateGameServer | DeregisterGameServer | All APIs
-by task
-(https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/reference-awssdk-fleetiq.html)
 
 =head1 ATTRIBUTES
 
@@ -83,7 +76,7 @@ connection to the game server.
 
 A set of custom game server properties, formatted as a single string
 value. This data is passed to a game client or service when it requests
-information on game servers using ListGameServers or ClaimGameServer.
+information on game servers.
 
 
 =head2 GameServerGroupArn => Str
@@ -95,14 +88,14 @@ located.
 =head2 GameServerGroupName => Str
 
 A unique identifier for the game server group where the game server is
-running. Use either the GameServerGroup name or ARN value.
+running.
 
 
 =head2 GameServerId => Str
 
 A custom string that uniquely identifies the game server. Game server
 IDs are developer-defined and are unique across all game server groups
-in an AWS account.
+in an Amazon Web Services account.
 
 
 =head2 InstanceId => Str
@@ -114,27 +107,26 @@ IDs use a 17-character format, for example: C<i-1234567890abcdef0>.
 
 =head2 LastClaimTime => Str
 
-Timestamp that indicates the last time the game server was claimed with
-a ClaimGameServer request. The format is a number expressed in Unix
-time as milliseconds (for example C<"1469498468.057">). This value is
-used to calculate when a claimed game server's status should revert to
-null.
+Timestamp that indicates the last time the game server was claimed. The
+format is a number expressed in Unix time as milliseconds (for example
+C<"1469498468.057">). This value is used to calculate when a claimed
+game server's status should revert to null.
 
 
 =head2 LastHealthCheckTime => Str
 
 Timestamp that indicates the last time the game server was updated with
-health status using an UpdateGameServer request. The format is a number
-expressed in Unix time as milliseconds (for example
-C<"1469498468.057">). After game server registration, this property is
-only changed when a game server update specifies a health check value.
+health status. The format is a number expressed in Unix time as
+milliseconds (for example C<"1469498468.057">). After game server
+registration, this property is only changed when a game server update
+specifies a health check value.
 
 
 =head2 RegistrationTime => Str
 
-Timestamp that indicates when the game server was created with a
-RegisterGameServer request. The format is a number expressed in Unix
-time as milliseconds (for example C<"1469498468.057">).
+Timestamp that indicates when the game server registered. The format is
+a number expressed in Unix time as milliseconds (for example
+C<"1469498468.057">).
 
 
 =head2 UtilizationStatus => Str

@@ -17,7 +17,7 @@ Paws::AuditManager::GetAssessmentFrameworkResponse
 
 =head2 Framework => L<Paws::AuditManager::Framework>
 
-The framework returned by the C<GetAssessmentFramework> API.
+The framework that the C<GetAssessmentFramework> API returned.
 
 
 =head2 _request_id => Str

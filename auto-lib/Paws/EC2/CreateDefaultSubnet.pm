@@ -3,6 +3,7 @@ package Paws::EC2::CreateDefaultSubnet;
   use Moose;
   has AvailabilityZone => (is => 'ro', isa => 'Str', required => 1);
   has DryRun => (is => 'ro', isa => 'Bool');
+  has Ipv6Native => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $CreateDefaultSubnetResult = $ec2->CreateDefaultSubnet(
-      AvailabilityZone => 'MyString',
-      DryRun           => 1,            # OPTIONAL
+      AvailabilityZone => 'MyAvailabilityZoneName',
+      DryRun           => 1,                          # OPTIONAL
+      Ipv6Native       => 1,                          # OPTIONAL
     );
 
     # Results:
@@ -56,6 +58,14 @@ Checks whether you have the required permissions for the action,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
+
+
+
+=head2 Ipv6Native => Bool
+
+Indicates whether to create an IPv6 only subnet. If you already have a
+default subnet for this Availability Zone, you must delete it before
+you can create an IPv6 only subnet.
 
 
 

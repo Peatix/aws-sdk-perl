@@ -17,8 +17,8 @@ Paws::AuditManager::BatchDeleteDelegationByAssessmentResponse
 
 =head2 Errors => ArrayRef[L<Paws::AuditManager::BatchDeleteDelegationByAssessmentError>]
 
-A list of errors returned by the C<BatchDeleteDelegationByAssessment>
-API.
+A list of errors that the C<BatchDeleteDelegationByAssessment> API
+returned.
 
 
 =head2 _request_id => Str

@@ -53,19 +53,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> DocumentReviews => L<Paws::SSM::DocumentReviews>
 
-The document review details to update.
+The change template review details to update.
 
 
 
 =head2 DocumentVersion => Str
 
-The version of a document to update.
+The version of a change template in which to update approval metadata.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the document for which a version is to be updated.
+The name of the change template for which a version's metadata is to be
+updated.
 
 
 

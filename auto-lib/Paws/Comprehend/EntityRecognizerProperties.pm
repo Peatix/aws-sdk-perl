@@ -4,15 +4,19 @@ package Paws::Comprehend::EntityRecognizerProperties;
   has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
   has EntityRecognizerArn => (is => 'ro', isa => 'Str');
+  has FlywheelArn => (is => 'ro', isa => 'Str');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::EntityRecognizerInputDataConfig');
   has LanguageCode => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has ModelKmsKeyId => (is => 'ro', isa => 'Str');
+  has OutputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::EntityRecognizerOutputDataConfig');
   has RecognizerMetadata => (is => 'ro', isa => 'Paws::Comprehend::EntityRecognizerMetadata');
+  has SourceModelArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has SubmitTime => (is => 'ro', isa => 'Str');
   has TrainingEndTime => (is => 'ro', isa => 'Str');
   has TrainingStartTime => (is => 'ro', isa => 'Str');
+  has VersionName => (is => 'ro', isa => 'Str');
   has VolumeKmsKeyId => (is => 'ro', isa => 'Str');
   has VpcConfig => (is => 'ro', isa => 'Paws::Comprehend::VpcConfig');
 
@@ -53,8 +57,8 @@ Describes information about an entity recognizer.
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM)
-role that grants Amazon Comprehend read access to your input data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data.
 
 
 =head2 EndTime => Str
@@ -65,6 +69,11 @@ The time that the recognizer creation completed.
 =head2 EntityRecognizerArn => Str
 
 The Amazon Resource Name (ARN) that identifies the entity recognizer.
+
+
+=head2 FlywheelArn => Str
+
+The Amazon Resource Number (ARN) of the flywheel
 
 
 =head2 InputDataConfig => L<Paws::Comprehend::EntityRecognizerInputDataConfig>
@@ -85,9 +94,9 @@ A description of the status of the recognizer.
 
 =head2 ModelKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt trained custom models. The ModelKmsKeyId can be either
-of the following formats:
+ID for the KMS key that Amazon Comprehend uses to encrypt trained
+custom models. The ModelKmsKeyId can be either of the following
+formats:
 
 =over
 
@@ -104,9 +113,21 @@ C<"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab">
 
 
 
+=head2 OutputDataConfig => L<Paws::Comprehend::EntityRecognizerOutputDataConfig>
+
+Output data configuration.
+
+
 =head2 RecognizerMetadata => L<Paws::Comprehend::EntityRecognizerMetadata>
 
 Provides information about an entity recognizer.
+
+
+=head2 SourceModelArn => Str
+
+The Amazon Resource Name (ARN) of the source model. This model was
+imported from a different Amazon Web Services account to create the
+entity recognizer model in your Amazon Web Services account.
 
 
 =head2 Status => Str
@@ -129,12 +150,17 @@ The time that training of the entity recognizer was completed.
 The time that training of the entity recognizer started.
 
 
+=head2 VersionName => Str
+
+The version name you assigned to the entity recognizer.
+
+
 =head2 VolumeKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt data on the storage volume attached to the ML compute
-instance(s) that process the analysis job. The VolumeKmsKeyId can be
-either of the following formats:
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt data on the storage volume attached
+to the ML compute instance(s) that process the analysis job. The
+VolumeKmsKeyId can be either of the following formats:
 
 =over
 

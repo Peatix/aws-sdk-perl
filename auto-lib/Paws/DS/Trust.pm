@@ -43,7 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DS::Trust o
 
 =head1 DESCRIPTION
 
-Describes a trust relationship between an AWS Managed Microsoft AD
+Describes a trust relationship between an Managed Microsoft AD
 directory and an external domain.
 
 =head1 ATTRIBUTES
@@ -56,8 +56,8 @@ The date and time that the trust relationship was created.
 
 =head2 DirectoryId => Str
 
-The Directory ID of the AWS directory involved in the trust
-relationship.
+The Directory ID of the Amazon Web Services directory involved in the
+trust relationship.
 
 
 =head2 LastUpdatedDateTime => Str

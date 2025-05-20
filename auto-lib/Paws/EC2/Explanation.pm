@@ -5,16 +5,21 @@ package Paws::EC2::Explanation;
   has Address => (is => 'ro', isa => 'Str', request_name => 'address', traits => ['NameInRequest']);
   has Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'addressSet', traits => ['NameInRequest']);
   has AttachedTo => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'attachedTo', traits => ['NameInRequest']);
+  has AvailabilityZoneIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'availabilityZoneIdSet', traits => ['NameInRequest']);
   has AvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'availabilityZoneSet', traits => ['NameInRequest']);
   has Cidrs => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'cidrSet', traits => ['NameInRequest']);
   has ClassicLoadBalancerListener => (is => 'ro', isa => 'Paws::EC2::AnalysisLoadBalancerListener', request_name => 'classicLoadBalancerListener', traits => ['NameInRequest']);
   has Component => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'component', traits => ['NameInRequest']);
+  has ComponentAccount => (is => 'ro', isa => 'Str', request_name => 'componentAccount', traits => ['NameInRequest']);
+  has ComponentRegion => (is => 'ro', isa => 'Str', request_name => 'componentRegion', traits => ['NameInRequest']);
   has CustomerGateway => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'customerGateway', traits => ['NameInRequest']);
   has Destination => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'destination', traits => ['NameInRequest']);
   has DestinationVpc => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'destinationVpc', traits => ['NameInRequest']);
   has Direction => (is => 'ro', isa => 'Str', request_name => 'direction', traits => ['NameInRequest']);
   has ElasticLoadBalancerListener => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'elasticLoadBalancerListener', traits => ['NameInRequest']);
   has ExplanationCode => (is => 'ro', isa => 'Str', request_name => 'explanationCode', traits => ['NameInRequest']);
+  has FirewallStatefulRule => (is => 'ro', isa => 'Paws::EC2::FirewallStatefulRule', request_name => 'firewallStatefulRule', traits => ['NameInRequest']);
+  has FirewallStatelessRule => (is => 'ro', isa => 'Paws::EC2::FirewallStatelessRule', request_name => 'firewallStatelessRule', traits => ['NameInRequest']);
   has IngressRouteTable => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'ingressRouteTable', traits => ['NameInRequest']);
   has InternetGateway => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'internetGateway', traits => ['NameInRequest']);
   has LoadBalancerArn => (is => 'ro', isa => 'Str', request_name => 'loadBalancerArn', traits => ['NameInRequest']);
@@ -40,6 +45,10 @@ package Paws::EC2::Explanation;
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has Subnet => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'subnet', traits => ['NameInRequest']);
   has SubnetRouteTable => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'subnetRouteTable', traits => ['NameInRequest']);
+  has TransitGateway => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'transitGateway', traits => ['NameInRequest']);
+  has TransitGatewayAttachment => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'transitGatewayAttachment', traits => ['NameInRequest']);
+  has TransitGatewayRouteTable => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'transitGatewayRouteTable', traits => ['NameInRequest']);
+  has TransitGatewayRouteTableRoute => (is => 'ro', isa => 'Paws::EC2::TransitGatewayRouteTableRoute', request_name => 'transitGatewayRouteTableRoute', traits => ['NameInRequest']);
   has Vpc => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'vpc', traits => ['NameInRequest']);
   has VpcEndpoint => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'vpcEndpoint', traits => ['NameInRequest']);
   has VpcPeeringConnection => (is => 'ro', isa => 'Paws::EC2::AnalysisComponent', request_name => 'vpcPeeringConnection', traits => ['NameInRequest']);
@@ -105,6 +114,11 @@ The IPv4 addresses, in CIDR notation.
 The resource to which the component is attached.
 
 
+=head2 AvailabilityZoneIds => ArrayRef[Str|Undef]
+
+The IDs of the Availability Zones.
+
+
 =head2 AvailabilityZones => ArrayRef[Str|Undef]
 
 The Availability Zones.
@@ -125,6 +139,16 @@ The listener for a Classic Load Balancer.
 The component.
 
 
+=head2 ComponentAccount => Str
+
+The Amazon Web Services account for the component.
+
+
+=head2 ComponentRegion => Str
+
+The Region for the component.
+
+
 =head2 CustomerGateway => L<Paws::EC2::AnalysisComponent>
 
 The customer gateway.
@@ -142,7 +166,7 @@ The destination VPC.
 
 =head2 Direction => Str
 
-The direction. The following are possible values:
+The direction. The following are the possible values:
 
 =over
 
@@ -166,6 +190,16 @@ The load balancer listener.
 =head2 ExplanationCode => Str
 
 The explanation code.
+
+
+=head2 FirewallStatefulRule => L<Paws::EC2::FirewallStatefulRule>
+
+The Network Firewall stateful rule.
+
+
+=head2 FirewallStatelessRule => L<Paws::EC2::FirewallStatelessRule>
+
+The Network Firewall stateless rule.
 
 
 =head2 IngressRouteTable => L<Paws::EC2::AnalysisComponent>
@@ -291,6 +325,26 @@ The subnet.
 =head2 SubnetRouteTable => L<Paws::EC2::AnalysisComponent>
 
 The route table for the subnet.
+
+
+=head2 TransitGateway => L<Paws::EC2::AnalysisComponent>
+
+The transit gateway.
+
+
+=head2 TransitGatewayAttachment => L<Paws::EC2::AnalysisComponent>
+
+The transit gateway attachment.
+
+
+=head2 TransitGatewayRouteTable => L<Paws::EC2::AnalysisComponent>
+
+The transit gateway route table.
+
+
+=head2 TransitGatewayRouteTableRoute => L<Paws::EC2::TransitGatewayRouteTableRoute>
+
+The transit gateway route table route.
 
 
 =head2 Vpc => L<Paws::EC2::AnalysisComponent>

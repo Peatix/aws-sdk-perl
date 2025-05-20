@@ -30,7 +30,7 @@ Information about the service.
 
 =head2 ServiceNames => ArrayRef[Str|Undef]
 
-A list of supported services.
+The supported services.
 
 
 =head2 _request_id => Str

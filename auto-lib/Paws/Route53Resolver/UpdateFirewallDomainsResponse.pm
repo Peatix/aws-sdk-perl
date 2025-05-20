@@ -29,7 +29,7 @@ The name of the domain list.
 
 =head2 Status => Str
 
-
+Status of the C<UpdateFirewallDomains> request.
 
 Valid values are: C<"COMPLETE">, C<"COMPLETE_IMPORT_FAILED">, C<"IMPORTING">, C<"DELETING">, C<"UPDATING">
 =head2 StatusMessage => Str

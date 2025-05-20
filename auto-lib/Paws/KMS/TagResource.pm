@@ -28,8 +28,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To tag a customer master key (CMK)
-    # The following example tags a CMK.
+    # To tag a KMS key
+    # The following example tags a KMS key.
     $kms->TagResource(
       'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab',
       'Tags'  => [
@@ -50,9 +50,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Identifies a customer managed CMK in the account and Region.
+Identifies a customer managed key in the account and Region.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -69,19 +69,22 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 
 =head2 B<REQUIRED> Tags => ArrayRef[L<Paws::KMS::Tag>]
 
-One or more tags.
+One or more tags. Each tag consists of a tag key and a tag value. The
+tag value can be an empty (null) string.
 
-Each tag consists of a tag key and a tag value. The tag value can be an
-empty (null) string.
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
 
-You cannot have more than one tag on a CMK with the same tag key. If
-you specify an existing tag key with a different tag value, AWS KMS
+You cannot have more than one tag on a KMS key with the same tag key.
+If you specify an existing tag key with a different tag value, KMS
 replaces the current tag value with the specified one.
 
 

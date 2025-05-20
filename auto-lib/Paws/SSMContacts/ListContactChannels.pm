@@ -29,15 +29,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $ListContactChannelsResult = $ssm -contacts->ListContactChannels(
-      ContactId  => 'MySsmContactsArn',
-      MaxResults => 1,                      # OPTIONAL
-      NextToken  => 'MyPaginationToken',    # OPTIONAL
-    );
+    # To list the contact channels of a contact
+    # The following list-contact-channels example lists the available contact
+    # channels of the specified contact.
+    my $ListContactChannelsResult =
+      $ssm -
+      contacts->ListContactChannels( 'ContactId' =>
+        'arn:aws:ssm-contacts:us-east-2:111122223333:contact/akuam' );
 
     # Results:
     my $ContactChannels = $ListContactChannelsResult->ContactChannels;
-    my $NextToken       = $ListContactChannelsResult->NextToken;
 
     # Returns a L<Paws::SSMContacts::ListContactChannelsResult> object.
 

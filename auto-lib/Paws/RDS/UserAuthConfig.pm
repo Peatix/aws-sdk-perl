@@ -2,6 +2,7 @@
 package Paws::RDS::UserAuthConfig;
   use Moose;
   has AuthScheme => (is => 'ro', isa => 'Str');
+  has ClientPasswordAuthType => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has IAMAuth => (is => 'ro', isa => 'Str');
   has SecretArn => (is => 'ro', isa => 'Str');
@@ -49,6 +50,29 @@ The type of authentication that the proxy uses for connections from the
 proxy to the underlying database.
 
 
+=head2 ClientPasswordAuthType => Str
+
+The type of authentication the proxy uses for connections from clients.
+The following values are defaults for the corresponding engines:
+
+=over
+
+=item *
+
+RDS for MySQL: C<MYSQL_CACHING_SHA2_PASSWORD>
+
+=item *
+
+RDS for SQL Server: C<SQL_SERVER_AUTHENTICATION>
+
+=item *
+
+RDS for PostgreSQL: C<POSTGRES_SCRAM_SHA2_256>
+
+=back
+
+
+
 =head2 Description => Str
 
 A user-specified description about the authentication used by a proxy
@@ -57,8 +81,10 @@ to log in as a specific database user.
 
 =head2 IAMAuth => Str
 
-Whether to require or disallow Amazon Web Services Identity and Access
-Management (IAM) authentication for connections to the proxy.
+A value that indicates whether to require or disallow Amazon Web
+Services Identity and Access Management (IAM) authentication for
+connections to the proxy. The C<ENABLED> value is valid only for
+proxies with RDS for Microsoft SQL Server.
 
 
 =head2 SecretArn => Str

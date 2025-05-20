@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Supp
 =head1 DESCRIPTION
 
 An object that contains information about the email address suppression
-preferences for your account in the current AWS Region.
+preferences for your account in the current Amazon Web Services Region.
 
 =head1 ATTRIBUTES
 

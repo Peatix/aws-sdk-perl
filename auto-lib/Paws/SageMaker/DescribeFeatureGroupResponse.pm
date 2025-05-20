@@ -9,12 +9,16 @@ package Paws::SageMaker::DescribeFeatureGroupResponse;
   has FeatureGroupArn => (is => 'ro', isa => 'Str', required => 1);
   has FeatureGroupName => (is => 'ro', isa => 'Str', required => 1);
   has FeatureGroupStatus => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
+  has LastUpdateStatus => (is => 'ro', isa => 'Paws::SageMaker::LastUpdateStatus');
   has NextToken => (is => 'ro', isa => 'Str', required => 1);
   has OfflineStoreConfig => (is => 'ro', isa => 'Paws::SageMaker::OfflineStoreConfig');
   has OfflineStoreStatus => (is => 'ro', isa => 'Paws::SageMaker::OfflineStoreStatus');
   has OnlineStoreConfig => (is => 'ro', isa => 'Paws::SageMaker::OnlineStoreConfig');
+  has OnlineStoreTotalSizeBytes => (is => 'ro', isa => 'Int');
   has RecordIdentifierFeatureName => (is => 'ro', isa => 'Str', required => 1);
   has RoleArn => (is => 'ro', isa => 'Str');
+  has ThroughputConfig => (is => 'ro', isa => 'Paws::SageMaker::ThroughputConfigDescription');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -88,6 +92,17 @@ he name of the C<FeatureGroup>.
 The status of the feature group.
 
 Valid values are: C<"Creating">, C<"Created">, C<"CreateFailed">, C<"Deleting">, C<"DeleteFailed">
+=head2 LastModifiedTime => Str
+
+A timestamp indicating when the feature group was last updated.
+
+
+=head2 LastUpdateStatus => L<Paws::SageMaker::LastUpdateStatus>
+
+A value indicating whether the update made to the feature group was
+successful.
+
+
 =head2 B<REQUIRED> NextToken => Str
 
 A token to resume pagination of the list of C<Features>
@@ -96,9 +111,34 @@ A token to resume pagination of the list of C<Features>
 
 =head2 OfflineStoreConfig => L<Paws::SageMaker::OfflineStoreConfig>
 
-The configuration of the C<OfflineStore>, inducing the S3 location of
-the C<OfflineStore>, Amazon Web Services Glue or Amazon Web Services
-Hive data catalogue configurations, and the security configuration.
+The configuration of the offline store. It includes the following
+configurations:
+
+=over
+
+=item *
+
+Amazon S3 location of the offline store.
+
+=item *
+
+Configuration of the Glue data catalog.
+
+=item *
+
+Table format of the offline store.
+
+=item *
+
+Option to disable the automatic creation of a Glue table for the
+offline store.
+
+=item *
+
+Encryption configuration.
+
+=back
+
 
 
 =head2 OfflineStoreStatus => L<Paws::SageMaker::OfflineStoreStatus>
@@ -113,6 +153,11 @@ C<Blocked>
 The configuration for the C<OnlineStore>.
 
 
+=head2 OnlineStoreTotalSizeBytes => Int
+
+The size of the C<OnlineStore> in bytes.
+
+
 =head2 B<REQUIRED> RecordIdentifierFeatureName => Str
 
 The name of the C<Feature> used for C<RecordIdentifier>, whose value
@@ -122,8 +167,13 @@ uniquely identifies a record stored in the feature store.
 =head2 RoleArn => Str
 
 The Amazon Resource Name (ARN) of the IAM execution role used to
-persist data into the C<OfflineStore> if an C<OfflineStoreConfig> is
+persist data into the OfflineStore if an OfflineStoreConfig is
 provided.
+
+
+=head2 ThroughputConfig => L<Paws::SageMaker::ThroughputConfigDescription>
+
+
 
 
 =head2 _request_id => Str

@@ -41,8 +41,7 @@ Summary includes the name and status of the conformance pack.
 
 =head2 B<REQUIRED> ConformancePackComplianceStatus => Str
 
-The status of the conformance pack. The allowed values are
-C<COMPLIANT>, C<NON_COMPLIANT> and C<INSUFFICIENT_DATA>.
+The status of the conformance pack.
 
 
 =head2 B<REQUIRED> ConformancePackName => Str

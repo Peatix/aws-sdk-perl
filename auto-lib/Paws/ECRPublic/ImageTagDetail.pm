@@ -35,14 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 
 =head1 DESCRIPTION
 
-An object representing the image tag details for an image.
+An object that represents the image tag details for an image.
 
 =head1 ATTRIBUTES
 
 
 =head2 CreatedAt => Str
 
-The time stamp indicating when the image tag was created.
+The time stamp that indicates when the image tag was created.
 
 
 =head2 ImageDetail => L<Paws::ECRPublic::ReferencedImageDetail>
@@ -52,7 +52,7 @@ An object that describes the details of an image.
 
 =head2 ImageTag => Str
 
-The tag associated with the image.
+The tag that's associated with the image.
 
 
 

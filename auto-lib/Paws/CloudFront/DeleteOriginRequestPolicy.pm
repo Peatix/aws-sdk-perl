@@ -55,9 +55,9 @@ C<ListOriginRequestPolicies>.
 =head2 IfMatch => Str
 
 The version of the origin request policy that you are deleting. The
-version is the origin request policyE<rsquo>s C<ETag> value, which you
-can get using C<ListOriginRequestPolicies>, C<GetOriginRequestPolicy>,
-or C<GetOriginRequestPolicyConfig>.
+version is the origin request policy's C<ETag> value, which you can get
+using C<ListOriginRequestPolicies>, C<GetOriginRequestPolicy>, or
+C<GetOriginRequestPolicyConfig>.
 
 
 

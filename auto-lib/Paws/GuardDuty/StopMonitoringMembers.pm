@@ -60,6 +60,11 @@ A list of account IDs for the member accounts to stop monitoring.
 The unique ID of the detector associated with the GuardDuty
 administrator account that is monitoring member accounts.
 
+To find the C<detectorId> in the current Region, see the Settings page
+in the GuardDuty console, or run the ListDetectors
+(https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html)
+API.
+
 
 
 

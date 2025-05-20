@@ -5,7 +5,7 @@ package Paws::LocationService::ListPlaceIndexesResponseEntry;
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
   has Description => (is => 'ro', isa => 'Str', required => 1);
   has IndexName => (is => 'ro', isa => 'Str', required => 1);
-  has PricingPlan => (is => 'ro', isa => 'Str', required => 1);
+  has PricingPlan => (is => 'ro', isa => 'Str');
   has UpdateTime => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 =head1 DESCRIPTION
 
-A place index resource listed in your AWS account.
+A place index resource listed in your Amazon Web Services account.
 
 =head1 ATTRIBUTES
 
@@ -52,8 +52,8 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>.
 
 =head2 B<REQUIRED> DataSource => Str
 
-The data provider of geospatial data. Indicates one of the available
-providers:
+The data provider of geospatial data. Values can be one of the
+following:
 
 =over
 
@@ -63,12 +63,16 @@ C<Esri>
 
 =item *
 
+C<Grab>
+
+=item *
+
 C<Here>
 
 =back
 
-For additional details on data providers, see the Amazon Location
-Service data providers page
+For more information about data providers, see Amazon Location Service
+data providers
 (https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
 
 
@@ -82,13 +86,9 @@ The optional description for the place index resource.
 The name of the place index resource.
 
 
-=head2 B<REQUIRED> PricingPlan => Str
+=head2 PricingPlan => Str
 
-The pricing plan for the specified place index resource.
-
-For additional details and restrictions on each pricing plan option,
-see the Amazon Location Service pricing page
-(https://aws.amazon.com/location/pricing/).
+No longer used. Always returns C<RequestBasedUsage>.
 
 
 =head2 B<REQUIRED> UpdateTime => Str

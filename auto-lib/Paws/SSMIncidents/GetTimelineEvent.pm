@@ -48,15 +48,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> EventId => Str
 
-The ID of the event. You can get an event's ID when you create it or by
-using C<ListTimelineEvents>.
+The ID of the event. You can get an event's ID when you create it, or
+by using C<ListTimelineEvents>.
 
 
 
 =head2 B<REQUIRED> IncidentRecordArn => Str
 
-The Amazon Resource Name (ARN) of the incident that the timeline event
-is part of.
+The Amazon Resource Name (ARN) of the incident that includes the
+timeline event.
 
 
 

@@ -68,6 +68,10 @@ default branch's HEAD commit ID is used.
 
 =item *
 
+For GitLab: the commit ID, branch, or Git tag to use.
+
+=item *
+
 For Bitbucket: the commit ID, branch name, or tag name that corresponds
 to the version of the source code you want to build. If a branch name
 is specified, the branch's HEAD commit ID is used. If not specified,

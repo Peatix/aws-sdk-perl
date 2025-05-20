@@ -82,16 +82,18 @@ C<Platform Type> - The platform type. Logical operator is C<EQUALS>.
 
 =item *
 
-C<Tag:key> - The key of a tag attached to an AWS resource you wish to
-exclude from automated discovery. Logical operator is C<NOT_EQUALS>.
-The key for your tag must be appended to C<Tag:> following the example:
-C<Tag:name-of-your-key>. C<ProductInformationFilterValue> is optional
-if you are not using values for the key.
+C<Tag:key> - The key of a tag attached to an Amazon Web Services
+resource you wish to exclude from automated discovery. Logical operator
+is C<NOT_EQUALS>. The key for your tag must be appended to C<Tag:>
+following the example: C<Tag:name-of-your-key>.
+C<ProductInformationFilterValue> is optional if you are not using
+values for the key.
 
 =item *
 
-C<AccountId> - The 12-digit ID of an AWS account you wish to exclude
-from automated discovery. Logical operator is C<NOT_EQUALS>.
+C<AccountId> - The 12-digit ID of an Amazon Web Services account you
+wish to exclude from automated discovery. Logical operator is
+C<NOT_EQUALS>.
 
 =item *
 
@@ -111,7 +113,7 @@ resource type is C<RDS>:
 
 C<Engine Edition> - The edition of the database engine. Logical
 operator is C<EQUALS>. Possible values are: C<oracle-ee> | C<oracle-se>
-| C<oracle-se1> | C<oracle-se2>.
+| C<oracle-se1> | C<oracle-se2> | C<db2-se> | C<db2-ae>.
 
 =item *
 

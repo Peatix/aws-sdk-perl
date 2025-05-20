@@ -8,6 +8,7 @@ package Paws::SageMaker::UpdateNotebookInstance;
   has DisassociateAdditionalCodeRepositories => (is => 'ro', isa => 'Bool');
   has DisassociateDefaultCodeRepository => (is => 'ro', isa => 'Bool');
   has DisassociateLifecycleConfig => (is => 'ro', isa => 'Bool');
+  has InstanceMetadataServiceConfiguration => (is => 'ro', isa => 'Paws::SageMaker::InstanceMetadataServiceConfiguration');
   has InstanceType => (is => 'ro', isa => 'Str');
   has LifecycleConfigName => (is => 'ro', isa => 'Str');
   has NotebookInstanceName => (is => 'ro', isa => 'Str', required => 1);
@@ -48,12 +49,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AdditionalCodeRepositories => [
         'MyCodeRepositoryNameOrUrl', ...    # min: 1, max: 1024
       ],    # OPTIONAL
-      DefaultCodeRepository        => 'MyCodeRepositoryNameOrUrl', # OPTIONAL
-      DisassociateAcceleratorTypes => 1,                           # OPTIONAL
-      DisassociateAdditionalCodeRepositories => 1,                 # OPTIONAL
-      DisassociateDefaultCodeRepository      => 1,                 # OPTIONAL
-      DisassociateLifecycleConfig            => 1,                 # OPTIONAL
-      InstanceType                           => 'ml.t2.medium',    # OPTIONAL
+      DefaultCodeRepository        => 'MyCodeRepositoryNameOrUrl',    # OPTIONAL
+      DisassociateAcceleratorTypes => 1,                              # OPTIONAL
+      DisassociateAdditionalCodeRepositories => 1,                    # OPTIONAL
+      DisassociateDefaultCodeRepository      => 1,                    # OPTIONAL
+      DisassociateLifecycleConfig            => 1,                    # OPTIONAL
+      InstanceMetadataServiceConfiguration   => {
+        MinimumInstanceMetadataServiceVersion =>
+          'MyMinimumInstanceMetadataServiceVersion',                  # max: 1
+
+      },    # OPTIONAL
+      InstanceType        => 'ml.t2.medium',                          # OPTIONAL
       LifecycleConfigName => 'MyNotebookInstanceLifecycleConfigName', # OPTIONAL
       RoleArn             => 'MyRoleArn',                             # OPTIONAL
       RootAccess          => 'Enabled',                               # OPTIONAL
@@ -68,11 +74,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 AcceleratorTypes => ArrayRef[Str|Undef]
 
-A list of the Elastic Inference (EI) instance types to associate with
-this notebook instance. Currently only one EI instance type can be
-associated with a notebook instance. For more information, see Using
-Elastic Inference in Amazon SageMaker
-(https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+This parameter is no longer supported. Elastic Inference (EI) is no
+longer available.
+
+This parameter was used to specify a list of the EI instance types to
+associate with this notebook instance.
 
 
 
@@ -85,8 +91,8 @@ Services CodeCommit
 (https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
 or in any other Git repository. These repositories are cloned at the
 same level as the default repository of your notebook instance. For
-more information, see Associating Git Repositories with Amazon
-SageMaker Notebook Instances
+more information, see Associating Git Repositories with SageMaker AI
+Notebook Instances
 (https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
 
@@ -100,7 +106,7 @@ repository in Amazon Web Services CodeCommit
 (https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
 or in any other Git repository. When you open a notebook instance, it
 opens in the directory that contains this repository. For more
-information, see Associating Git Repositories with Amazon SageMaker
+information, see Associating Git Repositories with SageMaker AI
 Notebook Instances
 (https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
 
@@ -108,10 +114,11 @@ Notebook Instances
 
 =head2 DisassociateAcceleratorTypes => Bool
 
-A list of the Elastic Inference (EI) instance types to remove from this
-notebook instance. This operation is idempotent. If you specify an
-accelerator type that is not associated with the notebook instance when
-you call this method, it does not throw an error.
+This parameter is no longer supported. Elastic Inference (EI) is no
+longer available.
+
+This parameter was used to specify a list of the EI instance types to
+remove from this notebook instance.
 
 
 
@@ -143,11 +150,17 @@ does not throw an error.
 
 
 
+=head2 InstanceMetadataServiceConfiguration => L<Paws::SageMaker::InstanceMetadataServiceConfiguration>
+
+Information on the IMDS configuration of the notebook instance
+
+
+
 =head2 InstanceType => Str
 
 The Amazon ML compute instance type.
 
-Valid values are: C<"ml.t2.medium">, C<"ml.t2.large">, C<"ml.t2.xlarge">, C<"ml.t2.2xlarge">, C<"ml.t3.medium">, C<"ml.t3.large">, C<"ml.t3.xlarge">, C<"ml.t3.2xlarge">, C<"ml.m4.xlarge">, C<"ml.m4.2xlarge">, C<"ml.m4.4xlarge">, C<"ml.m4.10xlarge">, C<"ml.m4.16xlarge">, C<"ml.m5.xlarge">, C<"ml.m5.2xlarge">, C<"ml.m5.4xlarge">, C<"ml.m5.12xlarge">, C<"ml.m5.24xlarge">, C<"ml.c4.xlarge">, C<"ml.c4.2xlarge">, C<"ml.c4.4xlarge">, C<"ml.c4.8xlarge">, C<"ml.c5.xlarge">, C<"ml.c5.2xlarge">, C<"ml.c5.4xlarge">, C<"ml.c5.9xlarge">, C<"ml.c5.18xlarge">, C<"ml.c5d.xlarge">, C<"ml.c5d.2xlarge">, C<"ml.c5d.4xlarge">, C<"ml.c5d.9xlarge">, C<"ml.c5d.18xlarge">, C<"ml.p2.xlarge">, C<"ml.p2.8xlarge">, C<"ml.p2.16xlarge">, C<"ml.p3.2xlarge">, C<"ml.p3.8xlarge">, C<"ml.p3.16xlarge">
+Valid values are: C<"ml.t2.medium">, C<"ml.t2.large">, C<"ml.t2.xlarge">, C<"ml.t2.2xlarge">, C<"ml.t3.medium">, C<"ml.t3.large">, C<"ml.t3.xlarge">, C<"ml.t3.2xlarge">, C<"ml.m4.xlarge">, C<"ml.m4.2xlarge">, C<"ml.m4.4xlarge">, C<"ml.m4.10xlarge">, C<"ml.m4.16xlarge">, C<"ml.m5.xlarge">, C<"ml.m5.2xlarge">, C<"ml.m5.4xlarge">, C<"ml.m5.12xlarge">, C<"ml.m5.24xlarge">, C<"ml.m5d.large">, C<"ml.m5d.xlarge">, C<"ml.m5d.2xlarge">, C<"ml.m5d.4xlarge">, C<"ml.m5d.8xlarge">, C<"ml.m5d.12xlarge">, C<"ml.m5d.16xlarge">, C<"ml.m5d.24xlarge">, C<"ml.c4.xlarge">, C<"ml.c4.2xlarge">, C<"ml.c4.4xlarge">, C<"ml.c4.8xlarge">, C<"ml.c5.xlarge">, C<"ml.c5.2xlarge">, C<"ml.c5.4xlarge">, C<"ml.c5.9xlarge">, C<"ml.c5.18xlarge">, C<"ml.c5d.xlarge">, C<"ml.c5d.2xlarge">, C<"ml.c5d.4xlarge">, C<"ml.c5d.9xlarge">, C<"ml.c5d.18xlarge">, C<"ml.p2.xlarge">, C<"ml.p2.8xlarge">, C<"ml.p2.16xlarge">, C<"ml.p3.2xlarge">, C<"ml.p3.8xlarge">, C<"ml.p3.16xlarge">, C<"ml.p3dn.24xlarge">, C<"ml.g4dn.xlarge">, C<"ml.g4dn.2xlarge">, C<"ml.g4dn.4xlarge">, C<"ml.g4dn.8xlarge">, C<"ml.g4dn.12xlarge">, C<"ml.g4dn.16xlarge">, C<"ml.r5.large">, C<"ml.r5.xlarge">, C<"ml.r5.2xlarge">, C<"ml.r5.4xlarge">, C<"ml.r5.8xlarge">, C<"ml.r5.12xlarge">, C<"ml.r5.16xlarge">, C<"ml.r5.24xlarge">, C<"ml.g5.xlarge">, C<"ml.g5.2xlarge">, C<"ml.g5.4xlarge">, C<"ml.g5.8xlarge">, C<"ml.g5.16xlarge">, C<"ml.g5.12xlarge">, C<"ml.g5.24xlarge">, C<"ml.g5.48xlarge">, C<"ml.inf1.xlarge">, C<"ml.inf1.2xlarge">, C<"ml.inf1.6xlarge">, C<"ml.inf1.24xlarge">, C<"ml.trn1.2xlarge">, C<"ml.trn1.32xlarge">, C<"ml.trn1n.32xlarge">, C<"ml.inf2.xlarge">, C<"ml.inf2.8xlarge">, C<"ml.inf2.24xlarge">, C<"ml.inf2.48xlarge">, C<"ml.p4d.24xlarge">, C<"ml.p4de.24xlarge">, C<"ml.p5.48xlarge">, C<"ml.m6i.large">, C<"ml.m6i.xlarge">, C<"ml.m6i.2xlarge">, C<"ml.m6i.4xlarge">, C<"ml.m6i.8xlarge">, C<"ml.m6i.12xlarge">, C<"ml.m6i.16xlarge">, C<"ml.m6i.24xlarge">, C<"ml.m6i.32xlarge">, C<"ml.m7i.large">, C<"ml.m7i.xlarge">, C<"ml.m7i.2xlarge">, C<"ml.m7i.4xlarge">, C<"ml.m7i.8xlarge">, C<"ml.m7i.12xlarge">, C<"ml.m7i.16xlarge">, C<"ml.m7i.24xlarge">, C<"ml.m7i.48xlarge">, C<"ml.c6i.large">, C<"ml.c6i.xlarge">, C<"ml.c6i.2xlarge">, C<"ml.c6i.4xlarge">, C<"ml.c6i.8xlarge">, C<"ml.c6i.12xlarge">, C<"ml.c6i.16xlarge">, C<"ml.c6i.24xlarge">, C<"ml.c6i.32xlarge">, C<"ml.c7i.large">, C<"ml.c7i.xlarge">, C<"ml.c7i.2xlarge">, C<"ml.c7i.4xlarge">, C<"ml.c7i.8xlarge">, C<"ml.c7i.12xlarge">, C<"ml.c7i.16xlarge">, C<"ml.c7i.24xlarge">, C<"ml.c7i.48xlarge">, C<"ml.r6i.large">, C<"ml.r6i.xlarge">, C<"ml.r6i.2xlarge">, C<"ml.r6i.4xlarge">, C<"ml.r6i.8xlarge">, C<"ml.r6i.12xlarge">, C<"ml.r6i.16xlarge">, C<"ml.r6i.24xlarge">, C<"ml.r6i.32xlarge">, C<"ml.r7i.large">, C<"ml.r7i.xlarge">, C<"ml.r7i.2xlarge">, C<"ml.r7i.4xlarge">, C<"ml.r7i.8xlarge">, C<"ml.r7i.12xlarge">, C<"ml.r7i.16xlarge">, C<"ml.r7i.24xlarge">, C<"ml.r7i.48xlarge">, C<"ml.m6id.large">, C<"ml.m6id.xlarge">, C<"ml.m6id.2xlarge">, C<"ml.m6id.4xlarge">, C<"ml.m6id.8xlarge">, C<"ml.m6id.12xlarge">, C<"ml.m6id.16xlarge">, C<"ml.m6id.24xlarge">, C<"ml.m6id.32xlarge">, C<"ml.c6id.large">, C<"ml.c6id.xlarge">, C<"ml.c6id.2xlarge">, C<"ml.c6id.4xlarge">, C<"ml.c6id.8xlarge">, C<"ml.c6id.12xlarge">, C<"ml.c6id.16xlarge">, C<"ml.c6id.24xlarge">, C<"ml.c6id.32xlarge">, C<"ml.r6id.large">, C<"ml.r6id.xlarge">, C<"ml.r6id.2xlarge">, C<"ml.r6id.4xlarge">, C<"ml.r6id.8xlarge">, C<"ml.r6id.12xlarge">, C<"ml.r6id.16xlarge">, C<"ml.r6id.24xlarge">, C<"ml.r6id.32xlarge">, C<"ml.g6.xlarge">, C<"ml.g6.2xlarge">, C<"ml.g6.4xlarge">, C<"ml.g6.8xlarge">, C<"ml.g6.12xlarge">, C<"ml.g6.16xlarge">, C<"ml.g6.24xlarge">, C<"ml.g6.48xlarge">
 
 =head2 LifecycleConfigName => Str
 
@@ -166,13 +179,13 @@ The name of the notebook instance to update.
 
 =head2 RoleArn => Str
 
-The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker
-can assume to access the notebook instance. For more information, see
-Amazon SageMaker Roles
+The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can
+assume to access the notebook instance. For more information, see
+SageMaker AI Roles
 (https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html).
 
-To be able to pass this role to Amazon SageMaker, the caller of this
-API must have the C<iam:PassRole> permission.
+To be able to pass this role to SageMaker AI, the caller of this API
+must have the C<iam:PassRole> permission.
 
 
 
@@ -191,11 +204,11 @@ Valid values are: C<"Enabled">, C<"Disabled">
 
 The size, in GB, of the ML storage volume to attach to the notebook
 instance. The default value is 5 GB. ML storage volumes are encrypted,
-so Amazon SageMaker can't determine the amount of available free space
-on the volume. Because of this, you can increase the volume size when
-you update a notebook instance, but you can't decrease the volume size.
-If you want to decrease the size of the ML storage volume in use,
-create a new notebook instance with the desired size.
+so SageMaker AI can't determine the amount of available free space on
+the volume. Because of this, you can increase the volume size when you
+update a notebook instance, but you can't decrease the volume size. If
+you want to decrease the size of the ML storage volume in use, create a
+new notebook instance with the desired size.
 
 
 

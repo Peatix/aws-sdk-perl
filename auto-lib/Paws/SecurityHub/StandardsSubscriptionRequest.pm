@@ -42,7 +42,7 @@ The standard that you want to enable.
 =head2 B<REQUIRED> StandardsArn => Str
 
 The ARN of the standard that you want to enable. To view the list of
-available standards and their ARNs, use the C< DescribeStandards >
+available standards and their ARNs, use the C<DescribeStandards>
 operation.
 
 

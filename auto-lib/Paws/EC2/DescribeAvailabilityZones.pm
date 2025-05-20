@@ -74,11 +74,18 @@ The filters.
 
 =item *
 
-C<group-name> - For Availability Zones, use the Region name. For Local
-Zones, use the name of the group associated with the Local Zone (for
-example, C<us-west-2-lax-1>) For Wavelength Zones, use the name of the
-group associated with the Wavelength Zone (for example,
-C<us-east-1-wl1-bos-wlz-1>).
+C<group-long-name> - The long name of the zone group for the
+Availability Zone (for example, C<US West (Oregon) 1>), the Local Zone
+(for example, for Zone group C<us-west-2-lax-1>, it is C<US West (Los
+Angeles)>, or the Wavelength Zone (for example, for Zone group
+C<us-east-1-wl1>, it is C<US East (Verizon)>.
+
+=item *
+
+C<group-name> - The name of the zone group for the Availability Zone
+(for example, C<us-east-1-zg-1>), the Local Zone (for example,
+C<us-west-2-lax-1>), or the Wavelength Zone (for example,
+C<us-east-1-wl1>).
 
 =item *
 
@@ -86,17 +93,17 @@ C<message> - The Zone message.
 
 =item *
 
-C<opt-in-status> - The opt-in status (C<opted-in>, and C<not-opted-in>
-| C<opt-in-not-required>).
+C<opt-in-status> - The opt-in status (C<opted-in> | C<not-opted-in> |
+C<opt-in-not-required>).
 
 =item *
 
-C<parent-zoneID> - The ID of the zone that handles some of the Local
+C<parent-zone-id> - The ID of the zone that handles some of the Local
 Zone and Wavelength Zone control plane operations, such as API calls.
 
 =item *
 
-C<parent-zoneName> - The ID of the zone that handles some of the Local
+C<parent-zone-name> - The ID of the zone that handles some of the Local
 Zone and Wavelength Zone control plane operations, such as API calls.
 
 =item *
@@ -107,8 +114,7 @@ C<us-east-1>).
 =item *
 
 C<state> - The state of the Availability Zone, the Local Zone, or the
-Wavelength Zone (C<available> | C<information> | C<impaired> |
-C<unavailable>).
+Wavelength Zone (C<available> | C<unavailable> | C<constrained>).
 
 =item *
 
@@ -118,17 +124,14 @@ Wavelength Zone (for example, C<us-east-1-wl1-bos-wlz-1>).
 
 =item *
 
-C<zone-type> - The type of zone, for example, C<local-zone>.
-
-=item *
-
 C<zone-name> - The name of the Availability Zone (for example,
 C<us-east-1a>), the Local Zone (for example, C<us-west-2-lax-1a>), or
 the Wavelength Zone (for example, C<us-east-1-wl1-bos-wlz-1>).
 
 =item *
 
-C<zone-type> - The type of zone, for example, C<local-zone>.
+C<zone-type> - The type of zone (C<availability-zone> | C<local-zone> |
+C<wavelength-zone>).
 
 =back
 

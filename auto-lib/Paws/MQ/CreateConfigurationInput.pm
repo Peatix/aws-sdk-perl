@@ -2,9 +2,9 @@
 package Paws::MQ::CreateConfigurationInput;
   use Moose;
   has AuthenticationStrategy => (is => 'ro', isa => 'Str', request_name => 'authenticationStrategy', traits => ['NameInRequest']);
-  has EngineType => (is => 'ro', isa => 'Str', request_name => 'engineType', traits => ['NameInRequest']);
+  has EngineType => (is => 'ro', isa => 'Str', request_name => 'engineType', traits => ['NameInRequest'], required => 1);
   has EngineVersion => (is => 'ro', isa => 'Str', request_name => 'engineVersion', traits => ['NameInRequest']);
-  has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Tags => (is => 'ro', isa => 'Paws::MQ::__mapOf__string', request_name => 'tags', traits => ['NameInRequest']);
 
 1;
@@ -45,23 +45,28 @@ Amazon MQ uses the default configuration (the engine type and version).
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy associated with the configuration.
+Optional. The authentication strategy associated with the
+configuration. The default is SIMPLE.
 
 
-=head2 EngineType => Str
+=head2 B<REQUIRED> EngineType => Str
 
-Required. The type of broker engine. Note: Currently, Amazon MQ
-supports ACTIVEMQ and RABBITMQ.
+Required. The type of broker engine. Currently, Amazon MQ supports
+ACTIVEMQ and RABBITMQ.
 
 
 =head2 EngineVersion => Str
 
-Required. The version of the broker engine. For a list of supported
-engine versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+The broker engine version. Defaults to the latest available version for
+the specified broker engine type. For more information, see the
+ActiveMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+and the RabbitMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+sections in the Amazon MQ Developer Guide.
 
 
-=head2 Name => Str
+=head2 B<REQUIRED> Name => Str
 
 Required. The name of the configuration. This value can contain only
 alphanumeric characters, dashes, periods, underscores, and tildes (- .

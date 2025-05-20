@@ -22,9 +22,9 @@ A list of summaries of model quality monitoring job definitions.
 
 =head2 NextToken => Str
 
-If the response is truncated, Amazon SageMaker returns this token. To
-retrieve the next set of model quality monitoring job definitions, use
-it in the next request.
+If the response is truncated, Amazon SageMaker AI returns this token.
+To retrieve the next set of model quality monitoring job definitions,
+use it in the next request.
 
 
 =head2 _request_id => Str

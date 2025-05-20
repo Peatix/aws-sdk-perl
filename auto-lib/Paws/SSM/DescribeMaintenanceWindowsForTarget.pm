@@ -75,13 +75,13 @@ from a previous call.)
 =head2 B<REQUIRED> ResourceType => Str
 
 The type of resource you want to retrieve information about. For
-example, "INSTANCE".
+example, C<INSTANCE>.
 
 Valid values are: C<"INSTANCE">, C<"RESOURCE_GROUP">
 
 =head2 B<REQUIRED> Targets => ArrayRef[L<Paws::SSM::Target>]
 
-The instance ID or key/value pair to retrieve information about.
+The managed node ID or key-value pair to retrieve information about.
 
 
 

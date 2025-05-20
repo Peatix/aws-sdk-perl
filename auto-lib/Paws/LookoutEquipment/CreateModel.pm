@@ -8,7 +8,9 @@ package Paws::LookoutEquipment::CreateModel;
   has EvaluationDataEndTime => (is => 'ro', isa => 'Str');
   has EvaluationDataStartTime => (is => 'ro', isa => 'Str');
   has LabelsInputConfiguration => (is => 'ro', isa => 'Paws::LookoutEquipment::LabelsInputConfiguration');
+  has ModelDiagnosticsOutputConfiguration => (is => 'ro', isa => 'Paws::LookoutEquipment::ModelDiagnosticsOutputConfiguration');
   has ModelName => (is => 'ro', isa => 'Str', required => 1);
+  has OffCondition => (is => 'ro', isa => 'Str');
   has RoleArn => (is => 'ro', isa => 'Str');
   has ServerSideKmsKeyId => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::LookoutEquipment::Tag]');
@@ -54,14 +56,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EvaluationDataEndTime    => '1970-01-01T01:00:00',    # OPTIONAL
       EvaluationDataStartTime  => '1970-01-01T01:00:00',    # OPTIONAL
       LabelsInputConfiguration => {
+        LabelGroupName       => 'MyLabelGroupName', # min: 1, max: 200; OPTIONAL
         S3InputConfiguration => {
+          Bucket => 'MyS3Bucket',                   # min: 3, max: 63
+          Prefix => 'MyS3Prefix',                   # max: 1024; OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
+      ModelDiagnosticsOutputConfiguration => {
+        S3OutputConfiguration => {
           Bucket => 'MyS3Bucket',    # min: 3, max: 63
           Prefix => 'MyS3Prefix',    # max: 1024; OPTIONAL
         },
-
+        KmsKeyId => 'MyNameOrArn',    # min: 1, max: 2048; OPTIONAL
       },    # OPTIONAL
-      RoleArn            => 'MyIamRoleArn',    # OPTIONAL
-      ServerSideKmsKeyId => 'MyNameOrArn',     # OPTIONAL
+      OffCondition       => 'MyOffCondition',    # OPTIONAL
+      RoleArn            => 'MyIamRoleArn',      # OPTIONAL
+      ServerSideKmsKeyId => 'MyNameOrArn',       # OPTIONAL
       Tags               => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -110,74 +120,90 @@ value for a 1 hour rate is I<PT1H>
 
 =head2 B<REQUIRED> DatasetName => Str
 
-The name of the dataset for the ML model being created.
+The name of the dataset for the machine learning model being created.
 
 
 
 =head2 DatasetSchema => L<Paws::LookoutEquipment::DatasetSchema>
 
-The data schema for the ML model being created.
+The data schema for the machine learning model being created.
 
 
 
 =head2 EvaluationDataEndTime => Str
 
 Indicates the time reference in the dataset that should be used to end
-the subset of evaluation data for the ML model.
+the subset of evaluation data for the machine learning model.
 
 
 
 =head2 EvaluationDataStartTime => Str
 
 Indicates the time reference in the dataset that should be used to
-begin the subset of evaluation data for the ML model.
+begin the subset of evaluation data for the machine learning model.
 
 
 
 =head2 LabelsInputConfiguration => L<Paws::LookoutEquipment::LabelsInputConfiguration>
 
-The input configuration for the labels being used for the ML model
-that's being created.
+The input configuration for the labels being used for the machine
+learning model that's being created.
+
+
+
+=head2 ModelDiagnosticsOutputConfiguration => L<Paws::LookoutEquipment::ModelDiagnosticsOutputConfiguration>
+
+The Amazon S3 location where you want Amazon Lookout for Equipment to
+save the pointwise model diagnostics. You must also specify the
+C<RoleArn> request parameter.
 
 
 
 =head2 B<REQUIRED> ModelName => Str
 
-The name for the ML model to be created.
+The name for the machine learning model to be created.
+
+
+
+=head2 OffCondition => Str
+
+Indicates that the asset associated with this sensor has been shut off.
+As long as this condition is met, Lookout for Equipment will not use
+data from this asset for training, evaluation, or inference.
 
 
 
 =head2 RoleArn => Str
 
 The Amazon Resource Name (ARN) of a role with permission to access the
-data source being used to create the ML model.
+data source being used to create the machine learning model.
 
 
 
 =head2 ServerSideKmsKeyId => Str
 
-Provides the identifier of the AWS KMS customer master key (CMK) used
-to encrypt model data by Amazon Lookout for Equipment.
+Provides the identifier of the KMS key used to encrypt model data by
+Amazon Lookout for Equipment.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::LookoutEquipment::Tag>]
 
-Any tags associated with the ML model being created.
+Any tags associated with the machine learning model being created.
 
 
 
 =head2 TrainingDataEndTime => Str
 
 Indicates the time reference in the dataset that should be used to end
-the subset of training data for the ML model.
+the subset of training data for the machine learning model.
 
 
 
 =head2 TrainingDataStartTime => Str
 
 Indicates the time reference in the dataset that should be used to
-begin the subset of training data for the ML model.
+begin the subset of training data for the machine learning model.
 
 
 

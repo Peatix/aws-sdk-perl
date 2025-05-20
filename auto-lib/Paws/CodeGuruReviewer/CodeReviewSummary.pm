@@ -51,7 +51,7 @@ Information about the summary of the code review.
 
 =head2 CodeReviewArn => Str
 
-The Amazon Resource Name (ARN) of the C<CodeReview>
+The Amazon Resource Name (ARN) of the CodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
 object.
 
@@ -80,11 +80,12 @@ The name of the code review.
 
 =head2 Owner => Str
 
-The owner of the repository. For an AWS CodeCommit repository, this is
-the AWS account ID of the account that owns the repository. For a
-GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the
-username for the account that owns the repository. For an S3
-repository, it can be the username or AWS account ID.
+The owner of the repository. For an Amazon Web Services CodeCommit
+repository, this is the Amazon Web Services account ID of the account
+that owns the repository. For a GitHub, GitHub Enterprise Server, or
+Bitbucket repository, this is the username for the account that owns
+the repository. For an S3 repository, it can be the username or Amazon
+Web Services account ID.
 
 
 =head2 ProviderType => Str

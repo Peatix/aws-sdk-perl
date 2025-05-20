@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 =head2 B<REQUIRED> CodeReviewArn => Str
 
-The Amazon Resource Name (ARN) of the C<CodeReview>
+The Amazon Resource Name (ARN) of the CodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
 object.
 

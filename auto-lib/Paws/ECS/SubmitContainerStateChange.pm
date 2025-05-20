@@ -40,10 +40,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ExitCode        => 1,             # OPTIONAL
       NetworkBindings => [
         {
-          BindIP        => 'MyString',
-          ContainerPort => 1,
-          HostPort      => 1,
-          Protocol      => 'tcp',        # values: tcp, udp; OPTIONAL
+          BindIP             => 'MyString',
+          ContainerPort      => 1,
+          ContainerPortRange => 'MyString',
+          HostPort           => 1,
+          HostPortRange      => 'MyString',
+          Protocol           => 'tcp',        # values: tcp, udp; OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -78,7 +80,7 @@ The name of the container.
 
 =head2 ExitCode => Int
 
-The exit code returned for the state change request.
+The exit code that's returned for the state change request.
 
 
 

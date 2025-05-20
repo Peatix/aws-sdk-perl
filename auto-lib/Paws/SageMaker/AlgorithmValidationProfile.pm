@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Defines a training job and a batch transform job that Amazon SageMaker
-runs to validate your algorithm.
+Defines a training job and a batch transform job that SageMaker runs to
+validate your algorithm.
 
 The data provided in the validation profile is made available to your
 buyers on Amazon Web Services Marketplace.
@@ -53,13 +53,13 @@ characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
 =head2 B<REQUIRED> TrainingJobDefinition => L<Paws::SageMaker::TrainingJobDefinition>
 
 The C<TrainingJobDefinition> object that describes the training job
-that Amazon SageMaker runs to validate your algorithm.
+that SageMaker runs to validate your algorithm.
 
 
 =head2 TransformJobDefinition => L<Paws::SageMaker::TransformJobDefinition>
 
 The C<TransformJobDefinition> object that describes the transform job
-that Amazon SageMaker runs to validate your algorithm.
+that SageMaker runs to validate your algorithm.
 
 
 

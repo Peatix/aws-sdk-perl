@@ -1,6 +1,7 @@
 
 package Paws::Personalize::ListRecipes;
   use Moose;
+  has Domain => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domain' );
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has RecipeProvider => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'recipeProvider' );
@@ -30,6 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $personalize = Paws->service('Personalize');
     my $ListRecipesResponse = $personalize->ListRecipes(
+      Domain         => 'ECOMMERCE',      # OPTIONAL
       MaxResults     => 1,                # OPTIONAL
       NextToken      => 'MyNextToken',    # OPTIONAL
       RecipeProvider => 'SERVICE',        # OPTIONAL
@@ -46,6 +48,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/per
 
 =head1 ATTRIBUTES
 
+
+=head2 Domain => Str
+
+Filters returned recipes by domain for a Domain dataset group. Only
+recipes (Domain dataset group use cases) for this domain are included
+in the response. If you don't specify a domain, all recipes are
+returned.
+
+Valid values are: C<"ECOMMERCE">, C<"VIDEO_ON_DEMAND">
 
 =head2 MaxResults => Int
 

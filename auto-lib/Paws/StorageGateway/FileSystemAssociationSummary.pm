@@ -55,8 +55,7 @@ The ID of the file system association.
 =head2 FileSystemAssociationStatus => Str
 
 The status of the file share. Valid Values: C<AVAILABLE> | C<CREATING>
-| C<DELETING> | C<FORCE_DELETING> | C<MISCONFIGURED> | C<UPDATING> |
-C<UNAVAILABLE>
+| C<DELETING> | C<FORCE_DELETING> | C<UPDATING> | C<ERROR>
 
 
 =head2 GatewayARN => Str

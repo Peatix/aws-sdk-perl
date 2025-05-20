@@ -51,32 +51,33 @@ GetServiceLastAccessedDetails operation.
 
 The date and time, in ISO 8601 date-time format
 (http://www.iso.org/iso/iso8601), when an authenticated entity most
-recently attempted to access the service. AWS does not report
-unauthenticated requests.
+recently attempted to access the service. Amazon Web Services does not
+report unauthenticated requests.
 
 This field is null if no IAM entities attempted to access the service
-within the reporting period
+within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
 =head2 LastAuthenticatedEntity => Str
 
 The ARN of the authenticated entity (user or role) that last attempted
-to access the service. AWS does not report unauthenticated requests.
+to access the service. Amazon Web Services does not report
+unauthenticated requests.
 
 This field is null if no IAM entities attempted to access the service
-within the reporting period
+within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
 =head2 LastAuthenticatedRegion => Str
 
 The Region from which the authenticated entity (user or role) last
-attempted to access the service. AWS does not report unauthenticated
-requests.
+attempted to access the service. Amazon Web Services does not report
+unauthenticated requests.
 
 This field is null if no IAM entities attempted to access the service
-within the reporting period
+within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
@@ -90,14 +91,15 @@ The name of the service in which access was attempted.
 The namespace of the service in which access was attempted.
 
 To learn the service namespace of a service, see Actions, resources,
-and condition keys for AWS services
+and condition keys for Amazon Web Services services
 (https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html)
 in the I<Service Authorization Reference>. Choose the name of the
 service to view details for that service. In the first paragraph, find
 the service prefix. For example, C<(service prefix: a4b)>. For more
-information about service namespaces, see AWS Service Namespaces
+information about service namespaces, see Amazon Web Services Service
+Namespaces
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 TotalAuthenticatedEntities => Int
@@ -106,7 +108,7 @@ The total number of authenticated principals (root user, IAM users, or
 IAM roles) that have attempted to access the service.
 
 This field is null if no principals attempted to access the service
-within the reporting period
+within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 
 
@@ -116,7 +118,7 @@ An object that contains details about the most recent attempt to access
 a tracked action within the service.
 
 This field is null if there no tracked actions or if the principal did
-not use the tracked actions within the reporting period
+not use the tracked actions within the tracking period
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
 This field is also null if the report was generated at the service
 level and not the action level. For more information, see the

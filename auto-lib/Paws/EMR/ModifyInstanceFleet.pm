@@ -20,7 +20,7 @@ Paws::EMR::ModifyInstanceFleet - Arguments for method ModifyInstanceFleet on L<P
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ModifyInstanceFleet on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method ModifyInstanceFleet.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ModifyInstanceFleet.
@@ -31,9 +31,66 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     $elasticmapreduce->ModifyInstanceFleet(
       ClusterId     => 'MyClusterId',
       InstanceFleet => {
-        InstanceFleetId        => 'MyInstanceFleetId',
-        TargetOnDemandCapacity => 1,                     # OPTIONAL
-        TargetSpotCapacity     => 1,                     # OPTIONAL
+        InstanceFleetId     => 'MyInstanceFleetId',
+        Context             => 'MyXmlStringMaxLen256',    # max: 256; OPTIONAL
+        InstanceTypeConfigs => [
+          {
+            InstanceType => 'MyInstanceType',            # min: 1, max: 256
+            BidPrice     => 'MyXmlStringMaxLen256',      # max: 256; OPTIONAL
+            BidPriceAsPercentageOfOnDemandPrice => 1,    # OPTIONAL
+            Configurations                      => [
+              {
+                Classification => 'MyString',            # OPTIONAL
+                Configurations => <ConfigurationList>,
+                Properties     => {
+                  'MyString' => 'MyString',    # key: OPTIONAL, value: OPTIONAL
+                },    # OPTIONAL
+              },
+              ...
+            ],    # OPTIONAL
+            CustomAmiId      => 'MyXmlStringMaxLen256',    # max: 256; OPTIONAL
+            EbsConfiguration => {
+              EbsBlockDeviceConfigs => [
+                {
+                  VolumeSpecification => {
+                    SizeInGB   => 1,
+                    VolumeType => 'MyString',    # OPTIONAL
+                    Iops       => 1,
+                    Throughput => 1,             # OPTIONAL
+                  },
+                  VolumesPerInstance => 1,
+                },
+                ...
+              ],    # OPTIONAL
+              EbsOptimized => 1,    # OPTIONAL
+            },    # OPTIONAL
+            Priority         => 1,    # OPTIONAL
+            WeightedCapacity => 1,    # OPTIONAL
+          },
+          ...
+        ],    # OPTIONAL
+        ResizeSpecifications => {
+          OnDemandResizeSpecification => {
+            AllocationStrategy =>
+              'lowest-price',    # values: lowest-price, prioritized; OPTIONAL
+            CapacityReservationOptions => {
+              CapacityReservationPreference =>
+                'open',          # values: open, none; OPTIONAL
+              CapacityReservationResourceGroupArn =>
+                'MyXmlStringMaxLen256',    # max: 256; OPTIONAL
+              UsageStrategy => 'use-capacity-reservations-first'
+              ,    # values: use-capacity-reservations-first; OPTIONAL
+            },    # OPTIONAL
+            TimeoutDurationMinutes => 1,    # OPTIONAL
+          },    # OPTIONAL
+          SpotResizeSpecification => {
+            AllocationStrategy => 'capacity-optimized'
+            , # values: capacity-optimized, price-capacity-optimized, lowest-price, diversified, capacity-optimized-prioritized; OPTIONAL
+            TimeoutDurationMinutes => 1,    # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        TargetOnDemandCapacity => 1,    # OPTIONAL
+        TargetSpotCapacity     => 1,    # OPTIONAL
       },
 
     );
@@ -52,7 +109,7 @@ The unique identifier of the cluster.
 
 =head2 B<REQUIRED> InstanceFleet => L<Paws::EMR::InstanceFleetModifyConfig>
 
-The unique identifier of the instance fleet.
+The configuration parameters of the instance fleet.
 
 
 

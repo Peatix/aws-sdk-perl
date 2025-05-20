@@ -38,18 +38,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
           PlayerAttributes => {
             'MyNonZeroAndMaxString' => {
-              N   => 1,                          # OPTIONAL
-              S   => 'MyNonZeroAndMaxString',    # min: 1, max: 1024
+              N   => 1,                            # OPTIONAL
+              S   => 'MyPlayerAttributeString',    # min: 1, max: 100; OPTIONAL
               SDM => {
-                'MyNonZeroAndMaxString' =>
-                  1,    # key: min: 1, max: 1024, value: OPTIONAL
+                'MyPlayerAttributeString' =>
+                  1,    # key: min: 1, max: 100; OPTIONAL, value: OPTIONAL
               },    # OPTIONAL
               SL => [
-                'MyNonZeroAndMaxString', ...    # min: 1, max: 1024
+                'MyPlayerAttributeString', ...    # min: 1, max: 100; OPTIONAL
               ],    # OPTIONAL
             },    # key: min: 1, max: 1024
           },    # OPTIONAL
-          PlayerId => 'MyNonZeroAndMaxString',    # min: 1, max: 1024
+          PlayerId => 'MyPlayerId',               # min: 1, max: 1024; OPTIONAL
           Team     => 'MyNonZeroAndMaxString',    # min: 1, max: 1024
         },
         ...
@@ -82,6 +82,8 @@ Information on each player to be matched. This information must include
 a player ID, and may contain player attributes and latency data to be
 used in the matchmaking process. After a successful match, C<Player>
 objects contain the name of the team the player is assigned to.
+
+You can include up to 10 C<Players> in a C<StartMatchmaking> request.
 
 
 

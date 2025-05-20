@@ -36,13 +36,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 Describes a filter that returns a more specific list of Amazon Elastic
 Block Store (Amazon EBS) volume recommendations. Use this filter with
-the C<GetEBSVolumeRecommendations> action.
+the GetEBSVolumeRecommendations action.
 
 You can use C<LambdaFunctionRecommendationFilter> with the
-C<GetLambdaFunctionRecommendations> action, C<JobFilter> with the
-C<DescribeRecommendationExportJobs> action, and C<Filter> with the
-C<GetAutoScalingGroupRecommendations> and
-C<GetEC2InstanceRecommendations> actions.
+GetLambdaFunctionRecommendations action, C<JobFilter> with the
+DescribeRecommendationExportJobs action, and C<Filter> with the
+GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations
+actions.
 
 =head1 ATTRIBUTES
 
@@ -52,7 +52,24 @@ C<GetEC2InstanceRecommendations> actions.
 The name of the filter.
 
 Specify C<Finding> to return recommendations with a specific finding
-classification (e.g., C<NotOptimized>).
+classification (for example, C<NotOptimized>).
+
+You can filter your Amazon EBS volume recommendations by C<tag:key> and
+C<tag-key> tags.
+
+A C<tag:key> is a key and value combination of a tag assigned to your
+Amazon EBS volume recommendations. Use the tag key in the filter name
+and the tag value as the filter value. For example, to find all Amazon
+EBS volume recommendations that have a tag with the key of C<Owner> and
+the value of C<TeamA>, specify C<tag:Owner> for the filter name and
+C<TeamA> for the filter value.
+
+A C<tag-key> is the key of a tag assigned to your Amazon EBS volume
+recommendations. Use this filter to find all of your Amazon EBS volume
+recommendations that have a tag with a specific key. This
+doesnE<rsquo>t consider the tag value. For example, you can find your
+Amazon EBS volume recommendations with a tag key value of C<Owner> or
+without any tag keys assigned.
 
 
 =head2 Values => ArrayRef[Str|Undef]

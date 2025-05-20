@@ -59,7 +59,8 @@ The TagOption key.
 
 =head2 Owner => Str
 
-The AWS account Id of the owner account that created the TagOption.
+The Amazon Web Services account Id of the owner account that created
+the TagOption.
 
 
 =head2 Value => Str

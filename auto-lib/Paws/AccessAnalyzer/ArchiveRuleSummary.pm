@@ -36,7 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AccessAnaly
 
 =head1 DESCRIPTION
 
-Contains information about an archive rule.
+Contains information about an archive rule. Archive rules automatically
+archive new findings that meet the criteria you define when you create
+the rule.
 
 =head1 ATTRIBUTES
 

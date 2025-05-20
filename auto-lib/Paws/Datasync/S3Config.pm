@@ -33,21 +33,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::S
 
 =head1 DESCRIPTION
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management (IAM) role that is used to access an Amazon S3 bucket.
+Specifies the Amazon Resource Name (ARN) of the Identity and Access
+Management (IAM) role that DataSync uses to access your S3 bucket.
 
-For detailed information about using such a role, see Creating a
-Location for Amazon S3 in the I<AWS DataSync User Guide>.
+For more information, see Providing DataSync access to S3 buckets
+(https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> BucketAccessRoleArn => Str
 
-The Amazon S3 bucket to access. This bucket is used as a parameter in
-the CreateLocationS3
-(https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateLocationS3.html)
-operation.
+Specifies the ARN of the IAM role that DataSync uses to access your S3
+bucket.
 
 
 

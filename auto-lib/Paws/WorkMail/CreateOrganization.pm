@@ -38,7 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DirectoryId => 'MyDirectoryId',               # OPTIONAL
       Domains     => [
         {
-          DomainName   => 'MyDomainName',      # min: 3, max: 255; OPTIONAL
+          DomainName   => 'MyDomainName',      # min: 3, max: 255
           HostedZoneId => 'MyHostedZoneId',    # min: 1, max: 32; OPTIONAL
         },
         ...
@@ -84,16 +84,15 @@ The email domains to associate with the organization.
 
 =head2 EnableInteroperability => Bool
 
-When C<true>, allows organization interoperability between Amazon
-WorkMail and Microsoft Exchange. Can only be set to C<true> if an AD
-Connector directory ID is included in the request.
+When C<true>, allows organization interoperability between WorkMail and
+Microsoft Exchange. If C<true>, you must include a AD Connector
+directory ID in the request.
 
 
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of a customer managed master key from
-AWS KMS.
+The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
 
 
 

@@ -41,6 +41,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::DataRe
 The data repository configuration object for Lustre file systems
 returned in the response of the C<CreateFileSystem> operation.
 
+This data type is not supported on file systems with a data repository
+association. For file systems with a data repository association, see .
+
 =head1 ATTRIBUTES
 
 
@@ -74,11 +77,15 @@ file and directory listings of any new objects added to the S3 bucket
 and any existing objects that are changed in the S3 bucket after you
 choose this option.
 
+=item *
+
+C<NEW_CHANGED_DELETED> - AutoImport is on. Amazon FSx automatically
+imports file and directory listings of any new objects added to the S3
+bucket, any existing objects that are changed in the S3 bucket, and any
+objects that were deleted in the S3 bucket.
+
 =back
 
-For more information, see Automatically import updates from your S3
-bucket
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html).
 
 
 =head2 ExportPath => Str
@@ -142,6 +149,11 @@ more information, see Troubleshooting a Misconfigured linked S3 bucket
 
 C<UPDATING> - The data repository is undergoing a customer initiated
 update and availability may be impacted.
+
+=item *
+
+C<FAILED> - The data repository is in a terminal state that cannot be
+recovered.
 
 =back
 

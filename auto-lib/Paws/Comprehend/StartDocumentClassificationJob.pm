@@ -3,10 +3,12 @@ package Paws::Comprehend::StartDocumentClassificationJob;
   use Moose;
   has ClientRequestToken => (is => 'ro', isa => 'Str');
   has DataAccessRoleArn => (is => 'ro', isa => 'Str', required => 1);
-  has DocumentClassifierArn => (is => 'ro', isa => 'Str', required => 1);
+  has DocumentClassifierArn => (is => 'ro', isa => 'Str');
+  has FlywheelArn => (is => 'ro', isa => 'Str');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::InputDataConfig', required => 1);
   has JobName => (is => 'ro', isa => 'Str');
   has OutputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::OutputDataConfig', required => 1);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Comprehend::Tag]');
   has VolumeKmsKeyId => (is => 'ro', isa => 'Str');
   has VpcConfig => (is => 'ro', isa => 'Paws::Comprehend::VpcConfig');
 
@@ -36,23 +38,40 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $comprehend = Paws->service('Comprehend');
     my $StartDocumentClassificationJobResponse =
       $comprehend->StartDocumentClassificationJob(
-      DataAccessRoleArn     => 'MyIamRoleArn',
-      DocumentClassifierArn => 'MyDocumentClassifierArn',
-      InputDataConfig       => {
-        S3Uri       => 'MyS3Uri',           # max: 1024
+      DataAccessRoleArn => 'MyIamRoleArn',
+      InputDataConfig   => {
+        S3Uri                => 'MyS3Uri',    # max: 1024
+        DocumentReaderConfig => {
+          DocumentReadAction => 'TEXTRACT_DETECT_DOCUMENT_TEXT'
+          ,   # values: TEXTRACT_DETECT_DOCUMENT_TEXT, TEXTRACT_ANALYZE_DOCUMENT
+          DocumentReadMode => 'SERVICE_DEFAULT'
+          ,    # values: SERVICE_DEFAULT, FORCE_DOCUMENT_READ_ACTION; OPTIONAL
+          FeatureTypes => [
+            'TABLES', ...    # values: TABLES, FORMS
+          ],    # min: 1, max: 2; OPTIONAL
+        },    # OPTIONAL
         InputFormat => 'ONE_DOC_PER_FILE'
-        ,    # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
+        ,     # values: ONE_DOC_PER_FILE, ONE_DOC_PER_LINE; OPTIONAL
       },
       OutputDataConfig => {
         S3Uri    => 'MyS3Uri',       # max: 1024
         KmsKeyId => 'MyKmsKeyId',    # max: 2048; OPTIONAL
       },
-      ClientRequestToken => 'MyClientRequestTokenString',    # OPTIONAL
-      JobName            => 'MyJobName',                     # OPTIONAL
-      VolumeKmsKeyId     => 'MyKmsKeyId',                    # OPTIONAL
-      VpcConfig          => {
+      ClientRequestToken    => 'MyClientRequestTokenString',    # OPTIONAL
+      DocumentClassifierArn => 'MyDocumentClassifierArn',       # OPTIONAL
+      FlywheelArn           => 'MyComprehendFlywheelArn',       # OPTIONAL
+      JobName               => 'MyJobName',                     # OPTIONAL
+      Tags                  => [
+        {
+          Key   => 'MyTagKey',      # min: 1, max: 128
+          Value => 'MyTagValue',    # max: 256; OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
+      VolumeKmsKeyId => 'MyKmsKeyId',    # OPTIONAL
+      VpcConfig      => {
         SecurityGroupIds => [
-          'MySecurityGroupId', ...                           # min: 1, max: 32
+          'MySecurityGroupId', ...       # min: 1, max: 32
         ],    # min: 1, max: 5
         Subnets => [
           'MySubnetId', ...    # min: 1, max: 32
@@ -62,6 +81,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $DocumentClassifierArn =
+      $StartDocumentClassificationJobResponse->DocumentClassifierArn;
+    my $JobArn    = $StartDocumentClassificationJobResponse->JobArn;
     my $JobId     = $StartDocumentClassificationJobResponse->JobId;
     my $JobStatus = $StartDocumentClassificationJobResponse->JobStatus;
 
@@ -82,16 +104,22 @@ request token, Amazon Comprehend generates one.
 
 =head2 B<REQUIRED> DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Access
-Management (IAM) role that grants Amazon Comprehend read access to your
-input data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data.
 
 
 
-=head2 B<REQUIRED> DocumentClassifierArn => Str
+=head2 DocumentClassifierArn => Str
 
 The Amazon Resource Name (ARN) of the document classifier to use to
 process the job.
+
+
+
+=head2 FlywheelArn => Str
+
+The Amazon Resource Number (ARN) of the flywheel associated with the
+model to use.
 
 
 
@@ -113,12 +141,21 @@ Specifies where to send the output files.
 
 
 
+=head2 Tags => ArrayRef[L<Paws::Comprehend::Tag>]
+
+Tags to associate with the document classification job. A tag is a
+key-value pair that adds metadata to a resource used by Amazon
+Comprehend. For example, a tag with "Sales" as the key might be added
+to a resource to indicate its use by the sales department.
+
+
+
 =head2 VolumeKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt data on the storage volume attached to the ML compute
-instance(s) that process the analysis job. The VolumeKmsKeyId can be
-either of the following formats:
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt data on the storage volume attached
+to the ML compute instance(s) that process the analysis job. The
+VolumeKmsKeyId can be either of the following formats:
 
 =over
 

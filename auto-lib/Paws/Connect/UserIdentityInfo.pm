@@ -4,6 +4,8 @@ package Paws::Connect::UserIdentityInfo;
   has Email => (is => 'ro', isa => 'Str');
   has FirstName => (is => 'ro', isa => 'Str');
   has LastName => (is => 'ro', isa => 'Str');
+  has Mobile => (is => 'ro', isa => 'Str');
+  has SecondaryEmail => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -24,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Connect::UserIdentityInfo object:
 
-  $service_obj->Method(Att1 => { Email => $value, ..., LastName => $value  });
+  $service_obj->Method(Att1 => { Email => $value, ..., SecondaryEmail => $value  });
 
 =head3 Results returned from an API call
 
@@ -36,6 +38,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Connect::Us
 =head1 DESCRIPTION
 
 Contains information about the identity of a user.
+
+For Amazon Connect instances that are created with the
+C<EXISTING_DIRECTORY> identity management type, C<FirstName>,
+C<LastName>, and C<Email> cannot be updated from within Amazon Connect
+because they are managed by the directory.
+
+The C<FirstName> and C<LastName> length constraints below apply only to
+instances using SAML for identity management. If you are using Amazon
+Connect for identity management, the length constraints are 1-255 for
+C<FirstName>, and 1-256 for C<LastName>.
 
 =head1 ATTRIBUTES
 
@@ -49,13 +61,33 @@ include this parameter, an error is returned.
 =head2 FirstName => Str
 
 The first name. This is required if you are using Amazon Connect or
-SAML for identity management.
+SAML for identity management. Inputs must be in Unicode Normalization
+Form C (NFC). Text containing characters in a non-NFC form (for
+example, decomposed characters or combining marks) are not accepted.
 
 
 =head2 LastName => Str
 
 The last name. This is required if you are using Amazon Connect or SAML
-for identity management.
+for identity management. Inputs must be in Unicode Normalization Form C
+(NFC). Text containing characters in a non-NFC form (for example,
+decomposed characters or combining marks) are not accepted.
+
+
+=head2 Mobile => Str
+
+The user's mobile number.
+
+
+=head2 SecondaryEmail => Str
+
+The user's secondary email address. If you provide a secondary email,
+the user receives email notifications - other than password reset
+notifications - to this email address instead of to their primary email
+address.
+
+Pattern:
+C<(?=^.{0,265}$)[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,63}>
 
 
 

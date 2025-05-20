@@ -34,15 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A uniform resource locator, used as a unique identifier to locate a
-resource on the internet.
+Short for uniform resource locator. A URL is used as a unique
+identifier to locate a resource on the internet.
 
 =head1 ATTRIBUTES
 
 
 =head2 HyperlinkName => Str
 
-The name or word used as a hyperlink to the URL.
+The name or word that's used as a hyperlink to the URL.
 
 
 =head2 Link => Str

@@ -17,7 +17,8 @@ Paws::MediaConnect::PurchaseOfferingResponse
 
 =head2 Reservation => L<Paws::MediaConnect::Reservation>
 
-
+The details of the reservation that you just created when you purchased
+the offering.
 
 
 =head2 _request_id => Str

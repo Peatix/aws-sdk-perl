@@ -2,16 +2,18 @@
 package Paws::MediaTailor::CreateProgram;
   use Moose;
   has AdBreaks => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::AdBreak]');
-  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'channelName', required => 1);
-  has ProgramName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'programName', required => 1);
+  has AudienceMedia => (is => 'ro', isa => 'ArrayRef[Paws::MediaTailor::AudienceMedia]');
+  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ChannelName', required => 1);
+  has LiveSourceName => (is => 'ro', isa => 'Str');
+  has ProgramName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ProgramName', required => 1);
   has ScheduleConfiguration => (is => 'ro', isa => 'Paws::MediaTailor::ScheduleConfiguration', required => 1);
   has SourceLocationName => (is => 'ro', isa => 'Str', required => 1);
-  has VodSourceName => (is => 'ro', isa => 'Str', required => 1);
+  has VodSourceName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'CreateProgram');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{channelName}/program/{programName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{ChannelName}/program/{ProgramName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::CreateProgramResponse');
 1;
@@ -40,38 +42,134 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Transition => {
           RelativePosition =>
             'BEFORE_PROGRAM',    # values: BEFORE_PROGRAM, AFTER_PROGRAM
-          Type            => 'My__string',
-          RelativeProgram => 'My__string',
+          Type                     => 'My__string',
+          DurationMillis           => 1,              # OPTIONAL
+          RelativeProgram          => 'My__string',
+          ScheduledStartTimeMillis => 1,              # OPTIONAL
         },
-
+        ClipRange => {
+          EndOffsetMillis   => 1,                     # OPTIONAL
+          StartOffsetMillis => 1,                     # OPTIONAL
+        },    # OPTIONAL
       },
       SourceLocationName => 'My__string',
-      VodSourceName      => 'My__string',
       AdBreaks           => [
         {
-          MessageType  => 'SPLICE_INSERT',    # values: SPLICE_INSERT; OPTIONAL
-          OffsetMillis => 1,                  # OPTIONAL
-          Slate        => {
+          OffsetMillis    => 1,    # OPTIONAL
+          AdBreakMetadata => [
+            {
+              Key   => 'MyString',
+              Value => 'MyString',
+
+            },
+            ...
+          ],                       # OPTIONAL
+          MessageType =>
+            'SPLICE_INSERT',    # values: SPLICE_INSERT, TIME_SIGNAL; OPTIONAL
+          Slate => {
             SourceLocationName => 'My__string',
             VodSourceName      => 'My__string',
-          },                                  # OPTIONAL
+          },                    # OPTIONAL
           SpliceInsertMessage => {
-            AvailNum        => 1,             # OPTIONAL
-            AvailsExpected  => 1,             # OPTIONAL
-            SpliceEventId   => 1,             # OPTIONAL
-            UniqueProgramId => 1,             # OPTIONAL
+            AvailNum        => 1,    # OPTIONAL
+            AvailsExpected  => 1,    # OPTIONAL
+            SpliceEventId   => 1,    # OPTIONAL
+            UniqueProgramId => 1,    # OPTIONAL
+          },    # OPTIONAL
+          TimeSignalMessage => {
+            SegmentationDescriptors => [
+              {
+                SegmentNum           => 1,            # OPTIONAL
+                SegmentationEventId  => 1,            # OPTIONAL
+                SegmentationTypeId   => 1,            # OPTIONAL
+                SegmentationUpid     => 'MyString',
+                SegmentationUpidType => 1,            # OPTIONAL
+                SegmentsExpected     => 1,            # OPTIONAL
+                SubSegmentNum        => 1,            # OPTIONAL
+                SubSegmentsExpected  => 1,            # OPTIONAL
+              },
+              ...
+            ],    # OPTIONAL
           },    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      AudienceMedia => [
+        {
+          AlternateMedia => [
+            {
+              AdBreaks => [
+                {
+                  OffsetMillis    => 1,    # OPTIONAL
+                  AdBreakMetadata => [
+                    {
+                      Key   => 'MyString',
+                      Value => 'MyString',
+
+                    },
+                    ...
+                  ],                       # OPTIONAL
+                  MessageType => 'SPLICE_INSERT'
+                  ,    # values: SPLICE_INSERT, TIME_SIGNAL; OPTIONAL
+                  Slate => {
+                    SourceLocationName => 'My__string',
+                    VodSourceName      => 'My__string',
+                  },    # OPTIONAL
+                  SpliceInsertMessage => {
+                    AvailNum        => 1,    # OPTIONAL
+                    AvailsExpected  => 1,    # OPTIONAL
+                    SpliceEventId   => 1,    # OPTIONAL
+                    UniqueProgramId => 1,    # OPTIONAL
+                  },    # OPTIONAL
+                  TimeSignalMessage => {
+                    SegmentationDescriptors => [
+                      {
+                        SegmentNum           => 1,            # OPTIONAL
+                        SegmentationEventId  => 1,            # OPTIONAL
+                        SegmentationTypeId   => 1,            # OPTIONAL
+                        SegmentationUpid     => 'MyString',
+                        SegmentationUpidType => 1,            # OPTIONAL
+                        SegmentsExpected     => 1,            # OPTIONAL
+                        SubSegmentNum        => 1,            # OPTIONAL
+                        SubSegmentsExpected  => 1,            # OPTIONAL
+                      },
+                      ...
+                    ],    # OPTIONAL
+                  },    # OPTIONAL
+                },
+                ...
+              ],
+              ClipRange => {
+                EndOffsetMillis   => 1,    # OPTIONAL
+                StartOffsetMillis => 1,    # OPTIONAL
+              },    # OPTIONAL
+              DurationMillis           => 1,              # OPTIONAL
+              LiveSourceName           => 'My__string',
+              ScheduledStartTimeMillis => 1,              # OPTIONAL
+              SourceLocationName       => 'My__string',
+              VodSourceName            => 'My__string',
+            },
+            ...
+          ],    # OPTIONAL
+          Audience => 'My__string',
+        },
+        ...
+      ],    # OPTIONAL
+      LiveSourceName => 'My__string',    # OPTIONAL
+      VodSourceName  => 'My__string',    # OPTIONAL
     );
 
     # Results:
     my $AdBreaks           = $CreateProgramResponse->AdBreaks;
     my $Arn                = $CreateProgramResponse->Arn;
+    my $AudienceMedia      = $CreateProgramResponse->AudienceMedia;
     my $ChannelName        = $CreateProgramResponse->ChannelName;
+    my $ClipRange          = $CreateProgramResponse->ClipRange;
     my $CreationTime       = $CreateProgramResponse->CreationTime;
+    my $DurationMillis     = $CreateProgramResponse->DurationMillis;
+    my $LiveSourceName     = $CreateProgramResponse->LiveSourceName;
     my $ProgramName        = $CreateProgramResponse->ProgramName;
+    my $ScheduledStartTime = $CreateProgramResponse->ScheduledStartTime;
     my $SourceLocationName = $CreateProgramResponse->SourceLocationName;
     my $VodSourceName      = $CreateProgramResponse->VodSourceName;
 
@@ -89,15 +187,27 @@ The ad break configuration settings.
 
 
 
+=head2 AudienceMedia => ArrayRef[L<Paws::MediaTailor::AudienceMedia>]
+
+The list of AudienceMedia defined in program.
+
+
+
 =head2 B<REQUIRED> ChannelName => Str
 
-The identifier for the channel you are working on.
+The name of the channel for this Program.
+
+
+
+=head2 LiveSourceName => Str
+
+The name of the LiveSource for this Program.
 
 
 
 =head2 B<REQUIRED> ProgramName => Str
 
-The identifier for the program you are working on.
+The name of the Program.
 
 
 
@@ -113,7 +223,7 @@ The name of the source location.
 
 
 
-=head2 B<REQUIRED> VodSourceName => Str
+=head2 VodSourceName => Str
 
 The name that's used to refer to a VOD source.
 

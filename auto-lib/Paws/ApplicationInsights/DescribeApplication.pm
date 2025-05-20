@@ -1,6 +1,7 @@
 
 package Paws::ApplicationInsights::DescribeApplication;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
   has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $DescribeApplicationResponse = $applicationinsights->DescribeApplication(
       ResourceGroupName => 'MyResourceGroupName',
-
+      AccountId         => 'MyAccountId',           # OPTIONAL
     );
 
     # Results:
@@ -41,6 +42,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/applicationinsights/DescribeApplication>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The Amazon Web Services account ID for the resource group owner.
+
 
 
 =head2 B<REQUIRED> ResourceGroupName => Str

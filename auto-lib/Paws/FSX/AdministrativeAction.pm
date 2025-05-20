@@ -4,9 +4,13 @@ package Paws::FSX::AdministrativeAction;
   has AdministrativeActionType => (is => 'ro', isa => 'Str');
   has FailureDetails => (is => 'ro', isa => 'Paws::FSX::AdministrativeActionFailureDetails');
   has ProgressPercent => (is => 'ro', isa => 'Int');
+  has RemainingTransferBytes => (is => 'ro', isa => 'Int');
   has RequestTime => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has TargetFileSystemValues => (is => 'ro', isa => 'Paws::FSX::FileSystem');
+  has TargetSnapshotValues => (is => 'ro', isa => 'Paws::FSX::Snapshot');
+  has TargetVolumeValues => (is => 'ro', isa => 'Paws::FSX::Volume');
+  has TotalTransferBytes => (is => 'ro', isa => 'Int');
 
 1;
 
@@ -27,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::FSX::AdministrativeAction object:
 
-  $service_obj->Method(Att1 => { AdministrativeActionType => $value, ..., TargetFileSystemValues => $value  });
+  $service_obj->Method(Att1 => { AdministrativeActionType => $value, ..., TotalTransferBytes => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,7 +43,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::Admini
 =head1 DESCRIPTION
 
 Describes a specific Amazon FSx administrative action for the current
-Windows or Lustre file system.
+Windows, Lustre, OpenZFS, or ONTAP file system or volume.
 
 =head1 ATTRIBUTES
 
@@ -56,19 +60,25 @@ Windows or Lustre file system.
 
 =head2 ProgressPercent => Int
 
-Provides the percent complete of a C<STORAGE_OPTIMIZATION>
-administrative action. Does not apply to any other administrative
-action type.
+The percentage-complete status of a C<STORAGE_OPTIMIZATION> or
+C<DOWNLOAD_DATA_FROM_BACKUP> administrative action. Does not apply to
+any other administrative action type.
+
+
+=head2 RemainingTransferBytes => Int
+
+The remaining bytes to transfer for the FSx for OpenZFS snapshot that
+you're copying.
 
 
 =head2 RequestTime => Str
 
-Time that the administrative action request was received.
+The time that the administrative action request was received.
 
 
 =head2 Status => Str
 
-Describes the status of the administrative action, as follows:
+The status of the administrative action, as follows:
 
 =over
 
@@ -91,17 +101,29 @@ action.
 C<COMPLETED> - Amazon FSx has finished processing the administrative
 task.
 
+For a backup restore to a second-generation FSx for ONTAP file system,
+indicates that all data has been downloaded to the volume, and clients
+now have read-write access to volume.
+
 =item *
 
-C<UPDATED_OPTIMIZING> - For a storage capacity increase update, Amazon
+C<UPDATED_OPTIMIZING> - For a storage-capacity increase update, Amazon
 FSx has updated the file system with the new storage capacity, and is
-now performing the storage optimization process. For more information,
-see Managing storage capacity
-(https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html)
-in the I<Amazon FSx for Windows File Server User Guide> and Managing
-storage and throughput capacity
-(https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html)
-in the I<Amazon FSx for Lustre User Guide>.
+now performing the storage-optimization process.
+
+=item *
+
+C<PENDING> - For a backup restore to a second-generation FSx for ONTAP
+file system, indicates that the file metadata is being downloaded onto
+the volume. The volume's Lifecycle state is CREATING.
+
+=item *
+
+C<IN_PROGRESS> - For a backup restore to a second-generation FSx for
+ONTAP file system, indicates that all metadata has been downloaded to
+the new volume and client can access data with read-only access while
+Amazon FSx downloads the file data to the volume. Track the progress of
+this process with the C<ProgressPercent> element.
 
 =back
 
@@ -109,9 +131,25 @@ in the I<Amazon FSx for Lustre User Guide>.
 
 =head2 TargetFileSystemValues => L<Paws::FSX::FileSystem>
 
-Describes the target value for the administration action, provided in
-the C<UpdateFileSystem> operation. Returned for C<FILE_SYSTEM_UPDATE>
+The target value for the administration action, provided in the
+C<UpdateFileSystem> operation. Returned for C<FILE_SYSTEM_UPDATE>
 administrative actions.
+
+
+=head2 TargetSnapshotValues => L<Paws::FSX::Snapshot>
+
+
+
+
+=head2 TargetVolumeValues => L<Paws::FSX::Volume>
+
+
+
+
+=head2 TotalTransferBytes => Int
+
+The number of bytes that have transferred for the FSx for OpenZFS
+snapshot that you're copying.
 
 
 

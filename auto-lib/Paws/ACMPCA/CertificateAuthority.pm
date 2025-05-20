@@ -15,6 +15,7 @@ package Paws::ACMPCA::CertificateAuthority;
   has Serial => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
+  has UsageMode => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -35,7 +36,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ACMPCA::CertificateAuthority object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Type => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., UsageMode => $value  });
 
 =head3 Results returned from an API call
 
@@ -51,17 +52,16 @@ Your private CA can issue and revoke X.509 digital certificates.
 Digital certificates verify that the entity named in the certificate
 B<Subject> field owns or controls the public key contained in the
 B<Subject Public Key Info> field. Call the CreateCertificateAuthority
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html)
 action to create your private CA. You must then call the
 GetCertificateAuthorityCertificate
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificateAuthorityCertificate.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html)
 action to retrieve a private CA certificate signing request (CSR). Sign
-the CSR with your ACM Private CA-hosted or on-premises root or
-subordinate CA certificate. Call the
+the CSR with your Amazon Web Services Private CA-hosted or on-premises
+root or subordinate CA certificate. Call the
 ImportCertificateAuthorityCertificate
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html)
-action to import the signed certificate into AWS Certificate Manager
-(ACM).
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html)
+action to import the signed certificate into Certificate Manager (ACM).
 
 =head1 ATTRIBUTES
 
@@ -94,7 +94,7 @@ handling CA keys.
 
 Default: FIPS_140_2_LEVEL_3_OR_HIGHER
 
-Note: AWS Region ap-northeast-3 supports only
+Note: Amazon Web Services Region ap-northeast-3 supports only
 FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this
 parameter and value when creating a CA in that Region. Specifying a
 different value (or no value) results in an C<InvalidArgsException>
@@ -119,7 +119,7 @@ Date and time before which your private CA certificate is not valid.
 
 =head2 OwnerAccount => Str
 
-The AWS account ID that owns the certificate authority.
+The Amazon Web Services account ID that owns the certificate authority.
 
 
 =head2 RestorableUntil => Str
@@ -127,13 +127,14 @@ The AWS account ID that owns the certificate authority.
 The period during which a deleted CA can be restored. For more
 information, see the C<PermanentDeletionTimeInDays> parameter of the
 DeleteCertificateAuthorityRequest
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html)
 action.
 
 
 =head2 RevocationConfiguration => L<Paws::ACMPCA::RevocationConfiguration>
 
-Information about the certificate revocation list (CRL) created and
+Information about the Online Certificate Status Protocol (OCSP)
+configuration or certificate revocation list (CRL) created and
 maintained by your private CA.
 
 
@@ -150,6 +151,16 @@ Status of your private CA.
 =head2 Type => Str
 
 Type of your private CA.
+
+
+=head2 UsageMode => Str
+
+Specifies whether the CA issues general-purpose certificates that
+typically require a revocation mechanism, or short-lived certificates
+that may optionally omit revocation because they expire quickly.
+Short-lived certificate validity is limited to seven days.
+
+The default value is GENERAL_PURPOSE.
 
 
 

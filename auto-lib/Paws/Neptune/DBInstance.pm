@@ -376,7 +376,7 @@ cluster.
 
 =head2 StorageType => Str
 
-Specifies the storage type associated with DB instance.
+Specifies the storage type associated with the DB instance.
 
 
 =head2 TdeCredentialArn => Str

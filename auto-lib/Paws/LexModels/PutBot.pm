@@ -70,7 +70,7 @@ my $PutBotResponse = $models.lex->PutBot(
 [
 
 {
-'Content' => 'I'm sorry, I didn't hear that. Can you repeate what you just said?',
+'Content' => 'I'm sorry, I didn't hear that. Can you repeat what you just said?',
 'ContentType' => 'PlainText'
 },
 
@@ -341,7 +341,7 @@ must be compatible with the locale of the bot.
 
 The default is C<en-US>.
 
-Valid values are: C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-US">, C<"es-419">, C<"es-ES">, C<"es-US">, C<"fr-FR">, C<"fr-CA">, C<"it-IT">, C<"ja-JP">
+Valid values are: C<"de-DE">, C<"en-AU">, C<"en-GB">, C<"en-IN">, C<"en-US">, C<"es-419">, C<"es-ES">, C<"es-US">, C<"fr-FR">, C<"fr-CA">, C<"it-IT">, C<"ja-JP">, C<"ko-KR">
 
 =head2 B<REQUIRED> Name => Str
 

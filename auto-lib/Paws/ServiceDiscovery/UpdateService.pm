@@ -28,28 +28,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+ # UpdateService Example
+ # This example submits a request to replace the DnsConfig and HealthCheckConfig
+ # settings of a specified service.
     my $UpdateServiceResponse = $servicediscovery->UpdateService(
-      Id      => 'MyResourceId',
-      Service => {
-        Description => 'MyResourceDescription',    # max: 1024; OPTIONAL
-        DnsConfig   => {
-          DnsRecords => [
+      'Id'      => 'srv-e4anhexample0004',
+      'Service' => {
+        'DnsConfig' => {
+          'DnsRecords' => [
+
             {
-              TTL  => 1,        # max: 2147483647
-              Type => 'SRV',    # values: SRV, A, AAAA, CNAME
-
-            },
-            ...
-          ],
-
-        },    # OPTIONAL
-        HealthCheckConfig => {
-          Type             => 'HTTP',              # values: HTTP, HTTPS, TCP
-          FailureThreshold => 1,                   # min: 1, max: 10; OPTIONAL
-          ResourcePath     => 'MyResourcePath',    # max: 255; OPTIONAL
-        },    # OPTIONAL
-      },
-
+              'TTL'  => 60,
+              'Type' => 'A'
+            }
+          ]
+        },
+        'HealthCheckConfig' => {
+          'FailureThreshold' => 2,
+          'ResourcePath'     => '/',
+          'Type'             => 'HTTP'
+        }
+      }
     );
 
     # Results:
@@ -71,7 +70,8 @@ The ID of the service that you want to update.
 
 =head2 B<REQUIRED> Service => L<Paws::ServiceDiscovery::ServiceChange>
 
-A complex type that contains the new settings for the service.
+A complex type that contains the new settings for the service. You can
+specify a maximum of 30 attributes (key-value pairs).
 
 
 

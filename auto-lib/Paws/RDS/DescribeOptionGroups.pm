@@ -49,12 +49,20 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 
 =head2 EngineName => Str
 
-Filters the list of option groups to only include groups associated
-with a specific database engine.
+A filter to only include option groups associated with this database
+engine.
 
 Valid Values:
 
 =over
+
+=item *
+
+C<db2-ae>
+
+=item *
+
+C<db2-se>
 
 =item *
 

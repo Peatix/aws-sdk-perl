@@ -48,10 +48,10 @@ The unique identifier for the IAM virtual MFA device from which you
 want to remove tags. For virtual MFA devices, the serial number is the
 same as the ARN.
 
-This parameter accepts (through its regex pattern
-(http://wikipedia.org/wiki/regex)) a string of characters that consist
-of upper and lowercase alphanumeric characters with no spaces. You can
-also include any of the following characters: =,.@-
+This parameter allows (through its regex pattern
+(http://wikipedia.org/wiki/regex)) a string of characters consisting of
+upper and lowercase alphanumeric characters with no spaces. You can
+also include any of the following characters: _+=,.@-
 
 
 

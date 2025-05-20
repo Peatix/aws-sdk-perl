@@ -46,9 +46,9 @@ format.
 
 The level of detail included in the notifications for this resource.
 BASIC will include only the contents of the event as it would appear in
-AWS CloudWatch. FULL will include any supplemental information provided
-by AWS CodeStar Notifications and/or the service for the resource for
-which the notification is created.
+Amazon CloudWatch. FULL will include any supplemental information
+provided by AWS CodeStar Notifications and/or the service for the
+resource for which the notification is created.
 
 Valid values are: C<"BASIC">, C<"FULL">
 =head2 EventTypes => ArrayRef[L<Paws::CodeStarNotifications::EventTypeSummary>]
@@ -86,7 +86,8 @@ The tags associated with the notification rule.
 
 =head2 Targets => ArrayRef[L<Paws::CodeStarNotifications::TargetSummary>]
 
-A list of the SNS topics associated with the notification rule.
+A list of the Chatbot topics and Chatbot clients associated with the
+notification rule.
 
 
 =head2 _request_id => Str

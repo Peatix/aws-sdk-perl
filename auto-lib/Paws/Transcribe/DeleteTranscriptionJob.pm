@@ -40,7 +40,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tra
 
 =head2 B<REQUIRED> TranscriptionJobName => Str
 
-The name of the transcription job to be deleted.
+The name of the transcription job you want to delete. Job names are
+case sensitive.
 
 
 

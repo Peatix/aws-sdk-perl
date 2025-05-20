@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Prometheus:
 
 =head1 DESCRIPTION
 
-Represents the status of a workspace.
+The status of the workspace.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> StatusCode => Str
 
-Status code of this workspace.
+The current status of the workspace.
 
 
 

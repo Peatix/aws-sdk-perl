@@ -1,10 +1,9 @@
 
 package Paws::SQS::GetQueueAttributesResult;
   use Moose;
-  has Attributes => (is => 'ro', isa => 'Paws::SQS::QueueAttributeMap', request_name => 'Attribute', traits => ['NameInRequest',]);
+  has Attributes => (is => 'ro', isa => 'Paws::SQS::QueueAttributeMap');
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -25,3 +24,4 @@ A map of attributes to their respective values.
 
 =cut
 
+1;

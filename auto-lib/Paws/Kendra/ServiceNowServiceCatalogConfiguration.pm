@@ -38,16 +38,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Ser
 
 =head1 DESCRIPTION
 
-Provides configuration information for crawling service catalog items
-in the ServiceNow site
+Provides the configuration information for crawling service catalog
+items in the ServiceNow site
 
 =head1 ATTRIBUTES
 
 
 =head2 CrawlAttachments => Bool
 
-Indicates whether Amazon Kendra should crawl attachments to the service
-catalog items.
+C<TRUE> to index attachments to service catalog items.
 
 
 =head2 B<REQUIRED> DocumentDataFieldName => Str
@@ -64,28 +63,35 @@ title field.
 
 =head2 ExcludeAttachmentFilePatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns. Documents that match the
-patterns are excluded from the index. Documents that don't match the
-patterns are included in the index. If a document matches both an
-exclusion pattern and an inclusion pattern, the document is not
-included in the index.
+A list of regular expression patterns to exclude certain attachments of
+catalogs in your ServiceNow. Item that match the patterns are excluded
+from the index. Items that don't match the patterns are included in the
+index. If an item matches both an inclusion and exclusion pattern, the
+exclusion pattern takes precedence and the item isn't included in the
+index.
 
 The regex is applied to the file name of the attachment.
 
 
 =head2 FieldMappings => ArrayRef[L<Paws::Kendra::DataSourceToIndexFieldMapping>]
 
-Mapping between ServiceNow fields and Amazon Kendra index fields. You
-must create the index field before you map the field.
+Maps attributes or field names of catalogs to Amazon Kendra index field
+names. To create custom fields, use the C<UpdateIndex> API before you
+map to ServiceNow fields. For more information, see Mapping data source
+fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+ServiceNow data source field names must exist in your ServiceNow custom
+metadata.
 
 
 =head2 IncludeAttachmentFilePatterns => ArrayRef[Str|Undef]
 
-A list of regular expression patterns. Documents that match the
-patterns are included in the index. Documents that don't match the
-patterns are excluded from the index. If a document matches both an
-exclusion pattern and an inclusion pattern, the document is not
-included in the index.
+A list of regular expression patterns to include certain attachments of
+catalogs in your ServiceNow. Item that match the patterns are included
+in the index. Items that don't match the patterns are excluded from the
+index. If an item matches both an inclusion and exclusion pattern, the
+exclusion pattern takes precedence and the item isn't included in the
+index.
 
 The regex is applied to the file name of the attachment.
 

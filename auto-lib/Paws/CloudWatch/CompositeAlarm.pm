@@ -2,6 +2,11 @@
 package Paws::CloudWatch::CompositeAlarm;
   use Moose;
   has ActionsEnabled => (is => 'ro', isa => 'Bool');
+  has ActionsSuppressedBy => (is => 'ro', isa => 'Str');
+  has ActionsSuppressedReason => (is => 'ro', isa => 'Str');
+  has ActionsSuppressor => (is => 'ro', isa => 'Str');
+  has ActionsSuppressorExtensionPeriod => (is => 'ro', isa => 'Int');
+  has ActionsSuppressorWaitPeriod => (is => 'ro', isa => 'Int');
   has AlarmActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has AlarmArn => (is => 'ro', isa => 'Str');
   has AlarmConfigurationUpdatedTimestamp => (is => 'ro', isa => 'Str');
@@ -12,6 +17,7 @@ package Paws::CloudWatch::CompositeAlarm;
   has OKActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has StateReason => (is => 'ro', isa => 'Str');
   has StateReasonData => (is => 'ro', isa => 'Str');
+  has StateTransitionedTimestamp => (is => 'ro', isa => 'Str');
   has StateUpdatedTimestamp => (is => 'ro', isa => 'Str');
   has StateValue => (is => 'ro', isa => 'Str');
 
@@ -54,6 +60,52 @@ The details about a composite alarm.
 
 Indicates whether actions should be executed during any changes to the
 alarm state.
+
+
+=head2 ActionsSuppressedBy => Str
+
+When the value is C<ALARM>, it means that the actions are suppressed
+because the suppressor alarm is in C<ALARM> When the value is
+C<WaitPeriod>, it means that the actions are suppressed because the
+composite alarm is waiting for the suppressor alarm to go into into the
+C<ALARM> state. The maximum waiting time is as specified in
+C<ActionsSuppressorWaitPeriod>. After this time, the composite alarm
+performs its actions. When the value is C<ExtensionPeriod>, it means
+that the actions are suppressed because the composite alarm is waiting
+after the suppressor alarm went out of the C<ALARM> state. The maximum
+waiting time is as specified in C<ActionsSuppressorExtensionPeriod>.
+After this time, the composite alarm performs its actions.
+
+
+=head2 ActionsSuppressedReason => Str
+
+Captures the reason for action suppression.
+
+
+=head2 ActionsSuppressor => Str
+
+Actions will be suppressed if the suppressor alarm is in the C<ALARM>
+state. C<ActionsSuppressor> can be an AlarmName or an Amazon Resource
+Name (ARN) from an existing alarm.
+
+
+=head2 ActionsSuppressorExtensionPeriod => Int
+
+The maximum time in seconds that the composite alarm waits after
+suppressor alarm goes out of the C<ALARM> state. After this time, the
+composite alarm performs its actions.
+
+C<ExtensionPeriod> is required only when C<ActionsSuppressor> is
+specified.
+
+
+=head2 ActionsSuppressorWaitPeriod => Int
+
+The maximum time in seconds that the composite alarm waits for the
+suppressor alarm to go into the C<ALARM> state. After this time, the
+composite alarm performs its actions.
+
+C<WaitPeriod> is required only when C<ActionsSuppressor> is specified.
 
 
 =head2 AlarmActions => ArrayRef[Str|Undef]
@@ -112,9 +164,15 @@ An explanation for the alarm state, in text format.
 An explanation for the alarm state, in JSON format.
 
 
+=head2 StateTransitionedTimestamp => Str
+
+The timestamp of the last change to the alarm's C<StateValue>.
+
+
 =head2 StateUpdatedTimestamp => Str
 
-The time stamp of the last update to the alarm state.
+Tracks the timestamp of any state update, even if C<StateValue> doesn't
+change.
 
 
 =head2 StateValue => Str

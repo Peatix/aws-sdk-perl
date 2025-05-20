@@ -49,15 +49,15 @@ instance isn't in an error state, this value is blank.
 
 =head2 Normal => Bool
 
-Boolean value that is true if the instance is operating normally, or
-false if the instance is in an error state.
+Indicates whether the instance is operating normally (TRUE) or is in an
+error state (FALSE).
 
 
 =head2 Status => Str
 
-Status of the DB instance. For a StatusType of read replica, the values
-can be replicating, replication stop point set, replication stop point
-reached, error, stopped, or terminated.
+The status of the DB instance. For a StatusType of read replica, the
+values can be replicating, replication stop point set, replication stop
+point reached, error, stopped, or terminated.
 
 
 =head2 StatusType => Str

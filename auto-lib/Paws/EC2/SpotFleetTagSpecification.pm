@@ -41,8 +41,9 @@ This class has no description
 
 The type of resource. Currently, the only resource type that is
 supported is C<instance>. To tag the Spot Fleet request on creation,
-use the C<TagSpecifications> parameter in C<SpotFleetRequestConfigData>
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetRequestConfigData.html).
+use the C<TagSpecifications> parameter in C< SpotFleetRequestConfigData
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetRequestConfigData.html)
+>.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

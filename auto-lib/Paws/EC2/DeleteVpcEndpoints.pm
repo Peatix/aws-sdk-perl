@@ -55,7 +55,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 B<REQUIRED> VpcEndpointIds => ArrayRef[Str|Undef]
 
-One or more VPC endpoint IDs.
+The IDs of the VPC endpoints.
 
 
 

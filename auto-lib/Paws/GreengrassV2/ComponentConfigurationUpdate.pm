@@ -38,7 +38,7 @@ Contains information about a deployment's update to a component's
 configuration on Greengrass core devices. For more information, see
 Update component configurations
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 =head1 ATTRIBUTES
 
@@ -54,7 +54,7 @@ that the core device keeps it's existing configuration for keys and
 values that you don't specify in this object. For more information, see
 Merge configuration updates
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#merge-configuration-update)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 =head2 Reset => ArrayRef[Str|Undef]
@@ -66,7 +66,7 @@ the key for each level in the object. For more information, see the
 JSON pointer specification (https://tools.ietf.org/html/rfc6901) and
 Reset configuration updates
 (https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#reset-configuration-update)
-in the I<AWS IoT Greengrass V2 Developer Guide>.
+in the I<IoT Greengrass V2 Developer Guide>.
 
 
 

@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Networ
 
 =head1 DESCRIPTION
 
-An object representing the network configuration for a task or service.
+The network configuration for a task or service.
 
 =head1 ATTRIBUTES
 
 
 =head2 AwsvpcConfiguration => L<Paws::ECS::AwsVpcConfiguration>
 
-The VPC subnets and security groups associated with a task.
+The VPC subnets and security groups that are associated with a task.
 
 All specified subnets and security groups must be from the same VPC.
 

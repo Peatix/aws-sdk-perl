@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeGuruRev
 
 =head1 DESCRIPTION
 
-A C<SourceCodeType>
+A SourceCodeType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType)
 that specifies the tip of a branch in an associated repository.
 

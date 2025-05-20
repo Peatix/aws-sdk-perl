@@ -29,6 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DescribeAccountResult = $workspaces->DescribeAccount();
 
     # Results:
+    my $DedicatedTenancyAccountType =
+      $DescribeAccountResult->DedicatedTenancyAccountType;
     my $DedicatedTenancyManagementCidrRange =
       $DescribeAccountResult->DedicatedTenancyManagementCidrRange;
     my $DedicatedTenancySupport =

@@ -34,14 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::AwsEc2
 
 =head1 DESCRIPTION
 
-Violations for an EC2 instance resource.
+Violation detail for an EC2 instance resource.
 
 =head1 ATTRIBUTES
 
 
 =head2 AwsEc2NetworkInterfaceViolations => ArrayRef[L<Paws::FMS::AwsEc2NetworkInterfaceViolation>]
 
-Violations for network interfaces associated with the EC2 instance.
+Violation detail for network interfaces associated with the EC2
+instance.
 
 
 =head2 ViolationTarget => Str

@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Jso
 
 =head1 DESCRIPTION
 
-Configuration information for the JSON token type.
+Provides the configuration information for the JSON token type.
 
 =head1 ATTRIBUTES
 

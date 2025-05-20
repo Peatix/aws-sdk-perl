@@ -3,6 +3,7 @@ package Paws::SESv2::BulkEmailEntry;
   use Moose;
   has Destination => (is => 'ro', isa => 'Paws::SESv2::Destination', required => 1);
   has ReplacementEmailContent => (is => 'ro', isa => 'Paws::SESv2::ReplacementEmailContent');
+  has ReplacementHeaders => (is => 'ro', isa => 'ArrayRef[Paws::SESv2::MessageHeader]');
   has ReplacementTags => (is => 'ro', isa => 'ArrayRef[Paws::SESv2::MessageTag]');
 
 1;
@@ -58,6 +59,46 @@ in RFC3492 (https://tools.ietf.org/html/rfc3492.html).
 =head2 ReplacementEmailContent => L<Paws::SESv2::ReplacementEmailContent>
 
 The C<ReplacementEmailContent> associated with a C<BulkEmailEntry>.
+
+
+=head2 ReplacementHeaders => ArrayRef[L<Paws::SESv2::MessageHeader>]
+
+The list of message headers associated with the C<BulkEmailEntry> data
+type.
+
+=over
+
+=item *
+
+Headers Not Present in C<BulkEmailEntry>: If a header is specified in
+C<Template>
+(https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html)
+but not in C<BulkEmailEntry>, the header from C<Template> will be added
+to the outgoing email.
+
+=item *
+
+Headers Present in C<BulkEmailEntry>: If a header is specified in
+C<BulkEmailEntry>, it takes precedence over any header of the same name
+specified in C<Template>
+(https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_Template.html):
+
+=over
+
+=item *
+
+If the header is also defined within C<Template>, the value from
+C<BulkEmailEntry> will replace the header's value in the email.
+
+=item *
+
+If the header is not defined within C<Template>, it will simply be
+added to the email as specified in C<BulkEmailEntry>.
+
+=back
+
+=back
+
 
 
 =head2 ReplacementTags => ArrayRef[L<Paws::SESv2::MessageTag>]

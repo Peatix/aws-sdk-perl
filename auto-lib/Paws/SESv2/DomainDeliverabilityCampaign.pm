@@ -75,9 +75,9 @@ The major email providers who handled the email message.
 
 =head2 FirstSeenDateTime => Str
 
-The first time, in Unix time format, when the email message was
-delivered to any recipient's inbox. This value can help you determine
-how long it took for a campaign to deliver an email message.
+The first time when the email message was delivered to any recipient's
+inbox. This value can help you determine how long it took for a
+campaign to deliver an email message.
 
 
 =head2 FromAddress => Str
@@ -99,9 +99,9 @@ inboxes.
 
 =head2 LastSeenDateTime => Str
 
-The last time, in Unix time format, when the email message was
-delivered to any recipient's inbox. This value can help you determine
-how long it took for a campaign to deliver an email message.
+The last time when the email message was delivered to any recipient's
+inbox. This value can help you determine how long it took for a
+campaign to deliver an email message.
 
 
 =head2 ProjectedVolume => Int

@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $UpdateGlobalNetworkResponse = $networkmanager->UpdateGlobalNetwork(
-      GlobalNetworkId => 'MyString',
-      Description     => 'MyString',    # OPTIONAL
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      Description     => 'MyConstrainedString',    # OPTIONAL
     );
 
     # Results:
@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/net
 
 A description of the global network.
 
-Length Constraints: Maximum length of 256 characters.
+Constraints: Maximum length of 256 characters.
 
 
 

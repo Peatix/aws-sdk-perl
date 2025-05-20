@@ -69,7 +69,7 @@ The name of the column.
 
 =head2 Nullable => Str
 
-Indicates the column's nullable status.
+Unsupported constraint. This value always shows as C<UNKNOWN>.
 
 
 =head2 Precision => Int

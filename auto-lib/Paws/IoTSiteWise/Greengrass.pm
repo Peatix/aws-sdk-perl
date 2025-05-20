@@ -33,13 +33,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains details for a gateway that runs on AWS IoT Greengrass. To
-create a gateway that runs on AWS IoT Greengrass, you must add the IoT
-SiteWise connector to a Greengrass group and deploy it. Your Greengrass
-group must also have permissions to upload data to AWS IoT SiteWise.
-For more information, see Ingesting data using a gateway
+Contains details for a gateway that runs on IoT Greengrass. To create a
+gateway that runs on IoT Greengrass, you must add the IoT SiteWise
+connector to a Greengrass group and deploy it. Your Greengrass group
+must also have permissions to upload data to IoT SiteWise. For more
+information, see Ingesting data using a gateway
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -50,10 +50,10 @@ The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
 of the Greengrass group. For more information about how to find a
 group's ARN, see ListGroups
-(https://docs.aws.amazon.com/greengrass/latest/apireference/listgroups-get.html)
+(https://docs.aws.amazon.com/greengrass/v1/apireference/listgroups-get.html)
 and GetGroup
-(https://docs.aws.amazon.com/greengrass/latest/apireference/getgroup-get.html)
-in the I<AWS IoT Greengrass API Reference>.
+(https://docs.aws.amazon.com/greengrass/v1/apireference/getgroup-get.html)
+in the I<IoT Greengrass V1 API Reference>.
 
 
 

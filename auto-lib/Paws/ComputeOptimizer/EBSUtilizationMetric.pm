@@ -89,16 +89,16 @@ Unit: Bytes
 
 The statistic of the utilization metric.
 
-The Compute Optimizer API, AWS Command Line Interface (AWS CLI), and
-SDKs return utilization metrics using only the C<Maximum> statistic,
-which is the highest value observed during the specified period.
+The Compute Optimizer API, Command Line Interface (CLI), and SDKs
+return utilization metrics using only the C<Maximum> statistic, which
+is the highest value observed during the specified period.
 
 The Compute Optimizer console displays graphs for some utilization
 metrics using the C<Average> statistic, which is the value of C<Sum> /
 C<SampleCount> during the specified period. For more information, see
 Viewing resource recommendations
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html)
-in the I<AWS Compute Optimizer User Guide>. You can also get averaged
+in the I<Compute Optimizer User Guide>. You can also get averaged
 utilization metric data for your resources using Amazon CloudWatch. For
 more information, see the Amazon CloudWatch User Guide
 (https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).

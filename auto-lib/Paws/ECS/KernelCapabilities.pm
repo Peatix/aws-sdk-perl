@@ -34,15 +34,55 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Kernel
 
 =head1 DESCRIPTION
 
-The Linux capabilities for the container that are added to or dropped
-from the default configuration provided by Docker. For more information
-on the default capabilities and the non-default available capabilities,
-see Runtime privilege and Linux capabilities
-(https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)
-in the I<Docker run reference>. For more detailed information on these
-Linux capabilities, see the capabilities(7)
+The Linux capabilities to add or remove from the default Docker
+configuration for a container defined in the task definition. For more
+detailed information about these Linux capabilities, see the
+capabilities(7)
 (http://man7.org/linux/man-pages/man7/capabilities.7.html) Linux manual
 page.
+
+The following describes how Docker processes the Linux capabilities
+specified in the C<add> and C<drop> request parameters. For information
+about the latest behavior, see Docker Compose: order of cap_drop and
+cap_add
+(https://forums.docker.com/t/docker-compose-order-of-cap-drop-and-cap-add/97136/1)
+in the Docker Community Forum.
+
+=over
+
+=item *
+
+When the container is a privleged container, the container capabilities
+are all of the default Docker capabilities. The capabilities specified
+in the C<add> request parameter, and the C<drop> request parameter are
+ignored.
+
+=item *
+
+When the C<add> request parameter is set to ALL, the container
+capabilities are all of the default Docker capabilities, excluding
+those specified in the C<drop> request parameter.
+
+=item *
+
+When the C<drop> request parameter is set to ALL, the container
+capabilities are the capabilities specified in the C<add> request
+parameter.
+
+=item *
+
+When the C<add> request parameter and the C<drop> request parameter are
+both empty, the capabilities the container capabilities are all of the
+default Docker capabilities.
+
+=item *
+
+The default is to first drop the capabilities specified in the C<drop>
+request parameter, and then add the capabilities specified in the
+C<add> request parameter.
+
+=back
+
 
 =head1 ATTRIBUTES
 
@@ -51,15 +91,11 @@ page.
 
 The Linux capabilities for the container that have been added to the
 default configuration provided by Docker. This parameter maps to
-C<CapAdd> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--cap-add> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+C<CapAdd> in the docker container create command and the C<--cap-add>
+option to docker run.
 
-Tasks launched on AWS Fargate only support adding the C<SYS_PTRACE>
-kernel capability.
+Tasks launched on Fargate only support adding the C<SYS_PTRACE> kernel
+capability.
 
 Valid values: C<"ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" |
 "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" |
@@ -76,12 +112,8 @@ Valid values: C<"ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" |
 
 The Linux capabilities for the container that have been removed from
 the default configuration provided by Docker. This parameter maps to
-C<CapDrop> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--cap-drop>
-option to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+C<CapDrop> in the docker container create command and the C<--cap-drop>
+option to docker run.
 
 Valid values: C<"ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" |
 "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" |

@@ -18,8 +18,7 @@ Paws::ImageBuilder::DeleteComponentResponse
 
 =head2 ComponentBuildVersionArn => Str
 
-The Amazon Resource Name (ARN) of the component build version that was
-deleted.
+The ARN of the component build version that this request deleted.
 
 
 =head2 RequestId => Str

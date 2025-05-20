@@ -34,10 +34,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Retr
 
 =head1 DESCRIPTION
 
-The retry strategy associated with a job. For more information, see
-Automated job retries
+The retry strategy that's associated with a job. For more information,
+see Automated job retries
 (https://docs.aws.amazon.com/batch/latest/userguide/job_retries.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -52,9 +52,10 @@ attempts as the value.
 
 =head2 EvaluateOnExit => ArrayRef[L<Paws::Batch::EvaluateOnExit>]
 
-Array of up to 5 objects that specify conditions under which the job
-should be retried or failed. If this parameter is specified, then the
-C<attempts> parameter must also be specified.
+Array of up to 5 objects that specify the conditions where jobs are
+retried or failed. If this parameter is specified, then the C<attempts>
+parameter must also be specified. If none of the listed conditions
+match, then the job is retried.
 
 
 

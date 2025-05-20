@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Defa
 
 In a WebACL, this is the action that you want WAF to perform when a web
 request doesn't match any of the rules in the C<WebACL>. The default
-action must be a terminating action, so you can't use count.
+action must be a terminating action.
 
 =head1 ATTRIBUTES
 

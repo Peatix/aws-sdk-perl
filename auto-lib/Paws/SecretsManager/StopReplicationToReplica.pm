@@ -46,8 +46,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> SecretId => Str
 
-Response to C<StopReplicationToReplica> of a secret, based on the
-C<SecretId>.
+The ARN of the primary secret.
 
 
 

@@ -49,10 +49,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 OperatingSystem => Str
 
-Returns he operating system rule specified for patch groups using the
+Returns the operating system rule specified for patch groups using the
 patch baseline.
 
-Valid values are: C<"WINDOWS">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"UBUNTU">, C<"REDHAT_ENTERPRISE_LINUX">, C<"SUSE">, C<"CENTOS">, C<"ORACLE_LINUX">, C<"DEBIAN">, C<"MACOS">
+Valid values are: C<"WINDOWS">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"AMAZON_LINUX_2022">, C<"UBUNTU">, C<"REDHAT_ENTERPRISE_LINUX">, C<"SUSE">, C<"CENTOS">, C<"ORACLE_LINUX">, C<"DEBIAN">, C<"MACOS">, C<"RASPBIAN">, C<"ROCKY_LINUX">, C<"ALMA_LINUX">, C<"AMAZON_LINUX_2023">
 
 =head2 B<REQUIRED> PatchGroup => Str
 

@@ -1,6 +1,8 @@
 
 package Paws::DevOpsGuru::ListAnomaliesForInsight;
   use Moose;
+  has AccountId => (is => 'ro', isa => 'Str');
+  has Filters => (is => 'ro', isa => 'Paws::DevOpsGuru::ListAnomaliesForInsightFilters');
   has InsightId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InsightId', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -33,7 +35,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $devops-guru = Paws->service('DevOpsGuru');
     my $ListAnomaliesForInsightResponse =
       $devops -guru->ListAnomaliesForInsight(
-      InsightId      => 'MyInsightId',
+      InsightId => 'MyInsightId',
+      AccountId => 'MyAwsAccountId',    # OPTIONAL
+      Filters   => {
+        ServiceCollection => {
+          ServiceNames => [
+            'API_GATEWAY',
+            ... # values: API_GATEWAY, APPLICATION_ELB, AUTO_SCALING_GROUP, CLOUD_FRONT, DYNAMO_DB, EC2, ECS, EKS, ELASTIC_BEANSTALK, ELASTI_CACHE, ELB, ES, KINESIS, LAMBDA, NAT_GATEWAY, NETWORK_ELB, RDS, REDSHIFT, ROUTE_53, S3, SAGE_MAKER, SNS, SQS, STEP_FUNCTIONS, SWF
+          ],    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
       MaxResults     => 1,                    # OPTIONAL
       NextToken      => 'MyUuidNextToken',    # OPTIONAL
       StartTimeRange => {
@@ -54,6 +65,18 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/devops-guru/ListAnomaliesForInsight>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountId => Str
+
+The ID of the Amazon Web Services account.
+
+
+
+=head2 Filters => L<Paws::DevOpsGuru::ListAnomaliesForInsightFilters>
+
+Specifies one or more service names that are used to list anomalies.
+
 
 
 =head2 B<REQUIRED> InsightId => Str

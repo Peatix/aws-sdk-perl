@@ -63,10 +63,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 the C<dnsname> parameter only if you want to specify the name of the
 first hosted zone in the response. If you don't include the C<dnsname>
 parameter, Amazon Route 53 returns all of the hosted zones that were
-created by the current AWS account, in ASCII order. For subsequent
-requests, include both C<dnsname> and C<hostedzoneid> parameters. For
-C<dnsname>, specify the value of C<NextDNSName> from the previous
-response.
+created by the current Amazon Web Services account, in ASCII order. For
+subsequent requests, include both C<dnsname> and C<hostedzoneid>
+parameters. For C<dnsname>, specify the value of C<NextDNSName> from
+the previous response.
 
 
 

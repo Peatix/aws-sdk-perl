@@ -28,7 +28,7 @@ C<DbUser> to log on to the database C<DbName>.
 A database user name that is authorized to log on to the database
 C<DbName> using the password C<DbPassword>. If the specified DbUser
 exists in the database, the new user name has the same database
-privileges as the the user named in DbUser. By default, the user is
+permissions as the the user named in DbUser. By default, the user is
 added to PUBLIC. If the C<DbGroups> parameter is specifed, C<DbUser> is
 added to the listed groups for any sessions created using these
 credentials.

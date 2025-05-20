@@ -27,7 +27,8 @@ Required. The Amazon Resource Name (ARN) of the configuration.
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy associated with the configuration.
+Optional. The authentication strategy associated with the
+configuration. The default is SIMPLE.
 
 Valid values are: C<"SIMPLE">, C<"LDAP">
 =head2 Created => Str

@@ -47,7 +47,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fms
 
 =head2 MaxResults => Int
 
-Specifies the number of member account IDs that you want AWS Firewall
+Specifies the number of member account IDs that you want Firewall
 Manager to return for this request. If you have more IDs than the
 number that you specify for C<MaxResults>, the response includes a
 C<NextToken> value that you can use to get another batch of member
@@ -58,9 +58,9 @@ account IDs.
 =head2 NextToken => Str
 
 If you specify a value for C<MaxResults> and you have more account IDs
-than the number that you specify for C<MaxResults>, AWS Firewall
-Manager returns a C<NextToken> value in the response that allows you to
-list another group of IDs. For the second and subsequent
+than the number that you specify for C<MaxResults>, Firewall Manager
+returns a C<NextToken> value in the response that allows you to list
+another group of IDs. For the second and subsequent
 C<ListMemberAccountsRequest> requests, specify the value of
 C<NextToken> from the previous response to get information about
 another batch of member account IDs.

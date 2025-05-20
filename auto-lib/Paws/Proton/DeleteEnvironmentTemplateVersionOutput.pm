@@ -16,8 +16,7 @@ Paws::Proton::DeleteEnvironmentTemplateVersionOutput
 
 =head2 EnvironmentTemplateVersion => L<Paws::Proton::EnvironmentTemplateVersion>
 
-The environment template version detail data that's returned by AWS
-Proton.
+The detailed data of the environment template version being deleted.
 
 
 =head2 _request_id => Str

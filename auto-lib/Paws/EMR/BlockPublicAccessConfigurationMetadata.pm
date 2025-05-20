@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::BlockP
 
 =head1 DESCRIPTION
 
-Properties that describe the AWS principal that created the
-C<BlockPublicAccessConfiguration> using the
+Properties that describe the Amazon Web Services principal that created
+the C<BlockPublicAccessConfiguration> using the
 C<PutBlockPublicAccessConfiguration> action as well as the date and
 time that the configuration was created. Each time a configuration for
 block public access is updated, Amazon EMR updates this metadata.

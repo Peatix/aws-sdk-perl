@@ -3,7 +3,8 @@ package Paws::CloudWatchLogs::DescribeLogStreams;
   use Moose;
   has Descending => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'descending' );
   has Limit => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'limit' );
-  has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' , required => 1);
+  has LogGroupIdentifier => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupIdentifier' );
+  has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' );
   has LogStreamNamePrefix => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logStreamNamePrefix' );
   has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken' );
   has OrderBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'orderBy' );
@@ -33,12 +34,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $logs = Paws->service('CloudWatchLogs');
     my $DescribeLogStreamsResponse = $logs->DescribeLogStreams(
-      LogGroupName        => 'MyLogGroupName',
-      Descending          => 1,                    # OPTIONAL
-      Limit               => 1,                    # OPTIONAL
-      LogStreamNamePrefix => 'MyLogStreamName',    # OPTIONAL
-      NextToken           => 'MyNextToken',        # OPTIONAL
-      OrderBy             => 'LogStreamName',      # OPTIONAL
+      Descending          => 1,                         # OPTIONAL
+      Limit               => 1,                         # OPTIONAL
+      LogGroupIdentifier  => 'MyLogGroupIdentifier',    # OPTIONAL
+      LogGroupName        => 'MyLogGroupName',          # OPTIONAL
+      LogStreamNamePrefix => 'MyLogStreamName',         # OPTIONAL
+      NextToken           => 'MyNextToken',             # OPTIONAL
+      OrderBy             => 'LogStreamName',           # OPTIONAL
     );
 
     # Results:
@@ -68,9 +70,23 @@ default is up to 50 items.
 
 
 
-=head2 B<REQUIRED> LogGroupName => Str
+=head2 LogGroupIdentifier => Str
+
+Specify either the name or ARN of the log group to view. If the log
+group is in a source account and you are using a monitoring account,
+you must use the log group ARN.
+
+You must include either C<logGroupIdentifier> or C<logGroupName>, but
+not both.
+
+
+
+=head2 LogGroupName => Str
 
 The name of the log group.
+
+You must include either C<logGroupIdentifier> or C<logGroupName>, but
+not both.
 
 
 
@@ -100,7 +116,7 @@ C<logStreamNamePrefix> parameter.
 
 C<lastEventTimestamp> represents the time of the most recent log event
 in the log stream in CloudWatch Logs. This number is expressed as the
-number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+number of milliseconds after C<Jan 1, 1970 00:00:00 UTC>.
 C<lastEventTimestamp> updates on an eventual consistency basis. It
 typically updates in less than an hour from ingestion, but in rare
 situations might take longer.

@@ -4,8 +4,10 @@ package Paws::EMR::InstanceTypeConfig;
   has BidPrice => (is => 'ro', isa => 'Str');
   has BidPriceAsPercentageOfOnDemandPrice => (is => 'ro', isa => 'Num');
   has Configurations => (is => 'ro', isa => 'ArrayRef[Paws::EMR::Configuration]');
+  has CustomAmiId => (is => 'ro', isa => 'Str');
   has EbsConfiguration => (is => 'ro', isa => 'Paws::EMR::EbsConfiguration');
   has InstanceType => (is => 'ro', isa => 'Str', required => 1);
+  has Priority => (is => 'ro', isa => 'Num');
   has WeightedCapacity => (is => 'ro', isa => 'Int');
 
 1;
@@ -39,19 +41,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Instan
 =head1 DESCRIPTION
 
 An instance type configuration for each instance type in an instance
-fleet, which determines the EC2 instances Amazon EMR attempts to
-provision to fulfill On-Demand and Spot target capacities. There can be
-a maximum of five instance type configurations in a fleet.
+fleet, which determines the Amazon EC2 instances Amazon EMR attempts to
+provision to fulfill On-Demand and Spot target capacities. When you use
+an allocation strategy, you can include a maximum of 30 instance type
+configurations for a fleet. For more information about how to use an
+allocation strategy, see Configure Instance Fleets
+(https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-instance-fleet.html).
+Without an allocation strategy, you may specify a maximum of five
+instance type configurations for a fleet.
 
 The instance fleet configuration is available only in Amazon EMR
-versions 4.8.0 and later, excluding 5.0.x versions.
+releases 4.8.0 and later, excluding 5.0.x versions.
 
 =head1 ATTRIBUTES
 
 
 =head2 BidPrice => Str
 
-The bid price for each EC2 Spot Instance type as defined by
+The bid price for each Amazon EC2 Spot Instance type as defined by
 C<InstanceType>. Expressed in USD. If neither C<BidPrice> nor
 C<BidPriceAsPercentageOfOnDemandPrice> is provided,
 C<BidPriceAsPercentageOfOnDemandPrice> defaults to 100%.
@@ -59,8 +66,8 @@ C<BidPriceAsPercentageOfOnDemandPrice> defaults to 100%.
 
 =head2 BidPriceAsPercentageOfOnDemandPrice => Num
 
-The bid price, as a percentage of On-Demand price, for each EC2 Spot
-Instance as defined by C<InstanceType>. Expressed as a number (for
+The bid price, as a percentage of On-Demand price, for each Amazon EC2
+Spot Instance as defined by C<InstanceType>. Expressed as a number (for
 example, 20 specifies 20%). If neither C<BidPrice> nor
 C<BidPriceAsPercentageOfOnDemandPrice> is provided,
 C<BidPriceAsPercentageOfOnDemandPrice> defaults to 100%.
@@ -73,15 +80,27 @@ instances, which can include configurations for applications and
 software that run on the cluster.
 
 
+=head2 CustomAmiId => Str
+
+The custom AMI ID to use for the instance type.
+
+
 =head2 EbsConfiguration => L<Paws::EMR::EbsConfiguration>
 
-The configuration of Amazon Elastic Block Storage (Amazon EBS) attached
+The configuration of Amazon Elastic Block Store (Amazon EBS) attached
 to each instance as defined by C<InstanceType>.
 
 
 =head2 B<REQUIRED> InstanceType => Str
 
-An EC2 instance type, such as C<m3.xlarge>.
+An Amazon EC2 instance type, such as C<m3.xlarge>.
+
+
+=head2 Priority => Num
+
+The priority at which Amazon EMR launches the Amazon EC2 instances with
+this instance type. Priority starts at 0, which is the highest
+priority. Amazon EMR considers the highest priority first.
 
 
 =head2 WeightedCapacity => Int

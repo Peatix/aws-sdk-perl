@@ -48,7 +48,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 The unique identifier for an existing automation execution to examine.
 The execution ID is returned by StartAutomationExecution when the
-execution of an Automation document is initiated.
+execution of an Automation runbook is initiated.
 
 
 

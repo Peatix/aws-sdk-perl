@@ -49,14 +49,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> BaselineId => Str
 
-The ID of the patch baseline to register the patch group with.
+The ID of the patch baseline to register with the patch group.
 
 
 
 =head2 B<REQUIRED> PatchGroup => Str
 
-The name of the patch group that should be registered with the patch
-baseline.
+The name of the patch group to be registered with the patch baseline.
 
 
 

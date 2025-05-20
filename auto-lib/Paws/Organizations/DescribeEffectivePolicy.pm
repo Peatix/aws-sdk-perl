@@ -54,8 +54,8 @@ of the following values:
 
 =item *
 
-AISERVICES_OPT_OUT_POLICY
-(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+DECLARATIVE_POLICY_EC2
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
 
 =item *
 
@@ -67,10 +67,20 @@ BACKUP_POLICY
 TAG_POLICY
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
 
+=item *
+
+CHATBOT_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+
+=item *
+
+AISERVICES_OPT_OUT_POLICY
+(https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+
 =back
 
 
-Valid values are: C<"TAG_POLICY">, C<"BACKUP_POLICY">, C<"AISERVICES_OPT_OUT_POLICY">
+Valid values are: C<"TAG_POLICY">, C<"BACKUP_POLICY">, C<"AISERVICES_OPT_OUT_POLICY">, C<"CHATBOT_POLICY">, C<"DECLARATIVE_POLICY_EC2">
 
 =head2 TargetId => Str
 

@@ -33,11 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $iam = Paws->service('IAM');
-    # To create an IAM role
-    # The following command creates a role named Test-Role and attaches a trust
-    # policy to it that is provided as a URL-encoded JSON string.
+# To create an IAM role
+# The following command creates a role named Test-Role and attaches a trust
+# policy that you must convert from JSON to a string. Upon success, the response
+# includes the same policy as a URL-encoded JSON string.
     my $CreateRoleResponse = $iam->CreateRole(
-      'AssumeRolePolicyDocument' => '<URL-encoded-JSON>',
+      'AssumeRolePolicyDocument' => '<Stringified-JSON>',
       'Path'                     => '/',
       'RoleName'                 => 'Test-Role'
     );
@@ -59,10 +60,9 @@ The trust relationship policy document that grants an entity permission
 to assume the role.
 
 In IAM, you must provide a JSON policy that has been converted to a
-string. However, for AWS CloudFormation templates formatted in YAML,
-you can provide the policy in JSON or YAML format. AWS CloudFormation
-always converts a YAML policy to JSON format before submitting it to
-IAM.
+string. However, for CloudFormation templates formatted in YAML, you
+can provide the policy in JSON or YAML format. CloudFormation always
+converts a YAML policy to JSON format before submitting it to IAM.
 
 The regex pattern (http://wikipedia.org/wiki/regex) used to validate
 this parameter is a string of characters consisting of the following:
@@ -101,10 +101,10 @@ A description of the role.
 
 The maximum session duration (in seconds) that you want to set for the
 specified role. If you do not specify a value for this setting, the
-default maximum of one hour is applied. This setting can have a value
+default value of one hour is applied. This setting can have a value
 from 1 hour to 12 hours.
 
-Anyone who assumes the role from the AWS CLI or API can use the
+Anyone who assumes the role from the CLI or API can use the
 C<DurationSeconds> API parameter or the C<duration-seconds> CLI
 parameter to request a longer session. The C<MaxSessionDuration>
 setting determines the maximum duration that can be requested using the
@@ -141,8 +141,20 @@ letters.
 
 =head2 PermissionsBoundary => Str
 
-The ARN of the policy that is used to set the permissions boundary for
-the role.
+The ARN of the managed policy that is used to set the permissions
+boundary for the role.
+
+A permissions boundary policy defines the maximum permissions that
+identity-based policies can grant to an entity, but does not grant
+permissions. Permissions boundaries do not define the maximum
+permissions that a resource-based policy can grant to an entity. To
+learn more, see Permissions boundaries for IAM entities
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
+in the I<IAM User Guide>.
+
+For more information about policy types, see Policy types
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types)
+in the I<IAM User Guide>.
 
 
 
@@ -153,6 +165,11 @@ The name of the role to create.
 IAM user, group, role, and policy names must be unique within the
 account. Names are not distinguished by case. For example, you cannot
 create resources named both "MyResource" and "myresource".
+
+This parameter allows (through its regex pattern
+(http://wikipedia.org/wiki/regex)) a string of characters consisting of
+upper and lowercase alphanumeric characters with no spaces. You can
+also include any of the following characters: _+=,.@-
 
 
 

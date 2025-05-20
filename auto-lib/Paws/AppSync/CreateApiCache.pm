@@ -4,6 +4,7 @@ package Paws::AppSync::CreateApiCache;
   has ApiCachingBehavior => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'apiCachingBehavior', required => 1);
   has ApiId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'apiId', required => 1);
   has AtRestEncryptionEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'atRestEncryptionEnabled');
+  has HealthMetricsConfig => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'healthMetricsConfig');
   has TransitEncryptionEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'transitEncryptionEnabled');
   has Ttl => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'ttl', required => 1);
   has Type => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'type', required => 1);
@@ -39,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Ttl                      => 1,
       Type                     => 'T2_SMALL',
       AtRestEncryptionEnabled  => 1,                        # OPTIONAL
+      HealthMetricsConfig      => 'ENABLED',                # OPTIONAL
       TransitEncryptionEnabled => 1,                        # OPTIONAL
     );
 
@@ -61,35 +63,68 @@ Caching behavior.
 
 =item *
 
-B<FULL_REQUEST_CACHING>: All requests are fully cached.
+B<FULL_REQUEST_CACHING>: All requests from the same user are cached.
+Individual resolvers are automatically cached. All API calls will try
+to return responses from the cache.
 
 =item *
 
 B<PER_RESOLVER_CACHING>: Individual resolvers that you specify are
 cached.
 
+=item *
+
+B<OPERATION_LEVEL_CACHING>: Full requests are cached together and
+returned without executing resolvers.
+
 =back
 
 
-Valid values are: C<"FULL_REQUEST_CACHING">, C<"PER_RESOLVER_CACHING">
+Valid values are: C<"FULL_REQUEST_CACHING">, C<"PER_RESOLVER_CACHING">, C<"OPERATION_LEVEL_CACHING">
 
 =head2 B<REQUIRED> ApiId => Str
 
-The GraphQL API Id.
+The GraphQL API ID.
 
 
 
 =head2 AtRestEncryptionEnabled => Bool
 
-At rest encryption flag for cache. This setting cannot be updated after
+At-rest encryption flag for cache. You cannot update this setting after
 creation.
 
 
 
+=head2 HealthMetricsConfig => Str
+
+Controls how cache health metrics will be emitted to CloudWatch. Cache
+health metrics include:
+
+=over
+
+=item *
+
+NetworkBandwidthOutAllowanceExceeded: The network packets dropped
+because the throughput exceeded the aggregated bandwidth limit. This is
+useful for diagnosing bottlenecks in a cache configuration.
+
+=item *
+
+EngineCPUUtilization: The CPU utilization (percentage) allocated to the
+Redis process. This is useful for diagnosing bottlenecks in a cache
+configuration.
+
+=back
+
+Metrics will be recorded by API ID. You can set the value to C<ENABLED>
+or C<DISABLED>.
+
+Valid values are: C<"ENABLED">, C<"DISABLED">
+
 =head2 TransitEncryptionEnabled => Bool
 
-Transit encryption flag when connecting to cache. This setting cannot
-be updated after creation.
+Transit encryption flag when connecting to cache. You cannot update
+this setting after creation.
 
 
 
@@ -97,7 +132,7 @@ be updated after creation.
 
 TTL in seconds for cache entries.
 
-Valid values are between 1 and 3600 seconds.
+Valid values are 1E<ndash>3,600 seconds.
 
 
 

@@ -16,8 +16,8 @@ Paws::Kendra::CreateIndexResponse
 
 =head2 Id => Str
 
-The unique identifier of the index. Use this identifier when you query
-an index, set up a data source, or index a document.
+The identifier of the index. Use this identifier when you query an
+index, set up a data source, or index a document.
 
 
 =head2 _request_id => Str

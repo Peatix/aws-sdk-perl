@@ -2,7 +2,7 @@
 package Paws::Route53Domains::DomainSummary;
   use Moose;
   has AutoRenew => (is => 'ro', isa => 'Bool');
-  has DomainName => (is => 'ro', isa => 'Str', required => 1);
+  has DomainName => (is => 'ro', isa => 'Str');
   has Expiry => (is => 'ro', isa => 'Str');
   has TransferLock => (is => 'ro', isa => 'Bool');
 
@@ -46,7 +46,7 @@ Summary information about one domain.
 Indicates whether the domain is automatically renewed upon expiration.
 
 
-=head2 B<REQUIRED> DomainName => Str
+=head2 DomainName => Str
 
 The name of the domain that the summary information applies to.
 

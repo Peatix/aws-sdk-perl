@@ -9,7 +9,7 @@ package Paws::TimestreamWrite::WriteRecords;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'WriteRecords');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::TimestreamWrite::WriteRecordsResponse');
   class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
@@ -30,23 +30,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ingest.timestream = Paws->service('TimestreamWrite');
-    $ingest . timestream->WriteRecords(
+    my $WriteRecordsResponse = $ingest . timestream->WriteRecords(
       DatabaseName => 'MyResourceName',
       Records      => [
         {
           Dimensions => [
             {
-              Name               => 'MyStringValue256',     # min: 1, max: 256
-              Value              => 'MyStringValue2048',    # min: 1, max: 2048
-              DimensionValueType => 'VARCHAR',    # values: VARCHAR; OPTIONAL
+              Name               => 'MySchemaName',  # min: 1
+              Value              => 'MySchemaValue',
+              DimensionValueType => 'VARCHAR',       # values: VARCHAR; OPTIONAL
             },
             ...
           ],    # max: 128; OPTIONAL
-          MeasureName      => 'MyStringValue256',     # min: 1, max: 256
-          MeasureValue     => 'MyStringValue2048',    # min: 1, max: 2048
-          MeasureValueType =>
-            'DOUBLE',    # values: DOUBLE, BIGINT, VARCHAR, BOOLEAN; OPTIONAL
-          Time     => 'MyStringValue256',    # min: 1, max: 256
+          MeasureName      => 'MySchemaName',      # min: 1
+          MeasureValue     => 'MyStringValue2048', # min: 1, max: 2048; OPTIONAL
+          MeasureValueType => 'DOUBLE'
+          , # values: DOUBLE, BIGINT, VARCHAR, BOOLEAN, TIMESTAMP, MULTI; OPTIONAL
+          MeasureValues => [
+            {
+              Name => 'MySchemaName',          # min: 1
+              Type => 'DOUBLE'
+              , # values: DOUBLE, BIGINT, VARCHAR, BOOLEAN, TIMESTAMP, MULTI; OPTIONAL
+              Value => 'MyStringValue2048',    # min: 1, max: 2048; OPTIONAL
+
+            },
+            ...
+          ],    # OPTIONAL
+          Time     => 'MyStringValue256',    # min: 1, max: 256; OPTIONAL
           TimeUnit => 'MILLISECONDS'
           , # values: MILLISECONDS, SECONDS, MICROSECONDS, NANOSECONDS; OPTIONAL
           Version => 1,    # OPTIONAL
@@ -57,22 +67,37 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CommonAttributes => {
         Dimensions => [
           {
-            Name               => 'MyStringValue256',     # min: 1, max: 256
-            Value              => 'MyStringValue2048',    # min: 1, max: 2048
-            DimensionValueType => 'VARCHAR',    # values: VARCHAR; OPTIONAL
+            Name               => 'MySchemaName',    # min: 1
+            Value              => 'MySchemaValue',
+            DimensionValueType => 'VARCHAR',         # values: VARCHAR; OPTIONAL
           },
           ...
         ],    # max: 128; OPTIONAL
-        MeasureName      => 'MyStringValue256',     # min: 1, max: 256
-        MeasureValue     => 'MyStringValue2048',    # min: 1, max: 2048
-        MeasureValueType =>
-          'DOUBLE',    # values: DOUBLE, BIGINT, VARCHAR, BOOLEAN; OPTIONAL
-        Time     => 'MyStringValue256',    # min: 1, max: 256
+        MeasureName      => 'MySchemaName',        # min: 1
+        MeasureValue     => 'MyStringValue2048',   # min: 1, max: 2048; OPTIONAL
+        MeasureValueType => 'DOUBLE'
+        , # values: DOUBLE, BIGINT, VARCHAR, BOOLEAN, TIMESTAMP, MULTI; OPTIONAL
+        MeasureValues => [
+          {
+            Name => 'MySchemaName',          # min: 1
+            Type => 'DOUBLE'
+            , # values: DOUBLE, BIGINT, VARCHAR, BOOLEAN, TIMESTAMP, MULTI; OPTIONAL
+            Value => 'MyStringValue2048',    # min: 1, max: 2048; OPTIONAL
+
+          },
+          ...
+        ],    # OPTIONAL
+        Time     => 'MyStringValue256',    # min: 1, max: 256; OPTIONAL
         TimeUnit => 'MILLISECONDS'
         ,   # values: MILLISECONDS, SECONDS, MICROSECONDS, NANOSECONDS; OPTIONAL
         Version => 1,    # OPTIONAL
       },    # OPTIONAL
     );
+
+    # Results:
+    my $RecordsIngested = $WriteRecordsResponse->RecordsIngested;
+
+    # Returns a L<Paws::TimestreamWrite::WriteRecordsResponse> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ingest.timestream/WriteRecords>
@@ -82,11 +107,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ing
 
 =head2 CommonAttributes => L<Paws::TimestreamWrite::Record>
 
-A record containing the common measure and dimension attributes shared
-across all the records in the request. The measure and dimension
-attributes specified in here will be merged with the measure and
+A record that contains the common measure, dimension, time, and version
+attributes shared across all the records in the request. The measure
+and dimension attributes specified will be merged with the measure and
 dimension attributes in the records object when the data is written
-into Timestream.
+into Timestream. Dimensions may not overlap, or a
+C<ValidationException> will be thrown. In other words, a record must
+contain dimensions with unique names.
 
 
 
@@ -98,14 +125,14 @@ The name of the Timestream database.
 
 =head2 B<REQUIRED> Records => ArrayRef[L<Paws::TimestreamWrite::Record>]
 
-An array of records containing the unique dimension and measure
-attributes for each time series data point.
+An array of records that contain the unique measure, dimension, time,
+and version attributes for each time-series data point.
 
 
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the Timesream table.
+The name of the Timestream table.
 
 
 

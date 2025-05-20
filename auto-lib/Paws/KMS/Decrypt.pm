@@ -2,10 +2,12 @@
 package Paws::KMS::Decrypt;
   use Moose;
   has CiphertextBlob => (is => 'ro', isa => 'Str', required => 1);
+  has DryRun => (is => 'ro', isa => 'Bool');
   has EncryptionAlgorithm => (is => 'ro', isa => 'Str');
   has EncryptionContext => (is => 'ro', isa => 'Paws::KMS::EncryptionContextType');
   has GrantTokens => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has KeyId => (is => 'ro', isa => 'Str');
+  has Recipient => (is => 'ro', isa => 'Paws::KMS::RecipientInfo');
 
   use MooseX::ClassAttribute;
 
@@ -31,10 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
- # To decrypt data
- # The following example decrypts data that was encrypted with a customer master
- # key (CMK) in AWS KMS.
-    my $DecryptResponse = $kms->Decrypt( 'CiphertextBlob' => '<binary data>' );
+    # To decrypt data
+    # The following example decrypts data that was encrypted with a KMS key.
+    my $DecryptResponse = $kms->Decrypt(
+      'CiphertextBlob' => '<binary data>',
+      'KeyId'          =>
+'arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab'
+    );
 
     # Results:
     my $KeyId     = $DecryptResponse->KeyId;
@@ -54,6 +59,18 @@ Ciphertext to be decrypted. The blob includes metadata.
 
 
 
+=head2 DryRun => Bool
+
+Checks if your request will succeed. C<DryRun> is an optional
+parameter.
+
+To learn more about how to use this parameter, see Testing your KMS API
+calls
+(https://docs.aws.amazon.com/kms/latest/developerguide/programming-dryrun.html)
+in the I<Key Management Service Developer Guide>.
+
+
+
 =head2 EncryptionAlgorithm => Str
 
 Specifies the encryption algorithm that will be used to decrypt the
@@ -62,29 +79,32 @@ data. If you specify a different algorithm, the C<Decrypt> operation
 fails.
 
 This parameter is required only when the ciphertext was encrypted under
-an asymmetric CMK. The default value, C<SYMMETRIC_DEFAULT>, represents
-the only supported algorithm that is valid for symmetric CMKs.
+an asymmetric KMS key. The default value, C<SYMMETRIC_DEFAULT>,
+represents the only supported algorithm that is valid for symmetric
+encryption KMS keys.
 
-Valid values are: C<"SYMMETRIC_DEFAULT">, C<"RSAES_OAEP_SHA_1">, C<"RSAES_OAEP_SHA_256">
+Valid values are: C<"SYMMETRIC_DEFAULT">, C<"RSAES_OAEP_SHA_1">, C<"RSAES_OAEP_SHA_256">, C<"SM2PKE">
 
 =head2 EncryptionContext => L<Paws::KMS::EncryptionContextType>
 
 Specifies the encryption context to use when decrypting the data. An
 encryption context is valid only for cryptographic operations
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations)
-with a symmetric CMK. The standard asymmetric encryption algorithms
-that AWS KMS uses do not support an encryption context.
+with a symmetric encryption KMS key. The standard asymmetric encryption
+algorithms and HMAC algorithms that KMS uses do not support an
+encryption context.
 
 An I<encryption context> is a collection of non-secret key-value pairs
-that represents additional authenticated data. When you use an
+that represent additional authenticated data. When you use an
 encryption context to encrypt data, you must specify the same (an exact
 case-sensitive match) encryption context to decrypt the data. An
-encryption context is optional when encrypting with a symmetric CMK,
-but it is highly recommended.
+encryption context is supported only on operations with symmetric
+encryption KMS keys. On operations with symmetric encryption KMS keys,
+an encryption context is optional, but it is strongly recommended.
 
-For more information, see Encryption Context
+For more information, see Encryption context
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context)
-in the I<AWS Key Management Service Developer Guide>.
+in the I<Key Management Service Developer Guide>.
 
 
 
@@ -93,30 +113,33 @@ in the I<AWS Key Management Service Developer Guide>.
 A list of grant tokens.
 
 Use a grant token when your permission to call this operation comes
-from a newly created grant that has not yet achieved eventual
-consistency. Use a grant token when your permission to call this
-operation comes from a new grant that has not yet achieved I<eventual
-consistency>. For more information, see Grant token
-(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token)
-in the I<AWS Key Management Service Developer Guide>.
+from a new grant that has not yet achieved I<eventual consistency>. For
+more information, see Grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token)
+and Using a grant token
+(https://docs.aws.amazon.com/kms/latest/developerguide/grant-manage.html#using-grant-token)
+in the I<Key Management Service Developer Guide>.
 
 
 
 =head2 KeyId => Str
 
-Specifies the customer master key (CMK) that AWS KMS uses to decrypt
-the ciphertext. Enter a key ID of the CMK that was used to encrypt the
-ciphertext.
+Specifies the KMS key that KMS uses to decrypt the ciphertext.
+
+Enter a key ID of the KMS key that was used to encrypt the ciphertext.
+If you identify a different KMS key, the C<Decrypt> operation throws an
+C<IncorrectKeyException>.
 
 This parameter is required only when the ciphertext was encrypted under
-an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK
-from metadata that it adds to the symmetric ciphertext blob. However,
-it is always recommended as a best practice. This practice ensures that
-you use the CMK that you intend.
+an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS
+can get the KMS key from metadata that it adds to the symmetric
+ciphertext blob. However, it is always recommended as a best practice.
+This practice ensures that you use the KMS key that you intend.
 
-To specify a CMK, use its key ID, key ARN, alias name, or alias ARN.
-When using an alias name, prefix it with C<"alias/">. To specify a CMK
-in a different AWS account, you must use the key ARN or alias ARN.
+To specify a KMS key, use its key ID, key ARN, alias name, or alias
+ARN. When using an alias name, prefix it with C<"alias/">. To specify a
+KMS key in a different Amazon Web Services account, you must use the
+key ARN or alias ARN.
 
 For example:
 
@@ -141,8 +164,37 @@ Alias ARN: C<arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-To get the alias name and alias ARN, use ListAliases.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey. To get the alias name and alias ARN, use ListAliases.
+
+
+
+=head2 Recipient => L<Paws::KMS::RecipientInfo>
+
+A signed attestation document
+(https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc)
+from an Amazon Web Services Nitro enclave and the encryption algorithm
+to use with the enclave's public key. The only valid encryption
+algorithm is C<RSAES_OAEP_SHA_256>.
+
+This parameter only supports attestation documents for Amazon Web
+Services Nitro Enclaves. To include this parameter, use the Amazon Web
+Services Nitro Enclaves SDK
+(https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk)
+or any Amazon Web Services SDK.
+
+When you use this parameter, instead of returning the plaintext data,
+KMS encrypts the plaintext data with the public key in the attestation
+document, and returns the resulting ciphertext in the
+C<CiphertextForRecipient> field in the response. This ciphertext can be
+decrypted only with the private key in the enclave. The C<Plaintext>
+field in the response is null or empty.
+
+For information about the interaction between KMS and Amazon Web
+Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves
+uses KMS
+(https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html)
+in the I<Key Management Service Developer Guide>.
 
 
 

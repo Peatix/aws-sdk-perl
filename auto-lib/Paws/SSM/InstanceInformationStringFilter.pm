@@ -34,23 +34,54 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 
 =head1 DESCRIPTION
 
-The filters to describe or get information about your managed
-instances.
+The filters to describe or get information about your managed nodes.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Key => Str
 
-The filter key name to describe your instances. For example:
+The filter key name to describe your managed nodes.
 
-"InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag
-Key"
+Valid filter key values: ActivationIds | AgentVersion |
+AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes
+| ResourceType | SourceIds | SourceTypes | "tag-key" |
+"tag:C<{keyname}>
 
-C<Tag key> is not a valid filter. You must specify either C<tag-key> or
-C<tag:keyname> and a string. Here are some valid examples: tag-key,
-tag:123, tag:al!, tag:Windows. Here are some I<invalid> examples:
-tag-keys, Tag Key, tag:, tagKey, abc:keyname.
+=over
+
+=item *
+
+Valid values for the C<AssociationStatus> filter key: Success | Pending
+| Failed
+
+=item *
+
+Valid values for the C<PingStatus> filter key: Online | ConnectionLost
+| Inactive (deprecated)
+
+=item *
+
+Valid values for the C<PlatformType> filter key: Windows | Linux |
+MacOS
+
+=item *
+
+Valid values for the C<ResourceType> filter key: EC2Instance |
+ManagedInstance
+
+=item *
+
+Valid values for the C<SourceType> filter key: AWS::EC2::Instance |
+AWS::SSM::ManagedInstance | AWS::IoT::Thing
+
+=item *
+
+Valid tag examples: C<Key=tag-key,Values=Purpose> |
+C<Key=tag:Purpose,Values=Test>.
+
+=back
+
 
 
 =head2 B<REQUIRED> Values => ArrayRef[Str|Undef]

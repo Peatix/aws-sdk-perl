@@ -30,9 +30,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $lightsail = Paws->service('Lightsail');
     my $EnableAddOnResult = $lightsail->EnableAddOn(
       AddOnRequest => {
-        AddOnType                => 'AutoSnapshot',    # values: AutoSnapshot
+        AddOnType => 'AutoSnapshot',  # values: AutoSnapshot, StopInstanceOnIdle
         AutoSnapshotAddOnRequest => {
-          SnapshotTimeOfDay => 'MyTimeOfDay',          # OPTIONAL
+          SnapshotTimeOfDay => 'MyTimeOfDay',    # OPTIONAL
+        },    # OPTIONAL
+        StopInstanceOnIdleRequest => {
+          Duration  => 'Mystring',    # OPTIONAL
+          Threshold => 'Mystring',    # OPTIONAL
         },    # OPTIONAL
       },
       ResourceName => 'MyResourceName',

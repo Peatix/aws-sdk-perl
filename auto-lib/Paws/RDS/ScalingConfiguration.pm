@@ -4,6 +4,7 @@ package Paws::RDS::ScalingConfiguration;
   has AutoPause => (is => 'ro', isa => 'Bool');
   has MaxCapacity => (is => 'ro', isa => 'Int');
   has MinCapacity => (is => 'ro', isa => 'Int');
+  has SecondsBeforeTimeout => (is => 'ro', isa => 'Int');
   has SecondsUntilAutoPause => (is => 'ro', isa => 'Int');
   has TimeoutAction => (is => 'ro', isa => 'Str');
 
@@ -37,9 +38,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Scalin
 
 =head1 DESCRIPTION
 
-Contains the scaling configuration of an Aurora Serverless DB cluster.
+Contains the scaling configuration of an Aurora Serverless v1 DB
+cluster.
 
-For more information, see Using Amazon Aurora Serverless
+For more information, see Using Amazon Aurora Serverless v1
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html)
 in the I<Amazon Aurora User Guide>.
 
@@ -48,9 +50,9 @@ in the I<Amazon Aurora User Guide>.
 
 =head2 AutoPause => Bool
 
-A value that indicates whether to allow or disallow automatic pause for
-an Aurora DB cluster in C<serverless> DB engine mode. A DB cluster can
-be paused only when it's idle (it has no connections).
+Indicates whether to allow or disallow automatic pause for an Aurora DB
+cluster in C<serverless> DB engine mode. A DB cluster can be paused
+only when it's idle (it has no connections).
 
 If a DB cluster is paused for more than seven days, the DB cluster
 might be backed up with a snapshot. In this case, the DB cluster is
@@ -87,6 +89,15 @@ The minimum capacity must be less than or equal to the maximum
 capacity.
 
 
+=head2 SecondsBeforeTimeout => Int
+
+The amount of time, in seconds, that Aurora Serverless v1 tries to find
+a scaling point to perform seamless scaling before enforcing the
+timeout action. The default is 300.
+
+Specify a value between 60 and 600 seconds.
+
+
 =head2 SecondsUntilAutoPause => Int
 
 The time, in seconds, before an Aurora DB cluster in C<serverless> mode
@@ -107,9 +118,9 @@ C<RollbackCapacityChange>, the default, ignores the capacity change if
 a scaling point isn't found in the timeout period.
 
 If you specify C<ForceApplyCapacityChange>, connections that prevent
-Aurora Serverless from finding a scaling point might be dropped.
+Aurora Serverless v1 from finding a scaling point might be dropped.
 
-For more information, see Autoscaling for Aurora Serverless
+For more information, see Autoscaling for Aurora Serverless v1
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling)
 in the I<Amazon Aurora User Guide>.
 

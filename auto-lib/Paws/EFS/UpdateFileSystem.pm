@@ -44,6 +44,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Encrypted            = $FileSystemDescription->Encrypted;
     my $FileSystemArn        = $FileSystemDescription->FileSystemArn;
     my $FileSystemId         = $FileSystemDescription->FileSystemId;
+    my $FileSystemProtection = $FileSystemDescription->FileSystemProtection;
     my $KmsKeyId             = $FileSystemDescription->KmsKeyId;
     my $LifeCycleState       = $FileSystemDescription->LifeCycleState;
     my $Name                 = $FileSystemDescription->Name;
@@ -72,11 +73,14 @@ The ID of the file system that you want to update.
 
 =head2 ProvisionedThroughputInMibps => Num
 
-(Optional) Sets the amount of provisioned throughput, in MiB/s, for the
-file system. Valid values are 1-1024. If you are changing the
-throughput mode to provisioned, you must also provide the amount of
-provisioned throughput. Required if C<ThroughputMode> is changed to
-C<provisioned> on update.
+(Optional) The throughput, measured in mebibytes per second (MiBps),
+that you want to provision for a file system that you're creating.
+Required if C<ThroughputMode> is set to C<provisioned>. Valid values
+are 1-3414 MiBps, with the upper limit depending on Region. To increase
+this limit, contact Amazon Web Services Support. For more information,
+see Amazon EFS quotas that you can increase
+(https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits) in
+the I<Amazon EFS User Guide>.
 
 
 
@@ -88,7 +92,7 @@ your request. If you are changing the C<ThroughputMode> to
 C<provisioned>, you must also set a value for
 C<ProvisionedThroughputInMibps>.
 
-Valid values are: C<"bursting">, C<"provisioned">
+Valid values are: C<"bursting">, C<"provisioned">, C<"elastic">
 
 
 =head1 SEE ALSO

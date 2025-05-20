@@ -78,8 +78,9 @@ Services account and is not case-sensitive.
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
-A list of tags to associate with the experiment. You can use Search API
-to search on the tags.
+A list of tags to associate with the experiment. You can use Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API to search on the tags.
 
 
 

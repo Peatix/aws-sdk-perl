@@ -63,7 +63,7 @@ A string that represents the import job ID.
 
 The status of the import job.
 
-Valid values are: C<"CREATED">, C<"PROCESSING">, C<"COMPLETED">, C<"FAILED">
+Valid values are: C<"CREATED">, C<"PROCESSING">, C<"COMPLETED">, C<"FAILED">, C<"CANCELLED">
 =head2 ProcessedRecordsCount => Int
 
 The current number of records processed.

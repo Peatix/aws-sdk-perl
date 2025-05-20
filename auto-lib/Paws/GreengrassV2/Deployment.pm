@@ -6,6 +6,7 @@ package Paws::GreengrassV2::Deployment;
   has DeploymentName => (is => 'ro', isa => 'Str', request_name => 'deploymentName', traits => ['NameInRequest']);
   has DeploymentStatus => (is => 'ro', isa => 'Str', request_name => 'deploymentStatus', traits => ['NameInRequest']);
   has IsLatestForTarget => (is => 'ro', isa => 'Bool', request_name => 'isLatestForTarget', traits => ['NameInRequest']);
+  has ParentTargetArn => (is => 'ro', isa => 'Str', request_name => 'parentTargetArn', traits => ['NameInRequest']);
   has RevisionId => (is => 'ro', isa => 'Str', request_name => 'revisionId', traits => ['NameInRequest']);
   has TargetArn => (is => 'ro', isa => 'Str', request_name => 'targetArn', traits => ['NameInRequest']);
 
@@ -59,12 +60,6 @@ The ID of the deployment.
 
 The name of the deployment.
 
-You can create deployments without names. If you create a deployment
-without a name, the AWS IoT Greengrass V2 console shows the deployment
-name as C<E<lt>targetTypeE<gt>:E<lt>targetNameE<gt>>, where
-C<targetType> and C<targetName> are the type and name of the deployment
-target.
-
 
 =head2 DeploymentStatus => Str
 
@@ -76,6 +71,13 @@ The status of the deployment.
 Whether or not the deployment is the latest revision for its target.
 
 
+=head2 ParentTargetArn => Str
+
+The parent deployment's target ARN
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+within a subdeployment.
+
+
 =head2 RevisionId => Str
 
 The revision number of the deployment.
@@ -85,7 +87,8 @@ The revision number of the deployment.
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the target AWS IoT thing or thing group.
+of the target IoT thing or thing group. When creating a subdeployment,
+the targetARN can only be a thing group.
 
 
 

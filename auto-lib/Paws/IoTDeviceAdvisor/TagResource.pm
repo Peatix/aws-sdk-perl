@@ -46,7 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The resource ARN of an IoT Device Advisor resource.
+The resource ARN of an IoT Device Advisor resource. This can be
+SuiteDefinition ARN or SuiteRun ARN.
 
 
 

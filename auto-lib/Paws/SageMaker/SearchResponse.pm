@@ -3,6 +3,7 @@ package Paws::SageMaker::SearchResponse;
   use Moose;
   has NextToken => (is => 'ro', isa => 'Str');
   has Results => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::SearchRecord]');
+  has TotalHits => (is => 'ro', isa => 'Paws::SageMaker::TotalHits');
 
   has _request_id => (is => 'ro', isa => 'Str');
 
@@ -25,6 +26,11 @@ the token in the next request.
 =head2 Results => ArrayRef[L<Paws::SageMaker::SearchRecord>]
 
 A list of C<SearchRecord> objects.
+
+
+=head2 TotalHits => L<Paws::SageMaker::TotalHits>
+
+The total number of matching results.
 
 
 =head2 _request_id => Str

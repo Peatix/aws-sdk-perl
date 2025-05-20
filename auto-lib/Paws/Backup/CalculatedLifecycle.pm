@@ -38,18 +38,19 @@ Contains C<DeleteAt> and C<MoveToColdStorageAt> timestamps, which are
 used to specify a lifecycle for a recovery point.
 
 The lifecycle defines when a protected resource is transitioned to cold
-storage and when it expires. AWS Backup transitions and expires backups
+storage and when it expires. Backup transitions and expires backups
 automatically according to the lifecycle that you define.
 
 Backups transitioned to cold storage must be stored in cold storage for
-a minimum of 90 days. Therefore, the E<ldquo>expire after daysE<rdquo>
-setting must be 90 days greater than the E<ldquo>transition to cold
-after daysE<rdquo> setting. The E<ldquo>transition to cold after
-daysE<rdquo> setting cannot be changed after a backup has been
-transitioned to cold.
+a minimum of 90 days. Therefore, the E<ldquo>retentionE<rdquo> setting
+must be 90 days greater than the E<ldquo>transition to cold after
+daysE<rdquo> setting. The E<ldquo>transition to cold after daysE<rdquo>
+setting cannot be changed after a backup has been transitioned to cold.
 
-Only Amazon EFS file system backups can be transitioned to cold
-storage.
+Resource types that can transition to cold storage are listed in the
+Feature availability by resource
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource)
+table. Backup ignores this expression for other resource types.
 
 =head1 ATTRIBUTES
 

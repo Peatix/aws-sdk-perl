@@ -3,6 +3,7 @@ package Paws::DynamoDB::ExportSummary;
   use Moose;
   has ExportArn => (is => 'ro', isa => 'Str');
   has ExportStatus => (is => 'ro', isa => 'Str');
+  has ExportType => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::ExportSummary object:
 
-  $service_obj->Method(Att1 => { ExportArn => $value, ..., ExportStatus => $value  });
+  $service_obj->Method(Att1 => { ExportArn => $value, ..., ExportType => $value  });
 
 =head3 Results returned from an API call
 
@@ -48,6 +49,12 @@ The Amazon Resource Name (ARN) of the export.
 
 Export can be in one of the following states: IN_PROGRESS, COMPLETED,
 or FAILED.
+
+
+=head2 ExportType => Str
+
+The type of export that was performed. Valid values are C<FULL_EXPORT>
+or C<INCREMENTAL_EXPORT>.
 
 
 

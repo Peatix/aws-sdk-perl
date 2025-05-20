@@ -59,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 Filters => ArrayRef[L<Paws::ComputeOptimizer::JobFilter>]
 
-An array of objects that describe a filter to return a more specific
+An array of objects to specify a filter that returns a more specific
 list of export jobs.
 
 
@@ -69,8 +69,8 @@ list of export jobs.
 The identification numbers of the export jobs to return.
 
 An export job ID is returned when you create an export using the
-C<ExportAutoScalingGroupRecommendations> or
-C<ExportEC2InstanceRecommendations> actions.
+ExportAutoScalingGroupRecommendations or
+ExportEC2InstanceRecommendations actions.
 
 All export jobs created in the last seven days are returned if this
 parameter is omitted.
@@ -82,7 +82,7 @@ parameter is omitted.
 The maximum number of export jobs to return with a single request.
 
 To retrieve the remaining results, make another request with the
-returned C<NextToken> value.
+returned C<nextToken> value.
 
 
 

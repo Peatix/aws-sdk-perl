@@ -11,6 +11,7 @@ package Paws::SSM::OpsItem;
   has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Notifications => (is => 'ro', isa => 'ArrayRef[Paws::SSM::OpsItemNotification]');
   has OperationalData => (is => 'ro', isa => 'Paws::SSM::OpsItemOperationalData');
+  has OpsItemArn => (is => 'ro', isa => 'Str');
   has OpsItemId => (is => 'ro', isa => 'Str');
   has OpsItemType => (is => 'ro', isa => 'Str');
   has PlannedEndTime => (is => 'ro', isa => 'Str');
@@ -53,12 +54,29 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::OpsIte
 
 =head1 DESCRIPTION
 
-Operations engineers and IT professionals use OpsCenter to view,
-investigate, and remediate operational issues impacting the performance
-and health of their AWS resources. For more information, see AWS
-Systems Manager OpsCenter
+Operations engineers and IT professionals use Amazon Web Services
+Systems Manager OpsCenter to view, investigate, and remediate
+operational work items (OpsItems) impacting the performance and health
+of their Amazon Web Services resources. OpsCenter is integrated with
+Amazon EventBridge and Amazon CloudWatch. This means you can configure
+these services to automatically create an OpsItem in OpsCenter when a
+CloudWatch alarm enters the ALARM state or when EventBridge processes
+an event from any Amazon Web Services service that publishes events.
+Configuring Amazon CloudWatch alarms and EventBridge events to
+automatically create OpsItems allows you to quickly diagnose and
+remediate issues with Amazon Web Services resources from a single
+console.
+
+To help you diagnose issues, each OpsItem includes contextually
+relevant information such as the name and ID of the Amazon Web Services
+resource that generated the OpsItem, alarm or event details, alarm
+history, and an alarm timeline graph. For the Amazon Web Services
+resource, OpsCenter aggregates information from Config, CloudTrail
+logs, and EventBridge, so you don't have to navigate across multiple
+console pages during your investigation. For more information, see
+Amazon Web Services Systems Manager OpsCenter
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -83,7 +101,7 @@ Performance, Recovery, Security.
 
 =head2 CreatedBy => Str
 
-The ARN of the AWS account that created the OpsItem.
+The ARN of the Amazon Web Services account that created the OpsItem.
 
 
 =head2 CreatedTime => Str
@@ -98,7 +116,8 @@ The OpsItem description.
 
 =head2 LastModifiedBy => Str
 
-The ARN of the AWS account that last updated the OpsItem.
+The ARN of the Amazon Web Services account that last updated the
+OpsItem.
 
 
 =head2 LastModifiedTime => Str
@@ -108,8 +127,9 @@ The date and time the OpsItem was last updated.
 
 =head2 Notifications => ArrayRef[L<Paws::SSM::OpsItemNotification>]
 
-The Amazon Resource Name (ARN) of an SNS topic where notifications are
-sent when this OpsItem is edited or changed.
+The Amazon Resource Name (ARN) of an Amazon Simple Notification Service
+(Amazon SNS) topic where notifications are sent when this OpsItem is
+edited or changed.
 
 
 =head2 OperationalData => L<Paws::SSM::OpsItemOperationalData>
@@ -120,23 +140,29 @@ strings, license keys, troubleshooting tips, or other relevant data.
 You enter operational data as key-value pairs. The key has a maximum
 length of 128 characters. The value has a maximum size of 20 KB.
 
-Operational data keys I<can't> begin with the following: amazon, aws,
-amzn, ssm, /amazon, /aws, /amzn, /ssm.
+Operational data keys I<can't> begin with the following: C<amazon>,
+C<aws>, C<amzn>, C<ssm>, C</amazon>, C</aws>, C</amzn>, C</ssm>.
 
 You can choose to make the data searchable by other users in the
 account or you can restrict search access. Searchable data means that
 all users with access to the OpsItem Overview page (as provided by the
-DescribeOpsItems API action) can view and search on the specified data.
-Operational data that is not searchable is only viewable by users who
-have access to the OpsItem (as provided by the GetOpsItem API action).
+DescribeOpsItems API operation) can view and search on the specified
+data. Operational data that isn't searchable is only viewable by users
+who have access to the OpsItem (as provided by the GetOpsItem API
+operation).
 
 Use the C</aws/resources> key in OperationalData to specify a related
 resource in the request. Use the C</aws/automations> key in
 OperationalData to associate an Automation runbook with the OpsItem. To
-view AWS CLI example commands that use these keys, see Creating
-OpsItems manually
-(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems)
-in the I<AWS Systems Manager User Guide>.
+view Amazon Web Services CLI example commands that use these keys, see
+Creating OpsItems manually
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+
+=head2 OpsItemArn => Str
+
+The OpsItem Amazon Resource Name (ARN).
 
 
 =head2 OpsItemId => Str
@@ -146,8 +172,33 @@ The ID of the OpsItem.
 
 =head2 OpsItemType => Str
 
-The type of OpsItem. Currently, the only valid values are
-C</aws/changerequest> and C</aws/issue>.
+The type of OpsItem. Systems Manager supports the following types of
+OpsItems:
+
+=over
+
+=item *
+
+C</aws/issue>
+
+This type of OpsItem is used for default OpsItems created by OpsCenter.
+
+=item *
+
+C</aws/changerequest>
+
+This type of OpsItem is used by Change Manager for reviewing and
+approving or rejecting change requests.
+
+=item *
+
+C</aws/insight>
+
+This type of OpsItem is used by OpsCenter for aggregating and reporting
+on duplicate OpsItems.
+
+=back
+
 
 
 =head2 PlannedEndTime => Str
@@ -189,10 +240,9 @@ impacted resource is a subset of source.
 
 =head2 Status => Str
 
-The OpsItem status. Status can be C<Open>, C<In Progress>, or
-C<Resolved>. For more information, see Editing OpsItem details
+The OpsItem status. For more information, see Editing OpsItem details
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 Title => Str

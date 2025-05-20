@@ -2,7 +2,9 @@
 package Paws::SageMaker::ResourceSpec;
   use Moose;
   has InstanceType => (is => 'ro', isa => 'Str');
+  has LifecycleConfigArn => (is => 'ro', isa => 'Str');
   has SageMakerImageArn => (is => 'ro', isa => 'Str');
+  has SageMakerImageVersionAlias => (is => 'ro', isa => 'Str');
   has SageMakerImageVersionArn => (is => 'ro', isa => 'Str');
 
 1;
@@ -35,8 +37,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies the ARN's of a SageMaker image and SageMaker image version,
-and the instance type that the version runs on.
+Specifies the ARN's of a SageMaker AI image and SageMaker AI image
+version, and the instance type that the version runs on.
+
+When both C<SageMakerImageVersionArn> and C<SageMakerImageArn> are
+passed, C<SageMakerImageVersionArn> is used. Any updates to
+C<SageMakerImageArn> will not take effect if
+C<SageMakerImageVersionArn> already exists in the C<ResourceSpec>
+because C<SageMakerImageVersionArn> always takes precedence. To clear
+the value set for C<SageMakerImageVersionArn>, pass C<None> as the
+value.
 
 =head1 ATTRIBUTES
 
@@ -45,15 +55,34 @@ and the instance type that the version runs on.
 
 The instance type that the image version runs on.
 
+B<JupyterServer apps> only support the C<system> value.
+
+For B<KernelGateway apps>, the C<system> value is translated to
+C<ml.t3.medium>. KernelGateway apps also support all other values for
+available instance types.
+
+
+=head2 LifecycleConfigArn => Str
+
+The Amazon Resource Name (ARN) of the Lifecycle Configuration attached
+to the Resource.
+
 
 =head2 SageMakerImageArn => Str
 
-The ARN of the SageMaker image that the image version belongs to.
+The ARN of the SageMaker AI image that the image version belongs to.
+
+
+=head2 SageMakerImageVersionAlias => Str
+
+The SageMakerImageVersionAlias of the image to launch with. This value
+is in SemVer 2.0.0 versioning format.
 
 
 =head2 SageMakerImageVersionArn => Str
 
-The ARN of the image version created on the instance.
+The ARN of the image version created on the instance. To clear the
+value set for C<SageMakerImageVersionArn>, pass C<None> as the value.
 
 
 

@@ -1,8 +1,10 @@
 
 package Paws::EC2::AdvertiseByoipCidr;
   use Moose;
+  has Asn => (is => 'ro', isa => 'Str');
   has Cidr => (is => 'ro', isa => 'Str', required => 1);
   has DryRun => (is => 'ro', isa => 'Bool');
+  has NetworkBorderGroup => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $AdvertiseByoipCidrResult = $ec2->AdvertiseByoipCidr(
-      Cidr   => 'MyString',
-      DryRun => 1,            # OPTIONAL
+      Cidr               => 'MyString',
+      Asn                => 'MyString',    # OPTIONAL
+      DryRun             => 1,             # OPTIONAL
+      NetworkBorderGroup => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -42,6 +46,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2/AdvertiseByoipCidr>
 
 =head1 ATTRIBUTES
+
+
+=head2 Asn => Str
+
+The public 2-byte or 4-byte ASN that you want to advertise.
+
 
 
 =head2 B<REQUIRED> Cidr => Str
@@ -58,6 +68,39 @@ Checks whether you have the required permissions for the action,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
+
+
+
+=head2 NetworkBorderGroup => Str
+
+If you have Local Zones
+(https://docs.aws.amazon.com/local-zones/latest/ug/how-local-zones-work.html)
+enabled, you can choose a network border group for Local Zones when you
+provision and advertise a BYOIPv4 CIDR. Choose the network border group
+carefully as the EIP and the Amazon Web Services resource it is
+associated with must reside in the same network border group.
+
+You can provision BYOIP address ranges to and advertise them in the
+following Local Zone network border groups:
+
+=over
+
+=item *
+
+us-east-1-dfw-2
+
+=item *
+
+us-west-2-lax-1
+
+=item *
+
+us-west-2-phx-2
+
+=back
+
+You cannot provision or advertise BYOIPv6 address ranges in Local Zones
+at this time.
 
 
 

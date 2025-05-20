@@ -49,8 +49,8 @@ The name of the S3 bucket to which dataset contents are delivered.
 
 =head2 GlueConfiguration => L<Paws::IoTAnalytics::GlueConfiguration>
 
-Configuration information for coordination with AWS Glue, a fully
-managed extract, transform and load (ETL) service.
+Configuration information for coordination with Glue, a fully managed
+extract, transform and load (ETL) service.
 
 
 =head2 B<REQUIRED> Key => Str
@@ -90,8 +90,8 @@ This means that one dataset content overwrites the other.
 
 =head2 B<REQUIRED> RoleArn => Str
 
-The ARN of the role that grants AWS IoT Analytics permission to
-interact with your Amazon S3 and AWS Glue resources.
+The ARN of the role that grants IoT Analytics permission to interact
+with your Amazon S3 and Glue resources.
 
 
 

@@ -47,7 +47,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MessageDeduplicationId => 'MyString',              # OPTIONAL
       MessageGroupId         => 'MyString',              # OPTIONAL
       MessageStructure       => 'MymessageStructure',    # OPTIONAL
-      PhoneNumber            => 'MyString',              # OPTIONAL
+      PhoneNumber            => 'MyPhoneNumber',         # OPTIONAL
       Subject                => 'Mysubject',             # OPTIONAL
       TargetArn              => 'MyString',              # OPTIONAL
       TopicArn               => 'MytopicARN',            # OPTIONAL
@@ -160,28 +160,88 @@ Message attributes for Publish action.
 
 =head2 MessageDeduplicationId => Str
 
+=over
+
+=item *
+
 This parameter applies only to FIFO (first-in-first-out) topics. The
 C<MessageDeduplicationId> can contain up to 128 alphanumeric characters
-(a-z, A-Z, 0-9) and punctuation
+C<(a-z, A-Z, 0-9)> and punctuation
 C<(!"#$%&'()*+,-./:;E<lt>=E<gt>?@[\]^_`{|}~)>.
 
-Every message must have a unique C<MessageDeduplicationId>, which is a
-token used for deduplication of sent messages. If a message with a
-particular C<MessageDeduplicationId> is sent successfully, any message
-sent with the same C<MessageDeduplicationId> during the 5-minute
-deduplication interval is treated as a duplicate.
+=item *
 
-If the topic has C<ContentBasedDeduplication> set, the system generates
-a C<MessageDeduplicationId> based on the contents of the message. Your
+Every message must have a unique C<MessageDeduplicationId>, which is a
+token used for deduplication of sent messages within the 5 minute
+minimum deduplication interval.
+
+=item *
+
+The scope of deduplication depends on the C<FifoThroughputScope>
+attribute, when set to C<Topic> the message deduplication scope is
+across the entire topic, when set to C<MessageGroup> the message
+deduplication scope is within each individual message group.
+
+=item *
+
+If a message with a particular C<MessageDeduplicationId> is sent
+successfully, subsequent messages within the deduplication scope and
+interval, with the same C<MessageDeduplicationId>, are accepted
+successfully but aren't delivered.
+
+=item *
+
+Every message must have a unique C<MessageDeduplicationId>:
+
+=over
+
+=item *
+
+You may provide a C<MessageDeduplicationId> explicitly.
+
+=item *
+
+If you aren't able to provide a C<MessageDeduplicationId> and you
+enable C<ContentBasedDeduplication> for your topic, Amazon SNS uses a
+SHA-256 hash to generate the C<MessageDeduplicationId> using the body
+of the message (but not the attributes of the message).
+
+=item *
+
+If you don't provide a C<MessageDeduplicationId> and the topic doesn't
+have C<ContentBasedDeduplication> set, the action fails with an error.
+
+=item *
+
+If the topic has a C<ContentBasedDeduplication> set, your
 C<MessageDeduplicationId> overrides the generated one.
+
+=back
+
+=item *
+
+When C<ContentBasedDeduplication> is in effect, messages with identical
+content sent within the deduplication scope and interval are treated as
+duplicates and only one copy of the message is delivered.
+
+=item *
+
+If you send one message with C<ContentBasedDeduplication> enabled, and
+then another message with a C<MessageDeduplicationId> that is the same
+as the one generated for the first C<MessageDeduplicationId>, the two
+messages are treated as duplicates, within the deduplication scope and
+interval, and only one copy of the message is delivered.
+
+=back
+
 
 
 
 =head2 MessageGroupId => Str
 
 This parameter applies only to FIFO (first-in-first-out) topics. The
-C<MessageGroupId> can contain up to 128 alphanumeric characters (a-z,
-A-Z, 0-9) and punctuation
+C<MessageGroupId> can contain up to 128 alphanumeric characters C<(a-z,
+A-Z, 0-9)> and punctuation
 C<(!"#$%&'()*+,-./:;E<lt>=E<gt>?@[\]^_`{|}~)>.
 
 The C<MessageGroupId> is a tag that specifies that a message belongs to
@@ -236,9 +296,8 @@ Optional parameter to be used as the "Subject" line when the message is
 delivered to email endpoints. This field will also be included, if
 present, in the standard JSON messages delivered to other endpoints.
 
-Constraints: Subjects must be ASCII text that begins with a letter,
-number, or punctuation mark; must not include line breaks or control
-characters; and must be less than 100 characters long.
+Constraints: Subjects must be UTF-8 text with no line breaks or control
+characters, and less than 100 characters long.
 
 
 

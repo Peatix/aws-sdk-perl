@@ -59,7 +59,7 @@ The association ID for which you want information.
 
 Specify the association version to retrieve. To view the latest
 version, either specify C<$LATEST> for this parameter, or omit this
-parameter. To view a list of all associations for an instance, use
+parameter. To view a list of all associations for a managed node, use
 ListAssociations. To get a list of versions for a specific association,
 use ListAssociationVersions.
 
@@ -67,13 +67,13 @@ use ListAssociationVersions.
 
 =head2 InstanceId => Str
 
-The instance ID.
+The managed node ID.
 
 
 
 =head2 Name => Str
 
-The name of the Systems Manager document.
+The name of the SSM document.
 
 
 

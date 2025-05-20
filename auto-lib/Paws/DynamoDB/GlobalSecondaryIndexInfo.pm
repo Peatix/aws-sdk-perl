@@ -3,6 +3,7 @@ package Paws::DynamoDB::GlobalSecondaryIndexInfo;
   use Moose;
   has IndexName => (is => 'ro', isa => 'Str');
   has KeySchema => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::KeySchemaElement]');
+  has OnDemandThroughput => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
   has Projection => (is => 'ro', isa => 'Paws::DynamoDB::Projection');
   has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput');
 
@@ -73,6 +74,11 @@ The sort key of an item is also known as its I<range attribute>. The
 term "range attribute" derives from the way DynamoDB stores items with
 the same partition key physically close together, in sorted order by
 the sort key value.
+
+
+=head2 OnDemandThroughput => L<Paws::DynamoDB::OnDemandThroughput>
+
+
 
 
 =head2 Projection => L<Paws::DynamoDB::Projection>

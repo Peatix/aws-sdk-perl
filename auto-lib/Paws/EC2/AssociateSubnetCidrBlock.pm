@@ -1,7 +1,9 @@
 
 package Paws::EC2::AssociateSubnetCidrBlock;
   use Moose;
-  has Ipv6CidrBlock => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipv6CidrBlock' , required => 1);
+  has Ipv6CidrBlock => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'ipv6CidrBlock' );
+  has Ipv6IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv6NetmaskLength => (is => 'ro', isa => 'Int');
   has SubnetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'subnetId' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -29,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $AssociateSubnetCidrBlockResult = $ec2->AssociateSubnetCidrBlock(
-      Ipv6CidrBlock => 'MyString',
-      SubnetId      => 'MySubnetId',
-
+      SubnetId          => 'MySubnetId',
+      Ipv6CidrBlock     => 'MyString',        # OPTIONAL
+      Ipv6IpamPoolId    => 'MyIpamPoolId',    # OPTIONAL
+      Ipv6NetmaskLength => 1,                 # OPTIONAL
     );
 
     # Results:
@@ -47,10 +50,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> Ipv6CidrBlock => Str
+=head2 Ipv6CidrBlock => Str
 
-The IPv6 CIDR block for your subnet. The subnet must have a /64 prefix
-length.
+The IPv6 CIDR block for your subnet.
+
+
+
+=head2 Ipv6IpamPoolId => Str
+
+An IPv6 IPAM pool ID.
+
+
+
+=head2 Ipv6NetmaskLength => Int
+
+An IPv6 netmask length.
 
 
 

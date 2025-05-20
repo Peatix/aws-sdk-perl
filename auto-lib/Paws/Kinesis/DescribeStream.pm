@@ -3,7 +3,8 @@ package Paws::Kinesis::DescribeStream;
   use Moose;
   has ExclusiveStartShardId => (is => 'ro', isa => 'Str');
   has Limit => (is => 'ro', isa => 'Int');
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $kinesis = Paws->service('Kinesis');
     my $DescribeStreamOutput = $kinesis->DescribeStream(
-      StreamName            => 'MyStreamName',
-      ExclusiveStartShardId => 'MyShardId',      # OPTIONAL
-      Limit                 => 1,                # OPTIONAL
+      ExclusiveStartShardId => 'MyShardId',       # OPTIONAL
+      Limit                 => 1,                 # OPTIONAL
+      StreamARN             => 'MyStreamARN',     # OPTIONAL
+      StreamName            => 'MyStreamName',    # OPTIONAL
     );
 
     # Results:
@@ -50,17 +52,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kin
 
 The shard ID of the shard to start with.
 
+Specify this parameter to indicate that you want to describe the stream
+starting with the shard whose ID immediately follows
+C<ExclusiveStartShardId>.
+
+If you don't specify this parameter, the default behavior for
+C<DescribeStream> is to describe the stream starting with the first
+shard in the stream.
+
 
 
 =head2 Limit => Int
 
 The maximum number of shards to return in a single call. The default
 value is 100. If you specify a value greater than 100, at most 100
-shards are returned.
+results are returned.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream to describe.
 

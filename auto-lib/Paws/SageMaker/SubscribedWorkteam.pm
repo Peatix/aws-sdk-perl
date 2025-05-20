@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Describes a work team of a vendor that does the a labelling job.
+Describes a work team of a vendor that does the labelling job.
 
 =head1 ATTRIBUTES
 

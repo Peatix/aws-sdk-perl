@@ -47,11 +47,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 The category of the custom action that you want to delete, such as
 source or deploy.
 
-Valid values are: C<"Source">, C<"Build">, C<"Deploy">, C<"Test">, C<"Invoke">, C<"Approval">
+Valid values are: C<"Source">, C<"Build">, C<"Deploy">, C<"Test">, C<"Invoke">, C<"Approval">, C<"Compute">
 
 =head2 B<REQUIRED> Provider => Str
 
-The provider of the service used in the custom action, such as AWS
+The provider of the service used in the custom action, such as
 CodeDeploy.
 
 

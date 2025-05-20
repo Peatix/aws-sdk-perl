@@ -39,16 +39,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Per
 =head1 DESCRIPTION
 
 Permissions designate which private CA actions can be performed by an
-AWS service or entity. In order for ACM to automatically renew private
-certificates, you must give the ACM service principal all available
-permissions (C<IssueCertificate>, C<GetCertificate>, and
-C<ListPermissions>). Permissions can be assigned with the
-CreatePermission
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreatePermission.html)
+Amazon Web Services service or entity. In order for ACM to
+automatically renew private certificates, you must give the ACM service
+principal all available permissions (C<IssueCertificate>,
+C<GetCertificate>, and C<ListPermissions>). Permissions can be assigned
+with the CreatePermission
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html)
 action, removed with the DeletePermission
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePermission.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html)
 action, and listed with the ListPermissions
-(https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListPermissions.html)
+(https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html)
 action.
 
 =head1 ATTRIBUTES
@@ -56,8 +56,8 @@ action.
 
 =head2 Actions => ArrayRef[Str|Undef]
 
-The private CA actions that can be performed by the designated AWS
-service.
+The private CA actions that can be performed by the designated Amazon
+Web Services service.
 
 
 =head2 CertificateAuthorityArn => Str
@@ -78,8 +78,8 @@ The name of the policy that is associated with the permission.
 
 =head2 Principal => Str
 
-The AWS service or entity that holds the permission. At this time, the
-only valid principal is C<acm.amazonaws.com>.
+The Amazon Web Services service or entity that holds the permission. At
+this time, the only valid principal is C<acm.amazonaws.com>.
 
 
 =head2 SourceAccount => Str

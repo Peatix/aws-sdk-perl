@@ -30,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $DeleteAssetResponse = $iotsitewise->DeleteAsset(
-      AssetId     => 'MyID',
+      AssetId     => 'MyCustomID',
       ClientToken => 'MyClientToken',    # OPTIONAL
     );
 
@@ -47,7 +47,11 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset to delete.
+The ID of the asset to delete. This can be either the actual ID in UUID
+format, or else C<externalId:> followed by the external ID, if it has
+one. For more information, see Referencing objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 

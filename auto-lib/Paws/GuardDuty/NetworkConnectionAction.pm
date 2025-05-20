@@ -4,6 +4,7 @@ package Paws::GuardDuty::NetworkConnectionAction;
   has Blocked => (is => 'ro', isa => 'Bool', request_name => 'blocked', traits => ['NameInRequest']);
   has ConnectionDirection => (is => 'ro', isa => 'Str', request_name => 'connectionDirection', traits => ['NameInRequest']);
   has LocalIpDetails => (is => 'ro', isa => 'Paws::GuardDuty::LocalIpDetails', request_name => 'localIpDetails', traits => ['NameInRequest']);
+  has LocalNetworkInterface => (is => 'ro', isa => 'Str', request_name => 'localNetworkInterface', traits => ['NameInRequest']);
   has LocalPortDetails => (is => 'ro', isa => 'Paws::GuardDuty::LocalPortDetails', request_name => 'localPortDetails', traits => ['NameInRequest']);
   has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest']);
   has RemoteIpDetails => (is => 'ro', isa => 'Paws::GuardDuty::RemoteIpDetails', request_name => 'remoteIpDetails', traits => ['NameInRequest']);
@@ -58,6 +59,12 @@ The network connection direction.
 =head2 LocalIpDetails => L<Paws::GuardDuty::LocalIpDetails>
 
 The local IP information of the connection.
+
+
+=head2 LocalNetworkInterface => Str
+
+The EC2 instance's local elastic network interface utilized for the
+connection.
 
 
 =head2 LocalPortDetails => L<Paws::GuardDuty::LocalPortDetails>

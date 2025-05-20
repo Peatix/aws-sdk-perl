@@ -3,7 +3,10 @@ package Paws::IoTSiteWise::DescribeAssetResponse;
   use Moose;
   has AssetArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetArn', required => 1);
   has AssetCompositeModels => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetCompositeModel]', traits => ['NameInRequest'], request_name => 'assetCompositeModels');
+  has AssetCompositeModelSummaries => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetCompositeModelSummary]', traits => ['NameInRequest'], request_name => 'assetCompositeModelSummaries');
   has AssetCreationDate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetCreationDate', required => 1);
+  has AssetDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetDescription');
+  has AssetExternalId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetExternalId');
   has AssetHierarchies => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetHierarchy]', traits => ['NameInRequest'], request_name => 'assetHierarchies', required => 1);
   has AssetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetId', required => 1);
   has AssetLastUpdateDate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetLastUpdateDate', required => 1);
@@ -38,9 +41,25 @@ C<arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}>
 The composite models for the asset.
 
 
+=head2 AssetCompositeModelSummaries => ArrayRef[L<Paws::IoTSiteWise::AssetCompositeModelSummary>]
+
+The list of the immediate child custom composite model summaries for
+the asset.
+
+
 =head2 B<REQUIRED> AssetCreationDate => Str
 
 The date the asset was created, in Unix epoch time.
+
+
+=head2 AssetDescription => Str
+
+A description for the asset.
+
+
+=head2 AssetExternalId => Str
+
+The external ID of the asset, if any.
 
 
 =head2 B<REQUIRED> AssetHierarchies => ArrayRef[L<Paws::IoTSiteWise::AssetHierarchy>]
@@ -51,7 +70,7 @@ hierarchy specifies allowed parent/child asset relationships.
 
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset.
+The ID of the asset, in UUID format.
 
 
 =head2 B<REQUIRED> AssetLastUpdateDate => Str

@@ -24,10 +24,10 @@ The list of distributions.
 
 =head2 NextToken => Str
 
-The next token used for paginated responses. When this is not empty,
-there are additional elements that the service has not included in this
-request. Use this token with the next request to retrieve additional
-objects.
+The next token used for paginated responses. When this field isn't
+empty, there are additional elements that the service hasn't included
+in this request. Use this token with the next request to retrieve
+additional objects.
 
 
 =head2 RequestId => Str

@@ -62,7 +62,7 @@ The C<Issuer> response value.
 
 =item *
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 =item *
 
@@ -72,7 +72,7 @@ IAM.
 =back
 
 The combination of C<NameQualifier> and C<Subject> can be used to
-uniquely identify a federated user.
+uniquely identify a user.
 
 The following pseudocode shows how the hash value is calculated:
 
@@ -90,7 +90,10 @@ policies and tags exceeded the allowed space.
 
 =head2 SourceIdentity => Str
 
-The value in the C<SourceIdentity> attribute in the SAML assertion.
+The value in the C<SourceIdentity> attribute in the SAML assertion. The
+source identity value persists across chained role
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining)
+sessions.
 
 You can require users to set a source identity value when they assume a
 role. You do this by using the C<sts:SourceIdentity> condition key in a
@@ -98,7 +101,7 @@ role trust policy. That way, actions that are taken with the role are
 associated with that user. After the source identity is set, the value
 cannot be changed. It is present in the request for all actions that
 are taken by the role and persists across chained role
-(https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining)
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts)
 sessions. You can configure your SAML identity provider to use an
 attribute associated with your users, like user name or email, as the
 source identity when calling C<AssumeRoleWithSAML>. You do this by

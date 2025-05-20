@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LicenseMana
 
 =head1 DESCRIPTION
 
-Configuration information for AWS Organizations.
+Configuration information for Organizations.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> EnableIntegration => Bool
 
-Enables AWS Organization integration.
+Enables Organizations integration.
 
 
 

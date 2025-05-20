@@ -56,7 +56,7 @@ The version number of the Amazon ECS container agent.
 
 =head2 DockerVersion => Str
 
-The Docker version running on the container instance.
+The Docker version that's running on the container instance.
 
 
 

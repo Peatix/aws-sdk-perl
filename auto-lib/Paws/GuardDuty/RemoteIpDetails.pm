@@ -5,6 +5,7 @@ package Paws::GuardDuty::RemoteIpDetails;
   has Country => (is => 'ro', isa => 'Paws::GuardDuty::Country', request_name => 'country', traits => ['NameInRequest']);
   has GeoLocation => (is => 'ro', isa => 'Paws::GuardDuty::GeoLocation', request_name => 'geoLocation', traits => ['NameInRequest']);
   has IpAddressV4 => (is => 'ro', isa => 'Str', request_name => 'ipAddressV4', traits => ['NameInRequest']);
+  has IpAddressV6 => (is => 'ro', isa => 'Str', request_name => 'ipAddressV6', traits => ['NameInRequest']);
   has Organization => (is => 'ro', isa => 'Paws::GuardDuty::Organization', request_name => 'organization', traits => ['NameInRequest']);
 
 1;
@@ -60,6 +61,11 @@ The location information of the remote IP address.
 =head2 IpAddressV4 => Str
 
 The IPv4 remote address of the connection.
+
+
+=head2 IpAddressV6 => Str
+
+The IPv6 remote address of the connection.
 
 
 =head2 Organization => L<Paws::GuardDuty::Organization>

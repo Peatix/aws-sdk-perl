@@ -52,7 +52,8 @@ Information about the attachments to the case communication.
 
 =head2 Body => Str
 
-The text of the communication between the customer and AWS Support.
+The text of the communication between the customer and Amazon Web
+Services Support.
 
 
 =head2 CaseId => Str
@@ -65,10 +66,11 @@ case-I<12345678910-2013-c4c1d2bf33c5cf47>
 =head2 SubmittedBy => Str
 
 The identity of the account that submitted, or responded to, the
-support case. Customer entries include the role or IAM user as well as
-the email address. For example, "AdminRole (Role)
-E<lt>janedoe@example.comE<gt>. Entries from the AWS Support team
-display "Amazon Web Services," and don't show an email address.
+support case. Customer entries include the IAM role as well as the
+email address (for example, "AdminRole (Role)
+E<lt>janedoe@example.comE<gt>). Entries from the Amazon Web Services
+Support team display "Amazon Web Services," and don't show an email
+address.
 
 
 =head2 TimeCreated => Str

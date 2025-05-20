@@ -3,6 +3,7 @@ package Paws::EMR::UpdateStudio;
   use Moose;
   has DefaultS3Location => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has EncryptionKeyArn => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has StudioId => (is => 'ro', isa => 'Str', required => 1);
   has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -23,7 +24,7 @@ Paws::EMR::UpdateStudio - Arguments for method UpdateStudio on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method UpdateStudio on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method UpdateStudio.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to UpdateStudio.
@@ -35,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       StudioId          => 'MyXmlStringMaxLen256',
       DefaultS3Location => 'MyXmlString',             # OPTIONAL
       Description       => 'MyXmlStringMaxLen256',    # OPTIONAL
+      EncryptionKeyArn  => 'MyXmlString',             # OPTIONAL
       Name              => 'MyXmlStringMaxLen256',    # OPTIONAL
       SubnetIds         => [ 'MyString', ... ],       # OPTIONAL
     );
@@ -55,6 +57,13 @@ Amazon EMR Studio.
 =head2 Description => Str
 
 A detailed description to assign to the Amazon EMR Studio.
+
+
+
+=head2 EncryptionKeyArn => Str
+
+The KMS key identifier (ARN) used to encrypt Amazon EMR Studio
+workspace and notebook files when backed up to Amazon S3.
 
 
 

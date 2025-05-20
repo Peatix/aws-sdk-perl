@@ -33,13 +33,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Sit
 
 =head1 DESCRIPTION
 
-Provides the configuration information of the sitemap URLs to crawl.
+Provides the configuration information for the sitemap URLs to crawl.
 
 I<When selecting websites to index, you must adhere to the Amazon
 Acceptable Use Policy (https://aws.amazon.com/aup/) and all other
-Amazon terms. Remember that you must only use the Amazon Kendra web
-crawler to index your own webpages, or webpages that you have
-authorization to index.>
+Amazon terms. Remember that you must only use Amazon Kendra Web Crawler
+to index your own web pages, or web pages that you have authorization
+to index.>
 
 =head1 ATTRIBUTES
 

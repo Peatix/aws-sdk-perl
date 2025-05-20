@@ -4,6 +4,7 @@ package Paws::TimestreamWrite::Record;
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::TimestreamWrite::Dimension]');
   has MeasureName => (is => 'ro', isa => 'Str');
   has MeasureValue => (is => 'ro', isa => 'Str');
+  has MeasureValues => (is => 'ro', isa => 'ArrayRef[Paws::TimestreamWrite::MeasureValue]');
   has MeasureValueType => (is => 'ro', isa => 'Str');
   has Time => (is => 'ro', isa => 'Str');
   has TimeUnit => (is => 'ro', isa => 'Str');
@@ -39,23 +40,31 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamW
 
 =head1 DESCRIPTION
 
-Record represents a time series data point being written into
-Timestream. Each record contains an array of dimensions. Dimensions
-represent the meta data attributes of a time series data point such as
-the instance name or availability zone of an EC2 instance. A record
-also contains the measure name which is the name of the measure being
-collected for example the CPU utilization of an EC2 instance. A record
-also contains the measure value and the value type which is the data
-type of the measure value. In addition, the record contains the
-timestamp when the measure was collected that the timestamp unit which
-represents the granularity of the timestamp.
+Represents a time-series data point being written into Timestream. Each
+record contains an array of dimensions. Dimensions represent the
+metadata attributes of a time-series data point, such as the instance
+name or Availability Zone of an EC2 instance. A record also contains
+the measure name, which is the name of the measure being collected (for
+example, the CPU utilization of an EC2 instance). Additionally, a
+record contains the measure value and the value type, which is the data
+type of the measure value. Also, the record contains the timestamp of
+when the measure was collected and the timestamp unit, which represents
+the granularity of the timestamp.
+
+Records have a C<Version> field, which is a 64-bit C<long> that you can
+use for updating data points. Writes of a duplicate record with the
+same dimension, timestamp, and measure name but different measure value
+will only succeed if the C<Version> attribute of the record in the
+write request is higher than that of the existing record. Timestream
+defaults to a C<Version> of C<1> for records without the C<Version>
+field.
 
 =head1 ATTRIBUTES
 
 
 =head2 Dimensions => ArrayRef[L<Paws::TimestreamWrite::Dimension>]
 
-Contains the list of dimensions for time series data points.
+Contains the list of dimensions for time-series data points.
 
 
 =head2 MeasureName => Str
@@ -67,13 +76,22 @@ measures.
 
 =head2 MeasureValue => Str
 
-Contains the measure value for the time series data point.
+Contains the measure value for the time-series data point.
+
+
+=head2 MeasureValues => ArrayRef[L<Paws::TimestreamWrite::MeasureValue>]
+
+Contains the list of MeasureValue for time-series data points.
+
+This is only allowed for type C<MULTI>. For scalar values, use
+C<MeasureValue> attribute of the record directly.
 
 
 =head2 MeasureValueType => Str
 
-Contains the data type of the measure value for the time series data
-point.
+Contains the data type of the measure value for the time-series data
+point. Default type is C<DOUBLE>. For more information, see Data types
+(https://docs.aws.amazon.com/timestream/latest/developerguide/writes.html#writes.data-types).
 
 
 =head2 Time => Str
@@ -87,7 +105,8 @@ C<ms>, then C<12345 ms> have elapsed since the epoch.
 =head2 TimeUnit => Str
 
 The granularity of the timestamp unit. It indicates if the time value
-is in seconds, milliseconds, nanoseconds or other supported values.
+is in seconds, milliseconds, nanoseconds, or other supported values.
+Default is C<MILLISECONDS>.
 
 
 =head2 Version => Int
@@ -95,7 +114,10 @@ is in seconds, milliseconds, nanoseconds or other supported values.
 64-bit attribute used for record updates. Write requests for duplicate
 data with a higher version number will update the existing measure
 value and version. In cases where the measure value is the same,
-C<Version> will still be updated . Default value is to 1.
+C<Version> will still be updated. Default value is C<1>.
+
+C<Version> must be C<1> or greater, or you will receive a
+C<ValidationException> error.
 
 
 

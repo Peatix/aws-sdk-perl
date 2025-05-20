@@ -49,15 +49,17 @@ action on the affected resource.
 
 =head2 IpAddressDetails => L<Paws::Macie2::IpAddressDetails>
 
-The IP address of the device that the entity used to perform the action
-on the affected resource. This object also provides information such as
-the owner and geographic location for the IP address.
+The IP address and related details about the device that the entity
+used to perform the action on the affected resource. The details can
+include information such as the owner and geographic location of the IP
+address.
 
 
 =head2 UserIdentity => L<Paws::Macie2::UserIdentity>
 
 The type and other characteristics of the entity that performed the
-action on the affected resource.
+action on the affected resource. This value is null if the action was
+performed by an anonymous (unauthenticated) entity.
 
 
 

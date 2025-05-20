@@ -32,20 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $fsx = Paws->service('FSX');
+    # To copy a backup
+    # This operation copies an Amazon FSx backup.
     my $CopyBackupResponse = $fsx->CopyBackup(
-      SourceBackupId     => 'MySourceBackupId',
-      ClientRequestToken => 'MyClientRequestToken',    # OPTIONAL
-      CopyTags           => 1,                         # OPTIONAL
-      KmsKeyId           => 'MyKmsKeyId',              # OPTIONAL
-      SourceRegion       => 'MyRegion',                # OPTIONAL
-      Tags               => [
-        {
-          Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # max: 256
-
-        },
-        ...
-      ],    # OPTIONAL
+      'SourceBackupId' => 'backup-03e3c82e0183b7b6b',
+      'SourceRegion'   => 'us-east-2'
     );
 
     # Results:
@@ -67,15 +58,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fsx
 
 =head2 CopyTags => Bool
 
-A boolean flag indicating whether tags from the source backup should be
-copied to the backup copy. This value defaults to false.
+A Boolean flag indicating whether tags from the source backup should be
+copied to the backup copy. This value defaults to C<false>.
 
-If you set C<CopyTags> to true and the source backup has existing tags,
-you can use the C<Tags> parameter to create new tags, provided that the
-sum of the source backup tags and the new tags doesn't exceed 50. Both
-sets of tags are merged. If there are tag conflicts (for example, two
-tags with the same key but different values), the tags created with the
-C<Tags> parameter take precedence.
+If you set C<CopyTags> to C<true> and the source backup has existing
+tags, you can use the C<Tags> parameter to create new tags, provided
+that the sum of the source backup tags and the new tags doesn't exceed
+50. Both sets of tags are merged. If there are tag conflicts (for
+example, two tags with the same key but different values), the tags
+created with the C<Tags> parameter take precedence.
 
 
 
@@ -87,17 +78,18 @@ C<Tags> parameter take precedence.
 
 =head2 B<REQUIRED> SourceBackupId => Str
 
-The ID of the source backup. Specifies the ID of the backup that is
+The ID of the source backup. Specifies the ID of the backup that's
 being copied.
 
 
 
 =head2 SourceRegion => Str
 
-The source AWS Region of the backup. Specifies the AWS Region from
-which the backup is being copied. The source and destination Regions
-must be in the same AWS partition. If you don't specify a Region, it
-defaults to the Region where the request is sent from (in-Region copy).
+The source Amazon Web Services Region of the backup. Specifies the
+Amazon Web Services Region from which the backup is being copied. The
+source and destination Regions must be in the same Amazon Web Services
+partition. If you don't specify a Region, C<SourceRegion> defaults to
+the Region where the request is sent from (in-Region copy).
 
 
 

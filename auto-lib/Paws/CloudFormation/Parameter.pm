@@ -44,8 +44,8 @@ The Parameter data type.
 =head2 ParameterKey => Str
 
 The key associated with the parameter. If you don't specify a key and
-value for a particular parameter, AWS CloudFormation uses the default
-value that is specified in your template.
+value for a particular parameter, CloudFormation uses the default value
+that's specified in your template.
 
 
 =head2 ParameterValue => Str
@@ -56,9 +56,11 @@ The input value associated with the parameter.
 =head2 ResolvedValue => Str
 
 Read-only. The value that corresponds to a Systems Manager parameter
-key. This field is returned only for C<SSM> parameter types
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html#aws-ssm-parameter-types)
-in the template.
+key. This field is returned only for Systems Manager parameter types in
+the template. For more information, see Specify existing resources at
+runtime with CloudFormation-supplied parameter types
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-supplied-parameter-types.html)
+in the I<CloudFormation User Guide>.
 
 
 =head2 UsePreviousValue => Bool

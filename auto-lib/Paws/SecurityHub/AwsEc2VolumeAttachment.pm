@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-An attachment to an AWS EC2 volume.
+An attachment to an Amazon EC2 volume.
 
 =head1 ATTRIBUTES
 
@@ -58,7 +58,32 @@ The identifier of the EC2 instance.
 
 =head2 Status => Str
 
-The attachment state of the volume.
+The attachment state of the volume. Valid values are as follows:
+
+=over
+
+=item *
+
+C<attaching>
+
+=item *
+
+C<attached>
+
+=item *
+
+C<busy>
+
+=item *
+
+C<detaching>
+
+=item *
+
+C<detached>
+
+=back
+
 
 
 

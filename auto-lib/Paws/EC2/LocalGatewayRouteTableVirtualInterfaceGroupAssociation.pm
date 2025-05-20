@@ -71,8 +71,8 @@ The ID of the virtual interface group.
 
 =head2 OwnerId => Str
 
-The AWS account ID that owns the local gateway virtual interface group
-association.
+The ID of the Amazon Web Services account that owns the local gateway
+virtual interface group association.
 
 
 =head2 State => Str

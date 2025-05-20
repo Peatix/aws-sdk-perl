@@ -2,12 +2,16 @@ package Paws::EC2::NetworkInsightsPath;
   use Moose;
   has CreatedDate => (is => 'ro', isa => 'Str', request_name => 'createdDate', traits => ['NameInRequest']);
   has Destination => (is => 'ro', isa => 'Str', request_name => 'destination', traits => ['NameInRequest']);
+  has DestinationArn => (is => 'ro', isa => 'Str', request_name => 'destinationArn', traits => ['NameInRequest']);
   has DestinationIp => (is => 'ro', isa => 'Str', request_name => 'destinationIp', traits => ['NameInRequest']);
   has DestinationPort => (is => 'ro', isa => 'Int', request_name => 'destinationPort', traits => ['NameInRequest']);
+  has FilterAtDestination => (is => 'ro', isa => 'Paws::EC2::PathFilter', request_name => 'filterAtDestination', traits => ['NameInRequest']);
+  has FilterAtSource => (is => 'ro', isa => 'Paws::EC2::PathFilter', request_name => 'filterAtSource', traits => ['NameInRequest']);
   has NetworkInsightsPathArn => (is => 'ro', isa => 'Str', request_name => 'networkInsightsPathArn', traits => ['NameInRequest']);
   has NetworkInsightsPathId => (is => 'ro', isa => 'Str', request_name => 'networkInsightsPathId', traits => ['NameInRequest']);
   has Protocol => (is => 'ro', isa => 'Str', request_name => 'protocol', traits => ['NameInRequest']);
   has Source => (is => 'ro', isa => 'Str', request_name => 'source', traits => ['NameInRequest']);
+  has SourceArn => (is => 'ro', isa => 'Str', request_name => 'sourceArn', traits => ['NameInRequest']);
   has SourceIp => (is => 'ro', isa => 'Str', request_name => 'sourceIp', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
 1;
@@ -52,17 +56,34 @@ The time stamp when the path was created.
 
 =head2 Destination => Str
 
-The AWS resource that is the destination of the path.
+The ID of the destination.
+
+
+=head2 DestinationArn => Str
+
+The Amazon Resource Name (ARN) of the destination.
 
 
 =head2 DestinationIp => Str
 
-The IP address of the AWS resource that is the destination of the path.
+The IP address of the destination.
 
 
 =head2 DestinationPort => Int
 
 The destination port.
+
+
+=head2 FilterAtDestination => L<Paws::EC2::PathFilter>
+
+Scopes the analysis to network paths that match specific filters at the
+destination.
+
+
+=head2 FilterAtSource => L<Paws::EC2::PathFilter>
+
+Scopes the analysis to network paths that match specific filters at the
+source.
 
 
 =head2 NetworkInsightsPathArn => Str
@@ -82,12 +103,17 @@ The protocol.
 
 =head2 Source => Str
 
-The AWS resource that is the source of the path.
+The ID of the source.
+
+
+=head2 SourceArn => Str
+
+The Amazon Resource Name (ARN) of the source.
 
 
 =head2 SourceIp => Str
 
-The IP address of the AWS resource that is the source of the path.
+The IP address of the source.
 
 
 =head2 Tags => ArrayRef[L<Paws::EC2::Tag>]

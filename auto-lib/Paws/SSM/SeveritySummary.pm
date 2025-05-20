@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Severi
 
 =head1 DESCRIPTION
 
-The number of managed instances found for each patch severity level
-defined in the request filter.
+The number of managed nodes found for each patch severity level defined
+in the request filter.
 
 =head1 ATTRIBUTES
 
@@ -47,8 +47,8 @@ defined in the request filter.
 =head2 CriticalCount => Int
 
 The total number of resources or compliance items that have a severity
-level of critical. Critical severity is determined by the organization
-that published the compliance items.
+level of C<Critical>. Critical severity is determined by the
+organization that published the compliance items.
 
 
 =head2 HighCount => Int

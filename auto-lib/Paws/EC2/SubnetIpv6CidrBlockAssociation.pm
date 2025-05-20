@@ -1,6 +1,8 @@
 package Paws::EC2::SubnetIpv6CidrBlockAssociation;
   use Moose;
   has AssociationId => (is => 'ro', isa => 'Str', request_name => 'associationId', traits => ['NameInRequest']);
+  has IpSource => (is => 'ro', isa => 'Str', request_name => 'ipSource', traits => ['NameInRequest']);
+  has Ipv6AddressAttribute => (is => 'ro', isa => 'Str', request_name => 'ipv6AddressAttribute', traits => ['NameInRequest']);
   has Ipv6CidrBlock => (is => 'ro', isa => 'Str', request_name => 'ipv6CidrBlock', traits => ['NameInRequest']);
   has Ipv6CidrBlockState => (is => 'ro', isa => 'Paws::EC2::SubnetCidrBlockState', request_name => 'ipv6CidrBlockState', traits => ['NameInRequest']);
 1;
@@ -40,7 +42,22 @@ This class has no description
 
 =head2 AssociationId => Str
 
-The association ID for the CIDR block.
+The ID of the association.
+
+
+=head2 IpSource => Str
+
+The source that allocated the IP address space. C<byoip> or C<amazon>
+indicates public IP address space allocated by Amazon or space that you
+have allocated with Bring your own IP (BYOIP). C<none> indicates
+private space.
+
+
+=head2 Ipv6AddressAttribute => Str
+
+Public IPv6 addresses are those advertised on the internet from Amazon
+Web Services. Private IP addresses are not and cannot be advertised on
+the internet from Amazon Web Services.
 
 
 =head2 Ipv6CidrBlock => Str
@@ -50,7 +67,7 @@ The IPv6 CIDR block.
 
 =head2 Ipv6CidrBlockState => L<Paws::EC2::SubnetCidrBlockState>
 
-Information about the state of the CIDR block.
+The state of the CIDR block.
 
 
 

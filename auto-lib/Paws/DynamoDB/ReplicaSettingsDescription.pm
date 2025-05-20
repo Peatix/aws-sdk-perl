@@ -9,6 +9,7 @@ package Paws::DynamoDB::ReplicaSettingsDescription;
   has ReplicaProvisionedWriteCapacityAutoScalingSettings => (is => 'ro', isa => 'Paws::DynamoDB::AutoScalingSettingsDescription');
   has ReplicaProvisionedWriteCapacityUnits => (is => 'ro', isa => 'Int');
   has ReplicaStatus => (is => 'ro', isa => 'Str');
+  has ReplicaTableClassSummary => (is => 'ro', isa => 'Paws::DynamoDB::TableClassSummary');
 
 1;
 
@@ -29,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::DynamoDB::ReplicaSettingsDescription object:
 
-  $service_obj->Method(Att1 => { RegionName => $value, ..., ReplicaStatus => $value  });
+  $service_obj->Method(Att1 => { RegionName => $value, ..., ReplicaTableClassSummary => $value  });
 
 =head3 Results returned from an API call
 
@@ -112,6 +113,11 @@ C<DELETING> - The Region is being deleted.
 C<ACTIVE> - The Region is ready for use.
 
 =back
+
+
+
+=head2 ReplicaTableClassSummary => L<Paws::DynamoDB::TableClassSummary>
+
 
 
 

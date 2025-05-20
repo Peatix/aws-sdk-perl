@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $finspace = Paws->service('Finspace');
     my $ListTagsForResourceResponse = $finspace->ListTagsForResource(
-      ResourceArn => 'MyEnvironmentArn',
+      ResourceArn => 'MyFinSpaceTaggableArn',
 
     );
 

@@ -5,6 +5,7 @@ package Paws::Forecast::CreateForecast;
   has ForecastTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has PredictorArn => (is => 'ro', isa => 'Str', required => 1);
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::Forecast::Tag]');
+  has TimeSeriesSelector => (is => 'ro', isa => 'Paws::Forecast::TimeSeriesSelector');
 
   use MooseX::ClassAttribute;
 
@@ -33,8 +34,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateForecastResponse = $forecast->CreateForecast(
       ForecastName  => 'MyName',
       PredictorArn  => 'MyArn',
-      ForecastTypes => [ 'MyForecastType', ... ],    # OPTIONAL
-      Tags          => [
+      ForecastTypes => [
+        'MyForecastType', ...    # min: 2, max: 4
+      ],    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -42,6 +45,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      TimeSeriesSelector => {
+        TimeSeriesIdentifiers => {
+          DataSource => {
+            S3Config => {
+              Path      => 'MyS3Path',       # min: 7, max: 4096
+              RoleArn   => 'MyArn',          # max: 256
+              KMSKeyArn => 'MyKMSKeyArn',    # max: 256; OPTIONAL
+            },
+
+          },    # OPTIONAL
+          Format => 'MyFormat',    # max: 7; OPTIONAL
+          Schema => {
+            Attributes => [
+              {
+                AttributeName => 'MyName',    # min: 1, max: 63
+                AttributeType => 'string'
+                , # values: string, integer, float, timestamp, geolocation; OPTIONAL
+              },
+              ...
+            ],    # min: 1, max: 100; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
@@ -67,8 +93,11 @@ The quantiles at which probabilistic forecasts are generated. B<You can
 currently specify up to 5 quantiles per forecast>. Accepted values
 include C<0.01 to 0.99> (increments of .01 only) and C<mean>. The mean
 forecast is different from the median (0.50) when the distribution is
-not symmetric (for example, Beta and Negative Binomial). The default
-value is C<["0.1", "0.5", "0.9"]>.
+not symmetric (for example, Beta and Negative Binomial).
+
+The default quantiles are the quantiles you specified during predictor
+creation. If you didn't specify quantiles, the default values are
+C<["0.1", "0.5", "0.9"]>.
 
 
 
@@ -121,12 +150,38 @@ Tag keys and values are case sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for keys as it is reserved for AWS use. You cannot
-edit or delete tag keys with this prefix. Values can have this prefix.
-If a tag value has C<aws> as its prefix but the key does not, then
-Forecast considers it to be a user tag and will count against the limit
-of 50 tags. Tags with only the key prefix of C<aws> do not count
-against your tags per resource limit.
+such as a prefix for keys as it is reserved for Amazon Web Services
+use. You cannot edit or delete tag keys with this prefix. Values can
+have this prefix. If a tag value has C<aws> as its prefix but the key
+does not, then Forecast considers it to be a user tag and will count
+against the limit of 50 tags. Tags with only the key prefix of C<aws>
+do not count against your tags per resource limit.
+
+=back
+
+
+
+
+=head2 TimeSeriesSelector => L<Paws::Forecast::TimeSeriesSelector>
+
+Defines the set of time series that are used to create the forecasts in
+a C<TimeSeriesIdentifiers> object.
+
+The C<TimeSeriesIdentifiers> object needs the following information:
+
+=over
+
+=item *
+
+C<DataSource>
+
+=item *
+
+C<Format>
+
+=item *
+
+C<Schema>
 
 =back
 

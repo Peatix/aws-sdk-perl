@@ -47,7 +47,9 @@ instance.
 
 =head2 EbsOptimized => Bool
 
-Indicates whether an Amazon EBS volume is EBS-optimized.
+Indicates whether an Amazon EBS volume is EBS-optimized. The default is
+false. You should explicitly set this value to true to enable the
+Amazon EBS-optimized setting for an EC2 instance.
 
 
 

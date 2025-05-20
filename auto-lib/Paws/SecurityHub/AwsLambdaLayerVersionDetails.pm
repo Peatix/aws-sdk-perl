@@ -42,22 +42,32 @@ Details about a Lambda layer version.
 
 =head2 CompatibleRuntimes => ArrayRef[Str|Undef]
 
-The layer's compatible runtimes. Maximum number of five items.
+The layer's compatible function runtimes
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html).
 
-Valid values: C<nodejs10.x> | C<nodejs12.x> | C<java8> | C<java11> |
-C<python2.7> | C<python3.6> | C<python3.7> | C<python3.8> |
-C<dotnetcore1.0> | C<dotnetcore2.1> | C<go1.x> | C<ruby2.5> |
-C<provided>
+The following list includes deprecated runtimes. For more information,
+see Runtime deprecation policy
+(https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy)
+in the I<Lambda Developer Guide>.
+
+Array Members: Maximum number of 5 items.
+
+Valid Values: C<nodejs | nodejs4.3 | nodejs6.10 | nodejs8.10 |
+nodejs10.x | nodejs12.x | nodejs14.x | nodejs16.x | java8 | java8.al2 |
+java11 | python2.7 | python3.6 | python3.7 | python3.8 | python3.9 |
+dotnetcore1.0 | dotnetcore2.0 | dotnetcore2.1 | dotnetcore3.1 | dotnet6
+| nodejs4.3-edge | go1.x | ruby2.5 | ruby2.7 | provided | provided.al2
+| nodejs18.x | python3.10 | java17 | ruby3.2 | python3.11 | nodejs20.x
+| provided.al2023 | python3.12 | java21>
 
 
 =head2 CreatedDate => Str
 
 Indicates when the version was created.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 Version => Int

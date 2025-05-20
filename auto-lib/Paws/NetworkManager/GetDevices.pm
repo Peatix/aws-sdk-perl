@@ -33,11 +33,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $GetDevicesResponse = $networkmanager->GetDevices(
-      GlobalNetworkId => 'MyString',
-      DeviceIds       => [ 'MyString', ... ],    # OPTIONAL
-      MaxResults      => 1,                      # OPTIONAL
-      NextToken       => 'MyString',             # OPTIONAL
-      SiteId          => 'MyString',             # OPTIONAL
+      GlobalNetworkId => 'MyGlobalNetworkId',
+      DeviceIds       => [
+        'MyDeviceId', ...    # max: 50
+      ],    # OPTIONAL
+      MaxResults => 1,                # OPTIONAL
+      NextToken  => 'MyNextToken',    # OPTIONAL
+      SiteId     => 'MySiteId',       # OPTIONAL
     );
 
     # Results:

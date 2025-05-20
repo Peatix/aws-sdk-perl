@@ -4,6 +4,7 @@ package Paws::WellArchitected::ListWorkloadShares;
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'MaxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'NextToken');
   has SharedWithPrefix => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'SharedWithPrefix');
+  has Status => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'Status');
   has WorkloadId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'WorkloadId', required => 1);
 
   use MooseX::ClassAttribute;
@@ -36,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       MaxResults       => 1,                       # OPTIONAL
       NextToken        => 'MyNextToken',           # OPTIONAL
       SharedWithPrefix => 'MySharedWithPrefix',    # OPTIONAL
+      Status           => 'ACCEPTED',              # OPTIONAL
     );
 
     # Results:
@@ -66,9 +68,16 @@ The maximum number of results to return for this request.
 
 =head2 SharedWithPrefix => Str
 
-The AWS account ID or IAM role with which the workload is shared.
+The Amazon Web Services account ID, organization ID, or organizational
+unit (OU) ID with which the workload is shared.
 
 
+
+=head2 Status => Str
+
+
+
+Valid values are: C<"ACCEPTED">, C<"REJECTED">, C<"PENDING">, C<"REVOKED">, C<"EXPIRED">, C<"ASSOCIATING">, C<"ASSOCIATED">, C<"FAILED">
 
 =head2 B<REQUIRED> WorkloadId => Str
 

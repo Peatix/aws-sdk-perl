@@ -26,14 +26,14 @@ C<YYYY-MM-DDThh:mm:ss.sssZ>.
 
 =head2 B<REQUIRED> MapArn => Str
 
-The Amazon Resource Name (ARN) for the map resource. Used when you need
-to specify a resource across all AWS.
+The Amazon Resource Name (ARN) for the map resource. Used to specify a
+resource across all Amazon Web Services.
 
 =over
 
 =item *
 
-Format example: C<arn:aws:geo:region:account-id:maps/ExampleMap>
+Format example: C<arn:aws:geo:region:account-id:map/ExampleMap>
 
 =back
 

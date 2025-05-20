@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-The dimension of a Amazon CloudWatch metric that is used when DevOps
+The dimension of an Amazon CloudWatch metric that is used when DevOps
 Guru analyzes the resources in your account for operational problems
 and anomalous behavior. A dimension is a name/value pair that is part
 of the identity of a metric. A metric can have up to 10 dimensions. For

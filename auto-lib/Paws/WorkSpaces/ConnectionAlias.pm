@@ -64,7 +64,8 @@ connection string must be in the form of a fully qualified domain name
 
 =head2 OwnerAccountId => Str
 
-The identifier of the AWS account that owns the connection alias.
+The identifier of the Amazon Web Services account that owns the
+connection alias.
 
 
 =head2 State => Str

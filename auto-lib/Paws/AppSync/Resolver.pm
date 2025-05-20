@@ -2,13 +2,17 @@
 package Paws::AppSync::Resolver;
   use Moose;
   has CachingConfig => (is => 'ro', isa => 'Paws::AppSync::CachingConfig', request_name => 'cachingConfig', traits => ['NameInRequest']);
+  has Code => (is => 'ro', isa => 'Str', request_name => 'code', traits => ['NameInRequest']);
   has DataSourceName => (is => 'ro', isa => 'Str', request_name => 'dataSourceName', traits => ['NameInRequest']);
   has FieldName => (is => 'ro', isa => 'Str', request_name => 'fieldName', traits => ['NameInRequest']);
   has Kind => (is => 'ro', isa => 'Str', request_name => 'kind', traits => ['NameInRequest']);
+  has MaxBatchSize => (is => 'ro', isa => 'Int', request_name => 'maxBatchSize', traits => ['NameInRequest']);
+  has MetricsConfig => (is => 'ro', isa => 'Str', request_name => 'metricsConfig', traits => ['NameInRequest']);
   has PipelineConfig => (is => 'ro', isa => 'Paws::AppSync::PipelineConfig', request_name => 'pipelineConfig', traits => ['NameInRequest']);
   has RequestMappingTemplate => (is => 'ro', isa => 'Str', request_name => 'requestMappingTemplate', traits => ['NameInRequest']);
   has ResolverArn => (is => 'ro', isa => 'Str', request_name => 'resolverArn', traits => ['NameInRequest']);
   has ResponseMappingTemplate => (is => 'ro', isa => 'Str', request_name => 'responseMappingTemplate', traits => ['NameInRequest']);
+  has Runtime => (is => 'ro', isa => 'Paws::AppSync::AppSyncRuntime', request_name => 'runtime', traits => ['NameInRequest']);
   has SyncConfig => (is => 'ro', isa => 'Paws::AppSync::SyncConfig', request_name => 'syncConfig', traits => ['NameInRequest']);
   has TypeName => (is => 'ro', isa => 'Str', request_name => 'typeName', traits => ['NameInRequest']);
 
@@ -52,6 +56,13 @@ Describes a resolver.
 The caching configuration for the resolver.
 
 
+=head2 Code => Str
+
+The C<resolver> code that contains the request and response functions.
+When code is used, the C<runtime> is required. The C<runtime> value
+must be C<APPSYNC_JS>.
+
+
 =head2 DataSourceName => Str
 
 The resolver data source name.
@@ -71,18 +82,35 @@ The resolver type.
 =item *
 
 B<UNIT>: A UNIT resolver type. A UNIT resolver is the default resolver
-type. A UNIT resolver enables you to execute a GraphQL query against a
+type. You can use a UNIT resolver to run a GraphQL query against a
 single data source.
 
 =item *
 
-B<PIPELINE>: A PIPELINE resolver type. A PIPELINE resolver enables you
-to execute a series of C<Function> in a serial manner. You can use a
-pipeline resolver to execute a GraphQL query against multiple data
+B<PIPELINE>: A PIPELINE resolver type. You can use a PIPELINE resolver
+to invoke a series of C<Function> objects in a serial manner. You can
+use a pipeline resolver to run a GraphQL query against multiple data
 sources.
 
 =back
 
+
+
+=head2 MaxBatchSize => Int
+
+The maximum batching size for a resolver.
+
+
+=head2 MetricsConfig => Str
+
+Enables or disables enhanced resolver metrics for specified resolvers.
+Note that C<metricsConfig> won't be used unless the
+C<resolverLevelMetricsBehavior> value is set to
+C<PER_RESOLVER_METRICS>. If the C<resolverLevelMetricsBehavior> is set
+to C<FULL_REQUEST_RESOLVER_METRICS> instead, C<metricsConfig> will be
+ignored. However, you can still set its value.
+
+C<metricsConfig> can be C<ENABLED> or C<DISABLED>.
 
 
 =head2 PipelineConfig => L<Paws::AppSync::PipelineConfig>
@@ -97,7 +125,7 @@ The request mapping template.
 
 =head2 ResolverArn => Str
 
-The resolver ARN.
+The resolver Amazon Resource Name (ARN).
 
 
 =head2 ResponseMappingTemplate => Str
@@ -105,9 +133,14 @@ The resolver ARN.
 The response mapping template.
 
 
+=head2 Runtime => L<Paws::AppSync::AppSyncRuntime>
+
+
+
+
 =head2 SyncConfig => L<Paws::AppSync::SyncConfig>
 
-The C<SyncConfig> for a resolver attached to a versioned datasource.
+The C<SyncConfig> for a resolver attached to a versioned data source.
 
 
 =head2 TypeName => Str

@@ -2,10 +2,6 @@ package Paws::SQS::TagMap;
   use Moose;
   with 'Paws::API::StrToNativeMapParser';
 
-  use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'Key');
-  class_has xml_values =>(is => 'ro', default => 'Value');
-
   has Map => (is => 'ro', isa => 'HashRef[Maybe[Str]]');
 1;
 

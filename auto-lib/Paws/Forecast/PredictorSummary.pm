@@ -3,10 +3,12 @@ package Paws::Forecast::PredictorSummary;
   use Moose;
   has CreationTime => (is => 'ro', isa => 'Str');
   has DatasetGroupArn => (is => 'ro', isa => 'Str');
+  has IsAutoPredictor => (is => 'ro', isa => 'Bool');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has PredictorArn => (is => 'ro', isa => 'Str');
   has PredictorName => (is => 'ro', isa => 'Str');
+  has ReferencePredictorSummary => (is => 'ro', isa => 'Paws::Forecast::ReferencePredictorSummary');
   has Status => (is => 'ro', isa => 'Str');
 
 1;
@@ -58,6 +60,11 @@ The Amazon Resource Name (ARN) of the dataset group that contains the
 data used to train the predictor.
 
 
+=head2 IsAutoPredictor => Bool
+
+Whether AutoPredictor was used to create the predictor.
+
+
 =head2 LastModificationTime => Str
 
 The last time the resource was modified. The timestamp depends on the
@@ -102,6 +109,12 @@ The ARN of the predictor.
 =head2 PredictorName => Str
 
 The name of the predictor.
+
+
+=head2 ReferencePredictorSummary => L<Paws::Forecast::ReferencePredictorSummary>
+
+A summary of the reference predictor used if the predictor was
+retrained or upgraded.
 
 
 =head2 Status => Str

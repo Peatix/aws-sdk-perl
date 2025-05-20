@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Ser
 
 =head1 DESCRIPTION
 
-Provides configuration information required to connect to a ServiceNow
+Provides the configuration information to connect to ServiceNow as your
 data source.
 
 =head1 ATTRIBUTES
@@ -46,13 +46,12 @@ data source.
 
 =head2 AuthenticationType => Str
 
-Determines the type of authentication used to connect to the ServiceNow
-instance. If you choose C<HTTP_BASIC>, Amazon Kendra is authenticated
-using the user name and password provided in the AWS Secrets Manager
-secret in the C<SecretArn> field. When you choose C<OAUTH2>, Amazon
-Kendra is authenticated using the OAuth token and secret provided in
-the Secrets Manager secret, and the user name and password are used to
-determine which information Amazon Kendra has access to.
+The type of authentication used to connect to the ServiceNow instance.
+If you choose C<HTTP_BASIC>, Amazon Kendra is authenticated using the
+user name and password provided in the Secrets Manager secret in the
+C<SecretArn> field. If you choose C<OAUTH2>, Amazon Kendra is
+authenticated using the credentials of client ID, client secret, user
+name and password.
 
 When you use C<OAUTH2> authentication, you must generate a token and a
 client secret using the ServiceNow console. For more information, see
@@ -63,25 +62,28 @@ Using a ServiceNow data source
 =head2 B<REQUIRED> HostUrl => Str
 
 The ServiceNow instance that the data source connects to. The host
-endpoint should look like the following: C<{instance}.service-now.com.>
+endpoint should look like the following: I<{instance}.service-now.com.>
 
 
 =head2 KnowledgeArticleConfiguration => L<Paws::Kendra::ServiceNowKnowledgeArticleConfiguration>
 
-Provides configuration information for crawling knowledge articles in
-the ServiceNow site.
+Configuration information for crawling knowledge articles in the
+ServiceNow site.
 
 
 =head2 B<REQUIRED> SecretArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Secret Manager secret that
+The Amazon Resource Name (ARN) of the Secrets Manager secret that
 contains the user name and password required to connect to the
-ServiceNow instance.
+ServiceNow instance. You can also provide OAuth authentication
+credentials of user name, password, client ID, and client secret. For
+more information, see Using a ServiceNow data source
+(https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html).
 
 
 =head2 ServiceCatalogConfiguration => L<Paws::Kendra::ServiceNowServiceCatalogConfiguration>
 
-Provides configuration information for crawling service catalogs in the
+Configuration information for crawling service catalogs in the
 ServiceNow site.
 
 

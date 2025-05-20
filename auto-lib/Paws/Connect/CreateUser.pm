@@ -51,9 +51,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DirectoryUserId    => 'MyDirectoryUserId',              # OPTIONAL
       HierarchyGroupId   => 'MyHierarchyGroupId',             # OPTIONAL
       IdentityInfo       => {
-        Email     => 'MyEmail',             # OPTIONAL
-        FirstName => 'MyAgentFirstName',    # min: 1, max: 100; OPTIONAL
-        LastName  => 'MyAgentLastName',     # min: 1, max: 100; OPTIONAL
+        Email          => 'MyEmail',             # OPTIONAL
+        FirstName      => 'MyAgentFirstName',    # max: 255; OPTIONAL
+        LastName       => 'MyAgentLastName',     # max: 300; OPTIONAL
+        Mobile         => 'MyPhoneNumber',       # OPTIONAL
+        SecondaryEmail => 'MyEmail',             # OPTIONAL
       },    # OPTIONAL
       Password => 'MyPassword',    # OPTIONAL
       Tags     => {
@@ -104,7 +106,9 @@ The information about the identity of the user.
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
@@ -136,7 +140,8 @@ The identifier of the security profile for the user.
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 
@@ -146,6 +151,25 @@ The user name for the account. For instances not using SAML for
 identity management, the user name can include up to 20 characters. If
 you are using SAML for identity management, the user name can include
 up to 64 characters from [a-zA-Z0-9_-.\@]+.
+
+Username can include @ only if used in an email format. For example:
+
+=over
+
+=item *
+
+Correct: testuser
+
+=item *
+
+Correct: testuser@example.com
+
+=item *
+
+Incorrect: testuser@example
+
+=back
+
 
 
 

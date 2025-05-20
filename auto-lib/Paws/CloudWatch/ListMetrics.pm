@@ -2,9 +2,11 @@
 package Paws::CloudWatch::ListMetrics;
   use Moose;
   has Dimensions => (is => 'ro', isa => 'ArrayRef[Paws::CloudWatch::DimensionFilter]');
+  has IncludeLinkedAccounts => (is => 'ro', isa => 'Bool');
   has MetricName => (is => 'ro', isa => 'Str');
   has Namespace => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
+  has OwningAccount => (is => 'ro', isa => 'Str');
   has RecentlyActive => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
@@ -35,19 +37,22 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Dimensions => [
         {
           Name  => 'MyDimensionName',     # min: 1, max: 255
-          Value => 'MyDimensionValue',    # min: 1, max: 255; OPTIONAL
+          Value => 'MyDimensionValue',    # min: 1, max: 1024; OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      MetricName     => 'MyMetricName',    # OPTIONAL
-      Namespace      => 'MyNamespace',     # OPTIONAL
-      NextToken      => 'MyNextToken',     # OPTIONAL
-      RecentlyActive => 'PT3H',            # OPTIONAL
+      IncludeLinkedAccounts => 1,                 # OPTIONAL
+      MetricName            => 'MyMetricName',    # OPTIONAL
+      Namespace             => 'MyNamespace',     # OPTIONAL
+      NextToken             => 'MyNextToken',     # OPTIONAL
+      OwningAccount         => 'MyAccountId',     # OPTIONAL
+      RecentlyActive        => 'PT3H',            # OPTIONAL
     );
 
     # Results:
-    my $Metrics   = $ListMetricsOutput->Metrics;
-    my $NextToken = $ListMetricsOutput->NextToken;
+    my $Metrics        = $ListMetricsOutput->Metrics;
+    my $NextToken      = $ListMetricsOutput->NextToken;
+    my $OwningAccounts = $ListMetricsOutput->OwningAccounts;
 
     # Returns a L<Paws::CloudWatch::ListMetricsOutput> object.
 
@@ -61,6 +66,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mon
 
 The dimensions to filter against. Only the dimensions that match
 exactly will be returned.
+
+
+
+=head2 IncludeLinkedAccounts => Bool
+
+If you are using this operation in a monitoring account, specify
+C<true> to include metrics from source accounts in the returned data.
+
+The default is C<false>.
 
 
 
@@ -85,6 +99,15 @@ data available.
 
 
 
+=head2 OwningAccount => Str
+
+When you use this operation in a monitoring account, use this field to
+return metrics only from one source account. To do so, specify that
+source account ID in this field, and also specify C<true> for
+C<IncludeLinkedAccounts>.
+
+
+
 =head2 RecentlyActive => Str
 
 To filter the results to show only metrics that have had data points
@@ -93,7 +116,7 @@ of C<PT3H>. This is the only valid value for this parameter.
 
 The results that are returned are an approximation of the value you
 specify. There is a low probability that the returned results include
-metrics with last published data as much as 40 minutes more than the
+metrics with last published data as much as 50 minutes more than the
 specified time interval.
 
 Valid values are: C<"PT3H">

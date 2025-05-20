@@ -3,6 +3,8 @@ package Paws::IoTWireless::OtaaV1_0_x;
   use Moose;
   has AppEui => (is => 'ro', isa => 'Str');
   has AppKey => (is => 'ro', isa => 'Str');
+  has GenAppKey => (is => 'ro', isa => 'Str');
+  has JoinEui => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTWireless::OtaaV1_0_x object:
 
-  $service_obj->Method(Att1 => { AppEui => $value, ..., AppKey => $value  });
+  $service_obj->Method(Att1 => { AppEui => $value, ..., JoinEui => $value  });
 
 =head3 Results returned from an API call
 
@@ -41,12 +43,24 @@ OTAA device object for v1.0.x
 
 =head2 AppEui => Str
 
-The AppEUI value.
+The AppEUI value. You specify this value when using LoRaWAN versions
+v1.0.2 or v1.0.3.
 
 
 =head2 AppKey => Str
 
 The AppKey value.
+
+
+=head2 GenAppKey => Str
+
+The GenAppKey value.
+
+
+=head2 JoinEui => Str
+
+The JoinEUI value. You specify this value instead of the AppEUI when
+using LoRaWAN version v1.0.4.
 
 
 

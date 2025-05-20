@@ -47,6 +47,9 @@ Contains the configuration parameters for a job-completion report.
 The Amazon Resource Name (ARN) for the bucket where specified
 job-completion report will be stored.
 
+B<Directory buckets> - Directory buckets aren't supported as a location
+for Batch Operations to store job completion reports.
+
 
 =head2 B<REQUIRED> Enabled => Bool
 

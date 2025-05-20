@@ -32,7 +32,7 @@ The headers of the HTTP response.
 
 =head2 Latency => Int
 
-The execution latency of the test invoke request.
+The execution latency, in ms, of the test invoke request.
 
 
 =head2 Log => Str

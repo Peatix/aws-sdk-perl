@@ -35,8 +35,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $DisplayName = $DescribeGroupResponse->DisplayName;
-    my $GroupId     = $DescribeGroupResponse->GroupId;
+    my $Description     = $DescribeGroupResponse->Description;
+    my $DisplayName     = $DescribeGroupResponse->DisplayName;
+    my $ExternalIds     = $DescribeGroupResponse->ExternalIds;
+    my $GroupId         = $DescribeGroupResponse->GroupId;
+    my $IdentityStoreId = $DescribeGroupResponse->IdentityStoreId;
 
     # Returns a L<Paws::SSOIdentityStore::DescribeGroupResponse> object.
 
@@ -55,10 +58,10 @@ The identifier for a group in the identity store.
 =head2 B<REQUIRED> IdentityStoreId => Str
 
 The globally unique identifier for the identity store, such as
-d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is
-a randomly generated string which contains number and lower case
-letters. This value is generated at the time that a new identity store
-is created.
+C<d-1234567890>. In this example, C<d-> is a fixed prefix, and
+C<1234567890> is a randomly generated string that contains numbers and
+lower case letters. This value is generated at the time that a new
+identity store is created.
 
 
 

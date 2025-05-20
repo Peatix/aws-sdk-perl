@@ -33,13 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaTailor
 
 =head1 DESCRIPTION
 
-For HLS, when set to true, MediaTailor passes through EXT-X-CUE-IN,
-EXT-X-CUE-OUT, and EXT-X-SPLICEPOINT-SCTE35 ad markers from the origin
-manifest to the MediaTailor personalized manifest.
+For HLS, when set to C<true>, MediaTailor passes through
+C<EXT-X-CUE-IN>, C<EXT-X-CUE-OUT>, and C<EXT-X-SPLICEPOINT-SCTE35> ad
+markers from the origin manifest to the MediaTailor personalized
+manifest.
 
-No logic is applied to these ad markers. For example, if EXT-X-CUE-OUT
-has a value of 60, but no ads are filled for that ad break, MediaTailor
-will not set the value to 0.
+No logic is applied to these ad markers. For example, if
+C<EXT-X-CUE-OUT> has a value of C<60>, but no ads are filled for that
+ad break, MediaTailor will not set the value to C<0>.
 
 =head1 ATTRIBUTES
 

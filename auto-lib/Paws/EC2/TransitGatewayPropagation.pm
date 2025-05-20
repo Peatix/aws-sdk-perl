@@ -4,6 +4,7 @@ package Paws::EC2::TransitGatewayPropagation;
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
   has State => (is => 'ro', isa => 'Str', request_name => 'state', traits => ['NameInRequest']);
   has TransitGatewayAttachmentId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayAttachmentId', traits => ['NameInRequest']);
+  has TransitGatewayRouteTableAnnouncementId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayRouteTableAnnouncementId', traits => ['NameInRequest']);
   has TransitGatewayRouteTableId => (is => 'ro', isa => 'Str', request_name => 'transitGatewayRouteTableId', traits => ['NameInRequest']);
 1;
 
@@ -59,6 +60,11 @@ The state.
 =head2 TransitGatewayAttachmentId => Str
 
 The ID of the attachment.
+
+
+=head2 TransitGatewayRouteTableAnnouncementId => Str
+
+The ID of the transit gateway route table announcement.
 
 
 =head2 TransitGatewayRouteTableId => Str

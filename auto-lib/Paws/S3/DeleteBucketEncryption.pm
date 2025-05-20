@@ -49,13 +49,29 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 The name of the bucket containing the server-side encryption
 configuration to delete.
 
+B<Directory buckets > - When you use this operation with a directory
+bucket, you must use path-style requests in the format
+C<https://s3express-control.I<region-code>.amazonaws.com/I<bucket-name>
+>. Virtual-hosted-style requests aren't supported. Directory bucket
+names must be unique in the chosen Zone (Availability Zone or Local
+Zone). Bucket names must also follow the format C<
+I<bucket-base-name>--I<zone-id>--x-s3> (for example, C<
+I<DOC-EXAMPLE-BUCKET>--I<usw2-az1>--x-s3>). For information about
+bucket naming restrictions, see Directory bucket naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>
+
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
+
+For directory buckets, this header is not supported in this API
+operation. If you specify this header, the request fails with the HTTP
+status code C<501 Not Implemented>.
 
 
 

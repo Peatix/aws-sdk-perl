@@ -58,22 +58,23 @@ Represents information about an action type.
 
 =head2 ArtifactCredentials => L<Paws::CodePipeline::AWSSessionCredentials>
 
-Represents an AWS session credentials object. These credentials are
-temporary credentials that are issued by AWS Secure Token Service
-(STS). They can be used to access input and output artifacts in the S3
-bucket used to store artifacts for the pipeline in AWS CodePipeline.
+Represents an Amazon Web Services session credentials object. These
+credentials are temporary credentials that are issued by Amazon Web
+Services Secure Token Service (STS). They can be used to access input
+and output artifacts in the S3 bucket used to store artifacts for the
+pipeline in CodePipeline.
 
 
 =head2 ContinuationToken => Str
 
-A system-generated token, such as a AWS CodeDeploy deployment ID,
-required by a job to continue the job asynchronously.
+A system-generated token, such as a deployment ID, required by a job to
+continue the job asynchronously.
 
 
 =head2 EncryptionKey => L<Paws::CodePipeline::EncryptionKey>
 
 Represents information about the key used to encrypt data in the
-artifact store, such as an AWS Key Management Service (AWS KMS) key.
+artifact store, such as an KMS key.
 
 
 =head2 InputArtifacts => ArrayRef[L<Paws::CodePipeline::Artifact>]

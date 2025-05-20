@@ -3,6 +3,7 @@ package Paws::MediaConvert::VideoDescription;
   use Moose;
   has AfdSignaling => (is => 'ro', isa => 'Str', request_name => 'afdSignaling', traits => ['NameInRequest']);
   has AntiAlias => (is => 'ro', isa => 'Str', request_name => 'antiAlias', traits => ['NameInRequest']);
+  has ChromaPositionMode => (is => 'ro', isa => 'Str', request_name => 'chromaPositionMode', traits => ['NameInRequest']);
   has CodecSettings => (is => 'ro', isa => 'Paws::MediaConvert::VideoCodecSettings', request_name => 'codecSettings', traits => ['NameInRequest']);
   has ColorMetadata => (is => 'ro', isa => 'Str', request_name => 'colorMetadata', traits => ['NameInRequest']);
   has Crop => (is => 'ro', isa => 'Paws::MediaConvert::Rectangle', request_name => 'crop', traits => ['NameInRequest']);
@@ -14,6 +15,7 @@ package Paws::MediaConvert::VideoDescription;
   has ScalingBehavior => (is => 'ro', isa => 'Str', request_name => 'scalingBehavior', traits => ['NameInRequest']);
   has Sharpness => (is => 'ro', isa => 'Int', request_name => 'sharpness', traits => ['NameInRequest']);
   has TimecodeInsertion => (is => 'ro', isa => 'Str', request_name => 'timecodeInsertion', traits => ['NameInRequest']);
+  has TimecodeTrack => (is => 'ro', isa => 'Str', request_name => 'timecodeTrack', traits => ['NameInRequest']);
   has VideoPreprocessors => (is => 'ro', isa => 'Paws::MediaConvert::VideoPreprocessor', request_name => 'videoPreprocessors', traits => ['NameInRequest']);
   has Width => (is => 'ro', isa => 'Int', request_name => 'width', traits => ['NameInRequest']);
 
@@ -48,9 +50,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 =head1 DESCRIPTION
 
 Settings related to video encoding of your output. The specific video
-settings depend on the video codec that you choose. When you work
-directly in your JSON job specification, include one instance of Video
-description (VideoDescription) per output.
+settings depend on the video codec that you choose.
 
 =head1 ATTRIBUTES
 
@@ -58,12 +58,11 @@ description (VideoDescription) per output.
 =head2 AfdSignaling => Str
 
 This setting only applies to H.264, H.265, and MPEG2 outputs. Use
-Insert AFD signaling (AfdSignaling) to specify whether the service
-includes AFD values in the output video data and what those values are.
-* Choose None to remove all AFD values from this output. * Choose Fixed
-to ignore input AFD values and instead encode the value specified in
-the job. * Choose Auto to calculate output AFD values based on the
-input AFD scaler data.
+Insert AFD signaling to specify whether the service includes AFD values
+in the output video data and what those values are. * Choose None to
+remove all AFD values from this output. * Choose Fixed to ignore input
+AFD values and instead encode the value specified in the job. * Choose
+Auto to calculate output AFD values based on the input AFD scaler data.
 
 
 =head2 AntiAlias => Str
@@ -73,31 +72,39 @@ service no longer accepts the value DISABLED for AntiAlias. If you
 specify that in your job, the service will ignore the setting.
 
 
+=head2 ChromaPositionMode => Str
+
+Specify the chroma sample positioning metadata for your H.264 or H.265
+output. To have MediaConvert automatically determine chroma
+positioning: We recommend that you keep the default value, Auto. To
+specify center positioning: Choose Force center. To specify top left
+positioning: Choose Force top left.
+
+
 =head2 CodecSettings => L<Paws::MediaConvert::VideoCodecSettings>
 
-Video codec settings, (CodecSettings) under (VideoDescription),
-contains the group of settings related to video encoding. The settings
-in this group vary depending on the value that you choose for Video
-codec (Codec). For each codec enum that you choose, define the
-corresponding settings object. The following lists the codec enum,
+Video codec settings contains the group of settings related to video
+encoding. The settings in this group vary depending on the value that
+you choose for Video codec. For each codec enum that you choose, define
+the corresponding settings object. The following lists the codec enum,
 settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings
-* FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265,
-H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * VC3,
-Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+* FRAME_CAPTURE, FrameCaptureSettings * GIF, GifSettings * H_264,
+H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
+ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings
+* VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
 
 
 =head2 ColorMetadata => Str
 
-Choose Insert (INSERT) for this setting to include color metadata in
-this output. Choose Ignore (IGNORE) to exclude color metadata from this
-output. If you don't specify a value, the service sets this to Insert
-by default.
+Choose Insert for this setting to include color metadata in this
+output. Choose Ignore to exclude color metadata from this output. If
+you don't specify a value, the service sets this to Insert by default.
 
 
 =head2 Crop => L<Paws::MediaConvert::Rectangle>
 
-Use Cropping selection (crop) to specify the video area that the
-service will include in the output video frame.
+Use Cropping selection to specify the video area that the service will
+include in the output video frame.
 
 
 =head2 DropFrameTimecode => Str
@@ -106,59 +113,57 @@ Applies only to 29.97 fps outputs. When this feature is enabled, the
 service will use drop-frame timecode on outputs. If it is not possible
 to use drop-frame timecode, the system will fall back to
 non-drop-frame. This setting is enabled by default when Timecode
-insertion (TimecodeInsertion) is enabled.
+insertion or Timecode track is enabled.
 
 
 =head2 FixedAfd => Int
 
-Applies only if you set AFD Signaling(AfdSignaling) to Fixed (FIXED).
-Use Fixed (FixedAfd) to specify a four-bit AFD value which the service
-will write on all frames of this video output.
+Applies only if you set AFD Signaling to Fixed. Use Fixed to specify a
+four-bit AFD value which the service will write on all frames of this
+video output.
 
 
 =head2 Height => Int
 
-Use the Height (Height) setting to define the video resolution height
-for this output. Specify in pixels. If you don't provide a value here,
-the service will use the input height.
+Use Height to define the video resolution height, in pixels, for this
+output. To use the same resolution as your input: Leave both Width and
+Height blank. To evenly scale from your input resolution: Leave Height
+blank and enter a value for Width. For example, if your input is
+1920x1080 and you set Width to 1280, your output will be 1280x720.
 
 
 =head2 Position => L<Paws::MediaConvert::Rectangle>
 
-Use Selection placement (position) to define the video area in your
-output frame. The area outside of the rectangle that you specify here
-is black.
+Use Selection placement to define the video area in your output frame.
+The area outside of the rectangle that you specify here is black.
 
 
 =head2 RespondToAfd => Str
 
-Use Respond to AFD (RespondToAfd) to specify how the service changes
-the video itself in response to AFD values in the input. * Choose
-Respond to clip the input video frame according to the AFD value, input
-display aspect ratio, and output display aspect ratio. * Choose
-Passthrough to include the input AFD values. Do not choose this when
-AfdSignaling is set to (NONE). A preferred implementation of this
-workflow is to set RespondToAfd to (NONE) and set AfdSignaling to
-(AUTO). * Choose None to remove all input AFD values from this output.
+Use Respond to AFD to specify how the service changes the video itself
+in response to AFD values in the input. * Choose Respond to clip the
+input video frame according to the AFD value, input display aspect
+ratio, and output display aspect ratio. * Choose Passthrough to include
+the input AFD values. Do not choose this when AfdSignaling is set to
+NONE. A preferred implementation of this workflow is to set
+RespondToAfd to and set AfdSignaling to AUTO. * Choose None to remove
+all input AFD values from this output.
 
 
 =head2 ScalingBehavior => Str
 
-Specify how the service handles outputs that have a different aspect
-ratio from the input aspect ratio. Choose Stretch to output
-(STRETCH_TO_OUTPUT) to have the service stretch your video image to
-fit. Keep the setting Default (DEFAULT) to have the service letterbox
-your video instead. This setting overrides any value that you specify
-for the setting Selection placement (position) in this output.
+Specify the video Scaling behavior when your output has a different
+resolution than your input. For more information, see
+https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
 
 
 =head2 Sharpness => Int
 
-Use Sharpness (Sharpness) setting to specify the strength of
-anti-aliasing. This setting changes the width of the anti-alias filter
-kernel used for scaling. Sharpness only applies if your output
-resolution is different from your input resolution. 0 is the softest
-setting, 100 the sharpest, and 50 recommended for most content.
+Use Sharpness setting to specify the strength of anti-aliasing. This
+setting changes the width of the anti-alias filter kernel used for
+scaling. Sharpness only applies if your output resolution is different
+from your input resolution. 0 is the softest setting, 100 the sharpest,
+and 50 recommended for most content.
 
 
 =head2 TimecodeInsertion => Str
@@ -166,31 +171,42 @@ setting, 100 the sharpest, and 50 recommended for most content.
 Applies only to H.264, H.265, MPEG2, and ProRes outputs. Only enable
 Timecode insertion when the input frame rate is identical to the output
 frame rate. To include timecodes in this output, set Timecode insertion
-(VideoTimecodeInsertion) to PIC_TIMING_SEI. To leave them out, set it
-to DISABLED. Default is DISABLED. When the service inserts timecodes in
-an output, by default, it uses any embedded timecodes from the input.
-If none are present, the service will set the timecode for the first
-output frame to zero. To change this default behavior, adjust the
-settings under Timecode configuration (TimecodeConfig). In the console,
-these settings are located under Job E<gt> Job settings E<gt> Timecode
-configuration. Note - Timecode source under input settings
-(InputTimecodeSource) does not affect the timecodes that are inserted
-in the output. Source under Job settings E<gt> Timecode configuration
-(TimecodeSource) does.
+to PIC_TIMING_SEI. To leave them out, set it to DISABLED. Default is
+DISABLED. When the service inserts timecodes in an output, by default,
+it uses any embedded timecodes from the input. If none are present, the
+service will set the timecode for the first output frame to zero. To
+change this default behavior, adjust the settings under Timecode
+configuration. In the console, these settings are located under Job
+E<gt> Job settings E<gt> Timecode configuration. Note - Timecode source
+under input settings does not affect the timecodes that are inserted in
+the output. Source under Job settings E<gt> Timecode configuration
+does.
+
+
+=head2 TimecodeTrack => Str
+
+To include a timecode track in your MP4 output: Choose Enabled.
+MediaConvert writes the timecode track in the Null Media Header box
+(NMHD), without any timecode text formatting information. You can also
+specify dropframe or non-dropframe timecode under the Drop Frame
+Timecode setting. To not include a timecode track: Keep the default
+value, Disabled.
 
 
 =head2 VideoPreprocessors => L<Paws::MediaConvert::VideoPreprocessor>
 
-Find additional transcoding features under Preprocessors
-(VideoPreprocessors). Enable the features at each output individually.
-These features are disabled by default.
+Find additional transcoding features under Preprocessors. Enable the
+features at each output individually. These features are disabled by
+default.
 
 
 =head2 Width => Int
 
-Use Width (Width) to define the video resolution width, in pixels, for
-this output. If you don't provide a value here, the service will use
-the input width.
+Use Width to define the video resolution width, in pixels, for this
+output. To use the same resolution as your input: Leave both Width and
+Height blank. To evenly scale from your input resolution: Leave Width
+blank and enter a value for Height. For example, if your input is
+1920x1080 and you set Height to 720, your output will be 1280x720.
 
 
 

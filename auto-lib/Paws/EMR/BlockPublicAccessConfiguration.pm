@@ -48,8 +48,8 @@ C<PermittedPublicSecurityGroupRuleRanges>.
 
 Indicates whether Amazon EMR block public access is enabled (C<true>)
 or disabled (C<false>). By default, the value is C<false> for accounts
-that have created EMR clusters before July 2019. For accounts created
-after this, the default is C<true>.
+that have created Amazon EMR clusters before July 2019. For accounts
+created after this, the default is C<true>.
 
 
 =head2 PermittedPublicSecurityGroupRuleRanges => ArrayRef[L<Paws::EMR::PortRange>]
@@ -62,8 +62,9 @@ creation if a security group associated with the cluster has a rule
 that allows inbound traffic on Port 23 from IPv4 0.0.0.0/0 or IPv6 port
 ::/0 as the source.
 
-By default, Port 22, which is used for SSH access to the cluster EC2
-instances, is in the list of C<PermittedPublicSecurityGroupRuleRanges>.
+By default, Port 22, which is used for SSH access to the cluster Amazon
+EC2 instances, is in the list of
+C<PermittedPublicSecurityGroupRuleRanges>.
 
 
 

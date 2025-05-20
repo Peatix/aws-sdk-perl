@@ -37,9 +37,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SizeInGb         => 1,
       AddOns           => [
         {
-          AddOnType                => 'AutoSnapshot',    # values: AutoSnapshot
+          AddOnType =>
+            'AutoSnapshot',    # values: AutoSnapshot, StopInstanceOnIdle
           AutoSnapshotAddOnRequest => {
-            SnapshotTimeOfDay => 'MyTimeOfDay',          # OPTIONAL
+            SnapshotTimeOfDay => 'MyTimeOfDay',    # OPTIONAL
+          },    # OPTIONAL
+          StopInstanceOnIdleRequest => {
+            Duration  => 'Mystring',    # OPTIONAL
+            Threshold => 'Mystring',    # OPTIONAL
           },    # OPTIONAL
         },
         ...
@@ -73,8 +78,8 @@ disk.
 
 =head2 B<REQUIRED> AvailabilityZone => Str
 
-The Availability Zone where you want to create the disk (e.g.,
-C<us-east-2a>). Use the same Availability Zone as the Lightsail
+The Availability Zone where you want to create the disk
+(C<us-east-2a>). Use the same Availability Zone as the Lightsail
 instance to which you want to attach the disk.
 
 Use the C<get regions> operation to list the Availability Zones where
@@ -84,13 +89,13 @@ Lightsail is currently available.
 
 =head2 B<REQUIRED> DiskName => Str
 
-The unique Lightsail disk name (e.g., C<my-disk>).
+The unique Lightsail disk name (C<my-disk>).
 
 
 
 =head2 B<REQUIRED> SizeInGb => Int
 
-The size of the disk in GB (e.g., C<32>).
+The size of the disk in GB (C<32>).
 
 
 

@@ -83,7 +83,8 @@ maximum number of cases is 100.
 
 =head2 DisplayId => Str
 
-The ID displayed for a case in the AWS Support Center user interface.
+The ID displayed for a case in the Amazon Web Services Support Center
+user interface.
 
 
 
@@ -103,9 +104,11 @@ C<DescribeCases> response. By default, resolved cases aren't included.
 
 =head2 Language => Str
 
-The ISO 639-1 code for the language in which AWS provides support. AWS
-Support currently supports English ("en") and Japanese ("ja"). Language
-parameters must be passed explicitly for operations that take them.
+The language in which Amazon Web Services Support handles the case.
+Amazon Web Services Support currently supports Chinese
+(E<ldquo>zhE<rdquo>), English ("en"), Japanese ("ja") and Korean
+(E<ldquo>koE<rdquo>). You must specify the ISO 639-1 code for the
+C<language> parameter if you want support in that language.
 
 
 

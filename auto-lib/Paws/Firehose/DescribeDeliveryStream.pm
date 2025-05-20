@@ -49,22 +49,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/fir
 
 =head2 B<REQUIRED> DeliveryStreamName => Str
 
-The name of the delivery stream.
+The name of the Firehose stream.
 
 
 
 =head2 ExclusiveStartDestinationId => Str
 
 The ID of the destination to start returning the destination
-information. Kinesis Data Firehose supports one destination per
-delivery stream.
+information. Firehose supports one destination per Firehose stream.
 
 
 
 =head2 Limit => Int
 
 The limit on the number of destinations to return. You can have one
-destination per delivery stream.
+destination per Firehose stream.
 
 
 

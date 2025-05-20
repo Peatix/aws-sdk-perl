@@ -35,9 +35,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DevOpsGuru:
 
 =head1 DESCRIPTION
 
-The AWS resource that emitted an event. AWS resource events and metrics
-are analyzed by DevOps Guru to find anomalous behavior and provide
-recommendations to improve your operational solutions.
+The Amazon Web Services resource that emitted an event. Amazon Web
+Services resource events and metrics are analyzed by DevOps Guru to
+find anomalous behavior and provide recommendations to improve your
+operational solutions.
 
 =head1 ATTRIBUTES
 

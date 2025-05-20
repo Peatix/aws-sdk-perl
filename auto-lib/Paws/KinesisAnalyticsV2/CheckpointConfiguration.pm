@@ -39,17 +39,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 Describes an application's checkpointing configuration. Checkpointing
 is the process of persisting application state for fault tolerance. For
 more information, see Checkpoints for Fault Tolerance
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance)
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing)
 in the Apache Flink Documentation
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/).
 
 =head1 ATTRIBUTES
 
 
 =head2 CheckpointingEnabled => Bool
 
-Describes whether checkpointing is enabled for a Flink-based Kinesis
-Data Analytics application.
+Describes whether checkpointing is enabled for a Managed Service for
+Apache Flink application.
 
 If C<CheckpointConfiguration.ConfigurationType> is C<DEFAULT>, the
 application will use a C<CheckpointingEnabled> value of C<true>, even
@@ -69,10 +69,10 @@ code.
 
 =head2 B<REQUIRED> ConfigurationType => Str
 
-Describes whether the application uses Kinesis Data Analytics' default
-checkpointing behavior. You must set this property to C<CUSTOM> in
-order to set the C<CheckpointingEnabled>, C<CheckpointInterval>, or
-C<MinPauseBetweenCheckpoints> parameters.
+Describes whether the application uses Managed Service for Apache
+Flink' default checkpointing behavior. You must set this property to
+C<CUSTOM> in order to set the C<CheckpointingEnabled>,
+C<CheckpointInterval>, or C<MinPauseBetweenCheckpoints> parameters.
 
 If this value is set to C<DEFAULT>, the application will use the
 following values, even if they are set to other values using APIs or
@@ -103,9 +103,9 @@ completes that a new checkpoint operation can start. If a checkpoint
 operation takes longer than the C<CheckpointInterval>, the application
 otherwise performs continual checkpoint operations. For more
 information, see Tuning Checkpointing
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/large_state_tuning.html#tuning-checkpointing)
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/docs/ops/state/large_state_tuning/#tuning-checkpointing)
 in the Apache Flink Documentation
-(https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+(https://nightlies.apache.org/flink/flink-docs-release-1.19/).
 
 If C<CheckpointConfiguration.ConfigurationType> is C<DEFAULT>, the
 application will use a C<MinPauseBetweenCheckpoints> value of 5000,

@@ -39,8 +39,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $NextToken = $ListQueuesResponse->NextToken;
-    my $Queues    = $ListQueuesResponse->Queues;
+    my $NextToken           = $ListQueuesResponse->NextToken;
+    my $Queues              = $ListQueuesResponse->Queues;
+    my $TotalConcurrentJobs = $ListQueuesResponse->TotalConcurrentJobs;
+    my $UnallocatedConcurrentJobs =
+      $ListQueuesResponse->UnallocatedConcurrentJobs;
 
     # Returns a L<Paws::MediaConvert::ListQueuesResponse> object.
 

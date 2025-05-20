@@ -49,7 +49,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Contai
 
 =head1 DESCRIPTION
 
-A Docker container that is part of a task.
+A Docker container that's part of a task.
 
 =head1 ATTRIBUTES
 
@@ -61,8 +61,8 @@ The Amazon Resource Name (ARN) of the container.
 
 =head2 Cpu => Str
 
-The number of CPU units set for the container. The value will be C<0>
-if no value was specified in the container definition when the task
+The number of CPU units set for the container. The value is C<0> if no
+value was specified in the container definition when the task
 definition was registered.
 
 
@@ -78,7 +78,7 @@ The IDs of each GPU assigned to the container.
 
 =head2 HealthStatus => Str
 
-The health status of the container. If health checks are not configured
+The health status of the container. If health checks aren't configured
 for this container in its task definition, then it reports the health
 status as C<UNKNOWN>.
 
@@ -91,9 +91,6 @@ The image used for the container.
 =head2 ImageDigest => Str
 
 The container image manifest digest.
-
-The C<imageDigest> is only returned if the container is using an image
-hosted in Amazon ECR, otherwise it is omitted.
 
 
 =head2 LastStatus => Str
@@ -134,7 +131,7 @@ The network interfaces associated with the container.
 
 =head2 Reason => Str
 
-A short (255 max characters) human-readable string to provide
+A short (1024 max characters) human-readable string to provide
 additional details about a running or stopped container.
 
 

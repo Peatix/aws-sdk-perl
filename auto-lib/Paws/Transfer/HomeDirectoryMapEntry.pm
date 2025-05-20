@@ -3,6 +3,7 @@ package Paws::Transfer::HomeDirectoryMapEntry;
   use Moose;
   has Entry => (is => 'ro', isa => 'Str', required => 1);
   has Target => (is => 'ro', isa => 'Str', required => 1);
+  has Type => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Transfer::HomeDirectoryMapEntry object:
 
-  $service_obj->Method(Att1 => { Entry => $value, ..., Target => $value  });
+  $service_obj->Method(Att1 => { Entry => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,16 +40,7 @@ C<HomeDirectoryMappings>.
 
 The following is an C<Entry> and C<Target> pair example for C<chroot>.
 
-C<[ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]>
-
-If the target of a logical directory entry does not exist in Amazon S3
-or EFS, the entry is ignored. As a workaround, you can use the Amazon
-S3 API or EFS API to create 0 byte objects as place holders for your
-directory. If using the CLI, use the C<s3api> or C<efsapi> call instead
-of C<s3> or C<efs> so you can use the put-object operation. For
-example, you use the following: C<aws s3api put-object --bucket
-bucketname --key path/to/folder/>. Make sure that the end of the key
-name ends in a C</> for it to be considered a folder.
+C<[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]>
 
 =head1 ATTRIBUTES
 
@@ -60,7 +52,18 @@ Represents an entry for C<HomeDirectoryMappings>.
 
 =head2 B<REQUIRED> Target => Str
 
-Represents the map target that is used in a C<HomeDirectorymapEntry>.
+Represents the map target that is used in a C<HomeDirectoryMapEntry>.
+
+
+=head2 Type => Str
+
+Specifies the type of mapping. Set the type to C<FILE> if you want the
+mapping to point to a file, or C<DIRECTORY> for the directory to point
+to a directory.
+
+By default, home directory mappings have a C<Type> of C<DIRECTORY> when
+you create a Transfer Family server. You would need to explicitly set
+C<Type> to C<FILE> if you want a mapping to have a file target.
 
 
 

@@ -53,10 +53,10 @@ The Amazon Resource Name (ARN) of the file share to be deleted.
 =head2 ForceDelete => Bool
 
 If this value is set to C<true>, the operation deletes a file share
-immediately and aborts all data uploads to AWS. Otherwise, the file
-share is not deleted until all data is uploaded to AWS. This process
-aborts the data upload process, and the file share enters the
-C<FORCE_DELETING> status.
+immediately and aborts all data uploads to Amazon Web Services.
+Otherwise, the file share is not deleted until all data is uploaded to
+Amazon Web Services. This process aborts the data upload process, and
+the file share enters the C<FORCE_DELETING> status.
 
 Valid Values: C<true> | C<false>
 

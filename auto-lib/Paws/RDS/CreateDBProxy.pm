@@ -39,11 +39,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateDBProxyResponse = $rds->CreateDBProxy(
       Auth => [
         {
-          AuthScheme  => 'SECRETS',     # values: SECRETS; OPTIONAL
+          AuthScheme             => 'SECRETS',    # values: SECRETS; OPTIONAL
+          ClientPasswordAuthType => 'MYSQL_NATIVE_PASSWORD'
+          , # values: MYSQL_NATIVE_PASSWORD, MYSQL_CACHING_SHA2_PASSWORD, POSTGRES_SCRAM_SHA_256, POSTGRES_MD5, SQL_SERVER_AUTHENTICATION; OPTIONAL
           Description => 'MyString',    # OPTIONAL
-          IAMAuth     => 'DISABLED',    # values: DISABLED, REQUIRED; OPTIONAL
-          SecretArn   => 'MyString',    # OPTIONAL
-          UserName    => 'MyString',    # OPTIONAL
+          IAMAuth => 'DISABLED', # values: DISABLED, REQUIRED, ENABLED; OPTIONAL
+          SecretArn => 'MyString',    # OPTIONAL
+          UserName  => 'MyString',    # OPTIONAL
         },
         ...
       ],
@@ -98,13 +100,13 @@ hyphen or contain two consecutive hyphens.
 
 =head2 DebugLogging => Bool
 
-Whether the proxy includes detailed information about SQL statements in
-its logs. This information helps you to debug issues involving SQL
-behavior or the performance and scalability of the proxy connections.
-The debug information includes the text of SQL statements that you
-submit through the proxy. Thus, only enable this setting when needed
-for debugging, and only when you have security measures in place to
-safeguard any sensitive information that appears in the logs.
+Specifies whether the proxy includes detailed information about SQL
+statements in its logs. This information helps you to debug issues
+involving SQL behavior or the performance and scalability of the proxy
+connections. The debug information includes the text of SQL statements
+that you submit through the proxy. Thus, only enable this setting when
+needed for debugging, and only when you have security measures in place
+to safeguard any sensitive information that appears in the logs.
 
 
 
@@ -112,10 +114,12 @@ safeguard any sensitive information that appears in the logs.
 
 The kinds of databases that the proxy can connect to. This value
 determines which database network protocol the proxy recognizes when it
-interprets network traffic to and from the database. The engine family
-applies to MySQL and PostgreSQL for both RDS and Aurora.
+interprets network traffic to and from the database. For Aurora MySQL,
+RDS for MariaDB, and RDS for MySQL databases, specify C<MYSQL>. For
+Aurora PostgreSQL and RDS for PostgreSQL databases, specify
+C<POSTGRESQL>. For RDS for Microsoft SQL Server, specify C<SQLSERVER>.
 
-Valid values are: C<"MYSQL">, C<"POSTGRESQL">
+Valid values are: C<"MYSQL">, C<"POSTGRESQL">, C<"SQLSERVER">
 
 =head2 IdleClientTimeout => Int
 
@@ -127,9 +131,9 @@ than the connection timeout limit for the associated database.
 
 =head2 RequireTLS => Bool
 
-A Boolean parameter that specifies whether Transport Layer Security
-(TLS) encryption is required for connections to the proxy. By enabling
-this setting, you can enforce encrypted TLS connections to the proxy.
+Specifies whether Transport Layer Security (TLS) encryption is required
+for connections to the proxy. By enabling this setting, you can enforce
+encrypted TLS connections to the proxy.
 
 
 

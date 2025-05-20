@@ -26,7 +26,8 @@ your next request.
 
 =head2 TagInfoForResource => L<Paws::WAFV2::TagInfoForResource>
 
-The collection of tagging definitions for the resource.
+The collection of tagging definitions for the resource. If you
+specified a C<Limit> in your request, this might not be the full list.
 
 
 =head2 _request_id => Str

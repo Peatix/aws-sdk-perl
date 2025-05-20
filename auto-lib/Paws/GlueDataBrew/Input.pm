@@ -3,6 +3,7 @@ package Paws::GlueDataBrew::Input;
   use Moose;
   has DatabaseInputDefinition => (is => 'ro', isa => 'Paws::GlueDataBrew::DatabaseInputDefinition');
   has DataCatalogInputDefinition => (is => 'ro', isa => 'Paws::GlueDataBrew::DataCatalogInputDefinition');
+  has Metadata => (is => 'ro', isa => 'Paws::GlueDataBrew::Metadata');
   has S3InputDefinition => (is => 'ro', isa => 'Paws::GlueDataBrew::S3Location');
 
 1;
@@ -49,6 +50,11 @@ Connection information for dataset input files stored in a database.
 =head2 DataCatalogInputDefinition => L<Paws::GlueDataBrew::DataCatalogInputDefinition>
 
 The Glue Data Catalog parameters for the data.
+
+
+=head2 Metadata => L<Paws::GlueDataBrew::Metadata>
+
+Contains additional resource information needed for specific datasets.
 
 
 =head2 S3InputDefinition => L<Paws::GlueDataBrew::S3Location>

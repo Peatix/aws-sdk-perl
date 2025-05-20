@@ -35,11 +35,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Performance
 
 =head1 DESCRIPTION
 
-A single query to be processed. You must provide the metric to query.
-If no other parameters are specified, Performance Insights returns all
-of the data points for that metric. You can optionally request that the
-data points be aggregated by dimension group ( C<GroupBy>), and return
-only those data points that match your criteria (C<Filter>).
+A single query to be processed. You must provide the metric to query
+and append an aggregate function to the metric. For example, to find
+the average for the metric C<db.load> you must use C<db.load.avg>.
+Valid values for aggregate functions include C<.avg>, C<.min>, C<.max>,
+and C<.sum>. If no other parameters are specified, Performance Insights
+returns all data points for the specified metric. Optionally, you can
+request that the data points be aggregated by dimension group
+(C<GroupBy>), and return only those data points that match your
+criteria (C<Filter>).
 
 =head1 ATTRIBUTES
 
@@ -61,6 +65,8 @@ A single filter for any other dimension in this dimension group.
 
 =back
 
+The C<db.sql.db_id> filter isn't available for RDS for SQL Server DB
+instances.
 
 
 =head2 GroupBy => L<Paws::PerformanceInsights::DimensionGroup>
@@ -83,13 +89,27 @@ Valid values for C<Metric> are:
 
 =item *
 
-C<db.load.avg> - a scaled representation of the number of active
+C<db.load.avg> - A scaled representation of the number of active
 sessions for the database engine.
 
 =item *
 
-C<db.sampledload.avg> - the raw number of active sessions for the
+C<db.sampledload.avg> - The raw number of active sessions for the
 database engine.
+
+=item *
+
+The counter metrics listed in Performance Insights operating system
+counters
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS)
+in the I<Amazon Aurora User Guide>.
+
+=item *
+
+The counter metrics listed in Performance Insights operating system
+counters
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS)
+in the I<Amazon RDS User Guide>.
 
 =back
 

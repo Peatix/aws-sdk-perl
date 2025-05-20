@@ -4,6 +4,7 @@ package Paws::CloudFormation::StackInstanceSummary;
   has Account => (is => 'ro', isa => 'Str');
   has DriftStatus => (is => 'ro', isa => 'Str');
   has LastDriftCheckTimestamp => (is => 'ro', isa => 'Str');
+  has LastOperationId => (is => 'ro', isa => 'Str');
   has OrganizationalUnitId => (is => 'ro', isa => 'Str');
   has Region => (is => 'ro', isa => 'Str');
   has StackId => (is => 'ro', isa => 'Str');
@@ -49,8 +50,8 @@ The structure that contains summary information about a stack instance.
 
 =head2 Account => Str
 
-[Self-managed permissions] The name of the AWS account that the stack
-instance is associated with.
+[Self-managed permissions] The name of the Amazon Web Services account
+that the stack instance is associated with.
 
 
 =head2 DriftStatus => Str
@@ -70,8 +71,8 @@ associated stack have drifted.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked if the stack
-instance differs from its expected stack set configuration.
+C<NOT_CHECKED>: CloudFormation hasn't checked if the stack instance
+differs from its expected stack set configuration.
 
 =item *
 
@@ -90,7 +91,13 @@ C<UNKNOWN>: This value is reserved for future use.
 
 Most recent time when CloudFormation performed a drift detection
 operation on the stack instance. This value will be C<NULL> for any
-stack instance on which drift detection has not yet been performed.
+stack instance on which drift detection hasn't yet been performed.
+
+
+=head2 LastOperationId => Str
+
+The last unique ID of a StackSet operation performed on a stack
+instance.
 
 
 =head2 OrganizationalUnitId => Str
@@ -102,7 +109,8 @@ organizational unit (OU) IDs that you specified for DeploymentTargets
 
 =head2 Region => Str
 
-The name of the AWS Region that the stack instance is associated with.
+The name of the Amazon Web Services Region that the stack instance is
+associated with.
 
 
 =head2 StackId => Str
@@ -135,6 +143,11 @@ the stack in an unstable state. Stacks in this state are excluded from
 further C<UpdateStackSet> operations. You might need to perform a
 C<DeleteStackInstances> operation, with C<RetainStacks> set to C<true>,
 to delete the stack instance, and then delete the stack manually.
+C<INOPERABLE> can be returned here when the cause is a failed import.
+If it's due to a failed import, the operation can be retried once the
+failures are fixed. To see if this is due to a failed import, call the
+DescribeStackInstance API operation, look at the C<DetailedStatus>
+member returned in the C<StackInstanceSummary> member.
 
 =item *
 

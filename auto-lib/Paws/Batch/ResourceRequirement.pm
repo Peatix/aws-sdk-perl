@@ -55,18 +55,19 @@ The values vary based on the C<type> specified.
 
 =item type="GPU"
 
-The number of physical GPUs to reserve for the container. The number of
-GPUs reserved for all containers in a job shouldn't exceed the number
-of available GPUs on the compute resource that the job is launched on.
+The number of physical GPUs to reserve for the container. Make sure
+that the number of GPUs reserved for all containers in a job doesn't
+exceed the number of available GPUs on the compute resource that the
+job is launched on.
 
-GPUs are not available for jobs running on Fargate resources.
+GPUs aren't available for jobs that are running on Fargate resources.
 
 =item type="MEMORY"
 
 The memory hard limit (in MiB) present to the container. This parameter
-is supported for jobs running on EC2 resources. If your container
-attempts to exceed the memory specified, the container is terminated.
-This parameter maps to C<Memory> in the Create a container
+is supported for jobs that are running on Amazon EC2 resources. If your
+container attempts to exceed the memory specified, the container is
+terminated. This parameter maps to C<Memory> in the Create a container
 (https://docs.docker.com/engine/api/v1.23/#create-a-container) section
 of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
 and the C<--memory> option to docker run
@@ -82,13 +83,14 @@ and the C<--memory> option to docker run
 
 If you're trying to maximize your resource utilization by providing
 your jobs as much memory as possible for a particular instance type,
-see Memory Management
+see Memory management
 (https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html)
-in the I<AWS Batch User Guide>.
+in the I<Batch User Guide>.
 
-For jobs running on Fargate resources, then C<value> is the hard limit
-(in MiB), and must match one of the supported values and the C<VCPU>
-values must be one of the values supported for that memory value.
+For jobs that are running on Fargate resources, then C<value> is the
+hard limit (in MiB), and must match one of the supported values and the
+C<VCPU> values must be one of the values supported for that memory
+value.
 
 =over
 
@@ -120,14 +122,35 @@ C<VCPU> = 1 or 2
 
 C<VCPU> = 1, 2, or 4
 
-=item value = 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384
+=item value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360
 
 C<VCPU> = 2 or 4
 
-=item value = 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576,
-25600, 26624, 27648, 28672, 29696, or 30720
+=item value = 16384
+
+C<VCPU> = 2, 4, or 8
+
+=item value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624,
+27648, 29696, or 30720
 
 C<VCPU> = 4
+
+=item value = 20480, 24576, or 28672
+
+C<VCPU> = 4 or 8
+
+=item value = 36864, 45056, 53248, or 61440
+
+C<VCPU> = 8
+
+=item value = 32768, 40960, 49152, or 57344
+
+C<VCPU> = 8 or 16
+
+=item value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or
+122880
+
+C<VCPU> = 16
 
 =back
 
@@ -139,14 +162,19 @@ C<CpuShares> in the Create a container
 of the Docker Remote API (https://docs.docker.com/engine/api/v1.23/)
 and the C<--cpu-shares> option to docker run
 (https://docs.docker.com/engine/reference/run/). Each vCPU is
-equivalent to 1,024 CPU shares. For EC2 resources, you must specify at
-least one vCPU. This is required but can be specified in several
-places; it must be specified for each node at least once.
+equivalent to 1,024 CPU shares. For Amazon EC2 resources, you must
+specify at least one vCPU. This is required but can be specified in
+several places; it must be specified for each node at least once.
 
-For jobs running on Fargate resources, then C<value> must match one of
-the supported values and the C<MEMORY> values must be one of the values
-supported for that VCPU value. The supported values are 0.25, 0.5, 1,
-2, and 4
+The default for the Fargate On-Demand vCPU resource count quota is 6
+vCPUs. For more information about Fargate quotas, see Fargate quotas
+(https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate)
+in the I<Amazon Web Services General Reference>.
+
+For jobs that are running on Fargate resources, then C<value> must
+match one of the supported values and the C<MEMORY> values must be one
+of the values supported for that C<VCPU> value. The supported values
+are 0.25, 0.5, 1, 2, 4, 8, and 16
 
 =over
 
@@ -172,6 +200,16 @@ C<MEMORY> = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288,
 C<MEMORY> = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360,
 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600,
 26624, 27648, 28672, 29696, or 30720
+
+=item value = 8
+
+C<MEMORY> = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056,
+49152, 53248, 57344, or 61440
+
+=item value = 16
+
+C<MEMORY> = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112,
+98304, 106496, 114688, or 122880
 
 =back
 

@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlobalAccel
 =head1 DESCRIPTION
 
 A complex type that contains a C<Message> and a C<Timestamp> value for
-changes that you make in the status an IP address range that you bring
-to AWS Global Accelerator through bring your own IP address (BYOIP).
+changes that you make in the status of an IP address range that you
+bring to Global Accelerator through bring your own IP address (BYOIP).
 
 =head1 ATTRIBUTES
 
@@ -44,14 +44,14 @@ to AWS Global Accelerator through bring your own IP address (BYOIP).
 =head2 Message => Str
 
 A string that contains an C<Event> message describing changes that you
-make in the status of an IP address range that you bring to AWS Global
+make in the status of an IP address range that you bring to Global
 Accelerator through bring your own IP address (BYOIP).
 
 
 =head2 Timestamp => Str
 
-A timestamp when you make a status change for an IP address range that
-you bring to AWS Global Accelerator through bring your own IP address
+A timestamp for when you make a status change for an IP address range
+that you bring to Global Accelerator through bring your own IP address
 (BYOIP).
 
 

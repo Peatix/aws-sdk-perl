@@ -5,6 +5,7 @@ package Paws::SecurityHub::AwsRdsDbClusterSnapshotDetails;
   has AvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ClusterCreateTime => (is => 'ro', isa => 'Str');
   has DbClusterIdentifier => (is => 'ro', isa => 'Str');
+  has DbClusterSnapshotAttributes => (is => 'ro', isa => 'ArrayRef[Paws::SecurityHub::AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute]');
   has DbClusterSnapshotIdentifier => (is => 'ro', isa => 'Str');
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
@@ -71,15 +72,19 @@ created.
 Indicates when the DB cluster was created, in Universal Coordinated
 Time (UTC).
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 DbClusterIdentifier => Str
 
 The DB cluster identifier.
+
+
+=head2 DbClusterSnapshotAttributes => ArrayRef[L<Paws::SecurityHub::AwsRdsDbClusterSnapshotDbClusterSnapshotAttribute>]
+
+Contains the name and values of a manual DB cluster snapshot attribute.
 
 
 =head2 DbClusterSnapshotIdentifier => Str
@@ -105,7 +110,7 @@ Whether mapping of IAM accounts to database accounts is enabled.
 
 =head2 KmsKeyId => Str
 
-The ARN of the AWS KMS master key that is used to encrypt the database
+The ARN of the KMS master key that is used to encrypt the database
 instances in the DB cluster.
 
 
@@ -135,10 +140,9 @@ connections.
 
 Indicates when the snapshot was taken.
 
-Uses the C<date-time> format specified in RFC 3339 section 5.6,
-Internet Date/Time Format
-(https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot
-contain spaces. For example, C<2020-03-22T13:22:13.933Z>.
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 SnapshotType => Str

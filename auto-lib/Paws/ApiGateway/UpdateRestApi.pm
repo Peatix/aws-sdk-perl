@@ -54,6 +54,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $MinimumCompressionSize    = $RestApi->MinimumCompressionSize;
     my $Name                      = $RestApi->Name;
     my $Policy                    = $RestApi->Policy;
+    my $RootResourceId            = $RestApi->RootResourceId;
     my $Tags                      = $RestApi->Tags;
     my $Version                   = $RestApi->Version;
     my $Warnings                  = $RestApi->Warnings;
@@ -68,14 +69,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 PatchOperations => ArrayRef[L<Paws::ApiGateway::PatchOperation>]
 
-A list of update operations to be applied to the specified resource and
-in the order specified in this list.
+For more information about supported patch operations, see Patch
+Operations
+(https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

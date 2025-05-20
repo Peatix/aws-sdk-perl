@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::HealthLake:
 
 =head1 DESCRIPTION
 
-The input properties for the preloaded Data Store. Only data preloaded
+The input properties for the preloaded data store. Only data preloaded
 from Synthea is supported.
 
 =head1 ATTRIBUTES

@@ -42,7 +42,7 @@ Show Group Result.
 
 =head2 GroupId => Str
 
-Group result Id.
+Group result ID.
 
 
 =head2 GroupName => Str

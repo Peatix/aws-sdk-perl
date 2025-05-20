@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamW
 
 =head1 DESCRIPTION
 
-Retention properties contain the duration for which your time series
+Retention properties contain the duration for which your time-series
 data must be stored in the magnetic store and the memory store.
 
 =head1 ATTRIBUTES

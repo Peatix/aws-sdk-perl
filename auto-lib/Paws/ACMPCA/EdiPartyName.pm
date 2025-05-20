@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACMPCA::Edi
 
 Describes an Electronic Data Interchange (EDI) entity as described in
 as defined in Subject Alternative Name
-(https://tools.ietf.org/html/rfc5280) in RFC 5280.
+(https://datatracker.ietf.org/doc/html/rfc5280) in RFC 5280.
 
 =head1 ATTRIBUTES
 

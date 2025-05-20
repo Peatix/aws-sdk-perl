@@ -4,9 +4,9 @@ package Paws::Connect::CreateIntegrationAssociation;
   has InstanceId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'InstanceId', required => 1);
   has IntegrationArn => (is => 'ro', isa => 'Str', required => 1);
   has IntegrationType => (is => 'ro', isa => 'Str', required => 1);
-  has SourceApplicationName => (is => 'ro', isa => 'Str', required => 1);
-  has SourceApplicationUrl => (is => 'ro', isa => 'Str', required => 1);
-  has SourceType => (is => 'ro', isa => 'Str', required => 1);
+  has SourceApplicationName => (is => 'ro', isa => 'Str');
+  has SourceApplicationUrl => (is => 'ro', isa => 'Str');
+  has SourceType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
 
   use MooseX::ClassAttribute;
@@ -39,9 +39,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceId            => 'MyInstanceId',
       IntegrationArn        => 'MyARN',
       IntegrationType       => 'EVENT',
-      SourceApplicationName => 'MySourceApplicationName',
-      SourceApplicationUrl  => 'MyURI',
-      SourceType            => 'SALESFORCE',
+      SourceApplicationName => 'MySourceApplicationName',    # OPTIONAL
+      SourceApplicationUrl  => 'MyURI',                      # OPTIONAL
+      SourceType            => 'SALESFORCE',                 # OPTIONAL
       Tags                  => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -64,7 +64,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 
@@ -72,35 +74,43 @@ instanceId in the ARN of the instance.
 
 The Amazon Resource Name (ARN) of the integration.
 
+When integrating with Amazon Web Services End User Messaging, the
+Amazon Connect and Amazon Web Services End User Messaging instances
+must be in the same account.
+
 
 
 =head2 B<REQUIRED> IntegrationType => Str
 
 The type of information to be ingested.
 
-Valid values are: C<"EVENT">
+Valid values are: C<"EVENT">, C<"VOICE_ID">, C<"PINPOINT_APP">, C<"WISDOM_ASSISTANT">, C<"WISDOM_KNOWLEDGE_BASE">, C<"WISDOM_QUICK_RESPONSES">, C<"Q_MESSAGE_TEMPLATES">, C<"CASES_DOMAIN">, C<"APPLICATION">, C<"FILE_SCANNER">, C<"SES_IDENTITY">, C<"ANALYTICS_CONNECTOR">, C<"CALL_TRANSFER_CONNECTOR">, C<"COGNITO_USER_POOL">
 
-=head2 B<REQUIRED> SourceApplicationName => Str
+=head2 SourceApplicationName => Str
 
-The name of the external application.
-
-
-
-=head2 B<REQUIRED> SourceApplicationUrl => Str
-
-The URL for the external application.
+The name of the external application. This field is only required for
+the EVENT integration type.
 
 
 
-=head2 B<REQUIRED> SourceType => Str
+=head2 SourceApplicationUrl => Str
 
-The type of the data source.
+The URL for the external application. This field is only required for
+the EVENT integration type.
 
-Valid values are: C<"SALESFORCE">, C<"ZENDESK">
+
+
+=head2 SourceType => Str
+
+The type of the data source. This field is only required for the EVENT
+integration type.
+
+Valid values are: C<"SALESFORCE">, C<"ZENDESK">, C<"CASES">
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

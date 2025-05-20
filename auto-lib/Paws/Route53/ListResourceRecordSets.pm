@@ -149,7 +149,7 @@ resource record set that the alias references.
 Constraint: Specifying C<type> without specifying C<name> returns an
 C<InvalidInput> error.
 
-Valid values are: C<"SOA">, C<"A">, C<"TXT">, C<"NS">, C<"CNAME">, C<"MX">, C<"NAPTR">, C<"PTR">, C<"SRV">, C<"SPF">, C<"AAAA">, C<"CAA">, C<"DS">
+Valid values are: C<"SOA">, C<"A">, C<"TXT">, C<"NS">, C<"CNAME">, C<"MX">, C<"NAPTR">, C<"PTR">, C<"SRV">, C<"SPF">, C<"AAAA">, C<"CAA">, C<"DS">, C<"TLSA">, C<"SSHFP">, C<"SVCB">, C<"HTTPS">
 
 
 =head1 SEE ALSO

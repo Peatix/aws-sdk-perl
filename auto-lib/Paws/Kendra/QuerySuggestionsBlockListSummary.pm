@@ -53,8 +53,7 @@ for Amazon Kendra
 
 =head2 CreatedAt => Str
 
-The date-time summary information for a query suggestions block list
-was last created.
+The Unix timestamp when the block list was created.
 
 
 =head2 Id => Str
@@ -79,7 +78,7 @@ The status of the block list.
 
 =head2 UpdatedAt => Str
 
-The date-time the block list was last updated.
+The Unix timestamp when the block list was last updated.
 
 
 

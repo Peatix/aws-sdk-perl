@@ -128,7 +128,8 @@ A message related to the replication status of the application.
 
 =head2 RoleName => Str
 
-The name of the service role in the customer's account used by AWS SMS.
+The name of the service role in the customer's account used by Server
+Migration Service.
 
 
 =head2 Status => Str

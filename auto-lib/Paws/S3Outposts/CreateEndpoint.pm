@@ -1,6 +1,8 @@
 
 package Paws::S3Outposts::CreateEndpoint;
   use Moose;
+  has AccessType => (is => 'ro', isa => 'Str');
+  has CustomerOwnedIpv4Pool => (is => 'ro', isa => 'Str');
   has OutpostId => (is => 'ro', isa => 'Str', required => 1);
   has SecurityGroupId => (is => 'ro', isa => 'Str', required => 1);
   has SubnetId => (is => 'ro', isa => 'Str', required => 1);
@@ -31,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $s3-outposts = Paws->service('S3Outposts');
     my $CreateEndpointResult = $s3 -outposts->CreateEndpoint(
-      OutpostId       => 'MyOutpostId',
-      SecurityGroupId => 'MySecurityGroupId',
-      SubnetId        => 'MySubnetId',
-
+      OutpostId             => 'MyOutpostId',
+      SecurityGroupId       => 'MySecurityGroupId',
+      SubnetId              => 'MySubnetId',
+      AccessType            => 'Private',                    # OPTIONAL
+      CustomerOwnedIpv4Pool => 'MyCustomerOwnedIpv4Pool',    # OPTIONAL
     );
 
     # Results:
@@ -48,9 +51,28 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 =head1 ATTRIBUTES
 
 
+=head2 AccessType => Str
+
+The type of access for the network connectivity for the Amazon S3 on
+Outposts endpoint. To use the Amazon Web Services VPC, choose
+C<Private>. To use the endpoint with an on-premises network, choose
+C<CustomerOwnedIp>. If you choose C<CustomerOwnedIp>, you must also
+provide the customer-owned IP address pool (CoIP pool).
+
+C<Private> is the default access type value.
+
+Valid values are: C<"Private">, C<"CustomerOwnedIp">
+
+=head2 CustomerOwnedIpv4Pool => Str
+
+The ID of the customer-owned IPv4 address pool (CoIP pool) for the
+endpoint. IP addresses are allocated from this pool for the endpoint.
+
+
+
 =head2 B<REQUIRED> OutpostId => Str
 
-The ID of the AWS Outpost.
+The ID of the Outposts.
 
 
 
@@ -62,7 +84,8 @@ The ID of the security group to use with the endpoint.
 
 =head2 B<REQUIRED> SubnetId => Str
 
-The ID of the subnet in the selected VPC.
+The ID of the subnet in the selected VPC. The endpoint subnet must
+belong to the Outpost that has Amazon S3 on Outposts provisioned.
 
 
 

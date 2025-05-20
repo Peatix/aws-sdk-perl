@@ -8,6 +8,7 @@ package Paws::AmplifyBackend::CreateBackendAuthUserPoolConfig;
   has RequiredSignUpAttributes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'requiredSignUpAttributes', traits => ['NameInRequest'], required => 1);
   has SignInMethod => (is => 'ro', isa => 'Str', request_name => 'signInMethod', traits => ['NameInRequest'], required => 1);
   has UserPoolName => (is => 'ro', isa => 'Str', request_name => 'userPoolName', traits => ['NameInRequest'], required => 1);
+  has VerificationMessage => (is => 'ro', isa => 'Paws::AmplifyBackend::CreateBackendAuthVerificationMessageConfig', request_name => 'verificationMessage', traits => ['NameInRequest']);
 
 1;
 
@@ -28,7 +29,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::AmplifyBackend::CreateBackendAuthUserPoolConfig object:
 
-  $service_obj->Method(Att1 => { ForgotPassword => $value, ..., UserPoolName => $value  });
+  $service_obj->Method(Att1 => { ForgotPassword => $value, ..., VerificationMessage => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,15 +48,15 @@ resource to be configured for your Amplify project.
 
 =head2 ForgotPassword => L<Paws::AmplifyBackend::CreateBackendAuthForgotPasswordConfig>
 
-Describes the forgotten password policy for your Amazon Cognito user
-pool, configured as a part of your Amplify project.
+B<(DEPRECATED)> Describes the forgotten password policy for your Amazon
+Cognito user pool, configured as a part of your Amplify project.
 
 
 =head2 Mfa => L<Paws::AmplifyBackend::CreateBackendAuthMFAConfig>
 
-Describes whether multi-factor authentication policies should be
-applied for your Amazon Cognito user pool configured as a part of your
-Amplify project.
+Describes whether to apply multi-factor authentication policies for
+your Amazon Cognito user pool configured as a part of your Amplify
+project.
 
 
 =head2 OAuth => L<Paws::AmplifyBackend::CreateBackendAuthOAuthConfig>
@@ -85,6 +86,12 @@ Amplify project.
 =head2 B<REQUIRED> UserPoolName => Str
 
 The Amazon Cognito user pool name.
+
+
+=head2 VerificationMessage => L<Paws::AmplifyBackend::CreateBackendAuthVerificationMessageConfig>
+
+Describes the email or SMS verification message for your Amazon Cognito
+user pool, configured as a part of your Amplify project.
 
 
 

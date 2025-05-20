@@ -4,6 +4,7 @@ package Paws::DocDB::DBCluster;
   has AssociatedRoles => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::DBClusterRole]', request_name => 'DBClusterRole', traits => ['NameInRequest']);
   has AvailabilityZones => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'AvailabilityZone', traits => ['NameInRequest']);
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
+  has CloneGroupId => (is => 'ro', isa => 'Str');
   has ClusterCreateTime => (is => 'ro', isa => 'Str');
   has DBClusterArn => (is => 'ro', isa => 'Str');
   has DBClusterIdentifier => (is => 'ro', isa => 'Str');
@@ -21,6 +22,7 @@ package Paws::DocDB::DBCluster;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has LatestRestorableTime => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str');
+  has MasterUserSecret => (is => 'ro', isa => 'Paws::DocDB::ClusterMasterUserSecret');
   has MultiAZ => (is => 'ro', isa => 'Bool');
   has PercentProgress => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
@@ -31,6 +33,7 @@ package Paws::DocDB::DBCluster;
   has ReplicationSourceIdentifier => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has VpcSecurityGroups => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::VpcSecurityGroupMembership]', request_name => 'VpcSecurityGroupMembership', traits => ['NameInRequest']);
 
 1;
@@ -88,6 +91,11 @@ Specifies the number of days for which automatic snapshots are
 retained.
 
 
+=head2 CloneGroupId => Str
+
+Identifies the clone group to which the DB cluster is associated.
+
+
 =head2 ClusterCreateTime => Str
 
 Specifies the time when the cluster was created, in Universal
@@ -117,9 +125,9 @@ Specifies the name of the cluster parameter group for the cluster.
 
 =head2 DbClusterResourceId => Str
 
-The Region-unique, immutable identifier for the cluster. This
-identifier is found in CloudTrail log entries whenever the KMS key for
-the cluster is accessed.
+The Amazon Web Services Region-unique, immutable identifier for the
+cluster. This identifier is found in CloudTrail log entries whenever
+the KMS key for the cluster is accessed.
 
 
 =head2 DBSubnetGroup => Str
@@ -188,6 +196,12 @@ point-in-time restore.
 Contains the master user name for the cluster.
 
 
+=head2 MasterUserSecret => L<Paws::DocDB::ClusterMasterUserSecret>
+
+The secret managed by Amazon DocumentDB in Amazon Web Services Secrets
+Manager for the master user password.
+
+
 =head2 MultiAZ => Bool
 
 Specifies whether the cluster has instances in multiple Availability
@@ -254,6 +268,21 @@ Specifies the current state of this cluster.
 =head2 StorageEncrypted => Bool
 
 Specifies whether the cluster is encrypted.
+
+
+=head2 StorageType => Str
+
+Storage type associated with your cluster
+
+Storage type associated with your cluster
+
+For information on storage types for Amazon DocumentDB clusters, see
+Cluster storage configurations in the I<Amazon DocumentDB Developer
+Guide>.
+
+Valid values for storage type - C<standard | iopt1>
+
+Default value is C<standard>
 
 
 =head2 VpcSecurityGroups => ArrayRef[L<Paws::DocDB::VpcSecurityGroupMembership>]

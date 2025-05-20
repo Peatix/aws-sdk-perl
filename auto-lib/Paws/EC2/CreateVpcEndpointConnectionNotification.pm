@@ -59,16 +59,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 ClientToken => Str
 
 Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. For more information, see How to Ensure
-Idempotency
-(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+idempotency of the request. For more information, see How to ensure
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 
 =head2 B<REQUIRED> ConnectionEvents => ArrayRef[Str|Undef]
 
-One or more endpoint events for which to receive notifications. Valid
-values are C<Accept>, C<Connect>, C<Delete>, and C<Reject>.
+The endpoint events for which to receive notifications. Valid values
+are C<Accept>, C<Connect>, C<Delete>, and C<Reject>.
 
 
 

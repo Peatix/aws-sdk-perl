@@ -7,9 +7,11 @@ package Paws::CloudFront::Origin;
   has CustomOriginConfig => (is => 'ro', isa => 'Paws::CloudFront::CustomOriginConfig');
   has DomainName => (is => 'ro', isa => 'Str', required => 1);
   has Id => (is => 'ro', isa => 'Str', required => 1);
+  has OriginAccessControlId => (is => 'ro', isa => 'Str');
   has OriginPath => (is => 'ro', isa => 'Str');
   has OriginShield => (is => 'ro', isa => 'Paws::CloudFront::OriginShield');
   has S3OriginConfig => (is => 'ro', isa => 'Paws::CloudFront::S3OriginConfig');
+  has VpcOriginConfig => (is => 'ro', isa => 'Paws::CloudFront::VpcOriginConfig');
 
 1;
 
@@ -30,7 +32,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::CloudFront::Origin object:
 
-  $service_obj->Method(Att1 => { ConnectionAttempts => $value, ..., S3OriginConfig => $value  });
+  $service_obj->Method(Att1 => { ConnectionAttempts => $value, ..., VpcOriginConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -55,6 +57,10 @@ configured with static website hosting.
 
 =item *
 
+Use C<VpcOriginConfig> to specify a VPC origin.
+
+=item *
+
 Use C<CustomOriginConfig> to specify all other kinds of origins,
 including:
 
@@ -70,11 +76,11 @@ An Elastic Load Balancing load balancer
 
 =item *
 
-An AWS Elemental MediaPackage endpoint
+An Elemental MediaPackage endpoint
 
 =item *
 
-An AWS Elemental MediaStore container
+An Elemental MediaStore container
 
 =item *
 
@@ -98,12 +104,12 @@ referred to as limits).
 
 The number of times that CloudFront attempts to connect to the origin.
 The minimum number is 1, the maximum is 3, and the default (if you
-donE<rsquo>t specify otherwise) is 3.
+don't specify otherwise) is 3.
 
-For a custom origin (including an Amazon S3 bucket thatE<rsquo>s
-configured with static website hosting), this value also specifies the
-number of times that CloudFront attempts to get a response from the
-origin, in the case of an Origin Response Timeout
+For a custom origin (including an Amazon S3 bucket that's configured
+with static website hosting), this value also specifies the number of
+times that CloudFront attempts to get a response from the origin, in
+the case of an Origin Response Timeout
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout).
 
 For more information, see Origin Connection Attempts
@@ -115,8 +121,8 @@ in the I<Amazon CloudFront Developer Guide>.
 
 The number of seconds that CloudFront waits when trying to establish a
 connection to the origin. The minimum timeout is 1 second, the maximum
-is 10 seconds, and the default (if you donE<rsquo>t specify otherwise)
-is 10 seconds.
+is 10 seconds, and the default (if you don't specify otherwise) is 10
+seconds.
 
 For more information, see Origin Connection Timeout
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-timeout)
@@ -160,6 +166,15 @@ Use this value to specify the C<TargetOriginId> in a C<CacheBehavior>
 or C<DefaultCacheBehavior>.
 
 
+=head2 OriginAccessControlId => Str
+
+The unique identifier of an origin access control for this origin.
+
+For more information, see Restricting access to an Amazon S3 origin
+(https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html)
+in the I<Amazon CloudFront Developer Guide>.
+
+
 =head2 OriginPath => Str
 
 An optional path that CloudFront appends to the origin domain name when
@@ -186,6 +201,11 @@ Use this type to specify an origin that is an Amazon S3 bucket that is
 not configured with static website hosting. To specify any other type
 of origin, including an Amazon S3 bucket that is configured with static
 website hosting, use the C<CustomOriginConfig> type instead.
+
+
+=head2 VpcOriginConfig => L<Paws::CloudFront::VpcOriginConfig>
+
+The VPC origin configuration.
 
 
 

@@ -37,8 +37,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECRPublic::
 =head1 DESCRIPTION
 
 An object representing the aliases for a public registry. A public
-registry is given an alias upon creation but a custom alias can be set
-using the Amazon ECR console. For more information, see Registries
+registry is given an alias when it's created. However, a custom alias
+can be set using the Amazon ECR console. For more information, see
+Registries
 (https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html)
 in the I<Amazon Elastic Container Registry User Guide>.
 
@@ -47,7 +48,7 @@ in the I<Amazon Elastic Container Registry User Guide>.
 
 =head2 B<REQUIRED> DefaultRegistryAlias => Bool
 
-Whether or not the registry alias is the default alias for the
+Indicates whether the registry alias is the default alias for the
 registry. When the first public repository is created, your public
 registry is assigned a default registry alias.
 
@@ -59,12 +60,12 @@ The name of the registry alias.
 
 =head2 B<REQUIRED> PrimaryRegistryAlias => Bool
 
-Whether or not the registry alias is the primary alias for the
+Indicates whether the registry alias is the primary alias for the
 registry. If true, the alias is the primary registry alias and is
 displayed in both the repository URL and the image URI used in the
 C<docker pull> commands on the Amazon ECR Public Gallery.
 
-A registry alias that is not the primary registry alias can be used in
+A registry alias that isn't the primary registry alias can be used in
 the repository URI in a C<docker pull> command.
 
 

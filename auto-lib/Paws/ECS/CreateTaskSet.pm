@@ -111,9 +111,10 @@ The capacity provider strategy to use for the task set.
 A capacity provider strategy consists of one or more capacity providers
 along with the C<base> and C<weight> to assign to them. A capacity
 provider must be associated with the cluster to be used in a capacity
-provider strategy. The PutClusterCapacityProviders API is used to
-associate a capacity provider with a cluster. Only capacity providers
-with an C<ACTIVE> or C<UPDATING> status can be used.
+provider strategy. The PutClusterCapacityProviders
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)
+API is used to associate a capacity provider with a cluster. Only
+capacity providers with an C<ACTIVE> or C<UPDATING> status can be used.
 
 If a C<capacityProviderStrategy> is specified, the C<launchType>
 parameter must be omitted. If no C<capacityProviderStrategy> or
@@ -122,23 +123,27 @@ the cluster is used.
 
 If specifying a capacity provider that uses an Auto Scaling group, the
 capacity provider must already be created. New capacity providers can
-be created with the CreateCapacityProvider API operation.
+be created with the CreateCapacityProviderProvider
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProviderProvider.html)API
+operation.
 
-To use a AWS Fargate capacity provider, specify either the C<FARGATE>
-or C<FARGATE_SPOT> capacity providers. The AWS Fargate capacity
-providers are available to all accounts and only need to be associated
-with a cluster to be used.
+To use a Fargate capacity provider, specify either the C<FARGATE> or
+C<FARGATE_SPOT> capacity providers. The Fargate capacity providers are
+available to all accounts and only need to be associated with a cluster
+to be used.
 
-The PutClusterCapacityProviders API operation is used to update the
-list of available capacity providers for a cluster after the cluster is
-created.
+The PutClusterCapacityProviders
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)
+API operation is used to update the list of available capacity
+providers for a cluster after the cluster is created.
 
 
 
 =head2 ClientToken => Str
 
-Unique, case-sensitive identifier that you provide to ensure the
-idempotency of the request. Up to 32 ASCII characters are allowed.
+An identifier that you provide to ensure the idempotency of the
+request. It must be unique and is case sensitive. Up to 36 ASCII
+characters in the range of 33-126 (inclusive) are allowed.
 
 
 
@@ -154,15 +159,15 @@ hosts the service to create the task set in.
 An optional non-unique tag that identifies this task set in external
 systems. If the task set is associated with a service discovery
 registry, the tasks in this task set will have the
-C<ECS_TASK_SET_EXTERNAL_ID> AWS Cloud Map attribute set to the provided
+C<ECS_TASK_SET_EXTERNAL_ID> Cloud Map attribute set to the provided
 value.
 
 
 
 =head2 LaunchType => Str
 
-The launch type that new tasks in the task set will use. For more
-information, see Amazon ECS Launch Types
+The launch type that new tasks in the task set uses. For more
+information, see Amazon ECS launch types
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -187,10 +192,9 @@ An object representing the network configuration for a task set.
 
 =head2 PlatformVersion => Str
 
-The platform version that the tasks in the task set should use. A
-platform version is specified only for tasks using the Fargate launch
-type. If one isn't specified, the C<LATEST> platform version is used by
-default.
+The platform version that the tasks in the task set uses. A platform
+version is specified only for tasks using the Fargate launch type. If
+one isn't specified, the C<LATEST> platform version is used.
 
 
 
@@ -211,7 +215,7 @@ create the task set in.
 =head2 ServiceRegistries => ArrayRef[L<Paws::ECS::ServiceRegistry>]
 
 The details of the service discovery registries to assign to this task
-set. For more information, see Service Discovery
+set. For more information, see Service discovery
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html).
 
 
@@ -219,9 +223,8 @@ set. For more information, see Service Discovery
 =head2 Tags => ArrayRef[L<Paws::ECS::Tag>]
 
 The metadata that you apply to the task set to help you categorize and
-organize them. Each tag consists of a key and an optional value, both
-of which you define. When a service is deleted, the tags are deleted as
-well.
+organize them. Each tag consists of a key and an optional value. You
+define both. When a service is deleted, the tags are deleted.
 
 The following basic restrictions apply to tags:
 
@@ -259,10 +262,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -271,7 +274,8 @@ limit.
 
 =head2 B<REQUIRED> TaskDefinition => Str
 
-The task definition for the tasks in the task set to use.
+The task definition for the tasks in the task set to use. If a revision
+isn't specified, the latest C<ACTIVE> revision is used.
 
 
 

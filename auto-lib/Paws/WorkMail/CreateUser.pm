@@ -2,9 +2,14 @@
 package Paws::WorkMail::CreateUser;
   use Moose;
   has DisplayName => (is => 'ro', isa => 'Str', required => 1);
+  has FirstName => (is => 'ro', isa => 'Str');
+  has HiddenFromGlobalAddressList => (is => 'ro', isa => 'Bool');
+  has IdentityProviderUserId => (is => 'ro', isa => 'Str');
+  has LastName => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has OrganizationId => (is => 'ro', isa => 'Str', required => 1);
-  has Password => (is => 'ro', isa => 'Str', required => 1);
+  has Password => (is => 'ro', isa => 'Str');
+  has Role => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,11 +36,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $workmail = Paws->service('WorkMail');
     my $CreateUserResponse = $workmail->CreateUser(
-      DisplayName    => 'MyString',
-      Name           => 'MyUserName',
-      OrganizationId => 'MyOrganizationId',
-      Password       => 'MyPassword',
-
+      DisplayName                 => 'MyUserAttribute',
+      Name                        => 'MyUserName',
+      OrganizationId              => 'MyOrganizationId',
+      FirstName                   => 'MyUserAttribute',             # OPTIONAL
+      HiddenFromGlobalAddressList => 1,                             # OPTIONAL
+      IdentityProviderUserId      => 'MyIdentityProviderUserId',    # OPTIONAL
+      LastName                    => 'MyUserAttribute',             # OPTIONAL
+      Password                    => 'MyPassword',                  # OPTIONAL
+      Role                        => 'USER',                        # OPTIONAL
     );
 
     # Results:
@@ -55,6 +64,33 @@ The display name for the new user.
 
 
 
+=head2 FirstName => Str
+
+The first name of the new user.
+
+
+
+=head2 HiddenFromGlobalAddressList => Bool
+
+If this parameter is enabled, the user will be hidden from the address
+book.
+
+
+
+=head2 IdentityProviderUserId => Str
+
+User ID from the IAM Identity Center. If this parameter is empty it
+will be updated automatically when the user logs in for the first time
+to the mailbox associated with WorkMail.
+
+
+
+=head2 LastName => Str
+
+The last name of the new user.
+
+
+
 =head2 B<REQUIRED> Name => Str
 
 The name for the new user. WorkMail directory user names have a maximum
@@ -68,11 +104,21 @@ The identifier of the organization for which the user is created.
 
 
 
-=head2 B<REQUIRED> Password => Str
+=head2 Password => Str
 
 The password for the new user.
 
 
+
+=head2 Role => Str
+
+The role of the new user.
+
+You cannot pass I<SYSTEM_USER> or I<RESOURCE> role in a single request.
+When a user role is not selected, the default role of I<USER> is
+selected.
+
+Valid values are: C<"USER">, C<"RESOURCE">, C<"SYSTEM_USER">, C<"REMOTE_USER">
 
 
 =head1 SEE ALSO

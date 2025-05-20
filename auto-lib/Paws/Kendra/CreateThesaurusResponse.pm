@@ -16,7 +16,7 @@ Paws::Kendra::CreateThesaurusResponse
 
 =head2 Id => Str
 
-The unique identifier of the thesaurus.
+The identifier of the thesaurus.
 
 
 =head2 _request_id => Str

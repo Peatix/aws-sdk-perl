@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Dat
 
 =head1 DESCRIPTION
 
-Provides information for connecting to an Amazon VPC.
+Provides the configuration information to connect to an Amazon VPC.
 
 =head1 ATTRIBUTES
 

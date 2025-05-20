@@ -5,6 +5,7 @@ package Paws::LakeFormation::GetEffectivePermissionsForPathResponse;
   has Permissions => (is => 'ro', isa => 'ArrayRef[Paws::LakeFormation::PrincipalResourcePermissions]');
 
   has _request_id => (is => 'ro', isa => 'Str');
+1;
 
 ### main pod documentation begin ###
 
@@ -32,4 +33,3 @@ located at the path in Amazon S3.
 
 =cut
 
-1;

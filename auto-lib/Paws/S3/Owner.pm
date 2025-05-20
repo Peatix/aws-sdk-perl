@@ -41,7 +41,46 @@ Container for the owner's display name and ID.
 
 =head2 DisplayName => Str
 
-Container for the display name of the owner.
+Container for the display name of the owner. This value is only
+supported in the following Amazon Web Services Regions:
+
+=over
+
+=item *
+
+US East (N. Virginia)
+
+=item *
+
+US West (N. California)
+
+=item *
+
+US West (Oregon)
+
+=item *
+
+Asia Pacific (Singapore)
+
+=item *
+
+Asia Pacific (Sydney)
+
+=item *
+
+Asia Pacific (Tokyo)
+
+=item *
+
+Europe (Ireland)
+
+=item *
+
+South America (SE<atilde>o Paulo)
+
+=back
+
+This functionality is not supported for directory buckets.
 
 
 =head2 ID => Str

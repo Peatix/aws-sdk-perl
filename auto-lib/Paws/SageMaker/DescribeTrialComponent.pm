@@ -29,7 +29,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $DescribeTrialComponentResponse =
       $api . sagemaker->DescribeTrialComponent(
-      TrialComponentName => 'MyExperimentEntityName',
+      TrialComponentName => 'MyExperimentEntityNameOrArn',
 
       );
 
@@ -41,12 +41,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $InputArtifacts   = $DescribeTrialComponentResponse->InputArtifacts;
     my $LastModifiedBy   = $DescribeTrialComponentResponse->LastModifiedBy;
     my $LastModifiedTime = $DescribeTrialComponentResponse->LastModifiedTime;
+    my $LineageGroupArn  = $DescribeTrialComponentResponse->LineageGroupArn;
     my $MetadataProperties =
       $DescribeTrialComponentResponse->MetadataProperties;
     my $Metrics           = $DescribeTrialComponentResponse->Metrics;
     my $OutputArtifacts   = $DescribeTrialComponentResponse->OutputArtifacts;
     my $Parameters        = $DescribeTrialComponentResponse->Parameters;
     my $Source            = $DescribeTrialComponentResponse->Source;
+    my $Sources           = $DescribeTrialComponentResponse->Sources;
     my $StartTime         = $DescribeTrialComponentResponse->StartTime;
     my $Status            = $DescribeTrialComponentResponse->Status;
     my $TrialComponentArn = $DescribeTrialComponentResponse->TrialComponentArn;

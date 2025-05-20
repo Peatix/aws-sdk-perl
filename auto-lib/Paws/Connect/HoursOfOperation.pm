@@ -5,6 +5,8 @@ package Paws::Connect::HoursOfOperation;
   has Description => (is => 'ro', isa => 'Str');
   has HoursOfOperationArn => (is => 'ro', isa => 'Str');
   has HoursOfOperationId => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::Connect::TagMap');
   has TimeZone => (is => 'ro', isa => 'Str');
@@ -64,6 +66,16 @@ The Amazon Resource Name (ARN) for the hours of operation.
 The identifier for the hours of operation.
 
 
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
+
+
 =head2 Name => Str
 
 The name for the hours of operation.
@@ -71,7 +83,8 @@ The name for the hours of operation.
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 =head2 TimeZone => Str

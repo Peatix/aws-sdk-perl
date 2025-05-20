@@ -49,13 +49,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 
 =head2 B<REQUIRED> Resource => Str
 
-The function's Amazon Resource Name (ARN).
+The resource's Amazon Resource Name (ARN).
 
 
 
 =head2 B<REQUIRED> Tags => L<Paws::Lambda::Tags>
 
-A list of tags to apply to the function.
+A list of tags to apply to the resource.
 
 
 

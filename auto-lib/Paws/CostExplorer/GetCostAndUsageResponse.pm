@@ -31,14 +31,14 @@ in the request.
 
 =head2 NextPageToken => Str
 
-The token for the next set of retrievable results. AWS provides the
-token when the response from a previous call has more results than the
-maximum page size.
+The token for the next set of retrievable results. Amazon Web Services
+provides the token when the response from a previous call has more
+results than the maximum page size.
 
 
 =head2 ResultsByTime => ArrayRef[L<Paws::CostExplorer::ResultByTime>]
 
-The time period that is covered by the results in the response.
+The time period that's covered by the results in the response.
 
 
 =head2 _request_id => Str

@@ -19,7 +19,7 @@ Paws::ECR::GetAuthorizationToken - Arguments for method GetAuthorizationToken on
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method GetAuthorizationToken on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method GetAuthorizationToken.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to GetAuthorizationToken.
@@ -44,9 +44,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 RegistryIds => ArrayRef[Str|Undef]
 
-A list of AWS account IDs that are associated with the registries for
-which to get AuthorizationData objects. If you do not specify a
-registry, the default registry is assumed.
+A list of Amazon Web Services account IDs that are associated with the
+registries for which to get AuthorizationData objects. If you do not
+specify a registry, the default registry is assumed.
 
 
 

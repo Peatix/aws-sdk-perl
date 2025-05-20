@@ -38,8 +38,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Invent
 
 =head1 DESCRIPTION
 
-Information collected from managed instances based on your inventory
-policy document
+Information collected from managed nodes based on your inventory policy
+document
 
 =head1 ATTRIBUTES
 
@@ -58,8 +58,8 @@ The inventory data of the inventory type.
 
 MD5 hash of the inventory item type contents. The content hash is used
 to determine whether to update inventory information. The PutInventory
-API does not update the inventory item type contents if the MD5 hash
-has not changed since last update.
+API doesn't update the inventory item type contents if the MD5 hash
+hasn't changed since last update.
 
 
 =head2 Context => L<Paws::SSM::InventoryItemContentContext>
@@ -78,10 +78,10 @@ The schema version for the inventory item.
 =head2 B<REQUIRED> TypeName => Str
 
 The name of the inventory type. Default inventory item type names start
-with AWS. Custom inventory type names will start with Custom. Default
-inventory item types include the following: AWS:AWSComponent,
-AWS:Application, AWS:InstanceInformation, AWS:Network, and
-AWS:WindowsUpdate.
+with C<AWS>. Custom inventory type names will start with Custom.
+Default inventory item types include the following:
+C<AWS:AWSComponent>, C<AWS:Application>, C<AWS:InstanceInformation>,
+C<AWS:Network>, and C<AWS:WindowsUpdate>.
 
 
 

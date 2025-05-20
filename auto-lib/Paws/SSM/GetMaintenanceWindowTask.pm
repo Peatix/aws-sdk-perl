@@ -35,6 +35,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $AlarmConfiguration =
+      $GetMaintenanceWindowTaskResult->AlarmConfiguration;
+    my $CutoffBehavior = $GetMaintenanceWindowTaskResult->CutoffBehavior;
     my $Description    = $GetMaintenanceWindowTaskResult->Description;
     my $LoggingInfo    = $GetMaintenanceWindowTaskResult->LoggingInfo;
     my $MaxConcurrency = $GetMaintenanceWindowTaskResult->MaxConcurrency;

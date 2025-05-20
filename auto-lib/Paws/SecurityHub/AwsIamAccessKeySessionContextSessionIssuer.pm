@@ -44,7 +44,8 @@ Information about the entity that created the session.
 
 =head2 AccountId => Str
 
-The identifier of the AWS account that created the session.
+The identifier of the Amazon Web Services account that created the
+session.
 
 
 =head2 Arn => Str

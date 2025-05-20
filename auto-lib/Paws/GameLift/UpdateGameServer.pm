@@ -54,14 +54,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 
 A set of custom game server properties, formatted as a single string
 value. This data is passed to a game client or service when it requests
-information on game servers using ListGameServers or ClaimGameServer.
+information on game servers.
 
 
 
 =head2 B<REQUIRED> GameServerGroupName => Str
 
 A unique identifier for the game server group where the game server is
-running. Use either the GameServerGroup name or ARN value.
+running.
 
 
 
@@ -81,8 +81,10 @@ Valid values are: C<"HEALTHY">
 
 =head2 UtilizationStatus => Str
 
-Indicates whether the game server is available or is currently hosting
-gameplay.
+Indicates if the game server is available or is currently hosting
+gameplay. You can update a game server status from C<AVAILABLE> to
+C<UTILIZED>, but you can't change a the status from C<UTILIZED> to
+C<AVAILABLE>.
 
 Valid values are: C<"AVAILABLE">, C<"UTILIZED">
 

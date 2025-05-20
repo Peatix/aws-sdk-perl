@@ -60,16 +60,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 
 Filters the results by compliance.
 
-The allowed values are C<COMPLIANT>, C<NON_COMPLIANT>, and
-C<INSUFFICIENT_DATA>.
-
 
 
 =head2 Limit => Int
 
 The maximum number of evaluation results returned on each page. The
 default is 10. You cannot specify a number greater than 100. If you
-specify 0, AWS Config uses the default.
+specify 0, Config uses the default.
 
 
 
@@ -82,18 +79,19 @@ the next page of results in a paginated response.
 
 =head2 ResourceId => Str
 
-The ID of the AWS resource for which you want compliance information.
-You can specify only one resource ID. If you specify a resource ID, you
-must also specify a type for C<ResourceType>.
+The ID of the Amazon Web Services resource for which you want
+compliance information. You can specify only one resource ID. If you
+specify a resource ID, you must also specify a type for
+C<ResourceType>.
 
 
 
 =head2 ResourceType => Str
 
-The types of AWS resources for which you want compliance information
-(for example, C<AWS::EC2::Instance>). For this action, you can specify
-that the resource type is an AWS account by specifying
-C<AWS::::Account>.
+The types of Amazon Web Services resources for which you want
+compliance information (for example, C<AWS::EC2::Instance>). For this
+operation, you can specify that the resource type is an Amazon Web
+Services account by specifying C<AWS::::Account>.
 
 
 

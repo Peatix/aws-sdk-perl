@@ -42,17 +42,27 @@ This class has no description
 
 The ID of the launch template.
 
+You must specify either the launch template ID or the launch template
+name, but not both.
+
 
 =head2 LaunchTemplateName => Str
 
 The name of the launch template.
 
+You must specify either the launch template ID or the launch template
+name, but not both.
+
 
 =head2 Version => Str
 
-The version number of the launch template.
+The launch template version number, C<$Latest>, or C<$Default>.
 
-Default: The default version for the launch template.
+A value of C<$Latest> uses the latest version of the launch template.
+
+A value of C<$Default> uses the default version of the launch template.
+
+Default: The default version of the launch template.
 
 
 

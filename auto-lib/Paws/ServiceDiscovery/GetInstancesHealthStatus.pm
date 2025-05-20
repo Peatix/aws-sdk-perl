@@ -30,19 +30,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+ # GetInstancesHealthStatus example
+ # This example gets the current health status of one or more instances that are
+ # associate with a specified service.
     my $GetInstancesHealthStatusResponse =
       $servicediscovery->GetInstancesHealthStatus(
-      ServiceId => 'MyResourceId',
-      Instances => [
-        'MyResourceId', ...    # max: 64
-      ],    # OPTIONAL
-      MaxResults => 1,                # OPTIONAL
-      NextToken  => 'MyNextToken',    # OPTIONAL
-      );
+      'ServiceId' => 'srv-e4anhexample0004' );
 
     # Results:
-    my $NextToken = $GetInstancesHealthStatusResponse->NextToken;
-    my $Status    = $GetInstancesHealthStatusResponse->Status;
+    my $Status = $GetInstancesHealthStatusResponse->Status;
 
  # Returns a L<Paws::ServiceDiscovery::GetInstancesHealthStatusResponse> object.
 

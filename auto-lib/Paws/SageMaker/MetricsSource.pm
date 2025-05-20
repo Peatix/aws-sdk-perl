@@ -35,24 +35,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-This class has no description
+Details about the metrics source.
 
 =head1 ATTRIBUTES
 
 
 =head2 ContentDigest => Str
 
-
+The hash key used for the metrics source.
 
 
 =head2 B<REQUIRED> ContentType => Str
 
-
+The metric source content type.
 
 
 =head2 B<REQUIRED> S3Uri => Str
 
-
+The S3 URI for the metrics source.
 
 
 

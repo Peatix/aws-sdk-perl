@@ -43,8 +43,7 @@ settings.
 
 =head2 KeyId => Str
 
-The ID of the customer master key (CMK) used for encryption, if
-applicable.
+The ID of the KMS key used for encryption, if applicable.
 
 
 =head2 Status => Str
@@ -55,8 +54,8 @@ encrypt data with a combination of the new and old settings.
 
 =head2 Type => Str
 
-The type of encryption. Set to C<KMS> for encryption with CMKs. Set to
-C<NONE> for default encryption.
+The type of encryption. Set to C<KMS> for encryption with KMS keys. Set
+to C<NONE> for default encryption.
 
 
 

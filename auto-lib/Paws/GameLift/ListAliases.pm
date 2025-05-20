@@ -91,8 +91,9 @@ when routing to active fleets.
 
 B<TERMINAL> -- The alias does not resolve to a fleet but instead can be
 used to display a message to the user. A terminal alias throws a
-TerminalRoutingStrategyException with the RoutingStrategy message
-embedded.
+TerminalRoutingStrategyException with the RoutingStrategy
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_RoutingStrategy.html)
+message embedded.
 
 =back
 

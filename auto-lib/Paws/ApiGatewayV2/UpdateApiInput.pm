@@ -7,6 +7,7 @@ package Paws::ApiGatewayV2::UpdateApiInput;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has DisableExecuteApiEndpoint => (is => 'ro', isa => 'Bool', request_name => 'disableExecuteApiEndpoint', traits => ['NameInRequest']);
   has DisableSchemaValidation => (is => 'ro', isa => 'Bool', request_name => 'disableSchemaValidation', traits => ['NameInRequest']);
+  has IpAddressType => (is => 'ro', isa => 'Str', request_name => 'ipAddressType', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has RouteKey => (is => 'ro', isa => 'Str', request_name => 'routeKey', traits => ['NameInRequest']);
   has RouteSelectionExpression => (is => 'ro', isa => 'Str', request_name => 'routeSelectionExpression', traits => ['NameInRequest']);
@@ -92,6 +93,11 @@ disable the default endpoint.
 
 Avoid validating models when creating a deployment. Supported only for
 WebSocket APIs.
+
+
+=head2 IpAddressType => Str
+
+The IP address types that can invoke the API.
 
 
 =head2 Name => Str

@@ -8,6 +8,7 @@ package Paws::MediaConvert::AvcIntraSettings;
   has FramerateDenominator => (is => 'ro', isa => 'Int', request_name => 'framerateDenominator', traits => ['NameInRequest']);
   has FramerateNumerator => (is => 'ro', isa => 'Int', request_name => 'framerateNumerator', traits => ['NameInRequest']);
   has InterlaceMode => (is => 'ro', isa => 'Str', request_name => 'interlaceMode', traits => ['NameInRequest']);
+  has PerFrameMetrics => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'perFrameMetrics', traits => ['NameInRequest']);
   has ScanTypeConversionMode => (is => 'ro', isa => 'Str', request_name => 'scanTypeConversionMode', traits => ['NameInRequest']);
   has SlowPal => (is => 'ro', isa => 'Str', request_name => 'slowPal', traits => ['NameInRequest']);
   has Telecine => (is => 'ro', isa => 'Str', request_name => 'telecine', traits => ['NameInRequest']);
@@ -63,9 +64,8 @@ MediaConvert supports only 4:2:2 chroma subsampling.
 
 =head2 AvcIntraUhdSettings => L<Paws::MediaConvert::AvcIntraUhdSettings>
 
-Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K
-(CLASS_4K_2K). When you set AVC-Intra class to a different value, this
-object isn't allowed.
+Optional when you set AVC-Intra class to Class 4K/2K. When you set
+AVC-Intra class to a different value, this object isn't allowed.
 
 
 =head2 FramerateControl => Str
@@ -76,28 +76,29 @@ the input video, choose Follow source. If you want to do frame rate
 conversion, choose a frame rate from the dropdown list or choose
 Custom. The framerates shown in the dropdown list are decimal
 approximations of fractions. If you choose Custom, specify your frame
-rate as a fraction. If you are creating your transcoding job
-specification as a JSON file without the console, use FramerateControl
-to specify which value the service uses for the frame rate for this
-output. Choose INITIALIZE_FROM_SOURCE if you want the service to use
-the frame rate from the input. Choose SPECIFIED if you want the service
-to use the frame rate you specify in the settings FramerateNumerator
-and FramerateDenominator.
+rate as a fraction.
 
 
 =head2 FramerateConversionAlgorithm => Str
 
 Choose the method that you want MediaConvert to use when increasing or
-decreasing the frame rate. We recommend using drop duplicate
-(DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to
-30 fps. For numerically complex conversions, you can use interpolate
-(INTERPOLATE) to avoid stutter. This results in a smooth picture, but
-might introduce undesirable video artifacts. For complex frame rate
+decreasing your video's frame rate. For numerically simple conversions,
+such as 60 fps to 30 fps: We recommend that you keep the default value,
+Drop duplicate. For numerically complex conversions, to avoid stutter:
+Choose Interpolate. This results in a smooth picture, but might
+introduce undesirable video artifacts. For complex frame rate
 conversions, especially if your source video has already been converted
-from its original cadence, use FrameFormer (FRAMEFORMER) to do
-motion-compensated interpolation. FrameFormer chooses the best
-conversion method frame by frame. Note that using FrameFormer increases
-the transcoding time and incurs a significant add-on cost.
+from its original cadence: Choose FrameFormer to do motion-compensated
+interpolation. FrameFormer uses the best conversion method frame by
+frame. Note that using FrameFormer increases the transcoding time and
+incurs a significant add-on cost. When you choose FrameFormer, your
+input video resolution must be at least 128x96. To create an output
+with the same number of frames as your input: Choose Maintain frame
+count. When you do, MediaConvert will not drop, interpolate, add, or
+otherwise change the frame count from your input to your output. Note
+that since the frame count is maintained, the duration of your output
+will become shorter at higher frame rates and longer at lower frame
+rates.
 
 
 =head2 FramerateDenominator => Int
@@ -125,37 +126,57 @@ Framerate. In this example, specify 23.976.
 =head2 InterlaceMode => Str
 
 Choose the scan line type for the output. Keep the default value,
-Progressive (PROGRESSIVE) to create a progressive output, regardless of
-the scan type of your input. Use Top field first (TOP_FIELD) or Bottom
-field first (BOTTOM_FIELD) to create an output that's interlaced with
-the same field polarity throughout. Use Follow, default top
-(FOLLOW_TOP_FIELD) or Follow, default bottom (FOLLOW_BOTTOM_FIELD) to
-produce outputs with the same field polarity as the source. For jobs
-that have multiple inputs, the output field polarity might change over
-the course of the output. Follow behavior depends on the input scan
-type. If the source is interlaced, the output will be interlaced with
-the same polarity as the source. If the source is progressive, the
-output will be interlaced with top field bottom field first, depending
-on which of the Follow options you choose.
+Progressive to create a progressive output, regardless of the scan type
+of your input. Use Top field first or Bottom field first to create an
+output that's interlaced with the same field polarity throughout. Use
+Follow, default top or Follow, default bottom to produce outputs with
+the same field polarity as the source. For jobs that have multiple
+inputs, the output field polarity might change over the course of the
+output. Follow behavior depends on the input scan type. If the source
+is interlaced, the output will be interlaced with the same polarity as
+the source. If the source is progressive, the output will be interlaced
+with top field bottom field first, depending on which of the Follow
+options you choose.
+
+
+=head2 PerFrameMetrics => ArrayRef[Str|Undef]
+
+Optionally choose one or more per frame metric reports to generate
+along with your output. You can use these metrics to analyze your video
+output according to one or more commonly used image quality metrics.
+You can specify per frame metrics for output groups or for individual
+outputs. When you do, MediaConvert writes a CSV (Comma-Separated
+Values) file to your S3 output destination, named after the output name
+and metric type. For example: videofile_PSNR.csv Jobs that generate per
+frame metrics will take longer to complete, depending on the resolution
+and complexity of your output. For example, some 4K jobs might take up
+to twice as long to complete. Note that when analyzing the video
+quality of your output, or when comparing the video quality of multiple
+different outputs, we generally also recommend a detailed visual review
+in a controlled environment. You can choose from the following per
+frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural
+Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index
+Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System *
+VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined
+Variable Bitrate. This option is only available when your output uses
+the QVBR rate control mode.
 
 
 =head2 ScanTypeConversionMode => Str
 
 Use this setting for interlaced outputs, when your output frame rate is
 half of your input frame rate. In this situation, choose Optimized
-interlacing (INTERLACED_OPTIMIZE) to create a better quality interlaced
-output. In this case, each progressive frame from the input corresponds
-to an interlaced field in the output. Keep the default value, Basic
-interlacing (INTERLACED), for all other output frame rates. With basic
-interlacing, MediaConvert performs any frame rate conversion first and
-then interlaces the frames. When you choose Optimized interlacing and
-you set your output frame rate to a value that isn't suitable for
-optimized interlacing, MediaConvert automatically falls back to basic
-interlacing. Required settings: To use optimized interlacing, you must
-set Telecine (telecine) to None (NONE) or Soft (SOFT). You can't use
-optimized interlacing for hard telecine outputs. You must also set
-Interlace mode (interlaceMode) to a value other than Progressive
-(PROGRESSIVE).
+interlacing to create a better quality interlaced output. In this case,
+each progressive frame from the input corresponds to an interlaced
+field in the output. Keep the default value, Basic interlacing, for all
+other output frame rates. With basic interlacing, MediaConvert performs
+any frame rate conversion first and then interlaces the frames. When
+you choose Optimized interlacing and you set your output frame rate to
+a value that isn't suitable for optimized interlacing, MediaConvert
+automatically falls back to basic interlacing. Required settings: To
+use optimized interlacing, you must set Telecine to None or Soft. You
+can't use optimized interlacing for hard telecine outputs. You must
+also set Interlace mode to a value other than Progressive.
 
 
 =head2 SlowPal => Str
@@ -165,19 +186,17 @@ per second (fps). Enable slow PAL to create a 25 fps output. When you
 enable slow PAL, MediaConvert relabels the video frames to 25 fps and
 resamples your audio to keep it synchronized with the video. Note that
 enabling this setting will slightly reduce the duration of your video.
-Required settings: You must also set Framerate to 25. In your JSON job
-specification, set (framerateControl) to (SPECIFIED),
-(framerateNumerator) to 25 and (framerateDenominator) to 1.
+Required settings: You must also set Framerate to 25.
 
 
 =head2 Telecine => Str
 
 When you do frame rate conversion from 23.976 frames per second (fps)
 to 29.97 fps, and your output scan type is interlaced, you can
-optionally enable hard telecine (HARD) to create a smoother picture.
-When you keep the default value, None (NONE), MediaConvert does a
-standard frame rate conversion to 29.97 without doing anything with the
-field polarity to create a smoother picture.
+optionally enable hard telecine to create a smoother picture. When you
+keep the default value, None, MediaConvert does a standard frame rate
+conversion to 29.97 without doing anything with the field polarity to
+create a smoother picture.
 
 
 

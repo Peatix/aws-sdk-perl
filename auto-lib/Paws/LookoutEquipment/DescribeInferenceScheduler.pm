@@ -47,6 +47,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeInferenceSchedulerResponse->InferenceSchedulerArn;
     my $InferenceSchedulerName =
       $DescribeInferenceSchedulerResponse->InferenceSchedulerName;
+    my $LatestInferenceResult =
+      $DescribeInferenceSchedulerResponse->LatestInferenceResult;
     my $ModelArn  = $DescribeInferenceSchedulerResponse->ModelArn;
     my $ModelName = $DescribeInferenceSchedulerResponse->ModelName;
     my $RoleArn   = $DescribeInferenceSchedulerResponse->RoleArn;

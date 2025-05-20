@@ -4,6 +4,7 @@ package Paws::GreengrassV2::ListDeployments;
   has HistoryFilter => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'historyFilter');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'maxResults');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
+  has ParentTargetArn => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'parentTargetArn');
   has TargetArn => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'targetArn');
 
   use MooseX::ClassAttribute;
@@ -32,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $greengrass = Paws->service('GreengrassV2');
     my $ListDeploymentsResponse = $greengrass->ListDeployments(
-      HistoryFilter => 'ALL',                  # OPTIONAL
-      MaxResults    => 1,                      # OPTIONAL
-      NextToken     => 'MyNextTokenString',    # OPTIONAL
-      TargetArn     => 'MyTargetARN',          # OPTIONAL
+      HistoryFilter   => 'ALL',                  # OPTIONAL
+      MaxResults      => 1,                      # OPTIONAL
+      NextToken       => 'MyNextTokenString',    # OPTIONAL
+      ParentTargetArn => 'MyThingGroupARN',      # OPTIONAL
+      TargetArn       => 'MyTargetARN',          # OPTIONAL
     );
 
     # Results:
@@ -76,6 +78,8 @@ Valid values are: C<"ALL">, C<"LATEST_ONLY">
 
 The maximum number of results to be returned per paginated request.
 
+Default: C<50>
+
 
 
 =head2 NextToken => Str
@@ -84,11 +88,19 @@ The token to be used for the next set of paginated results.
 
 
 
+=head2 ParentTargetArn => Str
+
+The parent deployment's target ARN
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+within a subdeployment.
+
+
+
 =head2 TargetArn => Str
 
 The ARN
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of the target AWS IoT thing or thing group.
+of the target IoT thing or thing group.
 
 
 

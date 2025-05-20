@@ -6,6 +6,7 @@ package Paws::AccessAnalyzer::ValidatePolicy;
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'nextToken');
   has PolicyDocument => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'policyDocument', required => 1);
   has PolicyType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'policyType', required => 1);
+  has ValidatePolicyResourceType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'validatePolicyResourceType');
 
   use MooseX::ClassAttribute;
 
@@ -33,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $access-analyzer = Paws->service('AccessAnalyzer');
     my $ValidatePolicyResponse = $access -analyzer->ValidatePolicy(
-      PolicyDocument => 'MyPolicyDocument',
-      PolicyType     => 'IDENTITY_POLICY',
-      Locale         => 'DE',                 # OPTIONAL
-      MaxResults     => 1,                    # OPTIONAL
-      NextToken      => 'MyToken',            # OPTIONAL
+      PolicyDocument             => 'MyPolicyDocument',
+      PolicyType                 => 'IDENTITY_POLICY',
+      Locale                     => 'DE',                 # OPTIONAL
+      MaxResults                 => 1,                    # OPTIONAL
+      NextToken                  => 'MyToken',            # OPTIONAL
+      ValidatePolicyResourceType => 'AWS::S3::Bucket',    # OPTIONAL
     );
 
     # Results:
@@ -80,17 +82,35 @@ The JSON policy document to use as the content for the policy.
 
 The type of policy to validate. Identity policies grant permissions to
 IAM principals. Identity policies include managed and inline policies
-for IAM roles, users, and groups. They also include service-control
-policies (SCPs) that are attached to an AWS organization,
-organizational unit (OU), or an account.
+for IAM roles, users, and groups.
 
-Resource policies grant permissions on AWS resources. Resource policies
-include trust policies for IAM roles and bucket policies for S3
-buckets. You can provide a generic input such as identity policy or
-resource policy or a specific input such as managed policy or S3 bucket
-policy.
+Resource policies grant permissions on Amazon Web Services resources.
+Resource policies include trust policies for IAM roles and bucket
+policies for Amazon S3 buckets. You can provide a generic input such as
+identity policy or resource policy or a specific input such as managed
+policy or Amazon S3 bucket policy.
 
-Valid values are: C<"IDENTITY_POLICY">, C<"RESOURCE_POLICY">, C<"SERVICE_CONTROL_POLICY">
+Service control policies (SCPs) are a type of organization policy
+attached to an Amazon Web Services organization, organizational unit
+(OU), or an account.
+
+Valid values are: C<"IDENTITY_POLICY">, C<"RESOURCE_POLICY">, C<"SERVICE_CONTROL_POLICY">, C<"RESOURCE_CONTROL_POLICY">
+
+=head2 ValidatePolicyResourceType => Str
+
+The type of resource to attach to your resource policy. Specify a value
+for the policy validation resource type only if the policy type is
+C<RESOURCE_POLICY>. For example, to validate a resource policy to
+attach to an Amazon S3 bucket, you can choose C<AWS::S3::Bucket> for
+the policy validation resource type.
+
+For resource types not supported as valid values, IAM Access Analyzer
+runs policy checks that apply to all resource policies. For example, to
+validate a resource policy to attach to a KMS key, do not specify a
+value for the policy validation resource type and IAM Access Analyzer
+will run policy checks that apply to all resource policies.
+
+Valid values are: C<"AWS::S3::Bucket">, C<"AWS::S3::AccessPoint">, C<"AWS::S3::MultiRegionAccessPoint">, C<"AWS::S3ObjectLambda::AccessPoint">, C<"AWS::IAM::AssumeRolePolicyDocument">, C<"AWS::DynamoDB::Table">
 
 
 =head1 SEE ALSO

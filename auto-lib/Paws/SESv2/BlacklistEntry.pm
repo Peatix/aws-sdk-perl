@@ -50,8 +50,7 @@ blacklist maintainer.
 
 =head2 ListingTime => Str
 
-The time when the blacklisting event occurred, shown in Unix time
-format.
+The time when the blacklisting event occurred.
 
 
 =head2 RblName => Str

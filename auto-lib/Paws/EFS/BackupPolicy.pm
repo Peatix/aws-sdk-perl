@@ -49,22 +49,23 @@ Describes the status of the file system's backup policy.
 
 =item *
 
-B<C<ENABLED> > - EFS is automatically backing up the file system.
-
-=item *
-
-B<C<ENABLING> > - EFS is turning on automatic backups for the file
+B<C<ENABLED> > E<ndash> EFS is automatically backing up the file
 system.
 
 =item *
 
-B<C<DISABLED> > - automatic back ups are turned off for the file
+B<C<ENABLING> > E<ndash> EFS is turning on automatic backups for the
+file system.
+
+=item *
+
+B<C<DISABLED> > E<ndash> Automatic back ups are turned off for the file
 system.
 
 =item *
 
-B<C<DISABLING> > - EFS is turning off automatic backups for the file
-system.
+B<C<DISABLING> > E<ndash> EFS is turning off automatic backups for the
+file system.
 
 =back
 

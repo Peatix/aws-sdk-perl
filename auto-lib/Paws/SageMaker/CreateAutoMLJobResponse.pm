@@ -16,7 +16,7 @@ Paws::SageMaker::CreateAutoMLJobResponse
 
 =head2 B<REQUIRED> AutoMLJobArn => Str
 
-The unique ARN that is assigned to the AutoML job when it is created.
+The unique ARN assigned to the AutoML job when it is created.
 
 
 =head2 _request_id => Str

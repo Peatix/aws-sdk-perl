@@ -42,12 +42,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> SettingId => Str
 
-The Amazon Resource Name (ARN) of the service setting to reset. For
+The Amazon Resource Name (ARN) of the service setting to update. For
 example,
 C<arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled>.
 The setting ID can be one of the following.
 
 =over
+
+=item *
+
+C</ssm/appmanager/appmanager-enabled>
 
 =item *
 
@@ -59,7 +63,23 @@ C</ssm/automation/customer-script-log-group-name>
 
 =item *
 
+/ssm/automation/enable-adaptive-concurrency
+
+=item *
+
 C</ssm/documents/console/public-sharing-permission>
+
+=item *
+
+C</ssm/managed-instance/activation-tier>
+
+=item *
+
+C</ssm/managed-instance/default-ec2-instance-management-role>
+
+=item *
+
+C</ssm/opsinsights/opscenter>
 
 =item *
 
@@ -69,49 +89,68 @@ C</ssm/parameter-store/default-parameter-tier>
 
 C</ssm/parameter-store/high-throughput-enabled>
 
-=item *
-
-C</ssm/managed-instance/activation-tier>
-
 =back
 
+Permissions to update the
+C</ssm/managed-instance/default-ec2-instance-management-role> setting
+should only be provided to administrators. Implement least privilege
+access when allowing individuals to configure or modify the Default
+Host Management Configuration.
 
 
 
 =head2 B<REQUIRED> SettingValue => Str
 
-The new value to specify for the service setting. For the
-C</ssm/parameter-store/default-parameter-tier> setting ID, the setting
-value can be one of the following.
+The new value to specify for the service setting. The following list
+specifies the available values for each setting.
 
 =over
 
 =item *
 
-Standard
+For C</ssm/appmanager/appmanager-enabled>, enter C<True> or C<False>.
 
 =item *
 
-Advanced
+For C</ssm/automation/customer-script-log-destination>, enter
+C<CloudWatch>.
 
 =item *
 
-Intelligent-Tiering
+For C</ssm/automation/customer-script-log-group-name>, enter the name
+of an Amazon CloudWatch Logs log group.
+
+=item *
+
+For C</ssm/documents/console/public-sharing-permission>, enter
+C<Enable> or C<Disable>.
+
+=item *
+
+For C</ssm/managed-instance/activation-tier>, enter C<standard> or
+C<advanced>.
+
+=item *
+
+For C</ssm/managed-instance/default-ec2-instance-management-role>,
+enter the name of an IAM role.
+
+=item *
+
+For C</ssm/opsinsights/opscenter>, enter C<Enabled> or C<Disabled>.
+
+=item *
+
+For C</ssm/parameter-store/default-parameter-tier>, enter C<Standard>,
+C<Advanced>, or C<Intelligent-Tiering>
+
+=item *
+
+For C</ssm/parameter-store/high-throughput-enabled>, enter C<true> or
+C<false>.
 
 =back
 
-For the C</ssm/parameter-store/high-throughput-enabled>, and
-C</ssm/managed-instance/activation-tier> setting IDs, the setting value
-can be true or false.
-
-For the C</ssm/automation/customer-script-log-destination> setting ID,
-the setting value can be CloudWatch.
-
-For the C</ssm/automation/customer-script-log-group-name> setting ID,
-the setting value can be the name of a CloudWatch Logs log group.
-
-For the C</ssm/documents/console/public-sharing-permission> setting ID,
-the setting value can be Enable or Disable.
 
 
 

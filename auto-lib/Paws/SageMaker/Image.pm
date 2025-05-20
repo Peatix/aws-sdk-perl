@@ -40,9 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-A SageMaker image. A SageMaker image represents a set of container
-images that are derived from a common base container image. Each of
-these container images is represented by a SageMaker C<ImageVersion>.
+A SageMaker AI image. A SageMaker AI image represents a set of
+container images that are derived from a common base container image.
+Each of these container images is represented by a SageMaker AI
+C<ImageVersion>.
 
 =head1 ATTRIBUTES
 
@@ -70,7 +71,7 @@ failure.
 
 =head2 B<REQUIRED> ImageArn => Str
 
-The Amazon Resource Name (ARN) of the image.
+The ARN of the image.
 
 
 =head2 B<REQUIRED> ImageName => Str

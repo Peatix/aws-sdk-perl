@@ -18,15 +18,15 @@ Paws::EKS::ListAddonsResponse
 
 =head2 Addons => ArrayRef[Str|Undef]
 
-A list of available add-ons.
+A list of installed add-ons.
 
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned from a previous paginated
-C<ListAddonsResponse> where C<maxResults> was used and the results
-exceeded the value of that parameter. Pagination continues from the end
-of the previous results that returned the C<nextToken> value.
+The C<nextToken> value to include in a future C<ListAddons> request.
+When the results of a C<ListAddons> request exceed C<maxResults>, you
+can use this value to retrieve the next page of results. This value is
+C<null> when there are no more results to return.
 
 This token should be treated as an opaque identifier that is used only
 to retrieve the next items in a list and not for other programmatic

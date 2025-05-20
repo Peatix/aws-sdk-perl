@@ -28,13 +28,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $eks = Paws->service('EKS');
+    # To list tags for a cluster
+    # This example lists all of the tags for the `beta` cluster.
     my $ListTagsForResourceResponse = $eks->ListTagsForResource(
-      ResourceArn => 'MyString',
-
-    );
+      'ResourceArn' => 'arn:aws:eks:us-west-2:012345678910:cluster/beta' );
 
     # Results:
-    my $Tags = $ListTagsForResourceResponse->Tags;
+    my $tags = $ListTagsForResourceResponse->tags;
 
     # Returns a L<Paws::EKS::ListTagsForResourceResponse> object.
 
@@ -46,9 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/eks
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) that identifies the resource for which
-to list the tags. Currently, the supported resources are Amazon EKS
-clusters and managed node groups.
+The Amazon Resource Name (ARN) that identifies the resource to list
+tags for.
 
 
 

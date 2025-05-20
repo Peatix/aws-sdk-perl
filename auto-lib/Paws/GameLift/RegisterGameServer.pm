@@ -62,14 +62,14 @@ other information.
 
 A set of custom game server properties, formatted as a single string
 value. This data is passed to a game client or service when it requests
-information on game servers using ListGameServers or ClaimGameServer.
+information on game servers.
 
 
 
 =head2 B<REQUIRED> GameServerGroupName => Str
 
 A unique identifier for the game server group where the game server is
-running. Use either the GameServerGroup name or ARN value.
+running.
 
 
 
@@ -77,7 +77,7 @@ running. Use either the GameServerGroup name or ARN value.
 
 A custom string that uniquely identifies the game server to register.
 Game server IDs are developer-defined and must be unique across all
-game server groups in your AWS account.
+game server groups in your Amazon Web Services account.
 
 
 

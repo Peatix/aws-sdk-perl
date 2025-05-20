@@ -42,6 +42,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Behaviors        = $DescribeSecurityProfileResponse->Behaviors;
     my $CreationDate     = $DescribeSecurityProfileResponse->CreationDate;
     my $LastModifiedDate = $DescribeSecurityProfileResponse->LastModifiedDate;
+    my $MetricsExportConfig =
+      $DescribeSecurityProfileResponse->MetricsExportConfig;
     my $SecurityProfileArn =
       $DescribeSecurityProfileResponse->SecurityProfileArn;
     my $SecurityProfileDescription =

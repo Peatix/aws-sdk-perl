@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Rekognition
 
 =head1 DESCRIPTION
 
-An object that recognizes faces in a streaming video. An Amazon
-Rekognition stream processor is created by a call to
+An object that recognizes faces or labels in a streaming video. An
+Amazon Rekognition stream processor is created by a call to
 CreateStreamProcessor. The request parameters for
 C<CreateStreamProcessor> describe the Kinesis video stream source for
 the streaming video, face recognition parameters, and where to stream

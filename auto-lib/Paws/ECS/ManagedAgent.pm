@@ -43,7 +43,8 @@ Details about the managed agent status for the container.
 
 =head2 LastStartedAt => Str
 
-The Unix timestamp for when the managed agent was last started.
+The Unix timestamp for the time when the managed agent was last
+started.
 
 
 =head2 LastStatus => Str
@@ -54,7 +55,7 @@ The last known status of the managed agent.
 =head2 Name => Str
 
 The name of the managed agent. When the execute command feature is
-enabled, the managed agent name is C<ExecuteCommandAgent>.
+turned on, the managed agent name is C<ExecuteCommandAgent>.
 
 
 =head2 Reason => Str

@@ -3,6 +3,7 @@ package Paws::ECS::UpdateCluster;
   use Moose;
   has Cluster => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'cluster' , required => 1);
   has Configuration => (is => 'ro', isa => 'Paws::ECS::ClusterConfiguration', traits => ['NameInRequest'], request_name => 'configuration' );
+  has ServiceConnectDefaults => (is => 'ro', isa => 'Paws::ECS::ClusterServiceConnectDefaultsRequest', traits => ['NameInRequest'], request_name => 'serviceConnectDefaults' );
   has Settings => (is => 'ro', isa => 'ArrayRef[Paws::ECS::ClusterSetting]', traits => ['NameInRequest'], request_name => 'settings' );
 
   use MooseX::ClassAttribute;
@@ -43,6 +44,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
           Logging => 'NONE',    # values: NONE, DEFAULT, OVERRIDE; OPTIONAL
         },    # OPTIONAL
+        ManagedStorageConfiguration => {
+          FargateEphemeralStorageKmsKeyId => 'MyString',
+          KmsKeyId                        => 'MyString',
+        },    # OPTIONAL
+      },    # OPTIONAL
+      ServiceConnectDefaults => {
+        Namespace => 'MyString',
+
       },    # OPTIONAL
       Settings => [
         {
@@ -73,6 +82,28 @@ The name of the cluster to modify the settings for.
 =head2 Configuration => L<Paws::ECS::ClusterConfiguration>
 
 The execute command configuration for the cluster.
+
+
+
+=head2 ServiceConnectDefaults => L<Paws::ECS::ClusterServiceConnectDefaultsRequest>
+
+Use this parameter to set a default Service Connect namespace. After
+you set a default Service Connect namespace, any new services with
+Service Connect turned on that are created in the cluster are added as
+client services in the namespace. This setting only applies to new
+services that set the C<enabled> parameter to C<true> in the
+C<ServiceConnectConfiguration>. You can set the namespace of each
+service individually in the C<ServiceConnectConfiguration> to override
+this default parameter.
+
+Tasks that run in a namespace can use short names to connect to
+services in the namespace. Tasks can connect to services across all of
+the clusters in the namespace. Tasks connect through a managed proxy
+container that collects logs and metrics for increased visibility. Only
+the tasks that Amazon ECS services create are supported with Service
+Connect. For more information, see Service Connect
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+in the I<Amazon Elastic Container Service Developer Guide>.
 
 
 

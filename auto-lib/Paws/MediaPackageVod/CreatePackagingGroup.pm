@@ -45,6 +45,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $Arn              = $CreatePackagingGroupResponse->Arn;
     my $Authorization    = $CreatePackagingGroupResponse->Authorization;
+    my $CreatedAt        = $CreatePackagingGroupResponse->CreatedAt;
     my $DomainName       = $CreatePackagingGroupResponse->DomainName;
     my $EgressAccessLogs = $CreatePackagingGroupResponse->EgressAccessLogs;
     my $Id               = $CreatePackagingGroupResponse->Id;

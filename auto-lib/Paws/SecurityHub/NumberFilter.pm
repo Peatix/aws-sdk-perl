@@ -2,7 +2,9 @@
 package Paws::SecurityHub::NumberFilter;
   use Moose;
   has Eq => (is => 'ro', isa => 'Num');
+  has Gt => (is => 'ro', isa => 'Num');
   has Gte => (is => 'ro', isa => 'Num');
+  has Lt => (is => 'ro', isa => 'Num');
   has Lte => (is => 'ro', isa => 'Num');
 
 1;
@@ -46,10 +48,22 @@ The equal-to condition to be applied to a single field when querying
 for findings.
 
 
+=head2 Gt => Num
+
+The greater-than condition to be applied to a single field when
+querying for findings.
+
+
 =head2 Gte => Num
 
 The greater-than-equal condition to be applied to a single field when
 querying for findings.
+
+
+=head2 Lt => Num
+
+The less-than condition to be applied to a single field when querying
+for findings.
 
 
 =head2 Lte => Num

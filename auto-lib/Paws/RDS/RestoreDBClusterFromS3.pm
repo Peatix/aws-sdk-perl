@@ -16,10 +16,14 @@ package Paws::RDS::RestoreDBClusterFromS3;
   has EnableCloudwatchLogsExports => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has EnableIAMDatabaseAuthentication => (is => 'ro', isa => 'Bool');
   has Engine => (is => 'ro', isa => 'Str', required => 1);
+  has EngineLifecycleSupport => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has KmsKeyId => (is => 'ro', isa => 'Str');
+  has ManageMasterUserPassword => (is => 'ro', isa => 'Bool');
   has MasterUsername => (is => 'ro', isa => 'Str', required => 1);
-  has MasterUserPassword => (is => 'ro', isa => 'Str', required => 1);
+  has MasterUserPassword => (is => 'ro', isa => 'Str');
+  has MasterUserSecretKmsKeyId => (is => 'ro', isa => 'Str');
+  has NetworkType => (is => 'ro', isa => 'Str');
   has OptionGroupName => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has PreferredBackupWindow => (is => 'ro', isa => 'Str');
@@ -27,9 +31,11 @@ package Paws::RDS::RestoreDBClusterFromS3;
   has S3BucketName => (is => 'ro', isa => 'Str', required => 1);
   has S3IngestionRoleArn => (is => 'ro', isa => 'Str', required => 1);
   has S3Prefix => (is => 'ro', isa => 'Str');
+  has ServerlessV2ScalingConfiguration => (is => 'ro', isa => 'Paws::RDS::ServerlessV2ScalingConfiguration');
   has SourceEngine => (is => 'ro', isa => 'Str', required => 1);
   has SourceEngineVersion => (is => 'ro', isa => 'Str', required => 1);
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has StorageType => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]');
   has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
@@ -58,43 +64,53 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rds = Paws->service('RDS');
     my $RestoreDBClusterFromS3Result = $rds->RestoreDBClusterFromS3(
-      DBClusterIdentifier             => 'MyString',
-      Engine                          => 'MyString',
-      MasterUserPassword              => 'MyString',
-      MasterUsername                  => 'MyString',
-      S3BucketName                    => 'MyString',
-      S3IngestionRoleArn              => 'MyString',
-      SourceEngine                    => 'MyString',
-      SourceEngineVersion             => 'MyString',
-      AvailabilityZones               => [ 'MyString', ... ],    # OPTIONAL
-      BacktrackWindow                 => 1,                      # OPTIONAL
-      BackupRetentionPeriod           => 1,                      # OPTIONAL
-      CharacterSetName                => 'MyString',             # OPTIONAL
-      CopyTagsToSnapshot              => 1,                      # OPTIONAL
-      DBClusterParameterGroupName     => 'MyString',             # OPTIONAL
-      DBSubnetGroupName               => 'MyString',             # OPTIONAL
-      DatabaseName                    => 'MyString',             # OPTIONAL
-      DeletionProtection              => 1,                      # OPTIONAL
-      Domain                          => 'MyString',             # OPTIONAL
-      DomainIAMRoleName               => 'MyString',             # OPTIONAL
-      EnableCloudwatchLogsExports     => [ 'MyString', ... ],    # OPTIONAL
-      EnableIAMDatabaseAuthentication => 1,                      # OPTIONAL
-      EngineVersion                   => 'MyString',             # OPTIONAL
-      KmsKeyId                        => 'MyString',             # OPTIONAL
-      OptionGroupName                 => 'MyString',             # OPTIONAL
-      Port                            => 1,                      # OPTIONAL
-      PreferredBackupWindow           => 'MyString',             # OPTIONAL
-      PreferredMaintenanceWindow      => 'MyString',             # OPTIONAL
-      S3Prefix                        => 'MyString',             # OPTIONAL
-      StorageEncrypted                => 1,                      # OPTIONAL
-      Tags                            => [
+      DBClusterIdentifier              => 'MyString',
+      Engine                           => 'MyString',
+      MasterUsername                   => 'MyString',
+      S3BucketName                     => 'MyString',
+      S3IngestionRoleArn               => 'MyString',
+      SourceEngine                     => 'MyString',
+      SourceEngineVersion              => 'MyString',
+      AvailabilityZones                => [ 'MyString', ... ],    # OPTIONAL
+      BacktrackWindow                  => 1,                      # OPTIONAL
+      BackupRetentionPeriod            => 1,                      # OPTIONAL
+      CharacterSetName                 => 'MyString',             # OPTIONAL
+      CopyTagsToSnapshot               => 1,                      # OPTIONAL
+      DBClusterParameterGroupName      => 'MyString',             # OPTIONAL
+      DBSubnetGroupName                => 'MyString',             # OPTIONAL
+      DatabaseName                     => 'MyString',             # OPTIONAL
+      DeletionProtection               => 1,                      # OPTIONAL
+      Domain                           => 'MyString',             # OPTIONAL
+      DomainIAMRoleName                => 'MyString',             # OPTIONAL
+      EnableCloudwatchLogsExports      => [ 'MyString', ... ],    # OPTIONAL
+      EnableIAMDatabaseAuthentication  => 1,                      # OPTIONAL
+      EngineLifecycleSupport           => 'MyString',             # OPTIONAL
+      EngineVersion                    => 'MyString',             # OPTIONAL
+      KmsKeyId                         => 'MyString',             # OPTIONAL
+      ManageMasterUserPassword         => 1,                      # OPTIONAL
+      MasterUserPassword               => 'MyString',             # OPTIONAL
+      MasterUserSecretKmsKeyId         => 'MyString',             # OPTIONAL
+      NetworkType                      => 'MyString',             # OPTIONAL
+      OptionGroupName                  => 'MyString',             # OPTIONAL
+      Port                             => 1,                      # OPTIONAL
+      PreferredBackupWindow            => 'MyString',             # OPTIONAL
+      PreferredMaintenanceWindow       => 'MyString',             # OPTIONAL
+      S3Prefix                         => 'MyString',             # OPTIONAL
+      ServerlessV2ScalingConfiguration => {
+        MaxCapacity           => 1,                               # OPTIONAL
+        MinCapacity           => 1,                               # OPTIONAL
+        SecondsUntilAutoPause => 1,
+      },    # OPTIONAL
+      StorageEncrypted => 1,             # OPTIONAL
+      StorageType      => 'MyString',    # OPTIONAL
+      Tags             => [
         {
           Key   => 'MyString',
           Value => 'MyString',
         },
         ...
-      ],                                                         # OPTIONAL
-      VpcSecurityGroupIds => [ 'MyString', ... ],                # OPTIONAL
+      ],                                 # OPTIONAL
+      VpcSecurityGroupIds => [ 'MyString', ... ],    # OPTIONAL
     );
 
     # Results:
@@ -167,9 +183,8 @@ associated with the specified CharacterSet.
 
 =head2 CopyTagsToSnapshot => Bool
 
-A value that indicates whether to copy all tags from the restored DB
-cluster to snapshots of the restored DB cluster. The default is not to
-copy them.
+Specifies whether to copy all tags from the restored DB cluster to
+snapshots of the restored DB cluster. The default is not to copy them.
 
 
 
@@ -209,8 +224,8 @@ Example: C<my-cluster1>
 =head2 DBClusterParameterGroupName => Str
 
 The name of the DB cluster parameter group to associate with the
-restored DB cluster. If this argument is omitted, C<default.aurora5.6>
-is used.
+restored DB cluster. If this argument is omitted, the default parameter
+group for the engine version is used.
 
 Constraints:
 
@@ -233,15 +248,15 @@ A DB subnet group to associate with the restored DB cluster.
 Constraints: If supplied, must match the name of an existing
 DBSubnetGroup.
 
-Example: C<mySubnetgroup>
+Example: C<mydbsubnetgroup>
 
 
 
 =head2 DeletionProtection => Bool
 
-A value that indicates whether the DB cluster has deletion protection
-enabled. The database can't be deleted when deletion protection is
-enabled. By default, deletion protection is disabled.
+Specifies whether to enable deletion protection for the DB cluster. The
+database can't be deleted when deletion protection is enabled. By
+default, deletion protection isn't enabled.
 
 
 
@@ -269,8 +284,25 @@ the Directory Service.
 
 The list of logs that the restored DB cluster is to export to
 CloudWatch Logs. The values in the list depend on the DB engine being
-used. For more information, see Publishing Database Logs to Amazon
-CloudWatch Logs
+used.
+
+B<Aurora MySQL>
+
+Possible values are C<audit>, C<error>, C<general>, C<instance>,
+C<slowquery>, and C<iam-db-auth-error>.
+
+B<Aurora PostgreSQL>
+
+Possible value are C<instance>, C<postgresql>, and
+C<iam-db-auth-error>.
+
+For more information about exporting CloudWatch Logs for Amazon RDS,
+see Publishing Database Logs to Amazon CloudWatch Logs
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch)
+in the I<Amazon RDS User Guide>.
+
+For more information about exporting CloudWatch Logs for Amazon Aurora,
+see Publishing Database Logs to Amazon CloudWatch Logs
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch)
 in the I<Amazon Aurora User Guide>.
 
@@ -278,13 +310,13 @@ in the I<Amazon Aurora User Guide>.
 
 =head2 EnableIAMDatabaseAuthentication => Bool
 
-A value that indicates whether to enable mapping of Amazon Web Services
-Identity and Access Management (IAM) accounts to database accounts. By
-default, mapping is disabled.
+Specifies whether to enable mapping of Amazon Web Services Identity and
+Access Management (IAM) accounts to database accounts. By default,
+mapping isn't enabled.
 
 For more information, see IAM Database Authentication
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html)
-in the I<Amazon Aurora User Guide.>
+in the I<Amazon Aurora User Guide>.
 
 
 
@@ -292,9 +324,50 @@ in the I<Amazon Aurora User Guide.>
 
 The name of the database engine to be used for this DB cluster.
 
-Valid Values: C<aurora> (for MySQL 5.6-compatible Aurora),
-C<aurora-mysql> (for MySQL 5.7-compatible Aurora), and
-C<aurora-postgresql>
+Valid Values: C<aurora-mysql> (for Aurora MySQL)
+
+
+
+=head2 EngineLifecycleSupport => Str
+
+The life cycle type for this DB cluster.
+
+By default, this value is set to C<open-source-rds-extended-support>,
+which enrolls your DB cluster into Amazon RDS Extended Support. At the
+end of standard support, you can avoid charges for Extended Support by
+setting the value to C<open-source-rds-extended-support-disabled>. In
+this case, RDS automatically upgrades your restored DB cluster to a
+higher engine version, if the major engine version is past its end of
+standard support date.
+
+You can use this setting to enroll your DB cluster into Amazon RDS
+Extended Support. With RDS Extended Support, you can run the selected
+major engine version on your DB cluster past the end of standard
+support for that engine version. For more information, see the
+following sections:
+
+=over
+
+=item *
+
+Amazon Aurora - Using Amazon RDS Extended Support
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html)
+in the I<Amazon Aurora User Guide>
+
+=item *
+
+Amazon RDS - Using Amazon RDS Extended Support
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html)
+in the I<Amazon RDS User Guide>
+
+=back
+
+Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+
+Valid Values: C<open-source-rds-extended-support |
+open-source-rds-extended-support-disabled>
+
+Default: C<open-source-rds-extended-support>
 
 
 
@@ -302,32 +375,15 @@ C<aurora-postgresql>
 
 The version number of the database engine to use.
 
-To list all of the available engine versions for C<aurora> (for MySQL
-5.6-compatible Aurora), use the following command:
-
-C<aws rds describe-db-engine-versions --engine aurora --query
-"DBEngineVersions[].EngineVersion">
-
-To list all of the available engine versions for C<aurora-mysql> (for
-MySQL 5.7-compatible Aurora), use the following command:
+To list all of the available engine versions for C<aurora-mysql>
+(Aurora MySQL), use the following command:
 
 C<aws rds describe-db-engine-versions --engine aurora-mysql --query
 "DBEngineVersions[].EngineVersion">
 
-To list all of the available engine versions for C<aurora-postgresql>,
-use the following command:
-
-C<aws rds describe-db-engine-versions --engine aurora-postgresql
---query "DBEngineVersions[].EngineVersion">
-
 B<Aurora MySQL>
 
-Example: C<5.6.10a>, C<5.6.mysql_aurora.1.19.2>, C<5.7.12>,
-C<5.7.mysql_aurora.2.04.5>
-
-B<Aurora PostgreSQL>
-
-Example: C<9.6.3>, C<10.7>
+Examples: C<5.7.mysql_aurora.2.12.0>, C<8.0.mysql_aurora.3.04.0>
 
 
 
@@ -336,15 +392,42 @@ Example: C<9.6.3>, C<10.7>
 The Amazon Web Services KMS key identifier for an encrypted DB cluster.
 
 The Amazon Web Services KMS key identifier is the key ARN, key ID,
-alias ARN, or alias name for the Amazon Web Services KMS customer
-master key (CMK). To use a CMK in a different Amazon Web Services
-account, specify the key ARN or alias ARN.
+alias ARN, or alias name for the KMS key. To use a KMS key in a
+different Amazon Web Services account, specify the key ARN or alias
+ARN.
 
 If the StorageEncrypted parameter is enabled, and you do not specify a
 value for the C<KmsKeyId> parameter, then Amazon RDS will use your
-default CMK. There is a default CMK for your Amazon Web Services
-account. Your Amazon Web Services account has a different default CMK
-for each Amazon Web Services Region.
+default KMS key. There is a default KMS key for your Amazon Web
+Services account. Your Amazon Web Services account has a different
+default KMS key for each Amazon Web Services Region.
+
+
+
+=head2 ManageMasterUserPassword => Bool
+
+Specifies whether to manage the master user password with Amazon Web
+Services Secrets Manager.
+
+For more information, see Password management with Amazon Web Services
+Secrets Manager
+(https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+in the I<Amazon RDS User Guide> and Password management with Amazon Web
+Services Secrets Manager
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+in the I<Amazon Aurora User Guide.>
+
+Constraints:
+
+=over
+
+=item *
+
+Can't manage the master user password with Amazon Web Services Secrets
+Manager if C<MasterUserPassword> is specified.
+
+=back
+
 
 
 
@@ -373,12 +456,79 @@ Can't be a reserved word for the chosen database engine.
 
 
 
-=head2 B<REQUIRED> MasterUserPassword => Str
+=head2 MasterUserPassword => Str
 
 The password for the master database user. This password can contain
 any printable ASCII character except "/", """, or "@".
 
-Constraints: Must contain from 8 to 41 characters.
+Constraints:
+
+=over
+
+=item *
+
+Must contain from 8 to 41 characters.
+
+=item *
+
+Can't be specified if C<ManageMasterUserPassword> is turned on.
+
+=back
+
+
+
+
+=head2 MasterUserSecretKmsKeyId => Str
+
+The Amazon Web Services KMS key identifier to encrypt a secret that is
+automatically generated and managed in Amazon Web Services Secrets
+Manager.
+
+This setting is valid only if the master user password is managed by
+RDS in Amazon Web Services Secrets Manager for the DB cluster.
+
+The Amazon Web Services KMS key identifier is the key ARN, key ID,
+alias ARN, or alias name for the KMS key. To use a KMS key in a
+different Amazon Web Services account, specify the key ARN or alias
+ARN.
+
+If you don't specify C<MasterUserSecretKmsKeyId>, then the
+C<aws/secretsmanager> KMS key is used to encrypt the secret. If the
+secret is in a different Amazon Web Services account, then you can't
+use the C<aws/secretsmanager> KMS key to encrypt the secret, and you
+must use a customer managed KMS key.
+
+There is a default KMS key for your Amazon Web Services account. Your
+Amazon Web Services account has a different default KMS key for each
+Amazon Web Services Region.
+
+
+
+=head2 NetworkType => Str
+
+The network type of the DB cluster.
+
+Valid Values:
+
+=over
+
+=item *
+
+C<IPV4>
+
+=item *
+
+C<DUAL>
+
+=back
+
+The network type is determined by the C<DBSubnetGroup> specified for
+the DB cluster. A C<DBSubnetGroup> can support only the IPv4 protocol
+or the IPv4 and the IPv6 protocols (C<DUAL>).
+
+For more information, see Working with a DB instance in a VPC
+(https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+in the I<Amazon Aurora User Guide.>
 
 
 
@@ -412,7 +562,7 @@ The default is a 30-minute window selected at random from an 8-hour
 block of time for each Amazon Web Services Region. To view the time
 blocks available, see Backup window
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow)
-in the I<Amazon Aurora User Guide.>
+in the I<Amazon Aurora User Guide>.
 
 Constraints:
 
@@ -451,7 +601,7 @@ block of time for each Amazon Web Services Region, occurring on a
 random day of the week. To see the time blocks available, see Adjusting
 the Preferred Maintenance Window
 (https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora)
-in the I<Amazon Aurora User Guide.>
+in the I<Amazon Aurora User Guide>.
 
 Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
 
@@ -483,12 +633,18 @@ by using all of the files in the Amazon S3 bucket.
 
 
 
+=head2 ServerlessV2ScalingConfiguration => L<Paws::RDS::ServerlessV2ScalingConfiguration>
+
+
+
+
+
 =head2 B<REQUIRED> SourceEngine => Str
 
 The identifier for the database engine that was backed up to create the
 files stored in the Amazon S3 bucket.
 
-Valid values: C<mysql>
+Valid Values: C<mysql>
 
 
 
@@ -496,15 +652,27 @@ Valid values: C<mysql>
 
 The version of the database that the backup files were created from.
 
-MySQL versions 5.5, 5.6, and 5.7 are supported.
+MySQL versions 5.7 and 8.0 are supported.
 
-Example: C<5.6.40>, C<5.7.28>
+Example: C<5.7.40>, C<8.0.28>
 
 
 
 =head2 StorageEncrypted => Bool
 
-A value that indicates whether the restored DB cluster is encrypted.
+Specifies whether the restored DB cluster is encrypted.
+
+
+
+=head2 StorageType => Str
+
+Specifies the storage type to be associated with the DB cluster.
+
+Valid Values: C<aurora>, C<aurora-iopt1>
+
+Default: C<aurora>
+
+Valid for: Aurora DB clusters only
 
 
 

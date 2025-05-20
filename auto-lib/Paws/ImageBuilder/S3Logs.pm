@@ -41,12 +41,12 @@ Amazon S3 logging configuration.
 
 =head2 S3BucketName => Str
 
-The Amazon S3 bucket in which to store the logs.
+The S3 bucket in which to store the logs.
 
 
 =head2 S3KeyPrefix => Str
 
-The Amazon S3 path in which to store the logs.
+The Amazon S3 path to the bucket where the logs are stored.
 
 
 

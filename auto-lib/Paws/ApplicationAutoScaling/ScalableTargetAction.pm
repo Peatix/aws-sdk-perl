@@ -48,7 +48,7 @@ quotas may impose lower limits. Each service has its own default quotas
 for the maximum capacity of the resource. If you want to specify a
 higher limit, you can request an increase. For more information,
 consult the documentation for that service. For information about the
-default quotas for each service, see Service Endpoints and Quotas
+default quotas for each service, see Service endpoints and quotas
 (https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html)
 in the I<Amazon Web Services General Reference>.
 
@@ -57,10 +57,9 @@ in the I<Amazon Web Services General Reference>.
 
 The minimum capacity.
 
-For certain resources, the minimum value allowed is 0. This includes
-Lambda provisioned concurrency, Spot Fleet, ECS services, Aurora DB
-clusters, EMR clusters, and custom resources. For all other resources,
-the minimum value allowed is 1.
+When the scheduled action runs, the resource will have at least this
+much capacity, but it might have more depending on other settings, such
+as the target utilization level of a target tracking scaling policy.
 
 
 

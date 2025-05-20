@@ -8,7 +8,9 @@ package Paws::CustomerProfiles::PutProfileObjectType;
   has ExpirationDays => (is => 'ro', isa => 'Int');
   has Fields => (is => 'ro', isa => 'Paws::CustomerProfiles::FieldMap');
   has Keys => (is => 'ro', isa => 'Paws::CustomerProfiles::KeyMap');
+  has MaxProfileObjectCount => (is => 'ro', isa => 'Int');
   has ObjectTypeName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ObjectTypeName', required => 1);
+  has SourceLastUpdatedTimestampFormat => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'Paws::CustomerProfiles::TagMap');
   has TemplateId => (is => 'ro', isa => 'Str');
 
@@ -38,7 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $profile = Paws->service('CustomerProfiles');
     my $PutProfileObjectTypeResponse = $profile->PutProfileObjectType(
-      Description          => 'Mytext',
+      Description          => 'MysensitiveText',
       DomainName           => 'Myname',
       ObjectTypeName       => 'MytypeName',
       AllowProfileCreation => 1,                    # OPTIONAL
@@ -48,8 +50,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'Myname' => {
           ContentType => 'STRING'
           , # values: STRING, NUMBER, PHONE_NUMBER, EMAIL_ADDRESS, NAME; OPTIONAL
-          Source => 'Mytext',    # min: 1, max: 1000
-          Target => 'Mytext',    # min: 1, max: 1000
+          Source => 'Mytext',    # min: 1, max: 1000; OPTIONAL
+          Target => 'Mytext',    # min: 1, max: 1000; OPTIONAL
         },    # key: min: 1, max: 64
       },    # OPTIONAL
       Keys => {
@@ -60,13 +62,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ],    # OPTIONAL
             StandardIdentifiers => [
               'PROFILE',
-              ...    # values: PROFILE, UNIQUE, SECONDARY, LOOKUP_ONLY, NEW_ONLY
+              ... # values: PROFILE, ASSET, CASE, ORDER, COMMUNICATION_RECORD, UNIQUE, SECONDARY, LOOKUP_ONLY, NEW_ONLY
             ],    # OPTIONAL
           },
           ...
         ],    # key: min: 1, max: 64
       },    # OPTIONAL
-      Tags => {
+      MaxProfileObjectCount            => 1,                   # OPTIONAL
+      SourceLastUpdatedTimestampFormat => 'Mystring1To255',    # OPTIONAL
+      Tags                             => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
       TemplateId => 'Myname',    # OPTIONAL
@@ -82,9 +86,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Fields         = $PutProfileObjectTypeResponse->Fields;
     my $Keys           = $PutProfileObjectTypeResponse->Keys;
     my $LastUpdatedAt  = $PutProfileObjectTypeResponse->LastUpdatedAt;
+    my $MaxAvailableProfileObjectCount =
+      $PutProfileObjectTypeResponse->MaxAvailableProfileObjectCount;
+    my $MaxProfileObjectCount =
+      $PutProfileObjectTypeResponse->MaxProfileObjectCount;
     my $ObjectTypeName = $PutProfileObjectTypeResponse->ObjectTypeName;
-    my $Tags           = $PutProfileObjectTypeResponse->Tags;
-    my $TemplateId     = $PutProfileObjectTypeResponse->TemplateId;
+    my $SourceLastUpdatedTimestampFormat =
+      $PutProfileObjectTypeResponse->SourceLastUpdatedTimestampFormat;
+    my $Tags       = $PutProfileObjectTypeResponse->Tags;
+    my $TemplateId = $PutProfileObjectTypeResponse->TemplateId;
 
     # Returns a L<Paws::CustomerProfiles::PutProfileObjectTypeResponse> object.
 
@@ -142,9 +152,22 @@ A list of unique keys that can be used to map data to the profile.
 
 
 
+=head2 MaxProfileObjectCount => Int
+
+The amount of profile object max count assigned to the object type
+
+
+
 =head2 B<REQUIRED> ObjectTypeName => Str
 
 The name of the profile object type.
+
+
+
+=head2 SourceLastUpdatedTimestampFormat => Str
+
+The format of your C<sourceLastUpdatedTimestamp> that was previously
+set up.
 
 
 
@@ -156,7 +179,14 @@ The tags used to organize, track, or control access for this resource.
 
 =head2 TemplateId => Str
 
-A unique identifier for the object template.
+A unique identifier for the object template. For some attributes in the
+request, the service will use the default value from the object
+template when TemplateId is present. If these attributes are present in
+the request, the service may return a C<BadRequestException>. These
+attributes include: AllowProfileCreation,
+SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if
+AllowProfileCreation is set to true when TemplateId is set, the service
+may return a C<BadRequestException>.
 
 
 

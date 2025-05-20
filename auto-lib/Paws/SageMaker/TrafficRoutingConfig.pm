@@ -2,6 +2,7 @@
 package Paws::SageMaker::TrafficRoutingConfig;
   use Moose;
   has CanarySize => (is => 'ro', isa => 'Paws::SageMaker::CapacitySize');
+  has LinearStepSize => (is => 'ro', isa => 'Paws::SageMaker::CapacitySize');
   has Type => (is => 'ro', isa => 'Str', required => 1);
   has WaitIntervalInSeconds => (is => 'ro', isa => 'Int', required => 1);
 
@@ -35,24 +36,55 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Currently, the C<TrafficRoutingConfig> API is not supported.
+Defines the traffic routing strategy during an endpoint deployment to
+shift traffic from the old fleet to the new fleet.
 
 =head1 ATTRIBUTES
 
 
 =head2 CanarySize => L<Paws::SageMaker::CapacitySize>
 
+Batch size for the first step to turn on traffic on the new endpoint
+fleet. C<Value> must be less than or equal to 50% of the variant's
+total instance count.
 
+
+=head2 LinearStepSize => L<Paws::SageMaker::CapacitySize>
+
+Batch size for each step to turn on traffic on the new endpoint fleet.
+C<Value> must be 10-50% of the variant's total instance count.
 
 
 =head2 B<REQUIRED> Type => Str
 
+Traffic routing strategy type.
+
+=over
+
+=item *
+
+C<ALL_AT_ONCE>: Endpoint traffic shifts to the new fleet in a single
+step.
+
+=item *
+
+C<CANARY>: Endpoint traffic shifts to the new fleet in two steps. The
+first step is the canary, which is a small portion of the traffic. The
+second step is the remainder of the traffic.
+
+=item *
+
+C<LINEAR>: Endpoint traffic shifts to the new fleet in n steps of a
+configurable size.
+
+=back
 
 
 
 =head2 B<REQUIRED> WaitIntervalInSeconds => Int
 
-
+The waiting time (in seconds) between incremental steps to turn on
+traffic on the new endpoint fleet.
 
 
 

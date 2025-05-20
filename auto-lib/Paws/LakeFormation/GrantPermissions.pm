@@ -2,6 +2,7 @@
 package Paws::LakeFormation::GrantPermissions;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
+  has Condition => (is => 'ro', isa => 'Paws::LakeFormation::Condition');
   has Permissions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has PermissionsWithGrantOption => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Principal => (is => 'ro', isa => 'Paws::LakeFormation::DataLakePrincipal', required => 1);
@@ -10,8 +11,9 @@ package Paws::LakeFormation::GrantPermissions;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'GrantPermissions');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/GrantPermissions');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LakeFormation::GrantPermissionsResponse');
-  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -34,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GrantPermissionsResponse = $lakeformation->GrantPermissions(
       Permissions => [
         'ALL',
-        ... # values: ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ALTER_TAG, DELETE_TAG, DESCRIBE_TAG, ASSOCIATE_TAG
+        ... # values: ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
       ],
       Principal => {
         DataLakePrincipalIdentifier =>
@@ -42,63 +44,77 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },
       Resource => {
         Catalog => {
-
-        },                                # OPTIONAL
+          Id => 'MyCatalogIdString',      # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
+        DataCellsFilter => {
+          DatabaseName   => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          Name           => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          TableCatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+          TableName      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
         DataLocation => {
           ResourceArn => 'MyResourceArnString',
           CatalogId   => 'MyCatalogIdString',     # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         Database => {
-          Name      => 'MyNameString',         # min: 1, max: 255
+          Name      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         LFTag => {
-          TagKey    => 'MyNameString',    # min: 1, max: 255
+          TagKey    => 'MyNameString',    # min: 1, max: 255; OPTIONAL
           TagValues => [
             'MyLFTagValue', ...           # max: 256
           ],    # min: 1, max: 50
           CatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
+        LFTagExpression => {
+          Name      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          CatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
         LFTagPolicy => {
-          Expression => [
+          ResourceType => 'DATABASE',             # values: DATABASE, TABLE
+          CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+          Expression   => [
             {
-              TagKey    => 'MyLFTagKey',    # min: 1, max: 128
+              TagKey    => 'MyLFTagKey',          # min: 1, max: 128
               TagValues => [
-                'MyLFTagValue', ...         # max: 256
+                'MyLFTagValue', ...               # max: 256
               ],    # min: 1, max: 50
 
             },
             ...
-          ],    # min: 1, max: 5
-          ResourceType => 'DATABASE',             # values: DATABASE, TABLE
-          CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+          ],    # OPTIONAL
+          ExpressionName => 'MyNameString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         Table => {
-          DatabaseName  => 'MyNameString',         # min: 1, max: 255
+          DatabaseName  => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId     => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
-          Name          => 'MyNameString',         # min: 1, max: 255
+          Name          => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           TableWildcard => {
 
           },                                       # OPTIONAL
         },    # OPTIONAL
         TableWithColumns => {
-          DatabaseName => 'MyNameString',         # min: 1, max: 255
-          Name         => 'MyNameString',         # min: 1, max: 255
+          DatabaseName => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          Name         => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
           ColumnNames  => [
-            'MyNameString', ...                   # min: 1, max: 255
+            'MyNameString', ...                   # min: 1, max: 255; OPTIONAL
           ],    # OPTIONAL
           ColumnWildcard => {
             ExcludedColumnNames => [
-              'MyNameString', ...    # min: 1, max: 255
+              'MyNameString', ...    # min: 1, max: 255; OPTIONAL
             ],    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
       },
-      CatalogId                  => 'MyCatalogIdString',    # OPTIONAL
+      CatalogId => 'MyCatalogIdString',    # OPTIONAL
+      Condition => {
+        Expression => 'MyExpressionString',    # max: 3000; OPTIONAL
+      },    # OPTIONAL
       PermissionsWithGrantOption => [
         'ALL',
-        ... # values: ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ALTER_TAG, DELETE_TAG, DESCRIBE_TAG, ASSOCIATE_TAG
+        ... # values: ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
       ],    # OPTIONAL
     );
 
@@ -113,17 +129,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lak
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
+
+
+
+=head2 Condition => L<Paws::LakeFormation::Condition>
+
+
 
 
 
 =head2 B<REQUIRED> Permissions => ArrayRef[Str|Undef]
 
-The permissions granted to the principal on the resource. AWS Lake
+The permissions granted to the principal on the resource. Lake
 Formation defines privileges to grant and revoke access to metadata in
 the Data Catalog and data organized in underlying data storage such as
-Amazon S3. AWS Lake Formation requires that each principal be
-authorized to perform a specific task on AWS Lake Formation resources.
+Amazon S3. Lake Formation requires that each principal be authorized to
+perform a specific task on Lake Formation resources.
 
 
 
@@ -149,8 +171,8 @@ maintains the permissions already granted.
 
 =head2 B<REQUIRED> Resource => L<Paws::LakeFormation::Resource>
 
-The resource to which permissions are to be granted. Resources in AWS
-Lake Formation are the Data Catalog, databases, and tables.
+The resource to which permissions are to be granted. Resources in Lake
+Formation are the Data Catalog, databases, and tables.
 
 
 

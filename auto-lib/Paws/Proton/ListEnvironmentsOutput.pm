@@ -22,8 +22,9 @@ An array of environment detail data summaries.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next environment in the array
-of environments, after the current requested list of environments.
+A token that indicates the location of the next environment in the
+array of environments, after the current requested list of
+environments.
 
 
 =head2 _request_id => Str

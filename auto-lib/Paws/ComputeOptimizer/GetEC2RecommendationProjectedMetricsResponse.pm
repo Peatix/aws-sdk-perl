@@ -16,7 +16,7 @@ Paws::ComputeOptimizer::GetEC2RecommendationProjectedMetricsResponse
 
 =head2 RecommendedOptionProjectedMetrics => ArrayRef[L<Paws::ComputeOptimizer::RecommendedOptionProjectedMetric>]
 
-An array of objects that describe a projected metrics.
+An array of objects that describes projected metrics.
 
 
 =head2 _request_id => Str

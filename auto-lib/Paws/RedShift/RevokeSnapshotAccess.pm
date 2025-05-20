@@ -2,8 +2,9 @@
 package Paws::RedShift::RevokeSnapshotAccess;
   use Moose;
   has AccountWithRestoreAccess => (is => 'ro', isa => 'Str', required => 1);
+  has SnapshotArn => (is => 'ro', isa => 'Str');
   has SnapshotClusterIdentifier => (is => 'ro', isa => 'Str');
-  has SnapshotIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has SnapshotIdentifier => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,8 +32,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $redshift = Paws->service('RedShift');
     my $RevokeSnapshotAccessResult = $redshift->RevokeSnapshotAccess(
       AccountWithRestoreAccess  => 'MyString',
-      SnapshotIdentifier        => 'MyString',
+      SnapshotArn               => 'MyString',    # OPTIONAL
       SnapshotClusterIdentifier => 'MyString',    # OPTIONAL
+      SnapshotIdentifier        => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -48,8 +50,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 =head2 B<REQUIRED> AccountWithRestoreAccess => Str
 
-The identifier of the AWS customer account that can no longer restore
-the specified snapshot.
+The identifier of the Amazon Web Services account that can no longer
+restore the specified snapshot.
+
+
+
+=head2 SnapshotArn => Str
+
+The Amazon Resource Name (ARN) of the snapshot associated with the
+message to revoke access.
 
 
 
@@ -62,7 +71,7 @@ cluster name.
 
 
 
-=head2 B<REQUIRED> SnapshotIdentifier => Str
+=head2 SnapshotIdentifier => Str
 
 The identifier of the snapshot that the account can no longer access.
 

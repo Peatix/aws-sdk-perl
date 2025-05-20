@@ -18,7 +18,8 @@ Paws::LocationService::ListRouteCalculatorsResponse
 
 =head2 B<REQUIRED> Entries => ArrayRef[L<Paws::LocationService::ListRouteCalculatorsResponseEntry>]
 
-Lists the route calculator resources that exist in your AWS account
+Lists the route calculator resources that exist in your Amazon Web
+Services account
 
 
 =head2 NextToken => Str

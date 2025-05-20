@@ -2,6 +2,7 @@
 package Paws::IoTWireless::LoRaWANSendDataToDevice;
   use Moose;
   has FPort => (is => 'ro', isa => 'Int');
+  has ParticipatingGateways => (is => 'ro', isa => 'Paws::IoTWireless::ParticipatingGateways');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoTWireless::LoRaWANSendDataToDevice object:
 
-  $service_obj->Method(Att1 => { FPort => $value, ..., FPort => $value  });
+  $service_obj->Method(Att1 => { FPort => $value, ..., ParticipatingGateways => $value  });
 
 =head3 Results returned from an API call
 
@@ -40,7 +41,13 @@ LoRaWAN router info.
 
 =head2 FPort => Int
 
-The Fport value.
+
+
+
+=head2 ParticipatingGateways => L<Paws::IoTWireless::ParticipatingGateways>
+
+Choose the gateways that you want to use for the downlink data traffic
+when the wireless device is running in class B or class C mode.
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::SSM::SendCommand;
   use Moose;
+  has AlarmConfiguration => (is => 'ro', isa => 'Paws::SSM::AlarmConfiguration');
   has CloudWatchOutputConfig => (is => 'ro', isa => 'Paws::SSM::CloudWatchOutputConfig');
   has Comment => (is => 'ro', isa => 'Str');
   has DocumentHash => (is => 'ro', isa => 'Str');
@@ -44,7 +45,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ssm = Paws->service('SSM');
     my $SendCommandResult = $ssm->SendCommand(
-      DocumentName           => 'MyDocumentARN',
+      DocumentName       => 'MyDocumentARN',
+      AlarmConfiguration => {
+        Alarms => [
+          {
+            Name => 'MyAlarmName',    # min: 1, max: 255
+
+          },
+          ...
+        ],    # min: 1, max: 1
+        IgnorePollAlarmFailure => 1,    # OPTIONAL
+      },    # OPTIONAL
       CloudWatchOutputConfig => {
         CloudWatchLogGroupName =>
           'MyCloudWatchLogGroupName',    # min: 1, max: 512; OPTIONAL
@@ -92,10 +103,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head1 ATTRIBUTES
 
 
+=head2 AlarmConfiguration => L<Paws::SSM::AlarmConfiguration>
+
+The CloudWatch alarm you want to apply to your command.
+
+
+
 =head2 CloudWatchOutputConfig => L<Paws::SSM::CloudWatchOutputConfig>
 
-Enables Systems Manager to send Run Command output to Amazon CloudWatch
-Logs.
+Enables Amazon Web Services Systems Manager to send Run Command output
+to Amazon CloudWatch Logs. Run Command is a tool in Amazon Web Services
+Systems Manager.
 
 
 
@@ -125,12 +143,16 @@ Valid values are: C<"Sha256">, C<"Sha1">
 
 =head2 B<REQUIRED> DocumentName => Str
 
-The name of the Systems Manager document to run. This can be a public
-document or a custom document. To run a shared document belonging to
-another account, specify the document ARN. For more information about
-how to use shared documents, see Using shared SSM documents
+The name of the Amazon Web Services Systems Manager document (SSM
+document) to run. This can be a public document or a custom document.
+To run a shared document belonging to another account, specify the
+document Amazon Resource Name (ARN). For more information about how to
+use shared documents, see Sharing SSM documents
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+If you specify a document name or ARN that hasn't been shared with your
+account, you receive an C<InvalidDocument> error.
 
 
 
@@ -138,9 +160,10 @@ in the I<AWS Systems Manager User Guide>.
 
 The SSM document version to use in the request. You can specify
 $DEFAULT, $LATEST, or a specific version number. If you run commands by
-using the AWS CLI, then you must escape the first two options by using
-a backslash. If you specify a version number, then you don't need to
-use the backslash. For example:
+using the Command Line Interface (Amazon Web Services CLI), then you
+must escape the first two options by using a backslash. If you specify
+a version number, then you don't need to use the backslash. For
+example:
 
 --document-version "\$DEFAULT"
 
@@ -152,44 +175,45 @@ use the backslash. For example:
 
 =head2 InstanceIds => ArrayRef[Str|Undef]
 
-The IDs of the instances where the command should run. Specifying
-instance IDs is most useful when you are targeting a limited number of
-instances, though you can specify up to 50 IDs.
+The IDs of the managed nodes where the command should run. Specifying
+managed node IDs is most useful when you are targeting a limited number
+of managed nodes, though you can specify up to 50 IDs.
 
-To target a larger number of instances, or if you prefer not to list
-individual instance IDs, we recommend using the C<Targets> option
+To target a larger number of managed nodes, or if you prefer not to
+list individual node IDs, we recommend using the C<Targets> option
 instead. Using C<Targets>, which accepts tag key-value pairs to
-identify the instances to send commands to, you can a send command to
-tens, hundreds, or thousands of instances at once.
+identify the managed nodes to send commands to, you can a send command
+to tens, hundreds, or thousands of nodes at once.
 
-For more information about how to use targets, see Using targets and
-rate controls to send commands to a fleet
+For more information about how to use targets, see Run commands at
+scale
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 MaxConcurrency => Str
 
-(Optional) The maximum number of instances that are allowed to run the
-command at the same time. You can specify a number such as 10 or a
-percentage such as 10%. The default value is 50. For more information
-about how to use MaxConcurrency, see Using concurrency controls
+(Optional) The maximum number of managed nodes that are allowed to run
+the command at the same time. You can specify a number such as 10 or a
+percentage such as 10%. The default value is C<50>. For more
+information about how to use C<MaxConcurrency>, see Using concurrency
+controls
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-velocity)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 MaxErrors => Str
 
 The maximum number of errors allowed without the command failing. When
-the command fails one more time beyond the value of MaxErrors, the
+the command fails one more time beyond the value of C<MaxErrors>, the
 systems stops sending the command to additional targets. You can
 specify a number like 10 or a percentage like 10%. The default value is
-0. For more information about how to use MaxErrors, see Using error
-controls
+C<0>. For more information about how to use C<MaxErrors>, see Using
+error controls
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-maxerrors)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
@@ -217,7 +241,7 @@ be stored.
 
 (Deprecated) You can no longer specify this parameter. The system
 ignores it. Instead, Systems Manager automatically determines the
-Region of the S3 bucket.
+Amazon Web Services Region of the S3 bucket.
 
 
 
@@ -230,35 +254,42 @@ run.
 
 =head2 ServiceRoleArn => Str
 
-The ARN of the IAM service role to use to publish Amazon Simple
-Notification Service (Amazon SNS) notifications for Run Command
-commands.
+The ARN of the Identity and Access Management (IAM) service role to use
+to publish Amazon Simple Notification Service (Amazon SNS)
+notifications for Run Command commands.
+
+This role must provide the C<sns:Publish> permission for your
+notification topic. For information about creating and using this
+service role, see Monitoring Systems Manager status changes using
+Amazon SNS notifications
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 Targets => ArrayRef[L<Paws::SSM::Target>]
 
-An array of search criteria that targets instances using a C<Key,Value>
-combination that you specify. Specifying targets is most useful when
-you want to send a command to a large number of instances at once.
-Using C<Targets>, which accepts tag key-value pairs to identify
-instances, you can send a command to tens, hundreds, or thousands of
-instances at once.
+An array of search criteria that targets managed nodes using a
+C<Key,Value> combination that you specify. Specifying targets is most
+useful when you want to send a command to a large number of managed
+nodes at once. Using C<Targets>, which accepts tag key-value pairs to
+identify managed nodes, you can send a command to tens, hundreds, or
+thousands of nodes at once.
 
-To send a command to a smaller number of instances, you can use the
+To send a command to a smaller number of managed nodes, you can use the
 C<InstanceIds> option instead.
 
-For more information about how to use targets, see Sending commands to
-a fleet
+For more information about how to use targets, see Run commands at
+scale
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 TimeoutSeconds => Int
 
-If this time is reached and the command has not already started
-running, it will not run.
+If this time is reached and the command hasn't already started running,
+it won't run.
 
 
 

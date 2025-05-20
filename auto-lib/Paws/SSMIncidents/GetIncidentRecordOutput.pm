@@ -17,7 +17,7 @@ Paws::SSMIncidents::GetIncidentRecordOutput
 
 =head2 B<REQUIRED> IncidentRecord => L<Paws::SSMIncidents::IncidentRecord>
 
-Details structure of the incident record.
+Details the structure of the incident record.
 
 
 =head2 _request_id => Str

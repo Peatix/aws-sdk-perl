@@ -2,6 +2,9 @@
 package Paws::CloudWatch::PutCompositeAlarm;
   use Moose;
   has ActionsEnabled => (is => 'ro', isa => 'Bool');
+  has ActionsSuppressor => (is => 'ro', isa => 'Str');
+  has ActionsSuppressorExtensionPeriod => (is => 'ro', isa => 'Int');
+  has ActionsSuppressorWaitPeriod => (is => 'ro', isa => 'Int');
   has AlarmActions => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has AlarmDescription => (is => 'ro', isa => 'Str');
   has AlarmName => (is => 'ro', isa => 'Str', required => 1);
@@ -35,11 +38,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $monitoring = Paws->service('CloudWatch');
     $monitoring->PutCompositeAlarm(
-      AlarmName      => 'MyAlarmName',
-      AlarmRule      => 'MyAlarmRule',
-      ActionsEnabled => 1,               # OPTIONAL
-      AlarmActions   => [
-        'MyResourceName', ...            # min: 1, max: 1024
+      AlarmName                        => 'MyAlarmName',
+      AlarmRule                        => 'MyAlarmRule',
+      ActionsEnabled                   => 1,               # OPTIONAL
+      ActionsSuppressor                => 'MyAlarmArn',    # OPTIONAL
+      ActionsSuppressorExtensionPeriod => 1,               # OPTIONAL
+      ActionsSuppressorWaitPeriod      => 1,               # OPTIONAL
+      AlarmActions                     => [
+        'MyResourceName', ...                              # min: 1, max: 1024
       ],    # OPTIONAL
       AlarmDescription        => 'MyAlarmDescription',    # OPTIONAL
       InsufficientDataActions => [
@@ -71,14 +77,75 @@ alarm state of the composite alarm. The default is C<TRUE>.
 
 
 
+=head2 ActionsSuppressor => Str
+
+Actions will be suppressed if the suppressor alarm is in the C<ALARM>
+state. C<ActionsSuppressor> can be an AlarmName or an Amazon Resource
+Name (ARN) from an existing alarm.
+
+
+
+=head2 ActionsSuppressorExtensionPeriod => Int
+
+The maximum time in seconds that the composite alarm waits after
+suppressor alarm goes out of the C<ALARM> state. After this time, the
+composite alarm performs its actions.
+
+C<ExtensionPeriod> is required only when C<ActionsSuppressor> is
+specified.
+
+
+
+=head2 ActionsSuppressorWaitPeriod => Int
+
+The maximum time in seconds that the composite alarm waits for the
+suppressor alarm to go into the C<ALARM> state. After this time, the
+composite alarm performs its actions.
+
+C<WaitPeriod> is required only when C<ActionsSuppressor> is specified.
+
+
+
 =head2 AlarmActions => ArrayRef[Str|Undef]
 
 The actions to execute when this alarm transitions to the C<ALARM>
 state from any other state. Each action is specified as an Amazon
 Resource Name (ARN).
 
-Valid Values: C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name> >
-| C<arn:aws:ssm:I<region>:I<account-id>:opsitem:I<severity>>
+Valid Values: ]
+
+B<Amazon SNS actions:>
+
+C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+
+B<Lambda actions:>
+
+=over
+
+=item *
+
+Invoke the latest version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>>
+
+=item *
+
+Invoke a specific version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<version-number>>
+
+=item *
+
+Invoke a function by using an alias Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<alias-name>>
+
+=back
+
+B<Systems Manager actions:>
+
+C<arn:aws:ssm:I<region>:I<account-id>:opsitem:I<severity>>
+
+B<Start a Amazon Q Developer operational investigation>
+
+C<arn:aws:aiops:I<region>:I<account-id>:investigation-group:I<ingestigation-group-id>>
 
 
 
@@ -184,7 +251,33 @@ The actions to execute when this alarm transitions to the
 C<INSUFFICIENT_DATA> state from any other state. Each action is
 specified as an Amazon Resource Name (ARN).
 
-Valid Values: C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+Valid Values: ]
+
+B<Amazon SNS actions:>
+
+C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+
+B<Lambda actions:>
+
+=over
+
+=item *
+
+Invoke the latest version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>>
+
+=item *
+
+Invoke a specific version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<version-number>>
+
+=item *
+
+Invoke a function by using an alias Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<alias-name>>
+
+=back
+
 
 
 
@@ -194,18 +287,53 @@ The actions to execute when this alarm transitions to an C<OK> state
 from any other state. Each action is specified as an Amazon Resource
 Name (ARN).
 
-Valid Values: C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+Valid Values: ]
+
+B<Amazon SNS actions:>
+
+C<arn:aws:sns:I<region>:I<account-id>:I<sns-topic-name>>
+
+B<Lambda actions:>
+
+=over
+
+=item *
+
+Invoke the latest version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>>
+
+=item *
+
+Invoke a specific version of a Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<version-number>>
+
+=item *
+
+Invoke a function by using an alias Lambda function:
+C<arn:aws:lambda:I<region>:I<account-id>:function:I<function-name>:I<alias-name>>
+
+=back
+
 
 
 
 =head2 Tags => ArrayRef[L<Paws::CloudWatch::Tag>]
 
-A list of key-value pairs to associate with the composite alarm. You
-can associate as many as 50 tags with an alarm.
+A list of key-value pairs to associate with the alarm. You can
+associate as many as 50 tags with an alarm. To be able to associate
+tags with the alarm when you create the alarm, you must have the
+C<cloudwatch:TagResource> permission.
 
 Tags can help you organize and categorize your resources. You can also
-use them to scope user permissions, by granting a user permission to
+use them to scope user permissions by granting a user permission to
 access or change only resources with certain tag values.
+
+If you are using this operation to update an existing alarm, any tags
+you specify in this parameter are ignored. To change the tags of an
+existing alarm, use TagResource
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html)
+or UntagResource
+(https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
 
 
 

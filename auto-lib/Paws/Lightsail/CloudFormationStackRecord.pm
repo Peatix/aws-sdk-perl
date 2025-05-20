@@ -41,7 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 =head1 DESCRIPTION
 
 Describes a CloudFormation stack record created as a result of the
-C<create cloud formation stack> operation.
+C<create cloud formation stack> action.
 
 A CloudFormation stack record provides information about the AWS
 CloudFormation stack used to create a new Amazon Elastic Compute Cloud
@@ -69,8 +69,8 @@ CloudFormation stack.
 
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
-A list of objects describing the Availability Zone and AWS Region of
-the CloudFormation stack record.
+A list of objects describing the Availability Zone and Amazon Web
+Services Region of the CloudFormation stack record.
 
 
 =head2 Name => Str
@@ -81,7 +81,7 @@ C<CloudFormationStackRecord> followed by a GUID.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<CloudFormationStackRecord>).
+The Lightsail resource type (C<CloudFormationStackRecord>).
 
 
 =head2 SourceInfo => ArrayRef[L<Paws::Lightsail::CloudFormationStackRecordSourceInfo>]

@@ -41,10 +41,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DisplayName        => 'MyExperimentEntityName',    # OPTIONAL
       EndTime            => '1970-01-01T01:00:00',       # OPTIONAL
       InputArtifacts     => {
-        'MyTrialComponentKey64' => {
+        'MyTrialComponentKey128' => {
           Value     => 'MyTrialComponentArtifactValue',    # max: 2048
           MediaType => 'MyMediaType',                      # max: 64; OPTIONAL
-        },    # key: max: 64
+        },    # key: max: 128
       },    # OPTIONAL
       MetadataProperties => {
         CommitId    => 'MyMetadataPropertyValue',    # max: 1024; OPTIONAL
@@ -53,16 +53,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Repository  => 'MyMetadataPropertyValue',    # max: 1024; OPTIONAL
       },    # OPTIONAL
       OutputArtifacts => {
-        'MyTrialComponentKey64' => {
+        'MyTrialComponentKey128' => {
           Value     => 'MyTrialComponentArtifactValue',    # max: 2048
           MediaType => 'MyMediaType',                      # max: 64; OPTIONAL
-        },    # key: max: 64
+        },    # key: max: 128
       },    # OPTIONAL
       Parameters => {
-        'MyTrialComponentKey256' => {
+        'MyTrialComponentKey320' => {
           NumberValue => 1,                           # OPTIONAL
-          StringValue => 'MyStringParameterValue',    # max: 256; OPTIONAL
-        },    # key: max: 256
+          StringValue => 'MyStringParameterValue',    # max: 2500; OPTIONAL
+        },    # key: max: 320
       },    # OPTIONAL
       StartTime => '1970-01-01T01:00:00',    # OPTIONAL
       Status    => {
@@ -162,8 +162,9 @@ Failed
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
-A list of tags to associate with the component. You can use Search API
-to search on the tags.
+A list of tags to associate with the component. You can use Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API to search on the tags.
 
 
 

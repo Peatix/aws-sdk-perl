@@ -4,6 +4,7 @@ package Paws::DeviceFarm::ScheduleRunConfiguration;
   has AuxiliaryApps => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'auxiliaryApps', traits => ['NameInRequest']);
   has BillingMethod => (is => 'ro', isa => 'Str', request_name => 'billingMethod', traits => ['NameInRequest']);
   has CustomerArtifactPaths => (is => 'ro', isa => 'Paws::DeviceFarm::CustomerArtifactPaths', request_name => 'customerArtifactPaths', traits => ['NameInRequest']);
+  has DeviceProxy => (is => 'ro', isa => 'Paws::DeviceFarm::DeviceProxy', request_name => 'deviceProxy', traits => ['NameInRequest']);
   has ExtraDataPackageArn => (is => 'ro', isa => 'Str', request_name => 'extraDataPackageArn', traits => ['NameInRequest']);
   has Locale => (is => 'ro', isa => 'Str', request_name => 'locale', traits => ['NameInRequest']);
   has Location => (is => 'ro', isa => 'Paws::DeviceFarm::Location', request_name => 'location', traits => ['NameInRequest']);
@@ -67,6 +68,11 @@ counts against your metered time.
 
 Input C<CustomerArtifactPaths> object for the scheduled run
 configuration.
+
+
+=head2 DeviceProxy => L<Paws::DeviceFarm::DeviceProxy>
+
+The device proxy to be configured on the device for the run.
 
 
 =head2 ExtraDataPackageArn => Str

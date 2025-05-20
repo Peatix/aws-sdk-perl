@@ -1,6 +1,7 @@
 
 package Paws::ServiceQuotas::GetServiceQuota;
   use Moose;
+  has ContextId => (is => 'ro', isa => 'Str');
   has QuotaCode => (is => 'ro', isa => 'Str', required => 1);
   has ServiceCode => (is => 'ro', isa => 'Str', required => 1);
 
@@ -31,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $GetServiceQuotaResponse = $servicequotas->GetServiceQuota(
       QuotaCode   => 'MyQuotaCode',
       ServiceCode => 'MyServiceCode',
-
+      ContextId   => 'MyQuotaContextId',    # OPTIONAL
     );
 
     # Results:
@@ -45,15 +46,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 =head1 ATTRIBUTES
 
 
+=head2 ContextId => Str
+
+Specifies the resource with an Amazon Resource Name (ARN).
+
+
+
 =head2 B<REQUIRED> QuotaCode => Str
 
-The quota identifier.
+Specifies the quota identifier. To find the quota code for a specific
+quota, use the ListServiceQuotas operation, and look for the
+C<QuotaCode> response in the output for the quota you want.
 
 
 
 =head2 B<REQUIRED> ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
 
 
 

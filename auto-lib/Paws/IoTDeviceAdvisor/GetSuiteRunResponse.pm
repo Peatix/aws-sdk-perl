@@ -37,7 +37,7 @@ Error reason for any test suite run failure.
 
 =head2 StartTime => Str
 
-Date (in Unix epoch time) when the test suite run was started.
+Date (in Unix epoch time) when the test suite run started.
 
 
 =head2 Status => Str
@@ -47,7 +47,7 @@ Status for the test suite run.
 Valid values are: C<"PASS">, C<"FAIL">, C<"CANCELED">, C<"PENDING">, C<"RUNNING">, C<"STOPPING">, C<"STOPPED">, C<"PASS_WITH_WARNINGS">, C<"ERROR">
 =head2 SuiteDefinitionId => Str
 
-Suite definition Id for the test suite run.
+Suite definition ID for the test suite run.
 
 
 =head2 SuiteDefinitionVersion => Str
@@ -67,7 +67,7 @@ Suite run configuration for the test suite run.
 
 =head2 SuiteRunId => Str
 
-Suite run Id for the test suite run.
+Suite run ID for the test suite run.
 
 
 =head2 Tags => L<Paws::IoTDeviceAdvisor::TagMap>

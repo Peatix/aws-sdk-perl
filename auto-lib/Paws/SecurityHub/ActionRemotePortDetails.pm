@@ -49,6 +49,8 @@ The number of the port.
 
 The port name of the remote connection.
 
+Length Constraints: 128.
+
 
 
 =head1 SEE ALSO

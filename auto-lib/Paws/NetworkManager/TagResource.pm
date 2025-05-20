@@ -30,11 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $networkmanager = Paws->service('NetworkManager');
     my $TagResourceResponse = $networkmanager->TagResource(
-      ResourceArn => 'MyResourceARN',
+      ResourceArn => 'MyResourceArn',
       Tags        => [
         {
-          Key   => 'MyTagKey',      # OPTIONAL
-          Value => 'MyTagValue',    # OPTIONAL
+          Key   => 'MyTagKey',      # max: 10000000; OPTIONAL
+          Value => 'MyTagValue',    # max: 10000000; OPTIONAL
         },
         ...
       ],

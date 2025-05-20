@@ -18,7 +18,7 @@ Paws::EFS::BackupPolicyDescription
 =head2 BackupPolicy => L<Paws::EFS::BackupPolicy>
 
 Describes the file system's backup policy, indicating whether automatic
-backups are turned on or off..
+backups are turned on or off.
 
 
 =head2 _request_id => Str

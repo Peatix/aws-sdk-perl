@@ -54,7 +54,7 @@ extension.
 =head2 DefaultVersionId => Str
 
 The ID of the default version of the extension. The default version is
-used when the extension version is not specified.
+used when the extension version isn't specified.
 
 This applies only to private extensions you have registered in your
 account. For public extensions, both those provided by Amazon and
@@ -62,8 +62,7 @@ published by third parties, CloudFormation returns C<null>. For more
 information, see RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
 
-To set the default version of an extension, use C<
-SetTypeDefaultVersion >.
+To set the default version of an extension, use SetTypeDefaultVersion.
 
 
 =head2 Description => Str
@@ -73,7 +72,7 @@ The description of the extension.
 
 =head2 IsActivated => Bool
 
-Whether or not the extension is activated for this account and region.
+Whether the extension is activated for this account and Region.
 
 This applies only to third-party public extensions. Extensions
 published by Amazon are activated by default.
@@ -106,15 +105,14 @@ For all other extension types, CloudFormation returns C<null>.
 =head2 LatestPublicVersion => Str
 
 For public extensions that have been activated for this account and
-region, the latest version of the public extension I<that is
-available>. For any extensions other than activated third-arty
+Region, the latest version of the public extension I<that is
+available>. For any extensions other than activated third-party
 extensions, CloudFormation returns C<null>.
 
 How you specified C<AutoUpdate> when enabling the extension affects
-whether CloudFormation automatically updates the extention in this
-account and region when a new version is released. For more
-information, see Setting CloudFormation to automatically use new
-versions of extensions
+whether CloudFormation automatically updates the extension in this
+account and Region when a new version is released. For more
+information, see Automatically use new versions of extensions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto)
 in the I<CloudFormation User Guide>.
 
@@ -122,13 +120,13 @@ in the I<CloudFormation User Guide>.
 =head2 OriginalTypeName => Str
 
 For public extensions that have been activated for this account and
-region, the type name of the public extension.
+Region, the type name of the public extension.
 
 If you specified a C<TypeNameAlias> when enabling the extension in this
-account and region, CloudFormation treats that alias as the extension's
-type name within the account and region, not the type name of the
-public extension. For more information, see Specifying aliases to refer
-to extensions
+account and Region, CloudFormation treats that alias as the extension's
+type name within the account and Region, not the type name of the
+public extension. For more information, see Use aliases to refer to
+extensions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias)
 in the I<CloudFormation User Guide>.
 
@@ -136,14 +134,13 @@ in the I<CloudFormation User Guide>.
 =head2 PublicVersionNumber => Str
 
 For public extensions that have been activated for this account and
-region, the version of the public extension to be used for
-CloudFormation operations in this account and region.
+Region, the version of the public extension to be used for
+CloudFormation operations in this account and Region.
 
 How you specified C<AutoUpdate> when enabling the extension affects
-whether CloudFormation automatically updates the extention in this
-account and region when a new version is released. For more
-information, see Setting CloudFormation to automatically use new
-versions of extensions
+whether CloudFormation automatically updates the extension in this
+account and Region when a new version is released. For more
+information, see Automatically use new versions of extensions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto)
 in the I<CloudFormation User Guide>.
 
@@ -151,7 +148,7 @@ in the I<CloudFormation User Guide>.
 =head2 PublisherId => Str
 
 The ID of the extension publisher, if the extension is published by a
-third party. Extensions published by Amazon do not return a publisher
+third party. Extensions published by Amazon don't return a publisher
 ID.
 
 
@@ -159,10 +156,10 @@ ID.
 
 The service used to verify the publisher identity.
 
-For more information, see Registering your account to publish
-CloudFormation extensions
+For more information, see Publishing extensions to make them available
+for public use
 (https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html)
-in the I< CFN-CLI User Guide for Extension Development>.
+in the I<CloudFormation Command Line Interface (CLI) User Guide>.
 
 
 =head2 PublisherName => Str
@@ -185,10 +182,10 @@ The Amazon Resource Name (ARN) of the extension.
 
 The name of the extension.
 
-If you specified a C<TypeNameAlias> when you activate this extension
+If you specified a C<TypeNameAlias> when you call the ActivateType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html)
-in your account and region, CloudFormation considers that alias as the
-type name.
+API operation in your account and Region, CloudFormation considers that
+alias as the type name.
 
 
 

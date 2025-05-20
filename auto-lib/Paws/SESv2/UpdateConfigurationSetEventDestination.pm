@@ -47,12 +47,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ],
 
         },    # OPTIONAL
-        Enabled                    => 1,    # OPTIONAL
+        Enabled                => 1,    # OPTIONAL
+        EventBridgeDestination => {
+          EventBusArn => 'MyAmazonResourceName',
+
+        },                              # OPTIONAL
         KinesisFirehoseDestination => {
           DeliveryStreamArn => 'MyAmazonResourceName',
           IamRoleArn        => 'MyAmazonResourceName',
 
-        },                                  # OPTIONAL
+        },                              # OPTIONAL
         MatchingEventTypes => [
           'SEND',
           ... # values: SEND, REJECT, BOUNCE, COMPLAINT, DELIVERY, OPEN, CLICK, RENDERING_FAILURE, DELIVERY_DELAY, SUBSCRIPTION
@@ -77,7 +81,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
 The name of the configuration set that contains the event destination
-that you want to modify.
+to modify.
 
 
 
@@ -89,7 +93,7 @@ An object that defines the event destination.
 
 =head2 B<REQUIRED> EventDestinationName => Str
 
-The name of the event destination that you want to modify.
+The name of the event destination.
 
 
 

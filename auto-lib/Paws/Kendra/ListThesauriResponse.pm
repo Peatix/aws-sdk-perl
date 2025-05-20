@@ -23,7 +23,7 @@ can use in the subsequent request to retrieve the next set of thesauri.
 
 =head2 ThesaurusSummaryItems => ArrayRef[L<Paws::Kendra::ThesaurusSummary>]
 
-An array of summary information for one or more thesauruses.
+An array of summary information for a thesaurus or multiple thesauri.
 
 
 =head2 _request_id => Str

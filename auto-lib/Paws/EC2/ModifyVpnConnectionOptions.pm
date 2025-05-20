@@ -81,7 +81,7 @@ Default: C<::/0>
 
 =head2 RemoteIpv4NetworkCidr => Str
 
-The IPv4 CIDR on the AWS side of the VPN connection.
+The IPv4 CIDR on the Amazon Web Services side of the VPN connection.
 
 Default: C<0.0.0.0/0>
 
@@ -89,7 +89,7 @@ Default: C<0.0.0.0/0>
 
 =head2 RemoteIpv6NetworkCidr => Str
 
-The IPv6 CIDR on the AWS side of the VPN connection.
+The IPv6 CIDR on the Amazon Web Services side of the VPN connection.
 
 Default: C<::/0>
 

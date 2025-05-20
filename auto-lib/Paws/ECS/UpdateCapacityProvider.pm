@@ -30,7 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $ecs = Paws->service('ECS');
     my $UpdateCapacityProviderResponse = $ecs->UpdateCapacityProvider(
       AutoScalingGroupProvider => {
-        ManagedScaling => {
+        ManagedDraining => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+        ManagedScaling  => {
           InstanceWarmupPeriod   => 1,    # max: 10000; OPTIONAL
           MaximumScalingStepSize => 1,    # min: 1, max: 10000; OPTIONAL
           MinimumScalingStepSize => 1,    # min: 1, max: 10000; OPTIONAL
@@ -57,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 B<REQUIRED> AutoScalingGroupProvider => L<Paws::ECS::AutoScalingGroupProviderUpdate>
 
-An object representing the parameters to update for the Auto Scaling
+An object that represent the parameters to update for the Auto Scaling
 group capacity provider.
 
 

@@ -65,7 +65,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
-One or more filters.
+The filters.
 
 =over
 
@@ -93,9 +93,27 @@ the filter names.
 
 =item *
 
+C<customer-owned-ipv4-pool> - The customer-owned IPv4 address pool
+associated with the subnet.
+
+=item *
+
 C<default-for-az> - Indicates whether this is the default subnet for
-the Availability Zone. You can also use C<defaultForAz> as the filter
-name.
+the Availability Zone (C<true> | C<false>). You can also use
+C<defaultForAz> as the filter name.
+
+=item *
+
+C<enable-dns64> - Indicates whether DNS queries made to the
+Amazon-provided DNS Resolver in this subnet should return synthetic
+IPv6 addresses for IPv4-only destinations.
+
+=item *
+
+C<enable-lni-at-device-index> - Indicates the device position for local
+network interfaces in this subnet. For example, C<1> indicates local
+network interfaces in this subnet are the secondary network interface
+(eth1).
 
 =item *
 
@@ -114,11 +132,49 @@ associated with the subnet.
 
 =item *
 
+C<ipv6-native> - Indicates whether this is an IPv6 only subnet (C<true>
+| C<false>).
+
+=item *
+
+C<map-customer-owned-ip-on-launch> - Indicates whether a network
+interface created in this subnet (including a network interface created
+by RunInstances) receives a customer-owned IPv4 address.
+
+=item *
+
+C<map-public-ip-on-launch> - Indicates whether instances launched in
+this subnet receive a public IPv4 address.
+
+=item *
+
 C<outpost-arn> - The Amazon Resource Name (ARN) of the Outpost.
 
 =item *
 
-C<owner-id> - The ID of the AWS account that owns the subnet.
+C<owner-id> - The ID of the Amazon Web Services account that owns the
+subnet.
+
+=item *
+
+C<private-dns-name-options-on-launch.hostname-type> - The type of
+hostname to assign to instances in the subnet at launch. For IPv4-only
+and dual-stack (IPv4 and IPv6) subnets, an instance DNS name can be
+based on the instance IPv4 address (ip-name) or the instance ID
+(resource-name). For IPv6 only subnets, an instance DNS name must be
+based on the instance ID (resource-name).
+
+=item *
+
+C<private-dns-name-options-on-launch.enable-resource-name-dns-a-record>
+- Indicates whether to respond to DNS queries for instance hostnames
+with DNS A records.
+
+=item *
+
+C<private-dns-name-options-on-launch.enable-resource-name-dns-aaaa-record>
+- Indicates whether to respond to DNS queries for instance hostnames
+with DNS AAAA records.
 
 =item *
 
@@ -134,11 +190,11 @@ C<subnet-id> - The ID of the subnet.
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
-the resource. Use the tag key in the filter name and the tag value as
-the filter value. For example, to find all resources that have a tag
-with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for
-the filter name and C<TeamA> for the filter value.
+C<tag> - The key/value combination of a tag assigned to the resource.
+Use the tag key in the filter name and the tag value as the filter
+value. For example, to find all resources that have a tag with the key
+C<Owner> and the value C<TeamA>, specify C<tag:Owner> for the filter
+name and C<TeamA> for the filter value.
 
 =item *
 
@@ -157,21 +213,23 @@ C<vpc-id> - The ID of the VPC for the subnet.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 
 =head2 SubnetIds => ArrayRef[Str|Undef]
 
-One or more subnet IDs.
+The IDs of the subnets.
 
 Default: Describes all your subnets.
 

@@ -29,13 +29,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+# To remove a tag from an application
+# The following untag-resource example removes the group1 tag from the specified
+# application.
     $appconfig->UntagResource(
-      ResourceArn => 'MyArn',
-      TagKeys     => [
-        'MyTagKey', ...    # min: 1, max: 128
-      ],
-
+      'ResourceArn' =>
+        'arn:aws:appconfig:us-east-1:111122223333:application/339ohji',
+      'TagKeys' => ['group1']
     );
+
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/appconfig/UntagResource>

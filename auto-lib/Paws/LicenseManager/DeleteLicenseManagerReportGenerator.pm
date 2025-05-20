@@ -41,8 +41,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lic
 
 =head2 B<REQUIRED> LicenseManagerReportGeneratorArn => Str
 
-Amazon Resource Number (ARN) of the report generator that will be
-deleted.
+Amazon Resource Name (ARN) of the report generator to be deleted.
 
 
 

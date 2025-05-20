@@ -47,7 +47,7 @@ Text value to be included in the email body.
 =head2 SendEmail => Bool
 
 Boolean value to indicate an email notification should be sent to the
-receipients.
+recipients.
 
 
 

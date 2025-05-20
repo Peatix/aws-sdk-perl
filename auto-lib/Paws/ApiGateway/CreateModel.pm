@@ -57,7 +57,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ContentType => Str
 
-[Required] The content-type for the model.
+The content-type for the model.
 
 
 
@@ -69,22 +69,20 @@ The description of the model.
 
 =head2 B<REQUIRED> Name => Str
 
-[Required] The name of the model. Must be alphanumeric.
+The name of the model. Must be alphanumeric.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The RestApi identifier under which the Model will be
-created.
+The RestApi identifier under which the Model will be created.
 
 
 
 =head2 Schema => Str
 
 The schema for the model. For C<application/json> models, this should
-be JSON schema draft 4
-(https://tools.ietf.org/html/draft-zyp-json-schema-04) model.
+be JSON schema draft 4 model. The maximum size of the model is 400 KB.
 
 
 

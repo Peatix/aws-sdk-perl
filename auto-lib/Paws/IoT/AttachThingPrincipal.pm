@@ -3,6 +3,7 @@ package Paws::IoT::AttachThingPrincipal;
   use Moose;
   has Principal => (is => 'ro', isa => 'Str', traits => ['ParamInHeader'], header_name => 'x-amzn-principal', required => 1);
   has ThingName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'thingName', required => 1);
+  has ThingPrincipalType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'thingPrincipalType');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iot = Paws->service('IoT');
     my $AttachThingPrincipalResponse = $iot->AttachThingPrincipal(
-      Principal => 'MyPrincipal',
-      ThingName => 'MyThingName',
-
+      Principal          => 'MyPrincipal',
+      ThingName          => 'MyThingName',
+      ThingPrincipalType => 'EXCLUSIVE_THING',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -53,6 +54,33 @@ CreateCertificate operation) or an Amazon Cognito ID.
 The name of the thing.
 
 
+
+=head2 ThingPrincipalType => Str
+
+The type of the relation you want to specify when you attach a
+principal to a thing.
+
+=over
+
+=item *
+
+C<EXCLUSIVE_THING> - Attaches the specified principal to the specified
+thing, exclusively. The thing will be the only thing thatE<rsquo>s
+attached to the principal.
+
+=back
+
+=over
+
+=item *
+
+C<NON_EXCLUSIVE_THING> - Attaches the specified principal to the
+specified thing. Multiple things can be attached to the principal.
+
+=back
+
+
+Valid values are: C<"EXCLUSIVE_THING">, C<"NON_EXCLUSIVE_THING">
 
 
 =head1 SEE ALSO

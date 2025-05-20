@@ -16,7 +16,7 @@ Paws::Rekognition::CreateProjectVersionResponse
 
 =head2 ProjectVersionArn => Str
 
-The ARN of the model version that was created. Use
+The ARN of the model or the project version that was created. Use
 C<DescribeProjectVersion> to get the current status of the training
 operation.
 

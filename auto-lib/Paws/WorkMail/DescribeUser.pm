@@ -30,19 +30,39 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $DescribeUserResponse = $workmail->DescribeUser(
       OrganizationId => 'MyOrganizationId',
-      UserId         => 'MyWorkMailIdentifier',
+      UserId         => 'MyEntityIdentifier',
 
     );
 
     # Results:
+    my $City         = $DescribeUserResponse->City;
+    my $Company      = $DescribeUserResponse->Company;
+    my $Country      = $DescribeUserResponse->Country;
+    my $Department   = $DescribeUserResponse->Department;
     my $DisabledDate = $DescribeUserResponse->DisabledDate;
     my $DisplayName  = $DescribeUserResponse->DisplayName;
     my $Email        = $DescribeUserResponse->Email;
     my $EnabledDate  = $DescribeUserResponse->EnabledDate;
-    my $Name         = $DescribeUserResponse->Name;
-    my $State        = $DescribeUserResponse->State;
-    my $UserId       = $DescribeUserResponse->UserId;
-    my $UserRole     = $DescribeUserResponse->UserRole;
+    my $FirstName    = $DescribeUserResponse->FirstName;
+    my $HiddenFromGlobalAddressList =
+      $DescribeUserResponse->HiddenFromGlobalAddressList;
+    my $IdentityProviderIdentityStoreId =
+      $DescribeUserResponse->IdentityProviderIdentityStoreId;
+    my $IdentityProviderUserId = $DescribeUserResponse->IdentityProviderUserId;
+    my $Initials               = $DescribeUserResponse->Initials;
+    my $JobTitle               = $DescribeUserResponse->JobTitle;
+    my $LastName               = $DescribeUserResponse->LastName;
+    my $MailboxDeprovisionedDate =
+      $DescribeUserResponse->MailboxDeprovisionedDate;
+    my $MailboxProvisionedDate = $DescribeUserResponse->MailboxProvisionedDate;
+    my $Name                   = $DescribeUserResponse->Name;
+    my $Office                 = $DescribeUserResponse->Office;
+    my $State                  = $DescribeUserResponse->State;
+    my $Street                 = $DescribeUserResponse->Street;
+    my $Telephone              = $DescribeUserResponse->Telephone;
+    my $UserId                 = $DescribeUserResponse->UserId;
+    my $UserRole               = $DescribeUserResponse->UserRole;
+    my $ZipCode                = $DescribeUserResponse->ZipCode;
 
     # Returns a L<Paws::WorkMail::DescribeUserResponse> object.
 
@@ -61,6 +81,27 @@ The identifier for the organization under which the user exists.
 =head2 B<REQUIRED> UserId => Str
 
 The identifier for the user to be described.
+
+The identifier can be the I<UserId>, I<Username>, or I<email>. The
+following identity formats are available:
+
+=over
+
+=item *
+
+User ID: 12345678-1234-1234-1234-123456789012 or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: user@domain.tld
+
+=item *
+
+User name: user
+
+=back
+
 
 
 

@@ -12,6 +12,7 @@ package Paws::S3::ListObjectVersionsOutput;
   has NextKeyMarker => (is => 'ro', isa => 'Str');
   has NextVersionIdMarker => (is => 'ro', isa => 'Str');
   has Prefix => (is => 'ro', isa => 'Str');
+  has RequestCharged => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-charged', traits => ['ParamInHeader']);
   has VersionIdMarker => (is => 'ro', isa => 'Str');
   has Versions => (is => 'ro', isa => 'ArrayRef[Paws::S3::ObjectVersion]', request_name => 'Version', traits => ['NameInRequest']);
 
@@ -37,7 +38,9 @@ when calculating the number of returns.
 
 =head2 DeleteMarkers => ArrayRef[L<Paws::S3::DeleteMarkerEntry>]
 
-Container for an object that is a delete marker.
+Container for an object that is a delete marker. To learn more about
+delete markers, see Working with delete markers
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeleteMarker.html).
 
 
 
@@ -47,8 +50,8 @@ The delimiter grouping the included keys. A delimiter is a character
 that you specify to group keys. All keys that contain the same string
 between the prefix and the first occurrence of the delimiter are
 grouped under a single result element in C<CommonPrefixes>. These
-groups are counted as one result against the max-keys limitation. These
-keys are not returned elsewhere in the response.
+groups are counted as one result against the C<max-keys> limitation.
+These keys are not returned elsewhere in the response.
 
 
 
@@ -57,9 +60,9 @@ keys are not returned elsewhere in the response.
 Encoding type used by Amazon S3 to encode object key names in the XML
 response.
 
-If you specify encoding-type request parameter, Amazon S3 includes this
-element in the response, and returns encoded key name values in the
-following response elements:
+If you specify the C<encoding-type> request parameter, Amazon S3
+includes this element in the response, and returns encoded key name
+values in the following response elements:
 
 C<KeyMarker, NextKeyMarker, Prefix, Key>, and C<Delimiter>.
 
@@ -69,9 +72,9 @@ Valid values are: C<"url">
 
 A flag that indicates whether Amazon S3 returned all of the results
 that satisfied the search criteria. If your results were truncated, you
-can make a follow-up paginated request using the NextKeyMarker and
-NextVersionIdMarker response parameters as a starting place in another
-request to return the rest of the results.
+can make a follow-up paginated request by using the C<NextKeyMarker>
+and C<NextVersionIdMarker> response parameters as a starting place in
+another request to return the rest of the results.
 
 
 
@@ -107,7 +110,7 @@ parameter in a subsequent request.
 When the number of responses exceeds the value of C<MaxKeys>,
 C<NextVersionIdMarker> specifies the first object version not returned
 that satisfies the search criteria. Use this value for the
-version-id-marker request parameter in a subsequent request.
+C<version-id-marker> request parameter in a subsequent request.
 
 
 
@@ -116,6 +119,12 @@ version-id-marker request parameter in a subsequent request.
 Selects objects that start with the value supplied by this parameter.
 
 
+
+=head2 RequestCharged => Str
+
+
+
+Valid values are: C<"requester">
 
 =head2 VersionIdMarker => Str
 

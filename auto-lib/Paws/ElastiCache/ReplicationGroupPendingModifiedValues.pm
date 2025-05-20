@@ -3,9 +3,12 @@ package Paws::ElastiCache::ReplicationGroupPendingModifiedValues;
   use Moose;
   has AuthTokenStatus => (is => 'ro', isa => 'Str');
   has AutomaticFailoverStatus => (is => 'ro', isa => 'Str');
+  has ClusterMode => (is => 'ro', isa => 'Str');
   has LogDeliveryConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ElastiCache::PendingLogDeliveryConfiguration]');
   has PrimaryClusterId => (is => 'ro', isa => 'Str');
   has Resharding => (is => 'ro', isa => 'Paws::ElastiCache::ReshardingStatus');
+  has TransitEncryptionEnabled => (is => 'ro', isa => 'Bool');
+  has TransitEncryptionMode => (is => 'ro', isa => 'Str');
   has UserGroups => (is => 'ro', isa => 'Paws::ElastiCache::UserGroupsUpdateStatus');
 
 1;
@@ -38,8 +41,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ElastiCache
 
 =head1 DESCRIPTION
 
-The settings to be applied to the Redis replication group, either
-immediately or during the next maintenance window.
+The settings to be applied to the Valkey or Redis OSS replication
+group, either immediately or during the next maintenance window.
 
 =head1 ATTRIBUTES
 
@@ -51,8 +54,18 @@ The auth token status
 
 =head2 AutomaticFailoverStatus => Str
 
-Indicates the status of automatic failover for this Redis replication
-group.
+Indicates the status of automatic failover for this Valkey or Redis OSS
+replication group.
+
+
+=head2 ClusterMode => Str
+
+Enabled or Disabled. To modify cluster mode from Disabled to Enabled,
+you must first set the cluster mode to Compatible. Compatible mode
+allows your Valkey or Redis OSS clients to connect using both cluster
+mode enabled and cluster mode disabled. After you migrate all Valkey or
+Redis OSS clients to use cluster mode enabled, you can then complete
+cluster mode configuration and set the cluster mode to Enabled.
 
 
 =head2 LogDeliveryConfigurations => ArrayRef[L<Paws::ElastiCache::PendingLogDeliveryConfiguration>]
@@ -72,9 +85,20 @@ window.
 The status of an online resharding operation.
 
 
+=head2 TransitEncryptionEnabled => Bool
+
+A flag that enables in-transit encryption when set to true.
+
+
+=head2 TransitEncryptionMode => Str
+
+A setting that allows you to migrate your clients to use in-transit
+encryption, with no downtime.
+
+
 =head2 UserGroups => L<Paws::ElastiCache::UserGroupsUpdateStatus>
 
-The user groups being modified.
+The user group being modified.
 
 
 

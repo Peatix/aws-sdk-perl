@@ -35,6 +35,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $Errors       = $BatchGetRepositoriesOutput->Errors;
     my $Repositories = $BatchGetRepositoriesOutput->Repositories;
     my $RepositoriesNotFound =
       $BatchGetRepositoriesOutput->RepositoriesNotFound;

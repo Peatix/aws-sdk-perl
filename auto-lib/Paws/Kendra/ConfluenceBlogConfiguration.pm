@@ -33,19 +33,23 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Con
 
 =head1 DESCRIPTION
 
-Specifies the blog settings for the Confluence data source. Blogs are
-always indexed unless filtered from the index by the
+Configuration of blog settings for the Confluence data source. Blogs
+are always indexed unless filtered from the index by the
 C<ExclusionPatterns> or C<InclusionPatterns> fields in the
-C<ConfluenceConfiguration> type.
+C<ConfluenceConfiguration> object.
 
 =head1 ATTRIBUTES
 
 
 =head2 BlogFieldMappings => ArrayRef[L<Paws::Kendra::ConfluenceBlogToIndexFieldMapping>]
 
-Defines how blog metadata fields should be mapped to index fields.
-Before you can map a field, you must first create an index field with a
-matching type using the console or the C<UpdateIndex> operation.
+Maps attributes or field names of Confluence blogs to Amazon Kendra
+index field names. To create custom fields, use the C<UpdateIndex> API
+before you map to Confluence fields. For more information, see Mapping
+data source fields
+(https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The
+Confluence data source field names must exist in your Confluence custom
+metadata.
 
 If you specify the C<BlogFieldMappings> parameter, you must specify at
 least one field mapping.

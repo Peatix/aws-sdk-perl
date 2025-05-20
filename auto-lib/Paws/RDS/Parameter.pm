@@ -91,17 +91,17 @@ The earliest engine version to which the parameter can apply.
 
 =head2 ParameterName => Str
 
-Specifies the name of the parameter.
+The name of the parameter.
 
 
 =head2 ParameterValue => Str
 
-Specifies the value of the parameter.
+The value of the parameter.
 
 
 =head2 Source => Str
 
-Indicates the source of the parameter value.
+The source of the parameter value.
 
 
 =head2 SupportedEngineModes => ArrayRef[Str|Undef]

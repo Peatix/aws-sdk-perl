@@ -27,7 +27,7 @@ NextToken should include those same parameters.
 
 =head2 Trails => ArrayRef[L<Paws::CloudTrail::TrailInfo>]
 
-Returns the name, ARN, and home region of trails in the current
+Returns the name, ARN, and home Region of trails in the current
 account.
 
 

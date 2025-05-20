@@ -8,6 +8,7 @@ package Paws::EC2::RevokeSecurityGroupIngress;
   has GroupName => (is => 'ro', isa => 'Str');
   has IpPermissions => (is => 'ro', isa => 'ArrayRef[Paws::EC2::IpPermission]');
   has IpProtocol => (is => 'ro', isa => 'Str');
+  has SecurityGroupRuleIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'SecurityGroupRuleId' );
   has SourceSecurityGroupName => (is => 'ro', isa => 'Str');
   has SourceSecurityGroupOwnerId => (is => 'ro', isa => 'Str');
   has ToPort => (is => 'ro', isa => 'Int');
@@ -83,14 +84,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
-      IpProtocol                 => 'MyString',    # OPTIONAL
-      SourceSecurityGroupName    => 'MyString',    # OPTIONAL
-      SourceSecurityGroupOwnerId => 'MyString',    # OPTIONAL
-      ToPort                     => 1,             # OPTIONAL
+      IpProtocol                 => 'MyString',             # OPTIONAL
+      SecurityGroupRuleIds       => [ 'MyString', ... ],    # OPTIONAL
+      SourceSecurityGroupName    => 'MyString',             # OPTIONAL
+      SourceSecurityGroupOwnerId => 'MyString',             # OPTIONAL
+      ToPort                     => 1,                      # OPTIONAL
     );
 
     # Results:
     my $Return = $RevokeSecurityGroupIngressResult->Return;
+    my $RevokedSecurityGroupRules =
+      $RevokeSecurityGroupIngressResult->RevokedSecurityGroupRules;
     my $UnknownIpPermissions =
       $RevokeSecurityGroupIngressResult->UnknownIpPermissions;
 
@@ -120,24 +124,23 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 =head2 FromPort => Int
 
-The start of port range for the TCP and UDP protocols, or an ICMP type
-number. For the ICMP type number, use C<-1> to specify all ICMP types.
+If the protocol is TCP or UDP, this is the start of the port range. If
+the protocol is ICMP, this is the ICMP type or -1 (all ICMP types).
 
 
 
 =head2 GroupId => Str
 
-The ID of the security group. You must specify either the security
-group ID or the security group name in the request. For security groups
-in a nondefault VPC, you must specify the security group ID.
+The ID of the security group.
 
 
 
 =head2 GroupName => Str
 
-[EC2-Classic, default VPC] The name of the security group. You must
-specify either the security group ID or the security group name in the
-request.
+[Default VPC] The name of the security group. You must specify either
+the security group ID or the security group name in the request. For
+security groups in a nondefault VPC, you must specify the security
+group ID.
 
 
 
@@ -157,33 +160,33 @@ Use C<-1> to specify all.
 
 
 
+=head2 SecurityGroupRuleIds => ArrayRef[Str|Undef]
+
+The IDs of the security group rules.
+
+
+
 =head2 SourceSecurityGroupName => Str
 
-[EC2-Classic, default VPC] The name of the source security group. You
-can't specify this parameter in combination with the following
-parameters: the CIDR IP address range, the start of the port range, the
-IP protocol, and the end of the port range. For EC2-VPC, the source
-security group must be in the same VPC. To revoke a specific rule for
-an IP protocol and port range, use a set of IP permissions instead.
+[Default VPC] The name of the source security group. You can't specify
+this parameter in combination with the following parameters: the CIDR
+IP address range, the start of the port range, the IP protocol, and the
+end of the port range. The source security group must be in the same
+VPC. To revoke a specific rule for an IP protocol and port range, use a
+set of IP permissions instead.
 
 
 
 =head2 SourceSecurityGroupOwnerId => Str
 
-[EC2-Classic] The AWS account ID of the source security group, if the
-source security group is in a different account. You can't specify this
-parameter in combination with the following parameters: the CIDR IP
-address range, the IP protocol, the start of the port range, and the
-end of the port range. To revoke a specific rule for an IP protocol and
-port range, use a set of IP permissions instead.
+Not supported.
 
 
 
 =head2 ToPort => Int
 
-The end of port range for the TCP and UDP protocols, or an ICMP code
-number. For the ICMP code number, use C<-1> to specify all ICMP codes
-for the ICMP type.
+If the protocol is TCP or UDP, this is the end of the port range. If
+the protocol is ICMP, this is the ICMP code or -1 (all ICMP codes).
 
 
 

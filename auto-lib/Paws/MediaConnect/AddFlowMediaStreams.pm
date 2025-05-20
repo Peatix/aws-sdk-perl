@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::AddFlowMediaStreams;
   use Moose;
-  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'flowArn', required => 1);
+  has FlowArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'FlowArn', required => 1);
   has MediaStreams => (is => 'ro', isa => 'ArrayRef[Paws::MediaConnect::AddMediaStreamRequest]', traits => ['NameInRequest'], request_name => 'mediaStreams', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AddFlowMediaStreams');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{flowArn}/mediaStreams');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v1/flows/{FlowArn}/mediaStreams');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaConnect::AddFlowMediaStreamsResponse');
 1;
@@ -30,30 +30,30 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     my $AddFlowMediaStreamsResponse = $mediaconnect->AddFlowMediaStreams(
-      FlowArn      => 'My__string',
+      FlowArn      => 'MyAddFlowMediaStreamsRequestFlowArnString',
       MediaStreams => [
         {
           MediaStreamId   => 1,
-          MediaStreamName => 'My__string',
+          MediaStreamName => 'MyString',
           MediaStreamType => 'video',     # values: video, audio, ancillary-data
           Attributes      => {
             Fmtp => {
-              ChannelOrder => 'My__string',
+              ChannelOrder => 'MyString',
               Colorimetry  => 'BT601'
               , # values: BT601, BT709, BT2020, BT2100, ST2065-1, ST2065-3, XYZ; OPTIONAL
-              ExactFramerate => 'My__string',
-              Par            => 'My__string',
+              ExactFramerate => 'MyString',
+              Par            => 'MyString',
               Range => 'NARROW',   # values: NARROW, FULL, FULLPROTECT; OPTIONAL
               ScanMode => 'progressive'
               , # values: progressive, interlace, progressive-segmented-frame; OPTIONAL
               Tcs => 'SDR'
               , # values: SDR, PQ, HLG, LINEAR, BT2100LINPQ, BT2100LINHLG, ST2065-1, ST428-1, DENSITY; OPTIONAL
             },    # OPTIONAL
-            Lang => 'My__string',
+            Lang => 'MyString',
           },    # OPTIONAL
           ClockRate   => 1,
-          Description => 'My__string',
-          VideoFormat => 'My__string',
+          Description => 'MyString',
+          VideoFormat => 'MyString',
         },
         ...
       ],

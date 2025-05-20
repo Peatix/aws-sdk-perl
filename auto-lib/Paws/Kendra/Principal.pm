@@ -2,6 +2,7 @@
 package Paws::Kendra::Principal;
   use Moose;
   has Access => (is => 'ro', isa => 'Str', required => 1);
+  has DataSourceId => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
@@ -35,14 +36,21 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Pri
 
 =head1 DESCRIPTION
 
-Provides user and group information for document access filtering.
+Provides user and group information for user context filtering
+(https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html).
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Access => Str
 
-Whether to allow or deny access to the principal.
+Whether to allow or deny document access to the principal.
+
+
+=head2 DataSourceId => Str
+
+The identifier of the data source the principal should access documents
+from.
 
 
 =head2 B<REQUIRED> Name => Str

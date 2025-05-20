@@ -34,17 +34,17 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::Encryp
 
 =head1 DESCRIPTION
 
-Specifies the encryption settings for shared snapshots that are copied
-across Regions.
+B<[Event-based policies only]> Specifies the encryption settings for
+cross-Region snapshot copies created by event-based policies.
 
 =head1 ATTRIBUTES
 
 
 =head2 CmkArn => Str
 
-The Amazon Resource Name (ARN) of the AWS KMS customer master key (CMK)
-to use for EBS encryption. If this parameter is not specified, your AWS
-managed CMK for EBS is used.
+The Amazon Resource Name (ARN) of the KMS key to use for EBS
+encryption. If this parameter is not specified, the default KMS key for
+the account is used.
 
 
 =head2 B<REQUIRED> Encrypted => Bool

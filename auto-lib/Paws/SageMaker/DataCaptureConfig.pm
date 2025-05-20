@@ -38,38 +38,70 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-This class has no description
+Configuration to control how SageMaker AI captures inference data.
 
 =head1 ATTRIBUTES
 
 
 =head2 CaptureContentTypeHeader => L<Paws::SageMaker::CaptureContentTypeHeader>
 
-
+Configuration specifying how to treat different headers. If no headers
+are specified SageMaker AI will by default base64 encode when capturing
+the data.
 
 
 =head2 B<REQUIRED> CaptureOptions => ArrayRef[L<Paws::SageMaker::CaptureOption>]
 
-
+Specifies data Model Monitor will capture. You can configure whether to
+collect only input, only output, or both
 
 
 =head2 B<REQUIRED> DestinationS3Uri => Str
 
-
+The Amazon S3 location used to capture the data.
 
 
 =head2 EnableCapture => Bool
 
-
+Whether data capture should be enabled or disabled (defaults to
+enabled).
 
 
 =head2 B<REQUIRED> InitialSamplingPercentage => Int
 
-
+The percentage of requests SageMaker AI will capture. A lower value is
+recommended for Endpoints with high traffic.
 
 
 =head2 KmsKeyId => Str
 
+The Amazon Resource Name (ARN) of an Key Management Service key that
+SageMaker AI uses to encrypt the captured data at rest using Amazon S3
+server-side encryption.
+
+The KmsKeyId can be any of the following formats:
+
+=over
+
+=item *
+
+Key ID: C<1234abcd-12ab-34cd-56ef-1234567890ab>
+
+=item *
+
+Key ARN:
+C<arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
+
+=item *
+
+Alias name: C<alias/ExampleAlias>
+
+=item *
+
+Alias name ARN:
+C<arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias>
+
+=back
 
 
 

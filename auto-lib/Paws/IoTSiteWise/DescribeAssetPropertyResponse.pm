@@ -1,6 +1,7 @@
 
 package Paws::IoTSiteWise::DescribeAssetPropertyResponse;
   use Moose;
+  has AssetExternalId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetExternalId');
   has AssetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetId', required => 1);
   has AssetModelId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetModelId', required => 1);
   has AssetName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetName', required => 1);
@@ -19,14 +20,22 @@ Paws::IoTSiteWise::DescribeAssetPropertyResponse
 =head1 ATTRIBUTES
 
 
+=head2 AssetExternalId => Str
+
+The external ID of the asset. For more information, see Using external
+IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
 =head2 B<REQUIRED> AssetId => Str
 
-The ID of the asset.
+The ID of the asset, in UUID format.
 
 
 =head2 B<REQUIRED> AssetModelId => Str
 
-The ID of the asset model.
+The ID of the asset model, in UUID format.
 
 
 =head2 B<REQUIRED> AssetName => Str
@@ -45,8 +54,8 @@ the asset property information in C<compositeModel>.
 
 =head2 CompositeModel => L<Paws::IoTSiteWise::CompositeModelProperty>
 
-The composite asset model that declares this asset property, if this
-asset property exists in a composite model.
+The composite model that declares this asset property, if this asset
+property exists in a composite model.
 
 
 =head2 _request_id => Str

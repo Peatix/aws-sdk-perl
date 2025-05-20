@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lambda::Sel
 
 =head1 DESCRIPTION
 
-The Self-Managed Apache Kafka cluster for your event source.
+The self-managed Apache Kafka cluster for your event source.
 
 =head1 ATTRIBUTES
 

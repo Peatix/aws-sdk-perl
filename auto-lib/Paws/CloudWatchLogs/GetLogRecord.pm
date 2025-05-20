@@ -2,6 +2,7 @@
 package Paws::CloudWatchLogs::GetLogRecord;
   use Moose;
   has LogRecordPointer => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logRecordPointer' , required => 1);
+  has Unmask => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'unmask' );
 
   use MooseX::ClassAttribute;
 
@@ -29,7 +30,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $logs = Paws->service('CloudWatchLogs');
     my $GetLogRecordResponse = $logs->GetLogRecord(
       LogRecordPointer => 'MyLogRecordPointer',
-
+      Unmask           => 1,                      # OPTIONAL
     );
 
     # Results:
@@ -50,6 +51,16 @@ You get this from the response of a C<GetQueryResults> operation. In
 that response, the value of the C<@ptr> field for a log event is the
 value to use as C<logRecordPointer> to retrieve that complete log event
 record.
+
+
+
+=head2 Unmask => Bool
+
+Specify C<true> to display the log event fields with all sensitive data
+unmasked and visible. The default is C<false>.
+
+To use this operation with this parameter, you must be signed into an
+account with the C<logs:Unmask> permission.
 
 
 

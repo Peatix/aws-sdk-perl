@@ -20,10 +20,10 @@ Paws::RedShift::ScheduledActionsMessage
 
 An optional parameter that specifies the starting point to return a set
 of response records. When the results of a DescribeScheduledActions
-request exceed the value specified in C<MaxRecords>, AWS returns a
-value in the C<Marker> field of the response. You can retrieve the next
-set of response records by providing the returned marker value in the
-C<Marker> parameter and retrying the request.
+request exceed the value specified in C<MaxRecords>, Amazon Web
+Services returns a value in the C<Marker> field of the response. You
+can retrieve the next set of response records by providing the returned
+marker value in the C<Marker> parameter and retrying the request.
 
 
 =head2 ScheduledActions => ArrayRef[L<Paws::RedShift::ScheduledAction>]

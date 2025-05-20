@@ -34,14 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSMIncident
 
 =head1 DESCRIPTION
 
-Defines the Region and KMS key to add to the replication set.
+Defines the Amazon Web Services Region and KMS key to add to the
+replication set.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> RegionName => Str
 
-The Region name to add to the replication set.
+The Amazon Web Services Region name to add to the replication set.
 
 
 =head2 SseKmsKeyId => Str

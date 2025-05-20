@@ -3,7 +3,7 @@ package Paws::SageMaker::CreateProject;
   use Moose;
   has ProjectDescription => (is => 'ro', isa => 'Str');
   has ProjectName => (is => 'ro', isa => 'Str', required => 1);
-  has ServiceCatalogProvisioningDetails => (is => 'ro', isa => 'Paws::SageMaker::ServiceCatalogProvisioningDetails', required => 1);
+  has ServiceCatalogProvisioningDetails => (is => 'ro', isa => 'Paws::SageMaker::ServiceCatalogProvisioningDetails');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::Tag]');
 
   use MooseX::ClassAttribute;
@@ -32,10 +32,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $api.sagemaker = Paws->service('SageMaker');
     my $CreateProjectOutput = $api . sagemaker->CreateProject(
       ProjectName                       => 'MyProjectEntityName',
+      ProjectDescription                => 'MyEntityDescription',    # OPTIONAL
       ServiceCatalogProvisioningDetails => {
         ProductId              => 'MyServiceCatalogEntityId', # min: 1, max: 100
-        ProvisioningArtifactId => 'MyServiceCatalogEntityId', # min: 1, max: 100
         PathId                 => 'MyServiceCatalogEntityId', # min: 1, max: 100
+        ProvisioningArtifactId => 'MyServiceCatalogEntityId', # min: 1, max: 100
         ProvisioningParameters => [
           {
             Key   => 'MyProvisioningParameterKey', # min: 1, max: 1000; OPTIONAL
@@ -43,9 +44,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
-      },
-      ProjectDescription => 'MyEntityDescription',    # OPTIONAL
-      Tags               => [
+      },    # OPTIONAL
+      Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
           Value => 'MyTagValue',    # max: 256
@@ -79,11 +79,13 @@ The name of the project.
 
 
 
-=head2 B<REQUIRED> ServiceCatalogProvisioningDetails => L<Paws::SageMaker::ServiceCatalogProvisioningDetails>
+=head2 ServiceCatalogProvisioningDetails => L<Paws::SageMaker::ServiceCatalogProvisioningDetails>
 
 The product ID and provisioning artifact ID to provision a service
-catalog. For information, see What is Amazon Web Services Service
-Catalog
+catalog. The provisioning artifact ID will default to the latest
+provisioning artifact ID of the product, if you don't provide the
+provisioning artifact ID. For more information, see What is Amazon Web
+Services Service Catalog
 (https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
 
 

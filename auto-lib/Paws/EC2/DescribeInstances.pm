@@ -69,7 +69,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
@@ -99,7 +99,7 @@ C<availability-zone> - The Availability Zone of the instance.
 =item *
 
 C<block-device-mapping.attach-time> - The attach time for an EBS volume
-mapped to the instance, for example, C<2010-09-15T17:15:20.000Z>.
+mapped to the instance, for example, C<2022-09-15T17:15:20.000Z>.
 
 =item *
 
@@ -122,8 +122,38 @@ C<block-device-mapping.volume-id> - The volume ID of the EBS volume.
 
 =item *
 
+C<boot-mode> - The boot mode that was specified by the AMI
+(C<legacy-bios> | C<uefi> | C<uefi-preferred>).
+
+=item *
+
+C<capacity-reservation-id> - The ID of the Capacity Reservation into
+which the instance was launched.
+
+=item *
+
+C<capacity-reservation-specification.capacity-reservation-preference> -
+The instance's Capacity Reservation preference (C<open> | C<none>).
+
+=item *
+
+C<capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id>
+- The ID of the targeted Capacity Reservation.
+
+=item *
+
+C<capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn>
+- The ARN of the targeted Capacity Reservation group.
+
+=item *
+
 C<client-token> - The idempotency token you provided when you launched
 the instance.
+
+=item *
+
+C<current-instance-boot-mode> - The boot mode that is used to launch
+the instance at launch or start (C<legacy-bios> | C<uefi>).
 
 =item *
 
@@ -131,13 +161,18 @@ C<dns-name> - The public DNS name of the instance.
 
 =item *
 
-C<group-id> - The ID of the security group for the instance.
-EC2-Classic only.
+C<ebs-optimized> - A Boolean that indicates whether the instance is
+optimized for Amazon EBS I/O.
 
 =item *
 
-C<group-name> - The name of the security group for the instance.
-EC2-Classic only.
+C<ena-support> - A Boolean that indicates whether the instance is
+enabled for enhanced networking with ENA.
+
+=item *
+
+C<enclave-options.enabled> - A Boolean that indicates whether the
+instance is enabled for Amazon Web Services Nitro Enclaves.
 
 =item *
 
@@ -162,6 +197,11 @@ instance. Specified as an ARN.
 
 =item *
 
+C<iam-instance-profile.id> - The instance profile associated with the
+instance. Specified as an ID.
+
+=item *
+
 C<image-id> - The ID of the image used to launch the instance.
 
 =item *
@@ -170,8 +210,9 @@ C<instance-id> - The ID of the instance.
 
 =item *
 
-C<instance-lifecycle> - Indicates whether this is a Spot Instance or a
-Scheduled Instance (C<spot> | C<scheduled>).
+C<instance-lifecycle> - Indicates whether this is a Spot Instance, a
+Scheduled Instance, or a Capacity Block (C<spot> | C<scheduled> |
+C<capacity-block>).
 
 =item *
 
@@ -206,6 +247,10 @@ C<ip-address> - The public IPv4 address of the instance.
 
 =item *
 
+C<ipv6-address> - The IPv6 address of the instance.
+
+=item *
+
 C<kernel-id> - The kernel ID.
 
 =item *
@@ -220,7 +265,35 @@ for the instance in the launch group (for example, 0, 1, 2, and so on).
 
 =item *
 
-C<launch-time> - The time when the instance was launched.
+C<launch-time> - The time when the instance was launched, in the ISO
+8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for
+example, C<2021-09-29T11:04:43.305Z>. You can use a wildcard (C<*>),
+for example, C<2021-09-29T*>, which matches an entire day.
+
+=item *
+
+C<maintenance-options.auto-recovery> - The current automatic recovery
+behavior of the instance (C<disabled> | C<default>).
+
+=item *
+
+C<metadata-options.http-endpoint> - The status of access to the HTTP
+metadata endpoint on your instance (C<enabled> | C<disabled>)
+
+=item *
+
+C<metadata-options.http-protocol-ipv4> - Indicates whether the IPv4
+endpoint is enabled (C<disabled> | C<enabled>).
+
+=item *
+
+C<metadata-options.http-protocol-ipv6> - Indicates whether the IPv6
+endpoint is enabled (C<disabled> | C<enabled>).
+
+=item *
+
+C<metadata-options.http-put-response-hop-limit> - The HTTP metadata
+request put response hop limit (integer, possible values C<1> to C<64>)
 
 =item *
 
@@ -229,13 +302,13 @@ state (C<optional> | C<required>)
 
 =item *
 
-C<metadata-options.http-put-response-hop-limit> - The http metadata
-request put response hop limit (integer, possible values C<1> to C<64>)
+C<metadata-options.instance-metadata-tags> - The status of access to
+instance tags from the instance metadata (C<enabled> | C<disabled>)
 
 =item *
 
-C<metadata-options.http-endpoint> - Enable or disable metadata access
-on http endpoint (C<enabled> | C<disabled>)
+C<metadata-options.state> - The state of the metadata option changes
+(C<pending> | C<applied>).
 
 =item *
 
@@ -244,18 +317,23 @@ C<monitoring-state> - Indicates whether detailed monitoring is enabled
 
 =item *
 
-C<network-interface.addresses.private-ip-address> - The private IPv4
-address associated with the network interface.
+C<network-interface.addresses.association.allocation-id> - The
+allocation ID.
 
 =item *
 
-C<network-interface.addresses.primary> - Specifies whether the IPv4
-address of the network interface is the primary private IPv4 address.
+C<network-interface.addresses.association.association-id> - The
+association ID.
 
 =item *
 
-C<network-interface.addresses.association.public-ip> - The ID of the
-association of an Elastic IP address (IPv4) with a network interface.
+C<network-interface.addresses.association.carrier-ip> - The carrier IP
+address.
+
+=item *
+
+C<network-interface.addresses.association.customer-owned-ip> - The
+customer-owned IP address.
 
 =item *
 
@@ -264,13 +342,27 @@ of the private IPv4 address associated with the network interface.
 
 =item *
 
-C<network-interface.association.public-ip> - The address of the Elastic
-IP address (IPv4) bound to the network interface.
+C<network-interface.addresses.association.public-dns-name> - The public
+DNS name.
 
 =item *
 
-C<network-interface.association.ip-owner-id> - The owner of the Elastic
-IP address (IPv4) associated with the network interface.
+C<network-interface.addresses.association.public-ip> - The ID of the
+association of an Elastic IP address (IPv4) with a network interface.
+
+=item *
+
+C<network-interface.addresses.primary> - Specifies whether the IPv4
+address of the network interface is the primary private IPv4 address.
+
+=item *
+
+C<network-interface.addresses.private-dns-name> - The private DNS name.
+
+=item *
+
+C<network-interface.addresses.private-ip-address> - The private IPv4
+address associated with the network interface.
 
 =item *
 
@@ -286,8 +378,47 @@ address.
 
 =item *
 
+C<network-interface.association.carrier-ip> - The customer-owned IP
+address.
+
+=item *
+
+C<network-interface.association.customer-owned-ip> - The customer-owned
+IP address.
+
+=item *
+
+C<network-interface.association.ip-owner-id> - The owner of the Elastic
+IP address (IPv4) associated with the network interface.
+
+=item *
+
+C<network-interface.association.public-dns-name> - The public DNS name.
+
+=item *
+
+C<network-interface.association.public-ip> - The address of the Elastic
+IP address (IPv4) bound to the network interface.
+
+=item *
+
+C<network-interface.attachment.attach-time> - The time that the network
+interface was attached to an instance.
+
+=item *
+
 C<network-interface.attachment.attachment-id> - The ID of the interface
 attachment.
+
+=item *
+
+C<network-interface.attachment.delete-on-termination> - Specifies
+whether the attachment is deleted when an instance is terminated.
+
+=item *
+
+C<network-interface.attachment.device-index> - The device index to
+which the network interface is attached.
 
 =item *
 
@@ -301,8 +432,8 @@ instance to which the network interface is attached.
 
 =item *
 
-C<network-interface.attachment.device-index> - The device index to
-which the network interface is attached.
+C<network-interface.attachment.network-card-index> - The index of the
+network card.
 
 =item *
 
@@ -311,18 +442,14 @@ C<network-interface.attachment.status> - The status of the attachment
 
 =item *
 
-C<network-interface.attachment.attach-time> - The time that the network
-interface was attached to an instance.
-
-=item *
-
-C<network-interface.attachment.delete-on-termination> - Specifies
-whether the attachment is deleted when an instance is terminated.
-
-=item *
-
 C<network-interface.availability-zone> - The Availability Zone for the
 network interface.
+
+=item *
+
+C<network-interface.deny-all-igw-traffic> - A Boolean that indicates
+whether a network interface with an IPv6 address is unreachable from
+the public internet.
 
 =item *
 
@@ -341,8 +468,33 @@ associated with the network interface.
 
 =item *
 
+C<network-interface.ipv4-prefixes.ipv4-prefix> - The IPv4 prefixes that
+are assigned to the network interface.
+
+=item *
+
+C<network-interface.ipv6-address> - The IPv6 address associated with
+the network interface.
+
+=item *
+
 C<network-interface.ipv6-addresses.ipv6-address> - The IPv6 address
 associated with the network interface.
+
+=item *
+
+C<network-interface.ipv6-addresses.is-primary-ipv6> - A Boolean that
+indicates whether this is the primary IPv6 address.
+
+=item *
+
+C<network-interface.ipv6-native> - A Boolean that indicates whether
+this is an IPv6 only network interface.
+
+=item *
+
+C<network-interface.ipv6-prefixes.ipv6-prefix> - The IPv6 prefix
+assigned to the network interface.
 
 =item *
 
@@ -356,6 +508,21 @@ interface.
 
 =item *
 
+C<network-interface.operator.managed> - A Boolean that indicates
+whether the instance has a managed network interface.
+
+=item *
+
+C<network-interface.operator.principal> - The principal that manages
+the network interface. Only valid for instances with managed network
+interfaces, where C<managed> is C<true>.
+
+=item *
+
+C<network-interface.outpost-arn> - The ARN of the Outpost.
+
+=item *
+
 C<network-interface.owner-id> - The ID of the owner of the network
 interface.
 
@@ -363,6 +530,14 @@ interface.
 
 C<network-interface.private-dns-name> - The private DNS name of the
 network interface.
+
+=item *
+
+C<network-interface.private-ip-address> - The private IPv4 address.
+
+=item *
+
+C<network-interface.public-dns-name> - The public DNS name.
 
 =item *
 
@@ -394,8 +569,34 @@ interface.
 
 =item *
 
+C<network-interface.tag-key> - The key of a tag assigned to the network
+interface.
+
+=item *
+
+C<network-interface.tag-value> - The value of a tag assigned to the
+network interface.
+
+=item *
+
 C<network-interface.vpc-id> - The ID of the VPC for the network
 interface.
+
+=item *
+
+C<network-performance-options.bandwidth-weighting> - Where the
+performance boost is applied, if applicable. Valid values: C<default>,
+C<vpc-1>, C<ebs-1>.
+
+=item *
+
+C<operator.managed> - A Boolean that indicates whether this is a
+managed instance.
+
+=item *
+
+C<operator.principal> - The principal that manages the instance. Only
+valid for managed instances, where C<managed> is C<true>.
 
 =item *
 
@@ -403,7 +604,7 @@ C<outpost-arn> - The Amazon Resource Name (ARN) of the Outpost.
 
 =item *
 
-C<owner-id> - The account ID of the instance owner.
+C<owner-id> - The Amazon Web Services account ID of the instance owner.
 
 =item *
 
@@ -422,11 +623,45 @@ C<windows>.
 
 =item *
 
+C<platform-details> - The platform (C<Linux/UNIX> | C<Red Hat BYOL
+Linux> | C< Red Hat Enterprise Linux> | C<Red Hat Enterprise Linux with
+HA> | C<Red Hat Enterprise Linux with SQL Server Standard and HA> |
+C<Red Hat Enterprise Linux with SQL Server Enterprise and HA> | C<Red
+Hat Enterprise Linux with SQL Server Standard> | C<Red Hat Enterprise
+Linux with SQL Server Web> | C<Red Hat Enterprise Linux with SQL Server
+Enterprise> | C<SQL Server Enterprise> | C<SQL Server Standard> | C<SQL
+Server Web> | C<SUSE Linux> | C<Ubuntu Pro> | C<Windows> | C<Windows
+BYOL> | C<Windows with SQL Server Enterprise> | C<Windows with SQL
+Server Standard> | C<Windows with SQL Server Web>).
+
+=item *
+
 C<private-dns-name> - The private IPv4 DNS name of the instance.
 
 =item *
 
-C<private-ip-address> - The private IPv4 address of the instance.
+C<private-dns-name-options.enable-resource-name-dns-a-record> - A
+Boolean that indicates whether to respond to DNS queries for instance
+hostnames with DNS A records.
+
+=item *
+
+C<private-dns-name-options.enable-resource-name-dns-aaaa-record> - A
+Boolean that indicates whether to respond to DNS queries for instance
+hostnames with DNS AAAA records.
+
+=item *
+
+C<private-dns-name-options.hostname-type> - The type of hostname
+(C<ip-name> | C<resource-name>).
+
+=item *
+
+C<private-ip-address> - The private IPv4 address of the instance. This
+can only be used to filter by the primary IP address of the network
+interface attached to the instance. To filter by additional IP
+addresses assigned to the network interface, use the filter
+C<network-interface.addresses.private-ip-address>.
 
 =item *
 
@@ -451,7 +686,8 @@ instance). Similar to the state-reason-code filter.
 =item *
 
 C<requester-id> - The ID of the entity that launched the instance on
-your behalf (for example, Management Console, Auto Scaling, and so on).
+your behalf (for example, Amazon Web Services Management Console, Auto
+Scaling, and so on).
 
 =item *
 
@@ -499,7 +735,7 @@ C<subnet-id> - The ID of the subnet for the instance.
 
 =item *
 
-C<tag>:E<lt>keyE<gt> - The key/value combination of a tag assigned to
+C<tag:E<lt>keyE<gt>> - The key/value combination of a tag assigned to
 the resource. Use the tag key in the filter name and the tag value as
 the filter value. For example, to find all resources that have a tag
 with the key C<Owner> and the value C<TeamA>, specify C<tag:Owner> for
@@ -515,6 +751,27 @@ of the tag value.
 
 C<tenancy> - The tenancy of an instance (C<dedicated> | C<default> |
 C<host>).
+
+=item *
+
+C<tpm-support> - Indicates if the instance is configured for NitroTPM
+support (C<v2.0>).
+
+=item *
+
+C<usage-operation> - The usage operation value for the instance
+(C<RunInstances> | C<RunInstances:00g0> | C<RunInstances:0010> |
+C<RunInstances:1010> | C<RunInstances:1014> | C<RunInstances:1110> |
+C<RunInstances:0014> | C<RunInstances:0210> | C<RunInstances:0110> |
+C<RunInstances:0100> | C<RunInstances:0004> | C<RunInstances:0200> |
+C<RunInstances:000g> | C<RunInstances:0g00> | C<RunInstances:0002> |
+C<RunInstances:0800> | C<RunInstances:0102> | C<RunInstances:0006> |
+C<RunInstances:0202>).
+
+=item *
+
+C<usage-operation-update-time> - The time that the usage operation was
+last updated, for example, C<2022-09-15T17:15:20.000Z>.
 
 =item *
 
@@ -540,16 +797,20 @@ Default: Describes all your instances.
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. To retrieve
-the remaining results, make another call with the returned C<NextToken>
-value. This value can be between 5 and 1000. You cannot specify this
-parameter and the instance IDs parameter in the same call.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+
+You cannot specify this parameter and the instance IDs parameter in the
+same request.
 
 
 
 =head2 NextToken => Str
 
-The token to request the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

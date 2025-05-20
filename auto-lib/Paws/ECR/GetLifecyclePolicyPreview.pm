@@ -24,7 +24,7 @@ Paws::ECR::GetLifecyclePolicyPreview - Arguments for method GetLifecyclePolicyPr
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method GetLifecyclePolicyPreview on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method GetLifecyclePolicyPreview.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to GetLifecyclePolicyPreview.
@@ -111,9 +111,9 @@ with C<imageIds>.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the
-repository. If you do not specify a registry, the default registry is
-assumed.
+The Amazon Web Services account ID associated with the registry that
+contains the repository. If you do not specify a registry, the default
+registry is assumed.
 
 
 

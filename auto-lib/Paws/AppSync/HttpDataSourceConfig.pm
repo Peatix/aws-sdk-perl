@@ -41,16 +41,16 @@ Describes an HTTP data source configuration.
 
 =head2 AuthorizationConfig => L<Paws::AppSync::AuthorizationConfig>
 
-The authorization config in case the HTTP endpoint requires
+The authorization configuration in case the HTTP endpoint requires
 authorization.
 
 
 =head2 Endpoint => Str
 
-The HTTP URL endpoint. You can either specify the domain name or IP,
-and port combination, and the URL scheme must be HTTP or HTTPS. If the
-port is not specified, AWS AppSync uses the default port 80 for the
-HTTP endpoint and port 443 for HTTPS endpoints.
+The HTTP URL endpoint. You can specify either the domain name or IP,
+and port combination, and the URL scheme must be HTTP or HTTPS. If you
+don't specify the port, AppSync uses the default port 80 for the HTTP
+endpoint and port 443 for HTTPS endpoints.
 
 
 

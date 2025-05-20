@@ -37,10 +37,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 A conditional statement for a search expression that includes a
 resource property, a Boolean operator, and a value. Resources that
-match the statement are returned in the results from the Search API.
+match the statement are returned in the results from the Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API.
 
-If you specify a C<Value>, but not an C<Operator>, Amazon SageMaker
-uses the equals operator.
+If you specify a C<Value>, but not an C<Operator>, SageMaker uses the
+equals operator.
 
 In search, there are several property types:
 
@@ -97,8 +99,9 @@ C<Tags.E<lt>keyE<gt>>.
 =head2 B<REQUIRED> Name => Str
 
 A resource property name. For example, C<TrainingJobName>. For valid
-property names, see SearchRecord. You must specify a valid property for
-the resource.
+property names, see SearchRecord
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchRecord.html).
+You must specify a valid property for the resource.
 
 
 =head2 Operator => Str

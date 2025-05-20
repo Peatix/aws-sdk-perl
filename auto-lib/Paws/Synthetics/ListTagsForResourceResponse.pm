@@ -17,7 +17,7 @@ Paws::Synthetics::ListTagsForResourceResponse
 
 =head2 Tags => L<Paws::Synthetics::TagMap>
 
-The list of tag keys and values associated with the canary that you
+The list of tag keys and values associated with the resource that you
 specified.
 
 

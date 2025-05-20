@@ -2,7 +2,10 @@
 package Paws::AuditManager::UpdateSettings;
   use Moose;
   has DefaultAssessmentReportsDestination => (is => 'ro', isa => 'Paws::AuditManager::AssessmentReportsDestination', traits => ['NameInRequest'], request_name => 'defaultAssessmentReportsDestination');
+  has DefaultExportDestination => (is => 'ro', isa => 'Paws::AuditManager::DefaultExportDestination', traits => ['NameInRequest'], request_name => 'defaultExportDestination');
   has DefaultProcessOwners => (is => 'ro', isa => 'ArrayRef[Paws::AuditManager::Role]', traits => ['NameInRequest'], request_name => 'defaultProcessOwners');
+  has DeregistrationPolicy => (is => 'ro', isa => 'Paws::AuditManager::DeregistrationPolicy', traits => ['NameInRequest'], request_name => 'deregistrationPolicy');
+  has EvidenceFinderEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'evidenceFinderEnabled');
   has KmsKey => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKey');
   has SnsTopic => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'snsTopic');
 
@@ -36,16 +39,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Destination     => 'MyS3Url',    # min: 1, max: 1024; OPTIONAL
         DestinationType => 'S3',         # values: S3; OPTIONAL
       },    # OPTIONAL
+      DefaultExportDestination => {
+        Destination     => 'MyS3Url',    # min: 1, max: 1024; OPTIONAL
+        DestinationType => 'S3',         # values: S3; OPTIONAL
+      },    # OPTIONAL
       DefaultProcessOwners => [
         {
-          RoleArn  => 'MyIamArn',    # min: 20, max: 2048; OPTIONAL
-          RoleType =>
-            'PROCESS_OWNER',   # values: PROCESS_OWNER, RESOURCE_OWNER; OPTIONAL
+          RoleArn  => 'MyIamArn',        # min: 20, max: 2048
+          RoleType => 'PROCESS_OWNER',   # values: PROCESS_OWNER, RESOURCE_OWNER
+
         },
         ...
       ],    # OPTIONAL
-      KmsKey   => 'MyKmsKey',    # OPTIONAL
-      SnsTopic => 'MySnsArn',    # OPTIONAL
+      DeregistrationPolicy => {
+        DeleteResources => 'ALL',    # values: ALL, DEFAULT; OPTIONAL
+      },    # OPTIONAL
+      EvidenceFinderEnabled => 1,             # OPTIONAL
+      KmsKey                => 'MyKmsKey',    # OPTIONAL
+      SnsTopic              => 'MySnsArn',    # OPTIONAL
     );
 
     # Results:
@@ -61,7 +72,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 DefaultAssessmentReportsDestination => L<Paws::AuditManager::AssessmentReportsDestination>
 
-The default storage destination for assessment reports.
+The default S3 destination bucket for storing assessment reports.
+
+
+
+=head2 DefaultExportDestination => L<Paws::AuditManager::DefaultExportDestination>
+
+The default S3 destination bucket for storing evidence finder exports.
 
 
 
@@ -71,16 +88,40 @@ A list of the default audit owners.
 
 
 
+=head2 DeregistrationPolicy => L<Paws::AuditManager::DeregistrationPolicy>
+
+The deregistration policy for your Audit Manager data. You can use this
+attribute to determine how your data is handled when you deregister
+Audit Manager.
+
+
+
+=head2 EvidenceFinderEnabled => Bool
+
+Specifies whether the evidence finder feature is enabled. Change this
+attribute to enable or disable evidence finder.
+
+When you use this attribute to disable evidence finder, Audit Manager
+deletes the event data store thatE<rsquo>s used to query your evidence
+data. As a result, you canE<rsquo>t re-enable evidence finder and use
+the feature again. Your only alternative is to deregister
+(https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html)
+and then re-register
+(https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html)
+Audit Manager.
+
+
+
 =head2 KmsKey => Str
 
-The AWS KMS key details.
+The KMS key details.
 
 
 
 =head2 SnsTopic => Str
 
-The Amazon Simple Notification Service (Amazon SNS) topic to which AWS
-Audit Manager sends notifications.
+The Amazon Simple Notification Service (Amazon SNS) topic that Audit
+Manager sends notifications to.
 
 
 

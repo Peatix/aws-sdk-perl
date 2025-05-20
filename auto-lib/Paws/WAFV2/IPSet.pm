@@ -38,7 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::IPSe
 
 =head1 DESCRIPTION
 
-Contains one or more IP addresses or blocks of IP addresses specified
+Contains zero or more IP addresses or blocks of IP addresses specified
 in Classless Inter-Domain Routing (CIDR) notation. WAF supports all
 IPv4 and IPv6 CIDR ranges except for /0. For information about CIDR
 notation, see the Wikipedia entry Classless Inter-Domain Routing
@@ -53,35 +53,36 @@ IPSetReferenceStatement.
 
 =head2 B<REQUIRED> Addresses => ArrayRef[Str|Undef]
 
-Contains an array of strings that specify one or more IP addresses or
-blocks of IP addresses in Classless Inter-Domain Routing (CIDR)
-notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.
+Contains an array of strings that specifies zero or more IP addresses
+or blocks of IP addresses that you want WAF to inspect for in incoming
+requests. All addresses must be specified using Classless Inter-Domain
+Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges
+except for C</0>.
 
-Examples:
+Example address strings:
 
 =over
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from the IP address 192.0.2.44, specify C<192.0.2.44/32>.
+For requests that originated from the IP address 192.0.2.44, specify
+C<192.0.2.44/32>.
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-C<192.0.2.0/24>.
+For requests that originated from IP addresses from 192.0.2.0 to
+192.0.2.255, specify C<192.0.2.0/24>.
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+For requests that originated from the IP address
+1111:0000:0000:0000:0000:0000:0000:0111, specify
 C<1111:0000:0000:0000:0000:0000:0000:0111/128>.
 
 =item *
 
-To configure WAF to allow, block, or count requests that originated
-from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+For requests that originated from IP addresses
+1111:0000:0000:0000:0000:0000:0000:0000 to
 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
 C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
 
@@ -90,6 +91,30 @@ C<1111:0000:0000:0000:0000:0000:0000:0000/64>.
 For more information about CIDR notation, see the Wikipedia entry
 Classless Inter-Domain Routing
 (https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
+
+Example JSON C<Addresses> specifications:
+
+=over
+
+=item *
+
+Empty array: C<"Addresses": []>
+
+=item *
+
+Array with one address: C<"Addresses": ["192.0.2.44/32"]>
+
+=item *
+
+Array with three addresses: C<"Addresses": ["192.0.2.44/32",
+"192.0.2.0/24", "192.0.0.0/16"]>
+
+=item *
+
+INVALID specification: C<"Addresses": [""]> INVALID
+
+=back
+
 
 
 =head2 B<REQUIRED> ARN => Str
@@ -111,7 +136,7 @@ and delete.
 
 =head2 B<REQUIRED> IPAddressVersion => Str
 
-Specify IPV4 or IPV6.
+The version of the IP addresses, either C<IPV4> or C<IPV6>.
 
 
 =head2 B<REQUIRED> Name => Str

@@ -50,7 +50,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 A unique, case-sensitive identifier that you provide to ensure the
 idempotency of the operation. An idempotent operation completes no more
-than one time.
+than once.
 
 
 

@@ -18,22 +18,22 @@ Paws::SecretsManager::CancelRotateSecretResponse
 
 =head2 ARN => Str
 
-The ARN of the secret for which rotation was canceled.
+The ARN of the secret.
 
 
 =head2 Name => Str
 
-The friendly name of the secret for which rotation was canceled.
+The name of the secret.
 
 
 =head2 VersionId => Str
 
 The unique identifier of the version of the secret created during the
 rotation. This version might not be complete, and should be evaluated
-for possible deletion. At the very least, you should remove the
-C<VersionStage> value C<AWSPENDING> to enable this version to be
-deleted. Failing to clean up a cancelled rotation can block you from
-successfully starting future rotations.
+for possible deletion. We recommend that you remove the C<VersionStage>
+value C<AWSPENDING> from this version so that Secrets Manager can
+delete it. Failing to clean up a cancelled rotation can block you from
+starting future rotations.
 
 
 =head2 _request_id => Str

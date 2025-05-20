@@ -1,0 +1,97 @@
+
+package Paws::DataZone::RejectSubscriptionRequest;
+  use Moose;
+  has DecisionComment => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'decisionComment');
+  has DomainIdentifier => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'domainIdentifier', required => 1);
+  has Identifier => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'identifier', required => 1);
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'RejectSubscriptionRequest');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/v2/domains/{domainIdentifier}/subscription-requests/{identifier}/reject');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'PUT');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::DataZone::RejectSubscriptionRequestOutput');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::DataZone::RejectSubscriptionRequest - Arguments for method RejectSubscriptionRequest on L<Paws::DataZone>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method RejectSubscriptionRequest on the
+L<Amazon DataZone|Paws::DataZone> service. Use the attributes of this class
+as arguments to method RejectSubscriptionRequest.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to RejectSubscriptionRequest.
+
+=head1 SYNOPSIS
+
+    my $datazone = Paws->service('DataZone');
+    my $RejectSubscriptionRequestOutput = $datazone->RejectSubscriptionRequest(
+      DomainIdentifier => 'MyDomainId',
+      Identifier       => 'MySubscriptionRequestId',
+      DecisionComment  => 'MyDecisionComment',         # OPTIONAL
+    );
+
+    # Results:
+    my $CreatedAt       = $RejectSubscriptionRequestOutput->CreatedAt;
+    my $CreatedBy       = $RejectSubscriptionRequestOutput->CreatedBy;
+    my $DecisionComment = $RejectSubscriptionRequestOutput->DecisionComment;
+    my $DomainId        = $RejectSubscriptionRequestOutput->DomainId;
+    my $ExistingSubscriptionId =
+      $RejectSubscriptionRequestOutput->ExistingSubscriptionId;
+    my $Id            = $RejectSubscriptionRequestOutput->Id;
+    my $MetadataForms = $RejectSubscriptionRequestOutput->MetadataForms;
+    my $RequestReason = $RejectSubscriptionRequestOutput->RequestReason;
+    my $ReviewerId    = $RejectSubscriptionRequestOutput->ReviewerId;
+    my $Status        = $RejectSubscriptionRequestOutput->Status;
+    my $SubscribedListings =
+      $RejectSubscriptionRequestOutput->SubscribedListings;
+    my $SubscribedPrincipals =
+      $RejectSubscriptionRequestOutput->SubscribedPrincipals;
+    my $UpdatedAt = $RejectSubscriptionRequestOutput->UpdatedAt;
+    my $UpdatedBy = $RejectSubscriptionRequestOutput->UpdatedBy;
+
+    # Returns a L<Paws::DataZone::RejectSubscriptionRequestOutput> object.
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/datazone/RejectSubscriptionRequest>
+
+=head1 ATTRIBUTES
+
+
+=head2 DecisionComment => Str
+
+The decision comment of the rejected subscription request.
+
+
+
+=head2 B<REQUIRED> DomainIdentifier => Str
+
+The identifier of the Amazon DataZone domain in which the subscription
+request was rejected.
+
+
+
+=head2 B<REQUIRED> Identifier => Str
+
+The identifier of the subscription request that was rejected.
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method RejectSubscriptionRequest in L<Paws::DataZone>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

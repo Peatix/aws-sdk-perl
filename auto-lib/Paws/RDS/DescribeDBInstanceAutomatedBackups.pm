@@ -68,13 +68,15 @@ The Amazon Resource Name (ARN) of the replicated automated backups, for
 example,
 C<arn:aws:rds:us-east-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE>.
 
+This setting doesn't apply to RDS Custom.
+
 
 
 =head2 DBInstanceIdentifier => Str
 
 (Optional) The user-supplied instance identifier. If this parameter is
 specified, it must match the identifier of an existing DB instance. It
-returns information from the specific DB instance' automated backup.
+returns information from the specific DB instance's automated backup.
 This parameter isn't case-sensitive.
 
 
@@ -102,17 +104,17 @@ C<status>
 
 =item *
 
-C<active> - automated backups for current instances
+C<active> - Automated backups for current instances.
 
 =item *
 
-C<retained> - automated backups for deleted instances and after backup
-replication is stopped
+C<creating> - Automated backups that are waiting for the first
+automated snapshot to be available.
 
 =item *
 
-C<creating> - automated backups that are waiting for the first
-automated snapshot to be available
+C<retained> - Automated backups for deleted instances and after backup
+replication is stopped.
 
 =back
 

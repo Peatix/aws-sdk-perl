@@ -22,7 +22,7 @@ Paws::ECR::SetRepositoryPolicy - Arguments for method SetRepositoryPolicy on L<P
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method SetRepositoryPolicy on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method SetRepositoryPolicy.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to SetRepositoryPolicy.
@@ -62,7 +62,7 @@ accidental repository lock outs.
 =head2 B<REQUIRED> PolicyText => Str
 
 The JSON repository policy text to apply to the repository. For more
-information, see Amazon ECR Repository Policies
+information, see Amazon ECR repository policies
 (https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html)
 in the I<Amazon Elastic Container Registry User Guide>.
 
@@ -70,9 +70,9 @@ in the I<Amazon Elastic Container Registry User Guide>.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry that contains the
-repository. If you do not specify a registry, the default registry is
-assumed.
+The Amazon Web Services account ID associated with the registry that
+contains the repository. If you do not specify a registry, the default
+registry is assumed.
 
 
 

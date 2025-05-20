@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Update
 
 =head1 DESCRIPTION
 
-An object representing a Kubernetes label change for a managed node
+An object representing a Kubernetes C<label> change for a managed node
 group.
 
 =head1 ATTRIBUTES
@@ -42,12 +42,12 @@ group.
 
 =head2 AddOrUpdateLabels => L<Paws::EKS::LabelsMap>
 
-Kubernetes labels to be added or updated.
+The Kubernetes C<labels> to add or update.
 
 
 =head2 RemoveLabels => ArrayRef[Str|Undef]
 
-Kubernetes labels to be removed.
+The Kubernetes C<labels> to remove.
 
 
 

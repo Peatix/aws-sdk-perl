@@ -36,15 +36,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FMS::AppsLi
 
 =head1 DESCRIPTION
 
-Details of the AWS Firewall Manager applications list.
+Details of the Firewall Manager applications list.
 
 =head1 ATTRIBUTES
 
 
 =head2 AppsList => ArrayRef[L<Paws::FMS::App>]
 
-An array of C<App> objects in the AWS Firewall Manager applications
-list.
+An array of C<App> objects in the Firewall Manager applications list.
 
 
 =head2 ListArn => Str

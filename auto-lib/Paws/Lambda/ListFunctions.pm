@@ -63,10 +63,11 @@ retrieve the next page of results.
 
 =head2 MasterRegion => Str
 
-For Lambda@Edge functions, the Region of the master function. For
-example, C<us-east-1> filters the list of functions to only include
-Lambda@Edge functions replicated from a master function in US East (N.
-Virginia). If specified, you must set C<FunctionVersion> to C<ALL>.
+For Lambda@Edge functions, the Amazon Web Services Region of the master
+function. For example, C<us-east-1> filters the list of functions to
+include only Lambda@Edge functions replicated from a master function in
+US East (N. Virginia). If specified, you must set C<FunctionVersion> to
+C<ALL>.
 
 
 

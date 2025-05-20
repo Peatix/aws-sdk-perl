@@ -6,6 +6,7 @@ package Paws::Forecast::DescribeForecastExportJobResponse;
   has ForecastArn => (is => 'ro', isa => 'Str');
   has ForecastExportJobArn => (is => 'ro', isa => 'Str');
   has ForecastExportJobName => (is => 'ro', isa => 'Str');
+  has Format => (is => 'ro', isa => 'Str');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
@@ -45,6 +46,11 @@ The ARN of the forecast export job.
 =head2 ForecastExportJobName => Str
 
 The name of the forecast export job.
+
+
+=head2 Format => Str
+
+The format of the exported data, CSV or PARQUET.
 
 
 =head2 LastModificationTime => Str

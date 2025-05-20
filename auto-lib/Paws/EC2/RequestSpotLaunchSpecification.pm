@@ -58,11 +58,11 @@ Deprecated.
 
 =head2 BlockDeviceMappings => ArrayRef[L<Paws::EC2::BlockDeviceMapping>]
 
-One or more block device mapping entries. You can't specify both a
-snapshot ID and an encryption value. This is because only blank volumes
-can be encrypted on creation. If a snapshot is the basis for a volume,
-it is not blank and its encryption status is used for the volume
-encryption status.
+The block device mapping entries. You can't specify both a snapshot ID
+and an encryption value. This is because only blank volumes can be
+encrypted on creation. If a snapshot is the basis for a volume, it is
+not blank and its encryption status is used for the volume encryption
+status.
 
 
 =head2 EbsOptimized => Bool
@@ -88,7 +88,7 @@ The ID of the AMI.
 
 =head2 InstanceType => Str
 
-The instance type.
+The instance type. Only one instance type can be specified.
 
 
 =head2 KernelId => Str
@@ -111,9 +111,8 @@ Default: Disabled
 
 =head2 NetworkInterfaces => ArrayRef[L<Paws::EC2::InstanceNetworkInterfaceSpecification>]
 
-One or more network interfaces. If you specify a network interface, you
-must specify subnet IDs and security group IDs using the network
-interface.
+The network interfaces. If you specify a network interface, you must
+specify subnet IDs and security group IDs using the network interface.
 
 
 =head2 Placement => L<Paws::EC2::SpotPlacement>
@@ -128,15 +127,12 @@ The ID of the RAM disk.
 
 =head2 SecurityGroupIds => ArrayRef[Str|Undef]
 
-One or more security group IDs.
+The IDs of the security groups.
 
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]
 
-One or more security groups. When requesting instances in a VPC, you
-must specify the IDs of the security groups. When requesting instances
-in EC2-Classic, you can specify the names or the IDs of the security
-groups.
+Not supported.
 
 
 =head2 SubnetId => Str
@@ -146,8 +142,8 @@ The ID of the subnet in which to launch the instance.
 
 =head2 UserData => Str
 
-The Base64-encoded user data for the instance. User data is limited to
-16 KB.
+The base64-encoded user data that instances use when starting up. User
+data is limited to 16 KB.
 
 
 

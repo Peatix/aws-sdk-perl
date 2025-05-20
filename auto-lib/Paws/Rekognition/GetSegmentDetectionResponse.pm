@@ -2,11 +2,14 @@
 package Paws::Rekognition::GetSegmentDetectionResponse;
   use Moose;
   has AudioMetadata => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::AudioMetadata]');
+  has JobId => (is => 'ro', isa => 'Str');
   has JobStatus => (is => 'ro', isa => 'Str');
+  has JobTag => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
   has Segments => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::SegmentDetection]');
   has SelectedSegmentTypes => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::SegmentTypeInfo]');
   has StatusMessage => (is => 'ro', isa => 'Str');
+  has Video => (is => 'ro', isa => 'Paws::Rekognition::Video');
   has VideoMetadata => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::VideoMetadata]');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -30,11 +33,25 @@ and the sample rate. Audio metadata is returned in each page of
 information returned by C<GetSegmentDetection>.
 
 
+=head2 JobId => Str
+
+Job identifier for the segment detection operation for which you want
+to obtain results. The job identifer is returned by an initial call to
+StartSegmentDetection.
+
+
 =head2 JobStatus => Str
 
 Current status of the segment detection job.
 
 Valid values are: C<"IN_PROGRESS">, C<"SUCCEEDED">, C<"FAILED">
+=head2 JobTag => Str
+
+A job identifier specified in the call to StartSegmentDetection and
+returned in the job completion notification sent to your Amazon Simple
+Notification Service topic.
+
+
 =head2 NextToken => Str
 
 If the previous response was incomplete (because there are more labels
@@ -61,6 +78,11 @@ C<StartSegmentDetection>.
 
 If the job fails, C<StatusMessage> provides a descriptive error
 message.
+
+
+=head2 Video => L<Paws::Rekognition::Video>
+
+
 
 
 =head2 VideoMetadata => ArrayRef[L<Paws::Rekognition::VideoMetadata>]

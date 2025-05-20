@@ -43,13 +43,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $DescribeCompilationJobResponse->CompilationJobStatus;
     my $CompilationStartTime =
       $DescribeCompilationJobResponse->CompilationStartTime;
-    my $CreationTime      = $DescribeCompilationJobResponse->CreationTime;
-    my $FailureReason     = $DescribeCompilationJobResponse->FailureReason;
-    my $InferenceImage    = $DescribeCompilationJobResponse->InferenceImage;
-    my $InputConfig       = $DescribeCompilationJobResponse->InputConfig;
-    my $LastModifiedTime  = $DescribeCompilationJobResponse->LastModifiedTime;
-    my $ModelArtifacts    = $DescribeCompilationJobResponse->ModelArtifacts;
-    my $ModelDigests      = $DescribeCompilationJobResponse->ModelDigests;
+    my $CreationTime = $DescribeCompilationJobResponse->CreationTime;
+    my $DerivedInformation =
+      $DescribeCompilationJobResponse->DerivedInformation;
+    my $FailureReason    = $DescribeCompilationJobResponse->FailureReason;
+    my $InferenceImage   = $DescribeCompilationJobResponse->InferenceImage;
+    my $InputConfig      = $DescribeCompilationJobResponse->InputConfig;
+    my $LastModifiedTime = $DescribeCompilationJobResponse->LastModifiedTime;
+    my $ModelArtifacts   = $DescribeCompilationJobResponse->ModelArtifacts;
+    my $ModelDigests     = $DescribeCompilationJobResponse->ModelDigests;
+    my $ModelPackageVersionArn =
+      $DescribeCompilationJobResponse->ModelPackageVersionArn;
     my $OutputConfig      = $DescribeCompilationJobResponse->OutputConfig;
     my $RoleArn           = $DescribeCompilationJobResponse->RoleArn;
     my $StoppingCondition = $DescribeCompilationJobResponse->StoppingCondition;

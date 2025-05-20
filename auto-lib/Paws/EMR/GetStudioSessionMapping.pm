@@ -22,7 +22,7 @@ Paws::EMR::GetStudioSessionMapping - Arguments for method GetStudioSessionMappin
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method GetStudioSessionMapping on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method GetStudioSessionMapping.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to GetStudioSessionMapping.
@@ -56,8 +56,8 @@ information, see UserId
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId)
 and GroupId
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId)
-in the I<AWS SSO Identity Store API Reference>. Either C<IdentityName>
-or C<IdentityId> must be specified.
+in the I<IAM Identity Center Identity Store API Reference>. Either
+C<IdentityName> or C<IdentityId> must be specified.
 
 
 
@@ -68,8 +68,8 @@ UserName
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName)
 and DisplayName
 (https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName)
-in the I<AWS SSO Identity Store API Reference>. Either C<IdentityName>
-or C<IdentityId> must be specified.
+in the I<IAM Identity Center Identity Store API Reference>. Either
+C<IdentityName> or C<IdentityId> must be specified.
 
 
 

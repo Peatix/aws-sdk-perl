@@ -15,6 +15,7 @@ package Paws::DMS::Endpoint;
   has ExternalId => (is => 'ro', isa => 'Str');
   has ExternalTableDefinition => (is => 'ro', isa => 'Str');
   has ExtraConnectionAttributes => (is => 'ro', isa => 'Str');
+  has GcpMySQLSettings => (is => 'ro', isa => 'Paws::DMS::GcpMySQLSettings');
   has IBMDb2Settings => (is => 'ro', isa => 'Paws::DMS::IBMDb2Settings');
   has KafkaSettings => (is => 'ro', isa => 'Paws::DMS::KafkaSettings');
   has KinesisSettings => (is => 'ro', isa => 'Paws::DMS::KinesisSettings');
@@ -26,6 +27,7 @@ package Paws::DMS::Endpoint;
   has OracleSettings => (is => 'ro', isa => 'Paws::DMS::OracleSettings');
   has Port => (is => 'ro', isa => 'Int');
   has PostgreSQLSettings => (is => 'ro', isa => 'Paws::DMS::PostgreSQLSettings');
+  has RedisSettings => (is => 'ro', isa => 'Paws::DMS::RedisSettings');
   has RedshiftSettings => (is => 'ro', isa => 'Paws::DMS::RedshiftSettings');
   has S3Settings => (is => 'ro', isa => 'Paws::DMS::S3Settings');
   has ServerName => (is => 'ro', isa => 'Str');
@@ -33,6 +35,7 @@ package Paws::DMS::Endpoint;
   has SslMode => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has SybaseSettings => (is => 'ro', isa => 'Paws::DMS::SybaseSettings');
+  has TimestreamSettings => (is => 'ro', isa => 'Paws::DMS::TimestreamSettings');
   has Username => (is => 'ro', isa => 'Str');
 
 1;
@@ -80,10 +83,6 @@ C<DescribeEndpoint>
 
 =item *
 
-C<DescribeEndpointTypes>
-
-=item *
-
 C<ModifyEndpoint>
 
 =back
@@ -104,36 +103,8 @@ The name of the database at the endpoint.
 
 =head2 DmsTransferSettings => L<Paws::DMS::DmsTransferSettings>
 
-The settings in JSON format for the DMS transfer type of source
-endpoint.
-
-Possible settings include the following:
-
-=over
-
-=item *
-
-C<ServiceAccessRoleArn> - The IAM role that has permission to access
-the Amazon S3 bucket.
-
-=item *
-
-C<BucketName> - The name of the S3 bucket to use.
-
-=item *
-
-C<CompressionType> - An optional parameter to use GZIP to compress the
-target files. To use GZIP, set this value to C<NONE> (the default). To
-keep the files uncompressed, don't use this value.
-
-=back
-
-Shorthand syntax for these settings is as follows:
-C<ServiceAccessRoleArn=string,BucketName=string,CompressionType=string>
-
-JSON syntax for these settings is as follows: C<{
-"ServiceAccessRoleArn": "string", "BucketName": "string",
-"CompressionType": "none"|"gzip" }>
+The settings for the DMS Transfer type source. For more information,
+see the DmsTransferSettings structure.
 
 
 =head2 DocDbSettings => L<Paws::DMS::DocDbSettings>
@@ -149,8 +120,8 @@ see the C<DynamoDBSettings> structure.
 
 =head2 ElasticsearchSettings => L<Paws::DMS::ElasticsearchSettings>
 
-The settings for the Elasticsearch source endpoint. For more
-information, see the C<ElasticsearchSettings> structure.
+The settings for the OpenSearch source endpoint. For more information,
+see the C<ElasticsearchSettings> structure.
 
 
 =head2 EndpointArn => Str
@@ -174,18 +145,19 @@ The type of endpoint. Valid values are C<source> and C<target>.
 =head2 EngineDisplayName => Str
 
 The expanded name for the engine name. For example, if the
-C<EngineName> parameter is "aurora," this value would be "Amazon Aurora
-MySQL."
+C<EngineName> parameter is "aurora", this value would be "Amazon Aurora
+MySQL".
 
 
 =head2 EngineName => Str
 
 The database engine name. Valid values, depending on the EndpointType,
 include C<"mysql">, C<"oracle">, C<"postgres">, C<"mariadb">,
-C<"aurora">, C<"aurora-postgresql">, C<"redshift">, C<"s3">, C<"db2">,
+C<"aurora">, C<"aurora-postgresql">, C<"redshift">,
+C<"redshift-serverless">, C<"s3">, C<"db2">, C<"db2-zos">,
 C<"azuredb">, C<"sybase">, C<"dynamodb">, C<"mongodb">, C<"kinesis">,
-C<"kafka">, C<"elasticsearch">, C<"documentdb">, C<"sqlserver">, and
-C<"neptune">.
+C<"kafka">, C<"elasticsearch">, C<"documentdb">, C<"sqlserver">,
+C<"neptune">, and C<"babelfish">.
 
 
 =head2 ExternalId => Str
@@ -203,6 +175,11 @@ The external table definition.
 =head2 ExtraConnectionAttributes => Str
 
 Additional connection attributes used to connect to the endpoint.
+
+
+=head2 GcpMySQLSettings => L<Paws::DMS::GcpMySQLSettings>
+
+Settings in JSON format for the source GCP MySQL endpoint.
 
 
 =head2 IBMDb2Settings => L<Paws::DMS::IBMDb2Settings>
@@ -225,14 +202,15 @@ information, see the C<KinesisSettings> structure.
 
 =head2 KmsKeyId => Str
 
-An AWS KMS key identifier that is used to encrypt the connection
-parameters for the endpoint.
+An KMS key identifier that is used to encrypt the connection parameters
+for the endpoint.
 
-If you don't specify a value for the C<KmsKeyId> parameter, then AWS
-DMS uses your default encryption key.
+If you don't specify a value for the C<KmsKeyId> parameter, then DMS
+uses your default encryption key.
 
-AWS KMS creates the default encryption key for your AWS account. Your
-AWS account has a different default encryption key for each AWS Region.
+KMS creates the default encryption key for your Amazon Web Services
+account. Your Amazon Web Services account has a different default
+encryption key for each Amazon Web Services Region.
 
 
 =head2 MicrosoftSQLServerSettings => L<Paws::DMS::MicrosoftSQLServerSettings>
@@ -276,6 +254,12 @@ The settings for the PostgreSQL source and target endpoint. For more
 information, see the C<PostgreSQLSettings> structure.
 
 
+=head2 RedisSettings => L<Paws::DMS::RedisSettings>
+
+The settings for the Redis target endpoint. For more information, see
+the C<RedisSettings> structure.
+
+
 =head2 RedshiftSettings => L<Paws::DMS::RedshiftSettings>
 
 Settings for the Amazon Redshift endpoint.
@@ -294,7 +278,8 @@ The name of the server at the endpoint.
 
 =head2 ServiceAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) used by the service access IAM role.
+The Amazon Resource Name (ARN) used by the service to access the IAM
+role. The role must allow the C<iam:PassRole> action.
 
 
 =head2 SslMode => Str
@@ -312,6 +297,12 @@ The status of the endpoint.
 
 The settings for the SAP ASE source and target endpoint. For more
 information, see the C<SybaseSettings> structure.
+
+
+=head2 TimestreamSettings => L<Paws::DMS::TimestreamSettings>
+
+The settings for the Amazon Timestream target endpoint. For more
+information, see the C<TimestreamSettings> structure.
 
 
 =head2 Username => Str

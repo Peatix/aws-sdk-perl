@@ -44,7 +44,7 @@ An asset property value entry containing the following information.
 
 =head2 AssetId => Str
 
-The ID of the AWS IoT SiteWise asset. You must specify either a
+The ID of the IoT SiteWise asset. You must specify either a
 C<propertyAlias> or both an C<aliasId> and a C<propertyId>. Accepts
 substitution templates.
 

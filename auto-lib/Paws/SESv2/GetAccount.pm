@@ -38,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $SendQuota               = $GetAccountResponse->SendQuota;
     my $SendingEnabled          = $GetAccountResponse->SendingEnabled;
     my $SuppressionAttributes   = $GetAccountResponse->SuppressionAttributes;
+    my $VdmAttributes           = $GetAccountResponse->VdmAttributes;
 
     # Returns a L<Paws::SESv2::GetAccountResponse> object.
 

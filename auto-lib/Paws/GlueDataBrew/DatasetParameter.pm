@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlueDataBre
 
 =head1 DESCRIPTION
 
-Represents a dataset paramater that defines type and conditions for a
+Represents a dataset parameter that defines type and conditions for a
 parameter in the Amazon S3 path of the dataset.
 
 =head1 ATTRIBUTES

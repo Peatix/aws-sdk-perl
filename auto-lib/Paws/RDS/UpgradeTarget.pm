@@ -7,7 +7,11 @@ package Paws::RDS::UpgradeTarget;
   has EngineVersion => (is => 'ro', isa => 'Str');
   has IsMajorVersionUpgrade => (is => 'ro', isa => 'Bool');
   has SupportedEngineModes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SupportsBabelfish => (is => 'ro', isa => 'Bool');
   has SupportsGlobalDatabases => (is => 'ro', isa => 'Bool');
+  has SupportsIntegrations => (is => 'ro', isa => 'Bool');
+  has SupportsLimitlessDatabase => (is => 'ro', isa => 'Bool');
+  has SupportsLocalWriteForwarding => (is => 'ro', isa => 'Bool');
   has SupportsParallelQuery => (is => 'ro', isa => 'Bool');
 
 1;
@@ -48,8 +52,10 @@ to.
 
 =head2 AutoUpgrade => Bool
 
-A value that indicates whether the target version is applied to any
-source DB instances that have C<AutoMinorVersionUpgrade> set to true.
+Indicates whether the target version is applied to any source DB
+instances that have C<AutoMinorVersionUpgrade> set to true.
+
+This parameter is dynamic, and is set by RDS.
 
 
 =head2 Description => Str
@@ -70,8 +76,8 @@ The version number of the upgrade target database engine.
 
 =head2 IsMajorVersionUpgrade => Bool
 
-A value that indicates whether upgrading to the target version requires
-upgrading the major version of the database engine.
+Indicates whether upgrading to the target version requires upgrading
+the major version of the database engine.
 
 
 =head2 SupportedEngineModes => ArrayRef[Str|Undef]
@@ -79,16 +85,44 @@ upgrading the major version of the database engine.
 A list of the supported DB engine modes for the target engine version.
 
 
+=head2 SupportsBabelfish => Bool
+
+Indicates whether you can use Babelfish for Aurora PostgreSQL with the
+target engine version.
+
+
 =head2 SupportsGlobalDatabases => Bool
 
-A value that indicates whether you can use Aurora global databases with
-the target engine version.
+Indicates whether you can use Aurora global databases with the target
+engine version.
+
+
+=head2 SupportsIntegrations => Bool
+
+Indicates whether the DB engine version supports zero-ETL integrations
+with Amazon Redshift.
+
+
+=head2 SupportsLimitlessDatabase => Bool
+
+Indicates whether the DB engine version supports Aurora Limitless
+Database.
+
+
+=head2 SupportsLocalWriteForwarding => Bool
+
+Indicates whether the target engine version supports forwarding write
+operations from reader DB instances to the writer DB instance in the DB
+cluster. By default, write operations aren't allowed on reader DB
+instances.
+
+Valid for: Aurora DB clusters only
 
 
 =head2 SupportsParallelQuery => Bool
 
-A value that indicates whether you can use Aurora parallel query with
-the target engine version.
+Indicates whether you can use Aurora parallel query with the target
+engine version.
 
 
 

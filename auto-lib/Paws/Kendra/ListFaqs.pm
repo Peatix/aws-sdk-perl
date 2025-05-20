@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ken
 
 =head2 B<REQUIRED> IndexId => Str
 
-The index that contains the FAQ lists.
+The index for the FAQs.
 
 
 
@@ -63,8 +63,9 @@ results.
 
 =head2 NextToken => Str
 
-If the result of the previous request to C<ListFaqs> was truncated,
-include the C<NextToken> to fetch the next set of FAQs.
+If the previous response was incomplete (because there is more data to
+retrieve), Amazon Kendra returns a pagination token in the response.
+You can use this pagination token to retrieve the next set of FAQs.
 
 
 

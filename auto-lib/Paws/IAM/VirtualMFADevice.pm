@@ -47,7 +47,7 @@ Contains information about a virtual MFA device.
 
 The base32 seed defined as specified in RFC3548
 (https://tools.ietf.org/html/rfc3548.txt). The C<Base32StringSeed> is
-base64-encoded.
+base32-encoded.
 
 
 =head2 EnableDate => Str

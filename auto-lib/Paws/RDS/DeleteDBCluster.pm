@@ -2,6 +2,7 @@
 package Paws::RDS::DeleteDBCluster;
   use Moose;
   has DBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
+  has DeleteAutomatedBackups => (is => 'ro', isa => 'Bool');
   has FinalDBSnapshotIdentifier => (is => 'ro', isa => 'Str');
   has SkipFinalSnapshot => (is => 'ro', isa => 'Bool');
 
@@ -65,14 +66,24 @@ Must match an existing DBClusterIdentifier.
 
 
 
+=head2 DeleteAutomatedBackups => Bool
+
+Specifies whether to remove automated backups immediately after the DB
+cluster is deleted. This parameter isn't case-sensitive. The default is
+to remove automated backups immediately after the DB cluster is
+deleted, unless the Amazon Web Services Backup policy specifies a
+point-in-time restore rule.
+
+
+
 =head2 FinalDBSnapshotIdentifier => Str
 
 The DB cluster snapshot identifier of the new DB cluster snapshot
 created when C<SkipFinalSnapshot> is disabled.
 
-Specifying this parameter and also skipping the creation of a final DB
-cluster snapshot with the C<SkipFinalShapshot> parameter results in an
-error.
+If you specify this parameter and also skip the creation of a final DB
+cluster snapshot with the C<SkipFinalShapshot> parameter, the request
+results in an error.
 
 Constraints:
 
@@ -97,15 +108,15 @@ Can't end with a hyphen or contain two consecutive hyphens
 
 =head2 SkipFinalSnapshot => Bool
 
-A value that indicates whether to skip the creation of a final DB
-cluster snapshot before the DB cluster is deleted. If skip is
-specified, no DB cluster snapshot is created. If skip isn't specified,
-a DB cluster snapshot is created before the DB cluster is deleted. By
-default, skip isn't specified, and the DB cluster snapshot is created.
-By default, this parameter is disabled.
+Specifies whether to skip the creation of a final DB cluster snapshot
+before RDS deletes the DB cluster. If you set this value to C<true>,
+RDS doesn't create a final DB cluster snapshot. If you set this value
+to C<false> or don't specify it, RDS creates a DB cluster snapshot
+before it deletes the DB cluster. By default, this parameter is
+disabled, so RDS creates a final DB cluster snapshot.
 
-You must specify a C<FinalDBSnapshotIdentifier> parameter if
-C<SkipFinalSnapshot> is disabled.
+If C<SkipFinalSnapshot> is disabled, you must specify a value for the
+C<FinalDBSnapshotIdentifier> parameter.
 
 
 

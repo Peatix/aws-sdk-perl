@@ -7,9 +7,11 @@ package Paws::Config::ConfigurationItem;
   has AwsRegion => (is => 'ro', isa => 'Str', request_name => 'awsRegion', traits => ['NameInRequest']);
   has Configuration => (is => 'ro', isa => 'Str', request_name => 'configuration', traits => ['NameInRequest']);
   has ConfigurationItemCaptureTime => (is => 'ro', isa => 'Str', request_name => 'configurationItemCaptureTime', traits => ['NameInRequest']);
+  has ConfigurationItemDeliveryTime => (is => 'ro', isa => 'Str', request_name => 'configurationItemDeliveryTime', traits => ['NameInRequest']);
   has ConfigurationItemMD5Hash => (is => 'ro', isa => 'Str', request_name => 'configurationItemMD5Hash', traits => ['NameInRequest']);
   has ConfigurationItemStatus => (is => 'ro', isa => 'Str', request_name => 'configurationItemStatus', traits => ['NameInRequest']);
   has ConfigurationStateId => (is => 'ro', isa => 'Str', request_name => 'configurationStateId', traits => ['NameInRequest']);
+  has RecordingFrequency => (is => 'ro', isa => 'Str', request_name => 'recordingFrequency', traits => ['NameInRequest']);
   has RelatedEvents => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'relatedEvents', traits => ['NameInRequest']);
   has Relationships => (is => 'ro', isa => 'ArrayRef[Paws::Config::Relationship]', request_name => 'relationships', traits => ['NameInRequest']);
   has ResourceCreationTime => (is => 'ro', isa => 'Str', request_name => 'resourceCreationTime', traits => ['NameInRequest']);
@@ -57,7 +59,8 @@ A list that contains detailed configurations of a specified resource.
 
 =head2 AccountId => Str
 
-The 12-digit AWS account ID associated with the resource.
+The 12-digit Amazon Web Services account ID associated with the
+resource.
 
 
 =head2 Arn => Str
@@ -82,7 +85,22 @@ The description of the resource configuration.
 
 =head2 ConfigurationItemCaptureTime => Str
 
-The time when the configuration recording was initiated.
+The time when the recording of configuration changes was initiated for
+the resource.
+
+
+=head2 ConfigurationItemDeliveryTime => Str
+
+The time when configuration changes for the resource were delivered.
+
+This field is optional and is not guaranteed to be present in a
+configuration item (CI). If you are using daily recording, this field
+will be populated. However, if you are using continuous recording, this
+field will be omitted since the delivery time is instantaneous as the
+CI is available right away. For more information on daily recording and
+continuous recording, see Recording Frequency
+(https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency)
+in the I<Config Developer Guide>.
 
 
 =head2 ConfigurationItemMD5Hash => Str
@@ -95,7 +113,7 @@ items that are associated with the same resource.
 
 =head2 ConfigurationItemStatus => Str
 
-The configuration item status. The valid values are:
+The configuration item status. Valid values include:
 
 =over
 
@@ -110,8 +128,8 @@ ResourceDiscovered E<ndash> The resource was newly discovered
 =item *
 
 ResourceNotRecorded E<ndash> The resource was discovered but its
-configuration was not recorded since the recorder excludes the
-recording of resources of this type
+configuration was not recorded since the recorder doesn't record
+resources of this type
 
 =item *
 
@@ -120,12 +138,11 @@ ResourceDeleted E<ndash> The resource was deleted
 =item *
 
 ResourceDeletedNotRecorded E<ndash> The resource was deleted but its
-configuration was not recorded since the recorder excludes the
-recording of resources of this type
+configuration was not recorded since the recorder doesn't record
+resources of this type
 
 =back
 
-The CIs do not incur any cost.
 
 
 =head2 ConfigurationStateId => Str
@@ -134,26 +151,32 @@ An identifier that indicates the ordering of the configuration items of
 a resource.
 
 
+=head2 RecordingFrequency => Str
+
+The recording frequency that Config uses to record configuration
+changes for the resource.
+
+
 =head2 RelatedEvents => ArrayRef[Str|Undef]
 
 A list of CloudTrail event IDs.
 
 A populated field indicates that the current configuration was
 initiated by the events recorded in the CloudTrail log. For more
-information about CloudTrail, see What Is AWS CloudTrail
+information about CloudTrail, see What Is CloudTrail
 (https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html).
 
 An empty field indicates that the current configuration was not
 initiated by any event. As of Version 1.3, the relatedEvents field is
 empty. You can access the LookupEvents API
 (https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html)
-in the I<AWS CloudTrail API Reference> to retrieve the events for the
+in the I<CloudTrail API Reference> to retrieve the events for the
 resource.
 
 
 =head2 Relationships => ArrayRef[L<Paws::Config::Relationship>]
 
-A list of related AWS resources.
+A list of related Amazon Web Services resources.
 
 
 =head2 ResourceCreationTime => Str
@@ -173,13 +196,13 @@ The custom name of the resource, if available.
 
 =head2 ResourceType => Str
 
-The type of AWS resource.
+The type of Amazon Web Services resource.
 
 
 =head2 SupplementaryConfiguration => L<Paws::Config::SupplementaryConfiguration>
 
-Configuration attributes that AWS Config returns for certain resource
-types to supplement the information returned for the C<configuration>
+Configuration attributes that Config returns for certain resource types
+to supplement the information returned for the C<configuration>
 parameter.
 
 

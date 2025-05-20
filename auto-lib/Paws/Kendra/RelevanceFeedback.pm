@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Rel
 =head1 DESCRIPTION
 
 Provides feedback on how relevant a document is to a search. Your
-application uses the C<SubmitFeedback> operation to provide relevance
+application uses the C<SubmitFeedback> API to provide relevance
 information.
 
 =head1 ATTRIBUTES
@@ -43,13 +43,13 @@ information.
 
 =head2 B<REQUIRED> RelevanceValue => Str
 
-Whether to document was relevant or not relevant to the search.
+Whether the document was relevant or not relevant to the search.
 
 
 =head2 B<REQUIRED> ResultId => Str
 
-The unique identifier of the search result that the user provided
-relevance feedback for.
+The identifier of the search result that the user provided relevance
+feedback for.
 
 
 

@@ -3,6 +3,7 @@ package Paws::GlueDataBrew::DescribeJobRunResponse;
   use Moose;
   has Attempt => (is => 'ro', isa => 'Int');
   has CompletedOn => (is => 'ro', isa => 'Str');
+  has DatabaseOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DatabaseOutput]');
   has DataCatalogOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DataCatalogOutput]');
   has DatasetName => (is => 'ro', isa => 'Str');
   has ErrorMessage => (is => 'ro', isa => 'Str');
@@ -12,11 +13,13 @@ package Paws::GlueDataBrew::DescribeJobRunResponse;
   has LogGroupName => (is => 'ro', isa => 'Str');
   has LogSubscription => (is => 'ro', isa => 'Str');
   has Outputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::Output]');
+  has ProfileConfiguration => (is => 'ro', isa => 'Paws::GlueDataBrew::ProfileConfiguration');
   has RecipeReference => (is => 'ro', isa => 'Paws::GlueDataBrew::RecipeReference');
   has RunId => (is => 'ro', isa => 'Str');
   has StartedBy => (is => 'ro', isa => 'Str');
   has StartedOn => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
+  has ValidationConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::ValidationConfiguration]');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -40,10 +43,16 @@ The number of times that DataBrew has attempted to run the job.
 The date and time when the job completed processing.
 
 
+=head2 DatabaseOutputs => ArrayRef[L<Paws::GlueDataBrew::DatabaseOutput>]
+
+Represents a list of JDBC database output objects which defines the
+output destination for a DataBrew recipe job to write into.
+
+
 =head2 DataCatalogOutputs => ArrayRef[L<Paws::GlueDataBrew::DataCatalogOutput>]
 
-One or more artifacts that represent the AWS Glue Data Catalog output
-from running the job.
+One or more artifacts that represent the Glue Data Catalog output from
+running the job.
 
 
 =head2 DatasetName => Str
@@ -92,6 +101,13 @@ Valid values are: C<"ENABLE">, C<"DISABLE">
 One or more output artifacts from a job run.
 
 
+=head2 ProfileConfiguration => L<Paws::GlueDataBrew::ProfileConfiguration>
+
+Configuration for profile jobs. Used to select columns, do evaluations,
+and override default parameters of evaluations. When configuration is
+null, the profile job will run with default settings.
+
+
 =head2 RecipeReference => L<Paws::GlueDataBrew::RecipeReference>
 
 
@@ -117,6 +133,11 @@ The date and time when the job run began.
 The current state of the job run entity itself.
 
 Valid values are: C<"STARTING">, C<"RUNNING">, C<"STOPPING">, C<"STOPPED">, C<"SUCCEEDED">, C<"FAILED">, C<"TIMEOUT">
+=head2 ValidationConfigurations => ArrayRef[L<Paws::GlueDataBrew::ValidationConfiguration>]
+
+List of validation configurations that are applied to the profile job.
+
+
 =head2 _request_id => Str
 
 

@@ -50,21 +50,27 @@ that CloudFront sends to the origin. Valid values are:
 
 =item *
 
-C<none> E<ndash> Cookies in viewer requests are not included in
-requests that CloudFront sends to the origin. Even when this field is
-set to C<none>, any cookies that are listed in a C<CachePolicy> I<are>
+C<none> E<ndash> No cookies in viewer requests are included in requests
+that CloudFront sends to the origin. Even when this field is set to
+C<none>, any cookies that are listed in a C<CachePolicy> I<are>
 included in origin requests.
 
 =item *
 
-C<whitelist> E<ndash> The cookies in viewer requests that are listed in
-the C<CookieNames> type are included in requests that CloudFront sends
-to the origin.
+C<whitelist> E<ndash> Only the cookies in viewer requests that are
+listed in the C<CookieNames> type are included in requests that
+CloudFront sends to the origin.
 
 =item *
 
 C<all> E<ndash> All cookies in viewer requests are included in requests
 that CloudFront sends to the origin.
+
+=item *
+
+C<allExcept> E<ndash> All cookies in viewer requests are included in
+requests that CloudFront sends to the origin, I< B<except> > for those
+listed in the C<CookieNames> type, which are not included.
 
 =back
 

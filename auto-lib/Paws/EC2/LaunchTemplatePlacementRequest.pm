@@ -2,6 +2,7 @@ package Paws::EC2::LaunchTemplatePlacementRequest;
   use Moose;
   has Affinity => (is => 'ro', isa => 'Str');
   has AvailabilityZone => (is => 'ro', isa => 'Str');
+  has GroupId => (is => 'ro', isa => 'Str');
   has GroupName => (is => 'ro', isa => 'Str');
   has HostId => (is => 'ro', isa => 'Str');
   has HostResourceGroupArn => (is => 'ro', isa => 'Str');
@@ -53,6 +54,12 @@ The affinity setting for an instance on a Dedicated Host.
 The Availability Zone for the instance.
 
 
+=head2 GroupId => Str
+
+The Group Id of a placement group. You must specify the Placement Group
+B<Group Id> to launch an instance in a shared placement group.
+
+
 =head2 GroupName => Str
 
 The name of the placement group for the instance.
@@ -83,8 +90,8 @@ Reserved for future use.
 
 =head2 Tenancy => Str
 
-The tenancy of the instance (if the instance is running in a VPC). An
-instance with a tenancy of dedicated runs on single-tenant hardware.
+The tenancy of the instance. An instance with a tenancy of dedicated
+runs on single-tenant hardware.
 
 
 

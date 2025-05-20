@@ -37,8 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Backup::Bac
 
 Contains an optional backup plan display name and an array of
 C<BackupRule> objects, each of which specifies a backup rule. Each rule
-in a backup plan is a separate scheduled task and can back up a
-different selection of AWS resources.
+in a backup plan is a separate scheduled task.
 
 =head1 ATTRIBUTES
 
@@ -46,12 +45,14 @@ different selection of AWS resources.
 =head2 AdvancedBackupSettings => ArrayRef[L<Paws::Backup::AdvancedBackupSetting>]
 
 Specifies a list of C<BackupOptions> for each resource type. These
-settings are only available for Windows VSS backup jobs.
+settings are only available for Windows Volume Shadow Copy Service
+(VSS) backup jobs.
 
 
 =head2 B<REQUIRED> BackupPlanName => Str
 
-The optional display name of a backup plan.
+The display name of a backup plan. Must contain 1 to 50 alphanumeric or
+'-_.' characters.
 
 
 =head2 B<REQUIRED> Rules => ArrayRef[L<Paws::Backup::BackupRuleInput>]

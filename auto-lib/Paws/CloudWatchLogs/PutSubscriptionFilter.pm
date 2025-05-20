@@ -1,6 +1,7 @@
 
 package Paws::CloudWatchLogs::PutSubscriptionFilter;
   use Moose;
+  has ApplyOnTransformedLogs => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'applyOnTransformedLogs' );
   has DestinationArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'destinationArn' , required => 1);
   has Distribution => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'distribution' );
   has FilterName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterName' , required => 1);
@@ -33,18 +34,33 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $logs = Paws->service('CloudWatchLogs');
     $logs->PutSubscriptionFilter(
-      DestinationArn => 'MyDestinationArn',
-      FilterName     => 'MyFilterName',
-      FilterPattern  => 'MyFilterPattern',
-      LogGroupName   => 'MyLogGroupName',
-      Distribution   => 'Random',             # OPTIONAL
-      RoleArn        => 'MyRoleArn',          # OPTIONAL
+      DestinationArn         => 'MyDestinationArn',
+      FilterName             => 'MyFilterName',
+      FilterPattern          => 'MyFilterPattern',
+      LogGroupName           => 'MyLogGroupName',
+      ApplyOnTransformedLogs => 1,                    # OPTIONAL
+      Distribution           => 'Random',             # OPTIONAL
+      RoleArn                => 'MyRoleArn',          # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/logs/PutSubscriptionFilter>
 
 =head1 ATTRIBUTES
+
+
+=head2 ApplyOnTransformedLogs => Bool
+
+This parameter is valid only for log groups that have an active log
+transformer. For more information about log transformers, see
+PutTransformer
+(https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html).
+
+If the log group uses either a log-group level or account-level
+transformer, and you specify C<true>, the subscription filter will be
+applied on the transformed version of the log events instead of the
+original ingested log events.
+
 
 
 =head2 B<REQUIRED> DestinationArn => Str
@@ -64,21 +80,21 @@ subscription filter, for same-account delivery.
 A logical destination (specified using an ARN) belonging to a different
 account, for cross-account delivery.
 
-If you are setting up a cross-account subscription, the destination
-must have an IAM policy associated with it that allows the sender to
-send logs to the destination. For more information, see
+If you're setting up a cross-account subscription, the destination must
+have an IAM policy associated with it. The IAM policy must allow the
+sender to send logs to the destination. For more information, see
 PutDestinationPolicy
 (https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html).
 
 =item *
 
-An Amazon Kinesis Firehose delivery stream belonging to the same
-account as the subscription filter, for same-account delivery.
+A Kinesis Data Firehose delivery stream belonging to the same account
+as the subscription filter, for same-account delivery.
 
 =item *
 
-An AWS Lambda function belonging to the same account as the
-subscription filter, for same-account delivery.
+A Lambda function belonging to the same account as the subscription
+filter, for same-account delivery.
 
 =back
 
@@ -90,7 +106,7 @@ subscription filter, for same-account delivery.
 The method used to distribute log data to the destination. By default,
 log data is grouped by log stream, but the grouping can be set to
 random for a more even distribution. This property is only applicable
-when the destination is an Amazon Kinesis stream.
+when the destination is an Amazon Kinesis data stream.
 
 Valid values are: C<"Random">, C<"ByLogStream">
 

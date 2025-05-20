@@ -39,13 +39,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EndTime    => '1970-01-01T01:00:00',
       StartTime  => '1970-01-01T01:00:00',
       StatusList => [
-        'AVAILABLE',
-        ... # values: AVAILABLE, AWS_CANCELLED, AWS_FAILED, CANCELLED, CANCELLING, COMPLETED, FAILED, FAILED_TO_SCHEDULE, PASS, POSTPASS, PREPASS, SCHEDULED, SCHEDULING
+        'SCHEDULING',
+        ... # values: SCHEDULING, FAILED_TO_SCHEDULE, SCHEDULED, CANCELLED, AWS_CANCELLED, PREPASS, PASS, POSTPASS, COMPLETED, FAILED, AVAILABLE, CANCELLING, AWS_FAILED
       ],
-      GroundStation     => 'MyString',               # OPTIONAL
+      GroundStation     => 'MyGroundStationName',    # OPTIONAL
       MaxResults        => 1,                        # OPTIONAL
       MissionProfileArn => 'MyMissionProfileArn',    # OPTIONAL
-      NextToken         => 'MyString',               # OPTIONAL
+      NextToken         => 'MyPaginationToken',      # OPTIONAL
       SatelliteArn      => 'MysatelliteArn',         # OPTIONAL
     );
 
@@ -63,7 +63,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gro
 
 =head2 B<REQUIRED> EndTime => Str
 
-End time of a contact.
+End time of a contact in UTC.
 
 
 
@@ -100,7 +100,7 @@ ARN of a satellite.
 
 =head2 B<REQUIRED> StartTime => Str
 
-Start time of a contact.
+Start time of a contact in UTC.
 
 
 

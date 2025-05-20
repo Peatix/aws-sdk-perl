@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ResourceGro
 =head1 DESCRIPTION
 
 A mapping of a query attached to a resource group that determines the
-AWS resources that are members of the group.
+Amazon Web Services resources that are members of the group.
 
 =head1 ATTRIBUTES
 
@@ -48,8 +48,8 @@ resource query.
 
 =head2 B<REQUIRED> ResourceQuery => L<Paws::ResourceGroups::ResourceQuery>
 
-The resource query that determines which AWS resources are members of
-the associated resource group.
+The resource query that determines which Amazon Web Services resources
+are members of the associated resource group.
 
 
 

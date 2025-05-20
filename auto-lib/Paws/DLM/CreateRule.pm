@@ -5,6 +5,7 @@ package Paws::DLM::CreateRule;
   has Interval => (is => 'ro', isa => 'Int');
   has IntervalUnit => (is => 'ro', isa => 'Str');
   has Location => (is => 'ro', isa => 'Str');
+  has Scripts => (is => 'ro', isa => 'ArrayRef[Paws::DLM::Script]');
   has Times => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
@@ -37,10 +38,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DLM::Create
 
 =head1 DESCRIPTION
 
-Specifies when to create snapshots of EBS volumes.
+B<[Custom snapshot and AMI policies only]> Specifies when the policy
+should create snapshots or AMIs.
 
-You must specify either a Cron expression or an interval, interval
-unit, and start time. You cannot specify both.
+=over
+
+=item *
+
+You must specify either B<CronExpression>, or B<Interval>,
+B<IntervalUnit>, and B<Times>.
+
+=item *
+
+If you need to specify an ArchiveRule
+(https://docs.aws.amazon.com/dlm/latest/APIReference/API_ArchiveRule.html)
+for the schedule, then you must specify a creation frequency of at
+least 28 days.
+
+=back
+
 
 =head1 ATTRIBUTES
 
@@ -48,9 +64,10 @@ unit, and start time. You cannot specify both.
 =head2 CronExpression => Str
 
 The schedule, as a Cron expression. The schedule interval must be
-between 1 hour and 1 year. For more information, see Cron expressions
-(https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
-in the I<Amazon CloudWatch User Guide>.
+between 1 hour and 1 year. For more information, see the Cron
+expressions reference
+(https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html)
+in the I<Amazon EventBridge User Guide>.
 
 
 =head2 Interval => Int
@@ -66,18 +83,64 @@ The interval unit.
 
 =head2 Location => Str
 
-Specifies the destination for snapshots created by the policy. To
-create snapshots in the same Region as the source resource, specify
-C<CLOUD>. To create snapshots on the same Outpost as the source
-resource, specify C<OUTPOST_LOCAL>. If you omit this parameter,
-C<CLOUD> is used by default.
+B<[Custom snapshot policies only]> Specifies the destination for
+snapshots created by the policy. The allowed destinations depend on the
+location of the targeted resources.
 
-If the policy targets resources in an AWS Region, then you must create
+=over
+
+=item *
+
+If the policy targets resources in a Region, then you must create
 snapshots in the same Region as the source resource.
 
+=item *
+
+If the policy targets resources in a Local Zone, you can create
+snapshots in the same Local Zone or in its parent Region.
+
+=item *
+
 If the policy targets resources on an Outpost, then you can create
-snapshots on the same Outpost as the source resource, or in the Region
-of that Outpost.
+snapshots on the same Outpost or in its parent Region.
+
+=back
+
+Specify one of the following values:
+
+=over
+
+=item *
+
+To create snapshots in the same Region as the source resource, specify
+C<CLOUD>.
+
+=item *
+
+To create snapshots in the same Local Zone as the source resource,
+specify C<LOCAL_ZONE>.
+
+=item *
+
+To create snapshots on the same Outpost as the source resource, specify
+C<OUTPOST_LOCAL>.
+
+=back
+
+Default: C<CLOUD>
+
+
+=head2 Scripts => ArrayRef[L<Paws::DLM::Script>]
+
+B<[Custom snapshot policies that target instances only]> Specifies pre
+and/or post scripts for a snapshot lifecycle policy that targets
+instances. This is useful for creating application-consistent
+snapshots, or for performing specific administrative tasks before or
+after Amazon Data Lifecycle Manager initiates snapshot creation.
+
+For more information, see Automating application-consistent snapshots
+with pre and post scripts
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/automate-app-consistent-backups.html).
 
 
 =head2 Times => ArrayRef[Str|Undef]
@@ -86,8 +149,8 @@ The time, in UTC, to start the operation. The supported format is
 hh:mm.
 
 The operation occurs within a one-hour window following the specified
-time. If you do not specify a time, Amazon DLM selects a time within
-the next 24 hours.
+time. If you do not specify a time, Amazon Data Lifecycle Manager
+selects a time within the next 24 hours.
 
 
 

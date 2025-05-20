@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CloudFront:
 
 =head1 DESCRIPTION
 
-Contains information about the Amazon Kinesis data stream where you are
+Contains information about the Amazon Kinesis data stream where you're
 sending real-time log data in a real-time log configuration.
 
 =head1 ATTRIBUTES
@@ -43,7 +43,7 @@ sending real-time log data in a real-time log configuration.
 =head2 KinesisStreamConfig => L<Paws::CloudFront::KinesisStreamConfig>
 
 Contains information about the Amazon Kinesis data stream where you are
-sending real-time log data.
+sending real-time log data in a real-time log configuration.
 
 
 =head2 B<REQUIRED> StreamType => Str

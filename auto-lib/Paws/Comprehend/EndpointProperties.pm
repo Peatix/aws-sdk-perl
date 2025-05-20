@@ -4,8 +4,11 @@ package Paws::Comprehend::EndpointProperties;
   has CreationTime => (is => 'ro', isa => 'Str');
   has CurrentInferenceUnits => (is => 'ro', isa => 'Int');
   has DataAccessRoleArn => (is => 'ro', isa => 'Str');
+  has DesiredDataAccessRoleArn => (is => 'ro', isa => 'Str');
   has DesiredInferenceUnits => (is => 'ro', isa => 'Int');
+  has DesiredModelArn => (is => 'ro', isa => 'Str');
   has EndpointArn => (is => 'ro', isa => 'Str');
+  has FlywheelArn => (is => 'ro', isa => 'Str');
   has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has ModelArn => (is => 'ro', isa => 'Str');
@@ -41,7 +44,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Comprehend:
 
 =head1 DESCRIPTION
 
-Specifies information about the specified endpoint.
+Specifies information about the specified endpoint. For information
+about endpoints, see Managing endpoints
+(https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
 
 =head1 ATTRIBUTES
 
@@ -59,10 +64,15 @@ endpoint.
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS identity and Access
-Management (IAM) role that grants Amazon Comprehend read access to
-trained custom models encrypted with a customer managed key
-(ModelKmsKeyId).
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to trained custom models encrypted with a
+customer managed key (ModelKmsKeyId).
+
+
+=head2 DesiredDataAccessRoleArn => Str
+
+Data access role ARN to use in case the new model is encrypted with a
+customer KMS key.
 
 
 =head2 DesiredInferenceUnits => Int
@@ -72,9 +82,21 @@ this endpoint. Each inference unit represents of a throughput of 100
 characters per second.
 
 
+=head2 DesiredModelArn => Str
+
+ARN of the new model to use for updating an existing endpoint. This ARN
+is going to be different from the model ARN when the update is in
+progress
+
+
 =head2 EndpointArn => Str
 
 The Amazon Resource Number (ARN) of the endpoint.
+
+
+=head2 FlywheelArn => Str
+
+The Amazon Resource Number (ARN) of the flywheel
 
 
 =head2 LastModifiedTime => Str

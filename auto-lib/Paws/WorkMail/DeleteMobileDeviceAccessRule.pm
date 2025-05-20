@@ -49,7 +49,7 @@ The identifier of the rule to be deleted.
 
 =head2 B<REQUIRED> OrganizationId => Str
 
-The Amazon WorkMail organization under which the rule will be deleted.
+The WorkMail organization under which the rule will be deleted.
 
 
 

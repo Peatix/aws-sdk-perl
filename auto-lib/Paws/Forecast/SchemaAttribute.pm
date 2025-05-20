@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::S
 =head1 DESCRIPTION
 
 An attribute of a schema, which defines a dataset field. A schema
-attribute is required for every field in a dataset. The Schema object
+attribute is required for every field in a dataset. The Schema
+(https://docs.aws.amazon.com/forecast/latest/dg/API_Schema.html) object
 contains an array of C<SchemaAttribute> objects.
 
 =head1 ATTRIBUTES
@@ -49,6 +50,10 @@ The name of the dataset field.
 =head2 AttributeType => Str
 
 The data type of the field.
+
+For a related time series dataset, other than date, item_id, and
+forecast dimensions attributes, all attributes should be of numerical
+type (integer/float).
 
 
 

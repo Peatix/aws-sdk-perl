@@ -11,6 +11,7 @@ package Paws::S3::ListMultipartUploadsOutput;
   has NextKeyMarker => (is => 'ro', isa => 'Str');
   has NextUploadIdMarker => (is => 'ro', isa => 'Str');
   has Prefix => (is => 'ro', isa => 'Str');
+  has RequestCharged => (is => 'ro', isa => 'Str', header_name => 'x-amz-request-charged', traits => ['ParamInHeader']);
   has UploadIdMarker => (is => 'ro', isa => 'Str');
   has Uploads => (is => 'ro', isa => 'ArrayRef[Paws::S3::MultipartUpload]', request_name => 'Upload', traits => ['NameInRequest']);
 
@@ -30,6 +31,7 @@ Paws::S3::ListMultipartUploadsOutput
 =head2 Bucket => Str
 
 The name of the bucket to which the multipart upload was initiated.
+Does not return the access point ARN or access point alias if used.
 
 
 
@@ -40,6 +42,9 @@ distinct key prefix containing the delimiter in a C<CommonPrefixes>
 element. The distinct key prefixes are returned in the C<Prefix> child
 element.
 
+B<Directory buckets> - For directory buckets, only prefixes that end in
+a delimiter (C</>) are supported.
+
 
 
 =head2 Delimiter => Str
@@ -48,15 +53,18 @@ Contains the delimiter you specified in the request. If you don't
 specify a delimiter in your request, this element is absent from the
 response.
 
+B<Directory buckets> - For directory buckets, C</> is the only
+supported delimiter.
+
 
 
 =head2 EncodingType => Str
 
 Encoding type used by Amazon S3 to encode object keys in the response.
 
-If you specify C<encoding-type> request parameter, Amazon S3 includes
-this element in the response, and returns encoded key name values in
-the following response elements:
+If you specify the C<encoding-type> request parameter, Amazon S3
+includes this element in the response, and returns encoded key name
+values in the following response elements:
 
 C<Delimiter>, C<KeyMarker>, C<Prefix>, C<NextKeyMarker>, C<Key>.
 
@@ -97,6 +105,8 @@ When a list is truncated, this element specifies the value that should
 be used for the C<upload-id-marker> request parameter in a subsequent
 request.
 
+This functionality is not supported for directory buckets.
+
 
 
 =head2 Prefix => Str
@@ -105,11 +115,27 @@ When a prefix is provided in the request, this field contains the
 specified prefix. The result contains only keys starting with the
 specified prefix.
 
+B<Directory buckets> - For directory buckets, only prefixes that end in
+a delimiter (C</>) are supported.
 
+
+
+=head2 RequestCharged => Str
+
+
+
+Valid values are: C<"requester">
 
 =head2 UploadIdMarker => Str
 
-Upload ID after which listing began.
+Together with key-marker, specifies the multipart upload after which
+listing should begin. If key-marker is not specified, the
+upload-id-marker parameter is ignored. Otherwise, any multipart uploads
+for a key equal to the key-marker might be included in the list only if
+they have an upload ID lexicographically greater than the specified
+C<upload-id-marker>.
+
+This functionality is not supported for directory buckets.
 
 
 

@@ -2,7 +2,7 @@
 package Paws::AppSync::CachingConfig;
   use Moose;
   has CachingKeys => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'cachingKeys', traits => ['NameInRequest']);
-  has Ttl => (is => 'ro', isa => 'Int', request_name => 'ttl', traits => ['NameInRequest']);
+  has Ttl => (is => 'ro', isa => 'Int', request_name => 'ttl', traits => ['NameInRequest'], required => 1);
 
 1;
 
@@ -34,24 +34,24 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AppSync::Ca
 
 =head1 DESCRIPTION
 
-The caching configuration for a resolver that has caching enabled.
+The caching configuration for a resolver that has caching activated.
 
 =head1 ATTRIBUTES
 
 
 =head2 CachingKeys => ArrayRef[Str|Undef]
 
-The caching keys for a resolver that has caching enabled.
+The caching keys for a resolver that has caching activated.
 
 Valid values are entries from the C<$context.arguments>,
 C<$context.source>, and C<$context.identity> maps.
 
 
-=head2 Ttl => Int
+=head2 B<REQUIRED> Ttl => Int
 
-The TTL in seconds for a resolver that has caching enabled.
+The TTL in seconds for a resolver that has caching activated.
 
-Valid values are between 1 and 3600 seconds.
+Valid values are 1E<ndash>3,600 seconds.
 
 
 

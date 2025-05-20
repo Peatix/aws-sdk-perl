@@ -43,6 +43,8 @@ the DNS domain that issued the API call.
 
 The name of the DNS domain that issued the API call.
 
+Length Constraints: 128.
+
 
 
 =head1 SEE ALSO

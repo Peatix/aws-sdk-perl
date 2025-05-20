@@ -46,8 +46,8 @@ Amazon WorkSpaces
 
 =head2 AssociatedAccountId => Str
 
-The identifier of the AWS account that associated the connection alias
-with a directory.
+The identifier of the Amazon Web Services account that associated the
+connection alias with a directory.
 
 
 =head2 AssociationStatus => Str

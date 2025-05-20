@@ -64,14 +64,15 @@ The Amazon Resource Name (ARN) of the account.
 
 =head2 Email => Str
 
-The email address for the account.
+The email address for the account. This value is null if the account is
+associated with the administrator account through Organizations.
 
 
 =head2 InvitedAt => Str
 
 The date and time, in UTC and extended ISO 8601 format, when an Amazon
 Macie membership invitation was last sent to the account. This value is
-null if a Macie invitation hasn't been sent to the account.
+null if a Macie membership invitation hasn't been sent to the account.
 
 
 =head2 MasterAccountId => Str
@@ -89,8 +90,8 @@ administrator account.
 
 =head2 Tags => L<Paws::Macie2::TagMap>
 
-A map of key-value pairs that identifies the tags (keys and values)
-that are associated with the account in Amazon Macie.
+A map of key-value pairs that specifies which tags (keys and values)
+are associated with the account in Amazon Macie.
 
 
 =head2 UpdatedAt => Str

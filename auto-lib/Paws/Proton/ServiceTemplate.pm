@@ -41,7 +41,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Proton::Ser
 
 =head1 DESCRIPTION
 
-The service template detail data.
+Detailed data of an Proton service template resource.
 
 =head1 ATTRIBUTES
 
@@ -91,7 +91,7 @@ included in the service template.
 
 =head2 RecommendedVersion => Str
 
-The ID of the recommended version of the service template.
+The recommended version of the service template.
 
 
 

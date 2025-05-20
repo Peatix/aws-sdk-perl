@@ -3,6 +3,7 @@ package Paws::EMR::Step;
   use Moose;
   has ActionOnFailure => (is => 'ro', isa => 'Str');
   has Config => (is => 'ro', isa => 'Paws::EMR::HadoopStepConfig');
+  has ExecutionRoleArn => (is => 'ro', isa => 'Str');
   has Id => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Paws::EMR::StepStatus');
@@ -45,14 +46,38 @@ This represents a step in a cluster.
 =head2 ActionOnFailure => Str
 
 The action to take when the cluster step fails. Possible values are
-TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
-provided for backward compatibility. We recommend using
-TERMINATE_CLUSTER instead.
+C<TERMINATE_CLUSTER>, C<CANCEL_AND_WAIT>, and C<CONTINUE>.
+C<TERMINATE_JOB_FLOW> is provided for backward compatibility. We
+recommend using C<TERMINATE_CLUSTER> instead.
+
+If a cluster's C<StepConcurrencyLevel> is greater than C<1>, do not use
+C<AddJobFlowSteps> to submit a step with this parameter set to
+C<CANCEL_AND_WAIT> or C<TERMINATE_CLUSTER>. The step is not submitted
+and the action fails with a message that the C<ActionOnFailure> setting
+is not valid.
+
+If you change a cluster's C<StepConcurrencyLevel> to be greater than 1
+while a step is running, the C<ActionOnFailure> parameter may not
+behave as you expect. In this case, for a step that fails with this
+parameter set to C<CANCEL_AND_WAIT>, pending steps and the running step
+are not canceled; for a step that fails with this parameter set to
+C<TERMINATE_CLUSTER>, the cluster does not terminate.
 
 
 =head2 Config => L<Paws::EMR::HadoopStepConfig>
 
 The Hadoop job configuration of the cluster step.
+
+
+=head2 ExecutionRoleArn => Str
+
+The Amazon Resource Name (ARN) of the runtime role for a step on the
+cluster. The runtime role can be a cross-account IAM role. The runtime
+role ARN is a combination of account ID, role name, and role type using
+the following format: C<arn:partition:service:region:account:resource>.
+
+For example, C<arn:aws:IAM::1234567890:role/ReadOnly> is a correctly
+formatted runtime role ARN.
 
 
 =head2 Id => Str

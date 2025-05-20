@@ -71,8 +71,8 @@ carriage return (C<\u000D>)
 =back
 
 However, the format can be further restricted by the account
-administrator by setting a password policy on the AWS account. For more
-information, see UpdateAccountPasswordPolicy.
+administrator by setting a password policy on the Amazon Web Services
+account. For more information, see UpdateAccountPasswordPolicy.
 
 
 

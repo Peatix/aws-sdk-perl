@@ -39,8 +39,9 @@ certificate. An C<APIPassthrough> or C<APICSRPassthrough> template
 variant must be selected, or else this parameter is ignored.
 
 If conflicting or duplicate certificate information is supplied from
-other sources, ACM Private CA applies order of operation rules
-(https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html#template-order-of-operations)
+other sources, Amazon Web Services Private CA applies order of
+operation rules
+(https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations)
 to determine what information is used.
 
 =head1 ATTRIBUTES

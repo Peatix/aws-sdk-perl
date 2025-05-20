@@ -70,7 +70,8 @@ file name extension, this value is "".
 
 =head2 Key => Str
 
-The full key (name) that's assigned to the object.
+The full name (I<key>) of the object, including the object's prefix if
+applicable.
 
 
 =head2 LastModified => Str
@@ -81,7 +82,8 @@ was last modified.
 
 =head2 Path => Str
 
-The path to the object, including the full key (name).
+The full path to the affected object, including the name of the
+affected bucket and the object's name (key).
 
 
 =head2 PublicAccess => Bool
@@ -92,7 +94,7 @@ combination of permissions settings that apply to the object.
 
 =head2 ServerSideEncryption => L<Paws::Macie2::ServerSideEncryption>
 
-The type of server-side encryption that's used to encrypt the object.
+The type of server-side encryption that was used to encrypt the object.
 
 
 =head2 Size => Int

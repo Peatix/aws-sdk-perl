@@ -9,6 +9,7 @@ package Paws::EC2::DescribeLaunchTemplateVersions;
   has MaxVersion => (is => 'ro', isa => 'Str');
   has MinVersion => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
+  has ResolveAlias => (is => 'ro', isa => 'Bool');
   has Versions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'LaunchTemplateVersion' );
 
   use MooseX::ClassAttribute;
@@ -79,6 +80,26 @@ optimized for Amazon EBS I/O.
 
 =item *
 
+C<http-endpoint> - Indicates whether the HTTP metadata endpoint on your
+instances is enabled (C<enabled> | C<disabled>).
+
+=item *
+
+C<http-protocol-ipv4> - Indicates whether the IPv4 endpoint for the
+instance metadata service is enabled (C<enabled> | C<disabled>).
+
+=item *
+
+C<host-resource-group-arn> - The ARN of the host resource group in
+which to launch the instances.
+
+=item *
+
+C<http-tokens> - The state of token usage for your instance metadata
+requests (C<optional> | C<required>).
+
+=item *
+
 C<iam-instance-profile> - The ARN of the IAM instance profile.
 
 =item *
@@ -100,6 +121,14 @@ C<kernel-id> - The kernel ID.
 
 =item *
 
+C<license-configuration-arn> - The ARN of the license configuration.
+
+=item *
+
+C<network-card-index> - The index of the network card.
+
+=item *
+
 C<ram-disk-id> - The RAM disk ID.
 
 =back
@@ -109,21 +138,27 @@ C<ram-disk-id> - The RAM disk ID.
 
 =head2 LaunchTemplateId => Str
 
-The ID of the launch template. To describe one or more versions of a
-specified launch template, you must specify either the launch template
-ID or the launch template name in the request. To describe all the
-latest or default launch template versions in your account, you must
-omit this parameter.
+The ID of the launch template.
+
+To describe one or more versions of a specified launch template, you
+must specify either the launch template ID or the launch template name,
+but not both.
+
+To describe all the latest or default launch template versions in your
+account, you must omit this parameter.
 
 
 
 =head2 LaunchTemplateName => Str
 
-The name of the launch template. To describe one or more versions of a
-specified launch template, you must specify either the launch template
-ID or the launch template name in the request. To describe all the
-latest or default launch template versions in your account, you must
-omit this parameter.
+The name of the launch template.
+
+To describe one or more versions of a specified launch template, you
+must specify either the launch template name or the launch template ID,
+but not both.
+
+To describe all the latest or default launch template versions in your
+account, you must omit this parameter.
 
 
 
@@ -153,6 +188,23 @@ The token to request the next page of results.
 
 
 
+=head2 ResolveAlias => Bool
+
+If C<true>, and if a Systems Manager parameter is specified for
+C<ImageId>, the AMI ID is displayed in the response for C<imageId>.
+
+If C<false>, and if a Systems Manager parameter is specified for
+C<ImageId>, the parameter is displayed in the response for C<imageId>.
+
+For more information, see Use a Systems Manager parameter instead of an
+AMI ID
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-launch-template.html#use-an-ssm-parameter-instead-of-an-ami-id)
+in the I<Amazon EC2 User Guide>.
+
+Default: C<false>
+
+
+
 =head2 Versions => ArrayRef[Str|Undef]
 
 One or more versions of the launch template. Valid values depend on
@@ -166,7 +218,7 @@ To describe all launch templates in your account that are defined as
 the latest version, the valid value is C<$Latest>. To describe all
 launch templates in your account that are defined as the default
 version, the valid value is C<$Default>. You can specify C<$Latest> and
-C<$Default> in the same call. You cannot specify numbers.
+C<$Default> in the same request. You cannot specify numbers.
 
 
 

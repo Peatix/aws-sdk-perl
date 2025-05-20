@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::IoTSiteWise
 
 =head1 DESCRIPTION
 
-Contains an image that is uploaded to AWS IoT SiteWise and available at
-a URL.
+Contains an image that is uploaded to IoT SiteWise and available at a
+URL.
 
 =head1 ATTRIBUTES
 

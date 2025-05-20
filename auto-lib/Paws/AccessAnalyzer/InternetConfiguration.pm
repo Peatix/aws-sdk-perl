@@ -32,8 +32,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AccessAnaly
 
 =head1 DESCRIPTION
 
-This configuration sets the Amazon S3 access point network origin to
-C<Internet>.
+This configuration sets the network origin for the Amazon S3 access
+point or multi-region access point to C<Internet>.
 
 =head1 ATTRIBUTES
 

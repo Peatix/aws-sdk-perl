@@ -3,6 +3,7 @@ package Paws::DirectConnect::Connection;
   use Moose;
   has AwsDevice => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDevice' );
   has AwsDeviceV2 => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsDeviceV2' );
+  has AwsLogicalDeviceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'awsLogicalDeviceId' );
   has Bandwidth => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'bandwidth' );
   has ConnectionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectionId' );
   has ConnectionName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectionName' );
@@ -42,8 +43,14 @@ terminates.
 
 =head2 AwsDeviceV2 => Str
 
-The Direct Connect endpoint on which the physical connection
-terminates.
+The Direct Connect endpoint that terminates the physical connection.
+
+
+=head2 AwsLogicalDeviceId => Str
+
+The Direct Connect endpoint that terminates the logical connection.
+This device might be different than the device that terminates the
+physical connection.
 
 
 =head2 Bandwidth => Str
@@ -130,7 +137,7 @@ same address family (IPv4/IPv6).
 Valid values are: C<"unknown">, C<"yes">, C<"no">
 =head2 JumboFrameCapable => Bool
 
-Indicates whether jumbo frames (9001 MTU) are supported.
+Indicates whether jumbo frames are supported.
 
 
 =head2 LagId => Str
@@ -160,12 +167,12 @@ The MAC Security (MACsec) security keys associated with the connection.
 
 =head2 OwnerAccount => Str
 
-The ID of the AWS account that owns the connection.
+The ID of the Amazon Web Services account that owns the connection.
 
 
 =head2 PartnerName => Str
 
-The name of the AWS Direct Connect service provider associated with the
+The name of the Direct Connect service provider associated with the
 connection.
 
 
@@ -184,7 +191,7 @@ The name of the service provider associated with the connection.
 
 =head2 Region => Str
 
-The AWS Region where the connection is located.
+The Amazon Web Services Region where the connection is located.
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]

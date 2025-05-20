@@ -2,11 +2,14 @@
 package Paws::Transfer::DescribedSecurityPolicy;
   use Moose;
   has Fips => (is => 'ro', isa => 'Bool');
+  has Protocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SecurityPolicyName => (is => 'ro', isa => 'Str', required => 1);
   has SshCiphers => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SshHostKeyAlgorithms => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SshKexs => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SshMacs => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has TlsCiphers => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Type => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -27,7 +30,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Transfer::DescribedSecurityPolicy object:
 
-  $service_obj->Method(Att1 => { Fips => $value, ..., TlsCiphers => $value  });
+  $service_obj->Method(Att1 => { Fips => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -38,10 +41,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transfer::D
 
 =head1 DESCRIPTION
 
-Describes the properties of a security policy that was specified. For
+Describes the properties of a security policy that you specify. For
 more information about security policies, see Working with security
-policies
-(https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html).
+policies for servers
+(https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html)
+or Working with security policies for SFTP connectors
+(https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
 
 =head1 ATTRIBUTES
 
@@ -49,37 +54,61 @@ policies
 =head2 Fips => Bool
 
 Specifies whether this policy enables Federal Information Processing
-Standards (FIPS).
+Standards (FIPS). This parameter applies to both server and connector
+security policies.
+
+
+=head2 Protocols => ArrayRef[Str|Undef]
+
+Lists the file transfer protocols that the security policy applies to.
 
 
 =head2 B<REQUIRED> SecurityPolicyName => Str
 
-Specifies the name of the security policy that is attached to the
-server.
+The text name of the specified security policy.
 
 
 =head2 SshCiphers => ArrayRef[Str|Undef]
 
-Specifies the enabled Secure Shell (SSH) cipher encryption algorithms
-in the security policy that is attached to the server.
+Lists the enabled Secure Shell (SSH) cipher encryption algorithms in
+the security policy that is attached to the server or connector. This
+parameter applies to both server and connector security policies.
+
+
+=head2 SshHostKeyAlgorithms => ArrayRef[Str|Undef]
+
+Lists the host key algorithms for the security policy.
+
+This parameter only applies to security policies for connectors.
 
 
 =head2 SshKexs => ArrayRef[Str|Undef]
 
-Specifies the enabled SSH key exchange (KEX) encryption algorithms in
-the security policy that is attached to the server.
+Lists the enabled SSH key exchange (KEX) encryption algorithms in the
+security policy that is attached to the server or connector. This
+parameter applies to both server and connector security policies.
 
 
 =head2 SshMacs => ArrayRef[Str|Undef]
 
-Specifies the enabled SSH message authentication code (MAC) encryption
-algorithms in the security policy that is attached to the server.
+Lists the enabled SSH message authentication code (MAC) encryption
+algorithms in the security policy that is attached to the server or
+connector. This parameter applies to both server and connector security
+policies.
 
 
 =head2 TlsCiphers => ArrayRef[Str|Undef]
 
-Specifies the enabled Transport Layer Security (TLS) cipher encryption
+Lists the enabled Transport Layer Security (TLS) cipher encryption
 algorithms in the security policy that is attached to the server.
+
+This parameter only applies to security policies for servers.
+
+
+=head2 Type => Str
+
+The resource type to which the security policy applies, either server
+or connector.
 
 
 

@@ -163,7 +163,7 @@ user agents will match.
 
 =head2 B<REQUIRED> OrganizationId => Str
 
-The Amazon WorkMail organization under which the rule will be created.
+The WorkMail organization under which the rule will be created.
 
 
 

@@ -3,7 +3,9 @@ package Paws::RDS::GlobalCluster;
   use Moose;
   has DatabaseName => (is => 'ro', isa => 'Str');
   has DeletionProtection => (is => 'ro', isa => 'Bool');
+  has Endpoint => (is => 'ro', isa => 'Str');
   has Engine => (is => 'ro', isa => 'Str');
+  has EngineLifecycleSupport => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has FailoverState => (is => 'ro', isa => 'Paws::RDS::FailoverState');
   has GlobalClusterArn => (is => 'ro', isa => 'Str');
@@ -12,6 +14,7 @@ package Paws::RDS::GlobalCluster;
   has GlobalClusterResourceId => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has StorageEncrypted => (is => 'ro', isa => 'Bool');
+  has TagList => (is => 'ro', isa => 'ArrayRef[Paws::RDS::Tag]', request_name => 'Tag', traits => ['NameInRequest']);
 
 1;
 
@@ -32,7 +35,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::RDS::GlobalCluster object:
 
-  $service_obj->Method(Att1 => { DatabaseName => $value, ..., StorageEncrypted => $value  });
+  $service_obj->Method(Att1 => { DatabaseName => $value, ..., TagList => $value  });
 
 =head3 Results returned from an API call
 
@@ -58,9 +61,22 @@ The default database name within the new global database cluster.
 The deletion protection setting for the new global database cluster.
 
 
+=head2 Endpoint => Str
+
+The writer endpoint for the new global database cluster. This endpoint
+always points to the writer DB instance in the current primary cluster.
+
+
 =head2 Engine => Str
 
 The Aurora database engine used by the global database cluster.
+
+
+=head2 EngineLifecycleSupport => Str
+
+The life cycle type for the global cluster.
+
+For more information, see CreateGlobalCluster.
 
 
 =head2 EngineVersion => Str
@@ -71,9 +87,10 @@ Indicates the database engine version.
 =head2 FailoverState => L<Paws::RDS::FailoverState>
 
 A data object containing all properties for the current state of an
-in-process or pending failover process for this Aurora global database.
-This object is empty unless the FailoverGlobalCluster API operation has
-been called on this Aurora global database (GlobalCluster).
+in-process or pending switchover or failover process for this global
+cluster (Aurora global database). This object is empty unless the
+C<SwitchoverGlobalCluster> or C<FailoverGlobalCluster> operation was
+called on this global cluster.
 
 
 =head2 GlobalClusterArn => Str
@@ -89,8 +106,8 @@ identifier is the unique key that identifies a global database cluster.
 
 =head2 GlobalClusterMembers => ArrayRef[L<Paws::RDS::GlobalClusterMember>]
 
-The list of cluster IDs for secondary clusters within the global
-database cluster. Currently limited to 1 item.
+The list of primary and secondary clusters within the global database
+cluster.
 
 
 =head2 GlobalClusterResourceId => Str
@@ -98,7 +115,7 @@ database cluster. Currently limited to 1 item.
 The Amazon Web Services Region-unique, immutable identifier for the
 global database cluster. This identifier is found in Amazon Web
 Services CloudTrail log entries whenever the Amazon Web Services KMS
-customer master key (CMK) for the DB cluster is accessed.
+key for the DB cluster is accessed.
 
 
 =head2 Status => Str
@@ -109,6 +126,11 @@ Specifies the current state of this global database cluster.
 =head2 StorageEncrypted => Bool
 
 The storage encryption setting for the global database cluster.
+
+
+=head2 TagList => ArrayRef[L<Paws::RDS::Tag>]
+
+
 
 
 

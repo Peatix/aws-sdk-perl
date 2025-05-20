@@ -6,6 +6,7 @@ package Paws::GameLift::Build;
   has CreationTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has OperatingSystem => (is => 'ro', isa => 'Str');
+  has ServerSdkVersion => (is => 'ro', isa => 'Str');
   has SizeOnDisk => (is => 'ro', isa => 'Int');
   has Status => (is => 'ro', isa => 'Str');
   has Version => (is => 'ro', isa => 'Str');
@@ -42,9 +43,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::B
 
 Properties describing a custom game build.
 
-B<Related actions>
-
-CreateBuild | ListBuilds | DescribeBuild | UpdateBuild | DeleteBuild |
 All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
@@ -55,8 +53,8 @@ All APIs by task
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift build resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift build resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::build/build-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 In a GameLift build ARN, the resource ID matches the I<BuildId> value.
 
@@ -76,7 +74,10 @@ C<"1469498468.057">).
 =head2 Name => Str
 
 A descriptive label that is associated with a build. Build names do not
-need to be unique. It can be set using CreateBuild or UpdateBuild.
+need to be unique. It can be set using CreateBuild
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateBuild.html)
+or UpdateBuild
+(https://docs.aws.amazon.com/gamelift/latest/apireference/UpdateBuild).
 
 
 =head2 OperatingSystem => Str
@@ -85,11 +86,26 @@ Operating system that the game server binaries are built to run on.
 This value determines the type of fleet resources that you can use for
 this build.
 
+Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more
+details in the Amazon Linux 2 FAQs
+(https://aws.amazon.com/amazon-linux-2/faqs/). For game servers that
+are hosted on AL2 and use server SDK version 4.x for Amazon GameLift,
+first update the game server build to server SDK 5.x, and then deploy
+to AL2023 instances. See Migrate to server SDK version 5.
+(https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
+
+
+=head2 ServerSdkVersion => Str
+
+The Amazon GameLift Server SDK version used to develop your game
+server.
+
 
 =head2 SizeOnDisk => Int
 
 File size of the uploaded game build, expressed in bytes. When the
-build status is C<INITIALIZED>, this value is 0.
+build status is C<INITIALIZED> or when using a custom Amazon S3 storage
+location, this value is 0.
 
 
 =head2 Status => Str
@@ -124,8 +140,7 @@ for this build.
 =head2 Version => Str
 
 Version information that is associated with a build or script. Version
-strings do not need to be unique. This value can be set using
-CreateBuild or UpdateBuild.
+strings do not need to be unique.
 
 
 

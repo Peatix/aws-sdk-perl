@@ -13,6 +13,7 @@ package Paws::AppStream::ImageBuilder;
   has ImageArn => (is => 'ro', isa => 'Str');
   has ImageBuilderErrors => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::ResourceError]');
   has InstanceType => (is => 'ro', isa => 'Str');
+  has LatestAppstreamAgentVersion => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has NetworkAccessConfiguration => (is => 'ro', isa => 'Paws::AppStream::NetworkAccessConfiguration');
   has Platform => (is => 'ro', isa => 'Str');
@@ -265,6 +266,12 @@ stream.graphics-pro.16xlarge
 
 =back
 
+
+
+=head2 LatestAppstreamAgentVersion => Str
+
+Indicates whether the image builder is using the latest AppStream 2.0
+agent version or not.
 
 
 =head2 B<REQUIRED> Name => Str

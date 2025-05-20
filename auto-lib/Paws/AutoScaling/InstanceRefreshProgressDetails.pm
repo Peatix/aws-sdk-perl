@@ -34,23 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AutoScaling
 
 =head1 DESCRIPTION
 
-Reports the progress of an instance refresh on an Auto Scaling group
-that has a warm pool. This includes separate details for instances in
-the warm pool and instances in the Auto Scaling group (the live pool).
+Reports progress on replacing instances in an Auto Scaling group that
+has a warm pool. This includes separate details for instances in the
+warm pool and instances in the Auto Scaling group (the live pool).
 
 =head1 ATTRIBUTES
 
 
 =head2 LivePoolProgress => L<Paws::AutoScaling::InstanceRefreshLivePoolProgress>
 
-Indicates the progress of an instance refresh on instances that are in
-the Auto Scaling group.
+Reports progress on replacing instances that are in the Auto Scaling
+group.
 
 
 =head2 WarmPoolProgress => L<Paws::AutoScaling::InstanceRefreshWarmPoolProgress>
 
-Indicates the progress of an instance refresh on instances that are in
-the warm pool.
+Reports progress on replacing instances that are in the warm pool.
 
 
 

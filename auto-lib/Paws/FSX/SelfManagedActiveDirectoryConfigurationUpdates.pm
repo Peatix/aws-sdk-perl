@@ -2,6 +2,9 @@
 package Paws::FSX::SelfManagedActiveDirectoryConfigurationUpdates;
   use Moose;
   has DnsIps => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has DomainName => (is => 'ro', isa => 'Str');
+  has FileSystemAdministratorsGroup => (is => 'ro', isa => 'Str');
+  has OrganizationalUnitDistinguishedName => (is => 'ro', isa => 'Str');
   has Password => (is => 'ro', isa => 'Str');
   has UserName => (is => 'ro', isa => 'Str');
 
@@ -35,30 +38,54 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::SelfMa
 
 =head1 DESCRIPTION
 
-The configuration that Amazon FSx uses to join the Windows File Server
-instance to a self-managed Microsoft Active Directory (AD) directory.
+Specifies changes you are making to the self-managed Microsoft Active
+Directory configuration to which an FSx for Windows File Server file
+system or an FSx for ONTAP SVM is joined.
 
 =head1 ATTRIBUTES
 
 
 =head2 DnsIps => ArrayRef[Str|Undef]
 
-A list of up to two IP addresses of DNS servers or domain controllers
-in the self-managed AD directory.
+A list of up to three DNS server or domain controller IP addresses in
+your self-managed Active Directory domain.
+
+
+=head2 DomainName => Str
+
+Specifies an updated fully qualified domain name of your self-managed
+Active Directory configuration.
+
+
+=head2 FileSystemAdministratorsGroup => Str
+
+For FSx for ONTAP file systems only - Specifies the updated name of the
+self-managed Active Directory domain group whose members are granted
+administrative privileges for the Amazon FSx resource.
+
+
+=head2 OrganizationalUnitDistinguishedName => Str
+
+Specifies an updated fully qualified distinguished name of the
+organization unit within your self-managed Active Directory.
 
 
 =head2 Password => Str
 
-The password for the service account on your self-managed AD domain
-that Amazon FSx will use to join to your AD domain.
+Specifies the updated password for the service account on your
+self-managed Active Directory domain. Amazon FSx uses this account to
+join to your self-managed Active Directory domain.
 
 
 =head2 UserName => Str
 
-The user name for the service account on your self-managed AD domain
-that Amazon FSx will use to join to your AD domain. This account must
-have the permission to join computers to the domain in the
-organizational unit provided in C<OrganizationalUnitDistinguishedName>.
+Specifies the updated user name for the service account on your
+self-managed Active Directory domain. Amazon FSx uses this account to
+join to your self-managed Active Directory domain.
+
+This account must have the permissions required to join computers to
+the domain in the organizational unit provided in
+C<OrganizationalUnitDistinguishedName>.
 
 
 

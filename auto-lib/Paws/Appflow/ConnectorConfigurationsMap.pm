@@ -7,6 +7,7 @@ package Paws::Appflow::ConnectorConfigurationsMap;
   class_has xml_values =>(is => 'ro', default => 'value');
 
   has Amplitude => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
+  has CustomConnector => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has CustomerProfiles => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Datadog => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Dynatrace => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
@@ -16,9 +17,11 @@ package Paws::Appflow::ConnectorConfigurationsMap;
   has Infornexus => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has LookoutMetrics => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Marketo => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
+  has Pardot => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Redshift => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has S3 => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Salesforce => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
+  has SAPOData => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Servicenow => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Singular => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
   has Slack => (is => 'ro', isa => 'Paws::Appflow::ConnectorConfiguration');
@@ -65,6 +68,9 @@ This class has no description
 =head2 Amplitude => L<Paws::Appflow::ConnectorConfiguration>
 
 
+=head2 CustomConnector => L<Paws::Appflow::ConnectorConfiguration>
+
+
 =head2 CustomerProfiles => L<Paws::Appflow::ConnectorConfiguration>
 
 
@@ -92,6 +98,9 @@ This class has no description
 =head2 Marketo => L<Paws::Appflow::ConnectorConfiguration>
 
 
+=head2 Pardot => L<Paws::Appflow::ConnectorConfiguration>
+
+
 =head2 Redshift => L<Paws::Appflow::ConnectorConfiguration>
 
 
@@ -99,6 +108,9 @@ This class has no description
 
 
 =head2 Salesforce => L<Paws::Appflow::ConnectorConfiguration>
+
+
+=head2 SAPOData => L<Paws::Appflow::ConnectorConfiguration>
 
 
 =head2 Servicenow => L<Paws::Appflow::ConnectorConfiguration>

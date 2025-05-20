@@ -20,7 +20,7 @@ Paws::EMR::ModifyCluster - Arguments for method ModifyCluster on L<Paws::EMR>
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method ModifyCluster on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method ModifyCluster.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to ModifyCluster.
@@ -53,7 +53,10 @@ The unique identifier of the cluster.
 =head2 StepConcurrencyLevel => Int
 
 The number of steps that can be executed concurrently. You can specify
-a minimum of 1 step and a maximum of 256 steps.
+a minimum of 1 step and a maximum of 256 steps. We recommend that you
+do not change this parameter while steps are running or the
+C<ActionOnFailure> setting may not behave as expected. For more
+information see Step$ActionOnFailure.
 
 
 

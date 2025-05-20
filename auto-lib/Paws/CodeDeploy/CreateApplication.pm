@@ -55,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head2 B<REQUIRED> ApplicationName => Str
 
 The name of the application. This name must be unique with the
-applicable IAM user or AWS account.
+applicable user or Amazon Web Services account.
 
 
 

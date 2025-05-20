@@ -37,6 +37,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Route53::VP
 (Private hosted zones only) A complex type that contains information
 about an Amazon VPC.
 
+If you associate a private hosted zone with an Amazon VPC when you make
+a CreateHostedZone
+(https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html)
+request, the following parameters are also required.
+
 =head1 ATTRIBUTES
 
 

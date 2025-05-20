@@ -73,8 +73,8 @@ The maximum number of query results returned on each page.
 
 =head2 MaxResults => Int
 
-The maximum number of query results returned on each page. AWS Config
-also allows the Limit request parameter.
+The maximum number of query results returned on each page. Config also
+allows the Limit request parameter.
 
 
 

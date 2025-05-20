@@ -35,9 +35,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::Ulim
 
 =head1 DESCRIPTION
 
-The C<ulimit> settings to pass to the container.
+The C<ulimit> settings to pass to the container. For more information,
+see Ulimit
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Ulimit.html).
 
-This object isn't applicable to jobs running on Fargate resources.
+This object isn't applicable to jobs that are running on Fargate
+resources.
 
 =head1 ATTRIBUTES
 
@@ -49,7 +52,10 @@ The hard limit for the C<ulimit> type.
 
 =head2 B<REQUIRED> Name => Str
 
-The C<type> of the C<ulimit>.
+The C<type> of the C<ulimit>. Valid values are: C<core> | C<cpu> |
+C<data> | C<fsize> | C<locks> | C<memlock> | C<msgqueue> | C<nice> |
+C<nofile> | C<nproc> | C<rss> | C<rtprio> | C<rttime> | C<sigpending> |
+C<stack>.
 
 
 =head2 B<REQUIRED> SoftLimit => Int

@@ -38,6 +38,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             'MyStackName', ...    # min: 1, max: 128
           ],    # max: 100; OPTIONAL
         },    # OPTIONAL
+        Tags => [
+          {
+            AppBoundaryKey => 'MyAppBoundaryKey',    # min: 1, max: 128
+            TagValues      => [
+              'MyTagValue', ...                      # max: 256
+            ],    # max: 100
+
+          },
+          ...
+        ],    # OPTIONAL
       },
 
       );

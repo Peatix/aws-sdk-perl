@@ -23,7 +23,7 @@ A unique identifier for the attachment.
 
 =head2 UploadMetadata => L<Paws::ConnectParticipant::UploadMetadata>
 
-Fields to be used while uploading the attachment.
+The headers to be provided while uploading the file to the URL.
 
 
 =head2 _request_id => Str

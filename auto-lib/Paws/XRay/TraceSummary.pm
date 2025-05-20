@@ -20,6 +20,7 @@ package Paws::XRay::TraceSummary;
   has ResponseTimeRootCauses => (is => 'ro', isa => 'ArrayRef[Paws::XRay::ResponseTimeRootCause]');
   has Revision => (is => 'ro', isa => 'Int');
   has ServiceIds => (is => 'ro', isa => 'ArrayRef[Paws::XRay::ServiceId]');
+  has StartTime => (is => 'ro', isa => 'Str');
   has Users => (is => 'ro', isa => 'ArrayRef[Paws::XRay::TraceUser]');
 
 1;
@@ -162,6 +163,12 @@ The revision number of a trace.
 =head2 ServiceIds => ArrayRef[L<Paws::XRay::ServiceId>]
 
 Service IDs from the trace's segment documents.
+
+
+=head2 StartTime => Str
+
+The start time of a trace, based on the earliest trace segment start
+time.
 
 
 =head2 Users => ArrayRef[L<Paws::XRay::TraceUser>]

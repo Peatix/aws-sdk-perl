@@ -17,7 +17,7 @@ Paws::CloudFormation::TestTypeOutput
 
 =head2 TypeVersionArn => Str
 
-The Amazon Resource Number (ARN) of the extension.
+The Amazon Resource Name (ARN) of the extension.
 
 
 =head2 _request_id => Str

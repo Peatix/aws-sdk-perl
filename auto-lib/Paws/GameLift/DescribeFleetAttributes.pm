@@ -30,9 +30,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $gamelift = Paws->service('GameLift');
     my $DescribeFleetAttributesOutput = $gamelift->DescribeFleetAttributes(
-      FleetIds  => [ 'MyFleetIdOrArn', ... ],    # OPTIONAL
-      Limit     => 1,                            # OPTIONAL
-      NextToken => 'MyNonZeroAndMaxString',      # OPTIONAL
+      FleetIds => [
+        'MyFleetIdOrArn', ...    # min: 1, max: 512
+      ],    # OPTIONAL
+      Limit     => 1,                          # OPTIONAL
+      NextToken => 'MyNonZeroAndMaxString',    # OPTIONAL
     );
 
     # Results:

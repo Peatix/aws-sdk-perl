@@ -2,6 +2,7 @@
 package Paws::DMS::Tag;
   use Moose;
   has Key => (is => 'ro', isa => 'Str');
+  has ResourceArn => (is => 'ro', isa => 'Str');
   has Value => (is => 'ro', isa => 'Str');
 
 1;
@@ -34,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DMS::Tag ob
 
 =head1 DESCRIPTION
 
-A user-defined key-value pair that describes metadata added to an AWS
-DMS resource and that is used by operations such as the following:
+A user-defined key-value pair that describes metadata added to an DMS
+resource and that is used by operations such as the following:
 
 =over
 
@@ -64,6 +65,12 @@ Unicode characters in length and can't be prefixed with "aws:" or
 "dms:". The string can only contain only the set of Unicode letters,
 digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular
 expressions: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+
+
+=head2 ResourceArn => Str
+
+The Amazon Resource Name (ARN) string that uniquely identifies the
+resource for which the tag is created.
 
 
 =head2 Value => Str

@@ -4,6 +4,7 @@ package Paws::Glue::BatchDeleteTable;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
   has TablesToDelete => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
+  has TransactionId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -34,7 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       TablesToDelete => [
         'MyNameString', ...    # min: 1, max: 255
       ],
-      CatalogId => 'MyCatalogIdString',    # OPTIONAL
+      CatalogId     => 'MyCatalogIdString',        # OPTIONAL
+      TransactionId => 'MyTransactionIdString',    # OPTIONAL
     );
 
     # Results:
@@ -65,6 +67,12 @@ For Hive compatibility, this name is entirely lowercase.
 =head2 B<REQUIRED> TablesToDelete => ArrayRef[Str|Undef]
 
 A list of the table to delete.
+
+
+
+=head2 TransactionId => Str
+
+The transaction ID at which to delete the table contents.
 
 
 

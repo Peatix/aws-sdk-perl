@@ -4,7 +4,9 @@ package Paws::LocationService::SearchPlaceIndexForTextSummary;
   has BiasPosition => (is => 'ro', isa => 'ArrayRef[Num]');
   has DataSource => (is => 'ro', isa => 'Str', required => 1);
   has FilterBBox => (is => 'ro', isa => 'ArrayRef[Num]');
+  has FilterCategories => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has FilterCountries => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Language => (is => 'ro', isa => 'Str');
   has MaxResults => (is => 'ro', isa => 'Int');
   has ResultBBox => (is => 'ro', isa => 'ArrayRef[Num]');
   has Text => (is => 'ro', isa => 'Str', required => 1);
@@ -39,22 +41,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 =head1 DESCRIPTION
 
-A summary of the geocoding request sent using
-C<SearchPlaceIndexForText>.
+A summary of the request sent by using C<SearchPlaceIndexForText>.
 
 =head1 ATTRIBUTES
 
 
 =head2 BiasPosition => ArrayRef[Num]
 
-Contains the coordinates for the bias position entered in the geocoding
-request.
+Contains the coordinates for the optional bias position specified in
+the request.
+
+This parameter contains a pair of numbers. The first number represents
+the X coordinate, or longitude; the second number represents the Y
+coordinate, or latitude.
+
+For example, C<[-123.1174, 49.2847]> represents the position with
+longitude C<-123.1174> and latitude C<49.2847>.
 
 
 =head2 B<REQUIRED> DataSource => Str
 
-The data provider of geospatial data. Indicates one of the available
-providers:
+The geospatial data provider attached to the place index resource
+specified in the request. Values can be one of the following:
 
 =over
 
@@ -64,42 +72,59 @@ Esri
 
 =item *
 
-HERE
+Grab
+
+=item *
+
+Here
 
 =back
 
-For additional details on data providers, see the Amazon Location
-Service data providers page
+For more information about data providers, see Amazon Location Service
+data providers
 (https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
 
 
 =head2 FilterBBox => ArrayRef[Num]
 
-Contains the coordinates for the optional bounding box coordinated
-entered in the geocoding request.
+Contains the coordinates for the optional bounding box specified in the
+request.
+
+
+=head2 FilterCategories => ArrayRef[Str|Undef]
+
+The optional category filter specified in the request.
 
 
 =head2 FilterCountries => ArrayRef[Str|Undef]
 
-Contains the country filter entered in the geocoding request.
+Contains the optional country filter specified in the request.
+
+
+=head2 Language => Str
+
+The preferred language used to return results. Matches the language in
+the request. The value is a valid BCP 47
+(https://tools.ietf.org/search/bcp47) language tag, for example, C<en>
+for English.
 
 
 =head2 MaxResults => Int
 
-Contains the maximum number of results indicated for the request.
+Contains the optional result count limit specified in the request.
 
 
 =head2 ResultBBox => ArrayRef[Num]
 
-A bounding box that contains the search results within the specified
-area indicated by C<FilterBBox>. A subset of bounding box specified
-using C<FilterBBox>.
+The bounding box that fully contains all search results.
+
+If you specified the optional C<FilterBBox> parameter in the request,
+C<ResultBBox> is contained within C<FilterBBox>.
 
 
 =head2 B<REQUIRED> Text => Str
 
-The address, name, city or region to be used in the geocoding request.
-In free-form text format. For example, C<Vancouver>.
+The search text specified in the request.
 
 
 

@@ -17,14 +17,11 @@ Paws::SecretsManager::ListSecretsResponse
 
 =head2 NextToken => Str
 
-If present in the response, this value indicates that there's more
-output available than included in the current response. This can occur
-even when the response includes no values at all, such as when you ask
-for a filtered view of a very long list. Use this value in the
-C<NextToken> request parameter in a subsequent call to the operation to
-continue processing and get the next part of the output. You should
-repeat this until the C<NextToken> response element comes back empty
-(as C<null>).
+Secrets Manager includes this value if there's more output available
+than what is included in the current response. This can occur even when
+the response includes no values at all, such as when you ask for a
+filtered view of a long list. To get the next results, call
+C<ListSecrets> again with this value.
 
 
 =head2 SecretList => ArrayRef[L<Paws::SecretsManager::SecretListEntry>]

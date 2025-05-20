@@ -52,9 +52,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> Resource => Str
 
-The name of the Amazon SageMaker resource to search for.
+The name of the SageMaker resource to search for.
 
-Valid values are: C<"TrainingJob">, C<"Experiment">, C<"ExperimentTrial">, C<"ExperimentTrialComponent">, C<"Endpoint">, C<"ModelPackage">, C<"ModelPackageGroup">, C<"Pipeline">, C<"PipelineExecution">, C<"FeatureGroup">
+Valid values are: C<"TrainingJob">, C<"Experiment">, C<"ExperimentTrial">, C<"ExperimentTrialComponent">, C<"Endpoint">, C<"Model">, C<"ModelPackage">, C<"ModelPackageGroup">, C<"Pipeline">, C<"PipelineExecution">, C<"FeatureGroup">, C<"FeatureMetadata">, C<"Image">, C<"ImageVersion">, C<"Project">, C<"HyperParameterTuningJob">, C<"ModelCard">
 
 =head2 SuggestionQuery => L<Paws::SageMaker::SuggestionQuery>
 

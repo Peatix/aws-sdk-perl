@@ -18,7 +18,7 @@ Paws::CloudFormation::DescribeAccountLimitsOutput
 
 =head2 AccountLimits => ArrayRef[L<Paws::CloudFormation::AccountLimit>]
 
-An account limit structure that contain a list of AWS CloudFormation
+An account limit structure that contain a list of CloudFormation
 account limits and their values.
 
 

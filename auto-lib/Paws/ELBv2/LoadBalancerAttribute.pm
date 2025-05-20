@@ -43,7 +43,7 @@ Information about a load balancer attribute.
 
 The name of the attribute.
 
-The following attribute is supported by all load balancers:
+The following attributes are supported by all load balancers:
 
 =over
 
@@ -51,6 +51,14 @@ The following attribute is supported by all load balancers:
 
 C<deletion_protection.enabled> - Indicates whether deletion protection
 is enabled. The value is C<true> or C<false>. The default is C<false>.
+
+=item *
+
+C<load_balancing.cross_zone.enabled> - Indicates whether cross-zone
+load balancing is enabled. The possible values are C<true> and
+C<false>. The default for Network Load Balancers and Gateway Load
+Balancers is C<false>. The default for Application Load Balancers is
+C<true>, and can't be changed.
 
 =back
 
@@ -77,6 +85,20 @@ bucket.
 C<access_logs.s3.prefix> - The prefix for the location in the S3 bucket
 for the access logs.
 
+=item *
+
+C<ipv6.deny_all_igw_traffic> - Blocks internet gateway (IGW) access to
+the load balancer. It is set to C<false> for internet-facing load
+balancers and C<true> for internal load balancers, preventing
+unintended access to your internal load balancer through an internet
+gateway.
+
+=item *
+
+C<zonal_shift.config.enabled> - Indicates whether zonal shift is
+enabled. The possible values are C<true> and C<false>. The default is
+C<false>.
+
 =back
 
 The following attributes are supported by only Application Load
@@ -88,6 +110,29 @@ Balancers:
 
 C<idle_timeout.timeout_seconds> - The idle timeout value, in seconds.
 The valid range is 1-4000 seconds. The default is 60 seconds.
+
+=item *
+
+C<client_keep_alive.seconds> - The client keep alive value, in seconds.
+The valid range is 60-604800 seconds. The default is 3600 seconds.
+
+=item *
+
+C<connection_logs.s3.enabled> - Indicates whether connection logs are
+enabled. The value is C<true> or C<false>. The default is C<false>.
+
+=item *
+
+C<connection_logs.s3.bucket> - The name of the S3 bucket for the
+connection logs. This attribute is required if connection logs are
+enabled. The bucket must exist in the same region as the load balancer
+and have a bucket policy that grants Elastic Load Balancing permissions
+to write to the bucket.
+
+=item *
+
+C<connection_logs.s3.prefix> - The prefix for the location in the S3
+bucket for the connection logs.
 
 =item *
 
@@ -105,30 +150,88 @@ C<false>.
 
 =item *
 
-C<routing.http2.enabled> - Indicates whether HTTP/2 is enabled. The
-value is C<true> or C<false>. The default is C<true>. Elastic Load
-Balancing requires that message header names contain only alphanumeric
-characters and hyphens.
+C<routing.http.preserve_host_header.enabled> - Indicates whether the
+Application Load Balancer should preserve the C<Host> header in the
+HTTP request and send it to the target without any change. The possible
+values are C<true> and C<false>. The default is C<false>.
 
 =item *
 
-C<waf.fail_open.enabled> - Indicates whether to allow a WAF-enabled
-load balancer to route requests to targets if it is unable to forward
-the request to Amazon Web Services WAF. The value is C<true> or
+C<routing.http.x_amzn_tls_version_and_cipher_suite.enabled> - Indicates
+whether the two headers (C<x-amzn-tls-version> and
+C<x-amzn-tls-cipher-suite>), which contain information about the
+negotiated TLS version and cipher suite, are added to the client
+request before sending it to the target. The C<x-amzn-tls-version>
+header has information about the TLS protocol version negotiated with
+the client, and the C<x-amzn-tls-cipher-suite> header has information
+about the cipher suite negotiated with the client. Both headers are in
+OpenSSL format. The possible values for the attribute are C<true> and
 C<false>. The default is C<false>.
 
-=back
+=item *
 
-The following attribute is supported by Network Load Balancers and
-Gateway Load Balancers:
+C<routing.http.xff_client_port.enabled> - Indicates whether the
+C<X-Forwarded-For> header should preserve the source port that the
+client used to connect to the load balancer. The possible values are
+C<true> and C<false>. The default is C<false>.
+
+=item *
+
+C<routing.http.xff_header_processing.mode> - Enables you to modify,
+preserve, or remove the C<X-Forwarded-For> header in the HTTP request
+before the Application Load Balancer sends the request to the target.
+The possible values are C<append>, C<preserve>, and C<remove>. The
+default is C<append>.
 
 =over
 
 =item *
 
-C<load_balancing.cross_zone.enabled> - Indicates whether cross-zone
-load balancing is enabled. The value is C<true> or C<false>. The
-default is C<false>.
+If the value is C<append>, the Application Load Balancer adds the
+client IP address (of the last hop) to the C<X-Forwarded-For> header in
+the HTTP request before it sends it to targets.
+
+=item *
+
+If the value is C<preserve> the Application Load Balancer preserves the
+C<X-Forwarded-For> header in the HTTP request, and sends it to targets
+without any change.
+
+=item *
+
+If the value is C<remove>, the Application Load Balancer removes the
+C<X-Forwarded-For> header in the HTTP request before it sends it to
+targets.
+
+=back
+
+=item *
+
+C<routing.http2.enabled> - Indicates whether HTTP/2 is enabled. The
+possible values are C<true> and C<false>. The default is C<true>.
+Elastic Load Balancing requires that message header names contain only
+alphanumeric characters and hyphens.
+
+=item *
+
+C<waf.fail_open.enabled> - Indicates whether to allow a WAF-enabled
+load balancer to route requests to targets if it is unable to forward
+the request to Amazon Web Services WAF. The possible values are C<true>
+and C<false>. The default is C<false>.
+
+=back
+
+The following attributes are supported by only Network Load Balancers:
+
+=over
+
+=item *
+
+C<dns_record.client_routing_policy> - Indicates how traffic is
+distributed among the load balancer Availability Zones. The possible
+values are C<availability_zone_affinity> with 100 percent zonal
+affinity, C<partial_availability_zone_affinity> with 85 percent zonal
+affinity, and C<any_availability_zone> with 0 percent zonal affinity.
 
 =back
 

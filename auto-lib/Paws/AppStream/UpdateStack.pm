@@ -12,6 +12,7 @@ package Paws::AppStream::UpdateStack;
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has RedirectURL => (is => 'ro', isa => 'Str');
   has StorageConnectors => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::StorageConnector]');
+  has StreamingExperienceSettings => (is => 'ro', isa => 'Paws::AppStream::StreamingExperienceSettings');
   has UserSettings => (is => 'ro', isa => 'ArrayRef[Paws::AppStream::UserSetting]');
 
   use MooseX::ClassAttribute;
@@ -53,7 +54,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       AttributesToDelete => [
         'STORAGE_CONNECTORS',
-        ... # values: STORAGE_CONNECTORS, STORAGE_CONNECTOR_HOMEFOLDERS, STORAGE_CONNECTOR_GOOGLE_DRIVE, STORAGE_CONNECTOR_ONE_DRIVE, REDIRECT_URL, FEEDBACK_URL, THEME_NAME, USER_SETTINGS, EMBED_HOST_DOMAINS, IAM_ROLE_ARN, ACCESS_ENDPOINTS
+        ... # values: STORAGE_CONNECTORS, STORAGE_CONNECTOR_HOMEFOLDERS, STORAGE_CONNECTOR_GOOGLE_DRIVE, STORAGE_CONNECTOR_ONE_DRIVE, REDIRECT_URL, FEEDBACK_URL, THEME_NAME, USER_SETTINGS, EMBED_HOST_DOMAINS, IAM_ROLE_ARN, ACCESS_ENDPOINTS, STREAMING_EXPERIENCE_SETTINGS
       ],    # OPTIONAL
       DeleteStorageConnectors => 1,                  # OPTIONAL
       Description             => 'MyDescription',    # OPTIONAL
@@ -70,17 +71,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Domains => [
             'MyDomain', ...    # min: 1, max: 64
           ],    # max: 50; OPTIONAL
+          DomainsRequireAdminConsent => [
+            'MyDomain', ...    # min: 1, max: 64
+          ],    # max: 50; OPTIONAL
           ResourceIdentifier =>
             'MyResourceIdentifier',    # min: 1, max: 2048; OPTIONAL
         },
         ...
       ],    # OPTIONAL
+      StreamingExperienceSettings => {
+        PreferredProtocol => 'TCP',    # values: TCP, UDP; OPTIONAL
+      },    # OPTIONAL
       UserSettings => [
         {
           Action => 'CLIPBOARD_COPY_FROM_LOCAL_DEVICE'
-          , # values: CLIPBOARD_COPY_FROM_LOCAL_DEVICE, CLIPBOARD_COPY_TO_LOCAL_DEVICE, FILE_UPLOAD, FILE_DOWNLOAD, PRINTING_TO_LOCAL_DEVICE, DOMAIN_PASSWORD_SIGNIN, DOMAIN_SMART_CARD_SIGNIN
-          Permission => 'ENABLED',    # values: ENABLED, DISABLED
-
+          , # values: CLIPBOARD_COPY_FROM_LOCAL_DEVICE, CLIPBOARD_COPY_TO_LOCAL_DEVICE, FILE_UPLOAD, FILE_DOWNLOAD, PRINTING_TO_LOCAL_DEVICE, DOMAIN_PASSWORD_SIGNIN, DOMAIN_SMART_CARD_SIGNIN, AUTO_TIME_ZONE_REDIRECTION
+          Permission    => 'ENABLED',    # values: ENABLED, DISABLED
+          MaximumLength => 1,            # OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -170,6 +177,13 @@ ends.
 =head2 StorageConnectors => ArrayRef[L<Paws::AppStream::StorageConnector>]
 
 The storage connectors to enable.
+
+
+
+=head2 StreamingExperienceSettings => L<Paws::AppStream::StreamingExperienceSettings>
+
+The streaming protocol you want your stack to prefer. This can be UDP
+or TCP. Currently, UDP is only supported in the Windows native client.
 
 
 

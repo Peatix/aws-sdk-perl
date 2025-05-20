@@ -7,6 +7,8 @@ package Paws::DocDB::DBEngineVersion;
   has Engine => (is => 'ro', isa => 'Str');
   has EngineVersion => (is => 'ro', isa => 'Str');
   has ExportableLogTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SupportedCACertificateIdentifiers => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SupportsCertificateRotationWithoutRestart => (is => 'ro', isa => 'Bool');
   has SupportsLogExportsToCloudwatchLogs => (is => 'ro', isa => 'Bool');
   has ValidUpgradeTarget => (is => 'ro', isa => 'ArrayRef[Paws::DocDB::UpgradeTarget]', request_name => 'UpgradeTarget', traits => ['NameInRequest']);
 
@@ -74,6 +76,24 @@ The version number of the database engine.
 
 The types of logs that the database engine has available for export to
 Amazon CloudWatch Logs.
+
+
+=head2 SupportedCACertificateIdentifiers => ArrayRef[Str|Undef]
+
+A list of the supported CA certificate identifiers.
+
+For more information, see Updating Your Amazon DocumentDB TLS
+Certificates
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html)
+and Encrypting Data in Transit
+(https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html)
+in the I<Amazon DocumentDB Developer Guide>.
+
+
+=head2 SupportsCertificateRotationWithoutRestart => Bool
+
+Indicates whether the engine version supports rotating the server
+certificate without rebooting the DB instance.
 
 
 =head2 SupportsLogExportsToCloudwatchLogs => Bool

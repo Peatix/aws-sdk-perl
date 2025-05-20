@@ -54,9 +54,9 @@ in-application stream.
 =head2 S3ReferenceDataSource => L<Paws::KinesisAnalyticsV2::S3ReferenceDataSource>
 
 Identifies the S3 bucket and object that contains the reference data. A
-Kinesis Data Analytics application loads reference data only once. If
-the data changes, you call the UpdateApplication operation to trigger
-reloading of data into your application.
+SQL-based Kinesis Data Analytics application loads reference data only
+once. If the data changes, you call the UpdateApplication operation to
+trigger reloading of data into your application.
 
 
 =head2 B<REQUIRED> TableName => Str

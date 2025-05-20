@@ -49,20 +49,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 
 =head2 MaxResults => Int
 
-The maximum number of locations to return.
+Specifies how many results that you want in the response.
 
 
 
 =head2 NextToken => Str
 
-An opaque string that indicates the position at which to begin the next
-list of locations.
+Specifies an opaque string that indicates the position to begin the
+next list of results in the response.
 
 
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource whose tags to list.
+Specifies the Amazon Resource Name (ARN) of the resource that you want
+tag information on.
 
 
 

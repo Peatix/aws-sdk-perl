@@ -1,6 +1,7 @@
 
 package Paws::EMR::AddJobFlowSteps;
   use Moose;
+  has ExecutionRoleArn => (is => 'ro', isa => 'Str');
   has JobFlowId => (is => 'ro', isa => 'Str', required => 1);
   has Steps => (is => 'ro', isa => 'ArrayRef[Paws::EMR::StepConfig]', required => 1);
 
@@ -20,7 +21,7 @@ Paws::EMR::AddJobFlowSteps - Arguments for method AddJobFlowSteps on L<Paws::EMR
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method AddJobFlowSteps on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method AddJobFlowSteps.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to AddJobFlowSteps.
@@ -52,7 +53,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-
+      ExecutionRoleArn => 'MyArnType',    # OPTIONAL
     );
 
     # Results:
@@ -64,6 +65,18 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce/AddJobFlowSteps>
 
 =head1 ATTRIBUTES
+
+
+=head2 ExecutionRoleArn => Str
+
+The Amazon Resource Name (ARN) of the runtime role for a step on the
+cluster. The runtime role can be a cross-account IAM role. The runtime
+role ARN is a combination of account ID, role name, and role type using
+the following format: C<arn:partition:service:region:account:resource>.
+
+For example, C<arn:aws:IAM::1234567890:role/ReadOnly> is a correctly
+formatted runtime role ARN.
+
 
 
 =head2 B<REQUIRED> JobFlowId => Str

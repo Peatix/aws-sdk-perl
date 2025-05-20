@@ -51,8 +51,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ser
 =head2 B<REQUIRED> Resource => Str
 
 An entity you can work with and specify with a name or ID. Examples
-include an Amazon EC2 instance, an AWS CloudFormation stack, or an
-Amazon S3 bucket.
+include an Amazon EC2 instance, an Amazon Web Services CloudFormation
+stack, or an Amazon S3 bucket.
 
 
 
@@ -60,7 +60,7 @@ Amazon S3 bucket.
 
 The type of resource of which the application will be associated.
 
-Valid values are: C<"CFN_STACK">
+Valid values are: C<"CFN_STACK">, C<"RESOURCE_TAG_VALUE">
 
 
 =head1 SEE ALSO

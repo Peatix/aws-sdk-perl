@@ -39,7 +39,9 @@ This class has no description
 
 =head2 LaunchTemplateSpecification => L<Paws::EC2::FleetLaunchTemplateSpecification>
 
-The launch template.
+The launch template to use. Make sure that the launch template does not
+contain the C<NetworkInterfaceId> parameter because you can't specify a
+network interface ID in a Spot Fleet.
 
 
 =head2 Overrides => ArrayRef[L<Paws::EC2::LaunchTemplateOverrides>]

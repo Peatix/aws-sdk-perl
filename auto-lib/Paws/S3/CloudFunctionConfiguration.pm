@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::CloudFu
 
 =head1 DESCRIPTION
 
-Container for specifying the AWS Lambda notification configuration.
+Container for specifying the Lambda notification configuration.
 
 =head1 ATTRIBUTES
 

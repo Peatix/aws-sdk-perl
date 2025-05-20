@@ -34,7 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       InstanceId      => 'MyInstanceId',
       QueueReferences => [
         {
-          Channel => 'VOICE',       # values: VOICE, CHAT, TASK
+          Channel => 'VOICE',       # values: VOICE, CHAT, TASK, EMAIL
           QueueId => 'MyQueueId',
 
         },
@@ -53,7 +53,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/con
 =head2 B<REQUIRED> InstanceId => Str
 
 The identifier of the Amazon Connect instance. You can find the
-instanceId in the ARN of the instance.
+instance ID
+(https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html)
+in the Amazon Resource Name (ARN) of the instance.
 
 
 

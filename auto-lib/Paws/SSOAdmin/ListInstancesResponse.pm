@@ -17,7 +17,7 @@ Paws::SSOAdmin::ListInstancesResponse
 
 =head2 Instances => ArrayRef[L<Paws::SSOAdmin::InstanceMetadata>]
 
-Lists the SSO instances that the caller has access to.
+Lists the IAM Identity Center instances that the caller has access to.
 
 
 =head2 NextToken => Str

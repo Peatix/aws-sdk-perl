@@ -34,19 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ServiceQuot
 
 =head1 DESCRIPTION
 
-Information about a service.
+Information about an Amazon Web Services service.
 
 =head1 ATTRIBUTES
 
 
 =head2 ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
 
 
 =head2 ServiceName => Str
 
-The service name.
+Specifies the service name.
 
 
 

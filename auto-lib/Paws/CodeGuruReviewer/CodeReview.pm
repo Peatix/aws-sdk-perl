@@ -4,6 +4,7 @@ package Paws::CodeGuruReviewer::CodeReview;
   has AnalysisTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has AssociationArn => (is => 'ro', isa => 'Str');
   has CodeReviewArn => (is => 'ro', isa => 'Str');
+  has ConfigFileState => (is => 'ro', isa => 'Str');
   has CreatedTimeStamp => (is => 'ro', isa => 'Str');
   has LastUpdatedTimeStamp => (is => 'ro', isa => 'Str');
   has Metrics => (is => 'ro', isa => 'Paws::CodeGuruReviewer::Metrics');
@@ -55,25 +56,33 @@ associated repository that contains the reviewed code.
 
 =head2 AnalysisTypes => ArrayRef[Str|Undef]
 
-They types of analysis performed during a repository analysis or a pull
+The types of analysis performed during a repository analysis or a pull
 request review. You can specify either C<Security>, C<CodeQuality>, or
 both.
 
 
 =head2 AssociationArn => Str
 
-The Amazon Resource Name (ARN) of the C<RepositoryAssociation>
+The Amazon Resource Name (ARN) of the RepositoryAssociation
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html)
 that contains the reviewed source code. You can retrieve associated
-repository ARNs by calling C<ListRepositoryAssociations>
+repository ARNs by calling ListRepositoryAssociations
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html).
 
 
 =head2 CodeReviewArn => Str
 
-The Amazon Resource Name (ARN) of the C<CodeReview>
+The Amazon Resource Name (ARN) of the CodeReview
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html)
 object.
+
+
+=head2 ConfigFileState => Str
+
+The state of the C<aws-codeguru-reviewer.yml> configuration file that
+allows the configuration of the CodeGuru Reviewer analysis. The file
+either exists, doesn't exist, or exists with errors at the root
+directory of your repository.
 
 
 =head2 CreatedTimeStamp => Str
@@ -100,11 +109,12 @@ The name of the code review.
 
 =head2 Owner => Str
 
-The owner of the repository. For an AWS CodeCommit repository, this is
-the AWS account ID of the account that owns the repository. For a
-GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the
-username for the account that owns the repository. For an S3
-repository, it can be the username or AWS account ID.
+The owner of the repository. For an Amazon Web Services CodeCommit
+repository, this is the Amazon Web Services account ID of the account
+that owns the repository. For a GitHub, GitHub Enterprise Server, or
+Bitbucket repository, this is the username for the account that owns
+the repository. For an S3 repository, it can be the username or Amazon
+Web Services account ID.
 
 
 =head2 ProviderType => Str

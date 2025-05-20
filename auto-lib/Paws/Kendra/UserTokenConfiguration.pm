@@ -34,7 +34,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Use
 
 =head1 DESCRIPTION
 
-Provides configuration information for a token configuration.
+Provides the configuration information for a token.
+
+If you're using an Amazon Kendra Gen AI Enterprise Edition index and
+you try to use C<UserTokenConfigurations> to configure user context
+policy, Amazon Kendra returns a C<ValidationException> error.
 
 =head1 ATTRIBUTES
 

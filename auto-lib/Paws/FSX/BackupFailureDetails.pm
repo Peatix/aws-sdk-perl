@@ -41,7 +41,7 @@ failure.
 
 =head2 Message => Str
 
-A message describing the backup creation failure.
+A message describing the backup-creation failure.
 
 
 

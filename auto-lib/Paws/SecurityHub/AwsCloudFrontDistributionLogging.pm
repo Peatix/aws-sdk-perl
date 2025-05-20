@@ -37,14 +37,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 =head1 DESCRIPTION
 
 A complex type that controls whether access logs are written for the
-distribution.
+CloudFront distribution.
 
 =head1 ATTRIBUTES
 
 
 =head2 Bucket => Str
 
-The Amazon S3 bucket to store the access logs in.
+The S3 bucket to store the access logs in.
 
 
 =head2 Enabled => Bool

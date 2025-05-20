@@ -39,7 +39,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -75,8 +75,8 @@ Optional metadata that you assign to a resource. You can specify a
 maximum of five tags for an OpsMetadata object. Tags enable you to
 categorize a resource in different ways, such as by purpose, owner, or
 environment. For example, you might want to tag an OpsMetadata object
-to identify an environment or target AWS Region. In this case, you
-could specify the following key-value pairs:
+to identify an environment or target Amazon Web Services Region. In
+this case, you could specify the following key-value pairs:
 
 =over
 

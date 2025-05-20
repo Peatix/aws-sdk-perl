@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Route53Doma
 
 =head1 DESCRIPTION
 
-Nameserver includes the following elements.
+Name server includes the following elements.
 
 =head1 ATTRIBUTES
 

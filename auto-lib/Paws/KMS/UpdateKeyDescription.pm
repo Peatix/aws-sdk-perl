@@ -28,11 +28,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To update the description of a customer master key (CMK)
-    # The following example updates the description of the specified CMK.
+    # To update the description of a KMS key
+    # The following example updates the description of the specified KMS key.
     $kms->UpdateKeyDescription(
       'Description' =>
-        'Example description that indicates the intended use of this CMK.',
+        'Example description that indicates the intended use of this KMS key.',
       'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab'
     );
 
@@ -45,15 +45,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> Description => Str
 
-New description for the CMK.
+New description for the KMS key.
+
+Do not include confidential or sensitive information in this field.
+This field may be displayed in plaintext in CloudTrail logs and other
+output.
 
 
 
 =head2 B<REQUIRED> KeyId => Str
 
-Updates the description of the specified customer master key (CMK).
+Updates the description of the specified KMS key.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -70,7 +74,8 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 

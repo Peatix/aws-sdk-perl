@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SavingsPlan
 
 =head1 DESCRIPTION
 
-Information about a property.
+Information about a Savings Plan offering property.
 
 =head1 ATTRIBUTES
 

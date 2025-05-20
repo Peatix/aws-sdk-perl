@@ -1,6 +1,9 @@
 
 package Paws::IoTSiteWise::CreateAsset;
   use Moose;
+  has AssetDescription => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetDescription');
+  has AssetExternalId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetExternalId');
+  has AssetId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetId');
   has AssetModelId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetModelId', required => 1);
   has AssetName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'assetName', required => 1);
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
@@ -32,10 +35,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $iotsitewise = Paws->service('IoTSiteWise');
     my $CreateAssetResponse = $iotsitewise->CreateAsset(
-      AssetModelId => 'MyID',
-      AssetName    => 'MyName',
-      ClientToken  => 'MyClientToken',    # OPTIONAL
-      Tags         => {
+      AssetModelId     => 'MyCustomID',
+      AssetName        => 'MyName',
+      AssetDescription => 'MyDescription',    # OPTIONAL
+      AssetExternalId  => 'MyExternalId',     # OPTIONAL
+      AssetId          => 'MyID',             # OPTIONAL
+      ClientToken      => 'MyClientToken',    # OPTIONAL
+      Tags             => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
     );
@@ -53,15 +59,46 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 =head1 ATTRIBUTES
 
 
+=head2 AssetDescription => Str
+
+A description for the asset.
+
+
+
+=head2 AssetExternalId => Str
+
+An external ID to assign to the asset. The external ID must be unique
+within your Amazon Web Services account. For more information, see
+Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+
+=head2 AssetId => Str
+
+The ID to assign to the asset, if desired. IoT SiteWise automatically
+generates a unique ID for you, so this parameter is never required.
+However, if you prefer to supply your own ID instead, you can specify
+it here in UUID format. If you specify your own ID, it must be globally
+unique.
+
+
+
 =head2 B<REQUIRED> AssetModelId => Str
 
-The ID of the asset model from which to create the asset.
+The ID of the asset model from which to create the asset. This can be
+either the actual ID in UUID format, or else C<externalId:> followed by
+the external ID, if it has one. For more information, see Referencing
+objects with external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references)
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 B<REQUIRED> AssetName => Str
 
-A unique, friendly name for the asset.
+A friendly name for the asset.
 
 
 
@@ -76,9 +113,9 @@ idempotent request is required.
 =head2 Tags => L<Paws::IoTSiteWise::TagMap>
 
 A list of key-value pairs that contain metadata for the asset. For more
-information, see Tagging your AWS IoT SiteWise resources
+information, see Tagging your IoT SiteWise resources
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 

@@ -8,7 +8,6 @@ package Paws::SQS::SendMessageResult;
   has SequenceNumber => (is => 'ro', isa => 'Str');
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -69,3 +68,4 @@ continues to increase for a particular C<MessageGroupId>.
 
 =cut
 
+1;

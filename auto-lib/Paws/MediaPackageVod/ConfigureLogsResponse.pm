@@ -3,6 +3,7 @@ package Paws::MediaPackageVod::ConfigureLogsResponse;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
   has Authorization => (is => 'ro', isa => 'Paws::MediaPackageVod::Authorization', traits => ['NameInRequest'], request_name => 'authorization');
+  has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has DomainName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'domainName');
   has EgressAccessLogs => (is => 'ro', isa => 'Paws::MediaPackageVod::EgressAccessLogs', traits => ['NameInRequest'], request_name => 'egressAccessLogs');
   has Id => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'id');
@@ -28,6 +29,11 @@ The ARN of the PackagingGroup.
 =head2 Authorization => L<Paws::MediaPackageVod::Authorization>
 
 
+
+
+=head2 CreatedAt => Str
+
+The time the PackagingGroup was created.
 
 
 =head2 DomainName => Str

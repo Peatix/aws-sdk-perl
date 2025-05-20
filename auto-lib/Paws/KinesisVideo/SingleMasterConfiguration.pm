@@ -41,7 +41,7 @@ channel type.
 
 =head2 MessageTtlSeconds => Int
 
-The period of time a signaling channel retains underlivered messages
+The period of time a signaling channel retains undelivered messages
 before they are discarded.
 
 

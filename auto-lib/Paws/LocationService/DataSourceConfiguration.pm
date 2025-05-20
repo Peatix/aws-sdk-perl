@@ -35,6 +35,28 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LocationSer
 
 Specifies the data storage option chosen for requesting Places.
 
+When using Amazon Location Places:
+
+=over
+
+=item *
+
+If using HERE Technologies as a data provider, you can't store results
+for locations in Japan by setting C<IntendedUse> to C<Storage>.
+parameter.
+
+=item *
+
+Under the C<MobileAssetTracking> or C<MobilAssetManagement> pricing
+plan, you can't store results from your place index resources by
+setting C<IntendedUse> to C<Storage>. This returns a validation
+exception error.
+
+=back
+
+For more information, see the AWS Service Terms
+(https://aws.amazon.com/service-terms/) for Amazon Location Service.
+
 =head1 ATTRIBUTES
 
 
@@ -54,10 +76,6 @@ C<SingleUse> specifies that the results won't be stored.
 
 C<Storage> specifies that the result can be cached or stored in a
 database.
-
-Place index resources using HERE as a data provider can't be configured
-to store results for locations in Japan when choosing C<Storage> for
-the C<IntendedUse> parameter.
 
 =back
 

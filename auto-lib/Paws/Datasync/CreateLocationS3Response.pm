@@ -16,8 +16,7 @@ Paws::Datasync::CreateLocationS3Response
 
 =head2 LocationArn => Str
 
-The Amazon Resource Name (ARN) of the source Amazon S3 bucket location
-that is created.
+The ARN of the S3 location that you created.
 
 
 =head2 _request_id => Str

@@ -1,10 +1,9 @@
 
 package Paws::SQS::ListQueueTagsResult;
   use Moose;
-  has Tags => (is => 'ro', isa => 'Paws::SQS::TagMap', request_name => 'Tag', traits => ['NameInRequest',]);
+  has Tags => (is => 'ro', isa => 'Paws::SQS::TagMap');
 
   has _request_id => (is => 'ro', isa => 'Str');
-1;
 
 ### main pod documentation begin ###
 
@@ -25,3 +24,4 @@ The list of all tags added to the specified queue.
 
 =cut
 
+1;

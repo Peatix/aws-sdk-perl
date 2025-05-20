@@ -88,7 +88,8 @@ services, but applies to all services using the rule collectively.
 
 =head2 B<REQUIRED> ResourceARN => Str
 
-Matches the ARN of the AWS resource on which the service runs.
+Matches the ARN of the Amazon Web Services resource on which the
+service runs.
 
 
 =head2 RuleARN => Str

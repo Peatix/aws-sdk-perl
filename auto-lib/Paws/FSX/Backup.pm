@@ -11,10 +11,13 @@ package Paws::FSX::Backup;
   has OwnerId => (is => 'ro', isa => 'Str');
   has ProgressPercent => (is => 'ro', isa => 'Int');
   has ResourceARN => (is => 'ro', isa => 'Str');
+  has ResourceType => (is => 'ro', isa => 'Str');
+  has SizeInBytes => (is => 'ro', isa => 'Int');
   has SourceBackupId => (is => 'ro', isa => 'Str');
   has SourceBackupRegion => (is => 'ro', isa => 'Str');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::FSX::Tag]');
   has Type => (is => 'ro', isa => 'Str', required => 1);
+  has Volume => (is => 'ro', isa => 'Paws::FSX::Volume');
 
 1;
 
@@ -35,7 +38,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::FSX::Backup object:
 
-  $service_obj->Method(Att1 => { BackupId => $value, ..., Type => $value  });
+  $service_obj->Method(Att1 => { BackupId => $value, ..., Volume => $value  });
 
 =head3 Results returned from an API call
 
@@ -46,7 +49,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::Backup
 
 =head1 DESCRIPTION
 
-A backup of an Amazon FSx file system.
+A backup of an Amazon FSx for Windows File Server, Amazon FSx for
+Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx
+for OpenZFS file system.
 
 =head1 ATTRIBUTES
 
@@ -63,25 +68,25 @@ The time when a particular backup was created.
 
 =head2 DirectoryInformation => L<Paws::FSX::ActiveDirectoryBackupAttributes>
 
-The configuration of the self-managed Microsoft Active Directory (AD)
-to which the Windows File Server instance is joined.
+The configuration of the self-managed Microsoft Active Directory
+directory to which the Windows File Server instance is joined.
 
 
 =head2 FailureDetails => L<Paws::FSX::BackupFailureDetails>
 
-Details explaining any failures that occur when creating a backup.
+Details explaining any failures that occurred when creating a backup.
 
 
 =head2 B<REQUIRED> FileSystem => L<Paws::FSX::FileSystem>
 
-Metadata of the file system associated with the backup. This metadata
-is persisted even if the file system is deleted.
+The metadata of the file system associated with the backup. This
+metadata is persisted even if the file system is deleted.
 
 
 =head2 KmsKeyId => Str
 
-The ID of the AWS Key Management Service (AWS KMS) key used to encrypt
-the backup of the Amazon FSx file system's data at rest.
+The ID of the Key Management Service (KMS) key used to encrypt the
+backup of the Amazon FSx file system's data at rest.
 
 
 =head2 B<REQUIRED> Lifecycle => Str
@@ -97,7 +102,7 @@ C<AVAILABLE> - The backup is fully available.
 =item *
 
 C<PENDING> - For user-initiated backups on Lustre file systems only;
-Amazon FSx has not started creating the backup.
+Amazon FSx hasn't started creating the backup.
 
 =item *
 
@@ -106,7 +111,7 @@ C<CREATING> - Amazon FSx is creating the backup.
 =item *
 
 C<TRANSFERRING> - For user-initiated backups on Lustre file systems
-only; Amazon FSx is transferring the backup to S3.
+only; Amazon FSx is transferring the backup to Amazon S3.
 
 =item *
 
@@ -114,12 +119,12 @@ C<COPYING> - Amazon FSx is copying the backup.
 
 =item *
 
-C<DELETED> - Amazon FSx deleted the backup and it is no longer
+C<DELETED> - Amazon FSx deleted the backup and it's no longer
 available.
 
 =item *
 
-C<FAILED> - Amazon FSx could not complete the backup.
+C<FAILED> - Amazon FSx couldn't finish the backup.
 
 =back
 
@@ -140,6 +145,17 @@ C<FAILED> - Amazon FSx could not complete the backup.
 The Amazon Resource Name (ARN) for the backup resource.
 
 
+=head2 ResourceType => Str
+
+Specifies the resource type that's backed up.
+
+
+=head2 SizeInBytes => Int
+
+The size of the backup in bytes. This represents the amount of data
+that the file system would contain if you restore this backup.
+
+
 =head2 SourceBackupId => Str
 
 
@@ -153,12 +169,17 @@ backup is copied.
 
 =head2 Tags => ArrayRef[L<Paws::FSX::Tag>]
 
-Tags associated with a particular file system.
+The tags associated with a particular file system.
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of the file system backup.
+The type of the file-system backup.
+
+
+=head2 Volume => L<Paws::FSX::Volume>
+
+
 
 
 

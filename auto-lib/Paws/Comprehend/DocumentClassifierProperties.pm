@@ -5,16 +5,19 @@ package Paws::Comprehend::DocumentClassifierProperties;
   has DataAccessRoleArn => (is => 'ro', isa => 'Str');
   has DocumentClassifierArn => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
+  has FlywheelArn => (is => 'ro', isa => 'Str');
   has InputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::DocumentClassifierInputDataConfig');
   has LanguageCode => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has Mode => (is => 'ro', isa => 'Str');
   has ModelKmsKeyId => (is => 'ro', isa => 'Str');
   has OutputDataConfig => (is => 'ro', isa => 'Paws::Comprehend::DocumentClassifierOutputDataConfig');
+  has SourceModelArn => (is => 'ro', isa => 'Str');
   has Status => (is => 'ro', isa => 'Str');
   has SubmitTime => (is => 'ro', isa => 'Str');
   has TrainingEndTime => (is => 'ro', isa => 'Str');
   has TrainingStartTime => (is => 'ro', isa => 'Str');
+  has VersionName => (is => 'ro', isa => 'Str');
   has VolumeKmsKeyId => (is => 'ro', isa => 'Str');
   has VpcConfig => (is => 'ro', isa => 'Paws::Comprehend::VpcConfig');
 
@@ -62,8 +65,8 @@ used for test the classifier, and an accuracy rating.
 
 =head2 DataAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM)
-role that grants Amazon Comprehend read access to your input data.
+The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+Comprehend read access to your input data.
 
 
 =head2 DocumentClassifierArn => Str
@@ -74,6 +77,11 @@ The Amazon Resource Name (ARN) that identifies the document classifier.
 =head2 EndTime => Str
 
 The time that training the document classifier completed.
+
+
+=head2 FlywheelArn => Str
+
+The Amazon Resource Number (ARN) of the flywheel
 
 
 =head2 InputDataConfig => L<Paws::Comprehend::DocumentClassifierInputDataConfig>
@@ -103,9 +111,9 @@ this cannot be changed once the classifier is trained.
 
 =head2 ModelKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt trained custom models. The ModelKmsKeyId can be either
-of the following formats:
+ID for the KMS key that Amazon Comprehend uses to encrypt trained
+custom models. The ModelKmsKeyId can be either of the following
+formats:
 
 =over
 
@@ -128,12 +136,22 @@ Provides output results configuration parameters for custom classifier
 jobs.
 
 
+=head2 SourceModelArn => Str
+
+The Amazon Resource Name (ARN) of the source model. This model was
+imported from a different Amazon Web Services account to create the
+document classifier model in your Amazon Web Services account.
+
+
 =head2 Status => Str
 
 The status of the document classifier. If the status is C<TRAINED> the
-classifier is ready to use. If the status is C<FAILED> you can see
-additional information about why the classifier wasn't trained in the
-C<Message> field.
+classifier is ready to use. If the status is C<TRAINED_WITH_WARNINGS>
+the classifier training succeeded, but you should review the warnings
+returned in the C<CreateDocumentClassifier> response.
+
+If the status is C<FAILED> you can see additional information about why
+the classifier wasn't trained in the C<Message> field.
 
 
 =head2 SubmitTime => Str
@@ -156,12 +174,17 @@ classifiers. You are billed for the time interval between this time and
 the value of TrainingEndTime.
 
 
+=head2 VersionName => Str
+
+The version name that you assigned to the document classifier.
+
+
 =head2 VolumeKmsKeyId => Str
 
-ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-uses to encrypt data on the storage volume attached to the ML compute
-instance(s) that process the analysis job. The VolumeKmsKeyId can be
-either of the following formats:
+ID for the Amazon Web Services Key Management Service (KMS) key that
+Amazon Comprehend uses to encrypt data on the storage volume attached
+to the ML compute instance(s) that process the analysis job. The
+VolumeKmsKeyId can be either of the following formats:
 
 =over
 

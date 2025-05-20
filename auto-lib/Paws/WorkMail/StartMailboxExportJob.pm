@@ -36,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $workmail = Paws->service('WorkMail');
     my $StartMailboxExportJobResponse = $workmail->StartMailboxExportJob(
       ClientToken    => 'MyIdempotencyClientToken',
-      EntityId       => 'MyWorkMailIdentifier',
+      EntityId       => 'MyEntityIdentifier',
       KmsKeyArn      => 'MyKmsKeyArn',
       OrganizationId => 'MyOrganizationId',
       RoleArn        => 'MyRoleArn',
@@ -71,6 +71,29 @@ The mailbox export job description.
 =head2 B<REQUIRED> EntityId => Str
 
 The identifier of the user or resource associated with the mailbox.
+
+The identifier can accept I<UserId or ResourceId>, I<Username or
+Resourcename>, or I<email>. The following identity formats are
+available:
+
+=over
+
+=item *
+
+Entity ID: 12345678-1234-1234-1234-123456789012,
+r-0123456789a0123456789b0123456789 , or
+S-1-1-12-1234567890-123456789-123456789-1234
+
+=item *
+
+Email address: entity@domain.tld
+
+=item *
+
+Entity name: entity
+
+=back
+
 
 
 

@@ -38,6 +38,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 =head1 DESCRIPTION
 
 Summary information about a bot version returned by the ListBotVersions
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotVersions.html)
 operation.
 
 =head1 ATTRIBUTES

@@ -41,8 +41,8 @@ Contains information about the criteria used for sorting findings.
 
 =head2 AttributeName => Str
 
-Represents the finding attribute (for example, accountId) to sort
-findings by.
+Represents the finding attribute, such as C<accountId>, that sorts the
+findings.
 
 
 =head2 OrderBy => Str

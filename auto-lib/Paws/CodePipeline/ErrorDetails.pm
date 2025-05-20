@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodePipelin
 
 =head1 DESCRIPTION
 
-Represents information about an error in AWS CodePipeline.
+Represents information about an error in CodePipeline.
 
 =head1 ATTRIBUTES
 

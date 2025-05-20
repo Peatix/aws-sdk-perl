@@ -36,8 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Comman
 
 Describes a command filter.
 
-An instance ID can't be specified when a command status is C<Pending>
-because the command hasn't run on the instance yet.
+A managed node ID can't be specified when a command status is
+C<Pending> because the command hasn't run on the node yet.
 
 =head1 ATTRIBUTES
 
@@ -45,6 +45,9 @@ because the command hasn't run on the instance yet.
 =head2 B<REQUIRED> Key => Str
 
 The name of the filter.
+
+The C<ExecutionStage> filter can't be used with the
+C<ListCommandInvocations> operation, only with C<ListCommands>.
 
 
 =head2 B<REQUIRED> Value => Str
@@ -56,19 +59,22 @@ The filter value. Valid values for each filter key are as follows:
 =item *
 
 B<InvokedAfter>: Specify a timestamp to limit your results. For
-example, specify C<2018-07-07T00:00:00Z> to see a list of command
-executions occurring July 7, 2018, and later.
+example, specify C<2024-07-07T00:00:00Z> to see a list of command
+executions occurring July 7, 2021, and later.
 
 =item *
 
 B<InvokedBefore>: Specify a timestamp to limit your results. For
-example, specify C<2018-07-07T00:00:00Z> to see a list of command
-executions from before July 7, 2018.
+example, specify C<2024-07-07T00:00:00Z> to see a list of command
+executions from before July 7, 2021.
 
 =item *
 
 B<Status>: Specify a valid command status to see a list of all command
-executions with that status. Status values you can specify include:
+executions with that status. The status choices depend on the API you
+call.
+
+The status values you can specify for C<ListCommands> are:
 
 =over
 
@@ -94,24 +100,104 @@ C<Failed>
 
 =item *
 
-C<TimedOut>
+C<TimedOut> (this includes both Delivery and Execution time outs)
 
 =item *
 
-C<Cancelling>
+C<AccessDenied>
+
+=item *
+
+C<DeliveryTimedOut>
+
+=item *
+
+C<ExecutionTimedOut>
+
+=item *
+
+C<Incomplete>
+
+=item *
+
+C<NoInstancesInTag>
+
+=item *
+
+C<LimitExceeded>
+
+=back
+
+The status values you can specify for C<ListCommandInvocations> are:
+
+=over
+
+=item *
+
+C<Pending>
+
+=item *
+
+C<InProgress>
+
+=item *
+
+C<Delayed>
+
+=item *
+
+C<Success>
+
+=item *
+
+C<Cancelled>
+
+=item *
+
+C<Failed>
+
+=item *
+
+C<TimedOut> (this includes both Delivery and Execution time outs)
+
+=item *
+
+C<AccessDenied>
+
+=item *
+
+C<DeliveryTimedOut>
+
+=item *
+
+C<ExecutionTimedOut>
+
+=item *
+
+C<Undeliverable>
+
+=item *
+
+C<InvalidPlatform>
+
+=item *
+
+C<Terminated>
 
 =back
 
 =item *
 
-B<DocumentName>: Specify name of the SSM document for which you want to
-see command execution results. For example, specify
-C<AWS-RunPatchBaseline> to see command executions that used this SSM
-document to perform security patching operations on instances.
+B<DocumentName>: Specify name of the Amazon Web Services Systems
+Manager document (SSM document) for which you want to see command
+execution results. For example, specify C<AWS-RunPatchBaseline> to see
+command executions that used this SSM document to perform security
+patching operations on managed nodes.
 
 =item *
 
-B<ExecutionStage>: Specify one of the following values:
+B<ExecutionStage>: Specify one of the following values (C<ListCommands>
+operations only):
 
 =over
 

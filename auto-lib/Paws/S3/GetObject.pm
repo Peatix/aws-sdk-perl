@@ -2,6 +2,7 @@
 package Paws::S3::GetObject;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
+  has ChecksumMode => (is => 'ro', isa => 'Str', header_name => 'x-amz-checksum-mode', traits => ['ParamInHeader']);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
   has IfMatch => (is => 'ro', isa => 'Str', header_name => 'If-Match', traits => ['ParamInHeader']);
   has IfModifiedSince => (is => 'ro', isa => 'Str', header_name => 'If-Modified-Since', traits => ['ParamInHeader']);
@@ -100,60 +101,126 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3/
 
 The bucket name containing the object.
 
-When using this action with an access point, you must direct requests
-to the access point hostname. The access point hostname takes the form
+B<Directory buckets> - When you use this operation with a directory
+bucket, you must use virtual-hosted-style requests in the format C<
+I<Bucket-name>.s3express-I<zone-id>.I<region-code>.amazonaws.com>.
+Path-style requests are not supported. Directory bucket names must be
+unique in the chosen Zone (Availability Zone or Local Zone). Bucket
+names must follow the format C< I<bucket-base-name>--I<zone-id>--x-s3>
+(for example, C< I<amzn-s3-demo-bucket>--I<usw2-az1>--x-s3>). For
+information about bucket naming restrictions, see Directory bucket
+naming rules
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html)
+in the I<Amazon S3 User Guide>.
+
+B<Access points> - When you use this action with an access point for
+general purpose buckets, you must provide the alias of the access point
+in place of the bucket name or specify the access point ARN. When you
+use this action with an access point for directory buckets, you must
+provide the access point name in place of the bucket name. When using
+the access point ARN, you must direct requests to the access point
+hostname. The access point hostname takes the form
 I<AccessPointName>-I<AccountId>.s3-accesspoint.I<Region>.amazonaws.com.
-When using this action with an access point through the AWS SDKs, you
-provide the access point ARN in place of the bucket name. For more
-information about access point ARNs, see Using access points
+When using this action with an access point through the Amazon Web
+Services SDKs, you provide the access point ARN in place of the bucket
+name. For more information about access point ARNs, see Using access
+points
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html)
 in the I<Amazon S3 User Guide>.
 
-When using this action with Amazon S3 on Outposts, you must direct
-requests to the S3 on Outposts hostname. The S3 on Outposts hostname
+B<Object Lambda access points> - When you use this action with an
+Object Lambda access point, you must direct requests to the Object
+Lambda access point hostname. The Object Lambda access point hostname
 takes the form
-I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com.
-When using this action using S3 on Outposts through the AWS SDKs, you
-provide the Outposts bucket ARN in place of the bucket name. For more
-information about S3 on Outposts ARNs, see Using S3 on Outposts
+I<AccessPointName>-I<AccountId>.s3-object-lambda.I<Region>.amazonaws.com.
+
+Object Lambda access points are not supported by directory buckets.
+
+B<S3 on Outposts> - When you use this action with S3 on Outposts, you
+must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+hostname takes the form C<
+I<AccessPointName>-I<AccountId>.I<outpostID>.s3-outposts.I<Region>.amazonaws.com>.
+When you use this action with S3 on Outposts, the destination bucket
+must be the Outposts access point ARN or the access point alias. For
+more information about S3 on Outposts, see What is S3 on Outposts?
 (https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)
 in the I<Amazon S3 User Guide>.
 
 
 
+=head2 ChecksumMode => Str
+
+To retrieve the checksum, this mode must be enabled.
+
+Valid values are: C<"ENABLED">
+
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
 =head2 IfMatch => Str
 
 Return the object only if its entity tag (ETag) is the same as the one
-specified, otherwise return a 412 (precondition failed).
+specified in this header; otherwise, return a C<412 Precondition
+Failed> error.
+
+If both of the C<If-Match> and C<If-Unmodified-Since> headers are
+present in the request as follows: C<If-Match> condition evaluates to
+C<true>, and; C<If-Unmodified-Since> condition evaluates to C<false>;
+then, S3 returns C<200 OK> and the data requested.
+
+For more information about conditional requests, see RFC 7232
+(https://tools.ietf.org/html/rfc7232).
 
 
 
 =head2 IfModifiedSince => Str
 
 Return the object only if it has been modified since the specified
-time, otherwise return a 304 (not modified).
+time; otherwise, return a C<304 Not Modified> error.
+
+If both of the C<If-None-Match> and C<If-Modified-Since> headers are
+present in the request as follows:C< If-None-Match> condition evaluates
+to C<false>, and; C<If-Modified-Since> condition evaluates to C<true>;
+then, S3 returns C<304 Not Modified> status code.
+
+For more information about conditional requests, see RFC 7232
+(https://tools.ietf.org/html/rfc7232).
 
 
 
 =head2 IfNoneMatch => Str
 
 Return the object only if its entity tag (ETag) is different from the
-one specified, otherwise return a 304 (not modified).
+one specified in this header; otherwise, return a C<304 Not Modified>
+error.
+
+If both of the C<If-None-Match> and C<If-Modified-Since> headers are
+present in the request as follows:C< If-None-Match> condition evaluates
+to C<false>, and; C<If-Modified-Since> condition evaluates to C<true>;
+then, S3 returns C<304 Not Modified> HTTP status code.
+
+For more information about conditional requests, see RFC 7232
+(https://tools.ietf.org/html/rfc7232).
 
 
 
 =head2 IfUnmodifiedSince => Str
 
 Return the object only if it has not been modified since the specified
-time, otherwise return a 412 (precondition failed).
+time; otherwise, return a C<412 Precondition Failed> error.
+
+If both of the C<If-Match> and C<If-Unmodified-Since> headers are
+present in the request as follows: C<If-Match> condition evaluates to
+C<true>, and; C<If-Unmodified-Since> condition evaluates to C<false>;
+then, S3 returns C<200 OK> and the data requested.
+
+For more information about conditional requests, see RFC 7232
+(https://tools.ietf.org/html/rfc7232).
 
 
 
@@ -173,10 +240,10 @@ the part specified. Useful for downloading just a part of an object.
 
 =head2 Range => Str
 
-Downloads the specified range bytes of an object. For more information
+Downloads the specified byte range of an object. For more information
 about the HTTP Range header, see
-https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35
-(https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35).
+https://www.rfc-editor.org/rfc/rfc9110.html#name-range
+(https://www.rfc-editor.org/rfc/rfc9110.html#name-range).
 
 Amazon S3 doesn't support retrieving multiple ranges of data per C<GET>
 request.
@@ -197,7 +264,7 @@ Sets the C<Cache-Control> header of the response.
 
 =head2 ResponseContentDisposition => Str
 
-Sets the C<Content-Disposition> header of the response
+Sets the C<Content-Disposition> header of the response.
 
 
 
@@ -227,32 +294,150 @@ Sets the C<Expires> header of the response.
 
 =head2 SSECustomerAlgorithm => Str
 
-Specifies the algorithm to use to when decrypting the object (for
-example, AES256).
+Specifies the algorithm to use when decrypting the object (for example,
+C<AES256>).
+
+If you encrypt an object by using server-side encryption with
+customer-provided encryption keys (SSE-C) when you store the object in
+Amazon S3, then when you GET the object, you must use the following
+headers:
+
+=over
+
+=item *
+
+C<x-amz-server-side-encryption-customer-algorithm>
+
+=item *
+
+C<x-amz-server-side-encryption-customer-key>
+
+=item *
+
+C<x-amz-server-side-encryption-customer-key-MD5>
+
+=back
+
+For more information about SSE-C, see Server-Side Encryption (Using
+Customer-Provided Encryption Keys)
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSECustomerKey => Str
 
-Specifies the customer-provided encryption key for Amazon S3 used to
-encrypt the data. This value is used to decrypt the object when
-recovering it and must match the one used when storing the data. The
-key must be appropriate for use with the algorithm specified in the
+Specifies the customer-provided encryption key that you originally
+provided for Amazon S3 to encrypt the data before storing it. This
+value is used to decrypt the object when recovering it and must match
+the one used when storing the data. The key must be appropriate for use
+with the algorithm specified in the
 C<x-amz-server-side-encryption-customer-algorithm> header.
+
+If you encrypt an object by using server-side encryption with
+customer-provided encryption keys (SSE-C) when you store the object in
+Amazon S3, then when you GET the object, you must use the following
+headers:
+
+=over
+
+=item *
+
+C<x-amz-server-side-encryption-customer-algorithm>
+
+=item *
+
+C<x-amz-server-side-encryption-customer-key>
+
+=item *
+
+C<x-amz-server-side-encryption-customer-key-MD5>
+
+=back
+
+For more information about SSE-C, see Server-Side Encryption (Using
+Customer-Provided Encryption Keys)
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 SSECustomerKeyMD5 => Str
 
-Specifies the 128-bit MD5 digest of the encryption key according to RFC
-1321. Amazon S3 uses this header for a message integrity check to
-ensure that the encryption key was transmitted without error.
+Specifies the 128-bit MD5 digest of the customer-provided encryption
+key according to RFC 1321. Amazon S3 uses this header for a message
+integrity check to ensure that the encryption key was transmitted
+without error.
+
+If you encrypt an object by using server-side encryption with
+customer-provided encryption keys (SSE-C) when you store the object in
+Amazon S3, then when you GET the object, you must use the following
+headers:
+
+=over
+
+=item *
+
+C<x-amz-server-side-encryption-customer-algorithm>
+
+=item *
+
+C<x-amz-server-side-encryption-customer-key>
+
+=item *
+
+C<x-amz-server-side-encryption-customer-key-MD5>
+
+=back
+
+For more information about SSE-C, see Server-Side Encryption (Using
+Customer-Provided Encryption Keys)
+(https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)
+in the I<Amazon S3 User Guide>.
+
+This functionality is not supported for directory buckets.
 
 
 
 =head2 VersionId => Str
 
-VersionId used to reference a specific version of the object.
+Version ID used to reference a specific version of the object.
+
+By default, the C<GetObject> operation returns the current version of
+an object. To return a different version, use the C<versionId>
+subresource.
+
+=over
+
+=item *
+
+If you include a C<versionId> in your request header, you must have the
+C<s3:GetObjectVersion> permission to access a specific version of an
+object. The C<s3:GetObject> permission is not required in this
+scenario.
+
+=item *
+
+If you request the current version of an object without a specific
+C<versionId> in the request header, only the C<s3:GetObject> permission
+is required. The C<s3:GetObjectVersion> permission is not required in
+this scenario.
+
+=item *
+
+B<Directory buckets> - S3 Versioning isn't enabled and supported for
+directory buckets. For this API operation, only the C<null> value of
+the version ID is supported by directory buckets. You can only specify
+C<null> to the C<versionId> query parameter in the request.
+
+=back
+
+For more information about versioning, see PutBucketVersioning
+(https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketVersioning.html).
 
 
 

@@ -24,7 +24,7 @@ Paws::Macie2::GetFindingsFilterResponse
 
 =head2 Action => Str
 
-The action that's performed on findings that meet the filter criteria
+The action that's performed on findings that match the filter criteria
 (findingCriteria). Possible values are: ARCHIVE, suppress
 (automatically archive) the findings; and, NOOP, don't perform any
 action on the findings.
@@ -65,8 +65,8 @@ to the findings.
 
 =head2 Tags => L<Paws::Macie2::TagMap>
 
-A map of key-value pairs that identifies the tags (keys and values)
-that are associated with the filter.
+A map of key-value pairs that specifies which tags (keys and values)
+are associated with the filter.
 
 
 =head2 _request_id => Str

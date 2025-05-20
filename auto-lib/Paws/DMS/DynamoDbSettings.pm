@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DMS::Dynamo
 
 =head1 DESCRIPTION
 
-Provides the Amazon Resource Name (ARN) of the AWS Identity and Access
+Provides the Amazon Resource Name (ARN) of the Identity and Access
 Management (IAM) role used to define an Amazon DynamoDB target
 endpoint.
 
@@ -42,7 +42,8 @@ endpoint.
 
 =head2 B<REQUIRED> ServiceAccessRoleArn => Str
 
-The Amazon Resource Name (ARN) used by the service access IAM role.
+The Amazon Resource Name (ARN) used by the service to access the IAM
+role. The role must allow the C<iam:PassRole> action.
 
 
 

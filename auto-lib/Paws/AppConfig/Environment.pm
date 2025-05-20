@@ -51,7 +51,7 @@ The state of the environment. An environment can be in one of the
 following states: C<READY_FOR_DEPLOYMENT>, C<DEPLOYING>,
 C<ROLLING_BACK>, or C<ROLLED_BACK>
 
-Valid values are: C<"READY_FOR_DEPLOYMENT">, C<"DEPLOYING">, C<"ROLLING_BACK">, C<"ROLLED_BACK">
+Valid values are: C<"READY_FOR_DEPLOYMENT">, C<"DEPLOYING">, C<"ROLLING_BACK">, C<"ROLLED_BACK">, C<"REVERTED">
 =head2 _request_id => Str
 
 

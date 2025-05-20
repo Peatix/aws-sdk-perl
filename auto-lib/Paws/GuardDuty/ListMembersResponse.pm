@@ -20,6 +20,9 @@ Paws::GuardDuty::ListMembersResponse
 
 A list of members.
 
+The values for C<email> and C<invitedAt> are available only if the
+member accounts are added by invitation.
+
 
 =head2 NextToken => Str
 

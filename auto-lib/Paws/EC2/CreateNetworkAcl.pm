@@ -1,6 +1,7 @@
 
 package Paws::EC2::CreateNetworkAcl;
   use Moose;
+  has ClientToken => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has VpcId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcId' , required => 1);
@@ -43,6 +44,15 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2/CreateNetworkAcl>
 
 =head1 ATTRIBUTES
+
+
+=head2 ClientToken => Str
+
+Unique, case-sensitive identifier that you provide to ensure the
+idempotency of the request. For more information, see Ensuring
+idempotency
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+
 
 
 =head2 DryRun => Bool

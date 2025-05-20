@@ -43,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ListenerArn            => 'MyGenericString',
       EndpointConfigurations => [
         {
+          AttachmentArn               => 'MyGenericString', # max: 255
           ClientIPPreservationEnabled => 1,                 # OPTIONAL
           EndpointId                  => 'MyGenericString', # max: 255
           Weight                      => 1,                 # max: 255; OPTIONAL
@@ -83,8 +84,8 @@ The list of endpoint objects.
 
 =head2 B<REQUIRED> EndpointGroupRegion => Str
 
-The AWS Region where the endpoint group is located. A listener can have
-only one endpoint group in a specific Region.
+The Amazon Web Services Region where the endpoint group is located. A
+listener can have only one endpoint group in a specific Region.
 
 
 
@@ -104,17 +105,16 @@ destination for health check targets. The default value is slash (/).
 
 =head2 HealthCheckPort => Int
 
-The port that AWS Global Accelerator uses to check the health of
-endpoints that are part of this endpoint group. The default port is the
-listener port that this endpoint group is associated with. If listener
-port is a list of ports, Global Accelerator uses the first port in the
-list.
+The port that Global Accelerator uses to check the health of endpoints
+that are part of this endpoint group. The default port is the listener
+port that this endpoint group is associated with. If listener port is a
+list of ports, Global Accelerator uses the first port in the list.
 
 
 
 =head2 HealthCheckProtocol => Str
 
-The protocol that AWS Global Accelerator uses to check the health of
+The protocol that Global Accelerator uses to check the health of
 endpoints that are part of this endpoint group. The default value is
 TCP.
 
@@ -141,9 +141,9 @@ port override in which the listener receives user traffic on ports 80
 and 443, but your accelerator routes that traffic to ports 1080 and
 1443, respectively, on the endpoints.
 
-For more information, see Port overrides
+For more information, see Overriding listener ports
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 
@@ -157,8 +157,9 @@ healthy. The default value is 3.
 
 =head2 TrafficDialPercentage => Num
 
-The percentage of traffic to send to an AWS Region. Additional traffic
-is distributed to other endpoint groups for this listener.
+The percentage of traffic to send to an Amazon Web Services Region.
+Additional traffic is distributed to other endpoint groups for this
+listener.
 
 Use this action to increase (dial up) or decrease (dial down) traffic
 to a specific Region. The percentage is applied to the traffic that

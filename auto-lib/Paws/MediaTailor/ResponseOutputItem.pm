@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaTailor
 
 =head1 DESCRIPTION
 
-This response includes only the "property" : "type" property.
+The output item response.
 
 =head1 ATTRIBUTES
 

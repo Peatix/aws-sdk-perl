@@ -3,12 +3,14 @@ package Paws::SQS::MessageSystemAttributeMap;
   with 'Paws::API::MapParser';
 
   use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'Name');
-  class_has xml_values =>(is => 'ro', default => 'Value');
+  class_has xml_keys =>(is => 'ro', default => 'key');
+  class_has xml_values =>(is => 'ro', default => 'value');
 
+  has All => (is => 'ro', isa => 'Str');
   has ApproximateFirstReceiveTimestamp => (is => 'ro', isa => 'Str');
   has ApproximateReceiveCount => (is => 'ro', isa => 'Str');
   has AWSTraceHeader => (is => 'ro', isa => 'Str');
+  has DeadLetterQueueSourceArn => (is => 'ro', isa => 'Str');
   has MessageDeduplicationId => (is => 'ro', isa => 'Str');
   has MessageGroupId => (is => 'ro', isa => 'Str');
   has SenderId => (is => 'ro', isa => 'Str');
@@ -33,20 +35,23 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SQS::MessageSystemAttributeMap object:
 
-  $service_obj->Method(Att1 => { ApproximateFirstReceiveTimestamp => $value, ..., SequenceNumber => $value  });
+  $service_obj->Method(Att1 => { All => $value, ..., SequenceNumber => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::SQS::MessageSystemAttributeMap object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->ApproximateFirstReceiveTimestamp
+  $result->Att1->All
 
 =head1 DESCRIPTION
 
 This class has no description
 
 =head1 ATTRIBUTES
+
+
+=head2 All => Str
 
 
 =head2 ApproximateFirstReceiveTimestamp => Str
@@ -56,6 +61,9 @@ This class has no description
 
 
 =head2 AWSTraceHeader => Str
+
+
+=head2 DeadLetterQueueSourceArn => Str
 
 
 =head2 MessageDeduplicationId => Str

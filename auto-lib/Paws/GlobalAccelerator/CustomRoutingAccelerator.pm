@@ -59,17 +59,22 @@ The date and time that the accelerator was created.
 =head2 DnsName => Str
 
 The Domain Name System (DNS) name that Global Accelerator creates that
-points to your accelerator's static IP addresses.
+points to an accelerator's static IPv4 addresses.
 
 The naming convention for the DNS name is the following: A lowercase
 letter a, followed by a 16-bit random hex string, followed by
 .awsglobalaccelerator.com. For example:
 a1234567890abcdef.awsglobalaccelerator.com.
 
+If you have a dual-stack accelerator, you also have a second DNS name,
+C<DualStackDnsName>, that points to both the A record and the AAAA
+record for all four static addresses for the accelerator: two IPv4
+addresses and two IPv6 addresses.
+
 For more information about the default DNS name, see Support for DNS
-Addressing in Global Accelerator
-(https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing)
-in the I<AWS Global Accelerator Developer Guide>.
+addressing in Global Accelerator
+(https://docs.aws.amazon.com/global-accelerator/latest/dg/dns-addressing-custom-domains.dns-addressing.html)
+in the I<Global Accelerator Developer Guide>.
 
 
 =head2 Enabled => Bool
@@ -83,7 +88,8 @@ to false, accelerator can be deleted.
 
 =head2 IpAddressType => Str
 
-The value for the address type must be IPv4.
+The IP address type that an accelerator supports. For a custom routing
+accelerator, the value must be IPV4.
 
 
 =head2 IpSets => ArrayRef[L<Paws::GlobalAccelerator::IpSet>]

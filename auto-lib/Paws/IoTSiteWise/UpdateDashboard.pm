@@ -56,10 +56,23 @@ idempotent request is required.
 
 =head2 B<REQUIRED> DashboardDefinition => Str
 
-The new dashboard definition, as specified in a JSON literal. For
-detailed information, see Creating dashboards (CLI)
+The new dashboard definition, as specified in a JSON literal.
+
+=over
+
+=item *
+
+IoT SiteWise Monitor (Classic) see Create dashboards (CLI)
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html)
-in the I<AWS IoT SiteWise User Guide>.
+
+=item *
+
+IoT SiteWise Monitor (AI-aware) see Create dashboards (CLI)
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-ai-dashboard-cli.html)
+
+=back
+
+in the I<IoT SiteWise User Guide>
 
 
 

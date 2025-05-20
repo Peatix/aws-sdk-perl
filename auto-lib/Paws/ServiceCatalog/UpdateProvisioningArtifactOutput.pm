@@ -18,7 +18,8 @@ Paws::ServiceCatalog::UpdateProvisioningArtifactOutput
 
 =head2 Info => L<Paws::ServiceCatalog::ProvisioningArtifactInfo>
 
-The URL of the CloudFormation template in Amazon S3.
+The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+format.
 
 
 =head2 ProvisioningArtifactDetail => L<Paws::ServiceCatalog::ProvisioningArtifactDetail>

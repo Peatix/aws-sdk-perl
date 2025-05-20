@@ -53,7 +53,7 @@ Valid Values: C<false> | C<true>
 
 =head2 AvoidTolls => Bool
 
-Avoids ferries when calculating routes.
+Avoids tolls when calculating routes.
 
 Default Value: C<false>
 

@@ -47,7 +47,7 @@ Describes a custom tape pool.
 
 The Amazon Resource Name (ARN) of the custom tape pool. Use the
 ListTapePools operation to return a list of custom tape pools for your
-account and AWS Region.
+account and Amazon Web Services Region.
 
 
 =head2 PoolName => Str
@@ -70,11 +70,11 @@ enabled for up to 100 years (36,500 days).
 =head2 RetentionLockType => Str
 
 Tape retention lock type, which can be configured in two modes. When
-configured in governance mode, AWS accounts with specific IAM
-permissions are authorized to remove the tape retention lock from
-archived virtual tapes. When configured in compliance mode, the tape
-retention lock cannot be removed by any user, including the root AWS
-account.
+configured in governance mode, Amazon Web Services accounts with
+specific IAM permissions are authorized to remove the tape retention
+lock from archived virtual tapes. When configured in compliance mode,
+the tape retention lock cannot be removed by any user, including the
+root Amazon Web Services account.
 
 
 =head2 StorageClass => Str

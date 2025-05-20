@@ -58,10 +58,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -95,16 +91,18 @@ portfolios.
 
 =item *
 
-C<AWS_ORGANIZATIONS> - List portfolios shared by the management account
-of your organization
+C<AWS_ORGANIZATIONS> - List portfolios accepted and shared via
+organizational sharing by the management account or delegated
+administrator of your organization.
 
 =item *
 
-C<AWS_SERVICECATALOG> - List default portfolios
+C<AWS_SERVICECATALOG> - Deprecated type.
 
 =item *
 
-C<IMPORTED> - List imported portfolios
+C<IMPORTED> - List imported portfolios that have been accepted and
+shared through account-to-account sharing.
 
 =back
 

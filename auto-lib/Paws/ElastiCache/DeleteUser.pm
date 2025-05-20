@@ -33,14 +33,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $ARN            = $User->ARN;
-    my $AccessString   = $User->AccessString;
-    my $Authentication = $User->Authentication;
-    my $Engine         = $User->Engine;
-    my $Status         = $User->Status;
-    my $UserGroupIds   = $User->UserGroupIds;
-    my $UserId         = $User->UserId;
-    my $UserName       = $User->UserName;
+    my $ARN                  = $User->ARN;
+    my $AccessString         = $User->AccessString;
+    my $Authentication       = $User->Authentication;
+    my $Engine               = $User->Engine;
+    my $MinimumEngineVersion = $User->MinimumEngineVersion;
+    my $Status               = $User->Status;
+    my $UserGroupIds         = $User->UserGroupIds;
+    my $UserId               = $User->UserId;
+    my $UserName             = $User->UserName;
 
     # Returns a L<Paws::ElastiCache::User> object.
 

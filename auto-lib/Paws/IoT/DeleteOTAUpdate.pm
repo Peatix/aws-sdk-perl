@@ -52,7 +52,7 @@ OTAUpdate is supplied by the user.
 
 =head2 ForceDeleteAWSJob => Bool
 
-When true, deletes the AWS job created by the OTAUpdate process even if
+When true, deletes the IoT job created by the OTAUpdate process even if
 it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state
 ("COMPLETED" or "CANCELED") an exception will occur. The default is
 false.

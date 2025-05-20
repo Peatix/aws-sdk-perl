@@ -17,14 +17,14 @@ Paws::Transfer::CreateAccessResponse
 
 =head2 B<REQUIRED> ExternalId => Str
 
-The external ID of the group whose users have access to your Amazon S3
-or Amazon EFS resources over the enabled protocols using Amazon Web
-Services Transfer Family.
+The external identifier of the group whose users have access to your
+Amazon S3 or Amazon EFS resources over the enabled protocols using
+Transfer Family.
 
 
 =head2 B<REQUIRED> ServerId => Str
 
-The ID of the server that the user is attached to.
+The identifier of the server that the user is attached to.
 
 
 =head2 _request_id => Str

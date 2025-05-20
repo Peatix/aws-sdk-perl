@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::HostEn
 
 Hostnames and IP address entries that are added to the C</etc/hosts>
 file of a container via the C<extraHosts> parameter of its
-ContainerDefinition.
+ContainerDefinition
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html).
 
 =head1 ATTRIBUTES
 

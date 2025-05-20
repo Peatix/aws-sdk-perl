@@ -2,7 +2,7 @@
 package Paws::EC2::AcceptVpcPeeringConnection;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
-  has VpcPeeringConnectionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcPeeringConnectionId' );
+  has VpcPeeringConnectionId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcPeeringConnectionId' , required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -29,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $AcceptVpcPeeringConnectionResult = $ec2->AcceptVpcPeeringConnection(
-      DryRun                 => 1,                             # OPTIONAL
-      VpcPeeringConnectionId => 'MyVpcPeeringConnectionId',    # OPTIONAL
+      VpcPeeringConnectionId => 'MyVpcPeeringConnectionIdWithResolver',
+      DryRun                 => 1,    # OPTIONAL
     );
 
     # Results:
@@ -54,7 +54,7 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 VpcPeeringConnectionId => Str
+=head2 B<REQUIRED> VpcPeeringConnectionId => Str
 
 The ID of the VPC peering connection. You must specify this parameter
 in the request.

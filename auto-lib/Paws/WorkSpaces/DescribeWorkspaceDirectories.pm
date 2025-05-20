@@ -2,8 +2,10 @@
 package Paws::WorkSpaces::DescribeWorkspaceDirectories;
   use Moose;
   has DirectoryIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has Filters => (is => 'ro', isa => 'ArrayRef[Paws::WorkSpaces::DescribeWorkspaceDirectoriesFilter]');
   has Limit => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
+  has WorkspaceDirectoryNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
 
@@ -34,8 +36,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DirectoryIds => [
         'MyDirectoryId', ...    # min: 10, max: 65
       ],    # OPTIONAL
-      Limit     => 1,                      # OPTIONAL
-      NextToken => 'MyPaginationToken',    # OPTIONAL
+      Filters => [
+        {
+          Name =>
+            'USER_IDENTITY_TYPE',   # values: USER_IDENTITY_TYPE, WORKSPACE_TYPE
+          Values => [ 'MyDescribeWorkspaceDirectoriesFilterValue', ... ]
+          ,                         # min: 1, max: 25
+
+        },
+        ...
+      ],    # OPTIONAL
+      Limit                   => 1,                                   # OPTIONAL
+      NextToken               => 'MyPaginationToken',                 # OPTIONAL
+      WorkspaceDirectoryNames => [ 'MyWorkspaceDirectoryName', ... ], # OPTIONAL
       );
 
     # Results:
@@ -57,6 +70,12 @@ directories are retrieved.
 
 
 
+=head2 Filters => ArrayRef[L<Paws::WorkSpaces::DescribeWorkspaceDirectoriesFilter>]
+
+The filter condition for the WorkSpaces.
+
+
+
 =head2 Limit => Int
 
 The maximum number of directories to return.
@@ -67,6 +86,12 @@ The maximum number of directories to return.
 
 If you received a C<NextToken> from a previous call that was paginated,
 provide this token to receive the next set of results.
+
+
+
+=head2 WorkspaceDirectoryNames => ArrayRef[Str|Undef]
+
+The names of the WorkSpace directories.
 
 
 

@@ -36,8 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Inv
 
 =head1 DESCRIPTION
 
-Provides information about an Amazon Macie membership invitation that
-was received by an account.
+Provides information about an Amazon Macie membership invitation.
 
 =head1 ATTRIBUTES
 
@@ -50,8 +49,7 @@ invitation.
 
 =head2 InvitationId => Str
 
-The unique identifier for the invitation. Amazon Macie uses this
-identifier to validate the inviter account with the invitee account.
+The unique identifier for the invitation.
 
 
 =head2 InvitedAt => Str
@@ -63,8 +61,7 @@ invitation was sent.
 =head2 RelationshipStatus => Str
 
 The status of the relationship between the account that sent the
-invitation (I<inviter account>) and the account that received the
-invitation (I<invitee account>).
+invitation and the account that received the invitation.
 
 
 

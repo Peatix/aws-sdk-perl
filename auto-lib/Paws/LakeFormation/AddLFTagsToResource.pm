@@ -8,8 +8,9 @@ package Paws::LakeFormation::AddLFTagsToResource;
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'AddLFTagsToResource');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/AddLFTagsToResource');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::LakeFormation::AddLFTagsToResourceResponse');
-  class_has _result_key => (isa => 'Str', is => 'ro');
 1;
 
 ### main pod documentation begin ###
@@ -42,55 +43,66 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],
       Resource => {
         Catalog => {
-
+          Id => 'MyCatalogIdString',           # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
+        DataCellsFilter => {
+          DatabaseName   => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          Name           => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          TableCatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+          TableName      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         DataLocation => {
           ResourceArn => 'MyResourceArnString',
           CatalogId   => 'MyCatalogIdString',     # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         Database => {
-          Name      => 'MyNameString',         # min: 1, max: 255
+          Name      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         LFTag => {
-          TagKey    => 'MyNameString',    # min: 1, max: 255
+          TagKey    => 'MyNameString',    # min: 1, max: 255; OPTIONAL
           TagValues => [
             'MyLFTagValue', ...           # max: 256
           ],    # min: 1, max: 50
           CatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
+        LFTagExpression => {
+          Name      => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          CatalogId => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
         LFTagPolicy => {
-          Expression => [
+          ResourceType => 'DATABASE',             # values: DATABASE, TABLE
+          CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+          Expression   => [
             {
-              TagKey    => 'MyLFTagKey',    # min: 1, max: 128
+              TagKey    => 'MyLFTagKey',          # min: 1, max: 128
               TagValues => [
-                'MyLFTagValue', ...         # max: 256
+                'MyLFTagValue', ...               # max: 256
               ],    # min: 1, max: 50
 
             },
             ...
-          ],    # min: 1, max: 5
-          ResourceType => 'DATABASE',             # values: DATABASE, TABLE
-          CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
+          ],    # OPTIONAL
+          ExpressionName => 'MyNameString',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
         Table => {
-          DatabaseName  => 'MyNameString',         # min: 1, max: 255
+          DatabaseName  => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId     => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
-          Name          => 'MyNameString',         # min: 1, max: 255
+          Name          => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           TableWildcard => {
 
           },                                       # OPTIONAL
         },    # OPTIONAL
         TableWithColumns => {
-          DatabaseName => 'MyNameString',         # min: 1, max: 255
-          Name         => 'MyNameString',         # min: 1, max: 255
+          DatabaseName => 'MyNameString',         # min: 1, max: 255; OPTIONAL
+          Name         => 'MyNameString',         # min: 1, max: 255; OPTIONAL
           CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
           ColumnNames  => [
-            'MyNameString', ...                   # min: 1, max: 255
+            'MyNameString', ...                   # min: 1, max: 255; OPTIONAL
           ],    # OPTIONAL
           ColumnWildcard => {
             ExcludedColumnNames => [
-              'MyNameString', ...    # min: 1, max: 255
+              'MyNameString', ...    # min: 1, max: 255; OPTIONAL
             ],    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
@@ -114,19 +126,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lak
 The identifier for the Data Catalog. By default, the account ID. The
 Data Catalog is the persistent metadata store. It contains database
 definitions, table definitions, and other control information to manage
-your AWS Lake Formation environment.
+your Lake Formation environment.
 
 
 
 =head2 B<REQUIRED> LFTags => ArrayRef[L<Paws::LakeFormation::LFTagPair>]
 
-The tags to attach to the resource.
+The LF-tags to attach to the resource.
 
 
 
 =head2 B<REQUIRED> Resource => L<Paws::LakeFormation::Resource>
 
-The resource to which to attach a tag.
+The database, table, or column resource to which to attach an LF-tag.
 
 
 

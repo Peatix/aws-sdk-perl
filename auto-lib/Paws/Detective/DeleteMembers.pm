@@ -51,15 +51,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> AccountIds => ArrayRef[Str|Undef]
 
-The list of AWS account identifiers for the member accounts to delete
-from the behavior graph. You can delete up to 50 member accounts at a
-time.
+The list of Amazon Web Services account identifiers for the member
+accounts to remove from the behavior graph. You can remove up to 50
+member accounts at a time.
 
 
 
 =head2 B<REQUIRED> GraphArn => Str
 
-The ARN of the behavior graph to delete members from.
+The ARN of the behavior graph to remove members from.
 
 
 

@@ -3,10 +3,14 @@ package Paws::IVS::ChannelSummary;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has Authorized => (is => 'ro', isa => 'Bool', request_name => 'authorized', traits => ['NameInRequest']);
+  has InsecureIngest => (is => 'ro', isa => 'Bool', request_name => 'insecureIngest', traits => ['NameInRequest']);
   has LatencyMode => (is => 'ro', isa => 'Str', request_name => 'latencyMode', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has PlaybackRestrictionPolicyArn => (is => 'ro', isa => 'Str', request_name => 'playbackRestrictionPolicyArn', traits => ['NameInRequest']);
+  has Preset => (is => 'ro', isa => 'Str', request_name => 'preset', traits => ['NameInRequest']);
   has RecordingConfigurationArn => (is => 'ro', isa => 'Str', request_name => 'recordingConfigurationArn', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::IVS::Tags', request_name => 'tags', traits => ['NameInRequest']);
+  has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
 
 1;
 
@@ -27,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IVS::ChannelSummary object:
 
-  $service_obj->Method(Att1 => { Arn => $value, ..., Tags => $value  });
+  $service_obj->Method(Att1 => { Arn => $value, ..., Type => $value  });
 
 =head3 Results returned from an API call
 
@@ -54,12 +58,16 @@ Whether the channel is private (enabled for playback authorization).
 Default: C<false>.
 
 
+=head2 InsecureIngest => Bool
+
+Whether the channel allows insecure RTMP ingest. Default: C<false>.
+
+
 =head2 LatencyMode => Str
 
 Channel latency mode. Use C<NORMAL> to broadcast and deliver live video
 up to Full HD. Use C<LOW> for near-real-time interaction with viewers.
-Default: C<LOW>. (Note: In the Amazon IVS console, C<LOW> and C<NORMAL>
-correspond to Ultra-low and Standard, respectively.)
+Default: C<LOW>.
 
 
 =head2 Name => Str
@@ -67,16 +75,47 @@ correspond to Ultra-low and Standard, respectively.)
 Channel name.
 
 
+=head2 PlaybackRestrictionPolicyArn => Str
+
+Playback-restriction-policy ARN. A valid ARN value here both specifies
+the ARN and enables playback restriction. Default: "" (empty string, no
+playback restriction policy is applied).
+
+
+=head2 Preset => Str
+
+Optional transcode preset for the channel. This is selectable only for
+C<ADVANCED_HD> and C<ADVANCED_SD> channel types. For those channel
+types, the default C<preset> is C<HIGHER_BANDWIDTH_DELIVERY>. For other
+channel types (C<BASIC> and C<STANDARD>), C<preset> is the empty string
+(C<"">).
+
+
 =head2 RecordingConfigurationArn => Str
 
-Recording-configuration ARN. A value other than an empty string
-indicates that recording is enabled. Default: "" (empty string,
-recording is disabled).
+Recording-configuration ARN. A valid ARN value here both specifies the
+ARN and enables recording. Default: "" (empty string, recording is
+disabled).
 
 
 =head2 Tags => L<Paws::IVS::Tags>
 
-Array of 1-50 maps, each of the form C<string:string (key:value)>.
+Tags attached to the resource. Array of 1-50 maps, each of the form
+C<string:string (key:value)>. See Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
+
+
+=head2 Type => Str
+
+Channel type, which determines the allowable resolution and bitrate.
+I<If you exceed the allowable input resolution or bitrate, the stream
+probably will disconnect immediately.> Default: C<STANDARD>. For
+details, see Channel Types
+(https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
 
 
 

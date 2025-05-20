@@ -21,13 +21,17 @@ Paws::ImageBuilder::ListComponentsResponse
 
 The list of component semantic versions.
 
+The semantic version has four nodes:
+E<lt>majorE<gt>.E<lt>minorE<gt>.E<lt>patchE<gt>/E<lt>buildE<gt>. You
+can assign values for the first three, and can filter on all of them.
+
 
 =head2 NextToken => Str
 
-The next token used for paginated responses. When this is not empty,
-there are additional elements that the service has not included in this
-request. Use this token with the next request to retrieve additional
-objects.
+The next token used for paginated responses. When this field isn't
+empty, there are additional elements that the service hasn't included
+in this request. Use this token with the next request to retrieve
+additional objects.
 
 
 =head2 RequestId => Str

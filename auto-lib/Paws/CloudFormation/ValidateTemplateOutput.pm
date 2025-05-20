@@ -27,9 +27,9 @@ CAPABILITY_NAMED_IAM value for this parameter when you use the
 CreateStack or UpdateStack actions with your template; otherwise, those
 actions return an InsufficientCapabilities error.
 
-For more information, see Acknowledging IAM Resources in AWS
-CloudFormation Templates
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+For more information, see Acknowledging IAM resources in CloudFormation
+templates
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
 
 
 =head2 CapabilitiesReason => Str

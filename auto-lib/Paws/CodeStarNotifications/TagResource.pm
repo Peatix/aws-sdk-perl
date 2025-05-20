@@ -57,7 +57,7 @@ The Amazon Resource Name (ARN) of the notification rule to tag.
 =head2 B<REQUIRED> Tags => L<Paws::CodeStarNotifications::Tags>
 
 The list of tags to associate with the resource. Tag key names cannot
-start with "aws".
+start with "C<aws>".
 
 
 

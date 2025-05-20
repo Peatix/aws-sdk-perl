@@ -33,7 +33,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 
 =head1 DESCRIPTION
 
-Describes execution properties for a Flink-based Kinesis Data Analytics
+Describes execution properties for a Managed Service for Apache Flink
 application.
 
 =head1 ATTRIBUTES

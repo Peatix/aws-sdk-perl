@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 =head1 DESCRIPTION
 
 Contains information about the default cache configuration for the
-distribution.
+CloudFront distribution.
 
 =head1 ATTRIBUTES
 

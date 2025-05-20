@@ -55,15 +55,15 @@ The maximum number of tags to list.
 
 =head2 NextToken => Str
 
-A token to indicate the location of the next resource tag in the array
-of resource tags, after the list of resource tags that was previously
-requested.
+A token that indicates the location of the next resource tag in the
+array of resource tags, after the list of resource tags that was
+previously requested.
 
 
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The ARN of the resource for the listed tags.
+The Amazon Resource Name (ARN) of the resource for the listed tags.
 
 
 

@@ -21,6 +21,7 @@ package Paws::EC2::SpotFleetRequestConfigData;
   has SpotPrice => (is => 'ro', isa => 'Str', request_name => 'spotPrice', traits => ['NameInRequest']);
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', request_name => 'TagSpecification', traits => ['NameInRequest']);
   has TargetCapacity => (is => 'ro', isa => 'Int', request_name => 'targetCapacity', traits => ['NameInRequest'], required => 1);
+  has TargetCapacityUnitType => (is => 'ro', isa => 'Str', request_name => 'targetCapacityUnitType', traits => ['NameInRequest']);
   has TerminateInstancesWithExpiration => (is => 'ro', isa => 'Bool', request_name => 'terminateInstancesWithExpiration', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest']);
   has ValidFrom => (is => 'ro', isa => 'Str', request_name => 'validFrom', traits => ['NameInRequest']);
@@ -62,20 +63,30 @@ This class has no description
 
 =head2 AllocationStrategy => Str
 
-Indicates how to allocate the target Spot Instance capacity across the
-Spot Instance pools specified by the Spot Fleet request.
+The strategy that determines how to allocate the target Spot Instance
+capacity across the Spot Instance pools specified by the Spot Fleet
+launch configuration. For more information, see Allocation strategies
+for Spot Instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-allocation-strategy.html)
+in the I<Amazon EC2 User Guide>.
 
-If the allocation strategy is C<lowestPrice>, Spot Fleet launches
-instances from the Spot Instance pools with the lowest price. This is
-the default allocation strategy.
+=over
 
-If the allocation strategy is C<diversified>, Spot Fleet launches
-instances from all the Spot Instance pools that you specify.
+=item priceCapacityOptimized (recommended)
 
-If the allocation strategy is C<capacityOptimized> (recommended), Spot
-Fleet launches instances from Spot Instance pools with optimal capacity
-for the number of instances that are launching. To give certain
-instance types a higher chance of launching first, use
+Spot Fleet identifies the pools with the highest capacity availability
+for the number of instances that are launching. This means that we will
+request Spot Instances from the pools that we believe have the lowest
+chance of interruption in the near term. Spot Fleet then requests Spot
+Instances from the lowest priced of these pools.
+
+=item capacityOptimized
+
+Spot Fleet identifies the pools with the highest capacity availability
+for the number of instances that are launching. This means that we will
+request Spot Instances from the pools that we believe have the lowest
+chance of interruption in the near term. To give certain instance types
+a higher chance of launching first, use
 C<capacityOptimizedPrioritized>. Set a priority for each instance type
 by using the C<Priority> parameter for C<LaunchTemplateOverrides>. You
 can assign the same priority to different C<LaunchTemplateOverrides>.
@@ -84,6 +95,31 @@ capacity first. C<capacityOptimizedPrioritized> is supported only if
 your Spot Fleet uses a launch template. Note that if the
 C<OnDemandAllocationStrategy> is set to C<prioritized>, the same
 priority is applied when fulfilling On-Demand capacity.
+
+=item diversified
+
+Spot Fleet requests instances from all of the Spot Instance pools that
+you specify.
+
+=item lowestPrice (not recommended)
+
+We don't recommend the C<lowestPrice> allocation strategy because it
+has the highest risk of interruption for your Spot Instances.
+
+Spot Fleet requests instances from the lowest priced Spot Instance pool
+that has available capacity. If the lowest priced pool doesn't have
+available capacity, the Spot Instances come from the next lowest priced
+pool that has available capacity. If a pool runs out of capacity before
+fulfilling your desired capacity, Spot Fleet will continue to fulfill
+your request by drawing from the next lowest priced pool. To ensure
+that your desired capacity is met, you might receive Spot Instances
+from several pools. Because this strategy only considers instance price
+and not capacity availability, it might lead to high interruption
+rates.
+
+=back
+
+Default: C<lowestPrice>
 
 
 =head2 ClientToken => Str
@@ -101,9 +137,11 @@ Reserved.
 
 =head2 ExcessCapacityTerminationPolicy => Str
 
-Indicates whether running Spot Instances should be terminated if you
+Indicates whether running instances should be terminated if you
 decrease the target capacity of the Spot Fleet request below the
 current size of the Spot Fleet.
+
+Supported only for fleets of type C<maintain>.
 
 
 =head2 FulfilledCapacity => Num
@@ -119,9 +157,9 @@ The Amazon Resource Name (ARN) of an Identity and Access Management
 launch, terminate, and tag instances on your behalf. For more
 information, see Spot Fleet prerequisites
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites)
-in the I<Amazon EC2 User Guide for Linux Instances>. Spot Fleet can
-terminate Spot Instances on your behalf when you cancel its Spot Fleet
-request using CancelSpotFleetRequests
+in the I<Amazon EC2 User Guide>. Spot Fleet can terminate Spot
+Instances on your behalf when you cancel its Spot Fleet request using
+CancelSpotFleetRequests
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CancelSpotFleetRequests)
 or when the Spot Fleet request expires, if you set
 C<TerminateInstancesWithExpiration>.
@@ -158,6 +196,10 @@ The launch specifications for the Spot Fleet request. If you specify
 C<LaunchSpecifications>, you can't specify C<LaunchTemplateConfigs>. If
 you include On-Demand capacity in your request, you must use
 C<LaunchTemplateConfigs>.
+
+If an AMI specified in a launch specification is deregistered or
+disabled, no new instances can be launched from the AMI. For fleets of
+type C<maintain>, the target capacity will not be maintained.
 
 
 =head2 LaunchTemplateConfigs => ArrayRef[L<Paws::EC2::LaunchTemplateConfig>]
@@ -208,6 +250,16 @@ you're willing to pay. When the maximum amount you're willing to pay is
 reached, the fleet stops launching instances even if it hasnE<rsquo>t
 met the target capacity.
 
+If your fleet includes T instances that are configured as C<unlimited>,
+and if their average CPU usage exceeds the baseline utilization, you
+will incur a charge for surplus credits. The C<onDemandMaxTotalPrice>
+does not account for surplus credits, and, if you use surplus credits,
+your final cost might be higher than what you specified for
+C<onDemandMaxTotalPrice>. For more information, see Surplus credits can
+incur charges
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-unlimited-mode-concepts.html#unlimited-mode-surplus-credits)
+in the I<Amazon EC2 User Guide>.
+
 
 =head2 OnDemandTargetCapacity => Int
 
@@ -232,7 +284,7 @@ risk of being interrupted.
 =head2 SpotMaxTotalPrice => Str
 
 The maximum amount per hour for Spot Instances that you're willing to
-pay. You can use the C<spotdMaxTotalPrice> parameter, the
+pay. You can use the C<spotMaxTotalPrice> parameter, the
 C<onDemandMaxTotalPrice> parameter, or both parameters to ensure that
 your fleet cost does not exceed your budget. If you set a maximum price
 per hour for the On-Demand Instances and Spot Instances in your
@@ -241,11 +293,26 @@ amount you're willing to pay. When the maximum amount you're willing to
 pay is reached, the fleet stops launching instances even if it
 hasnE<rsquo>t met the target capacity.
 
+If your fleet includes T instances that are configured as C<unlimited>,
+and if their average CPU usage exceeds the baseline utilization, you
+will incur a charge for surplus credits. The C<spotMaxTotalPrice> does
+not account for surplus credits, and, if you use surplus credits, your
+final cost might be higher than what you specified for
+C<spotMaxTotalPrice>. For more information, see Surplus credits can
+incur charges
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-unlimited-mode-concepts.html#unlimited-mode-surplus-credits)
+in the I<Amazon EC2 User Guide>.
+
 
 =head2 SpotPrice => Str
 
 The maximum price per unit hour that you are willing to pay for a Spot
-Instance. The default is the On-Demand price.
+Instance. We do not recommend using this parameter because it can lead
+to increased interruptions. If you do not specify this parameter, you
+will pay the current Spot price.
+
+If you specify a maximum price, your instances will be interrupted more
+frequently than if you do not specify this parameter.
 
 
 =head2 TagSpecifications => ArrayRef[L<Paws::EC2::TagSpecification>]
@@ -255,11 +322,11 @@ value for C<ResourceType> must be C<spot-fleet-request>, otherwise the
 Spot Fleet request fails. To tag instances at launch, specify the tags
 in the launch template
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template)
-(valid only if you use C<LaunchTemplateConfigs>) or in the
-C<SpotFleetTagSpecification>
+(valid only if you use C<LaunchTemplateConfigs>) or in the C<
+SpotFleetTagSpecification
 (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SpotFleetTagSpecification.html)
-(valid only if you use C<LaunchSpecifications>). For information about
-tagging after launch, see Tagging Your Resources
+> (valid only if you use C<LaunchSpecifications>). For information
+about tagging after launch, see Tag your resources
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources).
 
 
@@ -270,6 +337,14 @@ set the target capacity in terms of instances or a performance
 characteristic that is important to your application workload, such as
 vCPUs, memory, or I/O. If the request type is C<maintain>, you can
 specify a target capacity of 0 and add capacity later.
+
+
+=head2 TargetCapacityUnitType => Str
+
+The unit for the target capacity. You can specify this parameter only
+when using attribute-based instance type selection.
+
+Default: C<units> (the number of instances)
 
 
 =head2 TerminateInstancesWithExpiration => Bool

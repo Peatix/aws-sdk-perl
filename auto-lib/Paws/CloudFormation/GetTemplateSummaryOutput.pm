@@ -10,6 +10,7 @@ package Paws::CloudFormation::GetTemplateSummaryOutput;
   has ResourceIdentifierSummaries => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::ResourceIdentifierSummary]');
   has ResourceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Version => (is => 'ro', isa => 'Str');
+  has Warnings => (is => 'ro', isa => 'Paws::CloudFormation::Warnings');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -26,14 +27,14 @@ Paws::CloudFormation::GetTemplateSummaryOutput
 =head2 Capabilities => ArrayRef[Str|Undef]
 
 The capabilities found within the template. If your template contains
-IAM resources, you must specify the CAPABILITY_IAM or
-CAPABILITY_NAMED_IAM value for this parameter when you use the
+IAM resources, you must specify the C<CAPABILITY_IAM> or
+C<CAPABILITY_NAMED_IAM> value for this parameter when you use the
 CreateStack or UpdateStack actions with your template; otherwise, those
-actions return an InsufficientCapabilities error.
+actions return an C<InsufficientCapabilities> error.
 
-For more information, see Acknowledging IAM Resources in AWS
-CloudFormation Templates
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+For more information, see Acknowledging IAM resources in CloudFormation
+templates
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
 
 
 =head2 CapabilitiesReason => Str
@@ -49,13 +50,13 @@ A list of the transforms that are declared in the template.
 
 =head2 Description => Str
 
-The value that is defined in the C<Description> property of the
+The value that's defined in the C<Description> property of the
 template.
 
 
 =head2 Metadata => Str
 
-The value that is defined for the C<Metadata> property of the template.
+The value that's defined for the C<Metadata> property of the template.
 
 
 =head2 Parameters => ArrayRef[L<Paws::CloudFormation::ParameterDeclaration>]
@@ -82,8 +83,13 @@ C<Custom::MyCustomInstance>.
 
 =head2 Version => Str
 
-The AWS template format version, which identifies the capabilities of
-the template.
+The Amazon Web Services template format version, which identifies the
+capabilities of the template.
+
+
+=head2 Warnings => L<Paws::CloudFormation::Warnings>
+
+An object containing any warnings returned.
 
 
 =head2 _request_id => Str

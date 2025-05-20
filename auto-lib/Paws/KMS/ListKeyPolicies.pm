@@ -29,8 +29,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $kms = Paws->service('KMS');
-    # To list key policies for a customer master key (CMK)
-    # The following example lists key policies for the specified CMK.
+    # To list key policies for a KMS key
+    # The following example lists key policies for the specified KMS key.
     my $ListKeyPoliciesResponse = $kms->ListKeyPolicies(
       'KeyId' => '1234abcd-12ab-34cd-56ef-1234567890ab' );
 
@@ -48,10 +48,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 
 =head2 B<REQUIRED> KeyId => Str
 
-Gets the names of key policies for the specified customer master key
-(CMK).
+Gets the names of key policies for the specified KMS key.
 
-Specify the key ID or key ARN of the CMK.
+Specify the key ID or key ARN of the KMS key.
 
 For example:
 
@@ -68,15 +67,16 @@ C<arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab>
 
 =back
 
-To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+To get the key ID and key ARN for a KMS key, use ListKeys or
+DescribeKey.
 
 
 
 =head2 Limit => Int
 
 Use this parameter to specify the maximum number of items to return.
-When this value is present, AWS KMS does not return more than the
-specified number of items, but it might return fewer.
+When this value is present, KMS does not return more than the specified
+number of items, but it might return fewer.
 
 This value is optional. If you include a value, it must be between 1
 and 1000, inclusive. If you do not include a value, it defaults to 100.

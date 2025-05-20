@@ -3,7 +3,7 @@ package Paws::ServiceCatalog::ProvisioningArtifactProperties;
   use Moose;
   has Description => (is => 'ro', isa => 'Str');
   has DisableTemplateValidation => (is => 'ro', isa => 'Bool');
-  has Info => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactInfo', required => 1);
+  has Info => (is => 'ro', isa => 'Paws::ServiceCatalog::ProvisioningArtifactInfo');
   has Name => (is => 'ro', isa => 'Str');
   has Type => (is => 'ro', isa => 'Str');
 
@@ -51,18 +51,21 @@ from the previous provisioning artifact.
 
 =head2 DisableTemplateValidation => Bool
 
-If set to true, AWS Service Catalog stops validating the specified
+If set to true, Service Catalog stops validating the specified
 provisioning artifact even if it is invalid.
 
+Service Catalog does not support template validation for the
+C<TERRAFORM_OS> product type.
 
-=head2 B<REQUIRED> Info => L<Paws::ServiceCatalog::ProvisioningArtifactInfo>
+
+=head2 Info => L<Paws::ServiceCatalog::ProvisioningArtifactInfo>
 
 Specify the template source with one of the following options, but not
 both. Keys accepted: [ C<LoadTemplateFromURL>, C<ImportFromPhysicalId>
 ]
 
-The URL of the CloudFormation template in Amazon S3. Specify the URL in
-JSON format as follows:
+The URL of the CloudFormation template in Amazon S3 or GitHub in JSON
+format. Specify the URL in JSON format as follows:
 
 C<"LoadTemplateFromURL":
 "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/...">
@@ -87,15 +90,19 @@ The type of provisioning artifact.
 
 =item *
 
-C<CLOUD_FORMATION_TEMPLATE> - AWS CloudFormation template
+C<CLOUD_FORMATION_TEMPLATE> - CloudFormation template
 
 =item *
 
-C<MARKETPLACE_AMI> - AWS Marketplace AMI
+C<TERRAFORM_OPEN_SOURCE> - Terraform Open Source configuration file
 
 =item *
 
-C<MARKETPLACE_CAR> - AWS Marketplace Clusters and AWS Resources
+C<TERRAFORM_CLOUD> - Terraform Cloud configuration file
+
+=item *
+
+C<EXTERNAL> - External configuration file
 
 =back
 

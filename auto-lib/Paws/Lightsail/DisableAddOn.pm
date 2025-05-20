@@ -49,7 +49,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lig
 
 The add-on type to disable.
 
-Valid values are: C<"AutoSnapshot">
+Valid values are: C<"AutoSnapshot">, C<"StopInstanceOnIdle">
 
 =head2 B<REQUIRED> ResourceName => Str
 

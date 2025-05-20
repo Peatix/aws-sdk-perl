@@ -36,11 +36,13 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 
 Contains the configuration parameters for the Object Lock retention
 action for an S3 Batch Operations job. Batch Operations passes every
-object to the underlying C<PutObjectRetention> API. For more
+object to the underlying C<PutObjectRetention> API operation. For more
 information, see Using S3 Object Lock retention with S3 Batch
 Operations
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-retention-date.html)
 in the I<Amazon S3 User Guide>.
+
+This functionality is not supported by directory buckets.
 
 =head1 ATTRIBUTES
 

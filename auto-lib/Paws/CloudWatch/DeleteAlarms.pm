@@ -42,7 +42,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mon
 
 =head2 B<REQUIRED> AlarmNames => ArrayRef[Str|Undef]
 
-The alarms to be deleted.
+The alarms to be deleted. Do not enclose the alarm names in quote
+marks.
 
 
 

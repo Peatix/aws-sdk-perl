@@ -43,14 +43,15 @@ This class has no description
 
 =head2 FromPort => Int
 
-The start of the port range for the TCP and UDP protocols, or an ICMP
-type number. A value of C<-1> indicates all ICMP types.
+If the protocol is TCP or UDP, this is the start of the port range. If
+the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP
+types).
 
 
 =head2 IpProtocol => Str
 
-The IP protocol name (for C<tcp>, C<udp>, and C<icmp>) or number (see
-Protocol Numbers)
+The IP protocol name (C<tcp>, C<udp>, C<icmp>, C<icmpv6>) or number
+(see Protocol Numbers)
 (http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
 
 
@@ -66,8 +67,9 @@ The prefix list IDs. Not applicable for stale security group rules.
 
 =head2 ToPort => Int
 
-The end of the port range for the TCP and UDP protocols, or an ICMP
-type number. A value of C<-1> indicates all ICMP types.
+If the protocol is TCP or UDP, this is the end of the port range. If
+the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP
+codes).
 
 
 =head2 UserIdGroupPairs => ArrayRef[L<Paws::EC2::UserIdGroupPair>]

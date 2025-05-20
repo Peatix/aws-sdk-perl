@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Batch::JobD
 
 =head1 DESCRIPTION
 
-An object representing an AWS Batch job dependency.
+An object that represents an Batch job dependency.
 
 =head1 ATTRIBUTES
 
 
 =head2 JobId => Str
 
-The job ID of the AWS Batch job associated with this dependency.
+The job ID of the Batch job that's associated with this dependency.
 
 
 =head2 Type => Str

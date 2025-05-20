@@ -6,6 +6,7 @@ package Paws::ComputeOptimizer::ExportEC2InstanceRecommendations;
   has FileFormat => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'fileFormat' );
   has Filters => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::Filter]', traits => ['NameInRequest'], request_name => 'filters' );
   has IncludeMemberAccounts => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'includeMemberAccounts' );
+  has RecommendationPreferences => (is => 'ro', isa => 'Paws::ComputeOptimizer::RecommendationPreferences', traits => ['NameInRequest'], request_name => 'recommendationPreferences' );
   has S3DestinationConfig => (is => 'ro', isa => 'Paws::ComputeOptimizer::S3DestinationConfig', traits => ['NameInRequest'], request_name => 's3DestinationConfig' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -41,18 +42,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AccountIds     => [ 'MyAccountId', ... ],    # OPTIONAL
       FieldsToExport => [
         'AccountId',
-        ... # values: AccountId, InstanceArn, InstanceName, Finding, FindingReasonCodes, LookbackPeriodInDays, CurrentInstanceType, UtilizationMetricsCpuMaximum, UtilizationMetricsMemoryMaximum, UtilizationMetricsEbsReadOpsPerSecondMaximum, UtilizationMetricsEbsWriteOpsPerSecondMaximum, UtilizationMetricsEbsReadBytesPerSecondMaximum, UtilizationMetricsEbsWriteBytesPerSecondMaximum, UtilizationMetricsDiskReadOpsPerSecondMaximum, UtilizationMetricsDiskWriteOpsPerSecondMaximum, UtilizationMetricsDiskReadBytesPerSecondMaximum, UtilizationMetricsDiskWriteBytesPerSecondMaximum, UtilizationMetricsNetworkInBytesPerSecondMaximum, UtilizationMetricsNetworkOutBytesPerSecondMaximum, UtilizationMetricsNetworkPacketsInPerSecondMaximum, UtilizationMetricsNetworkPacketsOutPerSecondMaximum, CurrentOnDemandPrice, CurrentStandardOneYearNoUpfrontReservedPrice, CurrentStandardThreeYearNoUpfrontReservedPrice, CurrentVCpus, CurrentMemory, CurrentStorage, CurrentNetwork, RecommendationOptionsInstanceType, RecommendationOptionsProjectedUtilizationMetricsCpuMaximum, RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum, RecommendationOptionsPlatformDifferences, RecommendationOptionsPerformanceRisk, RecommendationOptionsVcpus, RecommendationOptionsMemory, RecommendationOptionsStorage, RecommendationOptionsNetwork, RecommendationOptionsOnDemandPrice, RecommendationOptionsStandardOneYearNoUpfrontReservedPrice, RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice, RecommendationsSourcesRecommendationSourceArn, RecommendationsSourcesRecommendationSourceType, LastRefreshTimestamp
+        ... # values: AccountId, InstanceArn, InstanceName, Finding, FindingReasonCodes, LookbackPeriodInDays, CurrentInstanceType, UtilizationMetricsCpuMaximum, UtilizationMetricsMemoryMaximum, UtilizationMetricsEbsReadOpsPerSecondMaximum, UtilizationMetricsEbsWriteOpsPerSecondMaximum, UtilizationMetricsEbsReadBytesPerSecondMaximum, UtilizationMetricsEbsWriteBytesPerSecondMaximum, UtilizationMetricsDiskReadOpsPerSecondMaximum, UtilizationMetricsDiskWriteOpsPerSecondMaximum, UtilizationMetricsDiskReadBytesPerSecondMaximum, UtilizationMetricsDiskWriteBytesPerSecondMaximum, UtilizationMetricsNetworkInBytesPerSecondMaximum, UtilizationMetricsNetworkOutBytesPerSecondMaximum, UtilizationMetricsNetworkPacketsInPerSecondMaximum, UtilizationMetricsNetworkPacketsOutPerSecondMaximum, CurrentOnDemandPrice, CurrentStandardOneYearNoUpfrontReservedPrice, CurrentStandardThreeYearNoUpfrontReservedPrice, CurrentVCpus, CurrentMemory, CurrentStorage, CurrentNetwork, RecommendationOptionsInstanceType, RecommendationOptionsProjectedUtilizationMetricsCpuMaximum, RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum, RecommendationOptionsPlatformDifferences, RecommendationOptionsPerformanceRisk, RecommendationOptionsVcpus, RecommendationOptionsMemory, RecommendationOptionsStorage, RecommendationOptionsNetwork, RecommendationOptionsOnDemandPrice, RecommendationOptionsStandardOneYearNoUpfrontReservedPrice, RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice, RecommendationsSourcesRecommendationSourceArn, RecommendationsSourcesRecommendationSourceType, LastRefreshTimestamp, CurrentPerformanceRisk, RecommendationOptionsSavingsOpportunityPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrency, RecommendationOptionsEstimatedMonthlySavingsValue, EffectiveRecommendationPreferencesCpuVendorArchitectures, EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics, EffectiveRecommendationPreferencesInferredWorkloadTypes, InferredWorkloadTypes, RecommendationOptionsMigrationEffort, EffectiveRecommendationPreferencesExternalMetricsSource, Tags, InstanceState, ExternalMetricStatusCode, ExternalMetricStatusReason, CurrentInstanceGpuInfo, RecommendationOptionsInstanceGpuInfo, UtilizationMetricsGpuPercentageMaximum, UtilizationMetricsGpuMemoryPercentageMaximum, RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum, RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum, Idle, EffectiveRecommendationPreferencesPreferredResources, EffectiveRecommendationPreferencesLookBackPeriod, EffectiveRecommendationPreferencesUtilizationPreferences, EffectiveRecommendationPreferencesSavingsEstimationMode, RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage, RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts, RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts
       ],    # OPTIONAL
       FileFormat => 'Csv',    # OPTIONAL
       Filters    => [
         {
           Name => 'Finding'
-          , # values: Finding, FindingReasonCodes, RecommendationSourceType; OPTIONAL
+          , # values: Finding, FindingReasonCodes, RecommendationSourceType, InferredWorkloadTypes; OPTIONAL
           Values => [ 'MyFilterValue', ... ],    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
-      IncludeMemberAccounts => 1,    # OPTIONAL
+      IncludeMemberAccounts     => 1,    # OPTIONAL
+      RecommendationPreferences => {
+        CpuVendorArchitectures => [
+          'AWS_ARM64', ...               # values: AWS_ARM64, CURRENT
+        ],    # OPTIONAL
+      },    # OPTIONAL
       );
 
     # Results:
@@ -70,8 +76,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/com
 
 =head2 AccountIds => ArrayRef[Str|Undef]
 
-The IDs of the AWS accounts for which to export instance
-recommendations.
+The IDs of the Amazon Web Services accounts for which to export
+instance recommendations.
 
 If your account is the management account of an organization, use this
 parameter to specify the member account for which you want to export
@@ -106,7 +112,7 @@ Valid values are: C<"Csv">
 
 =head2 Filters => ArrayRef[L<Paws::ComputeOptimizer::Filter>]
 
-An array of objects that describe a filter to export a more specific
+An array of objects to specify a filter that exports a more specific
 set of instance recommendations.
 
 
@@ -120,15 +126,22 @@ account of an organization.
 The member accounts must also be opted in to Compute Optimizer, and
 trusted access for Compute Optimizer must be enabled in the
 organization account. For more information, see Compute Optimizer and
-AWS Organizations trusted access
+Amazon Web Services Organizations trusted access
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access)
-in the I<AWS Compute Optimizer User Guide>.
+in the I<Compute Optimizer User Guide>.
 
 Recommendations for member accounts of the organization are not
 included in the export file if this parameter is omitted.
 
 Recommendations for member accounts are not included in the export if
 this parameter, or the account IDs parameter, is omitted.
+
+
+
+=head2 RecommendationPreferences => L<Paws::ComputeOptimizer::RecommendationPreferences>
+
+An object to specify the preferences for the Amazon EC2 instance
+recommendations to export.
 
 
 
@@ -140,13 +153,13 @@ An object to specify the destination Amazon Simple Storage Service
 You must create the destination Amazon S3 bucket for your
 recommendations export before you create the export job. Compute
 Optimizer does not create the S3 bucket for you. After you create the
-S3 bucket, ensure that it has the required permission policy to allow
+S3 bucket, ensure that it has the required permissions policy to allow
 Compute Optimizer to write the export file to it. If you plan to
 specify an object prefix when you create the export job, you must
 include the object prefix in the policy that you add to the S3 bucket.
 For more information, see Amazon S3 Bucket Policy for Compute Optimizer
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html)
-in the I<Compute Optimizer user guide>.
+in the I<Compute Optimizer User Guide>.
 
 
 

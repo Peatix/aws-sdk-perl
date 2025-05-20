@@ -64,9 +64,10 @@ Access Point.
 =head2 MaxResults => Int
 
 The maximum number of access points that you want to include in the
-list. If there are more than this number of access points, then the
-response will include a continuation token in the C<NextToken> field
-that you can use to retrieve the next page of access points.
+list. The response may contain fewer access points but will never
+contain more. If there are more than this number of access points, then
+the response will include a continuation token in the C<NextToken>
+field that you can use to retrieve the next page of access points.
 
 
 

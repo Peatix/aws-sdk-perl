@@ -8,6 +8,7 @@ package Paws::WorkSpaces::WorkspaceAccessProperties;
   has DeviceTypeOsx => (is => 'ro', isa => 'Str');
   has DeviceTypeWeb => (is => 'ro', isa => 'Str');
   has DeviceTypeWindows => (is => 'ro', isa => 'Str');
+  has DeviceTypeWorkSpacesThinClient => (is => 'ro', isa => 'Str');
   has DeviceTypeZeroClient => (is => 'ro', isa => 'Str');
 
 1;
@@ -50,8 +51,8 @@ Requirements
 
 =head2 DeviceTypeAndroid => Str
 
-Indicates whether users can use Android devices to access their
-WorkSpaces.
+Indicates whether users can use Android and Android-compatible Chrome
+OS devices to access their WorkSpaces.
 
 
 =head2 DeviceTypeChromeOs => Str
@@ -73,11 +74,7 @@ WorkSpaces.
 =head2 DeviceTypeOsx => Str
 
 Indicates whether users can use macOS clients to access their
-WorkSpaces. To restrict WorkSpaces access to trusted devices (also
-known as managed devices) with valid certificates, specify a value of
-C<TRUST>. For more information, see Restrict WorkSpaces Access to
-Trusted Devices
-(https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html).
+WorkSpaces.
 
 
 =head2 DeviceTypeWeb => Str
@@ -89,11 +86,13 @@ browser.
 =head2 DeviceTypeWindows => Str
 
 Indicates whether users can use Windows clients to access their
-WorkSpaces. To restrict WorkSpaces access to trusted devices (also
-known as managed devices) with valid certificates, specify a value of
-C<TRUST>. For more information, see Restrict WorkSpaces Access to
-Trusted Devices
-(https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html).
+WorkSpaces.
+
+
+=head2 DeviceTypeWorkSpacesThinClient => Str
+
+Indicates whether users can access their WorkSpaces through a
+WorkSpaces Thin Client.
 
 
 =head2 DeviceTypeZeroClient => Str

@@ -68,7 +68,7 @@ shards for a given stream, use ListShards.
 
 =head2 B<REQUIRED> StartingPosition => L<Paws::Kinesis::StartingPosition>
 
-
+The starting position in the data stream from which to start streaming.
 
 
 

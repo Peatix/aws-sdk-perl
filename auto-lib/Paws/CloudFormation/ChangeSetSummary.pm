@@ -6,6 +6,7 @@ package Paws::CloudFormation::ChangeSetSummary;
   has CreationTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has ExecutionStatus => (is => 'ro', isa => 'Str');
+  has ImportExistingResources => (is => 'ro', isa => 'Bool');
   has IncludeNestedStacks => (is => 'ro', isa => 'Bool');
   has ParentChangeSetId => (is => 'ro', isa => 'Str');
   has RootChangeSetId => (is => 'ro', isa => 'Str');
@@ -73,10 +74,15 @@ Descriptive information about the change set.
 =head2 ExecutionStatus => Str
 
 If the change set execution status is C<AVAILABLE>, you can execute the
-change set. If you canE<rsquo>t execute the change set, the status
-indicates why. For example, a change set might be in an C<UNAVAILABLE>
-state because AWS CloudFormation is still creating it or in an
-C<OBSOLETE> state because the stack was already updated.
+change set. If you can't execute the change set, the status indicates
+why. For example, a change set might be in an C<UNAVAILABLE> state
+because CloudFormation is still creating it or in an C<OBSOLETE> state
+because the stack was already updated.
+
+
+=head2 ImportExistingResources => Bool
+
+Indicates if the change set imports resources that already exist.
 
 
 =head2 IncludeNestedStacks => Bool
@@ -107,15 +113,14 @@ The name of the stack with which the change set is associated.
 
 =head2 Status => Str
 
-The state of the change set, such as C<CREATE_IN_PROGRESS>,
+The state of the change set, such as C<CREATE_PENDING>,
 C<CREATE_COMPLETE>, or C<FAILED>.
 
 
 =head2 StatusReason => Str
 
 A description of the change set's status. For example, if your change
-set is in the C<FAILED> state, AWS CloudFormation shows the error
-message.
+set is in the C<FAILED> state, CloudFormation shows the error message.
 
 
 

@@ -51,7 +51,7 @@ The name of the DB instance to disassociate the IAM role from.
 =head2 B<REQUIRED> FeatureName => Str
 
 The name of the feature for the DB instance that the IAM role is to be
-disassociated from. For the list of supported feature names, see
+disassociated from. For information about supported feature names, see
 C<DBEngineVersion>.
 
 

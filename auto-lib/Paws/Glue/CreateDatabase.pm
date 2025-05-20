@@ -3,6 +3,7 @@ package Paws::Glue::CreateDatabase;
   use Moose;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseInput => (is => 'ro', isa => 'Paws::Glue::DatabaseInput', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::Glue::TagsMap');
 
   use MooseX::ClassAttribute;
 
@@ -44,8 +45,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
-        Description => 'MyDescriptionString',    # max: 2048; OPTIONAL
-        LocationUri => 'MyURI',                  # min: 1, max: 1024; OPTIONAL
+        Description       => 'MyDescriptionString',    # max: 2048; OPTIONAL
+        FederatedDatabase => {
+          ConnectionName => 'MyNameString',            # min: 1, max: 255
+          Identifier => 'MyFederationIdentifier',   # min: 1, max: 512; OPTIONAL
+        },    # OPTIONAL
+        LocationUri => 'MyURI',    # min: 1, max: 1024; OPTIONAL
         Parameters  => {
           'MyKeyString' =>
             'MyParametersMapValue',  # key: min: 1, max: 255, value: max: 512000
@@ -53,9 +58,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         TargetDatabase => {
           CatalogId    => 'MyCatalogIdString',    # min: 1, max: 255; OPTIONAL
           DatabaseName => 'MyNameString',         # min: 1, max: 255
+          Region       => 'MyNameString',         # min: 1, max: 255
         },    # OPTIONAL
       },
       CatalogId => 'MyCatalogIdString',    # OPTIONAL
+      Tags      => {
+        'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -74,6 +83,12 @@ provided, the Amazon Web Services account ID is used by default.
 =head2 B<REQUIRED> DatabaseInput => L<Paws::Glue::DatabaseInput>
 
 The metadata for the database.
+
+
+
+=head2 Tags => L<Paws::Glue::TagsMap>
+
+The tags you assign to the database.
 
 
 

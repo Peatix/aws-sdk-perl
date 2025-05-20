@@ -4,6 +4,8 @@ package Paws::WellArchitected::WorkloadSummary;
   has ImprovementStatus => (is => 'ro', isa => 'Str');
   has Lenses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Owner => (is => 'ro', isa => 'Str');
+  has PrioritizedRiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
+  has Profiles => (is => 'ro', isa => 'ArrayRef[Paws::WellArchitected::WorkloadProfile]');
   has RiskCounts => (is => 'ro', isa => 'Paws::WellArchitected::RiskCounts');
   has UpdatedAt => (is => 'ro', isa => 'Str');
   has WorkloadArn => (is => 'ro', isa => 'Str');
@@ -58,6 +60,16 @@ A workload summary return object.
 =head2 Owner => Str
 
 
+
+
+=head2 PrioritizedRiskCounts => L<Paws::WellArchitected::RiskCounts>
+
+
+
+
+=head2 Profiles => ArrayRef[L<Paws::WellArchitected::WorkloadProfile>]
+
+Profile associated with a workload.
 
 
 =head2 RiskCounts => L<Paws::WellArchitected::RiskCounts>

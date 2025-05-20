@@ -82,30 +82,37 @@ idempotencyE<mdash>that is, the uniquenessE<mdash>of the request.
 =head2 IpAddresses => ArrayRef[Str|Undef]
 
 Optionally, if you've added your own IP address pool to Global
-Accelerator (BYOIP), you can choose IP addresses from your own pool to
-use for the accelerator's static IP addresses when you create an
-accelerator. You can specify one or two addresses, separated by a
-space. Do not include the /32 suffix.
+Accelerator (BYOIP), you can choose an IPv4 address from your own pool
+to use for the accelerator's static IPv4 address when you create an
+accelerator.
 
-Only one IP address from each of your IP address ranges can be used for
-each accelerator. If you specify only one IP address from your IP
-address range, Global Accelerator assigns a second static IP address
-for the accelerator from the AWS IP address pool.
+After you bring an address range to Amazon Web Services, it appears in
+your account as an address pool. When you create an accelerator, you
+can assign one IPv4 address from your range to it. Global Accelerator
+assigns you a second static IPv4 address from an Amazon IP address
+range. If you bring two IPv4 address ranges to Amazon Web Services, you
+can assign one IPv4 address from each range to your accelerator. This
+restriction is because Global Accelerator assigns each address range to
+a different network zone, for high availability.
+
+You can specify one or two addresses, separated by a space. Do not
+include the /32 suffix.
 
 Note that you can't update IP addresses for an existing accelerator. To
 change them, you must create a new accelerator with the new addresses.
 
 For more information, see Bring your own IP addresses (BYOIP)
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 
 =head2 IpAddressType => Str
 
-The value for the address type must be IPv4.
+The IP address type that an accelerator supports. For a custom routing
+accelerator, the value must be IPV4.
 
-Valid values are: C<"IPV4">
+Valid values are: C<"IPV4">, C<"DUAL_STACK">
 
 =head2 B<REQUIRED> Name => Str
 
@@ -119,9 +126,9 @@ of 64 characters, must contain only alphanumeric characters or hyphens
 
 Create tags for an accelerator.
 
-For more information, see Tagging in AWS Global Accelerator
+For more information, see Tagging in Global Accelerator
 (https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
-in the I<AWS Global Accelerator Developer Guide>.
+in the I<Global Accelerator Developer Guide>.
 
 
 

@@ -2,9 +2,12 @@
 package Paws::Rekognition::GetFaceDetectionResponse;
   use Moose;
   has Faces => (is => 'ro', isa => 'ArrayRef[Paws::Rekognition::FaceDetection]');
+  has JobId => (is => 'ro', isa => 'Str');
   has JobStatus => (is => 'ro', isa => 'Str');
+  has JobTag => (is => 'ro', isa => 'Str');
   has NextToken => (is => 'ro', isa => 'Str');
   has StatusMessage => (is => 'ro', isa => 'Str');
+  has Video => (is => 'ro', isa => 'Paws::Rekognition::Video');
   has VideoMetadata => (is => 'ro', isa => 'Paws::Rekognition::VideoMetadata');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -25,11 +28,25 @@ detected face's details and the time, in milliseconds from the start of
 the video, the face was detected.
 
 
+=head2 JobId => Str
+
+Job identifier for the face detection operation for which you want to
+obtain results. The job identifer is returned by an initial call to
+StartFaceDetection.
+
+
 =head2 JobStatus => Str
 
 The current status of the face detection job.
 
 Valid values are: C<"IN_PROGRESS">, C<"SUCCEEDED">, C<"FAILED">
+=head2 JobTag => Str
+
+A job identifier specified in the call to StartFaceDetection and
+returned in the job completion notification sent to your Amazon Simple
+Notification Service topic.
+
+
 =head2 NextToken => Str
 
 If the response is truncated, Amazon Rekognition returns this token
@@ -41,6 +58,11 @@ faces.
 
 If the job fails, C<StatusMessage> provides a descriptive error
 message.
+
+
+=head2 Video => L<Paws::Rekognition::Video>
+
+
 
 
 =head2 VideoMetadata => L<Paws::Rekognition::VideoMetadata>

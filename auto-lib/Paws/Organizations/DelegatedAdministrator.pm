@@ -59,7 +59,7 @@ The date when the account was made a delegated administrator.
 =head2 Email => Str
 
 The email address that is associated with the delegated administrator's
-AWS account.
+Amazon Web Services account.
 
 
 =head2 Id => Str

@@ -39,13 +39,14 @@ This class has no description
 
 =head2 AccountId => Str
 
-The ID of the account that is making use of the Capacity Reservation.
+The ID of the Amazon Web Services account that is making use of the
+Capacity Reservation.
 
 
 =head2 UsedInstanceCount => Int
 
-The number of instances the account currently has in the Capacity
-Reservation.
+The number of instances the Amazon Web Services account currently has
+in the Capacity Reservation.
 
 
 

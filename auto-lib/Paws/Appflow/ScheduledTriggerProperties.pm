@@ -3,6 +3,7 @@ package Paws::Appflow::ScheduledTriggerProperties;
   use Moose;
   has DataPullMode => (is => 'ro', isa => 'Str', request_name => 'dataPullMode', traits => ['NameInRequest']);
   has FirstExecutionFrom => (is => 'ro', isa => 'Str', request_name => 'firstExecutionFrom', traits => ['NameInRequest']);
+  has FlowErrorDeactivationThreshold => (is => 'ro', isa => 'Int', request_name => 'flowErrorDeactivationThreshold', traits => ['NameInRequest']);
   has ScheduleEndTime => (is => 'ro', isa => 'Str', request_name => 'scheduleEndTime', traits => ['NameInRequest']);
   has ScheduleExpression => (is => 'ro', isa => 'Str', request_name => 'scheduleExpression', traits => ['NameInRequest'], required => 1);
   has ScheduleOffset => (is => 'ro', isa => 'Int', request_name => 'scheduleOffset', traits => ['NameInRequest']);
@@ -58,9 +59,17 @@ Specifies the date range for the records to import from the connector
 in the first flow run.
 
 
+=head2 FlowErrorDeactivationThreshold => Int
+
+Defines how many times a scheduled flow fails consecutively before
+Amazon AppFlow deactivates it.
+
+
 =head2 ScheduleEndTime => Str
 
-Specifies the scheduled end time for a schedule-triggered flow.
+The time at which the scheduled flow ends. The time is formatted as a
+timestamp that follows the ISO 8601 standard, such as
+C<2022-04-27T13:00:00-07:00>.
 
 
 =head2 B<REQUIRED> ScheduleExpression => Str
@@ -77,13 +86,22 @@ schedule-triggered flow.
 
 =head2 ScheduleStartTime => Str
 
-Specifies the scheduled start time for a schedule-triggered flow.
+The time at which the scheduled flow starts. The time is formatted as a
+timestamp that follows the ISO 8601 standard, such as
+C<2022-04-26T13:00:00-07:00>.
 
 
 =head2 Timezone => Str
 
-Specifies the time zone used when referring to the date and time of a
-scheduled-triggered flow, such as C<America/New_York>.
+Specifies the time zone used when referring to the dates and times of a
+scheduled flow, such as C<America/New_York>. This time zone is only a
+descriptive label. It doesn't affect how Amazon AppFlow interprets the
+timestamps that you specify to schedule the flow.
+
+If you want to schedule a flow by using times in a particular time
+zone, indicate the time zone as a UTC offset in your timestamps. For
+example, the UTC offsets for the C<America/New_York> timezone are
+C<-04:00> EDT and C<-05:00 EST>.
 
 
 

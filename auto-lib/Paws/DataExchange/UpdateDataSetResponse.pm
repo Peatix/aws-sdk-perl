@@ -31,10 +31,9 @@ The ARN for the data set.
 
 =head2 AssetType => Str
 
-The type of file your data is stored in. Currently, the supported asset
-type is S3_SNAPSHOT.
+The type of asset that is added to a data set.
 
-Valid values are: C<"S3_SNAPSHOT">
+Valid values are: C<"S3_SNAPSHOT">, C<"REDSHIFT_DATA_SHARE">, C<"API_GATEWAY_API">, C<"S3_DATA_ACCESS">, C<"LAKE_FORMATION_DATA_PERMISSION">
 =head2 CreatedAt => Str
 
 The date and time that the data set was created, in ISO 8601 format.

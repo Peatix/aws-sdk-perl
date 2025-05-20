@@ -24,8 +24,10 @@ The list of Image Packages returned in the response.
 
 =head2 NextToken => Str
 
-A token to specify where to start paginating. This is the NextToken
-from a previously truncated response.
+The next token used for paginated responses. When this field isn't
+empty, there are additional elements that the service hasn't included
+in this request. Use this token with the next request to retrieve
+additional objects.
 
 
 =head2 RequestId => Str

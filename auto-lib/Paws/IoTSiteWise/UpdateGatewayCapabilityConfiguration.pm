@@ -57,14 +57,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/iot
 The JSON document that defines the configuration for the gateway
 capability. For more information, see Configuring data sources (CLI)
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/configure-sources.html#configure-source-cli)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 
 
 =head2 B<REQUIRED> CapabilityNamespace => Str
 
 The namespace of the gateway capability configuration to be updated.
-For example, if you configure OPC-UA sources from the AWS IoT SiteWise
+For example, if you configure OPC-UA sources from the IoT SiteWise
 console, your OPC-UA capability configuration has the namespace
 C<iotsitewise:opcuacollector:version>, where C<version> is a number
 such as C<1>.

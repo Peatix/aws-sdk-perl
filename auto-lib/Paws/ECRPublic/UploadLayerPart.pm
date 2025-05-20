@@ -77,15 +77,15 @@ image layer.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry to which you are
-uploading layer parts. If you do not specify a registry, the default
-public registry is assumed.
+The Amazon Web Services account ID, or registry alias, that's
+associated with the registry that you're uploading layer parts to. If
+you do not specify a registry, the default public registry is assumed.
 
 
 
 =head2 B<REQUIRED> RepositoryName => Str
 
-The name of the repository to which you are uploading layer parts.
+The name of the repository that you're uploading layer parts to.
 
 
 

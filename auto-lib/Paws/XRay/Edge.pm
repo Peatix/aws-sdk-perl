@@ -2,7 +2,9 @@
 package Paws::XRay::Edge;
   use Moose;
   has Aliases => (is => 'ro', isa => 'ArrayRef[Paws::XRay::Alias]');
+  has EdgeType => (is => 'ro', isa => 'Str');
   has EndTime => (is => 'ro', isa => 'Str');
+  has ReceivedEventAgeHistogram => (is => 'ro', isa => 'ArrayRef[Paws::XRay::HistogramEntry]');
   has ReferenceId => (is => 'ro', isa => 'Int');
   has ResponseTimeHistogram => (is => 'ro', isa => 'ArrayRef[Paws::XRay::HistogramEntry]');
   has StartTime => (is => 'ro', isa => 'Str');
@@ -38,7 +40,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::XRay::Edge 
 
 =head1 DESCRIPTION
 
-Information about a connection between two services.
+Information about a connection between two services. An edge can be a
+synchronous connection, such as typical call between client and
+service, or an asynchronous link, such as a Lambda function which
+retrieves an event from an SNS queue.
 
 =head1 ATTRIBUTES
 
@@ -48,9 +53,21 @@ Information about a connection between two services.
 Aliases for the edge.
 
 
+=head2 EdgeType => Str
+
+Describes an asynchronous connection, with a value of C<link>.
+
+
 =head2 EndTime => Str
 
 The end time of the last segment on the edge.
+
+
+=head2 ReceivedEventAgeHistogram => ArrayRef[L<Paws::XRay::HistogramEntry>]
+
+A histogram that maps the spread of event age when received by
+consumers. Age is calculated each time an event is received. Only
+populated when I<EdgeType> is C<link>.
 
 
 =head2 ReferenceId => Int
@@ -61,6 +78,7 @@ Identifier of the edge. Unique within a service map.
 =head2 ResponseTimeHistogram => ArrayRef[L<Paws::XRay::HistogramEntry>]
 
 A histogram that maps the spread of client response times on an edge.
+Only populated for synchronous edges.
 
 
 =head2 StartTime => Str

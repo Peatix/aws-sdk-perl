@@ -46,8 +46,9 @@ The name of the specific S3 bucket.
 
 =head2 B<REQUIRED> Key => Str
 
-The AWS Key Management Service (AWS KMS) key being used to encrypt the
-S3 object. Without this key, data in the bucket is not accessible.
+The Amazon Web Services Key Management Service (KMS key) key being used
+to encrypt the S3 object. Without this key, data in the bucket is not
+accessible.
 
 
 

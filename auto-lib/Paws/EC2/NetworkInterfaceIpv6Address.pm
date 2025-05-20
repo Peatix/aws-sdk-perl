@@ -1,6 +1,7 @@
 package Paws::EC2::NetworkInterfaceIpv6Address;
   use Moose;
   has Ipv6Address => (is => 'ro', isa => 'Str', request_name => 'ipv6Address', traits => ['NameInRequest']);
+  has IsPrimaryIpv6 => (is => 'ro', isa => 'Bool', request_name => 'isPrimaryIpv6', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -20,7 +21,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::NetworkInterfaceIpv6Address object:
 
-  $service_obj->Method(Att1 => { Ipv6Address => $value, ..., Ipv6Address => $value  });
+  $service_obj->Method(Att1 => { Ipv6Address => $value, ..., IsPrimaryIpv6 => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,6 +40,16 @@ This class has no description
 =head2 Ipv6Address => Str
 
 The IPv6 address.
+
+
+=head2 IsPrimaryIpv6 => Bool
+
+Determines if an IPv6 address associated with a network interface is
+the primary IPv6 address. When you enable an IPv6 GUA address to be a
+primary IPv6, the first IPv6 GUA will be made the primary IPv6 address
+until the instance is terminated or the network interface is detached.
+For more information, see ModifyNetworkInterfaceAttribute
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyNetworkInterfaceAttribute.html).
 
 
 

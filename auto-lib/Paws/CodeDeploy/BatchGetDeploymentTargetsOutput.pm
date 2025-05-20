@@ -24,12 +24,12 @@ type of the target objects depends on the deployment' compute platform.
 
 =item *
 
-B<EC2/On-premises>: Each target object is an EC2 or on-premises
+B<EC2/On-premises>: Each target object is an Amazon EC2 or on-premises
 instance.
 
 =item *
 
-B<AWS Lambda>: The target object is a specific version of an AWS Lambda
+B<Lambda>: The target object is a specific version of an Lambda
 function.
 
 =item *
@@ -38,8 +38,8 @@ B<Amazon ECS>: The target object is an Amazon ECS service.
 
 =item *
 
-B<CloudFormation>: The target object is an AWS CloudFormation
-blue/green deployment.
+B<CloudFormation>: The target object is an CloudFormation blue/green
+deployment.
 
 =back
 

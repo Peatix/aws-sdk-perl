@@ -18,20 +18,20 @@ Paws::SecretsManager::DeleteSecretResponse
 
 =head2 ARN => Str
 
-The ARN of the secret that is now scheduled for deletion.
+The ARN of the secret.
 
 
 =head2 DeletionDate => Str
 
-The date and time after which this secret can be deleted by Secrets
-Manager and can no longer be restored. This value is the date and time
-of the delete request plus the number of days specified in
-C<RecoveryWindowInDays>.
+The date and time after which this secret Secrets Manager can
+permanently delete this secret, and it can no longer be restored. This
+value is the date and time of the delete request plus the number of
+days in C<RecoveryWindowInDays>.
 
 
 =head2 Name => Str
 
-The friendly name of the secret currently scheduled for deletion.
+The name of the secret.
 
 
 =head2 _request_id => Str

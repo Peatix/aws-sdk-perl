@@ -4,6 +4,7 @@ package Paws::LexModelsV2::BotSummary;
   has BotId => (is => 'ro', isa => 'Str', request_name => 'botId', traits => ['NameInRequest']);
   has BotName => (is => 'ro', isa => 'Str', request_name => 'botName', traits => ['NameInRequest']);
   has BotStatus => (is => 'ro', isa => 'Str', request_name => 'botStatus', traits => ['NameInRequest']);
+  has BotType => (is => 'ro', isa => 'Str', request_name => 'botType', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
   has LatestBotVersion => (is => 'ro', isa => 'Str', request_name => 'latestBotVersion', traits => ['NameInRequest']);
@@ -38,7 +39,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-Summary information about a bot returned by the ListBots operation.
+Summary information about a bot returned by the ListBots
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBots.html)
+operation.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +49,9 @@ Summary information about a bot returned by the ListBots operation.
 =head2 BotId => Str
 
 The unique identifier assigned to the bot. Use this ID to get detailed
-information about the bot with the DescribeBot operation.
+information about the bot with the DescribeBot
+(https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeBot.html)
+operation.
 
 
 =head2 BotName => Str
@@ -58,6 +63,11 @@ The name of the bot.
 
 The current status of the bot. When the status is C<Available> the bot
 is ready for use.
+
+
+=head2 BotType => Str
+
+The type of the bot.
 
 
 =head2 Description => Str

@@ -78,7 +78,7 @@ idempotent request is required.
 =head2 B<REQUIRED> RoleArn => Str
 
 The ARN of the role that the web application assumes when it interacts
-with AWS IoT Core.
+with Amazon Web Services IoT Core.
 
 The name of the role must be in the form
 C<AWSIotFleetHub_I<random_string> >.

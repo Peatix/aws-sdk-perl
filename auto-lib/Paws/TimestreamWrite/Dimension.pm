@@ -35,25 +35,25 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::TimestreamW
 
 =head1 DESCRIPTION
 
-Dimension represents the meta data attributes of the time series. For
-example, the name and availability zone of an EC2 instance or the name
-of the manufacturer of a wind turbine are dimensions.
+Represents the metadata attributes of the time series. For example, the
+name and Availability Zone of an EC2 instance or the name of the
+manufacturer of a wind turbine are dimensions.
 
 =head1 ATTRIBUTES
 
 
 =head2 DimensionValueType => Str
 
-The data type of the dimension for the time series data point.
+The data type of the dimension for the time-series data point.
 
 
 =head2 B<REQUIRED> Name => Str
 
-Dimension represents the meta data attributes of the time series. For
-example, the name and availability zone of an EC2 instance or the name
+Dimension represents the metadata attributes of the time series. For
+example, the name and Availability Zone of an EC2 instance or the name
 of the manufacturer of a wind turbine are dimensions.
 
-For constraints on Dimension names, see Naming Constraints
+For constraints on dimension names, see Naming Constraints
 (https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming).
 
 

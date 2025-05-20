@@ -40,13 +40,13 @@ in the grant only when the operation request includes the specified
 encryption context
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context).
 
-AWS KMS applies the grant constraints only to cryptographic operations
-that support an encryption context, that is, all cryptographic
-operations with a symmetric CMK
+KMS applies the grant constraints only to cryptographic operations that
+support an encryption context, that is, all cryptographic operations
+with a symmetric KMS key
 (https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html#symmetric-cmks).
 Grant constraints are not applied to operations that do not support an
 encryption context, such as cryptographic operations with asymmetric
-CMKs and management operations, such as DescribeKey or RetireGrant.
+KMS keys and management operations, such as DescribeKey or RetireGrant.
 
 In a cryptographic operation, the encryption context in the decryption
 operation must be an exact, case-sensitive match for the keys and
@@ -62,7 +62,7 @@ context, use the C<kms:EncryptionContext:> and
 C<kms:EncryptionContextKeys> conditions in an IAM or key policy. For
 details, see kms:EncryptionContext:
 (https://docs.aws.amazon.com/kms/latest/developerguide/policy-conditions.html#conditions-kms-encryption-context)
-in the I< I<AWS Key Management Service Developer Guide> >.
+in the I< I<Key Management Service Developer Guide> >.
 
 =head1 ATTRIBUTES
 

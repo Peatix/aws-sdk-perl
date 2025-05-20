@@ -33,10 +33,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Channel mapping (ChannelMapping) contains the group of fields that hold
-the remixing value for each channel, in dB. Specify remix values to
-indicate how much of the content from your input audio channel you want
-in your output audio channels. Each instance of the InputChannels or
+Channel mapping contains the group of fields that hold the remixing
+value for each channel, in dB. Specify remix values to indicate how
+much of the content from your input audio channel you want in your
+output audio channels. Each instance of the InputChannels or
 InputChannelsFineTune array specifies these values for one output
 channel. Use one instance of this array for each output channel. In the
 console, each array corresponds to a column in the graphical depiction

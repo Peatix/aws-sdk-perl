@@ -32,10 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $organizations = Paws->service('Organizations');
     my $CreateGovCloudAccountResponse = $organizations->CreateGovCloudAccount(
-      AccountName            => 'MyAccountName',
+      AccountName            => 'MyCreateAccountName',
       Email                  => 'MyEmail',
-      IamUserAccessToBilling => 'ALLOW',           # OPTIONAL
-      RoleName               => 'MyRoleName',      # OPTIONAL
+      IamUserAccessToBilling => 'ALLOW',                 # OPTIONAL
+      RoleName               => 'MyRoleName',            # OPTIONAL
       Tags                   => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -62,18 +62,66 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/org
 
 The friendly name of the member account.
 
+The account name can consist of only the characters [a-z],[A-Z],[0-9],
+hyphen (-), or dot (.) You can't separate characters with a dash
+(E<ndash>).
+
 
 
 =head2 B<REQUIRED> Email => Str
 
-The email address of the owner to assign to the new member account in
-the commercial Region. This email address must not already be
-associated with another AWS account. You must use a valid email address
-to complete account creation. You can't access the root user of the
-account or remove an account that was created with an invalid email
-address. Like all request parameters for C<CreateGovCloudAccount>, the
-request for the email address for the AWS GovCloud (US) account
-originates from the commercial Region, not from the AWS GovCloud (US)
+Specifies the email address of the owner to assign to the new member
+account in the commercial Region. This email address must not already
+be associated with another Amazon Web Services account. You must use a
+valid email address to complete account creation.
+
+The rules for a valid email address:
+
+=over
+
+=item *
+
+The address must be a minimum of 6 and a maximum of 64 characters long.
+
+=item *
+
+All characters must be 7-bit ASCII characters.
+
+=item *
+
+There must be one and only one @ symbol, which separates the local name
+from the domain name.
+
+=item *
+
+The local name can't contain any of the following characters:
+
+whitespace, " ' ( ) E<lt> E<gt> [ ] : ; , \ | % &
+
+=item *
+
+The local name can't begin with a dot (.)
+
+=item *
+
+The domain name can consist of only the characters [a-z],[A-Z],[0-9],
+hyphen (-), or dot (.)
+
+=item *
+
+The domain name can't begin or end with a hyphen (-) or dot (.)
+
+=item *
+
+The domain name must contain at least one dot
+
+=back
+
+You can't access the root user of the account or remove an account that
+was created with an invalid email address. Like all request parameters
+for C<CreateGovCloudAccount>, the request for the email address for the
+Amazon Web Services GovCloud (US) account originates from the
+commercial Region, not from the Amazon Web Services GovCloud (US)
 Region.
 
 
@@ -84,10 +132,10 @@ If set to C<ALLOW>, the new linked account in the commercial Region
 enables IAM users to access account billing information I<if> they have
 the required permissions. If set to C<DENY>, only the root user of the
 new account can access account billing information. For more
-information, see Activating Access to the Billing and Cost Management
-Console
+information, see About IAM access to the Billing and Cost Management
+console
 (https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate)
-in the I<AWS Billing and Cost Management User Guide.>
+in the I<Amazon Web Services Billing and Cost Management User Guide>.
 
 If you don't specify this parameter, the value defaults to C<ALLOW>,
 and IAM users and roles with the required permissions can access
@@ -99,24 +147,35 @@ Valid values are: C<"ALLOW">, C<"DENY">
 
 (Optional)
 
-The name of an IAM role that AWS Organizations automatically
-preconfigures in the new member accounts in both the AWS GovCloud (US)
-Region and in the commercial Region. This role trusts the management
-account, allowing users in the management account to assume the role,
-as permitted by the management account administrator. The role has
-administrator permissions in the new member account.
+The name of an IAM role that Organizations automatically preconfigures
+in the new member accounts in both the Amazon Web Services GovCloud
+(US) Region and in the commercial Region. This role trusts the
+management account, allowing users in the management account to assume
+the role, as permitted by the management account administrator. The
+role has administrator permissions in the new member account.
 
 If you don't specify this parameter, the role name defaults to
 C<OrganizationAccountAccessRole>.
 
 For more information about how to use this role to access the member
-account, see Accessing and Administering the Member Accounts in Your
-Organization
+account, see the following links:
+
+=over
+
+=item *
+
+Creating the OrganizationAccountAccessRole in an invited member account
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
-in the I<AWS Organizations User Guide> and steps 2 and 3 in Tutorial:
-Delegate Access Across AWS Accounts Using IAM Roles
+in the I<Organizations User Guide>
+
+=item *
+
+Steps 2 and 3 in IAM Tutorial: Delegate access across Amazon Web
+Services accounts using IAM roles
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)
-in the I<IAM User Guide.>
+in the I<IAM User Guide>
+
+=back
 
 The regex pattern (http://wikipedia.org/wiki/regex) that is used to
 validate this parameter. The pattern can include uppercase letters,
@@ -135,14 +194,14 @@ GovCloud region after the new GovCloud account exists.
 
 For each tag in the list, you must specify both a tag key and a value.
 You can set the value to an empty string, but you can't set it to
-C<null>. For more information about tagging, see Tagging AWS
-Organizations resources
+C<null>. For more information about tagging, see Tagging Organizations
+resources
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
-in the AWS Organizations User Guide.
+in the Organizations User Guide.
 
-If any one of the tags is invalid or if you exceed the allowed number
-of tags for an account, then the entire request fails and the account
-is not created.
+If any one of the tags is not valid or if you exceed the maximum
+allowed number of tags for an account, then the entire request fails
+and the account is not created.
 
 
 

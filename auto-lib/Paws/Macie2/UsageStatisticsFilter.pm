@@ -72,7 +72,7 @@ accountId - The unique identifier for an Amazon Web Services account.
 =item *
 
 freeTrialStartDate - The date and time, in UTC and extended ISO 8601
-format, when the free trial started for an account.
+format, when the Amazon Macie free trial started for an account.
 
 =item *
 

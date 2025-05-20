@@ -31,18 +31,18 @@ The status of the stack drift detection operation.
 
 C<DETECTION_COMPLETE>: The stack drift detection operation has
 successfully completed for all resources in the stack that support
-drift detection. (Resources that do not currently support stack
+drift detection. (Resources that don't currently support stack
 detection remain unchecked.)
 
-If you specified logical resource IDs for AWS CloudFormation to use as
-a filter for the stack drift detection operation, only the resources
-with those logical IDs are checked for drift.
+If you specified logical resource IDs for CloudFormation to use as a
+filter for the stack drift detection operation, only the resources with
+those logical IDs are checked for drift.
 
 =item *
 
 C<DETECTION_FAILED>: The stack drift detection operation has failed for
 at least one resource in the stack. Results will be available for
-resources on which AWS CloudFormation successfully completed drift
+resources on which CloudFormation successfully completed drift
 detection.
 
 =item *
@@ -71,8 +71,8 @@ status is C<IN_SYNC>.
 
 The ID of the drift detection results of this operation.
 
-AWS CloudFormation generates new results, with a new drift detection
-ID, each time this operation is run. However, the number of reports AWS
+CloudFormation generates new results, with a new drift detection ID,
+each time this operation is run. However, the number of reports
 CloudFormation retains for any given stack, and for how long, may vary.
 
 
@@ -91,8 +91,8 @@ have drifted.
 
 =item *
 
-C<NOT_CHECKED>: AWS CloudFormation has not checked if the stack differs
-from its expected template configuration.
+C<NOT_CHECKED>: CloudFormation hasn't checked if the stack differs from
+its expected template configuration.
 
 =item *
 

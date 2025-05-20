@@ -3,6 +3,8 @@ package Paws::WAFV2::LoggingConfiguration;
   use Moose;
   has LogDestinationConfigs => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has LoggingFilter => (is => 'ro', isa => 'Paws::WAFV2::LoggingFilter');
+  has LogScope => (is => 'ro', isa => 'Str');
+  has LogType => (is => 'ro', isa => 'Str');
   has ManagedByFirewallManager => (is => 'ro', isa => 'Bool');
   has RedactedFields => (is => 'ro', isa => 'ArrayRef[Paws::WAFV2::FieldToMatch]');
   has ResourceArn => (is => 'ro', isa => 'Str', required => 1);
@@ -37,19 +39,65 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Logg
 
 =head1 DESCRIPTION
 
-Defines an association between Amazon Kinesis Data Firehose
-destinations and a web ACL resource, for logging from WAF. As part of
-the association, you can specify parts of the standard logging fields
-to keep out of the logs and you can specify filters so that you log
-only a subset of the logging records.
+Defines an association between logging destinations and a web ACL
+resource, for logging from WAF. As part of the association, you can
+specify parts of the standard logging fields to keep out of the logs
+and you can specify filters so that you log only a subset of the
+logging records.
+
+If you configure data protection for the web ACL, the protection
+applies to the data that WAF sends to the logs.
+
+You can define one logging destination per web ACL.
+
+You can access information about the traffic that WAF inspects using
+the following steps:
+
+=over
+
+=item 1.
+
+Create your logging destination. You can use an Amazon CloudWatch Logs
+log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an
+Amazon Kinesis Data Firehose.
+
+The name that you give the destination must start with
+C<aws-waf-logs->. Depending on the type of destination, you might need
+to configure additional settings or permissions.
+
+For configuration requirements and pricing information for each
+destination type, see Logging web ACL traffic
+(https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in
+the I<WAF Developer Guide>.
+
+=item 2.
+
+Associate your logging destination to your web ACL using a
+C<PutLoggingConfiguration> request.
+
+=back
+
+When you successfully enable logging using a C<PutLoggingConfiguration>
+request, WAF creates an additional role or policy that is required to
+write logs to the logging destination. For an Amazon CloudWatch Logs
+log group, WAF creates a resource policy on the log group. For an
+Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis
+Data Firehose, WAF creates a service-linked role.
+
+For additional information about web ACL logging, see Logging web ACL
+traffic information
+(https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in
+the I<WAF Developer Guide>.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> LogDestinationConfigs => ArrayRef[Str|Undef]
 
-The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you
-want to associate with the web ACL.
+The logging destination configuration that you want to associate with
+the web ACL.
+
+You can associate one logging destination to a web ACL.
 
 
 =head2 LoggingFilter => L<Paws::WAFV2::LoggingFilter>
@@ -60,21 +108,68 @@ request labels that were applied by matching rules during web ACL
 evaluation.
 
 
+=head2 LogScope => Str
+
+The owner of the logging configuration, which must be set to
+C<CUSTOMER> for the configurations that you manage.
+
+The log scope C<SECURITY_LAKE> indicates a configuration that is
+managed through Amazon Security Lake. You can use Security Lake to
+collect log and event data from various sources for normalization,
+analysis, and management. For information, see Collecting data from
+Amazon Web Services services
+(https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html)
+in the I<Amazon Security Lake user guide>.
+
+Default: C<CUSTOMER>
+
+
+=head2 LogType => Str
+
+Used to distinguish between various logging options. Currently, there
+is one option.
+
+Default: C<WAF_LOGS>
+
+
 =head2 ManagedByFirewallManager => Bool
 
 Indicates whether the logging configuration was created by Firewall
 Manager, as part of an WAF policy configuration. If true, only Firewall
 Manager can modify or delete the configuration.
 
+The logging configuration can be created by Firewall Manager for use
+with any web ACL that Firewall Manager is using for an WAF policy. Web
+ACLs that Firewall Manager creates and uses have their
+C<ManagedByFirewallManager> property set to true. Web ACLs that were
+created by a customer account and then retrofitted by Firewall Manager
+for use by a policy have their C<RetrofittedByFirewallManager> property
+set to true. For either case, any corresponding logging configuration
+will indicate C<ManagedByFirewallManager>.
+
 
 =head2 RedactedFields => ArrayRef[L<Paws::WAFV2::FieldToMatch>]
 
-The parts of the request that you want to keep out of the logs. For
-example, if you redact the C<HEADER> field, the C<HEADER> field in the
-firehose will be C<xxx>.
+The parts of the request that you want to keep out of the logs.
 
-You must use one of the following values: C<URI>, C<QUERY_STRING>,
-C<HEADER>, or C<METHOD>.
+For example, if you redact the C<SingleHeader> field, the C<HEADER>
+field in the logs will be C<REDACTED> for all rules that use the
+C<SingleHeader> C<FieldToMatch> setting.
+
+If you configure data protection for the web ACL, the protection
+applies to the data that WAF sends to the logs.
+
+Redaction applies only to the component that's specified in the rule's
+C<FieldToMatch> setting, so the C<SingleHeader> redaction doesn't apply
+to rules that use the C<Headers> C<FieldToMatch>.
+
+You can specify only the following fields for redaction: C<UriPath>,
+C<QueryString>, C<SingleHeader>, and C<Method>.
+
+This setting has no impact on request sampling. You can only exclude
+fields from request sampling by disabling sampling in the web ACL
+visibility configuration or by configuring data protection for the web
+ACL.
 
 
 =head2 B<REQUIRED> ResourceArn => Str

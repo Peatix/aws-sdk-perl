@@ -36,7 +36,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GlobalAccel
 =head1 DESCRIPTION
 
 Information about an IP address range that is provisioned for use with
-your AWS resources through bring your own IP address (BYOIP).
+your Amazon Web Services resources through bring your own IP address
+(BYOIP).
 
 The following describes each BYOIP C<State> that your IP address range
 can be in.
@@ -46,69 +47,69 @@ can be in.
 =item *
 
 B<PENDING_PROVISIONING> E<mdash> YouE<rsquo>ve submitted a request to
-provision an IP address range but it is not yet provisioned with AWS
-Global Accelerator.
+provision an IP address range but it is not yet provisioned with Global
+Accelerator.
 
 =item *
 
-B<READY> E<mdash> The address range is provisioned with AWS Global
+B<READY> E<mdash> The address range is provisioned with Global
 Accelerator and can be advertised.
 
 =item *
 
 B<PENDING_ADVERTISING> E<mdash> YouE<rsquo>ve submitted a request for
-AWS Global Accelerator to advertise an address range but it is not yet
+Global Accelerator to advertise an address range but it is not yet
 being advertised.
 
 =item *
 
-B<ADVERTISING> E<mdash> The address range is being advertised by AWS
-Global Accelerator.
+B<ADVERTISING> E<mdash> The address range is being advertised by Global
+Accelerator.
 
 =item *
 
 B<PENDING_WITHDRAWING> E<mdash> YouE<rsquo>ve submitted a request to
 withdraw an address range from being advertised but it is still being
-advertised by AWS Global Accelerator.
+advertised by Global Accelerator.
 
 =item *
 
 B<PENDING_DEPROVISIONING> E<mdash> YouE<rsquo>ve submitted a request to
-deprovision an address range from AWS Global Accelerator but it is
-still provisioned.
+deprovision an address range from Global Accelerator but it is still
+provisioned.
 
 =item *
 
-B<DEPROVISIONED> E<mdash> The address range is deprovisioned from AWS
+B<DEPROVISIONED> E<mdash> The address range is deprovisioned from
 Global Accelerator.
 
 =item *
 
 B<FAILED_PROVISION > E<mdash> The request to provision the address
-range from AWS Global Accelerator was not successful. Please make sure
-that you provide all of the correct information, and try again. If the
-request fails a second time, contact AWS support.
+range from Global Accelerator was not successful. Please make sure that
+you provide all of the correct information, and try again. If the
+request fails a second time, contact Amazon Web Services support.
 
 =item *
 
-B<FAILED_ADVERTISING> E<mdash> The request for AWS Global Accelerator
-to advertise the address range was not successful. Please make sure
-that you provide all of the correct information, and try again. If the
-request fails a second time, contact AWS support.
+B<FAILED_ADVERTISING> E<mdash> The request for Global Accelerator to
+advertise the address range was not successful. Please make sure that
+you provide all of the correct information, and try again. If the
+request fails a second time, contact Amazon Web Services support.
 
 =item *
 
 B<FAILED_WITHDRAW> E<mdash> The request to withdraw the address range
-from advertising by AWS Global Accelerator was not successful. Please
-make sure that you provide all of the correct information, and try
-again. If the request fails a second time, contact AWS support.
+from advertising by Global Accelerator was not successful. Please make
+sure that you provide all of the correct information, and try again. If
+the request fails a second time, contact Amazon Web Services support.
 
 =item *
 
 B<FAILED_DEPROVISION > E<mdash> The request to deprovision the address
-range from AWS Global Accelerator was not successful. Please make sure
-that you provide all of the correct information, and try again. If the
-request fails a second time, contact AWS support.
+range from Global Accelerator was not successful. Please make sure that
+you provide all of the correct information, and try again. If the
+request fails a second time, contact Amazon Web Services support.
 
 =back
 
@@ -120,11 +121,15 @@ request fails a second time, contact AWS support.
 
 The address range, in CIDR notation.
 
+For more information, see Bring your own IP addresses (BYOIP)
+(https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
+in the Global Accelerator Developer Guide.
+
 
 =head2 Events => ArrayRef[L<Paws::GlobalAccelerator::ByoipCidrEvent>]
 
 A history of status changes for an IP address range that you bring to
-AWS Global Accelerator through bring your own IP address (BYOIP).
+Global Accelerator through bring your own IP address (BYOIP).
 
 
 =head2 State => Str

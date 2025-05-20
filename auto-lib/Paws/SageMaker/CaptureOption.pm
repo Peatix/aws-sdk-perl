@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-This class has no description
+Specifies data Model Monitor will capture.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> CaptureMode => Str
 
-
+Specify the boundary of data to capture.
 
 
 

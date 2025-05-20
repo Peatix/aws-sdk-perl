@@ -37,9 +37,6 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 Settings related to teletext captions. Set up teletext captions in the
 same output as your video. For more information, see
 https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
-When you work directly in your JSON job specification, include this
-object and any required children when you set destinationType to
-TELETEXT.
 
 =head1 ATTRIBUTES
 
@@ -56,9 +53,9 @@ entire set of Teletext data, do not use this field.
 
 Specify the page types for this Teletext page. If you don't specify a
 value here, the service sets the page type to the default value
-Subtitle (PAGE_TYPE_SUBTITLE). If you pass through the entire set of
-Teletext data, don't use this field. When you pass through a set of
-Teletext pages, your output has the same page types as your input.
+Subtitle. If you pass through the entire set of Teletext data, don't
+use this field. When you pass through a set of Teletext pages, your
+output has the same page types as your input.
 
 
 

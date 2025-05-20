@@ -17,8 +17,7 @@ Paws::AuditManager::GetSettingsResponse
 
 =head2 Settings => L<Paws::AuditManager::Settings>
 
-The settings object that holds all supported AWS Audit Manager
-settings.
+The settings object that holds all supported Audit Manager settings.
 
 
 =head2 _request_id => Str

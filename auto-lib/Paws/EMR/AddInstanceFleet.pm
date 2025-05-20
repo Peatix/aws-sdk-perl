@@ -20,7 +20,7 @@ Paws::EMR::AddInstanceFleet - Arguments for method AddInstanceFleet on L<Paws::E
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method AddInstanceFleet on the
-L<Amazon Elastic MapReduce|Paws::EMR> service. Use the attributes of this class
+L<Amazon EMR|Paws::EMR> service. Use the attributes of this class
 as arguments to method AddInstanceFleet.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to AddInstanceFleet.
@@ -32,6 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ClusterId     => 'MyXmlStringMaxLen256',
       InstanceFleet => {
         InstanceFleetType   => 'MASTER',    # values: MASTER, CORE, TASK
+        Context             => 'MyXmlStringMaxLen256',    # max: 256
         InstanceTypeConfigs => [
           {
             InstanceType => 'MyInstanceType',            # min: 1, max: 256
@@ -47,6 +48,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               },
               ...
             ],    # OPTIONAL
+            CustomAmiId      => 'MyXmlStringMaxLen256',    # max: 256
             EbsConfiguration => {
               EbsBlockDeviceConfigs => [
                 {
@@ -54,6 +56,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     SizeInGB   => 1,
                     VolumeType => 'MyString',    # OPTIONAL
                     Iops       => 1,
+                    Throughput => 1,             # OPTIONAL
                   },
                   VolumesPerInstance => 1,
                 },
@@ -61,16 +64,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ],    # OPTIONAL
               EbsOptimized => 1,    # OPTIONAL
             },    # OPTIONAL
+            Priority         => 1,    # OPTIONAL
             WeightedCapacity => 1,    # OPTIONAL
           },
           ...
         ],    # OPTIONAL
         LaunchSpecifications => {
           OnDemandSpecification => {
-            AllocationStrategy         => 'lowest-price', # values: lowest-price
+            AllocationStrategy =>
+              'lowest-price',    # values: lowest-price, prioritized
             CapacityReservationOptions => {
               CapacityReservationPreference =>
-                'open',    # values: open, none; OPTIONAL
+                'open',          # values: open, none; OPTIONAL
               CapacityReservationResourceGroupArn =>
                 'MyXmlStringMaxLen256',    # max: 256
               UsageStrategy => 'use-capacity-reservations-first'
@@ -80,15 +85,35 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SpotSpecification => {
             TimeoutAction => 'SWITCH_TO_ON_DEMAND'
             ,    # values: SWITCH_TO_ON_DEMAND, TERMINATE_CLUSTER
-            TimeoutDurationMinutes => 1,    # OPTIONAL
-            AllocationStrategy     =>
-              'capacity-optimized',    # values: capacity-optimized; OPTIONAL
-            BlockDurationMinutes => 1, # OPTIONAL
+            TimeoutDurationMinutes => 1,                     # OPTIONAL
+            AllocationStrategy     => 'capacity-optimized'
+            , # values: capacity-optimized, price-capacity-optimized, lowest-price, diversified, capacity-optimized-prioritized; OPTIONAL
+            BlockDurationMinutes => 1,    # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
-        Name                   => 'MyXmlStringMaxLen256',    # max: 256
-        TargetOnDemandCapacity => 1,                         # OPTIONAL
-        TargetSpotCapacity     => 1,                         # OPTIONAL
+        Name                 => 'MyXmlStringMaxLen256',    # max: 256
+        ResizeSpecifications => {
+          OnDemandResizeSpecification => {
+            AllocationStrategy =>
+              'lowest-price',    # values: lowest-price, prioritized
+            CapacityReservationOptions => {
+              CapacityReservationPreference =>
+                'open',          # values: open, none; OPTIONAL
+              CapacityReservationResourceGroupArn =>
+                'MyXmlStringMaxLen256',    # max: 256
+              UsageStrategy => 'use-capacity-reservations-first'
+              ,    # values: use-capacity-reservations-first; OPTIONAL
+            },    # OPTIONAL
+            TimeoutDurationMinutes => 1,    # OPTIONAL
+          },    # OPTIONAL
+          SpotResizeSpecification => {
+            AllocationStrategy => 'capacity-optimized'
+            , # values: capacity-optimized, price-capacity-optimized, lowest-price, diversified, capacity-optimized-prioritized; OPTIONAL
+            TimeoutDurationMinutes => 1,    # OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        TargetOnDemandCapacity => 1,    # OPTIONAL
+        TargetSpotCapacity     => 1,    # OPTIONAL
       },
 
     );

@@ -33,7 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateAliasOutput = $gamelift->CreateAlias(
       Name            => 'MyNonBlankAndLengthConstraintString',
       RoutingStrategy => {
-        FleetId => 'MyFleetId',     # OPTIONAL
+        FleetId => 'MyFleetId',     # min: 1, max: 128; OPTIONAL
         Message => 'MyFreeText',    # OPTIONAL
         Type    => 'SIMPLE',        # values: SIMPLE, TERMINAL; OPTIONAL
       },
@@ -82,14 +82,12 @@ the alias.
 =head2 Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
 A list of labels to assign to the new alias resource. Tags are
-developer-defined key-value pairs. Tagging AWS resources are useful for
-resource management, access management and cost allocation. For more
-information, see Tagging AWS Resources
+developer-defined key-value pairs. Tagging Amazon Web Services
+resources are useful for resource management, access management and
+cost allocation. For more information, see Tagging Amazon Web Services
+Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>. Once the resource is created, you can use
-TagResource, UntagResource, and ListTagsForResource to add, remove, and
-view tags. The maximum tag limit may be lower than stated. See the AWS
-General Reference for actual tagging limits.
+I<Amazon Web Services General Reference>.
 
 
 

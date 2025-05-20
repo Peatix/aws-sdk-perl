@@ -52,8 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 
 The content of the approval rule, including the number of approvals
 needed and the structure of an approval pool defined for approvals, if
-any. For more information about approval pools, see the AWS CodeCommit
-User Guide.
+any. For more information about approval pools, see the CodeCommit User
+Guide.
 
 When you create the content of the approval rule, you can specify
 approvers in an approval pool in one of two ways:
@@ -62,12 +62,13 @@ approvers in an approval pool in one of two ways:
 
 =item *
 
-B<CodeCommitApprovers>: This option only requires an AWS account and a
-resource. It can be used for both IAM users and federated access users
-whose name matches the provided resource name. This is a very powerful
-option that offers a great deal of flexibility. For example, if you
-specify the AWS account I<123456789012> and I<Mary_Major>, all of the
-following would be counted as approvals coming from that user:
+B<CodeCommitApprovers>: This option only requires an Amazon Web
+Services account and a resource. It can be used for both IAM users and
+federated access users whose name matches the provided resource name.
+This is a very powerful option that offers a great deal of flexibility.
+For example, if you specify the Amazon Web Services account
+I<123456789012> and I<Mary_Major>, all of the following would be
+counted as approvals coming from that user:
 
 =over
 

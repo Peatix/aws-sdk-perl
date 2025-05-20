@@ -54,7 +54,7 @@ group is compatible with.
 
 Valid values are: C<memcached1.4> | C<memcached1.5> | C<memcached1.6> |
 C<redis2.6> | C<redis2.8> | C<redis3.2> | C<redis4.0> | C<redis5.0> |
-C<redis6.x> |
+C<redis6.x> | C<redis7>
 
 
 =head2 CacheParameterGroupName => Str

@@ -7,6 +7,7 @@ package Paws::LexModelsV2::CreateIntentResponse;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has DialogCodeHook => (is => 'ro', isa => 'Paws::LexModelsV2::DialogCodeHookSettings', traits => ['NameInRequest'], request_name => 'dialogCodeHook');
   has FulfillmentCodeHook => (is => 'ro', isa => 'Paws::LexModelsV2::FulfillmentCodeHookSettings', traits => ['NameInRequest'], request_name => 'fulfillmentCodeHook');
+  has InitialResponseSetting => (is => 'ro', isa => 'Paws::LexModelsV2::InitialResponseSetting', traits => ['NameInRequest'], request_name => 'initialResponseSetting');
   has InputContexts => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::InputContext]', traits => ['NameInRequest'], request_name => 'inputContexts');
   has IntentClosingSetting => (is => 'ro', isa => 'Paws::LexModelsV2::IntentClosingSetting', traits => ['NameInRequest'], request_name => 'intentClosingSetting');
   has IntentConfirmationSetting => (is => 'ro', isa => 'Paws::LexModelsV2::IntentConfirmationSetting', traits => ['NameInRequest'], request_name => 'intentConfirmationSetting');
@@ -16,6 +17,8 @@ package Paws::LexModelsV2::CreateIntentResponse;
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has OutputContexts => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::OutputContext]', traits => ['NameInRequest'], request_name => 'outputContexts');
   has ParentIntentSignature => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'parentIntentSignature');
+  has QInConnectIntentConfiguration => (is => 'ro', isa => 'Paws::LexModelsV2::QInConnectIntentConfiguration', traits => ['NameInRequest'], request_name => 'qInConnectIntentConfiguration');
+  has QnAIntentConfiguration => (is => 'ro', isa => 'Paws::LexModelsV2::QnAIntentConfiguration', traits => ['NameInRequest'], request_name => 'qnAIntentConfiguration');
   has SampleUtterances => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::SampleUtterance]', traits => ['NameInRequest'], request_name => 'sampleUtterances');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -37,7 +40,7 @@ The identifier of the bot associated with the intent.
 
 =head2 BotVersion => Str
 
-The identifier of the version of the bot associated with the intent.
+The version of the bot associated with the intent.
 
 
 =head2 CreationDateTime => Str
@@ -58,6 +61,12 @@ The dialog Lambda function specified for the intent.
 =head2 FulfillmentCodeHook => L<Paws::LexModelsV2::FulfillmentCodeHookSettings>
 
 The fulfillment Lambda function specified for the intent.
+
+
+=head2 InitialResponseSetting => L<Paws::LexModelsV2::InitialResponseSetting>
+
+Configuration settings for the response that is sent to the user at the
+beginning of a conversation, before eliciting slot values.
 
 
 =head2 InputContexts => ArrayRef[L<Paws::LexModelsV2::InputContext>]
@@ -104,6 +113,17 @@ The list of output contexts specified for the intent.
 =head2 ParentIntentSignature => Str
 
 The signature of the parent intent specified for the intent.
+
+
+=head2 QInConnectIntentConfiguration => L<Paws::LexModelsV2::QInConnectIntentConfiguration>
+
+Qinconnect intent configuration details for the create intent response.
+
+
+=head2 QnAIntentConfiguration => L<Paws::LexModelsV2::QnAIntentConfiguration>
+
+Details about the the configuration of the built-in
+C<Amazon.QnAIntent>.
 
 
 =head2 SampleUtterances => ArrayRef[L<Paws::LexModelsV2::SampleUtterance>]

@@ -55,6 +55,10 @@ C<Esri>
 
 =item *
 
+C<Grab>
+
+=item *
+
 C<Here>
 
 =back
@@ -69,14 +73,14 @@ data providers
 The total distance covered by the route. The sum of the distance
 travelled between every stop on the route.
 
-The route C<distance> can't be greater than 250 km. If the route
-exceeds 250 km, the response returns a C<400 RoutesValidationException>
-error.
+If Esri is the data source for the route calculator, the route distance
+canE<rsquo>t be greater than 400 km. If the route exceeds 400 km, the
+response is a C<400 RoutesValidationException> error.
 
 
 =head2 B<REQUIRED> DistanceUnit => Str
 
-The unit of measurement for the distance.
+The unit of measurement for route distances.
 
 
 =head2 B<REQUIRED> DurationSeconds => Num
@@ -89,7 +93,7 @@ travel time between every stop on the route.
 
 Specifies a geographical box surrounding a route. Used to zoom into a
 route when displaying it in a map. For example, C<[min x, min y, max x,
-max y]>
+max y]>.
 
 The first 2 C<bbox> parameters describe the lower southwest corner:
 
@@ -118,7 +122,7 @@ upper northeast corner.
 
 =item *
 
-The fourth C<bbox> position is the Y coordinate, or longitude of the
+The fourth C<bbox> position is the Y coordinate, or latitude of the
 upper northeast corner.
 
 =back

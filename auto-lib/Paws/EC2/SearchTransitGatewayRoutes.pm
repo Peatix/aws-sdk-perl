@@ -129,7 +129,8 @@ C<type> - The type of route (C<propagated> | C<static>).
 
 =head2 MaxResults => Int
 
-The maximum number of routes to return.
+The maximum number of routes to return. If a value is not provided, the
+default is 1000.
 
 
 

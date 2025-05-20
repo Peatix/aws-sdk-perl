@@ -65,8 +65,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gam
 =head2 Name => Str
 
 A descriptive label that is associated with a script. Script names do
-not need to be unique. You can use UpdateScript to change this value
-later.
+not need to be unique. You can use UpdateScript
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html)
+to change this value later.
 
 
 
@@ -86,22 +87,30 @@ C<ObjectVersion> parameter to specify an earlier version.
 =head2 Tags => ArrayRef[L<Paws::GameLift::Tag>]
 
 A list of labels to assign to the new script resource. Tags are
-developer-defined key-value pairs. Tagging AWS resources are useful for
-resource management, access management and cost allocation. For more
-information, see Tagging AWS Resources
+developer-defined key-value pairs. Tagging Amazon Web Services
+resources are useful for resource management, access management and
+cost allocation. For more information, see Tagging Amazon Web Services
+Resources
 (https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
-I<AWS General Reference>. Once the resource is created, you can use
-TagResource, UntagResource, and ListTagsForResource to add, remove, and
-view tags. The maximum tag limit may be lower than stated. See the AWS
-General Reference for actual tagging limits.
+I<Amazon Web Services General Reference>. Once the resource is created,
+you can use TagResource
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html),
+UntagResource
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html),
+and ListTagsForResource
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html)
+to add, remove, and view tags. The maximum tag limit may be lower than
+stated. See the Amazon Web Services General Reference for actual
+tagging limits.
 
 
 
 =head2 Version => Str
 
 Version information that is associated with a build or script. Version
-strings do not need to be unique. You can use UpdateScript to change
-this value later.
+strings do not need to be unique. You can use UpdateScript
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html)
+to change this value later.
 
 
 
@@ -111,10 +120,10 @@ A data object containing your Realtime scripts and dependencies as a
 zip file. The zip file can have one or multiple files. Maximum size of
 a zip file is 5 MB.
 
-When using the AWS CLI tool to create a script, this parameter is set
-to the zip file name. It must be prepended with the string "fileb://"
-to indicate that the file data is a binary object. For example:
-C<--zip-file fileb://myRealtimeScript.zip>.
+When using the Amazon Web Services CLI tool to create a script, this
+parameter is set to the zip file name. It must be prepended with the
+string "fileb://" to indicate that the file data is a binary object.
+For example: C<--zip-file fileb://myRealtimeScript.zip>.
 
 
 

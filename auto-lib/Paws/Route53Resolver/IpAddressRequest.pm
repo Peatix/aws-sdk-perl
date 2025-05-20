@@ -2,6 +2,7 @@
 package Paws::Route53Resolver::IpAddressRequest;
   use Moose;
   has Ip => (is => 'ro', isa => 'Str');
+  has Ipv6 => (is => 'ro', isa => 'Str');
   has SubnetId => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -46,7 +47,12 @@ the IP address.
 
 =head2 Ip => Str
 
-The IP address that you want to use for DNS queries.
+The IPv4 address that you want to use for DNS queries.
+
+
+=head2 Ipv6 => Str
+
+The IPv6 address that you want to use for DNS queries.
 
 
 =head2 B<REQUIRED> SubnetId => Str

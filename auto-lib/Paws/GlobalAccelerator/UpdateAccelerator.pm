@@ -3,6 +3,7 @@ package Paws::GlobalAccelerator::UpdateAccelerator;
   use Moose;
   has AcceleratorArn => (is => 'ro', isa => 'Str', required => 1);
   has Enabled => (is => 'ro', isa => 'Bool');
+  has IpAddresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has IpAddressType => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
 
@@ -32,9 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $globalaccelerator = Paws->service('GlobalAccelerator');
     my $UpdateAcceleratorResponse = $globalaccelerator->UpdateAccelerator(
       AcceleratorArn => 'MyGenericString',
-      Enabled        => 1,                    # OPTIONAL
-      IpAddressType  => 'IPV4',               # OPTIONAL
-      Name           => 'MyGenericString',    # OPTIONAL
+      Enabled        => 1,                   # OPTIONAL
+      IpAddressType  => 'IPV4',              # OPTIONAL
+      IpAddresses    => [
+        'MyIpAddress', ...                   # max: 45
+      ],    # OPTIONAL
+      Name => 'MyGenericString',    # OPTIONAL
     );
 
     # Results:
@@ -64,17 +68,24 @@ to false, the accelerator can be deleted.
 
 
 
+=head2 IpAddresses => ArrayRef[Str|Undef]
+
+The IP addresses for an accelerator.
+
+
+
 =head2 IpAddressType => Str
 
-The IP address type, which must be IPv4.
+The IP address type that an accelerator supports. For a standard
+accelerator, the value can be IPV4 or DUAL_STACK.
 
-Valid values are: C<"IPV4">
+Valid values are: C<"IPV4">, C<"DUAL_STACK">
 
 =head2 Name => Str
 
-The name of the accelerator. The name can have a maximum of 32
-characters, must contain only alphanumeric characters or hyphens (-),
-and must not begin or end with a hyphen.
+The name of the accelerator. The name can have a maximum of 64
+characters, must contain only alphanumeric characters, periods (.), or
+hyphens (-), and must not begin or end with a hyphen or period.
 
 
 

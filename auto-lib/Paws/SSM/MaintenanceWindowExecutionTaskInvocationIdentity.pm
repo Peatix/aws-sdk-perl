@@ -59,7 +59,7 @@ The time the invocation finished.
 =head2 ExecutionId => Str
 
 The ID of the action performed in the service that actually handled the
-task invocation. If the task type is RUN_COMMAND, this value is the
+task invocation. If the task type is C<RUN_COMMAND>, this value is the
 command ID.
 
 
@@ -71,8 +71,8 @@ The ID of the task invocation.
 =head2 OwnerInformation => Str
 
 User-provided value that was specified when the target was registered
-with the maintenance window. This was also included in any CloudWatch
-events raised during the task invocation.
+with the maintenance window. This was also included in any Amazon
+CloudWatch Events events raised during the task invocation.
 
 
 =head2 Parameters => Str
@@ -92,8 +92,8 @@ The status of the task invocation.
 
 =head2 StatusDetails => Str
 
-The details explaining the status of the task invocation. Only
-available for certain Status values.
+The details explaining the status of the task invocation. Not available
+for all status values.
 
 
 =head2 TaskExecutionId => Str

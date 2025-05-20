@@ -64,8 +64,8 @@ datastore
 
 =head2 B<REQUIRED> ReplicationGroupRegion => Str
 
-The AWS region of secondary cluster you wish to remove from the Global
-datastore
+The Amazon region of secondary cluster you wish to remove from the
+Global datastore
 
 
 

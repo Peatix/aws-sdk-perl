@@ -1,6 +1,7 @@
 
 package Paws::Rekognition::StartProjectVersion;
   use Moose;
+  has MaxInferenceUnits => (is => 'ro', isa => 'Int');
   has MinInferenceUnits => (is => 'ro', isa => 'Int', required => 1);
   has ProjectVersionArn => (is => 'ro', isa => 'Str', required => 1);
 
@@ -31,7 +32,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $StartProjectVersionResponse = $rekognition->StartProjectVersion(
       MinInferenceUnits => 1,
       ProjectVersionArn => 'MyProjectVersionArn',
-
+      MaxInferenceUnits => 1,                       # OPTIONAL
     );
 
     # Results:
@@ -45,13 +46,21 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rek
 =head1 ATTRIBUTES
 
 
+=head2 MaxInferenceUnits => Int
+
+The maximum number of inference units to use for auto-scaling the
+model. If you don't specify a value, Amazon Rekognition Custom Labels
+doesn't auto-scale the model.
+
+
+
 =head2 B<REQUIRED> MinInferenceUnits => Int
 
 The minimum number of inference units to use. A single inference unit
-represents 1 hour of processing and can support up to 5 Transaction
-Pers Second (TPS). Use a higher number to increase the TPS throughput
-of your model. You are charged for the number of inference units that
-you use.
+represents 1 hour of processing.
+
+Use a higher number to increase the TPS throughput of your model. You
+are charged for the number of inference units that you use.
 
 
 

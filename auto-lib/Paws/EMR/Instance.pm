@@ -44,14 +44,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Instan
 
 =head1 DESCRIPTION
 
-Represents an EC2 instance provisioned as part of cluster.
+Represents an Amazon EC2 instance provisioned as part of cluster.
 
 =head1 ATTRIBUTES
 
 
 =head2 EbsVolumes => ArrayRef[L<Paws::EMR::EbsVolume>]
 
-The list of EBS volumes that are attached to this instance.
+The list of Amazon EBS volumes that are attached to this instance.
 
 
 =head2 Ec2InstanceId => Str
@@ -66,8 +66,8 @@ The unique identifier for the instance in Amazon EMR.
 
 =head2 InstanceFleetId => Str
 
-The unique identifier of the instance fleet to which an EC2 instance
-belongs.
+The unique identifier of the instance fleet to which an Amazon EC2
+instance belongs.
 
 
 =head2 InstanceGroupId => Str
@@ -77,7 +77,7 @@ The identifier of the instance group to which this instance belongs.
 
 =head2 InstanceType => Str
 
-The EC2 instance type, for example C<m3.xlarge>.
+The Amazon EC2 instance type, for example C<m3.xlarge>.
 
 
 =head2 Market => Str

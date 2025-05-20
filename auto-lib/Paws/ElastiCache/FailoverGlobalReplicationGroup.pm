@@ -57,7 +57,7 @@ The name of the Global datastore
 
 =head2 B<REQUIRED> PrimaryRegion => Str
 
-The AWS region of the primary cluster of the Global datastore
+The Amazon region of the primary cluster of the Global datastore
 
 
 

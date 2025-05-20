@@ -29,20 +29,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+    # To retrieve configuration profile details
+    # The following get-configuration-profile example returns the details of the
+    # specified configuration profile.
     my $ConfigurationProfile = $appconfig->GetConfigurationProfile(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f'
     );
 
     # Results:
     my $ApplicationId    = $ConfigurationProfile->ApplicationId;
-    my $Description      = $ConfigurationProfile->Description;
     my $Id               = $ConfigurationProfile->Id;
     my $LocationUri      = $ConfigurationProfile->LocationUri;
     my $Name             = $ConfigurationProfile->Name;
     my $RetrievalRoleArn = $ConfigurationProfile->RetrievalRoleArn;
-    my $Validators       = $ConfigurationProfile->Validators;
 
     # Returns a L<Paws::AppConfig::ConfigurationProfile> object.
 
@@ -61,7 +61,7 @@ want to get.
 
 =head2 B<REQUIRED> ConfigurationProfileId => Str
 
-The ID of the configuration profile you want to get.
+The ID of the configuration profile that you want to get.
 
 
 

@@ -3,6 +3,7 @@ package Paws::SageMaker::DesiredWeightAndCapacity;
   use Moose;
   has DesiredInstanceCount => (is => 'ro', isa => 'Int');
   has DesiredWeight => (is => 'ro', isa => 'Num');
+  has ServerlessUpdateConfig => (is => 'ro', isa => 'Paws::SageMaker::ProductionVariantServerlessUpdateConfig');
   has VariantName => (is => 'ro', isa => 'Str', required => 1);
 
 1;
@@ -48,6 +49,12 @@ The variant's capacity.
 =head2 DesiredWeight => Num
 
 The variant's weight.
+
+
+=head2 ServerlessUpdateConfig => L<Paws::SageMaker::ProductionVariantServerlessUpdateConfig>
+
+Specifies the serverless update concurrency configuration for an
+endpoint variant.
 
 
 =head2 B<REQUIRED> VariantName => Str

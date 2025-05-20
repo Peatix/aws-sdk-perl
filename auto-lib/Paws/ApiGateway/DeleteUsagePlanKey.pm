@@ -43,15 +43,14 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> KeyId => Str
 
-[Required] The Id of the UsagePlanKey resource to be deleted.
+The Id of the UsagePlanKey resource to be deleted.
 
 
 
 =head2 B<REQUIRED> UsagePlanId => Str
 
-[Required] The Id of the UsagePlan resource representing the usage plan
-containing the to-be-deleted UsagePlanKey resource representing a plan
-customer.
+The Id of the UsagePlan resource representing the usage plan containing
+the to-be-deleted UsagePlanKey resource representing a plan customer.
 
 
 

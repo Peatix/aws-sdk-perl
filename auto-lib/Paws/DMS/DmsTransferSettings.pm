@@ -46,7 +46,8 @@ The name of the S3 bucket to use.
 
 =head2 ServiceAccessRoleArn => Str
 
-The IAM role that has permission to access the Amazon S3 bucket.
+The Amazon Resource Name (ARN) used by the service access IAM role. The
+role must allow the C<iam:PassRole> action.
 
 
 

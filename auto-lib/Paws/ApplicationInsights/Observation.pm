@@ -160,30 +160,29 @@ The time when the observation ended, in epoch seconds.
 
 =head2 HealthEventArn => Str
 
-The Amazon Resource Name (ARN) of the AWS Health Event-based
-observation.
+The Amazon Resource Name (ARN) of the Health Event-based observation.
 
 
 =head2 HealthEventDescription => Str
 
-The description of the AWS Health event provided by the service, such
-as Amazon EC2.
+The description of the Health event provided by the service, such as
+Amazon EC2.
 
 
 =head2 HealthEventTypeCategory => Str
 
-The category of the AWS Health event, such as C<issue>.
+The category of the Health event, such as C<issue>.
 
 
 =head2 HealthEventTypeCode => Str
 
-The type of the AWS Health event, for example,
+The type of the Health event, for example,
 C<AWS_EC2_POWER_CONNECTIVITY_ISSUE>.
 
 
 =head2 HealthService => Str
 
-The service to which the AWS Health Event belongs, such as EC2.
+The service to which the Health Event belongs, such as EC2.
 
 
 =head2 Id => Str

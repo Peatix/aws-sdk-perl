@@ -58,61 +58,117 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ram
 
 =head2 MaxResults => Int
 
-The maximum number of results to return with a single call. To retrieve
-the remaining results, make another call with the returned C<nextToken>
-value.
+Specifies the total number of results that you want included on each
+page of the response. If you do not include this parameter, it defaults
+to a value that is specific to the operation. If additional items exist
+beyond the number you specify, the C<NextToken> response element is
+returned with a value (not null). Include the specified value as the
+C<NextToken> request parameter in the next call to the operation to get
+the next part of the results. Note that the service might return fewer
+results than the maximum even when there are more results available.
+You should check C<NextToken> after every operation to ensure that you
+receive all of the results.
 
 
 
 =head2 NextToken => Str
 
-The token for the next page of results.
+Specifies that you want to receive the next page of results. Valid only
+if you received a C<NextToken> response in the previous request. If you
+did, it indicates that more output is available. Set this parameter to
+the value provided by the previous call's C<NextToken> response to
+request the next page of results.
 
 
 
 =head2 Principals => ArrayRef[Str|Undef]
 
-The principals.
+Specifies that you want to list information for only the listed
+principals.
+
+You can include the following values:
+
+=over
+
+=item *
+
+An Amazon Web Services account ID, for example: C<123456789012>
+
+=item *
+
+An Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of an organization in Organizations, for example:
+C<organizations::123456789012:organization/o-exampleorgid>
+
+=item *
+
+An ARN of an organizational unit (OU) in Organizations, for example:
+C<organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123>
+
+=item *
+
+An ARN of an IAM role, for example: C<iam::123456789012:role/rolename>
+
+=item *
+
+An ARN of an IAM user, for example: C<iam::123456789012user/username>
+
+=back
+
+Not all resource types can be shared with IAM roles and users. For more
+information, see Sharing with IAM roles and users
+(https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types)
+in the I<Resource Access Manager User Guide>.
 
 
 
 =head2 ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the resource.
+Specifies that you want to list principal information for the resource
+share with the specified Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 
 =head2 B<REQUIRED> ResourceOwner => Str
 
-The type of owner.
+Specifies that you want to list information for only resource shares
+that match the following:
+
+=over
+
+=item *
+
+B<C<SELF> > E<ndash> principals that your account is sharing resources
+with
+
+=item *
+
+B<C<OTHER-ACCOUNTS> > E<ndash> principals that are sharing resources
+with your account
+
+=back
+
 
 Valid values are: C<"SELF">, C<"OTHER-ACCOUNTS">
 
 =head2 ResourceShareArns => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARN) of the resource shares.
+Specifies that you want to list information for only principals
+associated with the resource shares specified by a list the Amazon
+Resource Names (ARNs)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
 
 
 =head2 ResourceType => Str
 
-The resource type.
+Specifies that you want to list information for only principals
+associated with resource shares that include the specified resource
+type.
 
-Valid values: C<acm-pca:CertificateAuthority> | C<appmesh:Mesh> |
-C<codebuild:Project> | C<codebuild:ReportGroup> |
-C<ec2:CapacityReservation> | C<ec2:DedicatedHost> |
-C<ec2:LocalGatewayRouteTable> | C<ec2:PrefixList> | C<ec2:Subnet> |
-C<ec2:TrafficMirrorTarget> | C<ec2:TransitGateway> |
-C<imagebuilder:Component> | C<imagebuilder:Image> |
-C<imagebuilder:ImageRecipe> | C<imagebuilder:ContainerRecipe> |
-C<glue:Catalog> | C<glue:Database> | C<glue:Table> |
-C<license-manager:LicenseConfiguration> I
-C<network-firewall:FirewallPolicy> |
-C<network-firewall:StatefulRuleGroup> |
-C<network-firewall:StatelessRuleGroup> | C<outposts:Outpost> |
-C<resource-groups:Group> | C<rds:Cluster> |
-C<route53resolver:ResolverQueryLogConfig> |
-C<route53resolver:ResolverRule>
+For a list of valid values, query the ListResourceTypes operation.
 
 
 

@@ -58,8 +58,7 @@ The modification completion or failure time.
 
 =head2 ModificationState => Str
 
-The current modification state. The modification state is null for
-unmodified volumes.
+The current modification state.
 
 
 =head2 OriginalIops => Int

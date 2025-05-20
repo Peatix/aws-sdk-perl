@@ -3,6 +3,7 @@ package Paws::ELBv2::AvailabilityZone;
   use Moose;
   has LoadBalancerAddresses => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::LoadBalancerAddress]');
   has OutpostId => (is => 'ro', isa => 'Str');
+  has SourceNatIpv6Prefixes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SubnetId => (is => 'ro', isa => 'Str');
   has ZoneName => (is => 'ro', isa => 'Str');
 
@@ -53,6 +54,14 @@ the subnet.
 =head2 OutpostId => Str
 
 [Application Load Balancers on Outposts] The ID of the Outpost.
+
+
+=head2 SourceNatIpv6Prefixes => ArrayRef[Str|Undef]
+
+[Network Load Balancers with UDP listeners] The IPv6 prefixes to use
+for source NAT. For each subnet, specify an IPv6 prefix (/80 netmask)
+from the subnet CIDR block or C<auto_assigned> to use an IPv6 prefix
+selected at random from the subnet CIDR block.
 
 
 =head2 SubnetId => Str

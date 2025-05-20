@@ -3,7 +3,8 @@ package Paws::Kinesis::StopStreamEncryption;
   use Moose;
   has EncryptionType => (is => 'ro', isa => 'Str', required => 1);
   has KeyId => (is => 'ro', isa => 'Str', required => 1);
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -32,8 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     $kinesis->StopStreamEncryption(
       EncryptionType => 'NONE',
       KeyId          => 'MyKeyId',
-      StreamName     => 'MyStreamName',
-
+      StreamARN      => 'MyStreamARN',     # OPTIONAL
+      StreamName     => 'MyStreamName',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -50,10 +51,10 @@ Valid values are: C<"NONE">, C<"KMS">
 
 =head2 B<REQUIRED> KeyId => Str
 
-The GUID for the customer-managed AWS KMS key to use for encryption.
-This value can be a globally unique identifier, a fully specified
-Amazon Resource Name (ARN) to either an alias or a key, or an alias
-name prefixed by "alias/".You can also use a master key owned by
+The GUID for the customer-managed Amazon Web Services KMS key to use
+for encryption. This value can be a globally unique identifier, a fully
+specified Amazon Resource Name (ARN) to either an alias or a key, or an
+alias name prefixed by "alias/".You can also use a master key owned by
 Kinesis Data Streams by specifying the alias C<aws/kinesis>.
 
 =over
@@ -85,7 +86,13 @@ Master key owned by Kinesis Data Streams: C<alias/aws/kinesis>
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream on which to stop encrypting records.
 

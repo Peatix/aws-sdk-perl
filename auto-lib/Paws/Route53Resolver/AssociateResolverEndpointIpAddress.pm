@@ -33,6 +33,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       IpAddress => {
         Ip       => 'MyIp',            # min: 7, max: 36; OPTIONAL
         IpId     => 'MyResourceId',    # min: 1, max: 64; OPTIONAL
+        Ipv6     => 'MyIpv6',          # min: 7, max: 39; OPTIONAL
         SubnetId => 'MySubnetId',      # min: 1, max: 32; OPTIONAL
       },
       ResolverEndpointId => 'MyResourceId',

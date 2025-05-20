@@ -2,10 +2,12 @@
 package Paws::Amplify::UpdateBranch;
   use Moose;
   has AppId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'appId', required => 1);
+  has Backend => (is => 'ro', isa => 'Paws::Amplify::Backend', traits => ['NameInRequest'], request_name => 'backend');
   has BackendEnvironmentArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'backendEnvironmentArn');
   has BasicAuthCredentials => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'basicAuthCredentials');
   has BranchName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'branchName', required => 1);
   has BuildSpec => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'buildSpec');
+  has ComputeRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'computeRoleArn');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has DisplayName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'displayName');
   has EnableAutoBuild => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableAutoBuild');
@@ -13,6 +15,7 @@ package Paws::Amplify::UpdateBranch;
   has EnableNotification => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableNotification');
   has EnablePerformanceMode => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enablePerformanceMode');
   has EnablePullRequestPreview => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enablePullRequestPreview');
+  has EnableSkewProtection => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableSkewProtection');
   has EnvironmentVariables => (is => 'ro', isa => 'Paws::Amplify::EnvironmentVariables', traits => ['NameInRequest'], request_name => 'environmentVariables');
   has Framework => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'framework');
   has PullRequestEnvironmentName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pullRequestEnvironmentName');
@@ -45,11 +48,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $amplify = Paws->service('Amplify');
     my $UpdateBranchResult = $amplify->UpdateBranch(
-      AppId                    => 'MyAppId',
-      BranchName               => 'MyBranchName',
+      AppId      => 'MyAppId',
+      BranchName => 'MyBranchName',
+      Backend    => {
+        StackArn => 'MyStackArn',    # min: 20, max: 2048; OPTIONAL
+      },    # OPTIONAL
       BackendEnvironmentArn    => 'MyBackendEnvironmentArn',    # OPTIONAL
       BasicAuthCredentials     => 'MyBasicAuthCredentials',     # OPTIONAL
       BuildSpec                => 'MyBuildSpec',                # OPTIONAL
+      ComputeRoleArn           => 'MyComputeRoleArn',           # OPTIONAL
       Description              => 'MyDescription',              # OPTIONAL
       DisplayName              => 'MyDisplayName',              # OPTIONAL
       EnableAutoBuild          => 1,                            # OPTIONAL
@@ -57,8 +64,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       EnableNotification       => 1,                            # OPTIONAL
       EnablePerformanceMode    => 1,                            # OPTIONAL
       EnablePullRequestPreview => 1,                            # OPTIONAL
+      EnableSkewProtection     => 1,                            # OPTIONAL
       EnvironmentVariables     => {
-        'MyEnvKey' => 'MyEnvValue',    # key: max: 255, value: max: 1000
+        'MyEnvKey' => 'MyEnvValue',    # key: max: 255, value: max: 5500
       },    # OPTIONAL
       Framework                  => 'MyFramework',                    # OPTIONAL
       PullRequestEnvironmentName => 'MyPullRequestEnvironmentName',   # OPTIONAL
@@ -83,28 +91,57 @@ The unique ID for an Amplify app.
 
 
 
+=head2 Backend => L<Paws::Amplify::Backend>
+
+The backend for a C<Branch> of an Amplify app. Use for a backend
+created from an CloudFormation stack.
+
+This field is available to Amplify Gen 2 apps only. When you deploy an
+application with Amplify Gen 2, you provision the app's backend
+infrastructure using Typescript code.
+
+
+
 =head2 BackendEnvironmentArn => Str
 
 The Amazon Resource Name (ARN) for a backend environment that is part
-of an Amplify app.
+of a Gen 1 Amplify app.
+
+This field is available to Amplify Gen 1 apps only where the backend is
+created using Amplify Studio or the Amplify command line interface
+(CLI).
 
 
 
 =head2 BasicAuthCredentials => Str
 
-The basic authorization credentials for the branch.
+The basic authorization credentials for the branch. You must
+base64-encode the authorization credentials and provide them in the
+format C<user:password>.
 
 
 
 =head2 B<REQUIRED> BranchName => Str
 
-The name for the branch.
+The name of the branch.
 
 
 
 =head2 BuildSpec => Str
 
 The build specification (build spec) for the branch.
+
+
+
+=head2 ComputeRoleArn => Str
+
+The Amazon Resource Name (ARN) of the IAM role to assign to a branch of
+an SSR app. The SSR Compute role allows the Amplify Hosting compute
+service to securely access specific Amazon Web Services resources based
+on the role's permissions. For more information about the SSR Compute
+role, see Adding an SSR Compute role
+(https://docs.aws.amazon.com/amplify/latest/userguide/amplify-SSR-compute-role.html)
+in the I<Amplify User Guide>.
 
 
 
@@ -153,6 +190,23 @@ minutes to roll out.
 =head2 EnablePullRequestPreview => Bool
 
 Enables pull request previews for this branch.
+
+
+
+=head2 EnableSkewProtection => Bool
+
+Specifies whether the skew protection feature is enabled for the
+branch.
+
+Deployment skew protection is available to Amplify applications to
+eliminate version skew issues between client and servers in web
+applications. When you apply skew protection to a branch, you can
+ensure that your clients always interact with the correct version of
+server-side assets, regardless of when a deployment occurs. For more
+information about skew protection, see Skew protection for Amplify
+deployments
+(https://docs.aws.amazon.com/amplify/latest/userguide/skew-protection.html)
+in the I<Amplify User Guide>.
 
 
 

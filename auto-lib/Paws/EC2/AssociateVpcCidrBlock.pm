@@ -3,8 +3,12 @@ package Paws::EC2::AssociateVpcCidrBlock;
   use Moose;
   has AmazonProvidedIpv6CidrBlock => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'amazonProvidedIpv6CidrBlock' );
   has CidrBlock => (is => 'ro', isa => 'Str');
+  has Ipv4IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv4NetmaskLength => (is => 'ro', isa => 'Int');
   has Ipv6CidrBlock => (is => 'ro', isa => 'Str');
   has Ipv6CidrBlockNetworkBorderGroup => (is => 'ro', isa => 'Str');
+  has Ipv6IpamPoolId => (is => 'ro', isa => 'Str');
+  has Ipv6NetmaskLength => (is => 'ro', isa => 'Int');
   has Ipv6Pool => (is => 'ro', isa => 'Str');
   has VpcId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcId' , required => 1);
 
@@ -36,8 +40,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       VpcId                           => 'MyVpcId',
       AmazonProvidedIpv6CidrBlock     => 1,                    # OPTIONAL
       CidrBlock                       => 'MyString',           # OPTIONAL
+      Ipv4IpamPoolId                  => 'MyIpamPoolId',       # OPTIONAL
+      Ipv4NetmaskLength               => 1,                    # OPTIONAL
       Ipv6CidrBlock                   => 'MyString',           # OPTIONAL
       Ipv6CidrBlockNetworkBorderGroup => 'MyString',           # OPTIONAL
+      Ipv6IpamPoolId                  => 'MyIpamPoolId',       # OPTIONAL
+      Ipv6NetmaskLength               => 1,                    # OPTIONAL
       Ipv6Pool                        => 'MyIpv6PoolEc2Id',    # OPTIONAL
     );
 
@@ -59,14 +67,34 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head2 AmazonProvidedIpv6CidrBlock => Bool
 
 Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length
-for the VPC. You cannot specify the range of IPv6 addresses, or the
-size of the CIDR block.
+for the VPC. You cannot specify the range of IPv6 addresses or the size
+of the CIDR block.
 
 
 
 =head2 CidrBlock => Str
 
 An IPv4 CIDR block to associate with the VPC.
+
+
+
+=head2 Ipv4IpamPoolId => Str
+
+Associate a CIDR allocated from an IPv4 IPAM pool to a VPC. For more
+information about Amazon VPC IP Address Manager (IPAM), see What is
+IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
+
+
+
+=head2 Ipv4NetmaskLength => Int
+
+The netmask length of the IPv4 CIDR you would like to associate from an
+Amazon VPC IP Address Manager (IPAM) pool. For more information about
+IPAM, see What is IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
 
 
 
@@ -88,6 +116,26 @@ You must set C<AmazonProvidedIpv6CidrBlock> to C<true> to use this
 parameter.
 
 You can have one IPv6 CIDR block association per network border group.
+
+
+
+=head2 Ipv6IpamPoolId => Str
+
+Associates a CIDR allocated from an IPv6 IPAM pool to a VPC. For more
+information about Amazon VPC IP Address Manager (IPAM), see What is
+IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
+
+
+
+=head2 Ipv6NetmaskLength => Int
+
+The netmask length of the IPv6 CIDR you would like to associate from an
+Amazon VPC IP Address Manager (IPAM) pool. For more information about
+IPAM, see What is IPAM?
+(https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in
+the I<Amazon VPC IPAM User Guide>.
 
 
 

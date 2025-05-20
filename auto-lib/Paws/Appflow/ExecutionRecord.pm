@@ -7,6 +7,7 @@ package Paws::Appflow::ExecutionRecord;
   has ExecutionResult => (is => 'ro', isa => 'Paws::Appflow::ExecutionResult', request_name => 'executionResult', traits => ['NameInRequest']);
   has ExecutionStatus => (is => 'ro', isa => 'Str', request_name => 'executionStatus', traits => ['NameInRequest']);
   has LastUpdatedAt => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedAt', traits => ['NameInRequest']);
+  has MetadataCatalogDetails => (is => 'ro', isa => 'ArrayRef[Paws::Appflow::MetadataCatalogDetail]', request_name => 'metadataCatalogDetails', traits => ['NameInRequest']);
   has StartedAt => (is => 'ro', isa => 'Str', request_name => 'startedAt', traits => ['NameInRequest']);
 
 1;
@@ -76,6 +77,12 @@ completed successfully, or has failed.
 =head2 LastUpdatedAt => Str
 
 Specifies the time of the most recent update.
+
+
+=head2 MetadataCatalogDetails => ArrayRef[L<Paws::Appflow::MetadataCatalogDetail>]
+
+Describes the metadata catalog, metadata table, and data partitions
+that Amazon AppFlow used for the associated flow run.
 
 
 =head2 StartedAt => Str

@@ -34,14 +34,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::WAFV2::Cust
 =head1 DESCRIPTION
 
 Custom request handling behavior that inserts custom headers into a web
-request. You can add custom request handling for the rule actions allow
-and count.
+request. You can add custom request handling for WAF to use when the
+rule action doesn't block the request. For example, C<CaptchaAction>
+for requests with valid t okens, and C<AllowAction>.
 
 For information about customizing web requests and responses, see
 Customizing web requests and responses in WAF
 (https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
-in the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+in the I<WAF Developer Guide>.
 
 =head1 ATTRIBUTES
 
@@ -54,8 +54,7 @@ not allowed.
 For information about the limits on count and size for custom request
 and response settings, see WAF quotas
 (https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in
-the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+the I<WAF Developer Guide>.
 
 
 

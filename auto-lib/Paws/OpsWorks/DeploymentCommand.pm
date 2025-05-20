@@ -53,23 +53,23 @@ The C<update_dependencies> command takes two arguments:
 
 =item *
 
-C<upgrade_os_to> - Specifies the desired Amazon Linux version for
-instances whose OS you want to upgrade, such as C<Amazon Linux
-2016.09>. You must also set the C<allow_reboot> argument to true.
+C<upgrade_os_to> - Specifies the Amazon Linux version that you want
+instances to run, such as C<Amazon Linux 2>. You must also set the
+C<allow_reboot> argument to true.
 
 =item *
 
-C<allow_reboot> - Specifies whether to allow AWS OpsWorks Stacks to
-reboot the instances if necessary, after installing the updates. This
-argument can be set to either C<true> or C<false>. The default value is
+C<allow_reboot> - Specifies whether to allow OpsWorks Stacks to reboot
+the instances if necessary, after installing the updates. This argument
+can be set to either C<true> or C<false>. The default value is
 C<false>.
 
 =back
 
-For example, to upgrade an instance to Amazon Linux 2016.09, set
+For example, to upgrade an instance to Amazon Linux 2018.03, set
 C<Args> to the following.
 
-C<{ "upgrade_os_to":["Amazon Linux 2016.09"], "allow_reboot":["true"]
+C<{ "upgrade_os_to":["Amazon Linux 2018.03"], "allow_reboot":["true"]
 }>
 
 
@@ -119,9 +119,9 @@ migrate the database. The default setting is {"migrate":["false"]}.
 =item *
 
 C<rollback> Roll the app back to the previous version. When you update
-an app, AWS OpsWorks Stacks stores the previous version, up to a
-maximum of five versions. You can use this command to roll an app back
-as many as four versions.
+an app, OpsWorks Stacks stores the previous version, up to a maximum of
+five versions. You can use this command to roll an app back as many as
+four versions.
 
 =item *
 

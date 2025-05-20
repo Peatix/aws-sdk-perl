@@ -36,20 +36,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-The file used to structure and automate AWS Audit Manager assessments
-for a given compliance standard.
+The file used to structure and automate Audit Manager assessments for a
+given compliance standard.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The Amazon Resource Name (ARN) of the specified framework.
+The Amazon Resource Name (ARN) of the framework.
 
 
 =head2 ControlSets => ArrayRef[L<Paws::AuditManager::AssessmentControlSet>]
 
-The control sets associated with the framework.
+The control sets that are associated with the framework.
 
 
 =head2 Id => Str

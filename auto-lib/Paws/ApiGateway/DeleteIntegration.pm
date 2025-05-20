@@ -45,20 +45,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> HttpMethod => Str
 
-[Required] Specifies a delete integration request's HTTP method.
+Specifies a delete integration request's HTTP method.
 
 
 
 =head2 B<REQUIRED> ResourceId => Str
 
-[Required] Specifies a delete integration request's resource
-identifier.
+Specifies a delete integration request's resource identifier.
 
 
 
 =head2 B<REQUIRED> RestApiId => Str
 
-[Required] The string identifier of the associated RestApi.
+The string identifier of the associated RestApi.
 
 
 

@@ -34,8 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::DynamoDB::P
 
 =head1 DESCRIPTION
 
-Represents the provisioned throughput settings for a specified table or
-index. The settings can be modified using the C<UpdateTable> operation.
+Represents the provisioned throughput settings for the specified global
+secondary index. You must use C<ProvisionedThroughput> or
+C<OnDemandThroughput> based on your tableE<rsquo>s capacity mode.
 
 For current minimum and maximum provisioned throughput values, see
 Service, Account, and Table Quotas
@@ -50,7 +51,7 @@ in the I<Amazon DynamoDB Developer Guide>.
 The maximum number of strongly consistent reads consumed per second
 before DynamoDB returns a C<ThrottlingException>. For more information,
 see Specifying Read and Write Requirements
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput)
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html)
 in the I<Amazon DynamoDB Developer Guide>.
 
 If read/write capacity mode is C<PAY_PER_REQUEST> the value is set to
@@ -62,7 +63,7 @@ If read/write capacity mode is C<PAY_PER_REQUEST> the value is set to
 The maximum number of writes consumed per second before DynamoDB
 returns a C<ThrottlingException>. For more information, see Specifying
 Read and Write Requirements
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput)
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html)
 in the I<Amazon DynamoDB Developer Guide>.
 
 If read/write capacity mode is C<PAY_PER_REQUEST> the value is set to

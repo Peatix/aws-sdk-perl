@@ -2,8 +2,10 @@
 package Paws::ApplicationInsights::DescribeComponentConfigurationRecommendation;
   use Moose;
   has ComponentName => (is => 'ro', isa => 'Str', required => 1);
+  has RecommendationType => (is => 'ro', isa => 'Str');
   has ResourceGroupName => (is => 'ro', isa => 'Str', required => 1);
   has Tier => (is => 'ro', isa => 'Str', required => 1);
+  has WorkloadName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -31,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $applicationinsights = Paws->service('ApplicationInsights');
     my $DescribeComponentConfigurationRecommendationResponse =
       $applicationinsights->DescribeComponentConfigurationRecommendation(
-      ComponentName     => 'MyComponentName',
-      ResourceGroupName => 'MyResourceGroupName',
-      Tier              => 'CUSTOM',
-
+      ComponentName      => 'MyComponentName',
+      ResourceGroupName  => 'MyResourceGroupName',
+      Tier               => 'CUSTOM',
+      RecommendationType => 'INFRA_ONLY',            # OPTIONAL
+      WorkloadName       => 'MyWorkloadName',        # OPTIONAL
       );
 
     # Results:
@@ -56,6 +59,12 @@ The name of the component.
 
 
 
+=head2 RecommendationType => Str
+
+The recommended configuration type.
+
+Valid values are: C<"INFRA_ONLY">, C<"WORKLOAD_ONLY">, C<"ALL">
+
 =head2 B<REQUIRED> ResourceGroupName => Str
 
 The name of the resource group.
@@ -64,11 +73,17 @@ The name of the resource group.
 
 =head2 B<REQUIRED> Tier => Str
 
-The tier of the application component. Supported tiers include
-C<DOT_NET_CORE>, C<DOT_NET_WORKER>, C<DOT_NET_WEB>, C<SQL_SERVER>, and
-C<DEFAULT>.
+The tier of the application component.
 
-Valid values are: C<"CUSTOM">, C<"DEFAULT">, C<"DOT_NET_CORE">, C<"DOT_NET_WORKER">, C<"DOT_NET_WEB_TIER">, C<"DOT_NET_WEB">, C<"SQL_SERVER">, C<"SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP">, C<"MYSQL">, C<"POSTGRESQL">, C<"JAVA_JMX">, C<"ORACLE">
+Valid values are: C<"CUSTOM">, C<"DEFAULT">, C<"DOT_NET_CORE">, C<"DOT_NET_WORKER">, C<"DOT_NET_WEB_TIER">, C<"DOT_NET_WEB">, C<"SQL_SERVER">, C<"SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP">, C<"MYSQL">, C<"POSTGRESQL">, C<"JAVA_JMX">, C<"ORACLE">, C<"SAP_HANA_MULTI_NODE">, C<"SAP_HANA_SINGLE_NODE">, C<"SAP_HANA_HIGH_AVAILABILITY">, C<"SAP_ASE_SINGLE_NODE">, C<"SAP_ASE_HIGH_AVAILABILITY">, C<"SQL_SERVER_FAILOVER_CLUSTER_INSTANCE">, C<"SHAREPOINT">, C<"ACTIVE_DIRECTORY">, C<"SAP_NETWEAVER_STANDARD">, C<"SAP_NETWEAVER_DISTRIBUTED">, C<"SAP_NETWEAVER_HIGH_AVAILABILITY">
+
+=head2 WorkloadName => Str
+
+The name of the workload. The name of the workload is required when the
+tier of the application component is C<SAP_ASE_SINGLE_NODE> or
+C<SAP_ASE_HIGH_AVAILABILITY>.
+
+
 
 
 =head1 SEE ALSO

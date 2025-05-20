@@ -1,11 +1,13 @@
 
 package Paws::ServiceCatalogAppRegistry::GetApplicationResponse;
   use Moose;
+  has ApplicationTag => (is => 'ro', isa => 'Paws::ServiceCatalogAppRegistry::ApplicationTagDefinition', traits => ['NameInRequest'], request_name => 'applicationTag');
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
   has AssociatedResourceCount => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'associatedResourceCount');
   has CreationTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationTime');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Id => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'id');
+  has Integrations => (is => 'ro', isa => 'Paws::ServiceCatalogAppRegistry::Integrations', traits => ['NameInRequest'], request_name => 'integrations');
   has LastUpdateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdateTime');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has Tags => (is => 'ro', isa => 'Paws::ServiceCatalogAppRegistry::Tags', traits => ['NameInRequest'], request_name => 'tags');
@@ -20,6 +22,11 @@ package Paws::ServiceCatalogAppRegistry::GetApplicationResponse;
 Paws::ServiceCatalogAppRegistry::GetApplicationResponse
 
 =head1 ATTRIBUTES
+
+
+=head2 ApplicationTag => L<Paws::ServiceCatalogAppRegistry::ApplicationTagDefinition>
+
+A key-value pair that identifies an associated resource.
 
 
 =head2 Arn => Str
@@ -48,6 +55,12 @@ The description of the application.
 =head2 Id => Str
 
 The identifier of the application.
+
+
+=head2 Integrations => L<Paws::ServiceCatalogAppRegistry::Integrations>
+
+The information about the integration of the application with other
+services, such as Resource Groups.
 
 
 =head2 LastUpdateTime => Str

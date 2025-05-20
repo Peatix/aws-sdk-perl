@@ -40,6 +40,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreationTime       = $DescribeArtifactResponse->CreationTime;
     my $LastModifiedBy     = $DescribeArtifactResponse->LastModifiedBy;
     my $LastModifiedTime   = $DescribeArtifactResponse->LastModifiedTime;
+    my $LineageGroupArn    = $DescribeArtifactResponse->LineageGroupArn;
     my $MetadataProperties = $DescribeArtifactResponse->MetadataProperties;
     my $Properties         = $DescribeArtifactResponse->Properties;
     my $Source             = $DescribeArtifactResponse->Source;

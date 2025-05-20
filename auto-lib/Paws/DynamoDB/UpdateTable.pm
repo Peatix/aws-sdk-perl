@@ -3,12 +3,17 @@ package Paws::DynamoDB::UpdateTable;
   use Moose;
   has AttributeDefinitions => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::AttributeDefinition]');
   has BillingMode => (is => 'ro', isa => 'Str');
+  has DeletionProtectionEnabled => (is => 'ro', isa => 'Bool');
   has GlobalSecondaryIndexUpdates => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::GlobalSecondaryIndexUpdate]');
+  has MultiRegionConsistency => (is => 'ro', isa => 'Str');
+  has OnDemandThroughput => (is => 'ro', isa => 'Paws::DynamoDB::OnDemandThroughput');
   has ProvisionedThroughput => (is => 'ro', isa => 'Paws::DynamoDB::ProvisionedThroughput');
   has ReplicaUpdates => (is => 'ro', isa => 'ArrayRef[Paws::DynamoDB::ReplicationGroupUpdate]');
   has SSESpecification => (is => 'ro', isa => 'Paws::DynamoDB::SSESpecification');
   has StreamSpecification => (is => 'ro', isa => 'Paws::DynamoDB::StreamSpecification');
+  has TableClass => (is => 'ro', isa => 'Str');
   has TableName => (is => 'ro', isa => 'Str', required => 1);
+  has WarmThroughput => (is => 'ro', isa => 'Paws::DynamoDB::WarmThroughput');
 
   use MooseX::ClassAttribute;
 
@@ -78,21 +83,30 @@ past 30 minutes.
 
 =item *
 
-C<PROVISIONED> - We recommend using C<PROVISIONED> for predictable
-workloads. C<PROVISIONED> sets the billing mode to Provisioned Mode
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual).
+C<PAY_PER_REQUEST> - We recommend using C<PAY_PER_REQUEST> for most
+DynamoDB workloads. C<PAY_PER_REQUEST> sets the billing mode to
+On-demand capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html).
 
 =item *
 
-C<PAY_PER_REQUEST> - We recommend using C<PAY_PER_REQUEST> for
-unpredictable workloads. C<PAY_PER_REQUEST> sets the billing mode to
-On-Demand Mode
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand).
+C<PROVISIONED> - We recommend using C<PROVISIONED> for steady workloads
+with predictable growth where capacity requirements can be reliably
+forecasted. C<PROVISIONED> sets the billing mode to Provisioned
+capacity mode
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html).
 
 =back
 
 
 Valid values are: C<"PROVISIONED">, C<"PAY_PER_REQUEST">
+
+=head2 DeletionProtectionEnabled => Bool
+
+Indicates whether deletion protection is to be enabled (true) or
+disabled (false) on the table.
+
+
 
 =head2 GlobalSecondaryIndexUpdates => ArrayRef[L<Paws::DynamoDB::GlobalSecondaryIndexUpdate>]
 
@@ -125,6 +139,50 @@ in the I<Amazon DynamoDB Developer Guide>.
 
 
 
+=head2 MultiRegionConsistency => Str
+
+Specifies the consistency mode for a new global table. This parameter
+is only valid when you create a global table by specifying one or more
+Create
+(https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create)
+actions in the ReplicaUpdates
+(https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates)
+action list.
+
+You can specify one of the following consistency modes:
+
+=over
+
+=item *
+
+C<EVENTUAL>: Configures a new global table for multi-Region eventual
+consistency. This is the default consistency mode for global tables.
+
+=item *
+
+C<STRONG>: Configures a new global table for multi-Region strong
+consistency (preview).
+
+Multi-Region strong consistency (MRSC) is a new DynamoDB global tables
+capability currently available in preview mode. For more information,
+see Global tables multi-Region strong consistency
+(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt).
+
+=back
+
+If you don't specify this parameter, the global table consistency mode
+defaults to C<EVENTUAL>.
+
+Valid values are: C<"EVENTUAL">, C<"STRONG">
+
+=head2 OnDemandThroughput => L<Paws::DynamoDB::OnDemandThroughput>
+
+Updates the maximum number of read and write units for the specified
+table in on-demand capacity mode. If you use this parameter, you must
+specify C<MaxReadRequestUnits>, C<MaxWriteRequestUnits>, or both.
+
+
+
 =head2 ProvisionedThroughput => L<Paws::DynamoDB::ProvisionedThroughput>
 
 The new provisioned throughput settings for the specified table or
@@ -137,9 +195,8 @@ index.
 A list of replica update actions (create, delete, or update) for the
 table.
 
-This property only applies to Version 2019.11.21
-(https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html)
-of global tables.
+For global tables, this property only applies to global tables using
+Version 2019.11.21 (Current version).
 
 
 
@@ -153,15 +210,30 @@ The new server-side encryption settings for the specified table.
 
 Represents the DynamoDB Streams configuration for the table.
 
-You receive a C<ResourceInUseException> if you try to enable a stream
-on a table that already has a stream, or if you try to disable a stream
-on a table that doesn't have a stream.
+You receive a C<ValidationException> if you try to enable a stream on a
+table that already has a stream, or if you try to disable a stream on a
+table that doesn't have a stream.
 
 
+
+=head2 TableClass => Str
+
+The table class of the table to be updated. Valid values are
+C<STANDARD> and C<STANDARD_INFREQUENT_ACCESS>.
+
+Valid values are: C<"STANDARD">, C<"STANDARD_INFREQUENT_ACCESS">
 
 =head2 B<REQUIRED> TableName => Str
 
-The name of the table to be updated.
+The name of the table to be updated. You can also provide the Amazon
+Resource Name (ARN) of the table in this parameter.
+
+
+
+=head2 WarmThroughput => L<Paws::DynamoDB::WarmThroughput>
+
+Represents the warm throughput (in read units per second and write
+units per second) for updating a table.
 
 
 

@@ -50,21 +50,22 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-To view service template major version detail data, include
-C<majorVersion>.
+To get service template major version detail data, include C<major
+Version>.
 
 
 
 =head2 B<REQUIRED> MinorVersion => Str
 
-To view service template minor version detail data, include
+To get service template minor version detail data, include
 C<minorVersion>.
 
 
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the service template.
+The name of the service template a version of which you want to get
+detailed data for.
 
 
 

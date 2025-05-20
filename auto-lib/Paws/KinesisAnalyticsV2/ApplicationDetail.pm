@@ -8,6 +8,7 @@ package Paws::KinesisAnalyticsV2::ApplicationDetail;
   has ApplicationMode => (is => 'ro', isa => 'Str');
   has ApplicationName => (is => 'ro', isa => 'Str', required => 1);
   has ApplicationStatus => (is => 'ro', isa => 'Str', required => 1);
+  has ApplicationVersionCreateTimestamp => (is => 'ro', isa => 'Str');
   has ApplicationVersionId => (is => 'ro', isa => 'Int', required => 1);
   has ApplicationVersionRolledBackFrom => (is => 'ro', isa => 'Int');
   has ApplicationVersionRolledBackTo => (is => 'ro', isa => 'Int');
@@ -64,7 +65,7 @@ The ARN of the application.
 =head2 ApplicationConfigurationDescription => L<Paws::KinesisAnalyticsV2::ApplicationConfigurationDescription>
 
 Describes details about the application code and starting parameters
-for a Kinesis Data Analytics application.
+for a Managed Service for Apache Flink application.
 
 
 =head2 ApplicationDescription => Str
@@ -79,8 +80,8 @@ The details of the maintenance configuration for the application.
 
 =head2 ApplicationMode => Str
 
-To create a Kinesis Data Analytics Studio notebook, you must set the
-mode to C<INTERACTIVE>. However, for a Kinesis Data Analytics for
+To create a Managed Service for Apache Flink Studio notebook, you must
+set the mode to C<INTERACTIVE>. However, for a Managed Service for
 Apache Flink application, the mode is optional.
 
 
@@ -94,10 +95,15 @@ The name of the application.
 The status of the application.
 
 
+=head2 ApplicationVersionCreateTimestamp => Str
+
+The current timestamp when the application version was created.
+
+
 =head2 B<REQUIRED> ApplicationVersionId => Int
 
-Provides the current application version. Kinesis Data Analytics
-updates the C<ApplicationVersionId> each time you update the
+Provides the current application version. Managed Service for Apache
+Flink updates the C<ApplicationVersionId> each time you update the
 application.
 
 
@@ -141,8 +147,7 @@ The current timestamp when the application was last updated.
 
 =head2 B<REQUIRED> RuntimeEnvironment => Str
 
-The runtime environment for the application (C<SQL-1_0>, C<FLINK-1_6>,
-C<FLINK-1_8>, or C<FLINK-1_11>).
+The runtime environment for the application.
 
 
 =head2 ServiceExecutionRole => Str

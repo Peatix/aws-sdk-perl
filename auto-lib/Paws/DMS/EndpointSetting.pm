@@ -2,6 +2,7 @@
 package Paws::DMS::EndpointSetting;
   use Moose;
   has Applicability => (is => 'ro', isa => 'Str');
+  has DefaultValue => (is => 'ro', isa => 'Str');
   has EnumValues => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has IntValueMax => (is => 'ro', isa => 'Int');
   has IntValueMin => (is => 'ro', isa => 'Int');
@@ -49,6 +50,12 @@ Endpoint settings.
 
 The relevance or validity of an endpoint setting for an engine name and
 its endpoint type.
+
+
+=head2 DefaultValue => Str
+
+The default value of the endpoint setting if no value is specified
+using C<CreateEndpoint> or C<ModifyEndpoint>.
 
 
 =head2 EnumValues => ArrayRef[Str|Undef]

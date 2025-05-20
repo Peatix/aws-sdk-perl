@@ -18,7 +18,7 @@ Paws::StorageGateway::CreateTapePoolOutput
 
 The unique Amazon Resource Name (ARN) that represents the custom tape
 pool. Use the ListTapePools operation to return a list of tape pools
-for your account and AWS Region.
+for your account and Amazon Web Services Region.
 
 
 =head2 _request_id => Str

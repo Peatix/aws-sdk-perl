@@ -11,6 +11,7 @@ package Paws::Macie2::GetCustomDataIdentifierResponse;
   has MaximumMatchDistance => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maximumMatchDistance');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
   has Regex => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'regex');
+  has SeverityLevels => (is => 'ro', isa => 'ArrayRef[Paws::Macie2::SeverityLevel]', traits => ['NameInRequest'], request_name => 'severityLevels');
   has Tags => (is => 'ro', isa => 'Paws::Macie2::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -55,25 +56,27 @@ The unique identifier for the custom data identifier.
 
 =head2 IgnoreWords => ArrayRef[Str|Undef]
 
-An array that lists specific character sequences (ignore words) to
+An array that lists specific character sequences (I<ignore words>) to
 exclude from the results. If the text matched by the regular expression
-is the same as any string in this array, Amazon Macie ignores it.
-Ignore words are case sensitive.
+contains any string in this array, Amazon Macie ignores it. Ignore
+words are case sensitive.
 
 
 =head2 Keywords => ArrayRef[Str|Undef]
 
-An array that lists specific character sequences (keywords), one of
-which must be within proximity (maximumMatchDistance) of the regular
-expression to match. Keywords aren't case sensitive.
+An array that lists specific character sequences (I<keywords>), one of
+which must precede and be within proximity (maximumMatchDistance) of
+the regular expression to match. Keywords aren't case sensitive.
 
 
 =head2 MaximumMatchDistance => Int
 
-The maximum number of characters that can exist between text that
-matches the regex pattern and the character sequences specified by the
-keywords array. Macie includes or excludes a result based on the
-proximity of a keyword to text that matches the regex pattern.
+The maximum number of characters that can exist between the end of at
+least one complete character sequence specified by the keywords array
+and the end of the text that matches the regex pattern. If a complete
+keyword precedes all the text that matches the pattern and the keyword
+is within the specified distance, Amazon Macie includes the result.
+Otherwise, Macie excludes the result.
 
 
 =head2 Name => Str
@@ -84,6 +87,16 @@ The custom name of the custom data identifier.
 =head2 Regex => Str
 
 The regular expression (I<regex>) that defines the pattern to match.
+
+
+=head2 SeverityLevels => ArrayRef[L<Paws::Macie2::SeverityLevel>]
+
+Specifies the severity that's assigned to findings that the custom data
+identifier produces, based on the number of occurrences of text that
+match the custom data identifier's detection criteria. By default,
+Amazon Macie creates findings for S3 objects that contain at least one
+occurrence of text that matches the detection criteria, and Macie
+assigns the MEDIUM severity to those findings.
 
 
 =head2 Tags => L<Paws::Macie2::TagMap>

@@ -27,10 +27,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
+    # Example: Get operation result
+    # Example: Get operation result
     my $GetOperationResponse = $servicediscovery->GetOperation(
-      OperationId => 'MyResourceId',
-
-    );
+      'OperationId' => 'gv4g5meo7ndmeh4fqskygvk23d2fijwa-k9302yzd' );
 
     # Results:
     my $Operation = $GetOperationResponse->Operation;

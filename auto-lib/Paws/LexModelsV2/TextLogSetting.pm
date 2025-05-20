@@ -3,6 +3,7 @@ package Paws::LexModelsV2::TextLogSetting;
   use Moose;
   has Destination => (is => 'ro', isa => 'Paws::LexModelsV2::TextLogDestination', request_name => 'destination', traits => ['NameInRequest'], required => 1);
   has Enabled => (is => 'ro', isa => 'Bool', request_name => 'enabled', traits => ['NameInRequest'], required => 1);
+  has SelectiveLoggingEnabled => (is => 'ro', isa => 'Bool', request_name => 'selectiveLoggingEnabled', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::LexModelsV2::TextLogSetting object:
 
-  $service_obj->Method(Att1 => { Destination => $value, ..., Enabled => $value  });
+  $service_obj->Method(Att1 => { Destination => $value, ..., SelectiveLoggingEnabled => $value  });
 
 =head3 Results returned from an API call
 
@@ -47,6 +48,11 @@ Defines settings to enable text conversation logs.
 =head2 B<REQUIRED> Enabled => Bool
 
 Determines whether conversation logs should be stored for an alias.
+
+
+=head2 SelectiveLoggingEnabled => Bool
+
+The option to enable selective conversation log capture for text.
 
 
 

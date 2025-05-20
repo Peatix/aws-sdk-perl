@@ -46,8 +46,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Description      => 'MyNonEmptyString',    # min: 1, max: 1024
             KmsKeyId         => 'MyNonEmptyString',    # min: 1, max: 1024
             LaunchPermission => {
+              OrganizationArns => [ 'MyOrganizationArn', ... ]
+              ,    # min: 1, max: 25; OPTIONAL
+              OrganizationalUnitArns => [ 'MyOrganizationalUnitArn', ... ]
+              ,    # min: 1, max: 25; OPTIONAL
               UserGroups => [
-                'MyNonEmptyString', ...                # min: 1, max: 1024
+                'MyNonEmptyString', ...    # min: 1, max: 1024
               ],    # OPTIONAL
               UserIds => [ 'MyAccountId', ... ],   # min: 1, max: 1536; OPTIONAL
             },    # OPTIONAL
@@ -66,16 +70,46 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ],    # OPTIONAL
             Description => 'MyNonEmptyString',    # min: 1, max: 1024
           },    # OPTIONAL
+          FastLaunchConfigurations => [
+            {
+              Enabled        => 1,
+              AccountId      => 'MyAccountId',
+              LaunchTemplate => {
+                LaunchTemplateId   => 'MyLaunchTemplateId',  # OPTIONAL
+                LaunchTemplateName => 'MyNonEmptyString',    # min: 1, max: 1024
+                LaunchTemplateVersion => 'MyNonEmptyString', # min: 1, max: 1024
+              },    # OPTIONAL
+              MaxParallelLaunches   => 1,    # min: 1; OPTIONAL
+              SnapshotConfiguration => {
+                TargetResourceCount => 1,    # min: 1, max: 10000; OPTIONAL
+              },    # OPTIONAL
+            },
+            ...
+          ],    # min: 1, max: 1000; OPTIONAL
           LaunchTemplateConfigurations => [
             {
-              LaunchTemplateId  => 'MyLaunchTemplateId',
+              LaunchTemplateId  => 'MyLaunchTemplateId',    # OPTIONAL
               AccountId         => 'MyAccountId',
-              SetDefaultVersion => 1,                      # OPTIONAL
+              SetDefaultVersion => 1,
             },
             ...
           ],    # min: 1, max: 100; OPTIONAL
           LicenseConfigurationArns => [ 'MyLicenseConfigurationArn', ... ]
           ,     # min: 1, max: 50; OPTIONAL
+          S3ExportConfiguration => {
+            DiskImageFormat => 'VMDK',                # values: VMDK, RAW, VHD
+            RoleName        => 'MyNonEmptyString',    # min: 1, max: 1024
+            S3Bucket        => 'MyNonEmptyString',    # min: 1, max: 1024
+            S3Prefix        => 'MyNonEmptyString',    # min: 1, max: 1024
+          },    # OPTIONAL
+          SsmParameterConfigurations => [
+            {
+              ParameterName => 'MySsmParameterName',    # min: 1, max: 1011
+              AmiAccountId  => 'MyAccountId',
+              DataType      => 'text',   # values: text, aws:ec2:image; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
         },
         ...
       ],
@@ -98,7 +132,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ima
 
 =head2 B<REQUIRED> ClientToken => Str
 
-The idempotency token of the distribution configuration.
+Unique, case-sensitive identifier you provide to ensure idempotency of
+the request. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html)
+in the I<Amazon EC2 API Reference>.
 
 
 

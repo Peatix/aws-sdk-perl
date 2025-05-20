@@ -17,12 +17,12 @@ Paws::SecretsManager::ValidateResourcePolicyResponse
 
 =head2 PolicyValidationPassed => Bool
 
-Returns a message stating that your Reource Policy passed validation.
+True if your policy passes validation, otherwise false.
 
 
 =head2 ValidationErrors => ArrayRef[L<Paws::SecretsManager::ValidationErrorsEntry>]
 
-Returns an error message if your policy doesn't pass validatation.
+Validation errors if your policy didn't pass validation.
 
 
 =head2 _request_id => Str

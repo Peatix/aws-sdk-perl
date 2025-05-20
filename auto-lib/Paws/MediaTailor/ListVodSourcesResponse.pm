@@ -23,8 +23,8 @@ Lists the VOD sources.
 
 =head2 NextToken => Str
 
-Pagination token from the list request. Use the token to fetch the next
-page of results.
+Pagination token returned by the list request when results exceed the
+maximum allowed. Use the token to fetch the next page of results.
 
 
 =head2 _request_id => Str

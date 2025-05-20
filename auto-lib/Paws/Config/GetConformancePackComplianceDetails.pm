@@ -79,8 +79,7 @@ A C<ConformancePackEvaluationFilters> object.
 =head2 Limit => Int
 
 The maximum number of evaluation results returned on each page. If you
-do no specify a number, AWS Config uses the default. The default is
-100.
+do no specify a number, Config uses the default. The default is 100.
 
 
 

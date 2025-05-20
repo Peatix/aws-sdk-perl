@@ -18,8 +18,8 @@ Paws::AppSync::ListTypesResponse
 
 =head2 NextToken => Str
 
-An identifier to be passed in the next request to this operation to
-return the next set of items in the list.
+An identifier to pass in the next request to this operation to return
+the next set of items in the list.
 
 
 =head2 Types => ArrayRef[L<Paws::AppSync::Type>]

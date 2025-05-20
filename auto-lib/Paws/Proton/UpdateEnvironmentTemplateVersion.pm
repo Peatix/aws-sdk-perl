@@ -60,8 +60,8 @@ A description of environment template version to update.
 
 =head2 B<REQUIRED> MajorVersion => Str
 
-To update a major version of an environment template, include
-C<majorVersion>.
+To update a major version of an environment template, include C<major
+Version>.
 
 
 

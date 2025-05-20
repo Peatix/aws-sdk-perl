@@ -45,7 +45,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeGuruRev
 =head1 DESCRIPTION
 
 Information about a repository association. The
-C<DescribeRepositoryAssociation>
+DescribeRepositoryAssociation
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_DescribeRepositoryAssociation.html)
 operation returns a C<RepositoryAssociation> object.
 
@@ -64,12 +64,12 @@ The ID of the repository association.
 
 =head2 ConnectionArn => Str
 
-The Amazon Resource Name (ARN) of an AWS CodeStar Connections
-connection. Its format is
+The Amazon Resource Name (ARN) of an Amazon Web Services CodeStar
+Connections connection. Its format is
 C<arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id>.
-For more information, see C<Connection>
+For more information, see Connection
 (https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html)
-in the I<AWS CodeStar Connections API Reference>.
+in the I<Amazon Web Services CodeStar Connections API Reference>.
 
 
 =head2 CreatedTimeStamp => Str
@@ -87,13 +87,13 @@ A C<KMSKeyDetails> object that contains:
 =item *
 
 The encryption option for this repository association. It is either
-owned by AWS Key Management Service (KMS) (C<AWS_OWNED_CMK>) or
-customer managed (C<CUSTOMER_MANAGED_CMK>).
+owned by Amazon Web Services Key Management Service (KMS)
+(C<AWS_OWNED_CMK>) or customer managed (C<CUSTOMER_MANAGED_CMK>).
 
 =item *
 
-The ID of the AWS KMS key that is associated with this respository
-association.
+The ID of the Amazon Web Services KMS key that is associated with this
+repository association.
 
 =back
 
@@ -112,11 +112,12 @@ The name of the repository.
 
 =head2 Owner => Str
 
-The owner of the repository. For an AWS CodeCommit repository, this is
-the AWS account ID of the account that owns the repository. For a
-GitHub, GitHub Enterprise Server, or Bitbucket repository, this is the
-username for the account that owns the repository. For an S3
-repository, it can be the username or AWS account ID.
+The owner of the repository. For an Amazon Web Services CodeCommit
+repository, this is the Amazon Web Services account ID of the account
+that owns the repository. For a GitHub, GitHub Enterprise Server, or
+Bitbucket repository, this is the username for the account that owns
+the repository. For an S3 repository, it can be the username or Amazon
+Web Services account ID.
 
 
 =head2 ProviderType => Str
@@ -178,7 +179,7 @@ request notifications and source code access.
 B<Disassociated>: CodeGuru Reviewer successfully disassociated the
 repository. You can create a new association with this repository if
 you want to review source code in it later. You can control access to
-code reviews created in an associated repository with tags after it has
+code reviews created in anassociated repository with tags after it has
 been disassociated. For more information, see Using tags to control
 access to associated repositories
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/auth-and-access-control-using-tags.html)

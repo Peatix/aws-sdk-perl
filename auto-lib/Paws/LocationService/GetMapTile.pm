@@ -1,6 +1,7 @@
 
 package Paws::LocationService::GetMapTile;
   use Moose;
+  has Key => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'key');
   has MapName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'MapName', required => 1);
   has X => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'X', required => 1);
   has Y => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'Y', required => 1);
@@ -36,12 +37,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       X       => 'MyGetMapTileRequestXString',
       Y       => 'MyGetMapTileRequestYString',
       Z       => 'MyGetMapTileRequestZString',
-
+      Key     => 'MyApiKey',                     # OPTIONAL
     );
 
     # Results:
-    my $Blob        = $GetMapTileResponse->Blob;
-    my $ContentType = $GetMapTileResponse->ContentType;
+    my $Blob         = $GetMapTileResponse->Blob;
+    my $CacheControl = $GetMapTileResponse->CacheControl;
+    my $ContentType  = $GetMapTileResponse->ContentType;
 
     # Returns a L<Paws::LocationService::GetMapTileResponse> object.
 
@@ -49,6 +51,14 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/geo/GetMapTile>
 
 =head1 ATTRIBUTES
+
+
+=head2 Key => Str
+
+The optional API key
+(https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html)
+to authorize the request.
+
 
 
 =head2 B<REQUIRED> MapName => Str

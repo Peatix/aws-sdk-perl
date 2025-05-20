@@ -78,7 +78,10 @@ capacity differently for each rule type, to reflect the relative cost
 of each rule. Simple rules that cost little to run use fewer WCUs than
 more complex rules that use more processing power. Rule group capacity
 is fixed at creation, which helps users plan their web ACL WCU usage
-when they use a rule group. The WCU limit for web ACLs is 1,500.
+when they use a rule group. For more information, see WAF web ACL
+capacity units (WCU)
+(https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html)
+in the I<WAF Developer Guide>.
 
 
 =head2 ConsumedLabels => ArrayRef[L<Paws::WAFV2::LabelSummary>]
@@ -99,14 +102,12 @@ rules that you define in the rule group.
 For information about customizing web requests and responses, see
 Customizing web requests and responses in WAF
 (https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
-in the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+in the I<WAF Developer Guide>.
 
 For information about the limits on count and size for custom request
 and response settings, see WAF quotas
 (https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in
-the WAF Developer Guide
-(https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+the I<WAF Developer Guide>.
 
 
 =head2 Description => Str
@@ -157,9 +158,9 @@ after you create it.
 =head2 Rules => ArrayRef[L<Paws::WAFV2::Rule>]
 
 The Rule statements used to identify the web requests that you want to
-allow, block, or count. Each rule includes one top-level statement that
-WAF uses to identify matching web requests, and parameters that govern
-how WAF handles them.
+manage. Each rule includes one top-level statement that WAF uses to
+identify matching web requests, and parameters that govern how WAF
+handles them.
 
 
 =head2 B<REQUIRED> VisibilityConfig => L<Paws::WAFV2::VisibilityConfig>

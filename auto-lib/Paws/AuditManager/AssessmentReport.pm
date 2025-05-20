@@ -41,10 +41,11 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::AuditManage
 
 =head1 DESCRIPTION
 
-A finalized document generated from an AWS Audit Manager assessment.
-These reports summarize the relevant evidence collected for your audit,
-and link to the relevant evidence folders which are named and organized
-according to the controls specified in your assessment.
+A finalized document that's generated from an Audit Manager assessment.
+These reports summarize the relevant evidence that was collected for
+your audit, and link to the relevant evidence folders. These evidence
+folders are named and organized according to the controls that are
+specified in your assessment.
 
 =head1 ATTRIBUTES
 
@@ -66,7 +67,7 @@ The name of the user who created the assessment report.
 
 =head2 AwsAccountId => Str
 
-The identifier for the specified AWS account.
+The identifier for the specified Amazon Web Services account.
 
 
 =head2 CreationTime => Str
@@ -81,12 +82,12 @@ The description of the specified assessment report.
 
 =head2 Id => Str
 
-The unique identifier for the specified assessment report.
+The unique identifier for the assessment report.
 
 
 =head2 Name => Str
 
-The name given to the assessment report.
+The name that's given to the assessment report.
 
 
 =head2 Status => Str

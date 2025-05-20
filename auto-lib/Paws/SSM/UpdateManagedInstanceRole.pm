@@ -42,13 +42,23 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 B<REQUIRED> IamRole => Str
 
-The IAM role you want to assign or change.
+The name of the Identity and Access Management (IAM) role that you want
+to assign to the managed node. This IAM role must provide AssumeRole
+permissions for the Amazon Web Services Systems Manager service
+principal C<ssm.amazonaws.com>. For more information, see Create the
+IAM service role required for Systems Manager in hybrid and multicloud
+environments
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-service-role.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
+
+You can't specify an IAM service-linked role for this parameter. You
+must create a unique role.
 
 
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The ID of the managed instance where you want to update the role.
+The ID of the managed node where you want to update the role.
 
 
 

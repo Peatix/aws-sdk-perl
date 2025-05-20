@@ -6,8 +6,12 @@ package Paws::IoT::Job;
   has CompletedAt => (is => 'ro', isa => 'Str', request_name => 'completedAt', traits => ['NameInRequest']);
   has CreatedAt => (is => 'ro', isa => 'Str', request_name => 'createdAt', traits => ['NameInRequest']);
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has DestinationPackageVersions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'destinationPackageVersions', traits => ['NameInRequest']);
+  has DocumentParameters => (is => 'ro', isa => 'Paws::IoT::ParameterMap', request_name => 'documentParameters', traits => ['NameInRequest']);
   has ForceCanceled => (is => 'ro', isa => 'Bool', request_name => 'forceCanceled', traits => ['NameInRequest']);
+  has IsConcurrent => (is => 'ro', isa => 'Bool', request_name => 'isConcurrent', traits => ['NameInRequest']);
   has JobArn => (is => 'ro', isa => 'Str', request_name => 'jobArn', traits => ['NameInRequest']);
+  has JobExecutionsRetryConfig => (is => 'ro', isa => 'Paws::IoT::JobExecutionsRetryConfig', request_name => 'jobExecutionsRetryConfig', traits => ['NameInRequest']);
   has JobExecutionsRolloutConfig => (is => 'ro', isa => 'Paws::IoT::JobExecutionsRolloutConfig', request_name => 'jobExecutionsRolloutConfig', traits => ['NameInRequest']);
   has JobId => (is => 'ro', isa => 'Str', request_name => 'jobId', traits => ['NameInRequest']);
   has JobProcessDetails => (is => 'ro', isa => 'Paws::IoT::JobProcessDetails', request_name => 'jobProcessDetails', traits => ['NameInRequest']);
@@ -16,6 +20,8 @@ package Paws::IoT::Job;
   has NamespaceId => (is => 'ro', isa => 'Str', request_name => 'namespaceId', traits => ['NameInRequest']);
   has PresignedUrlConfig => (is => 'ro', isa => 'Paws::IoT::PresignedUrlConfig', request_name => 'presignedUrlConfig', traits => ['NameInRequest']);
   has ReasonCode => (is => 'ro', isa => 'Str', request_name => 'reasonCode', traits => ['NameInRequest']);
+  has ScheduledJobRollouts => (is => 'ro', isa => 'ArrayRef[Paws::IoT::ScheduledJobRollout]', request_name => 'scheduledJobRollouts', traits => ['NameInRequest']);
+  has SchedulingConfig => (is => 'ro', isa => 'Paws::IoT::SchedulingConfig', request_name => 'schedulingConfig', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
   has Targets => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'targets', traits => ['NameInRequest']);
   has TargetSelection => (is => 'ro', isa => 'Str', request_name => 'targetSelection', traits => ['NameInRequest']);
@@ -81,16 +87,56 @@ The time, in seconds since the epoch, when the job was created.
 A short text description of the job.
 
 
+=head2 DestinationPackageVersions => ArrayRef[Str|Undef]
+
+The package version Amazon Resource Names (ARNs) that are installed on
+the device when the job successfully completes. The package version
+must be in either the Published or Deprecated state when the job
+deploys. For more information, see Package version lifecycle
+(https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).The
+package version must be in either the Published or Deprecated state
+when the job deploys. For more information, see Package version
+lifecycle
+(https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
+
+B<Note:>The following Length Constraints relates to a single ARN. Up to
+25 package version ARNs are allowed.
+
+
+=head2 DocumentParameters => L<Paws::IoT::ParameterMap>
+
+A key-value map that pairs the patterns that need to be replaced in a
+managed template job document schema. You can use the description of
+each key as a guidance to specify the inputs during runtime when
+creating a job.
+
+C<documentParameters> can only be used when creating jobs from Amazon
+Web Services managed templates. This parameter can't be used with
+custom job templates or to create jobs from them.
+
+
 =head2 ForceCanceled => Bool
 
 Will be C<true> if the job was canceled with the optional C<force>
 parameter set to C<true>.
 
 
+=head2 IsConcurrent => Bool
+
+Indicates whether a job is concurrent. Will be true when a job is
+rolling out new job executions or canceling previously created
+executions, otherwise false.
+
+
 =head2 JobArn => Str
 
 An ARN identifying the job with format
 "arn:aws:iot:region:account:job/jobId".
+
+
+=head2 JobExecutionsRetryConfig => L<Paws::IoT::JobExecutionsRetryConfig>
+
+The configuration for the criteria to retry the job.
 
 
 =head2 JobExecutionsRolloutConfig => L<Paws::IoT::JobExecutionsRolloutConfig>
@@ -122,13 +168,15 @@ The time, in seconds since the epoch, when the job was last updated.
 
 The namespace used to indicate that a job is a customer-managed job.
 
-When you specify a value for this parameter, AWS IoT Core sends jobs
-notifications to MQTT topics that contain the value in the following
-format.
+When you specify a value for this parameter, Amazon Web Services IoT
+Core sends jobs notifications to MQTT topics that contain the value in
+the following format.
 
 C<$aws/things/I<THING_NAME>/jobs/I<JOB_ID>/notify-namespace-I<NAMESPACE_ID>/>
 
-The C<namespaceId> feature is in public preview.
+The C<namespaceId> feature is only supported by IoT Greengrass at this
+time. For more information, see Setting up IoT Greengrass core devices.
+(https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 
 
 =head2 PresignedUrlConfig => L<Paws::IoT::PresignedUrlConfig>
@@ -139,6 +187,19 @@ Configuration for pre-signed S3 URLs.
 =head2 ReasonCode => Str
 
 If the job was updated, provides the reason code for the update.
+
+
+=head2 ScheduledJobRollouts => ArrayRef[L<Paws::IoT::ScheduledJobRollout>]
+
+Displays the next seven maintenance window occurrences and their start
+times.
+
+
+=head2 SchedulingConfig => L<Paws::IoT::SchedulingConfig>
+
+The configuration that allows you to schedule a job for a future date
+and time in addition to specifying the end behavior for each job
+execution.
 
 
 =head2 Status => Str
@@ -161,6 +222,11 @@ a change is detected in a target. For example, a job will run on a
 device when the thing representing the device is added to a target
 group, even after the job was completed by all things originally in the
 group.
+
+We recommend that you use continuous jobs instead of snapshot jobs for
+dynamic thing group targets. By using continuous jobs, devices that
+join the group receive the job execution even after the job has been
+created.
 
 
 =head2 TimeoutConfig => L<Paws::IoT::TimeoutConfig>

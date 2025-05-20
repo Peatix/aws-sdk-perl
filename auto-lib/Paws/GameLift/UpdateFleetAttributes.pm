@@ -1,6 +1,7 @@
 
 package Paws::GameLift::UpdateFleetAttributes;
   use Moose;
+  has AnywhereConfiguration => (is => 'ro', isa => 'Paws::GameLift::AnywhereConfiguration');
   has Description => (is => 'ro', isa => 'Str');
   has FleetId => (is => 'ro', isa => 'Str', required => 1);
   has MetricGroups => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -33,7 +34,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $gamelift = Paws->service('GameLift');
     my $UpdateFleetAttributesOutput = $gamelift->UpdateFleetAttributes(
-      FleetId      => 'MyFleetIdOrArn',
+      FleetId               => 'MyFleetIdOrArn',
+      AnywhereConfiguration => {
+        Cost => 'MyNonNegativeLimitedLengthDouble',    # min: 1, max: 11
+
+      },    # OPTIONAL
       Description  => 'MyNonZeroAndMaxString',    # OPTIONAL
       MetricGroups => [
         'MyMetricGroup', ...                      # min: 1, max: 255
@@ -47,7 +52,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $FleetId = $UpdateFleetAttributesOutput->FleetId;
+    my $FleetArn = $UpdateFleetAttributesOutput->FleetArn;
+    my $FleetId  = $UpdateFleetAttributesOutput->FleetId;
 
     # Returns a L<Paws::GameLift::UpdateFleetAttributesOutput> object.
 
@@ -55,6 +61,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/gamelift/UpdateFleetAttributes>
 
 =head1 ATTRIBUTES
+
+
+=head2 AnywhereConfiguration => L<Paws::GameLift::AnywhereConfiguration>
+
+Amazon GameLift Anywhere configuration options.
+
 
 
 =head2 Description => Str
@@ -89,10 +101,12 @@ need to be unique.
 
 =head2 NewGameSessionProtectionPolicy => Str
 
-The game session protection policy to apply to all new instances
-created in this fleet. Instances that already exist are not affected.
-You can set protection for individual instances using
-UpdateGameSession.
+The game session protection policy to apply to all new game sessions
+created in this fleet. Game sessions that already exist are not
+affected. You can set protection for individual game sessions using
+UpdateGameSession
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html)
+.
 
 =over
 

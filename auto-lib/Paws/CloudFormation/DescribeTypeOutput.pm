@@ -49,39 +49,40 @@ The Amazon Resource Name (ARN) of the extension.
 =head2 AutoUpdate => Bool
 
 Whether CloudFormation automatically updates the extension in this
-account and region when a new I<minor> version is published by the
+account and Region when a new I<minor> version is published by the
 extension publisher. Major versions released by the publisher must be
-manually updated. For more information, see Activating public
-extensions for use in your account in the I<AWS CloudFormation User
-Guide>.
+manually updated. For more information, see Automatically use new
+versions of extensions
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto)
+in the I<CloudFormation User Guide>.
 
 
 =head2 ConfigurationSchema => Str
 
 A JSON string that represent the current configuration data for the
-extension in this account and region.
+extension in this account and Region.
 
 To set the configuration data for an extension, use
 SetTypeConfiguration
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html).
-For more information, see Configuring extensions at the account level
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration)
+For more information, see Edit configuration data for extensions in
+your account
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html)
 in the I<CloudFormation User Guide>.
 
 
 =head2 DefaultVersionId => Str
 
 The ID of the default version of the extension. The default version is
-used when the extension version is not specified.
+used when the extension version isn't specified.
 
 This applies only to private extensions you have registered in your
-account. For public extensions, both those provided by Amazon and
-published by third parties, CloudFormation returns C<null>. For more
-information, see RegisterType
+account. For public extensions, both those provided by Amazon Web
+Services and published by third parties, CloudFormation returns
+C<null>. For more information, see RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
 
-To set the default version of an extension, use C<
-SetTypeDefaultVersion >.
+To set the default version of an extension, use SetTypeDefaultVersion.
 
 
 =head2 DeprecatedStatus => Str
@@ -125,18 +126,18 @@ register the extension. This applies only to private extensions you
 have registered in your account. For more information, see RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
 
-If the registered extension calls any AWS APIs, you must create an I<
-IAM execution role
+If the registered extension calls any Amazon Web Services APIs, you
+must create an I< IAM execution role
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) > that
-includes the necessary permissions to call those AWS APIs, and
-provision that execution role in your account. CloudFormation then
-assumes that execution role to provide your extension with the
+includes the necessary permissions to call those Amazon Web Services
+APIs, and provision that execution role in your account. CloudFormation
+then assumes that execution role to provide your extension with the
 appropriate credentials.
 
 
 =head2 IsActivated => Bool
 
-Whether or not the extension is activated in the account and region.
+Whether the extension is activated in the account and Region.
 
 This only applies to public third-party extensions. For all other
 extensions, CloudFormation returns C<null>.
@@ -147,8 +148,8 @@ extensions, CloudFormation returns C<null>.
 Whether the specified extension version is set as the default version.
 
 This applies only to private extensions you have registered in your
-account, and extensions published by Amazon. For public third-party
-extensions, whether or not they are activated in your account,
+account, and extensions published by Amazon Web Services. For public
+third-party extensions, whether they are activated in your account,
 CloudFormation returns C<null>.
 
 
@@ -179,7 +180,7 @@ specified. For more information, see ActivateType
 
 The latest version of a public extension I<that is available> for use.
 
-This only applies if you specify a public extension, and you do not
+This only applies if you specify a public extension, and you don't
 specify a version. For all other requests, CloudFormation returns
 C<null>.
 
@@ -188,28 +189,28 @@ C<null>.
 
 Contains logging configuration information for private extensions. This
 applies only to private extensions you have registered in your account.
-For public extensions, both those provided by Amazon and published by
-third parties, CloudFormation returns C<null>. For more information,
-see RegisterType
+For public extensions, both those provided by Amazon Web Services and
+published by third parties, CloudFormation returns C<null>. For more
+information, see RegisterType
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html).
 
 
 =head2 OriginalTypeArn => Str
 
 For public extensions that have been activated for this account and
-region, the Amazon Resource Name (ARN) of the public extension.
+Region, the Amazon Resource Name (ARN) of the public extension.
 
 
 =head2 OriginalTypeName => Str
 
 For public extensions that have been activated for this account and
-region, the type name of the public extension.
+Region, the type name of the public extension.
 
 If you specified a C<TypeNameAlias> when enabling the extension in this
-account and region, CloudFormation treats that alias as the extension's
-type name within the account and region, not the type name of the
-public extension. For more information, see Specifying aliases to refer
-to extensions
+account and Region, CloudFormation treats that alias as the extension's
+type name within the account and Region, not the type name of the
+public extension. For more information, see Use aliases to refer to
+extensions
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-alias)
 in the I<CloudFormation User Guide>.
 
@@ -217,7 +218,7 @@ in the I<CloudFormation User Guide>.
 =head2 ProvisioningType => Str
 
 For resource type extensions, the provisioning behavior of the resource
-type. AWS CloudFormation determines the provisioning type during
+type. CloudFormation determines the provisioning type during
 registration, based on the types of handlers in the schema handler
 package submitted.
 
@@ -232,14 +233,14 @@ process updates to the type during stack update operations.
 
 =item *
 
-C<IMMUTABLE>: The resource type does not include an update handler, so
-the type cannot be updated and must instead be replaced during stack
+C<IMMUTABLE>: The resource type doesn't include an update handler, so
+the type can't be updated and must instead be replaced during stack
 update operations.
 
 =item *
 
-C<NON_PROVISIONABLE>: The resource type does not include all of the
-following handlers, and therefore cannot actually be provisioned.
+C<NON_PROVISIONABLE>: The resource type doesn't include all the
+following handlers, and therefore can't actually be provisioned.
 
 =over
 
@@ -275,7 +276,7 @@ version. For all other extensions, CloudFormation returns C<null>.
 The publisher ID of the extension publisher.
 
 This applies only to public third-party extensions. For private
-registered extensions, and extensions provided by Amazon,
+registered extensions, and extensions provided by Amazon Web Services,
 CloudFormation returns C<null>.
 
 
@@ -290,9 +291,9 @@ activated.
 
 The schema that defines the extension.
 
-For more information on extension schemas, see Resource Provider Schema
+For more information about extension schemas, see Resource type schema
 (https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html)
-in the I<CloudFormation CLI User Guide>.
+in the I<CloudFormation Command Line Interface (CLI) User Guide>.
 
 
 =head2 SourceUrl => Str
@@ -310,7 +311,7 @@ activated in your account.
 
 The kind of extension.
 
-Valid values are: C<"RESOURCE">, C<"MODULE">
+Valid values are: C<"RESOURCE">, C<"MODULE">, C<"HOOK">
 =head2 TypeName => Str
 
 The name of the extension.
@@ -324,12 +325,12 @@ information, see ActivateType
 =head2 TypeTestsStatus => Str
 
 The contract test status of the registered extension version. To return
-the extension test status of a specifc extension version, you must
+the extension test status of a specific extension version, you must
 specify C<VersionId>.
 
 This applies only to registered private extension versions.
-CloudFormation does not return this information for public extensions,
-whether or not they are activated in your account.
+CloudFormation doesn't return this information for public extensions,
+whether they are activated in your account.
 
 =over
 
@@ -341,7 +342,7 @@ An extension must have a test status of C<PASSED> before it can be
 published. For more information, see Publishing extensions to make them
 available for public use
 (https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-publish.html)
-in the I<CloudFormation Command Line Interface User Guide>.
+in the I<CloudFormation Command Line Interface (CLI) User Guide>.
 
 =item *
 
@@ -354,7 +355,7 @@ extension.
 
 =item *
 
-C<NOT_TESTED>: Contract tests have not been performed on the extension.
+C<NOT_TESTED>: Contract tests haven't been performed on the extension.
 
 =back
 
@@ -363,11 +364,11 @@ Valid values are: C<"PASSED">, C<"FAILED">, C<"IN_PROGRESS">, C<"NOT_TESTED">
 =head2 TypeTestsStatusDescription => Str
 
 The description of the test status. To return the extension test status
-of a specifc extension version, you must specify C<VersionId>.
+of a specific extension version, you must specify C<VersionId>.
 
 This applies only to registered private extension versions.
-CloudFormation does not return this information for public extensions,
-whether or not they are activated in your account.
+CloudFormation doesn't return this information for public extensions,
+whether they are activated in your account.
 
 
 =head2 Visibility => Str
@@ -382,13 +383,13 @@ Valid values include:
 =item *
 
 C<PRIVATE>: The extension is only visible and usable within the account
-in which it is registered. AWS CloudFormation marks any extensions you
+in which it is registered. CloudFormation marks any extensions you
 register as C<PRIVATE>.
 
 =item *
 
-C<PUBLIC>: The extension is publically visible and usable within any
-Amazon account.
+C<PUBLIC>: The extension is publicly visible and usable within any
+Amazon Web Services account.
 
 =back
 

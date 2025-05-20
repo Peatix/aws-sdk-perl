@@ -50,7 +50,7 @@ The number of rule groups currently associated with the VPC.
 
 =head2 ViolationTarget => Str
 
-The ID of the VPC.
+Information about the VPC ID.
 
 
 =head2 ViolationTargetDescription => Str

@@ -5,8 +5,10 @@ package Paws::MediaConvert::M2tsSettings;
   has AudioDuration => (is => 'ro', isa => 'Str', request_name => 'audioDuration', traits => ['NameInRequest']);
   has AudioFramesPerPes => (is => 'ro', isa => 'Int', request_name => 'audioFramesPerPes', traits => ['NameInRequest']);
   has AudioPids => (is => 'ro', isa => 'ArrayRef[Int]', request_name => 'audioPids', traits => ['NameInRequest']);
+  has AudioPtsOffsetDelta => (is => 'ro', isa => 'Int', request_name => 'audioPtsOffsetDelta', traits => ['NameInRequest']);
   has Bitrate => (is => 'ro', isa => 'Int', request_name => 'bitrate', traits => ['NameInRequest']);
   has BufferModel => (is => 'ro', isa => 'Str', request_name => 'bufferModel', traits => ['NameInRequest']);
+  has DataPTSControl => (is => 'ro', isa => 'Str', request_name => 'dataPTSControl', traits => ['NameInRequest']);
   has DvbNitSettings => (is => 'ro', isa => 'Paws::MediaConvert::DvbNitSettings', request_name => 'dvbNitSettings', traits => ['NameInRequest']);
   has DvbSdtSettings => (is => 'ro', isa => 'Paws::MediaConvert::DvbSdtSettings', request_name => 'dvbSdtSettings', traits => ['NameInRequest']);
   has DvbSubPids => (is => 'ro', isa => 'ArrayRef[Int]', request_name => 'dvbSubPids', traits => ['NameInRequest']);
@@ -17,6 +19,7 @@ package Paws::MediaConvert::M2tsSettings;
   has EsRateInPes => (is => 'ro', isa => 'Str', request_name => 'esRateInPes', traits => ['NameInRequest']);
   has ForceTsVideoEbpOrder => (is => 'ro', isa => 'Str', request_name => 'forceTsVideoEbpOrder', traits => ['NameInRequest']);
   has FragmentTime => (is => 'ro', isa => 'Num', request_name => 'fragmentTime', traits => ['NameInRequest']);
+  has KlvMetadata => (is => 'ro', isa => 'Str', request_name => 'klvMetadata', traits => ['NameInRequest']);
   has MaxPcrInterval => (is => 'ro', isa => 'Int', request_name => 'maxPcrInterval', traits => ['NameInRequest']);
   has MinEbpInterval => (is => 'ro', isa => 'Int', request_name => 'minEbpInterval', traits => ['NameInRequest']);
   has NielsenId3 => (is => 'ro', isa => 'Str', request_name => 'nielsenId3', traits => ['NameInRequest']);
@@ -26,8 +29,11 @@ package Paws::MediaConvert::M2tsSettings;
   has PcrPid => (is => 'ro', isa => 'Int', request_name => 'pcrPid', traits => ['NameInRequest']);
   has PmtInterval => (is => 'ro', isa => 'Int', request_name => 'pmtInterval', traits => ['NameInRequest']);
   has PmtPid => (is => 'ro', isa => 'Int', request_name => 'pmtPid', traits => ['NameInRequest']);
+  has PreventBufferUnderflow => (is => 'ro', isa => 'Str', request_name => 'preventBufferUnderflow', traits => ['NameInRequest']);
   has PrivateMetadataPid => (is => 'ro', isa => 'Int', request_name => 'privateMetadataPid', traits => ['NameInRequest']);
   has ProgramNumber => (is => 'ro', isa => 'Int', request_name => 'programNumber', traits => ['NameInRequest']);
+  has PtsOffset => (is => 'ro', isa => 'Int', request_name => 'ptsOffset', traits => ['NameInRequest']);
+  has PtsOffsetMode => (is => 'ro', isa => 'Str', request_name => 'ptsOffsetMode', traits => ['NameInRequest']);
   has RateMode => (is => 'ro', isa => 'Str', request_name => 'rateMode', traits => ['NameInRequest']);
   has Scte35Esam => (is => 'ro', isa => 'Paws::MediaConvert::M2tsScte35Esam', request_name => 'scte35Esam', traits => ['NameInRequest']);
   has Scte35Pid => (is => 'ro', isa => 'Int', request_name => 'scte35Pid', traits => ['NameInRequest']);
@@ -70,16 +76,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 =head1 DESCRIPTION
 
 MPEG-2 TS container settings. These apply to outputs in a File output
-group when the output's container (ContainerType) is MPEG-2 Transport
-Stream (M2TS). In these assets, data is organized by the program map
-table (PMT). Each transport stream program contains subsets of data,
-including audio, video, and metadata. Each of these subsets of data has
-a numerical label called a packet identifier (PID). Each transport
-stream program corresponds to one MediaConvert output. The PMT lists
-the types of data in a program along with their PID. Downstream systems
-and players use the program map table to look up the PID for each type
-of data it accesses and then uses the PIDs to locate specific data
-within the asset.
+group when the output's container is MPEG-2 Transport Stream (M2TS). In
+these assets, data is organized by the program map table (PMT). Each
+transport stream program contains subsets of data, including audio,
+video, and metadata. Each of these subsets of data has a numerical
+label called a packet identifier (PID). Each transport stream program
+corresponds to one MediaConvert output. The PMT lists the types of data
+in a program along with their PID. Downstream systems and players use
+the program map table to look up the PID for each type of data it
+accesses and then uses the PIDs to locate specific data within the
+asset.
 
 =head1 ATTRIBUTES
 
@@ -94,9 +100,8 @@ Selects between the DVB and ATSC buffer models for Dolby Digital audio.
 Specify this setting only when your output will be consumed by a
 downstream repackaging workflow that is sensitive to very small
 duration differences between video and audio. For this situation,
-choose Match video duration (MATCH_VIDEO_DURATION). In all other cases,
-keep the default value, Default codec duration
-(DEFAULT_CODEC_DURATION). When you choose Match video duration,
+choose Match video duration. In all other cases, keep the default
+value, Default codec duration. When you choose Match video duration,
 MediaConvert pads the output audio streams with silence or trims them
 to ensure that the total duration of each audio stream is at least as
 long as the total duration of the video stream. After padding or
@@ -120,6 +125,14 @@ you include in this output. Specify multiple PIDs as a JSON array.
 Default is the range 482-492.
 
 
+=head2 AudioPtsOffsetDelta => Int
+
+Manually specify the difference in PTS offset that will be applied to
+the audio track, in seconds or milliseconds, when you set PTS offset to
+Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave
+blank to keep the default value 0.
+
+
 =head2 Bitrate => Int
 
 Specify the output bitrate of the transport stream in bits per second.
@@ -135,22 +148,25 @@ lower latency, but low-memory devices may not be able to play back the
 stream without interruptions.
 
 
+=head2 DataPTSControl => Str
+
+If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data
+packets with Presentation Timestamp (PTS) values greater than or equal
+to the first video packet PTS (MediaConvert drops captions and data
+packets with lesser PTS values). Keep the default value to allow all
+PTS values.
+
+
 =head2 DvbNitSettings => L<Paws::MediaConvert::DvbNitSettings>
 
 Use these settings to insert a DVB Network Information Table (NIT) in
-the transport stream of this output. When you work directly in your
-JSON job specification, include this object only when your job has a
-transport stream output and the container settings contain the object
-M2tsSettings.
+the transport stream of this output.
 
 
 =head2 DvbSdtSettings => L<Paws::MediaConvert::DvbSdtSettings>
 
 Use these settings to insert a DVB Service Description Table (SDT) in
-the transport stream of this output. When you work directly in your
-JSON job specification, include this object only when your job has a
-transport stream output and the container settings contain the object
-M2tsSettings.
+the transport stream of this output.
 
 
 =head2 DvbSubPids => ArrayRef[Int]
@@ -163,10 +179,7 @@ range 460-479.
 =head2 DvbTdtSettings => L<Paws::MediaConvert::DvbTdtSettings>
 
 Use these settings to insert a DVB Time and Date Table (TDT) in the
-transport stream of this output. When you work directly in your JSON
-job specification, include this object only when your job has a
-transport stream output and the container settings contain the object
-M2tsSettings.
+transport stream of this output.
 
 
 =head2 DvbTeletextPid => Int
@@ -200,14 +213,23 @@ Controls whether to include the ES Rate field in the PES header.
 
 =head2 ForceTsVideoEbpOrder => Str
 
-Keep the default value (DEFAULT) unless you know that your audio EBP
-markers are incorrectly appearing before your video EBP markers. To
-correct this problem, set this value to Force (FORCE).
+Keep the default value unless you know that your audio EBP markers are
+incorrectly appearing before your video EBP markers. To correct this
+problem, set this value to Force.
 
 
 =head2 FragmentTime => Num
 
 The length, in seconds, of each fragment. Only used with EBP markers.
+
+
+=head2 KlvMetadata => Str
+
+To include key-length-value metadata in this output: Set KLV metadata
+insertion to Passthrough. MediaConvert reads KLV metadata present in
+your input and passes it through to the output transport stream. To
+exclude this KLV metadata: Set KLV metadata insertion to None or leave
+blank.
 
 
 =head2 MaxPcrInterval => Int
@@ -259,7 +281,7 @@ elementary stream.
 
 Specify the packet identifier (PID) for the program clock reference
 (PCR) in this output. If you do not specify a value, the service will
-use the value for Video PID (VideoPid).
+use the value for Video PID.
 
 
 =head2 PmtInterval => Int
@@ -274,6 +296,19 @@ Specify the packet identifier (PID) for the program map table (PMT)
 itself. Default is 480.
 
 
+=head2 PreventBufferUnderflow => Str
+
+Specify whether MediaConvert automatically attempts to prevent decoder
+buffer underflows in your transport stream output. Use if you are
+seeing decoder buffer underflows in your output and are unable to
+increase your transport stream's bitrate. For most workflows: We
+recommend that you keep the default value, Disabled. To prevent decoder
+buffer underflows in your output, when possible: Choose Enabled. Note
+that if MediaConvert prevents a decoder buffer underflow in your
+output, output video quality is reduced and your job will take longer
+to complete.
+
+
 =head2 PrivateMetadataPid => Int
 
 Specify the packet identifier (PID) of the private metadata stream.
@@ -282,10 +317,29 @@ Default is 503.
 
 =head2 ProgramNumber => Int
 
-Use Program number (programNumber) to specify the program number used
-in the program map table (PMT) for this output. Default is 1. Program
-numbers and program map tables are parts of MPEG-2 transport stream
-containers, used for organizing data.
+Use Program number to specify the program number used in the program
+map table (PMT) for this output. Default is 1. Program numbers and
+program map tables are parts of MPEG-2 transport stream containers,
+used for organizing data.
+
+
+=head2 PtsOffset => Int
+
+Manually specify the initial PTS offset, in seconds, when you set PTS
+offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep
+the default value 2.
+
+
+=head2 PtsOffsetMode => Str
+
+Specify the initial presentation timestamp (PTS) offset for your
+transport stream output. To let MediaConvert automatically determine
+the initial PTS offset: Keep the default value, Auto. We recommend that
+you choose Auto for the widest player compatibility. The initial PTS
+will be at least two seconds and vary depending on your output's
+bitrate, HRD buffer size and HRD buffer initial fill percentage. To
+manually specify an initial PTS offset: Choose Seconds or Milliseconds.
+Then specify the number of seconds or milliseconds with PTS offset.
 
 
 =head2 RateMode => Str
@@ -299,8 +353,7 @@ maximum bitrate, but the output will not be padded up to that bitrate.
 
 Include this in your job settings to put SCTE-35 markers in your HLS
 and transport stream outputs at the insertion points that you specify
-in an ESAM XML document. Provide the document in the setting SCC XML
-(sccXml).
+in an ESAM XML document. Provide the document in the setting SCC XML.
 
 
 =head2 Scte35Pid => Int
@@ -311,13 +364,13 @@ transport stream.
 
 =head2 Scte35Source => Str
 
-For SCTE-35 markers from your input-- Choose Passthrough (PASSTHROUGH)
-if you want SCTE-35 markers that appear in your input to also appear in
-this output. Choose None (NONE) if you don't want SCTE-35 markers in
-this output. For SCTE-35 markers from an ESAM XML document-- Choose
-None (NONE). Also provide the ESAM XML as a string in the setting
-Signal processing notification XML (sccXml). Also enable ESAM SCTE-35
-(include the property scte35Esam).
+For SCTE-35 markers from your input-- Choose Passthrough if you want
+SCTE-35 markers that appear in your input to also appear in this
+output. Choose None if you don't want SCTE-35 markers in this output.
+For SCTE-35 markers from an ESAM XML document-- Choose None. Also
+provide the ESAM XML as a string in the setting Signal processing
+notification XML. Also enable ESAM SCTE-35 (include the property
+scte35Esam).
 
 
 =head2 SegmentationMarkers => Str
@@ -357,8 +410,8 @@ markers is set to _none_.
 
 =head2 TimedMetadataPid => Int
 
-Specify the packet identifier (PID) for timed metadata in this output.
-Default is 502.
+Packet Identifier (PID) of the ID3 metadata stream in the transport
+stream.
 
 
 =head2 TransportStreamId => Int

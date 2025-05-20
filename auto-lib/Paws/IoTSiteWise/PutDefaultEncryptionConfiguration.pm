@@ -58,9 +58,8 @@ Valid values are: C<"SITEWISE_DEFAULT_ENCRYPTION">, C<"KMS_BASED_ENCRYPTION">
 
 =head2 KmsKeyId => Str
 
-The Key ID of the customer managed customer master key (CMK) used for
-AWS KMS encryption. This is required if you use
-C<KMS_BASED_ENCRYPTION>.
+The Key ID of the customer managed key used for KMS encryption. This is
+required if you use C<KMS_BASED_ENCRYPTION>.
 
 
 

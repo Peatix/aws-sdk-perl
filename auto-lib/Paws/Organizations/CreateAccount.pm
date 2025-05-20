@@ -64,10 +64,54 @@ The friendly name of the member account.
 =head2 B<REQUIRED> Email => Str
 
 The email address of the owner to assign to the new member account.
-This email address must not already be associated with another AWS
-account. You must use a valid email address to complete account
-creation. You can't access the root user of the account or remove an
-account that was created with an invalid email address.
+This email address must not already be associated with another Amazon
+Web Services account. You must use a valid email address to complete
+account creation.
+
+The rules for a valid email address:
+
+=over
+
+=item *
+
+The address must be a minimum of 6 and a maximum of 64 characters long.
+
+=item *
+
+All characters must be 7-bit ASCII characters.
+
+=item *
+
+There must be one and only one @ symbol, which separates the local name
+from the domain name.
+
+=item *
+
+The local name can't contain any of the following characters:
+
+whitespace, " ' ( ) E<lt> E<gt> [ ] : ; , \ | % &
+
+=item *
+
+The local name can't begin with a dot (.)
+
+=item *
+
+The domain name can consist of only the characters [a-z],[A-Z],[0-9],
+hyphen (-), or dot (.)
+
+=item *
+
+The domain name can't begin or end with a hyphen (-) or dot (.)
+
+=item *
+
+The domain name must contain at least one dot
+
+=back
+
+You can't access the root user of the account or remove an account that
+was created with an invalid email address.
 
 
 
@@ -76,10 +120,10 @@ account that was created with an invalid email address.
 If set to C<ALLOW>, the new account enables IAM users to access account
 billing information I<if> they have the required permissions. If set to
 C<DENY>, only the root user of the new account can access account
-billing information. For more information, see Activating Access to the
-Billing and Cost Management Console
+billing information. For more information, see About IAM access to the
+Billing and Cost Management console
 (https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate)
-in the I<AWS Billing and Cost Management User Guide>.
+in the I<Amazon Web Services Billing and Cost Management User Guide>.
 
 If you don't specify this parameter, the value defaults to C<ALLOW>,
 and IAM users and roles with the required permissions can access
@@ -89,13 +133,11 @@ Valid values are: C<"ALLOW">, C<"DENY">
 
 =head2 RoleName => Str
 
-(Optional)
-
-The name of an IAM role that AWS Organizations automatically
-preconfigures in the new member account. This role trusts the
-management account, allowing users in the management account to assume
-the role, as permitted by the management account administrator. The
-role has administrator permissions in the new member account.
+The name of an IAM role that Organizations automatically preconfigures
+in the new member account. This role trusts the management account,
+allowing users in the management account to assume the role, as
+permitted by the management account administrator. The role has
+administrator permissions in the new member account.
 
 If you don't specify this parameter, the role name defaults to
 C<OrganizationAccountAccessRole>.
@@ -107,14 +149,14 @@ account, see the following links:
 
 =item *
 
-Accessing and Administering the Member Accounts in Your Organization
+Creating the OrganizationAccountAccessRole in an invited member account
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
-in the I<AWS Organizations User Guide>
+in the I<Organizations User Guide>
 
 =item *
 
-Steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using
-IAM Roles
+Steps 2 and 3 in IAM Tutorial: Delegate access across Amazon Web
+Services accounts using IAM roles
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)
 in the I<IAM User Guide>
 
@@ -132,14 +174,14 @@ characters: =,.@-
 A list of tags that you want to attach to the newly created account.
 For each tag in the list, you must specify both a tag key and a value.
 You can set the value to an empty string, but you can't set it to
-C<null>. For more information about tagging, see Tagging AWS
-Organizations resources
+C<null>. For more information about tagging, see Tagging Organizations
+resources
 (https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
-in the AWS Organizations User Guide.
+in the Organizations User Guide.
 
-If any one of the tags is invalid or if you exceed the allowed number
-of tags for an account, then the entire request fails and the account
-is not created.
+If any one of the tags is not valid or if you exceed the maximum
+allowed number of tags for an account, then the entire request fails
+and the account is not created.
 
 
 

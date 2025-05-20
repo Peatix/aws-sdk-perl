@@ -4,6 +4,7 @@ package Paws::MediaPackageVod::DashPackage;
   has DashManifests => (is => 'ro', isa => 'ArrayRef[Paws::MediaPackageVod::DashManifest]', request_name => 'dashManifests', traits => ['NameInRequest'], required => 1);
   has Encryption => (is => 'ro', isa => 'Paws::MediaPackageVod::DashEncryption', request_name => 'encryption', traits => ['NameInRequest']);
   has IncludeEncoderConfigurationInSegments => (is => 'ro', isa => 'Bool', request_name => 'includeEncoderConfigurationInSegments', traits => ['NameInRequest']);
+  has IncludeIframeOnlyStream => (is => 'ro', isa => 'Bool', request_name => 'includeIframeOnlyStream', traits => ['NameInRequest']);
   has PeriodTriggers => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'periodTriggers', traits => ['NameInRequest']);
   has SegmentDurationSeconds => (is => 'ro', isa => 'Int', request_name => 'segmentDurationSeconds', traits => ['NameInRequest']);
   has SegmentTemplateFormat => (is => 'ro', isa => 'Str', request_name => 'segmentTemplateFormat', traits => ['NameInRequest']);
@@ -60,6 +61,11 @@ places your encoder's Sequence Parameter Set (SPS), Picture Parameter
 Set (PPS), and Video Parameter Set (VPS) metadata in every video
 segment instead of in the init fragment. This lets you use different
 SPS/PPS/VPS settings for your assets during content playback.
+
+
+=head2 IncludeIframeOnlyStream => Bool
+
+When enabled, an I-Frame only stream will be included in the output.
 
 
 =head2 PeriodTriggers => ArrayRef[Str|Undef]

@@ -61,8 +61,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Filters => ArrayRef[L<Paws::SSM::MaintenanceWindowFilter>]
 
 Optional filters used to narrow down the scope of the returned tasks.
-The supported filter keys are WindowTaskId, TaskArn, Priority, and
-TaskType.
+The supported filter keys are C<WindowTaskId>, C<TaskArn>, C<Priority>,
+and C<TaskType>.
 
 
 

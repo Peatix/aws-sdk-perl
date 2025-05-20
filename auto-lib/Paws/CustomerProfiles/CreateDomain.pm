@@ -6,6 +6,7 @@ package Paws::CustomerProfiles::CreateDomain;
   has DefaultExpirationDays => (is => 'ro', isa => 'Int', required => 1);
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'DomainName', required => 1);
   has Matching => (is => 'ro', isa => 'Paws::CustomerProfiles::MatchingRequest');
+  has RuleBasedMatching => (is => 'ro', isa => 'Paws::CustomerProfiles::RuleBasedMatchingRequest');
   has Tags => (is => 'ro', isa => 'Paws::CustomerProfiles::TagMap');
 
   use MooseX::ClassAttribute;
@@ -39,9 +40,76 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       DeadLetterQueueUrl    => 'MysqsQueueUrl',      # OPTIONAL
       DefaultEncryptionKey  => 'MyencryptionKey',    # OPTIONAL
       Matching              => {
-        Enabled => 1,
+        Enabled     => 1,
+        AutoMerging => {
+          Enabled            => 1,
+          ConflictResolution => {
+            ConflictResolvingModel => 'RECENCY',    # values: RECENCY, SOURCE
+            SourceName => 'Mystring1To255',         # min: 1, max: 255; OPTIONAL
+          },    # OPTIONAL
+          Consolidation => {
+            MatchingAttributesList => [
+              [
+                'Mystring1To255', ...    # min: 1, max: 255; OPTIONAL
+              ],
+              ...                        # min: 1, max: 20
+            ],    # min: 1, max: 10
 
-      },                                             # OPTIONAL
+          },    # OPTIONAL
+          MinAllowedConfidenceScoreForMerging => 1,    # max: 1; OPTIONAL
+        },    # OPTIONAL
+        ExportingConfig => {
+          S3Exporting => {
+            S3BucketName => 'Mys3BucketName',       # min: 3, max: 63
+            S3KeyName    =>
+              'Mys3KeyNameCustomerOutputConfig',    # min: 1, max: 800; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        JobSchedule => {
+          DayOfTheWeek => 'SUNDAY'
+          , # values: SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+          Time => 'MyJobScheduleTime',    # min: 3, max: 5
+
+        },    # OPTIONAL
+      },    # OPTIONAL
+      RuleBasedMatching => {
+        Enabled                => 1,
+        AttributeTypesSelector => {
+          AttributeMatchingModel =>
+            'ONE_TO_ONE',    # values: ONE_TO_ONE, MANY_TO_MANY
+          Address => [
+            'Mystring1To255', ...    # min: 1, max: 255; OPTIONAL
+          ],    # min: 1, max: 4; OPTIONAL
+          EmailAddress => [
+            'Mystring1To255', ...    # min: 1, max: 255; OPTIONAL
+          ],    # min: 1, max: 3; OPTIONAL
+          PhoneNumber => [
+            'Mystring1To255', ...    # min: 1, max: 255; OPTIONAL
+          ],    # min: 1, max: 4; OPTIONAL
+        },    # OPTIONAL
+        ConflictResolution => {
+          ConflictResolvingModel => 'RECENCY',    # values: RECENCY, SOURCE
+          SourceName => 'Mystring1To255',         # min: 1, max: 255; OPTIONAL
+        },    # OPTIONAL
+        ExportingConfig => {
+          S3Exporting => {
+            S3BucketName => 'Mys3BucketName',       # min: 3, max: 63
+            S3KeyName    =>
+              'Mys3KeyNameCustomerOutputConfig',    # min: 1, max: 800; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        MatchingRules => [
+          {
+            Rule => [
+              'Mystring1To255', ...    # min: 1, max: 255; OPTIONAL
+            ],    # min: 1, max: 15
+
+          },
+          ...
+        ],    # min: 1, max: 15; OPTIONAL
+        MaxAllowedRuleLevelForMatching => 1,    # min: 1, max: 15; OPTIONAL
+        MaxAllowedRuleLevelForMerging  => 1,    # min: 1, max: 15; OPTIONAL
+      },    # OPTIONAL
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
       },    # OPTIONAL
@@ -55,6 +123,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DomainName            = $CreateDomainResponse->DomainName;
     my $LastUpdatedAt         = $CreateDomainResponse->LastUpdatedAt;
     my $Matching              = $CreateDomainResponse->Matching;
+    my $RuleBasedMatching     = $CreateDomainResponse->RuleBasedMatching;
     my $Tags                  = $CreateDomainResponse->Tags;
 
     # Returns a L<Paws::CustomerProfiles::CreateDomainResponse> object.
@@ -97,8 +166,29 @@ The unique name of the domain.
 
 =head2 Matching => L<Paws::CustomerProfiles::MatchingRequest>
 
-The process of matching duplicate profiles. This process runs every
-Saturday at 12AM.
+The process of matching duplicate profiles. If C<Matching> = C<true>,
+Amazon Connect Customer Profiles starts a weekly batch process called
+Identity Resolution Job. If you do not specify a date and time for
+Identity Resolution Job to run, by default it runs every Saturday at
+12AM UTC to detect duplicate profiles in your domains.
+
+After the Identity Resolution Job completes, use the GetMatches
+(https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html)
+API to return and review the results. Or, if you have configured
+C<ExportingConfig> in the C<MatchingRequest>, you can download the
+results from S3.
+
+
+
+=head2 RuleBasedMatching => L<Paws::CustomerProfiles::RuleBasedMatchingRequest>
+
+The process of matching duplicate profiles using the Rule-Based
+matching. If C<RuleBasedMatching> = true, Amazon Connect Customer
+Profiles will start to match and merge your profiles according to your
+configuration in the C<RuleBasedMatchingRequest>. You can use the
+C<ListRuleBasedMatches> and C<GetSimilarProfiles> API to return and
+review the results. Also, if you have configured C<ExportingConfig> in
+the C<RuleBasedMatchingRequest>, you can download the results from S3.
 
 
 

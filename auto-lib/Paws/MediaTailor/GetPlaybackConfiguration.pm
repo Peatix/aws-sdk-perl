@@ -35,6 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       );
 
     # Results:
+    my $AdConditioningConfiguration =
+      $GetPlaybackConfigurationResponse->AdConditioningConfiguration;
     my $AdDecisionServerUrl =
       $GetPlaybackConfigurationResponse->AdDecisionServerUrl;
     my $AvailSuppression = $GetPlaybackConfigurationResponse->AvailSuppression;
@@ -45,8 +47,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $DashConfiguration =
       $GetPlaybackConfigurationResponse->DashConfiguration;
     my $HlsConfiguration = $GetPlaybackConfigurationResponse->HlsConfiguration;
+    my $InsertionMode    = $GetPlaybackConfigurationResponse->InsertionMode;
     my $LivePreRollConfiguration =
       $GetPlaybackConfigurationResponse->LivePreRollConfiguration;
+    my $LogConfiguration = $GetPlaybackConfigurationResponse->LogConfiguration;
     my $ManifestProcessingRules =
       $GetPlaybackConfigurationResponse->ManifestProcessingRules;
     my $Name = $GetPlaybackConfigurationResponse->Name;

@@ -53,10 +53,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 B<REQUIRED> Id => Str
 
 The unique identifier for the origin request policy. If the origin
-request policy is attached to a distributionE<rsquo>s cache behavior,
-you can get the policyE<rsquo>s identifier using C<ListDistributions>
-or C<GetDistribution>. If the origin request policy is not attached to
-a cache behavior, you can get the identifier using
+request policy is attached to a distribution's cache behavior, you can
+get the policy's identifier using C<ListDistributions> or
+C<GetDistribution>. If the origin request policy is not attached to a
+cache behavior, you can get the identifier using
 C<ListOriginRequestPolicies>.
 
 

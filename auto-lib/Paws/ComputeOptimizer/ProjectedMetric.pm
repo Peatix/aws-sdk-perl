@@ -44,13 +44,15 @@ Compare the utilization metric data of your resource against its
 projected utilization metric data to determine the performance
 difference between your current resource and the recommended option.
 
-The C<Cpu> and C<Memory> metrics are the only projected utilization
-metrics returned when you run the
-C<GetEC2RecommendationProjectedMetrics> action. Additionally, the
-C<Memory> metric is returned only for resources that have the unified
-CloudWatch agent installed on them. For more information, see Enabling
-Memory Utilization with the CloudWatch Agent
-(https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+The C<Cpu>, C<Memory>, C<GPU>, and C<GPU_MEMORY> metrics are the only
+projected utilization metrics returned when you run the
+GetEC2RecommendationProjectedMetrics action. Additionally, these
+metrics are only returned for resources with the unified CloudWatch
+agent installed on them. For more information, see Enabling Memory
+Utilization with the CloudWatch Agent
+(https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent)
+and Enabling NVIDIA GPU utilization with the CloudWatch Agent
+(https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
 
 =head1 ATTRIBUTES
 
@@ -74,8 +76,6 @@ Depending on the instance type, tools in your operating system can show
 a lower percentage than CloudWatch when the instance is not allocated a
 full processor core.
 
-Units: Percent
-
 =item *
 
 C<Memory> - The percentage of memory that would be in use on the
@@ -85,10 +85,27 @@ application on the recommendation option.
 
 Units: Percent
 
-The C<Memory> metric is returned only for resources that have the
-unified CloudWatch agent installed on them. For more information, see
-Enabling Memory Utilization with the CloudWatch Agent
+The C<Memory> metric is only returned for resources with the unified
+CloudWatch agent installed on them. For more information, see Enabling
+Memory Utilization with the CloudWatch Agent
 (https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+
+=item *
+
+C<GPU> - The projected percentage of allocated GPUs if you adjust your
+configurations to Compute Optimizer's recommendation option.
+
+=item *
+
+C<GPU_MEMORY> - The projected percentage of total GPU memory if you
+adjust your configurations to Compute Optimizer's recommendation
+option.
+
+The C<GPU> and C<GPU_MEMORY> metrics are only returned for resources
+with the unified CloudWatch Agent installed on them. For more
+information, see Enabling NVIDIA GPU utilization with the CloudWatch
+Agent
+(https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
 
 =back
 
@@ -96,7 +113,7 @@ Enabling Memory Utilization with the CloudWatch Agent
 
 =head2 Timestamps => ArrayRef[Str|Undef]
 
-The time stamps of the projected utilization metric.
+The timestamps of the projected utilization metric.
 
 
 =head2 Values => ArrayRef[Num]

@@ -3,7 +3,10 @@ package Paws::IVS::CreateRecordingConfiguration;
   use Moose;
   has DestinationConfiguration => (is => 'ro', isa => 'Paws::IVS::DestinationConfiguration', traits => ['NameInRequest'], request_name => 'destinationConfiguration', required => 1);
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
+  has RecordingReconnectWindowSeconds => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'recordingReconnectWindowSeconds');
+  has RenditionConfiguration => (is => 'ro', isa => 'Paws::IVS::RenditionConfiguration', traits => ['NameInRequest'], request_name => 'renditionConfiguration');
   has Tags => (is => 'ro', isa => 'Paws::IVS::Tags', traits => ['NameInRequest'], request_name => 'tags');
+  has ThumbnailConfiguration => (is => 'ro', isa => 'Paws::IVS::ThumbnailConfiguration', traits => ['NameInRequest'], request_name => 'thumbnailConfiguration');
 
   use MooseX::ClassAttribute;
 
@@ -39,8 +42,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
       },
       Name => 'MyRecordingConfigurationName',    # OPTIONAL
+      RecordingReconnectWindowSeconds => 1,      # OPTIONAL
+      RenditionConfiguration          => {
+        RenditionSelection => 'ALL',    # values: ALL, NONE, CUSTOM; OPTIONAL
+        Renditions         => [
+          'SD', ...    # values: SD, HD, FULL_HD, LOWEST_RESOLUTION
+        ],    # OPTIONAL
+      },    # OPTIONAL
       Tags => {
         'MyTagKey' => 'MyTagValue',    # key: min: 1, max: 128, value: max: 256
+      },    # OPTIONAL
+      ThumbnailConfiguration => {
+        RecordingMode => 'DISABLED',    # values: DISABLED, INTERVAL; OPTIONAL
+        Resolution    =>
+          'SD',    # values: SD, HD, FULL_HD, LOWEST_RESOLUTION; OPTIONAL
+        Storage => [
+          'SEQUENTIAL', ...    # values: SEQUENTIAL, LATEST
+        ],    # OPTIONAL
+        TargetIntervalSeconds => 1,    # min: 1, max: 60; OPTIONAL
       },    # OPTIONAL
       );
 
@@ -65,14 +84,41 @@ recorded video will be stored.
 
 =head2 Name => Str
 
-An arbitrary string (a nickname) that helps the customer identify that
-resource. The value does not need to be unique.
+Recording-configuration name. The value does not need to be unique.
+
+
+
+=head2 RecordingReconnectWindowSeconds => Int
+
+If a broadcast disconnects and then reconnects within the specified
+interval, the multiple streams will be considered a single broadcast
+and merged together. Default: 0.
+
+
+
+=head2 RenditionConfiguration => L<Paws::IVS::RenditionConfiguration>
+
+Object that describes which renditions should be recorded for a stream.
 
 
 
 =head2 Tags => L<Paws::IVS::Tags>
 
-Array of 1-50 maps, each of the form C<string:string (key:value)>.
+Array of 1-50 maps, each of the form C<string:string (key:value)>. See
+Best practices and strategies
+(https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html)
+in I<Tagging Amazon Web Services Resources and Tag Editor> for details,
+including restrictions that apply to tags and "Tag naming limits and
+requirements"; Amazon IVS has no service-specific constraints beyond
+what is documented there.
+
+
+
+=head2 ThumbnailConfiguration => L<Paws::IVS::ThumbnailConfiguration>
+
+A complex type that allows you to enable/disable the recording of
+thumbnails for a live session and modify the interval at which
+thumbnails are generated for the live session.
 
 
 

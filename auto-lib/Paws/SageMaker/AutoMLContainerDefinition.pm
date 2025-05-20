@@ -36,7 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 A list of container definitions that describe the different containers
-that make up an AutoML candidate. For more information, see .
+that make up an AutoML candidate. For more information, see
+ContainerDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ContainerDefinition.html).
 
 =head1 ATTRIBUTES
 
@@ -44,17 +46,22 @@ that make up an AutoML candidate. For more information, see .
 =head2 Environment => L<Paws::SageMaker::EnvironmentMap>
 
 The environment variables to set in the container. For more
-information, see .
+information, see ContainerDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ContainerDefinition.html).
 
 
 =head2 B<REQUIRED> Image => Str
 
-The ECR path of the container. For more information, see .
+The Amazon Elastic Container Registry (Amazon ECR) path of the
+container. For more information, see ContainerDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ContainerDefinition.html).
 
 
 =head2 B<REQUIRED> ModelDataUrl => Str
 
-The location of the model artifacts. For more information, see .
+The location of the model artifacts. For more information, see
+ContainerDefinition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ContainerDefinition.html).
 
 
 

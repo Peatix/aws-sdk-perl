@@ -7,6 +7,7 @@ package Paws::MediaConvert::AudioCodecSettings;
   has Codec => (is => 'ro', isa => 'Str', request_name => 'codec', traits => ['NameInRequest']);
   has Eac3AtmosSettings => (is => 'ro', isa => 'Paws::MediaConvert::Eac3AtmosSettings', request_name => 'eac3AtmosSettings', traits => ['NameInRequest']);
   has Eac3Settings => (is => 'ro', isa => 'Paws::MediaConvert::Eac3Settings', request_name => 'eac3Settings', traits => ['NameInRequest']);
+  has FlacSettings => (is => 'ro', isa => 'Paws::MediaConvert::FlacSettings', request_name => 'flacSettings', traits => ['NameInRequest']);
   has Mp2Settings => (is => 'ro', isa => 'Paws::MediaConvert::Mp2Settings', request_name => 'mp2Settings', traits => ['NameInRequest']);
   has Mp3Settings => (is => 'ro', isa => 'Paws::MediaConvert::Mp3Settings', request_name => 'mp3Settings', traits => ['NameInRequest']);
   has OpusSettings => (is => 'ro', isa => 'Paws::MediaConvert::OpusSettings', request_name => 'opusSettings', traits => ['NameInRequest']);
@@ -51,34 +52,30 @@ depending on the value that you choose for your audio codec.
 
 =head2 AacSettings => L<Paws::MediaConvert::AacSettings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value AAC. The service
-accepts one of two mutually exclusive groups of AAC settings--VBR and
-CBR. To select one of these modes, set the value of Bitrate control
-mode (rateControlMode) to "VBR" or "CBR". In VBR mode, you control the
-audio quality with the setting VBR quality (vbrQuality). In CBR mode,
-you use the setting Bitrate (bitrate). Defaults and valid values depend
-on the rate control mode.
+Required when you set Codec to the value AAC. The service accepts one
+of two mutually exclusive groups of AAC settings--VBR and CBR. To
+select one of these modes, set the value of Bitrate control mode to
+"VBR" or "CBR". In VBR mode, you control the audio quality with the
+setting VBR quality. In CBR mode, you use the setting Bitrate. Defaults
+and valid values depend on the rate control mode.
 
 
 =head2 Ac3Settings => L<Paws::MediaConvert::Ac3Settings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value AC3.
+Required when you set Codec to the value AC3.
 
 
 =head2 AiffSettings => L<Paws::MediaConvert::AiffSettings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value AIFF.
+Required when you set Codec to the value AIFF.
 
 
 =head2 Codec => Str
 
 Choose the audio codec for this output. Note that the option Dolby
-Digital passthrough (PASSTHROUGH) applies only to Dolby Digital and
-Dolby Digital Plus audio inputs. Make sure that you choose a codec
-that's supported with your output container:
+Digital passthrough applies only to Dolby Digital and Dolby Digital
+Plus audio inputs. Make sure that you choose a codec that's supported
+with your output container:
 https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio
 For audio-only outputs, make sure that both your input audio codec and
 your output audio codec are supported for audio-only workflows. For
@@ -90,20 +87,23 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.h
 
 =head2 Eac3AtmosSettings => L<Paws::MediaConvert::Eac3AtmosSettings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value EAC3_ATMOS.
+Required when you set Codec to the value EAC3_ATMOS.
 
 
 =head2 Eac3Settings => L<Paws::MediaConvert::Eac3Settings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value EAC3.
+Required when you set Codec to the value EAC3.
+
+
+=head2 FlacSettings => L<Paws::MediaConvert::FlacSettings>
+
+Required when you set Codec, under AudioDescriptionsE<gt>CodecSettings,
+to the value FLAC.
 
 
 =head2 Mp2Settings => L<Paws::MediaConvert::Mp2Settings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value MP2.
+Required when you set Codec to the value MP2.
 
 
 =head2 Mp3Settings => L<Paws::MediaConvert::Mp3Settings>
@@ -126,8 +126,7 @@ to the value Vorbis.
 
 =head2 WavSettings => L<Paws::MediaConvert::WavSettings>
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value WAV.
+Required when you set Codec to the value WAV.
 
 
 

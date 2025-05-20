@@ -4,10 +4,15 @@ package Paws::SageMaker::SearchRecord;
   has Endpoint => (is => 'ro', isa => 'Paws::SageMaker::Endpoint');
   has Experiment => (is => 'ro', isa => 'Paws::SageMaker::Experiment');
   has FeatureGroup => (is => 'ro', isa => 'Paws::SageMaker::FeatureGroup');
+  has FeatureMetadata => (is => 'ro', isa => 'Paws::SageMaker::FeatureMetadata');
+  has HyperParameterTuningJob => (is => 'ro', isa => 'Paws::SageMaker::HyperParameterTuningJobSearchEntity');
+  has Model => (is => 'ro', isa => 'Paws::SageMaker::ModelDashboardModel');
+  has ModelCard => (is => 'ro', isa => 'Paws::SageMaker::ModelCard');
   has ModelPackage => (is => 'ro', isa => 'Paws::SageMaker::ModelPackage');
   has ModelPackageGroup => (is => 'ro', isa => 'Paws::SageMaker::ModelPackageGroup');
   has Pipeline => (is => 'ro', isa => 'Paws::SageMaker::Pipeline');
   has PipelineExecution => (is => 'ro', isa => 'Paws::SageMaker::PipelineExecution');
+  has Project => (is => 'ro', isa => 'Paws::SageMaker::Project');
   has TrainingJob => (is => 'ro', isa => 'Paws::SageMaker::TrainingJob');
   has Trial => (is => 'ro', isa => 'Paws::SageMaker::Trial');
   has TrialComponent => (is => 'ro', isa => 'Paws::SageMaker::TrialComponent');
@@ -42,7 +47,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-A single resource returned as part of the Search API response.
+A single resource returned as part of the Search
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html)
+API response.
 
 =head1 ATTRIBUTES
 
@@ -60,6 +67,27 @@ The properties of an experiment.
 =head2 FeatureGroup => L<Paws::SageMaker::FeatureGroup>
 
 
+
+
+=head2 FeatureMetadata => L<Paws::SageMaker::FeatureMetadata>
+
+The feature metadata used to search through the features.
+
+
+=head2 HyperParameterTuningJob => L<Paws::SageMaker::HyperParameterTuningJobSearchEntity>
+
+The properties of a hyperparameter tuning job.
+
+
+=head2 Model => L<Paws::SageMaker::ModelDashboardModel>
+
+
+
+
+=head2 ModelCard => L<Paws::SageMaker::ModelCard>
+
+An Amazon SageMaker Model Card that documents details about a machine
+learning model.
 
 
 =head2 ModelPackage => L<Paws::SageMaker::ModelPackage>
@@ -80,6 +108,11 @@ The properties of an experiment.
 =head2 PipelineExecution => L<Paws::SageMaker::PipelineExecution>
 
 
+
+
+=head2 Project => L<Paws::SageMaker::Project>
+
+The properties of a project.
 
 
 =head2 TrainingJob => L<Paws::SageMaker::TrainingJob>

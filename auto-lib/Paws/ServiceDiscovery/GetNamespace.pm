@@ -27,10 +27,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $servicediscovery = Paws->service('ServiceDiscovery');
-    my $GetNamespaceResponse = $servicediscovery->GetNamespace(
-      Id => 'MyResourceId',
-
-    );
+    # GetNamespace example
+    # This example gets information about a specified namespace.
+    my $GetNamespaceResponse =
+      $servicediscovery->GetNamespace( 'Id' => 'ns-e4anhexample0004' );
 
     # Results:
     my $Namespace = $GetNamespaceResponse->Namespace;

@@ -52,7 +52,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/s3-
 
 =head2 B<REQUIRED> AccountId => Str
 
-The AWS account ID associated with the S3 Batch Operations job.
+The Amazon Web Services account ID associated with the S3 Batch
+Operations job.
 
 
 

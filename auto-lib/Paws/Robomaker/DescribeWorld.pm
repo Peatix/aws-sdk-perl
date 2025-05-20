@@ -34,11 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
-    my $Arn           = $DescribeWorldResponse->Arn;
-    my $CreatedAt     = $DescribeWorldResponse->CreatedAt;
-    my $GenerationJob = $DescribeWorldResponse->GenerationJob;
-    my $Tags          = $DescribeWorldResponse->Tags;
-    my $Template      = $DescribeWorldResponse->Template;
+    my $Arn                  = $DescribeWorldResponse->Arn;
+    my $CreatedAt            = $DescribeWorldResponse->CreatedAt;
+    my $GenerationJob        = $DescribeWorldResponse->GenerationJob;
+    my $Tags                 = $DescribeWorldResponse->Tags;
+    my $Template             = $DescribeWorldResponse->Template;
+    my $WorldDescriptionBody = $DescribeWorldResponse->WorldDescriptionBody;
 
     # Returns a L<Paws::Robomaker::DescribeWorldResponse> object.
 

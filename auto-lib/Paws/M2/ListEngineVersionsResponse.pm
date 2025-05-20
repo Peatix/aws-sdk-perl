@@ -1,0 +1,35 @@
+
+package Paws::M2::ListEngineVersionsResponse;
+  use Moose;
+  has EngineVersions => (is => 'ro', isa => 'ArrayRef[Paws::M2::EngineVersionsSummary]', traits => ['NameInRequest'], request_name => 'engineVersions', required => 1);
+  has NextToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'nextToken');
+
+  has _request_id => (is => 'ro', isa => 'Str');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::M2::ListEngineVersionsResponse
+
+=head1 ATTRIBUTES
+
+
+=head2 B<REQUIRED> EngineVersions => ArrayRef[L<Paws::M2::EngineVersionsSummary>]
+
+Returns the engine versions.
+
+
+=head2 NextToken => Str
+
+If there are more items to return, this contains a token that is passed
+to a subsequent call to this operation to retrieve the next set of
+items.
+
+
+=head2 _request_id => Str
+
+
+=cut
+

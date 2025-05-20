@@ -53,7 +53,7 @@ The identifier of the product path.
 
 =head2 Name => Str
 
-The name of the portfolio to which the user was assigned.
+The name of the portfolio that contains the product.
 
 
 =head2 Tags => ArrayRef[L<Paws::ServiceCatalog::Tag>]

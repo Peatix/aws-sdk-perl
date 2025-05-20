@@ -70,7 +70,7 @@ The transfer message.
 
 =head2 TransferredTo => Str
 
-The AWS account to which the transfer was made.
+The Amazon Web Services account to which the transfer was made.
 
 
 

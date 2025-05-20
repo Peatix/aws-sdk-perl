@@ -97,11 +97,11 @@ distribution.
 
 =head2 B<REQUIRED> TrustedSigners => L<Paws::CloudFront::TrustedSigners>
 
-A complex type that specifies any AWS accounts that you want to permit
-to create signed URLs for private content. If you want the distribution
-to use signed URLs, include this element; if you want the distribution
-to use public URLs, remove this element. For more information, see
-Serving Private Content through CloudFront
+A complex type that specifies any Amazon Web Services accounts that you
+want to permit to create signed URLs for private content. If you want
+the distribution to use signed URLs, include this element; if you want
+the distribution to use public URLs, remove this element. For more
+information, see Serving Private Content through CloudFront
 (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html)
 in the I<Amazon CloudFront Developer Guide>.
 

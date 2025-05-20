@@ -3,11 +3,14 @@ package Paws::Glue::UpdateCsvClassifierRequest;
   use Moose;
   has AllowSingleColumn => (is => 'ro', isa => 'Bool');
   has ContainsHeader => (is => 'ro', isa => 'Str');
+  has CustomDatatypeConfigured => (is => 'ro', isa => 'Bool');
+  has CustomDatatypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Delimiter => (is => 'ro', isa => 'Str');
   has DisableValueTrimming => (is => 'ro', isa => 'Bool');
   has Header => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has QuoteSymbol => (is => 'ro', isa => 'Str');
+  has Serde => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -28,7 +31,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Glue::UpdateCsvClassifierRequest object:
 
-  $service_obj->Method(Att1 => { AllowSingleColumn => $value, ..., QuoteSymbol => $value  });
+  $service_obj->Method(Att1 => { AllowSingleColumn => $value, ..., Serde => $value  });
 
 =head3 Results returned from an API call
 
@@ -52,6 +55,16 @@ Enables the processing of files that contain only one column.
 =head2 ContainsHeader => Str
 
 Indicates whether the CSV file contains a header.
+
+
+=head2 CustomDatatypeConfigured => Bool
+
+Specifies the configuration of custom datatypes.
+
+
+=head2 CustomDatatypes => ArrayRef[Str|Undef]
+
+Specifies a list of supported custom datatypes.
 
 
 =head2 Delimiter => Str
@@ -79,6 +92,14 @@ The name of the classifier.
 
 A custom symbol to denote what combines content into a single column
 value. It must be different from the column delimiter.
+
+
+=head2 Serde => Str
+
+Sets the SerDe for processing CSV in the classifier, which will be
+applied in the Data Catalog. Valid values are C<OpenCSVSerDe>,
+C<LazySimpleSerDe>, and C<None>. You can specify the C<None> value when
+you want the crawler to do the detection.
 
 
 

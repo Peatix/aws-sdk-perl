@@ -6,6 +6,7 @@ package Paws::ELBv2::Listener;
   has DefaultActions => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::Action]');
   has ListenerArn => (is => 'ro', isa => 'Str');
   has LoadBalancerArn => (is => 'ro', isa => 'Str');
+  has MutualAuthentication => (is => 'ro', isa => 'Paws::ELBv2::MutualAuthenticationAttributes');
   has Port => (is => 'ro', isa => 'Int');
   has Protocol => (is => 'ro', isa => 'Str');
   has SslPolicy => (is => 'ro', isa => 'Str');
@@ -69,6 +70,11 @@ The Amazon Resource Name (ARN) of the listener.
 =head2 LoadBalancerArn => Str
 
 The Amazon Resource Name (ARN) of the load balancer.
+
+
+=head2 MutualAuthentication => L<Paws::ELBv2::MutualAuthenticationAttributes>
+
+The mutual authentication configuration information.
 
 
 =head2 Port => Int

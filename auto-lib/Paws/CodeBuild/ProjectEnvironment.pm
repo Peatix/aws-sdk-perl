@@ -2,8 +2,11 @@
 package Paws::CodeBuild::ProjectEnvironment;
   use Moose;
   has Certificate => (is => 'ro', isa => 'Str', request_name => 'certificate', traits => ['NameInRequest']);
+  has ComputeConfiguration => (is => 'ro', isa => 'Paws::CodeBuild::ComputeConfiguration', request_name => 'computeConfiguration', traits => ['NameInRequest']);
   has ComputeType => (is => 'ro', isa => 'Str', request_name => 'computeType', traits => ['NameInRequest'], required => 1);
+  has DockerServer => (is => 'ro', isa => 'Paws::CodeBuild::DockerServer', request_name => 'dockerServer', traits => ['NameInRequest']);
   has EnvironmentVariables => (is => 'ro', isa => 'ArrayRef[Paws::CodeBuild::EnvironmentVariable]', request_name => 'environmentVariables', traits => ['NameInRequest']);
+  has Fleet => (is => 'ro', isa => 'Paws::CodeBuild::ProjectFleet', request_name => 'fleet', traits => ['NameInRequest']);
   has Image => (is => 'ro', isa => 'Str', request_name => 'image', traits => ['NameInRequest'], required => 1);
   has ImagePullCredentialsType => (is => 'ro', isa => 'Str', request_name => 'imagePullCredentialsType', traits => ['NameInRequest']);
   has PrivilegedMode => (is => 'ro', isa => 'Bool', request_name => 'privilegedMode', traits => ['NameInRequest']);
@@ -54,6 +57,12 @@ information, see certificate
 in the I<CodeBuild User Guide>.
 
 
+=head2 ComputeConfiguration => L<Paws::CodeBuild::ComputeConfiguration>
+
+The compute configuration of the build project. This is only required
+if C<computeType> is set to C<ATTRIBUTE_BASED_COMPUTE>.
+
+
 =head2 B<REQUIRED> ComputeType => Str
 
 Information about the compute resources the build project uses.
@@ -63,22 +72,91 @@ Available values include:
 
 =item *
 
-C<BUILD_GENERAL1_SMALL>: Use up to 3 GB memory and 2 vCPUs for builds.
+C<ATTRIBUTE_BASED_COMPUTE>: Specify the amount of vCPUs, memory, disk
+space, and the type of machine.
+
+If you use C<ATTRIBUTE_BASED_COMPUTE>, you must define your attributes
+by using C<computeConfiguration>. CodeBuild will select the cheapest
+instance that satisfies your specified attributes. For more
+information, see Reserved capacity environment types
+(https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment-reserved-capacity.types)
+in the I<CodeBuild User Guide>.
 
 =item *
 
-C<BUILD_GENERAL1_MEDIUM>: Use up to 7 GB memory and 4 vCPUs for builds.
+C<BUILD_GENERAL1_SMALL>: Use up to 4 GiB memory and 2 vCPUs for builds.
 
 =item *
 
-C<BUILD_GENERAL1_LARGE>: Use up to 16 GB memory and 8 vCPUs for builds,
-depending on your environment type.
+C<BUILD_GENERAL1_MEDIUM>: Use up to 8 GiB memory and 4 vCPUs for
+builds.
 
 =item *
 
-C<BUILD_GENERAL1_2XLARGE>: Use up to 145 GB memory, 72 vCPUs, and 824
+C<BUILD_GENERAL1_LARGE>: Use up to 16 GiB memory and 8 vCPUs for
+builds, depending on your environment type.
+
+=item *
+
+C<BUILD_GENERAL1_XLARGE>: Use up to 72 GiB memory and 36 vCPUs for
+builds, depending on your environment type.
+
+=item *
+
+C<BUILD_GENERAL1_2XLARGE>: Use up to 144 GiB memory, 72 vCPUs, and 824
 GB of SSD storage for builds. This compute type supports Docker images
 up to 100 GB uncompressed.
+
+=item *
+
+C<BUILD_LAMBDA_1GB>: Use up to 1 GiB memory for builds. Only available
+for environment type C<LINUX_LAMBDA_CONTAINER> and
+C<ARM_LAMBDA_CONTAINER>.
+
+=item *
+
+C<BUILD_LAMBDA_2GB>: Use up to 2 GiB memory for builds. Only available
+for environment type C<LINUX_LAMBDA_CONTAINER> and
+C<ARM_LAMBDA_CONTAINER>.
+
+=item *
+
+C<BUILD_LAMBDA_4GB>: Use up to 4 GiB memory for builds. Only available
+for environment type C<LINUX_LAMBDA_CONTAINER> and
+C<ARM_LAMBDA_CONTAINER>.
+
+=item *
+
+C<BUILD_LAMBDA_8GB>: Use up to 8 GiB memory for builds. Only available
+for environment type C<LINUX_LAMBDA_CONTAINER> and
+C<ARM_LAMBDA_CONTAINER>.
+
+=item *
+
+C<BUILD_LAMBDA_10GB>: Use up to 10 GiB memory for builds. Only
+available for environment type C<LINUX_LAMBDA_CONTAINER> and
+C<ARM_LAMBDA_CONTAINER>.
+
+=back
+
+If you use C<BUILD_GENERAL1_SMALL>:
+
+=over
+
+=item *
+
+For environment type C<LINUX_CONTAINER>, you can use up to 4 GiB memory
+and 2 vCPUs for builds.
+
+=item *
+
+For environment type C<LINUX_GPU_CONTAINER>, you can use up to 16 GiB
+memory, 4 vCPUs, and 1 NVIDIA A10G Tensor Core GPU for builds.
+
+=item *
+
+For environment type C<ARM_CONTAINER>, you can use up to 4 GiB memory
+and 2 vCPUs on ARM-based processors for builds.
 
 =back
 
@@ -88,30 +166,40 @@ If you use C<BUILD_GENERAL1_LARGE>:
 
 =item *
 
-For environment type C<LINUX_CONTAINER>, you can use up to 15 GB memory
-and 8 vCPUs for builds.
+For environment type C<LINUX_CONTAINER>, you can use up to 16 GiB
+memory and 8 vCPUs for builds.
 
 =item *
 
-For environment type C<LINUX_GPU_CONTAINER>, you can use up to 255 GB
+For environment type C<LINUX_GPU_CONTAINER>, you can use up to 255 GiB
 memory, 32 vCPUs, and 4 NVIDIA Tesla V100 GPUs for builds.
 
 =item *
 
-For environment type C<ARM_CONTAINER>, you can use up to 16 GB memory
+For environment type C<ARM_CONTAINER>, you can use up to 16 GiB memory
 and 8 vCPUs on ARM-based processors for builds.
 
 =back
 
-For more information, see Build Environment Compute Types
-(https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)
+For more information, see On-demand environment types
+(https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types)
 in the I<CodeBuild User Guide.>
+
+
+=head2 DockerServer => L<Paws::CodeBuild::DockerServer>
+
+A DockerServer object to use for this build project.
 
 
 =head2 EnvironmentVariables => ArrayRef[L<Paws::CodeBuild::EnvironmentVariable>]
 
 A set of environment variables to make available to builds for this
 build project.
+
+
+=head2 Fleet => L<Paws::CodeBuild::ProjectFleet>
+
+A ProjectFleet object to use for this build project.
 
 
 =head2 B<REQUIRED> Image => Str
@@ -205,43 +293,8 @@ The credentials for access to a private registry.
 
 The type of build environment to use for related builds.
 
-=over
-
-=item *
-
-The environment type C<ARM_CONTAINER> is available only in regions US
-East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland),
-Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and
-EU (Frankfurt).
-
-=item *
-
-The environment type C<LINUX_CONTAINER> with compute type
-C<build.general1.2xlarge> is available only in regions US East (N.
-Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU
-(Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia
-Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China
-(Beijing), and China (Ningxia).
-
-=item *
-
-The environment type C<LINUX_GPU_CONTAINER> is available only in
-regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada
-(Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific
-(Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific
-(Sydney) , China (Beijing), and China (Ningxia).
-
-=back
-
-=over
-
-=item *
-
-The environment types C<WINDOWS_CONTAINER> and
-C<WINDOWS_SERVER_2019_CONTAINER> are available only in regions US East
-(N. Virginia), US East (Ohio), US West (Oregon), and EU (Ireland).
-
-=back
+If you're using compute fleets during project creation, C<type> will be
+ignored.
 
 For more information, see Build environment compute types
 (https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)

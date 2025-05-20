@@ -4,11 +4,15 @@ package Paws::EC2::ModifyVpcEndpointServiceConfiguration;
   has AcceptanceRequired => (is => 'ro', isa => 'Bool');
   has AddGatewayLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddGatewayLoadBalancerArn' );
   has AddNetworkLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddNetworkLoadBalancerArn' );
+  has AddSupportedIpAddressTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddSupportedIpAddressType' );
+  has AddSupportedRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'AddSupportedRegion' );
   has DryRun => (is => 'ro', isa => 'Bool');
   has PrivateDnsName => (is => 'ro', isa => 'Str');
   has RemoveGatewayLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveGatewayLoadBalancerArn' );
   has RemoveNetworkLoadBalancerArns => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveNetworkLoadBalancerArn' );
   has RemovePrivateDnsName => (is => 'ro', isa => 'Bool');
+  has RemoveSupportedIpAddressTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveSupportedIpAddressType' );
+  has RemoveSupportedRegions => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'RemoveSupportedRegion' );
   has ServiceId => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -41,11 +45,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AcceptanceRequired            => 1,                          # OPTIONAL
       AddGatewayLoadBalancerArns    => [ 'MyString', ... ],        # OPTIONAL
       AddNetworkLoadBalancerArns    => [ 'MyString', ... ],        # OPTIONAL
+      AddSupportedIpAddressTypes    => [ 'MyString', ... ],        # OPTIONAL
+      AddSupportedRegions           => [ 'MyString', ... ],        # OPTIONAL
       DryRun                        => 1,                          # OPTIONAL
       PrivateDnsName                => 'MyString',                 # OPTIONAL
       RemoveGatewayLoadBalancerArns => [ 'MyString', ... ],        # OPTIONAL
       RemoveNetworkLoadBalancerArns => [ 'MyString', ... ],        # OPTIONAL
       RemovePrivateDnsName          => 1,                          # OPTIONAL
+      RemoveSupportedIpAddressTypes => [ 'MyString', ... ],        # OPTIONAL
+      RemoveSupportedRegions        => [ 'MyString', ... ],        # OPTIONAL
       );
 
     # Results:
@@ -61,22 +69,34 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 AcceptanceRequired => Bool
 
-Indicates whether requests to create an endpoint to your service must
-be accepted.
+Indicates whether requests to create an endpoint to the service must be
+accepted.
 
 
 
 =head2 AddGatewayLoadBalancerArns => ArrayRef[Str|Undef]
 
 The Amazon Resource Names (ARNs) of Gateway Load Balancers to add to
-your service configuration.
+the service configuration.
 
 
 
 =head2 AddNetworkLoadBalancerArns => ArrayRef[Str|Undef]
 
 The Amazon Resource Names (ARNs) of Network Load Balancers to add to
-your service configuration.
+the service configuration.
+
+
+
+=head2 AddSupportedIpAddressTypes => ArrayRef[Str|Undef]
+
+The IP address types to add to the service configuration.
+
+
+
+=head2 AddSupportedRegions => ArrayRef[Str|Undef]
+
+The supported Regions to add to the service configuration.
 
 
 
@@ -99,14 +119,14 @@ the endpoint service.
 =head2 RemoveGatewayLoadBalancerArns => ArrayRef[Str|Undef]
 
 The Amazon Resource Names (ARNs) of Gateway Load Balancers to remove
-from your service configuration.
+from the service configuration.
 
 
 
 =head2 RemoveNetworkLoadBalancerArns => ArrayRef[Str|Undef]
 
 The Amazon Resource Names (ARNs) of Network Load Balancers to remove
-from your service configuration.
+from the service configuration.
 
 
 
@@ -114,6 +134,18 @@ from your service configuration.
 
 (Interface endpoint configuration) Removes the private DNS name of the
 endpoint service.
+
+
+
+=head2 RemoveSupportedIpAddressTypes => ArrayRef[Str|Undef]
+
+The IP address types to remove from the service configuration.
+
+
+
+=head2 RemoveSupportedRegions => ArrayRef[Str|Undef]
+
+The supported Regions to remove from the service configuration.
 
 
 

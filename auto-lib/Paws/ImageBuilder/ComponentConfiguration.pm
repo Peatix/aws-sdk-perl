@@ -46,8 +46,8 @@ The Amazon Resource Name (ARN) of the component.
 
 =head2 Parameters => ArrayRef[L<Paws::ImageBuilder::ComponentParameter>]
 
-A group of parameter settings that are used to configure the component
-for a specific recipe.
+A group of parameter settings that Image Builder uses to configure the
+component for a specific recipe.
 
 
 

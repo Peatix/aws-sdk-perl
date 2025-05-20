@@ -4,7 +4,9 @@ package Paws::CodeBuild::CreateWebhook;
   has BranchFilter => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'branchFilter' );
   has BuildType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'buildType' );
   has FilterGroups => (is => 'ro', isa => 'ArrayRef[ArrayRef[Paws::CodeBuild::WebhookFilter]]', traits => ['NameInRequest'], request_name => 'filterGroups' );
+  has ManualCreation => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'manualCreation' );
   has ProjectName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'projectName' , required => 1);
+  has ScopeConfiguration => (is => 'ro', isa => 'Paws::CodeBuild::ScopeConfiguration', traits => ['NameInRequest'], request_name => 'scopeConfiguration' );
 
   use MooseX::ClassAttribute;
 
@@ -39,13 +41,20 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           {
             Pattern => 'MyString',
             Type    => 'EVENT'
-            , # values: EVENT, BASE_REF, HEAD_REF, ACTOR_ACCOUNT_ID, FILE_PATH, COMMIT_MESSAGE
+            , # values: EVENT, BASE_REF, HEAD_REF, ACTOR_ACCOUNT_ID, FILE_PATH, COMMIT_MESSAGE, WORKFLOW_NAME, TAG_NAME, RELEASE_NAME, REPOSITORY_NAME, ORGANIZATION_NAME
             ExcludeMatchedPattern => 1,    # OPTIONAL
           },
           ...
         ],
         ...
       ],    # OPTIONAL
+      ManualCreation     => 1,    # OPTIONAL
+      ScopeConfiguration => {
+        Name  => 'MyString',
+        Scope => 'GITHUB_ORGANIZATION'
+        ,    # values: GITHUB_ORGANIZATION, GITHUB_GLOBAL, GITLAB_GROUP
+        Domain => 'MyString',
+      },    # OPTIONAL
     );
 
     # Results:
@@ -75,7 +84,14 @@ C<branchFilter>.
 
 Specifies the type of build this webhook will trigger.
 
-Valid values are: C<"BUILD">, C<"BUILD_BATCH">
+C<RUNNER_BUILDKITE_BUILD> is only available for C<NO_SOURCE> source
+type projects configured for Buildkite runner builds. For more
+information about CodeBuild-hosted Buildkite runner builds, see
+Tutorial: Configure a CodeBuild-hosted Buildkite runner
+(https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html)
+in the I<CodeBuild user guide>.
+
+Valid values are: C<"BUILD">, C<"BUILD_BATCH">, C<"RUNNER_BUILDKITE_BUILD">
 
 =head2 FilterGroups => ArrayRef[L<ArrayRef[Paws::CodeBuild::WebhookFilter]>]
 
@@ -89,9 +105,29 @@ its filters must pass.
 
 
 
+=head2 ManualCreation => Bool
+
+If manualCreation is true, CodeBuild doesn't create a webhook in GitHub
+and instead returns C<payloadUrl> and C<secret> values for the webhook.
+The C<payloadUrl> and C<secret> values in the output can be used to
+manually create a webhook within GitHub.
+
+C<manualCreation> is only available for GitHub webhooks.
+
+
+
 =head2 B<REQUIRED> ProjectName => Str
 
 The name of the CodeBuild project.
+
+
+
+=head2 ScopeConfiguration => L<Paws::CodeBuild::ScopeConfiguration>
+
+The scope configuration for global or organization webhooks.
+
+Global or organization webhooks are only available for GitHub and
+Github Enterprise webhooks.
 
 
 

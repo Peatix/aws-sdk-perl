@@ -43,8 +43,7 @@ Properties that describe an alias resource.
 
 B<Related actions>
 
-CreateAlias | ListAliases | DescribeAlias | UpdateAlias | DeleteAlias |
-ResolveAlias | All APIs by task
+All APIs by task
 (https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
 
 =head1 ATTRIBUTES
@@ -54,8 +53,8 @@ ResolveAlias | All APIs by task
 
 The Amazon Resource Name (ARN
 (https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html))
-that is assigned to a GameLift alias resource and uniquely identifies
-it. ARNs are unique across all Regions. Format is
+that is assigned to a Amazon GameLift alias resource and uniquely
+identifies it. ARNs are unique across all Regions. Format is
 C<arn:aws:gamelift:E<lt>regionE<gt>::alias/alias-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912>.
 In a GameLift alias ARN, the resource ID matches the alias ID value.
 

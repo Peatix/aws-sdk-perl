@@ -34,6 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Forecast::S
 
 =head1 DESCRIPTION
 
+This object belongs to the CreatePredictor operation. If you created
+your predictor with CreateAutoPredictor, see AdditionalDataset.
+
 Describes a supplementary feature of a dataset group. This object is
 part of the InputDataConfig object. Forecast supports the Weather Index
 and Holidays built-in featurizations.

@@ -74,9 +74,9 @@ configuration per page.
 
 =head2 NextToken => Str
 
-(Optional) If the current AWS account has more than C<MaxResults>
-DNSSEC configurations, use C<NextToken> to get the second and
-subsequent pages of results.
+(Optional) If the current Amazon Web Services account has more than
+C<MaxResults> DNSSEC configurations, use C<NextToken> to get the second
+and subsequent pages of results.
 
 For the first C<ListResolverDnssecConfigs> request, omit this value.
 

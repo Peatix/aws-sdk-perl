@@ -16,7 +16,7 @@ Paws::Firehose::DescribeDeliveryStreamOutput
 
 =head2 B<REQUIRED> DeliveryStreamDescription => L<Paws::Firehose::DeliveryStreamDescription>
 
-Information about the delivery stream.
+Information about the Firehose stream.
 
 
 =head2 _request_id => Str

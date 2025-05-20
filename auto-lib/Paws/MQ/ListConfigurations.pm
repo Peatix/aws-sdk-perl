@@ -49,8 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mq/
 
 =head2 MaxResults => Int
 
-The maximum number of configurations that Amazon MQ can return per page
-(20 by default). This value must be an integer from 5 to 100.
+The maximum number of brokers that Amazon MQ can return per page (20 by
+default). This value must be an integer from 5 to 100.
 
 
 

@@ -59,7 +59,8 @@ C<CREATING> - The index is being created.
 
 =item *
 
-C<UPDATING> - The index is being updated.
+C<UPDATING> - The table/index configuration is being updated. The
+table/index remains available for data operations when C<UPDATING>
 
 =item *
 

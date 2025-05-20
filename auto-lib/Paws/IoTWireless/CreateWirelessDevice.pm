@@ -6,6 +6,8 @@ package Paws::IoTWireless::CreateWirelessDevice;
   has DestinationName => (is => 'ro', isa => 'Str', required => 1);
   has LoRaWAN => (is => 'ro', isa => 'Paws::IoTWireless::LoRaWANDevice');
   has Name => (is => 'ro', isa => 'Str');
+  has Positioning => (is => 'ro', isa => 'Str');
+  has Sidewalk => (is => 'ro', isa => 'Paws::IoTWireless::SidewalkCreateWirelessDevice');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::IoTWireless::Tag]');
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
@@ -41,14 +43,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Description        => 'MyDescription',           # OPTIONAL
       LoRaWAN            => {
         AbpV1_0_x => {
-          DevAddr     => 'MyDevAddr',                  # OPTIONAL
+          DevAddr     => 'MyDevAddr',    # OPTIONAL
+          FCntStart   => 1,              # max: 65535; OPTIONAL
           SessionKeys => {
-            AppSKey => 'MyAppSKey',                    # OPTIONAL
-            NwkSKey => 'MyNwkSKey',                    # OPTIONAL
+            AppSKey => 'MyAppSKey',      # OPTIONAL
+            NwkSKey => 'MyNwkSKey',      # OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
         AbpV1_1 => {
           DevAddr     => 'MyDevAddr',    # OPTIONAL
+          FCntStart   => 1,              # max: 65535; OPTIONAL
           SessionKeys => {
             AppSKey     => 'MyAppSKey',        # OPTIONAL
             FNwkSIntKey => 'MyFNwkSIntKey',    # OPTIONAL
@@ -58,9 +62,30 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         DevEui          => 'MyDevEui',             # OPTIONAL
         DeviceProfileId => 'MyDeviceProfileId',    # max: 256; OPTIONAL
-        OtaaV1_0_x      => {
-          AppEui => 'MyAppEui',                    # OPTIONAL
-          AppKey => 'MyAppKey',                    # OPTIONAL
+        FPorts          => {
+          Applications => [
+            {
+              DestinationName => 'MyDestinationName',    # max: 128
+              FPort           => 1,    # min: 1, max: 223; OPTIONAL
+              Type            =>
+                'SemtechGeolocation',    # values: SemtechGeolocation; OPTIONAL
+            },
+            ...
+          ],    # OPTIONAL
+          ClockSync   => 1,    # min: 1, max: 223; OPTIONAL
+          Fuota       => 1,    # min: 1, max: 223; OPTIONAL
+          Multicast   => 1,    # min: 1, max: 223; OPTIONAL
+          Positioning => {
+            ClockSync => 1,    # min: 1, max: 223; OPTIONAL
+            Gnss      => 1,    # min: 1, max: 223; OPTIONAL
+            Stream    => 1,    # min: 1, max: 223; OPTIONAL
+          },    # OPTIONAL
+        },    # OPTIONAL
+        OtaaV1_0_x => {
+          AppEui    => 'MyAppEui',       # OPTIONAL
+          AppKey    => 'MyAppKey',       # OPTIONAL
+          GenAppKey => 'MyGenAppKey',    # OPTIONAL
+          JoinEui   => 'MyJoinEui',      # OPTIONAL
         },    # OPTIONAL
         OtaaV1_1 => {
           AppKey  => 'MyAppKey',     # OPTIONAL
@@ -69,7 +94,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         ServiceProfileId => 'MyServiceProfileId',    # max: 256; OPTIONAL
       },    # OPTIONAL
-      Name => 'MyWirelessDeviceName',    # OPTIONAL
+      Name        => 'MyWirelessDeviceName',    # OPTIONAL
+      Positioning => 'Enabled',                 # OPTIONAL
+      Sidewalk    => {
+        DeviceProfileId => 'MyDeviceProfileId',    # max: 256; OPTIONAL
+      },    # OPTIONAL
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -94,10 +123,16 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 ClientRequestToken => Str
 
-Each resource must have a unique client request token. If you try to
-create a new resource with the same token as a resource that already
-exists, an exception occurs. If you omit this value, AWS SDKs will
-automatically generate a unique client request.
+Each resource must have a unique client request token. The client token
+is used to implement idempotency. It ensures that the request completes
+no more than one time. If you retry a request with the same token and
+the same parameters, the request will complete successfully. However,
+if you try to create a new resource using the same token but different
+parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+SDKs will automatically generate a unique client request. For more
+information about idempotency, see Ensuring idempotency in Amazon EC2
+API requests
+(https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 
 
 
@@ -123,6 +158,20 @@ device.
 =head2 Name => Str
 
 The name of the new resource.
+
+
+
+=head2 Positioning => Str
+
+FPort values for the GNSS, stream, and ClockSync functions of the
+positioning information.
+
+Valid values are: C<"Enabled">, C<"Disabled">
+
+=head2 Sidewalk => L<Paws::IoTWireless::SidewalkCreateWirelessDevice>
+
+The device configuration information to use to create the Sidewalk
+device.
 
 
 

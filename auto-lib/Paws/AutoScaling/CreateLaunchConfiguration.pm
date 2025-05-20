@@ -64,31 +64,32 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aut
 
 =head2 AssociatePublicIpAddress => Bool
 
-For Auto Scaling groups that are running in a virtual private cloud
-(VPC), specifies whether to assign a public IP address to the group's
-instances. If you specify C<true>, each instance in the Auto Scaling
-group receives a unique public IP address. For more information, see
-Launching Auto Scaling instances in a VPC
+Specifies whether to assign a public IPv4 address to the group's
+instances. If the instance is launched into a default subnet, the
+default is to assign a public IPv4 address, unless you disabled the
+option to assign a public IPv4 address on the subnet. If the instance
+is launched into a nondefault subnet, the default is not to assign a
+public IPv4 address, unless you enabled the option to assign a public
+IPv4 address on the subnet.
+
+If you specify C<true>, each instance in the Auto Scaling group
+receives a unique public IPv4 address. For more information, see
+Provide network connectivity for your Auto Scaling instances using
+Amazon VPC
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
-If you specify this parameter, you must specify at least one subnet for
+If you specify this property, you must specify at least one subnet for
 C<VPCZoneIdentifier> when you create your group.
-
-If the instance is launched into a default subnet, the default is to
-assign a public IP address, unless you disabled the option to assign a
-public IP address on the subnet. If the instance is launched into a
-nondefault subnet, the default is not to assign a public IP address,
-unless you enabled the option to assign a public IP address on the
-subnet.
 
 
 
 =head2 BlockDeviceMappings => ArrayRef[L<Paws::AutoScaling::BlockDeviceMapping>]
 
-A block device mapping, which specifies the block devices for the
-instance. You can specify virtual devices and EBS volumes. For more
-information, see Block Device Mapping
+The block device mapping entries that define the block devices to
+attach to the instances at launch. By default, the block devices
+specified in the block device mapping for the AMI are used. For more
+information, see Block device mappings
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html)
 in the I<Amazon EC2 User Guide for Linux Instances>.
 
@@ -96,31 +97,13 @@ in the I<Amazon EC2 User Guide for Linux Instances>.
 
 =head2 ClassicLinkVPCId => Str
 
-The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances
-to. For more information, see ClassicLink
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html)
-in the I<Amazon EC2 User Guide for Linux Instances> and Linking
-EC2-Classic instances to a VPC
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html#as-ClassicLink)
-in the I<Amazon EC2 Auto Scaling User Guide>.
-
-This parameter can only be used if you are launching EC2-Classic
-instances.
+Available for backward compatibility.
 
 
 
 =head2 ClassicLinkVPCSecurityGroups => ArrayRef[Str|Undef]
 
-The IDs of one or more security groups for the specified
-ClassicLink-enabled VPC. For more information, see ClassicLink
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html)
-in the I<Amazon EC2 User Guide for Linux Instances> and Linking
-EC2-Classic instances to a VPC
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html#as-ClassicLink)
-in the I<Amazon EC2 Auto Scaling User Guide>.
-
-If you specify the C<ClassicLinkVPCId> parameter, you must specify this
-parameter.
+Available for backward compatibility.
 
 
 
@@ -132,8 +115,8 @@ throughput to Amazon EBS and an optimized configuration stack to
 provide optimal I/O performance. This optimization is not available
 with all instance types. Additional fees are incurred when you enable
 EBS optimization for an instance type that is not EBS-optimized by
-default. For more information, see Amazon EBS-Optimized Instances
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html)
+default. For more information, see Amazon EBS-optimized instances
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html)
 in the I<Amazon EC2 User Guide for Linux Instances>.
 
 The default value is C<false>.
@@ -144,10 +127,8 @@ The default value is C<false>.
 
 The name or the Amazon Resource Name (ARN) of the instance profile
 associated with the IAM role for the instance. The instance profile
-contains the IAM role.
-
-For more information, see IAM role for applications that run on Amazon
-EC2 instances
+contains the IAM role. For more information, see IAM role for
+applications that run on Amazon EC2 instances
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
@@ -156,11 +137,11 @@ in the I<Amazon EC2 Auto Scaling User Guide>.
 =head2 ImageId => Str
 
 The ID of the Amazon Machine Image (AMI) that was assigned during
-registration. For more information, see Finding an AMI
+registration. For more information, see Find a Linux AMI
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html)
 in the I<Amazon EC2 User Guide for Linux Instances>.
 
-If you do not specify C<InstanceId>, you must specify C<ImageId>.
+If you specify C<InstanceId>, an C<ImageId> is not required.
 
 
 
@@ -174,13 +155,9 @@ To create a launch configuration with a block device mapping or
 override any other instance attributes, specify them as part of the
 same request.
 
-For more information, see Creating a launch configuration using an EC2
-instance
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-lc-with-instanceID.html)
+For more information, see Create a launch configuration
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
-
-If you do not specify C<InstanceId>, you must specify both C<ImageId>
-and C<InstanceType>.
 
 
 
@@ -194,8 +171,8 @@ The default value is C<true> (enabled).
 When detailed monitoring is enabled, Amazon CloudWatch generates
 metrics every minute and your account is charged a fee. When you
 disable detailed monitoring, CloudWatch generates metrics every 5
-minutes. For more information, see Configure Monitoring for Auto
-Scaling Instances
+minutes. For more information, see Configure monitoring for Auto
+Scaling instances
 (https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
@@ -203,14 +180,12 @@ in the I<Amazon EC2 Auto Scaling User Guide>.
 
 =head2 InstanceType => Str
 
-Specifies the instance type of the EC2 instance.
-
-For information about available instance types, see Available Instance
-Types
+Specifies the instance type of the EC2 instance. For information about
+available instance types, see Available instance types
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes)
 in the I<Amazon EC2 User Guide for Linux Instances>.
 
-If you do not specify C<InstanceId>, you must specify C<InstanceType>.
+If you specify C<InstanceId>, an C<InstanceType> is not required.
 
 
 
@@ -218,12 +193,17 @@ If you do not specify C<InstanceId>, you must specify C<InstanceType>.
 
 The ID of the kernel associated with the AMI.
 
+We recommend that you use PV-GRUB instead of kernels and RAM disks. For
+more information, see User provided kernels
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html)
+in the I<Amazon EC2 User Guide for Linux Instances>.
+
 
 
 =head2 KeyName => Str
 
-The name of the key pair. For more information, see Amazon EC2 Key
-Pairs
+The name of the key pair. For more information, see Amazon EC2 key
+pairs and Amazon EC2 instances
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
 in the I<Amazon EC2 User Guide for Linux Instances>.
 
@@ -239,7 +219,7 @@ Region per account.
 =head2 MetadataOptions => L<Paws::AutoScaling::InstanceMetadataOptions>
 
 The metadata options for the instances. For more information, see
-Configuring the Instance Metadata Options
+Configure the instance metadata options
 (https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds)
 in the I<Amazon EC2 Auto Scaling User Guide>.
 
@@ -247,23 +227,17 @@ in the I<Amazon EC2 Auto Scaling User Guide>.
 
 =head2 PlacementTenancy => Str
 
-The tenancy of the instance. An instance with C<dedicated> tenancy runs
-on isolated, single-tenant hardware and can only be launched into a
-VPC.
-
-To launch dedicated instances into a shared tenancy VPC (a VPC with the
-instance placement tenancy attribute set to C<default>), you must set
-the value of this parameter to C<dedicated>.
+The tenancy of the instance, either C<default> or C<dedicated>. An
+instance with C<dedicated> tenancy runs on isolated, single-tenant
+hardware and can only be launched into a VPC. To launch dedicated
+instances into a shared tenancy VPC (a VPC with the instance placement
+tenancy attribute set to C<default>), you must set the value of this
+property to C<dedicated>.
 
 If you specify C<PlacementTenancy>, you must specify at least one
 subnet for C<VPCZoneIdentifier> when you create your group.
 
-For more information, see Configuring instance tenancy with Amazon EC2
-Auto Scaling
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-dedicated-instances.html)
-in the I<Amazon EC2 Auto Scaling User Guide>.
-
-Valid Values: C<default> | C<dedicated>
+Valid values: C<default> | C<dedicated>
 
 
 
@@ -271,22 +245,20 @@ Valid Values: C<default> | C<dedicated>
 
 The ID of the RAM disk to select.
 
+We recommend that you use PV-GRUB instead of kernels and RAM disks. For
+more information, see User provided kernels
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html)
+in the I<Amazon EC2 User Guide for Linux Instances>.
+
 
 
 =head2 SecurityGroups => ArrayRef[Str|Undef]
 
-A list that contains the security groups to assign to the instances in
-the Auto Scaling group.
-
-[EC2-VPC] Specify the security group IDs. For more information, see
-Security Groups for Your VPC
-(https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
+A list that contains the security group IDs to assign to the instances
+in the Auto Scaling group. For more information, see Control traffic to
+your Amazon Web Services resources using security groups
+(https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html)
 in the I<Amazon Virtual Private Cloud User Guide>.
-
-[EC2-Classic] Specify either the security group names or the security
-group IDs. For more information, see Amazon EC2 Security Groups
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html)
-in the I<Amazon EC2 User Guide for Linux Instances>.
 
 
 
@@ -295,9 +267,11 @@ in the I<Amazon EC2 User Guide for Linux Instances>.
 The maximum hourly price to be paid for any Spot Instance launched to
 fulfill the request. Spot Instances are launched when the price you
 specify exceeds the current Spot price. For more information, see
-Requesting Spot Instances
-(https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-launch-spot-instances.html)
+Request Spot Instances for fault-tolerant and flexible applications
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-spot-instances.html)
 in the I<Amazon EC2 Auto Scaling User Guide>.
+
+Valid Range: Minimum value of 0.001
 
 When you change your maximum price by creating a new launch
 configuration, running instances will continue to run as long as the

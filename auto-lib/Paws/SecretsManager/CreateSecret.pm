@@ -43,7 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       'ClientRequestToken' => 'EXAMPLE1-90ab-cdef-fedc-ba987SECRET1',
       'Description'        => 'My test database secret created with the CLI',
       'Name'               => 'MyTestDatabaseSecret',
-      'SecretString' => '{"username":"david","password":"BnQw!XDWgaEeT9XGTT29"}'
+      'SecretString' => '{"username":"david","password":"EXAMPLE-PASSWORD"}'
     );
 
     # Results:
@@ -61,25 +61,24 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 AddReplicaRegions => ArrayRef[L<Paws::SecretsManager::ReplicaRegionType>]
 
-(Optional) Add a list of regions to replicate secrets. Secrets Manager
-replicates the KMSKeyID objects to the list of regions specified in the
-parameter.
+A list of Regions and KMS keys to replicate secrets.
 
 
 
 =head2 ClientRequestToken => Str
 
-(Optional) If you include C<SecretString> or C<SecretBinary>, then an
-initial version is created as part of the secret, and this parameter
-specifies a unique identifier for the new version.
+If you include C<SecretString> or C<SecretBinary>, then Secrets Manager
+creates an initial version for the secret, and this parameter specifies
+the unique identifier for the new version.
 
-If you use the AWS CLI or one of the AWS SDK to call this operation,
-then you can leave this parameter empty. The CLI or SDK generates a
-random UUID for you and includes it as the value for this parameter in
-the request. If you don't use the SDK and instead generate a raw HTTP
-request to the Secrets Manager service endpoint, then you must generate
-a C<ClientRequestToken> yourself for the new version and include the
-value in the request.
+If you use the Amazon Web Services CLI or one of the Amazon Web
+Services SDKs to call this operation, then you can leave this parameter
+empty. The CLI or SDK generates a random UUID for you and includes it
+as the value for this parameter in the request.
+
+If you generate a raw HTTP request to the Secrets Manager service
+endpoint, then you must generate a C<ClientRequestToken> and include it
+in the request.
 
 This value helps ensure idempotency. Secrets Manager uses this value to
 prevent the accidental creation of duplicate versions if there are
@@ -116,172 +115,123 @@ This value becomes the C<VersionId> of the new version.
 
 =head2 Description => Str
 
-(Optional) Specifies a user-provided description of the secret.
+The description of the secret.
 
 
 
 =head2 ForceOverwriteReplicaSecret => Bool
 
-(Optional) If set, the replication overwrites a secret with the same
-name in the destination region.
+Specifies whether to overwrite a secret with the same name in the
+destination Region. By default, secrets aren't overwritten.
 
 
 
 =head2 KmsKeyId => Str
 
-(Optional) Specifies the ARN, Key ID, or alias of the AWS KMS customer
-master key (CMK) to be used to encrypt the C<SecretString> or
-C<SecretBinary> values in the versions stored in this secret.
+The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
+encrypt the secret value in the secret. An alias is always prefixed by
+C<alias/>, for example C<alias/aws/secretsmanager>. For more
+information, see About aliases
+(https://docs.aws.amazon.com/kms/latest/developerguide/alias-about.html).
 
-You can specify any of the supported ways to identify a AWS KMS key ID.
-If you need to reference a CMK in a different account, you can use only
-the key ARN or the alias ARN.
+To use a KMS key in a different account, use the key ARN or the alias
+ARN.
 
-If you don't specify this value, then Secrets Manager defaults to using
-the AWS account's default CMK (the one named C<aws/secretsmanager>). If
-a AWS KMS CMK with that name doesn't yet exist, then Secrets Manager
-creates it for you automatically the first time it needs to encrypt a
-version's C<SecretString> or C<SecretBinary> fields.
+If you don't specify this value, then Secrets Manager uses the key
+C<aws/secretsmanager>. If that key doesn't yet exist, then Secrets
+Manager creates it for you automatically the first time it encrypts the
+secret value.
 
-You can use the account default CMK to encrypt and decrypt only if you
-call this operation using credentials from the same account that owns
-the secret. If the secret resides in a different account, then you must
-create a custom CMK and specify the ARN in this field.
+If the secret is in a different Amazon Web Services account from the
+credentials calling the API, then you can't use C<aws/secretsmanager>
+to encrypt the secret, and you must create and use a customer managed
+KMS key.
 
 
 
 =head2 B<REQUIRED> Name => Str
 
-Specifies the friendly name of the new secret.
+The name of the new secret.
 
-The secret name must be ASCII letters, digits, or the following
-characters : /_+=.@-
+The secret name can contain ASCII letters, numbers, and the following
+characters: /_+=.@-
 
 Do not end your secret name with a hyphen followed by six characters.
 If you do so, you risk confusion and unexpected results when searching
 for a secret by partial ARN. Secrets Manager automatically adds a
-hyphen and six random characters at the end of the ARN.
+hyphen and six random characters after the secret name at the end of
+the ARN.
 
 
 
 =head2 SecretBinary => Str
 
-(Optional) Specifies binary data that you want to encrypt and store in
-the new version of the secret. To use this parameter in the
-command-line tools, we recommend that you store your binary data in a
-file and then use the appropriate technique for your tool to pass the
-contents of the file as a parameter.
+The binary data to encrypt and store in the new version of the secret.
+We recommend that you store your binary data in a file and then pass
+the contents of the file as a parameter.
 
 Either C<SecretString> or C<SecretBinary> must have a value, but not
-both. They cannot both be empty.
+both.
 
-This parameter is not available using the Secrets Manager console. It
-can be accessed only by using the AWS CLI or one of the AWS SDKs.
+This parameter is not available in the Secrets Manager console.
+
+Sensitive: This field contains sensitive information, so the service
+does not include it in CloudTrail log entries. If you create your own
+log entries, you must also avoid logging the information in this field.
 
 
 
 =head2 SecretString => Str
 
-(Optional) Specifies text data that you want to encrypt and store in
-this new version of the secret.
+The text data to encrypt and store in this new version of the secret.
+We recommend you use a JSON structure of key/value pairs for your
+secret value.
 
 Either C<SecretString> or C<SecretBinary> must have a value, but not
-both. They cannot both be empty.
+both.
 
 If you create a secret by using the Secrets Manager console then
 Secrets Manager puts the protected secret text in only the
 C<SecretString> parameter. The Secrets Manager console stores the
-information as a JSON structure of key/value pairs that the Lambda
-rotation function knows how to parse.
+information as a JSON structure of key/value pairs that a Lambda
+rotation function can parse.
 
-For storing multiple values, we recommend that you use a JSON text
-string argument and specify key/value pairs. For information on how to
-format a JSON parameter for the various command line tool environments,
-see Using JSON for Parameters
-(https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json)
-in the I<AWS CLI User Guide>. For example:
-
-C<{"username":"bob","password":"abc123xyz456"}>
-
-If your command-line tool or SDK requires quotation marks around the
-parameter, you should use single quotes to avoid confusion with the
-double quotes required in the JSON text.
+Sensitive: This field contains sensitive information, so the service
+does not include it in CloudTrail log entries. If you create your own
+log entries, you must also avoid logging the information in this field.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::SecretsManager::Tag>]
 
-(Optional) Specifies a list of user-defined tags that are attached to
-the secret. Each tag is a "Key" and "Value" pair of strings. This
-operation only appends tags to the existing list of tags. To remove
-tags, you must use UntagResource.
+A list of tags to attach to the secret. Each tag is a key and value
+pair of strings in a JSON text string, for example:
 
-=over
-
-=item *
+C<[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]>
 
 Secrets Manager tag key names are case sensitive. A tag with the key
 "ABC" is a different tag from one with key "abc".
 
-=item *
+If you check tags in permissions policies as part of your security
+strategy, then adding or removing a tag can change permissions. If the
+completion of this operation would result in you losing your
+permissions for this secret, then Secrets Manager blocks the operation
+and returns an C<Access Denied> error. For more information, see
+Control access to secrets using tags
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac)
+and Limit access to identities with tags that match secrets' tags
+(https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2).
 
-If you check tags in IAM policy C<Condition> elements as part of your
-security strategy, then adding or removing a tag can change
-permissions. If the successful completion of this operation would
-result in you losing your permissions for this secret, then this
-operation is blocked and returns an C<Access Denied> error.
-
-=back
-
-This parameter requires a JSON text string argument. For information on
-how to format a JSON parameter for the various command line tool
-environments, see Using JSON for Parameters
-(https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json)
-in the I<AWS CLI User Guide>. For example:
-
-C<[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]>
-
+For information about how to format a JSON parameter for the various
+command line tool environments, see Using JSON for Parameters
+(https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json).
 If your command-line tool or SDK requires quotation marks around the
 parameter, you should use single quotes to avoid confusion with the
 double quotes required in the JSON text.
 
-The following basic restrictions apply to tags:
-
-=over
-
-=item *
-
-Maximum number of tags per secretE<mdash>50
-
-=item *
-
-Maximum key lengthE<mdash>127 Unicode characters in UTF-8
-
-=item *
-
-Maximum value lengthE<mdash>255 Unicode characters in UTF-8
-
-=item *
-
-Tag keys and values are case sensitive.
-
-=item *
-
-Do not use the C<aws:> prefix in your tag names or values because AWS
-reserves it for AWS use. You can't edit or delete tag names or values
-with this prefix. Tags with this prefix do not count against your tags
-per secret limit.
-
-=item *
-
-If you use your tagging schema across multiple services and resources,
-remember other services might have restrictions on allowed characters.
-Generally allowed characters: letters, spaces, and numbers
-representable in UTF-8, plus the following special characters: + - = .
-_ : / @.
-
-=back
-
+For tag quotas and naming restrictions, see Service quotas for Tagging
+(https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas)
+in the I<Amazon Web Services General Reference guide>.
 
 
 

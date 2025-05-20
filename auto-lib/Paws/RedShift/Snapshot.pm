@@ -20,12 +20,15 @@ package Paws::RedShift::Snapshot;
   has MaintenanceTrackName => (is => 'ro', isa => 'Str');
   has ManualSnapshotRemainingDays => (is => 'ro', isa => 'Int');
   has ManualSnapshotRetentionPeriod => (is => 'ro', isa => 'Int');
+  has MasterPasswordSecretArn => (is => 'ro', isa => 'Str');
+  has MasterPasswordSecretKmsKeyId => (is => 'ro', isa => 'Str');
   has MasterUsername => (is => 'ro', isa => 'Str');
   has NodeType => (is => 'ro', isa => 'Str');
   has NumberOfNodes => (is => 'ro', isa => 'Int');
   has OwnerAccount => (is => 'ro', isa => 'Str');
   has Port => (is => 'ro', isa => 'Int');
   has RestorableNodeTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'NodeType', traits => ['NameInRequest']);
+  has SnapshotArn => (is => 'ro', isa => 'Str');
   has SnapshotCreateTime => (is => 'ro', isa => 'Str');
   has SnapshotIdentifier => (is => 'ro', isa => 'Str');
   has SnapshotRetentionStartTime => (is => 'ro', isa => 'Str');
@@ -73,9 +76,9 @@ Describes a snapshot.
 
 =head2 AccountsWithRestoreAccess => ArrayRef[L<Paws::RedShift::AccountWithRestoreAccess>]
 
-A list of the AWS customer accounts authorized to restore the snapshot.
-Returns C<null> if no accounts are authorized. Visible only to the
-snapshot owner.
+A list of the Amazon Web Services accounts authorized to restore the
+snapshot. Returns C<null> if no accounts are authorized. Visible only
+to the snapshot owner.
 
 
 =head2 ActualIncrementalBackupSizeInMegaBytes => Num
@@ -167,9 +170,8 @@ complete. Returns C<0> for a completed backup.
 
 =head2 KmsKeyId => Str
 
-The AWS Key Management Service (KMS) key ID of the encryption key that
-was used to encrypt data in the cluster from which the snapshot was
-taken.
+The Key Management Service (KMS) key ID of the encryption key that was
+used to encrypt data in the cluster from which the snapshot was taken.
 
 
 =head2 MaintenanceTrackName => Str
@@ -191,9 +193,21 @@ The number of days that a manual snapshot is retained. If the value is
 The value must be either -1 or an integer between 1 and 3,653.
 
 
+=head2 MasterPasswordSecretArn => Str
+
+The Amazon Resource Name (ARN) for the cluster's admin user credentials
+secret.
+
+
+=head2 MasterPasswordSecretKmsKeyId => Str
+
+The ID of the Key Management Service (KMS) key used to encrypt and
+store the cluster's admin credentials secret.
+
+
 =head2 MasterUsername => Str
 
-The master user name for the cluster.
+The admin user name for the cluster.
 
 
 =head2 NodeType => Str
@@ -208,9 +222,9 @@ The number of nodes in the cluster.
 
 =head2 OwnerAccount => Str
 
-For manual snapshots, the AWS customer account used to create or copy
-the snapshot. For automatic snapshots, the owner of the cluster. The
-owner can perform all snapshot actions, such as sharing a manual
+For manual snapshots, the Amazon Web Services account used to create or
+copy the snapshot. For automatic snapshots, the owner of the cluster.
+The owner can perform all snapshot actions, such as sharing a manual
 snapshot.
 
 
@@ -223,6 +237,11 @@ The port that the cluster is listening on.
 
 The list of node types that this cluster snapshot is able to restore
 into.
+
+
+=head2 SnapshotArn => Str
+
+The Amazon Resource Name (ARN) of the snapshot.
 
 
 =head2 SnapshotCreateTime => Str

@@ -53,7 +53,7 @@ The category of the node configuration recommendation.
 
 =head2 NodeType => Str
 
-The node type, such as, "ds2.8xlarge".
+The node type, such as, "ra3.4xlarge".
 
 
 =head2 NumberOfNodes => Int

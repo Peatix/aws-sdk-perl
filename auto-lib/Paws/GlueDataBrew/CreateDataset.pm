@@ -40,21 +40,29 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           TableName     => 'MyTableName',       # min: 1, max: 255
           CatalogId     => 'MyCatalogId',       # min: 1, max: 255; OPTIONAL
           TempDirectory => {
-            Bucket => 'MyBucket',               # min: 3, max: 63
-            Key    => 'MyKey',                  # min: 1, max: 1280; OPTIONAL
+            Bucket      => 'MyBucket',          # min: 3, max: 63
+            BucketOwner => 'MyBucketOwner',     # min: 12, max: 12; OPTIONAL
+            Key         => 'MyKey',             # min: 1, max: 1280; OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
         DatabaseInputDefinition => {
-          DatabaseTableName  => 'MyDatabaseTableName',     # min: 1, max: 255
           GlueConnectionName => 'MyGlueConnectionName',    # min: 1, max: 255
-          TempDirectory      => {
-            Bucket => 'MyBucket',    # min: 3, max: 63
-            Key    => 'MyKey',       # min: 1, max: 1280; OPTIONAL
+          DatabaseTableName  =>
+            'MyDatabaseTableName',    # min: 1, max: 255; OPTIONAL
+          QueryString   => 'MyQueryString',    # min: 1, max: 10000; OPTIONAL
+          TempDirectory => {
+            Bucket      => 'MyBucket',         # min: 3, max: 63
+            BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+            Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
           },    # OPTIONAL
         },    # OPTIONAL
+        Metadata => {
+          SourceArn => 'MyArn',    # min: 20, max: 2048; OPTIONAL
+        },    # OPTIONAL
         S3InputDefinition => {
-          Bucket => 'MyBucket',    # min: 3, max: 63
-          Key    => 'MyKey',       # min: 1, max: 1280; OPTIONAL
+          Bucket      => 'MyBucket',         # min: 3, max: 63
+          BucketOwner => 'MyBucketOwner',    # min: 12, max: 12; OPTIONAL
+          Key         => 'MyKey',            # min: 1, max: 1280; OPTIONAL
         },    # OPTIONAL
       },
       Name          => 'MyDatasetName',
@@ -134,7 +142,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/dat
 The file format of a dataset that is created from an Amazon S3 file or
 folder.
 
-Valid values are: C<"CSV">, C<"JSON">, C<"PARQUET">, C<"EXCEL">
+Valid values are: C<"CSV">, C<"JSON">, C<"PARQUET">, C<"EXCEL">, C<"ORC">
 
 =head2 FormatOptions => L<Paws::GlueDataBrew::FormatOptions>
 

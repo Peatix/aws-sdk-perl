@@ -31,7 +31,8 @@ The results of the query execution.
 
 =head2 UpdateCount => Int
 
-The number of rows inserted with a CREATE TABLE AS SELECT statement.
+The number of rows inserted with a C<CREATE TABLE AS SELECT>, C<INSERT
+INTO>, or C<UPDATE> statement.
 
 
 =head2 _request_id => Str

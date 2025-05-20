@@ -45,7 +45,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/shi
 
 =head2 B<REQUIRED> AttackId => Str
 
-The unique identifier (ID) for the attack that to be described.
+The unique identifier (ID) for the attack.
 
 
 

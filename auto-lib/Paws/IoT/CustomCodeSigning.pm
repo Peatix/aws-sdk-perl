@@ -48,7 +48,12 @@ The certificate chain.
 
 =head2 HashAlgorithm => Str
 
-The hash algorithm used to code sign the file.
+The hash algorithm used to code sign the file. You can use a string as
+the algorithm name if the target over-the-air (OTA) update devices are
+able to verify the signature that was generated using the same
+signature algorithm. For example, FreeRTOS uses C<SHA256> or C<SHA1>,
+so you can pass either of them based on which was used for generating
+the signature.
 
 
 =head2 Signature => L<Paws::IoT::CodeSigningSignature>
@@ -58,7 +63,12 @@ The signature for the file.
 
 =head2 SignatureAlgorithm => Str
 
-The signature algorithm used to code sign the file.
+The signature algorithm used to code sign the file. You can use a
+string as the algorithm name if the target over-the-air (OTA) update
+devices are able to verify the signature that was generated using the
+same signature algorithm. For example, FreeRTOS uses C<ECDSA> or
+C<RSA>, so you can pass either of them based on which was used for
+generating the signature.
 
 
 

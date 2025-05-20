@@ -1,7 +1,8 @@
 
 package Paws::IoTDeviceAdvisor::CreateSuiteDefinition;
   use Moose;
-  has SuiteDefinitionConfiguration => (is => 'ro', isa => 'Paws::IoTDeviceAdvisor::SuiteDefinitionConfiguration', traits => ['NameInRequest'], request_name => 'suiteDefinitionConfiguration');
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken');
+  has SuiteDefinitionConfiguration => (is => 'ro', isa => 'Paws::IoTDeviceAdvisor::SuiteDefinitionConfiguration', traits => ['NameInRequest'], request_name => 'suiteDefinitionConfiguration', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::IoTDeviceAdvisor::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -32,22 +33,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $CreateSuiteDefinitionResponse =
       $api . iotdeviceadvisor->CreateSuiteDefinition(
       SuiteDefinitionConfiguration => {
-        DevicePermissionRoleArn =>
-          'MyAmazonResourceName',    # min: 20, max: 2048; OPTIONAL
-        Devices => [
+        DevicePermissionRoleArn => 'MyAmazonResourceName',  # min: 20, max: 2048
+        RootGroup               => 'MyRootGroup',           # max: 2048
+        SuiteDefinitionName     => 'MySuiteDefinitionName', # min: 1, max: 256
+        Devices                 => [
           {
-            CertificateArn =>
-              'MyAmazonResourceName',    # min: 20, max: 2048; OPTIONAL
-            ThingArn => 'MyAmazonResourceName',   # min: 20, max: 2048; OPTIONAL
+            CertificateArn => 'MyAmazonResourceName',    # min: 20, max: 2048
+            DeviceRoleArn  => 'MyAmazonResourceName',    # min: 20, max: 2048
+            ThingArn       => 'MyAmazonResourceName',    # min: 20, max: 2048
           },
           ...
         ],    # max: 2; OPTIONAL
         IntendedForQualification => 1,             # OPTIONAL
-        RootGroup                => 'MyRootGroup', # min: 1, max: 2048; OPTIONAL
-        SuiteDefinitionName      =>
-          'MySuiteDefinitionName',                 # min: 1, max: 256; OPTIONAL
-      },    # OPTIONAL
-      Tags => {
+        IsLongDurationTest       => 1,             # OPTIONAL
+        Protocol                 => 'MqttV3_1_1'
+        , # values: MqttV3_1_1, MqttV5, MqttV3_1_1_OverWebSocket, MqttV5_OverWebSocket; OPTIONAL
+      },
+      ClientToken => 'MyClientToken',    # OPTIONAL
+      Tags        => {
         'MyString128' =>
           'MyString256',    # key: min: 1, max: 128, value: min: 1, max: 256
       },    # OPTIONAL
@@ -68,7 +71,15 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 =head1 ATTRIBUTES
 
 
-=head2 SuiteDefinitionConfiguration => L<Paws::IoTDeviceAdvisor::SuiteDefinitionConfiguration>
+=head2 ClientToken => Str
+
+The client token for the test suite definition creation. This token is
+used for tracking test suite definition creation using retries and
+obtaining its status. This parameter is optional.
+
+
+
+=head2 B<REQUIRED> SuiteDefinitionConfiguration => L<Paws::IoTDeviceAdvisor::SuiteDefinitionConfiguration>
 
 Creates a Device Advisor test suite with suite definition
 configuration.

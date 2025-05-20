@@ -9,6 +9,7 @@ package Paws::Lightsail::UpdateRelationalDatabase;
   has PreferredBackupWindow => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'preferredBackupWindow' );
   has PreferredMaintenanceWindow => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'preferredMaintenanceWindow' );
   has PubliclyAccessible => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'publiclyAccessible' );
+  has RelationalDatabaseBlueprintId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'relationalDatabaseBlueprintId' );
   has RelationalDatabaseName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'relationalDatabaseName' , required => 1);
   has RotateMasterUserPassword => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'rotateMasterUserPassword' );
 
@@ -37,16 +38,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $lightsail = Paws->service('Lightsail');
     my $UpdateRelationalDatabaseResult = $lightsail->UpdateRelationalDatabase(
-      RelationalDatabaseName     => 'MyResourceName',
-      ApplyImmediately           => 1,                      # OPTIONAL
-      CaCertificateIdentifier    => 'Mystring',             # OPTIONAL
-      DisableBackupRetention     => 1,                      # OPTIONAL
-      EnableBackupRetention      => 1,                      # OPTIONAL
-      MasterUserPassword         => 'MySensitiveString',    # OPTIONAL
-      PreferredBackupWindow      => 'Mystring',             # OPTIONAL
-      PreferredMaintenanceWindow => 'Mystring',             # OPTIONAL
-      PubliclyAccessible         => 1,                      # OPTIONAL
-      RotateMasterUserPassword   => 1,                      # OPTIONAL
+      RelationalDatabaseName        => 'MyResourceName',
+      ApplyImmediately              => 1,                      # OPTIONAL
+      CaCertificateIdentifier       => 'Mystring',             # OPTIONAL
+      DisableBackupRetention        => 1,                      # OPTIONAL
+      EnableBackupRetention         => 1,                      # OPTIONAL
+      MasterUserPassword            => 'MySensitiveString',    # OPTIONAL
+      PreferredBackupWindow         => 'Mystring',             # OPTIONAL
+      PreferredMaintenanceWindow    => 'Mystring',             # OPTIONAL
+      PubliclyAccessible            => 1,                      # OPTIONAL
+      RelationalDatabaseBlueprintId => 'Mystring',             # OPTIONAL
+      RotateMasterUserPassword      => 1,                      # OPTIONAL
     );
 
     # Results:
@@ -152,8 +154,8 @@ The weekly time range during which system maintenance can occur on your
 database.
 
 The default is a 30-minute window selected at random from an 8-hour
-block of time for each AWS Region, occurring on a random day of the
-week.
+block of time for each Amazon Web Services Region, occurring on a
+random day of the week.
 
 Constraints:
 
@@ -191,6 +193,18 @@ C<true> specifies a database that is available to resources outside of
 your Lightsail account. A value of C<false> specifies a database that
 is available only to your Lightsail resources in the same region as
 your database.
+
+
+
+=head2 RelationalDatabaseBlueprintId => Str
+
+This parameter is used to update the major version of the database.
+Enter the C<blueprintId> for the major version that you want to update
+to.
+
+Use the GetRelationalDatabaseBlueprints
+(https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRelationalDatabaseBlueprints.html)
+action to get a list of available blueprint IDs.
 
 
 

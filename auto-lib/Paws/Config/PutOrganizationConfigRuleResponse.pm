@@ -16,7 +16,7 @@ Paws::Config::PutOrganizationConfigRuleResponse
 
 =head2 OrganizationConfigRuleArn => Str
 
-The Amazon Resource Name (ARN) of an organization config rule.
+The Amazon Resource Name (ARN) of an organization Config rule.
 
 
 =head2 _request_id => Str

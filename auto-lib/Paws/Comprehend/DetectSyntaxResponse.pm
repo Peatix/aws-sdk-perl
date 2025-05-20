@@ -19,7 +19,9 @@ Paws::Comprehend::DetectSyntaxResponse
 A collection of syntax tokens describing the text. For each token, the
 response provides the text, the token type, where the text begins and
 ends, and the level of confidence that Amazon Comprehend has that the
-token is correct. For a list of token types, see how-syntax.
+token is correct. For a list of token types, see Syntax
+(https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in
+the Comprehend Developer Guide.
 
 
 =head2 _request_id => Str

@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LakeFormati
 
 =head1 DESCRIPTION
 
-A structure describing a database resource with tags.
+A structure describing a database resource with LF-tags.
 
 =head1 ATTRIBUTES
 
 
 =head2 Database => L<Paws::LakeFormation::DatabaseResource>
 
-A database that has tags attached to it.
+A database that has LF-tags attached to it.
 
 
 =head2 LFTags => ArrayRef[L<Paws::LakeFormation::LFTagPair>]
 
-A list of tags attached to the database.
+A list of LF-tags attached to the database.
 
 
 

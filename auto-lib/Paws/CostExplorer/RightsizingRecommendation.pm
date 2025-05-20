@@ -55,24 +55,24 @@ Context regarding the current instance.
 
 =head2 FindingReasonCodes => ArrayRef[Str|Undef]
 
-The list of possible reasons why the recommendation is generated such
-as under or over utilization of specific metrics (for example, CPU,
+The list of possible reasons why the recommendation is generated, such
+as under- or over-utilization of specific metrics (for example, CPU,
 Memory, Network).
 
 
 =head2 ModifyRecommendationDetail => L<Paws::CostExplorer::ModifyRecommendationDetail>
 
-Details for modification recommendations.
+The details for the modification recommendations.
 
 
 =head2 RightsizingType => Str
 
-Recommendation to either terminate or modify the resource.
+A recommendation to either terminate or modify the resource.
 
 
 =head2 TerminateRecommendationDetail => L<Paws::CostExplorer::TerminateRecommendationDetail>
 
-Details for termination recommendations.
+The details for termination recommendations.
 
 
 

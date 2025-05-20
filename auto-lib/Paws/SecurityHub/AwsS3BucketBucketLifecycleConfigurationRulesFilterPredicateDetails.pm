@@ -58,7 +58,8 @@ A tag filter.
 
 =head2 Type => Str
 
-Whether to use C<AND> or C<OR> to join the operands.
+Whether to use C<AND> or C<OR> to join the operands. Valid values are
+C<LifecycleAndOperator> or C<LifecycleOrOperator>.
 
 
 

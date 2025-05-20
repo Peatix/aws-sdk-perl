@@ -58,8 +58,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 Use this field when paginating results to indicate where to begin in
 your list of origin request policies. The response includes origin
 request policies in the list that occur after the marker. To get the
-next page of the list, set this fieldE<rsquo>s value to the value of
-C<NextMarker> from the current pageE<rsquo>s response.
+next page of the list, set this field's value to the value of
+C<NextMarker> from the current page's response.
 
 
 
@@ -79,12 +79,13 @@ Valid values are:
 
 =item *
 
-C<managed> E<ndash> Returns only the managed policies created by AWS.
+C<managed> E<ndash> Returns only the managed policies created by Amazon
+Web Services.
 
 =item *
 
-C<custom> E<ndash> Returns only the custom policies created in your AWS
-account.
+C<custom> E<ndash> Returns only the custom policies created in your
+Amazon Web Services account.
 
 =back
 

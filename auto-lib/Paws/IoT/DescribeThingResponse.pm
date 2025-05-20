@@ -41,7 +41,7 @@ client IDs, certificates, or shadow state, we recommend that you choose
 a thing name and use it as the MQTT client ID for the registry and the
 Device Shadow service.
 
-This lets you better organize your AWS IoT fleet without removing the
+This lets you better organize your IoT fleet without removing the
 flexibility of the underlying device certificate model or shadows.
 
 

@@ -13,6 +13,7 @@ package Paws::ECS::StartTask;
   has StartedBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'startedBy' );
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
   has TaskDefinition => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'taskDefinition' , required => 1);
+  has VolumeConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ECS::TaskVolumeConfiguration]', traits => ['NameInRequest'], request_name => 'volumeConfigurations' );
 
   use MooseX::ClassAttribute;
 
@@ -112,6 +113,43 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      VolumeConfigurations => [
+        {
+          Name             => 'MyECSVolumeName',
+          ManagedEBSVolume => {
+            RoleArn        => 'MyIAMRoleArn',
+            Encrypted      => 1,                       # OPTIONAL
+            FilesystemType => 'ext3',  # values: ext3, ext4, xfs, ntfs; OPTIONAL
+            Iops           => 1,       # OPTIONAL
+            KmsKeyId          => 'MyEBSKMSKeyId',      # OPTIONAL
+            SizeInGiB         => 1,                    # OPTIONAL
+            SnapshotId        => 'MyEBSSnapshotId',    # OPTIONAL
+            TagSpecifications => [
+              {
+                ResourceType  => 'volume',    # values: volume
+                PropagateTags =>
+                  'TASK_DEFINITION',    # values: TASK_DEFINITION, SERVICE, NONE
+                Tags => [
+                  {
+                    Key   => 'MyTagKey',      # min: 1, max: 128; OPTIONAL
+                    Value => 'MyTagValue',    # max: 256; OPTIONAL
+                  },
+                  ...
+                ],    # max: 50
+              },
+              ...
+            ],    # OPTIONAL
+            TerminationPolicy => {
+              DeleteOnTermination => 1,    # OPTIONAL
+
+            },    # OPTIONAL
+            Throughput               => 1,                    # OPTIONAL
+            VolumeInitializationRate => 1,                    # OPTIONAL
+            VolumeType               => 'MyEBSVolumeType',    # OPTIONAL
+          },    # OPTIONAL
+        },
+        ...
+      ],    # OPTIONAL
     );
 
     # Results:
@@ -128,8 +166,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ecs
 
 =head2 Cluster => Str
 
-The short name or full Amazon Resource Name (ARN) of the cluster on
-which to start your task. If you do not specify a cluster, the default
+The short name or full Amazon Resource Name (ARN) of the cluster where
+to start your task. If you do not specify a cluster, the default
 cluster is assumed.
 
 
@@ -137,15 +175,15 @@ cluster is assumed.
 =head2 B<REQUIRED> ContainerInstances => ArrayRef[Str|Undef]
 
 The container instance IDs or full ARN entries for the container
-instances on which you would like to place your task. You can specify
-up to 10 container instances.
+instances where you would like to place your task. You can specify up
+to 10 container instances.
 
 
 
 =head2 EnableECSManagedTags => Bool
 
-Specifies whether to enable Amazon ECS managed tags for the task. For
-more information, see Tagging Your Amazon ECS Resources
+Specifies whether to use Amazon ECS managed tags for the task. For more
+information, see Tagging Your Amazon ECS Resources
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -153,9 +191,9 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head2 EnableExecuteCommand => Bool
 
-Whether or not the execute command functionality is enabled for the
-task. If C<true>, this enables execute command functionality on all
-containers in the task.
+Whether or not the execute command functionality is turned on for the
+task. If C<true>, this turns on the execute command functionality on
+all containers in the task.
 
 
 
@@ -178,8 +216,8 @@ mode.
 =head2 Overrides => L<Paws::ECS::TaskOverride>
 
 A list of container overrides in JSON format that specify the name of a
-container in the specified task definition and the overrides it should
-receive. You can override the default command for a container (that is
+container in the specified task definition and the overrides it
+receives. You can override the default command for a container (that's
 specified in the task definition or Docker image) with a C<command>
 override. You can also override existing environment variables (that
 are specified in the task definition or Docker image) on a container or
@@ -193,14 +231,15 @@ includes the JSON formatting characters of the override structure.
 =head2 PropagateTags => Str
 
 Specifies whether to propagate the tags from the task definition or the
-service to the task. If no value is specified, the tags are not
+service to the task. If no value is specified, the tags aren't
 propagated.
 
-Valid values are: C<"TASK_DEFINITION">, C<"SERVICE">
+Valid values are: C<"TASK_DEFINITION">, C<"SERVICE">, C<"NONE">
 
 =head2 ReferenceId => Str
 
-The reference ID to use for the task.
+This parameter is only used by Amazon ECS. It is not intended for use
+by customers.
 
 
 
@@ -210,11 +249,13 @@ An optional tag specified when a task is started. For example, if you
 automatically trigger a task to run a batch process job, you could
 apply a unique identifier for that job to your task with the
 C<startedBy> parameter. You can then identify which tasks belong to
-that job by filtering the results of a ListTasks call with the
-C<startedBy> value. Up to 36 letters (uppercase and lowercase),
-numbers, hyphens, and underscores are allowed.
+that job by filtering the results of a ListTasks
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html)
+call with the C<startedBy> value. Up to 36 letters (uppercase and
+lowercase), numbers, hyphens (-), forward slash (/), and underscores
+(_) are allowed.
 
-If a task is started by an Amazon ECS service, then the C<startedBy>
+If a task is started by an Amazon ECS service, the C<startedBy>
 parameter contains the deployment ID of the service that starts it.
 
 
@@ -261,10 +302,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -274,8 +315,19 @@ limit.
 =head2 B<REQUIRED> TaskDefinition => Str
 
 The C<family> and C<revision> (C<family:revision>) or full ARN of the
-task definition to start. If a C<revision> is not specified, the latest
+task definition to start. If a C<revision> isn't specified, the latest
 C<ACTIVE> revision is used.
+
+
+
+=head2 VolumeConfigurations => ArrayRef[L<Paws::ECS::TaskVolumeConfiguration>]
+
+The details of the volume that was C<configuredAtLaunch>. You can
+configure the size, volumeType, IOPS, throughput, snapshot and
+encryption in TaskManagedEBSVolumeConfiguration
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html).
+The C<name> of the volume must match the C<name> from the task
+definition.
 
 
 

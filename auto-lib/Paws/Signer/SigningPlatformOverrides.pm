@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::Sig
 
 =head1 DESCRIPTION
 
-Any overrides that are applied to the signing configuration of a code
+Any overrides that are applied to the signing configuration of a
 signing platform.
 
 =head1 ATTRIBUTES

@@ -7,6 +7,7 @@ package Paws::StorageGateway::DescribeGatewayInformationOutput;
   has Ec2InstanceRegion => (is => 'ro', isa => 'Str');
   has EndpointType => (is => 'ro', isa => 'Str');
   has GatewayARN => (is => 'ro', isa => 'Str');
+  has GatewayCapacity => (is => 'ro', isa => 'Str');
   has GatewayId => (is => 'ro', isa => 'Str');
   has GatewayName => (is => 'ro', isa => 'Str');
   has GatewayNetworkInterfaces => (is => 'ro', isa => 'ArrayRef[Paws::StorageGateway::NetworkInterface]');
@@ -14,9 +15,12 @@ package Paws::StorageGateway::DescribeGatewayInformationOutput;
   has GatewayTimezone => (is => 'ro', isa => 'Str');
   has GatewayType => (is => 'ro', isa => 'Str');
   has HostEnvironment => (is => 'ro', isa => 'Str');
+  has HostEnvironmentId => (is => 'ro', isa => 'Str');
   has LastSoftwareUpdate => (is => 'ro', isa => 'Str');
   has NextUpdateAvailabilityDate => (is => 'ro', isa => 'Str');
   has SoftwareUpdatesEndDate => (is => 'ro', isa => 'Str');
+  has SoftwareVersion => (is => 'ro', isa => 'Str');
+  has SupportedGatewayCapacities => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::StorageGateway::Tag]');
   has VPCEndpoint => (is => 'ro', isa => 'Str');
 
@@ -34,7 +38,9 @@ Paws::StorageGateway::DescribeGatewayInformationOutput
 =head2 CloudWatchLogGroupARN => Str
 
 The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that
-is used to monitor events in the gateway.
+is used to monitor events in the gateway. This field only only exist
+and returns once it have been chosen and set by the SGW service, based
+on the OS version of the gateway VM
 
 
 =head2 DeprecationDate => Str
@@ -50,7 +56,8 @@ The ID of the Amazon EC2 instance that was used to launch the gateway.
 
 =head2 Ec2InstanceRegion => Str
 
-The AWS Region where the Amazon EC2 instance is located.
+The Amazon Web Services Region where the Amazon EC2 instance is
+located.
 
 
 =head2 EndpointType => Str
@@ -65,6 +72,11 @@ Valid Values: C<STANDARD> | C<FIPS>
 
 
 
+=head2 GatewayCapacity => Str
+
+Specifies the size of the gateway's metadata cache.
+
+Valid values are: C<"Small">, C<"Medium">, C<"Large">
 =head2 GatewayId => Str
 
 The unique identifier assigned to your gateway during activation. This
@@ -97,17 +109,35 @@ A value that indicates the time zone configured for the gateway.
 
 The type of the gateway.
 
+Amazon FSx File Gateway is no longer available to new customers.
+Existing customers of FSx File Gateway can continue to use the service
+normally. For capabilities similar to FSx File Gateway, visit this blog
+post
+(https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/).
+
 
 =head2 HostEnvironment => Str
 
-The type of hypervisor environment used by the host.
+The type of hardware or software platform on which the gateway is
+running.
 
-Valid values are: C<"VMWARE">, C<"HYPER-V">, C<"EC2">, C<"KVM">, C<"OTHER">
+Tape Gateway is no longer available on Snow Family devices.
+
+Valid values are: C<"VMWARE">, C<"HYPER-V">, C<"EC2">, C<"KVM">, C<"OTHER">, C<"SNOWBALL">
+=head2 HostEnvironmentId => Str
+
+A unique identifier for the specific instance of the host platform
+running the gateway. This value is only available for certain host
+environments, and its format depends on the host environment type.
+
+
 =head2 LastSoftwareUpdate => Str
 
 The date on which the last software update was applied to the gateway.
 If the gateway has never been updated, this field does not return a
-value in the response.
+value in the response. This only only exist and returns once it have
+been chosen and set by the SGW service, based on the OS version of the
+gateway VM
 
 
 =head2 NextUpdateAvailabilityDate => Str
@@ -121,6 +151,17 @@ update this field is not returned in the response.
 
 Date after which this gateway will not receive software updates for new
 features.
+
+
+=head2 SoftwareVersion => Str
+
+The version number of the software running on the gateway appliance.
+
+
+=head2 SupportedGatewayCapacities => ArrayRef[Str|Undef]
+
+A list of the metadata cache sizes that the gateway can support based
+on its current hardware specifications.
 
 
 =head2 Tags => ArrayRef[L<Paws::StorageGateway::Tag>]

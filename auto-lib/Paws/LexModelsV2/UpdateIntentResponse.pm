@@ -7,6 +7,7 @@ package Paws::LexModelsV2::UpdateIntentResponse;
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has DialogCodeHook => (is => 'ro', isa => 'Paws::LexModelsV2::DialogCodeHookSettings', traits => ['NameInRequest'], request_name => 'dialogCodeHook');
   has FulfillmentCodeHook => (is => 'ro', isa => 'Paws::LexModelsV2::FulfillmentCodeHookSettings', traits => ['NameInRequest'], request_name => 'fulfillmentCodeHook');
+  has InitialResponseSetting => (is => 'ro', isa => 'Paws::LexModelsV2::InitialResponseSetting', traits => ['NameInRequest'], request_name => 'initialResponseSetting');
   has InputContexts => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::InputContext]', traits => ['NameInRequest'], request_name => 'inputContexts');
   has IntentClosingSetting => (is => 'ro', isa => 'Paws::LexModelsV2::IntentClosingSetting', traits => ['NameInRequest'], request_name => 'intentClosingSetting');
   has IntentConfirmationSetting => (is => 'ro', isa => 'Paws::LexModelsV2::IntentConfirmationSetting', traits => ['NameInRequest'], request_name => 'intentConfirmationSetting');
@@ -17,6 +18,8 @@ package Paws::LexModelsV2::UpdateIntentResponse;
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has OutputContexts => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::OutputContext]', traits => ['NameInRequest'], request_name => 'outputContexts');
   has ParentIntentSignature => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'parentIntentSignature');
+  has QInConnectIntentConfiguration => (is => 'ro', isa => 'Paws::LexModelsV2::QInConnectIntentConfiguration', traits => ['NameInRequest'], request_name => 'qInConnectIntentConfiguration');
+  has QnAIntentConfiguration => (is => 'ro', isa => 'Paws::LexModelsV2::QnAIntentConfiguration', traits => ['NameInRequest'], request_name => 'qnAIntentConfiguration');
   has SampleUtterances => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::SampleUtterance]', traits => ['NameInRequest'], request_name => 'sampleUtterances');
   has SlotPriorities => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::SlotPriority]', traits => ['NameInRequest'], request_name => 'slotPriorities');
 
@@ -63,6 +66,12 @@ with the user.
 
 The updated Lambda function called when the intent is ready for
 fulfillment.
+
+
+=head2 InitialResponseSetting => L<Paws::LexModelsV2::InitialResponseSetting>
+
+Configuration settings for a response sent to the user before Amazon
+Lex starts eliciting slots.
 
 
 =head2 InputContexts => ArrayRef[L<Paws::LexModelsV2::InputContext>]
@@ -118,6 +127,16 @@ is fulfilled.
 =head2 ParentIntentSignature => Str
 
 The updated built-in intent that is the parent of this intent.
+
+
+=head2 QInConnectIntentConfiguration => L<Paws::LexModelsV2::QInConnectIntentConfiguration>
+
+Qinconnect intent configuration details for the update intent response.
+
+
+=head2 QnAIntentConfiguration => L<Paws::LexModelsV2::QnAIntentConfiguration>
+
+Details about the configuration of the built-in C<Amazon.QnAIntent>.
 
 
 =head2 SampleUtterances => ArrayRef[L<Paws::LexModelsV2::SampleUtterance>]

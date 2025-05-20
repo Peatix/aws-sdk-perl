@@ -35,8 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 
 =head1 DESCRIPTION
 
-Specifies options for sharing SageMaker Studio notebooks. These
-settings are specified as part of C<DefaultUserSettings> when the
+Specifies options for sharing Amazon SageMaker AI Studio notebooks.
+These settings are specified as part of C<DefaultUserSettings> when the
 C<CreateDomain> API is called, and as part of C<UserSettings> when the
 C<CreateUserProfile> API is called. When C<SharingSettings> is not
 specified, notebook sharing isn't allowed.

@@ -34,9 +34,12 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::GameLift::I
 
 =head1 DESCRIPTION
 
-Set of credentials required to remotely access a fleet instance. Access
-credentials are requested by calling GetInstanceAccess and returned in
-an InstanceAccess object.
+A set of credentials that allow remote access to an instance in an EC2
+managed fleet. These credentials are returned in response to a call to
+https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess
+(https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetInstanceAccess),
+which requests access for instances that are running game servers with
+the Amazon GameLift server SDK version 4.x or earlier.
 
 =head1 ATTRIBUTES
 
@@ -44,13 +47,13 @@ an InstanceAccess object.
 =head2 Secret => Str
 
 Secret string. For Windows instances, the secret is a password for use
-with Windows Remote Desktop. For Linux instances, it is a private key
-(which must be saved as a C<.pem> file) for use with SSH.
+with Windows Remote Desktop. For Linux instances, it's a private key
+for use with SSH.
 
 
 =head2 UserName => Str
 
-User login string.
+A user name for logging in.
 
 
 

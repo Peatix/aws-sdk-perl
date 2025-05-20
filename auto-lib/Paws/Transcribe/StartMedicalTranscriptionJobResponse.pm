@@ -16,7 +16,8 @@ Paws::Transcribe::StartMedicalTranscriptionJobResponse
 
 =head2 MedicalTranscriptionJob => L<Paws::Transcribe::MedicalTranscriptionJob>
 
-A batch job submitted to transcribe medical speech to text.
+Provides detailed information about the current medical transcription
+job, including job status and, if applicable, failure reason.
 
 
 =head2 _request_id => Str

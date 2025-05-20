@@ -3,6 +3,7 @@ package Paws::Personalize::DatasetGroup;
   use Moose;
   has CreationDateTime => (is => 'ro', isa => 'Str', request_name => 'creationDateTime', traits => ['NameInRequest']);
   has DatasetGroupArn => (is => 'ro', isa => 'Str', request_name => 'datasetGroupArn', traits => ['NameInRequest']);
+  has Domain => (is => 'ro', isa => 'Str', request_name => 'domain', traits => ['NameInRequest']);
   has FailureReason => (is => 'ro', isa => 'Str', request_name => 'failureReason', traits => ['NameInRequest']);
   has KmsKeyArn => (is => 'ro', isa => 'Str', request_name => 'kmsKeyArn', traits => ['NameInRequest']);
   has LastUpdatedDateTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedDateTime', traits => ['NameInRequest']);
@@ -40,14 +41,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Personalize
 
 =head1 DESCRIPTION
 
-A dataset group is a collection of related datasets (Interactions,
-User, and Item). You create a dataset group by calling
-CreateDatasetGroup. You then create a dataset and add it to a dataset
-group by calling CreateDataset. The dataset group is used to create and
-train a solution by calling CreateSolution. A dataset group can contain
-only one of each type of dataset.
+A dataset group is a collection of related datasets (Item interactions,
+Users, Items, Actions, Action interactions). You create a dataset group
+by calling CreateDatasetGroup
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
+You then create a dataset and add it to a dataset group by calling
+CreateDataset
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
+The dataset group is used to create and train a solution by calling
+CreateSolution
+(https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
+A dataset group can contain only one of each type of dataset.
 
-You can specify an AWS Key Management Service (KMS) key to encrypt the
+You can specify an Key Management Service (KMS) key to encrypt the
 datasets in the group.
 
 =head1 ATTRIBUTES
@@ -63,6 +69,11 @@ The creation date and time (in Unix time) of the dataset group.
 The Amazon Resource Name (ARN) of the dataset group.
 
 
+=head2 Domain => Str
+
+The domain of a Domain dataset group.
+
+
 =head2 FailureReason => Str
 
 If creating a dataset group fails, provides the reason why.
@@ -70,8 +81,8 @@ If creating a dataset group fails, provides the reason why.
 
 =head2 KmsKeyArn => Str
 
-The Amazon Resource Name (ARN) of the KMS key used to encrypt the
-datasets.
+The Amazon Resource Name (ARN) of the Key Management Service (KMS) key
+used to encrypt the datasets.
 
 
 =head2 LastUpdatedDateTime => Str
@@ -86,8 +97,9 @@ The name of the dataset group.
 
 =head2 RoleArn => Str
 
-The ARN of the IAM role that has permissions to create the dataset
-group.
+The ARN of the Identity and Access Management (IAM) role that has
+permissions to access the Key Management Service (KMS) key. Supplying
+an IAM role is only valid when also specifying a KMS key.
 
 
 =head2 Status => Str

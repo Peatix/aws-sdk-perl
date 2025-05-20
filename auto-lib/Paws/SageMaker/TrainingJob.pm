@@ -22,6 +22,7 @@ package Paws::SageMaker::TrainingJob;
   has LastModifiedTime => (is => 'ro', isa => 'Str');
   has ModelArtifacts => (is => 'ro', isa => 'Paws::SageMaker::ModelArtifacts');
   has OutputDataConfig => (is => 'ro', isa => 'Paws::SageMaker::OutputDataConfig');
+  has ProfilerConfig => (is => 'ro', isa => 'Paws::SageMaker::ProfilerConfig');
   has ResourceConfig => (is => 'ro', isa => 'Paws::SageMaker::ResourceConfig');
   has RetryStrategy => (is => 'ro', isa => 'Paws::SageMaker::RetryStrategy');
   has RoleArn => (is => 'ro', isa => 'Str');
@@ -171,6 +172,9 @@ Algorithm-specific parameters.
 
 An array of C<Channel> objects that describes each data input channel.
 
+Your input must be in the same Amazon Web Services region as your
+training job.
+
 
 =head2 LabelingJobArn => Str
 
@@ -192,8 +196,12 @@ model artifacts.
 =head2 OutputDataConfig => L<Paws::SageMaker::OutputDataConfig>
 
 The S3 path where model artifacts that you configured when creating the
-job are stored. Amazon SageMaker creates subfolders for model
-artifacts.
+job are stored. SageMaker creates subfolders for model artifacts.
+
+
+=head2 ProfilerConfig => L<Paws::SageMaker::ProfilerConfig>
+
+
 
 
 =head2 ResourceConfig => L<Paws::SageMaker::ResourceConfig>
@@ -218,10 +226,11 @@ configured for the training job.
 
 Provides detailed information about the state of the training job. For
 detailed information about the secondary status of the training job,
-see C<StatusMessage> under SecondaryStatusTransition.
+see C<StatusMessage> under SecondaryStatusTransition
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SecondaryStatusTransition.html).
 
-Amazon SageMaker provides primary statuses and secondary statuses that
-apply to each of them:
+SageMaker provides primary statuses and secondary statuses that apply
+to each of them:
 
 =over
 
@@ -331,13 +340,13 @@ transitioned through.
 
 Specifies a limit to how long a model training job can run. It also
 specifies how long a managed Spot training job has to complete. When
-the job reaches the time limit, Amazon SageMaker ends the training job.
-Use this API to cap model training costs.
+the job reaches the time limit, SageMaker ends the training job. Use
+this API to cap model training costs.
 
-To stop a job, Amazon SageMaker sends the algorithm the C<SIGTERM>
-signal, which delays job termination for 120 seconds. Algorithms can
-use this 120-second window to save the model artifacts, so the results
-of training are not lost.
+To stop a job, SageMaker sends the algorithm the C<SIGTERM> signal,
+which delays job termination for 120 seconds. Algorithms can use this
+120-second window to save the model artifacts, so the results of
+training are not lost.
 
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
@@ -360,7 +369,7 @@ Indicates the time when the training job ends on training instances.
 You are billed for the time interval between the value of
 C<TrainingStartTime> and this time. For successful jobs and stopped
 jobs, this is the time after model artifacts are uploaded. For failed
-jobs, this is the time when Amazon SageMaker detects a job failure.
+jobs, this is the time when SageMaker detects a job failure.
 
 
 =head2 TrainingJobArn => Str
@@ -430,9 +439,11 @@ job if the training job was launched by a hyperparameter tuning job.
 
 =head2 VpcConfig => L<Paws::SageMaker::VpcConfig>
 
-A VpcConfig object that specifies the VPC that this training job has
-access to. For more information, see Protect Training Jobs by Using an
-Amazon Virtual Private Cloud
+A VpcConfig
+(https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html)
+object that specifies the VPC that this training job has access to. For
+more information, see Protect Training Jobs by Using an Amazon Virtual
+Private Cloud
 (https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html).
 
 

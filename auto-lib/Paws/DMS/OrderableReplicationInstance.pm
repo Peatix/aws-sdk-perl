@@ -89,7 +89,7 @@ The value returned when the specified C<EngineVersion> of the
 replication instance is in Beta or test mode. This indicates some
 features might not work as expected.
 
-AWS DMS supports the C<ReleaseStatus> parameter in versions 3.1.4 and
+DMS supports the C<ReleaseStatus> parameter in versions 3.1.4 and
 later.
 
 
@@ -101,8 +101,8 @@ the instance class dms.c4.large, set this parameter to
 C<"dms.c4.large">.
 
 For more information on the settings and capacities for the available
-replication instance classes, see Selecting the right AWS DMS
-replication instance for your migration
+replication instance classes, see Selecting the right DMS replication
+instance for your migration
 (https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth).
 
 

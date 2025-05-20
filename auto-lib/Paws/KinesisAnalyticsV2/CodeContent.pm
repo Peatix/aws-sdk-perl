@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::KinesisAnal
 =head1 DESCRIPTION
 
 Specifies either the application code, or the location of the
-application code, for a Flink-based Kinesis Data Analytics application.
+application code, for a Managed Service for Apache Flink application.
 
 =head1 ATTRIBUTES
 
@@ -49,14 +49,13 @@ code.
 
 =head2 TextContent => Str
 
-The text-format code for a Flink-based Kinesis Data Analytics
+The text-format code for a Managed Service for Apache Flink
 application.
 
 
 =head2 ZipFileContent => Str
 
-The zip-format code for a Flink-based Kinesis Data Analytics
-application.
+The zip-format code for a Managed Service for Apache Flink application.
 
 
 

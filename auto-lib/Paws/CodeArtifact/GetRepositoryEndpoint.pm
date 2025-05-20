@@ -3,6 +3,7 @@ package Paws::CodeArtifact::GetRepositoryEndpoint;
   use Moose;
   has Domain => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domain', required => 1);
   has DomainOwner => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'domain-owner');
+  has EndpointType => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'endpointType');
   has Format => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'format', required => 1);
   has Repository => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'repository', required => 1);
 
@@ -32,10 +33,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $codeartifact = Paws->service('CodeArtifact');
     my $GetRepositoryEndpointResult = $codeartifact->GetRepositoryEndpoint(
-      Domain      => 'MyDomainName',
-      Format      => 'npm',
-      Repository  => 'MyRepositoryName',
-      DomainOwner => 'MyAccountId',        # OPTIONAL
+      Domain       => 'MyDomainName',
+      Format       => 'npm',
+      Repository   => 'MyRepositoryName',
+      DomainOwner  => 'MyAccountId',        # OPTIONAL
+      EndpointType => 'dualstack',          # OPTIONAL
     );
 
     # Results:
@@ -57,34 +59,24 @@ The name of the domain that contains the repository.
 
 =head2 DomainOwner => Str
 
-The 12-digit account number of the AWS account that owns the domain
-that contains the repository. It does not include dashes or spaces.
+The 12-digit account number of the Amazon Web Services account that
+owns the domain that contains the repository. It does not include
+dashes or spaces.
 
 
+
+=head2 EndpointType => Str
+
+A string that specifies the type of endpoint.
+
+Valid values are: C<"dualstack">, C<"ipv4">
 
 =head2 B<REQUIRED> Format => Str
 
 Returns which endpoint of a repository to return. A repository has one
-endpoint for each package format:
+endpoint for each package format.
 
-=over
-
-=item *
-
-C<npm>
-
-=item *
-
-C<pypi>
-
-=item *
-
-C<maven>
-
-=back
-
-
-Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">
+Valid values are: C<"npm">, C<"pypi">, C<"maven">, C<"nuget">, C<"generic">, C<"ruby">, C<"swift">, C<"cargo">
 
 =head2 B<REQUIRED> Repository => Str
 

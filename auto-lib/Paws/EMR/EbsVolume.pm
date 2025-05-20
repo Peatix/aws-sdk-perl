@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::EbsVol
 
 =head1 DESCRIPTION
 
-EBS block device that's attached to an EC2 instance.
+EBS block device that's attached to an Amazon EC2 instance.
 
 =head1 ATTRIBUTES
 

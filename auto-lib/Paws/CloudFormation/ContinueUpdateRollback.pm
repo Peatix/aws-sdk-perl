@@ -46,34 +46,34 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 ClientRequestToken => Str
 
 A unique identifier for this C<ContinueUpdateRollback> request. Specify
-this token if you plan to retry requests so that AWS CloudFormation
-knows that you're not attempting to continue the rollback to a stack
-with the same name. You might retry C<ContinueUpdateRollback> requests
-to ensure that AWS CloudFormation successfully received them.
+this token if you plan to retry requests so that CloudFormation knows
+that you're not attempting to continue the rollback to a stack with the
+same name. You might retry C<ContinueUpdateRollback> requests to ensure
+that CloudFormation successfully received them.
 
 
 
 =head2 ResourcesToSkip => ArrayRef[Str|Undef]
 
-A list of the logical IDs of the resources that AWS CloudFormation
-skips during the continue update rollback operation. You can specify
-only resources that are in the C<UPDATE_FAILED> state because a
-rollback failed. You can't specify resources that are in the
-C<UPDATE_FAILED> state for other reasons, for example, because an
-update was cancelled. To check why a resource update failed, use the
-DescribeStackResources action, and view the resource status reason.
+A list of the logical IDs of the resources that CloudFormation skips
+during the continue update rollback operation. You can specify only
+resources that are in the C<UPDATE_FAILED> state because a rollback
+failed. You can't specify resources that are in the C<UPDATE_FAILED>
+state for other reasons, for example, because an update was canceled.
+To check why a resource update failed, use the DescribeStackResources
+action, and view the resource status reason.
 
-Specify this property to skip rolling back resources that AWS
+Specify this property to skip rolling back resources that
 CloudFormation can't successfully roll back. We recommend that you
 troubleshoot
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed)
-resources before skipping them. AWS CloudFormation sets the status of
-the specified resources to C<UPDATE_COMPLETE> and continues to roll
-back the stack. After the rollback is complete, the state of the
-skipped resources will be inconsistent with the state of the resources
-in the stack template. Before performing another stack update, you must
-update the stack or resources to be consistent with each other. If you
-don't, subsequent stack updates might fail, and the stack will become
+resources before skipping them. CloudFormation sets the status of the
+specified resources to C<UPDATE_COMPLETE> and continues to roll back
+the stack. After the rollback is complete, the state of the skipped
+resources will be inconsistent with the state of the resources in the
+stack template. Before performing another stack update, you must update
+the stack or resources to be consistent with each other. If you don't,
+subsequent stack updates might fail, and the stack will become
 unrecoverable.
 
 Specify the minimum number of resources required to successfully roll
@@ -90,27 +90,26 @@ C<DELETE_IN_PROGRESS>, C<DELETE_COMPLETE>, or C<DELETE_FAILED>.
 
 Don't confuse a child stack's name with its corresponding logical ID
 defined in the parent stack. For an example of a continue update
-rollback operation with nested stacks, see Using ResourcesToSkip to
-recover a nested stacks hierarchy
+rollback operation with nested stacks, see Continue rolling back from
+failed nested stack updates
 (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html#nested-stacks).
 
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of an AWS Identity and Access Management
-(IAM) role that AWS CloudFormation assumes to roll back the stack. AWS
-CloudFormation uses the role's credentials to make calls on your
-behalf. AWS CloudFormation always uses this role for all future
-operations on the stack. As long as users have permission to operate on
-the stack, AWS CloudFormation uses this role even if the users don't
-have permission to pass it. Ensure that the role grants least
-privilege.
+The Amazon Resource Name (ARN) of an IAM role that CloudFormation
+assumes to roll back the stack. CloudFormation uses the role's
+credentials to make calls on your behalf. CloudFormation always uses
+this role for all future operations on the stack. Provided that users
+have permission to operate on the stack, CloudFormation uses this role
+even if the users don't have permission to pass it. Ensure that the
+role grants least permission.
 
-If you don't specify a value, AWS CloudFormation uses the role that was
-previously associated with the stack. If no role is available, AWS
-CloudFormation uses a temporary session that is generated from your
-user credentials.
+If you don't specify a value, CloudFormation uses the role that was
+previously associated with the stack. If no role is available,
+CloudFormation uses a temporary session that's generated from your user
+credentials.
 
 
 

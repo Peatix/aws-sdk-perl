@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EMR::Simple
 =head1 DESCRIPTION
 
 An automatic scaling configuration, which describes how the policy adds
-or removes instances, the cooldown period, and the number of EC2
+or removes instances, the cooldown period, and the number of Amazon EC2
 instances that will be added each time the CloudWatch metric alarm
 condition is satisfied.
 
@@ -45,19 +45,19 @@ condition is satisfied.
 
 =head2 AdjustmentType => Str
 
-The way in which EC2 instances are added (if C<ScalingAdjustment> is a
-positive number) or terminated (if C<ScalingAdjustment> is a negative
-number) each time the scaling activity is triggered.
-C<CHANGE_IN_CAPACITY> is the default. C<CHANGE_IN_CAPACITY> indicates
-that the EC2 instance count increments or decrements by
-C<ScalingAdjustment>, which should be expressed as an integer.
-C<PERCENT_CHANGE_IN_CAPACITY> indicates the instance count increments
-or decrements by the percentage specified by C<ScalingAdjustment>,
-which should be expressed as an integer. For example, 20 indicates an
-increase in 20% increments of cluster capacity. C<EXACT_CAPACITY>
-indicates the scaling activity results in an instance group with the
-number of EC2 instances specified by C<ScalingAdjustment>, which should
-be expressed as a positive integer.
+The way in which Amazon EC2 instances are added (if
+C<ScalingAdjustment> is a positive number) or terminated (if
+C<ScalingAdjustment> is a negative number) each time the scaling
+activity is triggered. C<CHANGE_IN_CAPACITY> is the default.
+C<CHANGE_IN_CAPACITY> indicates that the Amazon EC2 instance count
+increments or decrements by C<ScalingAdjustment>, which should be
+expressed as an integer. C<PERCENT_CHANGE_IN_CAPACITY> indicates the
+instance count increments or decrements by the percentage specified by
+C<ScalingAdjustment>, which should be expressed as an integer. For
+example, 20 indicates an increase in 20% increments of cluster
+capacity. C<EXACT_CAPACITY> indicates the scaling activity results in
+an instance group with the number of Amazon EC2 instances specified by
+C<ScalingAdjustment>, which should be expressed as a positive integer.
 
 
 =head2 CoolDown => Int
@@ -70,8 +70,8 @@ default value is 0.
 =head2 B<REQUIRED> ScalingAdjustment => Int
 
 The amount by which to scale in or scale out, based on the specified
-C<AdjustmentType>. A positive value adds to the instance group's EC2
-instance count while a negative number removes instances. If
+C<AdjustmentType>. A positive value adds to the instance group's Amazon
+EC2 instance count while a negative number removes instances. If
 C<AdjustmentType> is set to C<EXACT_CAPACITY>, the number should only
 be a positive integer. If C<AdjustmentType> is set to
 C<PERCENT_CHANGE_IN_CAPACITY>, the value should express the percentage

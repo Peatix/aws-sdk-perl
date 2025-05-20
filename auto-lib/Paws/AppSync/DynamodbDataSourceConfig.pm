@@ -44,12 +44,12 @@ Describes an Amazon DynamoDB data source configuration.
 
 =head2 B<REQUIRED> AwsRegion => Str
 
-The AWS Region.
+The Amazon Web Services Region.
 
 
 =head2 DeltaSyncConfig => L<Paws::AppSync::DeltaSyncConfig>
 
-The C<DeltaSyncConfig> for a versioned datasource.
+The C<DeltaSyncConfig> for a versioned data source.
 
 
 =head2 B<REQUIRED> TableName => Str

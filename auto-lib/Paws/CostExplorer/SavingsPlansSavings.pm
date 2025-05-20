@@ -34,15 +34,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CostExplore
 
 =head1 DESCRIPTION
 
-The amount of savings you're accumulating, against the public On-Demand
-rate of the usage accrued in an account.
+The amount of savings that you're accumulating, against the public
+On-Demand rate of the usage accrued in an account.
 
 =head1 ATTRIBUTES
 
 
 =head2 NetSavings => Str
 
-The savings amount that you are accumulating for the usage that is
+The savings amount that you're accumulating for the usage that's
 covered by a Savings Plans, when compared to the On-Demand equivalent
 of the same usage.
 

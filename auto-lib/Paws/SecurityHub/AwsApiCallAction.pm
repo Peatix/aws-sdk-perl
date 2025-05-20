@@ -55,6 +55,8 @@ Identifies the resources that were affected by the API call.
 
 The name of the API method that was issued.
 
+Length Constraints: 128.
+
 
 =head2 CallerType => Str
 
@@ -70,25 +72,35 @@ DNS domain that the API call originated from.
 
 =head2 FirstSeen => Str
 
-An ISO8601-formatted timestamp that indicates when the API call was
-first observed.
+A timestamp that indicates when the API call was first observed.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 LastSeen => Str
 
-An ISO8601-formatted timestamp that indicates when the API call was
-most recently observed.
+A timestamp that indicates when the API call was most recently
+observed.
+
+For more information about the validation and formatting of timestamp
+fields in Security Hub, see Timestamps
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
 
 
 =head2 RemoteIpDetails => L<Paws::SecurityHub::ActionRemoteIpDetails>
 
-Provided if C<CallerType> is C<remoteIp>. Provides information about
+Provided if C<CallerType> is C<remoteip>. Provides information about
 the remote IP address that the API call originated from.
 
 
 =head2 ServiceName => Str
 
-The name of the AWS service that the API method belongs to.
+The name of the Amazon Web Services service that the API method belongs
+to.
+
+Length Constraints: 128.
 
 
 

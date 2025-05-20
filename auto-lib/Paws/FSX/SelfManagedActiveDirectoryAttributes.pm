@@ -38,14 +38,15 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::SelfMa
 =head1 DESCRIPTION
 
 The configuration of the self-managed Microsoft Active Directory (AD)
-directory to which the Windows File Server instance is joined.
+directory to which the Windows File Server or ONTAP storage virtual
+machine (SVM) instance is joined.
 
 =head1 ATTRIBUTES
 
 
 =head2 DnsIps => ArrayRef[Str|Undef]
 
-A list of up to two IP addresses of DNS servers or domain controllers
+A list of up to three IP addresses of DNS servers or domain controllers
 in the self-managed AD directory.
 
 
@@ -64,7 +65,7 @@ privileges for the FSx file system.
 
 The fully qualified distinguished name of the organizational unit
 within the self-managed AD directory to which the Windows File Server
-instance is joined.
+or ONTAP storage virtual machine (SVM) instance is joined.
 
 
 =head2 UserName => Str

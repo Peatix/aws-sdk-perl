@@ -33,14 +33,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3::ObjectL
 
 =head1 DESCRIPTION
 
-A Legal Hold configuration for an object.
+A legal hold configuration for an object.
 
 =head1 ATTRIBUTES
 
 
 =head2 Status => Str
 
-Indicates whether the specified object has a Legal Hold in place.
+Indicates whether the specified object has a legal hold in place.
 
 
 

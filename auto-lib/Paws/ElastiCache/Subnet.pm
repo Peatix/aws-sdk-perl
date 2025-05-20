@@ -4,6 +4,7 @@ package Paws::ElastiCache::Subnet;
   has SubnetAvailabilityZone => (is => 'ro', isa => 'Paws::ElastiCache::AvailabilityZone');
   has SubnetIdentifier => (is => 'ro', isa => 'Str');
   has SubnetOutpost => (is => 'ro', isa => 'Paws::ElastiCache::SubnetOutpost');
+  has SupportedNetworkTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ElastiCache::Subnet object:
 
-  $service_obj->Method(Att1 => { SubnetAvailabilityZone => $value, ..., SubnetOutpost => $value  });
+  $service_obj->Method(Att1 => { SubnetAvailabilityZone => $value, ..., SupportedNetworkTypes => $value  });
 
 =head3 Results returned from an API call
 
@@ -55,6 +56,14 @@ The unique identifier for the subnet.
 =head2 SubnetOutpost => L<Paws::ElastiCache::SubnetOutpost>
 
 The outpost ARN of the subnet.
+
+
+=head2 SupportedNetworkTypes => ArrayRef[Str|Undef]
+
+Either C<ipv4> | C<ipv6> | C<dual_stack>. IPv6 is supported for
+workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to
+7.1 or Memcached engine version 1.6.6 and above on all instances built
+on the Nitro system (http://aws.amazon.com/ec2/nitro/).
 
 
 

@@ -48,12 +48,11 @@ TCP flags.
 
 =head2 DestinationPorts => ArrayRef[L<Paws::NetworkFirewall::PortRange>]
 
-The destination ports to inspect for. If not specified, this matches
-with any destination port. This setting is only used for protocols 6
-(TCP) and 17 (UDP).
+The destination port to inspect for. You can specify an individual
+port, for example C<1994> and you can specify a port range, for example
+C<1990:1994>. To match with any port, specify C<ANY>.
 
-You can specify individual ports, for example C<1994> and you can
-specify port ranges, for example C<1990-1994>.
+This setting is only used for protocols 6 (TCP) and 17 (UDP).
 
 
 =head2 Destinations => ArrayRef[L<Paws::NetworkFirewall::Address>]
@@ -64,19 +63,20 @@ notation. If not specified, this matches with any destination address.
 
 =head2 Protocols => ArrayRef[Int]
 
-The protocols to inspect for, specified using each protocol's assigned
-internet protocol number (IANA). If not specified, this matches with
-any protocol.
+The protocols to inspect for, specified using the assigned internet
+protocol number (IANA) for each protocol. If not specified, this
+matches with any protocol.
 
 
 =head2 SourcePorts => ArrayRef[L<Paws::NetworkFirewall::PortRange>]
 
-The source ports to inspect for. If not specified, this matches with
-any source port. This setting is only used for protocols 6 (TCP) and 17
-(UDP).
+The source port to inspect for. You can specify an individual port, for
+example C<1994> and you can specify a port range, for example
+C<1990:1994>. To match with any port, specify C<ANY>.
 
-You can specify individual ports, for example C<1994> and you can
-specify port ranges, for example C<1990-1994>.
+If not specified, this matches with any source port.
+
+This setting is only used for protocols 6 (TCP) and 17 (UDP).
 
 
 =head2 Sources => ArrayRef[L<Paws::NetworkFirewall::Address>]

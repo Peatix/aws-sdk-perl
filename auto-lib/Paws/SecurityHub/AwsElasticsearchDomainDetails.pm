@@ -5,6 +5,7 @@ package Paws::SecurityHub::AwsElasticsearchDomainDetails;
   has DomainEndpointOptions => (is => 'ro', isa => 'Paws::SecurityHub::AwsElasticsearchDomainDomainEndpointOptions');
   has DomainId => (is => 'ro', isa => 'Str');
   has DomainName => (is => 'ro', isa => 'Str');
+  has ElasticsearchClusterConfig => (is => 'ro', isa => 'Paws::SecurityHub::AwsElasticsearchDomainElasticsearchClusterConfigDetails');
   has ElasticsearchVersion => (is => 'ro', isa => 'Str');
   has EncryptionAtRestOptions => (is => 'ro', isa => 'Paws::SecurityHub::AwsElasticsearchDomainEncryptionAtRestOptions');
   has Endpoint => (is => 'ro', isa => 'Str');
@@ -51,8 +52,8 @@ Information about an Elasticsearch domain.
 
 =head2 AccessPolicies => Str
 
-IAM policy document specifying the access policies for the new Amazon
-ES domain.
+IAM policy document specifying the access policies for the new
+Elasticsearch domain.
 
 
 =head2 DomainEndpointOptions => L<Paws::SecurityHub::AwsElasticsearchDomainDomainEndpointOptions>
@@ -62,15 +63,15 @@ Additional options for the domain endpoint.
 
 =head2 DomainId => Str
 
-Unique identifier for an Amazon ES domain.
+Unique identifier for an Elasticsearch domain.
 
 
 =head2 DomainName => Str
 
-Name of an Amazon ES domain.
+Name of an Elasticsearch domain.
 
 Domain names are unique across all domains owned by the same account
-within an AWS Region.
+within an Amazon Web Services Region.
 
 Domain names must start with a lowercase letter and must be between 3
 and 28 characters.
@@ -78,9 +79,14 @@ and 28 characters.
 Valid characters are a-z (lowercase only), 0-9, and E<ndash> (hyphen).
 
 
+=head2 ElasticsearchClusterConfig => L<Paws::SecurityHub::AwsElasticsearchDomainElasticsearchClusterConfigDetails>
+
+Information about an OpenSearch cluster configuration.
+
+
 =head2 ElasticsearchVersion => Str
 
-Elasticsearch version.
+OpenSearch version.
 
 
 =head2 EncryptionAtRestOptions => L<Paws::SecurityHub::AwsElasticsearchDomainEncryptionAtRestOptions>
@@ -91,14 +97,14 @@ Details about the configuration for encryption at rest.
 =head2 Endpoint => Str
 
 Domain-specific endpoint used to submit index, search, and data upload
-requests to an Amazon ES domain.
+requests to an Elasticsearch domain.
 
 The endpoint is a service URL.
 
 
 =head2 Endpoints => L<Paws::SecurityHub::FieldMap>
 
-The key-value pair that exists if the Amazon ES domain uses VPC
+The key-value pair that exists if the Elasticsearch domain uses VPC
 endpoints.
 
 
@@ -120,7 +126,7 @@ software.
 
 =head2 VPCOptions => L<Paws::SecurityHub::AwsElasticsearchDomainVPCOptions>
 
-Information that Amazon ES derives based on C<VPCOptions> for the
+Information that OpenSearch derives based on C<VPCOptions> for the
 domain.
 
 

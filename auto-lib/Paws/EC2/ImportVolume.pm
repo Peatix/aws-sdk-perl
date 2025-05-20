@@ -35,8 +35,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       AvailabilityZone => 'MyString',
       Image            => {
         Bytes             => 1,
-        Format            => 'VMDK',       # values: VMDK, RAW, VHD
-        ImportManifestUrl => 'MyString',
+        Format            => 'VMDK',                  # values: VMDK, RAW, VHD
+        ImportManifestUrl => 'MyImportManifestUrl',
 
       },
       Volume => {

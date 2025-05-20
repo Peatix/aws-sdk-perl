@@ -2,7 +2,6 @@
 package Paws::S3::PutBucketOwnershipControls;
   use Moose;
   has Bucket => (is => 'ro', isa => 'Str', uri_name => 'Bucket', traits => ['ParamInURI'], required => 1);
-  has ContentLength => (is => 'ro', isa => 'Int', header_name => 'Content-Length', traits => ['ParamInHeader']);
   has ContentMD5 => (is => 'ro', isa => 'Str', header_name => 'Content-MD5', auto => 'MD5', traits => ['AutoInHeader']);
   has ExpectedBucketOwner => (is => 'ro', isa => 'Str', header_name => 'x-amz-expected-bucket-owner', traits => ['ParamInHeader']);
   has OwnershipControls => (is => 'ro', isa => 'Paws::S3::OwnershipControls', traits => ['ParamInBody'], required => 1);
@@ -42,14 +41,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Rules => [
           {
             ObjectOwnership => 'BucketOwnerPreferred'
-            ,    # values: BucketOwnerPreferred, ObjectWriter
+            ,  # values: BucketOwnerPreferred, ObjectWriter, BucketOwnerEnforced
 
           },
           ...
         ],
 
       },
-      ContentLength       => 1,                 # OPTIONAL
       ContentMD5          => 'MyContentMD5',    # OPTIONAL
       ExpectedBucketOwner => 'MyAccountId',     # OPTIONAL
     );
@@ -67,33 +65,28 @@ set.
 
 
 
-=head2 ContentLength => Int
-
-Size of the body in bytes.
-
-
-
 =head2 ContentMD5 => Str
 
 The MD5 hash of the C<OwnershipControls> request body.
 
-For requests made using the AWS Command Line Interface (CLI) or AWS
-SDKs, this field is calculated automatically.
+For requests made using the Amazon Web Services Command Line Interface
+(CLI) or Amazon Web Services SDKs, this field is calculated
+automatically.
 
 
 
 =head2 ExpectedBucketOwner => Str
 
-The account ID of the expected bucket owner. If the bucket is owned by
-a different account, the request will fail with an HTTP C<403 (Access
-Denied)> error.
+The account ID of the expected bucket owner. If the account ID that you
+provide does not match the actual owner of the bucket, the request
+fails with the HTTP status code C<403 Forbidden> (access denied).
 
 
 
 =head2 B<REQUIRED> OwnershipControls => L<Paws::S3::OwnershipControls>
 
-The C<OwnershipControls> (BucketOwnerPreferred or ObjectWriter) that
-you want to apply to this Amazon S3 bucket.
+The C<OwnershipControls> (BucketOwnerEnforced, BucketOwnerPreferred, or
+ObjectWriter) that you want to apply to this Amazon S3 bucket.
 
 
 

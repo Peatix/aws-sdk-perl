@@ -4,6 +4,8 @@ package Paws::ComputeOptimizer::LambdaFunctionMemoryRecommendationOption;
   has MemorySize => (is => 'ro', isa => 'Int', request_name => 'memorySize', traits => ['NameInRequest']);
   has ProjectedUtilizationMetrics => (is => 'ro', isa => 'ArrayRef[Paws::ComputeOptimizer::LambdaFunctionMemoryProjectedMetric]', request_name => 'projectedUtilizationMetrics', traits => ['NameInRequest']);
   has Rank => (is => 'ro', isa => 'Int', request_name => 'rank', traits => ['NameInRequest']);
+  has SavingsOpportunity => (is => 'ro', isa => 'Paws::ComputeOptimizer::SavingsOpportunity', request_name => 'savingsOpportunity', traits => ['NameInRequest']);
+  has SavingsOpportunityAfterDiscounts => (is => 'ro', isa => 'Paws::ComputeOptimizer::LambdaSavingsOpportunityAfterDiscounts', request_name => 'savingsOpportunityAfterDiscounts', traits => ['NameInRequest']);
 
 1;
 
@@ -24,7 +26,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ComputeOptimizer::LambdaFunctionMemoryRecommendationOption object:
 
-  $service_obj->Method(Att1 => { MemorySize => $value, ..., Rank => $value  });
+  $service_obj->Method(Att1 => { MemorySize => $value, ..., SavingsOpportunityAfterDiscounts => $value  });
 
 =head3 Results returned from an API call
 
@@ -35,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ComputeOpti
 
 =head1 DESCRIPTION
 
-Describes a recommendation option for an AWS Lambda function.
+Describes a recommendation option for an Lambda function.
 
 =head1 ATTRIBUTES
 
@@ -56,6 +58,20 @@ the function recommendation option.
 The rank of the function recommendation option.
 
 The top recommendation option is ranked as C<1>.
+
+
+=head2 SavingsOpportunity => L<Paws::ComputeOptimizer::SavingsOpportunity>
+
+An object that describes the savings opportunity for the Lambda
+function recommendation option. Savings opportunity includes the
+estimated monthly savings amount and percentage.
+
+
+=head2 SavingsOpportunityAfterDiscounts => L<Paws::ComputeOptimizer::LambdaSavingsOpportunityAfterDiscounts>
+
+An object that describes the savings opportunity for the Lambda
+recommendation option which includes Saving Plans discounts. Savings
+opportunity includes the estimated monthly savings and percentage.
 
 
 

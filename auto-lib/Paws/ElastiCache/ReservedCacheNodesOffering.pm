@@ -66,15 +66,18 @@ General purpose:
 
 Current generation:
 
-B<M6g node types> (available only for Redis engine version 5.0.6 onward
-and for Memcached engine version 1.5.16 onward).
+B<M7g node types>: C<cache.m7g.large>, C<cache.m7g.xlarge>,
+C<cache.m7g.2xlarge>, C<cache.m7g.4xlarge>, C<cache.m7g.8xlarge>,
+C<cache.m7g.12xlarge>, C<cache.m7g.16xlarge>
 
+For region availability, see Supported Node Types
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+
+B<M6g node types> (available only for Redis OSS engine version 5.0.6
+onward and for Memcached engine version 1.5.16 onward):
 C<cache.m6g.large>, C<cache.m6g.xlarge>, C<cache.m6g.2xlarge>,
 C<cache.m6g.4xlarge>, C<cache.m6g.8xlarge>, C<cache.m6g.12xlarge>,
 C<cache.m6g.16xlarge>
-
-For region availability, see Supported Node Types
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
 B<M5 node types:> C<cache.m5.large>, C<cache.m5.xlarge>,
 C<cache.m5.2xlarge>, C<cache.m5.4xlarge>, C<cache.m5.12xlarge>,
@@ -82,6 +85,10 @@ C<cache.m5.24xlarge>
 
 B<M4 node types:> C<cache.m4.large>, C<cache.m4.xlarge>,
 C<cache.m4.2xlarge>, C<cache.m4.4xlarge>, C<cache.m4.10xlarge>
+
+B<T4g node types> (available only for Redis OSS engine version 5.0.6
+onward and Memcached engine version 1.5.16 onward): C<cache.t4g.micro>,
+C<cache.t4g.small>, C<cache.t4g.medium>
 
 B<T3 node types:> C<cache.t3.micro>, C<cache.t3.small>,
 C<cache.t3.medium>
@@ -91,7 +98,9 @@ C<cache.t2.medium>
 
 =item *
 
-Previous generation: (not recommended)
+Previous generation: (not recommended. Existing clusters are still
+supported but creation of new clusters is not supported for these
+types.)
 
 B<T1 node types:> C<cache.t1.micro>
 
@@ -111,7 +120,9 @@ Compute optimized:
 
 =item *
 
-Previous generation: (not recommended)
+Previous generation: (not recommended. Existing clusters are still
+supported but creation of new clusters is not supported for these
+types.)
 
 B<C1 node types:> C<cache.c1.xlarge>
 
@@ -127,15 +138,18 @@ Memory optimized:
 
 Current generation:
 
-B<R6g node types> (available only for Redis engine version 5.0.6 onward
-and for Memcached engine version 1.5.16 onward).
+B<R7g node types>: C<cache.r7g.large>, C<cache.r7g.xlarge>,
+C<cache.r7g.2xlarge>, C<cache.r7g.4xlarge>, C<cache.r7g.8xlarge>,
+C<cache.r7g.12xlarge>, C<cache.r7g.16xlarge>
 
+For region availability, see Supported Node Types
+(https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
+
+B<R6g node types> (available only for Redis OSS engine version 5.0.6
+onward and for Memcached engine version 1.5.16 onward):
 C<cache.r6g.large>, C<cache.r6g.xlarge>, C<cache.r6g.2xlarge>,
 C<cache.r6g.4xlarge>, C<cache.r6g.8xlarge>, C<cache.r6g.12xlarge>,
 C<cache.r6g.16xlarge>
-
-For region availability, see Supported Node Types
-(https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/CacheNodes.SupportedTypes.html#CacheNodes.SupportedTypesByRegion)
 
 B<R5 node types:> C<cache.r5.large>, C<cache.r5.xlarge>,
 C<cache.r5.2xlarge>, C<cache.r5.4xlarge>, C<cache.r5.12xlarge>,
@@ -147,7 +161,9 @@ C<cache.r4.16xlarge>
 
 =item *
 
-Previous generation: (not recommended)
+Previous generation: (not recommended. Existing clusters are still
+supported but creation of new clusters is not supported for these
+types.)
 
 B<M2 node types:> C<cache.m2.xlarge>, C<cache.m2.2xlarge>,
 C<cache.m2.4xlarge>
@@ -170,17 +186,18 @@ default.
 
 =item *
 
-Redis append-only files (AOF) are not supported for T1 or T2 instances.
+Valkey or Redis OSS append-only files (AOF) are not supported for T1 or
+T2 instances.
 
 =item *
 
-Redis Multi-AZ with automatic failover is not supported on T1
-instances.
+Valkey or Redis OSS Multi-AZ with automatic failover is not supported
+on T1 instances.
 
 =item *
 
-Redis configuration variables C<appendonly> and C<appendfsync> are not
-supported on Redis version 2.8.22 and later.
+The configuration variables C<appendonly> and C<appendfsync> are not
+supported on Valkey, or on Redis OSS version 2.8.22 and later.
 
 =back
 

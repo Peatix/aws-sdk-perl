@@ -60,10 +60,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -77,7 +73,7 @@ C<zh> - Chinese
 
 =head2 AccountId => Str
 
-The AWS account ID.
+The Amazon Web Services account ID.
 
 
 

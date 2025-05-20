@@ -56,7 +56,8 @@ can use either the fleet ID or ARN value.
 =head2 B<REQUIRED> Location => Str
 
 The fleet location to retrieve capacity information for. Specify a
-location in the form of an AWS Region code, such as C<us-west-2>.
+location in the form of an Amazon Web Services Region code, such as
+C<us-west-2>.
 
 
 

@@ -3,6 +3,7 @@ package Paws::Appflow::S3SourceProperties;
   use Moose;
   has BucketName => (is => 'ro', isa => 'Str', request_name => 'bucketName', traits => ['NameInRequest'], required => 1);
   has BucketPrefix => (is => 'ro', isa => 'Str', request_name => 'bucketPrefix', traits => ['NameInRequest']);
+  has S3InputFormatConfig => (is => 'ro', isa => 'Paws::Appflow::S3InputFormatConfig', request_name => 's3InputFormatConfig', traits => ['NameInRequest']);
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Appflow::S3SourceProperties object:
 
-  $service_obj->Method(Att1 => { BucketName => $value, ..., BucketPrefix => $value  });
+  $service_obj->Method(Att1 => { BucketName => $value, ..., S3InputFormatConfig => $value  });
 
 =head3 Results returned from an API call
 
@@ -49,6 +50,11 @@ The Amazon S3 bucket name where the source files are stored.
 
 The object key for the Amazon S3 bucket in which the source files are
 stored.
+
+
+=head2 S3InputFormatConfig => L<Paws::Appflow::S3InputFormatConfig>
+
+
 
 
 

@@ -43,15 +43,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Mainte
 
 =head1 DESCRIPTION
 
-The parameters for a RUN_COMMAND task type.
+The parameters for a C<RUN_COMMAND> task type.
 
 For information about specifying and updating task parameters, see
 RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.
 
-C<LoggingInfo> has been deprecated. To specify an S3 bucket to contain
-logs, instead use the C<OutputS3BucketName> and C<OutputS3KeyPrefix>
-options in the C<TaskInvocationParameters> structure. For information
-about how Systems Manager handles these options for the supported
+C<LoggingInfo> has been deprecated. To specify an Amazon Simple Storage
+Service (Amazon S3) bucket to contain logs, instead use the
+C<OutputS3BucketName> and C<OutputS3KeyPrefix> options in the
+C<TaskInvocationParameters> structure. For information about how Amazon
+Web Services Systems Manager handles these options for the supported
 maintenance window task types, see
 MaintenanceWindowTaskInvocationParameters.
 
@@ -61,7 +62,7 @@ C<TaskInvocationParameters> structure. For information about how
 Systems Manager handles these options for the supported maintenance
 window task types, see MaintenanceWindowTaskInvocationParameters.
 
-For Run Command tasks, Systems Manager uses specified values for
+For C<RUN_COMMAND> tasks, Systems Manager uses specified values for
 C<TaskParameters> and C<LoggingInfo> only if no values are specified
 for C<TaskInvocationParameters>.
 
@@ -91,28 +92,29 @@ SHA-256 or SHA-1. SHA-1 hashes have been deprecated.
 
 =head2 DocumentVersion => Str
 
-The SSM document version to use in the request. You can specify
-$DEFAULT, $LATEST, or a specific version number. If you run commands by
-using the AWS CLI, then you must escape the first two options by using
-a backslash. If you specify a version number, then you don't need to
-use the backslash. For example:
+The Amazon Web Services Systems Manager document (SSM document) version
+to use in the request. You can specify C<$DEFAULT>, C<$LATEST>, or a
+specific version number. If you run commands by using the Amazon Web
+Services CLI, then you must escape the first two options by using a
+backslash. If you specify a version number, then you don't need to use
+the backslash. For example:
 
---document-version "\$DEFAULT"
+C<--document-version "\$DEFAULT">
 
---document-version "\$LATEST"
+C<--document-version "\$LATEST">
 
---document-version "3"
+C<--document-version "3">
 
 
 =head2 NotificationConfig => L<Paws::SSM::NotificationConfig>
 
 Configurations for sending notifications about command status changes
-on a per-instance basis.
+on a per-managed node basis.
 
 
 =head2 OutputS3BucketName => Str
 
-The name of the S3 bucket.
+The name of the Amazon Simple Storage Service (Amazon S3) bucket.
 
 
 =head2 OutputS3KeyPrefix => Str
@@ -122,20 +124,31 @@ The S3 bucket subfolder.
 
 =head2 Parameters => L<Paws::SSM::Parameters>
 
-The parameters for the RUN_COMMAND task execution.
+The parameters for the C<RUN_COMMAND> task execution.
 
 
 =head2 ServiceRoleArn => Str
 
-The ARN of the IAM service role to use to publish Amazon Simple
-Notification Service (Amazon SNS) notifications for maintenance window
-Run Command tasks.
+The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
+Services Systems Manager to assume when running a maintenance window
+task. If you do not specify a service role ARN, Systems Manager uses a
+service-linked role in your account. If no appropriate service-linked
+role for Systems Manager exists in your account, it is created when you
+run C<RegisterTaskWithMaintenanceWindow>.
+
+However, for an improved security posture, we strongly recommend
+creating a custom policy and custom service role for running your
+maintenance window tasks. The policy can be crafted to provide only the
+permissions needed for your particular maintenance window tasks. For
+more information, see Setting up Maintenance Windows
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html)
+in the in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 =head2 TimeoutSeconds => Int
 
-If this time is reached and the command has not already started
-running, it doesn't run.
+If this time is reached and the command hasn't already started running,
+it doesn't run.
 
 
 

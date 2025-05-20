@@ -61,10 +61,6 @@ The language code.
 
 =item *
 
-C<en> - English (default)
-
-=item *
-
 C<jp> - Japanese
 
 =item *
@@ -78,7 +74,7 @@ C<zh> - Chinese
 
 =head2 IgnoreErrors => Bool
 
-If set to true, AWS Service Catalog stops managing the specified
+If set to true, Service Catalog stops managing the specified
 provisioned product even if it cannot delete the underlying resources.
 
 

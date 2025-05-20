@@ -53,7 +53,8 @@ The ID of the resource policy.
 
 =head2 B<REQUIRED> RamResourceShareRegion => Str
 
-The Region that policy allows resources to be used in.
+The Amazon Web Services Region that policy allows resources to be used
+in.
 
 
 

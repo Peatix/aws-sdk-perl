@@ -2,6 +2,7 @@
 package Paws::IoTSiteWise::Metric;
   use Moose;
   has Expression => (is => 'ro', isa => 'Str', request_name => 'expression', traits => ['NameInRequest'], required => 1);
+  has ProcessingConfig => (is => 'ro', isa => 'Paws::IoTSiteWise::MetricProcessingConfig', request_name => 'processingConfig', traits => ['NameInRequest']);
   has Variables => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::ExpressionVariable]', request_name => 'variables', traits => ['NameInRequest'], required => 1);
   has Window => (is => 'ro', isa => 'Paws::IoTSiteWise::MetricWindow', request_name => 'window', traits => ['NameInRequest'], required => 1);
 
@@ -48,7 +49,7 @@ with data types of C<INTEGER> or C<DOUBLE>.
 
 For more information, see Metrics
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -61,7 +62,14 @@ specify up to 10 functions per expression.
 
 For more information, see Quotas
 (https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
-in the I<AWS IoT SiteWise User Guide>.
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 ProcessingConfig => L<Paws::IoTSiteWise::MetricProcessingConfig>
+
+The processing configuration for the given metric property. You can
+configure metrics to be computed at the edge or in the Amazon Web
+Services Cloud. By default, metrics are forwarded to the cloud.
 
 
 =head2 B<REQUIRED> Variables => ArrayRef[L<Paws::IoTSiteWise::ExpressionVariable>]
@@ -71,9 +79,9 @@ The list of variables used in the expression.
 
 =head2 B<REQUIRED> Window => L<Paws::IoTSiteWise::MetricWindow>
 
-The window (time interval) over which AWS IoT SiteWise computes the
-metric's aggregation expression. AWS IoT SiteWise computes one data
-point per C<window>.
+The window (time interval) over which IoT SiteWise computes the
+metric's aggregation expression. IoT SiteWise computes one data point
+per C<window>.
 
 
 

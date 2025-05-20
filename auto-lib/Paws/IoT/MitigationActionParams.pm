@@ -54,8 +54,8 @@ quarantine.
 
 =head2 EnableIoTLoggingParams => L<Paws::IoT::EnableIoTLoggingParams>
 
-Parameters to define a mitigation action that enables AWS IoT logging
-at a specified level of detail.
+Parameters to define a mitigation action that enables Amazon Web
+Services IoT Core logging at a specified level of detail.
 
 
 =head2 PublishFindingToSnsParams => L<Paws::IoT::PublishFindingToSnsParams>

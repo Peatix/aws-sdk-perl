@@ -34,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     );
 
     # Results:
+    my $ArchivingOptions = $GetConfigurationSetResponse->ArchivingOptions;
     my $ConfigurationSetName =
       $GetConfigurationSetResponse->ConfigurationSetName;
     my $DeliveryOptions    = $GetConfigurationSetResponse->DeliveryOptions;
@@ -42,6 +43,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $SuppressionOptions = $GetConfigurationSetResponse->SuppressionOptions;
     my $Tags               = $GetConfigurationSetResponse->Tags;
     my $TrackingOptions    = $GetConfigurationSetResponse->TrackingOptions;
+    my $VdmOptions         = $GetConfigurationSetResponse->VdmOptions;
 
     # Returns a L<Paws::SESv2::GetConfigurationSetResponse> object.
 
@@ -53,8 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ema
 
 =head2 B<REQUIRED> ConfigurationSetName => Str
 
-The name of the configuration set that you want to obtain more
-information about.
+The name of the configuration set.
 
 
 

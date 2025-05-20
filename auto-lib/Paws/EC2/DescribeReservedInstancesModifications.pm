@@ -90,6 +90,11 @@ Availability Zone for the new Reserved Instances.
 
 =item *
 
+C<modification-result.target-configuration.availability-zone-id> - The
+ID of the Availability Zone for the new Reserved Instances.
+
+=item *
+
 C<modification-result.target-configuration.instance-count > - The
 number of new Reserved Instances.
 
@@ -97,11 +102,6 @@ number of new Reserved Instances.
 
 C<modification-result.target-configuration.instance-type> - The
 instance type of the new Reserved Instances.
-
-=item *
-
-C<modification-result.target-configuration.platform> - The network
-platform of the new Reserved Instances (C<EC2-Classic> | C<EC2-VPC>).
 
 =item *
 

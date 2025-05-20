@@ -1,8 +1,8 @@
 
 package Paws::CodeDeploy::BatchGetDeploymentTargets;
   use Moose;
-  has DeploymentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentId' );
-  has TargetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'targetIds' );
+  has DeploymentId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'deploymentId' , required => 1);
+  has TargetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'targetIds' , required => 1);
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $codedeploy = Paws->service('CodeDeploy');
     my $BatchGetDeploymentTargetsOutput =
       $codedeploy->BatchGetDeploymentTargets(
-      DeploymentId => 'MyDeploymentId',         # OPTIONAL
-      TargetIds    => [ 'MyTargetId', ... ],    # OPTIONAL
+      DeploymentId => 'MyDeploymentId',
+      TargetIds    => [ 'MyTargetId', ... ],
+
       );
 
     # Results:
@@ -45,13 +46,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cod
 =head1 ATTRIBUTES
 
 
-=head2 DeploymentId => Str
+=head2 B<REQUIRED> DeploymentId => Str
 
 The unique ID of a deployment.
 
 
 
-=head2 TargetIds => ArrayRef[Str|Undef]
+=head2 B<REQUIRED> TargetIds => ArrayRef[Str|Undef]
 
 The unique IDs of the deployment targets. The compute platform of the
 deployment determines the type of the targets and their formats. The
@@ -62,13 +63,13 @@ maximum number of deployment target IDs you can specify is 25.
 =item *
 
 For deployments that use the EC2/On-premises compute platform, the
-target IDs are EC2 or on-premises instances IDs, and their target type
-is C<instanceTarget>.
+target IDs are Amazon EC2 or on-premises instances IDs, and their
+target type is C<instanceTarget>.
 
 =item *
 
-For deployments that use the AWS Lambda compute platform, the target
-IDs are the names of Lambda functions, and their target type is
+For deployments that use the Lambda compute platform, the target IDs
+are the names of Lambda functions, and their target type is
 C<instanceTarget>.
 
 =item *
@@ -80,8 +81,8 @@ type is C<ecsTarget>.
 
 =item *
 
-For deployments that are deployed with AWS CloudFormation, the target
-IDs are CloudFormation stack IDs. Their target type is
+For deployments that are deployed with CloudFormation, the target IDs
+are CloudFormation stack IDs. Their target type is
 C<cloudFormationTarget>.
 
 =back

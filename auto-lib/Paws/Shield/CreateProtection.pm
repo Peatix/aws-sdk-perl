@@ -78,12 +78,12 @@ C<arn:aws:elasticloadbalancing:I<region>:I<account-id>:loadbalancer/I<load-balan
 
 =item *
 
-For an AWS CloudFront distribution:
+For an Amazon CloudFront distribution:
 C<arn:aws:cloudfront::I<account-id>:distribution/I<distribution-id>>
 
 =item *
 
-For an AWS Global Accelerator accelerator:
+For an Global Accelerator standard accelerator:
 C<arn:aws:globalaccelerator::I<account-id>:accelerator/I<accelerator-id>>
 
 =item *

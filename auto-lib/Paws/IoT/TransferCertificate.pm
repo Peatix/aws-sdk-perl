@@ -57,7 +57,7 @@ contains the certificate ID.)
 
 =head2 B<REQUIRED> TargetAwsAccount => Str
 
-The AWS account.
+The Amazon Web Services account.
 
 
 

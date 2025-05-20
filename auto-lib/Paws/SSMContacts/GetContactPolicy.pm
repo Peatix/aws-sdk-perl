@@ -27,10 +27,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $ssm-contacts = Paws->service('SSMContacts');
-    my $GetContactPolicyResult = $ssm -contacts->GetContactPolicy(
-      ContactArn => 'MySsmContactsArn',
-
-    );
+    # To list the resource policies of a contact
+    # The following get-contact-policy example lists the resource policies
+    # associated with the specified contact.
+    my $GetContactPolicyResult =
+      $ssm -
+      contacts->GetContactPolicy( 'ContactArn' =>
+        'arn:aws:ssm-contacts:us-east-1:111122223333:contact/akuam' );
 
     # Results:
     my $ContactArn = $GetContactPolicyResult->ContactArn;

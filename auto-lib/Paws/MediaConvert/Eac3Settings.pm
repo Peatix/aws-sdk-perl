@@ -53,8 +53,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConver
 
 =head1 DESCRIPTION
 
-Required when you set (Codec) under
-(AudioDescriptions)E<gt>(CodecSettings) to the value EAC3.
+Required when you set Codec to the value EAC3.
 
 =head1 ATTRIBUTES
 
@@ -67,8 +66,14 @@ channels. Only used for 3/2 coding mode.
 
 =head2 Bitrate => Int
 
-Specify the average bitrate in bits per second. Valid bitrates depend
-on the coding mode.
+Specify the average bitrate in bits per second. The bitrate that you
+specify must be a multiple of 8000 within the allowed minimum and
+maximum values. Leave blank to use the default bitrate for the coding
+mode you select according ETSI TS 102 366. Valid bitrates for coding
+mode 1/0: Default: 96000. Minimum: 32000. Maximum: 3024000. Valid
+bitrates for coding mode 2/0: Default: 192000. Minimum: 96000. Maximum:
+3024000. Valid bitrates for coding mode 3/2: Default: 384000. Minimum:
+192000. Maximum: 3024000.
 
 
 =head2 BitstreamMode => Str
@@ -100,9 +105,9 @@ Choose the Dolby Digital dynamic range control (DRC) profile that
 MediaConvert uses when encoding the metadata in the Dolby Digital
 stream for the line operating mode. Related setting: When you use this
 setting, MediaConvert ignores any value you provide for Dynamic range
-compression profile (DynamicRangeCompressionProfile). For information
-about the Dolby Digital DRC operating modes and profiles, see the
-Dynamic Range Control chapter of the Dolby Metadata Guide at
+compression profile. For information about the Dolby Digital DRC
+operating modes and profiles, see the Dynamic Range Control chapter of
+the Dolby Metadata Guide at
 https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 
 
@@ -112,9 +117,9 @@ Choose the Dolby Digital dynamic range control (DRC) profile that
 MediaConvert uses when encoding the metadata in the Dolby Digital
 stream for the RF operating mode. Related setting: When you use this
 setting, MediaConvert ignores any value you provide for Dynamic range
-compression profile (DynamicRangeCompressionProfile). For information
-about the Dolby Digital DRC operating modes and profiles, see the
-Dynamic Range Control chapter of the Dolby Metadata Guide at
+compression profile. For information about the Dolby Digital DRC
+operating modes and profiles, see the Dynamic Range Control chapter of
+the Dolby Metadata Guide at
 https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
 
 
@@ -132,53 +137,49 @@ Only valid with 3_2_LFE coding mode.
 =head2 LoRoCenterMixLevel => Num
 
 Specify a value for the following Dolby Digital Plus setting: Left
-only/Right only center mix (Lo/Ro center). MediaConvert uses this value
-for downmixing. How the service uses this value depends on the value
-that you choose for Stereo downmix (Eac3StereoDownmix). Valid values:
-3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the
-channel. This setting applies only if you keep the default value of 3/2
-- L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode
-(Eac3CodingMode). If you choose a different value for Coding mode, the
-service ignores Left only/Right only center (loRoCenterMixLevel).
+only/Right only center mix. MediaConvert uses this value for
+downmixing. How the service uses this value depends on the value that
+you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0,
+-4.5, -6.0, and -60. The value -60 mutes the channel. This setting
+applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for
+the setting Coding mode. If you choose a different value for Coding
+mode, the service ignores Left only/Right only center.
 
 
 =head2 LoRoSurroundMixLevel => Num
 
 Specify a value for the following Dolby Digital Plus setting: Left
-only/Right only (Lo/Ro surround). MediaConvert uses this value for
-downmixing. How the service uses this value depends on the value that
-you choose for Stereo downmix (Eac3StereoDownmix). Valid values: -1.5,
--3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. This
-setting applies only if you keep the default value of 3/2 - L, R, C,
-Ls, Rs (CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode).
-If you choose a different value for Coding mode, the service ignores
-Left only/Right only surround (loRoSurroundMixLevel).
+only/Right only. MediaConvert uses this value for downmixing. How the
+service uses this value depends on the value that you choose for Stereo
+downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60
+mutes the channel. This setting applies only if you keep the default
+value of 3/2 - L, R, C, Ls, Rs for the setting Coding mode. If you
+choose a different value for Coding mode, the service ignores Left
+only/Right only surround.
 
 
 =head2 LtRtCenterMixLevel => Num
 
 Specify a value for the following Dolby Digital Plus setting: Left
-total/Right total center mix (Lt/Rt center). MediaConvert uses this
-value for downmixing. How the service uses this value depends on the
-value that you choose for Stereo downmix (Eac3StereoDownmix). Valid
-values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value -60
-mutes the channel. This setting applies only if you keep the default
-value of 3/2 - L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding
-mode (Eac3CodingMode). If you choose a different value for Coding mode,
-the service ignores Left total/Right total center (ltRtCenterMixLevel).
+total/Right total center mix. MediaConvert uses this value for
+downmixing. How the service uses this value depends on the value that
+you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0, -1.5, -3.0,
+-4.5, -6.0, and -60. The value -60 mutes the channel. This setting
+applies only if you keep the default value of 3/2 - L, R, C, Ls, Rs for
+the setting Coding mode. If you choose a different value for Coding
+mode, the service ignores Left total/Right total center.
 
 
 =head2 LtRtSurroundMixLevel => Num
 
 Specify a value for the following Dolby Digital Plus setting: Left
-total/Right total surround mix (Lt/Rt surround). MediaConvert uses this
-value for downmixing. How the service uses this value depends on the
-value that you choose for Stereo downmix (Eac3StereoDownmix). Valid
-values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the
-channel. This setting applies only if you keep the default value of 3/2
-- L, R, C, Ls, Rs (CODING_MODE_3_2) for the setting Coding mode
-(Eac3CodingMode). If you choose a different value for Coding mode, the
-service ignores Left total/Right total surround (ltRtSurroundMixLevel).
+total/Right total surround mix. MediaConvert uses this value for
+downmixing. How the service uses this value depends on the value that
+you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0,
+and -60. The value -60 mutes the channel. This setting applies only if
+you keep the default value of 3/2 - L, R, C, Ls, Rs for the setting
+Coding mode. If you choose a different value for Coding mode, the
+service ignores Left total/Right total surround.
 
 
 =head2 MetadataControl => Str
@@ -212,10 +213,9 @@ This value is always 48000. It represents the sample rate in Hz.
 =head2 StereoDownmix => Str
 
 Choose how the service does stereo downmixing. This setting only
-applies if you keep the default value of 3/2 - L, R, C, Ls, Rs
-(CODING_MODE_3_2) for the setting Coding mode (Eac3CodingMode). If you
-choose a different value for Coding mode, the service ignores Stereo
-downmix (Eac3StereoDownmix).
+applies if you keep the default value of 3/2 - L, R, C, Ls, Rs for the
+setting Coding mode. If you choose a different value for Coding mode,
+the service ignores Stereo downmix.
 
 
 =head2 SurroundExMode => Str

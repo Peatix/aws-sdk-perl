@@ -34,20 +34,20 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Signer::Sig
 
 =head1 DESCRIPTION
 
-The configuration of a code signing operation.
+The configuration of a signing operation.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> EncryptionAlgorithmOptions => L<Paws::Signer::EncryptionAlgorithmOptions>
 
-The encryption algorithm options that are available for a code signing
+The encryption algorithm options that are available for a code-signing
 job.
 
 
 =head2 B<REQUIRED> HashAlgorithmOptions => L<Paws::Signer::HashAlgorithmOptions>
 
-The hash algorithm options that are available for a code signing job.
+The hash algorithm options that are available for a code-signing job.
 
 
 

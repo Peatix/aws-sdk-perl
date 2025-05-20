@@ -146,7 +146,7 @@ This is not supported by Amazon S3 on Outposts buckets.
 
 The ID of the Outposts where the bucket is being created.
 
-This is required by Amazon S3 on Outposts buckets.
+This ID is required by Amazon S3 on Outposts buckets.
 
 
 

@@ -69,8 +69,8 @@ The first day the anomaly is detected.
 
 =head2 DimensionValue => Str
 
-The dimension for the anomaly. For example, an AWS service in a service
-monitor.
+The dimension for the anomaly (for example, an Amazon Web Services
+service in a service monitor).
 
 
 =head2 Feedback => Str

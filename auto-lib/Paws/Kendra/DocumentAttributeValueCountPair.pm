@@ -3,6 +3,7 @@ package Paws::Kendra::DocumentAttributeValueCountPair;
   use Moose;
   has Count => (is => 'ro', isa => 'Int');
   has DocumentAttributeValue => (is => 'ro', isa => 'Paws::Kendra::DocumentAttributeValue');
+  has FacetResults => (is => 'ro', isa => 'ArrayRef[Paws::Kendra::FacetResult]');
 
 1;
 
@@ -23,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Kendra::DocumentAttributeValueCountPair object:
 
-  $service_obj->Method(Att1 => { Count => $value, ..., DocumentAttributeValue => $value  });
+  $service_obj->Method(Att1 => { Count => $value, ..., FacetResults => $value  });
 
 =head3 Results returned from an API call
 
@@ -34,21 +35,37 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Doc
 
 =head1 DESCRIPTION
 
-Provides the count of documents that match a particular attribute when
-doing a faceted search.
+Provides the count of documents that match a particular document
+attribute or field when doing a faceted search.
 
 =head1 ATTRIBUTES
 
 
 =head2 Count => Int
 
-The number of documents in the response that have the attribute value
-for the key.
+The number of documents in the response that have the attribute/field
+value for the key.
 
 
 =head2 DocumentAttributeValue => L<Paws::Kendra::DocumentAttributeValue>
 
-The value of the attribute. For example, "HR."
+The value of the attribute/field. For example, "HR".
+
+
+=head2 FacetResults => ArrayRef[L<Paws::Kendra::FacetResult>]
+
+Contains the results of a document attribute/field that is a nested
+facet. A C<FacetResult> contains the counts for each facet nested
+within a facet.
+
+For example, the document attribute or facet "Department" includes a
+value called "Engineering". In addition, the document attribute or
+facet "SubDepartment" includes the values "Frontend" and "Backend" for
+documents assigned to "Engineering". You can display nested facets in
+the search results so that documents can be searched not only by
+department but also by a sub department within a department. The counts
+for documents that belong to "Frontend" and "Backend" within
+"Engineering" are returned for a query.
 
 
 

@@ -57,8 +57,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 PatchOperations => ArrayRef[L<Paws::ApiGateway::PatchOperation>]
 
-A list of update operations to be applied to the specified resource and
-in the order specified in this list.
+For more information about supported patch operations, see Patch
+Operations
+(https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 
 
 

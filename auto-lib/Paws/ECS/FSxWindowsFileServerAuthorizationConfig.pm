@@ -37,7 +37,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::FSxWin
 The authorization configuration details for Amazon FSx for Windows File
 Server file system. See FSxWindowsFileServerVolumeConfiguration
 (https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FSxWindowsFileServerVolumeConfiguration.html)
-in the I<Amazon Elastic Container Service API Reference>.
+in the I<Amazon ECS API Reference>.
 
 For more information and the input format, see Amazon FSx for Windows
 File Server Volumes
@@ -51,13 +51,13 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 The authorization credential option to use. The authorization
 credential options can be provided using either the Amazon Resource
-Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager
-Parameter Store parameter. The ARNs refer to the stored credentials.
+Name (ARN) of an Secrets Manager secret or SSM Parameter Store
+parameter. The ARN refers to the stored credentials.
 
 
 =head2 B<REQUIRED> Domain => Str
 
-A fully qualified domain name hosted by an AWS Directory Service
+A fully qualified domain name hosted by an Directory Service
 (https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html)
 Managed Microsoft AD (Active Directory) or self-hosted AD on Amazon
 EC2.

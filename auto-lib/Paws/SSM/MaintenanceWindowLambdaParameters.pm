@@ -35,15 +35,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Mainte
 
 =head1 DESCRIPTION
 
-The parameters for a LAMBDA task type.
+The parameters for a C<LAMBDA> task type.
 
 For information about specifying and updating task parameters, see
 RegisterTaskWithMaintenanceWindow and UpdateMaintenanceWindowTask.
 
-C<LoggingInfo> has been deprecated. To specify an S3 bucket to contain
-logs, instead use the C<OutputS3BucketName> and C<OutputS3KeyPrefix>
-options in the C<TaskInvocationParameters> structure. For information
-about how Systems Manager handles these options for the supported
+C<LoggingInfo> has been deprecated. To specify an Amazon Simple Storage
+Service (Amazon S3) bucket to contain logs, instead use the
+C<OutputS3BucketName> and C<OutputS3KeyPrefix> options in the
+C<TaskInvocationParameters> structure. For information about how Amazon
+Web Services Systems Manager handles these options for the supported
 maintenance window task types, see
 MaintenanceWindowTaskInvocationParameters.
 
@@ -73,11 +74,11 @@ JSON to provide to your Lambda function as input.
 
 =head2 Qualifier => Str
 
-(Optional) Specify a Lambda function version or alias name. If you
-specify a function version, the action uses the qualified function ARN
-to invoke a specific Lambda function. If you specify an alias name, the
-action uses the alias ARN to invoke the Lambda function version to
-which the alias points.
+(Optional) Specify an Lambda function version or alias name. If you
+specify a function version, the operation uses the qualified function
+Amazon Resource Name (ARN) to invoke a specific Lambda function. If you
+specify an alias name, the operation uses the alias ARN to invoke the
+Lambda function version to which the alias points.
 
 
 

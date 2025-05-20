@@ -47,7 +47,72 @@ The hard limit for the ulimit type.
 
 =head2 Name => Str
 
-The type of the ulimit.
+The type of the ulimit. Valid values are as follows:
+
+=over
+
+=item *
+
+C<core>
+
+=item *
+
+C<cpu>
+
+=item *
+
+C<data>
+
+=item *
+
+C<fsize>
+
+=item *
+
+C<locks>
+
+=item *
+
+C<memlock>
+
+=item *
+
+C<msgqueue>
+
+=item *
+
+C<nice>
+
+=item *
+
+C<nofile>
+
+=item *
+
+C<nproc>
+
+=item *
+
+C<rss>
+
+=item *
+
+C<rtprio>
+
+=item *
+
+C<rttime>
+
+=item *
+
+C<sigpending>
+
+=item *
+
+C<stack>
+
+=back
+
 
 
 =head2 SoftLimit => Int

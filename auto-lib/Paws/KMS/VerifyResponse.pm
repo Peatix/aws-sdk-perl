@@ -20,7 +20,7 @@ Paws::KMS::VerifyResponse
 
 The Amazon Resource Name (key ARN
 (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN))
-of the asymmetric CMK that was used to verify the signature.
+of the asymmetric KMS key that was used to verify the signature.
 
 
 =head2 SignatureValid => Bool
@@ -36,7 +36,7 @@ operation fails with a C<KMSInvalidSignatureException> exception.
 
 The signing algorithm that was used to verify the signature.
 
-Valid values are: C<"RSASSA_PSS_SHA_256">, C<"RSASSA_PSS_SHA_384">, C<"RSASSA_PSS_SHA_512">, C<"RSASSA_PKCS1_V1_5_SHA_256">, C<"RSASSA_PKCS1_V1_5_SHA_384">, C<"RSASSA_PKCS1_V1_5_SHA_512">, C<"ECDSA_SHA_256">, C<"ECDSA_SHA_384">, C<"ECDSA_SHA_512">
+Valid values are: C<"RSASSA_PSS_SHA_256">, C<"RSASSA_PSS_SHA_384">, C<"RSASSA_PSS_SHA_512">, C<"RSASSA_PKCS1_V1_5_SHA_256">, C<"RSASSA_PKCS1_V1_5_SHA_384">, C<"RSASSA_PKCS1_V1_5_SHA_512">, C<"ECDSA_SHA_256">, C<"ECDSA_SHA_384">, C<"ECDSA_SHA_512">, C<"SM2DSA">
 =head2 _request_id => Str
 
 

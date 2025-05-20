@@ -24,7 +24,7 @@ part, and a text-only part.
 
 =head2 B<REQUIRED> TemplateName => Str
 
-The name of the template you want to retrieve.
+The name of the template.
 
 
 =head2 _request_id => Str

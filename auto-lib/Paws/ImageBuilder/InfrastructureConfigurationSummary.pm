@@ -8,6 +8,7 @@ package Paws::ImageBuilder::InfrastructureConfigurationSummary;
   has InstanceProfileName => (is => 'ro', isa => 'Str', request_name => 'instanceProfileName', traits => ['NameInRequest']);
   has InstanceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'instanceTypes', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has Placement => (is => 'ro', isa => 'Paws::ImageBuilder::Placement', request_name => 'placement', traits => ['NameInRequest']);
   has ResourceTags => (is => 'ro', isa => 'Paws::ImageBuilder::ResourceTagMap', request_name => 'resourceTags', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::ImageBuilder::TagMap', request_name => 'tags', traits => ['NameInRequest']);
 
@@ -79,6 +80,12 @@ The instance types of the infrastructure configuration.
 =head2 Name => Str
 
 The name of the infrastructure configuration.
+
+
+=head2 Placement => L<Paws::ImageBuilder::Placement>
+
+The instance placement settings that define where the instances that
+are launched from your image will run.
 
 
 =head2 ResourceTags => L<Paws::ImageBuilder::ResourceTagMap>

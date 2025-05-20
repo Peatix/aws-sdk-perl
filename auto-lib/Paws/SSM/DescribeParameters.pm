@@ -5,6 +5,7 @@ package Paws::SSM::DescribeParameters;
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
   has ParameterFilters => (is => 'ro', isa => 'ArrayRef[Paws::SSM::ParameterStringFilter]');
+  has Shared => (is => 'ro', isa => 'Bool');
 
   use MooseX::ClassAttribute;
 
@@ -53,6 +54,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      Shared => 1,    # OPTIONAL
     );
 
     # Results:
@@ -91,6 +93,26 @@ from a previous call.)
 =head2 ParameterFilters => ArrayRef[L<Paws::SSM::ParameterStringFilter>]
 
 Filters to limit the request results.
+
+
+
+=head2 Shared => Bool
+
+Lists parameters that are shared with you.
+
+By default when using this option, the command returns parameters that
+have been shared using a standard Resource Access Manager Resource
+Share. In order for a parameter that was shared using the
+PutResourcePolicy command to be returned, the associated C<RAM Resource
+Share Created From Policy> must have been promoted to a standard
+Resource Share using the RAM PromoteResourceShareCreatedFromPolicy
+(https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
+API operation.
+
+For more information about sharing parameters, see Working with shared
+parameters
+(https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html)
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 

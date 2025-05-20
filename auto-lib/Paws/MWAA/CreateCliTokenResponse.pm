@@ -18,13 +18,12 @@ Paws::MWAA::CreateCliTokenResponse
 
 =head2 CliToken => Str
 
-Create an Airflow CLI login token response for the provided JWT token.
+An Airflow CLI login token.
 
 
 =head2 WebServerHostname => Str
 
-Create an Airflow CLI login token response for the provided webserver
-hostname.
+The Airflow web server hostname for the environment.
 
 
 =head2 _request_id => Str

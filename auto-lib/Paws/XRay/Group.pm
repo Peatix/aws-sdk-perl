@@ -70,7 +70,7 @@ the group or false to disable insights for the group.
 
 =item *
 
-The NotifcationsEnabled boolean can be set to true to enable insights
+The NotificationsEnabled boolean can be set to true to enable insights
 notifications through Amazon EventBridge for the group.
 
 =back

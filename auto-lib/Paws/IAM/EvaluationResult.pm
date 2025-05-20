@@ -71,15 +71,16 @@ includes a resource ARN, then the parameter is present but the response
 is empty. If the simulation evaluates policies within the same account
 and specifies all resources (C<*>), then the parameter is not returned.
 
-When you make a cross-account request, AWS evaluates the request in the
-trusting account and the trusted account. The request is allowed only
-if both evaluations return C<true>. For more information about how
-policies are evaluated, see Evaluating policies within a single account
+When you make a cross-account request, Amazon Web Services evaluates
+the request in the trusting account and the trusted account. The
+request is allowed only if both evaluations return C<true>. For more
+information about how policies are evaluated, see Evaluating policies
+within a single account
 (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics).
 
-If an AWS Organizations SCP included in the evaluation denies access,
-the simulation ends. In this case, policy evaluation does not proceed
-any further and this parameter is not returned.
+If an Organizations SCP included in the evaluation denies access, the
+simulation ends. In this case, policy evaluation does not proceed any
+further and this parameter is not returned.
 
 
 =head2 EvalResourceName => Str

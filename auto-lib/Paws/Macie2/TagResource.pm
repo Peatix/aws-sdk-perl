@@ -43,8 +43,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mac
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) of the classification job, custom data
-identifier, findings filter, or member account.
+The Amazon Resource Name (ARN) of the resource.
 
 
 

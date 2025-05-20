@@ -41,8 +41,8 @@ Information about a forward action.
 
 =head2 TargetGroups => ArrayRef[L<Paws::ELBv2::TargetGroupTuple>]
 
-One or more target groups. For Network Load Balancers, you can specify
-a single target group.
+The target groups. For Network Load Balancers, you can specify a single
+target group.
 
 
 =head2 TargetGroupStickinessConfig => L<Paws::ELBv2::TargetGroupStickinessConfig>

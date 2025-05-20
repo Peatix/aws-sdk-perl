@@ -64,7 +64,7 @@ The name of the configuration aggregator.
 =head2 Limit => Int
 
 The maximum number of AggregatorSourceStatus returned on each page. The
-default is maximum. If you specify 0, AWS Config uses the default.
+default is maximum. If you specify 0, Config uses the default.
 
 
 

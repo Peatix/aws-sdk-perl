@@ -1,6 +1,7 @@
 
 package Paws::ApplicationMigration::ChangeServerLifeCycleState;
   use Moose;
+  has AccountID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'accountID');
   has LifeCycle => (is => 'ro', isa => 'Paws::ApplicationMigration::ChangeServerLifeCycleStateSourceServerLifecycle', traits => ['NameInRequest'], request_name => 'lifeCycle', required => 1);
   has SourceServerID => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'sourceServerID', required => 1);
 
@@ -36,18 +37,24 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
       },
       SourceServerID => 'MySourceServerID',
-
+      AccountID      => 'MyAccountID',        # OPTIONAL
     );
 
     # Results:
-    my $Arn                 = $SourceServer->Arn;
-    my $DataReplicationInfo = $SourceServer->DataReplicationInfo;
-    my $IsArchived          = $SourceServer->IsArchived;
-    my $LaunchedInstance    = $SourceServer->LaunchedInstance;
-    my $LifeCycle           = $SourceServer->LifeCycle;
-    my $SourceProperties    = $SourceServer->SourceProperties;
-    my $SourceServerID      = $SourceServer->SourceServerID;
-    my $Tags                = $SourceServer->Tags;
+    my $ApplicationID          = $SourceServer->ApplicationID;
+    my $Arn                    = $SourceServer->Arn;
+    my $ConnectorAction        = $SourceServer->ConnectorAction;
+    my $DataReplicationInfo    = $SourceServer->DataReplicationInfo;
+    my $FqdnForActionFramework = $SourceServer->FqdnForActionFramework;
+    my $IsArchived             = $SourceServer->IsArchived;
+    my $LaunchedInstance       = $SourceServer->LaunchedInstance;
+    my $LifeCycle              = $SourceServer->LifeCycle;
+    my $ReplicationType        = $SourceServer->ReplicationType;
+    my $SourceProperties       = $SourceServer->SourceProperties;
+    my $SourceServerID         = $SourceServer->SourceServerID;
+    my $Tags                   = $SourceServer->Tags;
+    my $UserProvidedID         = $SourceServer->UserProvidedID;
+    my $VcenterClientID        = $SourceServer->VcenterClientID;
 
     # Returns a L<Paws::ApplicationMigration::SourceServer> object.
 
@@ -55,6 +62,12 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mgn/ChangeServerLifeCycleState>
 
 =head1 ATTRIBUTES
+
+
+=head2 AccountID => Str
+
+The request to change the source server migration account ID.
+
 
 
 =head2 B<REQUIRED> LifeCycle => L<Paws::ApplicationMigration::ChangeServerLifeCycleStateSourceServerLifecycle>

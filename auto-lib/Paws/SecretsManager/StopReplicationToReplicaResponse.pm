@@ -16,7 +16,8 @@ Paws::SecretsManager::StopReplicationToReplicaResponse
 
 =head2 ARN => Str
 
-Response C<StopReplicationToReplica> of a secret, based on the C<ARN,>.
+The ARN of the promoted secret. The ARN is the same as the original
+primary secret except the Region is changed.
 
 
 =head2 _request_id => Str

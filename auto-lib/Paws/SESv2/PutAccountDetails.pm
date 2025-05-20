@@ -5,7 +5,7 @@ package Paws::SESv2::PutAccountDetails;
   has ContactLanguage => (is => 'ro', isa => 'Str');
   has MailType => (is => 'ro', isa => 'Str', required => 1);
   has ProductionAccessEnabled => (is => 'ro', isa => 'Bool');
-  has UseCaseDescription => (is => 'ro', isa => 'Str', required => 1);
+  has UseCaseDescription => (is => 'ro', isa => 'Str');
   has WebsiteURL => (is => 'ro', isa => 'Str', required => 1);
 
   use MooseX::ClassAttribute;
@@ -35,13 +35,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $email = Paws->service('SESv2');
     my $PutAccountDetailsResponse = $email->PutAccountDetails(
       MailType                        => 'MARKETING',
-      UseCaseDescription              => 'MyUseCaseDescription',
       WebsiteURL                      => 'MyWebsiteURL',
       AdditionalContactEmailAddresses => [
         'MyAdditionalContactEmailAddress', ...    # min: 6, max: 254
       ],    # OPTIONAL
-      ContactLanguage         => 'EN',    # OPTIONAL
-      ProductionAccessEnabled => 1,       # OPTIONAL
+      ContactLanguage         => 'EN',                      # OPTIONAL
+      ProductionAccessEnabled => 1,                         # OPTIONAL
+      UseCaseDescription      => 'MyUseCaseDescription',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -72,13 +72,11 @@ Valid values are: C<"MARKETING">, C<"TRANSACTIONAL">
 =head2 ProductionAccessEnabled => Bool
 
 Indicates whether or not your account should have production access in
-the current AWS Region.
+the current Amazon Web Services Region.
 
 If the value is C<false>, then your account is in the I<sandbox>. When
 your account is in the sandbox, you can only send email to verified
-identities. Additionally, the maximum number of emails you can send in
-a 24-hour period (your sending quota) is 200, and the maximum number of
-emails you can send per second (your maximum sending rate) is 1.
+identities.
 
 If the value is C<true>, then your account has production access. When
 your account has production access, you can send email to any address.
@@ -87,7 +85,7 @@ on your specific use case.
 
 
 
-=head2 B<REQUIRED> UseCaseDescription => Str
+=head2 UseCaseDescription => Str
 
 A description of the types of email that you plan to send.
 

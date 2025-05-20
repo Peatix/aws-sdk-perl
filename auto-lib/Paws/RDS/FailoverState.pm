@@ -2,6 +2,7 @@
 package Paws::RDS::FailoverState;
   use Moose;
   has FromDbClusterArn => (is => 'ro', isa => 'Str');
+  has IsDataLossAllowed => (is => 'ro', isa => 'Bool');
   has Status => (is => 'ro', isa => 'Str');
   has ToDbClusterArn => (is => 'ro', isa => 'Str');
 
@@ -35,9 +36,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RDS::Failov
 
 =head1 DESCRIPTION
 
-Contains the state of scheduled or in-process failover operations on an
-Aurora global database (GlobalCluster). This Data type is empty unless
-a failover operation is scheduled or is currently underway on the
+Contains the state of scheduled or in-process operations on a global
+cluster (Aurora global database). This data type is empty unless a
+switchover or failover operation is scheduled or is in progress on the
 Aurora global database.
 
 =head1 ATTRIBUTES
@@ -49,33 +50,46 @@ The Amazon Resource Name (ARN) of the Aurora DB cluster that is
 currently being demoted, and which is associated with this state.
 
 
+=head2 IsDataLossAllowed => Bool
+
+Indicates whether the operation is a global switchover or a global
+failover. If data loss is allowed, then the operation is a global
+failover. Otherwise, it's a switchover.
+
+
 =head2 Status => Str
 
-The current status of the Aurora global database (GlobalCluster).
-Possible values are as follows:
+The current status of the global cluster. Possible values are as
+follows:
 
 =over
 
 =item *
 
-pending E<150> A request to fail over the Aurora global database
-(GlobalCluster) has been received by the service. The
-C<GlobalCluster>'s primary DB cluster and the specified secondary DB
-cluster are being verified before the failover process can start.
+pending E<150> The service received a request to switch over or fail
+over the global cluster. The global cluster's primary DB cluster and
+the specified secondary DB cluster are being verified before the
+operation starts.
 
 =item *
 
-failing-over E<150> This status covers the range of Aurora internal
-operations that take place during the failover process, such as
-demoting the primary Aurora DB cluster, promoting the secondary Aurora
-DB, and synchronizing replicas.
+failing-over E<150> Aurora is promoting the chosen secondary Aurora DB
+cluster to become the new primary DB cluster to fail over the global
+cluster.
 
 =item *
 
-cancelling E<150> The request to fail over the Aurora global database
-(GlobalCluster) was cancelled and the primary Aurora DB cluster and the
+cancelling E<150> The request to switch over or fail over the global
+cluster was cancelled and the primary Aurora DB cluster and the
 selected secondary Aurora DB cluster are returning to their previous
 states.
+
+=item *
+
+switching-over E<150> This status covers the range of Aurora internal
+operations that take place during the switchover process, such as
+demoting the primary Aurora DB cluster, promoting the secondary Aurora
+DB cluster, and synchronizing replicas.
 
 =back
 

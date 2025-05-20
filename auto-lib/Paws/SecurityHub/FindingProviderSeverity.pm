@@ -34,7 +34,49 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-The severity assigned to the finding by the finding provider.
+The severity assigned to a finding by the finding provider. This object
+may include one or more of the following attributes:
+
+=over
+
+=item *
+
+C<Label>
+
+=item *
+
+C<Normalized>
+
+=item *
+
+C<Original>
+
+=item *
+
+C<Product>
+
+=back
+
+If a C<BatchImportFindings>
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchImportFindings.html)
+request for a new finding only provides C<Label> or only provides
+C<Normalized>, Security Hub automatically populates the value of the
+other field.
+
+The C<Normalized> and C<Product> attributes are included in the
+C<FindingProviderSeverity> structure to preserve the historical
+information associated with the finding, even if the top-level
+C<Severity> object is later modified using the C<BatchUpdateFindings>
+(https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateFindings.html)
+operation.
+
+If the top-level C<Finding.Severity> object is present, but
+C<Finding.FindingProviderFields> isn't present, Security Hub creates
+the C<FindingProviderFields.Severity> object and copies the entire
+C<Finding.Severity> object into it. This ensures that the original,
+provider-supplied details are retained within the
+C<FindingProviderFields.Severity> object, even if the top-level
+C<Severity> object is overwritten.
 
 =head1 ATTRIBUTES
 
@@ -47,6 +89,8 @@ The severity label assigned to the finding by the finding provider.
 =head2 Original => Str
 
 The finding provider's original value for the severity.
+
+Length Constraints: Minimum length of 1. Maximum length of 64.
 
 
 

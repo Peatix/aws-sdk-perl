@@ -183,13 +183,13 @@ The load balancer name where your SSL/TLS certificate is attached.
 
 =head2 Location => L<Paws::Lightsail::ResourceLocation>
 
-The AWS Region and Availability Zone where you created your
-certificate.
+The Amazon Web Services Region and Availability Zone where you created
+your certificate.
 
 
 =head2 Name => Str
 
-The name of the SSL/TLS certificate (e.g., C<my-certificate>).
+The name of the SSL/TLS certificate (C<my-certificate>).
 
 
 =head2 NotAfter => Str
@@ -210,7 +210,7 @@ by Lightsail.
 
 =head2 ResourceType => Str
 
-The resource type (e.g., C<LoadBalancerTlsCertificate>).
+The resource type (C<LoadBalancerTlsCertificate>).
 
 =over
 
@@ -295,8 +295,8 @@ in the certificate.
 
 =head2 SubjectAlternativeNames => ArrayRef[Str|Undef]
 
-An array of strings that specify the alternate domains (e.g.,
-C<example2.com>) and subdomains (e.g., C<blog.example.com>) for the
+An array of strings that specify the alternate domains
+(C<example2.com>) and subdomains (C<blog.example.com>) for the
 certificate.
 
 
@@ -311,8 +311,8 @@ Lightsail information more easily.
 =head2 Tags => ArrayRef[L<Paws::Lightsail::Tag>]
 
 The tag keys and optional values for the resource. For more information
-about tags in Lightsail, see the Lightsail Dev Guide
-(https://lightsail.aws.amazon.com/ls/docs/en/articles/amazon-lightsail-tags).
+about tags in Lightsail, see the Amazon Lightsail Developer Guide
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
 
 
 

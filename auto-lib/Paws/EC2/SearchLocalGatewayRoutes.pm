@@ -2,7 +2,7 @@
 package Paws::EC2::SearchLocalGatewayRoutes;
   use Moose;
   has DryRun => (is => 'ro', isa => 'Bool');
-  has Filters => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Filter]', traits => ['NameInRequest'], request_name => 'Filter' , required => 1);
+  has Filters => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Filter]', traits => ['NameInRequest'], request_name => 'Filter' );
   has LocalGatewayRouteTableId => (is => 'ro', isa => 'Str', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int');
   has NextToken => (is => 'ro', isa => 'Str');
@@ -32,19 +32,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $ec2 = Paws->service('EC2');
     my $SearchLocalGatewayRoutesResult = $ec2->SearchLocalGatewayRoutes(
-      Filters => [
+      LocalGatewayRouteTableId => 'MyLocalGatewayRoutetableId',
+      DryRun                   => 1,                              # OPTIONAL
+      Filters                  => [
         {
-          Name   => 'MyString',    # OPTIONAL
+          Name   => 'MyString',                                   # OPTIONAL
           Values => [
-            'MyString', ...        # OPTIONAL
+            'MyString', ...                                       # OPTIONAL
           ],    # OPTIONAL
         },
         ...
-      ],
-      LocalGatewayRouteTableId => 'MyLocalGatewayRoutetableId',
-      DryRun                   => 1,                              # OPTIONAL
-      MaxResults               => 1,                              # OPTIONAL
-      NextToken                => 'MyString',                     # OPTIONAL
+      ],    # OPTIONAL
+      MaxResults => 1,             # OPTIONAL
+      NextToken  => 'MyString',    # OPTIONAL
     );
 
     # Results:
@@ -68,9 +68,48 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
-=head2 B<REQUIRED> Filters => ArrayRef[L<Paws::EC2::Filter>]
+=head2 Filters => ArrayRef[L<Paws::EC2::Filter>]
 
 One or more filters.
+
+=over
+
+=item *
+
+C<prefix-list-id> - The ID of the prefix list.
+
+=item *
+
+C<route-search.exact-match> - The exact match of the specified filter.
+
+=item *
+
+C<route-search.longest-prefix-match> - The longest prefix that matches
+the route.
+
+=item *
+
+C<route-search.subnet-of-match> - The routes with a subnet that match
+the specified CIDR filter.
+
+=item *
+
+C<route-search.supernet-of-match> - The routes with a CIDR that
+encompass the CIDR filter. For example, if you have 10.0.1.0/29 and
+10.0.1.0/31 routes in your route table and you specify
+C<supernet-of-match> as 10.0.1.0/30, then the result returns
+10.0.1.0/29.
+
+=item *
+
+C<state> - The state of the route.
+
+=item *
+
+C<type> - The route type.
+
+=back
+
 
 
 

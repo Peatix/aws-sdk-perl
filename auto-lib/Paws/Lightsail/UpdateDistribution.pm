@@ -3,10 +3,13 @@ package Paws::Lightsail::UpdateDistribution;
   use Moose;
   has CacheBehaviors => (is => 'ro', isa => 'ArrayRef[Paws::Lightsail::CacheBehaviorPerPath]', traits => ['NameInRequest'], request_name => 'cacheBehaviors' );
   has CacheBehaviorSettings => (is => 'ro', isa => 'Paws::Lightsail::CacheSettings', traits => ['NameInRequest'], request_name => 'cacheBehaviorSettings' );
+  has CertificateName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'certificateName' );
   has DefaultCacheBehavior => (is => 'ro', isa => 'Paws::Lightsail::CacheBehavior', traits => ['NameInRequest'], request_name => 'defaultCacheBehavior' );
   has DistributionName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'distributionName' , required => 1);
   has IsEnabled => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'isEnabled' );
   has Origin => (is => 'ro', isa => 'Paws::Lightsail::InputOrigin', traits => ['NameInRequest'], request_name => 'origin' );
+  has UseDefaultCertificate => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useDefaultCertificate' );
+  has ViewerMinimumTlsProtocolVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'viewerMinimumTlsProtocolVersion' );
 
   use MooseX::ClassAttribute;
 
@@ -63,6 +66,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      CertificateName      => 'MyResourceName',    # OPTIONAL
       DefaultCacheBehavior => {
         Behavior => 'dont-cache',    # values: dont-cache, cache; OPTIONAL
       },    # OPTIONAL
@@ -71,8 +75,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         Name           => 'MyResourceName',
         ProtocolPolicy => 'http-only', # values: http-only, https-only; OPTIONAL
         RegionName     => 'us-east-1'
-        , # values: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-west-2, eu-west-3, eu-central-1, ca-central-1, ap-south-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2; OPTIONAL
+        , # values: us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, eu-west-2, eu-west-3, eu-central-1, ca-central-1, ap-south-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, ap-northeast-2, eu-north-1; OPTIONAL
+        ResponseTimeout => 1,    # OPTIONAL
       },    # OPTIONAL
+      UseDefaultCertificate           => 1,                 # OPTIONAL
+      ViewerMinimumTlsProtocolVersion => 'TLSv1.1_2016',    # OPTIONAL
     );
 
     # Results:
@@ -104,6 +111,20 @@ settings.
 
 
 
+=head2 CertificateName => Str
+
+The name of the SSL/TLS certificate that you want to attach to the
+distribution.
+
+Only certificates with a status of C<ISSUED> can be attached to a
+distribution.
+
+Use the GetCertificates
+(https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html)
+action to get a list of certificate names that you can specify.
+
+
+
 =head2 DefaultCacheBehavior => L<Paws::Lightsail::CacheBehavior>
 
 An object that describes the default cache behavior for the
@@ -129,11 +150,30 @@ Indicates whether to enable the distribution.
 =head2 Origin => L<Paws::Lightsail::InputOrigin>
 
 An object that describes the origin resource for the distribution, such
-as a Lightsail instance or load balancer.
+as a Lightsail instance, bucket, or load balancer.
 
 The distribution pulls, caches, and serves content from the origin.
 
 
+
+=head2 UseDefaultCertificate => Bool
+
+Indicates whether the default SSL/TLS certificate is attached to the
+distribution. The default value is C<true>. When C<true>, the
+distribution uses the default domain name such as
+C<d111111abcdef8.cloudfront.net>.
+
+Set this value to C<false> to attach a new certificate to the
+distribution.
+
+
+
+=head2 ViewerMinimumTlsProtocolVersion => Str
+
+Use this parameter to update the minimum TLS protocol version for the
+SSL/TLS certificate that's attached to the distribution.
+
+Valid values are: C<"TLSv1.1_2016">, C<"TLSv1.2_2018">, C<"TLSv1.2_2019">, C<"TLSv1.2_2021">
 
 
 =head1 SEE ALSO

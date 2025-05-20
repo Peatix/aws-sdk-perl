@@ -121,8 +121,8 @@ range for the TCP and UDP protocols, or an ICMP code.
 
 =item *
 
-C<egress.ip-permission.user-id> - The ID of an AWS account that has
-been referenced in an outbound security group rule.
+C<egress.ip-permission.user-id> - The ID of an Amazon Web Services
+account that has been referenced in an outbound security group rule.
 
 =item *
 
@@ -175,12 +175,13 @@ for the TCP and UDP protocols, or an ICMP code.
 
 =item *
 
-C<ip-permission.user-id> - The ID of an AWS account that has been
-referenced in an inbound security group rule.
+C<ip-permission.user-id> - The ID of an Amazon Web Services account
+that has been referenced in an inbound security group rule.
 
 =item *
 
-C<owner-id> - The AWS account ID of the owner of the security group.
+C<owner-id> - The Amazon Web Services account ID of the owner of the
+security group.
 
 =item *
 
@@ -211,33 +212,34 @@ created.
 The IDs of the security groups. Required for security groups in a
 nondefault VPC.
 
-Default: Describes all your security groups.
+Default: Describes all of your security groups.
 
 
 
 =head2 GroupNames => ArrayRef[Str|Undef]
 
-[EC2-Classic and default VPC only] The names of the security groups.
-You can specify either the security group name or the security group
-ID. For security groups in a nondefault VPC, use the C<group-name>
-filter to describe security groups by name.
+[Default VPC] The names of the security groups. You can specify either
+the security group name or the security group ID.
 
-Default: Describes all your security groups.
+Default: Describes all of your security groups.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. To retrieve
-the remaining results, make another request with the returned
-C<NextToken> value. This value can be between 5 and 1000. If this
-parameter is not specified, then all results are returned.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. This value can be between 5 and 1000. If this parameter is not
+specified, then all items are returned. For more information, see
+Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token to request the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

@@ -50,7 +50,7 @@ A summary of network configuration properties.
 The Amazon Resource Name (ARN) of the network. For more information
 about ARNs and their format, see Amazon Resource Names (ARNs)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 =head2 CreationDate => Str

@@ -48,6 +48,27 @@ updating a node group, you can specify any or none of the properties.
 The current number of nodes that the managed node group should
 maintain.
 
+If you use the Kubernetes Cluster Autoscaler
+(https://github.com/kubernetes/autoscaler#kubernetes-autoscaler), you
+shouldn't change the C<desiredSize> value directly, as this can cause
+the Cluster Autoscaler to suddenly scale up or scale down.
+
+Whenever this parameter changes, the number of worker nodes in the node
+group is updated to the specified size. If this parameter is given a
+value that is smaller than the current number of running worker nodes,
+the necessary number of worker nodes are terminated to match the given
+value. When using CloudFormation, no action occurs if you remove this
+parameter from your CFN template.
+
+This parameter can be different from C<minSize> in some cases, such as
+when starting with extra hosts for testing. This parameter can also be
+different when you want to start with an estimated number of needed
+hosts, but let the Cluster Autoscaler reduce the number if there are
+too many. When the Cluster Autoscaler is used, the C<desiredSize>
+parameter is altered by the Cluster Autoscaler (but can be out-of-date
+for short periods of time). the Cluster Autoscaler doesn't scale a
+managed node group lower than C<minSize> or higher than C<maxSize>.
+
 
 =head2 MaxSize => Int
 
@@ -61,7 +82,7 @@ in the I<Amazon EKS User Guide>.
 =head2 MinSize => Int
 
 The minimum number of nodes that the managed node group can scale in
-to. This number must be greater than zero.
+to.
 
 
 

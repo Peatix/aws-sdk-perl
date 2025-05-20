@@ -25,20 +25,6 @@ Specifies how to handle response payload content type conversions.
 Supported values are C<CONVERT_TO_BINARY> and C<CONVERT_TO_TEXT>, with
 the following behaviors:
 
-=over
-
-=item *
-
-C<CONVERT_TO_BINARY>: Converts a response payload from a Base64-encoded
-string to the corresponding binary blob.
-
-=item *
-
-C<CONVERT_TO_TEXT>: Converts a response payload from a binary blob to a
-Base64-encoded string.
-
-=back
-
 If this property is not defined, the response payload will be passed
 through from the integration response to the method response without
 modification.
@@ -73,9 +59,10 @@ integration response based on the response from the back end. For
 example, if the success response returns nothing and the error response
 returns some string, you could use the C<.+> regex to match error
 response. However, make sure that the error response does not contain
-any newline (C<\n>) character in such cases. If the back end is an AWS
-Lambda function, the AWS Lambda function error header is matched. For
-all other HTTP and AWS back ends, the HTTP status code is matched.
+any newline (C<\n>) character in such cases. If the back end is an
+Lambda function, the Lambda function error header is matched. For all
+other HTTP and Amazon Web Services back ends, the HTTP status code is
+matched.
 
 
 =head2 StatusCode => Str

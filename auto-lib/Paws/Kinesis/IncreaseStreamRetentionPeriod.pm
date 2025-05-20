@@ -2,7 +2,8 @@
 package Paws::Kinesis::IncreaseStreamRetentionPeriod;
   use Moose;
   has RetentionPeriodHours => (is => 'ro', isa => 'Int', required => 1);
-  has StreamName => (is => 'ro', isa => 'Str', required => 1);
+  has StreamARN => (is => 'ro', isa => 'Str');
+  has StreamName => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,8 +31,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $kinesis = Paws->service('Kinesis');
     $kinesis->IncreaseStreamRetentionPeriod(
       RetentionPeriodHours => 1,
-      StreamName           => 'MyStreamName',
-
+      StreamARN            => 'MyStreamARN',     # OPTIONAL
+      StreamName           => 'MyStreamName',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -47,7 +48,13 @@ current retention period.
 
 
 
-=head2 B<REQUIRED> StreamName => Str
+=head2 StreamARN => Str
+
+The ARN of the stream.
+
+
+
+=head2 StreamName => Str
 
 The name of the stream to modify.
 

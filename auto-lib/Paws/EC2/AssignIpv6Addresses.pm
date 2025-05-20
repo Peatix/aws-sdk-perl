@@ -3,6 +3,8 @@ package Paws::EC2::AssignIpv6Addresses;
   use Moose;
   has Ipv6AddressCount => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'ipv6AddressCount' );
   has Ipv6Addresses => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'ipv6Addresses' );
+  has Ipv6PrefixCount => (is => 'ro', isa => 'Int');
+  has Ipv6Prefixes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'Ipv6Prefix' );
   has NetworkInterfaceId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'networkInterfaceId' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -33,12 +35,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       NetworkInterfaceId => 'MyNetworkInterfaceId',
       Ipv6AddressCount   => 1,                        # OPTIONAL
       Ipv6Addresses      => [ 'MyString', ... ],      # OPTIONAL
+      Ipv6PrefixCount    => 1,                        # OPTIONAL
+      Ipv6Prefixes       => [ 'MyString', ... ],      # OPTIONAL
     );
 
     # Results:
     my $AssignedIpv6Addresses =
       $AssignIpv6AddressesResult->AssignedIpv6Addresses;
-    my $NetworkInterfaceId = $AssignIpv6AddressesResult->NetworkInterfaceId;
+    my $AssignedIpv6Prefixes = $AssignIpv6AddressesResult->AssignedIpv6Prefixes;
+    my $NetworkInterfaceId   = $AssignIpv6AddressesResult->NetworkInterfaceId;
 
     # Returns a L<Paws::EC2::AssignIpv6AddressesResult> object.
 
@@ -61,9 +66,23 @@ specifying specific IPv6 addresses.
 
 =head2 Ipv6Addresses => ArrayRef[Str|Undef]
 
-One or more specific IPv6 addresses to be assigned to the network
-interface. You can't use this option if you're specifying a number of
-IPv6 addresses.
+The IPv6 addresses to be assigned to the network interface. You can't
+use this option if you're specifying a number of IPv6 addresses.
+
+
+
+=head2 Ipv6PrefixCount => Int
+
+The number of IPv6 prefixes that Amazon Web Services automatically
+assigns to the network interface. You cannot use this option if you use
+the C<Ipv6Prefixes> option.
+
+
+
+=head2 Ipv6Prefixes => ArrayRef[Str|Undef]
+
+One or more IPv6 prefixes assigned to the network interface. You can't
+use this option if you use the C<Ipv6PrefixCount> option.
 
 
 

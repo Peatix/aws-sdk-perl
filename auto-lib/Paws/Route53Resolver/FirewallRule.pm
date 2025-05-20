@@ -6,13 +6,18 @@ package Paws::Route53Resolver::FirewallRule;
   has BlockOverrideDomain => (is => 'ro', isa => 'Str');
   has BlockOverrideTtl => (is => 'ro', isa => 'Int');
   has BlockResponse => (is => 'ro', isa => 'Str');
+  has ConfidenceThreshold => (is => 'ro', isa => 'Str');
   has CreationTime => (is => 'ro', isa => 'Str');
   has CreatorRequestId => (is => 'ro', isa => 'Str');
+  has DnsThreatProtection => (is => 'ro', isa => 'Str');
   has FirewallDomainListId => (is => 'ro', isa => 'Str');
+  has FirewallDomainRedirectionAction => (is => 'ro', isa => 'Str');
   has FirewallRuleGroupId => (is => 'ro', isa => 'Str');
+  has FirewallThreatProtectionId => (is => 'ro', isa => 'Str');
   has ModificationTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has Priority => (is => 'ro', isa => 'Int');
+  has Qtype => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -33,7 +38,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::Route53Resolver::FirewallRule object:
 
-  $service_obj->Method(Att1 => { Action => $value, ..., Priority => $value  });
+  $service_obj->Method(Att1 => { Action => $value, ..., Qtype => $value  });
 
 =head3 Results returned from an API call
 
@@ -52,13 +57,15 @@ A single firewall rule in a rule group.
 =head2 Action => Str
 
 The action that DNS Firewall should take on a DNS query when it matches
-one of the domains in the rule's domain list:
+one of the domains in the rule's domain list, or a threat in a DNS
+Firewall Advanced rule:
 
 =over
 
 =item *
 
-C<ALLOW> - Permit the request to go through.
+C<ALLOW> - Permit the request to go through. Not available for DNS
+Firewall Advanced rules.
 
 =item *
 
@@ -122,6 +129,33 @@ settings.
 
 
 
+=head2 ConfidenceThreshold => Str
+
+The confidence threshold for DNS Firewall Advanced. You must provide
+this value when you create a DNS Firewall Advanced rule. The confidence
+level values mean:
+
+=over
+
+=item *
+
+C<LOW>: Provides the highest detection rate for threats, but also
+increases false positives.
+
+=item *
+
+C<MEDIUM>: Provides a balance between detecting threats and false
+positives.
+
+=item *
+
+C<HIGH>: Detects only the most well corroborated threats with a low
+rate of false positives.
+
+=back
+
+
+
 =head2 CreationTime => Str
 
 The date and time that the rule was created, in Unix time format and
@@ -135,14 +169,55 @@ to retry failed requests without the risk of executing the operation
 twice. This can be any unique string, for example, a timestamp.
 
 
+=head2 DnsThreatProtection => Str
+
+The type of the DNS Firewall Advanced rule. Valid values are:
+
+=over
+
+=item *
+
+C<DGA>: Domain generation algorithms detection. DGAs are used by
+attackers to generate a large number of domains to to launch malware
+attacks.
+
+=item *
+
+C<DNS_TUNNELING>: DNS tunneling detection. DNS tunneling is used by
+attackers to exfiltrate data from the client by using the DNS tunnel
+without making a network connection to the client.
+
+=back
+
+
+
 =head2 FirewallDomainListId => Str
 
 The ID of the domain list that's used in the rule.
 
 
+=head2 FirewallDomainRedirectionAction => Str
+
+How you want the the rule to evaluate DNS redirection in the DNS
+redirection chain, such as CNAME or DNAME.
+
+C<INSPECT_REDIRECTION_DOMAIN>: (Default) inspects all domains in the
+redirection chain. The individual domains in the redirection chain must
+be added to the domain list.
+
+C<TRUST_REDIRECTION_DOMAIN>: Inspects only the first domain in the
+redirection chain. You don't need to add the subsequent domains in the
+domain in the redirection list to the domain list.
+
+
 =head2 FirewallRuleGroupId => Str
 
-The unique identifier of the firewall rule group of the rule.
+The unique identifier of the Firewall rule group of the rule.
+
+
+=head2 FirewallThreatProtectionId => Str
+
+ID of the DNS Firewall Advanced rule.
 
 
 =head2 ModificationTime => Str
@@ -161,6 +236,76 @@ The name of the rule.
 The priority of the rule in the rule group. This value must be unique
 within the rule group. DNS Firewall processes the rules in a rule group
 by order of priority, starting from the lowest setting.
+
+
+=head2 Qtype => Str
+
+The DNS query type you want the rule to evaluate. Allowed values are;
+
+=over
+
+=item *
+
+A: Returns an IPv4 address.
+
+=item *
+
+AAAA: Returns an Ipv6 address.
+
+=item *
+
+CAA: Restricts CAs that can create SSL/TLS certifications for the
+domain.
+
+=item *
+
+CNAME: Returns another domain name.
+
+=item *
+
+DS: Record that identifies the DNSSEC signing key of a delegated zone.
+
+=item *
+
+MX: Specifies mail servers.
+
+=item *
+
+NAPTR: Regular-expression-based rewriting of domain names.
+
+=item *
+
+NS: Authoritative name servers.
+
+=item *
+
+PTR: Maps an IP address to a domain name.
+
+=item *
+
+SOA: Start of authority record for the zone.
+
+=item *
+
+SPF: Lists the servers authorized to send emails from a domain.
+
+=item *
+
+SRV: Application specific values that identify servers.
+
+=item *
+
+TXT: Verifies email senders and application-specific values.
+
+=item *
+
+A query type you define by using the DNS type ID, for example 28 for
+AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be
+1-65334, for example, TYPE28. For more information, see List of DNS
+record types (https://en.wikipedia.org/wiki/List_of_DNS_record_types).
+
+=back
+
 
 
 

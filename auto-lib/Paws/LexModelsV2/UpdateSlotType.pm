@@ -3,13 +3,15 @@ package Paws::LexModelsV2::UpdateSlotType;
   use Moose;
   has BotId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'botId', required => 1);
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'botVersion', required => 1);
+  has CompositeSlotTypeSetting => (is => 'ro', isa => 'Paws::LexModelsV2::CompositeSlotTypeSetting', traits => ['NameInRequest'], request_name => 'compositeSlotTypeSetting');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has ExternalSourceSetting => (is => 'ro', isa => 'Paws::LexModelsV2::ExternalSourceSetting', traits => ['NameInRequest'], request_name => 'externalSourceSetting');
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'localeId', required => 1);
   has ParentSlotTypeSignature => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'parentSlotTypeSignature');
   has SlotTypeId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'slotTypeId', required => 1);
   has SlotTypeName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotTypeName', required => 1);
   has SlotTypeValues => (is => 'ro', isa => 'ArrayRef[Paws::LexModelsV2::SlotTypeValue]', traits => ['NameInRequest'], request_name => 'slotTypeValues');
-  has ValueSelectionSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SlotValueSelectionSetting', traits => ['NameInRequest'], request_name => 'valueSelectionSetting', required => 1);
+  has ValueSelectionSetting => (is => 'ro', isa => 'Paws::LexModelsV2::SlotValueSelectionSetting', traits => ['NameInRequest'], request_name => 'valueSelectionSetting');
 
   use MooseX::ClassAttribute;
 
@@ -37,20 +39,31 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $models-v2-lex = Paws->service('LexModelsV2');
     my $UpdateSlotTypeResponse = $models - v2 -lex->UpdateSlotType(
-      BotId                 => 'MyId',
-      BotVersion            => 'MyDraftBotVersion',
-      LocaleId              => 'MyLocaleId',
-      SlotTypeId            => 'MyId',
-      SlotTypeName          => 'MyName',
-      ValueSelectionSetting => {
-        ResolutionStrategy =>
-          'OriginalValue',    # values: OriginalValue, TopResolution
-        RegexFilter => {
-          Pattern => 'MyRegexPattern',    # min: 1, max: 100
+      BotId                    => 'MyId',
+      BotVersion               => 'MyDraftBotVersion',
+      LocaleId                 => 'MyLocaleId',
+      SlotTypeId               => 'MyId',
+      SlotTypeName             => 'MyName',
+      CompositeSlotTypeSetting => {
+        SubSlots => [
+          {
+            Name       => 'MyName',                         # min: 1, max: 100
+            SlotTypeId => 'MyBuiltInOrCustomSlotTypeId',    # min: 1, max: 25
 
+          },
+          ...
+        ],    # max: 6; OPTIONAL
+      },    # OPTIONAL
+      Description           => 'MyDescription',    # OPTIONAL
+      ExternalSourceSetting => {
+        GrammarSlotTypeSetting => {
+          Source => {
+            S3BucketName => 'MyS3BucketName',    # min: 3, max: 63
+            S3ObjectKey  => 'MyS3ObjectPath',    # min: 1, max: 1024
+            KmsKeyArn    => 'MyKmsKeyArn',       # min: 20, max: 2048; OPTIONAL
+          },    # OPTIONAL
         },    # OPTIONAL
-      },
-      Description             => 'MyDescription',          # OPTIONAL
+      },    # OPTIONAL
       ParentSlotTypeSignature => 'MySlotTypeSignature',    # OPTIONAL
       SlotTypeValues          => [
         {
@@ -68,15 +81,30 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],    # OPTIONAL
+      ValueSelectionSetting => {
+        ResolutionStrategy =>
+          'OriginalValue', # values: OriginalValue, TopResolution, Concatenation
+        AdvancedRecognitionSetting => {
+          AudioRecognitionStrategy => 'UseSlotValuesAsCustomVocabulary'
+          ,                # values: UseSlotValuesAsCustomVocabulary; OPTIONAL
+        },    # OPTIONAL
+        RegexFilter => {
+          Pattern => 'MyRegexPattern',    # min: 1, max: 300
+
+        },    # OPTIONAL
+      },    # OPTIONAL
     );
 
     # Results:
-    my $BotId               = $UpdateSlotTypeResponse->BotId;
-    my $BotVersion          = $UpdateSlotTypeResponse->BotVersion;
-    my $CreationDateTime    = $UpdateSlotTypeResponse->CreationDateTime;
-    my $Description         = $UpdateSlotTypeResponse->Description;
-    my $LastUpdatedDateTime = $UpdateSlotTypeResponse->LastUpdatedDateTime;
-    my $LocaleId            = $UpdateSlotTypeResponse->LocaleId;
+    my $BotId      = $UpdateSlotTypeResponse->BotId;
+    my $BotVersion = $UpdateSlotTypeResponse->BotVersion;
+    my $CompositeSlotTypeSetting =
+      $UpdateSlotTypeResponse->CompositeSlotTypeSetting;
+    my $CreationDateTime      = $UpdateSlotTypeResponse->CreationDateTime;
+    my $Description           = $UpdateSlotTypeResponse->Description;
+    my $ExternalSourceSetting = $UpdateSlotTypeResponse->ExternalSourceSetting;
+    my $LastUpdatedDateTime   = $UpdateSlotTypeResponse->LastUpdatedDateTime;
+    my $LocaleId              = $UpdateSlotTypeResponse->LocaleId;
     my $ParentSlotTypeSignature =
       $UpdateSlotTypeResponse->ParentSlotTypeSignature;
     my $SlotTypeId            = $UpdateSlotTypeResponse->SlotTypeId;
@@ -104,9 +132,21 @@ The version of the bot that contains the slot type. Must be C<DRAFT>.
 
 
 
+=head2 CompositeSlotTypeSetting => L<Paws::LexModelsV2::CompositeSlotTypeSetting>
+
+Specifications for a composite slot type.
+
+
+
 =head2 Description => Str
 
 The new description of the slot type.
+
+
+
+=head2 ExternalSourceSetting => L<Paws::LexModelsV2::ExternalSourceSetting>
+
+
 
 
 
@@ -145,7 +185,7 @@ that the slot type can take.
 
 
 
-=head2 B<REQUIRED> ValueSelectionSetting => L<Paws::LexModelsV2::SlotValueSelectionSetting>
+=head2 ValueSelectionSetting => L<Paws::LexModelsV2::SlotValueSelectionSetting>
 
 The strategy that Amazon Lex should use when deciding on a value from
 the list of slot type values.

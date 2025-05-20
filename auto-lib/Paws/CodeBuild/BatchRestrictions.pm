@@ -2,6 +2,7 @@
 package Paws::CodeBuild::BatchRestrictions;
   use Moose;
   has ComputeTypesAllowed => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'computeTypesAllowed', traits => ['NameInRequest']);
+  has FleetsAllowed => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'fleetsAllowed', traits => ['NameInRequest']);
   has MaximumBuildsAllowed => (is => 'ro', isa => 'Int', request_name => 'maximumBuildsAllowed', traits => ['NameInRequest']);
 
 1;
@@ -45,6 +46,14 @@ An array of strings that specify the compute types that are allowed for
 the batch build. See Build environment compute types
 (https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)
 in the I<CodeBuild User Guide> for these values.
+
+
+=head2 FleetsAllowed => ArrayRef[Str|Undef]
+
+An array of strings that specify the fleets that are allowed for the
+batch build. See Run builds on reserved capacity fleets
+(https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html) in
+the I<CodeBuild User Guide> for more information.
 
 
 =head2 MaximumBuildsAllowed => Int

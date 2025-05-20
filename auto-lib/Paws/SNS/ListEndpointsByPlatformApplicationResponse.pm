@@ -18,13 +18,13 @@ Paws::SNS::ListEndpointsByPlatformApplicationResponse
 
 =head2 Endpoints => ArrayRef[L<Paws::SNS::Endpoint>]
 
-Endpoints returned for ListEndpointsByPlatformApplication action.
+Endpoints returned for C<ListEndpointsByPlatformApplication> action.
 
 
 =head2 NextToken => Str
 
-NextToken string is returned when calling
-ListEndpointsByPlatformApplication action if additional records are
+C<NextToken> string is returned when calling
+C<ListEndpointsByPlatformApplication> action if additional records are
 available after the first page results.
 
 

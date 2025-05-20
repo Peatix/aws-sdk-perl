@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::FSX::DataRe
 
 =head1 DESCRIPTION
 
-Provides detailed information about the data respository if its
-C<Lifecycle> is set to C<MISCONFIGURED>.
+Provides detailed information about the data repository if its
+C<Lifecycle> is set to C<MISCONFIGURED> or C<FAILED>.
 
 =head1 ATTRIBUTES
 

@@ -99,7 +99,7 @@ during the next maintenance window.
 
 =head2 MasterUserPassword => Str
 
-The pending or in-progress change of the master user password for the
+The pending or in-progress change of the admin user password for the
 cluster.
 
 

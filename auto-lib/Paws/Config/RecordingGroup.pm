@@ -2,7 +2,9 @@
 package Paws::Config::RecordingGroup;
   use Moose;
   has AllSupported => (is => 'ro', isa => 'Bool', request_name => 'allSupported', traits => ['NameInRequest']);
+  has ExclusionByResourceTypes => (is => 'ro', isa => 'Paws::Config::ExclusionByResourceTypes', request_name => 'exclusionByResourceTypes', traits => ['NameInRequest']);
   has IncludeGlobalResourceTypes => (is => 'ro', isa => 'Bool', request_name => 'includeGlobalResourceTypes', traits => ['NameInRequest']);
+  has RecordingStrategy => (is => 'ro', isa => 'Paws::Config::RecordingStrategy', request_name => 'recordingStrategy', traits => ['NameInRequest']);
   has ResourceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'resourceTypes', traits => ['NameInRequest']);
 
 1;
@@ -35,92 +37,299 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Rec
 
 =head1 DESCRIPTION
 
-Specifies the types of AWS resource for which AWS Config records
-configuration changes.
+Specifies which resource types Config records for configuration
+changes. By default, Config records configuration changes for all
+current and future supported resource types in the Amazon Web Services
+Region where you have enabled Config, excluding the global IAM resource
+types: IAM users, groups, roles, and customer managed policies.
 
-In the recording group, you specify whether all supported types or
-specific types of resources are recorded.
+In the recording group, you specify whether you want to record all
+supported current and future supported resource types or to include or
+exclude specific resources types. For a list of supported resource
+types, see Supported Resource Types
+(https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources)
+in the I<Config developer guide>.
 
-By default, AWS Config records configuration changes for all supported
-types of regional resources that AWS Config discovers in the region in
-which it is running. Regional resources are tied to a region and can be
-used only in that region. Examples of regional resources are EC2
-instances and EBS volumes.
+If you don't want Config to record all current and future supported
+resource types (excluding the global IAM resource types), use one of
+the following recording strategies:
 
-You can also have AWS Config record configuration changes for supported
-types of global resources (for example, IAM resources). Global
-resources are not tied to an individual region and can be used in all
-regions.
+=over
 
-The configuration details for any global resource are the same in all
-regions. If you customize AWS Config in multiple regions to record
-global resources, it will create multiple configuration items each time
-a global resource changes: one configuration item for each region.
-These configuration items will contain identical data. To prevent
-duplicate configuration items, you should consider customizing AWS
-Config in only one region to record global resources, unless you want
-the configuration items to be available in multiple regions.
+=item 1.
 
-If you don't want AWS Config to record all resources, you can specify
-which types of resources it will record with the C<resourceTypes>
-parameter.
+B<Record all current and future resource types with exclusions>
+(C<EXCLUSION_BY_RESOURCE_TYPES>), or
 
-For a list of supported resource types, see Supported Resource Types
-(https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources).
+=item 2.
 
-For more information, see Selecting Which Resources AWS Config Records
-(https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html).
+B<Record specific resource types> (C<INCLUSION_BY_RESOURCE_TYPES>).
+
+=back
+
+If you use the recording strategy to B<Record all current and future
+resource types> (C<ALL_SUPPORTED_RESOURCE_TYPES>), you can use the flag
+C<includeGlobalResourceTypes> to include the global IAM resource types
+in your recording.
+
+B<Aurora global clusters are recorded in all enabled Regions>
+
+The C<AWS::RDS::GlobalCluster> resource type will be recorded in all
+supported Config Regions where the configuration recorder is enabled.
+
+If you do not want to record C<AWS::RDS::GlobalCluster> in all enabled
+Regions, use the C<EXCLUSION_BY_RESOURCE_TYPES> or
+C<INCLUSION_BY_RESOURCE_TYPES> recording strategy.
 
 =head1 ATTRIBUTES
 
 
 =head2 AllSupported => Bool
 
-Specifies whether AWS Config records configuration changes for every
-supported type of regional resource.
+Specifies whether Config records configuration changes for all
+supported resource types, excluding the global IAM resource types.
 
-If you set this option to C<true>, when AWS Config adds support for a
-new type of regional resource, it starts recording resources of that
-type automatically.
+If you set this field to C<true>, when Config adds support for a new
+resource type, Config starts recording resources of that type
+automatically.
 
-If you set this option to C<true>, you cannot enumerate a list of
-C<resourceTypes>.
+If you set this field to C<true>, you cannot enumerate specific
+resource types to record in the C<resourceTypes> field of
+RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html),
+or to exclude in the C<resourceTypes> field of ExclusionByResourceTypes
+(https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+
+B<Region availability>
+
+Check Resource Coverage by Region Availability
+(https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html)
+to see if a resource type is supported in the Amazon Web Services
+Region where you set up Config.
+
+
+=head2 ExclusionByResourceTypes => L<Paws::Config::ExclusionByResourceTypes>
+
+An object that specifies how Config excludes resource types from being
+recorded by the configuration recorder.
+
+B<Required fields>
+
+To use this option, you must set the C<useOnly> field of
+RecordingStrategy
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+to C<EXCLUSION_BY_RESOURCE_TYPES>.
 
 
 =head2 IncludeGlobalResourceTypes => Bool
 
-Specifies whether AWS Config includes all supported types of global
-resources (for example, IAM resources) with the resources that it
-records.
+This option is a bundle which only applies to the global IAM resource
+types: IAM users, groups, roles, and customer managed policies. These
+global IAM resource types can only be recorded by Config in Regions
+where Config was available before February 2022. You cannot be record
+the global IAM resouce types in Regions supported by Config after
+February 2022. For a list of those Regions, see Recording Amazon Web
+Services Resources | Global Resources
+(https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all).
 
-Before you can set this option to C<true>, you must set the
-C<allSupported> option to C<true>.
+B<Aurora global clusters are recorded in all enabled Regions>
 
-If you set this option to C<true>, when AWS Config adds support for a
-new type of global resource, it starts recording resources of that type
+The C<AWS::RDS::GlobalCluster> resource type will be recorded in all
+supported Config Regions where the configuration recorder is enabled,
+even if C<includeGlobalResourceTypes> is setC<false>. The
+C<includeGlobalResourceTypes> option is a bundle which only applies to
+IAM users, groups, roles, and customer managed policies.
+
+If you do not want to record C<AWS::RDS::GlobalCluster> in all enabled
+Regions, use one of the following recording strategies:
+
+=over
+
+=item 1.
+
+B<Record all current and future resource types with exclusions>
+(C<EXCLUSION_BY_RESOURCE_TYPES>), or
+
+=item 2.
+
+B<Record specific resource types> (C<INCLUSION_BY_RESOURCE_TYPES>).
+
+=back
+
+For more information, see Selecting Which Resources are Recorded
+(https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all)
+in the I<Config developer guide>.
+
+B<includeGlobalResourceTypes and the exclusion recording strategy>
+
+The C<includeGlobalResourceTypes> field has no impact on the
+C<EXCLUSION_BY_RESOURCE_TYPES> recording strategy. This means that the
+global IAM resource types (IAM users, groups, roles, and customer
+managed policies) will not be automatically added as exclusions for
+C<exclusionByResourceTypes> when C<includeGlobalResourceTypes> is set
+to C<false>.
+
+The C<includeGlobalResourceTypes> field should only be used to modify
+the C<AllSupported> field, as the default for the C<AllSupported> field
+is to record configuration changes for all supported resource types
+excluding the global IAM resource types. To include the global IAM
+resource types when C<AllSupported> is set to C<true>, make sure to set
+C<includeGlobalResourceTypes> to C<true>.
+
+To exclude the global IAM resource types for the
+C<EXCLUSION_BY_RESOURCE_TYPES> recording strategy, you need to manually
+add them to the C<resourceTypes> field of C<exclusionByResourceTypes>.
+
+B<Required and optional fields>
+
+Before you set this field to C<true>, set the C<allSupported> field of
+RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html)
+to C<true>. Optionally, you can set the C<useOnly> field of
+RecordingStrategy
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+to C<ALL_SUPPORTED_RESOURCE_TYPES>.
+
+B<Overriding fields>
+
+If you set this field to C<false> but list global IAM resource types in
+the C<resourceTypes> field of RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html),
+Config will still record configuration changes for those specified
+resource types I<regardless> of if you set the
+C<includeGlobalResourceTypes> field to false.
+
+If you do not want to record configuration changes to the global IAM
+resource types (IAM users, groups, roles, and customer managed
+policies), make sure to not list them in the C<resourceTypes> field in
+addition to setting the C<includeGlobalResourceTypes> field to false.
+
+
+=head2 RecordingStrategy => L<Paws::Config::RecordingStrategy>
+
+An object that specifies the recording strategy for the configuration
+recorder.
+
+=over
+
+=item *
+
+If you set the C<useOnly> field of RecordingStrategy
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+to C<ALL_SUPPORTED_RESOURCE_TYPES>, Config records configuration
+changes for all supported resource types, excluding the global IAM
+resource types. You also must set the C<allSupported> field of
+RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html)
+to C<true>. When Config adds support for a new resource type, Config
+automatically starts recording resources of that type.
+
+=item *
+
+If you set the C<useOnly> field of RecordingStrategy
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+to C<INCLUSION_BY_RESOURCE_TYPES>, Config records configuration changes
+for only the resource types you specify in the C<resourceTypes> field
+of RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+
+=item *
+
+If you set the C<useOnly> field of RecordingStrategy
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+to C<EXCLUSION_BY_RESOURCE_TYPES>, Config records configuration changes
+for all supported resource types except the resource types that you
+specify to exclude from being recorded in the C<resourceTypes> field of
+ExclusionByResourceTypes
+(https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+
+=back
+
+B<Required and optional fields>
+
+The C<recordingStrategy> field is optional when you set the
+C<allSupported> field of RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html)
+to C<true>.
+
+The C<recordingStrategy> field is optional when you list resource types
+in the C<resourceTypes> field of RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+
+The C<recordingStrategy> field is required if you list resource types
+to exclude from recording in the C<resourceTypes> field of
+ExclusionByResourceTypes
+(https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+
+B<Overriding fields>
+
+If you choose C<EXCLUSION_BY_RESOURCE_TYPES> for the recording
+strategy, the C<exclusionByResourceTypes> field will override other
+properties in the request.
+
+For example, even if you set C<includeGlobalResourceTypes> to false,
+global IAM resource types will still be automatically recorded in this
+option unless those resource types are specifically listed as
+exclusions in the C<resourceTypes> field of
+C<exclusionByResourceTypes>.
+
+B<Global resources types and the resource exclusion recording strategy>
+
+By default, if you choose the C<EXCLUSION_BY_RESOURCE_TYPES> recording
+strategy, when Config adds support for a new resource type in the
+Region where you set up the configuration recorder, including global
+resource types, Config starts recording resources of that type
 automatically.
 
-The configuration details for any global resource are the same in all
-regions. To prevent duplicate configuration items, you should consider
-customizing AWS Config in only one region to record global resources.
+Unless specifically listed as exclusions, C<AWS::RDS::GlobalCluster>
+will be recorded automatically in all supported Config Regions were the
+configuration recorder is enabled.
+
+IAM users, groups, roles, and customer managed policies will be
+recorded in the Region where you set up the configuration recorder if
+that is a Region where Config was available before February 2022. You
+cannot be record the global IAM resouce types in Regions supported by
+Config after February 2022. For a list of those Regions, see Recording
+Amazon Web Services Resources | Global Resources
+(https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all).
 
 
 =head2 ResourceTypes => ArrayRef[Str|Undef]
 
-A comma-separated list that specifies the types of AWS resources for
-which AWS Config records configuration changes (for example,
-C<AWS::EC2::Instance> or C<AWS::CloudTrail::Trail>).
+A comma-separated list that specifies which resource types Config
+records.
 
-To record all configuration changes, you must set the C<allSupported>
-option to C<true>.
+For a list of valid C<resourceTypes> values, see the B<Resource Type
+Value> column in Supported Amazon Web Services resource Types
+(https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources)
+in the I<Config developer guide>.
 
-If you set this option to C<false>, when AWS Config adds support for a
+B<Required and optional fields>
+
+Optionally, you can set the C<useOnly> field of RecordingStrategy
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html)
+to C<INCLUSION_BY_RESOURCE_TYPES>.
+
+To record all configuration changes, set the C<allSupported> field of
+RecordingGroup
+(https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html)
+to C<true>, and either omit this field or don't specify any resource
+types in this field. If you set the C<allSupported> field to C<false>
+and specify values for C<resourceTypes>, when Config adds support for a
 new type of resource, it will not record resources of that type unless
 you manually add that type to your recording group.
 
-For a list of valid C<resourceTypes> values, see the B<resourceType
-Value> column in Supported AWS Resource Types
-(https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources).
+B<Region availability>
+
+Before specifying a resource type for Config to track, check Resource
+Coverage by Region Availability
+(https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html)
+to see if the resource type is supported in the Amazon Web Services
+Region where you set up Config. If a resource type is supported by
+Config in at least one Region, you can enable the recording of that
+resource type in all Regions supported by Config, even if the specified
+resource type is not supported in the Amazon Web Services Region where
+you set up Config.
 
 
 

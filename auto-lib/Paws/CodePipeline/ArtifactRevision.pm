@@ -69,8 +69,8 @@ The revision ID of the artifact.
 =head2 RevisionSummary => Str
 
 Summary information about the most recent revision of the artifact. For
-GitHub and AWS CodeCommit repositories, the commit message. For Amazon
-S3 buckets or actions, the user-provided content of a
+GitHub and CodeCommit repositories, the commit message. For Amazon S3
+buckets or actions, the user-provided content of a
 C<codepipeline-artifact-revision-summary> key specified in the object
 metadata.
 
@@ -78,8 +78,8 @@ metadata.
 =head2 RevisionUrl => Str
 
 The commit ID for the artifact revision. For artifacts stored in GitHub
-or AWS CodeCommit repositories, the commit ID is linked to a commit
-details page.
+or CodeCommit repositories, the commit ID is linked to a commit details
+page.
 
 
 

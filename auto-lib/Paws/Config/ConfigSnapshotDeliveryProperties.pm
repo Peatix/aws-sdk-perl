@@ -33,40 +33,40 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Config::Con
 
 =head1 DESCRIPTION
 
-Provides options for how often AWS Config delivers configuration
-snapshots to the Amazon S3 bucket in your delivery channel.
+Provides options for how often Config delivers configuration snapshots
+to the Amazon S3 bucket in your delivery channel.
 
 The frequency for a rule that triggers evaluations for your resources
-when AWS Config delivers the configuration snapshot is set by one of
-two values, depending on which is less frequent:
+when Config delivers the configuration snapshot is set by one of two
+values, depending on which is less frequent:
 
 =over
 
 =item *
 
 The value for the C<deliveryFrequency> parameter within the delivery
-channel configuration, which sets how often AWS Config delivers
-configuration snapshots. This value also sets how often AWS Config
-invokes evaluations for AWS Config rules.
+channel configuration, which sets how often Config delivers
+configuration snapshots. This value also sets how often Config invokes
+evaluations for Config rules.
 
 =item *
 
 The value for the C<MaximumExecutionFrequency> parameter, which sets
-the maximum frequency with which AWS Config invokes evaluations for the
+the maximum frequency with which Config invokes evaluations for the
 rule. For more information, see ConfigRule.
 
 =back
 
 If the C<deliveryFrequency> value is less frequent than the
-C<MaximumExecutionFrequency> value for a rule, AWS Config invokes the
-rule only as often as the C<deliveryFrequency> value.
+C<MaximumExecutionFrequency> value for a rule, Config invokes the rule
+only as often as the C<deliveryFrequency> value.
 
 =over
 
 =item 1.
 
-For example, you want your rule to run evaluations when AWS Config
-delivers the configuration snapshot.
+For example, you want your rule to run evaluations when Config delivers
+the configuration snapshot.
 
 =item 2.
 
@@ -80,8 +80,8 @@ C<TwentyFour_Hours>.
 =item 4.
 
 Because the value for C<deliveryFrequency> is less frequent than
-C<MaximumExecutionFrequency>, AWS Config invokes evaluations for the
-rule every 24 hours.
+C<MaximumExecutionFrequency>, Config invokes evaluations for the rule
+every 24 hours.
 
 =back
 
@@ -90,7 +90,7 @@ frequent as the C<deliveryFrequency> value. You can view the
 C<deliveryFrequency> value by using the C<DescribeDeliveryChannnels>
 action.
 
-To update the C<deliveryFrequency> with which AWS Config delivers your
+To update the C<deliveryFrequency> with which Config delivers your
 configuration snapshots, use the C<PutDeliveryChannel> action.
 
 =head1 ATTRIBUTES
@@ -98,7 +98,7 @@ configuration snapshots, use the C<PutDeliveryChannel> action.
 
 =head2 DeliveryFrequency => Str
 
-The frequency with which AWS Config delivers configuration snapshots.
+The frequency with which Config delivers configuration snapshots.
 
 
 

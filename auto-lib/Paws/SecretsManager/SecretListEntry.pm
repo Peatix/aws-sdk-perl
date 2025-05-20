@@ -10,6 +10,7 @@ package Paws::SecretsManager::SecretListEntry;
   has LastChangedDate => (is => 'ro', isa => 'Str');
   has LastRotatedDate => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
+  has NextRotationDate => (is => 'ro', isa => 'Str');
   has OwningService => (is => 'ro', isa => 'Str');
   has PrimaryRegion => (is => 'ro', isa => 'Str');
   has RotationEnabled => (is => 'ro', isa => 'Bool');
@@ -50,7 +51,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecretsMana
 
 A structure that contains the details about a secret. It does not
 include the encrypted C<SecretString> and C<SecretBinary> values. To
-get those values, use the GetSecretValue operation.
+get those values, use GetSecretValue
+(https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html)
+.
 
 =head1 ATTRIBUTES
 
@@ -58,11 +61,6 @@ get those values, use the GetSecretValue operation.
 =head2 ARN => Str
 
 The Amazon Resource Name (ARN) of the secret.
-
-For more information about ARNs in Secrets Manager, see Policy
-Resources
-(https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#iam-resources)
-in the I<AWS Secrets Manager User Guide>.
 
 
 =head2 CreatedDate => Str
@@ -75,7 +73,9 @@ The date and time when a secret was created.
 The date and time the deletion of the secret occurred. Not present on
 active secrets. The secret can be recovered until the number of days in
 the recovery window has passed, as specified in the
-C<RecoveryWindowInDays> parameter of the DeleteSecret operation.
+C<RecoveryWindowInDays> parameter of the C<DeleteSecret>
+(https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_DeleteSecret.html)
+operation.
 
 
 =head2 Description => Str
@@ -85,17 +85,15 @@ The user-provided description of the secret.
 
 =head2 KmsKeyId => Str
 
-The ARN or alias of the AWS KMS customer master key (CMK) used to
-encrypt the C<SecretString> and C<SecretBinary> fields in each version
-of the secret. If you don't provide a key, then Secrets Manager
-defaults to encrypting the secret fields with the default KMS CMK, the
-key named C<awssecretsmanager>, for this account.
+The ARN of the KMS key that Secrets Manager uses to encrypt the secret
+value. If the secret is encrypted with the Amazon Web Services managed
+key C<aws/secretsmanager>, this field is omitted.
 
 
 =head2 LastAccessedDate => Str
 
-The last date that this secret was accessed. This value is truncated to
-midnight of the date and therefore shows only the date, not the time.
+The date that the secret was last accessed in the Region. This field is
+omitted if the secret has never been retrieved in the Region.
 
 
 =head2 LastChangedDate => Str
@@ -112,10 +110,14 @@ ever rotated.
 
 =head2 Name => Str
 
-The friendly name of the secret. You can use forward slashes in the
-name to represent a path hierarchy. For example,
-C</prod/databases/dbserver1> could represent the secret for a server
-named C<dbserver1> in the folder C<databases> in the folder C<prod>.
+The friendly name of the secret.
+
+
+=head2 NextRotationDate => Str
+
+The next rotation is scheduled to occur on or before this date. If the
+secret isn't configured for rotation or rotation has been disabled,
+Secrets Manager returns null.
 
 
 =head2 OwningService => Str
@@ -136,9 +138,10 @@ secret.
 
 =head2 RotationLambdaARN => Str
 
-The ARN of an AWS Lambda function invoked by Secrets Manager to rotate
-and expire the secret either automatically per the schedule or manually
-by a call to RotateSecret.
+The ARN of an Amazon Web Services Lambda function invoked by Secrets
+Manager to rotate and expire the secret either automatically per the
+schedule or manually by a call to C<RotateSecret>
+(https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_RotateSecret.html).
 
 
 =head2 RotationRules => L<Paws::SecretsManager::RotationRulesType>
@@ -161,7 +164,10 @@ this list.
 =head2 Tags => ArrayRef[L<Paws::SecretsManager::Tag>]
 
 The list of user-defined tags associated with the secret. To add tags
-to a secret, use TagResource. To remove tags, use UntagResource.
+to a secret, use C<TagResource>
+(https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_TagResource.html).
+To remove tags, use C<UntagResource>
+(https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_UntagResource.html).
 
 
 

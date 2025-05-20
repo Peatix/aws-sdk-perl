@@ -3,6 +3,7 @@ package Paws::EC2::ModifyInstanceAttribute;
   use Moose;
   has Attribute => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'attribute' );
   has BlockDeviceMappings => (is => 'ro', isa => 'ArrayRef[Paws::EC2::InstanceBlockDeviceMappingSpecification]', traits => ['NameInRequest'], request_name => 'blockDeviceMapping' );
+  has DisableApiStop => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue');
   has DisableApiTermination => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', traits => ['NameInRequest'], request_name => 'disableApiTermination' );
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
   has EbsOptimized => (is => 'ro', isa => 'Paws::EC2::AttributeBooleanValue', traits => ['NameInRequest'], request_name => 'ebsOptimized' );
@@ -69,36 +70,60 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 
 =head2 Attribute => Str
 
-The name of the attribute.
+The name of the attribute to modify.
 
-Valid values are: C<"instanceType">, C<"kernel">, C<"ramdisk">, C<"userData">, C<"disableApiTermination">, C<"instanceInitiatedShutdownBehavior">, C<"rootDeviceName">, C<"blockDeviceMapping">, C<"productCodes">, C<"sourceDestCheck">, C<"groupSet">, C<"ebsOptimized">, C<"sriovNetSupport">, C<"enaSupport">, C<"enclaveOptions">
+When changing the instance type: If the original instance type is
+configured for configurable bandwidth, and the desired instance type
+doesn't support configurable bandwidth, first set the existing
+bandwidth configuration to C<default> using the
+ModifyInstanceNetworkPerformanceOptions operation.
+
+You can modify the following attributes only: C<disableApiTermination>
+| C<instanceType> | C<kernel> | C<ramdisk> |
+C<instanceInitiatedShutdownBehavior> | C<blockDeviceMapping> |
+C<userData> | C<sourceDestCheck> | C<groupSet> | C<ebsOptimized> |
+C<sriovNetSupport> | C<enaSupport> | C<nvmeSupport> | C<disableApiStop>
+| C<enclaveOptions>
+
+Valid values are: C<"instanceType">, C<"kernel">, C<"ramdisk">, C<"userData">, C<"disableApiTermination">, C<"instanceInitiatedShutdownBehavior">, C<"rootDeviceName">, C<"blockDeviceMapping">, C<"productCodes">, C<"sourceDestCheck">, C<"groupSet">, C<"ebsOptimized">, C<"sriovNetSupport">, C<"enaSupport">, C<"enclaveOptions">, C<"disableApiStop">
 
 =head2 BlockDeviceMappings => ArrayRef[L<Paws::EC2::InstanceBlockDeviceMappingSpecification>]
 
 Modifies the C<DeleteOnTermination> attribute for volumes that are
 currently attached. The volume must be owned by the caller. If no value
 is specified for C<DeleteOnTermination>, the default is C<true> and the
-volume is deleted when the instance is terminated.
+volume is deleted when the instance is terminated. You can't modify the
+C<DeleteOnTermination> attribute for volumes that are attached to
+Fargate tasks.
 
 To add instance store volumes to an Amazon EBS-backed instance, you
 must add them when you launch the instance. For more information, see
-Updating the block device mapping when launching an instance
+Update the block device mapping when launching an instance
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html#Using_OverridingAMIBDM)
 in the I<Amazon EC2 User Guide>.
 
 
 
+=head2 DisableApiStop => L<Paws::EC2::AttributeBooleanValue>
+
+Indicates whether an instance is enabled for stop protection. For more
+information, see Enable stop protection for your instance
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-stop-protection.html).
+
+
+
 =head2 DisableApiTermination => L<Paws::EC2::AttributeBooleanValue>
 
-If the value is C<true>, you can't terminate the instance using the
-Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use
-this parameter for Spot Instances.
+Enable or disable termination protection for the instance. If the value
+is C<true>, you can't terminate the instance using the Amazon EC2
+console, command line interface, or API. You can't enable termination
+protection for Spot Instances.
 
 
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
@@ -126,10 +151,9 @@ with a PV instance can make it unreachable.
 
 =head2 Groups => ArrayRef[Str|Undef]
 
-[EC2-VPC] Replaces the security groups of the instance with the
-specified security groups. You must specify at least one security
-group, even if it's just the default security group for the VPC. You
-must specify the security group ID, not the security group name.
+Replaces the security groups of the instance with the specified
+security groups. You must specify the ID of at least one security
+group, even if it's just the default security group for the VPC.
 
 
 
@@ -201,10 +225,11 @@ with a PV instance can make it unreachable.
 
 =head2 UserData => L<Paws::EC2::BlobAttributeValue>
 
-Changes the instance's user data to the specified value. If you are
-using an Amazon Web Services SDK or command line tool, base64-encoding
-is performed for you, and you can load the text from a file. Otherwise,
-you must provide base64-encoded text.
+Changes the instance's user data to the specified value. User data must
+be base64-encoded. Depending on the tool or SDK that you're using, the
+base64-encoding might be performed for you. For more information, see
+Work with instance user data
+(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-add-user-data.html).
 
 
 

@@ -65,7 +65,7 @@ The name of the channel where the messages are sent.
 The list of messages to be sent. Each message has the format: {
 "messageId": "string", "payload": "string"}.
 
-The field names of message payloads (data) that you send to AWS IoT
+The field names of message payloads (data) that you send to IoT
 Analytics:
 
 =over

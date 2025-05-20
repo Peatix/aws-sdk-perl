@@ -67,7 +67,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 A filter that returns only associations of the specified type.
 
-Valid values are: C<"ContributedTo">, C<"AssociatedWith">, C<"DerivedFrom">, C<"Produced">
+Valid values are: C<"ContributedTo">, C<"AssociatedWith">, C<"DerivedFrom">, C<"Produced">, C<"SameAs">
 
 =head2 CreatedAfter => Str
 

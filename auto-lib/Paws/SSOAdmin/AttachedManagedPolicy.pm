@@ -34,21 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSOAdmin::A
 
 =head1 DESCRIPTION
 
-A structure that stores the details of the IAM managed policy.
+A structure that stores a list of managed policy ARNs that describe the
+associated Amazon Web Services managed policy.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The ARN of the IAM managed policy. For more information about ARNs, see
-Amazon Resource Names (ARNs) and AWS Service Namespaces in the I<AWS
-General Reference>.
+The ARN of the Amazon Web Services managed policy. For more information
+about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services
+Service Namespaces in the I<Amazon Web Services General Reference>.
 
 
 =head2 Name => Str
 
-The name of the IAM managed policy.
+The name of the Amazon Web Services managed policy.
 
 
 

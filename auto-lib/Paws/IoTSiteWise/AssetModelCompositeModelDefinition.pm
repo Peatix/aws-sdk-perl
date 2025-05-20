@@ -2,6 +2,8 @@
 package Paws::IoTSiteWise::AssetModelCompositeModelDefinition;
   use Moose;
   has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
+  has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Properties => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetModelPropertyDefinition]', request_name => 'properties', traits => ['NameInRequest']);
   has Type => (is => 'ro', isa => 'Str', request_name => 'type', traits => ['NameInRequest'], required => 1);
@@ -45,6 +47,24 @@ model definition is applied to all assets created from the asset model.
 =head2 Description => Str
 
 The description of the composite model.
+
+
+=head2 ExternalId => Str
+
+An external ID to assign to the composite model. The external ID must
+be unique among composite models within this asset model. For more
+information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 Id => Str
+
+The ID to assign to the composite model, if desired. IoT SiteWise
+automatically generates a unique ID for you, so this parameter is never
+required. However, if you prefer to supply your own ID instead, you can
+specify it here in UUID format. If you specify your own ID, it must be
+globally unique.
 
 
 =head2 B<REQUIRED> Name => Str

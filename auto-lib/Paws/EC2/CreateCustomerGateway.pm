@@ -1,11 +1,13 @@
 
 package Paws::EC2::CreateCustomerGateway;
   use Moose;
-  has BgpAsn => (is => 'ro', isa => 'Int', required => 1);
+  has BgpAsn => (is => 'ro', isa => 'Int');
+  has BgpAsnExtended => (is => 'ro', isa => 'Int');
   has CertificateArn => (is => 'ro', isa => 'Str');
   has DeviceName => (is => 'ro', isa => 'Str');
   has DryRun => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'dryRun' );
-  has PublicIp => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'IpAddress' );
+  has IpAddress => (is => 'ro', isa => 'Str');
+  has PublicIp => (is => 'ro', isa => 'Str');
   has TagSpecifications => (is => 'ro', isa => 'ArrayRef[Paws::EC2::TagSpecification]', traits => ['NameInRequest'], request_name => 'TagSpecification' );
   has Type => (is => 'ro', isa => 'Str', required => 1);
 
@@ -53,11 +55,27 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ec2
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> BgpAsn => Int
+=head2 BgpAsn => Int
 
-For devices that support BGP, the customer gateway's BGP ASN.
+For customer gateway devices that support BGP, specify the device's
+ASN. You must specify either C<BgpAsn> or C<BgpAsnExtended> when
+creating the customer gateway. If the ASN is larger than
+C<2,147,483,647>, you must use C<BgpAsnExtended>.
 
 Default: 65000
+
+Valid values: C<1> to C<2,147,483,647>
+
+
+
+=head2 BgpAsnExtended => Int
+
+For customer gateway devices that support BGP, specify the device's
+ASN. You must specify either C<BgpAsn> or C<BgpAsnExtended> when
+creating the customer gateway. If the ASN is larger than
+C<2,147,483,647>, you must use C<BgpAsnExtended>.
+
+Valid values: C<2,147,483,648> to C<4,294,967,295>
 
 
 
@@ -84,10 +102,21 @@ C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.
 
 
 
+=head2 IpAddress => Str
+
+IPv4 address for the customer gateway device's outside interface. The
+address must be static. If C<OutsideIpAddressType> in your VPN
+connection options is set to C<PrivateIpv4>, you can use an RFC6598 or
+RFC1918 private IPv4 address. If C<OutsideIpAddressType> is set to
+C<PublicIpv4>, you can use a public IPv4 address.
+
+
+
 =head2 PublicIp => Str
 
-The Internet-routable IP address for the customer gateway's outside
-interface. The address must be static.
+I<This member has been deprecated.> The Internet-routable IP address
+for the customer gateway's outside interface. The address must be
+static.
 
 
 

@@ -43,14 +43,17 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) for the playback configuration. You can
-get this from the response to any playback configuration request.
+The Amazon Resource Name (ARN) associated with the resource.
 
 
 
 =head2 B<REQUIRED> Tags => L<Paws::MediaTailor::__mapOf__string>
 
-A comma-separated list of tag key:value pairs.
+The tags to assign to the resource. Tags are key-value pairs that you
+can associate with Amazon resources to help with organization, access
+control, and cost tracking. For more information, see Tagging AWS
+Elemental MediaTailor Resources
+(https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
 
 
 

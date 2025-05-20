@@ -36,7 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BackupType              => 'USER',                   # OPTIONAL
       ExclusiveStartBackupArn => 'MyBackupArn',            # OPTIONAL
       Limit                   => 1,                        # OPTIONAL
-      TableName               => 'MyTableName',            # OPTIONAL
+      TableName               => 'MyTableArn',             # OPTIONAL
       TimeRangeLowerBound     => '1970-01-01T01:00:00',    # OPTIONAL
       TimeRangeUpperBound     => '1970-01-01T01:00:00',    # OPTIONAL
     );
@@ -63,7 +63,8 @@ Where C<BackupType> can be:
 
 =item *
 
-C<USER> - On-demand backup created by you.
+C<USER> - On-demand backup created by you. (The default setting if no
+other backup types are specified.)
 
 =item *
 
@@ -96,7 +97,9 @@ Maximum number of backups to return at once.
 
 =head2 TableName => Str
 
-The backups from the table specified by C<TableName> are listed.
+Lists the backups from the table specified in C<TableName>. You can
+also provide the Amazon Resource Name (ARN) of the table in this
+parameter.
 
 
 

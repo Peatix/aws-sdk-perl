@@ -2,6 +2,7 @@
 package Paws::SESv2::TrackingOptions;
   use Moose;
   has CustomRedirectDomain => (is => 'ro', isa => 'Str', required => 1);
+  has HttpsPolicy => (is => 'ro', isa => 'Str');
 
 1;
 
@@ -22,7 +23,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SESv2::TrackingOptions object:
 
-  $service_obj->Method(Att1 => { CustomRedirectDomain => $value, ..., CustomRedirectDomain => $value  });
+  $service_obj->Method(Att1 => { CustomRedirectDomain => $value, ..., HttpsPolicy => $value  });
 
 =head3 Results returned from an API call
 
@@ -39,16 +40,21 @@ invisible image that's used to track when recipients open your email.
 If your email contains links, those links are changed slightly in order
 to track when recipients click them.
 
-These images and links include references to a domain operated by AWS.
-You can optionally configure the Amazon SES to use a domain that you
-operate for these images and links.
+These images and links include references to a domain operated by
+Amazon Web Services. You can optionally configure the Amazon SES to use
+a domain that you operate for these images and links.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> CustomRedirectDomain => Str
 
-The domain that you want to use for tracking open and click events.
+The domain to use for tracking open and click events.
+
+
+=head2 HttpsPolicy => Str
+
+The https policy to use for tracking open and click events.
 
 
 

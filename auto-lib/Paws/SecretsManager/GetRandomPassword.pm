@@ -57,72 +57,61 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 ExcludeCharacters => Str
 
-A string that includes characters that should not be included in the
-generated password. The default is that all characters from the
-included sets can be used.
+A string of the characters that you don't want in the password.
 
 
 
 =head2 ExcludeLowercase => Bool
 
-Specifies that the generated password should not include lowercase
-letters. The default if you do not include this switch parameter is
-that lowercase letters can be included.
+Specifies whether to exclude lowercase letters from the password. If
+you don't include this switch, the password can contain lowercase
+letters.
 
 
 
 =head2 ExcludeNumbers => Bool
 
-Specifies that the generated password should not include digits. The
-default if you do not include this switch parameter is that digits can
-be included.
+Specifies whether to exclude numbers from the password. If you don't
+include this switch, the password can contain numbers.
 
 
 
 =head2 ExcludePunctuation => Bool
 
-Specifies that the generated password should not include punctuation
-characters. The default if you do not include this switch parameter is
-that punctuation characters can be included.
-
-The following are the punctuation characters that I<can> be included in
-the generated password if you don't explicitly exclude them with
-C<ExcludeCharacters> or C<ExcludePunctuation>:
-
-C<! " # $ % & ' ( ) * + , - . / : ; E<lt> = E<gt> ? @ [ \ ] ^ _ ` { | }
-~>
+Specifies whether to exclude the following punctuation characters from
+the password: C<! " # $ % & ' ( ) * + , - . / : ; E<lt> = E<gt> ? @ [ \
+] ^ _ ` { | } ~>. If you don't include this switch, the password can
+contain punctuation.
 
 
 
 =head2 ExcludeUppercase => Bool
 
-Specifies that the generated password should not include uppercase
-letters. The default if you do not include this switch parameter is
-that uppercase letters can be included.
+Specifies whether to exclude uppercase letters from the password. If
+you don't include this switch, the password can contain uppercase
+letters.
 
 
 
 =head2 IncludeSpace => Bool
 
-Specifies that the generated password can include the space character.
-The default if you do not include this switch parameter is that the
-space character is not included.
+Specifies whether to include the space character. If you include this
+switch, the password can contain space characters.
 
 
 
 =head2 PasswordLength => Int
 
-The desired length of the generated password. The default value if you
-do not include this parameter is 32 characters.
+The length of the password. If you don't include this parameter, the
+default length is 32 characters.
 
 
 
 =head2 RequireEachIncludedType => Bool
 
-A boolean value that specifies whether the generated password must
-include at least one of every allowed character type. The default value
-is C<True> and the operation requires at least one of every character
-type.
+Specifies whether to include at least one upper and lowercase letter,
+one number, and one punctuation. If you don't include this switch, the
+password contains at least one of every character type.
 
 
 

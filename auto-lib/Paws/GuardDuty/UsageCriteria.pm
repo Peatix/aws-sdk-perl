@@ -2,7 +2,8 @@
 package Paws::GuardDuty::UsageCriteria;
   use Moose;
   has AccountIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'accountIds', traits => ['NameInRequest']);
-  has DataSources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'dataSources', traits => ['NameInRequest'], required => 1);
+  has DataSources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'dataSources', traits => ['NameInRequest']);
+  has Features => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'features', traits => ['NameInRequest']);
   has Resources => (is => 'ro', isa => 'ArrayRef[Str|Undef]', request_name => 'resources', traits => ['NameInRequest']);
 
 1;
@@ -45,9 +46,14 @@ Contains information about the criteria used to query usage statistics.
 The account IDs to aggregate usage statistics from.
 
 
-=head2 B<REQUIRED> DataSources => ArrayRef[Str|Undef]
+=head2 DataSources => ArrayRef[Str|Undef]
 
 The data sources to aggregate usage statistics from.
+
+
+=head2 Features => ArrayRef[Str|Undef]
+
+The features to aggregate usage statistics from.
 
 
 =head2 Resources => ArrayRef[Str|Undef]

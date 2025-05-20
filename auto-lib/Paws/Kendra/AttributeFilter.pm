@@ -42,89 +42,125 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Att
 
 =head1 DESCRIPTION
 
-Provides filtering the query results based on document attributes.
+Filters the search results based on document attributes or fields.
 
-When you use the C<AndAllFilters> or C<OrAllFilters>, filters you can
-use 2 layers under the first attribute filter. For example, you can
-use:
+You can filter results using attributes for your particular documents.
+The attributes must exist in your index. For example, if your documents
+include the custom attribute "Department", you can filter documents
+that belong to the "HR" department. You would use the C<EqualsTo>
+operation to filter results or documents with "Department" equals to
+"HR".
 
-C<E<lt>AndAllFiltersE<gt>>
+You can use C<AndAllFilters> and C<OrAllFilters> in combination with
+each other or with other operations such as C<EqualsTo>. For example:
+
+C<AndAllFilters>
 
 =over
 
-=item 1.
+=item *
 
-C<E<lt>OrAllFiltersE<gt>>
+C<EqualsTo>: "Department", "HR"
 
-=item 2.
+=item *
 
-C<E<lt>EqualToE<gt>>
+C<OrAllFilters>
+
+=over
+
+=item *
+
+C<ContainsAny>: "Project Name", ["new hires", "new hiring"]
 
 =back
 
-If you use more than 2 layers, you receive a C<ValidationException>
-exception with the message "C<AttributeFilter> cannot have a depth of
-more than 2."
+=back
+
+This example filters results or documents that belong to the HR
+department C<AND> belong to projects that contain "new hires" C<OR>
+"new hiring" in the project name (must use C<ContainAny> with
+C<StringListValue>). This example is filtering with a depth of 2.
+
+You cannot filter more than a depth of 2, otherwise you receive a
+C<ValidationException> exception with the message "AttributeFilter
+cannot have a depth of more than 2." Also, if you use more than 10
+attribute filters in a given list for C<AndAllFilters> or
+C<OrAllFilters>, you receive a C<ValidationException> with the message
+"AttributeFilter cannot have a length of more than 10".
+
+For examples of using C<AttributeFilter>, see Using document attributes
+to filter search results
+(https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering).
 
 =head1 ATTRIBUTES
 
 
 =head2 AndAllFilters => ArrayRef[L<Paws::Kendra::AttributeFilter>]
 
-Performs a logical C<AND> operation on all supplied filters.
+Performs a logical C<AND> operation on all filters that you specify.
 
 
 =head2 ContainsAll => L<Paws::Kendra::DocumentAttribute>
 
 Returns true when a document contains all of the specified document
-attributes. This filter is only applicable to C<StringListValue>
-metadata.
+attributes/fields. This filter is only applicable to StringListValue
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html).
 
 
 =head2 ContainsAny => L<Paws::Kendra::DocumentAttribute>
 
 Returns true when a document contains any of the specified document
-attributes. This filter is only applicable to C<StringListValue>
-metadata.
+attributes/fields. This filter is only applicable to StringListValue
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html).
 
 
 =head2 EqualsTo => L<Paws::Kendra::DocumentAttribute>
 
-Performs an equals operation on two document attributes.
+Performs an equals operation on document attributes/fields and their
+values.
 
 
 =head2 GreaterThan => L<Paws::Kendra::DocumentAttribute>
 
-Performs a greater than operation on two document attributes. Use with
-a document attribute of type C<Integer> or C<Long>.
+Performs a greater than operation on document attributes/fields and
+their values. Use with the document attribute type
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html)
+C<Date> or C<Long>.
 
 
 =head2 GreaterThanOrEquals => L<Paws::Kendra::DocumentAttribute>
 
-Performs a greater or equals than operation on two document attributes.
-Use with a document attribute of type C<Integer> or C<Long>.
+Performs a greater or equals than operation on document
+attributes/fields and their values. Use with the document attribute
+type
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html)
+C<Date> or C<Long>.
 
 
 =head2 LessThan => L<Paws::Kendra::DocumentAttribute>
 
-Performs a less than operation on two document attributes. Use with a
-document attribute of type C<Integer> or C<Long>.
+Performs a less than operation on document attributes/fields and their
+values. Use with the document attribute type
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html)
+C<Date> or C<Long>.
 
 
 =head2 LessThanOrEquals => L<Paws::Kendra::DocumentAttribute>
 
-Performs a less than or equals operation on two document attributes.
-Use with a document attribute of type C<Integer> or C<Long>.
+Performs a less than or equals operation on document attributes/fields
+and their values. Use with the document attribute type
+(https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html)
+C<Date> or C<Long>.
 
 
 =head2 NotFilter => L<Paws::Kendra::AttributeFilter>
 
-Performs a logical C<NOT> operation on all supplied filters.
+Performs a logical C<NOT> operation on all filters that you specify.
 
 
 =head2 OrAllFilters => ArrayRef[L<Paws::Kendra::AttributeFilter>]
 
-Performs a logical C<OR> operation on all supplied filters.
+Performs a logical C<OR> operation on all filters that you specify.
 
 
 

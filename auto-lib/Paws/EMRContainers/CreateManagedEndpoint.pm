@@ -1,7 +1,7 @@
 
 package Paws::EMRContainers::CreateManagedEndpoint;
   use Moose;
-  has CertificateArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'certificateArn', required => 1);
+  has CertificateArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'certificateArn');
   has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken', required => 1);
   has ConfigurationOverrides => (is => 'ro', isa => 'Paws::EMRContainers::ConfigurationOverrides', traits => ['NameInRequest'], request_name => 'configurationOverrides');
   has ExecutionRoleArn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'executionRoleArn', required => 1);
@@ -37,13 +37,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $emr-containers = Paws->service('EMRContainers');
     my $CreateManagedEndpointResponse = $emr -containers->CreateManagedEndpoint(
-      CertificateArn         => 'MyACMCertArn',
       ClientToken            => 'MyClientToken',
       ExecutionRoleArn       => 'MyIAMRoleArn',
       Name                   => 'MyResourceNameString',
       ReleaseLabel           => 'MyReleaseLabel',
       Type                   => 'MyEndpointType',
       VirtualClusterId       => 'MyResourceIdString',
+      CertificateArn         => 'MyACMCertArn',           # OPTIONAL
       ConfigurationOverrides => {
         ApplicationConfiguration => [
           {
@@ -60,6 +60,16 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           CloudWatchMonitoringConfiguration => {
             LogGroupName        => 'MyLogGroupName',    # min: 1, max: 512
             LogStreamNamePrefix => 'MyString256',   # min: 1, max: 256; OPTIONAL
+          },    # OPTIONAL
+          ContainerLogRotationConfiguration => {
+            MaxFilesToKeep => 1,                   # min: 1, max: 50
+            RotationSize   => 'MyRotationSize',    # min: 3, max: 12
+
+          },    # OPTIONAL
+          ManagedLogs => {
+            AllowAWSToRetainLogs =>
+              'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
+            EncryptionKeyArn => 'MyKmsKeyArn',    # min: 3, max: 2048; OPTIONAL
           },    # OPTIONAL
           PersistentAppUI => 'ENABLED',    # values: ENABLED, DISABLED; OPTIONAL
           S3MonitoringConfiguration => {
@@ -88,9 +98,10 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/emr
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> CertificateArn => Str
+=head2 CertificateArn => Str
 
-The certificate ARN of the managed endpoint.
+The certificate ARN provided by users for the managed endpoint. This
+field is under deprecation and will be removed in future releases.
 
 
 

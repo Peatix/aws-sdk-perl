@@ -17,7 +17,7 @@ Paws::RAM::GetPermissionResponse
 
 =head2 Permission => L<Paws::RAM::ResourceSharePermissionDetail>
 
-Information about the permission.
+An object with details about the permission.
 
 
 =head2 _request_id => Str

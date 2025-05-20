@@ -45,8 +45,7 @@ insertion, you can ignore these settings.
 
 Specifies an ESAM ManifestConfirmConditionNotification XML as per
 OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest
-conditioning instructions that you provide in the setting MCC XML
-(mccXml).
+conditioning instructions that you provide in the setting MCC XML.
 
 
 =head2 ResponseSignalPreroll => Int
@@ -62,7 +61,7 @@ marker at the beginning of the stream.
 
 Specifies an ESAM SignalProcessingNotification XML as per
 OC-SP-ESAM-API-I03-131025. The transcoder uses the signal processing
-instructions that you provide in the setting SCC XML (sccXml).
+instructions that you provide in the setting SCC XML.
 
 
 

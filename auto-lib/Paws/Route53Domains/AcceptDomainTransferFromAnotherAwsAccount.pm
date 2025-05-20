@@ -31,7 +31,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $AcceptDomainTransferFromAnotherAwsAccountResponse =
       $route53domains->AcceptDomainTransferFromAnotherAwsAccount(
       DomainName => 'MyDomainName',
-      Password   => 'MyString',
+      Password   => 'MyPassword',
 
       );
 
@@ -49,8 +49,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rou
 
 =head2 B<REQUIRED> DomainName => Str
 
-The name of the domain that was specified when another AWS account
-submitted a TransferDomainToAnotherAwsAccount
+The name of the domain that was specified when another Amazon Web
+Services account submitted a TransferDomainToAnotherAwsAccount
 (https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html)
 request.
 

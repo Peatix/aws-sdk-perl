@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-An entitlement that has been granted to you from other AWS accounts.
+An entitlement that has been granted to you from other Amazon Web
+Services accounts.
 
 =head1 ATTRIBUTES
 

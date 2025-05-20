@@ -80,7 +80,7 @@ The name of the channel.
 
 Where channel data is stored. You can choose one of C<serviceManagedS3>
 or C<customerManagedS3> storage. If not specified, the default is
-C<serviceManagedS3>. You cannot change this storage option after the
+C<serviceManagedS3>. You can't change this storage option after the
 channel is created.
 
 

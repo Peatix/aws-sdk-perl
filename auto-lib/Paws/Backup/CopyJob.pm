@@ -3,14 +3,21 @@ package Paws::Backup::CopyJob;
   use Moose;
   has AccountId => (is => 'ro', isa => 'Str');
   has BackupSizeInBytes => (is => 'ro', isa => 'Int');
+  has ChildJobsInState => (is => 'ro', isa => 'Paws::Backup::CopyJobChildJobsInState');
   has CompletionDate => (is => 'ro', isa => 'Str');
+  has CompositeMemberIdentifier => (is => 'ro', isa => 'Str');
   has CopyJobId => (is => 'ro', isa => 'Str');
   has CreatedBy => (is => 'ro', isa => 'Paws::Backup::RecoveryPointCreator');
   has CreationDate => (is => 'ro', isa => 'Str');
   has DestinationBackupVaultArn => (is => 'ro', isa => 'Str');
   has DestinationRecoveryPointArn => (is => 'ro', isa => 'Str');
   has IamRoleArn => (is => 'ro', isa => 'Str');
+  has IsParent => (is => 'ro', isa => 'Bool');
+  has MessageCategory => (is => 'ro', isa => 'Str');
+  has NumberOfChildJobs => (is => 'ro', isa => 'Int');
+  has ParentJobId => (is => 'ro', isa => 'Str');
   has ResourceArn => (is => 'ro', isa => 'Str');
+  has ResourceName => (is => 'ro', isa => 'Str');
   has ResourceType => (is => 'ro', isa => 'Str');
   has SourceBackupVaultArn => (is => 'ro', isa => 'Str');
   has SourceRecoveryPointArn => (is => 'ro', isa => 'Str');
@@ -62,12 +69,26 @@ The account ID that owns the copy job.
 The size, in bytes, of a copy job.
 
 
+=head2 ChildJobsInState => L<Paws::Backup::CopyJobChildJobsInState>
+
+This returns the statistics of the included child (nested) copy jobs.
+
+
 =head2 CompletionDate => Str
 
 The date and time a copy job is completed, in Unix format and
 Coordinated Universal Time (UTC). The value of C<CompletionDate> is
 accurate to milliseconds. For example, the value 1516925490.087
 represents Friday, January 26, 2018 12:11:30.087 AM.
+
+
+=head2 CompositeMemberIdentifier => Str
+
+The identifier of a resource within a composite group, such as nested
+(child) recovery point belonging to a composite (parent) stack. The ID
+is transferred from the logical ID
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html#resources-section-structure-syntax)
+within a stack.
 
 
 =head2 CopyJobId => Str
@@ -92,7 +113,7 @@ January 26, 2018 12:11:30.087 AM.
 
 An Amazon Resource Name (ARN) that uniquely identifies a destination
 copy vault; for example,
-C<arn:aws:backup:us-east-1:123456789012:vault:aBackupVault>.
+C<arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault>.
 
 
 =head2 DestinationRecoveryPointArn => Str
@@ -108,25 +129,63 @@ Specifies the IAM role ARN used to copy the target recovery point; for
 example, C<arn:aws:iam::123456789012:role/S3Access>.
 
 
+=head2 IsParent => Bool
+
+This is a boolean value indicating this is a parent (composite) copy
+job.
+
+
+=head2 MessageCategory => Str
+
+This parameter is the job count for the specified message category.
+
+Example strings may include C<AccessDenied>, C<SUCCESS>,
+C<AGGREGATE_ALL>, and C<InvalidParameters>. See Monitoring
+(https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html)
+for a list of MessageCategory strings.
+
+The the value ANY returns count of all message categories.
+
+C<AGGREGATE_ALL> aggregates job counts for all message categories and
+returns the sum
+
+
+=head2 NumberOfChildJobs => Int
+
+The number of child (nested) copy jobs.
+
+
+=head2 ParentJobId => Str
+
+This uniquely identifies a request to Backup to copy a resource. The
+return will be the parent (composite) job ID.
+
+
 =head2 ResourceArn => Str
 
-The AWS resource to be copied; for example, an Amazon Elastic Block
-Store (Amazon EBS) volume or an Amazon Relational Database Service
-(Amazon RDS) database.
+The Amazon Web Services resource to be copied; for example, an Amazon
+Elastic Block Store (Amazon EBS) volume or an Amazon Relational
+Database Service (Amazon RDS) database.
+
+
+=head2 ResourceName => Str
+
+The non-unique name of the resource that belongs to the specified
+backup.
 
 
 =head2 ResourceType => Str
 
-The type of AWS resource to be copied; for example, an Amazon Elastic
-Block Store (Amazon EBS) volume or an Amazon Relational Database
-Service (Amazon RDS) database.
+The type of Amazon Web Services resource to be copied; for example, an
+Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational
+Database Service (Amazon RDS) database.
 
 
 =head2 SourceBackupVaultArn => Str
 
 An Amazon Resource Name (ARN) that uniquely identifies a source copy
 vault; for example,
-C<arn:aws:backup:us-east-1:123456789012:vault:aBackupVault>.
+C<arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault>.
 
 
 =head2 SourceRecoveryPointArn => Str

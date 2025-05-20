@@ -86,9 +86,9 @@ cluster. Currently limited to one item.
 
 =head2 GlobalClusterResourceId => Str
 
-The Region-unique, immutable identifier for the global database
-cluster. This identifier is found in AWS CloudTrail log entries
-whenever the AWS KMS customer master key (CMK) for the cluster is
+The Amazon Web Services Region-unique, immutable identifier for the
+global database cluster. This identifier is found in CloudTrail log
+entries whenever the KMS customer master key (CMK) for the cluster is
 accessed.
 
 

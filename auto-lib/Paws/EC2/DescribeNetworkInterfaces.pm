@@ -63,13 +63,18 @@ One or more filters.
 
 =item *
 
-C<addresses.private-ip-address> - The private IPv4 addresses associated
-with the network interface.
+C<association.allocation-id> - The allocation ID returned when you
+allocated the Elastic IP address (IPv4) for your network interface.
 
 =item *
 
-C<addresses.primary> - Whether the private IPv4 address is the primary
-IP address associated with the network interface.
+C<association.association-id> - The association ID returned when the
+network interface was associated with an IPv4 address.
+
+=item *
+
+C<addresses.association.owner-id> - The owner ID of the addresses
+associated with the network interface.
 
 =item *
 
@@ -79,18 +84,13 @@ the network interface was associated with the Elastic IP address
 
 =item *
 
-C<addresses.association.owner-id> - The owner ID of the addresses
-associated with the network interface.
+C<addresses.primary> - Whether the private IPv4 address is the primary
+IP address associated with the network interface.
 
 =item *
 
-C<association.association-id> - The association ID returned when the
-network interface was associated with an IPv4 address.
-
-=item *
-
-C<association.allocation-id> - The allocation ID returned when you
-allocated the Elastic IP address (IPv4) for your network interface.
+C<addresses.private-ip-address> - The private IPv4 addresses associated
+with the network interface.
 
 =item *
 
@@ -109,12 +109,12 @@ interface (IPv4).
 
 =item *
 
-C<attachment.attachment-id> - The ID of the interface attachment.
+C<attachment.attach-time> - The time that the network interface was
+attached to an instance.
 
 =item *
 
-C<attachment.attach-time> - The time that the network interface was
-attached to an instance.
+C<attachment.attachment-id> - The ID of the interface attachment.
 
 =item *
 
@@ -156,13 +156,19 @@ interface.
 
 =item *
 
-C<group-name> - The name of a security group associated with the
+C<ipv6-addresses.ipv6-address> - An IPv6 address associated with the
 network interface.
 
 =item *
 
-C<ipv6-addresses.ipv6-address> - An IPv6 address associated with the
-network interface.
+C<interface-type> - The type of network interface
+(C<api_gateway_managed> | C<aws_codestar_connections_managed> |
+C<branch> | C<ec2_instance_connect_endpoint> | C<efa> | C<efa-only> |
+C<efs> | C<gateway_load_balancer> | C<gateway_load_balancer_endpoint> |
+C<global_accelerator_managed> | C<interface> | C<iot_rules_managed> |
+C<lambda> | C<load_balancer> | C<nat_gateway> |
+C<network_load_balancer> | C<quicksight> | C<transit_gateway> |
+C<trunk> | C<vpc_endpoint>).
 
 =item *
 
@@ -174,12 +180,19 @@ C<network-interface-id> - The ID of the network interface.
 
 =item *
 
-C<owner-id> - The account ID of the network interface owner.
+C<operator.managed> - A Boolean that indicates whether this is a
+managed network interface.
 
 =item *
 
-C<private-ip-address> - The private IPv4 address or addresses of the
-network interface.
+C<operator.principal> - The principal that manages the network
+interface. Only valid for managed network interfaces, where C<managed>
+is C<true>.
+
+=item *
+
+C<owner-id> - The Amazon Web Services account ID of the network
+interface owner.
 
 =item *
 
@@ -188,14 +201,19 @@ C<private-dns-name> - The private DNS name of the network interface
 
 =item *
 
-C<requester-id> - The alias or account ID of the principal or service
-that created the network interface.
+C<private-ip-address> - The private IPv4 address or addresses of the
+network interface.
+
+=item *
+
+C<requester-id> - The alias or Amazon Web Services account ID of the
+principal or service that created the network interface.
 
 =item *
 
 C<requester-managed> - Indicates whether the network interface is being
-managed by an Amazon Web Service (for example, Management Console, Auto
-Scaling, and so on).
+managed by an Amazon Web Services service (for example, Amazon Web
+Services Management Console, Auto Scaling, and so on).
 
 =item *
 
@@ -241,16 +259,17 @@ C<vpc-id> - The ID of the VPC for the network interface.
 
 =head2 MaxResults => Int
 
-The maximum number of items to return for this request. The request
-returns a token that you can specify in a subsequent call to get the
-next set of results. You cannot specify this parameter and the network
-interface IDs parameter in the same request.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. You cannot specify this parameter and the network interface IDs
+parameter in the same request. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NetworkInterfaceIds => ArrayRef[Str|Undef]
 
-One or more network interface IDs.
+The network interface IDs.
 
 Default: Describes all your network interfaces.
 
@@ -258,7 +277,8 @@ Default: Describes all your network interfaces.
 
 =head2 NextToken => Str
 
-The token to retrieve the next page of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

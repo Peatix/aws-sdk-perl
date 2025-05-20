@@ -1,0 +1,92 @@
+
+package Paws::NeptuneGraph::CreatePrivateGraphEndpoint;
+  use Moose;
+  has GraphIdentifier => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'graphIdentifier', required => 1);
+  has SubnetIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'subnetIds');
+  has VpcId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'vpcId');
+  has VpcSecurityGroupIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'vpcSecurityGroupIds');
+
+  use MooseX::ClassAttribute;
+
+  class_has _api_call => (isa => 'Str', is => 'ro', default => 'CreatePrivateGraphEndpoint');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/graphs/{graphIdentifier}/endpoints/');
+  class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
+  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::NeptuneGraph::CreatePrivateGraphEndpointOutput');
+1;
+
+### main pod documentation begin ###
+
+=head1 NAME
+
+Paws::NeptuneGraph::CreatePrivateGraphEndpoint - Arguments for method CreatePrivateGraphEndpoint on L<Paws::NeptuneGraph>
+
+=head1 DESCRIPTION
+
+This class represents the parameters used for calling the method CreatePrivateGraphEndpoint on the
+L<Amazon Neptune Graph|Paws::NeptuneGraph> service. Use the attributes of this class
+as arguments to method CreatePrivateGraphEndpoint.
+
+You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to CreatePrivateGraphEndpoint.
+
+=head1 SYNOPSIS
+
+    my $neptune-graph = Paws->service('NeptuneGraph');
+    my $CreatePrivateGraphEndpointOutput =
+      $neptune -graph->CreatePrivateGraphEndpoint(
+      GraphIdentifier     => 'MyGraphIdentifier',
+      SubnetIds           => [ 'MySubnetId', ... ],           # OPTIONAL
+      VpcId               => 'MyVpcId',                       # OPTIONAL
+      VpcSecurityGroupIds => [ 'MySecurityGroupId', ... ],    # OPTIONAL
+      );
+
+    # Results:
+    my $Status        = $CreatePrivateGraphEndpointOutput->Status;
+    my $SubnetIds     = $CreatePrivateGraphEndpointOutput->SubnetIds;
+    my $VpcEndpointId = $CreatePrivateGraphEndpointOutput->VpcEndpointId;
+    my $VpcId         = $CreatePrivateGraphEndpointOutput->VpcId;
+
+    # Returns a L<Paws::NeptuneGraph::CreatePrivateGraphEndpointOutput> object.
+
+Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
+For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/neptune-graph/CreatePrivateGraphEndpoint>
+
+=head1 ATTRIBUTES
+
+
+=head2 B<REQUIRED> GraphIdentifier => Str
+
+The unique identifier of the Neptune Analytics graph.
+
+
+
+=head2 SubnetIds => ArrayRef[Str|Undef]
+
+Subnets in which private graph endpoint ENIs are created.
+
+
+
+=head2 VpcId => Str
+
+The VPC in which the private graph endpoint needs to be created.
+
+
+
+=head2 VpcSecurityGroupIds => ArrayRef[Str|Undef]
+
+Security groups to be attached to the private graph endpoint..
+
+
+
+
+=head1 SEE ALSO
+
+This class forms part of L<Paws>, documenting arguments for method CreatePrivateGraphEndpoint in L<Paws::NeptuneGraph>
+
+=head1 BUGS and CONTRIBUTIONS
+
+The source code is located here: L<https://github.com/pplu/aws-sdk-perl>
+
+Please report bugs to: L<https://github.com/pplu/aws-sdk-perl/issues>
+
+=cut
+

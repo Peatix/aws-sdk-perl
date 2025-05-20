@@ -47,7 +47,7 @@ The name of the parameter.
 =head2 B<REQUIRED> Value => Str
 
 The value of the parameter. Amazon Redshift implicitly converts to the
-proper data type. For more inforation, see Data types
+proper data type. For more information, see Data types
 (https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html)
 in the I<Amazon Redshift Database Developer Guide>.
 

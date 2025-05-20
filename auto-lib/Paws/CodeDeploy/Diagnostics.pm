@@ -83,8 +83,8 @@ UnknownError: The specified script did not run for an unknown reason.
 
 The last portion of the diagnostic log.
 
-If available, AWS CodeDeploy returns up to the last 4 KB of the
-diagnostic log.
+If available, CodeDeploy returns up to the last 4 KB of the diagnostic
+log.
 
 
 =head2 Message => Str

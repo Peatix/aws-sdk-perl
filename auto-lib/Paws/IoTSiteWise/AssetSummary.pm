@@ -4,6 +4,8 @@ package Paws::IoTSiteWise::AssetSummary;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest'], required => 1);
   has AssetModelId => (is => 'ro', isa => 'Str', request_name => 'assetModelId', traits => ['NameInRequest'], required => 1);
   has CreationDate => (is => 'ro', isa => 'Str', request_name => 'creationDate', traits => ['NameInRequest'], required => 1);
+  has Description => (is => 'ro', isa => 'Str', request_name => 'description', traits => ['NameInRequest']);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
   has Hierarchies => (is => 'ro', isa => 'ArrayRef[Paws::IoTSiteWise::AssetHierarchy]', request_name => 'hierarchies', traits => ['NameInRequest'], required => 1);
   has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest'], required => 1);
   has LastUpdateDate => (is => 'ro', isa => 'Str', request_name => 'lastUpdateDate', traits => ['NameInRequest'], required => 1);
@@ -64,6 +66,19 @@ The ID of the asset model used to create this asset.
 The date the asset was created, in Unix epoch time.
 
 
+=head2 Description => Str
+
+A description for the asset.
+
+
+=head2 ExternalId => Str
+
+The external ID of the asset. For more information, see Using external
+IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
 =head2 B<REQUIRED> Hierarchies => ArrayRef[L<Paws::IoTSiteWise::AssetHierarchy>]
 
 A list of asset hierarchies that each contain a C<hierarchyId>. A
@@ -72,7 +87,7 @@ hierarchy specifies allowed parent/child asset relationships.
 
 =head2 B<REQUIRED> Id => Str
 
-The ID of the asset.
+The ID of the asset, in UUID format.
 
 
 =head2 B<REQUIRED> LastUpdateDate => Str

@@ -1,13 +1,13 @@
 
 package Paws::MediaTailor::DescribeProgram;
   use Moose;
-  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'channelName', required => 1);
-  has ProgramName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'programName', required => 1);
+  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ChannelName', required => 1);
+  has ProgramName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ProgramName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DescribeProgram');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{channelName}/program/{programName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{ChannelName}/program/{ProgramName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::DescribeProgramResponse');
 1;
@@ -38,9 +38,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $AdBreaks           = $DescribeProgramResponse->AdBreaks;
     my $Arn                = $DescribeProgramResponse->Arn;
+    my $AudienceMedia      = $DescribeProgramResponse->AudienceMedia;
     my $ChannelName        = $DescribeProgramResponse->ChannelName;
+    my $ClipRange          = $DescribeProgramResponse->ClipRange;
     my $CreationTime       = $DescribeProgramResponse->CreationTime;
+    my $DurationMillis     = $DescribeProgramResponse->DurationMillis;
+    my $LiveSourceName     = $DescribeProgramResponse->LiveSourceName;
     my $ProgramName        = $DescribeProgramResponse->ProgramName;
+    my $ScheduledStartTime = $DescribeProgramResponse->ScheduledStartTime;
     my $SourceLocationName = $DescribeProgramResponse->SourceLocationName;
     my $VodSourceName      = $DescribeProgramResponse->VodSourceName;
 
@@ -54,13 +59,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ChannelName => Str
 
-The identifier for the channel you are working on.
+The name of the channel associated with this Program.
 
 
 
 =head2 B<REQUIRED> ProgramName => Str
 
-The identifier for the program you are working on.
+The name of the program.
 
 
 

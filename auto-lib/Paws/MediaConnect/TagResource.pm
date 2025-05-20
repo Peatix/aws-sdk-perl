@@ -1,13 +1,13 @@
 
 package Paws::MediaConnect::TagResource;
   use Moose;
-  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'resourceArn', required => 1);
-  has Tags => (is => 'ro', isa => 'Paws::MediaConnect::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags', required => 1);
+  has ResourceArn => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ResourceArn', required => 1);
+  has Tags => (is => 'ro', isa => 'Paws::MediaConnect::__mapOfString', traits => ['NameInRequest'], request_name => 'tags', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'TagResource');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{resourceArn}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/tags/{ResourceArn}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'POST');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::API::Response');
 1;
@@ -30,8 +30,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mediaconnect = Paws->service('MediaConnect');
     $mediaconnect->TagResource(
-      ResourceArn => 'My__string',
-      Tags        => { 'My__string' => 'My__string', },
+      ResourceArn => 'MyString',
+      Tags        => { 'MyString' => 'MyString', },
 
     );
 
@@ -43,12 +43,12 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/med
 
 =head2 B<REQUIRED> ResourceArn => Str
 
-The Amazon Resource Name (ARN) that identifies the AWS Elemental
-MediaConnect resource to which to add tags.
+The Amazon Resource Name (ARN) that identifies the MediaConnect
+resource to which to add tags.
 
 
 
-=head2 B<REQUIRED> Tags => L<Paws::MediaConnect::__mapOf__string>
+=head2 B<REQUIRED> Tags => L<Paws::MediaConnect::__mapOfString>
 
 A map from tag keys to values. Tag keys can have a maximum character
 length of 128 characters, and tag values can have a maximum length of

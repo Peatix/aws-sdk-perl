@@ -4,6 +4,7 @@ package Paws::Glue::DeleteTable;
   has CatalogId => (is => 'ro', isa => 'Str');
   has DatabaseName => (is => 'ro', isa => 'Str', required => 1);
   has Name => (is => 'ro', isa => 'Str', required => 1);
+  has TransactionId => (is => 'ro', isa => 'Str');
 
   use MooseX::ClassAttribute;
 
@@ -30,9 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $glue = Paws->service('Glue');
     my $DeleteTableResponse = $glue->DeleteTable(
-      DatabaseName => 'MyNameString',
-      Name         => 'MyNameString',
-      CatalogId    => 'MyCatalogIdString',    # OPTIONAL
+      DatabaseName  => 'MyNameString',
+      Name          => 'MyNameString',
+      CatalogId     => 'MyCatalogIdString',        # OPTIONAL
+      TransactionId => 'MyTransactionIdString',    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
@@ -59,6 +61,12 @@ compatibility, this name is entirely lowercase.
 
 The name of the table to be deleted. For Hive compatibility, this name
 is entirely lowercase.
+
+
+
+=head2 TransactionId => Str
+
+The transaction ID at which to delete the table contents.
 
 
 

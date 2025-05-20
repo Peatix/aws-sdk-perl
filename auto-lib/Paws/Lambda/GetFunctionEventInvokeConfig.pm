@@ -55,7 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/lam
 
 =head2 B<REQUIRED> FunctionName => Str
 
-The name of the Lambda function, version, or alias.
+The name or ARN of the Lambda function, version, or alias.
 
 B<Name formats>
 

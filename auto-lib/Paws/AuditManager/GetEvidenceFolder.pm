@@ -50,19 +50,19 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/aud
 
 =head2 B<REQUIRED> AssessmentId => Str
 
-The identifier for the specified assessment.
+The unique identifier for the assessment.
 
 
 
 =head2 B<REQUIRED> ControlSetId => Str
 
-The identifier for the specified control set.
+The unique identifier for the control set.
 
 
 
 =head2 B<REQUIRED> EvidenceFolderId => Str
 
-The identifier for the folder in which the evidence is stored.
+The unique identifier for the folder that the evidence is stored in.
 
 
 

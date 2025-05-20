@@ -3,6 +3,8 @@ package Paws::IoTSiteWise::AssetModelPropertyDefinition;
   use Moose;
   has DataType => (is => 'ro', isa => 'Str', request_name => 'dataType', traits => ['NameInRequest'], required => 1);
   has DataTypeSpec => (is => 'ro', isa => 'Str', request_name => 'dataTypeSpec', traits => ['NameInRequest']);
+  has ExternalId => (is => 'ro', isa => 'Str', request_name => 'externalId', traits => ['NameInRequest']);
+  has Id => (is => 'ro', isa => 'Str', request_name => 'id', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest'], required => 1);
   has Type => (is => 'ro', isa => 'Paws::IoTSiteWise::PropertyType', request_name => 'type', traits => ['NameInRequest'], required => 1);
   has Unit => (is => 'ro', isa => 'Str', request_name => 'unit', traits => ['NameInRequest']);
@@ -59,6 +61,24 @@ required on properties that have the C<STRUCT> data type.
 The options for this parameter depend on the type of the composite
 model in which you define this property. Use C<AWS/ALARM_STATE> for
 alarm state in alarm composite models.
+
+
+=head2 ExternalId => Str
+
+An external ID to assign to the property definition. The external ID
+must be unique among property definitions within this asset model. For
+more information, see Using external IDs
+(https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids)
+in the I<IoT SiteWise User Guide>.
+
+
+=head2 Id => Str
+
+The ID to assign to the asset model property, if desired. IoT SiteWise
+automatically generates a unique ID for you, so this parameter is never
+required. However, if you prefer to supply your own ID instead, you can
+specify it here in UUID format. If you specify your own ID, it must be
+globally unique.
 
 
 =head2 B<REQUIRED> Name => Str

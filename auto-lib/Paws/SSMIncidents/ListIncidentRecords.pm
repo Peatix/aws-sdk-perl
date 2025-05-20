@@ -67,8 +67,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 
 =head2 Filters => ArrayRef[L<Paws::SSMIncidents::Filter>]
 
-Filter the list of incident records you are searching through. You can
-filter on the following keys:
+Filters the list of incident records you want to search through. You
+can filter on the following keys:
 
 =over
 
@@ -90,6 +90,27 @@ C<createdBy>
 
 =back
 
+Note the following when when you use Filters:
+
+=over
+
+=item *
+
+If you don't specify a Filter, the response includes all incident
+records.
+
+=item *
+
+If you specify more than one filter in a single request, the response
+returns incident records that match all filters.
+
+=item *
+
+If you specify a filter with more than one value, the response returns
+incident records that match any of the values provided.
+
+=back
+
 
 
 
@@ -101,7 +122,8 @@ The maximum number of results per page.
 
 =head2 NextToken => Str
 
-The pagination token to continue to the next page of results.
+The pagination token for the next set of items to return. (You received
+this token from a previous call.)
 
 
 

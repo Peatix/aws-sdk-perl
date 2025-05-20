@@ -1,7 +1,7 @@
 
 package Paws::HealthLake::StartFHIRExportJob;
   use Moose;
-  has ClientToken => (is => 'ro', isa => 'Str', required => 1);
+  has ClientToken => (is => 'ro', isa => 'Str');
   has DataAccessRoleArn => (is => 'ro', isa => 'Str', required => 1);
   has DatastoreId => (is => 'ro', isa => 'Str', required => 1);
   has JobName => (is => 'ro', isa => 'Str');
@@ -32,13 +32,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $healthlake = Paws->service('HealthLake');
     my $StartFHIRExportJobResponse = $healthlake->StartFHIRExportJob(
-      ClientToken       => 'MyClientTokenString',
       DataAccessRoleArn => 'MyIamRoleArn',
       DatastoreId       => 'MyDatastoreId',
       OutputDataConfig  => {
-        S3Uri => 'MyS3Uri',    # max: 1024; OPTIONAL
+        S3Configuration => {
+          KmsKeyId => 'MyEncryptionKeyID',    # min: 1, max: 400
+          S3Uri    => 'MyS3Uri',              # max: 1024
+
+        },    # OPTIONAL
       },
-      JobName => 'MyJobName',    # OPTIONAL
+      ClientToken => 'MyClientTokenString',    # OPTIONAL
+      JobName     => 'MyJobName',              # OPTIONAL
     );
 
     # Results:
@@ -54,7 +58,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/hea
 =head1 ATTRIBUTES
 
 
-=head2 B<REQUIRED> ClientToken => Str
+=head2 ClientToken => Str
 
 An optional user provided token used for ensuring idempotency.
 
@@ -68,7 +72,7 @@ The Amazon Resource Name used during the initiation of the job.
 
 =head2 B<REQUIRED> DatastoreId => Str
 
-The AWS generated ID for the Data Store from which files are being
+The AWS generated ID for the data store from which files are being
 exported for an export job.
 
 

@@ -132,13 +132,15 @@ C<volume-id> - The ID of the volume.
 =head2 MaxResults => Int
 
 The maximum number of results (up to a limit of 500) to be returned in
-a paginated request.
+a paginated request. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The C<nextToken> value returned by a previous paginated request.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

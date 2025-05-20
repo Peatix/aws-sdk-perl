@@ -17,7 +17,7 @@ Paws::AuditManager::GetServicesInScopeResponse
 
 =head2 ServiceMetadata => ArrayRef[L<Paws::AuditManager::ServiceMetadata>]
 
-The metadata associated with the aAWS service.
+The metadata that's associated with the Amazon Web Service.
 
 
 =head2 _request_id => Str

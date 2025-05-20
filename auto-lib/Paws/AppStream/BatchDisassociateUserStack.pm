@@ -31,10 +31,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $appstream2->BatchDisassociateUserStack(
       UserStackAssociations => [
         {
-          AuthenticationType    => 'API',          # values: API, SAML, USERPOOL
-          StackName             => 'MyString',     # min: 1
-          UserName              => 'MyUsername',   # min: 1, max: 128
-          SendEmailNotification => 1,              # OPTIONAL
+          AuthenticationType    => 'API',  # values: API, SAML, USERPOOL, AWS_AD
+          StackName             => 'MyString',      # min: 1
+          UserName              => 'MyUsername',    # min: 1, max: 128
+          SendEmailNotification => 1,               # OPTIONAL
         },
         ...
       ],

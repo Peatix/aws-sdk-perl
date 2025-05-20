@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Macie2::Ser
 
 =head1 DESCRIPTION
 
-Provides information about the server-side encryption settings for an
-S3 bucket or S3 object.
+Provides information about the default server-side encryption settings
+for an S3 bucket or the encryption settings for an S3 object.
 
 =head1 ATTRIBUTES
 
@@ -43,17 +43,16 @@ S3 bucket or S3 object.
 =head2 EncryptionType => Str
 
 The server-side encryption algorithm that's used when storing data in
-the bucket or object. If default encryption is disabled for the bucket
-or the object isn't encrypted using server-side encryption, this value
-is NONE.
+the bucket or object. If default encryption settings aren't configured
+for the bucket or the object isn't encrypted using server-side
+encryption, this value is NONE.
 
 
 =head2 KmsMasterKeyId => Str
 
 The Amazon Resource Name (ARN) or unique identifier (key ID) for the
-Key Management Service (KMS) customer master key (CMK) that's used to
-encrypt data in the bucket or the object. If an KMS CMK isn't used,
-this value is null.
+KMS key that's used to encrypt data in the bucket or the object. This
+value is null if an KMS key isn't used to encrypt the data.
 
 
 

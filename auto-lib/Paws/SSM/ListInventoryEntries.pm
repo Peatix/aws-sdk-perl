@@ -72,7 +72,7 @@ results.
 
 =head2 B<REQUIRED> InstanceId => Str
 
-The instance ID for which you want inventory information.
+The managed node ID for which you want inventory information.
 
 
 

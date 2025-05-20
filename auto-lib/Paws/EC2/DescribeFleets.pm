@@ -107,22 +107,26 @@ C<type> - The type of request (C<instant> | C<request> | C<maintain>).
 
 =head2 FleetIds => ArrayRef[Str|Undef]
 
-The ID of the EC2 Fleets.
+The IDs of the EC2 Fleets.
+
+If a fleet is of type C<instant>, you must specify the fleet ID,
+otherwise it does not appear in the response.
 
 
 
 =head2 MaxResults => Int
 
-The maximum number of results to return in a single call. Specify a
-value between 1 and 1000. The default value is 1000. To retrieve the
-remaining results, make another call with the returned C<NextToken>
-value.
+The maximum number of items to return for this request. To get the next
+page of items, make another request with the token returned in the
+output. For more information, see Pagination
+(https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
 
 
 
 =head2 NextToken => Str
 
-The token for the next set of results.
+The token returned from a previous paginated request. Pagination
+continues from the end of the items returned by the previous request.
 
 
 

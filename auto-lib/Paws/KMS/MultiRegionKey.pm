@@ -46,8 +46,8 @@ Displays the key ARN of a primary or replica key of a multi-Region key.
 
 =head2 Region => Str
 
-Displays the AWS Region of a primary or replica key in a multi-Region
-key.
+Displays the Amazon Web Services Region of a primary or replica key in
+a multi-Region key.
 
 
 

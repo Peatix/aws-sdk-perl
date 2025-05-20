@@ -22,7 +22,7 @@ Paws::ECR::CompleteLayerUpload - Arguments for method CompleteLayerUpload on L<P
 =head1 DESCRIPTION
 
 This class represents the parameters used for calling the method CompleteLayerUpload on the
-L<Amazon EC2 Container Registry|Paws::ECR> service. Use the attributes of this class
+L<Amazon Elastic Container Registry|Paws::ECR> service. Use the attributes of this class
 as arguments to method CompleteLayerUpload.
 
 You shouldn't make instances of this class. Each attribute should be used as a named argument in the call to CompleteLayerUpload.
@@ -59,9 +59,9 @@ The C<sha256> digest of the image layer.
 
 =head2 RegistryId => Str
 
-The AWS account ID associated with the registry to which to upload
-layers. If you do not specify a registry, the default registry is
-assumed.
+The Amazon Web Services account ID associated with the registry to
+which to upload layers. If you do not specify a registry, the default
+registry is assumed.
 
 
 

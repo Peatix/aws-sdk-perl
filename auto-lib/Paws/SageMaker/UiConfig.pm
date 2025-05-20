@@ -35,7 +35,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::
 =head1 DESCRIPTION
 
 Provided configuration information for the worker UI for a labeling
-job.
+job. Provide either C<HumanTaskUiArn> or C<UiTemplateS3Uri>.
+
+For named entity recognition, 3D point cloud and video frame labeling
+jobs, use C<HumanTaskUiArn>.
+
+For all other Ground Truth built-in task types and custom task types,
+use C<UiTemplateS3Uri> to specify the location of a worker task
+template in Amazon S3.
 
 =head1 ATTRIBUTES
 
@@ -45,11 +52,20 @@ job.
 The ARN of the worker task template used to render the worker UI and
 tools for labeling job tasks.
 
-Use this parameter when you are creating a labeling job for 3D point
-cloud and video fram labeling jobs. Use your labeling job task type to
-select one of the following ARNs and use it with this parameter when
-you create a labeling job. Replace C<aws-region> with the Amazon Web
-Services region you are creating your labeling job in.
+Use this parameter when you are creating a labeling job for named
+entity recognition, 3D point cloud and video frame labeling jobs. Use
+your labeling job task type to select one of the following ARNs and use
+it with this parameter when you create a labeling job. Replace
+C<aws-region> with the Amazon Web Services Region you are creating your
+labeling job in. For example, replace C<aws-region> with C<us-west-1>
+if you create a labeling job in US West (N. California).
+
+B<Named Entity Recognition>
+
+Use the following C<HumanTaskUiArn> for named entity recognition
+labeling jobs:
+
+C<arn:aws:sagemaker:aws-region:394669845002:human-task-ui/NamedEntityRecognition>
 
 B<3D Point Cloud HumanTaskUiArns>
 

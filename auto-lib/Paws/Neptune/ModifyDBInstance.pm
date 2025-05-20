@@ -102,7 +102,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       PubliclyAccessible              => 1,                      # OPTIONAL
       StorageType                     => 'MyString',             # OPTIONAL
       TdeCredentialArn                => 'MyString',             # OPTIONAL
-      TdeCredentialPassword           => 'MyString',             # OPTIONAL
+      TdeCredentialPassword           => 'MySensitiveString',    # OPTIONAL
       VpcSecurityGroupIds             => [ 'MyString', ... ],    # OPTIONAL
     );
 
@@ -192,7 +192,7 @@ instance, and otherwise false. The default is false.
 =head2 DBInstanceClass => Str
 
 The new compute and memory capacity of the DB instance, for example,
-C<db.m4.large>. Not all DB instance classes are available in all AWS
+C<db.m4.large>. Not all DB instance classes are available in all Amazon
 Regions.
 
 If you modify the DB instance class, an outage occurs during the
@@ -511,7 +511,8 @@ This flag should no longer be used.
 
 =head2 StorageType => Str
 
-Not supported.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 

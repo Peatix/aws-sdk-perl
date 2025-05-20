@@ -6,6 +6,7 @@ package Paws::EC2::LaunchTemplateEbsBlockDeviceRequest;
   has KmsKeyId => (is => 'ro', isa => 'Str');
   has SnapshotId => (is => 'ro', isa => 'Str');
   has Throughput => (is => 'ro', isa => 'Int');
+  has VolumeInitializationRate => (is => 'ro', isa => 'Int');
   has VolumeSize => (is => 'ro', isa => 'Int');
   has VolumeType => (is => 'ro', isa => 'Str');
 1;
@@ -70,32 +71,31 @@ The following are the supported values for each volume type:
 
 =item *
 
-C<gp3>: 3,000-16,000 IOPS
+C<gp3>: 3,000 - 16,000 IOPS
 
 =item *
 
-C<io1>: 100-64,000 IOPS
+C<io1>: 100 - 64,000 IOPS
 
 =item *
 
-C<io2>: 100-64,000 IOPS
+C<io2>: 100 - 256,000 IOPS
 
 =back
 
-For C<io1> and C<io2> volumes, we guarantee 64,000 IOPS only for
-Instances built on the Nitro System
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances).
-Other instance families guarantee performance up to 32,000 IOPS.
+For C<io2> volumes, you can achieve up to 256,000 IOPS on instances
+built on the Nitro System
+(https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html).
+On other instances, you can achieve performance up to 32,000 IOPS.
 
 This parameter is supported for C<io1>, C<io2>, and C<gp3> volumes
-only. This parameter is not supported for C<gp2>, C<st1>, C<sc1>, or
-C<standard> volumes.
+only.
 
 
 =head2 KmsKeyId => Str
 
-The ARN of the symmetric AWS Key Management Service (AWS KMS) CMK used
-for encryption.
+Identifier (key ID, key alias, key ARN, or alias ARN) of the customer
+managed KMS key to use for EBS encryption.
 
 
 =head2 SnapshotId => Str
@@ -111,6 +111,43 @@ The throughput to provision for a C<gp3> volume, with a maximum of
 Valid Range: Minimum value of 125. Maximum value of 1000.
 
 
+=head2 VolumeInitializationRate => Int
+
+Specifies the Amazon EBS Provisioned Rate for Volume Initialization
+(volume initialization rate), in MiB/s, at which to download the
+snapshot blocks from Amazon S3 to the volume. This is also known as
+I<volume initialization>. Specifying a volume initialization rate
+ensures that the volume is initialized at a predictable and consistent
+rate after creation.
+
+This parameter is supported only for volumes created from snapshots.
+Omit this parameter if:
+
+=over
+
+=item *
+
+You want to create the volume using fast snapshot restore. You must
+specify a snapshot that is enabled for fast snapshot restore. In this
+case, the volume is fully initialized at creation.
+
+If you specify a snapshot that is enabled for fast snapshot restore and
+a volume initialization rate, the volume will be initialized at the
+specified rate instead of fast snapshot restore.
+
+=item *
+
+You want to create a volume that is initialized at the default rate.
+
+=back
+
+For more information, see Initialize Amazon EBS volumes
+(https://docs.aws.amazon.com/ebs/latest/userguide/initalize-volume.html)
+in the I<Amazon EC2 User Guide>.
+
+Valid range: 100 - 300 MiB/s
+
+
 =head2 VolumeSize => Int
 
 The size of the volume, in GiBs. You must specify either a snapshot ID
@@ -121,19 +158,23 @@ each volume type:
 
 =item *
 
-C<gp2> and C<gp3>: 1-16,384
+C<gp2> and C<gp3>: 1 - 16,384 GiB
 
 =item *
 
-C<io1> and C<io2>: 4-16,384
+C<io1>: 4 - 16,384 GiB
 
 =item *
 
-C<st1> and C<sc1>: 125-16,384
+C<io2>: 4 - 65,536 GiB
 
 =item *
 
-C<standard>: 1-1,024
+C<st1> and C<sc1>: 125 - 16,384 GiB
+
+=item *
+
+C<standard>: 1 - 1024 GiB
 
 =back
 
@@ -142,8 +183,8 @@ C<standard>: 1-1,024
 =head2 VolumeType => Str
 
 The volume type. For more information, see Amazon EBS volume types
-(https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html)
-in the I<Amazon Elastic Compute Cloud User Guide>.
+(https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html)
+in the I<Amazon EBS User Guide>.
 
 
 

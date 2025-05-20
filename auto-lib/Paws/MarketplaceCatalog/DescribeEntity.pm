@@ -37,6 +37,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $Details          = $DescribeEntityResponse->Details;
+    my $DetailsDocument  = $DescribeEntityResponse->DetailsDocument;
     my $EntityArn        = $DescribeEntityResponse->EntityArn;
     my $EntityIdentifier = $DescribeEntityResponse->EntityIdentifier;
     my $EntityType       = $DescribeEntityResponse->EntityType;

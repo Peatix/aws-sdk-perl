@@ -45,7 +45,7 @@ Docker container image configuration object for the model bias job.
 JSON formatted S3 file that defines bias parameters. For more
 information on this JSON configuration file, see Configure bias
 parameters
-(https://docs.aws.amazon.com/sagemaker/latest/json-bias-parameter-config.html).
+(https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-config-json-monitor-bias-parameters.html).
 
 
 =head2 Environment => L<Paws::SageMaker::MonitoringEnvironmentMap>

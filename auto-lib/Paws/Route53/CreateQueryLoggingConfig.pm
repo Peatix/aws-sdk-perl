@@ -64,7 +64,8 @@ DescribeLogGroups
 (https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html)
 API action, the describe-log-groups
 (https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html)
-command, or the applicable command in one of the AWS SDKs.
+command, or the applicable command in one of the Amazon Web Services
+SDKs.
 
 
 

@@ -89,8 +89,8 @@ created.
 
 =head2 B<REQUIRED> VirtualMFADeviceName => Str
 
-The name of the virtual MFA device. Use with path to uniquely identify
-a virtual MFA device.
+The name of the virtual MFA device, which must be unique. Use with path
+to uniquely identify a virtual MFA device.
 
 This parameter allows (through its regex pattern
 (http://wikipedia.org/wiki/regex)) a string of characters consisting of

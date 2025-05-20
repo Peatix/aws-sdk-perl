@@ -2,6 +2,7 @@
 package Paws::CustomerProfiles::ListIntegrations;
   use Moose;
   has DomainName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'DomainName', required => 1);
+  has IncludeHidden => (is => 'ro', isa => 'Bool', traits => ['ParamInQuery'], query_name => 'include-hidden');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'max-results');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next-token');
 
@@ -31,9 +32,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $profile = Paws->service('CustomerProfiles');
     my $ListIntegrationsResponse = $profile->ListIntegrations(
-      DomainName => 'Myname',
-      MaxResults => 1,            # OPTIONAL
-      NextToken  => 'Mytoken',    # OPTIONAL
+      DomainName    => 'Myname',
+      IncludeHidden => 1,            # OPTIONAL
+      MaxResults    => 1,            # OPTIONAL
+      NextToken     => 'Mytoken',    # OPTIONAL
     );
 
     # Results:
@@ -51,6 +53,13 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/pro
 =head2 B<REQUIRED> DomainName => Str
 
 The unique name of the domain.
+
+
+
+=head2 IncludeHidden => Bool
+
+Boolean to indicate if hidden integration should be returned. Defaults
+to C<False>.
 
 
 

@@ -1,6 +1,7 @@
 
 package Paws::CloudWatchLogs::PutMetricFilter;
   use Moose;
+  has ApplyOnTransformedLogs => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'applyOnTransformedLogs' );
   has FilterName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterName' , required => 1);
   has FilterPattern => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'filterPattern' , required => 1);
   has LogGroupName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'logGroupName' , required => 1);
@@ -49,13 +50,27 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },
         ...
       ],
-
+      ApplyOnTransformedLogs => 1,    # OPTIONAL
     );
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/logs/PutMetricFilter>
 
 =head1 ATTRIBUTES
+
+
+=head2 ApplyOnTransformedLogs => Bool
+
+This parameter is valid only for log groups that have an active log
+transformer. For more information about log transformers, see
+PutTransformer
+(https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html).
+
+If the log group uses either a log-group level or account-level
+transformer, and you specify C<true>, the metric filter will be applied
+on the transformed version of the log events instead of the original
+ingested log events.
+
 
 
 =head2 B<REQUIRED> FilterName => Str

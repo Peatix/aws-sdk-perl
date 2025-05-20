@@ -43,72 +43,102 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Transcribe:
 
 =head1 DESCRIPTION
 
-Provides summary information about a transcription job.
+Provides detailed information about a specific medical transcription
+job.
 
 =head1 ATTRIBUTES
 
 
 =head2 CompletionTime => Str
 
-A timestamp that shows when the job was completed.
+The date and time the specified medical transcription job finished
+processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:33:13.922000-07:00> represents a transcription
+job that started processing at 12:33 PM UTC-7 on May 4, 2022.
 
 
 =head2 ContentIdentificationType => Str
 
-Shows the type of information you've configured Amazon Transcribe
-Medical to identify in a transcription job. If the value is C<PHI>,
-you've configured the transcription job to identify personal health
-information (PHI).
+Labels all personal health information (PHI) identified in your
+transcript. For more information, see Identifying personal health
+information (PHI) in a transcription
+(https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
 
 
 =head2 CreationTime => Str
 
-A timestamp that shows when the medical transcription job was created.
+The date and time the specified medical transcription job request was
+made.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.761000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
 
 
 =head2 FailureReason => Str
 
-If the C<TranscriptionJobStatus> field is C<FAILED>, a description of
-the error.
+If C<TranscriptionJobStatus> is C<FAILED>, C<FailureReason> contains
+information about why the transcription job failed. See also: Common
+Errors
+(https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html).
 
 
 =head2 LanguageCode => Str
 
-The language of the transcript in the source audio file.
+The language code used to create your medical transcription. US English
+(C<en-US>) is the only supported language for medical transcriptions.
 
 
 =head2 MedicalTranscriptionJobName => Str
 
-The name of a medical transcription job.
+The name of the medical transcription job. Job names are case sensitive
+and must be unique within an Amazon Web Services account.
 
 
 =head2 OutputLocationType => Str
 
-Indicates the location of the transcription job's output.
+Indicates where the specified medical transcription output is stored.
 
-The C<CUSTOMER_BUCKET> is the S3 location provided in the
-C<OutputBucketName> field when the
+If the value is C<CUSTOMER_BUCKET>, the location is the Amazon S3
+bucket you specified using the C<OutputBucketName> parameter in your
+request. If you also included C<OutputKey> in your request, your output
+is located in the path you specified in your request.
+
+If the value is C<SERVICE_BUCKET>, the location is a service-managed
+Amazon S3 bucket. To access a transcript stored in a service-managed
+bucket, use the URI shown in the C<TranscriptFileUri> field.
 
 
 =head2 Specialty => Str
 
-The medical specialty of the transcription job. C<Primary care> is the
-only valid value.
+Provides the medical specialty represented in your media.
 
 
 =head2 StartTime => Str
 
-A timestamp that shows when the job began processing.
+The date and time your medical transcription job began processing.
+
+Timestamps are in the format C<YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC>. For
+example, C<2022-05-04T12:32:58.789000-07:00> represents a transcription
+job that started processing at 12:32 PM UTC-7 on May 4, 2022.
 
 
 =head2 TranscriptionJobStatus => Str
 
-The status of the medical transcription job.
+Provides the status of your medical transcription job.
+
+If the status is C<COMPLETED>, the job is finished and you can find the
+results at the location specified in C<TranscriptFileUri>. If the
+status is C<FAILED>, C<FailureReason> provides details on why your
+transcription job failed.
 
 
 =head2 Type => Str
 
-The speech of the clinician in the input audio.
+Indicates whether the input media is a dictation or a conversation, as
+specified in the C<StartMedicalTranscriptionJob> request.
 
 
 

@@ -5,6 +5,7 @@ package Paws::SSM::CreatePatchBaseline;
   has ApprovedPatches => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has ApprovedPatchesComplianceLevel => (is => 'ro', isa => 'Str');
   has ApprovedPatchesEnableNonSecurity => (is => 'ro', isa => 'Bool');
+  has AvailableSecurityUpdatesComplianceStatus => (is => 'ro', isa => 'Str');
   has ClientToken => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
   has GlobalFilters => (is => 'ro', isa => 'Paws::SSM::PatchFilterGroup');
@@ -72,11 +73,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ApprovedPatches => [
         'MyPatchId', ...    # min: 1, max: 100
       ],    # OPTIONAL
-      ApprovedPatchesComplianceLevel   => 'CRITICAL',                 # OPTIONAL
-      ApprovedPatchesEnableNonSecurity => 1,                          # OPTIONAL
-      ClientToken                      => 'MyClientToken',            # OPTIONAL
-      Description                      => 'MyBaselineDescription',    # OPTIONAL
-      GlobalFilters                    => {
+      ApprovedPatchesComplianceLevel           => 'CRITICAL',         # OPTIONAL
+      ApprovedPatchesEnableNonSecurity         => 1,                  # OPTIONAL
+      AvailableSecurityUpdatesComplianceStatus => 'COMPLIANT',        # OPTIONAL
+      ClientToken                              => 'MyClientToken',    # OPTIONAL
+      Description   => 'MyBaselineDescription',                       # OPTIONAL
+      GlobalFilters => {
         PatchFilters => [
           {
             Key => 'ARCH'
@@ -109,7 +111,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
-          Value => 'MyTagValue',    # min: 1, max: 256
+          Value => 'MyTagValue',    # max: 256
 
         },
         ...
@@ -138,10 +140,10 @@ A set of rules used to include patches in the baseline.
 A list of explicitly approved patches for the baseline.
 
 For information about accepted formats for lists of approved patches
-and rejected patches, see About package name formats for approved and
+and rejected patches, see Package name formats for approved and
 rejected patch lists
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
@@ -149,17 +151,34 @@ in the I<AWS Systems Manager User Guide>.
 
 Defines the compliance level for approved patches. When an approved
 patch is reported as missing, this value describes the severity of the
-compliance violation. The default value is UNSPECIFIED.
+compliance violation. The default value is C<UNSPECIFIED>.
 
 Valid values are: C<"CRITICAL">, C<"HIGH">, C<"MEDIUM">, C<"LOW">, C<"INFORMATIONAL">, C<"UNSPECIFIED">
 
 =head2 ApprovedPatchesEnableNonSecurity => Bool
 
 Indicates whether the list of approved patches includes non-security
-updates that should be applied to the instances. The default value is
-'false'. Applies to Linux instances only.
+updates that should be applied to the managed nodes. The default value
+is C<false>. Applies to Linux managed nodes only.
 
 
+
+=head2 AvailableSecurityUpdatesComplianceStatus => Str
+
+Indicates the status you want to assign to security patches that are
+available but not approved because they don't meet the installation
+criteria specified in the patch baseline.
+
+Example scenario: Security patches that you might want installed can be
+skipped if you have specified a long period to wait after a patch is
+released before installation. If an update to the patch is released
+during your specified waiting period, the waiting period for installing
+the patch starts over. If the waiting period is too long, multiple
+versions of the patch could be released but never installed.
+
+Supported for Windows Server managed nodes only.
+
+Valid values are: C<"COMPLIANT">, C<"NON_COMPLIANT">
 
 =head2 ClientToken => Str
 
@@ -177,6 +196,10 @@ A description of the patch baseline.
 
 A set of global filters used to include patches in the baseline.
 
+The C<GlobalFilters> parameter can be configured only by using the CLI
+or an Amazon Web Services SDK. It can't be configured from the Patch
+Manager console, and its value isn't displayed in the console.
+
 
 
 =head2 B<REQUIRED> Name => Str
@@ -187,45 +210,52 @@ The name of the patch baseline.
 
 =head2 OperatingSystem => Str
 
-Defines the operating system the patch baseline applies to. The Default
-value is WINDOWS.
+Defines the operating system the patch baseline applies to. The default
+value is C<WINDOWS>.
 
-Valid values are: C<"WINDOWS">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"UBUNTU">, C<"REDHAT_ENTERPRISE_LINUX">, C<"SUSE">, C<"CENTOS">, C<"ORACLE_LINUX">, C<"DEBIAN">, C<"MACOS">
+Valid values are: C<"WINDOWS">, C<"AMAZON_LINUX">, C<"AMAZON_LINUX_2">, C<"AMAZON_LINUX_2022">, C<"UBUNTU">, C<"REDHAT_ENTERPRISE_LINUX">, C<"SUSE">, C<"CENTOS">, C<"ORACLE_LINUX">, C<"DEBIAN">, C<"MACOS">, C<"RASPBIAN">, C<"ROCKY_LINUX">, C<"ALMA_LINUX">, C<"AMAZON_LINUX_2023">
 
 =head2 RejectedPatches => ArrayRef[Str|Undef]
 
 A list of explicitly rejected patches for the baseline.
 
 For information about accepted formats for lists of approved patches
-and rejected patches, see About package name formats for approved and
+and rejected patches, see Package name formats for approved and
 rejected patch lists
 (https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
-in the I<AWS Systems Manager User Guide>.
+in the I<Amazon Web Services Systems Manager User Guide>.
 
 
 
 =head2 RejectedPatchesAction => Str
 
 The action for Patch Manager to take on patches included in the
-RejectedPackages list.
+C<RejectedPackages> list.
 
 =over
 
-=item *
+=item ALLOW_AS_DEPENDENCY
 
-B<ALLOW_AS_DEPENDENCY>: A package in the Rejected patches list is
-installed only if it is a dependency of another package. It is
-considered compliant with the patch baseline, and its status is
-reported as I<InstalledOther>. This is the default action if no option
-is specified.
+B<Linux and macOS>: A package in the rejected patches list is installed
+only if it is a dependency of another package. It is considered
+compliant with the patch baseline, and its status is reported as
+C<INSTALLED_OTHER>. This is the default action if no option is
+specified.
 
-=item *
+B<Windows Server>: Windows Server doesn't support the concept of
+package dependencies. If a package in the rejected patches list and
+already installed on the node, its status is reported as
+C<INSTALLED_OTHER>. Any package not already installed on the node is
+skipped. This is the default action if no option is specified.
 
-B<BLOCK>: Packages in the RejectedPatches list, and packages that
-include them as dependencies, are not installed under any
-circumstances. If a package was installed before it was added to the
-Rejected patches list, it is considered non-compliant with the patch
-baseline, and its status is reported as I<InstalledRejected>.
+=item BLOCK
+
+B<All OSs>: Packages in the rejected patches list, and packages that
+include them as dependencies, aren't installed by Patch Manager under
+any circumstances. If a package was installed before it was added to
+the rejected patches list, or is installed outside of Patch Manager
+afterward, it's considered noncompliant with the patch baseline and its
+status is reported as C<INSTALLED_REJECTED>.
 
 =back
 
@@ -234,9 +264,9 @@ Valid values are: C<"ALLOW_AS_DEPENDENCY">, C<"BLOCK">
 
 =head2 Sources => ArrayRef[L<Paws::SSM::PatchSource>]
 
-Information about the patches to use to update the instances, including
-target operating systems and source repositories. Applies to Linux
-instances only.
+Information about the patches to use to update the managed nodes,
+including target operating systems and source repositories. Applies to
+Linux managed nodes only.
 
 
 
@@ -247,7 +277,7 @@ categorize a resource in different ways, such as by purpose, owner, or
 environment. For example, you might want to tag a patch baseline to
 identify the severity level of patches it specifies and the operating
 system family it applies to. In this case, you could specify the
-following key name/value pairs:
+following key-value pairs:
 
 =over
 
@@ -262,7 +292,7 @@ C<Key=OS,Value=Windows>
 =back
 
 To add tags to an existing patch baseline, use the AddTagsToResource
-action.
+operation.
 
 
 

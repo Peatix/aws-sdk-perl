@@ -35,50 +35,80 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::System
 =head1 DESCRIPTION
 
 A list of namespaced kernel parameters to set in the container. This
-parameter maps to C<Sysctls> in the Create a container
-(https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate)
-section of the Docker Remote API
-(https://docs.docker.com/engine/api/v1.35/) and the C<--sysctl> option
-to docker run
-(https://docs.docker.com/engine/reference/run/#security-configuration).
+parameter maps to C<Sysctls> in the docker container create command and
+the C<--sysctl> option to docker run. For example, you can configure
+C<net.ipv4.tcp_keepalive_time> setting to maintain longer lived
+connections.
 
-It is not recommended that you specify network-related
-C<systemControls> parameters for multiple containers in a single task
-that also uses either the C<awsvpc> or C<host> network mode for the
-following reasons:
+We don't recommend that you specify network-related C<systemControls>
+parameters for multiple containers in a single task that also uses
+either the C<awsvpc> or C<host> network mode. Doing this has the
+following disadvantages:
 
 =over
 
 =item *
 
-For tasks that use the C<awsvpc> network mode, if you set
-C<systemControls> for any container, it applies to all containers in
-the task. If you set different C<systemControls> for multiple
-containers in a single task, the container that is started last
+For tasks that use the C<awsvpc> network mode including Fargate, if you
+set C<systemControls> for any container, it applies to all containers
+in the task. If you set different C<systemControls> for multiple
+containers in a single task, the container that's started last
 determines which C<systemControls> take effect.
 
 =item *
 
-For tasks that use the C<host> network mode, the C<systemControls>
-parameter applies to the container instance's kernel parameter as well
-as that of all containers of any tasks running on that container
-instance.
+For tasks that use the C<host> network mode, the network namespace
+C<systemControls> aren't supported.
 
 =back
 
+If you're setting an IPC resource namespace to use for the containers
+in the task, the following conditions apply to your system controls.
+For more information, see IPC mode
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_definition_ipcmode).
+
+=over
+
+=item *
+
+For tasks that use the C<host> IPC mode, IPC namespace
+C<systemControls> aren't supported.
+
+=item *
+
+For tasks that use the C<task> IPC mode, IPC namespace
+C<systemControls> values apply to all containers within a task.
+
+=back
+
+This parameter is not supported for Windows containers.
+
+This parameter is only supported for tasks that are hosted on Fargate
+if the tasks are using platform version C<1.4.0> or later (Linux). This
+isn't supported for Windows containers on Fargate.
 
 =head1 ATTRIBUTES
 
 
 =head2 Namespace => Str
 
-The namespaced kernel parameter for which to set a C<value>.
+The namespaced kernel parameter to set a C<value> for.
 
 
 =head2 Value => Str
 
-The value for the namespaced kernel parameter specified in
-C<namespace>.
+The namespaced kernel parameter to set a C<value> for.
+
+Valid IPC namespace values: C<"kernel.msgmax" | "kernel.msgmnb" |
+"kernel.msgmni" | "kernel.sem" | "kernel.shmall" | "kernel.shmmax" |
+"kernel.shmmni" | "kernel.shm_rmid_forced">, and C<Sysctls> that start
+with C<"fs.mqueue.*">
+
+Valid network namespace values: C<Sysctls> that start with C<"net.*">.
+Only namespaced C<Sysctls> that exist within the container starting
+with "net.* are accepted.
+
+All of these values are supported by Fargate.
 
 
 

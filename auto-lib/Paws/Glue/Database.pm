@@ -5,6 +5,7 @@ package Paws::Glue::Database;
   has CreateTableDefaultPermissions => (is => 'ro', isa => 'ArrayRef[Paws::Glue::PrincipalPermissions]');
   has CreateTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has FederatedDatabase => (is => 'ro', isa => 'Paws::Glue::FederatedDatabase');
   has LocationUri => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str', required => 1);
   has Parameters => (is => 'ro', isa => 'Paws::Glue::ParametersMap');
@@ -53,7 +54,8 @@ The ID of the Data Catalog in which the database resides.
 
 =head2 CreateTableDefaultPermissions => ArrayRef[L<Paws::Glue::PrincipalPermissions>]
 
-Creates a set of default permissions on the table for principals.
+Creates a set of default permissions on the table for principals. Used
+by Lake Formation. Not used in the normal course of Glue operations.
 
 
 =head2 CreateTime => Str
@@ -64,6 +66,12 @@ The time at which the metadata database was created in the catalog.
 =head2 Description => Str
 
 A description of the database.
+
+
+=head2 FederatedDatabase => L<Paws::Glue::FederatedDatabase>
+
+A C<FederatedDatabase> structure that references an entity outside the
+Glue Data Catalog.
 
 
 =head2 LocationUri => Str

@@ -44,7 +44,7 @@ this account.
 =head2 LastUpdatedTime => Int
 
 Timestamp showing when this policy was last updated, expressed as the
-number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+number of milliseconds after C<Jan 1, 1970 00:00:00 UTC>.
 
 
 =head2 PolicyDocument => Str

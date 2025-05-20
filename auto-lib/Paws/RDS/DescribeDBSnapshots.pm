@@ -55,8 +55,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/rds
 =head2 DBInstanceIdentifier => Str
 
 The ID of the DB instance to retrieve the list of DB snapshots for.
-This parameter can't be used in conjunction with
-C<DBSnapshotIdentifier>. This parameter isn't case-sensitive.
+This parameter isn't case-sensitive.
 
 Constraints:
 
@@ -79,9 +78,8 @@ A specific DB resource ID to describe.
 
 =head2 DBSnapshotIdentifier => Str
 
-A specific DB snapshot identifier to describe. This parameter can't be
-used in conjunction with C<DBInstanceIdentifier>. This value is stored
-as a lowercase string.
+A specific DB snapshot identifier to describe. This value is stored as
+a lowercase string.
 
 Constraints:
 
@@ -137,25 +135,29 @@ C<engine> - Accepts names of database engines.
 
 =head2 IncludePublic => Bool
 
-A value that indicates whether to include manual DB cluster snapshots
-that are public and can be copied or restored by any Amazon Web
-Services account. By default, the public snapshots are not included.
+Specifies whether to include manual DB cluster snapshots that are
+public and can be copied or restored by any Amazon Web Services
+account. By default, the public snapshots are not included.
 
 You can share a manual DB snapshot as public by using the
 ModifyDBSnapshotAttribute API.
+
+This setting doesn't apply to RDS Custom.
 
 
 
 =head2 IncludeShared => Bool
 
-A value that indicates whether to include shared manual DB cluster
-snapshots from other Amazon Web Services accounts that this Amazon Web
-Services account has been given permission to copy or restore. By
-default, these snapshots are not included.
+Specifies whether to include shared manual DB cluster snapshots from
+other Amazon Web Services accounts that this Amazon Web Services
+account has been given permission to copy or restore. By default, these
+snapshots are not included.
 
 You can give an Amazon Web Services account permission to restore a
 manual DB snapshot from another Amazon Web Services account by using
 the C<ModifyDBSnapshotAttribute> API action.
+
+This setting doesn't apply to RDS Custom.
 
 
 

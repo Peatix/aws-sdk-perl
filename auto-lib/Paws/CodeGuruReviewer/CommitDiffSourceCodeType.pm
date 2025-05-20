@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeGuruRev
 
 =head1 DESCRIPTION
 
-A type of C<SourceCodeType>
+A type of SourceCodeType
 (https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType)
 that specifies the commit diff for a pull request on an associated
 repository. The C<SourceCommit> and C<DestinationCommit> fields are

@@ -1,12 +1,12 @@
 
 package Paws::MediaTailor::DescribeChannel;
   use Moose;
-  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'channelName', required => 1);
+  has ChannelName => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ChannelName', required => 1);
 
   use MooseX::ClassAttribute;
 
   class_has _api_call => (isa => 'Str', is => 'ro', default => 'DescribeChannel');
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{channelName}');
+  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/channel/{ChannelName}');
   class_has _api_method  => (isa => 'Str', is => 'ro', default => 'GET');
   class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::MediaTailor::DescribeChannelResponse');
 1;
@@ -35,13 +35,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     # Results:
     my $Arn              = $DescribeChannelResponse->Arn;
+    my $Audiences        = $DescribeChannelResponse->Audiences;
     my $ChannelName      = $DescribeChannelResponse->ChannelName;
     my $ChannelState     = $DescribeChannelResponse->ChannelState;
     my $CreationTime     = $DescribeChannelResponse->CreationTime;
+    my $FillerSlate      = $DescribeChannelResponse->FillerSlate;
     my $LastModifiedTime = $DescribeChannelResponse->LastModifiedTime;
+    my $LogConfiguration = $DescribeChannelResponse->LogConfiguration;
     my $Outputs          = $DescribeChannelResponse->Outputs;
     my $PlaybackMode     = $DescribeChannelResponse->PlaybackMode;
     my $Tags             = $DescribeChannelResponse->Tags;
+    my $Tier             = $DescribeChannelResponse->Tier;
+    my $TimeShiftConfiguration =
+      $DescribeChannelResponse->TimeShiftConfiguration;
 
     # Returns a L<Paws::MediaTailor::DescribeChannelResponse> object.
 
@@ -53,7 +59,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> ChannelName => Str
 
-The identifier for the channel you are working on.
+The name of the channel.
 
 
 

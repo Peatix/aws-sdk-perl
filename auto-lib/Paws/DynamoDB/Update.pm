@@ -70,13 +70,14 @@ attribute name and a value for that attribute.
 
 Use C<ReturnValuesOnConditionCheckFailure> to get the item attributes
 if the C<Update> condition fails. For
-C<ReturnValuesOnConditionCheckFailure>, the valid values are: NONE,
-ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW.
+C<ReturnValuesOnConditionCheckFailure>, the valid values are: NONE and
+ALL_OLD.
 
 
 =head2 B<REQUIRED> TableName => Str
 
-Name of the table for the C<UpdateItem> request.
+Name of the table for the C<UpdateItem> request. You can also provide
+the Amazon Resource Name (ARN) of the table in this parameter.
 
 
 =head2 B<REQUIRED> UpdateExpression => Str

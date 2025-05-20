@@ -57,6 +57,9 @@ items exist beyond the number you specify, the C<NextToken> element is
 sent in the response. Use this C<NextToken> value in a subsequent
 request to retrieve additional items.
 
+Although the maximum value is 1000, the action only returns a maximum
+of 100 items.
+
 
 
 =head2 NextToken => Str

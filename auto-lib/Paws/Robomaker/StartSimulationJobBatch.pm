@@ -36,39 +36,44 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         {
           MaxJobDurationInSeconds => 1,
           Compute                 => {
-            SimulationUnitLimit => 1,    # min: 1, max: 15; OPTIONAL
+            ComputeType         => 'CPU',   # values: CPU, GPU_AND_CPU; OPTIONAL
+            GpuUnitLimit        => 1,       # max: 1; OPTIONAL
+            SimulationUnitLimit => 1,       # min: 1, max: 15; OPTIONAL
           },    # OPTIONAL
           DataSources => [
             {
               Name     => 'MyName',        # min: 1, max: 255
               S3Bucket => 'MyS3Bucket',    # min: 3, max: 63
               S3Keys   => [
-                'MyS3Key', ...             # min: 1, max: 1024
+                'MyS3KeyOrPrefix', ...     # max: 1024
               ],    # min: 1, max: 100
-
+              Destination => 'MyPath', # min: 1, max: 1024; OPTIONAL
+              Type        => 'Prefix', # values: Prefix, Archive, File; OPTIONAL
             },
             ...
-          ],    # min: 1, max: 5; OPTIONAL
+          ],    # min: 1, max: 6; OPTIONAL
           FailureBehavior => 'Fail',         # values: Fail, Continue; OPTIONAL
           IamRole         => 'MyIamRole',    # min: 1, max: 255; OPTIONAL
           LoggingConfig   => {
-            RecordAllRosTopics => 1,
-
-          },                                 # OPTIONAL
+            RecordAllRosTopics => 1,         # OPTIONAL
+          },    # OPTIONAL
           OutputLocation => {
-            S3Bucket => 'MyS3Bucket',        # min: 3, max: 63
-            S3Prefix => 'MyS3Key',           # min: 1, max: 1024
+            S3Bucket => 'MyS3Bucket',    # min: 3, max: 63
+            S3Prefix => 'MyS3Key',       # min: 1, max: 1024; OPTIONAL
           },    # OPTIONAL
           RobotApplications => [
             {
               Application  => 'MyArn',    # min: 1, max: 1224
               LaunchConfig => {
-                LaunchFile           => 'MyCommand',    # min: 1, max: 1024
-                PackageName          => 'MyCommand',    # min: 1, max: 1024
+                Command => [
+                  'MyNonEmptyString', ...    # min: 1, max: 255
+                ],    # OPTIONAL
                 EnvironmentVariables => {
                   'MyEnvironmentVariableKey' => 'MyEnvironmentVariableValue'
                   ,    # key: min: 1, max: 1024, value: min: 1, max: 1024
-                },    # max: 16; OPTIONAL
+                },    # max: 20; OPTIONAL
+                LaunchFile  => 'MyCommand',    # min: 1, max: 1024; OPTIONAL
+                PackageName => 'MyCommand',    # min: 1, max: 1024; OPTIONAL
                 PortForwardingConfig => {
                   PortMappings => [
                     {
@@ -87,23 +92,23 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   Command      => 'MyUnrestrictedCommand',   # min: 1, max: 1024
                   Name         => 'MyName',                  # min: 1, max: 255
                   ExitBehavior => 'FAIL',    # values: FAIL, RESTART; OPTIONAL
-                  StreamOutputToCloudWatch => 1,
-                  StreamUI                 => 1,
+                  StreamOutputToCloudWatch => 1,    # OPTIONAL
+                  StreamUI                 => 1,    # OPTIONAL
                 },
                 ...
               ],    # max: 10; OPTIONAL
               UploadConfigurations => [
                 {
-                  Name           => 'MyName',               # min: 1, max: 255
-                  Path           => 'MyPath',               # min: 1, max: 1024
+                  Name           => 'MyName',    # min: 1, max: 255
+                  Path           => 'MyPath',    # min: 1, max: 1024; OPTIONAL
                   UploadBehavior => 'UPLOAD_ON_TERMINATE'
                   ,    # values: UPLOAD_ON_TERMINATE, UPLOAD_ROLLING_AUTO_REMOVE
 
                 },
                 ...
               ],    # max: 10; OPTIONAL
-              UseDefaultTools                => 1,
-              UseDefaultUploadConfigurations => 1,
+              UseDefaultTools                => 1,    # OPTIONAL
+              UseDefaultUploadConfigurations => 1,    # OPTIONAL
             },
             ...
           ],    # min: 1, max: 1; OPTIONAL
@@ -111,12 +116,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             {
               Application  => 'MyArn',    # min: 1, max: 1224
               LaunchConfig => {
-                LaunchFile           => 'MyCommand',    # min: 1, max: 1024
-                PackageName          => 'MyCommand',    # min: 1, max: 1024
+                Command => [
+                  'MyNonEmptyString', ...    # min: 1, max: 255
+                ],    # OPTIONAL
                 EnvironmentVariables => {
                   'MyEnvironmentVariableKey' => 'MyEnvironmentVariableValue'
                   ,    # key: min: 1, max: 1024, value: min: 1, max: 1024
-                },    # max: 16; OPTIONAL
+                },    # max: 20; OPTIONAL
+                LaunchFile  => 'MyCommand',    # min: 1, max: 1024; OPTIONAL
+                PackageName => 'MyCommand',    # min: 1, max: 1024; OPTIONAL
                 PortForwardingConfig => {
                   PortMappings => [
                     {
@@ -135,26 +143,26 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   Command      => 'MyUnrestrictedCommand',   # min: 1, max: 1024
                   Name         => 'MyName',                  # min: 1, max: 255
                   ExitBehavior => 'FAIL',    # values: FAIL, RESTART; OPTIONAL
-                  StreamOutputToCloudWatch => 1,
-                  StreamUI                 => 1,
+                  StreamOutputToCloudWatch => 1,    # OPTIONAL
+                  StreamUI                 => 1,    # OPTIONAL
                 },
                 ...
               ],    # max: 10; OPTIONAL
               UploadConfigurations => [
                 {
-                  Name           => 'MyName',               # min: 1, max: 255
-                  Path           => 'MyPath',               # min: 1, max: 1024
+                  Name           => 'MyName',    # min: 1, max: 255
+                  Path           => 'MyPath',    # min: 1, max: 1024; OPTIONAL
                   UploadBehavior => 'UPLOAD_ON_TERMINATE'
                   ,    # values: UPLOAD_ON_TERMINATE, UPLOAD_ROLLING_AUTO_REMOVE
 
                 },
                 ...
               ],    # max: 10; OPTIONAL
-              UseDefaultTools                => 1,
-              UseDefaultUploadConfigurations => 1,
+              UseDefaultTools                => 1,    # OPTIONAL
+              UseDefaultUploadConfigurations => 1,    # OPTIONAL
               WorldConfigs                   => [
                 {
-                  World => 'MyArn',    # min: 1, max: 1224
+                  World => 'MyArn',                   # min: 1, max: 1224
                 },
                 ...
               ],    # max: 1; OPTIONAL
@@ -164,10 +172,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           Tags => {
             'MyTagKey' => 'MyTagValue', # key: min: 1, max: 128, value: max: 256
           },    # max: 50; OPTIONAL
-          UseDefaultApplications => 1,
+          UseDefaultApplications => 1,    # OPTIONAL
           VpcConfig              => {
             Subnets => [
-              'MyNonEmptyString', ...    # min: 1, max: 255
+              'MyNonEmptyString', ...     # min: 1, max: 255
             ],    # min: 1, max: 16
             AssignPublicIp => 1,    # OPTIONAL
             SecurityGroups => [

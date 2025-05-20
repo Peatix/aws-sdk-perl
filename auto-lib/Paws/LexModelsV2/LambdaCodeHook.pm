@@ -34,8 +34,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::LexModelsV2
 
 =head1 DESCRIPTION
 
-Specifies a Lambda function that verifies requests to a bot or
-fulfilles the user's request to a bot.
+Specifies a Lambda function that verifies requests to a bot or fulfills
+the user's request to a bot.
 
 =head1 ATTRIBUTES
 

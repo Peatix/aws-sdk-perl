@@ -34,8 +34,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ResolverEndpointId => 'MyResourceId',    # min: 1, max: 64; OPTIONAL
         TargetIps          => [
           {
-            Ip   => 'MyIp',    # min: 7, max: 36
-            Port => 1,         # max: 65535; OPTIONAL
+            Ip       => 'MyIp',      # min: 7, max: 36; OPTIONAL
+            Ipv6     => 'MyIpv6',    # min: 7, max: 39; OPTIONAL
+            Port     => 1,           # max: 65535; OPTIONAL
+            Protocol => 'DoH',       # values: DoH, Do53, DoH-FIPS; OPTIONAL
+            ServerNameIndication =>
+              'MyServerNameIndication',    # max: 255; OPTIONAL
           },
           ...
         ],    # min: 1; OPTIONAL

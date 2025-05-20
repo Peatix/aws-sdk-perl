@@ -33,17 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kendra::Ser
 
 =head1 DESCRIPTION
 
-Provides the identifier of the AWS KMS customer master key (CMK) used
-to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
-asymmetric CMKs.
+Provides the identifier of the KMS key used to encrypt data indexed by
+Amazon Kendra. Amazon Kendra doesn't support asymmetric keys.
 
 =head1 ATTRIBUTES
 
 
 =head2 KmsKeyId => Str
 
-The identifier of the AWS KMS customer master key (CMK). Amazon Kendra
-doesn't support asymmetric CMKs.
+The identifier of the KMS key. Amazon Kendra doesn't support asymmetric
+keys.
 
 
 

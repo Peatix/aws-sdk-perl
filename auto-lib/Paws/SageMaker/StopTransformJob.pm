@@ -40,7 +40,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/api
 
 =head2 B<REQUIRED> TransformJobName => Str
 
-The name of the transform job to stop.
+The name of the batch transform job to stop.
 
 
 

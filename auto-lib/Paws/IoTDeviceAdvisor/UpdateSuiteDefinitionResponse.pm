@@ -32,17 +32,17 @@ Timestamp of when the test suite was updated.
 
 =head2 SuiteDefinitionArn => Str
 
-Amazon Resource name of the updated test suite.
+Amazon Resource Name (ARN) of the updated test suite.
 
 
 =head2 SuiteDefinitionId => Str
 
-Suite definition Id of the updated test suite.
+Suite definition ID of the updated test suite.
 
 
 =head2 SuiteDefinitionName => Str
 
-Suite definition name of the updated test suite.
+Updates the suite definition name. This is a required parameter.
 
 
 =head2 SuiteDefinitionVersion => Str

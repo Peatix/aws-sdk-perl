@@ -46,8 +46,7 @@ placement test.
 
 =head2 CreateDate => Str
 
-The date and time when the predictive inbox placement test was created,
-in Unix time format.
+The date and time when the predictive inbox placement test was created.
 
 
 =head2 DeliverabilityTestStatus => Str

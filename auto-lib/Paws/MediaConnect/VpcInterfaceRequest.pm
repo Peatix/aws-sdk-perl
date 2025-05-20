@@ -37,36 +37,43 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MediaConnec
 
 =head1 DESCRIPTION
 
-Desired VPC Interface for a Flow
+The details of the VPC interfaces that you want to add to the flow.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Name => Str
 
-The name of the VPC Interface. This value must be unique within the
-current flow.
+The name for the VPC interface. This name must be unique within the
+flow.
 
 
 =head2 NetworkInterfaceType => Str
 
-The type of network interface. If this value is not included in the
-request, MediaConnect uses ENA as the networkInterfaceType.
+The type of network interface.
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
-Role Arn MediaConnect can assumes to create ENIs in customer's account
+The Amazon Resource Name (ARN) of the role that you created when you
+set up MediaConnect as a trusted service.
 
 
 =head2 B<REQUIRED> SecurityGroupIds => ArrayRef[Str|Undef]
 
-Security Group IDs to be used on ENI.
+A virtual firewall to control inbound and outbound traffic.
 
 
 =head2 B<REQUIRED> SubnetId => Str
 
-Subnet must be in the AZ of the Flow
+The subnet IDs that you want to use for your VPC interface. A range of
+IP addresses in your VPC. When you create your VPC, you specify a range
+of IPv4 addresses for the VPC in the form of a Classless Inter-Domain
+Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary
+CIDR block for your VPC. When you create a subnet for your VPC, you
+specify the CIDR block for the subnet, which is a subset of the VPC
+CIDR block. The subnets that you use across all VPC interfaces on the
+flow must be in the same Availability Zone as the flow.
 
 
 

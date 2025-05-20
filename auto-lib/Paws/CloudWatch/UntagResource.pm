@@ -50,7 +50,7 @@ The ARN format of an alarm is
 C<arn:aws:cloudwatch:I<Region>:I<account-id>:alarm:I<alarm-name>>
 
 The ARN format of a Contributor Insights rule is
-C<arn:aws:cloudwatch:I<Region>:I<account-id>:insight-rule:I<insight-rule-name>>
+C<arn:aws:cloudwatch:I<Region>:I<account-id>:insight-rule/I<insight-rule-name>>
 
 For more information about ARN format, see Resource Types Defined by
 Amazon CloudWatch

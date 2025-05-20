@@ -1,11 +1,13 @@
 
 package Paws::Finspace::CreateEnvironment;
   use Moose;
+  has DataBundles => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'dataBundles');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has FederationMode => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'federationMode');
   has FederationParameters => (is => 'ro', isa => 'Paws::Finspace::FederationParameters', traits => ['NameInRequest'], request_name => 'federationParameters');
   has KmsKeyId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'kmsKeyId');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
+  has SuperuserParameters => (is => 'ro', isa => 'Paws::Finspace::SuperuserParameters', traits => ['NameInRequest'], request_name => 'superuserParameters');
   has Tags => (is => 'ro', isa => 'Paws::Finspace::TagMap', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -34,14 +36,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $finspace = Paws->service('Finspace');
     my $CreateEnvironmentResponse = $finspace->CreateEnvironment(
-      Name                 => 'MyEnvironmentName',
-      Description          => 'MyDescription',       # OPTIONAL
-      FederationMode       => 'FEDERATED',           # OPTIONAL
+      Name        => 'MyEnvironmentName',
+      DataBundles => [
+        'MyDataBundleArn', ...    # min: 20, max: 2048
+      ],    # OPTIONAL
+      Description          => 'MyDescription',    # OPTIONAL
+      FederationMode       => 'FEDERATED',        # OPTIONAL
       FederationParameters => {
-        ApplicationCallBackURL => 'Myurl',    # min: 1, max: 1000; OPTIONAL
+        ApplicationCallBackURL => 'Myurl',        # min: 1, max: 1000; OPTIONAL
         AttributeMap           => {
-          'MyFederationAttributeKey' =>
-            'Myurl',  # key: min: 1, max: 32, value: min: 1, max: 1000; OPTIONAL
+          'MyFederationAttributeKey' => 'MyFederationAttributeValue'
+          ,    # key: min: 1, max: 32, value: min: 1, max: 1000
         },    # OPTIONAL
         FederationProviderName =>
           'MyFederationProviderName',    # min: 1, max: 32; OPTIONAL
@@ -50,8 +55,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'MySamlMetadataDocument',      # min: 1000, max: 10000000; OPTIONAL
         SamlMetadataURL => 'Myurl',      # min: 1, max: 1000; OPTIONAL
       },    # OPTIONAL
-      KmsKeyId => 'MyKmsKeyId',    # OPTIONAL
-      Tags     => {
+      KmsKeyId            => 'MyKmsKeyId',    # OPTIONAL
+      SuperuserParameters => {
+        EmailAddress => 'MyEmailId',          # min: 1, max: 128
+        FirstName    => 'MyNameString',       # min: 1, max: 50
+        LastName     => 'MyNameString',       # min: 1, max: 50
+
+      },    # OPTIONAL
+      Tags => {
         'MyTagKey' =>
           'MyTagValue',    # key: min: 1, max: 128, value: min: 1, max: 256
       },    # OPTIONAL
@@ -68,6 +79,29 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/finspace/CreateEnvironment>
 
 =head1 ATTRIBUTES
+
+
+=head2 DataBundles => ArrayRef[Str|Undef]
+
+The list of Amazon Resource Names (ARN) of the data bundles to install.
+Currently supported data bundle ARNs:
+
+=over
+
+=item *
+
+C<arn:aws:finspace:${Region}::data-bundle/capital-markets-sample> -
+Contains sample Capital Markets datasets, categories and controlled
+vocabularies.
+
+=item *
+
+C<arn:aws:finspace:${Region}::data-bundle/taq> (default) - Contains
+trades and quotes data in addition to sample Capital Markets data.
+
+=back
+
+
 
 
 =head2 Description => Str
@@ -112,6 +146,12 @@ The KMS key id to encrypt your data in the FinSpace environment.
 =head2 B<REQUIRED> Name => Str
 
 The name of the FinSpace environment to be created.
+
+
+
+=head2 SuperuserParameters => L<Paws::Finspace::SuperuserParameters>
+
+Configuration information for the superuser.
 
 
 

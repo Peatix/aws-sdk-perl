@@ -50,7 +50,7 @@ The model ID of the model to delete.
 
 The model type of the model to delete.
 
-Valid values are: C<"ONLINE_FRAUD_INSIGHTS">
+Valid values are: C<"ONLINE_FRAUD_INSIGHTS">, C<"TRANSACTION_FRAUD_INSIGHTS">, C<"ACCOUNT_TAKEOVER_INSIGHTS">
 
 
 =head1 SEE ALSO

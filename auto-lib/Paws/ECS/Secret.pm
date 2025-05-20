@@ -51,7 +51,7 @@ container, use the C<secretOptions> container definition parameter.
 
 =back
 
-For more information, see Specifying Sensitive Data
+For more information, see Specifying sensitive data
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -66,13 +66,22 @@ The name of the secret.
 =head2 B<REQUIRED> ValueFrom => Str
 
 The secret to expose to the container. The supported values are either
-the full ARN of the AWS Secrets Manager secret or the full ARN of the
-parameter in the AWS Systems Manager Parameter Store.
+the full ARN of the Secrets Manager secret or the full ARN of the
+parameter in the SSM Parameter Store.
 
-If the AWS Systems Manager Parameter Store parameter exists in the same
-Region as the task you are launching, then you can use either the full
-ARN or name of the parameter. If the parameter exists in a different
-Region, then the full ARN must be specified.
+For information about the require Identity and Access Management
+permissions, see Required IAM permissions for Amazon ECS secrets
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam)
+(for Secrets Manager) or Required IAM permissions for Amazon ECS
+secrets
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html)
+(for Systems Manager Parameter store) in the I<Amazon Elastic Container
+Service Developer Guide>.
+
+If the SSM Parameter Store parameter exists in the same Region as the
+task you're launching, then you can use either the full ARN or name of
+the parameter. If the parameter exists in a different Region, then the
+full ARN must be specified.
 
 
 

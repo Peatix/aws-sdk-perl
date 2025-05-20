@@ -41,62 +41,84 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Datasync::T
 
 =head1 DESCRIPTION
 
-Describes the detailed result of a C<TaskExecution> operation. This
-result includes the time in milliseconds spent in each phase, the
-status of the task execution, and the errors encountered.
+Provides detailed information about the result of your DataSync task
+execution.
 
 =head1 ATTRIBUTES
 
 
 =head2 ErrorCode => Str
 
-Errors that AWS DataSync encountered during execution of the task. You
-can use this error code to help troubleshoot issues.
+An error that DataSync encountered during your task execution. You can
+use this information to help troubleshoot issues
+(https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
 
 
 =head2 ErrorDetail => Str
 
-Detailed description of an error that was encountered during the task
-execution. You can use this information to help troubleshoot issues.
+The detailed description of an error that DataSync encountered during
+your task execution. You can use this information to help troubleshoot
+issues
+(https://docs.aws.amazon.com/datasync/latest/userguide/troubleshooting-datasync-locations-tasks.html).
 
 
 =head2 PrepareDuration => Int
 
-The total time in milliseconds that AWS DataSync spent in the PREPARING
-phase.
+The time in milliseconds that your task execution was in the
+C<PREPARING> step. For more information, see Task execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
+
+For Enhanced mode tasks, the value is always C<0>. For more
+information, see How DataSync prepares your data transfer
+(https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html#how-datasync-prepares).
 
 
 =head2 PrepareStatus => Str
 
-The status of the PREPARING phase.
+The status of the C<PREPARING> step for your task execution. For more
+information, see Task execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
 
 
 =head2 TotalDuration => Int
 
-The total time in milliseconds that AWS DataSync took to transfer the
-file from the source to the destination location.
+The time in milliseconds that your task execution ran.
 
 
 =head2 TransferDuration => Int
 
-The total time in milliseconds that AWS DataSync spent in the
-TRANSFERRING phase.
+The time in milliseconds that your task execution was in the
+C<TRANSFERRING> step. For more information, see Task execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
+
+For Enhanced mode tasks, the value is always C<0>. For more
+information, see How DataSync transfers your data
+(https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html#how-datasync-transfers).
 
 
 =head2 TransferStatus => Str
 
-The status of the TRANSFERRING phase.
+The status of the C<TRANSFERRING> step for your task execution. For
+more information, see Task execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
 
 
 =head2 VerifyDuration => Int
 
-The total time in milliseconds that AWS DataSync spent in the VERIFYING
-phase.
+The time in milliseconds that your task execution was in the
+C<VERIFYING> step. For more information, see Task execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
+
+For Enhanced mode tasks, the value is always C<0>. For more
+information, see How DataSync verifies your data's integrity
+(https://docs.aws.amazon.com/datasync/latest/userguide/how-datasync-transfer-works.html#how-verifying-works).
 
 
 =head2 VerifyStatus => Str
 
-The status of the VERIFYING phase.
+The status of the C<VERIFYING> step for your task execution. For more
+information, see Task execution statuses
+(https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
 
 
 

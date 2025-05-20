@@ -23,7 +23,8 @@ no additional results, this value is null.
 
 =head2 Principals => ArrayRef[L<Paws::ServiceCatalog::Principal>]
 
-The IAM principals (users or roles) associated with the portfolio.
+The C<PrincipalARN>s and corresponding C<PrincipalType>s associated
+with the portfolio.
 
 
 =head2 _request_id => Str

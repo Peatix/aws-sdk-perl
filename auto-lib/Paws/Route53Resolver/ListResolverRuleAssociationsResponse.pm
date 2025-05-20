@@ -32,8 +32,8 @@ value of C<NextToken> from the previous response.
 =head2 ResolverRuleAssociations => ArrayRef[L<Paws::Route53Resolver::ResolverRuleAssociation>]
 
 The associations that were created between Resolver rules and VPCs
-using the current AWS account, and that match the specified filters, if
-any.
+using the current Amazon Web Services account, and that match the
+specified filters, if any.
 
 
 =head2 _request_id => Str

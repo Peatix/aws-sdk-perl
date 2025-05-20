@@ -41,7 +41,7 @@ The identifier (user name) of the user who created the dataset.
 The file format of a dataset that is created from an Amazon S3 file or
 folder.
 
-Valid values are: C<"CSV">, C<"JSON">, C<"PARQUET">, C<"EXCEL">
+Valid values are: C<"CSV">, C<"JSON">, C<"PARQUET">, C<"EXCEL">, C<"ORC">
 =head2 FormatOptions => L<Paws::GlueDataBrew::FormatOptions>
 
 

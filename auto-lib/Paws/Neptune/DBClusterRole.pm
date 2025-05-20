@@ -45,7 +45,7 @@ associated with a DB cluster.
 
 The name of the feature associated with the Amazon Identity and Access
 Management (IAM) role. For the list of supported feature names, see
-DBEngineVersion.
+DescribeDBEngineVersions.
 
 
 =head2 RoleArn => Str

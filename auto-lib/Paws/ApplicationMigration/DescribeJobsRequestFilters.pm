@@ -52,7 +52,7 @@ Request to describe Job log filters by job ID.
 
 =head2 ToDate => Str
 
-Request to describe Job log by last date.
+Request to describe job log items by last date.
 
 
 

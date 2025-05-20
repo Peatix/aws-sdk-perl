@@ -3,14 +3,25 @@ package Paws::AppSync::GraphqlApi;
   use Moose;
   has AdditionalAuthenticationProviders => (is => 'ro', isa => 'ArrayRef[Paws::AppSync::AdditionalAuthenticationProvider]', request_name => 'additionalAuthenticationProviders', traits => ['NameInRequest']);
   has ApiId => (is => 'ro', isa => 'Str', request_name => 'apiId', traits => ['NameInRequest']);
+  has ApiType => (is => 'ro', isa => 'Str', request_name => 'apiType', traits => ['NameInRequest']);
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has AuthenticationType => (is => 'ro', isa => 'Str', request_name => 'authenticationType', traits => ['NameInRequest']);
+  has Dns => (is => 'ro', isa => 'Paws::AppSync::MapOfStringToString', request_name => 'dns', traits => ['NameInRequest']);
+  has EnhancedMetricsConfig => (is => 'ro', isa => 'Paws::AppSync::EnhancedMetricsConfig', request_name => 'enhancedMetricsConfig', traits => ['NameInRequest']);
+  has IntrospectionConfig => (is => 'ro', isa => 'Str', request_name => 'introspectionConfig', traits => ['NameInRequest']);
+  has LambdaAuthorizerConfig => (is => 'ro', isa => 'Paws::AppSync::LambdaAuthorizerConfig', request_name => 'lambdaAuthorizerConfig', traits => ['NameInRequest']);
   has LogConfig => (is => 'ro', isa => 'Paws::AppSync::LogConfig', request_name => 'logConfig', traits => ['NameInRequest']);
+  has MergedApiExecutionRoleArn => (is => 'ro', isa => 'Str', request_name => 'mergedApiExecutionRoleArn', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
   has OpenIDConnectConfig => (is => 'ro', isa => 'Paws::AppSync::OpenIDConnectConfig', request_name => 'openIDConnectConfig', traits => ['NameInRequest']);
+  has Owner => (is => 'ro', isa => 'Str', request_name => 'owner', traits => ['NameInRequest']);
+  has OwnerContact => (is => 'ro', isa => 'Str', request_name => 'ownerContact', traits => ['NameInRequest']);
+  has QueryDepthLimit => (is => 'ro', isa => 'Int', request_name => 'queryDepthLimit', traits => ['NameInRequest']);
+  has ResolverCountLimit => (is => 'ro', isa => 'Int', request_name => 'resolverCountLimit', traits => ['NameInRequest']);
   has Tags => (is => 'ro', isa => 'Paws::AppSync::TagMap', request_name => 'tags', traits => ['NameInRequest']);
   has Uris => (is => 'ro', isa => 'Paws::AppSync::MapOfStringToString', request_name => 'uris', traits => ['NameInRequest']);
   has UserPoolConfig => (is => 'ro', isa => 'Paws::AppSync::UserPoolConfig', request_name => 'userPoolConfig', traits => ['NameInRequest']);
+  has Visibility => (is => 'ro', isa => 'Str', request_name => 'visibility', traits => ['NameInRequest']);
   has WafWebAclArn => (is => 'ro', isa => 'Str', request_name => 'wafWebAclArn', traits => ['NameInRequest']);
   has XrayEnabled => (is => 'ro', isa => 'Bool', request_name => 'xrayEnabled', traits => ['NameInRequest']);
 
@@ -60,9 +71,15 @@ API.
 The API ID.
 
 
+=head2 ApiType => Str
+
+The value that indicates whether the GraphQL API is a standard API
+(C<GRAPHQL>) or merged API (C<MERGED>).
+
+
 =head2 Arn => Str
 
-The ARN.
+The Amazon Resource Name (ARN).
 
 
 =head2 AuthenticationType => Str
@@ -70,9 +87,45 @@ The ARN.
 The authentication type.
 
 
+=head2 Dns => L<Paws::AppSync::MapOfStringToString>
+
+The DNS records for the API.
+
+
+=head2 EnhancedMetricsConfig => L<Paws::AppSync::EnhancedMetricsConfig>
+
+The C<enhancedMetricsConfig> object.
+
+
+=head2 IntrospectionConfig => Str
+
+Sets the value of the GraphQL API to enable (C<ENABLED>) or disable
+(C<DISABLED>) introspection. If no value is provided, the introspection
+configuration will be set to C<ENABLED> by default. This field will
+produce an error if the operation attempts to use the introspection
+feature while this field is disabled.
+
+For more information about introspection, see GraphQL introspection
+(https://graphql.org/learn/introspection/).
+
+
+=head2 LambdaAuthorizerConfig => L<Paws::AppSync::LambdaAuthorizerConfig>
+
+Configuration for Lambda function authorization.
+
+
 =head2 LogConfig => L<Paws::AppSync::LogConfig>
 
 The Amazon CloudWatch Logs configuration.
+
+
+=head2 MergedApiExecutionRoleArn => Str
+
+The Identity and Access Management service role ARN for a merged API.
+The AppSync service assumes this role on behalf of the Merged API to
+validate access to source APIs at runtime and to prompt the
+C<AUTO_MERGE> to update the merged API endpoint with the source API
+changes automatically.
 
 
 =head2 Name => Str
@@ -83,6 +136,42 @@ The API name.
 =head2 OpenIDConnectConfig => L<Paws::AppSync::OpenIDConnectConfig>
 
 The OpenID Connect configuration.
+
+
+=head2 Owner => Str
+
+The account owner of the GraphQL API.
+
+
+=head2 OwnerContact => Str
+
+The owner contact information for an API resource.
+
+This field accepts any string input with a length of 0 - 256
+characters.
+
+
+=head2 QueryDepthLimit => Int
+
+The maximum depth a query can have in a single request. Depth refers to
+the amount of nested levels allowed in the body of query. The default
+value is C<0> (or unspecified), which indicates there's no depth limit.
+If you set a limit, it can be between C<1> and C<75> nested levels.
+This field will produce a limit error if the operation falls out of
+bounds.
+
+Note that fields can still be set to nullable or non-nullable. If a
+non-nullable field produces an error, the error will be thrown upwards
+to the first nullable field available.
+
+
+=head2 ResolverCountLimit => Int
+
+The maximum number of resolvers that can be invoked in a single
+request. The default value is C<0> (or unspecified), which will set the
+limit to C<10000>. When specified, the limit value can be between C<1>
+and C<10000>. This field will produce a limit error if the operation
+falls out of bounds.
 
 
 =head2 Tags => L<Paws::AppSync::TagMap>
@@ -100,16 +189,23 @@ The URIs.
 The Amazon Cognito user pool configuration.
 
 
+=head2 Visibility => Str
+
+Sets the value of the GraphQL API to public (C<GLOBAL>) or private
+(C<PRIVATE>). If no value is provided, the visibility will be set to
+C<GLOBAL> by default. This value cannot be changed once the API has
+been created.
+
+
 =head2 WafWebAclArn => Str
 
-The ARN of the AWS Web Application Firewall (WAF) ACL associated with
-this C<GraphqlApi>, if one exists.
+The ARN of the WAF access control list (ACL) associated with this
+C<GraphqlApi>, if one exists.
 
 
 =head2 XrayEnabled => Bool
 
-A flag representing whether X-Ray tracing is enabled for this
-C<GraphqlApi>.
+A flag indicating whether to use X-Ray tracing for this C<GraphqlApi>.
 
 
 

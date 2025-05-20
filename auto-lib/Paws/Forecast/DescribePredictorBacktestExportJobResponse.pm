@@ -3,6 +3,7 @@ package Paws::Forecast::DescribePredictorBacktestExportJobResponse;
   use Moose;
   has CreationTime => (is => 'ro', isa => 'Str');
   has Destination => (is => 'ro', isa => 'Paws::Forecast::DataDestination');
+  has Format => (is => 'ro', isa => 'Str');
   has LastModificationTime => (is => 'ro', isa => 'Str');
   has Message => (is => 'ro', isa => 'Str');
   has PredictorArn => (is => 'ro', isa => 'Str');
@@ -29,6 +30,11 @@ When the predictor backtest export job was created.
 =head2 Destination => L<Paws::Forecast::DataDestination>
 
 
+
+
+=head2 Format => Str
+
+The format of the exported data, CSV or PARQUET.
 
 
 =head2 LastModificationTime => Str

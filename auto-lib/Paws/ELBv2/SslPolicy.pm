@@ -4,6 +4,7 @@ package Paws::ELBv2::SslPolicy;
   has Ciphers => (is => 'ro', isa => 'ArrayRef[Paws::ELBv2::Cipher]');
   has Name => (is => 'ro', isa => 'Str');
   has SslProtocols => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has SupportedLoadBalancerTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
 1;
 
@@ -24,7 +25,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::ELBv2::SslPolicy object:
 
-  $service_obj->Method(Att1 => { Ciphers => $value, ..., SslProtocols => $value  });
+  $service_obj->Method(Att1 => { Ciphers => $value, ..., SupportedLoadBalancerTypes => $value  });
 
 =head3 Results returned from an API call
 
@@ -53,6 +54,11 @@ The name of the policy.
 =head2 SslProtocols => ArrayRef[Str|Undef]
 
 The protocols.
+
+
+=head2 SupportedLoadBalancerTypes => ArrayRef[Str|Undef]
+
+The supported load balancers.
 
 
 

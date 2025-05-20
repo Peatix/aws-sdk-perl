@@ -54,9 +54,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Lightsail::
 
 Describes an alarm.
 
-An alarm is a way to monitor your Amazon Lightsail resource metrics.
-For more information, see Alarms in Amazon Lightsail
-(https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-alarms).
+An alarm is a way to monitor your Lightsail resource metrics. For more
+information, see Alarms in Amazon Lightsail
+(https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
 
 =head1 ATTRIBUTES
 
@@ -133,7 +133,7 @@ The period, in seconds, over which the statistic is applied.
 
 =head2 ResourceType => Str
 
-The Lightsail resource type (e.g., C<Alarm>).
+The Lightsail resource type of the alarm.
 
 
 =head2 State => Str

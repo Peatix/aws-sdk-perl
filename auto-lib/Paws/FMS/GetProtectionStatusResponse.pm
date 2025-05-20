@@ -19,7 +19,7 @@ Paws::FMS::GetProtectionStatusResponse
 
 =head2 AdminAccountId => Str
 
-The ID of the AWS Firewall administrator account for this policy.
+The ID of the Firewall Manager administrator account for this policy.
 
 
 =head2 Data => Str
@@ -61,9 +61,9 @@ value. To list more objects, submit another C<GetProtectionStatus>
 request, and specify the C<NextToken> value from the response in the
 C<NextToken> value in the next request.
 
-AWS SDKs provide auto-pagination that identify C<NextToken> in a
-response and make subsequent request calls automatically on your
-behalf. However, this feature is not supported by
+Amazon Web Services SDKs provide auto-pagination that identify
+C<NextToken> in a response and make subsequent request calls
+automatically on your behalf. However, this feature is not supported by
 C<GetProtectionStatus>. You must submit subsequent requests with
 C<NextToken> using your own processes.
 
@@ -73,7 +73,7 @@ C<NextToken> using your own processes.
 The service type that is protected by the policy. Currently, this is
 always C<SHIELD_ADVANCED>.
 
-Valid values are: C<"WAF">, C<"WAFV2">, C<"SHIELD_ADVANCED">, C<"SECURITY_GROUPS_COMMON">, C<"SECURITY_GROUPS_CONTENT_AUDIT">, C<"SECURITY_GROUPS_USAGE_AUDIT">, C<"NETWORK_FIREWALL">, C<"DNS_FIREWALL">
+Valid values are: C<"WAF">, C<"WAFV2">, C<"SHIELD_ADVANCED">, C<"SECURITY_GROUPS_COMMON">, C<"SECURITY_GROUPS_CONTENT_AUDIT">, C<"SECURITY_GROUPS_USAGE_AUDIT">, C<"NETWORK_FIREWALL">, C<"DNS_FIREWALL">, C<"THIRD_PARTY_FIREWALL">, C<"IMPORT_NETWORK_FIREWALL">, C<"NETWORK_ACL_COMMON">
 =head2 _request_id => Str
 
 

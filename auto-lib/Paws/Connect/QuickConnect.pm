@@ -2,6 +2,8 @@
 package Paws::Connect::QuickConnect;
   use Moose;
   has Description => (is => 'ro', isa => 'Str');
+  has LastModifiedRegion => (is => 'ro', isa => 'Str');
+  has LastModifiedTime => (is => 'ro', isa => 'Str');
   has Name => (is => 'ro', isa => 'Str');
   has QuickConnectARN => (is => 'ro', isa => 'Str');
   has QuickConnectConfig => (is => 'ro', isa => 'Paws::Connect::QuickConnectConfig');
@@ -48,6 +50,16 @@ Contains information about a quick connect.
 The description.
 
 
+=head2 LastModifiedRegion => Str
+
+The Amazon Web Services Region where this resource was last modified.
+
+
+=head2 LastModifiedTime => Str
+
+The timestamp when this resource was last modified.
+
+
 =head2 Name => Str
 
 The name of the quick connect.
@@ -70,7 +82,8 @@ The identifier for the quick connect.
 
 =head2 Tags => L<Paws::Connect::TagMap>
 
-One or more tags.
+The tags used to organize, track, or control access for this resource.
+For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
 
 
 

@@ -43,37 +43,36 @@ Describes a block device mapping.
 
 =head2 B<REQUIRED> DeviceName => Str
 
-The device name exposed to the EC2 instance (for example, C</dev/sdh>
-or C<xvdh>). For more information, see Device Naming on Linux Instances
+The device name assigned to the volume (for example, C</dev/sdh> or
+C<xvdh>). For more information, see Device naming on Linux instances
 (https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html)
 in the I<Amazon EC2 User Guide for Linux Instances>.
+
+To define a block device mapping, set the device name and exactly one
+of the following properties: C<Ebs>, C<NoDevice>, or C<VirtualName>.
 
 
 =head2 Ebs => L<Paws::AutoScaling::Ebs>
 
-Parameters used to automatically set up EBS volumes when an instance is
-launched.
-
-You can specify either C<VirtualName> or C<Ebs>, but not both.
+Information to attach an EBS volume to an instance at launch.
 
 
 =head2 NoDevice => Bool
 
-Setting this value to C<true> suppresses the specified device included
-in the block device mapping of the AMI.
+Setting this value to C<true> prevents a volume that is included in the
+block device mapping of the AMI from being mapped to the specified
+device name at launch.
 
 If C<NoDevice> is C<true> for the root device, instances might fail the
 EC2 health check. In that case, Amazon EC2 Auto Scaling launches
 replacement instances.
 
-If you specify C<NoDevice>, you cannot specify C<Ebs>.
-
 
 =head2 VirtualName => Str
 
-The name of the virtual device (for example, C<ephemeral0>).
-
-You can specify either C<VirtualName> or C<Ebs>, but not both.
+The name of the instance store volume (virtual device) to attach to an
+instance at launch. The name must be in the form ephemeralI<X> where
+I<X> is a number starting from zero (0), for example, C<ephemeral0>.
 
 
 

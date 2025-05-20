@@ -50,8 +50,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/kms
 =head2 Limit => Int
 
 Use this parameter to specify the maximum number of items to return.
-When this value is present, AWS KMS does not return more than the
-specified number of items, but it might return fewer.
+When this value is present, KMS does not return more than the specified
+number of items, but it might return fewer.
 
 This value is optional. If you include a value, it must be between 1
 and 100, inclusive. If you do not include a value, it defaults to 50.
@@ -69,17 +69,16 @@ truncated response you just received.
 =head2 B<REQUIRED> RetiringPrincipal => Str
 
 The retiring principal for which to list grants. Enter a principal in
-your AWS account.
+your Amazon Web Services account.
 
 To specify the retiring principal, use the Amazon Resource Name (ARN)
 (https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
-of an AWS principal. Valid AWS principals include AWS accounts (root),
-IAM users, federated users, and assumed role users. For examples of the
-ARN syntax for specifying a principal, see AWS Identity and Access
-Management (IAM)
-(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam)
-in the Example ARNs section of the I<Amazon Web Services General
-Reference>.
+of an Amazon Web Services principal. Valid principals include Amazon
+Web Services accounts, IAM users, IAM roles, federated users, and
+assumed role users. For help with the ARN syntax for a principal, see
+IAM ARNs
+(https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns)
+in the I< I<Identity and Access Management User Guide> >.
 
 
 

@@ -2,6 +2,7 @@
 package Paws::WorkSpaces::WorkspaceBundle;
   use Moose;
   has BundleId => (is => 'ro', isa => 'Str');
+  has BundleType => (is => 'ro', isa => 'Str');
   has ComputeType => (is => 'ro', isa => 'Paws::WorkSpaces::ComputeType');
   has CreationTime => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
@@ -10,6 +11,7 @@ package Paws::WorkSpaces::WorkspaceBundle;
   has Name => (is => 'ro', isa => 'Str');
   has Owner => (is => 'ro', isa => 'Str');
   has RootStorage => (is => 'ro', isa => 'Paws::WorkSpaces::RootStorage');
+  has State => (is => 'ro', isa => 'Str');
   has UserStorage => (is => 'ro', isa => 'Paws::WorkSpaces::UserStorage');
 
 1;
@@ -52,6 +54,11 @@ Describes a WorkSpace bundle.
 The identifier of the bundle.
 
 
+=head2 BundleType => Str
+
+The type of WorkSpace bundle.
+
+
 =head2 ComputeType => L<Paws::WorkSpaces::ComputeType>
 
 The compute type of the bundle. For more information, see Amazon
@@ -87,12 +94,17 @@ The name of the bundle.
 =head2 Owner => Str
 
 The owner of the bundle. This is the account identifier of the owner,
-or C<AMAZON> if the bundle is provided by AWS.
+or C<AMAZON> if the bundle is provided by Amazon Web Services.
 
 
 =head2 RootStorage => L<Paws::WorkSpaces::RootStorage>
 
 The size of the root volume.
+
+
+=head2 State => Str
+
+The state of the WorkSpace bundle.
 
 
 =head2 UserStorage => L<Paws::WorkSpaces::UserStorage>

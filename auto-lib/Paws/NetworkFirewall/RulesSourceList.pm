@@ -45,10 +45,9 @@ traffic coming from the VPC where you deploy the firewall. To inspect
 traffic from IP addresses outside of the deployment VPC, you set the
 C<HOME_NET> rule variable to include the CIDR range of the deployment
 VPC plus the other CIDR ranges. For more information, see RuleVariables
-in this guide and Stateful domain list rule groups in AWS Network
-Firewall
+in this guide and Stateful domain list rule groups in Network Firewall
 (https://docs.aws.amazon.com/network-firewall/latest/developerguide/stateful-rule-groups-domain-names.html)
-in the I<Network Firewall Developer Guide>
+in the I<Network Firewall Developer Guide>.
 
 =head1 ATTRIBUTES
 
@@ -61,9 +60,8 @@ list.
 
 =head2 B<REQUIRED> Targets => ArrayRef[Str|Undef]
 
-The domains that you want to inspect for in your traffic flows. To
-provide multiple domains, separate them with commas. Valid domain
-specifications are the following:
+The domains that you want to inspect for in your traffic flows. Valid
+domain specifications are the following:
 
 =over
 
@@ -86,7 +84,7 @@ C<www.example.com>.
 =head2 B<REQUIRED> TargetTypes => ArrayRef[Str|Undef]
 
 The protocols you want to inspect. Specify C<TLS_SNI> for C<HTTPS>.
-Specity C<HTTP_HOST> for C<HTTP>. You can specify either or both.
+Specify C<HTTP_HOST> for C<HTTP>. You can specify either or both.
 
 
 

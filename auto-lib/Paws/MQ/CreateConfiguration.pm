@@ -2,9 +2,9 @@
 package Paws::MQ::CreateConfiguration;
   use Moose;
   has AuthenticationStrategy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'authenticationStrategy');
-  has EngineType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'engineType');
+  has EngineType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'engineType', required => 1);
   has EngineVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'engineVersion');
-  has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name');
+  has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
   has Tags => (is => 'ro', isa => 'Paws::MQ::__mapOf__string', traits => ['NameInRequest'], request_name => 'tags');
 
   use MooseX::ClassAttribute;
@@ -33,10 +33,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $mq = Paws->service('MQ');
     my $CreateConfigurationResponse = $mq->CreateConfiguration(
+      EngineType             => 'ACTIVEMQ',
+      Name                   => 'My__string',
       AuthenticationStrategy => 'SIMPLE',                             # OPTIONAL
-      EngineType             => 'ACTIVEMQ',                           # OPTIONAL
       EngineVersion          => 'My__string',                         # OPTIONAL
-      Name                   => 'My__string',                         # OPTIONAL
       Tags                   => { 'My__string' => 'My__string', },    # OPTIONAL
     );
 
@@ -59,26 +59,31 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mq/
 
 =head2 AuthenticationStrategy => Str
 
-The authentication strategy associated with the configuration.
+Optional. The authentication strategy associated with the
+configuration. The default is SIMPLE.
 
 Valid values are: C<"SIMPLE">, C<"LDAP">
 
-=head2 EngineType => Str
+=head2 B<REQUIRED> EngineType => Str
 
-Required. The type of broker engine. Note: Currently, Amazon MQ
-supports ACTIVEMQ and RABBITMQ.
+Required. The type of broker engine. Currently, Amazon MQ supports
+ACTIVEMQ and RABBITMQ.
 
 Valid values are: C<"ACTIVEMQ">, C<"RABBITMQ">
 
 =head2 EngineVersion => Str
 
-Required. The version of the broker engine. For a list of supported
-engine versions, see
-https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+The broker engine version. Defaults to the latest available version for
+the specified broker engine type. For more information, see the
+ActiveMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/activemq-version-management.html)
+and the RabbitMQ version management
+(https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/rabbitmq-version-management.html)
+sections in the Amazon MQ Developer Guide.
 
 
 
-=head2 Name => Str
+=head2 B<REQUIRED> Name => Str
 
 Required. The name of the configuration. This value can contain only
 alphanumeric characters, dashes, periods, underscores, and tildes (- .

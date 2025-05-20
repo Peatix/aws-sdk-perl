@@ -36,7 +36,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::Instan
 
 =head1 DESCRIPTION
 
-One or more association documents on the instance.
+One or more association documents on the managed node.
 
 =head1 ATTRIBUTES
 
@@ -48,17 +48,17 @@ The association ID.
 
 =head2 AssociationVersion => Str
 
-Version information for the association on the instance.
+Version information for the association on the managed node.
 
 
 =head2 Content => Str
 
-The content of the association document for the instance(s).
+The content of the association document for the managed nodes.
 
 
 =head2 InstanceId => Str
 
-The instance ID.
+The managed node ID.
 
 
 

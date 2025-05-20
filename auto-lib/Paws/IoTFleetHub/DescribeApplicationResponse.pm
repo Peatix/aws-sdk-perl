@@ -68,13 +68,15 @@ The URL of the web application.
 
 =head2 ErrorMessage => Str
 
-A message indicating why the C<DescribeApplication> API failed.
+A message that explains any failures included in the
+C<applicationState> response field. This message explains failures in
+the C<CreateApplication> and C<DeleteApplication> actions.
 
 
 =head2 B<REQUIRED> RoleArn => Str
 
 The ARN of the role that the web application assumes when it interacts
-with AWS IoT Core.
+with Amazon Web Services IoT Core.
 
 
 =head2 SsoClientId => Str

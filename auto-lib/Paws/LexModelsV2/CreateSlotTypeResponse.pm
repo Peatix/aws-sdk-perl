@@ -3,8 +3,10 @@ package Paws::LexModelsV2::CreateSlotTypeResponse;
   use Moose;
   has BotId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botId');
   has BotVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'botVersion');
+  has CompositeSlotTypeSetting => (is => 'ro', isa => 'Paws::LexModelsV2::CompositeSlotTypeSetting', traits => ['NameInRequest'], request_name => 'compositeSlotTypeSetting');
   has CreationDateTime => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'creationDateTime');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
+  has ExternalSourceSetting => (is => 'ro', isa => 'Paws::LexModelsV2::ExternalSourceSetting', traits => ['NameInRequest'], request_name => 'externalSourceSetting');
   has LocaleId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'localeId');
   has ParentSlotTypeSignature => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'parentSlotTypeSignature');
   has SlotTypeId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'slotTypeId');
@@ -34,6 +36,11 @@ The identifier for the bot associated with the slot type.
 The version of the bot associated with the slot type.
 
 
+=head2 CompositeSlotTypeSetting => L<Paws::LexModelsV2::CompositeSlotTypeSetting>
+
+Specifications for a composite slot type.
+
+
 =head2 CreationDateTime => Str
 
 A timestamp of the date and time that the slot type was created.
@@ -42,6 +49,11 @@ A timestamp of the date and time that the slot type was created.
 =head2 Description => Str
 
 The description specified for the slot type.
+
+
+=head2 ExternalSourceSetting => L<Paws::LexModelsV2::ExternalSourceSetting>
+
+The type of external information used to create the slot type.
 
 
 =head2 LocaleId => Str

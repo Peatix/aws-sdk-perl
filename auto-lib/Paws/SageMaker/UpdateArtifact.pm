@@ -3,7 +3,7 @@ package Paws::SageMaker::UpdateArtifact;
   use Moose;
   has ArtifactArn => (is => 'ro', isa => 'Str', required => 1);
   has ArtifactName => (is => 'ro', isa => 'Str');
-  has Properties => (is => 'ro', isa => 'Paws::SageMaker::LineageEntityParameters');
+  has Properties => (is => 'ro', isa => 'Paws::SageMaker::ArtifactProperties');
   has PropertiesToRemove => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 
   use MooseX::ClassAttribute;
@@ -35,10 +35,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ArtifactName => 'MyExperimentEntityName',    # OPTIONAL
       Properties   => {
         'MyStringParameterValue' =>
-          'MyStringParameterValue',    # key: max: 256, value: max: 256
+          'MyArtifactPropertyValue',    # key: max: 2500, value: max: 4096
       },    # OPTIONAL
       PropertiesToRemove => [
-        'MyStringParameterValue', ...    # max: 256
+        'MyStringParameterValue', ...    # max: 2500
       ],    # OPTIONAL
     );
 
@@ -65,7 +65,7 @@ The new name for the artifact.
 
 
 
-=head2 Properties => L<Paws::SageMaker::LineageEntityParameters>
+=head2 Properties => L<Paws::SageMaker::ArtifactProperties>
 
 The new list of properties. Overwrites the current property list.
 

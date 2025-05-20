@@ -6,6 +6,7 @@ package Paws::ImageBuilder::EbsInstanceBlockDeviceSpecification;
   has Iops => (is => 'ro', isa => 'Int', request_name => 'iops', traits => ['NameInRequest']);
   has KmsKeyId => (is => 'ro', isa => 'Str', request_name => 'kmsKeyId', traits => ['NameInRequest']);
   has SnapshotId => (is => 'ro', isa => 'Str', request_name => 'snapshotId', traits => ['NameInRequest']);
+  has Throughput => (is => 'ro', isa => 'Int', request_name => 'throughput', traits => ['NameInRequest']);
   has VolumeSize => (is => 'ro', isa => 'Int', request_name => 'volumeSize', traits => ['NameInRequest']);
   has VolumeType => (is => 'ro', isa => 'Str', request_name => 'volumeType', traits => ['NameInRequest']);
 
@@ -67,6 +68,12 @@ Use to configure the KMS key to use when encrypting the device.
 =head2 SnapshotId => Str
 
 The snapshot that defines the device contents.
+
+
+=head2 Throughput => Int
+
+B<For GP3 volumes only> E<ndash> The throughput in MiB/s that the
+volume supports.
 
 
 =head2 VolumeSize => Int

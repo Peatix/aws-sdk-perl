@@ -50,27 +50,29 @@ The assignment of a control set to a delegate for review.
 
 =head2 AssessmentId => Str
 
-The identifier for the associated assessment.
+The identifier for the assessment that's associated with the
+delegation.
 
 
 =head2 AssessmentName => Str
 
-The name of the associated assessment.
+The name of the assessment that's associated with the delegation.
 
 
 =head2 Comment => Str
 
-The comment related to the delegation.
+The comment that's related to the delegation.
 
 
 =head2 ControlSetId => Str
 
-The identifier for the associated control set.
+The identifier for the control set that's associated with the
+delegation.
 
 
 =head2 CreatedBy => Str
 
-The IAM user or role that created the delegation.
+The user or role that created the delegation.
 
 
 =head2 CreationTime => Str

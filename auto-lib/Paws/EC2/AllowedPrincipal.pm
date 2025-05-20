@@ -2,6 +2,9 @@ package Paws::EC2::AllowedPrincipal;
   use Moose;
   has Principal => (is => 'ro', isa => 'Str', request_name => 'principal', traits => ['NameInRequest']);
   has PrincipalType => (is => 'ro', isa => 'Str', request_name => 'principalType', traits => ['NameInRequest']);
+  has ServiceId => (is => 'ro', isa => 'Str', request_name => 'serviceId', traits => ['NameInRequest']);
+  has ServicePermissionId => (is => 'ro', isa => 'Str', request_name => 'servicePermissionId', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::EC2::Tag]', request_name => 'tagSet', traits => ['NameInRequest']);
 1;
 
 ### main pod documentation begin ###
@@ -21,7 +24,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::EC2::AllowedPrincipal object:
 
-  $service_obj->Method(Att1 => { Principal => $value, ..., PrincipalType => $value  });
+  $service_obj->Method(Att1 => { Principal => $value, ..., Tags => $value  });
 
 =head3 Results returned from an API call
 
@@ -45,6 +48,21 @@ The Amazon Resource Name (ARN) of the principal.
 =head2 PrincipalType => Str
 
 The type of principal.
+
+
+=head2 ServiceId => Str
+
+The ID of the service.
+
+
+=head2 ServicePermissionId => Str
+
+The ID of the service permission.
+
+
+=head2 Tags => ArrayRef[L<Paws::EC2::Tag>]
+
+The tags.
 
 
 

@@ -48,6 +48,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ],    # OPTIONAL
     );
 
+    # Results:
+    my $DataCatalog = $CreateDataCatalogOutput->DataCatalog;
+
+    # Returns a L<Paws::Athena::CreateDataCatalogOutput> object.
+
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/athena/CreateDataCatalog>
 
@@ -63,8 +68,31 @@ A description of the data catalog to be created.
 =head2 B<REQUIRED> Name => Str
 
 The name of the data catalog to create. The catalog name must be unique
-for the AWS account and can use a maximum of 128 alphanumeric,
-underscore, at sign, or hyphen characters.
+for the Amazon Web Services account and can use a maximum of 127
+alphanumeric, underscore, at sign, or hyphen characters. The remainder
+of the length constraint of 256 is reserved for use by Athena.
+
+For C<FEDERATED> type the catalog name has following considerations and
+limits:
+
+=over
+
+=item *
+
+The catalog name allows special characters such as C<_ , @ , \ , - >.
+These characters are replaced with a hyphen (-) when creating the CFN
+Stack Name and with an underscore (_) when creating the Lambda Function
+and Glue Connection Name.
+
+=item *
+
+The catalog name has a theoretical limit of 128 characters. However,
+since we use it to create other resources that allow less characters
+and we prepend a prefix to it, the actual catalog name limit for
+C<FEDERATED> catalog is 64 - 23 = 41 characters.
+
+=back
+
 
 
 
@@ -107,6 +135,54 @@ C<function=I<lambda_arn>>
 
 =back
 
+=item *
+
+The C<GLUE> type takes a catalog ID parameter and is required. The C<
+I<catalog_id> > is the account ID of the Amazon Web Services account to
+which the Glue Data Catalog belongs.
+
+C<catalog-id=I<catalog_id>>
+
+=over
+
+=item *
+
+The C<GLUE> data catalog type also applies to the default
+C<AwsDataCatalog> that already exists in your account, of which you can
+have only one and cannot modify.
+
+=back
+
+=item *
+
+The C<FEDERATED> data catalog type uses one of the following
+parameters, but not both. Use C<connection-arn> for an existing Glue
+connection. Use C<connection-type> and C<connection-properties> to
+specify the configuration setting for a new connection.
+
+=over
+
+=item *
+
+C<connection-arn:I<E<lt>glue_connection_arn_to_reuseE<gt>>>
+
+=item *
+
+C<lambda-role-arn> (optional): The execution role to use for the Lambda
+function. If not provided, one is created.
+
+=item *
+
+C<connection-type:MYSQL|REDSHIFT|....,
+connection-properties:"I<E<lt>json_stringE<gt>>">
+
+For I< C<E<lt>json_stringE<gt>> >, use escaped JSON text, as in the
+following example.
+
+C<"{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}">
+
+=back
+
 =back
 
 
@@ -115,20 +191,25 @@ C<function=I<lambda_arn>>
 =head2 Tags => ArrayRef[L<Paws::Athena::Tag>]
 
 A list of comma separated tags to add to the data catalog that is
-created.
+created. All the resources that are created by the C<CreateDataCatalog>
+API operation with C<FEDERATED> type will have the tag
+C<federated_athena_datacatalog="true">. This includes the CFN Stack,
+Glue Connection, Athena DataCatalog, and all the resources created as
+part of the CFN Stack (Lambda Function, IAM policies/roles).
 
 
 
 =head2 B<REQUIRED> Type => Str
 
-The type of data catalog to create: C<LAMBDA> for a federated catalog
-or C<HIVE> for an external hive metastore.
+The type of data catalog to create: C<LAMBDA> for a federated catalog,
+C<GLUE> for an Glue Data Catalog, and C<HIVE> for an external Apache
+Hive metastore. C<FEDERATED> is a federated catalog for which Athena
+creates the connection and the Lambda function for you based on the
+parameters that you pass.
 
-Do not use the C<GLUE> type. This refers to the C<AwsDataCatalog> that
-already exists in your account, of which you can have only one.
-Specifying the C<GLUE> type will result in an C<INVALID_INPUT> error.
+For C<FEDERATED> type, we do not support IAM identity center.
 
-Valid values are: C<"LAMBDA">, C<"GLUE">, C<"HIVE">
+Valid values are: C<"LAMBDA">, C<"GLUE">, C<"HIVE">, C<"FEDERATED">
 
 
 =head1 SEE ALSO

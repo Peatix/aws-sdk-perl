@@ -1,6 +1,7 @@
 
 package Paws::Discovery::BatchDeleteImportData;
   use Moose;
+  has DeleteHistory => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'deleteHistory' );
   has ImportTaskIds => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'importTaskIds' , required => 1);
 
   use MooseX::ClassAttribute;
@@ -28,8 +29,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $discovery = Paws->service('Discovery');
     my $BatchDeleteImportDataResponse = $discovery->BatchDeleteImportData(
-      ImportTaskIds => [ 'MyImportTaskIdentifier', ... ],
-
+      ImportTaskIds => [
+        'MyImportTaskIdentifier', ...    # max: 200
+      ],
+      DeleteHistory => 1,                # OPTIONAL
     );
 
     # Results:
@@ -41,6 +44,13 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/discovery/BatchDeleteImportData>
 
 =head1 ATTRIBUTES
+
+
+=head2 DeleteHistory => Bool
+
+Set to C<true> to remove the deleted import task from
+DescribeImportTasks.
+
 
 
 =head2 B<REQUIRED> ImportTaskIds => ArrayRef[Str|Undef]

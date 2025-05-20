@@ -3,13 +3,16 @@ package Paws::CloudFront::DistributionSummary;
   use Moose;
   has Aliases => (is => 'ro', isa => 'Paws::CloudFront::Aliases', required => 1);
   has AliasICPRecordals => (is => 'ro', isa => 'ArrayRef[Paws::CloudFront::AliasICPRecordal]', request_name => 'AliasICPRecordal', traits => ['NameInRequest']);
+  has AnycastIpListId => (is => 'ro', isa => 'Str');
   has ARN => (is => 'ro', isa => 'Str', required => 1);
   has CacheBehaviors => (is => 'ro', isa => 'Paws::CloudFront::CacheBehaviors', required => 1);
   has Comment => (is => 'ro', isa => 'Str', required => 1);
+  has ConnectionMode => (is => 'ro', isa => 'Str');
   has CustomErrorResponses => (is => 'ro', isa => 'Paws::CloudFront::CustomErrorResponses', required => 1);
   has DefaultCacheBehavior => (is => 'ro', isa => 'Paws::CloudFront::DefaultCacheBehavior', required => 1);
   has DomainName => (is => 'ro', isa => 'Str', required => 1);
   has Enabled => (is => 'ro', isa => 'Bool', required => 1);
+  has ETag => (is => 'ro', isa => 'Str');
   has HttpVersion => (is => 'ro', isa => 'Str', required => 1);
   has Id => (is => 'ro', isa => 'Str', required => 1);
   has IsIPV6Enabled => (is => 'ro', isa => 'Bool', required => 1);
@@ -18,6 +21,7 @@ package Paws::CloudFront::DistributionSummary;
   has Origins => (is => 'ro', isa => 'Paws::CloudFront::Origins', required => 1);
   has PriceClass => (is => 'ro', isa => 'Str', required => 1);
   has Restrictions => (is => 'ro', isa => 'Paws::CloudFront::Restrictions', required => 1);
+  has Staging => (is => 'ro', isa => 'Bool', required => 1);
   has Status => (is => 'ro', isa => 'Str', required => 1);
   has ViewerCertificate => (is => 'ro', isa => 'Paws::CloudFront::ViewerCertificate', required => 1);
   has WebACLId => (is => 'ro', isa => 'Str', required => 1);
@@ -65,23 +69,29 @@ names), if any, for this distribution.
 
 =head2 AliasICPRecordals => ArrayRef[L<Paws::CloudFront::AliasICPRecordal>]
 
-AWS services in China customers must file for an Internet Content
-Provider (ICP) recordal if they want to serve content publicly on an
-alternate domain name, also known as a CNAME, that they've added to
-CloudFront. AliasICPRecordal provides the ICP recordal status for
-CNAMEs associated with distributions.
+Amazon Web Services services in China customers must file for an
+Internet Content Provider (ICP) recordal if they want to serve content
+publicly on an alternate domain name, also known as a CNAME, that
+they've added to CloudFront. AliasICPRecordal provides the ICP recordal
+status for CNAMEs associated with distributions.
 
 For more information about ICP recordals, see Signup, Accounts, and
 Credentials
 (https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html)
-in I<Getting Started with AWS services in China>.
+in I<Getting Started with Amazon Web Services services in China>.
+
+
+=head2 AnycastIpListId => Str
+
+ID of the Anycast static IP list that is associated with the
+distribution.
 
 
 =head2 B<REQUIRED> ARN => Str
 
 The ARN (Amazon Resource Name) for the distribution. For example:
 C<arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5>, where
-C<123456789012> is your AWS account ID.
+C<123456789012> is your Amazon Web Services account ID.
 
 
 =head2 B<REQUIRED> CacheBehaviors => L<Paws::CloudFront::CacheBehaviors>
@@ -92,6 +102,11 @@ A complex type that contains zero or more C<CacheBehavior> elements.
 =head2 B<REQUIRED> Comment => Str
 
 The comment originally specified when this distribution was created.
+
+
+=head2 ConnectionMode => Str
+
+The connection mode to filter distributions by.
 
 
 =head2 B<REQUIRED> CustomErrorResponses => L<Paws::CloudFront::CustomErrorResponses>
@@ -118,6 +133,11 @@ C<d111111abcdef8.cloudfront.net>.
 
 Whether the distribution is enabled to accept user requests for
 content.
+
+
+=head2 ETag => Str
+
+The current version of the distribution.
 
 
 =head2 B<REQUIRED> HttpVersion => Str
@@ -168,6 +188,13 @@ A complex type that identifies ways in which you want to restrict
 distribution of your content.
 
 
+=head2 B<REQUIRED> Staging => Bool
+
+A Boolean that indicates whether this is a staging distribution. When
+this value is C<true>, this is a staging distribution. When this value
+is C<false>, this is not a staging distribution.
+
+
 =head2 B<REQUIRED> Status => Str
 
 The current status of the distribution. When the status is C<Deployed>,
@@ -177,8 +204,8 @@ locations.
 
 =head2 B<REQUIRED> ViewerCertificate => L<Paws::CloudFront::ViewerCertificate>
 
-A complex type that determines the distributionE<rsquo>s SSL/TLS
-configuration for communicating with viewers.
+A complex type that determines the distribution's SSL/TLS configuration
+for communicating with viewers.
 
 
 =head2 B<REQUIRED> WebACLId => Str

@@ -78,6 +78,9 @@ default and the only supported value at this time.
 The maximum number of items to return in one batch, between 10 and 100,
 inclusive.
 
+If you don't specify the C<maxResults> parameter, this operation
+returns a maximum of 30 items by default.
+
 
 
 =head2 NextToken => Str

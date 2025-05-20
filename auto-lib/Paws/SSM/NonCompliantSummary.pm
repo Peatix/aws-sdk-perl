@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::NonCom
 
 =head1 DESCRIPTION
 
-A summary of resources that are not compliant. The summary is organized
+A summary of resources that aren't compliant. The summary is organized
 according to resource type.
 
 =head1 ATTRIBUTES
@@ -42,7 +42,7 @@ according to resource type.
 
 =head2 NonCompliantCount => Int
 
-The total number of compliance items that are not compliant.
+The total number of compliance items that aren't compliant.
 
 
 =head2 SeveritySummary => L<Paws::SSM::SeveritySummary>

@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/red
 
 The unique identifier of the cluster for which you want to change the
 retention period for either automated or manual snapshots that are
-copied to a destination AWS Region.
+copied to a destination Amazon Web Services Region.
 
 Constraints: Must be the valid name of an existing cluster that has
 cross-region snapshot copy enabled.
@@ -67,16 +67,18 @@ copied manual snapshots instead of automated snapshots.
 
 =head2 B<REQUIRED> RetentionPeriod => Int
 
-The number of days to retain automated snapshots in the destination AWS
-Region after they are copied from the source AWS Region.
+The number of days to retain automated snapshots in the destination
+Amazon Web Services Region after they are copied from the source Amazon
+Web Services Region.
 
 By default, this only changes the retention period of copied automated
 snapshots.
 
 If you decrease the retention period for automated snapshots that are
-copied to a destination AWS Region, Amazon Redshift deletes any
-existing automated snapshots that were copied to the destination AWS
-Region and that fall outside of the new retention period.
+copied to a destination Amazon Web Services Region, Amazon Redshift
+deletes any existing automated snapshots that were copied to the
+destination Amazon Web Services Region and that fall outside of the new
+retention period.
 
 Constraints: Must be at least 1 and no more than 35 for automated
 snapshots.

@@ -5,6 +5,7 @@ package Paws::AppConfig::ListHostedConfigurationVersions;
   has ConfigurationProfileId => (is => 'ro', isa => 'Str', traits => ['ParamInURI'], uri_name => 'ConfigurationProfileId', required => 1);
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['ParamInQuery'], query_name => 'max_results');
   has NextToken => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'next_token');
+  has VersionLabel => (is => 'ro', isa => 'Str', traits => ['ParamInQuery'], query_name => 'version_label');
 
   use MooseX::ClassAttribute;
 
@@ -31,17 +32,18 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 =head1 SYNOPSIS
 
     my $appconfig = Paws->service('AppConfig');
+# To list the available hosted configuration versions
+# The following list-hosted-configuration-versions example lists the
+# configurations versions hosted in the AWS AppConfig hosted configuration store
+# for the specified application and configuration profile.
     my $HostedConfigurationVersions =
       $appconfig->ListHostedConfigurationVersions(
-      ApplicationId          => 'MyId',
-      ConfigurationProfileId => 'MyId',
-      MaxResults             => 1,                # OPTIONAL
-      NextToken              => 'MyNextToken',    # OPTIONAL
+      'ApplicationId'          => '339ohji',
+      'ConfigurationProfileId' => 'ur8hx2f'
       );
 
     # Results:
-    my $Items     = $HostedConfigurationVersions->Items;
-    my $NextToken = $HostedConfigurationVersions->NextToken;
+    my $Items = $HostedConfigurationVersions->Items;
 
     # Returns a L<Paws::AppConfig::HostedConfigurationVersions> object.
 
@@ -65,9 +67,10 @@ The configuration profile ID.
 
 =head2 MaxResults => Int
 
-The maximum number of items to return for this call. The call also
-returns a token that you can specify in a subsequent call to get the
-next set of results.
+The maximum number of items to return for this call. If C<MaxResults>
+is not provided in the call, AppConfig returns the maximum of 50. The
+call also returns a token that you can specify in a subsequent call to
+get the next set of results.
 
 
 
@@ -75,6 +78,16 @@ next set of results.
 
 A token to start the list. Use this token to get the next set of
 results.
+
+
+
+=head2 VersionLabel => Str
+
+An optional filter that can be used to specify the version label of an
+AppConfig hosted configuration version. This parameter supports
+filtering by prefix using a wildcard, for example "v2*". If you don't
+specify an asterisk at the end of the value, only an exact match is
+returned.
 
 
 

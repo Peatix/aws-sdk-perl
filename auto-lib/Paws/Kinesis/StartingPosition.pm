@@ -35,7 +35,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Kinesis::St
 
 =head1 DESCRIPTION
 
-This class has no description
+The starting position in the data stream from which to start streaming.
 
 =head1 ATTRIBUTES
 

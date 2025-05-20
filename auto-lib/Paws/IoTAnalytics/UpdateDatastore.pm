@@ -39,6 +39,13 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           RoleArn   => 'MyRoleArn',        # min: 20, max: 2048
           KeyPrefix => 'MyS3KeyPrefix',    # min: 1, max: 255; OPTIONAL
         },    # OPTIONAL
+        IotSiteWiseMultiLayerStorage => {
+          CustomerManagedS3Storage => {
+            Bucket    => 'MyBucketName',     # min: 3, max: 255
+            KeyPrefix => 'MyS3KeyPrefix',    # min: 1, max: 255; OPTIONAL
+          },
+
+        },    # OPTIONAL
         ServiceManagedS3 => {
 
         },    # OPTIONAL
@@ -80,18 +87,18 @@ The name of the data store to be updated.
 
 =head2 DatastoreStorage => L<Paws::IoTAnalytics::DatastoreStorage>
 
-Where data store data is stored. You can choose one of
-C<serviceManagedS3> or C<customerManagedS3> storage. If not specified,
-the default isC<serviceManagedS3>. You cannot change this storage
-option after the data store is created.
+Where data in a data store is stored.. You can choose
+C<serviceManagedS3> storage, C<customerManagedS3> storage, or
+C<iotSiteWiseMultiLayerStorage> storage. The default is
+C<serviceManagedS3>. You can't change the choice of Amazon S3 storage
+after your data store is created.
 
 
 
 =head2 FileFormatConfiguration => L<Paws::IoTAnalytics::FileFormatConfiguration>
 
-Contains the configuration information of file formats. AWS IoT
-Analytics data stores support JSON and Parquet
-(https://parquet.apache.org/).
+Contains the configuration information of file formats. IoT Analytics
+data stores support JSON and Parquet (https://parquet.apache.org/).
 
 The default file format is JSON. You can specify only one format.
 
@@ -102,8 +109,8 @@ You can't change the file format after you create the data store.
 =head2 RetentionPeriod => L<Paws::IoTAnalytics::RetentionPeriod>
 
 How long, in days, message data is kept for the data store. The
-retention period cannot be updated if the data store's S3 storage is
-customer-managed.
+retention period can't be updated if the data store's Amazon S3 storage
+is customer-managed.
 
 
 

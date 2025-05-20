@@ -60,10 +60,11 @@ C<CreateNamedQuery> request is received, the same response is returned
 and another query is not created. If a parameter has changed, for
 example, the C<QueryString>, an error is returned.
 
-This token is listed as not required because AWS SDKs (for example the
-AWS SDK for Java) auto-generate the token for users. If you are not
-using the AWS SDK or the AWS CLI, you must provide this token or the
-action will fail.
+This token is listed as not required because Amazon Web Services SDKs
+(for example the Amazon Web Services SDK for Java) auto-generate the
+token for users. If you are not using the Amazon Web Services SDK or
+the Amazon Web Services CLI, you must provide this token or the action
+will fail.
 
 
 

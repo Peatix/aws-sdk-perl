@@ -33,8 +33,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ACM::Expiry
 
 =head1 DESCRIPTION
 
-Object containing expiration events options associated with an AWS
-account.
+Object containing expiration events options associated with an Amazon
+Web Services account.
 
 =head1 ATTRIBUTES
 

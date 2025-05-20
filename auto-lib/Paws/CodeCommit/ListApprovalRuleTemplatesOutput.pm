@@ -17,8 +17,8 @@ Paws::CodeCommit::ListApprovalRuleTemplatesOutput
 
 =head2 ApprovalRuleTemplateNames => ArrayRef[Str|Undef]
 
-The names of all the approval rule templates found in the AWS Region
-for your AWS account.
+The names of all the approval rule templates found in the Amazon Web
+Services Region for your Amazon Web Services account.
 
 
 =head2 NextToken => Str

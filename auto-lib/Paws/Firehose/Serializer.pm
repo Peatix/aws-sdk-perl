@@ -34,12 +34,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::Firehose::S
 
 =head1 DESCRIPTION
 
-The serializer that you want Kinesis Data Firehose to use to convert
-data to the target format before writing it to Amazon S3. Kinesis Data
-Firehose supports two types of serializers: the ORC SerDe
-(https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/orc/OrcSerde.html)
-and the Parquet SerDe
-(https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/parquet/serde/ParquetHiveSerDe.html).
+The serializer that you want Firehose to use to convert data to the
+target format before writing it to Amazon S3. Firehose supports two
+types of serializers: the ORC SerDe and the Parquet SerDe.
 
 =head1 ATTRIBUTES
 
@@ -55,7 +52,7 @@ storing it in Amazon S3. For more information, see Apache ORC
 
 A serializer to use for converting data to the Parquet format before
 storing it in Amazon S3. For more information, see Apache Parquet
-(https://parquet.apache.org/documentation/latest/).
+(https://parquet.apache.org/docs/contribution-guidelines/).
 
 
 

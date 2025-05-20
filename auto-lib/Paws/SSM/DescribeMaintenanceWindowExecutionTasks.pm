@@ -63,8 +63,9 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ssm
 =head2 Filters => ArrayRef[L<Paws::SSM::MaintenanceWindowFilter>]
 
 Optional filters used to scope down the returned tasks. The supported
-filter key is STATUS with the corresponding values PENDING,
-IN_PROGRESS, SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
+filter key is C<STATUS> with the corresponding values C<PENDING>,
+C<IN_PROGRESS>, C<SUCCESS>, C<FAILED>, C<TIMED_OUT>, C<CANCELLING>, and
+C<CANCELLED>.
 
 
 

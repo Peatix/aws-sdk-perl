@@ -30,7 +30,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $route53domains = Paws->service('Route53Domains');
     my $DeleteTagsForDomainResponse = $route53domains->DeleteTagsForDomain(
       DomainName   => 'MyDomainName',
-      TagsToDelete => [ 'MyTagKey', ... ],
+      TagsToDelete => [
+        'MyTagKey', ...    # min: 1, max: 128
+      ],
 
     );
 

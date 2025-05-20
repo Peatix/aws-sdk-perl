@@ -4,6 +4,7 @@ package Paws::StorageGateway::AssociateFileSystem;
   has AuditDestinationARN => (is => 'ro', isa => 'Str');
   has CacheAttributes => (is => 'ro', isa => 'Paws::StorageGateway::CacheAttributes');
   has ClientToken => (is => 'ro', isa => 'Str', required => 1);
+  has EndpointNetworkConfiguration => (is => 'ro', isa => 'Paws::StorageGateway::EndpointNetworkConfiguration');
   has GatewayARN => (is => 'ro', isa => 'Str', required => 1);
   has LocationARN => (is => 'ro', isa => 'Str', required => 1);
   has Password => (is => 'ro', isa => 'Str', required => 1);
@@ -44,6 +45,11 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       CacheAttributes     => {
         CacheStaleTimeoutInSeconds => 1,                  # OPTIONAL
       },    # OPTIONAL
+      EndpointNetworkConfiguration => {
+        IpAddresses => [
+          'MyIPV4Address', ...    # min: 7, max: 15
+        ],    # max: 1; OPTIONAL
+      },    # OPTIONAL
       Tags => [
         {
           Key   => 'MyTagKey',      # min: 1, max: 128
@@ -80,8 +86,18 @@ The Amazon Resource Name (ARN) of the storage used for the audit logs.
 
 =head2 B<REQUIRED> ClientToken => Str
 
-A unique string value that you supply that is used by the file gateway
-to ensure idempotent file system association creation.
+A unique string value that you supply that is used by the FSx File
+Gateway to ensure idempotent file system association creation.
+
+
+
+=head2 EndpointNetworkConfiguration => L<Paws::StorageGateway::EndpointNetworkConfiguration>
+
+Specifies the network configuration information for the gateway
+associated with the Amazon FSx file system.
+
+If multiple file systems are associated with this gateway, this
+parameter's C<IpAddresses> field is required.
 
 
 
@@ -94,7 +110,7 @@ to ensure idempotent file system association creation.
 =head2 B<REQUIRED> LocationARN => Str
 
 The Amazon Resource Name (ARN) of the Amazon FSx file system to
-associate with the Amazon FSx file gateway.
+associate with the FSx File Gateway.
 
 
 

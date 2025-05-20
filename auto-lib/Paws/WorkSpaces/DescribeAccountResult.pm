@@ -1,6 +1,7 @@
 
 package Paws::WorkSpaces::DescribeAccountResult;
   use Moose;
+  has DedicatedTenancyAccountType => (is => 'ro', isa => 'Str');
   has DedicatedTenancyManagementCidrRange => (is => 'ro', isa => 'Str');
   has DedicatedTenancySupport => (is => 'ro', isa => 'Str');
 
@@ -15,6 +16,11 @@ Paws::WorkSpaces::DescribeAccountResult
 =head1 ATTRIBUTES
 
 
+=head2 DedicatedTenancyAccountType => Str
+
+The type of linked account.
+
+Valid values are: C<"SOURCE_ACCOUNT">, C<"TARGET_ACCOUNT">
 =head2 DedicatedTenancyManagementCidrRange => Str
 
 The IP address range, specified as an IPv4 CIDR block, used for the

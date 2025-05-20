@@ -36,32 +36,32 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SecurityHub
 
 =head1 DESCRIPTION
 
-Details about a WAF WebACL.
+Provides information about an WAF web access control list (web ACL).
 
 =head1 ATTRIBUTES
 
 
 =head2 DefaultAction => Str
 
-The action to perform if none of the rules contained in the WebACL
+The action to perform if none of the rules contained in the web ACL
 match.
 
 
 =head2 Name => Str
 
-A friendly name or description of the WebACL. You can't change the name
-of a WebACL after you create it.
+A friendly name or description of the web ACL. You can't change the
+name of a web ACL after you create it.
 
 
 =head2 Rules => ArrayRef[L<Paws::SecurityHub::AwsWafWebAclRule>]
 
-An array that contains the action for each rule in a WebACL, the
+An array that contains the action for each rule in a web ACL, the
 priority of the rule, and the ID of the rule.
 
 
 =head2 WebAclId => Str
 
-A unique identifier for a WebACL.
+A unique identifier for a web ACL.
 
 
 

@@ -3,6 +3,7 @@ package Paws::MediaPackageVod::CreatePackagingConfigurationResponse;
   use Moose;
   has Arn => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'arn');
   has CmafPackage => (is => 'ro', isa => 'Paws::MediaPackageVod::CmafPackage', traits => ['NameInRequest'], request_name => 'cmafPackage');
+  has CreatedAt => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'createdAt');
   has DashPackage => (is => 'ro', isa => 'Paws::MediaPackageVod::DashPackage', traits => ['NameInRequest'], request_name => 'dashPackage');
   has HlsPackage => (is => 'ro', isa => 'Paws::MediaPackageVod::HlsPackage', traits => ['NameInRequest'], request_name => 'hlsPackage');
   has Id => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'id');
@@ -30,6 +31,11 @@ The ARN of the PackagingConfiguration.
 =head2 CmafPackage => L<Paws::MediaPackageVod::CmafPackage>
 
 
+
+
+=head2 CreatedAt => Str
+
+The time the PackagingConfiguration was created.
 
 
 =head2 DashPackage => L<Paws::MediaPackageVod::DashPackage>

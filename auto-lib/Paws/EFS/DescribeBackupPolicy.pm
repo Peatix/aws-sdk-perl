@@ -46,7 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/ela
 
 =head2 B<REQUIRED> FileSystemId => Str
 
-Specifies which EFS file system to retrieve the C<BackupPolicy> for.
+Specifies which EFS file system for which to retrieve the
+C<BackupPolicy>.
 
 
 

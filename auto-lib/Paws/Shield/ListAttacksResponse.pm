@@ -22,15 +22,20 @@ The attack information for the specified time range.
 
 =head2 NextToken => Str
 
-The token returned by a previous call to indicate that there is more
-data available. If not null, more results are available. Pass this
-value for the C<NextMarker> parameter in a subsequent call to
-C<ListAttacks> to retrieve the next set of items.
+When you request a list of objects from Shield Advanced, if the
+response does not include all of the remaining available objects,
+Shield Advanced includes a C<NextToken> value in the response. You can
+retrieve the next batch of objects by requesting the list again and
+providing the token that was returned by the prior call in your
+request.
 
-Shield Advanced might return the list of AttackSummary objects in
-batches smaller than the number specified by MaxResults. If there are
-more attack summary objects to return, Shield Advanced will always also
-return a C<NextToken>.
+You can indicate the maximum number of objects that you want Shield
+Advanced to return for a single call with the C<MaxResults> setting.
+Shield Advanced will not return more than C<MaxResults> objects, but
+may return fewer, even if more objects are still available.
+
+Whenever more objects remain that Shield Advanced has not yet returned
+to you, the response will include a C<NextToken> value.
 
 
 =head2 _request_id => Str

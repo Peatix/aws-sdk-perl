@@ -34,19 +34,22 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EFS::Resour
 
 =head1 DESCRIPTION
 
-This class has no description
+Describes the resource type and its ID preference for the user's Amazon
+Web Services account, in the current Amazon Web Services Region.
 
 =head1 ATTRIBUTES
 
 
 =head2 ResourceIdType => Str
 
-
+Identifies the EFS resource ID preference, either C<LONG_ID> (17
+characters) or C<SHORT_ID> (8 characters).
 
 
 =head2 Resources => ArrayRef[Str|Undef]
 
-
+Identifies the Amazon EFS resources to which the ID preference setting
+applies, C<FILE_SYSTEM> and C<MOUNT_TARGET>.
 
 
 

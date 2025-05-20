@@ -41,22 +41,22 @@ issuance, stated in days, months, or years. For more information, see
 Validity (https://tools.ietf.org/html/rfc5280#section-4.1.2.5) in RFC
 5280.
 
-ACM Private CA API consumes the C<Validity> data type differently in
-two distinct parameters of the C<IssueCertificate> action. The required
-parameter C<IssueCertificate>:C<Validity> specifies the end of a
-certificate's validity period. The optional parameter
-C<IssueCertificate>:C<ValidityNotBefore> specifies a customized
-starting time for the validity period.
+Amazon Web Services Private CA API consumes the C<Validity> data type
+differently in two distinct parameters of the C<IssueCertificate>
+action. The required parameter C<IssueCertificate>:C<Validity>
+specifies the end of a certificate's validity period. The optional
+parameter C<IssueCertificate>:C<ValidityNotBefore> specifies a
+customized starting time for the validity period.
 
 =head1 ATTRIBUTES
 
 
 =head2 B<REQUIRED> Type => Str
 
-Determines how I<ACM Private CA> interprets the C<Value> parameter, an
-integer. Supported validity types include those listed below. Type
-definitions with values include a sample input value and the resulting
-output.
+Determines how I<Amazon Web Services Private CA> interprets the
+C<Value> parameter, an integer. Supported validity types include those
+listed below. Type definitions with values include a sample input value
+and the resulting output.
 
 C<END_DATE>: The specific date and time when the certificate will
 expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime

@@ -2,6 +2,7 @@
 package Paws::Comprehend::DocumentClass;
   use Moose;
   has Name => (is => 'ro', isa => 'Str');
+  has Page => (is => 'ro', isa => 'Int');
   has Score => (is => 'ro', isa => 'Num');
 
 1;
@@ -42,6 +43,12 @@ Specifies the class that categorizes the document being analyzed
 =head2 Name => Str
 
 The name of the class.
+
+
+=head2 Page => Int
+
+Page number in the input document. This field is present in the
+response only if your request includes the C<Byte> parameter.
 
 
 =head2 Score => Num

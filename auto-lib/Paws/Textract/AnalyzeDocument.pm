@@ -1,9 +1,11 @@
 
 package Paws::Textract::AnalyzeDocument;
   use Moose;
+  has AdaptersConfig => (is => 'ro', isa => 'Paws::Textract::AdaptersConfig');
   has Document => (is => 'ro', isa => 'Paws::Textract::Document', required => 1);
   has FeatureTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]', required => 1);
   has HumanLoopConfig => (is => 'ro', isa => 'Paws::Textract::HumanLoopConfig');
+  has QueriesConfig => (is => 'ro', isa => 'Paws::Textract::QueriesConfig');
 
   use MooseX::ClassAttribute;
 
@@ -39,8 +41,21 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
       },
       FeatureTypes => [
-        'TABLES', ...    # values: TABLES, FORMS
+        'TABLES', ...    # values: TABLES, FORMS, QUERIES, SIGNATURES, LAYOUT
       ],
+      AdaptersConfig => {
+        Adapters => [
+          {
+            AdapterId => 'MyAdapterId',         # min: 12, max: 1011
+            Version   => 'MyAdapterVersion',    # min: 1, max: 128
+            Pages     => [
+              'MyAdapterPage', ...              # min: 1, max: 9
+            ],    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # min: 1, max: 100
+
+      },    # OPTIONAL
       HumanLoopConfig => {
         FlowDefinitionArn => 'MyFlowDefinitionArn',    # max: 256
         HumanLoopName     => 'MyHumanLoopName',        # min: 1, max: 63
@@ -50,6 +65,19 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ... # values: FreeOfPersonallyIdentifiableInformation, FreeOfAdultContent
           ],    # max: 256; OPTIONAL
         },    # OPTIONAL
+      },    # OPTIONAL
+      QueriesConfig => {
+        Queries => [
+          {
+            Text  => 'MyQueryInput',    # min: 1, max: 200
+            Alias => 'MyQueryInput',    # min: 1, max: 200
+            Pages => [
+              'MyQueryPage', ...        # min: 1, max: 9
+            ],    # min: 1; OPTIONAL
+          },
+          ...
+        ],    # min: 1
+
       },    # OPTIONAL
     );
 
@@ -69,11 +97,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/tex
 =head1 ATTRIBUTES
 
 
+=head2 AdaptersConfig => L<Paws::Textract::AdaptersConfig>
+
+Specifies the adapter to be used when analyzing a document.
+
+
+
 =head2 B<REQUIRED> Document => L<Paws::Textract::Document>
 
 The input document as base64-encoded bytes or an Amazon S3 object. If
 you use the AWS CLI to call Amazon Textract operations, you can't pass
-image bytes. The document must be an image in JPEG or PNG format.
+image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF
+format.
 
 If you're using an AWS SDK to call Amazon Textract, you might not need
 to base64-encode image bytes that are passed using the C<Bytes> field.
@@ -84,8 +119,9 @@ to base64-encode image bytes that are passed using the C<Bytes> field.
 
 A list of the types of analysis to perform. Add TABLES to the list to
 return information about the tables that are detected in the input
-document. Add FORMS to return detected form data. To perform both types
-of analysis, add TABLES and FORMS to C<FeatureTypes>. All lines and
+document. Add FORMS to return detected form data. Add SIGNATURES to
+return the locations of detected signatures. Add LAYOUT to the list to
+return information about the layout of the document. All lines and
 words detected in the document are included in the response (including
 text that isn't related to the value of C<FeatureTypes>).
 
@@ -95,6 +131,13 @@ text that isn't related to the value of C<FeatureTypes>).
 
 Sets the configuration for the human in the loop workflow for analyzing
 documents.
+
+
+
+=head2 QueriesConfig => L<Paws::Textract::QueriesConfig>
+
+Contains Queries and the alias for those Queries, as determined by the
+input.
 
 
 

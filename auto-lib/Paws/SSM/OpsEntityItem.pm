@@ -34,19 +34,19 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SSM::OpsEnt
 
 =head1 DESCRIPTION
 
-The OpsItem summaries result item.
+The OpsData summary.
 
 =head1 ATTRIBUTES
 
 
 =head2 CaptureTime => Str
 
-The time OpsItem data was captured.
+The time the OpsData was captured.
 
 
 =head2 Content => ArrayRef[L<Paws::SSM::OpsEntityItemEntry>]
 
-The detailed data content for an OpsItem summaries result item.
+The details of an OpsData summary.
 
 
 

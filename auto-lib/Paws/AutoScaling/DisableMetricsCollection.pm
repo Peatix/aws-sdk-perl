@@ -51,7 +51,9 @@ The name of the Auto Scaling group.
 
 =head2 Metrics => ArrayRef[Str|Undef]
 
-Specifies one or more of the following metrics:
+Identifies the metrics to disable.
+
+You can specify one or more of the following metrics:
 
 =over
 
@@ -137,7 +139,12 @@ C<GroupAndWarmPoolTotalCapacity>
 
 =back
 
-If you omit this parameter, all metrics are disabled.
+If you omit this property, all metrics are disabled.
+
+For more information, see Amazon CloudWatch metrics for Amazon EC2 Auto
+Scaling
+(https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html)
+in the I<Amazon EC2 Auto Scaling User Guide>.
 
 
 

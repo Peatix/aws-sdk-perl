@@ -35,6 +35,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::EKS::Update
 =head1 DESCRIPTION
 
 An object representing the details of an update to a taints payload.
+For more information, see Node taints on managed node groups
+(https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html)
+in the I<Amazon EKS User Guide>.
 
 =head1 ATTRIBUTES
 
@@ -46,7 +49,7 @@ Kubernetes taints to be added or updated.
 
 =head2 RemoveTaints => ArrayRef[L<Paws::EKS::Taint>]
 
-Kubernetes taints to be removed.
+Kubernetes taints to remove.
 
 
 

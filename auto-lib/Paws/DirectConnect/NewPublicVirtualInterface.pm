@@ -77,8 +77,8 @@ The IP address assigned to the customer interface.
 
 =head2 RouteFilterPrefixes => ArrayRef[L<Paws::DirectConnect::RouteFilterPrefix>]
 
-The routes to be advertised to the AWS network in this Region. Applies
-to public virtual interfaces.
+The routes to be advertised to the Amazon Web Services network in this
+Region. Applies to public virtual interfaces.
 
 
 =head2 Tags => ArrayRef[L<Paws::DirectConnect::Tag>]

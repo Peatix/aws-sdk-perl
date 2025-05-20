@@ -33,10 +33,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $networkmanager = Paws->service('NetworkManager');
     my $GetTransitGatewayRegistrationsResponse =
       $networkmanager->GetTransitGatewayRegistrations(
-      GlobalNetworkId    => 'MyString',
-      MaxResults         => 1,                      # OPTIONAL
-      NextToken          => 'MyString',             # OPTIONAL
-      TransitGatewayArns => [ 'MyString', ... ],    # OPTIONAL
+      GlobalNetworkId    => 'MyGlobalNetworkId',
+      MaxResults         => 1,                     # OPTIONAL
+      NextToken          => 'MyNextToken',         # OPTIONAL
+      TransitGatewayArns => [
+        'MyTransitGatewayArn', ...                 # max: 500
+      ],    # OPTIONAL
       );
 
     # Results:

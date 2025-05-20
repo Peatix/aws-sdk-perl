@@ -51,7 +51,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/cog
 
 =head2 AccountId => Str
 
-A standard AWS account ID (9+ digits).
+A standard Amazon Web Services account ID (9+ digits).
 
 
 

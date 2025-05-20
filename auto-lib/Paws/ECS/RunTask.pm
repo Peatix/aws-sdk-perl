@@ -2,6 +2,7 @@
 package Paws::ECS::RunTask;
   use Moose;
   has CapacityProviderStrategy => (is => 'ro', isa => 'ArrayRef[Paws::ECS::CapacityProviderStrategyItem]', traits => ['NameInRequest'], request_name => 'capacityProviderStrategy' );
+  has ClientToken => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'clientToken' );
   has Cluster => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'cluster' );
   has Count => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'count' );
   has EnableECSManagedTags => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'enableECSManagedTags' );
@@ -18,6 +19,7 @@ package Paws::ECS::RunTask;
   has StartedBy => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'startedBy' );
   has Tags => (is => 'ro', isa => 'ArrayRef[Paws::ECS::Tag]', traits => ['NameInRequest'], request_name => 'tags' );
   has TaskDefinition => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'taskDefinition' , required => 1);
+  has VolumeConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::ECS::TaskVolumeConfiguration]', traits => ['NameInRequest'], request_name => 'volumeConfigurations' );
 
   use MooseX::ClassAttribute;
 
@@ -70,27 +72,46 @@ parameter must be omitted. If no C<capacityProviderStrategy> or
 C<launchType> is specified, the C<defaultCapacityProviderStrategy> for
 the cluster is used.
 
+When you use cluster auto scaling, you must specify
+C<capacityProviderStrategy> and not C<launchType>.
+
+A capacity provider strategy can contain a maximum of 20 capacity
+providers.
+
+
+
+=head2 ClientToken => Str
+
+An identifier that you provide to ensure the idempotency of the
+request. It must be unique and is case sensitive. Up to 64 characters
+are allowed. The valid characters are characters in the range of
+33-126, inclusive. For more information, see Ensuring idempotency
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
+
 
 
 =head2 Cluster => Str
 
-The short name or full Amazon Resource Name (ARN) of the cluster on
-which to run your task. If you do not specify a cluster, the default
-cluster is assumed.
+The short name or full Amazon Resource Name (ARN) of the cluster to run
+your task on. If you do not specify a cluster, the default cluster is
+assumed.
+
+Each account receives a default cluster the first time you use the
+service, but you may also create other clusters.
 
 
 
 =head2 Count => Int
 
 The number of instantiations of the specified task to place on your
-cluster. You can specify up to 10 tasks per call.
+cluster. You can specify up to 10 tasks for each call.
 
 
 
 =head2 EnableECSManagedTags => Bool
 
-Specifies whether to enable Amazon ECS managed tags for the task. For
-more information, see Tagging Your Amazon ECS Resources
+Specifies whether to use Amazon ECS managed tags for the task. For more
+information, see Tagging Your Amazon ECS Resources
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -98,9 +119,12 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 =head2 EnableExecuteCommand => Bool
 
-Whether or not to enable the execute command functionality for the
+Determines whether to use the execute command functionality for the
 containers in this task. If C<true>, this enables execute command
 functionality on all containers in the task.
+
+If C<true>, then the task definition must have a task role, or you must
+provide one as an override.
 
 
 
@@ -108,35 +132,38 @@ functionality on all containers in the task.
 
 The name of the task group to associate with the task. The default
 value is the family name of the task definition (for example,
-family:my-family-name).
+C<family:my-family-name>).
 
 
 
 =head2 LaunchType => Str
 
-The infrastructure on which to run your standalone task. For more
+The infrastructure to run your standalone task on. For more
 information, see Amazon ECS launch types
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
-The C<FARGATE> launch type runs your tasks on AWS Fargate On-Demand
+The C<FARGATE> launch type runs your tasks on Fargate On-Demand
 infrastructure.
 
 Fargate Spot infrastructure is available for use but a capacity
-provider strategy must be used. For more information, see AWS Fargate
+provider strategy must be used. For more information, see Fargate
 capacity providers
-(https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html)
-in the I<Amazon ECS User Guide for AWS Fargate>.
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html)
+in the I<Amazon ECS Developer Guide>.
 
 The C<EC2> launch type runs your tasks on Amazon EC2 instances
 registered to your cluster.
 
-The C<EXTERNAL> launch type runs your tasks on your on-premise server
+The C<EXTERNAL> launch type runs your tasks on your on-premises server
 or virtual machine (VM) capacity registered to your cluster.
 
 A task can use either a launch type or a capacity provider strategy. If
 a C<launchType> is specified, the C<capacityProviderStrategy> parameter
 must be omitted.
+
+When you use cluster auto scaling, you must specify
+C<capacityProviderStrategy> and not C<launchType>.
 
 Valid values are: C<"EC2">, C<"FARGATE">, C<"EXTERNAL">
 
@@ -144,8 +171,8 @@ Valid values are: C<"EC2">, C<"FARGATE">, C<"EXTERNAL">
 
 The network configuration for the task. This parameter is required for
 task definitions that use the C<awsvpc> network mode to receive their
-own elastic network interface, and it is not supported for other
-network modes. For more information, see Task Networking
+own elastic network interface, and it isn't supported for other network
+modes. For more information, see Task networking
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -155,7 +182,7 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 
 A list of container overrides in JSON format that specify the name of a
 container in the specified task definition and the overrides it should
-receive. You can override the default command for a container (that is
+receive. You can override the default command for a container (that's
 specified in the task definition or Docker image) with a C<command>
 override. You can also override existing environment variables (that
 are specified in the task definition or Docker image) on a container or
@@ -169,24 +196,24 @@ includes the JSON formatting characters of the override structure.
 =head2 PlacementConstraints => ArrayRef[L<Paws::ECS::PlacementConstraint>]
 
 An array of placement constraint objects to use for the task. You can
-specify up to 10 constraints per task (including constraints in the
-task definition and those specified at runtime).
+specify up to 10 constraints for each task (including constraints in
+the task definition and those specified at runtime).
 
 
 
 =head2 PlacementStrategy => ArrayRef[L<Paws::ECS::PlacementStrategy>]
 
 The placement strategy objects to use for the task. You can specify a
-maximum of five strategy rules per task.
+maximum of 5 strategy rules for each task.
 
 
 
 =head2 PlatformVersion => Str
 
-The platform version the task should run. A platform version is only
-specified for tasks using the Fargate launch type. If one is not
-specified, the C<LATEST> platform version is used by default. For more
-information, see AWS Fargate Platform Versions
+The platform version the task uses. A platform version is only
+specified for tasks hosted on Fargate. If one isn't specified, the
+C<LATEST> platform version is used. For more information, see Fargate
+platform versions
 (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html)
 in the I<Amazon Elastic Container Service Developer Guide>.
 
@@ -195,18 +222,21 @@ in the I<Amazon Elastic Container Service Developer Guide>.
 =head2 PropagateTags => Str
 
 Specifies whether to propagate the tags from the task definition to the
-task. If no value is specified, the tags are not propagated. Tags can
+task. If no value is specified, the tags aren't propagated. Tags can
 only be propagated to the task during task creation. To add tags to a
-task after task creation, use the TagResource API action.
+task after task creation, use theTagResource
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html)
+API action.
 
 An error will be received if you specify the C<SERVICE> option when
 running a task.
 
-Valid values are: C<"TASK_DEFINITION">, C<"SERVICE">
+Valid values are: C<"TASK_DEFINITION">, C<"SERVICE">, C<"NONE">
 
 =head2 ReferenceId => Str
 
-The reference ID to use for the task.
+This parameter is only used by Amazon ECS. It is not intended for use
+by customers.
 
 
 
@@ -216,9 +246,11 @@ An optional tag specified when a task is started. For example, if you
 automatically trigger a task to run a batch process job, you could
 apply a unique identifier for that job to your task with the
 C<startedBy> parameter. You can then identify which tasks belong to
-that job by filtering the results of a ListTasks call with the
-C<startedBy> value. Up to 36 letters (uppercase and lowercase),
-numbers, hyphens, and underscores are allowed.
+that job by filtering the results of a ListTasks
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html)
+call with the C<startedBy> value. Up to 128 letters (uppercase and
+lowercase), numbers, hyphens (-), forward slash (/), and underscores
+(_) are allowed.
 
 If a task is started by an Amazon ECS service, then the C<startedBy>
 parameter contains the deployment ID of the service that starts it.
@@ -267,10 +299,10 @@ Tag keys and values are case-sensitive.
 =item *
 
 Do not use C<aws:>, C<AWS:>, or any upper or lowercase combination of
-such as a prefix for either keys or values as it is reserved for AWS
-use. You cannot edit or delete tag keys or values with this prefix.
-Tags with this prefix do not count against your tags per resource
-limit.
+such as a prefix for either keys or values as it is reserved for Amazon
+Web Services use. You cannot edit or delete tag keys or values with
+this prefix. Tags with this prefix do not count against your tags per
+resource limit.
 
 =back
 
@@ -280,8 +312,37 @@ limit.
 =head2 B<REQUIRED> TaskDefinition => Str
 
 The C<family> and C<revision> (C<family:revision>) or full ARN of the
-task definition to run. If a C<revision> is not specified, the latest
+task definition to run. If a C<revision> isn't specified, the latest
 C<ACTIVE> revision is used.
+
+The full ARN value must match the value that you specified as the
+C<Resource> of the principal's permissions policy.
+
+When you specify a task definition, you must either specify a specific
+revision, or all revisions in the ARN.
+
+To specify a specific revision, include the revision number in the ARN.
+For example, to specify revision 2, use
+C<arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2>.
+
+To specify all revisions, use the wildcard (*) in the ARN. For example,
+to specify all revisions, use
+C<arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*>.
+
+For more information, see Policy Resources for Amazon ECS
+(https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-resources)
+in the Amazon Elastic Container Service Developer Guide.
+
+
+
+=head2 VolumeConfigurations => ArrayRef[L<Paws::ECS::TaskVolumeConfiguration>]
+
+The details of the volume that was C<configuredAtLaunch>. You can
+configure the size, volumeType, IOPS, throughput, snapshot and
+encryption in in TaskManagedEBSVolumeConfiguration
+(https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html).
+The C<name> of the volume must match the C<name> from the task
+definition.
 
 
 

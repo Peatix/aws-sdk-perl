@@ -16,7 +16,7 @@ Paws::KMS::CreateKeyResponse
 
 =head2 KeyMetadata => L<Paws::KMS::KeyMetadata>
 
-Metadata associated with the CMK.
+Metadata associated with the KMS key.
 
 
 =head2 _request_id => Str

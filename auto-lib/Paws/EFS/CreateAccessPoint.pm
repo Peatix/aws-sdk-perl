@@ -103,14 +103,14 @@ made using the access point.
 
 =head2 RootDirectory => L<Paws::EFS::RootDirectory>
 
-Specifies the directory on the Amazon EFS file system that the access
-point exposes as the root directory of your file system to NFS clients
-using the access point. The clients using the access point can only
-access the root directory and below. If the C<RootDirectory> E<gt>
-C<Path> specified does not exist, EFS creates it and applies the
+Specifies the directory on the EFS file system that the access point
+exposes as the root directory of your file system to NFS clients using
+the access point. The clients using the access point can only access
+the root directory and below. If the C<RootDirectory> E<gt> C<Path>
+specified does not exist, Amazon EFS creates it and applies the
 C<CreationInfo> settings when a client connects to an access point.
-When specifying a C<RootDirectory>, you need to provide the C<Path>,
-and the C<CreationInfo>.
+When specifying a C<RootDirectory>, you must provide the C<Path>, and
+the C<CreationInfo>.
 
 Amazon EFS creates a root directory only if you have provided the
 CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you
@@ -123,7 +123,10 @@ using the access point will fail.
 =head2 Tags => ArrayRef[L<Paws::EFS::Tag>]
 
 Creates tags associated with the access point. Each tag is a key-value
-pair.
+pair, each key must be unique. For more information, see Tagging Amazon
+Web Services resources
+(https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the
+I<Amazon Web Services General Reference Guide>.
 
 
 

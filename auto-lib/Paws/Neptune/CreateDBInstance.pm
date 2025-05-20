@@ -7,7 +7,7 @@ package Paws::Neptune::CreateDBInstance;
   has BackupRetentionPeriod => (is => 'ro', isa => 'Int');
   has CharacterSetName => (is => 'ro', isa => 'Str');
   has CopyTagsToSnapshot => (is => 'ro', isa => 'Bool');
-  has DBClusterIdentifier => (is => 'ro', isa => 'Str');
+  has DBClusterIdentifier => (is => 'ro', isa => 'Str', required => 1);
   has DBInstanceClass => (is => 'ro', isa => 'Str', required => 1);
   has DBInstanceIdentifier => (is => 'ro', isa => 'Str', required => 1);
   has DBName => (is => 'ro', isa => 'Str');
@@ -70,6 +70,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $rds = Paws->service('Neptune');
     my $CreateDBInstanceResult = $rds->CreateDBInstance(
+      DBClusterIdentifier             => 'MyString',
       DBInstanceClass                 => 'MyString',
       DBInstanceIdentifier            => 'MyString',
       Engine                          => 'MyString',
@@ -79,7 +80,6 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BackupRetentionPeriod           => 1,                      # OPTIONAL
       CharacterSetName                => 'MyString',             # OPTIONAL
       CopyTagsToSnapshot              => 1,                      # OPTIONAL
-      DBClusterIdentifier             => 'MyString',             # OPTIONAL
       DBName                          => 'MyString',             # OPTIONAL
       DBParameterGroupName            => 'MyString',             # OPTIONAL
       DBSecurityGroups                => [ 'MyString', ... ],    # OPTIONAL
@@ -116,7 +116,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ...
       ],                                                         # OPTIONAL
       TdeCredentialArn      => 'MyString',                       # OPTIONAL
-      TdeCredentialPassword => 'MyString',                       # OPTIONAL
+      TdeCredentialPassword => 'MySensitiveString',              # OPTIONAL
       Timezone              => 'MyString',                       # OPTIONAL
       VpcSecurityGroupIds   => [ 'MyString', ... ],              # OPTIONAL
     );
@@ -201,7 +201,7 @@ instance, and otherwise false. The default is false.
 
 
 
-=head2 DBClusterIdentifier => Str
+=head2 B<REQUIRED> DBClusterIdentifier => Str
 
 The identifier of the DB cluster that the instance will belong to.
 
@@ -517,9 +517,8 @@ Default: false
 
 =head2 StorageType => Str
 
-Specifies the storage type to be associated with the DB instance.
-
-Not applicable. Storage is managed by the DB Cluster.
+Not applicable. In Neptune the storage type is managed at the DB
+Cluster level.
 
 
 

@@ -9,7 +9,9 @@ package Paws::ServiceQuotas::RequestedServiceQuotaChange;
   has LastUpdated => (is => 'ro', isa => 'Str');
   has QuotaArn => (is => 'ro', isa => 'Str');
   has QuotaCode => (is => 'ro', isa => 'Str');
+  has QuotaContext => (is => 'ro', isa => 'Paws::ServiceQuotas::QuotaContextInfo');
   has QuotaName => (is => 'ro', isa => 'Str');
+  has QuotaRequestedAtLevel => (is => 'ro', isa => 'Str');
   has Requester => (is => 'ro', isa => 'Str');
   has ServiceCode => (is => 'ro', isa => 'Str');
   has ServiceName => (is => 'ro', isa => 'Str');
@@ -89,12 +91,25 @@ The Amazon Resource Name (ARN) of the quota.
 
 =head2 QuotaCode => Str
 
-The quota identifier.
+Specifies the quota identifier. To find the quota code for a specific
+quota, use the ListServiceQuotas operation, and look for the
+C<QuotaCode> response in the output for the quota you want.
+
+
+=head2 QuotaContext => L<Paws::ServiceQuotas::QuotaContextInfo>
+
+The context for this service quota.
 
 
 =head2 QuotaName => Str
 
-The quota name.
+Specifies the quota name.
+
+
+=head2 QuotaRequestedAtLevel => Str
+
+Filters the response to return quota requests for the C<ACCOUNT>,
+C<RESOURCE>, or C<ALL> levels. C<ACCOUNT> is the default.
 
 
 =head2 Requester => Str
@@ -104,17 +119,60 @@ The IAM identity of the requester.
 
 =head2 ServiceCode => Str
 
-The service identifier.
+Specifies the service identifier. To find the service code value for an
+Amazon Web Services service, use the ListServices operation.
 
 
 =head2 ServiceName => Str
 
-The service name.
+Specifies the service name.
 
 
 =head2 Status => Str
 
 The state of the quota increase request.
+
+=over
+
+=item *
+
+C<PENDING>: The quota increase request is under review by Amazon Web
+Services.
+
+=item *
+
+C<CASE_OPENED>: Service Quotas opened a support case to process the
+quota increase request. Follow-up on the support case for more
+information.
+
+=item *
+
+C<APPROVED>: The quota increase request is approved.
+
+=item *
+
+C<DENIED>: The quota increase request can't be approved by Service
+Quotas. Contact Amazon Web Services Support for more details.
+
+=item *
+
+C<NOT APPROVED>: The quota increase request can't be approved by
+Service Quotas. Contact Amazon Web Services Support for more details.
+
+=item *
+
+C<CASE_CLOSED>: The support case associated with this quota increase
+request was closed. Check the support case correspondence for the
+outcome of your quota request.
+
+=item *
+
+C<INVALID_REQUEST>: Service Quotas couldn't process your resource-level
+quota increase request because the Amazon Resource Name (ARN) specified
+as part of the C<ContextId> is invalid.
+
+=back
+
 
 
 =head2 Unit => Str

@@ -4,6 +4,7 @@ package Paws::S3Control::S3CopyObjectOperation;
   has AccessControlGrants => (is => 'ro', isa => 'ArrayRef[Paws::S3Control::S3Grant]');
   has BucketKeyEnabled => (is => 'ro', isa => 'Bool');
   has CannedAccessControlList => (is => 'ro', isa => 'Str');
+  has ChecksumAlgorithm => (is => 'ro', isa => 'Str');
   has MetadataDirective => (is => 'ro', isa => 'Str');
   has ModifiedSinceConstraint => (is => 'ro', isa => 'Str');
   has NewObjectMetadata => (is => 'ro', isa => 'Paws::S3Control::S3ObjectMetadata');
@@ -50,9 +51,9 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::S3Control::
 =head1 DESCRIPTION
 
 Contains the configuration parameters for a PUT Copy object operation.
-S3 Batch Operations passes every object to the underlying PUT Copy
-object API. For more information about the parameters for this
-operation, see PUT Object - Copy
+S3 Batch Operations passes every object to the underlying C<CopyObject>
+API operation. For more information about the parameters for this
+operation, see CopyObject
 (https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectCOPY.html).
 
 =head1 ATTRIBUTES
@@ -60,23 +61,39 @@ operation, see PUT Object - Copy
 
 =head2 AccessControlGrants => ArrayRef[L<Paws::S3Control::S3Grant>]
 
-
+This functionality is not supported by directory buckets.
 
 
 =head2 BucketKeyEnabled => Bool
 
 Specifies whether Amazon S3 should use an S3 Bucket Key for object
-encryption with server-side encryption using AWS KMS (SSE-KMS). Setting
-this header to C<true> causes Amazon S3 to use an S3 Bucket Key for
-object encryption with SSE-KMS.
+encryption with server-side encryption using Amazon Web Services KMS
+(SSE-KMS). Setting this header to C<true> causes Amazon S3 to use an S3
+Bucket Key for object encryption with SSE-KMS.
 
-Specifying this header with an I<object> action doesnE<rsquo>t affect
+Specifying this header with an I<Copy> action doesnE<rsquo>t affect
 I<bucket-level> settings for S3 Bucket Key.
+
+B<Directory buckets> - S3 Bucket Keys aren't supported, when you copy
+SSE-KMS encrypted objects from general purpose buckets to directory
+buckets, from directory buckets to general purpose buckets, or between
+directory buckets, through the Copy operation in Batch Operations
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops).
+In this case, Amazon S3 makes a call to KMS every time a copy request
+is made for a KMS-encrypted object.
 
 
 =head2 CannedAccessControlList => Str
 
+This functionality is not supported by directory buckets.
 
+
+=head2 ChecksumAlgorithm => Str
+
+Indicates the algorithm that you want Amazon S3 to use to create the
+checksum. For more information, see Checking object integrity
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html)
+in the I<Amazon S3 User Guide>.
 
 
 =head2 MetadataDirective => Str
@@ -91,12 +108,23 @@ I<bucket-level> settings for S3 Bucket Key.
 
 =head2 NewObjectMetadata => L<Paws::S3Control::S3ObjectMetadata>
 
-
+If you don't provide this parameter, Amazon S3 copies all the metadata
+from the original objects. If you specify an empty set, the new objects
+will have no tags. Otherwise, Amazon S3 assigns the supplied tags to
+the new objects.
 
 
 =head2 NewObjectTagging => ArrayRef[L<Paws::S3Control::S3Tag>]
 
+Specifies a list of tags to add to the destination objects after they
+are copied. If C<NewObjectTagging> is not specified, the tags of the
+source objects are copied to destination objects by default.
 
+B<Directory buckets> - Tags aren't supported by directory buckets. If
+your source objects have tags and your destination bucket is a
+directory bucket, specify an empty tag set in the C<NewObjectTagging>
+field to prevent copying the source object tags to the directory
+bucket.
 
 
 =head2 ObjectLockLegalHoldStatus => Str
@@ -104,11 +132,15 @@ I<bucket-level> settings for S3 Bucket Key.
 The legal hold status to be applied to all objects in the Batch
 Operations job.
 
+This functionality is not supported by directory buckets.
+
 
 =head2 ObjectLockMode => Str
 
 The retention mode to be applied to all objects in the Batch Operations
 job.
+
+This functionality is not supported by directory buckets.
 
 
 =head2 ObjectLockRetainUntilDate => Str
@@ -116,41 +148,101 @@ job.
 The date when the applied object retention configuration expires on all
 objects in the Batch Operations job.
 
+This functionality is not supported by directory buckets.
+
 
 =head2 RedirectLocation => Str
 
-Specifies an optional metadata property for website redirects,
+If the destination bucket is configured as a website, specifies an
+optional metadata property for website redirects,
 C<x-amz-website-redirect-location>. Allows webpage redirects if the
-object is accessed through a website endpoint.
+object copy is accessed through a website endpoint.
+
+This functionality is not supported by directory buckets.
 
 
 =head2 RequesterPays => Bool
 
-
+This functionality is not supported by directory buckets.
 
 
 =head2 SSEAwsKmsKeyId => Str
 
+Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for
+object encryption. If the KMS key doesn't exist in the same account
+that's issuing the command, you must use the full Key ARN not the Key
+ID.
 
+B<Directory buckets> - If you specify C<SSEAlgorithm> with C<KMS>, you
+must specify the C< SSEAwsKmsKeyId> parameter with the ID (Key ID or
+Key ARN) of the KMS symmetric encryption customer managed key to use.
+Otherwise, you get an HTTP C<400 Bad Request> error. The key alias
+format of the KMS key isn't supported. To encrypt new object copies in
+a directory bucket with SSE-KMS, you must specify SSE-KMS as the
+directory bucket's default encryption configuration with a KMS key
+(specifically, a customer managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)).
+The Amazon Web Services managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk)
+(C<aws/s3>) isn't supported. Your SSE-KMS configuration can only
+support 1 customer managed key
+(https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)
+per directory bucket for the lifetime of the bucket. After you specify
+a customer managed key for SSE-KMS as the bucket default encryption,
+you can't override the customer managed key for the bucket's SSE-KMS
+configuration. Then, when you specify server-side encryption settings
+for new object copies with SSE-KMS, you must make sure the encryption
+key is the same customer managed key that you specified for the
+directory bucket's default encryption configuration.
 
 
 =head2 StorageClass => Str
 
+Specify the storage class for the destination objects in a C<Copy>
+operation.
 
+B<Directory buckets > - This functionality is not supported by
+directory buckets.
 
 
 =head2 TargetKeyPrefix => Str
 
-Specifies the folder prefix into which you would like the objects to be
-copied. For example, to copy objects into a folder named "Folder1" in
-the destination bucket, set the TargetKeyPrefix to "Folder1/".
+Specifies the folder prefix that you want the objects to be copied
+into. For example, to copy objects into a folder named C<Folder1> in
+the destination bucket, set the C<TargetKeyPrefix> property to
+C<Folder1>.
 
 
 =head2 TargetResource => Str
 
-Specifies the destination bucket ARN for the batch copy operation. For
-example, to copy objects to a bucket named "destinationBucket", set the
-TargetResource to "arn:aws:s3:::destinationBucket".
+Specifies the destination bucket Amazon Resource Name (ARN) for the
+batch copy operation.
+
+=over
+
+=item *
+
+B<General purpose buckets> - For example, to copy objects to a general
+purpose bucket named C<destinationBucket>, set the C<TargetResource>
+property to C<arn:aws:s3:::destinationBucket>.
+
+=item *
+
+B<Directory buckets> - For example, to copy objects to a directory
+bucket named C<destinationBucket> in the Availability Zone identified
+by the AZ ID C<usw2-az1>, set the C<TargetResource> property to
+C<arn:aws:s3express:I<region>:I<account_id>:/bucket/I<destination_bucket_base_name>--I<usw2-az1>--x-s3>.
+A directory bucket as a destination bucket can be in Availability Zone
+or Local Zone.
+
+Copying objects across different Amazon Web Services Regions isn't
+supported when the source or destination bucket is in Amazon Web
+Services Local Zones. The source and destination buckets must have the
+same parent Amazon Web Services Region. Otherwise, you get an HTTP
+C<400 Bad Request> error with the error code C<InvalidRequest>.
+
+=back
+
 
 
 =head2 UnModifiedSinceConstraint => Str

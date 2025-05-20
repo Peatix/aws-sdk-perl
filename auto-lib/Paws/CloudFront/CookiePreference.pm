@@ -109,7 +109,7 @@ them automatically.
 For the current limit on the number of cookie names that you can
 whitelist for each cache behavior, see CloudFront Limits
 (https://docs.aws.amazon.com/general/latest/gr/xrefaws_service_limits.html#limits_cloudfront)
-in the I<AWS General Reference>.
+in the I<Amazon Web Services General Reference>.
 
 
 

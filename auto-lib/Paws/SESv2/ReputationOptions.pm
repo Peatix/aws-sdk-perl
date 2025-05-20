@@ -35,7 +35,8 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::SESv2::Repu
 =head1 DESCRIPTION
 
 Enable or disable collection of reputation metrics for emails that you
-send using this configuration set in the current AWS Region.
+send using this configuration set in the current Amazon Web Services
+Region.
 
 =head1 ATTRIBUTES
 

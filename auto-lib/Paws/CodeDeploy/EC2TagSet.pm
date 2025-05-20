@@ -33,16 +33,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-Information about groups of EC2 instance tags.
+Information about groups of Amazon EC2 instance tags.
 
 =head1 ATTRIBUTES
 
 
 =head2 Ec2TagSetList => ArrayRef[L<ArrayRef[Paws::CodeDeploy::EC2TagFilter]>]
 
-A list that contains other lists of EC2 instance tag groups. For an
-instance to be included in the deployment group, it must be identified
-by all of the tag groups in the list.
+A list that contains other lists of Amazon EC2 instance tag groups. For
+an instance to be included in the deployment group, it must be
+identified by all of the tag groups in the list.
 
 
 

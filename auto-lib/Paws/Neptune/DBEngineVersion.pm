@@ -10,6 +10,7 @@ package Paws::Neptune::DBEngineVersion;
   has ExportableLogTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
   has SupportedCharacterSets => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::CharacterSet]', request_name => 'CharacterSet', traits => ['NameInRequest']);
   has SupportedTimezones => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::Timezone]', request_name => 'Timezone', traits => ['NameInRequest']);
+  has SupportsGlobalDatabases => (is => 'ro', isa => 'Bool');
   has SupportsLogExportsToCloudwatchLogs => (is => 'ro', isa => 'Bool');
   has SupportsReadReplica => (is => 'ro', isa => 'Bool');
   has ValidUpgradeTarget => (is => 'ro', isa => 'ArrayRef[Paws::Neptune::UpgradeTarget]', request_name => 'UpgradeTarget', traits => ['NameInRequest']);
@@ -95,6 +96,12 @@ I<(Not supported by Neptune)>
 
 A list of the time zones supported by this engine for the C<Timezone>
 parameter of the C<CreateDBInstance> action.
+
+
+=head2 SupportsGlobalDatabases => Bool
+
+A value that indicates whether you can use Aurora global databases with
+a specific DB engine version.
 
 
 =head2 SupportsLogExportsToCloudwatchLogs => Bool

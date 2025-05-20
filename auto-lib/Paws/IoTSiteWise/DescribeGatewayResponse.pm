@@ -7,6 +7,7 @@ package Paws::IoTSiteWise::DescribeGatewayResponse;
   has GatewayId => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'gatewayId', required => 1);
   has GatewayName => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'gatewayName', required => 1);
   has GatewayPlatform => (is => 'ro', isa => 'Paws::IoTSiteWise::GatewayPlatform', traits => ['NameInRequest'], request_name => 'gatewayPlatform');
+  has GatewayVersion => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'gatewayVersion');
   has LastUpdateDate => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'lastUpdateDate', required => 1);
 
   has _request_id => (is => 'ro', isa => 'Str');
@@ -57,6 +58,12 @@ The name of the gateway.
 =head2 GatewayPlatform => L<Paws::IoTSiteWise::GatewayPlatform>
 
 The gateway's platform.
+
+
+=head2 GatewayVersion => Str
+
+The version of the gateway. A value of C<3> indicates an MQTT-enabled,
+V3 gateway, while C<2> indicates a Classic streams, V2 gateway.
 
 
 =head2 B<REQUIRED> LastUpdateDate => Str

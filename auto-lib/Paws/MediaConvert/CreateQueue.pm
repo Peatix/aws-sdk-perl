@@ -1,6 +1,7 @@
 
 package Paws::MediaConvert::CreateQueue;
   use Moose;
+  has ConcurrentJobs => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'concurrentJobs');
   has Description => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'description');
   has Name => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'name', required => 1);
   has PricingPlan => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'pricingPlan');
@@ -35,6 +36,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $mediaconvert = Paws->service('MediaConvert');
     my $CreateQueueResponse = $mediaconvert->CreateQueue(
       Name                    => 'My__string',
+      ConcurrentJobs          => 1,               # OPTIONAL
       Description             => 'My__string',    # OPTIONAL
       PricingPlan             => 'ON_DEMAND',     # OPTIONAL
       ReservationPlanSettings => {
@@ -56,6 +58,17 @@ Values for attributes that are native types (Int, String, Float, etc) can passed
 For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mediaconvert/CreateQueue>
 
 =head1 ATTRIBUTES
+
+
+=head2 ConcurrentJobs => Int
+
+Specify the maximum number of jobs your queue can process concurrently.
+For on-demand queues, the value you enter is constrained by your
+service quotas for Maximum concurrent jobs, per on-demand queue and
+Maximum concurrent jobs, per account. For reserved queues, specify the
+number of jobs you can process concurrently in your reservation plan
+instead.
+
 
 
 =head2 Description => Str

@@ -44,21 +44,25 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },
           ...
         ],    # OPTIONAL
-        Description => 'MyDescriptionString',    # max: 2048; OPTIONAL
-        Name        => 'MyNameString',           # min: 1, max: 255
-        Predicate   => {
+        Description            => 'MyDescriptionString',   # max: 2048; OPTIONAL
+        EventBatchingCondition => {
+          BatchSize   => 1,    # min: 1, max: 100
+          BatchWindow => 1,    # min: 1, max: 900; OPTIONAL
+        },    # OPTIONAL
+        Name      => 'MyNameString',    # min: 1, max: 255
+        Predicate => {
           Conditions => [
             {
               CrawlState => 'RUNNING'
-              , # values: RUNNING, CANCELLING, CANCELLED, SUCCEEDED, FAILED; OPTIONAL
+              , # values: RUNNING, CANCELLING, CANCELLED, SUCCEEDED, FAILED, ERROR; OPTIONAL
               CrawlerName     => 'MyNameString',    # min: 1, max: 255
               JobName         => 'MyNameString',    # min: 1, max: 255
               LogicalOperator => 'EQUALS',          # values: EQUALS; OPTIONAL
               State           => 'STARTING'
-              , # values: STARTING, RUNNING, STOPPING, STOPPED, SUCCEEDED, FAILED, TIMEOUT; OPTIONAL
+              , # values: STARTING, RUNNING, STOPPING, STOPPED, SUCCEEDED, FAILED, TIMEOUT, ERROR, WAITING, EXPIRED; OPTIONAL
             },
             ...
-          ],    # OPTIONAL
+          ],    # max: 500; OPTIONAL
           Logical => 'AND',    # values: AND, ANY; OPTIONAL
         },    # OPTIONAL
         Schedule => 'MyGenericString',

@@ -18,7 +18,7 @@ Paws::MediaConnect::RemoveFlowSourceResponse
 
 =head2 FlowArn => Str
 
-The ARN of the flow that is associated with the source you removed.
+The ARN of the flow that the source was removed from.
 
 
 =head2 SourceArn => Str

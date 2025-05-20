@@ -16,7 +16,7 @@ Paws::SageMaker::AddTagsOutput
 
 =head2 Tags => ArrayRef[L<Paws::SageMaker::Tag>]
 
-A list of tags associated with the Amazon SageMaker resource.
+A list of tags associated with the SageMaker resource.
 
 
 =head2 _request_id => Str

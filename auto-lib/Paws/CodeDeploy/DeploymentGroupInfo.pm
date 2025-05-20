@@ -22,6 +22,7 @@ package Paws::CodeDeploy::DeploymentGroupInfo;
   has OutdatedInstancesStrategy => (is => 'ro', isa => 'Str', request_name => 'outdatedInstancesStrategy', traits => ['NameInRequest']);
   has ServiceRoleArn => (is => 'ro', isa => 'Str', request_name => 'serviceRoleArn', traits => ['NameInRequest']);
   has TargetRevision => (is => 'ro', isa => 'Paws::CodeDeploy::RevisionLocation', request_name => 'targetRevision', traits => ['NameInRequest']);
+  has TerminationHookEnabled => (is => 'ro', isa => 'Bool', request_name => 'terminationHookEnabled', traits => ['NameInRequest']);
   has TriggerConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::CodeDeploy::TriggerConfig]', request_name => 'triggerConfigurations', traits => ['NameInRequest']);
 
 1;
@@ -121,9 +122,9 @@ EC2 instances with any of the specified tags.
 
 =head2 Ec2TagSet => L<Paws::CodeDeploy::EC2TagSet>
 
-Information about groups of tags applied to an EC2 instance. The
-deployment group includes only EC2 instances identified by all of the
-tag groups. Cannot be used in the same call as ec2TagFilters.
+Information about groups of tags applied to an Amazon EC2 instance. The
+deployment group includes only Amazon EC2 instances identified by all
+of the tag groups. Cannot be used in the same call as ec2TagFilters.
 
 
 =head2 EcsServices => ArrayRef[L<Paws::CodeDeploy::ECSService>]
@@ -168,31 +169,43 @@ onPremisesInstanceTagFilters.
 
 =head2 OutdatedInstancesStrategy => Str
 
-Indicates what happens when new EC2 instances are launched
+Indicates what happens when new Amazon EC2 instances are launched
 mid-deployment and do not receive the deployed application revision.
 
 If this option is set to C<UPDATE> or is unspecified, CodeDeploy
 initiates one or more 'auto-update outdated instances' deployments to
-apply the deployed application revision to the new EC2 instances.
+apply the deployed application revision to the new Amazon EC2
+instances.
 
 If this option is set to C<IGNORE>, CodeDeploy does not initiate a
-deployment to update the new EC2 instances. This may result in
+deployment to update the new Amazon EC2 instances. This may result in
 instances having different revisions.
 
 
 =head2 ServiceRoleArn => Str
 
 A service role Amazon Resource Name (ARN) that grants CodeDeploy
-permission to make calls to AWS services on your behalf. For more
-information, see Create a Service Role for AWS CodeDeploy
+permission to make calls to Amazon Web Services services on your
+behalf. For more information, see Create a Service Role for CodeDeploy
 (https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html)
-in the I<AWS CodeDeploy User Guide>.
+in the I<CodeDeploy User Guide>.
 
 
 =head2 TargetRevision => L<Paws::CodeDeploy::RevisionLocation>
 
 Information about the deployment group's target revision, including
 type and location.
+
+
+=head2 TerminationHookEnabled => Bool
+
+Indicates whether the deployment group was configured to have
+CodeDeploy install a termination hook into an Auto Scaling group.
+
+For more information about the termination hook, see How Amazon EC2
+Auto Scaling works with CodeDeploy
+(https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors)
+in the I<CodeDeploy User Guide>.
 
 
 =head2 TriggerConfigurations => ArrayRef[L<Paws::CodeDeploy::TriggerConfig>]

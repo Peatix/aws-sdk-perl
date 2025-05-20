@@ -3,6 +3,7 @@ package Paws::GlueDataBrew::JobRun;
   use Moose;
   has Attempt => (is => 'ro', isa => 'Int');
   has CompletedOn => (is => 'ro', isa => 'Str');
+  has DatabaseOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DatabaseOutput]');
   has DataCatalogOutputs => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::DataCatalogOutput]');
   has DatasetName => (is => 'ro', isa => 'Str');
   has ErrorMessage => (is => 'ro', isa => 'Str');
@@ -17,6 +18,7 @@ package Paws::GlueDataBrew::JobRun;
   has StartedBy => (is => 'ro', isa => 'Str');
   has StartedOn => (is => 'ro', isa => 'Str');
   has State => (is => 'ro', isa => 'Str');
+  has ValidationConfigurations => (is => 'ro', isa => 'ArrayRef[Paws::GlueDataBrew::ValidationConfiguration]');
 
 1;
 
@@ -37,7 +39,7 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GlueDataBrew::JobRun object:
 
-  $service_obj->Method(Att1 => { Attempt => $value, ..., State => $value  });
+  $service_obj->Method(Att1 => { Attempt => $value, ..., ValidationConfigurations => $value  });
 
 =head3 Results returned from an API call
 
@@ -63,10 +65,16 @@ The number of times that DataBrew has attempted to run the job.
 The date and time when the job completed processing.
 
 
+=head2 DatabaseOutputs => ArrayRef[L<Paws::GlueDataBrew::DatabaseOutput>]
+
+Represents a list of JDBC database output objects which defines the
+output destination for a DataBrew recipe job to write into.
+
+
 =head2 DataCatalogOutputs => ArrayRef[L<Paws::GlueDataBrew::DataCatalogOutput>]
 
-One or more artifacts that represent the AWS Glue Data Catalog output
-from running the job.
+One or more artifacts that represent the Glue Data Catalog output from
+running the job.
 
 
 =head2 DatasetName => Str
@@ -138,6 +146,12 @@ The date and time when the job run began.
 =head2 State => Str
 
 The current state of the job run entity itself.
+
+
+=head2 ValidationConfigurations => ArrayRef[L<Paws::GlueDataBrew::ValidationConfiguration>]
+
+List of validation configurations that are applied to the profile job
+run.
 
 
 

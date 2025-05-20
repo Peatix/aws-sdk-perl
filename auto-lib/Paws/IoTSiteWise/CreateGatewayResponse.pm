@@ -28,7 +28,7 @@ C<arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}>
 =head2 B<REQUIRED> GatewayId => Str
 
 The ID of the gateway device. You can use this ID when you call other
-AWS IoT SiteWise APIs.
+IoT SiteWise API operations.
 
 
 =head2 _request_id => Str

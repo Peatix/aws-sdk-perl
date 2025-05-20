@@ -1,6 +1,7 @@
 
 package Paws::Appflow::DescribeConnectorProfiles;
   use Moose;
+  has ConnectorLabel => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorLabel');
   has ConnectorProfileNames => (is => 'ro', isa => 'ArrayRef[Str|Undef]', traits => ['NameInRequest'], request_name => 'connectorProfileNames');
   has ConnectorType => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'connectorType');
   has MaxResults => (is => 'ro', isa => 'Int', traits => ['NameInRequest'], request_name => 'maxResults');
@@ -32,8 +33,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
 
     my $appflow = Paws->service('Appflow');
     my $DescribeConnectorProfilesResponse = $appflow->DescribeConnectorProfiles(
+      ConnectorLabel        => 'MyConnectorLabel',    # OPTIONAL
       ConnectorProfileNames => [
-        'MyConnectorProfileName', ...    # max: 256
+        'MyConnectorProfileName', ...                 # max: 256
       ],    # OPTIONAL
       ConnectorType => 'Salesforce',     # OPTIONAL
       MaxResults    => 1,                # OPTIONAL
@@ -53,10 +55,18 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/app
 =head1 ATTRIBUTES
 
 
+=head2 ConnectorLabel => Str
+
+The name of the connector. The name is unique for each
+C<ConnectorRegistration> in your Amazon Web Services account. Only
+needed if calling for CUSTOMCONNECTOR connector type/.
+
+
+
 =head2 ConnectorProfileNames => ArrayRef[Str|Undef]
 
 The name of the connector profile. The name is unique for each
-C<ConnectorProfile> in the AWS account.
+C<ConnectorProfile> in the Amazon Web Services account.
 
 
 
@@ -64,7 +74,7 @@ C<ConnectorProfile> in the AWS account.
 
 The type of connector, such as Salesforce, Amplitude, and so on.
 
-Valid values are: C<"Salesforce">, C<"Singular">, C<"Slack">, C<"Redshift">, C<"S3">, C<"Marketo">, C<"Googleanalytics">, C<"Zendesk">, C<"Servicenow">, C<"Datadog">, C<"Trendmicro">, C<"Snowflake">, C<"Dynatrace">, C<"Infornexus">, C<"Amplitude">, C<"Veeva">, C<"EventBridge">, C<"LookoutMetrics">, C<"Upsolver">, C<"Honeycode">, C<"CustomerProfiles">
+Valid values are: C<"Salesforce">, C<"Singular">, C<"Slack">, C<"Redshift">, C<"S3">, C<"Marketo">, C<"Googleanalytics">, C<"Zendesk">, C<"Servicenow">, C<"Datadog">, C<"Trendmicro">, C<"Snowflake">, C<"Dynatrace">, C<"Infornexus">, C<"Amplitude">, C<"Veeva">, C<"EventBridge">, C<"LookoutMetrics">, C<"Upsolver">, C<"Honeycode">, C<"CustomerProfiles">, C<"SAPOData">, C<"CustomConnector">, C<"Pardot">
 
 =head2 MaxResults => Int
 

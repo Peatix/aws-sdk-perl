@@ -34,7 +34,7 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::CodeDeploy:
 
 =head1 DESCRIPTION
 
-Information about minimum healthy instance.
+Information about the minimum number of healthy instances.
 
 =head1 ATTRIBUTES
 
@@ -69,16 +69,16 @@ In a call to the C<GetDeploymentConfig>, CodeDeployDefault.OneAtATime
 returns a minimum healthy instance type of MOST_CONCURRENCY and a value
 of 1. This means a deployment to only one instance at a time. (You
 cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or
-FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS
+FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime,
 CodeDeploy attempts to ensure that all instances but one are kept in a
 healthy state during the deployment. Although this allows one instance
 at a time to be taken offline for a new deployment, it also means that
 if the deployment to the last instance fails, the overall deployment is
 still successful.
 
-For more information, see AWS CodeDeploy Instance Health
+For more information, see CodeDeploy Instance Health
 (https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html)
-in the I<AWS CodeDeploy User Guide>.
+in the I<CodeDeploy User Guide>.
 
 
 =head2 Value => Int

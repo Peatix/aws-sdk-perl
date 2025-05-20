@@ -35,9 +35,10 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ApiGateway:
 
 =head1 DESCRIPTION
 
+The mutual TLS authentication configuration for a custom domain name.
 If specified, API Gateway performs two-way authentication between the
 client and the server. Clients must present a trusted certificate to
-access your custom domain name.
+access your API.
 
 =head1 ATTRIBUTES
 

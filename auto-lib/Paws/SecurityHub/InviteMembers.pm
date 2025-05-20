@@ -46,8 +46,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/sec
 
 =head2 B<REQUIRED> AccountIds => ArrayRef[Str|Undef]
 
-The list of account IDs of the AWS accounts to invite to Security Hub
-as members.
+The list of account IDs of the Amazon Web Services accounts to invite
+to Security Hub as members.
 
 
 

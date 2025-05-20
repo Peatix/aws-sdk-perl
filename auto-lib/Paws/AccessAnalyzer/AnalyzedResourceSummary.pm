@@ -47,7 +47,7 @@ The ARN of the analyzed resource.
 
 =head2 B<REQUIRED> ResourceOwnerAccount => Str
 
-The AWS account ID that owns the resource.
+The Amazon Web Services account ID that owns the resource.
 
 
 =head2 B<REQUIRED> ResourceType => Str

@@ -38,6 +38,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $Authorization = $DescribeOriginEndpointResponse->Authorization;
     my $ChannelId     = $DescribeOriginEndpointResponse->ChannelId;
     my $CmafPackage   = $DescribeOriginEndpointResponse->CmafPackage;
+    my $CreatedAt     = $DescribeOriginEndpointResponse->CreatedAt;
     my $DashPackage   = $DescribeOriginEndpointResponse->DashPackage;
     my $Description   = $DescribeOriginEndpointResponse->Description;
     my $HlsPackage    = $DescribeOriginEndpointResponse->HlsPackage;

@@ -4,11 +4,14 @@ package Paws::RAM::ResourceSharePermissionSummary;
   has Arn => (is => 'ro', isa => 'Str', request_name => 'arn', traits => ['NameInRequest']);
   has CreationTime => (is => 'ro', isa => 'Str', request_name => 'creationTime', traits => ['NameInRequest']);
   has DefaultVersion => (is => 'ro', isa => 'Bool', request_name => 'defaultVersion', traits => ['NameInRequest']);
+  has FeatureSet => (is => 'ro', isa => 'Str', request_name => 'featureSet', traits => ['NameInRequest']);
   has IsResourceTypeDefault => (is => 'ro', isa => 'Bool', request_name => 'isResourceTypeDefault', traits => ['NameInRequest']);
   has LastUpdatedTime => (is => 'ro', isa => 'Str', request_name => 'lastUpdatedTime', traits => ['NameInRequest']);
   has Name => (is => 'ro', isa => 'Str', request_name => 'name', traits => ['NameInRequest']);
+  has PermissionType => (is => 'ro', isa => 'Str', request_name => 'permissionType', traits => ['NameInRequest']);
   has ResourceType => (is => 'ro', isa => 'Str', request_name => 'resourceType', traits => ['NameInRequest']);
   has Status => (is => 'ro', isa => 'Str', request_name => 'status', traits => ['NameInRequest']);
+  has Tags => (is => 'ro', isa => 'ArrayRef[Paws::RAM::Tag]', request_name => 'tags', traits => ['NameInRequest']);
   has Version => (is => 'ro', isa => 'Str', request_name => 'version', traits => ['NameInRequest']);
 
 1;
@@ -41,15 +44,16 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::RAM::Resour
 
 =head1 DESCRIPTION
 
-Information about a permission that is associated with a resource
-share.
+Information about an RAM permission.
 
 =head1 ATTRIBUTES
 
 
 =head2 Arn => Str
 
-The ARN of the permission.
+The Amazon Resource Name (ARN)
+(https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the permission you want information about.
 
 
 =head2 CreationTime => Str
@@ -59,14 +63,52 @@ The date and time when the permission was created.
 
 =head2 DefaultVersion => Bool
 
-Specifies whether the version of the permission is set to the default
-version for this permission.
+Specifies whether the version of the managed permission used by this
+resource share is the default version for this managed permission.
+
+
+=head2 FeatureSet => Str
+
+Indicates what features are available for this resource share. This
+parameter can have one of the following values:
+
+=over
+
+=item *
+
+B<STANDARD> E<ndash> A resource share that supports all functionality.
+These resource shares are visible to all principals you share the
+resource share with. You can modify these resource shares in RAM using
+the console or APIs. This resource share might have been created by
+RAM, or it might have been B<CREATED_FROM_POLICY> and then promoted.
+
+=item *
+
+B<CREATED_FROM_POLICY> E<ndash> The customer manually shared a resource
+by attaching a resource-based policy. That policy did not match any
+existing managed permissions, so RAM created this customer managed
+permission automatically on the customer's behalf based on the attached
+policy document. This type of resource share is visible only to the
+Amazon Web Services account that created it. You can't modify it in RAM
+unless you promote it. For more information, see
+PromoteResourceShareCreatedFromPolicy.
+
+=item *
+
+B<PROMOTING_TO_STANDARD> E<ndash> This resource share was originally
+C<CREATED_FROM_POLICY>, but the customer ran the
+PromoteResourceShareCreatedFromPolicy and that operation is still in
+progress. This value changes to C<STANDARD> when complete.
+
+=back
+
 
 
 =head2 IsResourceTypeDefault => Bool
 
-Specifies whether the version of the permission is set to the default
-version for this resource type.
+Specifies whether the managed permission associated with this resource
+share is the default managed permission for all resources of this
+resource type.
 
 
 =head2 LastUpdatedTime => Str
@@ -76,12 +118,39 @@ The date and time when the permission was last updated.
 
 =head2 Name => Str
 
-The name of the permission.
+The name of this managed permission.
+
+
+=head2 PermissionType => Str
+
+The type of managed permission. This can be one of the following
+values:
+
+=over
+
+=item *
+
+C<AWS_MANAGED> E<ndash> Amazon Web Services created and manages this
+managed permission. You can associate it with your resource shares, but
+you can't modify it.
+
+=item *
+
+C<CUSTOMER_MANAGED> E<ndash> You, or another principal in your account
+created this managed permission. You can associate it with your
+resource shares and create new versions that have different
+permissions.
+
+=back
+
 
 
 =head2 ResourceType => Str
 
-The type of resource to which the permission applies.
+The type of resource to which this permission applies. This takes the
+form of: C<service-code>:C<resource-code>, and is case-insensitive. For
+example, an Amazon EC2 Subnet would be represented by the string
+C<ec2:subnet>.
 
 
 =head2 Status => Str
@@ -89,9 +158,14 @@ The type of resource to which the permission applies.
 The current status of the permission.
 
 
+=head2 Tags => ArrayRef[L<Paws::RAM::Tag>]
+
+A list of the tag key value pairs currently attached to the permission.
+
+
 =head2 Version => Str
 
-The identifier for the version of the permission.
+The version of the permission associated with this resource share.
 
 
 

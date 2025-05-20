@@ -6,6 +6,7 @@ package Paws::Robomaker::DescribeWorldResponse;
   has GenerationJob => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'generationJob');
   has Tags => (is => 'ro', isa => 'Paws::Robomaker::TagMap', traits => ['NameInRequest'], request_name => 'tags');
   has Template => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'template');
+  has WorldDescriptionBody => (is => 'ro', isa => 'Str', traits => ['NameInRequest'], request_name => 'worldDescriptionBody');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -44,6 +45,12 @@ world.
 =head2 Template => Str
 
 The world template.
+
+
+=head2 WorldDescriptionBody => Str
+
+Returns the JSON formatted string that describes the contents of your
+world.
 
 
 =head2 _request_id => Str

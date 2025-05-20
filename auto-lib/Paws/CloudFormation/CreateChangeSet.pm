@@ -6,8 +6,10 @@ package Paws::CloudFormation::CreateChangeSet;
   has ChangeSetType => (is => 'ro', isa => 'Str');
   has ClientToken => (is => 'ro', isa => 'Str');
   has Description => (is => 'ro', isa => 'Str');
+  has ImportExistingResources => (is => 'ro', isa => 'Bool');
   has IncludeNestedStacks => (is => 'ro', isa => 'Bool');
   has NotificationARNs => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has OnStackFailure => (is => 'ro', isa => 'Str');
   has Parameters => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::Parameter]');
   has ResourcesToImport => (is => 'ro', isa => 'ArrayRef[Paws::CloudFormation::ResourceToImport]');
   has ResourceTypes => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -50,12 +52,14 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         'CAPABILITY_IAM',
         ... # values: CAPABILITY_IAM, CAPABILITY_NAMED_IAM, CAPABILITY_AUTO_EXPAND
       ],    # OPTIONAL
-      ChangeSetType       => 'CREATE',                        # OPTIONAL
-      ClientToken         => 'MyClientToken',                 # OPTIONAL
-      Description         => 'MyDescription',                 # OPTIONAL
-      IncludeNestedStacks => 1,                               # OPTIONAL
-      NotificationARNs    => [ 'MyNotificationARN', ... ],    # OPTIONAL
-      Parameters          => [
+      ChangeSetType           => 'CREATE',                        # OPTIONAL
+      ClientToken             => 'MyClientToken',                 # OPTIONAL
+      Description             => 'MyDescription',                 # OPTIONAL
+      ImportExistingResources => 1,                               # OPTIONAL
+      IncludeNestedStacks     => 1,                               # OPTIONAL
+      NotificationARNs        => [ 'MyNotificationARN', ... ],    # OPTIONAL
+      OnStackFailure          => 'DO_NOTHING',                    # OPTIONAL
+      Parameters              => [
         {
           ParameterKey     => 'MyParameterKey',      # OPTIONAL
           ParameterValue   => 'MyParameterValue',    # OPTIONAL
@@ -120,8 +124,8 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/clo
 =head2 Capabilities => ArrayRef[Str|Undef]
 
 In some cases, you must explicitly acknowledge that your stack template
-contains certain capabilities in order for AWS CloudFormation to create
-the stack.
+contains certain capabilities in order for CloudFormation to create the
+stack.
 
 =over
 
@@ -130,9 +134,9 @@ the stack.
 C<CAPABILITY_IAM> and C<CAPABILITY_NAMED_IAM>
 
 Some stack templates might include resources that can affect
-permissions in your AWS account; for example, by creating new AWS
-Identity and Access Management (IAM) users. For those stacks, you must
-explicitly acknowledge this by specifying one of these capabilities.
+permissions in your Amazon Web Services account; for example, by
+creating new IAM users. For those stacks, you must explicitly
+acknowledge this by specifying one of these capabilities.
 
 The following IAM resources require you to specify either the
 C<CAPABILITY_IAM> or C<CAPABILITY_NAMED_IAM> capability.
@@ -150,12 +154,12 @@ C<CAPABILITY_NAMED_IAM>.
 
 =item *
 
-If you don't specify either of these capabilities, AWS CloudFormation
+If you don't specify either of these capabilities, CloudFormation
 returns an C<InsufficientCapabilities> error.
 
 =back
 
-If your stack template contains these resources, we recommend that you
+If your stack template contains these resources, we suggest that you
 review all permissions associated with them and edit their permissions
 if necessary.
 
@@ -164,12 +168,12 @@ if necessary.
 =item *
 
 AWS::IAM::AccessKey
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
 
 =item *
 
 AWS::IAM::Group
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
 
 =item *
 
@@ -178,8 +182,13 @@ AWS::IAM::InstanceProfile
 
 =item *
 
+AWS::IAM::ManagedPolicy
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-managedpolicy.html)
+
+=item *
+
 AWS::IAM::Policy
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
 
 =item *
 
@@ -189,18 +198,18 @@ AWS::IAM::Role
 =item *
 
 AWS::IAM::User
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
 
 =item *
 
 AWS::IAM::UserToGroupAddition
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
 
 =back
 
-For more information, see Acknowledging IAM Resources in AWS
-CloudFormation Templates
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
+For more information, see Acknowledging IAM resources in CloudFormation
+templates
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
 
 =item *
 
@@ -216,12 +225,12 @@ template contains one or more macros, and you choose to create a stack
 directly from the processed template, without first reviewing the
 resulting changes in a change set, you must acknowledge this
 capability. This includes the AWS::Include
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html)
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html)
 and AWS::Serverless
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
-transforms, which are macros hosted by AWS CloudFormation.
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html)
+transforms, which are macros hosted by CloudFormation.
 
-This capacity does not apply to creating change sets, and specifying it
+This capacity doesn't apply to creating change sets, and specifying it
 when creating change sets has no effect.
 
 If you want to create a stack from a stack template that contains
@@ -229,12 +238,14 @@ macros I<and> nested stacks, you must create or update the stack
 directly from the template using the CreateStack or UpdateStack action,
 and specifying this capability.
 
-For more information on macros, see Using AWS CloudFormation Macros to
-Perform Custom Processing on Templates
-(http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
+For more information about macros, see Perform custom processing on
+CloudFormation templates with template macros
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html).
 
 =back
 
+Only one of the C<Capabilities> and C<ResourceType> parameters can be
+specified.
 
 
 
@@ -244,8 +255,8 @@ The name of the change set. The name must be unique among all change
 sets that are associated with the specified stack.
 
 A change set name can contain only alphanumeric, case sensitive
-characters and hyphens. It must start with an alphabetic character and
-cannot exceed 128 characters.
+characters, and hyphens. It must start with an alphabetical character
+and can't exceed 128 characters.
 
 
 
@@ -256,13 +267,12 @@ stack, specify C<CREATE>. To create a change set for an existing stack,
 specify C<UPDATE>. To create a change set for an import operation,
 specify C<IMPORT>.
 
-If you create a change set for a new stack, AWS Cloudformation creates
-a stack with a unique stack ID, but no template or resources. The stack
-will be in the C<REVIEW_IN_PROGRESS>
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html#d0e11995)
-state until you execute the change set.
+If you create a change set for a new stack, CloudFormation creates a
+stack with a unique stack ID, but no template or resources. The stack
+will be in the C<REVIEW_IN_PROGRESS> state until you execute the change
+set.
 
-By default, AWS CloudFormation specifies C<UPDATE>. You can't use the
+By default, CloudFormation specifies C<UPDATE>. You can't use the
 C<UPDATE> type to create a change set for a new stack or the C<CREATE>
 type to create a change set for an existing stack.
 
@@ -271,9 +281,9 @@ Valid values are: C<"CREATE">, C<"UPDATE">, C<"IMPORT">
 =head2 ClientToken => Str
 
 A unique identifier for this C<CreateChangeSet> request. Specify this
-token if you plan to retry requests so that AWS CloudFormation knows
-that you're not attempting to create another change set with the same
-name. You might retry C<CreateChangeSet> requests to ensure that AWS
+token if you plan to retry requests so that CloudFormation knows that
+you're not attempting to create another change set with the same name.
+You might retry C<CreateChangeSet> requests to ensure that
 CloudFormation successfully received them.
 
 
@@ -281,6 +291,22 @@ CloudFormation successfully received them.
 =head2 Description => Str
 
 A description to help you identify this change set.
+
+
+
+=head2 ImportExistingResources => Bool
+
+Indicates if the change set imports resources that already exist.
+
+This parameter can only import resources that have custom names in
+templates. For more information, see name type
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)
+in the I<CloudFormation User Guide>. To import resources that do not
+accept custom names, such as EC2 instances, use the resource import
+feature instead. For more information, see Import Amazon Web Services
+resources into a CloudFormation stack with a resource import
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html)
+in the I<CloudFormation User Guide>.
 
 
 
@@ -294,11 +320,53 @@ include nested sets in a change set, specify C<True>.
 
 =head2 NotificationARNs => ArrayRef[Str|Undef]
 
-The Amazon Resource Names (ARNs) of Amazon Simple Notification Service
-(Amazon SNS) topics that AWS CloudFormation associates with the stack.
-To remove all associated notification topics, specify an empty list.
+The Amazon Resource Names (ARNs) of Amazon SNS topics that
+CloudFormation associates with the stack. To remove all associated
+notification topics, specify an empty list.
 
 
+
+=head2 OnStackFailure => Str
+
+Determines what action will be taken if stack creation fails. If this
+parameter is specified, the C<DisableRollback> parameter to the
+ExecuteChangeSet
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
+API operation must not be specified. This must be one of these values:
+
+=over
+
+=item *
+
+C<DELETE> - Deletes the change set if the stack creation fails. This is
+only valid when the C<ChangeSetType> parameter is set to C<CREATE>. If
+the deletion of the stack fails, the status of the stack is
+C<DELETE_FAILED>.
+
+=item *
+
+C<DO_NOTHING> - if the stack creation fails, do nothing. This is
+equivalent to specifying C<true> for the C<DisableRollback> parameter
+to the ExecuteChangeSet
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
+API operation.
+
+=item *
+
+C<ROLLBACK> - if the stack creation fails, roll back the stack. This is
+equivalent to specifying C<false> for the C<DisableRollback> parameter
+to the ExecuteChangeSet
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ExecuteChangeSet.html)
+API operation.
+
+=back
+
+For nested stacks, when the C<OnStackFailure> parameter is set to
+C<DELETE> for the change set for the parent stack, any failure in a
+child stack will cause the parent stack creation to fail and all stacks
+to be deleted.
+
+Valid values are: C<"DO_NOTHING">, C<"ROLLBACK">, C<"DELETE">
 
 =head2 Parameters => ArrayRef[L<Paws::CloudFormation::Parameter>]
 
@@ -320,29 +388,30 @@ you execute this change set, such as C<AWS::EC2::Instance>,
 C<AWS::EC2::*>, or C<Custom::MyCustomInstance>.
 
 If the list of resource types doesn't include a resource type that
-you're updating, the stack update fails. By default, AWS CloudFormation
-grants permissions to all resource types. AWS Identity and Access
-Management (IAM) uses this parameter for condition keys in IAM policies
-for AWS CloudFormation. For more information, see Controlling Access
-with AWS Identity and Access Management
-(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html)
-in the AWS CloudFormation User Guide.
+you're updating, the stack update fails. By default, CloudFormation
+grants permissions to all resource types. IAM uses this parameter for
+condition keys in IAM policies for CloudFormation. For more
+information, see Control access with Identity and Access Management
+(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html)
+in the I<CloudFormation User Guide>.
+
+Only one of the C<Capabilities> and C<ResourceType> parameters can be
+specified.
 
 
 
 =head2 RoleARN => Str
 
-The Amazon Resource Name (ARN) of an AWS Identity and Access Management
-(IAM) role that AWS CloudFormation assumes when executing the change
-set. AWS CloudFormation uses the role's credentials to make calls on
-your behalf. AWS CloudFormation uses this role for all future
-operations on the stack. As long as users have permission to operate on
-the stack, AWS CloudFormation uses this role even if the users don't
-have permission to pass it. Ensure that the role grants least
-privilege.
+The Amazon Resource Name (ARN) of an IAM role that CloudFormation
+assumes when executing the change set. CloudFormation uses the role's
+credentials to make calls on your behalf. CloudFormation uses this role
+for all future operations on the stack. Provided that users have
+permission to operate on the stack, CloudFormation uses this role even
+if the users don't have permission to pass it. Ensure that the role
+grants least permission.
 
-If you don't specify a value, AWS CloudFormation uses the role that was
-previously associated with the stack. If no role is available, AWS
+If you don't specify a value, CloudFormation uses the role that was
+previously associated with the stack. If no role is available,
 CloudFormation uses a temporary session that is generated from your
 user credentials.
 
@@ -350,7 +419,7 @@ user credentials.
 
 =head2 RollbackConfiguration => L<Paws::CloudFormation::RollbackConfiguration>
 
-The rollback triggers for AWS CloudFormation to monitor during stack
+The rollback triggers for CloudFormation to monitor during stack
 creation and updating operations, and for the specified monitoring
 period afterwards.
 
@@ -359,15 +428,15 @@ period afterwards.
 =head2 B<REQUIRED> StackName => Str
 
 The name or the unique ID of the stack for which you are creating a
-change set. AWS CloudFormation generates the change set by comparing
-this stack's information with the information that you submit, such as
-a modified template or different parameter input values.
+change set. CloudFormation generates the change set by comparing this
+stack's information with the information that you submit, such as a
+modified template or different parameter input values.
 
 
 
 =head2 Tags => ArrayRef[L<Paws::CloudFormation::Tag>]
 
-Key-value pairs to associate with this stack. AWS CloudFormation also
+Key-value pairs to associate with this stack. CloudFormation also
 propagates these tags to resources in the stack. You can specify a
 maximum of 50 tags.
 
@@ -376,7 +445,7 @@ maximum of 50 tags.
 =head2 TemplateBody => Str
 
 A structure that contains the body of the revised template, with a
-minimum length of 1 byte and a maximum length of 51,200 bytes. AWS
+minimum length of 1 byte and a maximum length of 51,200 bytes.
 CloudFormation generates the change set by comparing this template with
 the template of the stack that you specified.
 
@@ -386,11 +455,12 @@ Conditional: You must specify only C<TemplateBody> or C<TemplateURL>.
 
 =head2 TemplateURL => Str
 
-The location of the file that contains the revised template. The URL
-must point to a template (max size: 460,800 bytes) that is located in
-an S3 bucket or a Systems Manager document. AWS CloudFormation
-generates the change set by comparing this template with the stack that
-you specified.
+The URL of the file that contains the revised template. The URL must
+point to a template (max size: 1 MB) that's located in an Amazon S3
+bucket or a Systems Manager document. CloudFormation generates the
+change set by comparing this template with the stack that you
+specified. The location for an Amazon S3 bucket must start with
+C<https://>.
 
 Conditional: You must specify only C<TemplateBody> or C<TemplateURL>.
 
@@ -398,7 +468,7 @@ Conditional: You must specify only C<TemplateBody> or C<TemplateURL>.
 
 =head2 UsePreviousTemplate => Bool
 
-Whether to reuse the template that is associated with the stack to
+Whether to reuse the template that's associated with the stack to
 create the change set.
 
 

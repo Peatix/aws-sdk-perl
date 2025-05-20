@@ -16,6 +16,7 @@ package Paws::ApplicationMigration::ReplicationConfigurationTemplate;
   has StagingAreaTags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'stagingAreaTags');
   has Tags => (is => 'ro', isa => 'Paws::ApplicationMigration::TagsMap', traits => ['NameInRequest'], request_name => 'tags');
   has UseDedicatedReplicationServer => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useDedicatedReplicationServer');
+  has UseFipsEndpoint => (is => 'ro', isa => 'Bool', traits => ['NameInRequest'], request_name => 'useFipsEndpoint');
 
   has _request_id => (is => 'ro', isa => 'Str');
 1;
@@ -42,7 +43,7 @@ Migration Service Security group.
 
 =head2 BandwidthThrottling => Int
 
-Replication Configuration template bandwidth throtting.
+Replication Configuration template bandwidth throttling.
 
 
 =head2 CreatePublicIP => Bool
@@ -57,9 +58,9 @@ Replication Configuration template data plane routing.
 Valid values are: C<"PRIVATE_IP">, C<"PUBLIC_IP">
 =head2 DefaultLargeStagingDiskType => Str
 
-Replication Configuration template use dedault large Staging Disk type.
+Replication Configuration template use default large Staging Disk type.
 
-Valid values are: C<"GP2">, C<"ST1">
+Valid values are: C<"GP2">, C<"ST1">, C<"GP3">
 =head2 EbsEncryption => Str
 
 Replication Configuration template EBS encryption.
@@ -72,7 +73,7 @@ Replication Configuration template EBS encryption key ARN.
 
 =head2 B<REQUIRED> ReplicationConfigurationTemplateID => Str
 
-Replication Configuration template template ID.
+Replication Configuration template ID.
 
 
 =head2 ReplicationServerInstanceType => Str
@@ -103,6 +104,11 @@ Replication Configuration template Tags.
 =head2 UseDedicatedReplicationServer => Bool
 
 Replication Configuration template use Dedicated Replication Server.
+
+
+=head2 UseFipsEndpoint => Bool
+
+Replication Configuration template use Fips Endpoint.
 
 
 =head2 _request_id => Str

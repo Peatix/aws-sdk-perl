@@ -66,7 +66,7 @@ C<config-file-value>. The value is either an S3 ARN or a file path.
 
 =head2 Type => Str
 
-The log router to use.
+The log router to use. Valid values are C<fluentbit> or C<fluentd>.
 
 
 

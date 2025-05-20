@@ -18,7 +18,8 @@ Paws::EC2::DescribeVolumesModificationsResult
 
 =head2 NextToken => Str
 
-Token for pagination, null if there are no more results
+The token to include in another request to get the next page of items.
+This value is C<null> when there are no more items to return.
 
 
 =head2 VolumesModifications => ArrayRef[L<Paws::EC2::VolumeModification>]

@@ -66,7 +66,7 @@ The name or ID of the resource.
 
 The type of the resource that is being disassociated.
 
-Valid values are: C<"CFN_STACK">
+Valid values are: C<"CFN_STACK">, C<"RESOURCE_TAG_VALUE">
 
 
 =head1 SEE ALSO

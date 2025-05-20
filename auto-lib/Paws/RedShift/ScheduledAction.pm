@@ -89,7 +89,7 @@ Valid values are: C<"ACTIVE">, C<"DISABLED">
 A JSON format string of the Amazon Redshift API operation with input
 parameters.
 
-"C<{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}>".
+"C<{\"ResizeCluster\":{\"NodeType\":\"ra3.4xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}>".
 
 
 =head2 _request_id => Str

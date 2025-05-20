@@ -44,7 +44,7 @@ For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/por
 The token issued by the C<CreateToken> API call. For more information,
 see CreateToken
 (https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
-in the I<AWS SSO OIDC API Reference Guide>.
+in the I<IAM Identity Center OIDC API Reference Guide>.
 
 
 

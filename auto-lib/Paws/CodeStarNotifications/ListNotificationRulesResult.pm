@@ -24,8 +24,8 @@ batch of the results.
 
 =head2 NotificationRules => ArrayRef[L<Paws::CodeStarNotifications::NotificationRuleSummary>]
 
-The list of notification rules for the AWS account, by Amazon Resource
-Name (ARN) and ID.
+The list of notification rules for the Amazon Web Services account, by
+Amazon Resource Name (ARN) and ID.
 
 
 =head2 _request_id => Str

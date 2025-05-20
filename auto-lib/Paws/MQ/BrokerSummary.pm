@@ -6,8 +6,8 @@ package Paws::MQ::BrokerSummary;
   has BrokerName => (is => 'ro', isa => 'Str', request_name => 'brokerName', traits => ['NameInRequest']);
   has BrokerState => (is => 'ro', isa => 'Str', request_name => 'brokerState', traits => ['NameInRequest']);
   has Created => (is => 'ro', isa => 'Str', request_name => 'created', traits => ['NameInRequest']);
-  has DeploymentMode => (is => 'ro', isa => 'Str', request_name => 'deploymentMode', traits => ['NameInRequest']);
-  has EngineType => (is => 'ro', isa => 'Str', request_name => 'engineType', traits => ['NameInRequest']);
+  has DeploymentMode => (is => 'ro', isa => 'Str', request_name => 'deploymentMode', traits => ['NameInRequest'], required => 1);
+  has EngineType => (is => 'ro', isa => 'Str', request_name => 'engineType', traits => ['NameInRequest'], required => 1);
   has HostInstanceType => (is => 'ro', isa => 'Str', request_name => 'hostInstanceType', traits => ['NameInRequest']);
 
 1;
@@ -40,14 +40,14 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::MQ::BrokerS
 
 =head1 DESCRIPTION
 
-The Amazon Resource Name (ARN) of the broker.
+Returns information about all brokers.
 
 =head1 ATTRIBUTES
 
 
 =head2 BrokerArn => Str
 
-The Amazon Resource Name (ARN) of the broker.
+The broker's Amazon Resource Name (ARN).
 
 
 =head2 BrokerId => Str
@@ -57,15 +57,15 @@ The unique ID that Amazon MQ generates for the broker.
 
 =head2 BrokerName => Str
 
-The name of the broker. This value must be unique in your AWS account,
-1-50 characters long, must contain only letters, numbers, dashes, and
-underscores, and must not contain whitespaces, brackets, wildcard
-characters, or special characters.
+The broker's name. This value is unique in your Amazon Web Services
+account, 1-50 characters long, and containing only letters, numbers,
+dashes, and underscores, and must not contain white spaces, brackets,
+wildcard characters, or special characters.
 
 
 =head2 BrokerState => Str
 
-The status of the broker.
+The broker's status.
 
 
 =head2 Created => Str
@@ -73,14 +73,14 @@ The status of the broker.
 The time when the broker was created.
 
 
-=head2 DeploymentMode => Str
+=head2 B<REQUIRED> DeploymentMode => Str
 
-Required. The deployment mode of the broker.
+The broker's deployment mode.
 
 
-=head2 EngineType => Str
+=head2 B<REQUIRED> EngineType => Str
 
-Required. The type of broker engine.
+The type of broker engine.
 
 
 =head2 HostInstanceType => Str

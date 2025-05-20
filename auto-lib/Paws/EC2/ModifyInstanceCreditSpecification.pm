@@ -33,8 +33,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       $ec2->ModifyInstanceCreditSpecification(
       InstanceCreditSpecifications => [
         {
-          CpuCredits => 'MyString',        # OPTIONAL
-          InstanceId => 'MyInstanceId',    # OPTIONAL
+          InstanceId => 'MyInstanceId',
+          CpuCredits => 'MyString',       # OPTIONAL
         },
         ...
       ],
@@ -69,7 +69,7 @@ Idempotency
 
 =head2 DryRun => Bool
 
-Checks whether you have the required permissions for the action,
+Checks whether you have the required permissions for the operation,
 without actually making the request, and provides an error response. If
 you have the required permissions, the error response is
 C<DryRunOperation>. Otherwise, it is C<UnauthorizedOperation>.

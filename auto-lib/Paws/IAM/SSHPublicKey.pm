@@ -64,7 +64,7 @@ The unique identifier for the SSH public key.
 =head2 B<REQUIRED> Status => Str
 
 The status of the SSH public key. C<Active> means that the key can be
-used for authentication with an AWS CodeCommit repository. C<Inactive>
+used for authentication with an CodeCommit repository. C<Inactive>
 means that the key cannot be used.
 
 

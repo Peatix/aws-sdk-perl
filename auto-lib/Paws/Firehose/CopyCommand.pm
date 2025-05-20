@@ -46,8 +46,7 @@ Optional parameters to use with the Amazon Redshift C<COPY> command.
 For more information, see the "Optional Parameters" section of Amazon
 Redshift COPY command
 (https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html). Some
-possible examples that would apply to Kinesis Data Firehose are as
-follows:
+possible examples that would apply to Firehose are as follows:
 
 C<delimiter '\t' lzop;> - fields are delimited with "\t" (TAB
 character) and compressed using lzop.

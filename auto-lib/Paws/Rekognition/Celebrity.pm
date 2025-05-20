@@ -3,6 +3,7 @@ package Paws::Rekognition::Celebrity;
   use Moose;
   has Face => (is => 'ro', isa => 'Paws::Rekognition::ComparedFace');
   has Id => (is => 'ro', isa => 'Str');
+  has KnownGender => (is => 'ro', isa => 'Paws::Rekognition::KnownGender');
   has MatchConfidence => (is => 'ro', isa => 'Num');
   has Name => (is => 'ro', isa => 'Str');
   has Urls => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
@@ -52,6 +53,11 @@ on the image.
 =head2 Id => Str
 
 A unique identifier for the celebrity.
+
+
+=head2 KnownGender => L<Paws::Rekognition::KnownGender>
+
+
 
 
 =head2 MatchConfidence => Num

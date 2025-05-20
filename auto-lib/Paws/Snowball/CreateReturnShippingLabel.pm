@@ -54,9 +54,9 @@ for example, C<JID123e4567-e89b-12d3-a456-426655440000>.
 =head2 ShippingOption => Str
 
 The shipping speed for a particular job. This speed doesn't dictate how
-soon the device is returned to AWS. This speed represents how quickly
-it moves to its destination while in transit. Regional shipping speeds
-are as follows:
+soon the device is returned to Amazon Web Services. This speed
+represents how quickly it moves to its destination while in transit.
+Regional shipping speeds are as follows:
 
 Valid values are: C<"SECOND_DAY">, C<"NEXT_DAY">, C<"EXPRESS">, C<"STANDARD">
 

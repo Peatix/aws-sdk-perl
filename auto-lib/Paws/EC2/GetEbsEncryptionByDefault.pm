@@ -34,6 +34,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Results:
     my $EbsEncryptionByDefault =
       $GetEbsEncryptionByDefaultResult->EbsEncryptionByDefault;
+    my $SseType = $GetEbsEncryptionByDefaultResult->SseType;
 
     # Returns a L<Paws::EC2::GetEbsEncryptionByDefaultResult> object.
 

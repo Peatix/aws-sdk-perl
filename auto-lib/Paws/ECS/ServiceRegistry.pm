@@ -36,46 +36,54 @@ Use accessors for each attribute. If Att1 is expected to be an Paws::ECS::Servic
 
 =head1 DESCRIPTION
 
-Details of the service registry.
+The details for the service registry.
+
+Each service may be associated with one service registry. Multiple
+service registries for each service are not supported.
+
+When you add, update, or remove the service registries configuration,
+Amazon ECS starts a new deployment. New tasks are registered and
+deregistered to the updated service registry configuration.
 
 =head1 ATTRIBUTES
 
 
 =head2 ContainerName => Str
 
-The container name value, already specified in the task definition, to
-be used for your service discovery service. If the task definition that
-your service task specifies uses the C<bridge> or C<host> network mode,
-you must specify a C<containerName> and C<containerPort> combination
-from the task definition. If the task definition that your service task
-specifies uses the C<awsvpc> network mode and a type SRV DNS record is
-used, you must specify either a C<containerName> and C<containerPort>
-combination or a C<port> value, but not both.
+The container name value to be used for your service discovery service.
+It's already specified in the task definition. If the task definition
+that your service task specifies uses the C<bridge> or C<host> network
+mode, you must specify a C<containerName> and C<containerPort>
+combination from the task definition. If the task definition that your
+service task specifies uses the C<awsvpc> network mode and a type SRV
+DNS record is used, you must specify either a C<containerName> and
+C<containerPort> combination or a C<port> value. However, you can't
+specify both.
 
 
 =head2 ContainerPort => Int
 
-The port value, already specified in the task definition, to be used
-for your service discovery service. If the task definition your service
-task specifies uses the C<bridge> or C<host> network mode, you must
-specify a C<containerName> and C<containerPort> combination from the
-task definition. If the task definition your service task specifies
+The port value to be used for your service discovery service. It's
+already specified in the task definition. If the task definition your
+service task specifies uses the C<bridge> or C<host> network mode, you
+must specify a C<containerName> and C<containerPort> combination from
+the task definition. If the task definition your service task specifies
 uses the C<awsvpc> network mode and a type SRV DNS record is used, you
 must specify either a C<containerName> and C<containerPort> combination
-or a C<port> value, but not both.
+or a C<port> value. However, you can't specify both.
 
 
 =head2 Port => Int
 
 The port value used if your service discovery service specified an SRV
-record. This field may be used if both the C<awsvpc> network mode and
+record. This field might be used if both the C<awsvpc> network mode and
 SRV records are used.
 
 
 =head2 RegistryArn => Str
 
 The Amazon Resource Name (ARN) of the service registry. The currently
-supported service registry is AWS Cloud Map. For more information, see
+supported service registry is Cloud Map. For more information, see
 CreateService
 (https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html).
 

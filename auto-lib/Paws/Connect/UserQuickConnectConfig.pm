@@ -42,7 +42,7 @@ a user. The contact flow must be of type Transfer to Agent.
 
 =head2 B<REQUIRED> ContactFlowId => Str
 
-The identifier of the contact flow.
+The identifier of the flow.
 
 
 =head2 B<REQUIRED> UserId => Str
