@@ -465,7 +465,7 @@ package Paws::API::Builder {
     my ($self, $file) = @_;
     return {} if (not -e $file);
     my $f = Path::Class::File->new($file);
-    return decode_json($f->slurp);
+    return decode_json(scalar $f->slurp);
   }
 
   sub required_in_shape {
