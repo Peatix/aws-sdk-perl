@@ -92,13 +92,15 @@ if ($aws_creds_file->is_file) {
     $config = Config::INI::Reader->read_file($aws_creds_file);
 }
 
+my $a = $creds->refresh;
+
 my $profile = lc $short_role;
 try {
     $config->{$profile} = {
         region                => $region,
-        aws_access_key_id     => $creds->access_key,
-        aws_secret_access_key => $creds->secret_key,
-        aws_session_token     => $creds->session_token,
+        aws_access_key_id     => $a->access_key,
+        aws_secret_access_key => $a->secret_key,
+        aws_session_token     => $a->session_token,
     };
 } catch(Paws::Exception $e) {
     die sprintf "FATAL: %s - %s\n", $e->code, $e->message;

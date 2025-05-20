@@ -22,10 +22,12 @@ package Paws::Net::S3Signature;
   use Net::Amazon::Signature::V4;
 
   sub sign {
-    my ($self, $request) = @_;
+    my ($self, $request, $creds) = @_;
 
-    if ($self->session_token) {
-      $request->header( 'X-Amz-Security-Token' => $self->session_token );
+    $creds ||= $self->credentials->refresh;
+
+    if ($creds->session_token) {
+      $request->header( 'X-Amz-Security-Token' => $creds->session_token );
     }
 
     my $hasher = Digest::SHA->new(256);
@@ -40,7 +42,7 @@ package Paws::Net::S3Signature;
         ? $self->endpoint->host
         : $self->endpoint->host_port);
 
-    my $sig = Net::Amazon::Signature::V4->new( $self->access_key, $self->secret_key, $self->region, $self->service );
+    my $sig = Net::Amazon::Signature::V4->new( $creds->access_key, $creds->secret_key, $self->region, $self->service );
     my $signed_req = $sig->sign( $request );
     return $signed_req;
 

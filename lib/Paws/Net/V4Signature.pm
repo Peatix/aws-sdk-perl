@@ -22,19 +22,21 @@ package Paws::Net::V4Signature;
   }
 
   sub sign {
-    my ($self, $request) = @_;
+    my ($self, $request, $creds) = @_;
+
+    $creds ||= $self->credentials->refresh;
 
     $request->header( Date => $request->header('X-Amz-Date') // strftime( '%Y%m%dT%H%M%SZ', gmtime ) );
     $request->header(
         'Host' => $self->endpoint->default_port == $self->endpoint->port
         ? $self->endpoint->host
         : $self->endpoint->host_port);
-    if ($self->session_token) {
-      $request->header( 'X-Amz-Security-Token' => $self->session_token );
+    if ($creds->session_token) {
+      $request->header( 'X-Amz-Security-Token' => $creds->session_token );
     }
 
     my $name = $self->can('signing_name') ? $self->signing_name : $self->service;
-    my $sig = Net::Amazon::Signature::V4->new( $self->access_key, $self->secret_key, $self->_region_for_signature, $name );
+    my $sig = Net::Amazon::Signature::V4->new( $creds->access_key, $creds->secret_key, $self->_region_for_signature, $name );
     $sig->sign( $request );
   }
 1;

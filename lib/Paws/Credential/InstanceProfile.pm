@@ -2,6 +2,7 @@ package Paws::Credential::InstanceProfile;
   use JSON::MaybeXS;
   use Moose;
   use DateTime::Format::ISO8601;
+  use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
   has metadata_url => (
@@ -25,37 +26,21 @@ package Paws::Credential::InstanceProfile;
     }
   );
 
+  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+
   has expiration => (
     is => 'rw',
     isa => 'Int',
     default => sub { 0 }
   );
 
-  has actual_creds => (is => 'rw', default => sub { {} });
-
-  sub access_key {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->{AccessKeyId};
-  }
-
-  sub secret_key {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->{SecretAccessKey};
-  }
-
-  sub session_token {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->{Token};
-  }
-
   #TODO: Raise exceptions if HTTP get didn't return success
-  sub _refresh {
+  sub refresh {
     my $self = shift;
 
-    return if $self->expiration - 240 >= time;
+    if ($self->credentials && $self->expiration - 240 >= time) {
+      return $self->credentials;
+    }
 
     my $ua = $self->ua;
     my $r = $ua->get($self->metadata_url);
@@ -68,8 +53,14 @@ package Paws::Credential::InstanceProfile;
     my $json = eval { decode_json($r->{content}) };
     if ($@) { die "Error in JSON from metadata URL" }
 
-    $self->actual_creds($json);
+    $self->credentials(Paws::Credential::Explicit->new(
+      access_key => $json->{AccessKeyId},
+      secret_key => $json->{SecretAccessKey},
+      session_token => $json->{Token},
+    ));
     $self->expiration(DateTime::Format::ISO8601->parse_datetime($json->{Expiration})->epoch);
+
+    return $self->credentials;
   }
 
   no Moose;

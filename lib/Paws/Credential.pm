@@ -1,13 +1,11 @@
 package Paws::Credential;
   use Moose::Role;
 
-  requires 'access_key';
-  requires 'secret_key';
-  requires 'session_token';
+  requires 'refresh';
 
   sub are_set {
     my $self = shift;
-    return (defined $self->access_key && defined $self->secret_key);
+    return (defined $self->refresh);
   }
 
   no Moose;

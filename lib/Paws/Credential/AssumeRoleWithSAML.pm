@@ -2,8 +2,10 @@ package Paws::Credential::AssumeRoleWithSAML;
   use Moose;
   use DateTime::Format::ISO8601;
   use Paws::Credential::None;
-
+  use Paws::Credential::Explicit;
   with 'Paws::Credential';
+
+  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
 
   has expiration => (
     is => 'rw',
@@ -11,26 +13,6 @@ package Paws::Credential::AssumeRoleWithSAML;
     lazy => 1,
     default => sub { 0 }
   );
-
-  has actual_creds => (is => 'rw');
-
-  sub access_key {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->AccessKeyId;
-  }
-
-  sub secret_key {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->SecretAccessKey;
-  }
-
-  sub session_token {
-    my $self = shift;
-    $self->_refresh;
-    $self->actual_creds->SessionToken;
-  }
 
   has sts_region => (is => 'ro', isa => 'Str|Undef', default => sub { undef });
 
@@ -46,10 +28,12 @@ package Paws::Credential::AssumeRoleWithSAML;
   has PrincipalArn => (is => 'rw', isa => 'Str', required => 1);
   has SAMLAssertion => (is => 'rw', isa => 'Str', required => 1);
 
-  sub _refresh {
+  sub refresh {
     my $self = shift;
 
-    return if $self->expiration >= time;
+    if ( $self->credentials && $self->expiration >= time ) {
+      return $self->credentials;
+    }
 
     my $result = $self->sts->AssumeRoleWithSAML(
       RoleArn => $self->RoleArn,
@@ -59,11 +43,13 @@ package Paws::Credential::AssumeRoleWithSAML;
       (defined $self->Policy) ? (Policy => $self->Policy) : (),
     );
 
-    my $creds = $self->actual_creds($result->Credentials);
-
+    $self->credentials(Paws::Credential::Explicit->new(
+      access_key => $result->Credentials->AccessKeyId,
+      secret_key => $result->Credentials->SecretAccessKey,
+      session_token => $result->Credentials->SessionToken,
+    ));
     $self->expiration(DateTime::Format::ISO8601->parse_datetime($result->Credentials->Expiration)->epoch);
   }
 
   no Moose;
-
 1;

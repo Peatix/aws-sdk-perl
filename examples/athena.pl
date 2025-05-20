@@ -75,7 +75,7 @@ warn "results are at " .
   $status->QueryExecution->ResultConfiguration->OutputLocation . "\n"
   if $opt->verbose;
 
-my $a = Paws::Credential::ProviderChain->new->selected_provider;
+my $a = Paws::Credential::ProviderChain->new->refresh;
 
 # Paws::S3 is marked as unstable; the following wouldn't work with IAM roles.
 my $s3 = Net::Amazon::S3->new(
