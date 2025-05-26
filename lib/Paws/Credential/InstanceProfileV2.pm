@@ -5,16 +5,32 @@ package Paws::Credential::InstanceProfileV2;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
+  has endpoint => (
+    is => 'ro',
+    isa => 'Str',
+    default => sub {
+      my $endpoint = $ENV{AWS_EC2_METADATA_SERVICE_ENDPOINT} || 'http://169.254.169.254/';
+      $endpoint .= "/" unless $endpoint =~ m{/$};
+      return $endpoint;
+    }
+  );
+
   has metadata_url => (
     is => 'ro',
     isa => 'Str',
-    default => 'http://169.254.169.254/latest/meta-data/iam/security-credentials/'
+    lazy => 1,
+    default => sub {
+      return $self->endpoint . 'latest/meta-data/iam/security-credentials/';
+    }
   );
 
   has token_url => (
     is => 'ro',
     isa => 'Str',
-    default => 'http://169.254.169.254/latest/api/token'
+    lazy => 1,
+    default => sub {
+      return $self->endpoint . 'latest/api/token';
+    }
   );
 
   has timeout => (is => 'ro', isa => 'Int', default => 1);
