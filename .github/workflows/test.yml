@@ -42,7 +42,56 @@ jobs:
 
       - name: Generate classes
         run: |
-          carton exec -- ./builder-bin/gen_classes.pl --paws_pm --classes
+          services=(
+            ApiGateway
+            AutoScaling
+            Batch
+            CloudFormation
+            CloudFront
+            CloudTrail
+            CloudWatch
+            CloudWatchLogs
+            CognitoIdentity
+            DynamoDB
+            EC2
+            EFS
+            ELB
+            ES
+            ElasticBeanstalk
+            Glacier
+            IAM
+            ImportExport
+            MachineLearning
+            MQ
+            RDS
+            RedShift
+            Route53
+            Route53Domains
+            S3
+            SDB
+            SES
+            SNS
+            SQS
+            SSM
+            STS
+            Support
+          )
+
+          service_files=()
+          for service in "${services[@]}"
+          do
+            latest_service_file="$(python3 -c \"import glob, json, pathlib, re, sys; wanted = sys.argv[1]; normalize = lambda value: re.sub(r'[^a-z0-9]', '', value.lower()); target = normalize(wanted); candidates = []; data_root = pathlib.Path('botocore/botocore/data');\nfor service_dir in sorted(data_root.iterdir()):\n    if not service_dir.is_dir():\n        continue\n    versions = sorted(service_dir.glob('*/service-2.json'))\n    if not versions:\n        continue\n    latest = versions[-1]\n    try:\n        metadata = json.loads(latest.read_text()).get('metadata', {})\n    except Exception:\n        continue\n    names = [service_dir.name, metadata.get('serviceId', ''), metadata.get('serviceFullName', ''), metadata.get('serviceAbbreviation', ''), metadata.get('endpointPrefix', ''), metadata.get('signingName', '')]\n    normalized_names = {normalize(name) for name in names if name}\n    if target in normalized_names:\n        candidates.append(str(latest))\nif not candidates:\n    print('')\n    raise SystemExit(0)\nprint(sorted(candidates, key=len)[0])\" "${service}")"
+
+            if [ -z "${latest_service_file}" ]
+            then
+              echo "missing_service_definition=${service}"
+              exit 1
+            fi
+
+            service_files+=("${latest_service_file}")
+          done
+
+          carton exec -- ./builder-bin/gen_classes.pl --paws_pm --classes "${service_files[@]}"
 
       - name: Test
         run: |
