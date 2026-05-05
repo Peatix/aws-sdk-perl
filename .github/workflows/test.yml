@@ -35,14 +35,11 @@ jobs:
           install-modules: |
             App::cpanminus
             Carton
+            Paws
 
       - name: Install dependencies
         run: |
           carton install
-
-      - name: Generate classes
-        run: |
-          make gen-classes
 
       - name: Test
         run: |
