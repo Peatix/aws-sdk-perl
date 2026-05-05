@@ -35,6 +35,7 @@ jobs:
           install-modules: |
             App::cpanminus
             Carton
+            Paws
 
       - name: Install dependencies
         run: |
@@ -73,14 +74,12 @@ jobs:
             ElasticBeanstalk
             Glacier
             IAM
-            ImportExport
             MachineLearning
             MQ
             RDS
             RedShift
             Route53
             Route53Domains
-            S3
             SDB
             SES
             SNS
