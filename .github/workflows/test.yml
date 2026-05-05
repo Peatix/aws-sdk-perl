@@ -80,54 +80,7 @@ jobs:
           service_files=()
           for service in "${services[@]}"
           do
-            latest_service_file="$(
-              SERVICE_NAME="${service}" python3 <<'PY'
-              import json
-              import pathlib
-              import re
-              import os
-
-              wanted = os.environ["SERVICE_NAME"]
-
-              def normalize(value):
-                  return re.sub(r"[^a-z0-9]", "", value.lower())
-
-              target = normalize(wanted)
-              candidates = []
-              data_root = pathlib.Path("botocore/botocore/data")
-
-              for service_dir in sorted(data_root.iterdir()):
-                  if not service_dir.is_dir():
-                      continue
-
-                  versions = sorted(service_dir.glob("*/service-2.json"))
-                  if not versions:
-                      continue
-
-                  latest = versions[-1]
-                  try:
-                      metadata = json.loads(latest.read_text()).get("metadata", {})
-                  except Exception:
-                      continue
-
-                  names = [
-                      service_dir.name,
-                      metadata.get("serviceId", ""),
-                      metadata.get("serviceFullName", ""),
-                      metadata.get("serviceAbbreviation", ""),
-                      metadata.get("endpointPrefix", ""),
-                      metadata.get("signingName", ""),
-                  ]
-                  normalized_names = {normalize(name) for name in names if name}
-                  if target in normalized_names:
-                      candidates.append(str(latest))
-
-              if not candidates:
-                  print("")
-              else:
-                  print(sorted(candidates, key=len)[0])
-              PY
-            )"
+            latest_service_file="$(python3 .github/scripts/resolve-botocore-service-file.py --service "${service}")"
 
             if [ -z "${latest_service_file}" ]
             then
