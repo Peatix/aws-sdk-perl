@@ -42,6 +42,19 @@ jobs:
 
       - name: Generate classes
         run: |
+          if [ ! -f botocore/botocore/data/_endpoints.json ]
+          then
+            if [ -f botocore/botocore/data/endpoints.json ]
+            then
+              cp botocore/botocore/data/endpoints.json botocore/botocore/data/_endpoints.json
+            elif [ -f botocore/botocore/data/endpoints-2.json ]
+            then
+              cp botocore/botocore/data/endpoints-2.json botocore/botocore/data/_endpoints.json
+            else
+              printf '%s\n' '{"partitions":[]}' > botocore/botocore/data/_endpoints.json
+            fi
+          fi
+
           services=(
             ApiGateway
             AutoScaling
