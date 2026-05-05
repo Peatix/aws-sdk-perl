@@ -80,7 +80,54 @@ jobs:
           service_files=()
           for service in "${services[@]}"
           do
-            latest_service_file="$(python3 -c \"import glob, json, pathlib, re, sys; wanted = sys.argv[1]; normalize = lambda value: re.sub(r'[^a-z0-9]', '', value.lower()); target = normalize(wanted); candidates = []; data_root = pathlib.Path('botocore/botocore/data');\nfor service_dir in sorted(data_root.iterdir()):\n    if not service_dir.is_dir():\n        continue\n    versions = sorted(service_dir.glob('*/service-2.json'))\n    if not versions:\n        continue\n    latest = versions[-1]\n    try:\n        metadata = json.loads(latest.read_text()).get('metadata', {})\n    except Exception:\n        continue\n    names = [service_dir.name, metadata.get('serviceId', ''), metadata.get('serviceFullName', ''), metadata.get('serviceAbbreviation', ''), metadata.get('endpointPrefix', ''), metadata.get('signingName', '')]\n    normalized_names = {normalize(name) for name in names if name}\n    if target in normalized_names:\n        candidates.append(str(latest))\nif not candidates:\n    print('')\n    raise SystemExit(0)\nprint(sorted(candidates, key=len)[0])\" "${service}")"
+            latest_service_file="$(
+              SERVICE_NAME="${service}" python3 <<'PY'
+              import json
+              import pathlib
+              import re
+              import os
+
+              wanted = os.environ["SERVICE_NAME"]
+
+              def normalize(value):
+                  return re.sub(r"[^a-z0-9]", "", value.lower())
+
+              target = normalize(wanted)
+              candidates = []
+              data_root = pathlib.Path("botocore/botocore/data")
+
+              for service_dir in sorted(data_root.iterdir()):
+                  if not service_dir.is_dir():
+                      continue
+
+                  versions = sorted(service_dir.glob("*/service-2.json"))
+                  if not versions:
+                      continue
+
+                  latest = versions[-1]
+                  try:
+                      metadata = json.loads(latest.read_text()).get("metadata", {})
+                  except Exception:
+                      continue
+
+                  names = [
+                      service_dir.name,
+                      metadata.get("serviceId", ""),
+                      metadata.get("serviceFullName", ""),
+                      metadata.get("serviceAbbreviation", ""),
+                      metadata.get("endpointPrefix", ""),
+                      metadata.get("signingName", ""),
+                  ]
+                  normalized_names = {normalize(name) for name in names if name}
+                  if target in normalized_names:
+                      candidates.append(str(latest))
+
+              if not candidates:
+                  print("")
+              else:
+                  print(sorted(candidates, key=len)[0])
+              PY
+            )"
 
             if [ -z "${latest_service_file}" ]
             then
