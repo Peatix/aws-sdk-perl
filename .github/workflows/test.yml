@@ -88,6 +88,12 @@ jobs:
               exit 1
             fi
 
+            documentation_file="${latest_service_file/service-2.json/documentation-1.json}"
+            if [ ! -f "${documentation_file}" ]
+            then
+              printf '%s\n' '{"documentation":{"api_url":"","methods":{}}}' > "${documentation_file}"
+            fi
+
             service_files+=("${latest_service_file}")
           done
 
