@@ -1,8 +1,21 @@
 name: test
 on:
   pull_request:
-  push:
-  workflow_dispatch:
+    paths:
+      - 'auto-lib/**'
+      - 'builder-lib/**'
+      - 'lib/**'
+      - 'script/**'
+      - 't/**'
+      - 'cpanfile'
+      - 'Makefile'
+      - '.github/workflows/test.yml'
+      - '.github/workflows/generate-and-pr.yml'
+      - '.github/workflows/package.yml'
+
+concurrency:
+  group: test-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:

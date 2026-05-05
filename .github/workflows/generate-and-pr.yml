@@ -1,0 +1,71 @@
+name: generate-and-pr
+on:
+  workflow_dispatch:
+    inputs:
+      base_branch:
+        description: Base branch for the generated-code pull request
+        required: true
+        default: master
+      pull_boto_develop:
+        description: Pull latest botocore develop before generation
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-and-open-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.base_branch }}
+          submodules: recursive
+
+      - name: Set up Perl 5.36
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.36"
+          install-modules-with: cpm
+          install-modules: |
+            App::cpanminus
+            Carton
+            Data::Printer
+            Perl::Tidy
+            Pod::HTML2Pod
+            Template
+
+      - name: Install repository dependencies
+        run: |
+          carton install
+
+      - name: Update botocore
+        if: ${{ inputs.pull_boto_develop }}
+        run: |
+          make pull-other-sdks
+          make pull-boto-develop
+
+      - name: Generate classes
+        run: |
+          make gen-classes
+
+      - name: Create draft pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          base: ${{ inputs.base_branch }}
+          branch: automation/generated-code-${{ github.run_id }}
+          delete-branch: true
+          title: Regenerate generated AWS SDK classes
+          commit-message: Regenerate generated AWS SDK classes
+          body: |
+            ## Summary
+            - regenerate generated SDK classes via `make gen-classes`
+            - triggered from `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+          draft: true
+          labels: |
+            automated
