@@ -1194,7 +1194,17 @@ package Paws::API::Builder {
       if ($keys_shape->{enum}){
         # Some enums have names like SHA-1, SHA-256, etc that cannot be used as attributes in a Moose class. Sanitize them
         $keys_shape->{enum} = [ map { $_ =~ s/-//; $_ } @{ $keys_shape->{ enum } }  ];
-        $self->process_template('map_enum.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, });
+        # If any enum value still contains characters that are not valid in
+        # a Perl/Moose attribute name (e.g. '::' in resource type names like
+        # AWS::DynamoDB::Stream) fall back to the generic StrToObj map class
+        # which exposes a single `Map` HashRef attribute.
+        my $invalid_attr = grep { $_ !~ /^[A-Za-z_][A-Za-z0-9_]*$/ } @{ $keys_shape->{enum} };
+        if ($invalid_attr) {
+          my $type = $self->get_caller_class_type($iclass->{value}->{shape});
+          $self->process_template('map_str_to_obj.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => "HashRef[$type]" });
+        } else {
+          $self->process_template('map_enum.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, });
+        }
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'string') {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Maybe[Str]]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'boolean') {
