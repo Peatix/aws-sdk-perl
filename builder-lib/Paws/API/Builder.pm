@@ -208,7 +208,14 @@ package Paws::API::Builder {
   has documentation_struct => (is => 'ro', lazy => 1, default => sub {
     my $self = shift;
     if (not -e $self->documentation_file) {
-      die "documentation-1.json missing for the service, run 'make docu-links'.";
+      # Generation can proceed without doc links; running 'make docu-links'
+      # (or the canonical 'make gen-classes' which calls --docu_links) is
+      # what populates this file with real AWS documentation URLs.
+      warn sprintf(
+        "missing_doc_file=%s service=%s falling_back_to=stub\n",
+        $self->documentation_file, $self->service,
+      );
+      return { api_url => undef, methods => {} };
     }
     return $self->_load_json_file($self->documentation_file)->{ documentation };
   });
