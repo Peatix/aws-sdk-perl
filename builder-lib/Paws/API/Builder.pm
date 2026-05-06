@@ -258,6 +258,11 @@ package Paws::API::Builder {
     return 'ValidateAllPolicies' if ($name eq 'ValidatePolicy');
     return 'SelectAllAggregateResourceConfig' if ($name eq 'SelectAggregateResourceConfig');
     return 'SelectAllResourceConfig' if ($name eq 'SelectResourceConfig');
+    return 'ExportAllComponents' if ($name eq 'ExportComponents');
+    return 'RerankAll' if ($name eq 'Rerank');
+    return 'ExecuteAllQuery' if ($name eq 'ExecuteQuery');
+    return 'ForecastAllGeofenceEvents' if ($name eq 'ForecastGeofenceEvents');
+    return 'BatchGetAllRumMetricDefinitions' if ($name eq 'BatchGetRumMetricDefinitions');
 
     die "Please help me generate a good name for the paginator $name";
   }
@@ -1195,6 +1200,10 @@ package Paws::API::Builder {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Num]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'integer') {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Int]' });
+      } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'long') {
+        $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Int]' });
+      } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'timestamp') {
+        $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Str]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'double') {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Num]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'list') {
