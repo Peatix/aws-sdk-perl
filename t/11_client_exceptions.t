@@ -66,23 +66,13 @@ foreach my $caller_name ('Paws::Net::FurlCaller', 'Paws::Net::Caller', 'Paws::Ne
   cmp_ok($@->request_id, 'eq', '', 'No Request ID for a connection error');
   
   
-  TODO: {
-    # Recorded SQS fixtures are XML/Query protocol responses, but upstream
-    # botocore now describes SQS as JSON protocol. Until the fixtures are
-    # re-recorded the response parser sees JSON-shaped bytes coming from
-    # an XML body and the message is the parser failure rather than the
-    # original AWS error. Tracked with the rest of the upstream-drift
-    # follow-ups.
-    local $TODO = 'SQS fixture is XML; upstream protocol is now JSON';
+  throws_ok {
+    $p->service('SQS', region => 'eu-west-1')->ListQueues;
+  } 'Paws::Exception', 'got exception';
 
-    throws_ok {
-      $p->service('SQS', region => 'eu-west-1')->ListQueues;
-    } 'Paws::Exception', 'got exception';
-
-    cmp_ok($@->message, 'eq', 'The security token included in the request is invalid.', 'SQS exception');
-    cmp_ok($@->code, 'eq', 'InvalidClientTokenId', 'Correct code');
-    cmp_ok($@->request_id, 'eq', '000000000000000000000000000000000000', 'Correct Request ID');
-  }
+  cmp_ok($@->message, 'eq', 'The security token included in the request is invalid.', 'SQS exception');
+  cmp_ok($@->code, 'eq', 'InvalidClientTokenId', 'Correct code');
+  cmp_ok($@->request_id, 'eq', '000000000000000000000000000000000000', 'Correct Request ID');
   
   throws_ok {
     $p->service('IAM')->ListUsers;
