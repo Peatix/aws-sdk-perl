@@ -2,9 +2,24 @@
 call: GetUserPolicy
 service: IAM
 tests:
-  - expected: '%7B%0A%20%20%22Statement%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22Sid%22%3A%20%22Stmt1331504410389%22%2C%0A%20%20%20%20%20%20%22Action%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22ec2%3ACreateSnapshot%22%2C%0A%20%20%20%20%20%20%20%20%22ec2%3ADescribeInstances%22%2C%0A%20%20%20%20%20%20%20%20%22ec2%3ADescribeVolumes%22%0A%20%20%20%20%20%20%5D%2C%0A%20%20%20%20%20%20%22Effect%22%3A%20%22Allow%22%2C%0A%20%20%20%20%20%20%22Resource%22%3A%20%22%2A%22%0A%20%20%20%20%7D%0A%20%20%5D%0A%7D'
+  - expected: ec2:CreateSnapshot
     op: eq
-    path: PolicyDocument
+    path: PolicyDocument.~urljson.Statement.0.Action.0
+  - expected: ec2:DescribeInstances
+    op: eq
+    path: PolicyDocument.~urljson.Statement.0.Action.1
+  - expected: ec2:DescribeVolumes
+    op: eq
+    path: PolicyDocument.~urljson.Statement.0.Action.2
+  - expected: Allow
+    op: eq
+    path: PolicyDocument.~urljson.Statement.0.Effect
+  - expected: '*'
+    op: eq
+    path: PolicyDocument.~urljson.Statement.0.Resource
+  - expected: Stmt1331504410389
+    op: eq
+    path: PolicyDocument.~urljson.Statement.0.Sid
   - expected: test
     op: eq
     path: PolicyName
