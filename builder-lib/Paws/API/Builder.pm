@@ -283,8 +283,15 @@ package Paws::API::Builder {
     },
   );
 
-  has endpoints_file => (is => 'ro', isa => 'Str', default => sub {
-    'botocore/botocore/data/_endpoints.json';
+  has endpoints_file => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+    my $boto = 'botocore/botocore/data/_endpoints.json';
+    return $boto if (-f $boto);
+    # Vendored copy of the legacy pplu/botocore _endpoints.json (last
+    # touched upstream in 2015). Used when the botocore submodule no
+    # longer ships the file in its canonical location.
+    my $vendored = 'etc/_endpoints.json';
+    return $vendored if (-f $vendored);
+    return $boto;
   });
 
   has service_endpoint_rules => (is => 'ro', lazy => 1, default => sub {
