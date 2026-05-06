@@ -436,6 +436,31 @@ package Paws::API::Builder {
     return $ret;
   }
 
+  has _exception_member_references => (
+    is => 'ro',
+    isa => 'HashRef',
+    lazy => 1,
+    default => sub {
+      my $self = shift;
+      my %ret;
+      foreach my $shape_name ($self->shapes) {
+        my $shape = $self->shape($shape_name);
+        next if (defined $shape->{ exception });
+        next if ($shape->{ type } ne 'structure');
+        foreach my $member (values %{ $shape->{ members } || {} }) {
+          my $target = $member->{ shape };
+          $ret{ $target } = 1 if (defined $target and $self->is_exception_shape($target));
+        }
+      }
+      return \%ret;
+    },
+  );
+
+  sub _is_exception_referenced_as_member {
+    my ($self, $shape_name) = @_;
+    return $self->_exception_member_references->{ $shape_name };
+  }
+
   sub capitalize {
     my ($self, $shape) = @_;
     substr($shape,0,1) = uc(substr($shape,0,1));
@@ -471,9 +496,17 @@ package Paws::API::Builder {
         $self->capitalize_shape($shape);
 
         $ret->{ $shape_name } = $shape if (( $shape->{type} eq 'structure' or $shape->{type} eq 'map')
-                                           and not $self->is_exception_shape($shape_name)
                                            and not $self->is_output_shape($shape_name)
                                            and not $self->is_input_shape($shape_name)
+                                           and (
+                                             not $self->is_exception_shape($shape_name)
+                                             # Generate exception shapes as inner classes when they are referenced
+                                             # as members of other shapes (e.g. union/event-stream shapes in
+                                             # bedrock-agent-runtime and similar services). Without this the
+                                             # referenced Paws::Service::FooException class fails to load at
+                                             # preload time.
+                                             or $self->_is_exception_referenced_as_member($shape_name)
+                                           )
                                           );
 	# Hack: it results that RedShift uses some shapes as an internal object and as the input shape for a method
 	# call (ResizeCluster, PauseCluseter, ResumeCluster), so due to the "not is_input_shape", the objects were not being
