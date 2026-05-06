@@ -289,6 +289,18 @@ package Paws::API::Builder {
 
   has service_endpoint_rules => (is => 'ro', lazy => 1, default => sub {
     my $self = shift;
+    if (not -f $self->endpoints_file) {
+      # No endpoint rules file available; emit no overrides and let the
+      # service rely on Paws::API::EndpointResolver default rules. The
+      # canonical legacy file lived in the botocore submodule; modern
+      # botocore checkouts do not ship it. See etc/_endpoints.json for
+      # the vendored fallback.
+      warn sprintf(
+        "missing_endpoints_file=%s service=%s falling_back_to=defaults\n",
+        $self->endpoints_file, $self->service,
+      );
+      return '';
+    }
     my $s = Paws::API::RegionBuilder->new(
       rules    => $self->endpoints_file,
       service  => $self->service,
