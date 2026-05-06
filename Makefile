@@ -34,6 +34,14 @@ gen-classes:
 	carton exec ./builder-bin/gen_classes.pl --docu_links
 	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
 
+# Same as gen-classes but skips the --docu_links step that fetches AWS
+# documentation URLs over HTTP. Use this in CI / pull request checks
+# where speed and isolation matter more than documentation completeness.
+gen-classes-no-doc-fetch:
+	mkdir -p auto-lib/Paws/DeleteMe
+	rm -r auto-lib/Paws/*
+	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
+
 docu-links:
 	carton exec ./builder-bin/gen_classes.pl --docu_links
 
