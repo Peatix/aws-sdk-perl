@@ -9,6 +9,7 @@ on:
       - 't/**'
       - 'cpanfile'
       - 'Makefile'
+      - 'etc/_endpoints.json'
       - '.github/workflows/test.yml'
       - '.github/workflows/generate-and-pr.yml'
       - '.github/workflows/package.yml'
@@ -35,7 +36,6 @@ jobs:
           install-modules: |
             App::cpanminus
             Carton
-            Paws
 
       - name: Install dependencies
         run: |
@@ -43,91 +43,12 @@ jobs:
 
       - name: Generate classes
         run: |
-          if [ ! -f botocore/botocore/data/_endpoints.json ]
-          then
-            if [ -f botocore/botocore/data/endpoints.json ]
-            then
-              cp botocore/botocore/data/endpoints.json botocore/botocore/data/_endpoints.json
-            elif [ -f botocore/botocore/data/endpoints-2.json ]
-            then
-              cp botocore/botocore/data/endpoints-2.json botocore/botocore/data/_endpoints.json
-            else
-              printf '%s\n' '{"partitions":[]}' > botocore/botocore/data/_endpoints.json
-            fi
-          fi
-
-          services=(
-            ApiGateway
-            AutoScaling
-            Batch
-            CloudFormation
-            CloudFront
-            CloudTrail
-            CloudWatch
-            CognitoIdentity
-            DynamoDB
-            EC2
-            EFS
-            ELB
-            ES
-            ElasticBeanstalk
-            Glacier
-            IAM
-            MachineLearning
-            MQ
-            RDS
-            RedShift
-            Route53
-            Route53Domains
-            SDB
-            SES
-            SNS
-            SQS
-            SSM
-            STS
-            Support
-          )
-
-          service_files=()
-          for service in "${services[@]}"
-          do
-            latest_service_file="$(python3 .github/scripts/resolve-botocore-service-file.py --service "${service}")"
-
-            if [ -z "${latest_service_file}" ]
-            then
-              echo "missing_service_definition=${service}"
-              exit 1
-            fi
-
-            documentation_file="${latest_service_file/service-2.json/documentation-1.json}"
-            if [ ! -f "${documentation_file}" ]
-            then
-              printf '%s\n' '{"documentation":{"api_url":"","methods":{}}}' > "${documentation_file}"
-            fi
-
-            service_files+=("${latest_service_file}")
-          done
-
-          carton exec -- ./builder-bin/gen_classes.pl --paws_pm --classes "${service_files[@]}"
+          make gen-classes-no-doc-fetch
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
 
       - name: Test
         run: |
-          carton exec -- prove -l -j2 \
-            t/02_aws_object.t \
-            t/04_credentials.t \
-            t/13_client_connect_errors.t \
-            t/15_timeouts.t \
-            t/16_retries.t \
-            t/17_s3metadata.t \
-            t/19_signin_login.t \
-            t/20_json_syntetic_responses.t \
-            t/21_restjson_syntetic_responses.t \
-            t/22_query_syntetic_responses.t \
-            t/23_queryflatten_syntetic_responses.t \
-            t/24_error_from_nonreturningmethod.t \
-            t/25_error_on_malformed_response.t \
-            t/26_paginators.t \
-            t/27_signing_name.t \
-            t/28_retries_mojoasynccaller.t
+          make test
         env:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
