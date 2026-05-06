@@ -81,6 +81,8 @@ $test_params = {
 
 my $sqs = $aws->service('SQS');
 
+# SQS upstream protocol changed from query to JSON; the request body is now
+# JSON rather than query-encoded parameters.
 $request = $sqs->CreateQueue(
   QueueName => 'Paws2AttributeTest',
   Attributes => {
@@ -91,16 +93,15 @@ $request = $sqs->CreateQueue(
 );
 
 $test_params = {
-  'Attribute.1.Name' => 'DelaySeconds',
-  'Attribute.1.Value' => 10,
-  'Attribute.2.Name' => 'MessageRetentionPeriod',
-  'Attribute.2.Value' => 3600,
-  'Attribute.3.Name' => 'VisibilityTimeout',
-  'Attribute.3.Value' => 10,
-  'QueueName' => 'Paws2AttributeTest'
+  QueueName => 'Paws2AttributeTest',
+  Attributes => {
+    DelaySeconds => 10,
+    MessageRetentionPeriod => 3600,
+    VisibilityTimeout => 10,
+  },
 };
 
-request_has_params($test_params, $request);
+request_contentjson($test_params, $request);
 
 $request = $sqs->SendMessageBatch(
   QueueUrl => 'http://sqs.us-east-1.amazonaws.com/123456789012/testQueue/',
@@ -118,17 +119,21 @@ $request = $sqs->SendMessageBatch(
 );
 
 $test_params = {
-  'SendMessageBatchRequestEntry.1.Id' => 'test_msg_001',
-  'SendMessageBatchRequestEntry.1.MessageBody' => 'test message body 201',
-  'SendMessageBatchRequestEntry.2.Id' => 'test_msg_002',
-  'SendMessageBatchRequestEntry.2.MessageBody' => 'test message body 202',
-  'SendMessageBatchRequestEntry.2.DelaySeconds' => '60',
-  'SendMessageBatchRequestEntry.2.MessageAttribute.1.Name' => 'test_attribute_name_1',
-  'SendMessageBatchRequestEntry.2.MessageAttribute.1.Value.StringValue' => 'test_attribute_value_1',
-  'SendMessageBatchRequestEntry.2.MessageAttribute.1.Value.DataType' => 'String',
+  QueueUrl => 'http://sqs.us-east-1.amazonaws.com/123456789012/testQueue/',
+  Entries => [
+    { Id => 'test_msg_001', MessageBody => 'test message body 201' },
+    { Id => 'test_msg_002', MessageBody => 'test message body 202', DelaySeconds => 60,
+      MessageAttributes => {
+        'test_attribute_name_1' => {
+          DataType => 'String',
+          StringValue => 'test_attribute_value_1',
+        },
+      },
+    },
+  ],
 };
 
-request_has_params($test_params, $request);
+request_contentjson($test_params, $request);
 
 my $sns = $aws->service('SNS');
 
