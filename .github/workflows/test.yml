@@ -64,7 +64,6 @@ jobs:
             CloudFront
             CloudTrail
             CloudWatch
-            CloudWatchLogs
             CognitoIdentity
             DynamoDB
             EC2
