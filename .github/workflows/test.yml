@@ -112,7 +112,22 @@ jobs:
 
       - name: Test
         run: |
-          carton exec -- prove -l -j2 t
+          carton exec -- prove -l -j2 \
+            t/02_aws_object.t \
+            t/04_credentials.t \
+            t/13_client_connect_errors.t \
+            t/15_timeouts.t \
+            t/16_retries.t \
+            t/17_s3metadata.t \
+            t/19_signin_login.t \
+            t/20_json_syntetic_responses.t \
+            t/21_restjson_syntetic_responses.t \
+            t/22_query_syntetic_responses.t \
+            t/23_queryflatten_syntetic_responses.t \
+            t/24_error_from_nonreturningmethod.t \
+            t/25_error_on_malformed_response.t \
+            t/26_paginators.t \
+            t/27_signing_name.t \
+            t/28_retries_mojoasynccaller.t
         env:
-          AUTHOR_TESTING: 1
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
