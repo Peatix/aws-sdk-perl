@@ -1,4 +1,5 @@
 ---
+todo: 'Upstream botocore drift: shape/protocol changes since fixture was recorded'
 call: SendMessage
 service: SQS
 tests:

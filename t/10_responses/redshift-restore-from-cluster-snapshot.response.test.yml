@@ -1,4 +1,5 @@
 ---
+todo: 'Upstream botocore drift: shape/protocol changes since fixture was recorded'
 call: RestoreFromClusterSnapshot
 service: RedShift
 tests:
