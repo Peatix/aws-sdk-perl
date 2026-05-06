@@ -17,6 +17,8 @@ use Test::Warnings;
 use Test04::StubUAForMetadata;
 use Test04::StubUANoMetadata;
 use Test04::StubUAForECSMetadata;
+use Test04::StubUAForECSFullURI;
+use File::Temp qw(tempfile);
 
 delete @ENV{qw(
   AWS_ACCESS_KEY_ID
@@ -25,6 +27,10 @@ delete @ENV{qw(
   AWS_SECRET_KEY
   AWS_DEFAULT_PROFILE
   CONTAINER_CREDENTIALS_RELATIVE_URI
+  AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+  AWS_CONTAINER_CREDENTIALS_FULL_URI
+  AWS_CONTAINER_AUTHORIZATION_TOKEN
+  AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE
   AWS_CONFIG_FILE
 )};
 
@@ -153,6 +159,141 @@ delete @ENV{qw(
   sleep 2;
 
   dies_ok { $creds->refresh } 'Exception thrown when garbage arrives to ECS Provider';
+}
+
+## ECSContainerProfile full URI tests
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => undef,
+  );
+  ok(not($creds->are_set), 'ECS Full URI: not set when both URIs are undef');
+}
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => 'https://credentials.example.com/role',
+    ua => Test04::StubUAForECSFullURI->new,
+  );
+  cmp_ok($creds->metadata_url, 'eq', 'https://credentials.example.com/role',
+    'ECS Full URI: metadata_url uses full URI when relative URI not set');
+
+  my $a = $creds->refresh;
+  ok($a, 'ECS Full URI: refresh returns a value');
+  cmp_ok($a->access_key, 'eq', 'AK1', 'ECS Full URI: Access Key 1');
+  cmp_ok($a->secret_key, 'eq', 'SK1', 'ECS Full URI: Secret Key 1');
+  cmp_ok($a->session_token, 'eq', 'TK1', 'ECS Full URI: Token 1');
+
+  sleep 2;
+
+  $a = $creds->refresh;
+  ok($a, 'ECS Full URI: refresh returns a value on second call');
+  cmp_ok($a->access_key, 'eq', 'AK2', 'ECS Full URI: Access Key 2');
+  cmp_ok($a->secret_key, 'eq', 'SK2', 'ECS Full URI: Secret Key 2');
+  cmp_ok($a->session_token, 'eq', 'TK2', 'ECS Full URI: Token 2');
+
+  sleep 2;
+
+  dies_ok { $creds->refresh } 'ECS Full URI: exception on garbage JSON';
+}
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => '/relative-path',
+    container_full_uri => 'https://credentials.example.com/role',
+    ua => Test04::StubUAForECSMetadata->new,
+  );
+  cmp_ok($creds->metadata_url, 'eq', 'http://169.254.170.2/relative-path',
+    'ECS: relative URI takes precedence over full URI');
+}
+
+## ECS full URI security validation
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => 'http://127.0.0.1:9911/credentials',
+    ua => Test04::StubUAForECSFullURI->new,
+  );
+  ok($creds->metadata_url, 'ECS Full URI: http://127.0.0.1 is allowed');
+}
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => 'http://169.254.170.2/credentials',
+    ua => Test04::StubUAForECSFullURI->new,
+  );
+  ok($creds->metadata_url, 'ECS Full URI: http://169.254.170.2 is allowed');
+}
+
+{
+  dies_ok {
+    Paws::Credential::ECSContainerProfile->new(
+      container_local_uri => undef,
+      container_full_uri => 'http://192.168.1.1/credentials',
+      ua => Test04::StubUAForECSFullURI->new,
+    )->metadata_url;
+  } 'ECS Full URI: http to non-loopback address is rejected';
+}
+
+{
+  dies_ok {
+    Paws::Credential::ECSContainerProfile->new(
+      container_local_uri => undef,
+      container_full_uri => 'ftp://example.com/credentials',
+      ua => Test04::StubUAForECSFullURI->new,
+    )->metadata_url;
+  } 'ECS Full URI: unsupported scheme is rejected';
+}
+
+## ECS full URI authorization token tests
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => 'https://credentials.example.com/role',
+    authorization_token => 'Bearer my-secret-token',
+    ua => Test04::StubUAForECSFullURI->new(expected_auth => 'Bearer my-secret-token'),
+  );
+
+  my $a = $creds->refresh;
+  ok($a, 'ECS Full URI Auth: refresh succeeds with correct token');
+  cmp_ok($a->access_key, 'eq', 'AK1', 'ECS Full URI Auth: Access Key 1');
+}
+
+{
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => 'https://credentials.example.com/role',
+    authorization_token => 'wrong-token',
+    ua => Test04::StubUAForECSFullURI->new(expected_auth => 'Bearer my-secret-token'),
+  );
+
+  my $a = $creds->refresh;
+  ok(!$a, 'ECS Full URI Auth: refresh fails with wrong token');
+}
+
+## ECS full URI authorization token file tests
+
+{
+  my ($fh, $tmpfile) = tempfile(UNLINK => 1);
+  print $fh "Bearer file-based-token\n";
+  close $fh;
+
+  local $ENV{AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE} = $tmpfile;
+
+  my $creds = Paws::Credential::ECSContainerProfile->new(
+    container_local_uri => undef,
+    container_full_uri => 'https://credentials.example.com/role',
+    ua => Test04::StubUAForECSFullURI->new(expected_auth => 'Bearer file-based-token'),
+  );
+
+  my $a = $creds->refresh;
+  ok($a, 'ECS Full URI Auth File: refresh succeeds with token from file');
+  cmp_ok($a->access_key, 'eq', 'AK1', 'ECS Full URI Auth File: Access Key 1');
 }
 
 {
