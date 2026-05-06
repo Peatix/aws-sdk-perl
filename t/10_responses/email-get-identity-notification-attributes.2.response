@@ -6,12 +6,18 @@ content: |
         <entry>
           <key>test1@domain1.com</key>
           <value>
+            <BounceTopic/>
+            <ComplaintTopic/>
+            <DeliveryTopic/>
             <ForwardingEnabled>true</ForwardingEnabled>
           </value>
         </entry>
         <entry>
           <key>test2@domain2.com</key>
           <value>
+            <BounceTopic/>
+            <ComplaintTopic/>
+            <DeliveryTopic/>
             <ForwardingEnabled>true</ForwardingEnabled>
           </value>
         </entry>

@@ -1,5 +1,4 @@
 ---
-todo: 'Upstream botocore drift: shape/protocol changes since fixture was recorded'
 call: ListReusableDelegationSets
 service: Route53
 tests:

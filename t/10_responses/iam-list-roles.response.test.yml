@@ -1,5 +1,4 @@
 ---
-todo: 'Upstream botocore drift: shape/protocol changes since fixture was recorded'
 call: ListRoles
 service: IAM
 tests:
@@ -9,18 +8,9 @@ tests:
   - expected: arn:aws:iam::123456789012:role/application_abc/component_xyz/S3Access
     op: eq
     path: Roles.0.Arn
-  - expected: sts:AssumeRole
+  - expected: '%7B%22Version%22%3A%222008-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Principal%22%3A%7B%22Service%22%3A%5B%22ec2.amazonaws.com%22%5D%7D%2C%22Action%22%3A%5B%22sts%3AAssumeRole%22%5D%7D%5D%7D'
     op: eq
-    path: Roles.0.Policy.Statement.0.Action.0
-  - expected: Allow
-    op: eq
-    path: Roles.0.Policy.Statement.0.Effect
-  - expected: ec2.amazonaws.com
-    op: eq
-    path: Roles.0.Policy.Statement.0.Principal.Service.0
-  - expected: 2008-10-17
-    op: eq
-    path: Roles.0.Policy.Version
+    path: Roles.0.AssumeRolePolicyDocument
   - expected: 2012-05-09T15:45:35Z
     op: eq
     path: Roles.0.CreateDate
@@ -36,18 +26,9 @@ tests:
   - expected: arn:aws:iam::123456789012:role/application_abc/component_xyz/SDBAccess
     op: eq
     path: Roles.1.Arn
-  - expected: sts:AssumeRole
+  - expected: '%7B%22Version%22%3A%222008-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Principal%22%3A%7B%22Service%22%3A%5B%22ec2.amazonaws.com%22%5D%7D%2C%22Action%22%3A%5B%22sts%3AAssumeRole%22%5D%7D%5D%7D'
     op: eq
-    path: Roles.1.Policy.Statement.0.Action.0
-  - expected: Allow
-    op: eq
-    path: Roles.1.Policy.Statement.0.Effect
-  - expected: ec2.amazonaws.com
-    op: eq
-    path: Roles.1.Policy.Statement.0.Principal.Service.0
-  - expected: 2008-10-17
-    op: eq
-    path: Roles.1.Policy.Version
+    path: Roles.1.AssumeRolePolicyDocument
   - expected: 2012-05-09T15:45:45Z
     op: eq
     path: Roles.1.CreateDate

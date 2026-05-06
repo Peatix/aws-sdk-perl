@@ -1,4 +1,9 @@
 ---
-content: "<ServiceUnavailable />"
-headers: []
+content: |
+  {
+    "__type": "com.amazon.coral.service#ServiceUnavailableException",
+    "Message": "Service Unavailable"
+  }
+headers:
+  x-amzn-requestid: '00000000-0000-0000-0000-000000000000'
 status: 503
