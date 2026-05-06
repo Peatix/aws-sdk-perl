@@ -6,10 +6,10 @@ package Paws::Resiliencehub::DisruptionResiliencyScore;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AZ => (is => 'ro', isa => 'Num');
-  has Hardware => (is => 'ro', isa => 'Num');
-  has Region => (is => 'ro', isa => 'Num');
-  has Software => (is => 'ro', isa => 'Num');
+  has 'AZ' => (is => 'ro', isa => 'Num');
+  has 'Hardware' => (is => 'ro', isa => 'Num');
+  has 'Region' => (is => 'ro', isa => 'Num');
+  has 'Software' => (is => 'ro', isa => 'Num');
 1;
 
 ### main pod documentation begin ###

@@ -6,9 +6,9 @@ package Paws::QConnect::AIAgentConfigurationMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ANSWER_RECOMMENDATION => (is => 'ro', isa => 'Paws::QConnect::AIAgentConfigurationData');
-  has MANUAL_SEARCH => (is => 'ro', isa => 'Paws::QConnect::AIAgentConfigurationData');
-  has SELF_SERVICE => (is => 'ro', isa => 'Paws::QConnect::AIAgentConfigurationData');
+  has 'ANSWER_RECOMMENDATION' => (is => 'ro', isa => 'Paws::QConnect::AIAgentConfigurationData');
+  has 'MANUAL_SEARCH' => (is => 'ro', isa => 'Paws::QConnect::AIAgentConfigurationData');
+  has 'SELF_SERVICE' => (is => 'ro', isa => 'Paws::QConnect::AIAgentConfigurationData');
 1;
 
 ### main pod documentation begin ###

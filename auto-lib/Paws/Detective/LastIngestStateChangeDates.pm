@@ -6,9 +6,9 @@ package Paws::Detective::LastIngestStateChangeDates;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has DISABLED => (is => 'ro', isa => 'Paws::Detective::TimestampForCollection');
-  has STARTED => (is => 'ro', isa => 'Paws::Detective::TimestampForCollection');
-  has STOPPED => (is => 'ro', isa => 'Paws::Detective::TimestampForCollection');
+  has 'DISABLED' => (is => 'ro', isa => 'Paws::Detective::TimestampForCollection');
+  has 'STARTED' => (is => 'ro', isa => 'Paws::Detective::TimestampForCollection');
+  has 'STOPPED' => (is => 'ro', isa => 'Paws::Detective::TimestampForCollection');
 1;
 
 ### main pod documentation begin ###

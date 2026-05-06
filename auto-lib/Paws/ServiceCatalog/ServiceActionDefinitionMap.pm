@@ -6,10 +6,10 @@ package Paws::ServiceCatalog::ServiceActionDefinitionMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AssumeRole => (is => 'ro', isa => 'Str');
-  has Name => (is => 'ro', isa => 'Str');
-  has Parameters => (is => 'ro', isa => 'Str');
-  has Version => (is => 'ro', isa => 'Str');
+  has 'AssumeRole' => (is => 'ro', isa => 'Str');
+  has 'Name' => (is => 'ro', isa => 'Str');
+  has 'Parameters' => (is => 'ro', isa => 'Str');
+  has 'Version' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

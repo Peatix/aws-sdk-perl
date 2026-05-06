@@ -288,8 +288,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   ],    # OPTIONAL
                   StageName      => 'MyNonEmptyString',
                   TracingEnabled => 1,                    # OPTIONAL
-                  Variables => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-                  ,                                       # OPTIONAL
+                  Variables      =>
+                    { 'MyNonEmptyString' => 'MyNonEmptyString', },    # OPTIONAL
                   WebAclArn => 'MyNonEmptyString',
                 },    # OPTIONAL
                 AwsApiGatewayV2Api => {
@@ -1037,15 +1037,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                 AwsEc2ClientVpnEndpoint => {
                   AuthenticationOptions => [
                     {
-                      ActiveDirectory => { DirectoryId => 'MyNonEmptyString', }
-                      ,    # OPTIONAL
+                      ActiveDirectory =>
+                        { DirectoryId => 'MyNonEmptyString', },    # OPTIONAL
                       FederatedAuthentication => {
                         SamlProviderArn            => 'MyNonEmptyString',
                         SelfServiceSamlProviderArn => 'MyNonEmptyString',
-                      },    # OPTIONAL
+                      },                                           # OPTIONAL
                       MutualAuthentication =>
                         { ClientRootCertificateChain => 'MyNonEmptyString', }
-                      ,     # OPTIONAL
+                      ,                                            # OPTIONAL
                       Type => 'MyNonEmptyString',
                     },
                     ...
@@ -1768,8 +1768,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     MaximumPercent        => 1,    # OPTIONAL
                     MinimumHealthyPercent => 1,    # OPTIONAL
                   },    # OPTIONAL
-                  DeploymentController => { Type => 'MyNonEmptyString', }
-                  ,     # OPTIONAL
+                  DeploymentController =>
+                    { Type => 'MyNonEmptyString', },    # OPTIONAL
                   DesiredCount                  => 1,                 # OPTIONAL
                   EnableEcsManagedTags          => 1,                 # OPTIONAL
                   EnableExecuteCommand          => 1,                 # OPTIONAL
@@ -1899,7 +1899,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                         ...
                       ],                                              # OPTIONAL
                       FirelensConfiguration => {
-                        Options => { 'MyNonEmptyString' => 'MyNonEmptyString', }
+                        Options =>
+                          { 'MyNonEmptyString' => 'MyNonEmptyString', }
                         ,                                             # OPTIONAL
                         Type => 'MyNonEmptyString',
                       },    # OPTIONAL
@@ -1944,7 +1945,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                       },    # OPTIONAL
                       LogConfiguration => {
                         LogDriver => 'MyNonEmptyString',
-                        Options => { 'MyNonEmptyString' => 'MyNonEmptyString', }
+                        Options   =>
+                          { 'MyNonEmptyString' => 'MyNonEmptyString', }
                         ,    # OPTIONAL
                         SecretOptions => [
                           {
@@ -2066,7 +2068,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                         DriverOpts    =>
                           { 'MyNonEmptyString' => 'MyNonEmptyString', }
                         ,                                      # OPTIONAL
-                        Labels => { 'MyNonEmptyString' => 'MyNonEmptyString', }
+                        Labels =>
+                          { 'MyNonEmptyString' => 'MyNonEmptyString', }
                         ,                                      # OPTIONAL
                         Scope => 'MyNonEmptyString',
                       },    # OPTIONAL
@@ -2189,8 +2192,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     KmsKeyId => 'MyNonEmptyString',
                   },    # OPTIONAL
                   Endpoint  => 'MyNonEmptyString',
-                  Endpoints => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-                  ,     # OPTIONAL
+                  Endpoints =>
+                    { 'MyNonEmptyString' => 'MyNonEmptyString', },    # OPTIONAL
                   LogPublishingOptions => {
                     AuditLogs => {
                       CloudWatchLogsLogGroupArn => 'MyNonEmptyString',
@@ -2350,15 +2353,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   EndpointId  => 'MyNonEmptyString',
                   EndpointUrl => 'MyNonEmptyString',
                   EventBuses  => [ { EventBusArn => 'MyNonEmptyString', }, ... ]
-                  ,    # OPTIONAL
+                  ,                                      # OPTIONAL
                   Name              => 'MyNonEmptyString',
-                  ReplicationConfig => { State => 'MyNonEmptyString', }
-                  ,    # OPTIONAL
+                  ReplicationConfig =>
+                    { State => 'MyNonEmptyString', },    # OPTIONAL
                   RoleArn       => 'MyNonEmptyString',
                   RoutingConfig => {
                     FailoverConfig => {
-                      Primary => { HealthCheck => 'MyNonEmptyString', }
-                      ,                                               # OPTIONAL
+                      Primary =>
+                        { HealthCheck => 'MyNonEmptyString', },    # OPTIONAL
                       Secondary => { Route => 'MyNonEmptyString', },  # OPTIONAL
                     },    # OPTIONAL
                   },    # OPTIONAL
@@ -2553,15 +2556,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     ZipFile         => 'MyNonEmptyString',
                   },                                               # OPTIONAL
                   CodeSha256       => 'MyNonEmptyString',
-                  DeadLetterConfig => { TargetArn => 'MyNonEmptyString', }
-                  ,                                                # OPTIONAL
+                  DeadLetterConfig =>
+                    { TargetArn => 'MyNonEmptyString', },          # OPTIONAL
                   Environment => {
                     Error => {
                       ErrorCode => 'MyNonEmptyString',
                       Message   => 'MyNonEmptyString',
                     },                                             # OPTIONAL
-                    Variables => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-                    ,                                              # OPTIONAL
+                    Variables =>
+                      { 'MyNonEmptyString' => 'MyNonEmptyString', },  # OPTIONAL
                   },    # OPTIONAL
                   FunctionName => 'MyNonEmptyString',
                   Handler      => 'MyNonEmptyString',
@@ -3363,8 +3366,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     IgnorePublicAcls      => 1,    # OPTIONAL
                     RestrictPublicBuckets => 1,    # OPTIONAL
                   },    # OPTIONAL
-                  VpcConfiguration => { VpcId => 'MyNonEmptyString', }
-                  ,     # OPTIONAL
+                  VpcConfiguration =>
+                    { VpcId => 'MyNonEmptyString', },    # OPTIONAL
                 },    # OPTIONAL
                 AwsS3AccountPublicAccessBlock => {
                   BlockPublicAcls       => 1,    # OPTIONAL
@@ -3694,8 +3697,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                   RulesList     => [
                     {
                       Action => { Type => 'MyNonEmptyString', },    # OPTIONAL
-                      OverrideAction => { Type => 'MyNonEmptyString', }
-                      ,                                             # OPTIONAL
+                      OverrideAction =>
+                        { Type => 'MyNonEmptyString', },            # OPTIONAL
                       Priority => 1,                                # OPTIONAL
                       RuleId   => 'MyNonEmptyString',
                       Type     => 'MyNonEmptyString',
@@ -3739,8 +3742,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                       Action => { Type => 'MyNonEmptyString', },    # OPTIONAL
                       ExcludedRules =>
                         [ { RuleId => 'MyNonEmptyString', }, ... ],   # OPTIONAL
-                      OverrideAction => { Type => 'MyNonEmptyString', }
-                      ,                                               # OPTIONAL
+                      OverrideAction =>
+                        { Type => 'MyNonEmptyString', },              # OPTIONAL
                       Priority => 1,                                  # OPTIONAL
                       RuleId   => 'MyNonEmptyString',
                       Type     => 'MyNonEmptyString',
@@ -3948,8 +3951,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
                     ...
                   ],                                        # OPTIONAL
                 },    # OPTIONAL
-                Other => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-                ,     # OPTIONAL
+                Other =>
+                  { 'MyNonEmptyString' => 'MyNonEmptyString', },    # OPTIONAL
               },    # OPTIONAL
               Partition    => 'aws', # values: aws, aws-cn, aws-us-gov; OPTIONAL
               Region       => 'MyNonEmptyString',
@@ -4031,10 +4034,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Blocked          => 1,    # OPTIONAL
               PortProbeDetails => [
                 {
-                  LocalIpDetails => { IpAddressV4 => 'MyNonEmptyString', }
-                  ,                     # OPTIONAL
+                  LocalIpDetails =>
+                    { IpAddressV4 => 'MyNonEmptyString', },    # OPTIONAL
                   LocalPortDetails => {
-                    Port     => 1,                    # OPTIONAL
+                    Port     => 1,                             # OPTIONAL
                     PortName => 'MyNonEmptyString',
                   },    # OPTIONAL
                   RemoteIpDetails => {
@@ -4308,8 +4311,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             TerminatedAt => 'MyNonEmptyString',
           },    # OPTIONAL
           ProcessedAt   => 'MyNonEmptyString',
-          ProductFields => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-          ,                                 # OPTIONAL
+          ProductFields =>
+            { 'MyNonEmptyString' => 'MyNonEmptyString', },    # OPTIONAL
           ProductName => 'MyNonEmptyString',
           RecordState => 'ACTIVE',          # values: ACTIVE, ARCHIVED; OPTIONAL
           Region      => 'MyNonEmptyString',
@@ -4367,8 +4370,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             ...
           ],    # OPTIONAL
           Types             => [ 'MyNonEmptyString', ... ],    # OPTIONAL
-          UserDefinedFields => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-          ,                                                    # OPTIONAL
+          UserDefinedFields =>
+            { 'MyNonEmptyString' => 'MyNonEmptyString', },     # OPTIONAL
           VerificationState => 'UNKNOWN'
           , # values: UNKNOWN, TRUE_POSITIVE, FALSE_POSITIVE, BENIGN_POSITIVE; OPTIONAL
           Vulnerabilities => [
@@ -4455,7 +4458,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Returns a L<Paws::SecurityHub::BatchImportFindingsResponse> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
-For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/securityhub/BatchImportFindings>
+For the AWS API documentation, see L<https://aws.amazon.com/documentation/>
 
 =head1 ATTRIBUTES
 

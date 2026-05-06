@@ -6,8 +6,8 @@ package Paws::CodeDeploy::TargetFilters;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ServerInstanceLabel => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has TargetStatus => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'ServerInstanceLabel' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'TargetStatus' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 1;
 
 ### main pod documentation begin ###

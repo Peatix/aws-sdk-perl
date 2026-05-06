@@ -6,9 +6,9 @@ package Paws::GuardDuty::CountByResourceType;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has EC2 => (is => 'ro', isa => 'Int');
-  has ECS => (is => 'ro', isa => 'Int');
-  has EKS => (is => 'ro', isa => 'Int');
+  has 'EC2' => (is => 'ro', isa => 'Int');
+  has 'ECS' => (is => 'ro', isa => 'Int');
+  has 'EKS' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

@@ -6,9 +6,9 @@ package Paws::Detective::DatasourcePackageIngestHistory;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ASFF_SECURITYHUB_FINDING => (is => 'ro', isa => 'Paws::Detective::LastIngestStateChangeDates');
-  has DETECTIVE_CORE => (is => 'ro', isa => 'Paws::Detective::LastIngestStateChangeDates');
-  has EKS_AUDIT => (is => 'ro', isa => 'Paws::Detective::LastIngestStateChangeDates');
+  has 'ASFF_SECURITYHUB_FINDING' => (is => 'ro', isa => 'Paws::Detective::LastIngestStateChangeDates');
+  has 'DETECTIVE_CORE' => (is => 'ro', isa => 'Paws::Detective::LastIngestStateChangeDates');
+  has 'EKS_AUDIT' => (is => 'ro', isa => 'Paws::Detective::LastIngestStateChangeDates');
 1;
 
 ### main pod documentation begin ###

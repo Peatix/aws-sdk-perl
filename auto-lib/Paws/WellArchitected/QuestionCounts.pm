@@ -6,8 +6,8 @@ package Paws::WellArchitected::QuestionCounts;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ANSWERED => (is => 'ro', isa => 'Int');
-  has UNANSWERED => (is => 'ro', isa => 'Int');
+  has 'ANSWERED' => (is => 'ro', isa => 'Int');
+  has 'UNANSWERED' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

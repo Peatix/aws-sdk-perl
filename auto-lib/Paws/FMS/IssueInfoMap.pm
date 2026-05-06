@@ -6,10 +6,10 @@ package Paws::FMS::IssueInfoMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AWSCONFIG => (is => 'ro', isa => 'Str');
-  has AWSSHIELD_ADVANCED => (is => 'ro', isa => 'Str');
-  has AWSVPC => (is => 'ro', isa => 'Str');
-  has AWSWAF => (is => 'ro', isa => 'Str');
+  has 'AWSCONFIG' => (is => 'ro', isa => 'Str');
+  has 'AWSSHIELD_ADVANCED' => (is => 'ro', isa => 'Str');
+  has 'AWSVPC' => (is => 'ro', isa => 'Str');
+  has 'AWSWAF' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

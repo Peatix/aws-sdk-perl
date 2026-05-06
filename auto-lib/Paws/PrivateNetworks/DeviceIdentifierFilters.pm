@@ -6,9 +6,9 @@ package Paws::PrivateNetworks::DeviceIdentifierFilters;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ORDER => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has STATUS => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has TRAFFIC_GROUP => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'ORDER' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'STATUS' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'TRAFFIC_GROUP' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 1;
 
 ### main pod documentation begin ###

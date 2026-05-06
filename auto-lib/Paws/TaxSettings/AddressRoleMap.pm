@@ -6,9 +6,9 @@ package Paws::TaxSettings::AddressRoleMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has BillingAddress => (is => 'ro', isa => 'Paws::TaxSettings::Jurisdiction');
-  has ContactAddress => (is => 'ro', isa => 'Paws::TaxSettings::Jurisdiction');
-  has TaxAddress => (is => 'ro', isa => 'Paws::TaxSettings::Jurisdiction');
+  has 'BillingAddress' => (is => 'ro', isa => 'Paws::TaxSettings::Jurisdiction');
+  has 'ContactAddress' => (is => 'ro', isa => 'Paws::TaxSettings::Jurisdiction');
+  has 'TaxAddress' => (is => 'ro', isa => 'Paws::TaxSettings::Jurisdiction');
 1;
 
 ### main pod documentation begin ###

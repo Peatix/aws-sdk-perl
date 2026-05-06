@@ -6,10 +6,10 @@ package Paws::Connect::ChannelToCountMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has CHAT => (is => 'ro', isa => 'Int');
-  has EMAIL => (is => 'ro', isa => 'Int');
-  has TASK => (is => 'ro', isa => 'Int');
-  has VOICE => (is => 'ro', isa => 'Int');
+  has 'CHAT' => (is => 'ro', isa => 'Int');
+  has 'EMAIL' => (is => 'ro', isa => 'Int');
+  has 'TASK' => (is => 'ro', isa => 'Int');
+  has 'VOICE' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

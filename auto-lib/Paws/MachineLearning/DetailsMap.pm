@@ -6,8 +6,8 @@ package Paws::MachineLearning::DetailsMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has Algorithm => (is => 'ro', isa => 'Str');
-  has PredictiveModelType => (is => 'ro', isa => 'Str');
+  has 'Algorithm' => (is => 'ro', isa => 'Str');
+  has 'PredictiveModelType' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

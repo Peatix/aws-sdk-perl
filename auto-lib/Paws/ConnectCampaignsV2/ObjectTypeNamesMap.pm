@@ -6,10 +6,10 @@ package Paws::ConnectCampaignsV2::ObjectTypeNamesMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has CampaignEmail => (is => 'ro', isa => 'Str');
-  has CampaignOrchestration => (is => 'ro', isa => 'Str');
-  has CampaignSMS => (is => 'ro', isa => 'Str');
-  has CampaignTelephony => (is => 'ro', isa => 'Str');
+  has 'CampaignEmail' => (is => 'ro', isa => 'Str');
+  has 'CampaignOrchestration' => (is => 'ro', isa => 'Str');
+  has 'CampaignSMS' => (is => 'ro', isa => 'Str');
+  has 'CampaignTelephony' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

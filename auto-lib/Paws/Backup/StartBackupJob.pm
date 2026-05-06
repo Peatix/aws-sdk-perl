@@ -41,15 +41,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BackupVaultName => 'MyBackupVaultName',
       IamRoleArn      => 'MyIAMRoleArn',
       ResourceArn     => 'MyARN',
-      BackupOptions   => { 'MyBackupOptionKey' => 'MyBackupOptionValue', }
-      ,                                       # OPTIONAL
-      CompleteWindowMinutes => 1,             # OPTIONAL
-      IdempotencyToken      => 'Mystring',    # OPTIONAL
-      Index                 => 'ENABLED',     # OPTIONAL
+      BackupOptions   =>
+        { 'MyBackupOptionKey' => 'MyBackupOptionValue', },    # OPTIONAL
+      CompleteWindowMinutes => 1,                             # OPTIONAL
+      IdempotencyToken      => 'Mystring',                    # OPTIONAL
+      Index                 => 'ENABLED',                     # OPTIONAL
       Lifecycle             => {
-        DeleteAfterDays                     => 1,    # OPTIONAL
-        MoveToColdStorageAfterDays          => 1,    # OPTIONAL
-        OptInToArchiveForSupportedResources => 1,    # OPTIONAL
+        DeleteAfterDays                     => 1,             # OPTIONAL
+        MoveToColdStorageAfterDays          => 1,             # OPTIONAL
+        OptInToArchiveForSupportedResources => 1,             # OPTIONAL
       },    # OPTIONAL
       RecoveryPointTags  => { 'MyTagKey' => 'MyTagValue', },    # OPTIONAL
       StartWindowMinutes => 1,                                  # OPTIONAL
@@ -64,7 +64,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Returns a L<Paws::Backup::StartBackupJobOutput> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
-For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/backup/StartBackupJob>
+For the AWS API documentation, see L<https://aws.amazon.com/documentation/>
 
 =head1 ATTRIBUTES
 

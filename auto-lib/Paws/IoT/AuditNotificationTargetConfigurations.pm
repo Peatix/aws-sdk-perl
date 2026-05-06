@@ -6,7 +6,7 @@ package Paws::IoT::AuditNotificationTargetConfigurations;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has SNS => (is => 'ro', isa => 'Paws::IoT::AuditNotificationTarget');
+  has 'SNS' => (is => 'ro', isa => 'Paws::IoT::AuditNotificationTarget');
 1;
 
 ### main pod documentation begin ###

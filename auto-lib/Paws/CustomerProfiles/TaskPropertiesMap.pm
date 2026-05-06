@@ -6,20 +6,20 @@ package Paws::CustomerProfiles::TaskPropertiesMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has CONCAT_FORMAT => (is => 'ro', isa => 'Str');
-  has DATA_TYPE => (is => 'ro', isa => 'Str');
-  has DESTINATION_DATA_TYPE => (is => 'ro', isa => 'Str');
-  has LOWER_BOUND => (is => 'ro', isa => 'Str');
-  has MASK_LENGTH => (is => 'ro', isa => 'Str');
-  has MASK_VALUE => (is => 'ro', isa => 'Str');
-  has MATH_OPERATION_FIELDS_ORDER => (is => 'ro', isa => 'Str');
-  has SOURCE_DATA_TYPE => (is => 'ro', isa => 'Str');
-  has SUBFIELD_CATEGORY_MAP => (is => 'ro', isa => 'Str');
-  has TRUNCATE_LENGTH => (is => 'ro', isa => 'Str');
-  has UPPER_BOUND => (is => 'ro', isa => 'Str');
-  has VALIDATION_ACTION => (is => 'ro', isa => 'Str');
-  has VALUE => (is => 'ro', isa => 'Str');
-  has VALUES => (is => 'ro', isa => 'Str');
+  has 'CONCAT_FORMAT' => (is => 'ro', isa => 'Str');
+  has 'DATA_TYPE' => (is => 'ro', isa => 'Str');
+  has 'DESTINATION_DATA_TYPE' => (is => 'ro', isa => 'Str');
+  has 'LOWER_BOUND' => (is => 'ro', isa => 'Str');
+  has 'MASK_LENGTH' => (is => 'ro', isa => 'Str');
+  has 'MASK_VALUE' => (is => 'ro', isa => 'Str');
+  has 'MATH_OPERATION_FIELDS_ORDER' => (is => 'ro', isa => 'Str');
+  has 'SOURCE_DATA_TYPE' => (is => 'ro', isa => 'Str');
+  has 'SUBFIELD_CATEGORY_MAP' => (is => 'ro', isa => 'Str');
+  has 'TRUNCATE_LENGTH' => (is => 'ro', isa => 'Str');
+  has 'UPPER_BOUND' => (is => 'ro', isa => 'Str');
+  has 'VALIDATION_ACTION' => (is => 'ro', isa => 'Str');
+  has 'VALUE' => (is => 'ro', isa => 'Str');
+  has 'VALUES' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

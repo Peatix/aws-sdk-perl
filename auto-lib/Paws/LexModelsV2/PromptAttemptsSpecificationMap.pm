@@ -6,12 +6,12 @@ package Paws::LexModelsV2::PromptAttemptsSpecificationMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has Initial => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
-  has Retry1 => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
-  has Retry2 => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
-  has Retry3 => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
-  has Retry4 => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
-  has Retry5 => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
+  has 'Initial' => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
+  has 'Retry1' => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
+  has 'Retry2' => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
+  has 'Retry3' => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
+  has 'Retry4' => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
+  has 'Retry5' => (is => 'ro', isa => 'Paws::LexModelsV2::PromptAttemptSpecification');
 1;
 
 ### main pod documentation begin ###

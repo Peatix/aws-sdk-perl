@@ -6,12 +6,12 @@ package Paws::Omics::FormatToHeader;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ALT => (is => 'ro', isa => 'Str');
-  has CHR => (is => 'ro', isa => 'Str');
-  has END => (is => 'ro', isa => 'Str');
-  has POS => (is => 'ro', isa => 'Str');
-  has REF => (is => 'ro', isa => 'Str');
-  has START => (is => 'ro', isa => 'Str');
+  has 'ALT' => (is => 'ro', isa => 'Str');
+  has 'CHR' => (is => 'ro', isa => 'Str');
+  has 'END' => (is => 'ro', isa => 'Str');
+  has 'POS' => (is => 'ro', isa => 'Str');
+  has 'REF' => (is => 'ro', isa => 'Str');
+  has 'START' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

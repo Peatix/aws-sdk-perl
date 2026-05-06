@@ -6,10 +6,10 @@ package Paws::Resiliencehub::ScoringComponentResiliencyScores;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has Alarm => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
-  has Compliance => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
-  has Sop => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
-  has Test => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
+  has 'Alarm' => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
+  has 'Compliance' => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
+  has 'Sop' => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
+  has 'Test' => (is => 'ro', isa => 'Paws::Resiliencehub::ScoringComponentResiliencyScore');
 1;
 
 ### main pod documentation begin ###
