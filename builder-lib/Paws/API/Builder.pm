@@ -260,6 +260,7 @@ package Paws::API::Builder {
     return 'SelectAllResourceConfig' if ($name eq 'SelectResourceConfig');
     return 'ExportAllComponents' if ($name eq 'ExportComponents');
     return 'ExportAllForms' if ($name eq 'ExportForms');
+    return 'ExportAllThemes' if ($name eq 'ExportThemes');
     return 'RerankAll' if ($name eq 'Rerank');
     return 'RetrieveAll' if ($name eq 'Retrieve');
     return 'ExecuteAllQuery' if ($name eq 'ExecuteQuery');
