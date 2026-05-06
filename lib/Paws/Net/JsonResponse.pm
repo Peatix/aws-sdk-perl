@@ -160,10 +160,17 @@ package Paws::Net::JsonResponse;
               } elsif (do { state %d; $d{$att_class} //= $att_class->does('Paws::API::StrToNativeMapParser')}) {
                 $args{ $att } = $self->handle_response_strtonativemap($att_class, $value);
               } elsif (do { state %d; $d{$att_class} //= $att_class->does('Paws::API::MapParser')}) {
-                my $xml_keys = $att_class->xml_keys;
-                my $xml_values = $att_class->xml_values;
-
-                $args{ $att } = $att_class->new(map { ($_->{ $xml_keys } => $_->{ $xml_values }) } @$value);
+                # JSON-protocol responses send maps as objects (HashRef
+                # keyed by the enum value). XML/Query-protocol responses
+                # send them as arrays of {Name,Value} pairs and use
+                # xml_keys/xml_values to know which sub-keys to read.
+                if ($value_ref eq 'HASH') {
+                  $args{ $att } = $att_class->new(%$value);
+                } else {
+                  my $xml_keys = $att_class->xml_keys;
+                  my $xml_values = $att_class->xml_values;
+                  $args{ $att } = $att_class->new(map { ($_->{ $xml_keys } => $_->{ $xml_values }) } @$value);
+                }
               } else {
                 $args{ $att } = $self->new_from_result_struct($att_class, $value);
               }
