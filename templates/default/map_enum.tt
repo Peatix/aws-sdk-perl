@@ -8,7 +8,7 @@ package [% inner_class %];
   class_has xml_values =>(is => 'ro', default => '[% iclass.value.locationName || 'value' %]');
 
 [% FOREACH param_name=keys_shape.enum.sort -%]
-  has [% param_name %] => (is => 'ro', isa => '[% c.get_caller_class_type(iclass.value.shape) %]');
+  has '[% param_name %]' => (is => 'ro', isa => '[% c.get_caller_class_type(iclass.value.shape) %]');
 [% END -%]
 1;
 
