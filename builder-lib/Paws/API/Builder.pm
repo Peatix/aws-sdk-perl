@@ -436,7 +436,7 @@ package Paws::API::Builder {
     return $ret;
   }
 
-  has _exception_member_references => (
+  has _shape_member_references => (
     is => 'ro',
     isa => 'HashRef',
     lazy => 1,
@@ -445,20 +445,31 @@ package Paws::API::Builder {
       my %ret;
       foreach my $shape_name ($self->shapes) {
         my $shape = $self->shape($shape_name);
-        next if (defined $shape->{ exception });
-        next if ($shape->{ type } ne 'structure');
-        foreach my $member (values %{ $shape->{ members } || {} }) {
-          my $target = $member->{ shape };
-          $ret{ $target } = 1 if (defined $target and $self->is_exception_shape($target));
+        my @targets;
+        if ($shape->{ type } eq 'structure') {
+          push @targets, map { $_->{ shape } } values %{ $shape->{ members } || {} };
+        } elsif ($shape->{ type } eq 'list') {
+          push @targets, $shape->{ member }->{ shape } if ($shape->{ member });
+        } elsif ($shape->{ type } eq 'map') {
+          push @targets, $shape->{ key }->{ shape }   if ($shape->{ key });
+          push @targets, $shape->{ value }->{ shape } if ($shape->{ value });
+        }
+        foreach my $target (@targets) {
+          $ret{ $target } = 1 if (defined $target);
         }
       }
       return \%ret;
     },
   );
 
+  sub _is_referenced_as_member {
+    my ($self, $shape_name) = @_;
+    return $self->_shape_member_references->{ $shape_name };
+  }
+
   sub _is_exception_referenced_as_member {
     my ($self, $shape_name) = @_;
-    return $self->_exception_member_references->{ $shape_name };
+    return $self->is_exception_shape($shape_name) && $self->_is_referenced_as_member($shape_name);
   }
 
   sub capitalize {
@@ -497,7 +508,15 @@ package Paws::API::Builder {
 
         $ret->{ $shape_name } = $shape if (( $shape->{type} eq 'structure' or $shape->{type} eq 'map')
                                            and not $self->is_output_shape($shape_name)
-                                           and not $self->is_input_shape($shape_name)
+                                           and (
+                                             not $self->is_input_shape($shape_name)
+                                             # An input shape may also be referenced as a member of another
+                                             # structure (e.g. RedShift's BatchDeleteClusterSnapshots references
+                                             # DeleteClusterSnapshotMessage which is the input of DeleteClusterSnapshot).
+                                             # In that case it must be generated as an inner class too, otherwise
+                                             # the consuming structure fails to load.
+                                             or $self->_is_referenced_as_member($shape_name)
+                                           )
                                            and (
                                              not $self->is_exception_shape($shape_name)
                                              # Generate exception shapes as inner classes when they are referenced
