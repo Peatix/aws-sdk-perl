@@ -1,0 +1,103 @@
+name: regen-byte-identical
+on:
+  # Manual trigger only for now - the workflow expects a populated
+  # auto-lib/ to compare against, which master is currently in the
+  # process of regaining via the workflow-service-definitions branch.
+  # Once that lands, switch to also running on pull_request.
+  workflow_dispatch:
+  pull_request:
+    paths:
+      # Only run on PRs that touch the generator or its inputs.
+      - 'builder-lib/**'
+      - 'builder-bin/**'
+      - 'templates/**'
+      - 'botocore'
+      - '.github/workflows/regen-byte-identical.yml'
+
+# CI gate that PR8's plan called out: regenerating auto-lib/ from
+# botocore must produce the same bytes that are committed. Today we
+# regenerate a small set of representative services (small ones, to
+# keep the workflow fast) and assert no diff.
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: false  # we'll fetch botocore explicitly
+
+      - name: Set up Perl 5.36
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.36"
+          install-modules-with: cpm
+          install-modules-args: --without-develop
+          install-modules: |
+            Template
+            Pod::HTML2Pod
+            Perl::Tidy
+            Carp::Always
+            Data::Printer
+            Carp::Always
+            JSON::MaybeXS
+            Path::Class
+            Path::Tiny
+            File::Slurper
+            Mojolicious
+            Pod::Simple
+            Pod::Escapes
+            Data::Munge
+            Parallel::ForkManager
+            Clone
+
+      - name: Pull botocore
+        run: make pull-other-sdks
+
+      - name: Generate documentation links
+        run: ./builder-bin/gen_classes.pl --docu_links
+
+      - name: Pick representative services
+        id: pick
+        run: |
+          # Small services keep the workflow under a few minutes.
+          # Picked because they are small AND span the protocol families.
+          set -eu
+          mkdir -p .ci-out
+          {
+            echo "Account"            # rest-json
+            echo "STS"                # query
+            echo "Health"             # json
+            echo "BackupSearch"       # rest-json, small
+          } | tee .ci-out/services.txt
+
+      - name: Regenerate the picked services
+        run: |
+          set -eu
+          while read svc
+          do
+            file=$(ls botocore/botocore/data/${svc,,}/*/service-2.json 2>/dev/null | head -n 1 || true)
+            if [ -z "$file" ]
+            then
+              echo "skipping ${svc}: no service-2.json found"
+              continue
+            fi
+            ./builder-bin/gen_classes.pl --classes "$file"
+          done < .ci-out/services.txt
+
+      - name: Assert byte-identical output
+        run: |
+          set -eu
+          # Diff against committed auto-lib for each picked service.
+          fail=0
+          while read svc
+          do
+            if [ ! -d "auto-lib/Paws/${svc}" ]
+            then
+              echo "warn: auto-lib/Paws/${svc}/ not present in repo - skipping diff"
+              continue
+            fi
+            git diff --exit-code -- "auto-lib/Paws/${svc}" "auto-lib/Paws/${svc}.pm" || fail=1
+          done < .ci-out/services.txt
+          exit $fail
