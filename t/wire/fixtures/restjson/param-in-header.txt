@@ -1,0 +1,4 @@
+GET /things/abc
+x-marker: mk-123
+
+

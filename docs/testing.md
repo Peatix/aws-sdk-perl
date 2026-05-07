@@ -89,6 +89,66 @@ This is the gate that PR10 (lazy default; drop `auto-lib/`) must keep
 green: the dist layout will change but the smoke script and its
 success criteria stay the same.
 
+## Wire-byte fixture tests
+
+`t/wire/` contains request-side fixture tests for each protocol caller.
+Each test drives a synthetic-service call through `TestRequestCaller`,
+canonicalises the prepared HTTP request, and compares against a
+golden file under `t/wire/fixtures/<protocol>/<scenario>.txt`.
+
+Pass `UPDATE_FIXTURES=1` to (re)write the goldens from the captured
+requests:
+
+```
+UPDATE_FIXTURES=1 prove --lib -I auto-lib t/wire/
+```
+
+### Canonicalisation rules
+
+Implemented in `t/lib/WireFixture.pm`:
+
+- **Request line**: `<METHOD> <path>?<sorted-querystring>`
+- **Headers**: sorted lowercase; one per line; the following are
+  stripped because they vary per-request and would make every
+  fixture flap:
+  `authorization`, `date`, `x-amz-date`, `x-amzn-date`,
+  `user-agent`, `host`, `x-amz-content-sha256`.
+- **Blank line separator**.
+- **Body**:
+  - `application/x-amz-json-*` and `application/json` bodies are
+    re-decoded and re-encoded with sorted keys so Perl hash
+    iteration order doesn't make fixtures flap.
+  - `application/x-www-form-urlencoded` bodies have their `&`-pairs
+    sorted alphabetically.
+  - Other textual bodies are emitted verbatim.
+  - Binary bodies are emitted as `<binary length=N hex=...>`.
+
+### Coverage
+
+| Protocol  | File                              | Cells covered                                              |
+|-----------|-----------------------------------|------------------------------------------------------------|
+| JSON-RPC  | `t/wire/json_request.t`           | plain, NameInRequest, primitives mix, list                 |
+| RestJSON  | `t/wire/restjson_request.t`       | ParamInURI, ParamInQuery, ParamInHeader, all-locations     |
+| Query     | `t/wire/query_request.t`          | plain, NameInRequest, Int, list (member-flattening)        |
+
+Cells **not yet** covered — extension targets for follow-up commits in
+PR4 (the plan budgets ~30 fixture files total):
+
+- JSON-RPC: nested structure, map of string, map of structure,
+  Base64 attribute, JSON attribute.
+- RestJSON: ParamInHeaders prefix, ParamInBody body shape, streaming
+  body, AutoInHeader.
+- Query: flattened-arrays variant, structure of structure, map.
+- RestXML: NameInRequest scalars, ParamInURI, ParamInHeader,
+  ParamInQuery, structure rendering, list flattening (both modes).
+- EC2: PascalCase upcasing, NameInRequest list, structure, the
+  Action/Version auto-injection.
+- Glacier: x-amz-glacier-version (already smoked), tree-hash
+  injection, account-id defaulting.
+
+The framework (`WireFixture`) is the load-bearing piece; new cells are
+just additional `MethodReq` shapes and one fixture file each.
+
 ## Type contract tests
 
 `t/types/` pins the contract that Paws shape attributes must satisfy,
