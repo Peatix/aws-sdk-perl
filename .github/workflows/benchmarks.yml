@@ -1,0 +1,60 @@
+name: benchmarks
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
+  workflow_dispatch:
+
+# Informational gate. Surfaces perf drift in PR review without blocking
+# the build. Move --strict on `benchmarks/compare` to true once we
+# have confidence in the noise floor (or move to a self-hosted runner).
+
+jobs:
+  benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Perl 5.36
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.36"
+          install-modules-with: cpm
+          install-modules-args: --without-develop
+          install-modules: |
+            Template
+            Pod::HTML2Pod
+            Perl::Tidy
+            Carp::Always
+            Data::Printer
+            Carp::Always
+            Test::Pod
+            JSON::MaybeXS
+            JSON::XS
+            File::Slurper
+
+      - name: Run benchmarks
+        run: |
+          mkdir -p .ci-out
+          benchmarks/run-all --iterations 5 --output .ci-out/benchmarks-current.json
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+          PERL5LIB: lib:auto-lib
+
+      - name: Compare to baseline
+        run: |
+          benchmarks/compare benchmarks/baseline.json .ci-out/benchmarks-current.json \
+            >> "$GITHUB_STEP_SUMMARY"
+        # Exit code is informational only by default; --strict can be
+        # added once the noise floor is well-characterised.
+
+      - name: Upload benchmarks-current.json
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks-current
+          path: .ci-out/benchmarks-current.json
+          retention-days: 90
