@@ -1,0 +1,69 @@
+name: coverage
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Perl 5.36
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.36"
+          install-modules-with: cpm
+          install-modules-args: --without-develop
+          install-modules: |
+            Template
+            Pod::HTML2Pod
+            Perl::Tidy
+            Carp::Always
+            Devel::Cover
+            Data::Printer
+            Carp::Always
+            Test::Pod
+            Devel::CoverReport
+            JSON::MaybeXS
+
+      - name: Run test suite under Devel::Cover
+        run: make cover-ci
+        env:
+          AUTHOR_TESTING: 1
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+          HARNESS_PERL_SWITCHES: -MDevel::Cover=-silent,1,-summary,0
+
+      - name: Generate coverage summary JSON
+        run: cover -report json -outputdir cover_db || true
+
+      - name: Render coverage table
+        id: summary
+        run: |
+          set -eu
+          script/coverage-summary --output coverage-current.json
+          script/coverage-summary --markdown >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Compare to baseline
+        run: script/coverage-compare coverage-baseline.json coverage-current.json
+
+      - name: Upload cover_db artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cover_db
+          path: cover_db/
+          retention-days: 14
+
+      - name: Upload coverage-current.json
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-current
+          path: coverage-current.json
+          retention-days: 90
