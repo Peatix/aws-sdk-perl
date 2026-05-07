@@ -1,0 +1,136 @@
+#!/usr/bin/env perl
+
+# benchmarks/compare BASELINE CURRENT
+#
+# Compares two benchmark records produced by `benchmarks/run-all`.
+# Prints a Markdown table to stdout (suitable for piping into
+# GITHUB_STEP_SUMMARY) and exits 0 unless --strict and a regression
+# beyond --tolerance is detected.
+#
+# This is informational by default. The plan calls out that
+# GitHub-hosted runner variance can dwarf small perf changes, so the
+# tolerance default is 25% - clearly visible drifts should fail loudly,
+# small wobbles should not.
+
+use strict;
+use warnings;
+use v5.20;
+
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use JSON::MaybeXS qw(decode_json);
+use File::Slurper qw(read_text);
+
+my $tolerance_pct = 25.0;
+my $strict        = 0;
+my $help          = 0;
+
+GetOptions(
+    'tolerance=f' => \$tolerance_pct,
+    'strict'      => \$strict,
+    'help|h'      => \$help,
+) or die "invalid arguments\n";
+
+if ($help || @ARGV != 2) {
+    print <<'USAGE';
+usage: compare [--tolerance PCT] [--strict] BASELINE CURRENT
+
+  --tolerance PCT  Allowable percentage slowdown (default: 25.0)
+  --strict         Fail on any slowdown
+USAGE
+    exit($help ? 0 : 2);
+}
+
+my ($baseline_path, $current_path) = @ARGV;
+
+if (!-r $baseline_path) {
+    say "_no baseline at $baseline_path; reporting current values only_";
+    print_current_only($current_path);
+    exit 0;
+}
+
+if (!-r $current_path) {
+    say STDERR "compare: current=$current_path not readable";
+    exit 2;
+}
+
+my $baseline = decode_json(read_text($baseline_path));
+my $current  = decode_json(read_text($current_path));
+
+print "## Benchmark results\n\n";
+printf "perl_version baseline=%s current=%s\n\n",
+    $baseline->{perl_version} // 'n/a',
+    $current->{perl_version}  // 'n/a';
+
+print "| benchmark | baseline (s, median) | current (s, median) | delta | within tolerance? |\n";
+print "|---|---|---|---|---|\n";
+
+my $any_regression = 0;
+my %seen;
+$seen{$_} = 1 for keys %{ $baseline->{results} // {} };
+$seen{$_} = 1 for keys %{ $current->{results}  // {} };
+
+for my $name (sort keys %seen) {
+    my $b = ($baseline->{results}{$name} // {})->{wallclock_seconds_median};
+    my $c = ($current->{results}{$name}  // {})->{wallclock_seconds_median};
+
+    my $delta_str;
+    my $within = '-';
+
+    if (defined $b && defined $c && $b > 0) {
+        my $pct = (($c - $b) / $b) * 100.0;
+        $delta_str = sprintf('%+.1f%%', $pct);
+        if ($pct > $tolerance_pct) {
+            $within = '**no**';
+            $any_regression = 1;
+        } elsif ($pct > 0) {
+            $within = 'slower, within tolerance';
+        } elsif ($pct < 0) {
+            $within = 'faster';
+        } else {
+            $within = 'no change';
+        }
+    } else {
+        $delta_str = 'n/a';
+    }
+
+    printf "| %s | %s | %s | %s | %s |\n",
+        $name,
+        defined $b ? sprintf('%.4f', $b) : 'n/a',
+        defined $c ? sprintf('%.4f', $c) : 'n/a',
+        $delta_str,
+        $within;
+}
+
+print "\n";
+print "_tolerance=${tolerance_pct}% strict=" . ($strict ? 'true' : 'false') . "_\n";
+
+if ($strict && $any_regression) {
+    say STDERR 'compare: status=fail mode=strict';
+    exit 1;
+}
+
+if (!$strict) {
+    say STDERR 'compare: status=informational';
+    exit 0;
+}
+
+say STDERR 'compare: status=pass';
+exit 0;
+
+sub print_current_only {
+    my ($path) = @_;
+    return if !-r $path;
+    my $current = decode_json(read_text($path));
+    print "## Benchmark results (no baseline)\n\n";
+    printf "perl_version=%s\n\n", $current->{perl_version} // 'n/a';
+    print "| benchmark | wallclock seconds (median) | iterations |\n";
+    print "|---|---|---|\n";
+    for my $name (sort keys %{ $current->{results} // {} }) {
+        my $r = $current->{results}{$name};
+        printf "| %s | %.4f | %d |\n",
+            $name,
+            $r->{wallclock_seconds_median} // 0,
+            $r->{iterations}              // 0;
+    }
+    print "\n";
+}

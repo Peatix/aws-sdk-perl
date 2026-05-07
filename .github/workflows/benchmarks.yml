@@ -1,0 +1,67 @@
+name: benchmarks
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
+  workflow_dispatch:
+
+# Informational gate. Surfaces perf drift in PR review without blocking
+# the build. Move --strict on `benchmarks/compare` to true once we
+# have confidence in the noise floor (or move to a self-hosted runner).
+
+jobs:
+  benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Set up Perl + dependencies
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          perl-version: "5.36"
+          # The benchmarks driver uses JSON::XS directly (not via the
+          # JSON::MaybeXS abstraction), so install it explicitly. The
+          # cpanfile-managed deps cover File::Slurper / JSON::MaybeXS
+          # via carton install.
+          install-modules: |
+            App::cpanminus
+            Carton
+            JSON::XS
+
+      - name: Generate DynamoDB service classes
+        # The benchmarks decode a DynamoDB Query response, so we need
+        # auto-lib/Paws/DynamoDB.pm + nested classes. Use the
+        # single-service generator instead of `make gen-classes` so
+        # the benchmarks workflow stays under a couple of minutes.
+        run: |
+          carton exec -- script/gen-service DynamoDB
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+
+      - name: Run benchmarks
+        run: |
+          mkdir -p .ci-out
+          carton exec -- benchmarks/run-all --iterations 5 --output .ci-out/benchmarks-current.json
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+          PERL5LIB: lib:auto-lib
+
+      - name: Compare to baseline
+        run: |
+          carton exec -- benchmarks/compare benchmarks/baseline.json .ci-out/benchmarks-current.json \
+            >> "$GITHUB_STEP_SUMMARY"
+        # Exit code is informational only by default; --strict can be
+        # added once the noise floor is well-characterised.
+
+      - name: Upload benchmarks-current.json
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks-current
+          path: .ci-out/benchmarks-current.json
+          retention-days: 90
