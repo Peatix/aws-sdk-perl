@@ -6,6 +6,7 @@ package Paws::Net::JsonCaller;
   requires 'json_version';
 
   use Paws::Net::JsonResponse;
+  use Paws::SerDes;
 
   has response_to_object => (
     is => 'ro',
@@ -14,49 +15,62 @@ package Paws::Net::JsonCaller;
     }
   );
 
-  # converts the objects that represent the call into parameters that the API can understand
+  # converts the objects that represent the call into parameters that
+  # the API can understand. PR11 routes wire metadata lookups through
+  # Paws::SerDes (built once per class, cached) instead of round-
+  # tripping through $obj->meta->get_attribute(...) on every request.
   sub _to_jsoncaller_params {
     my ($self, $params) = @_;
 
-    if ($params->does('Paws::API::StrToNativeMapParser')){
-      return { %{ $params->Map }  };
-    } elsif ($params->does('Paws::API::StrToObjMapParser')){
-      my $type = $params->meta->get_attribute('Map')->type_constraint;
-      if (my ($inner) = ("$type" =~ m/^HashRef\[ArrayRef\[(.*?)\]/)) {
-        return { map { my $k = $_; ( $k => [ map { $self->_to_jsoncaller_params($_) } @{$params->Map->{$_} } ] ) } keys %{ $params->Map } };
+    my $serdes = Paws::SerDes->for($params);
+
+    if ($serdes->is_str_to_native_map) {
+      return { %{ $params->Map } };
+    } elsif ($serdes->is_str_to_obj_map) {
+      # The Map attribute on str-to-obj parsers is a HashRef[X] where
+      # X may itself be ArrayRef[...]. Look at the inner type via the
+      # side-table.
+      my $type = $serdes->type_for('Map');
+      if ($type =~ m/^HashRef\[ArrayRef\[/) {
+        return { map { my $k = $_;
+                       ( $k => [ map { $self->_to_jsoncaller_params($_) }
+                                     @{ $params->Map->{$_} } ] )
+                     } keys %{ $params->Map } };
       } else {
-        return { map { $_ => $self->_to_jsoncaller_params($params->Map->{$_}) } keys %{ $params->Map } };
+        return { map { $_ => $self->_to_jsoncaller_params($params->Map->{$_}) }
+                 keys %{ $params->Map } };
       }
     } else {
       my %p;
-      foreach my $att (grep { $_ !~ m/^_/ } $params->meta->get_attribute_list) {
-        my $key = $params->meta->get_attribute($att)->does('Paws::API::Attribute::Trait::NameInRequest')?$params->meta->get_attribute($att)->request_name:$att;
-        if (defined $params->$att) {
-          my $att_type = $params->meta->get_attribute($att)->type_constraint;
-          if ($att_type eq 'Bool') {
-            $p{ $key } = ($params->$att)?\1:\0;
-          } elsif ($att_type eq 'Int') {
-            $p{ $key } = int($params->$att);
-          } elsif ($att_type eq 'Str') {
-            # concatenate an empty string so numbers get transmitted as strings
-            $p{ $key } = "" . $params->$att;
-          } elsif (Paws->is_internal_type($att_type)) {
-            $p{ $key } = $params->$att;
-          } elsif ($att_type =~ m/^ArrayRef\[(.*)\]/) {
-            if (Paws->is_internal_type("$1")){
-              $p{ $key } = $params->$att;
-            } else {
-              $p{ $key } = [ map { $self->_to_jsoncaller_params($_) } @{ $params->$att } ];
-            }
-          } elsif ($att_type->isa('Moose::Meta::TypeConstraint::Enum')) {
-            $p{ $key } = $params->$att;
-          } elsif ($params->$att->does('Paws::API::StrToNativeMapParser')){ 
-            $p{ $key } = $self->_to_jsoncaller_params($params->$att);
-          } elsif ($params->$att->does('Paws::API::StrToObjMapParser')){
-            $p{ $key } = $self->_to_jsoncaller_params($params->$att);
+      for my $att ($serdes->serializable_attributes) {
+        my $value = $params->$att;
+        next if !defined $value;
+
+        my $key  = $serdes->wire_key_for($att);
+        my $type = $serdes->type_for($att);
+        my $type_object = $serdes->type_object_for($att);
+
+        if ($type eq 'Bool') {
+          $p{$key} = $value ? \1 : \0;
+        } elsif ($type eq 'Int') {
+          $p{$key} = int($value);
+        } elsif ($type eq 'Str') {
+          # concatenate an empty string so numbers get transmitted as strings
+          $p{$key} = "" . $value;
+        } elsif (Paws->is_internal_type($type)) {
+          $p{$key} = $value;
+        } elsif ($type =~ m/^ArrayRef\[(.*)\]/) {
+          my $inner = $1;
+          if (Paws->is_internal_type($inner)) {
+            $p{$key} = $value;
           } else {
-            $p{ $key } = $self->_to_jsoncaller_params($params->$att);
+            $p{$key} = [ map { $self->_to_jsoncaller_params($_) } @$value ];
           }
+        } elsif (defined $type_object && $type_object->isa('Moose::Meta::TypeConstraint::Enum')) {
+          $p{$key} = $value;
+        } else {
+          # nested structure: recurse via SerDes
+          $p{$key} = $self->_to_jsoncaller_params($value);
         }
       }
       return \%p;
