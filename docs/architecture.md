@@ -91,6 +91,27 @@ After PR8 → PR15 land, the same data flow is rerouted through the IR:
 
 See `docs/testing.md` for how each PR is gated.
 
+## PR15 status
+
+PR15 adds `builder-lib/Paws/Model/Loader/Resolver.pm`. Given a service
+name, the resolver walks the configured search paths and returns the
+IR produced by the first loader that finds a matching source file.
+
+Default order:
+
+  1. **Smithy** — `share/smithy/<service>.smithy.json` (flat) or
+     `share/smithy/<service>/<service>.smithy.json` (nested).
+  2. **Botocore** — `botocore/botocore/data/<service>/<date>/service-2.json`,
+     newest dated subdirectory.
+
+Override per process via `PAWS_LOADER_ORDER=Botocore,Smithy`. The
+resolver returns both the IR and the loader name it used, so
+diagnostics can record which source-of-truth produced a given class.
+
+`t/model/04_resolver.t` covers: default order picks Smithy when both
+exist; env override flips it; falls back when first loader has no
+file; unknown service raises; unknown loader name raises.
+
 ## PR14 status
 
 PR14 adds `builder-lib/Paws/Model/Loader/Smithy.pm`: a peer to the

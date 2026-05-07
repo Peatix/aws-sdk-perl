@@ -29,14 +29,33 @@ Both implement the `Paws::Model::Loader` role:
   directory is a forward-looking layout; the dist will populate it
   in PR15 / the dist-prepare step).
 
-## Loader resolution (PR15)
+## Loader resolution
 
-PR15 introduces a resolver that prefers Smithy when both formats are
-available for a service, and falls back to Botocore otherwise.
-`PAWS_LOADER_ORDER=Botocore,Smithy` overrides for users who hit a
-regression on a specific service and need to pin to one source.
+`Paws::Model::Loader::Resolver` walks the configured search paths and
+returns the IR produced by the first loader that finds a matching
+source file:
 
-Until PR15, callers explicitly pick a loader at instantiation time.
+```
+use Paws::Model::Loader::Resolver;
+
+my $r = Paws::Model::Loader::Resolver->new(
+    smithy_search_paths   => ['share/smithy'],
+    botocore_search_paths => ['botocore/botocore/data'],
+);
+my ($ir, $loader_name) = $r->load_service('IAM');
+```
+
+Default order: Smithy first, Botocore fallback. Override via
+`PAWS_LOADER_ORDER=Botocore,Smithy` if a regression appears.
+
+Search-path layouts checked:
+
+- Smithy: `<base>/<service>.smithy.json` (flat),
+  `<base>/<lc service>.smithy.json`,
+  `<base>/<service>/<service>.smithy.json` (nested),
+  `<base>/<lc service>/<lc service>.smithy.json`.
+- Botocore: `<base>/<service>/<date>/service-2.json` (newest dated
+  subdirectory wins), and the lowercase-service-name variant.
 
 ## IR coverage by loader
 
