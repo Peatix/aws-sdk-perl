@@ -67,6 +67,22 @@ By default a regression of more than 1.0 percentage point at the top
 level fails the build; per-file regressions are reported but advisory.
 Pass `--strict` to `coverage-compare` to fail on any drop.
 
+## Distribution install smoke
+
+`examples/smoke.pl` is a packaging smoke test: it loads `Paws`,
+constructs a service, prepares a representative call via
+`Paws::Net::NoResponseMockCaller`, and exits 0 on success. It uses
+no `use lib 'auto-lib'` tricks, so it is suitable for running after
+`cpanm Paws-X.YZ.tar.gz` in a fresh environment.
+
+The `install-smoke` GitHub Actions workflow builds the dist via
+`dzil build`, installs the tarball into a fresh `cpanm` local lib
+in a `perl:5.36-slim` container, and runs the smoke script.
+
+This is the gate that PR10 (lazy default; drop `auto-lib/`) must keep
+green: the dist layout will change but the smoke script and its
+success criteria stay the same.
+
 ## Running subsets locally
 
 ```
