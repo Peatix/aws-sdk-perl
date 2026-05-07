@@ -91,6 +91,28 @@ After PR8 → PR15 land, the same data flow is rerouted through the IR:
 
 See `docs/testing.md` for how each PR is gated.
 
+## PR9 status
+
+PR9 adds `lib/Paws/Materializer.pm` — given a `Paws::Model::IR::Service`
+it constructs the corresponding Moose classes in memory:
+
+- service class (one method per operation, composed roles based on
+  protocol),
+- operation classes (input attributes with the right traits, plus
+  `_api_call` / `_api_method` / `_api_uri` / `_returns`),
+- structure shape classes (input and output, recursively).
+
+`t/model/02_materializer_smoke.t` constructs a service from the
+tinyservice fixture, then sends a request through the live wire
+layer (`TestRequestCaller`) — the captured request matches what an
+on-disk class would have produced.
+
+**Not yet in PR9, deferred to a follow-up commit on this same PR or to
+PR10**: the `PAWS_LAZY=1` opt-in hook in `Paws.pm` (or a sibling
+`Paws::Materializer::Auto`). Wiring that in requires deciding where the
+JSON files live at runtime — which is the dist-layout change owned by
+PR10.
+
 ## PR8 status (this commit)
 
 PR8 lands the IR + Botocore loader as standalone modules. The existing
