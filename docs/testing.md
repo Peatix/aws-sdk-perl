@@ -130,21 +130,21 @@ Implemented in `t/lib/WireFixture.pm`:
 | JSON-RPC  | `t/wire/json_request.t`           | plain, NameInRequest, primitives mix, list                 |
 | RestJSON  | `t/wire/restjson_request.t`       | ParamInURI, ParamInQuery, ParamInHeader, all-locations     |
 | Query     | `t/wire/query_request.t`          | plain, NameInRequest, Int, list (member-flattening)        |
+| EC2       | `t/wire/ec2_request.t`            | plain (PascalCase), NameInRequest+upcase, Int, list (EC2-flatten) |
+| RestXML   | `t/wire/restxml_request.t`        | ParamInURI, ParamInQuery, ParamInHeader, body XML (sorted) |
+| Glacier   | `t/wire/glacier_request.t`        | URI labels + x-amz-glacier-version header                  |
 
-Cells **not yet** covered — extension targets for follow-up commits in
-PR4 (the plan budgets ~30 fixture files total):
+Cells **not yet** covered — extension targets for follow-up commits:
 
 - JSON-RPC: nested structure, map of string, map of structure,
   Base64 attribute, JSON attribute.
 - RestJSON: ParamInHeaders prefix, ParamInBody body shape, streaming
   body, AutoInHeader.
 - Query: flattened-arrays variant, structure of structure, map.
-- RestXML: NameInRequest scalars, ParamInURI, ParamInHeader,
-  ParamInQuery, structure rendering, list flattening (both modes).
-- EC2: PascalCase upcasing, NameInRequest list, structure, the
-  Action/Version auto-injection.
-- Glacier: x-amz-glacier-version (already smoked), tree-hash
-  injection, account-id defaulting.
+- RestXML: structure rendering, list flattening (both modes).
+- EC2: NameInRequest list, structure, the Action/Version
+  auto-injection variants.
+- Glacier: tree-hash injection, account-id defaulting.
 
 The framework (`WireFixture`) is the load-bearing piece; new cells are
 just additional `MethodReq` shapes and one fixture file each.
