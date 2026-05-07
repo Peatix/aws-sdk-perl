@@ -40,11 +40,11 @@ use Paws::Net::GlacierCaller;
 use Paws::Net::V4Signature;
 
 has loader => (
-    is       => 'ro',
-    required => 1,
-    # Keep loose; loader role is in builder-lib which may not be on @INC
-    # of an installed Paws.
-    isa      => 'Object',
+    is  => 'ro',
+    # Optional. The materialiser only needs an IR; if a loader is
+    # provided, callers may use it for related lookups, but
+    # materialize_service($ir) doesn't require it.
+    isa => 'Maybe[Object]',
 );
 
 # Track which (Service, Operation, Shape) classes have already been
