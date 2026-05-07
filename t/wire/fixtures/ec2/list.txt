@@ -1,0 +1,4 @@
+POST /
+content-type: application/x-www-form-urlencoded
+
+Action=MethodReq&Items.1=a&Items.2=b&Items.3=c&Version=2016-09-25
