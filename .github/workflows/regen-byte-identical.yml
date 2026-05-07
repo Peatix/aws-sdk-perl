@@ -1,0 +1,79 @@
+name: regen-byte-identical
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      # Only run on PRs that touch the generator or its inputs.
+      - 'builder-lib/**'
+      - 'builder-bin/**'
+      - 'templates/**'
+      - 'botocore'
+      - '.github/workflows/regen-byte-identical.yml'
+
+# CI gate that PR8's plan called out: regenerating auto-lib/ from
+# botocore must produce the same bytes that are committed. Today we
+# regenerate a small set of representative services (small ones, to
+# keep the workflow fast) and assert no diff.
+#
+# Top-level service .pm files (e.g. auto-lib/Paws/STS.pm) are not
+# tracked in git, so the diff only covers the nested operation /
+# shape classes (which are tracked). That's still useful: any change
+# in the generator that affects shape `.pm` content for these four
+# services will surface here.
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Set up Perl + dependencies
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          perl-version: "5.36"
+          install-modules: |
+            App::cpanminus
+            Carton
+
+      - name: Pick representative services
+        id: pick
+        run: |
+          # Small services keep the workflow under a few minutes.
+          # Picked because they are small AND span the protocol families:
+          # Account (rest-json), STS (query), Health (json), BackupSearch
+          # (rest-json with a small surface).
+          set -eu
+          mkdir -p .ci-out
+          {
+            echo "Account"
+            echo "STS"
+            echo "Health"
+            echo "BackupSearch"
+          } | tee .ci-out/services.txt
+
+      - name: Regenerate the picked services
+        run: |
+          set -eu
+          # script/gen-service handles the botocore-dir lookup so we
+          # don't have to know the exact path/casing per service.
+          carton exec -- script/gen-service $(tr '\n' ' ' < .ci-out/services.txt)
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+
+      - name: Assert byte-identical output
+        run: |
+          set -eu
+          fail=0
+          while read svc
+          do
+            if [ ! -d "auto-lib/Paws/${svc}" ]
+            then
+              echo "warn: auto-lib/Paws/${svc}/ not present in repo - skipping diff"
+              continue
+            fi
+            git diff --exit-code -- "auto-lib/Paws/${svc}/" || fail=1
+          done < .ci-out/services.txt
+          exit $fail
