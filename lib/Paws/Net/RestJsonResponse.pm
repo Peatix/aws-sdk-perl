@@ -4,6 +4,7 @@ package Paws::Net::RestJsonResponse;
   use JSON::MaybeXS;
   use Carp qw(croak);
   use Paws::Exception;
+  use Paws::SerDes;
 
   sub process {
     my ($self, $call_object, $response) = @_;
@@ -83,7 +84,7 @@ package Paws::Net::RestJsonResponse;
   sub handle_response_strtoobjmap {
     my ($self, $att_class, $value) = @_;
 
-    my $inner_class = $att_class->meta->get_attribute('Map')->type_constraint->name;
+    my $inner_class = Paws::SerDes->for($att_class)->type_for('Map');
     ($inner_class) = ($inner_class =~ m/\[(.*)\]$/);
     Paws->load_class("$inner_class");
 
@@ -99,19 +100,21 @@ package Paws::Net::RestJsonResponse;
   sub new_from_result_struct {
     my ($self, $class, $result) = @_;
     my %args;
-    
-    if ($class->does('Paws::API::StrToObjMapParser')) {
+
+    my $serdes = Paws::SerDes->for($class);
+
+    if ($serdes->is_str_to_obj_map) {
       return $self->handle_response_strtoobjmap($class, $result);
-    } elsif ($class->does('Paws::API::StrToNativeMapParser')) {
+    } elsif ($serdes->is_str_to_native_map) {
       return $self->handle_response_strtonativemap($class, $result);
-    } else {
-    foreach my $att ($class->meta->get_attribute_list) {
-      next if (not my $meta = $class->meta->get_attribute($att));
+    }
 
-      my $key = $meta->does('NameInRequest') ? $meta->request_name :
-                $meta->does('ParamInHeader') ? lc($meta->header_name) : $att;
+    for my $att ($serdes->all_attribute_names) {
+      my $key = $serdes->trait_for($att, 'NameInRequest') ? $serdes->wire_key_for($att)
+              : $serdes->trait_for($att, 'ParamInHeader') ? lc($serdes->location_name_for($att))
+              : $att;
 
-      my $att_type = $meta->type_constraint;
+      my $att_type = $serdes->type_for($att);
 
     #  use Data::Dumper;
     #  print STDERR "USING KEY:  $key\n";
@@ -126,22 +129,21 @@ package Paws::Net::RestJsonResponse;
         my $value_ref = ref($value);
 
         if ($att_type =~ m/\:\:/) {
-          # Make the att_type stringify for module loading
-          Paws->load_class("$att_type");
+          Paws->load_class($att_type);
           if (defined $value) {
             if (not $value_ref) {
               $args{ $att } = $value;
             } else {
-              my $att_class = $att_type->class;
+              my $att_class  = $att_type;
+              my $att_serdes = Paws::SerDes->for($att_class);
 
-              if ($att_class->does('Paws::API::StrToObjMapParser')) {
+              if ($att_serdes->is_str_to_obj_map) {
                 $args{ $att } = $self->handle_response_strtoobjmap($att_class, $value);
-              } elsif ($att_class->does('Paws::API::StrToNativeMapParser')) {
+              } elsif ($att_serdes->is_str_to_native_map) {
                 $args{ $att } = $self->handle_response_strtonativemap($att_class, $value);
-              } elsif ($att_class->does('Paws::API::MapParser')) {
+              } elsif ($att_class->can('does') && $att_class->does('Paws::API::MapParser')) {
                 my $xml_keys = $att_class->xml_keys;
                 my $xml_values = $att_class->xml_values;
-
                 $args{ $att } = $att_class->new(map { ($_->{ $xml_keys } => $_->{ $xml_values }) } @$value);
               } else {
                 $args{ $att } = $self->new_from_result_struct($att_class, $value);
@@ -172,12 +174,13 @@ package Paws::Net::RestJsonResponse;
 
         if ($type =~ m/\:\:/) {
           Paws->load_class($type);
+          my $type_serdes = Paws::SerDes->for($type);
 
-          if ($type->does('Paws::API::StrToObjMapParser')) {
+          if ($type_serdes->is_str_to_obj_map) {
             $args{ $att } = [ map { $self->handle_response_strtoobjmap($type, $_) } @$value ];
-          } elsif ($type->does('Paws::API::StrToNativeMapParser')) {
+          } elsif ($type_serdes->is_str_to_native_map) {
             $args{ $att } = [ map { $self->handle_response_strtonativemap($type, $_) } @$value ];
-          } elsif ($type->does('Paws::API::MapParser')) {
+          } elsif ($type->can('does') && $type->does('Paws::API::MapParser')) {
             die "MapParser Type in an Array. Please implement me";
           } else {
             $args{ $att } = [ map { $self->new_from_result_struct($type, $_) } @$value ];
@@ -193,8 +196,7 @@ package Paws::Net::RestJsonResponse;
         }
       }
     }
-    $class->new(%args);
-    }
+    return $class->new(%args);
   }
 
 1;
