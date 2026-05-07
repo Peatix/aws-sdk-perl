@@ -1,0 +1,4 @@
+GET /things/r9?filter=active
+x-marker: mk
+
+
