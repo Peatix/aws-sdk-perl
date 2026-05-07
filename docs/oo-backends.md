@@ -5,8 +5,8 @@ Two backends produce the per-service Perl classes from the IR
 
 | Backend                       | Module                          | Status      |
 |-------------------------------|---------------------------------|-------------|
-| Moose (default)               | `Paws::Materializer`            | always-on   |
-| Moo + Type::Tiny (opt-in)     | `Paws::Materializer::Moo`       | from PR12   |
+| Moose (escape hatch)          | `Paws::Materializer`            | always-on   |
+| Moo + Type::Tiny (default)    | `Paws::Materializer::Moo`       | default from PR13 |
 
 Both produce classes that:
 
@@ -35,9 +35,10 @@ my $svc = $pkg->new(region => 'us-east-1', ...);
 $svc->ListThings(...);
 ```
 
-When PR13 lands, the default backend selection in the lazy hook will
-read `PAWS_OO_BACKEND`. Until then the choice is per-call to the
-materialiser.
+From PR13, `Paws::Materializer::Auto` defaults to the Moo backend.
+`PAWS_OO_BACKEND=Moose` is the documented escape hatch for one
+release while users update any code that depends on Moose-specific
+error message text.
 
 ## Type mapping
 

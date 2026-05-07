@@ -31,10 +31,9 @@ package Paws::Materializer::Auto;
 #                            'botocore/botocore/data' relative to
 #                            the current directory.
 #
-#   PAWS_OO_BACKEND          'Moose' (default) or 'Moo'. Selects the
-#                            materialiser backend. PR13 is where the
-#                            default flips to 'Moo'; until then the
-#                            opt-in remains explicit.
+#   PAWS_OO_BACKEND          'Moo' (default from PR13) or 'Moose'
+#                            (escape hatch). Selects the materialiser
+#                            backend.
 #
 # Status: PR10 wires the opt-in in. The dist-layout change (drop
 # auto-lib/, ship JSON in share/, make this the default) is the
@@ -136,8 +135,11 @@ sub _materialise {
     my $ir = eval { $resolver->load_service($service_name) };
     return 0 if !$ir;
 
-    # Pick the materialiser backend.
-    my $backend = $ENV{PAWS_OO_BACKEND} // 'Moose';
+    # Pick the materialiser backend. Default flipped to Moo in PR13.
+    # Set PAWS_OO_BACKEND=Moose to opt back into the Moose backend
+    # for the duration of one release as the documented escape hatch
+    # (see docs/oo-backends.md).
+    my $backend = $ENV{PAWS_OO_BACKEND} // 'Moo';
     my $mat_class;
     if ($backend eq 'Moo') {
         $mat_class = 'Paws::Materializer::Moo';
@@ -212,7 +214,8 @@ Directory containing source files. Default: 'share/smithy' and
 
 =item PAWS_OO_BACKEND
 
-'Moose' (default) or 'Moo'. Selects the materialiser backend.
+'Moo' (default from PR13) or 'Moose' (escape hatch). Selects the
+materialiser backend.
 
 =back
 
