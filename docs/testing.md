@@ -19,6 +19,7 @@ short and points at the code rather than duplicating it.
 | `t/27_signing_name.t`                 | Signer name resolution.                                                 |
 | `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape.               |
 | `t/lib/`                              | Test-only helpers and synthetic services (see below).                   |
+| `t/types/`                            | Type-validation, coercion, and edge-case **contract tests**. Pin behaviour without depending on Moose-specific error messages. |
 | `t/99_pod_syntax.t`                   | POD validity (syntax only — does not assert presence).                  |
 | `t/99_pod_presence.t`                 | POD presence: every auto-generated class has `=head1 NAME`; operations also have `=head1 SYNOPSIS`. Author-only. |
 
@@ -82,6 +83,27 @@ in a `perl:5.36-slim` container, and runs the smoke script.
 This is the gate that PR10 (lazy default; drop `auto-lib/`) must keep
 green: the dist layout will change but the smoke script and its
 success criteria stay the same.
+
+## Type contract tests
+
+`t/types/` pins the contract that Paws shape attributes must satisfy,
+*independent of which OO/type system implements it*. Today this contract
+is implemented by Moose. PR12/PR13 swap to Moo + Type::Tiny. Type::Tiny's
+exception classes and message wording differ from Moose's, so these
+tests:
+
+- only assert that valid values construct and invalid values throw
+  (no message-text matching),
+- pin specific contract decisions like "Str rejects undef but accepts 0",
+- use inline test classes so they don't depend on `auto-lib/`.
+
+| File                                 | Pins                                                            |
+|--------------------------------------|-----------------------------------------------------------------|
+| `t/types/01_validation_contract.t`   | `Str`, `Int`, `Bool`, `Num`, `ArrayRef[X]`, `HashRef[X]`, `Maybe[X]`, `required`, `default`, instance-of types. |
+| `t/types/02_coercion_contract.t`     | `Base64Attribute` (decoder around accessor), `JSONAttribute` (separate decoder method), `URLJSON` variant. |
+| `t/types/03_edge_cases.t`            | undef vs missing, predicate semantics, list mutation isolation, deeply nested round-trip, wrong-nested-type rejection. |
+
+These tests are the gate that PR12/PR13 must keep green.
 
 ## Running subsets locally
 
