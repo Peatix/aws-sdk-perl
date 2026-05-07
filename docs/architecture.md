@@ -91,6 +91,30 @@ After PR8 → PR15 land, the same data flow is rerouted through the IR:
 
 See `docs/testing.md` for how each PR is gated.
 
+## PR12 status
+
+PR12 adds `lib/Paws/Materializer/Moo.pm` — a parallel materialiser
+that builds Moo + Type::Tiny classes from the IR. The Moo classes:
+
+- expose the same API surface as the Moose classes,
+- populate the `Paws::SerDes` side-table directly via
+  `Paws::SerDes->register`, so the wire layer never has to inflate
+  the Moo class to Moose for introspection,
+- round-trip through the live wire layer (proven by
+  `t/model/03_materializer_moo.t`).
+
+Moose remains the default backend. The Moo backend is opt-in by
+construction:
+
+    use Paws::Materializer::Moo;
+    my $mat = Paws::Materializer::Moo->new(loader => $loader);
+    my $pkg = $mat->materialize_service($ir);
+
+PR13 will switch the default in the lazy hook based on
+`PAWS_OO_BACKEND`.
+
+See `docs/oo-backends.md` for type mapping and tradeoffs.
+
 ## PR11 status
 
 PR11 introduces `lib/Paws/SerDes.pm`: per-class serialisation metadata
