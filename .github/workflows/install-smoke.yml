@@ -1,0 +1,56 @@
+name: install-smoke
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
+  workflow_dispatch:
+
+# Distribution install smoke test. Builds the dist via dzil, installs
+# the resulting tarball into a fresh container with cpanm, then runs
+# examples/smoke.pl - which exercises only the publicly-installed
+# Paws (no `use lib 'auto-lib'` tricks).
+#
+# This is the gate that PR10 (lazy default; drop auto-lib/) must keep
+# green: the dist layout will change but the smoke script and its
+# success criteria stay the same.
+
+jobs:
+  install-smoke:
+    runs-on: ubuntu-latest
+    container:
+      # Match the lower end of supported Perl distros, not the latest.
+      # Goal is to detect "works on dev's laptop, fails on prod".
+      image: perl:5.36-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            build-essential libxml2-dev libssl-dev zlib1g-dev ca-certificates git
+          cpanm --notest --quiet Dist::Zilla
+          dzil authordeps --missing | cpanm --notest --quiet
+          dzil listdeps --missing  | cpanm --notest --quiet
+
+      - name: Build distribution tarball
+        run: |
+          dzil build
+          ls -la Paws-*.tar.gz
+
+      - name: Install distribution into a fresh local lib
+        run: |
+          rm -rf smoke-lib
+          cpanm --notest --quiet --local-lib=smoke-lib ./Paws-*.tar.gz
+
+      - name: Run smoke
+        # PAWS_SMOKE_REQUIRE_AUTO is intentionally not set here yet;
+        # master is currently in a state where auto-lib service .pm
+        # files are not committed (a separate branch regenerates them).
+        # Once that lands, set PAWS_SMOKE_REQUIRE_AUTO: 1 to make the
+        # auto-generated portion of the smoke a hard gate.
+        run: |
+          PERL5LIB=smoke-lib/lib/perl5 perl examples/smoke.pl
