@@ -79,8 +79,31 @@ safe and cheap to call per request.
 
 ## Status
 
-PR11 lands the side-table, the `_build_from_meta` fallback, and
-migrates `Paws::Net::JsonCaller` as a worked example. Other callers
-and response decoders migrate piecemeal in follow-up commits on this
-same PR. The synthetic-response suite (`t/2X_*` and `t/29-31_*`) and
-the wire-byte fixtures (`t/wire/`) are the regression gate.
+The wire layer is fully migrated. Zero live `meta->` calls remain in
+`lib/Paws/Net/` and `lib/Paws/API/`. Per-component breakdown:
+
+| Component                       | Migrated | Tests still green                           |
+|---------------------------------|----------|----------------------------------------------|
+| `Paws::Net::JsonCaller`         | yes      | `t/20_json_*`, `t/wire/json_*`               |
+| `Paws::Net::QueryCaller`        | yes      | `t/22_query_*`, `t/23_queryflatten_*`, `t/wire/query_*` |
+| `Paws::Net::RestJsonCaller`     | yes      | `t/21_restjson_*`, `t/wire/restjson_*`       |
+| `Paws::Net::EC2Caller`          | yes      | `t/30_ec2_*`                                 |
+| `Paws::Net::RestXmlCaller`      | yes      | `t/29_restxml_*`                             |
+| `Paws::Net::GlacierCaller`      | n/a      | composes RestJsonCaller; `t/31_glacier_*`    |
+| `Paws::Net::JsonResponse`       | yes      | `t/20_json_*`                                |
+| `Paws::Net::RestJsonResponse`   | yes      | `t/21_restjson_*`                            |
+| `Paws::Net::XMLResponse`        | yes      | `t/22_query_*`, `t/30_ec2_*`                 |
+| `Paws::Net::RestXMLResponse`    | yes      | `t/29_restxml_*`                             |
+| `Paws::Net::ResponseRole`       | yes      | `->meta->name` collapsed to `ref()`          |
+| `Paws::Net::SigninCaller`       | yes      | `->meta->name->_api_uri` collapsed           |
+| `Paws::API::Caller`             | yes      | `->meta->name` collapsed to `ref()`          |
+
+Wire fixtures from `t/wire/` are byte-identical pre- and post-migration:
+the load-bearing proof that the SerDes side-table is behaviour-
+preserving.
+
+PR12's Moo backend populates SerDes directly via
+`Paws::SerDes->register`. With the migration complete, no Moose-meta
+inflation happens for materialised-as-Moo classes anywhere in the
+wire layer — the perf win the OO migration was designed to deliver
+is now actually delivered.

@@ -80,6 +80,50 @@ sub for {
     return $CACHE{$class} //= $invocant->_build_from_meta($class);
 }
 
+# Public entry: register a pre-built side-table for a class. Used by
+# the Moo backend (PR12), which knows the metadata at build time and
+# doesn't need _build_from_meta to introspect Moose.
+#
+#   Paws::SerDes->register($class, \@records, \%opts);
+#
+# Each record in \@records is a hashref with the keys documented in
+# docs/serdes.md. \%opts is an optional hashref carrying class-level
+# flags (is_str_to_native_map, is_str_to_obj_map).
+sub register {
+    my ($invocant, $class, $records, $opts) = @_;
+    $opts //= {};
+
+    my %attrs;
+    my @public;
+    for my $rec (@$records) {
+        push @public, $rec->{name} if $rec->{name} !~ /^_/;
+        # Default every field so the wire layer doesn't have to check
+        # exists / defined for every lookup.
+        $attrs{ $rec->{name} } = {
+            name          => $rec->{name},
+            type          => ($rec->{type}          // ''),
+            type_object   => ($rec->{type_object}   // undef),
+            is_list       => ($rec->{is_list}       ? 1 : 0),
+            is_map        => ($rec->{is_map}        ? 1 : 0),
+            is_required   => ($rec->{is_required}   ? 1 : 0),
+            wire_key      => ($rec->{wire_key}      // $rec->{name}),
+            location      => ($rec->{location}      // 'body'),
+            location_name => ($rec->{location_name} // undef),
+            traits        => ($rec->{traits}        // {}),
+            ($rec->{auto} ? (auto => $rec->{auto}) : ()),
+        };
+    }
+
+    $CACHE{$class} = $invocant->new(
+        class                => $class,
+        attributes           => \%attrs,
+        serializable_names   => [ sort @public ],
+        is_str_to_native_map => ($opts->{is_str_to_native_map} ? 1 : 0),
+        is_str_to_obj_map    => ($opts->{is_str_to_obj_map}    ? 1 : 0),
+    );
+    return $CACHE{$class};
+}
+
 # Build the SerDes for a Moose class by introspecting its meta-class.
 #
 # This is the *fallback* path that mirrors what the wire layer does
@@ -100,10 +144,12 @@ sub _build_from_meta {
     my %attrs;
     my @public;
     for my $name (sort $meta->get_attribute_list) {
-        next if $name =~ /^_/;
-        push @public, $name;
-
         my $attr = $meta->get_attribute($name);
+        # Underscore-prefixed attributes (e.g. _request_id) live in
+        # the side-table so the response decoder can look them up by
+        # name, but they're excluded from `serializable_names` so the
+        # request-side wire layer doesn't try to serialise them.
+        push @public, $name if $name !~ /^_/;
         my $type = $attr->type_constraint;
         my $type_name = defined $type ? $type->name : '';
 
@@ -114,6 +160,7 @@ sub _build_from_meta {
                                         # ->isa('Moose::Meta::TypeConstraint::Enum')
             is_list        => ($type_name =~ m/^ArrayRef\[/ ? 1 : 0),
             is_map         => ($type_name =~ m/^HashRef\[/ ? 1 : 0),
+            is_required    => ($attr->is_required ? 1 : 0),
             wire_key       => $name,    # default; overridden below
             location       => 'body',   # default; overridden below
             location_name  => undef,
@@ -172,6 +219,15 @@ sub _build_from_meta {
 sub serializable_attributes {
     my ($self) = @_;
     return @{ $self->serializable_names };
+}
+
+# All attribute names recorded for this class, including
+# underscore-prefixed internals (e.g. _request_id). The response
+# decoder uses this to round-trip metadata that the wire layer
+# never sends.
+sub all_attribute_names {
+    my ($self) = @_;
+    return sort keys %{ $self->attributes };
 }
 
 sub wire_key_for {

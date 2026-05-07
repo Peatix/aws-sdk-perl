@@ -14,7 +14,10 @@ package Paws::Net::SigninCaller;
 
   sub _call_uri {
     my ($self, $call, $qparams) = @_;
-    my $uri_template = $call->meta->name->_api_uri;
+    # PR11: was $call->meta->name->_api_uri; _api_uri is a class
+    # method, so calling it on the instance gets the same answer
+    # without the MOP round-trip.
+    my $uri_template = $call->_api_uri;
     my $t = URI::Template->new( $uri_template );
 
     my $uri = $t->process({});

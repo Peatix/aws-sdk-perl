@@ -3,6 +3,7 @@ package Paws::Net::JsonResponse;
   use JSON::MaybeXS;
   use Carp qw(croak);
   use Paws::Exception;
+  use Paws::SerDes;
   use feature 'state';
 
   sub process {
@@ -86,7 +87,7 @@ package Paws::Net::JsonResponse;
 
     my $is_array = 0;
     my $inner_class;
-    my $class = $att_class->meta->get_attribute('Map')->type_constraint->name;
+    my $class = Paws::SerDes->for($att_class)->type_for('Map');
 
     if (my ($array_type) = ($class =~ m/^HashRef\[ArrayRef\[(.*)\]\]$/)){
       $inner_class = $array_type;
@@ -121,18 +122,20 @@ package Paws::Net::JsonResponse;
     my ($self, $class, $result) = @_;
     my %args;
 
-    if (do { state %d; $d{$class} //= $class->does('Paws::API::StrToObjMapParser')}) {
+    my $serdes = Paws::SerDes->for($class);
+
+    if ($serdes->is_str_to_obj_map) {
       return $self->handle_response_strtoobjmap($class, $result);
-    } elsif (do { state %d; $d{$class} //= $class->does('Paws::API::StrToNativeMapParser')}) {
+    } elsif ($serdes->is_str_to_native_map) {
       return $self->handle_response_strtonativemap($class, $result);
-    } else {
-    foreach my $att (do { state %d; @{$d{$class} //= [$class->meta->get_attribute_list]}}) {
-      next if (not my $meta = do { state %d; exists $d{$class}{$att} ? $d{$class}{$att} : $d{$class}{$att} = $class->meta->get_attribute($att)});
+    }
 
-      my $key = do { state %d; $d{$class}{$att} //= $meta->does('NameInRequest') } ? $meta->request_name :
-                do { state %d; $d{$class}{$att} //= $meta->does('ParamInHeader') } ? lc($meta->header_name) : $att;
+    for my $att ($serdes->all_attribute_names) {
+      my $key = $serdes->trait_for($att, 'NameInRequest')  ? $serdes->wire_key_for($att)
+              : $serdes->trait_for($att, 'ParamInHeader')  ? lc($serdes->location_name_for($att))
+              : $att;
 
-      my $att_type = $meta->type_constraint;
+      my $att_type = $serdes->type_for($att);
 
     #  use Data::Dumper;
     #  print STDERR "USING KEY:  $key\n";
@@ -147,23 +150,26 @@ package Paws::Net::JsonResponse;
         my $value_ref = ref($value);
 
         if ($att_type =~ m/\:\:/) {
-          # Make the att_type stringify for module loading
-          Paws->load_class("$att_type");
+          # att_type is the string form of a class name (e.g.
+          # 'Paws::EC2::Instance').
+          Paws->load_class($att_type);
           if (defined $value) {
             if (not $value_ref) {
               $args{ $att } = $value;
             } else {
-              my $att_class = $att_type->class;
+              my $att_class    = $att_type;
+              my $att_serdes   = Paws::SerDes->for($att_class);
 
-              if (do { state %d; $d{$att_class} //= $att_class->does('Paws::API::StrToObjMapParser')}) {
+              if ($att_serdes->is_str_to_obj_map) {
                 $args{ $att } = $self->handle_response_strtoobjmap($att_class, $value);
-              } elsif (do { state %d; $d{$att_class} //= $att_class->does('Paws::API::StrToNativeMapParser')}) {
+              } elsif ($att_serdes->is_str_to_native_map) {
                 $args{ $att } = $self->handle_response_strtonativemap($att_class, $value);
-              } elsif (do { state %d; $d{$att_class} //= $att_class->does('Paws::API::MapParser')}) {
+              } elsif ($att_class->can('does') && $att_class->does('Paws::API::MapParser')) {
                 # JSON-protocol responses send maps as objects (HashRef
                 # keyed by the enum value). XML/Query-protocol responses
                 # send them as arrays of {Name,Value} pairs and use
                 # xml_keys/xml_values to know which sub-keys to read.
+                # (Behaviour from master; introspection via SerDes from PR11+.)
                 if ($value_ref eq 'HASH') {
                   $args{ $att } = $att_class->new(%$value);
                 } else {
@@ -200,12 +206,13 @@ package Paws::Net::JsonResponse;
 
         if ($type =~ m/\:\:/) {
           Paws->load_class($type);
+          my $type_serdes = Paws::SerDes->for($type);
 
-          if (do { state %d; $d{$type} //= $type->does('Paws::API::StrToObjMapParser')}) {
+          if ($type_serdes->is_str_to_obj_map) {
             $args{ $att } = [ map { $self->handle_response_strtoobjmap($type, $_) } @$value ];
-          } elsif (do { state %d; $d{$type} //= $type->does('Paws::API::StrToNativeMapParser')}) {
+          } elsif ($type_serdes->is_str_to_native_map) {
             $args{ $att } = [ map { $self->handle_response_strtonativemap($type, $_) } @$value ];
-          } elsif (do { state %d; $d{$type} //= $type->does('Paws::API::MapParser')}) {
+          } elsif ($type->can('does') && $type->does('Paws::API::MapParser')) {
             die "MapParser Type in an Array. Please implement me";
           } else {
             $args{ $att } = [ map { $self->new_from_result_struct($type, $_) } @$value ];
@@ -217,14 +224,16 @@ package Paws::Net::JsonResponse;
         }
       }
     }
-    $class->new(%args);
-    }
+    return $class->new(%args);
   }
 
   sub response_to_object {
     my ($self, $call_object, $response) = @_;
 
-    $call_object = $call_object->meta->name;
+    # The hot path treats $call_object as the *class name* below; the
+    # original code reached for $call_object->meta->name which is a
+    # round-trip way of getting ref($call_object).
+    $call_object = ref($call_object) || $call_object;
 
     my $returns = (defined $call_object->_returns) && ($call_object->_returns ne 'Paws::API::Response');
     my $ret_class = $returns ? $call_object->_returns : 'Paws::API::Response';
