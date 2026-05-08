@@ -123,9 +123,21 @@ package Paws::API::Builder {
     $self->documentation_struct->{ methods };
   });
 
+  # PR 20 (stack20) routed api_struct through the Paws::Model::IR
+  # loader: read the JSON via Paws::Model::Loader::Botocore, then
+  # reshape the resulting IR back to the JSON-style hashref the
+  # templates already understand. Lossless round-trip; the
+  # byte-identical regen CI gate (PR 09) protects against any drift.
+  has loader => (is => 'ro', lazy => 1, default => sub {
+    require Paws::Model::Loader::Botocore;
+    return Paws::Model::Loader::Botocore->new;
+  });
+
   has api_struct => (is => 'ro', lazy => 1, default => sub {
     my $self = shift;
-    return $self->_load_json_file($self->api_file);
+    require Paws::Model::IR::ToHash;
+    my $ir = $self->loader->load($self->api_file);
+    return Paws::Model::IR::ToHash->reshape($ir);
   });
 
   has retry_file => (is => 'ro', lazy => 1, default => sub {
