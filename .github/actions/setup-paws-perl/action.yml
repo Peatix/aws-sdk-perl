@@ -104,6 +104,12 @@ runs:
           carton install
         fi
 
+    - name: Get botocore submodule SHA
+      if: ${{ inputs.cache-autolib == 'true' }}
+      id: botocore-sha
+      shell: bash
+      run: echo "sha=$(git rev-parse HEAD:botocore)" >> "$GITHUB_OUTPUT"
+
     - name: Cache auto-lib/ regenerated content
       if: ${{ inputs.cache-autolib == 'true' }}
       id: autolib-cache
@@ -112,8 +118,11 @@ runs:
         path: auto-lib
         # Key on every input that affects generation. Including
         # cpanfile so dep upgrades that change Moose / Template
-        # generation behaviour bust the cache.
+        # generation behaviour bust the cache. The botocore SHA
+        # is computed in a prior step because botocore/.git is a
+        # gitlink file, not a directory, so hashFiles can't read
+        # botocore/.git/HEAD.
         key: |
-          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'botocore/.git/HEAD', 'cpanfile') }}
+          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ steps.botocore-sha.outputs.sha }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'cpanfile') }}
         # Don't restore-keys: a partial / older auto-lib is a
         # correctness bug. All-or-nothing.
