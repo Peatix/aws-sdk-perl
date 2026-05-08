@@ -6,8 +6,8 @@ package Paws::IoT::CheckCustomConfiguration;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has CERT_AGE_THRESHOLD_IN_DAYS => (is => 'ro', isa => 'Str');
-  has CERT_EXPIRATION_THRESHOLD_IN_DAYS => (is => 'ro', isa => 'Str');
+  has 'CERT_AGE_THRESHOLD_IN_DAYS' => (is => 'ro', isa => 'Str');
+  has 'CERT_EXPIRATION_THRESHOLD_IN_DAYS' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

@@ -6,11 +6,11 @@ package Paws::Lightsail::LoadBalancerConfigurationOptions;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has HealthCheckPath => (is => 'ro', isa => 'Str');
-  has HttpsRedirectionEnabled => (is => 'ro', isa => 'Str');
-  has SessionStickiness_LB_CookieDurationSeconds => (is => 'ro', isa => 'Str');
-  has SessionStickinessEnabled => (is => 'ro', isa => 'Str');
-  has TlsPolicyName => (is => 'ro', isa => 'Str');
+  has 'HealthCheckPath' => (is => 'ro', isa => 'Str');
+  has 'HttpsRedirectionEnabled' => (is => 'ro', isa => 'Str');
+  has 'SessionStickiness_LB_CookieDurationSeconds' => (is => 'ro', isa => 'Str');
+  has 'SessionStickinessEnabled' => (is => 'ro', isa => 'Str');
+  has 'TlsPolicyName' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

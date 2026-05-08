@@ -6,7 +6,7 @@ package Paws::GuardDuty::ScanCriterion;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has EC2_INSTANCE_TAG => (is => 'ro', isa => 'Paws::GuardDuty::ScanCondition');
+  has 'EC2_INSTANCE_TAG' => (is => 'ro', isa => 'Paws::GuardDuty::ScanCondition');
 1;
 
 ### main pod documentation begin ###

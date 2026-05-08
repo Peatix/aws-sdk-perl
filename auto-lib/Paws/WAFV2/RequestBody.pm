@@ -6,11 +6,11 @@ package Paws::WAFV2::RequestBody;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has API_GATEWAY => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
-  has APP_RUNNER_SERVICE => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
-  has CLOUDFRONT => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
-  has COGNITO_USER_POOL => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
-  has VERIFIED_ACCESS_INSTANCE => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
+  has 'API_GATEWAY' => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
+  has 'APP_RUNNER_SERVICE' => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
+  has 'CLOUDFRONT' => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
+  has 'COGNITO_USER_POOL' => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
+  has 'VERIFIED_ACCESS_INSTANCE' => (is => 'ro', isa => 'Paws::WAFV2::RequestBodyAssociatedResourceTypeConfig');
 1;
 
 ### main pod documentation begin ###

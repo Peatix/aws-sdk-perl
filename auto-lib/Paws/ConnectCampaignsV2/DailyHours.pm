@@ -6,13 +6,13 @@ package Paws::ConnectCampaignsV2::DailyHours;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has FRIDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
-  has MONDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
-  has SATURDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
-  has SUNDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
-  has THURSDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
-  has TUESDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
-  has WEDNESDAY => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'FRIDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'MONDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'SATURDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'SUNDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'THURSDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'TUESDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
+  has 'WEDNESDAY' => (is => 'ro', isa => 'ArrayRef[Paws::ConnectCampaignsV2::TimeRange]');
 1;
 
 ### main pod documentation begin ###

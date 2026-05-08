@@ -6,11 +6,11 @@ package Paws::WellArchitected::AccountSummary;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ERROR => (is => 'ro', isa => 'Int');
-  has FETCH_FAILED => (is => 'ro', isa => 'Int');
-  has NOT_AVAILABLE => (is => 'ro', isa => 'Int');
-  has OKAY => (is => 'ro', isa => 'Int');
-  has WARNING => (is => 'ro', isa => 'Int');
+  has 'ERROR' => (is => 'ro', isa => 'Int');
+  has 'FETCH_FAILED' => (is => 'ro', isa => 'Int');
+  has 'NOT_AVAILABLE' => (is => 'ro', isa => 'Int');
+  has 'OKAY' => (is => 'ro', isa => 'Int');
+  has 'WARNING' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

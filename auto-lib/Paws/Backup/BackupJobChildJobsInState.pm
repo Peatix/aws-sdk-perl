@@ -6,15 +6,15 @@ package Paws::Backup::BackupJobChildJobsInState;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ABORTED => (is => 'ro', isa => 'Int');
-  has ABORTING => (is => 'ro', isa => 'Int');
-  has COMPLETED => (is => 'ro', isa => 'Int');
-  has CREATED => (is => 'ro', isa => 'Int');
-  has EXPIRED => (is => 'ro', isa => 'Int');
-  has FAILED => (is => 'ro', isa => 'Int');
-  has PARTIAL => (is => 'ro', isa => 'Int');
-  has PENDING => (is => 'ro', isa => 'Int');
-  has RUNNING => (is => 'ro', isa => 'Int');
+  has 'ABORTED' => (is => 'ro', isa => 'Int');
+  has 'ABORTING' => (is => 'ro', isa => 'Int');
+  has 'COMPLETED' => (is => 'ro', isa => 'Int');
+  has 'CREATED' => (is => 'ro', isa => 'Int');
+  has 'EXPIRED' => (is => 'ro', isa => 'Int');
+  has 'FAILED' => (is => 'ro', isa => 'Int');
+  has 'PARTIAL' => (is => 'ro', isa => 'Int');
+  has 'PENDING' => (is => 'ro', isa => 'Int');
+  has 'RUNNING' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

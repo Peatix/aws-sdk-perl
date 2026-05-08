@@ -6,11 +6,11 @@ package Paws::Health::EntityStatuses;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has IMPAIRED => (is => 'ro', isa => 'Int');
-  has PENDING => (is => 'ro', isa => 'Int');
-  has RESOLVED => (is => 'ro', isa => 'Int');
-  has UNIMPAIRED => (is => 'ro', isa => 'Int');
-  has UNKNOWN => (is => 'ro', isa => 'Int');
+  has 'IMPAIRED' => (is => 'ro', isa => 'Int');
+  has 'PENDING' => (is => 'ro', isa => 'Int');
+  has 'RESOLVED' => (is => 'ro', isa => 'Int');
+  has 'UNIMPAIRED' => (is => 'ro', isa => 'Int');
+  has 'UNKNOWN' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

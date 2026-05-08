@@ -6,15 +6,15 @@ package Paws::CodeGuruProfiler::Metadata;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AgentId => (is => 'ro', isa => 'Str');
-  has AwsRequestId => (is => 'ro', isa => 'Str');
-  has ComputePlatform => (is => 'ro', isa => 'Str');
-  has ExecutionEnvironment => (is => 'ro', isa => 'Str');
-  has LambdaFunctionArn => (is => 'ro', isa => 'Str');
-  has LambdaMemoryLimitInMB => (is => 'ro', isa => 'Str');
-  has LambdaPreviousExecutionTimeInMilliseconds => (is => 'ro', isa => 'Str');
-  has LambdaRemainingTimeInMilliseconds => (is => 'ro', isa => 'Str');
-  has LambdaTimeGapBetweenInvokesInMilliseconds => (is => 'ro', isa => 'Str');
+  has 'AgentId' => (is => 'ro', isa => 'Str');
+  has 'AwsRequestId' => (is => 'ro', isa => 'Str');
+  has 'ComputePlatform' => (is => 'ro', isa => 'Str');
+  has 'ExecutionEnvironment' => (is => 'ro', isa => 'Str');
+  has 'LambdaFunctionArn' => (is => 'ro', isa => 'Str');
+  has 'LambdaMemoryLimitInMB' => (is => 'ro', isa => 'Str');
+  has 'LambdaPreviousExecutionTimeInMilliseconds' => (is => 'ro', isa => 'Str');
+  has 'LambdaRemainingTimeInMilliseconds' => (is => 'ro', isa => 'Str');
+  has 'LambdaTimeGapBetweenInvokesInMilliseconds' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

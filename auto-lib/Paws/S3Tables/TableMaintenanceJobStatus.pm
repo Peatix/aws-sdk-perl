@@ -6,9 +6,9 @@ package Paws::S3Tables::TableMaintenanceJobStatus;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has icebergCompaction => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
-  has icebergSnapshotManagement => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
-  has icebergUnreferencedFileRemoval => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
+  has 'icebergCompaction' => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
+  has 'icebergSnapshotManagement' => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
+  has 'icebergUnreferencedFileRemoval' => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
 1;
 
 ### main pod documentation begin ###

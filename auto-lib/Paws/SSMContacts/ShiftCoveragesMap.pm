@@ -6,13 +6,13 @@ package Paws::SSMContacts::ShiftCoveragesMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has FRI => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
-  has MON => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
-  has SAT => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
-  has SUN => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
-  has THU => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
-  has TUE => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
-  has WED => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'FRI' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'MON' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'SAT' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'SUN' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'THU' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'TUE' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
+  has 'WED' => (is => 'ro', isa => 'ArrayRef[Paws::SSMContacts::CoverageTime]');
 1;
 
 ### main pod documentation begin ###

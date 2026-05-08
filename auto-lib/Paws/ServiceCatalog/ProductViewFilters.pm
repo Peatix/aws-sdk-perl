@@ -6,10 +6,10 @@ package Paws::ServiceCatalog::ProductViewFilters;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has FullTextSearch => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has Owner => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has ProductType => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
-  has SourceProductId => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'FullTextSearch' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'Owner' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'ProductType' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'SourceProductId' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 1;
 
 ### main pod documentation begin ###

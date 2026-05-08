@@ -43,15 +43,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateRouteResult = $apigateway->UpdateRoute(
       ApiId               => 'My__string',
       RouteId             => 'My__string',
-      ApiKeyRequired      => 1,                        # OPTIONAL
+      ApiKeyRequired      => 1,                                     # OPTIONAL
       AuthorizationScopes => [ 'MyStringWithLengthBetween1And64', ... ]
-      ,                                                # OPTIONAL
+      ,                                                             # OPTIONAL
       AuthorizationType        => 'NONE',                             # OPTIONAL
       AuthorizerId             => 'MyId',                             # OPTIONAL
       ModelSelectionExpression => 'MySelectionExpression',            # OPTIONAL
       OperationName            => 'MyStringWithLengthBetween1And64',  # OPTIONAL
-      RequestModels => { 'My__string' => 'MyStringWithLengthBetween1And128', }
-      ,                                                               # OPTIONAL
+      RequestModels            =>
+        { 'My__string' => 'MyStringWithLengthBetween1And128', },      # OPTIONAL
       RequestParameters => { 'My__string' => { Required => 1, }, },   # OPTIONAL
       RouteKey          => 'MySelectionKey',                          # OPTIONAL
       RouteResponseSelectionExpression => 'MySelectionExpression',    # OPTIONAL
@@ -77,7 +77,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Returns a L<Paws::ApiGatewayV2::UpdateRouteResult> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
-For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/apigateway/UpdateRoute>
+For the AWS API documentation, see L<https://aws.amazon.com/documentation/>
 
 =head1 ATTRIBUTES
 

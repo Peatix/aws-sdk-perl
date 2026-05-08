@@ -6,15 +6,15 @@ package Paws::Outposts::LineItemStatusCounts;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has BUILDING => (is => 'ro', isa => 'Int');
-  has CANCELLED => (is => 'ro', isa => 'Int');
-  has DELIVERED => (is => 'ro', isa => 'Int');
-  has ERROR => (is => 'ro', isa => 'Int');
-  has INSTALLED => (is => 'ro', isa => 'Int');
-  has INSTALLING => (is => 'ro', isa => 'Int');
-  has PREPARING => (is => 'ro', isa => 'Int');
-  has REPLACED => (is => 'ro', isa => 'Int');
-  has SHIPPED => (is => 'ro', isa => 'Int');
+  has 'BUILDING' => (is => 'ro', isa => 'Int');
+  has 'CANCELLED' => (is => 'ro', isa => 'Int');
+  has 'DELIVERED' => (is => 'ro', isa => 'Int');
+  has 'ERROR' => (is => 'ro', isa => 'Int');
+  has 'INSTALLED' => (is => 'ro', isa => 'Int');
+  has 'INSTALLING' => (is => 'ro', isa => 'Int');
+  has 'PREPARING' => (is => 'ro', isa => 'Int');
+  has 'REPLACED' => (is => 'ro', isa => 'Int');
+  has 'SHIPPED' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

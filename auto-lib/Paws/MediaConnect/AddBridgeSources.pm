@@ -36,8 +36,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           FlowSource => {
             FlowArn => 'MyAddBridgeFlowSourceRequestFlowArnString',
             Name    => 'MyString',
-            FlowVpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
-            ,    # OPTIONAL
+            FlowVpcInterfaceAttachment =>
+              { VpcInterfaceName => 'MyString', },    # OPTIONAL
           },    # OPTIONAL
           NetworkSource => {
             MulticastIp => 'MyString',
@@ -46,8 +46,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
             Port        => 1,
             Protocol    => 'zixi-push'
             , # values: zixi-push, rtp-fec, rtp, zixi-pull, rist, st2110-jpegxs, cdi, srt-listener, srt-caller, fujitsu-qos, udp, ndi-speed-hq
-            MulticastSourceSettings => { MulticastSourceIp => 'MyString', }
-            ,    # OPTIONAL
+            MulticastSourceSettings =>
+              { MulticastSourceIp => 'MyString', },    # OPTIONAL
           },    # OPTIONAL
         },
         ...
@@ -62,7 +62,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Returns a L<Paws::MediaConnect::AddBridgeSourcesResponse> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
-For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/mediaconnect/AddBridgeSources>
+For the AWS API documentation, see L<https://aws.amazon.com/documentation/>
 
 =head1 ATTRIBUTES
 

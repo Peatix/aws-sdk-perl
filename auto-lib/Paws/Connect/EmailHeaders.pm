@@ -6,11 +6,11 @@ package Paws::Connect::EmailHeaders;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has IN_REPLY_TO => (is => 'ro', isa => 'Str');
-  has MESSAGE_ID => (is => 'ro', isa => 'Str');
-  has REFERENCES => (is => 'ro', isa => 'Str');
-  has X_SES_SPAM_VERDICT => (is => 'ro', isa => 'Str');
-  has X_SES_VIRUS_VERDICT => (is => 'ro', isa => 'Str');
+  has 'IN_REPLY_TO' => (is => 'ro', isa => 'Str');
+  has 'MESSAGE_ID' => (is => 'ro', isa => 'Str');
+  has 'REFERENCES' => (is => 'ro', isa => 'Str');
+  has 'X_SES_SPAM_VERDICT' => (is => 'ro', isa => 'Str');
+  has 'X_SES_VIRUS_VERDICT' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

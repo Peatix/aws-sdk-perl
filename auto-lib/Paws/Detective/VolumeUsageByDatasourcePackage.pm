@@ -6,9 +6,9 @@ package Paws::Detective::VolumeUsageByDatasourcePackage;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ASFF_SECURITYHUB_FINDING => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageUsageInfo');
-  has DETECTIVE_CORE => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageUsageInfo');
-  has EKS_AUDIT => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageUsageInfo');
+  has 'ASFF_SECURITYHUB_FINDING' => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageUsageInfo');
+  has 'DETECTIVE_CORE' => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageUsageInfo');
+  has 'EKS_AUDIT' => (is => 'ro', isa => 'Paws::Detective::DatasourcePackageUsageInfo');
 1;
 
 ### main pod documentation begin ###

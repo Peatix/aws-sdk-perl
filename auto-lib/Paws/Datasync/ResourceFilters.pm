@@ -6,7 +6,7 @@ package Paws::Datasync::ResourceFilters;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has SVM => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
+  has 'SVM' => (is => 'ro', isa => 'ArrayRef[Str|Undef]');
 1;
 
 ### main pod documentation begin ###

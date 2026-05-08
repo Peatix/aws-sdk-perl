@@ -6,7 +6,7 @@ package Paws::SQS::MessageBodySystemAttributeMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AWSTraceHeader => (is => 'ro', isa => 'Paws::SQS::MessageSystemAttributeValue');
+  has 'AWSTraceHeader' => (is => 'ro', isa => 'Paws::SQS::MessageSystemAttributeValue');
 1;
 
 ### main pod documentation begin ###

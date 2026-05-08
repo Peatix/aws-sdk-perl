@@ -6,8 +6,8 @@ package Paws::S3Tables::TableMaintenanceConfiguration;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has icebergCompaction => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceConfigurationValue');
-  has icebergSnapshotManagement => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceConfigurationValue');
+  has 'icebergCompaction' => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceConfigurationValue');
+  has 'icebergSnapshotManagement' => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceConfigurationValue');
 1;
 
 ### main pod documentation begin ###

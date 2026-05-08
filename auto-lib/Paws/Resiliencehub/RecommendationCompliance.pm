@@ -6,10 +6,10 @@ package Paws::Resiliencehub::RecommendationCompliance;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AZ => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
-  has Hardware => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
-  has Region => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
-  has Software => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
+  has 'AZ' => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
+  has 'Hardware' => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
+  has 'Region' => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
+  has 'Software' => (is => 'ro', isa => 'Paws::Resiliencehub::RecommendationDisruptionCompliance');
 1;
 
 ### main pod documentation begin ###

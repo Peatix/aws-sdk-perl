@@ -6,10 +6,10 @@ package Paws::Resiliencehub::DisruptionPolicy;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AZ => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
-  has Hardware => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
-  has Region => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
-  has Software => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
+  has 'AZ' => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
+  has 'Hardware' => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
+  has 'Region' => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
+  has 'Software' => (is => 'ro', isa => 'Paws::Resiliencehub::FailurePolicy');
 1;
 
 ### main pod documentation begin ###

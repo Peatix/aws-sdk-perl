@@ -81,8 +81,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ActionType => {
                 Batch => {
                   BatchJobName       => 'MyVariable',
-                  BatchJobParameters => { 'MyString' => 'MyString', }
-                  ,                                                # OPTIONAL
+                  BatchJobParameters =>
+                    { 'MyString' => 'MyString', },    # OPTIONAL
                   ExportDataSetNames => [ 'MyString100', ... ],    # OPTIONAL
                 },    # OPTIONAL
                 Tn3270 => {
@@ -131,7 +131,7 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     # Returns a L<Paws::AppTest::UpdateTestCaseResponse> object.
 
 Values for attributes that are native types (Int, String, Float, etc) can passed as-is (scalar values). Values for complex Types (objects) can be passed as a HashRef. The keys and values of the hashref will be used to instance the underlying object.
-For the AWS API documentation, see L<https://docs.aws.amazon.com/goto/WebAPI/apptest/UpdateTestCase>
+For the AWS API documentation, see L<https://aws.amazon.com/documentation/>
 
 =head1 ATTRIBUTES
 

@@ -6,9 +6,9 @@ package Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdates;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has EXTERNAL_UPSTREAM => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdate');
-  has INTERNAL_UPSTREAM => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdate');
-  has PUBLISH => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdate');
+  has 'EXTERNAL_UPSTREAM' => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdate');
+  has 'INTERNAL_UPSTREAM' => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdate');
+  has 'PUBLISH' => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupAllowedRepositoryUpdate');
 1;
 
 ### main pod documentation begin ###

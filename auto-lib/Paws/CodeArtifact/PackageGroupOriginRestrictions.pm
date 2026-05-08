@@ -6,9 +6,9 @@ package Paws::CodeArtifact::PackageGroupOriginRestrictions;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has EXTERNAL_UPSTREAM => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupOriginRestriction');
-  has INTERNAL_UPSTREAM => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupOriginRestriction');
-  has PUBLISH => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupOriginRestriction');
+  has 'EXTERNAL_UPSTREAM' => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupOriginRestriction');
+  has 'INTERNAL_UPSTREAM' => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupOriginRestriction');
+  has 'PUBLISH' => (is => 'ro', isa => 'Paws::CodeArtifact::PackageGroupOriginRestriction');
 1;
 
 ### main pod documentation begin ###

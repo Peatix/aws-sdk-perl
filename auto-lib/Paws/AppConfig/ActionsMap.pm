@@ -6,14 +6,14 @@ package Paws::AppConfig::ActionsMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has AT_DEPLOYMENT_TICK => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has ON_DEPLOYMENT_BAKING => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has ON_DEPLOYMENT_COMPLETE => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has ON_DEPLOYMENT_ROLLED_BACK => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has ON_DEPLOYMENT_START => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has ON_DEPLOYMENT_STEP => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has PRE_CREATE_HOSTED_CONFIGURATION_VERSION => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
-  has PRE_START_DEPLOYMENT => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'AT_DEPLOYMENT_TICK' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'ON_DEPLOYMENT_BAKING' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'ON_DEPLOYMENT_COMPLETE' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'ON_DEPLOYMENT_ROLLED_BACK' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'ON_DEPLOYMENT_START' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'ON_DEPLOYMENT_STEP' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'PRE_CREATE_HOSTED_CONFIGURATION_VERSION' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
+  has 'PRE_START_DEPLOYMENT' => (is => 'ro', isa => 'ArrayRef[Paws::AppConfig::Action]');
 1;
 
 ### main pod documentation begin ###

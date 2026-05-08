@@ -6,17 +6,17 @@ package Paws::IoT::EventConfigurations;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has CA_CERTIFICATE => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has CERTIFICATE => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has JOB => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has JOB_EXECUTION => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has POLICY => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_GROUP => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_GROUP_HIERARCHY => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_GROUP_MEMBERSHIP => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_TYPE => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_TYPE_ASSOCIATION => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'CA_CERTIFICATE' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'CERTIFICATE' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'JOB' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'JOB_EXECUTION' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'POLICY' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'THING' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'THING_GROUP' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'THING_GROUP_HIERARCHY' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'THING_GROUP_MEMBERSHIP' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'THING_TYPE' => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has 'THING_TYPE_ASSOCIATION' => (is => 'ro', isa => 'Paws::IoT::Configuration');
 1;
 
 ### main pod documentation begin ###

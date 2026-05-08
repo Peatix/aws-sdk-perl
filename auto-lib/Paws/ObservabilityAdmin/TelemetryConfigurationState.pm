@@ -6,9 +6,9 @@ package Paws::ObservabilityAdmin::TelemetryConfigurationState;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has Logs => (is => 'ro', isa => 'Str');
-  has Metrics => (is => 'ro', isa => 'Str');
-  has Traces => (is => 'ro', isa => 'Str');
+  has 'Logs' => (is => 'ro', isa => 'Str');
+  has 'Metrics' => (is => 'ro', isa => 'Str');
+  has 'Traces' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

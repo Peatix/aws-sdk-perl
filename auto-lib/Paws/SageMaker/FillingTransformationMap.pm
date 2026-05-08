@@ -6,14 +6,14 @@ package Paws::SageMaker::FillingTransformationMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has backfill => (is => 'ro', isa => 'Str');
-  has backfill_value => (is => 'ro', isa => 'Str');
-  has frontfill => (is => 'ro', isa => 'Str');
-  has frontfill_value => (is => 'ro', isa => 'Str');
-  has futurefill => (is => 'ro', isa => 'Str');
-  has futurefill_value => (is => 'ro', isa => 'Str');
-  has middlefill => (is => 'ro', isa => 'Str');
-  has middlefill_value => (is => 'ro', isa => 'Str');
+  has 'backfill' => (is => 'ro', isa => 'Str');
+  has 'backfill_value' => (is => 'ro', isa => 'Str');
+  has 'frontfill' => (is => 'ro', isa => 'Str');
+  has 'frontfill_value' => (is => 'ro', isa => 'Str');
+  has 'futurefill' => (is => 'ro', isa => 'Str');
+  has 'futurefill_value' => (is => 'ro', isa => 'Str');
+  has 'middlefill' => (is => 'ro', isa => 'Str');
+  has 'middlefill_value' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

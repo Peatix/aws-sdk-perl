@@ -6,9 +6,9 @@ package Paws::LakeFormation::StorageOptimizerConfigMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ALL => (is => 'ro', isa => 'Paws::LakeFormation::StorageOptimizerConfig');
-  has COMPACTION => (is => 'ro', isa => 'Paws::LakeFormation::StorageOptimizerConfig');
-  has GARBAGE_COLLECTION => (is => 'ro', isa => 'Paws::LakeFormation::StorageOptimizerConfig');
+  has 'ALL' => (is => 'ro', isa => 'Paws::LakeFormation::StorageOptimizerConfig');
+  has 'COMPACTION' => (is => 'ro', isa => 'Paws::LakeFormation::StorageOptimizerConfig');
+  has 'GARBAGE_COLLECTION' => (is => 'ro', isa => 'Paws::LakeFormation::StorageOptimizerConfig');
 1;
 
 ### main pod documentation begin ###

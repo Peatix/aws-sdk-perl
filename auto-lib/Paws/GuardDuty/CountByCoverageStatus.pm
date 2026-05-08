@@ -6,8 +6,8 @@ package Paws::GuardDuty::CountByCoverageStatus;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has HEALTHY => (is => 'ro', isa => 'Int');
-  has UNHEALTHY => (is => 'ro', isa => 'Int');
+  has 'HEALTHY' => (is => 'ro', isa => 'Int');
+  has 'UNHEALTHY' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

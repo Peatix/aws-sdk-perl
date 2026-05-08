@@ -6,9 +6,9 @@ package Paws::Detective::DatasourcePackageIngestStates;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ASFF_SECURITYHUB_FINDING => (is => 'ro', isa => 'Str');
-  has DETECTIVE_CORE => (is => 'ro', isa => 'Str');
-  has EKS_AUDIT => (is => 'ro', isa => 'Str');
+  has 'ASFF_SECURITYHUB_FINDING' => (is => 'ro', isa => 'Str');
+  has 'DETECTIVE_CORE' => (is => 'ro', isa => 'Str');
+  has 'EKS_AUDIT' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###
