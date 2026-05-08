@@ -135,6 +135,53 @@ $test_params = {
 
 request_contentjson($test_params, $request);
 
+$request = $sqs->SendMessage(
+  QueueUrl => 'http://sqs.us-east-1.amazonaws.com/123456789012/testQueue/',
+  MessageBody => 'trace message body',
+  MessageSystemAttributes => {
+    AWSTraceHeader => {
+      DataType => 'String',
+      StringValue => 'Root=1-65f9cbf4-1234567890abcdef12345678;Parent=0123456789abcdef;Sampled=1',
+    },
+  },
+);
+
+$test_params = {
+  'MessageBody' => 'trace message body',
+  'QueueUrl' => 'http://sqs.us-east-1.amazonaws.com/123456789012/testQueue/',
+  'MessageSystemAttribute.1.Name' => 'AWSTraceHeader',
+  'MessageSystemAttribute.1.Value.DataType' => 'String',
+  'MessageSystemAttribute.1.Value.StringValue' => 'Root=1-65f9cbf4-1234567890abcdef12345678;Parent=0123456789abcdef;Sampled=1',
+};
+
+request_has_params($test_params, $request);
+
+$request = $sqs->SendMessageBatch(
+  QueueUrl => 'http://sqs.us-east-1.amazonaws.com/123456789012/testQueue/',
+  Entries => [
+    {
+      Id => 'trace_msg_001',
+      MessageBody => 'trace message body 001',
+      MessageSystemAttributes => {
+        AWSTraceHeader => {
+          DataType => 'String',
+          StringValue => 'Root=1-65f9cbf4-abcdef0123456789abcdef01;Parent=abcdef0123456789;Sampled=1',
+        },
+      },
+    },
+  ],
+);
+
+$test_params = {
+  'SendMessageBatchRequestEntry.1.Id' => 'trace_msg_001',
+  'SendMessageBatchRequestEntry.1.MessageBody' => 'trace message body 001',
+  'SendMessageBatchRequestEntry.1.MessageSystemAttribute.1.Name' => 'AWSTraceHeader',
+  'SendMessageBatchRequestEntry.1.MessageSystemAttribute.1.Value.DataType' => 'String',
+  'SendMessageBatchRequestEntry.1.MessageSystemAttribute.1.Value.StringValue' => 'Root=1-65f9cbf4-abcdef0123456789abcdef01;Parent=abcdef0123456789;Sampled=1',
+};
+
+request_has_params($test_params, $request);
+
 my $sns = $aws->service('SNS');
 
 $request = $sns->SetPlatformApplicationAttributes(
