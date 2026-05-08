@@ -25,8 +25,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # PR 18 (stack18) removed the botocore submodule; the
+        # generator still reads from `botocore/botocore/data/` so we
+        # populate it from boto/botocore@develop here. Once the
+        # generator is taught to read share/botocore/ directly this
+        # step can go away.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
         with:
-          submodules: recursive
+          repository: boto/botocore
+          ref: develop
+          path: botocore
 
       - name: Set up Perl + dependencies
         id: perl

@@ -104,11 +104,27 @@ runs:
           carton install
         fi
 
-    - name: Get botocore submodule SHA
+    - name: Resolve botocore source SHA
       if: ${{ inputs.cache-autolib == 'true' }}
       id: botocore-sha
       shell: bash
-      run: echo "sha=$(git rev-parse HEAD:botocore)" >> "$GITHUB_OUTPUT"
+      run: |
+        # Prefer the submodule SHA (pre-stack18 layout). Fall back to
+        # the share/botocore tree (post-stack18 vendored layout) and
+        # finally to a marker so the cache key still varies.
+        if git ls-files --error-unmatch .gitmodules >/dev/null 2>&1
+        then
+          echo "sha=$(git rev-parse HEAD:botocore)" >> "$GITHUB_OUTPUT"
+        else
+          if [ -d share/botocore ]
+          then
+            sha=$(find share/botocore -type f -print0 | sort -z | xargs -0 sha1sum 2>/dev/null | sha1sum | awk '{print $1}')
+            sha=${sha:-novendored}
+            echo "sha=share-$sha" >> "$GITHUB_OUTPUT"
+          else
+            echo "sha=no-botocore" >> "$GITHUB_OUTPUT"
+          fi
+        fi
 
     - name: Cache auto-lib/ regenerated content
       if: ${{ inputs.cache-autolib == 'true' }}
@@ -118,10 +134,10 @@ runs:
         path: auto-lib
         # Key on every input that affects generation. Including
         # cpanfile so dep upgrades that change Moose / Template
-        # generation behaviour bust the cache. The botocore SHA
-        # is computed in a prior step because botocore/.git is a
-        # gitlink file, not a directory, so hashFiles can't read
-        # botocore/.git/HEAD.
+        # generation behaviour bust the cache. The botocore-source
+        # SHA is computed in a prior step because the submodule path
+        # uses a gitlink file (hashFiles can't read it) and the
+        # vendored path is a directory tree.
         key: |
           paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ steps.botocore-sha.outputs.sha }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'cpanfile') }}
         # Don't restore-keys: a partial / older auto-lib is a
