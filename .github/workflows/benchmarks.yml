@@ -44,12 +44,18 @@ jobs:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
 
       - name: Run benchmarks
+        # Invoke perl with explicit -I for lib + auto-lib (the in-tree
+        # Paws code being benchmarked). `carton exec` handles
+        # local/lib/perl5 (cpanfile-managed deps like File::Slurper /
+        # JSON::MaybeXS). Setting PERL5LIB at the step level here
+        # would clobber the `local/lib/perl5` path that the setup
+        # action put in PERL5LIB, and the parent perl process running
+        # `local/bin/carton` would fail with "Can't locate Carton/CLI.pm".
         run: |
           mkdir -p .ci-out
-          carton exec -- benchmarks/run-all --iterations 5 --output .ci-out/benchmarks-current.json
+          carton exec -- perl -Ilib -Iauto-lib benchmarks/run-all --iterations 5 --output .ci-out/benchmarks-current.json
         env:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
-          PERL5LIB: lib:auto-lib
 
       - name: Compare to baseline
         run: |
