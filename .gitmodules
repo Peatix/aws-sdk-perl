@@ -1,3 +1,0 @@
-[submodule "botocore"]
-	path = botocore
-	url = https://github.com/pplu/botocore.git

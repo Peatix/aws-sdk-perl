@@ -1,0 +1,7 @@
+share/smithy/ holds Smithy AST JSON files vendored from upstream
+(by default, awslabs/aws-sdk-rust's aws-models tree).
+
+Run `script/paws-vendor-smithy --clean` to populate / refresh.
+
+Layout: share/smithy/<Service>/<Service>.smithy.json - matches
+Paws::Model::Loader::Resolver's nested-layout search path.
