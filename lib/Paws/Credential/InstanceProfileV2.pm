@@ -18,19 +18,15 @@ package Paws::Credential::InstanceProfileV2;
     isa => 'Str',
     lazy => 1,
     default => sub {
+      my $self = shift;
       my $endpoint = $ENV{AWS_EC2_METADATA_SERVICE_ENDPOINT};
       unless ( $endpoint ) {
         my $ipv4 = 'http://169.254.169.254/';
-        switch ( $self->endpoint_mode ) {
-          case 'IPv6' {
-            $endpoint = 'http://[fd00:ec2::254]/';
-          }
-          case 'IPv4' {
-            $endpoint = $ipv4;
-          }
-          else {
-            $endpoint = $ipv4;
-          }
+        if ( $self->endpoint_mode eq 'IPv6' ) {
+          $endpoint = 'http://[fd00:ec2::254]/';
+        }
+        else {
+          $endpoint = $ipv4;
         }
       }
       $endpoint .= "/" unless $endpoint =~ m{/$};
@@ -43,6 +39,7 @@ package Paws::Credential::InstanceProfileV2;
     isa => 'Str',
     lazy => 1,
     default => sub {
+      my $self = shift;
       return $self->endpoint . 'latest/meta-data/iam/security-credentials/';
     }
   );
@@ -52,6 +49,7 @@ package Paws::Credential::InstanceProfileV2;
     isa => 'Str',
     lazy => 1,
     default => sub {
+      my $self = shift;
       return $self->endpoint . 'latest/api/token';
     }
   );
