@@ -1,0 +1,112 @@
+#!/usr/bin/env perl
+
+# coverage-compare BASELINE CURRENT
+#
+# Compares two coverage records produced by `coverage-summary`. Exits 0
+# if coverage has not regressed, 1 if it has.
+#
+# By default, "regression" means total coverage dropped by more than
+# --tolerance percentage points. Override with --tolerance N (default 1.0).
+# Pass --strict to fail on any drop.
+#
+# This script is intentionally conservative: file-level regressions are
+# reported but do not fail the build, only the top-level total does.
+# The intent is to surface regressions in code review without blocking
+# legitimate refactors that move responsibility between files.
+
+use strict;
+use warnings;
+use v5.20;
+
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use JSON::MaybeXS qw(decode_json);
+use File::Slurper qw(read_text);
+
+my $tolerance = 1.0;
+my $strict    = 0;
+my $help      = 0;
+
+GetOptions(
+    'tolerance=f' => \$tolerance,
+    'strict'      => \$strict,
+    'help|h'      => \$help,
+) or die "invalid arguments\n";
+
+if ($help || @ARGV != 2) {
+    print <<'USAGE';
+usage: coverage-compare [--tolerance PCT] [--strict] BASELINE CURRENT
+
+  --tolerance PCT  Allowable percentage-point drop (default: 1.0)
+  --strict         Fail on any drop, regardless of tolerance
+USAGE
+    exit($help ? 0 : 2);
+}
+
+my ($baseline_path, $current_path) = @ARGV;
+
+if (!-r $baseline_path) {
+    say STDERR "coverage-compare: baseline=$baseline_path not readable; treating as no-op";
+    exit 0;
+}
+
+if (!-r $current_path) {
+    say STDERR "coverage-compare: current=$current_path not readable; cannot compare";
+    exit 2;
+}
+
+my $baseline = decode_json(read_text($baseline_path));
+my $current  = decode_json(read_text($current_path));
+
+my $baseline_total = ($baseline->{summary} // {})->{total};
+my $current_total  = ($current->{summary}  // {})->{total};
+
+if (!defined $baseline_total) {
+    say "coverage-compare: baseline has no recorded total; nothing to compare";
+    exit 0;
+}
+
+if (!defined $current_total) {
+    say STDERR "coverage-compare: current has no recorded total";
+    exit 2;
+}
+
+my $delta = $current_total - $baseline_total;
+
+printf "coverage baseline=%.2f%% current=%.2f%% delta=%+0.2fpp tolerance=%.2fpp strict=%d\n",
+    $baseline_total, $current_total, $delta, $tolerance, $strict;
+
+# Per-file deltas (informational only).
+my %seen_files;
+$seen_files{$_} = 1 for keys %{ $baseline->{files} // {} };
+$seen_files{$_} = 1 for keys %{ $current->{files}  // {} };
+
+my @drops;
+for my $file (sort keys %seen_files) {
+    my $b = ($baseline->{files}{$file} // {})->{total};
+    my $c = ($current->{files}{$file}  // {})->{total};
+    next if !defined $b || !defined $c;
+    my $d = $c - $b;
+    if ($d < -$tolerance) {
+        push @drops, [ $file, $b, $c, $d ];
+    }
+}
+
+if (@drops) {
+    say "per-file drops greater than tolerance (informational):";
+    for my $row (@drops) {
+        printf "  file=%s baseline=%.2f%% current=%.2f%% delta=%+0.2fpp\n", @$row;
+    }
+}
+
+if ($strict && $delta < 0) {
+    say STDERR "coverage-compare: regression status=fail mode=strict";
+    exit 1;
+}
+
+if (!$strict && $delta < -$tolerance) {
+    say STDERR "coverage-compare: regression status=fail mode=tolerance";
+    exit 1;
+}
+
+say "coverage-compare: status=pass";
+exit 0;

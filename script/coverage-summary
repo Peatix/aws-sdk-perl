@@ -1,0 +1,150 @@
+#!/usr/bin/env perl
+
+# coverage-summary
+#
+# Reads cover_db/cover.json (produced by `cover -report json`) and
+# emits one of:
+#   - a compact JSON file at --output PATH (default: stdout)
+#   - a Markdown table at --markdown (writes to stdout)
+#
+# The compact JSON is the canonical "coverage record" we compare across
+# CI runs. It records per-file statement / branch / condition / subroutine
+# coverage percentages plus a top-level summary.
+
+use strict;
+use warnings;
+use v5.20;
+
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use JSON::MaybeXS qw(decode_json encode_json);
+use File::Slurper qw(read_text write_text);
+
+my $cover_db   = 'cover_db';
+my $output     = '';
+my $markdown   = 0;
+my $help       = 0;
+
+GetOptions(
+    'cover-db=s' => \$cover_db,
+    'output=s'   => \$output,
+    'markdown'   => \$markdown,
+    'help|h'     => \$help,
+) or die "invalid arguments\n";
+
+if ($help) {
+    print <<'USAGE';
+usage: coverage-summary [--cover-db DIR] [--output PATH] [--markdown]
+
+  --cover-db DIR  Devel::Cover database directory (default: cover_db)
+  --output PATH   Write compact JSON to PATH (default: stdout)
+  --markdown      Emit Markdown table to stdout instead of JSON
+USAGE
+    exit 0;
+}
+
+my $json_path = "$cover_db/cover.json";
+
+if (!-r $json_path) {
+    warn "coverage-summary: $json_path not found; emitting empty record\n";
+    my $empty = { schema => 1, files => {}, summary => { total => 0 } };
+    emit_json($empty, $output);
+    exit 0;
+}
+
+my $raw    = decode_json(read_text($json_path));
+my $record = canonicalise($raw);
+
+if ($markdown) {
+    print render_markdown($record);
+} else {
+    emit_json($record, $output);
+}
+
+exit 0;
+
+sub canonicalise {
+    my ($raw) = @_;
+
+    my %files;
+    my $summary_in = $raw->{summary} // {};
+
+    for my $path (sort keys %$summary_in) {
+        next if $path eq 'Total';
+        my $entry = $summary_in->{$path} // {};
+        $files{$path} = pluck_metrics($entry);
+    }
+
+    my $total = $summary_in->{Total} // {};
+
+    return {
+        schema  => 1,
+        files   => \%files,
+        summary => pluck_metrics($total),
+    };
+}
+
+sub pluck_metrics {
+    my ($entry) = @_;
+    return {
+        statement   => num($entry->{statement}{percentage} // $entry->{statement}),
+        branch      => num($entry->{branch}{percentage}    // $entry->{branch}),
+        condition   => num($entry->{condition}{percentage} // $entry->{condition}),
+        subroutine  => num($entry->{subroutine}{percentage} // $entry->{subroutine}),
+        total       => num($entry->{total}{percentage}     // $entry->{total}),
+    };
+}
+
+sub num {
+    my ($v) = @_;
+    return undef if !defined $v;
+    return undef if $v eq 'n/a';
+    return 0 + $v;
+}
+
+sub emit_json {
+    my ($record, $output) = @_;
+    my $json = JSON::MaybeXS->new(canonical => 1, pretty => 1)->encode($record);
+    if ($output) {
+        write_text($output, $json);
+    } else {
+        print $json;
+    }
+}
+
+sub render_markdown {
+    my ($record) = @_;
+    my @rows;
+    push @rows, "## Coverage";
+    push @rows, "";
+    push @rows, "| metric | percentage |";
+    push @rows, "|---|---|";
+
+    my $s = $record->{summary} // {};
+    for my $key (qw(total statement branch condition subroutine)) {
+        push @rows, sprintf("| %s | %s |", $key, defined $s->{$key} ? sprintf("%.2f%%", $s->{$key}) : "n/a");
+    }
+
+    push @rows, "";
+    push @rows, "<details><summary>Per-file coverage (top 20 lowest)</summary>";
+    push @rows, "";
+    push @rows, "| file | total |";
+    push @rows, "|---|---|";
+
+    my @files = sort {
+        ($a->{total} // 0) <=> ($b->{total} // 0)
+    } map {
+        { path => $_, %{ $record->{files}{$_} } }
+    } keys %{ $record->{files} };
+
+    for my $f (@files[0 .. ($#files < 19 ? $#files : 19)]) {
+        push @rows, sprintf("| %s | %s |",
+            $f->{path},
+            defined $f->{total} ? sprintf("%.2f%%", $f->{total}) : "n/a",
+        );
+    }
+    push @rows, "";
+    push @rows, "</details>";
+    push @rows, "";
+
+    return join("\n", @rows) . "\n";
+}

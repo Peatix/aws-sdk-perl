@@ -14,6 +14,18 @@ cover:
 	HARNESS_PERL_SWITCHES=-MDevel::Cover make test
 	cover
 
+# Deterministic, machine-readable coverage run for CI. Differs from `cover`
+# in that it does not rely on `carton exec` (CI installs deps system-wide
+# via cpm) and it tolerates the absence of cover_db on the first run.
+cover-ci:
+	rm -rf cover_db
+	HARNESS_PERL_SWITCHES=-MDevel::Cover=-silent,1,-summary,0 \
+	  prove --lib --recurse --verbose --jobs 2 \
+	  -I auto-lib t/ \
+	  || true
+	cover -summary
+	cover -report json -outputdir cover_db || true
+
 pull-other-sdks:
 	git submodule init
 	git submodule update

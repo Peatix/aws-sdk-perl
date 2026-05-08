@@ -1,0 +1,12 @@
+{
+   "schema" : 1,
+   "summary" : {
+      "branch" : null,
+      "condition" : null,
+      "statement" : null,
+      "subroutine" : null,
+      "total" : null
+   },
+   "files" : {},
+   "_note" : "Populated by the first successful coverage CI run on master. Until then, coverage-compare treats this as a no-op (see script/coverage-compare). After the first run downloads the coverage-current artefact, copy it over this file to lock in a baseline."
+}
