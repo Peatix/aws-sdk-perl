@@ -164,8 +164,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SenderControlPort => 1,          # OPTIONAL
           SmoothingLatency  => 1,          # OPTIONAL
           StreamId          => 'MyString',
-          VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
-          ,                                # OPTIONAL
+          VpcInterfaceAttachment =>
+            { VpcInterfaceName => 'MyString', },    # OPTIONAL
         },
         ...
       ],    # OPTIONAL
@@ -186,8 +186,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         EntitlementArn => 'MySetSourceRequestEntitlementArnString',   # OPTIONAL
         GatewayBridgeSource => {
           BridgeArn => 'MySetGatewayBridgeSourceRequestBridgeArnString',
-          VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
-          ,                                                           # OPTIONAL
+          VpcInterfaceAttachment =>
+            { VpcInterfaceName => 'MyString', },                      # OPTIONAL
         },    # OPTIONAL
         IngestPort                      => 1,    # OPTIONAL
         MaxBitrate                      => 1,    # OPTIONAL
@@ -274,8 +274,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           EntitlementArn => 'MySetSourceRequestEntitlementArnString', # OPTIONAL
           GatewayBridgeSource => {
             BridgeArn => 'MySetGatewayBridgeSourceRequestBridgeArnString',
-            VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
-            ,                                                         # OPTIONAL
+            VpcInterfaceAttachment =>
+              { VpcInterfaceName => 'MyString', },                    # OPTIONAL
           },    # OPTIONAL
           IngestPort                      => 1,    # OPTIONAL
           MaxBitrate                      => 1,    # OPTIONAL

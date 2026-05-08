@@ -6,9 +6,9 @@ package Paws::ServiceDiscovery::OperationTargetsMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has INSTANCE => (is => 'ro', isa => 'Str');
-  has NAMESPACE => (is => 'ro', isa => 'Str');
-  has SERVICE => (is => 'ro', isa => 'Str');
+  has 'INSTANCE' => (is => 'ro', isa => 'Str');
+  has 'NAMESPACE' => (is => 'ro', isa => 'Str');
+  has 'SERVICE' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

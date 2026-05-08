@@ -6,9 +6,9 @@ package Paws::LexModelsV2::TestResultMatchStatusCountMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ExecutionError => (is => 'ro', isa => 'Int');
-  has Matched => (is => 'ro', isa => 'Int');
-  has Mismatched => (is => 'ro', isa => 'Int');
+  has 'ExecutionError' => (is => 'ro', isa => 'Int');
+  has 'Matched' => (is => 'ro', isa => 'Int');
+  has 'Mismatched' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

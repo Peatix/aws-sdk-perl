@@ -6,10 +6,10 @@ package Paws::SESv2::ListRecommendationsFilter;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has IMPACT => (is => 'ro', isa => 'Str');
-  has RESOURCE_ARN => (is => 'ro', isa => 'Str');
-  has STATUS => (is => 'ro', isa => 'Str');
-  has TYPE => (is => 'ro', isa => 'Str');
+  has 'IMPACT' => (is => 'ro', isa => 'Str');
+  has 'RESOURCE_ARN' => (is => 'ro', isa => 'Str');
+  has 'STATUS' => (is => 'ro', isa => 'Str');
+  has 'TYPE' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

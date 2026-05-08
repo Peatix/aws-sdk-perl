@@ -61,8 +61,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               Product    => 1,    # OPTIONAL
             },    # OPTIONAL
             Types             => [ 'MyNonEmptyString', ... ],    # OPTIONAL
-            UserDefinedFields => { 'MyNonEmptyString' => 'MyNonEmptyString', }
-            ,                                                    # OPTIONAL
+            UserDefinedFields =>
+              { 'MyNonEmptyString' => 'MyNonEmptyString', },     # OPTIONAL
             VerificationState => 'UNKNOWN'
             , # values: UNKNOWN, TRUE_POSITIVE, FALSE_POSITIVE, BENIGN_POSITIVE; OPTIONAL
             Workflow => {

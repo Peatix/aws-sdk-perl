@@ -48,15 +48,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SecretStringKey => 'My__string',
         },    # OPTIONAL
       },    # OPTIONAL
-      DefaultSegmentDeliveryConfiguration => { BaseUrl => 'My__string', }
-      ,     # OPTIONAL
+      DefaultSegmentDeliveryConfiguration =>
+        { BaseUrl => 'My__string', },    # OPTIONAL
       SegmentDeliveryConfigurations => [
         {
           BaseUrl => 'My__string',
           Name    => 'My__string',
         },
         ...
-      ],    # OPTIONAL
+      ],                                 # OPTIONAL
       Tags => { 'My__string' => 'My__string', },    # OPTIONAL
     );
 

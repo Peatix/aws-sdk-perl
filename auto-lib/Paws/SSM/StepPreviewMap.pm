@@ -6,9 +6,9 @@ package Paws::SSM::StepPreviewMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has Mutating => (is => 'ro', isa => 'Int');
-  has NonMutating => (is => 'ro', isa => 'Int');
-  has Undetermined => (is => 'ro', isa => 'Int');
+  has 'Mutating' => (is => 'ro', isa => 'Int');
+  has 'NonMutating' => (is => 'ro', isa => 'Int');
+  has 'Undetermined' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

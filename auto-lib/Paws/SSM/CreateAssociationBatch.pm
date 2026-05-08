@@ -61,8 +61,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               OutputS3Region    => 'MyS3Region',     # min: 3, max: 20; OPTIONAL
             },    # OPTIONAL
           },    # OPTIONAL
-          Parameters => { 'MyParameterName' => [ 'MyParameterValue', ... ], }
-          ,                            # OPTIONAL
+          Parameters =>
+            { 'MyParameterName' => [ 'MyParameterValue', ... ], },    # OPTIONAL
           ScheduleExpression =>
             'MyScheduleExpression',    # min: 1, max: 256; OPTIONAL
           ScheduleOffset  => 1,        # min: 1, max: 6; OPTIONAL

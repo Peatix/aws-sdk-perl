@@ -85,8 +85,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           SenderControlPort => 1,          # OPTIONAL
           SmoothingLatency  => 1,          # OPTIONAL
           StreamId          => 'MyString',
-          VpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
-          ,                                # OPTIONAL
+          VpcInterfaceAttachment =>
+            { VpcInterfaceName => 'MyString', },    # OPTIONAL
         },
         ...
       ],

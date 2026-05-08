@@ -6,7 +6,7 @@ package Paws::ApplicationInsights::Feedback;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has INSIGHTS_FEEDBACK => (is => 'ro', isa => 'Str');
+  has 'INSIGHTS_FEEDBACK' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

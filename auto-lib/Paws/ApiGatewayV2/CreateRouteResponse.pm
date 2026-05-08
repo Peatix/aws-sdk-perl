@@ -37,12 +37,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       ApiId                    => 'My__string',
       RouteId                  => 'My__string',
       RouteResponseKey         => 'MySelectionKey',
-      ModelSelectionExpression => 'MySelectionExpression',    # OPTIONAL
-      ResponseModels => { 'My__string' => 'MyStringWithLengthBetween1And128', }
-      ,                                                       # OPTIONAL
+      ModelSelectionExpression => 'MySelectionExpression',          # OPTIONAL
+      ResponseModels           =>
+        { 'My__string' => 'MyStringWithLengthBetween1And128', },    # OPTIONAL
       ResponseParameters => {
         'My__string' => {
-          Required => 1,                                      # OPTIONAL
+          Required => 1,                                            # OPTIONAL
         },
       },    # OPTIONAL
     );

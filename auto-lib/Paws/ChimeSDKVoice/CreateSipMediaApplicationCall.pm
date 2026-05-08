@@ -37,8 +37,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       FromPhoneNumber       => 'MyE164PhoneNumber',
       SipMediaApplicationId => 'MyNonEmptyString',
       ToPhoneNumber         => 'MyE164PhoneNumber',
-      ArgumentsMap          => { 'MySensitiveString' => 'MySensitiveString', }
-      ,                                                               # OPTIONAL
+      ArgumentsMap          =>
+        { 'MySensitiveString' => 'MySensitiveString', },    # OPTIONAL
       SipHeaders => { 'MySensitiveString' => 'MySensitiveString', },  # OPTIONAL
       );
 

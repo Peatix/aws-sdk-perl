@@ -6,18 +6,18 @@ package Paws::Deadline::TaskRunStatusCounts;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ASSIGNED => (is => 'ro', isa => 'Int');
-  has CANCELED => (is => 'ro', isa => 'Int');
-  has FAILED => (is => 'ro', isa => 'Int');
-  has INTERRUPTING => (is => 'ro', isa => 'Int');
-  has NOT_COMPATIBLE => (is => 'ro', isa => 'Int');
-  has PENDING => (is => 'ro', isa => 'Int');
-  has READY => (is => 'ro', isa => 'Int');
-  has RUNNING => (is => 'ro', isa => 'Int');
-  has SCHEDULED => (is => 'ro', isa => 'Int');
-  has STARTING => (is => 'ro', isa => 'Int');
-  has SUCCEEDED => (is => 'ro', isa => 'Int');
-  has SUSPENDED => (is => 'ro', isa => 'Int');
+  has 'ASSIGNED' => (is => 'ro', isa => 'Int');
+  has 'CANCELED' => (is => 'ro', isa => 'Int');
+  has 'FAILED' => (is => 'ro', isa => 'Int');
+  has 'INTERRUPTING' => (is => 'ro', isa => 'Int');
+  has 'NOT_COMPATIBLE' => (is => 'ro', isa => 'Int');
+  has 'PENDING' => (is => 'ro', isa => 'Int');
+  has 'READY' => (is => 'ro', isa => 'Int');
+  has 'RUNNING' => (is => 'ro', isa => 'Int');
+  has 'SCHEDULED' => (is => 'ro', isa => 'Int');
+  has 'STARTING' => (is => 'ro', isa => 'Int');
+  has 'SUCCEEDED' => (is => 'ro', isa => 'Int');
+  has 'SUSPENDED' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

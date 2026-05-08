@@ -1,14 +1,8 @@
 package Paws::S3Tables::TableMaintenanceJobStatus;
   use Moose;
-  with 'Paws::API::MapParser';
+  with 'Paws::API::StrToObjMapParser';
 
-  use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'key');
-  class_has xml_values =>(is => 'ro', default => 'value');
-
-  has icebergCompaction => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
-  has icebergSnapshotManagement => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
-  has icebergUnreferencedFileRemoval => (is => 'ro', isa => 'Paws::S3Tables::TableMaintenanceJobStatusValue');
+  has Map => (is => 'ro', isa => 'HashRef[Paws::S3Tables::TableMaintenanceJobStatusValue]');
 1;
 
 ### main pod documentation begin ###
@@ -28,14 +22,14 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::S3Tables::TableMaintenanceJobStatus object:
 
-  $service_obj->Method(Att1 => { icebergCompaction => $value, ..., icebergUnreferencedFileRemoval => $value  });
+  $service_obj->Method(Att1 => { key1 => $value, ..., keyN => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::S3Tables::TableMaintenanceJobStatus object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->icebergCompaction
+  $result->Att1->Map->{ key1 }
 
 =head1 DESCRIPTION
 
@@ -43,16 +37,9 @@ This class has no description
 
 =head1 ATTRIBUTES
 
+=head2 Map => L<Paws::S3Tables::TableMaintenanceJobStatusValue>
 
-=head2 icebergCompaction => L<Paws::S3Tables::TableMaintenanceJobStatusValue>
-
-
-=head2 icebergSnapshotManagement => L<Paws::S3Tables::TableMaintenanceJobStatusValue>
-
-
-=head2 icebergUnreferencedFileRemoval => L<Paws::S3Tables::TableMaintenanceJobStatusValue>
-
-
+Use the Map method to retrieve a HashRef to the map
 
 =head1 SEE ALSO
 

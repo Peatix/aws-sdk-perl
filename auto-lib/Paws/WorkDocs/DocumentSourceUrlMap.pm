@@ -6,8 +6,8 @@ package Paws::WorkDocs::DocumentSourceUrlMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ORIGINAL => (is => 'ro', isa => 'Str');
-  has WITH_COMMENTS => (is => 'ro', isa => 'Str');
+  has 'ORIGINAL' => (is => 'ro', isa => 'Str');
+  has 'WITH_COMMENTS' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

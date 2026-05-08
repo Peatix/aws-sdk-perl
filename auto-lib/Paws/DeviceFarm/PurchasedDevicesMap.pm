@@ -6,8 +6,8 @@ package Paws::DeviceFarm::PurchasedDevicesMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has ANDROID => (is => 'ro', isa => 'Int');
-  has IOS => (is => 'ro', isa => 'Int');
+  has 'ANDROID' => (is => 'ro', isa => 'Int');
+  has 'IOS' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

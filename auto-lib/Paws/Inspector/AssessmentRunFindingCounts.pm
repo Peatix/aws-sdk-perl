@@ -6,11 +6,11 @@ package Paws::Inspector::AssessmentRunFindingCounts;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has High => (is => 'ro', isa => 'Int');
-  has Informational => (is => 'ro', isa => 'Int');
-  has Low => (is => 'ro', isa => 'Int');
-  has Medium => (is => 'ro', isa => 'Int');
-  has Undefined => (is => 'ro', isa => 'Int');
+  has 'High' => (is => 'ro', isa => 'Int');
+  has 'Informational' => (is => 'ro', isa => 'Int');
+  has 'Low' => (is => 'ro', isa => 'Int');
+  has 'Medium' => (is => 'ro', isa => 'Int');
+  has 'Undefined' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

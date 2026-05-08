@@ -1,13 +1,8 @@
 package Paws::SageMaker::AutoMLInferenceContainerDefinitions;
   use Moose;
-  with 'Paws::API::MapParser';
+  with 'Paws::API::StrToObjMapParser';
 
-  use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'key');
-  class_has xml_values =>(is => 'ro', default => 'value');
-
-  has CPU => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::AutoMLContainerDefinition]');
-  has GPU => (is => 'ro', isa => 'ArrayRef[Paws::SageMaker::AutoMLContainerDefinition]');
+  has Map => (is => 'ro', isa => 'HashRef[ArrayRef[Paws::SageMaker::AutoMLContainerDefinition]]');
 1;
 
 ### main pod documentation begin ###
@@ -27,14 +22,14 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::SageMaker::AutoMLInferenceContainerDefinitions object:
 
-  $service_obj->Method(Att1 => { CPU => $value, ..., GPU => $value  });
+  $service_obj->Method(Att1 => { key1 => $value, ..., keyN => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::SageMaker::AutoMLInferenceContainerDefinitions object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->CPU
+  $result->Att1->Map->{ key1 }
 
 =head1 DESCRIPTION
 
@@ -45,13 +40,9 @@ C<CreateAutoMLJobV2>).
 
 =head1 ATTRIBUTES
 
+=head2 Map => ArrayRef[L<Paws::SageMaker::AutoMLContainerDefinition>]
 
-=head2 CPU => ArrayRef[L<Paws::SageMaker::AutoMLContainerDefinition>]
-
-
-=head2 GPU => ArrayRef[L<Paws::SageMaker::AutoMLContainerDefinition>]
-
-
+Use the Map method to retrieve a HashRef to the map
 
 =head1 SEE ALSO
 

@@ -6,9 +6,9 @@ package Paws::WorkDocs::DocumentThumbnailUrlMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has LARGE => (is => 'ro', isa => 'Str');
-  has SMALL => (is => 'ro', isa => 'Str');
-  has SMALL_HQ => (is => 'ro', isa => 'Str');
+  has 'LARGE' => (is => 'ro', isa => 'Str');
+  has 'SMALL' => (is => 'ro', isa => 'Str');
+  has 'SMALL_HQ' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

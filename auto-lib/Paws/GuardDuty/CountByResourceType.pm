@@ -1,14 +1,8 @@
 package Paws::GuardDuty::CountByResourceType;
   use Moose;
-  with 'Paws::API::MapParser';
+  with 'Paws::API::StrToNativeMapParser';
 
-  use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'key');
-  class_has xml_values =>(is => 'ro', default => 'value');
-
-  has EC2 => (is => 'ro', isa => 'Int');
-  has ECS => (is => 'ro', isa => 'Int');
-  has EKS => (is => 'ro', isa => 'Int');
+  has Map => (is => 'ro', isa => 'HashRef[Int]');
 1;
 
 ### main pod documentation begin ###
@@ -28,14 +22,14 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::GuardDuty::CountByResourceType object:
 
-  $service_obj->Method(Att1 => { EC2 => $value, ..., EKS => $value  });
+  $service_obj->Method(Att1 => { key1 => $value, ..., keyN => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::GuardDuty::CountByResourceType object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->EC2
+  $result->Att1->Map->{ key1 }
 
 =head1 DESCRIPTION
 
@@ -43,16 +37,9 @@ This class has no description
 
 =head1 ATTRIBUTES
 
+=head2 Map => Int
 
-=head2 EC2 => Int
-
-
-=head2 ECS => Int
-
-
-=head2 EKS => Int
-
-
+Use the Map method to retrieve a HashRef to the map
 
 =head1 SEE ALSO
 

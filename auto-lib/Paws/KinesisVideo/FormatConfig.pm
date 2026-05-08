@@ -6,7 +6,7 @@ package Paws::KinesisVideo::FormatConfig;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has JPEGQuality => (is => 'ro', isa => 'Str');
+  has 'JPEGQuality' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

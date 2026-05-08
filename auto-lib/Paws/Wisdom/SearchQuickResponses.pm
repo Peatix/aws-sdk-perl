@@ -63,10 +63,10 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           ...
         ],    # max: 4; OPTIONAL
       },
-      Attributes => { 'MyContactAttributeKey' => 'MyContactAttributeValue', }
-      ,                                    # OPTIONAL
-      MaxResults => 1,                     # OPTIONAL
-      NextToken  => 'MyNonEmptyString',    # OPTIONAL
+      Attributes =>
+        { 'MyContactAttributeKey' => 'MyContactAttributeValue', },    # OPTIONAL
+      MaxResults => 1,                                                # OPTIONAL
+      NextToken  => 'MyNonEmptyString',                               # OPTIONAL
     );
 
     # Results:

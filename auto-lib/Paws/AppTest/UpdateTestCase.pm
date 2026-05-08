@@ -81,8 +81,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
               ActionType => {
                 Batch => {
                   BatchJobName       => 'MyVariable',
-                  BatchJobParameters => { 'MyString' => 'MyString', }
-                  ,                                                # OPTIONAL
+                  BatchJobParameters =>
+                    { 'MyString' => 'MyString', },    # OPTIONAL
                   ExportDataSetNames => [ 'MyString100', ... ],    # OPTIONAL
                 },    # OPTIONAL
                 Tn3270 => {

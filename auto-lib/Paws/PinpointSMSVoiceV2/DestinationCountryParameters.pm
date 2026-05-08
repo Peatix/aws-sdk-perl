@@ -6,8 +6,8 @@ package Paws::PinpointSMSVoiceV2::DestinationCountryParameters;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has IN_ENTITY_ID => (is => 'ro', isa => 'Str');
-  has IN_TEMPLATE_ID => (is => 'ro', isa => 'Str');
+  has 'IN_ENTITY_ID' => (is => 'ro', isa => 'Str');
+  has 'IN_TEMPLATE_ID' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

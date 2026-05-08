@@ -6,11 +6,11 @@ package Paws::WellArchitected::RiskCounts;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has HIGH => (is => 'ro', isa => 'Int');
-  has MEDIUM => (is => 'ro', isa => 'Int');
-  has NONE => (is => 'ro', isa => 'Int');
-  has NOT_APPLICABLE => (is => 'ro', isa => 'Int');
-  has UNANSWERED => (is => 'ro', isa => 'Int');
+  has 'HIGH' => (is => 'ro', isa => 'Int');
+  has 'MEDIUM' => (is => 'ro', isa => 'Int');
+  has 'NONE' => (is => 'ro', isa => 'Int');
+  has 'NOT_APPLICABLE' => (is => 'ro', isa => 'Int');
+  has 'UNANSWERED' => (is => 'ro', isa => 'Int');
 1;
 
 ### main pod documentation begin ###

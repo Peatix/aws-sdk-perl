@@ -2,10 +2,6 @@ package Paws::SQS::MessageBodySystemAttributeMap;
   use Moose;
   with 'Paws::API::StrToObjMapParser';
 
-  use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'key');
-  class_has xml_values =>(is => 'ro', default => 'value');
-
   has Map => (is => 'ro', isa => 'HashRef[Paws::SQS::MessageSystemAttributeValue]');
 1;
 
@@ -41,12 +37,9 @@ This class has no description
 
 =head1 ATTRIBUTES
 
-
 =head2 Map => L<Paws::SQS::MessageSystemAttributeValue>
 
 Use the Map method to retrieve a HashRef to the map
-
-
 
 =head1 SEE ALSO
 
