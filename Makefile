@@ -4,10 +4,13 @@ dist:
 	PATH=$(PATH):dzil-local/bin PERL5LIB=dzil-local/lib/perl5 dzil build
 
 test:
-	carton exec -- prove -r -v -I lib -I auto-lib t/
+	carton exec -- prove -r -v -I lib -I builder-lib t/
 
 pod-test:
-	for i in `find auto-lib/Paws/ -name \*.pm`; do podchecker $$i; done;
+	# PR 19: per-shape POD now lives in the Paws-Docs companion dist;
+	# this target validates that dist's POD content.
+	if [ -d paws-docs-dist/lib/Paws ]; then for i in `find paws-docs-dist/lib/Paws/ -name '*.pod'`; do podchecker $$i; done; fi
+	for i in `find lib/Paws/ -name '*.pm'`; do podchecker $$i; done;
 
 cover:
 	cover -delete
@@ -21,7 +24,7 @@ cover-ci:
 	rm -rf cover_db
 	HARNESS_PERL_SWITCHES=-MDevel::Cover=-silent,1,-summary,0 \
 	  prove --lib --recurse --verbose --jobs 2 \
-	  -I auto-lib t/ \
+	  -I builder-lib t/ \
 	  || true
 	cover -summary
 	cover -report json -outputdir cover_db || true
@@ -39,34 +42,26 @@ pull-boto-develop: vendor-smithy
 gen-paws:
 	carton exec ./builder-bin/gen_classes.pl --paws_pm
 
+# PR 19 (stack19) removed auto-lib/. Service classes are now built on
+# demand by Paws::Materializer; gen-classes and friends are
+# preserved as no-ops so old CI / contributor scripts don't break.
+
 gen-classes:
-	mkdir -p auto-lib/Paws/DeleteMe
-	rm -r auto-lib/Paws/*
-	carton exec ./builder-bin/gen_classes.pl --docu_links
-	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
+	@echo "gen-classes is a no-op since stack19 / Paws 1.00."
+	@echo "Service classes are materialised on demand from share/smithy/"
+	@echo "and share/botocore/. Refresh sources with:"
+	@echo "  make vendor-smithy"
 
-# Same as gen-classes but skips the --docu_links step that fetches AWS
-# documentation URLs over HTTP. Use this in CI / pull request checks
-# where speed and isolation matter more than documentation completeness.
-gen-classes-no-doc-fetch:
-	mkdir -p auto-lib/Paws/DeleteMe
-	rm -r auto-lib/Paws/*
-	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
+gen-classes-no-doc-fetch: gen-classes
+docu-links: gen-classes
 
-docu-links:
-	carton exec ./builder-bin/gen_classes.pl --docu_links
-
+# numbers used to count the auto-lib/ files. Now reports the number
+# of vendored IR sources.
 numbers:
-	echo "Number of services" ; ls auto-lib/Paws/*.pm | wc -l
-	echo "Number of methods" ; grep "sub [A-Z]" auto-lib/Paws/*.pm | wc -l
-	echo "Number of IN/OUT objects" ; ls auto-lib/Paws/*/*.pm | wc -l
-	echo "Number of attributes" ; grep "has [A-Z]" auto-lib/Paws/*/*.pm  | wc -l
-	echo "-----------"
-	echo "JSON" ; grep "::JsonCaller" auto-lib/Paws/*.pm | wc -l
-	echo "REST-JSON" ; grep "::RestJsonCaller" auto-lib/Paws/*.pm | wc -l
-	echo "Query" ; grep "::QueryCaller" auto-lib/Paws/*.pm | wc -l
-	echo "REST-XML" ; grep "::RestXML" auto-lib/Paws/*.pm | wc -l
-	echo "EC2Caller" ; grep "::EC2Caller" auto-lib/Paws/*.pm | wc -l
+	@echo "Number of Smithy services in share/" ; \
+	  find share/smithy -name '*.smithy.json' 2>/dev/null | wc -l
+	@echo "Number of botocore services in share/" ; \
+	  find share/botocore -name 'service-2.json' 2>/dev/null | wc -l
 
 run_dynamo_local:
 	( mkdir /tmp/dynamodb-local && curl https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz | tar xvz --directory /tmp/dynamodb-local ) ; cd /tmp/dynamodb-local; java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -inMemory

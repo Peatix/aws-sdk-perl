@@ -1,3 +1,18 @@
+1.00 (TRIAL)
+ - **BREAKING**: dropped `auto-lib/` from the distribution. Service
+   classes are now materialised on demand from the IR shipped in
+   `share/smithy/` (with `share/botocore/` fallback for services
+   without Smithy IR).
+ - The user-facing entry point is unchanged:
+   `Paws->service('EC2')->DescribeInstances(...)` continues to work.
+ - User code that did `use Paws::EC2::DescribeInstances ()` directly
+   will need to migrate to the supported entry point.
+ - Default OO backend for materialised classes is Moo + Type::Tiny.
+   Set `PAWS_OO_BACKEND=Moose` to opt back into Moose for one
+   release.
+ - Released as `1.00-TRIAL` first; promote to `1.00` after a
+   feedback window on CPAN.
+
 0.46 20 January 2024
  - Fix issue with failing tests when proxy environment vars are set
  - Mostly a re-lease of 0.45 as that failed to index on pause
