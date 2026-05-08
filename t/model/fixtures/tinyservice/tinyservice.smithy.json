@@ -1,0 +1,125 @@
+{
+  "smithy": "2.0",
+  "shapes": {
+    "com.example.tiny#TinyService": {
+      "type": "service",
+      "version": "2024-01-01",
+      "operations": [
+        {"target": "com.example.tiny#ListThings"},
+        {"target": "com.example.tiny#GetThing"},
+        {"target": "com.example.tiny#DeleteThing"}
+      ],
+      "traits": {
+        "aws.api#service": {
+          "sdkId": "TinyService",
+          "endpointPrefix": "tinyservice"
+        },
+        "aws.protocols#awsJson1_1": {},
+        "smithy.api#documentation": "<p>A tiny synthetic service for unit-testing the Smithy loader.</p>"
+      }
+    },
+    "com.example.tiny#ListThings": {
+      "type": "operation",
+      "input":  {"target": "com.example.tiny#ListThingsRequest"},
+      "output": {"target": "com.example.tiny#ListThingsResponse"},
+      "errors": [
+        {"target": "com.example.tiny#ThrottlingException"}
+      ],
+      "traits": {
+        "smithy.api#http": {"method": "POST", "uri": "/"},
+        "smithy.api#documentation": "<p>List things.</p>"
+      }
+    },
+    "com.example.tiny#GetThing": {
+      "type": "operation",
+      "input":  {"target": "com.example.tiny#GetThingRequest"},
+      "output": {"target": "com.example.tiny#GetThingResponse"},
+      "traits": {
+        "smithy.api#http": {"method": "GET", "uri": "/things/{ThingId}"}
+      }
+    },
+    "com.example.tiny#DeleteThing": {
+      "type": "operation",
+      "input": {"target": "com.example.tiny#DeleteThingRequest"},
+      "traits": {
+        "smithy.api#http": {"method": "DELETE", "uri": "/things/{ThingId}", "code": 204},
+        "smithy.api#deprecated": {}
+      }
+    },
+    "com.example.tiny#ThingId":    {"type": "string"},
+    "com.example.tiny#ThingName":  {"type": "string"},
+    "com.example.tiny#ThingCount": {"type": "integer"},
+    "com.example.tiny#Status": {
+      "type": "enum",
+      "members": {
+        "ACTIVE":   {"target": "smithy.api#Unit", "traits": {"smithy.api#enumValue": "ACTIVE"}},
+        "DISABLED": {"target": "smithy.api#Unit", "traits": {"smithy.api#enumValue": "DISABLED"}},
+        "DELETED":  {"target": "smithy.api#Unit", "traits": {"smithy.api#enumValue": "DELETED"}}
+      }
+    },
+    "com.example.tiny#Thing": {
+      "type": "structure",
+      "members": {
+        "ThingId":   {"target": "com.example.tiny#ThingId",   "traits": {"smithy.api#required": {}}},
+        "ThingName": {"target": "com.example.tiny#ThingName", "traits": {"smithy.api#required": {}, "smithy.api#jsonName": "name"}},
+        "Status":    {"target": "com.example.tiny#Status"}
+      }
+    },
+    "com.example.tiny#ThingList": {
+      "type": "list",
+      "member": {"target": "com.example.tiny#Thing"}
+    },
+    "com.example.tiny#ListThingsRequest": {
+      "type": "structure",
+      "members": {
+        "Filter": {
+          "target": "com.example.tiny#ThingName",
+          "traits": {"smithy.api#httpQuery": "filter"}
+        }
+      }
+    },
+    "com.example.tiny#ListThingsResponse": {
+      "type": "structure",
+      "members": {
+        "Things": {"target": "com.example.tiny#ThingList"},
+        "Count":  {"target": "com.example.tiny#ThingCount"}
+      }
+    },
+    "com.example.tiny#GetThingRequest": {
+      "type": "structure",
+      "members": {
+        "ThingId": {
+          "target": "com.example.tiny#ThingId",
+          "traits": {"smithy.api#required": {}, "smithy.api#httpLabel": {}}
+        }
+      }
+    },
+    "com.example.tiny#GetThingResponse": {
+      "type": "structure",
+      "members": {
+        "Thing": {"target": "com.example.tiny#Thing"}
+      },
+      "traits": {}
+    },
+    "com.example.tiny#DeleteThingRequest": {
+      "type": "structure",
+      "members": {
+        "ThingId": {
+          "target": "com.example.tiny#ThingId",
+          "traits": {"smithy.api#required": {}, "smithy.api#httpLabel": {}}
+        },
+        "ETag": {
+          "target": "com.example.tiny#ThingName",
+          "traits": {"smithy.api#httpHeader": "If-Match"}
+        }
+      }
+    },
+    "com.example.tiny#ThrottlingException": {
+      "type": "structure",
+      "members": {
+        "Message": {"target": "com.example.tiny#ThingName"}
+      },
+      "traits": {"smithy.api#error": "client"}
+    }
+  }
+}

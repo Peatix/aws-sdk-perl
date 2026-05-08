@@ -91,6 +91,19 @@ After PR8 → PR15 land, the same data flow is rerouted through the IR:
 
 See `docs/testing.md` for how each PR is gated.
 
+## PR14 status
+
+PR14 adds `builder-lib/Paws/Model/Loader/Smithy.pm`: a peer to the
+Botocore loader that reads Smithy 2.0 AST JSON. Same IR contract.
+
+`t/model/03_smithy_loader.t` includes an IR-parity subtest that
+loads the tinyservice fixture from both formats and asserts the
+relevant IR fields match (operation HTTP method/URI, member
+locations, etc.). This is the gate that PR15 uses to switch the
+default resolver to "prefer Smithy when both exist".
+
+See `docs/loaders.md` for the per-loader IR field table.
+
 ## PR12 status
 
 PR12 adds `lib/Paws/Materializer/Moo.pm` — a parallel materialiser
