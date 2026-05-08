@@ -45,11 +45,13 @@ jobs:
           PERL5LIB: lib:auto-lib
 
       - name: Compare to baseline
+        # PR 17 flipped --strict on. The baseline is now refreshed
+        # automatically by .github/workflows/benchmark-capture.yml on
+        # master pushes, so PRs can fail the build on perf regressions
+        # beyond the 25% tolerance.
         run: |
-          benchmarks/compare benchmarks/baseline.json .ci-out/benchmarks-current.json \
+          benchmarks/compare --strict benchmarks/baseline.json .ci-out/benchmarks-current.json \
             >> "$GITHUB_STEP_SUMMARY"
-        # Exit code is informational only by default; --strict can be
-        # added once the noise floor is well-characterised.
 
       - name: Upload benchmarks-current.json
         if: always()
