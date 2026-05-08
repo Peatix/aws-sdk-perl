@@ -20,6 +20,7 @@ short and points at the code rather than duplicating it.
 | `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape.               |
 | `t/lib/`                              | Test-only helpers and synthetic services (see below).                   |
 | `t/99_pod_syntax.t`                   | POD validity (syntax only — does not assert presence).                  |
+| `t/99_pod_presence.t`                 | POD presence: every auto-generated class has `=head1 NAME`; operations also have `=head1 SYNOPSIS`. Author-only. |
 
 ## Synthetic services
 
