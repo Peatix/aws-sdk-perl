@@ -54,6 +54,33 @@ gen-classes-no-doc-fetch:
 	rm -r auto-lib/Paws/*
 	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
 
+# Regenerate one (or several) services. SERVICE accepts a botocore
+# directory name (e.g. sqs), a Paws class name (e.g. SQS, ACMPCA), or
+# the full path to a service-2.json file. Multiple values can be
+# space-separated. See `script/gen-service --help` for details.
+#   make gen-service SERVICE=sqs
+#   make gen-service SERVICE='sqs s3 ec2'
+gen-service:
+	@if [ -z "$(SERVICE)" ]; then \
+	  echo 'usage: make gen-service SERVICE=<name>' >&2; \
+	  echo '       (multiple OK: SERVICE="sqs s3 ec2")' >&2; \
+	  exit 2; \
+	fi
+	./script/gen-service $(SERVICE)
+
+# Run a single test file (or pattern that resolves to one). TEST is
+# either a path under t/ or a substring matched against `t/*TEST*.t`.
+# See `script/test-one --help` (or read script/test-one) for details.
+#   make test-one TEST=02
+#   make test-one TEST=t/12_regions.t
+test-one:
+	@if [ -z "$(TEST)" ]; then \
+	  echo 'usage: make test-one TEST=<pattern-or-path>' >&2; \
+	  echo '       (e.g. TEST=02 or TEST=t/12_regions.t)' >&2; \
+	  exit 2; \
+	fi
+	./script/test-one $(TEST)
+
 docu-links:
 	carton exec ./builder-bin/gen_classes.pl --docu_links
 
