@@ -32,6 +32,13 @@ package Paws::QueryParamsService;
     return $self->caller->do_call($self, $call_object);
   }
 
-  sub operations { return qw/Method1 Method2 Method3/ }
+  sub MethodReq {
+    my $self = shift;
+    require Paws::QueryParamsService::MethodReq;
+    my $call_object = $self->new_with_coercions('Paws::QueryParamsService::MethodReq', @_);
+    return $self->caller->do_call($self, $call_object);
+  }
+
+  sub operations { return qw/Method1 Method2 Method3 MethodReq/ }
  
 1;

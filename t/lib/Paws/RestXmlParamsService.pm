@@ -33,6 +33,13 @@ package Paws::RestXmlParamsService;
     return $self->caller->do_call($self, $call_object);
   }
 
-  sub operations { return qw/Method1/ }
+  sub MethodReq {
+    my $self = shift;
+    require Paws::RestXmlParamsService::MethodReq;
+    my $call_object = $self->new_with_coercions('Paws::RestXmlParamsService::MethodReq', @_);
+    return $self->caller->do_call($self, $call_object);
+  }
+
+  sub operations { return qw/Method1 MethodReq/ }
 
 1;

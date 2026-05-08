@@ -1,0 +1,4 @@
+GET /-/vaults/archive
+x-amz-glacier-version: 2012-06-01
+
+

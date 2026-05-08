@@ -1,0 +1,4 @@
+POST /
+content-type: application/x-www-form-urlencoded
+
+Action=MethodReq&Number=42&Version=2016-09-25
