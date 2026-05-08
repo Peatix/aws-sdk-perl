@@ -27,11 +27,10 @@ jobs:
           ref: ${{ inputs.base_branch }}
           submodules: recursive
 
-      - name: Set up Perl 5.36
-        uses: shogo82148/actions-setup-perl@v1
+      - name: Set up Perl + dependencies
+        uses: ./.github/actions/setup-paws-perl
         with:
           perl-version: "5.36"
-          install-modules-with: cpm
           install-modules: |
             App::cpanminus
             Carton
@@ -39,10 +38,6 @@ jobs:
             Perl::Tidy
             Pod::HTML2Pod
             Template
-
-      - name: Install repository dependencies
-        run: |
-          carton install
 
       - name: Update botocore
         if: ${{ inputs.pull_boto_develop }}

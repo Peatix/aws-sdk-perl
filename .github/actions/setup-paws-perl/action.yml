@@ -1,0 +1,119 @@
+name: Set up Perl + Paws dependencies
+description: |
+  Composite action that wraps the per-job Perl setup the Paws CI
+  uses. Adds three caches that knock minutes off cold runs:
+
+  1. The `actions-setup-perl` action's built-in module cache for the
+     bootstrap modules (App::cpanminus, Carton, etc.).
+  2. An `actions/cache` for `local/` (carton install dir), keyed on
+     `cpanfile` content. Carton install is the largest single CI
+     cost in the existing master workflows; caching it shaves
+     30-60s per job.
+  3. An optional `actions/cache` for `auto-lib/` regenerated content,
+     keyed on the union of inputs that affect generation
+     (builder-lib + builder-bin + templates + botocore submodule
+     SHA). When that key matches a previous run, we skip
+     `make gen-classes-no-doc-fetch` entirely and restore the
+     cached output. Saves the multi-minute regen step on PRs that
+     don't touch the generator.
+
+  All three caches are opt-in via inputs so callers stay in control.
+
+inputs:
+  perl-version:
+    description: Perl version to install
+    required: false
+    default: "5.36"
+  install-modules:
+    description: |
+      Newline-separated list of modules to install via cpm. Defaults
+      to the bootstrap set the existing master workflows use
+      (App::cpanminus + Carton); pass a richer list for workflows
+      that need it (e.g. generate-and-pr).
+    required: false
+    default: |
+      App::cpanminus
+      Carton
+  carton-install:
+    description: |
+      Run `carton install` after the Perl setup. Defaults to true
+      because every existing workflow does this. Set to "false" for
+      workflows that don't need the carton-managed dep tree.
+    required: false
+    default: "true"
+  cache-carton:
+    description: |
+      Cache `local/` (carton install dir) keyed on the cpanfile
+      hash. Defaults to "true".
+    required: false
+    default: "true"
+  cache-autolib:
+    description: |
+      Cache `auto-lib/` regenerated content keyed on the union of
+      generator inputs. Set to "true" only for workflows that run
+      `make gen-classes-no-doc-fetch` (today: test.yml). Other
+      workflows leave this off.
+    required: false
+    default: "false"
+
+outputs:
+  autolib-cache-hit:
+    description: |
+      "true" if the auto-lib cache restored content for the current
+      cache key. Callers can use this to skip the regen step.
+    value: ${{ steps.autolib-cache.outputs.cache-hit }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Perl ${{ inputs.perl-version }}
+      uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: ${{ inputs.perl-version }}
+        install-modules-with: cpm
+        # Built-in module cache for the bootstrap install:
+        enable-modules-cache: true
+        install-modules: ${{ inputs.install-modules }}
+
+    - name: Cache local/ (carton install dir)
+      if: ${{ inputs.cache-carton == 'true' }}
+      id: carton-cache
+      uses: actions/cache@v4
+      with:
+        path: local
+        # Key on (perl version, cpanfile contents). Use a snapshot
+        # if it exists; otherwise fall back to cpanfile alone.
+        key: paws-carton-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ hashFiles('cpanfile.snapshot', 'cpanfile') }}
+        restore-keys: |
+          paws-carton-${{ runner.os }}-perl${{ inputs.perl-version }}-
+
+    - name: Run carton install
+      if: ${{ inputs.carton-install == 'true' }}
+      shell: bash
+      run: |
+        if [ "${{ steps.carton-cache.outputs.cache-hit }}" = "true" ]
+        then
+          # Cache restored. carton install is still cheap on cache
+          # hits (verifies the lockfile matches) but skip if there's
+          # no Carton in PATH yet.
+          if command -v carton >/dev/null 2>&1
+          then
+            carton install --cached || carton install
+          fi
+        else
+          carton install
+        fi
+
+    - name: Cache auto-lib/ regenerated content
+      if: ${{ inputs.cache-autolib == 'true' }}
+      id: autolib-cache
+      uses: actions/cache@v4
+      with:
+        path: auto-lib
+        # Key on every input that affects generation. Including
+        # cpanfile so dep upgrades that change Moose / Template
+        # generation behaviour bust the cache.
+        key: |
+          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'botocore/.git/HEAD', 'cpanfile') }}
+        # Don't restore-keys: a partial / older auto-lib is a
+        # correctness bug. All-or-nothing.
