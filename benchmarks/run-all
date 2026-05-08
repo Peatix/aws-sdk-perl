@@ -28,6 +28,63 @@ use JSON::MaybeXS qw(encode_json);
 use File::Slurper qw(write_text);
 use POSIX qw(strftime);
 
+# Inline credential + mock caller classes used by bench_decode_warm.
+# Declared before the main loop so that `has` accessors are installed
+# before bench_decode_warm reaches them. `package NAME { BLOCK }`
+# parses BLOCK at compile time but executes it at runtime in
+# declaration order, so packages defined below the main loop would
+# have their `has` declarations evaluated only after the loop has
+# already called the constructors.
+package BenchCreds {
+    use Moose;
+    with 'Paws::Credential';
+    sub refresh {
+        require Paws::Credential::Explicit;
+        return Paws::Credential::Explicit->new(
+            access_key => 'BenchAK',
+            secret_key => 'BenchSK',
+        );
+    }
+    __PACKAGE__->meta->make_immutable;
+}
+
+package MockCaller {
+    use Moose;
+    with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
+    use Paws::Net::APIResponse;
+
+    has mocked_response => (
+        is      => 'rw',
+        isa     => 'Maybe[Paws::Net::APIResponse]',
+        default => undef,
+    );
+
+    sub send_request {
+        my $self = shift;
+        return $self->mocked_response if $self->mocked_response;
+        return Paws::Net::APIResponse->new(
+            status  => 599,
+            content => 'no mock',
+            headers => [],
+        );
+    }
+
+    sub caller_to_response {
+        my ($self, $service, $call_object, $response) = @_;
+        if ($response->status == 599) {
+            require Paws::Exception;
+            return Paws::Exception->new(
+                message    => $response->content,
+                code       => 'ConnectionError',
+                request_id => '',
+            );
+        }
+        return $service->response_to_object->process($call_object, $response);
+    }
+
+    __PACKAGE__->meta->make_immutable;
+}
+
 my $iterations = 5;
 my $output     = '';
 my $only       = '';
@@ -184,56 +241,4 @@ sub bench_decode_warm {
     my $start = [gettimeofday];
     my $r     = $svc->Query(TableName => 't', IndexName => 'i', Limit => $count);
     return tv_interval($start);
-}
-
-# Inline credential class used by bench_decode_warm.
-package BenchCreds {
-    use Moose;
-    with 'Paws::Credential';
-    sub refresh {
-        require Paws::Credential::Explicit;
-        return Paws::Credential::Explicit->new(
-            access_key => 'BenchAK',
-            secret_key => 'BenchSK',
-        );
-    }
-    __PACKAGE__->meta->make_immutable;
-}
-
-# Inline mock caller used by bench_decode_warm.
-package MockCaller {
-    use Moose;
-    with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
-    use Paws::Net::APIResponse;
-
-    has mocked_response => (
-        is      => 'rw',
-        isa     => 'Maybe[Paws::Net::APIResponse]',
-        default => undef,
-    );
-
-    sub send_request {
-        my $self = shift;
-        return $self->mocked_response if $self->mocked_response;
-        return Paws::Net::APIResponse->new(
-            status  => 599,
-            content => 'no mock',
-            headers => [],
-        );
-    }
-
-    sub caller_to_response {
-        my ($self, $service, $call_object, $response) = @_;
-        if ($response->status == 599) {
-            require Paws::Exception;
-            return Paws::Exception->new(
-                message    => $response->content,
-                code       => 'ConnectionError',
-                request_id => '',
-            );
-        }
-        return $service->response_to_object->process($call_object, $response);
-    }
-
-    __PACKAGE__->meta->make_immutable;
 }
