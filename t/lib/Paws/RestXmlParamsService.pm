@@ -1,5 +1,6 @@
 use Paws::RestXmlParamsService::Method1;
 use Paws::RestXmlParamsService::Method1Return;
+use Paws::JsonParamsService::Method3;
 
 # Synthetic service for exercising the RestXML protocol caller in
 # isolation. Modelled on Paws::JsonParamsService (used by t/20_*) so
@@ -9,6 +10,13 @@ use Paws::RestXmlParamsService::Method1Return;
 # Note: previous incarnation of this file used Paws::Net::RestJsonCaller,
 # which was a copy-paste error from Paws::RestJsonParamsService.pm.
 # Fixed in PR3 to use Paws::Net::RestXmlCaller.
+#
+# Method3 reuses Paws::JsonParamsService::Method3 because that shape is
+# a generic error-response harness (just response/status/dup_requestid
+# attrs); the request and error parsing here still flow through
+# Paws::Net::RestXmlCaller / Paws::Net::RestXMLResponse, so error
+# handling is exercised against the RestXML stack as intended by
+# t/24_error_from_nonreturningmethod.t.
 
 package Paws::RestXmlParamsService;
   use Moose;
@@ -33,6 +41,12 @@ package Paws::RestXmlParamsService;
     return $self->caller->do_call($self, $call_object);
   }
 
-  sub operations { return qw/Method1/ }
+  sub Method3 {
+    my $self = shift;
+    my $call_object = $self->new_with_coercions('Paws::JsonParamsService::Method3', @_);
+    return $self->caller->do_call($self, $call_object);
+  }
+
+  sub operations { return qw/Method1 Method3/ }
 
 1;
