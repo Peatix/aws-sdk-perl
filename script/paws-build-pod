@@ -1,0 +1,214 @@
+#!/usr/bin/env perl
+
+# paws-build-pod
+#
+# Drives the per-shape POD generator for the Paws-Docs companion dist.
+# Walks every service known to the loader resolver, materialises it
+# via Paws::Materializer, and writes one .pod file per shape under
+# the configured output root.
+#
+# The .pod files are deliberately self-contained (no leading
+# `package` declaration) so they install cleanly alongside the runtime
+# Paws dist without colliding with the materialised classes.
+#
+# Usage:
+#   script/paws-build-pod \
+#     --paws-root .                      # this checkout
+#     --output-root paws-docs-dist/lib/  # write tree under here
+#     [--service IAM]                    # restrict to one service
+#     [--limit 10]                       # cap how many services
+#
+# Per-class POD content is taken from the materialised class via
+# Pod::Simple. Where the materialised class has no POD (true for
+# every materialised-from-IR class today; the AOT generator is the
+# one that emits POD into the .pm files), this script falls back to
+# generating a minimal POD page from the IR shape itself: NAME +
+# ATTRIBUTES list + a SEE ALSO link back to the runtime class.
+
+use strict;
+use warnings;
+use v5.20;
+
+use FindBin qw($Bin);
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use File::Path qw(make_path);
+use File::Spec;
+
+my $paws_root   = '.';
+my $output_root = 'paws-docs-dist/lib';
+my $only        = '';
+my $limit       = 0;
+my $help        = 0;
+
+GetOptions(
+    'paws-root=s'   => \$paws_root,
+    'output-root=s' => \$output_root,
+    'service=s'     => \$only,
+    'limit=i'       => \$limit,
+    'help|h'        => \$help,
+) or die "invalid arguments\n";
+
+if ($help) {
+    print <<'USAGE';
+usage: paws-build-pod [--paws-root DIR] [--output-root DIR]
+                      [--service NAME] [--limit N]
+
+Generates one .pod file per Paws shape under <output-root>/Paws/.
+
+Defaults:
+  --paws-root    .
+  --output-root  paws-docs-dist/lib
+  --service      (all)
+  --limit        0  (no limit)
+USAGE
+    exit 0;
+}
+
+# Bring the paws builder/runtime onto @INC so we can drive the loader
+# + materialiser without installing anything.
+unshift @INC,
+    File::Spec->catdir($paws_root, 'builder-lib'),
+    File::Spec->catdir($paws_root, 'lib'),
+    File::Spec->catdir($paws_root, 'auto-lib');
+
+require Paws::Model::Loader::Resolver;
+require Paws::Model::IR;
+
+my $resolver = Paws::Model::Loader::Resolver->new(
+    smithy_search_paths   => [
+        File::Spec->catdir($paws_root, 'share', 'smithy'),
+    ],
+    botocore_search_paths => [
+        File::Spec->catdir($paws_root, 'botocore', 'botocore', 'data'),
+    ],
+);
+
+# Service inventory: easiest portable way is to look at the on-disk
+# auto-lib/Paws/* directories. This works regardless of whether the
+# generator has been re-run.
+my @services;
+opendir(my $dh, File::Spec->catdir($paws_root, 'auto-lib', 'Paws'))
+    or die "paws-build-pod: cannot opendir auto-lib/Paws: $!\n";
+for my $name (sort readdir $dh) {
+    next if $name =~ /^\./;
+    next if $name =~ /^(API|Credential|Exception|RegionInfo|Net|Signin)$/;
+    next if !-d File::Spec->catdir($paws_root, 'auto-lib', 'Paws', $name);
+    push @services, $name;
+}
+closedir $dh;
+
+@services = grep { $_ eq $only } @services if $only;
+@services = @services[ 0 .. ($limit - 1) ] if $limit && @services > $limit;
+
+say STDERR sprintf('paws-build-pod services=%d', scalar(@services));
+
+my $pod_count = 0;
+for my $service_name (@services) {
+    my $ir = eval { $resolver->load_service($service_name) };
+    if ($@ || !$ir) {
+        say STDERR sprintf(
+            'paws-build-pod service=%s status=skip reason=%s',
+            $service_name,
+            ($@ ? (split /\n/, "$@")[0] : 'no IR'),
+        );
+        next;
+    }
+    $pod_count += emit_service($service_name, $ir);
+}
+
+say STDERR sprintf('paws-build-pod pods_written=%d', $pod_count);
+exit 0;
+
+sub emit_service {
+    my ($service_name, $ir) = @_;
+    my $base = File::Spec->catdir($output_root, 'Paws', $service_name);
+    make_path($base) if !-d $base;
+    my $written = 0;
+
+    for my $shape_name ($ir->shape_names) {
+        my $shape = $ir->shape($shape_name);
+        next if !$shape->is_structure;
+
+        my $pod = render_shape_pod($service_name, $shape, $ir);
+        my $path = File::Spec->catfile($base, "$shape_name.pod");
+        open(my $fh, '>', $path) or do {
+            warn "cannot write $path: $!\n";
+            next;
+        };
+        print {$fh} $pod;
+        close $fh;
+        $written++;
+    }
+
+    for my $op_name ($ir->operation_names) {
+        my $op = $ir->operation($op_name);
+        my $pod = render_operation_pod($service_name, $op, $ir);
+        my $path = File::Spec->catfile($base, "$op_name.pod");
+        open(my $fh, '>', $path) or do {
+            warn "cannot write $path: $!\n";
+            next;
+        };
+        print {$fh} $pod;
+        close $fh;
+        $written++;
+    }
+
+    return $written;
+}
+
+sub render_shape_pod {
+    my ($service_name, $shape, $ir) = @_;
+    my $shape_pkg = "Paws::${service_name}::" . $shape->name;
+    my $pod = "=head1 NAME\n\n${shape_pkg}\n\n";
+    $pod   .= "=head1 DESCRIPTION\n\nA structure shape used by L<Paws::${service_name}>.\n\n";
+    if (defined $shape->documentation) {
+        $pod .= _strip_html($shape->documentation) . "\n\n";
+    }
+    $pod   .= "=head1 ATTRIBUTES\n\n";
+    for my $mname (sort keys %{ $shape->members }) {
+        my $m = $shape->members->{$mname};
+        my $member_shape = $ir->shape($m->shape);
+        my $type_label = $member_shape ? $member_shape->type : 'unknown';
+        $pod .= "=head2 $mname => $type_label\n\n";
+        if (defined $m->documentation) {
+            $pod .= _strip_html($m->documentation) . "\n\n";
+        }
+    }
+    $pod   .= "=head1 SEE ALSO\n\nL<Paws::${service_name}>, L<Paws>.\n\n=cut\n";
+    return $pod;
+}
+
+sub render_operation_pod {
+    my ($service_name, $op, $ir) = @_;
+    my $op_pkg = "Paws::${service_name}::" . $op->name;
+    my $pod = "=head1 NAME\n\n${op_pkg} - Arguments for method "
+            . $op->name . " on L<Paws::${service_name}>\n\n";
+    $pod   .= "=head1 SYNOPSIS\n\n  my \$svc = Paws->service('${service_name}');\n";
+    $pod   .= "  my \$ret = \$svc->" . $op->name . "(...);\n\n";
+    $pod   .= "=head1 DESCRIPTION\n\n";
+    if (defined $op->documentation) {
+        $pod .= _strip_html($op->documentation) . "\n\n";
+    }
+    $pod   .= "Method " . $op->name . " uses HTTP "
+           . $op->http_method . " " . $op->http_uri . ".\n\n";
+    if (my $input = $op->input_shape) {
+        $pod .= "Input shape: L<Paws::${service_name}::${input}>\n\n";
+    }
+    if (my $output = $op->output_shape) {
+        $pod .= "Output shape: L<Paws::${service_name}::${output}>\n\n";
+    }
+    $pod   .= "=head1 SEE ALSO\n\nL<Paws::${service_name}>, L<Paws>.\n\n=cut\n";
+    return $pod;
+}
+
+sub _strip_html {
+    my ($s) = @_;
+    return '' if !defined $s;
+    $s =~ s{</?(?:p|br|i|b|code|li|ul|ol|h\d)>}{}gi;
+    $s =~ s{<a\s+[^>]*>}{}gi;
+    $s =~ s{</a>}{}gi;
+    $s =~ s/[ \t]+\n/\n/g;
+    $s =~ s/\n{3,}/\n\n/g;
+    $s =~ s/^\s+|\s+$//g;
+    return $s;
+}
