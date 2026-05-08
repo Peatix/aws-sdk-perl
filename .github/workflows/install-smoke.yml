@@ -38,8 +38,11 @@ jobs:
 
       - name: Install build dependencies
         run: |
+          # libexpat1-dev is needed by XML::Parser (a transitive dep of
+          # XML::Simple, which Paws requires); libxml2-dev / libssl-dev
+          # / zlib1g-dev cover the other XS modules in the cpanfile.
           apt-get install -y --no-install-recommends \
-            build-essential libxml2-dev libssl-dev zlib1g-dev
+            build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
           # actions/checkout@v4 already runs `git config --global --add
           # safe.directory <workspace>` (set-safe-directory: true), but the
           # checkout runs as a different user than later steps inside the
