@@ -28,7 +28,8 @@ package Paws::API::Caller;
   sub response_to_object {
     my ($self, $call_object, $http_status, $content, $headers) = @_;
 
-    $call_object = $call_object->meta->name;
+    # PR11: same as ref($call_object), without the MOP round-trip.
+    $call_object = ref($call_object) || $call_object;
 
     my $returns = (defined $call_object->_returns) && ($call_object->_returns ne 'Paws::API::Response');
     my $ret_class = $returns ? $call_object->_returns : 'Paws::API::Response';

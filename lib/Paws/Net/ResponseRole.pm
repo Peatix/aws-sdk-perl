@@ -6,7 +6,9 @@ package Paws::Net::ResponseRole;
     my ($self, $call_object, $response) = @_;
     my ($http_status, $content, $headers) = ($response->status, $response->content, $response->headers);;
 
-    $call_object = $call_object->meta->name;
+    # PR11: was $call_object->meta->name (round-trip via Moose meta);
+    # ref() is the same answer without going through MOP.
+    $call_object = ref($call_object) || $call_object;
 
     my $returns = (defined $call_object->_returns) && ($call_object->_returns ne 'Paws::API::Response');
     my $ret_class = $returns ? $call_object->_returns : 'Paws::API::Response';
