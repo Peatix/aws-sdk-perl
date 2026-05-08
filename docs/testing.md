@@ -14,7 +14,7 @@ short and points at the code rather than duplicating it.
 | `t/12_regions.t`–`t/16_retries.t`     | Endpoint resolution, transport errors, timeouts, retries.               |
 | `t/17_s3metadata.t`                   | S3-specific header decoding.                                            |
 | `t/18_mocked.t` + `t/18_mocked/`      | Mocked end-to-end calls across many services.                           |
-| `t/20_*` … `t/23_*`                   | **Synthetic-service response decoding** per protocol family (see below).|
+| `t/20_*` … `t/23_*`, `t/29_*`-`t/31_*`| **Synthetic-service response decoding** per protocol family (see below).|
 | `t/26_paginators.t`                   | Paginator behaviour (S3-shaped fixtures).                               |
 | `t/27_signing_name.t`                 | Signer name resolution.                                                 |
 | `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape.               |
@@ -25,21 +25,26 @@ short and points at the code rather than duplicating it.
 
 ## Synthetic services
 
-The `t/20_*` through `t/23_*` tests don't talk to AWS. They define small
-synthetic services (`Paws::JsonParamsService`, `Paws::QueryParamsService`,
-`Paws::QueryFlattenedParamsService`, `Paws::RestJsonParamsService` —
-all under `t/lib/Paws/`) whose shapes exercise the wire layer in
-isolation. Each test calls a method with a `response => '...'` parameter
-and asserts the decoded Perl object matches expectations.
+The `t/20_*` through `t/23_*` and `t/29_*` through `t/31_*` tests don't
+talk to AWS. They define small synthetic services under `t/lib/Paws/`
+whose shapes exercise the wire layer in isolation. Each test calls a
+method with a `response => '...'` parameter and asserts the decoded
+Perl object matches expectations.
 
 This is the load-bearing regression gate when refactoring the wire layer.
-Today it covers four of the six protocol families. Future PRs are expected
-to:
 
-- add `Paws::RestXmlParamsService` (the `.pm` skeleton already exists at
-  `t/lib/Paws/RestXmlParamsService.pm` but no shape directory or driver),
-- add `Paws::EC2ParamsService` for the EC2 protocol variant, and
-- add `Paws::GlacierParamsService` for Glacier's quirks.
+| Protocol family | Service class                              | Driver                              |
+|-----------------|--------------------------------------------|-------------------------------------|
+| JSON RPC        | `Paws::JsonParamsService`                  | `t/20_json_syntetic_responses.t`    |
+| RestJSON        | `Paws::RestJsonParamsService`              | `t/21_restjson_syntetic_responses.t`|
+| Query           | `Paws::QueryParamsService`                 | `t/22_query_syntetic_responses.t`   |
+| Query flatten   | `Paws::QueryFlattenedParamsService`        | `t/23_queryflatten_syntetic_responses.t`|
+| RestXML         | `Paws::RestXmlParamsService`               | `t/29_restxml_syntetic_responses.t` |
+| EC2             | `Paws::EC2ParamsService`                   | `t/30_ec2_syntetic_responses.t`     |
+| Glacier         | `Paws::GlacierParamsService`               | `t/31_glacier_syntetic_responses.t` |
+
+PR3 closed the protocol-family parity gap. PR4 extends each driver
+with per-trait request-side wire fixtures.
 
 ## Helpers in `t/lib/`
 
