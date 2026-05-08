@@ -1,0 +1,112 @@
+#!/usr/bin/env perl
+
+# paws-vendor-smithy
+#
+# Refresh the share/smithy/ tree from upstream Smithy IR sources.
+# Replaces the workflow that used the botocore submodule + custom
+# generator pipeline.
+#
+# Default upstream: aws-sdk-rust's vendored aws-models tree
+# (https://github.com/awslabs/aws-sdk-rust/tree/main/aws-models).
+# Each service has a single .smithy.json file which is exactly the
+# input shape Paws::Model::Loader::Smithy expects.
+#
+# Usage:
+#
+#   script/paws-vendor-smithy --source <git-url-or-path>
+#                             [--service NAME]   # restrict to one
+#                             [--clean]          # rm share/smithy/* first
+#
+# This script is intentionally simple: it copies, doesn't transform.
+# Smithy IR is produced by `smithy build` (Java) but we don't run it
+# here - we vendor pre-built ASTs so contributors don't need a JVM.
+
+use strict;
+use warnings;
+use v5.20;
+
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use File::Path qw(make_path remove_tree);
+use File::Spec;
+use File::Copy;
+
+my $source = 'https://github.com/awslabs/aws-sdk-rust.git';
+my $only   = '';
+my $clean  = 0;
+my $help   = 0;
+my $dest   = 'share/smithy';
+
+GetOptions(
+    'source=s'  => \$source,
+    'service=s' => \$only,
+    'clean'     => \$clean,
+    'dest=s'    => \$dest,
+    'help|h'    => \$help,
+) or die "invalid arguments\n";
+
+if ($help) {
+    print <<'USAGE';
+usage: paws-vendor-smithy [--source URL_OR_PATH] [--service NAME]
+                          [--clean] [--dest share/smithy]
+
+Vendors Smithy AST JSON files into share/smithy/ from an upstream
+source.
+
+  --source     git URL or local checkout (default:
+               https://github.com/awslabs/aws-sdk-rust.git)
+  --service    restrict to one service name
+  --clean      remove share/smithy/* before vendoring
+  --dest       where to write (default: share/smithy)
+USAGE
+    exit 0;
+}
+
+if ($clean && -d $dest) {
+    say STDERR "vendor: cleaning $dest";
+    remove_tree($dest, { keep_root => 1 });
+}
+make_path($dest) if !-d $dest;
+
+# If --source looks like a directory, use it directly. Otherwise
+# clone shallowly into a tempdir.
+my $work_dir;
+if (-d $source) {
+    $work_dir = $source;
+} else {
+    require File::Temp;
+    my $tmp = File::Temp->newdir('paws-vendor-smithyXXXXXX', TMPDIR => 1);
+    my @cmd = ('git', 'clone', '--depth=1', '--filter=blob:none', $source,
+               $tmp->dirname);
+    say STDERR "vendor: " . join(' ', @cmd);
+    system(@cmd) == 0 or die "git clone failed\n";
+    $work_dir = $tmp->dirname;
+    # File::Temp will clean up at process exit; keep the dir alive for
+    # the rest of the script.
+    $main::__vendor_tmp = $tmp;
+}
+
+my $models_dir = File::Spec->catdir($work_dir, 'aws-models');
+opendir(my $dh, $models_dir)
+    or die "vendor: cannot read $models_dir (expected an aws-sdk-rust checkout): $!\n";
+
+my $vendored = 0;
+for my $name (sort readdir $dh) {
+    next if $name =~ /^\./;
+    my ($service) = ($name =~ /^([^.]+)/);
+    next if !$service;
+    next if $only && $service ne $only;
+    my $src = File::Spec->catfile($models_dir, $name);
+    next if !-f $src;
+    next if $name !~ /\.json$/;
+
+    my $svc_dir = File::Spec->catdir($dest, $service);
+    make_path($svc_dir) if !-d $svc_dir;
+    my $dst = File::Spec->catfile($svc_dir, "${service}.smithy.json");
+    File::Copy::copy($src, $dst) or die "copy $src -> $dst: $!\n";
+    say STDERR "vendor: ${service}";
+    $vendored++;
+}
+closedir $dh;
+
+say STDERR "vendor: services=$vendored dest=$dest";
+exit 0;

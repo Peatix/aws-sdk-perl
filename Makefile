@@ -26,16 +26,15 @@ cover-ci:
 	cover -summary
 	cover -report json -outputdir cover_db || true
 
-pull-other-sdks:
-	git submodule init
-	git submodule update
-	cd botocore && \
-	  git checkout develop
-	cd botocore && \
-	  if [ -z "`git remote -v | grep ^boto`" ]; then git remote add boto https://github.com/boto/botocore.git; fi
+# PR 18 (stack18) replaced the botocore submodule with vendored
+# Smithy IR in share/smithy/ (with botocore JSON fallback in
+# share/botocore/). Refresh via:
+vendor-smithy:
+	./script/paws-vendor-smithy --clean
 
-pull-boto-develop:
-	cd botocore && git pull boto develop
+# Backward-compat aliases for any contributor muscle memory.
+pull-other-sdks: vendor-smithy
+pull-boto-develop: vendor-smithy
 
 gen-paws:
 	carton exec ./builder-bin/gen_classes.pl --paws_pm
