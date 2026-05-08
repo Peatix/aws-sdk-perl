@@ -67,8 +67,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       },    # OPTIONAL
       StageVariables =>
         { 'My__string' => 'MyStringWithLengthBetween0And2048', },    # OPTIONAL
-      Tags => { 'My__string' => 'MyStringWithLengthBetween1And1600', }
-      ,                                                              # OPTIONAL
+      Tags =>
+        { 'My__string' => 'MyStringWithLengthBetween1And1600', },    # OPTIONAL
     );
 
     # Results:

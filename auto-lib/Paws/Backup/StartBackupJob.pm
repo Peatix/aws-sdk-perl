@@ -41,15 +41,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       BackupVaultName => 'MyBackupVaultName',
       IamRoleArn      => 'MyIAMRoleArn',
       ResourceArn     => 'MyARN',
-      BackupOptions   => { 'MyBackupOptionKey' => 'MyBackupOptionValue', }
-      ,                                       # OPTIONAL
-      CompleteWindowMinutes => 1,             # OPTIONAL
-      IdempotencyToken      => 'Mystring',    # OPTIONAL
-      Index                 => 'ENABLED',     # OPTIONAL
+      BackupOptions   =>
+        { 'MyBackupOptionKey' => 'MyBackupOptionValue', },    # OPTIONAL
+      CompleteWindowMinutes => 1,                             # OPTIONAL
+      IdempotencyToken      => 'Mystring',                    # OPTIONAL
+      Index                 => 'ENABLED',                     # OPTIONAL
       Lifecycle             => {
-        DeleteAfterDays                     => 1,    # OPTIONAL
-        MoveToColdStorageAfterDays          => 1,    # OPTIONAL
-        OptInToArchiveForSupportedResources => 1,    # OPTIONAL
+        DeleteAfterDays                     => 1,             # OPTIONAL
+        MoveToColdStorageAfterDays          => 1,             # OPTIONAL
+        OptInToArchiveForSupportedResources => 1,             # OPTIONAL
       },    # OPTIONAL
       RecoveryPointTags  => { 'MyTagKey' => 'MyTagValue', },    # OPTIONAL
       StartWindowMinutes => 1,                                  # OPTIONAL

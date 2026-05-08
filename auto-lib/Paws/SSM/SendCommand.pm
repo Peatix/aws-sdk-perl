@@ -76,12 +76,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],    # OPTIONAL
         NotificationType => 'Command',   # values: Command, Invocation; OPTIONAL
       },    # OPTIONAL
-      OutputS3BucketName => 'MyS3BucketName',    # OPTIONAL
-      OutputS3KeyPrefix  => 'MyS3KeyPrefix',     # OPTIONAL
-      OutputS3Region     => 'MyS3Region',        # OPTIONAL
-      Parameters => { 'MyParameterName' => [ 'MyParameterValue', ... ], }
-      ,                                          # OPTIONAL
-      ServiceRoleArn => 'MyServiceRole',         # OPTIONAL
+      OutputS3BucketName => 'MyS3BucketName',                     # OPTIONAL
+      OutputS3KeyPrefix  => 'MyS3KeyPrefix',                      # OPTIONAL
+      OutputS3Region     => 'MyS3Region',                         # OPTIONAL
+      Parameters         =>
+        { 'MyParameterName' => [ 'MyParameterValue', ... ], },    # OPTIONAL
+      ServiceRoleArn => 'MyServiceRole',                          # OPTIONAL
       Targets        => [
         {
           Key    => 'MyTargetKey',               # min: 1, max: 163; OPTIONAL

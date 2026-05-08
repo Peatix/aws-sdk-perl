@@ -802,8 +802,6 @@ L<Paws::MediaConnect>
 
 L<Paws::MediaConvert>
 
-L<Paws::MediaLive>
-
 L<Paws::MediaPackage>
 
 L<Paws::MediaPackageV2>
@@ -896,8 +894,6 @@ L<Paws::PersonalizeEvents>
 
 L<Paws::PersonalizeRuntime>
 
-L<Paws::Pinpoint>
-
 L<Paws::PinpointEmail>
 
 L<Paws::PinpointSMSVoice>
@@ -927,8 +923,6 @@ L<Paws::QConnect>
 L<Paws::QLDB>
 
 L<Paws::QLDBSession>
-
-L<Paws::Quicksight>
 
 L<Paws::RAM>
 

@@ -43,15 +43,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
     my $UpdateRouteResult = $apigateway->UpdateRoute(
       ApiId               => 'My__string',
       RouteId             => 'My__string',
-      ApiKeyRequired      => 1,                        # OPTIONAL
+      ApiKeyRequired      => 1,                                     # OPTIONAL
       AuthorizationScopes => [ 'MyStringWithLengthBetween1And64', ... ]
-      ,                                                # OPTIONAL
+      ,                                                             # OPTIONAL
       AuthorizationType        => 'NONE',                             # OPTIONAL
       AuthorizerId             => 'MyId',                             # OPTIONAL
       ModelSelectionExpression => 'MySelectionExpression',            # OPTIONAL
       OperationName            => 'MyStringWithLengthBetween1And64',  # OPTIONAL
-      RequestModels => { 'My__string' => 'MyStringWithLengthBetween1And128', }
-      ,                                                               # OPTIONAL
+      RequestModels            =>
+        { 'My__string' => 'MyStringWithLengthBetween1And128', },      # OPTIONAL
       RequestParameters => { 'My__string' => { Required => 1, }, },   # OPTIONAL
       RouteKey          => 'MySelectionKey',                          # OPTIONAL
       RouteResponseSelectionExpression => 'MySelectionExpression',    # OPTIONAL

@@ -1,22 +1,8 @@
 package Paws::IoT::EventConfigurations;
   use Moose;
-  with 'Paws::API::MapParser';
+  with 'Paws::API::StrToObjMapParser';
 
-  use MooseX::ClassAttribute;
-  class_has xml_keys =>(is => 'ro', default => 'key');
-  class_has xml_values =>(is => 'ro', default => 'value');
-
-  has CA_CERTIFICATE => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has CERTIFICATE => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has JOB => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has JOB_EXECUTION => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has POLICY => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_GROUP => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_GROUP_HIERARCHY => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_GROUP_MEMBERSHIP => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_TYPE => (is => 'ro', isa => 'Paws::IoT::Configuration');
-  has THING_TYPE_ASSOCIATION => (is => 'ro', isa => 'Paws::IoT::Configuration');
+  has Map => (is => 'ro', isa => 'HashRef[Paws::IoT::Configuration]');
 1;
 
 ### main pod documentation begin ###
@@ -36,14 +22,14 @@ Each attribute should be used as a named argument in the calls that expect this 
 
 As an example, if Att1 is expected to be a Paws::IoT::EventConfigurations object:
 
-  $service_obj->Method(Att1 => { CA_CERTIFICATE => $value, ..., THING_TYPE_ASSOCIATION => $value  });
+  $service_obj->Method(Att1 => { key1 => $value, ..., keyN => $value  });
 
 =head3 Results returned from an API call
 
 Use accessors for each attribute. If Att1 is expected to be an Paws::IoT::EventConfigurations object:
 
   $result = $service_obj->Method(...);
-  $result->Att1->CA_CERTIFICATE
+  $result->Att1->Map->{ key1 }
 
 =head1 DESCRIPTION
 
@@ -51,40 +37,9 @@ This class has no description
 
 =head1 ATTRIBUTES
 
+=head2 Map => L<Paws::IoT::Configuration>
 
-=head2 CA_CERTIFICATE => L<Paws::IoT::Configuration>
-
-
-=head2 CERTIFICATE => L<Paws::IoT::Configuration>
-
-
-=head2 JOB => L<Paws::IoT::Configuration>
-
-
-=head2 JOB_EXECUTION => L<Paws::IoT::Configuration>
-
-
-=head2 POLICY => L<Paws::IoT::Configuration>
-
-
-=head2 THING => L<Paws::IoT::Configuration>
-
-
-=head2 THING_GROUP => L<Paws::IoT::Configuration>
-
-
-=head2 THING_GROUP_HIERARCHY => L<Paws::IoT::Configuration>
-
-
-=head2 THING_GROUP_MEMBERSHIP => L<Paws::IoT::Configuration>
-
-
-=head2 THING_TYPE => L<Paws::IoT::Configuration>
-
-
-=head2 THING_TYPE_ASSOCIATION => L<Paws::IoT::Configuration>
-
-
+Use the Map method to retrieve a HashRef to the map
 
 =head1 SEE ALSO
 

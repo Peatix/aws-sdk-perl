@@ -6,9 +6,9 @@ package Paws::CodeArtifact::OriginRestrictions;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has EXTERNAL_UPSTREAM => (is => 'ro', isa => 'Str');
-  has INTERNAL_UPSTREAM => (is => 'ro', isa => 'Str');
-  has PUBLISH => (is => 'ro', isa => 'Str');
+  has 'EXTERNAL_UPSTREAM' => (is => 'ro', isa => 'Str');
+  has 'INTERNAL_UPSTREAM' => (is => 'ro', isa => 'Str');
+  has 'PUBLISH' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

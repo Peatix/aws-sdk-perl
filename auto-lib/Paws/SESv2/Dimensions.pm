@@ -6,9 +6,9 @@ package Paws::SESv2::Dimensions;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has CONFIGURATION_SET => (is => 'ro', isa => 'Str');
-  has EMAIL_IDENTITY => (is => 'ro', isa => 'Str');
-  has ISP => (is => 'ro', isa => 'Str');
+  has 'CONFIGURATION_SET' => (is => 'ro', isa => 'Str');
+  has 'EMAIL_IDENTITY' => (is => 'ro', isa => 'Str');
+  has 'ISP' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

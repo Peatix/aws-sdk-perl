@@ -6,11 +6,11 @@ package Paws::CodeGuruProfiler::AgentParameters;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has MaxStackDepth => (is => 'ro', isa => 'Str');
-  has MemoryUsageLimitPercent => (is => 'ro', isa => 'Str');
-  has MinimumTimeForReportingInMilliseconds => (is => 'ro', isa => 'Str');
-  has ReportingIntervalInMilliseconds => (is => 'ro', isa => 'Str');
-  has SamplingIntervalInMilliseconds => (is => 'ro', isa => 'Str');
+  has 'MaxStackDepth' => (is => 'ro', isa => 'Str');
+  has 'MemoryUsageLimitPercent' => (is => 'ro', isa => 'Str');
+  has 'MinimumTimeForReportingInMilliseconds' => (is => 'ro', isa => 'Str');
+  has 'ReportingIntervalInMilliseconds' => (is => 'ro', isa => 'Str');
+  has 'SamplingIntervalInMilliseconds' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

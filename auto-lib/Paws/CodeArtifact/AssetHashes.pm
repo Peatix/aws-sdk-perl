@@ -6,10 +6,10 @@ package Paws::CodeArtifact::AssetHashes;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has MD5 => (is => 'ro', isa => 'Str');
-  has SHA1 => (is => 'ro', isa => 'Str');
-  has SHA256 => (is => 'ro', isa => 'Str');
-  has SHA512 => (is => 'ro', isa => 'Str');
+  has 'MD5' => (is => 'ro', isa => 'Str');
+  has 'SHA1' => (is => 'ro', isa => 'Str');
+  has 'SHA256' => (is => 'ro', isa => 'Str');
+  has 'SHA512' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

@@ -36,15 +36,15 @@ You shouldn't make instances of this class. Each attribute should be used as a n
       SourceName => 'MyString',
       FlowSource => {
         FlowArn => 'MyUpdateBridgeFlowSourceRequestFlowArnString',    # OPTIONAL
-        FlowVpcInterfaceAttachment => { VpcInterfaceName => 'MyString', }
-        ,                                                             # OPTIONAL
+        FlowVpcInterfaceAttachment =>
+          { VpcInterfaceName => 'MyString', },                        # OPTIONAL
       },    # OPTIONAL
       NetworkSource => {
         MulticastIp             => 'MyString',
-        MulticastSourceSettings => { MulticastSourceIp => 'MyString', }
-        ,                            # OPTIONAL
+        MulticastSourceSettings =>
+          { MulticastSourceIp => 'MyString', },    # OPTIONAL
         NetworkName => 'MyString',
-        Port        => 1,            # OPTIONAL
+        Port        => 1,                          # OPTIONAL
         Protocol    => 'zixi-push'
         , # values: zixi-push, rtp-fec, rtp, zixi-pull, rist, st2110-jpegxs, cdi, srt-listener, srt-caller, fujitsu-qos, udp, ndi-speed-hq; OPTIONAL
       },    # OPTIONAL

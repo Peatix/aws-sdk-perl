@@ -53,17 +53,17 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ExposeHeaders => [ 'My__string',                      ... ],  # OPTIONAL
         MaxAge        => 1,    # min: -1, max: 86400; OPTIONAL
       },    # OPTIONAL
-      CredentialsArn => 'MyArn',                                # OPTIONAL
-      Description    => 'MyStringWithLengthBetween0And1024',    # OPTIONAL
-      DisableExecuteApiEndpoint => 1,                           # OPTIONAL
-      DisableSchemaValidation   => 1,                           # OPTIONAL
-      IpAddressType             => 'ipv4',                      # OPTIONAL
-      RouteKey                  => 'MySelectionKey',            # OPTIONAL
-      RouteSelectionExpression  => 'MySelectionExpression',     # OPTIONAL
-      Tags => { 'My__string' => 'MyStringWithLengthBetween1And1600', }
-      ,                                                         # OPTIONAL
-      Target  => 'MyUriWithLengthBetween1And2048',              # OPTIONAL
-      Version => 'MyStringWithLengthBetween1And64',             # OPTIONAL
+      CredentialsArn => 'MyArn',                                     # OPTIONAL
+      Description    => 'MyStringWithLengthBetween0And1024',         # OPTIONAL
+      DisableExecuteApiEndpoint => 1,                                # OPTIONAL
+      DisableSchemaValidation   => 1,                                # OPTIONAL
+      IpAddressType             => 'ipv4',                           # OPTIONAL
+      RouteKey                  => 'MySelectionKey',                 # OPTIONAL
+      RouteSelectionExpression  => 'MySelectionExpression',          # OPTIONAL
+      Tags                      =>
+        { 'My__string' => 'MyStringWithLengthBetween1And1600', },    # OPTIONAL
+      Target  => 'MyUriWithLengthBetween1And2048',                   # OPTIONAL
+      Version => 'MyStringWithLengthBetween1And64',                  # OPTIONAL
     );
 
     # Results:

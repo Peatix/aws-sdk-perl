@@ -69,8 +69,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         ],
         AdvancedBackupSettings => [
           {
-            BackupOptions => { 'MyBackupOptionKey' => 'MyBackupOptionValue', }
-            ,                                                         # OPTIONAL
+            BackupOptions =>
+              { 'MyBackupOptionKey' => 'MyBackupOptionValue', },      # OPTIONAL
             ResourceType => 'MyResourceType',
           },
           ...

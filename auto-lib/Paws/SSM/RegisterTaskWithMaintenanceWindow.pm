@@ -114,8 +114,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           },    # OPTIONAL
           OutputS3BucketName => 'MyS3BucketName',    # min: 3, max: 63
           OutputS3KeyPrefix  => 'MyS3KeyPrefix',     # max: 500; OPTIONAL
-          Parameters => { 'MyParameterName' => [ 'MyParameterValue', ... ], }
-          ,                                          # OPTIONAL
+          Parameters         =>
+            { 'MyParameterName' => [ 'MyParameterValue', ... ], },    # OPTIONAL
           ServiceRoleArn => 'MyServiceRole',
           TimeoutSeconds => 1,                 # min: 30, max: 2592000; OPTIONAL
         },    # OPTIONAL

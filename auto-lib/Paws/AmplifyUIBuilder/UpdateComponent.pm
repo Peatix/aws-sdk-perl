@@ -760,8 +760,8 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         },    # OPTIONAL
         Id        => 'MyUuid',
         Name      => 'MyComponentName',    # min: 1, max: 255; OPTIONAL
-        Overrides => { 'MyString' => { 'MyString' => 'MyString', }, }
-        ,                                  # OPTIONAL
+        Overrides =>
+          { 'MyString' => { 'MyString' => 'MyString', }, },    # OPTIONAL
         Properties => {
           'MyString' => {
             BindingProperties => {
@@ -805,9 +805,9 @@ You shouldn't make instances of this class. Each attribute should be used as a n
         SourceId      => 'MyString',
         Variants      => [
           {
-            Overrides => { 'MyString' => { 'MyString' => 'MyString', }, }
-            ,                                                  # OPTIONAL
-            VariantValues => { 'MyString' => 'MyString', },    # OPTIONAL
+            Overrides =>
+              { 'MyString' => { 'MyString' => 'MyString', }, },    # OPTIONAL
+            VariantValues => { 'MyString' => 'MyString', },        # OPTIONAL
           },
           ...
         ],    # OPTIONAL

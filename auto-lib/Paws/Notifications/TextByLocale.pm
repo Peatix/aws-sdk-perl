@@ -6,21 +6,21 @@ package Paws::Notifications::TextByLocale;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has de_DE => (is => 'ro', isa => 'Str');
-  has en_CA => (is => 'ro', isa => 'Str');
-  has en_UK => (is => 'ro', isa => 'Str');
-  has en_US => (is => 'ro', isa => 'Str');
-  has es_ES => (is => 'ro', isa => 'Str');
-  has fr_CA => (is => 'ro', isa => 'Str');
-  has fr_FR => (is => 'ro', isa => 'Str');
-  has id_ID => (is => 'ro', isa => 'Str');
-  has it_IT => (is => 'ro', isa => 'Str');
-  has ja_JP => (is => 'ro', isa => 'Str');
-  has ko_KR => (is => 'ro', isa => 'Str');
-  has pt_BR => (is => 'ro', isa => 'Str');
-  has tr_TR => (is => 'ro', isa => 'Str');
-  has zh_CN => (is => 'ro', isa => 'Str');
-  has zh_TW => (is => 'ro', isa => 'Str');
+  has 'de_DE' => (is => 'ro', isa => 'Str');
+  has 'en_CA' => (is => 'ro', isa => 'Str');
+  has 'en_UK' => (is => 'ro', isa => 'Str');
+  has 'en_US' => (is => 'ro', isa => 'Str');
+  has 'es_ES' => (is => 'ro', isa => 'Str');
+  has 'fr_CA' => (is => 'ro', isa => 'Str');
+  has 'fr_FR' => (is => 'ro', isa => 'Str');
+  has 'id_ID' => (is => 'ro', isa => 'Str');
+  has 'it_IT' => (is => 'ro', isa => 'Str');
+  has 'ja_JP' => (is => 'ro', isa => 'Str');
+  has 'ko_KR' => (is => 'ro', isa => 'Str');
+  has 'pt_BR' => (is => 'ro', isa => 'Str');
+  has 'tr_TR' => (is => 'ro', isa => 'Str');
+  has 'zh_CN' => (is => 'ro', isa => 'Str');
+  has 'zh_TW' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###

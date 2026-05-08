@@ -57,12 +57,12 @@ You shouldn't make instances of this class. Each attribute should be used as a n
           'SEND',
           ... # values: SEND, REJECT, BOUNCE, COMPLAINT, DELIVERY, OPEN, CLICK, RENDERING_FAILURE
         ],    # OPTIONAL
-        PinpointDestination => { ApplicationArn => 'MyAmazonResourceName', }
-        ,     # OPTIONAL
+        PinpointDestination =>
+          { ApplicationArn => 'MyAmazonResourceName', },    # OPTIONAL
         SnsDestination => {
           TopicArn => 'MyAmazonResourceName',
 
-        },    # OPTIONAL
+        },                                                  # OPTIONAL
       },
       EventDestinationName => 'MyEventDestinationName',
 

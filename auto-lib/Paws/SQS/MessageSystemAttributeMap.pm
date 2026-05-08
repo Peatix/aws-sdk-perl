@@ -6,16 +6,16 @@ package Paws::SQS::MessageSystemAttributeMap;
   class_has xml_keys =>(is => 'ro', default => 'key');
   class_has xml_values =>(is => 'ro', default => 'value');
 
-  has All => (is => 'ro', isa => 'Str');
-  has ApproximateFirstReceiveTimestamp => (is => 'ro', isa => 'Str');
-  has ApproximateReceiveCount => (is => 'ro', isa => 'Str');
-  has AWSTraceHeader => (is => 'ro', isa => 'Str');
-  has DeadLetterQueueSourceArn => (is => 'ro', isa => 'Str');
-  has MessageDeduplicationId => (is => 'ro', isa => 'Str');
-  has MessageGroupId => (is => 'ro', isa => 'Str');
-  has SenderId => (is => 'ro', isa => 'Str');
-  has SentTimestamp => (is => 'ro', isa => 'Str');
-  has SequenceNumber => (is => 'ro', isa => 'Str');
+  has 'All' => (is => 'ro', isa => 'Str');
+  has 'ApproximateFirstReceiveTimestamp' => (is => 'ro', isa => 'Str');
+  has 'ApproximateReceiveCount' => (is => 'ro', isa => 'Str');
+  has 'AWSTraceHeader' => (is => 'ro', isa => 'Str');
+  has 'DeadLetterQueueSourceArn' => (is => 'ro', isa => 'Str');
+  has 'MessageDeduplicationId' => (is => 'ro', isa => 'Str');
+  has 'MessageGroupId' => (is => 'ro', isa => 'Str');
+  has 'SenderId' => (is => 'ro', isa => 'Str');
+  has 'SentTimestamp' => (is => 'ro', isa => 'Str');
+  has 'SequenceNumber' => (is => 'ro', isa => 'Str');
 1;
 
 ### main pod documentation begin ###
