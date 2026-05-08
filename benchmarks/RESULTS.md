@@ -33,13 +33,22 @@ infrastructure lands; the placeholder baseline records nothing.
 
 ## Series tracking
 
-Each subsequent PR in the maintenance-reduction series appends a row
-here so regressions across the series are visible at review time:
+The committed `benchmarks/baseline.json` is auto-refreshed by the
+`benchmark-capture` workflow on every push to master that produces
+numbers outside the 5% tolerance vs the previous baseline. The PR-side
+`benchmarks` workflow runs `--strict`, so PRs fail the build on perf
+regressions beyond the 25% tolerance.
 
 | PR  | Title                                            | startup-cold (s) | decode-warm-2500 (s) | notes |
 |-----|--------------------------------------------------|------------------|----------------------|-------|
-| -   | baseline (PR7 lands the gate)                    | tbd              | tbd                  | first run on master populates |
+| -   | skeleton (stack17)                               | n/a              | n/a                  | first auto-capture lands once stack17 merges |
 
-Add a row here as part of each PR that changes runtime behaviour
-(PR9 onwards). Numbers come from the workflow's `benchmarks-current`
-artefact.
+Manual re-baseline (e.g. after a major refactor):
+
+```
+benchmarks/run-all --output benchmarks/baseline.json
+git add benchmarks/baseline.json && git commit -m "benchmarks: manual baseline refresh"
+```
+
+The auto workflow opens a follow-up PR rather than auto-committing so
+every baseline change stays reviewable.
