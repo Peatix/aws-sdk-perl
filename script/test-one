@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# test-one: run a single Paws test file (or a pattern that resolves to one).
+#
+# Avoids the multi-minute full `make test` run when you only need to
+# iterate on one test file.
+#
+# Usage:
+#   script/test-one TEST_PATH [TEST_PATH...]
+#   script/test-one PATTERN [PATTERN...]
+#
+# A PATTERN is matched against the basename of files under t/ as
+# `*PATTERN*.t`. Useful for typing `script/test-one 02` to run
+# `t/02_aws_object.t`.
+#
+# Exits non-zero if no test files matched a pattern.
+#
+# Environment:
+#   PAWS_SILENCE_UNSTABLE_WARNINGS=1 is set automatically.
+#   Pass extra prove arguments via PROVE_ARGS, e.g.
+#     PROVE_ARGS='--verbose --jobs 4' script/test-one 10
+#
+# Notes:
+#   - Top-level service classes (auto-lib/Paws/<Service>.pm) are NOT
+#     tracked in git. Run `script/gen-service <Service>` first if a
+#     test loads a service whose top-level .pm is missing.
+
+set -euo pipefail
+
+if [ "$#" -lt 1 ]
+then
+  echo "usage: script/test-one TEST_PATH..." >&2
+  echo "       script/test-one PATTERN..." >&2
+  exit 2
+fi
+
+# Move to the repo root so PERL5LIB / -I paths line up regardless of cwd.
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+repo_root=$(cd -- "$script_dir/.." && pwd)
+cd -- "$repo_root"
+
+declare -a tests=()
+
+for arg in "$@"
+do
+  if [ -f "$arg" ]
+  then
+    tests+=("$arg")
+    continue
+  fi
+
+  # Glob t/ for matching basenames. Allow either a literal partial name
+  # or a full path inside t/.
+  matches=()
+  while IFS= read -r match
+  do
+    matches+=("$match")
+  done < <(find t -maxdepth 2 -type f -name '*'"$arg"'*.t' | sort)
+
+  if [ "${#matches[@]}" -eq 0 ]
+  then
+    echo "no test files matched pattern '$arg'" >&2
+    exit 1
+  fi
+
+  tests+=("${matches[@]}")
+done
+
+declare -a prove_argv=(--lib -I auto-lib --verbose)
+if [ -n "${PROVE_ARGS:-}" ]
+then
+  # shellcheck disable=SC2206
+  prove_argv+=(${PROVE_ARGS})
+fi
+prove_argv+=("${tests[@]}")
+
+echo "running: prove ${prove_argv[*]}" >&2
+
+PAWS_SILENCE_UNSTABLE_WARNINGS=1 \
+  exec prove "${prove_argv[@]}"

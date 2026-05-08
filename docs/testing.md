@@ -85,3 +85,38 @@ make cover
 Local test runs require `auto-lib/` to be populated. If the directory is
 empty, run `make pull-other-sdks` followed by `make gen-classes` first
 (see the README's "Generating API" section).
+
+### Fast iteration: `script/gen-service` + `script/test-one`
+
+Full code generation and the full test suite are slow (`make
+gen-classes-no-doc-fetch` is ~10 min locally / ~30 min on CI; `make test`
+is ~5 min on CI / ~11 min locally). When iterating on a single service
+or test file:
+
+```
+# Generate just one service (auto-lib/Paws/<Service>.pm + nested classes)
+script/gen-service SQS              # by Paws class name
+script/gen-service sqs              # by botocore directory
+script/gen-service ec2 sqs s3       # multiple at once
+make gen-service SERVICE=sqs        # via Makefile
+
+# List how SERVICE arguments resolve, without running the generator:
+script/gen-service --list SQS sqs
+
+# Run a single test file (or a substring matched against t/*PATTERN*.t)
+script/test-one t/02_aws_object.t   # explicit path
+script/test-one 02                  # pattern
+script/test-one 26_paginators       # multi-letter pattern
+make test-one TEST=02               # via Makefile
+
+# Pass extra args to prove:
+PROVE_ARGS='--jobs 4' script/test-one 10
+```
+
+`script/gen-service` does NOT regenerate `auto-lib/Paws.pm` (the master
+service index), because that needs the full botocore service set as
+input. Run `make gen-classes-no-doc-fetch` if you need a fresh `Paws.pm`.
+
+`script/test-one` does NOT auto-generate classes. If a test fails with
+`Can't locate Paws/<Service>.pm`, run `script/gen-service <Service>`
+first.
