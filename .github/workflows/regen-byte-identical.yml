@@ -54,6 +54,66 @@ jobs:
             echo "BackupSearch"
           } | tee .ci-out/services.txt
 
+      - name: Seed documentation-1.json from committed auto-lib
+        run: |
+          set -eu
+          # The `For the AWS API documentation, see L<URL>` POD line in
+          # each operation class is sourced from
+          # botocore/data/<svc>/<ver>/documentation-1.json. Those files
+          # are not tracked in botocore upstream nor in this repo; they
+          # are produced locally by `make docu-links`, which makes HTTP
+          # HEAD calls to docs.aws.amazon.com. CI deliberately operates
+          # without --docu_links to stay fast and offline (see
+          # docs/ci.md "Service generation tolerances"). Without the
+          # doc files, the Builder falls back to a generic stub URL and
+          # the regenerated .pm files diff vs the committed auto-lib
+          # (which was generated locally with --docu_links and has
+          # per-op URLs).
+          #
+          # Seed documentation-1.json from the URLs already baked into
+          # the committed auto-lib so the gate's input set is closed
+          # and the byte-identical assertion in the next step covers
+          # only deterministic content.
+          while read svc
+          do
+            svc2=$(carton exec -- script/gen-service --list "$svc" | head -n1 | awk -F'\t' '{print $2}')
+            if [ -z "$svc2" ]
+            then
+              echo "error: could not resolve service=$svc to a botocore service-2.json"
+              exit 1
+            fi
+            autolib_dir="auto-lib/Paws/${svc}"
+            if [ ! -d "$autolib_dir" ]
+            then
+              echo "warn: $autolib_dir missing, skipping seed for $svc"
+              continue
+            fi
+            doc_path="${svc2%service-2.json}documentation-1.json"
+            perl -MJSON::PP -e '
+              my ($autolib_dir, $doc_path) = @ARGV;
+              opendir my $dh, $autolib_dir or die "opendir $autolib_dir: $!";
+              my %methods;
+              while (my $entry = readdir $dh) {
+                next unless $entry =~ /^([A-Z]\w*)\.pm\z/;
+                my $op = $1;
+                open my $fh, "<", "$autolib_dir/$entry" or do { warn "open $entry: $!"; next };
+                while (my $line = <$fh>) {
+                  if ($line =~ /^For the AWS API documentation, see L<([^>]+)>/) {
+                    $methods{$op} = $1;
+                    last;
+                  }
+                }
+                close $fh;
+              }
+              closedir $dh;
+              my $j = JSON::PP->new->utf8->pretty->canonical;
+              open my $out, ">", $doc_path or die "open $doc_path: $!";
+              print $out $j->encode({ documentation => { api_url => undef, methods => \%methods } });
+              close $out;
+              printf "seeded=%s methods=%d\n", $doc_path, scalar keys %methods;
+            ' "$autolib_dir" "$doc_path"
+          done < .ci-out/services.txt
+
       - name: Regenerate the picked services
         run: |
           set -eu
