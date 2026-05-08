@@ -1,0 +1,139 @@
+name: regen-byte-identical
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      # Only run on PRs that touch the generator or its inputs.
+      - 'builder-lib/**'
+      - 'builder-bin/**'
+      - 'templates/**'
+      - 'botocore'
+      - '.github/workflows/regen-byte-identical.yml'
+
+# CI gate that PR8's plan called out: regenerating auto-lib/ from
+# botocore must produce the same bytes that are committed. Today we
+# regenerate a small set of representative services (small ones, to
+# keep the workflow fast) and assert no diff.
+#
+# Top-level service .pm files (e.g. auto-lib/Paws/STS.pm) are not
+# tracked in git, so the diff only covers the nested operation /
+# shape classes (which are tracked). That's still useful: any change
+# in the generator that affects shape `.pm` content for these four
+# services will surface here.
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Set up Perl + dependencies
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          perl-version: "5.36"
+          install-modules: |
+            App::cpanminus
+            Carton
+
+      - name: Pick representative services
+        id: pick
+        run: |
+          # Small services keep the workflow under a few minutes.
+          # Picked because they are small AND span the protocol families:
+          # Account (rest-json), STS (query), Health (json), BackupSearch
+          # (rest-json with a small surface).
+          set -eu
+          mkdir -p .ci-out
+          {
+            echo "Account"
+            echo "STS"
+            echo "Health"
+            echo "BackupSearch"
+          } | tee .ci-out/services.txt
+
+      - name: Seed documentation-1.json from committed auto-lib
+        run: |
+          set -eu
+          # The `For the AWS API documentation, see L<URL>` POD line in
+          # each operation class is sourced from
+          # botocore/data/<svc>/<ver>/documentation-1.json. Those files
+          # are not tracked in botocore upstream nor in this repo; they
+          # are produced locally by `make docu-links`, which makes HTTP
+          # HEAD calls to docs.aws.amazon.com. CI deliberately operates
+          # without --docu_links to stay fast and offline (see
+          # docs/ci.md "Service generation tolerances"). Without the
+          # doc files, the Builder falls back to a generic stub URL and
+          # the regenerated .pm files diff vs the committed auto-lib
+          # (which was generated locally with --docu_links and has
+          # per-op URLs).
+          #
+          # Seed documentation-1.json from the URLs already baked into
+          # the committed auto-lib so the gate's input set is closed
+          # and the byte-identical assertion in the next step covers
+          # only deterministic content.
+          while read svc
+          do
+            svc2=$(carton exec -- script/gen-service --list "$svc" | head -n1 | awk -F'\t' '{print $2}')
+            if [ -z "$svc2" ]
+            then
+              echo "error: could not resolve service=$svc to a botocore service-2.json"
+              exit 1
+            fi
+            autolib_dir="auto-lib/Paws/${svc}"
+            if [ ! -d "$autolib_dir" ]
+            then
+              echo "warn: $autolib_dir missing, skipping seed for $svc"
+              continue
+            fi
+            doc_path="${svc2%service-2.json}documentation-1.json"
+            perl -MJSON::PP -e '
+              my ($autolib_dir, $doc_path) = @ARGV;
+              opendir my $dh, $autolib_dir or die "opendir $autolib_dir: $!";
+              my %methods;
+              while (my $entry = readdir $dh) {
+                next unless $entry =~ /^([A-Z]\w*)\.pm\z/;
+                my $op = $1;
+                open my $fh, "<", "$autolib_dir/$entry" or do { warn "open $entry: $!"; next };
+                while (my $line = <$fh>) {
+                  if ($line =~ /^For the AWS API documentation, see L<([^>]+)>/) {
+                    $methods{$op} = $1;
+                    last;
+                  }
+                }
+                close $fh;
+              }
+              closedir $dh;
+              my $j = JSON::PP->new->utf8->pretty->canonical;
+              open my $out, ">", $doc_path or die "open $doc_path: $!";
+              print $out $j->encode({ documentation => { api_url => undef, methods => \%methods } });
+              close $out;
+              printf "seeded=%s methods=%d\n", $doc_path, scalar keys %methods;
+            ' "$autolib_dir" "$doc_path"
+          done < .ci-out/services.txt
+
+      - name: Regenerate the picked services
+        run: |
+          set -eu
+          # script/gen-service handles the botocore-dir lookup so we
+          # don't have to know the exact path/casing per service.
+          carton exec -- script/gen-service $(tr '\n' ' ' < .ci-out/services.txt)
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+
+      - name: Assert byte-identical output
+        run: |
+          set -eu
+          fail=0
+          while read svc
+          do
+            if [ ! -d "auto-lib/Paws/${svc}" ]
+            then
+              echo "warn: auto-lib/Paws/${svc}/ not present in repo - skipping diff"
+              continue
+            fi
+            git diff --exit-code -- "auto-lib/Paws/${svc}/" || fail=1
+          done < .ci-out/services.txt
+          exit $fail
