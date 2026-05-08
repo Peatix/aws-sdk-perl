@@ -1,15 +1,14 @@
 ---
 call: SendMessage
 service: SQS
+exception: 1
 tests:
   - expected: 503
     op: ==
     path: http_status
-  - expected: 503
-    op: ==
+  - expected: ServiceUnavailableException
+    op: eq
     path: code
-  - expected: "<ServiceUnavailable />"
+  - expected: Service Unavailable
     op: eq
     path: message
-
-

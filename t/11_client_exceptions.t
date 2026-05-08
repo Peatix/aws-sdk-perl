@@ -69,7 +69,7 @@ foreach my $caller_name ('Paws::Net::FurlCaller', 'Paws::Net::Caller', 'Paws::Ne
   throws_ok {
     $p->service('SQS', region => 'eu-west-1')->ListQueues;
   } 'Paws::Exception', 'got exception';
-  
+
   cmp_ok($@->message, 'eq', 'The security token included in the request is invalid.', 'SQS exception');
   cmp_ok($@->code, 'eq', 'InvalidClientTokenId', 'Correct code');
   cmp_ok($@->request_id, 'eq', '000000000000000000000000000000000000', 'Correct Request ID');

@@ -6,6 +6,9 @@ content: |
         <entry>
           <key>mail@example.com</key>
           <value>
+            <BounceTopic/>
+            <ComplaintTopic/>
+            <DeliveryTopic/>
             <ForwardingEnabled>true</ForwardingEnabled>
           </value>
         </entry>

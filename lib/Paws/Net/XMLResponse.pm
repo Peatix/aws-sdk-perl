@@ -217,6 +217,17 @@ package Paws::Net::XMLResponse;
             }
           }
         } else {
+          # XML::Simple (with SuppressEmpty=>undef) parses an empty element
+          # like <Cause/> to undef and an element with whitespace-only
+          # content sometimes to an empty hash. For native-typed required
+          # attributes we want both to look like ''. Doing this only when
+          # $att_is_required avoids changing behaviour for tests that rely
+          # on undef preserving as undef in arrays.
+          if (not defined $value and $att_is_required and exists $result->{ $key }) {
+            $value = '';
+          } elsif (defined $value and ref($value) eq 'HASH' and not %$value) {
+            $value = '';
+          }
           if (defined $value) {
             if ($att_type eq 'Bool') {
               if ($value eq 'true') {

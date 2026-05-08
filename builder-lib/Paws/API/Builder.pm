@@ -208,7 +208,14 @@ package Paws::API::Builder {
   has documentation_struct => (is => 'ro', lazy => 1, default => sub {
     my $self = shift;
     if (not -e $self->documentation_file) {
-      die "documentation-1.json missing for the service, run 'make docu-links'.";
+      # Generation can proceed without doc links; running 'make docu-links'
+      # (or the canonical 'make gen-classes' which calls --docu_links) is
+      # what populates this file with real AWS documentation URLs.
+      warn sprintf(
+        "missing_doc_file=%s service=%s falling_back_to=stub\n",
+        $self->documentation_file, $self->service,
+      );
+      return { api_url => undef, methods => {} };
     }
     return $self->_load_json_file($self->documentation_file)->{ documentation };
   });
@@ -251,6 +258,14 @@ package Paws::API::Builder {
     return 'ValidateAllPolicies' if ($name eq 'ValidatePolicy');
     return 'SelectAllAggregateResourceConfig' if ($name eq 'SelectAggregateResourceConfig');
     return 'SelectAllResourceConfig' if ($name eq 'SelectResourceConfig');
+    return 'ExportAllComponents' if ($name eq 'ExportComponents');
+    return 'ExportAllForms' if ($name eq 'ExportForms');
+    return 'ExportAllThemes' if ($name eq 'ExportThemes');
+    return 'RerankAll' if ($name eq 'Rerank');
+    return 'RetrieveAll' if ($name eq 'Retrieve');
+    return 'ExecuteAllQuery' if ($name eq 'ExecuteQuery');
+    return 'ForecastAllGeofenceEvents' if ($name eq 'ForecastGeofenceEvents');
+    return 'BatchGetAllRumMetricDefinitions' if ($name eq 'BatchGetRumMetricDefinitions');
 
     die "Please help me generate a good name for the paginator $name";
   }
@@ -276,12 +291,31 @@ package Paws::API::Builder {
     },
   );
 
-  has endpoints_file => (is => 'ro', isa => 'Str', default => sub {
-    'botocore/botocore/data/_endpoints.json';
+  has endpoints_file => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+    my $boto = 'botocore/botocore/data/_endpoints.json';
+    return $boto if (-f $boto);
+    # Vendored copy of the legacy pplu/botocore _endpoints.json (last
+    # touched upstream in 2015). Used when the botocore submodule no
+    # longer ships the file in its canonical location.
+    my $vendored = 'etc/_endpoints.json';
+    return $vendored if (-f $vendored);
+    return $boto;
   });
 
   has service_endpoint_rules => (is => 'ro', lazy => 1, default => sub {
     my $self = shift;
+    if (not -f $self->endpoints_file) {
+      # No endpoint rules file available; emit no overrides and let the
+      # service rely on Paws::API::EndpointResolver default rules. The
+      # canonical legacy file lived in the botocore submodule; modern
+      # botocore checkouts do not ship it. See etc/_endpoints.json for
+      # the vendored fallback.
+      warn sprintf(
+        "missing_endpoints_file=%s service=%s falling_back_to=defaults\n",
+        $self->endpoints_file, $self->service,
+      );
+      return '';
+    }
     my $s = Paws::API::RegionBuilder->new(
       rules    => $self->endpoints_file,
       service  => $self->service,
@@ -402,6 +436,42 @@ package Paws::API::Builder {
     return $ret;
   }
 
+  has _shape_member_references => (
+    is => 'ro',
+    isa => 'HashRef',
+    lazy => 1,
+    default => sub {
+      my $self = shift;
+      my %ret;
+      foreach my $shape_name ($self->shapes) {
+        my $shape = $self->shape($shape_name);
+        my @targets;
+        if ($shape->{ type } eq 'structure') {
+          push @targets, map { $_->{ shape } } values %{ $shape->{ members } || {} };
+        } elsif ($shape->{ type } eq 'list') {
+          push @targets, $shape->{ member }->{ shape } if ($shape->{ member });
+        } elsif ($shape->{ type } eq 'map') {
+          push @targets, $shape->{ key }->{ shape }   if ($shape->{ key });
+          push @targets, $shape->{ value }->{ shape } if ($shape->{ value });
+        }
+        foreach my $target (@targets) {
+          $ret{ $target } = 1 if (defined $target);
+        }
+      }
+      return \%ret;
+    },
+  );
+
+  sub _is_referenced_as_member {
+    my ($self, $shape_name) = @_;
+    return $self->_shape_member_references->{ $shape_name };
+  }
+
+  sub _is_exception_referenced_as_member {
+    my ($self, $shape_name) = @_;
+    return $self->is_exception_shape($shape_name) && $self->_is_referenced_as_member($shape_name);
+  }
+
   sub capitalize {
     my ($self, $shape) = @_;
     substr($shape,0,1) = uc(substr($shape,0,1));
@@ -437,9 +507,25 @@ package Paws::API::Builder {
         $self->capitalize_shape($shape);
 
         $ret->{ $shape_name } = $shape if (( $shape->{type} eq 'structure' or $shape->{type} eq 'map')
-                                           and not $self->is_exception_shape($shape_name)
                                            and not $self->is_output_shape($shape_name)
-                                           and not $self->is_input_shape($shape_name)
+                                           and (
+                                             not $self->is_input_shape($shape_name)
+                                             # An input shape may also be referenced as a member of another
+                                             # structure (e.g. RedShift's BatchDeleteClusterSnapshots references
+                                             # DeleteClusterSnapshotMessage which is the input of DeleteClusterSnapshot).
+                                             # In that case it must be generated as an inner class too, otherwise
+                                             # the consuming structure fails to load.
+                                             or $self->_is_referenced_as_member($shape_name)
+                                           )
+                                           and (
+                                             not $self->is_exception_shape($shape_name)
+                                             # Generate exception shapes as inner classes when they are referenced
+                                             # as members of other shapes (e.g. union/event-stream shapes in
+                                             # bedrock-agent-runtime and similar services). Without this the
+                                             # referenced Paws::Service::FooException class fails to load at
+                                             # preload time.
+                                             or $self->_is_exception_referenced_as_member($shape_name)
+                                           )
                                           );
 	# Hack: it results that RedShift uses some shapes as an internal object and as the input shape for a method
 	# call (ResizeCluster, PauseCluseter, ResumeCluster), so due to the "not is_input_shape", the objects were not being
@@ -1160,7 +1246,17 @@ package Paws::API::Builder {
       if ($keys_shape->{enum}){
         # Some enums have names like SHA-1, SHA-256, etc that cannot be used as attributes in a Moose class. Sanitize them
         $keys_shape->{enum} = [ map { $_ =~ s/-//; $_ } @{ $keys_shape->{ enum } }  ];
-        $self->process_template('map_enum.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, });
+        # If any enum value still contains characters that are not valid in
+        # a Perl/Moose attribute name (e.g. '::' in resource type names like
+        # AWS::DynamoDB::Stream) fall back to the generic StrToObj map class
+        # which exposes a single `Map` HashRef attribute.
+        my $invalid_attr = grep { $_ !~ /^[A-Za-z_][A-Za-z0-9_]*$/ } @{ $keys_shape->{enum} };
+        if ($invalid_attr) {
+          my $type = $self->get_caller_class_type($iclass->{value}->{shape});
+          $self->process_template('map_str_to_obj.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => "HashRef[$type]" });
+        } else {
+          $self->process_template('map_enum.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, });
+        }
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'string') {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Maybe[Str]]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'boolean') {
@@ -1169,6 +1265,10 @@ package Paws::API::Builder {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Num]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'integer') {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Int]' });
+      } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'long') {
+        $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Int]' });
+      } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'timestamp') {
+        $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Str]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'double') {
         $self->process_template('map_str_to_native.tt', { c => $self, iclass => $iclass, inner_class => $inner_class, keys_shape => $keys_shape, values_shape => $values_shape, map_class => 'HashRef[Num]' });
       } elsif ($keys_shape->{type} eq 'string' and $values_shape->{type} eq 'list') {

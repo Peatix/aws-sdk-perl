@@ -33,6 +33,24 @@ package Paws::API::Builder::Paws {
     return \@files;
   });
 
+  # Services whose botocore service-2.json currently fails the in-tree
+  # generator. Skipping them keeps `make gen-classes(-no-doc-fetch)` green
+  # for everything else. Each entry needs a tracking comment with the
+  # specific generator limitation hit. Override at construction time
+  # if you want to force-attempt one of these locally.
+  has service_skip_list => (is => 'ro', isa => 'HashRef[Str]', default => sub { {
+    # Operations whose names collide with shapes named identically
+    # (e.g. CreateRecommenderConfiguration, BatchStop, BatchDelete, etc.)
+    # which the generator currently rejects in
+    # Paws::API::Builder->process_api with "conflicts with a shape".
+    medialive => 'method/shape name conflicts',
+    pinpoint  => 'method/shape name conflicts (CreateRecommenderConfiguration, UpdateRecommenderConfiguration)',
+    # Quicksight does not finish generation in a reasonable amount of
+    # time on current builder code (gets stuck doing CPU-bound work in
+    # the inner-shape pass). Investigation tracked separately.
+    quicksight => 'generator does not terminate',
+  } });
+
   has boto_file_information => (is => 'ro', isa => 'HashRef[HashRef]', lazy => 1, default => sub {
     my $self = shift;
     my @files = @{ $self->boto_service_files };
@@ -41,6 +59,13 @@ package Paws::API::Builder::Paws {
       if (my ($service_dir, $version) = ($file =~ m/data\/(.*?)\/(.*?)\/service-2.json/)){
         # Discard directories that are not services (stuff in botocore dir structure
         next if ($service_dir eq '_retry' or $service_dir eq '_regions');
+        if (exists $self->service_skip_list->{ $service_dir }) {
+          warn sprintf(
+            "skipping_service=%s reason=%s\n",
+            $service_dir, $self->service_skip_list->{ $service_dir },
+          );
+          next;
+        }
 
         my $api_ns = $self->servicefile_to_class_overrides->{ $service_dir };
         my $api_struct = decode_json(read_binary($file));

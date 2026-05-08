@@ -222,6 +222,14 @@ package Paws::Net::RestXMLResponse;
               } or do {}
           }
         } else {
+          # Mirror the empty-element handling in Paws::Net::XMLResponse so
+          # that <Marker/> (or any other empty XML node) on a required
+          # native attribute gets coerced to '' rather than undef.
+          if (not defined $value and $att_is_required and exists $result->{ $key }) {
+            $value = '';
+          } elsif (defined $value and ref($value) eq 'HASH' and not %$value) {
+            $value = '';
+          }
           if (defined $value) {
             if ($att_type eq 'Bool') {
               if ($value eq 'true') {
