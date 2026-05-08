@@ -24,18 +24,26 @@ jobs:
       # Goal is to detect "works on dev's laptop, fails on prod".
       image: perl:5.36-slim
     steps:
+      # actions/checkout needs git in PATH to do a real clone; without it
+      # it silently falls back to downloading a tarball via the REST API,
+      # which leaves no .git directory and breaks dzil's [Git::GatherDir]
+      # / [@Git] plugins at build time.
+      - name: Install git for actions/checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install build dependencies
         run: |
-          apt-get update
           apt-get install -y --no-install-recommends \
-            build-essential libxml2-dev libssl-dev zlib1g-dev ca-certificates git
-          # The repo is checked out as the runner user but the container
-          # process runs as root: newer git refuses to operate on repos
-          # owned by a different uid. dzil's [@Git] bundle invokes git,
-          # so without this it fails with "fatal: not a git repository".
+            build-essential libxml2-dev libssl-dev zlib1g-dev
+          # actions/checkout@v4 already runs `git config --global --add
+          # safe.directory <workspace>` (set-safe-directory: true), but the
+          # checkout runs as a different user than later steps inside the
+          # container, so re-add it here defensively for dzil's [@Git] bundle.
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           cpanm --notest --quiet Dist::Zilla
           dzil authordeps --missing | cpanm --notest --quiet
