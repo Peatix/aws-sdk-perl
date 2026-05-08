@@ -1,0 +1,244 @@
+#!/usr/bin/env perl
+
+# benchmarks/run-all
+#
+# Programmatic driver for the Paws benchmark suite. Captures wall-clock
+# numbers in JSON suitable for diffing across CI runs.
+#
+# Differs from benchmarks/startup-benchmark and benchmarks/decode-benchmark
+# in that those are written for humans (Benchmark::timethese output);
+# this one is written for machines.
+#
+# Each benchmark is run --iterations times, with the median wallclock
+# reported. Median is preferred over mean because GitHub-hosted runners
+# have outlier-prone variance.
+#
+# Designed to be runtime-stable: runs an in-process workload (no fork
+# per iteration) to keep noise low. Cold-start scenarios still fork a
+# child per iteration so we measure first-touch costs honestly.
+
+use strict;
+use warnings;
+use v5.20;
+
+use FindBin qw($Bin);
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use Time::HiRes qw(gettimeofday tv_interval);
+use JSON::MaybeXS qw(encode_json);
+use File::Slurper qw(write_text);
+use POSIX qw(strftime);
+
+# Inline credential + mock caller classes used by bench_decode_warm.
+# Declared before the main loop so that `has` accessors are installed
+# before bench_decode_warm reaches them. `package NAME { BLOCK }`
+# parses BLOCK at compile time but executes it at runtime in
+# declaration order, so packages defined below the main loop would
+# have their `has` declarations evaluated only after the loop has
+# already called the constructors.
+package BenchCreds {
+    use Moose;
+    with 'Paws::Credential';
+    sub refresh {
+        require Paws::Credential::Explicit;
+        return Paws::Credential::Explicit->new(
+            access_key => 'BenchAK',
+            secret_key => 'BenchSK',
+        );
+    }
+    __PACKAGE__->meta->make_immutable;
+}
+
+package MockCaller {
+    use Moose;
+    with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
+    use Paws::Net::APIResponse;
+
+    has mocked_response => (
+        is      => 'rw',
+        isa     => 'Maybe[Paws::Net::APIResponse]',
+        default => undef,
+    );
+
+    sub send_request {
+        my $self = shift;
+        return $self->mocked_response if $self->mocked_response;
+        return Paws::Net::APIResponse->new(
+            status  => 599,
+            content => 'no mock',
+            headers => [],
+        );
+    }
+
+    sub caller_to_response {
+        my ($self, $service, $call_object, $response) = @_;
+        if ($response->status == 599) {
+            require Paws::Exception;
+            return Paws::Exception->new(
+                message    => $response->content,
+                code       => 'ConnectionError',
+                request_id => '',
+            );
+        }
+        return $service->response_to_object->process($call_object, $response);
+    }
+
+    __PACKAGE__->meta->make_immutable;
+}
+
+my $iterations = 5;
+my $output     = '';
+my $only       = '';
+my $help       = 0;
+
+GetOptions(
+    'iterations=i' => \$iterations,
+    'output=s'     => \$output,
+    'only=s'       => \$only,
+    'help|h'       => \$help,
+) or die "invalid arguments\n";
+
+if ($help) {
+    print <<'USAGE';
+usage: run-all [--iterations N] [--output PATH] [--only NAME]
+
+  --iterations N  Number of timed runs per benchmark (default: 5)
+  --output PATH   Write JSON record to PATH (default: stdout)
+  --only NAME     Run only the named benchmark (default: all)
+
+Benchmarks:
+  startup-cold       Cost of `Paws->new` + `service('DynamoDB')` in a
+                     fresh perl process. Forks a child per iteration.
+  decode-warm-2500   Cost of decoding a 2500-row DynamoDB Query response
+                     in an already-warm process.
+USAGE
+    exit 0;
+}
+
+my %benchmarks = (
+    'startup-cold'     => \&bench_startup_cold,
+    'decode-warm-2500' => \&bench_decode_warm,
+);
+
+my @names = $only ? ($only) : sort keys %benchmarks;
+for my $name (@names) {
+    die "unknown benchmark name=$name\n" if !exists $benchmarks{$name};
+}
+
+my %results;
+for my $name (@names) {
+    say STDERR "benchmark name=$name iterations=$iterations status=running";
+    my @samples;
+    for (1 .. $iterations) {
+        push @samples, $benchmarks{$name}->();
+    }
+    my @sorted = sort { $a <=> $b } @samples;
+    my $median = $sorted[ int(@sorted / 2) ];
+    my $mean   = sum(\@samples) / @samples;
+    $results{$name} = {
+        wallclock_seconds_median => 0 + sprintf('%.6f', $median),
+        wallclock_seconds_mean   => 0 + sprintf('%.6f', $mean),
+        wallclock_seconds_min    => 0 + sprintf('%.6f', $sorted[0]),
+        wallclock_seconds_max    => 0 + sprintf('%.6f', $sorted[-1]),
+        iterations               => 0 + $iterations,
+        samples                  => [ map { 0 + sprintf('%.6f', $_) } @samples ],
+    };
+    say STDERR sprintf(
+        'benchmark name=%s status=done median_seconds=%.4f min=%.4f max=%.4f',
+        $name, $median, $sorted[0], $sorted[-1],
+    );
+}
+
+my $record = {
+    schema       => 1,
+    perl_version => sprintf('%vd', $^V),
+    timestamp    => strftime('%Y-%m-%dT%H:%M:%SZ', gmtime),
+    results      => \%results,
+};
+
+my $json = JSON::MaybeXS->new(canonical => 1, pretty => 1)->encode($record);
+if ($output) {
+    write_text($output, $json);
+} else {
+    print $json;
+}
+
+exit 0;
+
+sub sum {
+    my ($ref) = @_;
+    my $s = 0;
+    $s += $_ for @$ref;
+    return $s;
+}
+
+# Forks a child that does Paws->new + service('DynamoDB'). Times the
+# wall-clock of the child from fork to exit. This is the closest
+# reasonable proxy for cold-start cost in a real perl process.
+sub bench_startup_cold {
+    my $script = "$Bin/util/dynamodb-decode.pl";
+    my $start  = [gettimeofday];
+    defined(my $pid = fork) or die "fork failed: $!";
+    if ($pid) {
+        waitpid $pid, 0;
+        return tv_interval($start);
+    } else {
+        # Suppress the child's stdout so the benchmark measures cost,
+        # not terminal IO.
+        open STDOUT, '>', '/dev/null' or die "redirect stdout: $!";
+        open STDERR, '>', '/dev/null' or die "redirect stderr: $!";
+        exec($^X, $script, '--count', '1', '--iter', '1', '--immutable');
+        die "exec failed: $!";
+    }
+}
+
+# Runs a 2500-row decode entirely in-process so we measure decoding
+# rather than process startup.
+sub bench_decode_warm {
+    state $loaded;
+    if (!$loaded) {
+        require Paws;
+        Paws->default_config->immutable(1);
+        require Paws::Credential::Explicit;
+        require Paws::Net::APIResponse;
+        require JSON::XS;
+        $loaded = 1;
+    }
+
+    my $JSON = JSON::XS->new->canonical(0);
+    my $count = 2500;
+    my $payload = $JSON->encode({
+        Count => 0 + $count,
+        Items => [ map {
+            {
+                field_int1 => { N => 0 + $_ },
+                field_str1 => { S => "str1_blah_$_" },
+                field_int2 => { N => 0 + $_ },
+                field_str2 => { S => "str2_blah_$_" },
+                field_int3 => { N => 0 + $_ },
+                field_str3 => { S => "str3_blah_$_" },
+            }
+        } (1 .. $count) ],
+        ScannedCount => 0 + $count,
+    });
+
+    my $mock = MockCaller->new;
+    $mock->mocked_response(Paws::Net::APIResponse->new(
+        status  => 200,
+        content => $payload,
+        headers => {
+            'content-type'     => 'application/x-amz-json-1.0',
+            'x-amzn-requestid' => '0' x 36,
+        },
+    ));
+
+    my $paws = Paws->new(config => {
+        caller      => $mock,
+        credentials => 'BenchCreds',
+        region      => 'us-west-2',
+    });
+
+    my $svc   = $paws->service('DynamoDB');
+    my $start = [gettimeofday];
+    my $r     = $svc->Query(TableName => 't', IndexName => 'i', Limit => $count);
+    return tv_interval($start);
+}
