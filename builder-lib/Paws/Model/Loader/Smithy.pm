@@ -161,8 +161,20 @@ sub _build_operation {
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
     );
     $args{http_status_code} = $http->{code} if defined $http->{code};
-    $args{input_shape}      = _local_part($op->{input}{target})  if $op->{input};
-    $args{output_shape}     = _local_part($op->{output}{target}) if $op->{output};
+
+    # smithy.api#Unit is Smithy's placeholder for "operation has no
+    # input/output payload". The IR represents that as undef so the
+    # materialiser does not chase a non-existent `Unit` shape.
+    if (my $in = $op->{input}) {
+        my $tgt = $in->{target} // '';
+        $args{input_shape} = _local_part($tgt)
+            if $tgt ne '' && $tgt ne 'smithy.api#Unit';
+    }
+    if (my $out = $op->{output}) {
+        my $tgt = $out->{target} // '';
+        $args{output_shape} = _local_part($tgt)
+            if $tgt ne '' && $tgt ne 'smithy.api#Unit';
+    }
 
     if ($op->{errors}) {
         $args{error_shapes} = [ map { _local_part($_->{target}) } @{ $op->{errors} } ];
