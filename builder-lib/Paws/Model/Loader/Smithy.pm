@@ -114,9 +114,13 @@ sub _build_service {
         // lc(_local_part($svc_id));
     my $sdk_id            = $api_service_trait->{sdkId} // _local_part($svc_id);
 
-    # Operations live in the service shape's operations[].
-    my @op_targets =
-        map { $_->{target} } @{ $svc_shape->{operations} // [] };
+    # Operations live in two places in a Smithy AST: directly on the
+    # service shape's `operations[]`, and indirectly via
+    # `service.resources[]` (a resource being a Smithy concept that
+    # botocore JSON has no equivalent of). Walk both so services like
+    # account -- which expose every operation through a resource --
+    # don't appear empty.
+    my @op_targets = $self->_collect_operation_targets($shapes, $svc_shape);
 
     my %operations;
     for my $tgt (@op_targets) {
@@ -131,8 +135,11 @@ sub _build_service {
     my %ir_shapes;
     for my $id (sort keys %$shapes) {
         my $s = $shapes->{$id};
-        next if ($s->{type} // '') eq 'service';
-        next if ($s->{type} // '') eq 'operation';
+        my $t = $s->{type} // '';
+        # `service` / `operation` / `resource` are not data shapes.
+        # `resource` in particular is a Smithy-only concept that has
+        # no IR equivalent, so we skip it like the other two.
+        next if $t eq 'service' || $t eq 'operation' || $t eq 'resource';
         my $local = _local_part($id);
         $ir_shapes{$local} = $self->_build_shape($local, $s);
     }
@@ -162,6 +169,46 @@ sub _build_service {
         operations        => \%operations,
         shapes            => \%ir_shapes,
     );
+}
+
+# Recursively collect operation shape IDs reachable from a service
+# shape. Smithy services declare operations either directly under
+# `service.operations[]` or through `service.resources[]`, where each
+# resource may carry:
+#
+#   - per-lifecycle operations: create / read / update / delete /
+#     put / list -- each a single { target: ... } reference
+#   - free-standing instance ops: operations[]
+#   - free-standing collection ops: collectionOperations[]
+#   - nested sub-resources via resources[], which we recurse into
+#
+# Returns a deduplicated list of fully-qualified shape IDs.
+sub _collect_operation_targets {
+    my ($self, $shapes, $svc_shape) = @_;
+
+    my @ops = map { $_->{target} } @{ $svc_shape->{operations} // [] };
+
+    my @resource_targets = map { $_->{target} } @{ $svc_shape->{resources} // [] };
+    my %seen_resources;
+    while (defined(my $rid = shift @resource_targets)) {
+        next if $seen_resources{$rid}++;
+        my $resource = $shapes->{$rid}
+            or next;
+        for my $verb (qw(create read update delete put list)) {
+            my $ref = $resource->{$verb} or next;
+            push @ops, $ref->{target} if defined $ref->{target};
+        }
+        push @ops, map { $_->{target} } @{ $resource->{operations} // [] };
+        push @ops, map { $_->{target} } @{ $resource->{collectionOperations} // [] };
+        push @resource_targets, map { $_->{target} }
+            @{ $resource->{resources} // [] };
+    }
+
+    # Dedupe while preserving first-seen order. A resource-bound
+    # operation could in principle also be listed under
+    # service.operations[]; keep one copy.
+    my %seen_op;
+    return grep { !$seen_op{$_}++ } @ops;
 }
 
 sub _build_operation {
