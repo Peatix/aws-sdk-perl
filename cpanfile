@@ -40,6 +40,8 @@ recommends 'Browser::Open';
 requires 'File::HomeDir';
 requires 'String::CRC32';
 requires 'Path::Tiny' => '0.017';
+# Paws::Net::DebugCaller serialises request/response captures to YAML.
+requires 'YAML';
 suggests "Future::Mojo";
 
 on 'develop' => sub {

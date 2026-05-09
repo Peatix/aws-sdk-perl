@@ -89,7 +89,8 @@ shard_files() {
            t/28_retries_mojoasynccaller.t \
            t/29_restxml_syntetic_responses.t \
            t/30_ec2_syntetic_responses.t \
-           t/31_glacier_syntetic_responses.t
+           t/31_glacier_syntetic_responses.t \
+           t/32_debug_caller.t
       ;;
     subdirs)
       echo t/02_aws_object.t \
