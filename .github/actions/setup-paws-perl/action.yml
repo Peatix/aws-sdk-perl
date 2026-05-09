@@ -49,10 +49,24 @@ inputs:
     default: "true"
   cache-autolib:
     description: |
-      Cache `auto-lib/` regenerated content keyed on the union of
-      generator inputs. Set to "true" only for workflows that run
-      `make gen-classes-no-doc-fetch` (today: test.yml). Other
-      workflows leave this off.
+      Auto-lib cache mode. Three accepted values:
+
+        * "false"        - no auto-lib cache (default).
+        * "true"         - read + write (actions/cache@v4). On miss,
+                           the post-step saves whatever is in
+                           auto-lib/ at job-end. Use this from the
+                           job that produces the canonical auto-lib
+                           (today: build-autolib-merge in test.yml).
+        * "restore-only" - read-only (actions/cache/restore@v4).
+                           No post-step save. Use this from a "plan"
+                           job that wants to learn whether the cache
+                           is populated without committing to writing
+                           an auto-lib slice into it (today:
+                           build-autolib-plan in test.yml).
+
+      The cache key is identical across "true" and "restore-only"
+      callers — the matrix-sharded build only succeeds at warming
+      the cache because plan and merge agree on the key.
     required: false
     default: "false"
 
@@ -61,7 +75,7 @@ outputs:
     description: |
       "true" if the auto-lib cache restored content for the current
       cache key. Callers can use this to skip the regen step.
-    value: ${{ steps.autolib-cache.outputs.cache-hit }}
+    value: ${{ steps.autolib-cache-rw.outputs.cache-hit || steps.autolib-cache-ro.outputs.cache-hit }}
 
 runs:
   using: composite
@@ -105,7 +119,7 @@ runs:
         fi
 
     - name: Resolve botocore source SHA
-      if: ${{ inputs.cache-autolib == 'true' }}
+      if: ${{ inputs.cache-autolib != 'false' }}
       id: botocore-sha
       shell: bash
       run: |
@@ -126,9 +140,12 @@ runs:
           fi
         fi
 
-    - name: Cache auto-lib/ regenerated content
+    - name: Cache auto-lib/ regenerated content (read + write)
+      # Active when cache-autolib: "true". Post-step saves auto-lib/
+      # to the cache on miss + success — hence "use only from the
+      # canonical producer" in the input docs above.
       if: ${{ inputs.cache-autolib == 'true' }}
-      id: autolib-cache
+      id: autolib-cache-rw
       uses: actions/cache@v4
       with:
         path: auto-lib
@@ -142,3 +159,16 @@ runs:
           paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ steps.botocore-sha.outputs.sha }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'cpanfile') }}
         # Don't restore-keys: a partial / older auto-lib is a
         # correctness bug. All-or-nothing.
+
+    - name: Restore auto-lib/ regenerated content (read only)
+      # Active when cache-autolib: "restore-only". Same key as the
+      # rw step above; no post-step save (actions/cache/restore@v4
+      # has no post-step). Use from a plan job that just wants to
+      # learn whether the cache is populated.
+      if: ${{ inputs.cache-autolib == 'restore-only' }}
+      id: autolib-cache-ro
+      uses: actions/cache/restore@v4
+      with:
+        path: auto-lib
+        key: |
+          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ steps.botocore-sha.outputs.sha }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'cpanfile') }}
