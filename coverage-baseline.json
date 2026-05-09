@@ -168,21 +168,21 @@
          "subroutine" : 100,
          "total" : 100
       },
-      "lib/Paws/Materializer.pm" : {
+      "lib/Paws/Model/Materializer.pm" : {
          "branch" : 72.7272727272727,
          "condition" : 41.6666666666667,
          "statement" : 93.7853107344633,
          "subroutine" : 87.5,
          "total" : 85.4368932038835
       },
-      "lib/Paws/Materializer/Auto.pm" : {
+      "lib/Paws/Model/Materializer/Auto.pm" : {
          "branch" : 44.4444444444444,
          "condition" : 50,
          "statement" : 73.0769230769231,
          "subroutine" : 82.3529411764706,
          "total" : 66.6666666666667
       },
-      "lib/Paws/Materializer/Moo.pm" : {
+      "lib/Paws/Model/Materializer/Moo.pm" : {
          "branch" : 68.9189189189189,
          "condition" : 40.9090909090909,
          "statement" : 93.2038834951456,

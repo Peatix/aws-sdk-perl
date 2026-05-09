@@ -25,7 +25,7 @@ After installing both C<Paws> and C<Paws::Docs>:
   perldoc Paws::S3::ListBucketsOutput
 
 The POD pages are auto-generated from the same intermediate
-representation (L<Paws::Model::IR>) that L<Paws::Materializer> uses to
+representation (L<Paws::Model::IR>) that L<Paws::Model::Materializer> uses to
 build runtime classes, so the docs and the runtime stay in sync.
 
 =head1 RELEASE PROCESS
@@ -37,7 +37,7 @@ full flow.
 
 =head1 SEE ALSO
 
-L<Paws>, L<Paws::Materializer>, L<Paws::Model::IR>.
+L<Paws>, L<Paws::Model::Materializer>, L<Paws::Model::IR>.
 
 =head1 AUTHOR
 

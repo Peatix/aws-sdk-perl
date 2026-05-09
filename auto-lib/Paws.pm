@@ -132,13 +132,13 @@ sub _materialise_class {
 
   # Materialising a service builds the service class plus every
   # operation / shape class for that service in one go (see
-  # Paws::Materializer::Moo::materialize_service). A subsequent
+  # Paws::Model::Materializer::Moo::materialize_service). A subsequent
   # load_class for an inner class (e.g. Paws::EC2::DescribeInstances)
   # therefore doesn't need a separate materialise pass once the
   # service has been built. Track materialised SERVICES (not classes)
   # so a later re-entry into _materialise_class for an inner class
   # short-circuits and avoids the redefine-warning + duplicate
-  # materialisation cost. Paws::Materializer::Auto's patched
+  # materialisation cost. Paws::Model::Materializer::Auto's patched
   # load_class is what catches these in the steady-state case; this
   # state hash is the belt-and-braces version for the single-call
   # path that bypasses the patched version (e.g. multi-arg
@@ -150,15 +150,15 @@ sub _materialise_class {
   # Lazy-load the materialiser path. require_module here so a
   # Paws install that lacks the materialiser modules (theoretical
   # while the stack lands) falls back to the original error.
-  Module::Runtime::require_module('Paws::Materializer::Auto');
-  Paws::Materializer::Auto::_install_hook();
+  Module::Runtime::require_module('Paws::Model::Materializer::Auto');
+  Paws::Model::Materializer::Auto::_install_hook();
 
   # Materializer::Auto's hook re-routes load_class through itself,
   # so a recursive load_class call here would loop. Instead, drive
   # the materialiser directly via the resolver.
   Module::Runtime::require_module('Paws::Model::Loader::Resolver');
-  Module::Runtime::require_module('Paws::Materializer');
-  Module::Runtime::require_module('Paws::Materializer::Moo');
+  Module::Runtime::require_module('Paws::Model::Materializer');
+  Module::Runtime::require_module('Paws::Model::Materializer::Moo');
 
   my $resolver = Paws::Model::Loader::Resolver->new;
   my $ir       = eval { $resolver->load_service($service_name) };
@@ -171,8 +171,8 @@ sub _materialise_class {
 
   my $backend = $ENV{PAWS_OO_BACKEND} // 'Moo';
   my $mat_class = $backend eq 'Moose'
-    ? 'Paws::Materializer'
-    : 'Paws::Materializer::Moo';
+    ? 'Paws::Model::Materializer'
+    : 'Paws::Model::Materializer::Moo';
   my $mat = $mat_class->new(loader => undef);
   $mat->materialize_service($ir);
 }
@@ -283,7 +283,7 @@ sub available_services {
 
   my $skip_list = {
     API => 1, Credential => 1, Exception => 1, RegionInfo => 1,
-    Materializer => 1, SerDes => 1,
+    SerDes => 1,
     # Test helpers under t/lib/Paws that get picked up by
     # Module::Find::findsubmod when t/lib is on @INC. They are not
     # real services and have no `operations` method, so preload_service

@@ -5,8 +5,8 @@ Two backends produce the per-service Perl classes from the IR
 
 | Backend                       | Module                          | Status      |
 |-------------------------------|---------------------------------|-------------|
-| Moose (escape hatch)          | `Paws::Materializer`            | always-on   |
-| Moo + Type::Tiny (default)    | `Paws::Materializer::Moo`       | default from PR13 |
+| Moose (escape hatch)          | `Paws::Model::Materializer`            | always-on   |
+| Moo + Type::Tiny (default)    | `Paws::Model::Materializer::Moo`       | default from PR13 |
 
 Both produce classes that:
 
@@ -23,19 +23,19 @@ Both produce classes that:
 
 ```
 use Paws::Model::Loader::Botocore;
-use Paws::Materializer::Moo;
+use Paws::Model::Materializer::Moo;
 
 my $loader = Paws::Model::Loader::Botocore->new;
 my $ir     = $loader->load($path_to_service_2_json);
 
-my $mat    = Paws::Materializer::Moo->new(loader => $loader);
+my $mat    = Paws::Model::Materializer::Moo->new(loader => $loader);
 my $pkg    = $mat->materialize_service($ir);
 
 my $svc = $pkg->new(region => 'us-east-1', ...);
 $svc->ListThings(...);
 ```
 
-From PR13, `Paws::Materializer::Auto` defaults to the Moo backend.
+From PR13, `Paws::Model::Materializer::Auto` defaults to the Moo backend.
 `PAWS_OO_BACKEND=Moose` is the documented escape hatch for one
 release while users update any code that depends on Moose-specific
 error message text.
@@ -97,8 +97,8 @@ introspects them.
   cold-start and warm dispatch, but introduces a different syntax
   (`field`, `method`) and is not in core. Worth considering once Moo
   is the default and we have benchmarks. Adding a third backend is a
-  small PR because the Materializer / Materializer::Moo split is
-  already the precedent.
+  small PR because the Paws::Model::Materializer / Paws::Model::Materializer::Moo
+  split is already the precedent.
 
 - Core `class` (Corinna). Requires Perl 5.38+; would bump Paws's
   minimum from 5.12 by 12 years. Premature.

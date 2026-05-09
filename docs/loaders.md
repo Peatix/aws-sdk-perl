@@ -2,8 +2,8 @@
 
 A loader takes a source-of-truth file describing an AWS service and
 returns a `Paws::Model::IR::Service`. The downstream consumers
-(`Paws::API::Builder` once refactored, `Paws::Materializer`,
-`Paws::Materializer::Moo`) work against the IR and don't care which
+(`Paws::API::Builder` once refactored, `Paws::Model::Materializer`,
+`Paws::Model::Materializer::Moo`) work against the IR and don't care which
 loader produced it.
 
 ## Loaders today

@@ -2,8 +2,8 @@
 
 # Moo + Type::Tiny backend smoke test.
 #
-# Mirrors t/model/02_materializer_smoke.t but uses Paws::Materializer::Moo
-# instead of Paws::Materializer (Moose). The materialised classes are
+# Mirrors t/model/02_materializer_smoke.t but uses Paws::Model::Materializer::Moo
+# instead of Paws::Model::Materializer (Moose). The materialised classes are
 # Moo, the SerDes side-table is populated directly (no Moose-meta
 # introspection), and the wire layer works identically.
 
@@ -19,7 +19,7 @@ use lib "$Bin/../../builder-lib";
 use lib "$Bin/../../lib";
 
 use Paws::Model::Loader::Botocore;
-use Paws::Materializer::Moo;
+use Paws::Model::Materializer::Moo;
 use Paws::SerDes;
 
 my $fixture = "$Bin/fixtures/tinyservice/2024-01-01/service-2.json";
@@ -41,7 +41,7 @@ my $renamed = Paws::Model::IR::Service->new(
     shapes            => $svc_ir->shapes,
 );
 
-my $mat = Paws::Materializer::Moo->new(loader => $loader);
+my $mat = Paws::Model::Materializer::Moo->new(loader => $loader);
 my $svc_pkg = $mat->materialize_service($renamed);
 is($svc_pkg, 'Paws::T9MooService', 'service package returned');
 
