@@ -298,35 +298,47 @@ sub _install_structure_members {
 
     my %required = map { $_ => 1 } @{ $shape->required_members };
 
-    for my $mname (sort keys %{ $shape->members }) {
-        my $m       = $shape->members->{$mname};
-        my $isa     = $self->_isa_for_member($service_ir, $m);
+    for my $mname_orig (sort keys %{ $shape->members }) {
+        my $m         = $shape->members->{$mname_orig};
+        my $mname     = _paws_member_name($mname_orig);
+        my $isa       = $self->_isa_for_member($service_ir, $m);
         my %extra;
         my @traits;
+
+        # Wire key precedence: explicit locationName from botocore, then
+        # the original lowercase-or-as-loaded member name (because the
+        # AOT path's Paws::API::Builder::capitalize_shape preserves the
+        # original member name as locationName when it capitalises).
+        my $wire_key  = $m->locationName // $mname_orig;
 
         # Resolve trait + named-arg pair from member.location.
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
                 push @traits, 'ParamInHeader';
-                $extra{header_name} = $m->locationName;
+                $extra{header_name} = $wire_key;
             } elsif ($loc eq 'headers') {
                 push @traits, 'ParamInHeaders';
-                $extra{header_prefix} = $m->locationName;
+                $extra{header_prefix} = $wire_key;
             } elsif ($loc eq 'querystring') {
                 push @traits, 'ParamInQuery';
-                $extra{query_name} = $m->locationName;
+                $extra{query_name} = $wire_key;
             } elsif ($loc eq 'uri') {
                 push @traits, 'ParamInURI';
-                $extra{uri_name} = $m->locationName;
+                $extra{uri_name} = $wire_key;
             }
             # statusCode etc. are output-only and not added as traits.
         } elsif (defined $m->locationName && $m->locationName ne $mname) {
             push @traits, 'NameInRequest';
             $extra{request_name} = $m->locationName;
+        } elsif ($mname ne $mname_orig) {
+            # Pure capitalisation rename (no explicit locationName); the
+            # wire still wants the original lowercase name.
+            push @traits, 'NameInRequest';
+            $extra{request_name} = $mname_orig;
         }
 
         # ParamInBody for the payload.
-        if (defined $shape->payload && $shape->payload eq $mname) {
+        if (defined $shape->payload && $shape->payload eq $mname_orig) {
             push @traits, 'ParamInBody';
         }
 
@@ -335,11 +347,23 @@ sub _install_structure_members {
             isa => $isa,
             (@traits ? (traits => \@traits) : ()),
             %extra,
-            ($required{$mname} ? (required => 1) : ()),
+            ($required{$mname_orig} ? (required => 1) : ()),
         );
 
         $meta->add_attribute($mname => %attr);
     }
+}
+
+# Apply Paws SDK convention: structure members whose first letter is
+# lowercase get capitalised. Original member name is preserved as the
+# wire key (locationName / NameInRequest trait) by the caller. Mirrors
+# Paws::API::Builder::capitalize_shape from the AOT path so the
+# materialised classes have the same Pascal-case Perl interface.
+sub _paws_member_name {
+    my ($name) = @_;
+    return $name if $name =~ /^[A-Z_]/;
+    substr($name, 0, 1) = uc(substr($name, 0, 1));
+    return $name;
 }
 
 # Compute the Moose isa-string for a member's target shape. Side

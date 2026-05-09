@@ -329,16 +329,24 @@ sub _install_structure_members {
 
     my %required = map { $_ => 1 } @{ $shape->required_members };
 
-    for my $mname (sort keys %{ $shape->members }) {
-        my $m = $shape->members->{$mname};
+    for my $mname_orig (sort keys %{ $shape->members }) {
+        my $m           = $shape->members->{$mname_orig};
+        my $mname       = _paws_member_name($mname_orig);
         my $type_expr   = $self->_type_expr($service_ir, $m->shape);
         my $type_string = $self->_type_string($service_ir, $m->shape);
+
+        # Wire-key precedence (mirrors Paws::API::Builder::capitalize_shape
+        # in the AOT path):
+        #   1. explicit locationName from botocore;
+        #   2. original member name (preserves a lowercase name when the
+        #      Paws-side rename to TitleCase changed it).
+        my $wire_key = $m->locationName // $mname_orig;
 
         # Derive trait info for the SerDes side-table.
         my %record = (
             name          => $mname,
             type          => $type_string,
-            wire_key      => $mname,
+            wire_key      => $wire_key,
             location      => 'body',
             location_name => undef,
             traits        => {},
@@ -349,32 +357,37 @@ sub _install_structure_members {
             if ($loc eq 'header') {
                 $record{traits}{ParamInHeader} = 1;
                 $record{location} = 'header';
-                $record{location_name} = $m->locationName;
+                $record{location_name} = $wire_key;
             } elsif ($loc eq 'headers') {
                 $record{traits}{ParamInHeaders} = 1;
                 $record{location} = 'headers';
-                $record{location_name} = $m->locationName;
+                $record{location_name} = $wire_key;
             } elsif ($loc eq 'querystring') {
                 $record{traits}{ParamInQuery} = 1;
                 $record{location} = 'querystring';
-                $record{location_name} = $m->locationName;
+                $record{location_name} = $wire_key;
             } elsif ($loc eq 'uri') {
                 $record{traits}{ParamInURI} = 1;
                 $record{location} = 'uri';
-                $record{location_name} = $m->locationName;
+                $record{location_name} = $wire_key;
             }
         } elsif (defined $m->locationName && $m->locationName ne $mname) {
             $record{traits}{NameInRequest} = 1;
             $record{location_name} = $m->locationName;
-            $record{wire_key}      = $m->locationName;
+        } elsif ($mname ne $mname_orig) {
+            # Pure capitalisation rename: the wire still wants the
+            # original lowercase name; record the body-position trait so
+            # the wire layer reads/writes under that key.
+            $record{traits}{NameInRequest} = 1;
+            $record{location_name} = $mname_orig;
         }
-        if (defined $shape->payload && $shape->payload eq $mname) {
+        if (defined $shape->payload && $shape->payload eq $mname_orig) {
             $record{traits}{ParamInBody} = 1;
         }
 
         push @$serdes_records, \%record;
 
-        my $required_part = $required{$mname} ? ', required => 1' : '';
+        my $required_part = $required{$mname_orig} ? ', required => 1' : '';
         push @$attr_lines,
             "        has $mname => (is => 'ro', isa => $type_expr$required_part);";
 
@@ -398,6 +411,18 @@ sub _install_structure_members {
     }
 
     return;
+}
+
+# Apply the Paws SDK Pascal-case naming convention to a structure
+# member name. Mirrors Paws::API::Builder::capitalize_shape in the AOT
+# generator: lowercase-first-letter members get an uppercase first
+# letter, but anything already starting with an uppercase letter (or
+# underscore) is left alone.
+sub _paws_member_name {
+    my ($name) = @_;
+    return $name if $name =~ /^[A-Z_]/;
+    substr($name, 0, 1) = uc(substr($name, 0, 1));
+    return $name;
 }
 
 # Returns a Type::Tiny *expression* that will be eval'd inside the
