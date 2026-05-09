@@ -21,17 +21,67 @@ use Paws::Model::Loader::Smithy;
 
 use Moose;
 
+# Resolve the dist's installed share/ directory at runtime so the
+# defaults can prefer the vendored, fully-self-contained tree
+# (`<install-prefix>/auto/share/dist/Paws/{smithy,botocore}`) over
+# the in-tree dev paths. File::ShareDir::dist_dir dies for an
+# uninstalled / unregistered dist, which is the normal state during
+# in-tree development; eval-wrap and fall through. Cached at
+# package scope: dist_dir does file system probing and the result
+# never changes for the life of the process.
+my $SHARE_DIR;
+sub _share_dir {
+    return $SHARE_DIR if defined $SHARE_DIR;
+    require File::ShareDir;
+    my $dir = eval { File::ShareDir::dist_dir('Paws') };
+    $SHARE_DIR = defined $dir ? $dir : '';
+    return $SHARE_DIR;
+}
+
 # Where to look for source files. Each path is checked in turn.
+#
+# Default order:
+#   1. The dist's installed sharedir (populated by `dzil build` from
+#      script/paws-vendor-{smithy,botocore}; see dist.ini's [ShareDir]
+#      and the `dist-prep` Makefile target). This is the path that
+#      makes a plain `cpanm Paws` install actually work end-to-end —
+#      see issue #80.
+#   2. The in-tree dev path (CWD-relative). Populated by
+#      `make vendor-{smithy,botocore}` for contributors who haven't
+#      done `dzil build` and `cpanm` of the resulting tarball. Also
+#      acts as a fallback for the post-stack19 dist where auto-lib/
+#      stops shipping.
+#
+# Both paths are tried for every service before giving up; this
+# keeps in-tree dev work going against a freshly-vendored share/
+# tree even when an installed Paws happens to be earlier in @INC.
 has botocore_search_paths => (
     is      => 'ro',
     isa     => 'ArrayRef[Str]',
-    default => sub { ['botocore/botocore/data'] },
+    lazy    => 1,
+    default => sub {
+        my @paths;
+        if (my $dir = _share_dir()) {
+            push @paths, File::Spec->catdir($dir, 'botocore');
+        }
+        push @paths, 'share/botocore';
+        push @paths, 'botocore/botocore/data';
+        return \@paths;
+    },
 );
 
 has smithy_search_paths => (
     is      => 'ro',
     isa     => 'ArrayRef[Str]',
-    default => sub { ['share/smithy'] },
+    lazy    => 1,
+    default => sub {
+        my @paths;
+        if (my $dir = _share_dir()) {
+            push @paths, File::Spec->catdir($dir, 'smithy');
+        }
+        push @paths, 'share/smithy';
+        return \@paths;
+    },
 );
 
 # Order in which loaders are tried. The first one that finds a source
