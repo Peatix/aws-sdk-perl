@@ -18,31 +18,101 @@ concurrency:
   group: test-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+# Build pipeline (cache-miss, the slow path):
+#
+#   build-autolib-plan ──► build-autolib-shard (matrix a..f) ──► build-autolib-merge ──► test (matrix)
+#
+# Build pipeline (cache-hit, the fast path):
+#
+#   build-autolib-plan ──[uploads auto-lib artifact directly]──► test (matrix)
+#
+# The shard + merge fan-out cuts the cache-miss `build-autolib`
+# wall-clock from ~28 min (single 4-core runner, Parallel::ForkManager
+# bound) to ~5-7 min (6 shards × 4 cores = 24 effective gen workers
+# plus a small ~2 min merge job). Cache-hit PRs are unchanged in
+# wall time — plan looks up the cache, packs auto-lib, uploads, and
+# the shard / merge jobs are skipped.
+
 jobs:
-  # Stage 1: regenerate (or restore) auto-lib once and ship it to the
-  # matrix as a workflow artifact. Doing the regen in a single job
-  # avoids paying the 25-30 minute gen-classes-no-doc-fetch cost N
-  # times on cache-miss PRs (touching builder-lib/, templates/, or
-  # the share/botocore/.upstream-sha marker).
-  build-autolib:
+  # Stage 1a: probe the auto-lib cache. On hit, pack the restored
+  # auto-lib and upload it as the `auto-lib` artifact (which the
+  # test matrix consumes); on miss, emit cache-hit=false and let
+  # the shard matrix below take over.
+  #
+  # Plan deliberately runs WITHOUT carton-install / cache-carton to
+  # keep the cache-hit path lean. cache-autolib: "restore-only" uses
+  # actions/cache/restore@v4 — read-only, no post-step save — so a
+  # miss here won't accidentally save an empty auto-lib/ into the
+  # cache slot the merge job is going to populate.
+  build-autolib-plan:
     runs-on: ubuntu-latest
     outputs:
-      autolib-cache-hit: ${{ steps.perl.outputs.autolib-cache-hit }}
+      cache-hit: ${{ steps.perl.outputs.autolib-cache-hit }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Perl + auto-lib cache lookup
+        id: perl
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          perl-version: "5.36"
+          # Plan only needs the cache-key + cache-restore primitives
+          # from this action, not the carton tree. Skipping carton
+          # install + carton cache shaves ~30s off the cache-hit path.
+          carton-install: "false"
+          cache-carton: "false"
+          cache-autolib: "restore-only"
+
+      - name: Pack auto-lib for matrix download (cache hit)
+        if: steps.perl.outputs.autolib-cache-hit == 'true'
+        # 52k tiny .pm files compress from ~250 MB to ~22 MB. Tarring
+        # before upload-artifact is essential — upload-artifact's
+        # per-file overhead makes raw uploads of 52k files take
+        # multiple minutes; a single tarball is seconds.
+        run: |
+          tar --create --gzip --file auto-lib.tar.gz auto-lib
+
+      - name: Upload auto-lib artifact (cache hit)
+        if: steps.perl.outputs.autolib-cache-hit == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-lib
+          path: auto-lib.tar.gz
+          retention-days: 1
+          if-no-files-found: error
+
+  # Stage 1b: regenerate auto-lib in parallel slices on cache miss.
+  # Each shard is defined by `script/gen-shard`; see that script for
+  # the partitioning algorithm and rationale. Six 4-core runners
+  # give 24 effective gen workers vs. the single-job baseline of 4
+  # (one ForkManager bound to a single 4-core runner) and balance
+  # to within ~0.1% of mean total bytes per shard.
+  build-autolib-shard:
+    needs: build-autolib-plan
+    if: needs.build-autolib-plan.outputs.cache-hit != 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      # Don't cancel sibling cells when one fails — surfacing every
+      # shard's gen failure on a single PR review pass is more useful
+      # than short-circuiting at the first one.
+      fail-fast: false
+      matrix:
+        # Adding / renaming shards is a one-line change in
+        # script/gen-shard; this YAML only knows the names.
+        shard: [a, b, c, d, e, f]
+
+    name: build-autolib (${{ matrix.shard }})
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
       - name: Resolve pinned botocore SHA
-        # PR 18 (stack18) removed the botocore submodule. The test
-        # workflow regenerates auto-lib via `make
-        # gen-classes-no-doc-fetch`, so the upstream checkout must
-        # be deterministic — fetching `develop` HEAD breaks the
-        # build whenever upstream introduces a service / protocol
-        # the Builder doesn't yet support (e.g. smithyrpc-v2-cbor
-        # post 1.38.19). We pin to the same SHA the committed
-        # auto-lib was generated against; updates land via
-        # generate-and-pr.yml + the marker file.
+        # PR 18 (stack18) removed the botocore submodule; the
+        # generator still reads from `botocore/botocore/data/` so we
+        # populate it from the pinned upstream SHA below.
         if: hashFiles('.gitmodules') == ''
         id: botocore-pin
         run: |
@@ -56,11 +126,6 @@ jobs:
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
 
       - name: Fetch botocore data (post-stack18 — submodule removed)
-        # PR 18 (stack18) removed the botocore submodule; the
-        # generator still reads from `botocore/botocore/data/` so we
-        # populate it from the pinned upstream SHA here. Once the
-        # generator is taught to read share/botocore/ directly this
-        # step can go away.
         if: hashFiles('.gitmodules') == ''
         uses: actions/checkout@v6
         with:
@@ -69,28 +134,119 @@ jobs:
           path: botocore
 
       - name: Set up Perl + dependencies
-        id: perl
+        # No autolib cache here: each shard regenerates its slice
+        # from a clean tree. The merge job below saves the
+        # assembled auto-lib into actions/cache.
         uses: ./.github/actions/setup-paws-perl
         with:
           perl-version: "5.36"
-          # cache-autolib is the first-write cache populator for the
-          # test matrix; on cache-miss this job runs gen-classes,
-          # then the cache-action's post step writes the result so
-          # subsequent runs hit warm cache.
+          cache-autolib: "false"
+
+      - name: Generate shard ${{ matrix.shard }}
+        # Nuke the committed auto-lib/Paws content so this shard's
+        # tarball contains only its slice. The merge job below
+        # untars all shard tarballs into a single auto-lib/.
+        run: |
+          rm -rf auto-lib
+          mkdir -p auto-lib/Paws
+          carton exec -- ./script/gen-shard ${{ matrix.shard }}
+        env:
+          PAWS_SILENCE_UNSTABLE_WARNINGS: 1
+
+      - name: Pack shard slice
+        run: |
+          tar --create --gzip --file auto-lib-shard-${{ matrix.shard }}.tar.gz auto-lib
+
+      - name: Upload shard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-lib-shard-${{ matrix.shard }}
+          path: auto-lib-shard-${{ matrix.shard }}.tar.gz
+          retention-days: 1
+          if-no-files-found: error
+
+  # Stage 1c: merge shard outputs, build the master service index
+  # (--paws_pm), and produce the canonical `auto-lib` artifact that
+  # the test matrix consumes. cache-autolib: "true" so the post-step
+  # saves the assembled auto-lib into actions/cache once everything
+  # below succeeds — the next warm-cache PR's plan job picks it up
+  # and skips the shard fan-out entirely.
+  build-autolib-merge:
+    needs: build-autolib-shard
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Resolve pinned botocore SHA
+        if: hashFiles('.gitmodules') == ''
+        id: botocore-pin
+        run: |
+          set -eu
+          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          if [ -z "$sha" ]
+          then
+            echo "error: share/botocore/.upstream-sha is empty"
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # `--paws_pm` below iterates the full
+        # Paws::API::Builder::Paws->boto_file_information set, which
+        # globs `botocore/botocore/data/*/*/service-2.json`.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
+        with:
+          repository: boto/botocore
+          ref: ${{ steps.botocore-pin.outputs.sha }}
+          path: botocore
+
+      - name: Set up Perl + dependencies
+        # cache-autolib: "true" so the post-step saves the assembled
+        # auto-lib/ into actions/cache once we've finished merging.
+        # The cache restore step here will miss (we got here via the
+        # shard path) but the post-step save is what populates the
+        # slot.
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          perl-version: "5.36"
           cache-autolib: "true"
 
-      - name: Generate classes
-        if: steps.perl.outputs.autolib-cache-hit != 'true'
+      - name: Download shard artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: auto-lib-shard-*
+          path: shard-tarballs
+
+      - name: Assemble auto-lib from shards
+        # Each shard tarball was made from a clean auto-lib/, so
+        # extracting all of them in turn populates auto-lib/Paws/<svc>/
+        # for every shard's slice. Shards are non-overlapping (see
+        # script/gen-shard --verify), so untar order doesn't matter.
         run: |
-          make gen-classes-no-doc-fetch
+          rm -rf auto-lib
+          for archive in shard-tarballs/auto-lib-shard-*/auto-lib-shard-*.tar.gz
+          do
+            echo "extracting $archive"
+            tar --extract --gzip --file "$archive"
+          done
+          rm -rf shard-tarballs
+
+      - name: Generate Paws.pm + Paws/API/Retry.pm (master service index)
+        # `--paws_pm` ignores @ARGV and iterates the full
+        # boto_file_information set, so it must run after every
+        # shard's slice is on disk. The previous `gen-classes-no-doc-fetch`
+        # equivalent ran `--paws_pm --classes` together; we split
+        # them so --classes is matrix-shardable and --paws_pm runs
+        # exactly once with the complete service set.
+        run: |
+          carton exec -- ./builder-bin/gen_classes.pl --paws_pm
         env:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
 
       - name: Pack auto-lib for matrix download
-        # 52k tiny .pm files compress from ~250 MB to ~22 MB. Tarring
-        # before upload-artifact is essential — upload-artifact's
-        # per-file overhead makes raw uploads of 52k files take
-        # multiple minutes; a single tarball is seconds.
         run: |
           tar --create --gzip --file auto-lib.tar.gz auto-lib
 
@@ -103,7 +259,23 @@ jobs:
           if-no-files-found: error
 
   test:
-    needs: build-autolib
+    needs: [build-autolib-plan, build-autolib-merge]
+    # Run when:
+    #   - plan succeeded AND
+    #     (cache hit, in which case plan uploaded `auto-lib` directly,
+    #      OR the merge job succeeded, in which case merge uploaded
+    #      `auto-lib`).
+    #
+    # If a shard fails, build-autolib-shard's overall result becomes
+    # "failure" (fail-fast: false still runs every cell), merge gets
+    # skipped because of `needs: build-autolib-shard`, this `if`
+    # evaluates false, and the test matrix is gated. Each shard's
+    # failure is still surfaced on the PR independently.
+    if: |
+      always() &&
+      needs.build-autolib-plan.result == 'success' &&
+      (needs.build-autolib-plan.outputs.cache-hit == 'true' ||
+       needs.build-autolib-merge.result == 'success')
     runs-on: ubuntu-latest
 
     strategy:
@@ -133,10 +305,11 @@ jobs:
         uses: ./.github/actions/setup-paws-perl
         with:
           perl-version: "5.36"
-          # No autolib cache — we download the artifact built by the
-          # `build-autolib` job below. Carton cache stays on; carton
-          # itself is what makes `make test-shard` (which delegates
-          # to `prove --lib -I auto-lib`) find the dep tree.
+          # No autolib cache — we download the artifact produced by
+          # whichever of plan / merge ran. Carton cache stays on;
+          # carton itself is what makes `make test-shard` (which
+          # delegates to `prove --lib -I auto-lib`) find the dep
+          # tree.
           cache-autolib: "false"
 
       - name: Download auto-lib artifact

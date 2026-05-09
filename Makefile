@@ -122,6 +122,22 @@ test-shard:
 	fi
 	carton exec -- ./script/test-shard $(SHARD)
 
+# Run one shard of the auto-lib generator. SHARD is a name from
+# `script/gen-shard --list`. The CI test workflow's `build-autolib`
+# stage fans out across these shards on PRs that miss the auto-lib
+# cache, so each cell pays roughly 1/N of the gen-classes wall time.
+# Local developers should normally just use `make gen-classes` (or
+# `make gen-classes-no-doc-fetch`); this target is here so the CI
+# step matches the developer-facing entry point.
+#   make gen-shard SHARD=a
+gen-shard:
+	@if [ -z "$(SHARD)" ]; then \
+	  echo 'usage: make gen-shard SHARD=<name>' >&2; \
+	  echo '       (`script/gen-shard --list` for the names)' >&2; \
+	  exit 2; \
+	fi
+	carton exec -- ./script/gen-shard $(SHARD)
+
 docu-links:
 	carton exec ./builder-bin/gen_classes.pl --docu_links
 
