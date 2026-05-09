@@ -94,10 +94,10 @@ sub load_class {
   foreach my $class (grep !$loaded{$_}, @classes) {
     # PR 18 (stack18): if the on-disk .pm exists, require_module it.
     # Otherwise fall through to the materialiser, which loads the
-    # service IR from share/smithy/ (with share/botocore/ fallback)
-    # and constructs the class in-memory. After PR 19 drops auto-lib/,
-    # the on-disk path stops working and the materialiser is the
-    # only path; this conditional handles the migration window.
+    # service IR from share/smithy/ and constructs the class in-memory.
+    # After PR 19 drops auto-lib/, the on-disk path stops working and
+    # the materialiser is the only path; this conditional handles the
+    # migration window.
     if (_class_on_disk($class)) {
       Module::Runtime::require_module($class);
     } else {

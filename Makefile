@@ -1,19 +1,14 @@
-# `make dist` ships a tarball ready for `cpanm`. dist-prep refreshes
-# the vendored share/{smithy,botocore} trees so the materialiser can
-# resolve services straight out of the installed share dir (see
-# Paws::Model::Loader::Resolver and lib/Paws/Model/Materializer/Auto.pm).
-# Without dist-prep, the dist would only ship .placeholder files
-# under share/{smithy,botocore} and `Paws->service(...)` would die
-# after a fresh install once auto-lib/ stops shipping (issue #80).
-dist: dist-prep
+# `make dist` ships a tarball ready for `cpanm`. share/smithy/ is
+# committed to git (see script/paws-vendor-smithy + the
+# share/smithy/.upstream-sha pin), so [Git::GatherDir] + [ShareDir]
+# in dist.ini ship the IR as-is — no pre-build vendoring step is
+# required. The materialiser resolves services straight out of the
+# installed share dir (see Paws::Model::Loader::Resolver and
+# lib/Paws/Model/Materializer/Auto.pm).
+dist:
 	cpanm -n -l dzil-local Dist::Zilla
 	PATH=$(PATH):dzil-local/bin PERL5LIB=dzil-local/lib/perl5 dzil authordeps --missing | cpanm -n -l dzil-local/
 	PATH=$(PATH):dzil-local/bin PERL5LIB=dzil-local/lib/perl5 dzil build
-
-# Pre-build vendoring step. Runs both vendor scripts so the share/
-# tree is populated before [GatherDir / VendoredModels] picks it up.
-# Idempotent — re-running is safe.
-dist-prep: vendor-smithy vendor-botocore
 
 test:
 	carton exec -- prove -r -v -I lib -I auto-lib t/
@@ -65,19 +60,16 @@ cover-ci:
 	cover -summary
 	cover -report json -outputdir cover_db || true
 
-# PR 18 (stack18) replaced the botocore submodule with vendored
-# Smithy IR in share/smithy/ (with botocore JSON fallback in
-# share/botocore/). Refresh via:
+# Refresh share/smithy/ from upstream awslabs/aws-sdk-rust at the
+# SHA pinned in share/smithy/.upstream-sha. Drives the daily
+# refresh-source-deps workflow; contributors run this manually after
+# bumping the pin (`git diff --stat share/smithy/` to verify scope).
 vendor-smithy:
 	./script/paws-vendor-smithy --clean
 
-# Refresh share/botocore/ from upstream botocore at the SHA pinned in
-# share/botocore/.upstream-sha. Drives `make dist` (via dist-prep) and
-# the daily refresh-source-deps workflow.
-vendor-botocore:
-	./script/paws-vendor-botocore --clean
-
 # Backward-compat aliases for any contributor muscle memory.
+# Pre-stack18 these pulled the botocore submodule; post-stack18 they
+# pull Smithy. The botocore vendoring path is gone.
 pull-other-sdks: vendor-smithy
 pull-boto-develop: vendor-smithy
 
