@@ -257,15 +257,52 @@ sub _materialise_shape_class {
 
     return $pkg if !$shape->is_structure;
 
+    # Claim the dedup slot BEFORE recursing into structure members.
+    # Several services (DynamoDB.AttributeValue, S3 list pagination,
+    # Glue partition descriptors, ...) have self-referential shapes,
+    # so without this claim _install_structure_members re-enters
+    # _materialise_shape_class for the same $pkg and recurses
+    # indefinitely. Setting the flag eagerly is safe: the eval $src
+    # below either succeeds (in which case the package is fully
+    # built) or croaks (in which case the whole materialise call
+    # fails and the dedup is moot).
+    $self->_materialised_classes->{$pkg} = 1;
+
     my @attr_lines;
     my @serdes_records;
     $self->_install_structure_members($shape, $service_ir,
                                       \@attr_lines, \@serdes_records);
 
+    # `use Moo` injects `before`, `after`, `around`, `extends`,
+    # `with`, `has` into the package as method modifiers. If the
+    # botocore shape has an attribute with one of those names
+    # (e.g. ECS::CreatedAt has `after` / `before`; several services
+    # have an `extends` member), Method::Generate::Accessor::install
+    # dies with "You cannot overwrite a locally defined method
+    # (X) with a reader". Stash-delete those names AFTER `use Moo`
+    # but BEFORE the `has` calls so the accessor install doesn't
+    # see a collision; the user's data still flows through the
+    # accessor we end up installing.
+    my @attr_names = map {
+        $_ =~ /^\s+has\s+(\w+)\s/ ? ($1) : ()
+    } @attr_lines;
+    my %attr_set = map { $_ => 1 } @attr_names;
+    my @reserved = grep { $attr_set{$_} } qw(before after around extends with has);
+    my @clear_lines;
+    if (@reserved) {
+        push @clear_lines, "        no strict 'refs';";
+        push @clear_lines, map {
+            "        delete \${'${pkg}::'}{'$_'};"
+        } @reserved;
+        push @clear_lines, "        use strict 'refs';";
+    }
+
     my $src = qq{
         package $pkg;
         use Moo;
         use Types::Standard qw(Str Int Bool Num ArrayRef HashRef Maybe InstanceOf);
+
+@{[ join("\n", @clear_lines) ]}
 
 @{[ join("\n", @attr_lines) ]}
 

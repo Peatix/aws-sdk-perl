@@ -93,8 +93,19 @@ sub _build_service {
         );
     }
 
+    # `serviceId` is what gets concatenated into Perl class names
+    # (e.g. `Paws::<serviceId>::DescribeFoo`), so it has to be a
+    # legal Perl-identifier fragment. Botocore stores some IDs with
+    # whitespace (`Route 53`, `S3 Tables`) that the auto-lib
+    # generator's Paws::API::Builder::Paws->boto_file_information
+    # used to fix up; mirror that fix-up here so the IR is the
+    # single source of normalised identifiers.
+    my $sdk_name = $meta->{serviceId} // $meta->{endpointPrefix} // 'unknown';
+    substr($sdk_name, 0, 1) = uc(substr($sdk_name, 0, 1));
+    $sdk_name =~ s/\s+//g;
+
     return Paws::Model::IR::Service->new(
-        name              => $meta->{serviceId} // $meta->{endpointPrefix} // 'unknown',
+        name              => $sdk_name,
         full_name         => $meta->{serviceFullName} // $meta->{endpointPrefix} // 'unknown',
         endpoint_prefix   => $meta->{endpointPrefix} // 'unknown',
         signing_name      => $meta->{signingName},
