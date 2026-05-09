@@ -19,8 +19,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  # Stage 1: regenerate (or restore) auto-lib once and ship it to the
+  # matrix as a workflow artifact. Doing the regen in a single job
+  # avoids paying the 25-30 minute gen-classes-no-doc-fetch cost N
+  # times on cache-miss PRs (touching builder-lib/, templates/, or
+  # the share/botocore/.upstream-sha marker).
+  build-autolib:
     runs-on: ubuntu-latest
+    outputs:
+      autolib-cache-hit: ${{ steps.perl.outputs.autolib-cache-hit }}
 
     steps:
       - name: Checkout
@@ -66,9 +73,10 @@ jobs:
         uses: ./.github/actions/setup-paws-perl
         with:
           perl-version: "5.36"
-          # Test workflow regenerates classes; cache the output so
-          # PRs that don't touch builder-lib / templates / botocore
-          # skip the multi-minute gen-classes step.
+          # cache-autolib is the first-write cache populator for the
+          # test matrix; on cache-miss this job runs gen-classes,
+          # then the cache-action's post step writes the result so
+          # subsequent runs hit warm cache.
           cache-autolib: "true"
 
       - name: Generate classes
@@ -78,8 +86,71 @@ jobs:
         env:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
 
+      - name: Pack auto-lib for matrix download
+        # 52k tiny .pm files compress from ~250 MB to ~22 MB. Tarring
+        # before upload-artifact is essential — upload-artifact's
+        # per-file overhead makes raw uploads of 52k files take
+        # multiple minutes; a single tarball is seconds.
+        run: |
+          tar --create --gzip --file auto-lib.tar.gz auto-lib
+
+      - name: Upload auto-lib artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-lib
+          path: auto-lib.tar.gz
+          retention-days: 1
+          if-no-files-found: error
+
+  test:
+    needs: build-autolib
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Don't cancel sibling cells when one fails — surfacing every
+      # failure on a single PR review pass is more useful than
+      # short-circuiting.
+      fail-fast: false
+      matrix:
+        # Shard names are interpreted by `script/test-shard`. Adding
+        # / renaming / re-balancing shards is a script-side change;
+        # this YAML only knows the names.
+        shard:
+          - load-a
+          - load-b
+          - network
+          - responses
+          - mocked
+          - subdirs
+
+    name: test (${{ matrix.shard }})
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Perl + dependencies
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          perl-version: "5.36"
+          # No autolib cache — we download the artifact built by the
+          # `build-autolib` job below. Carton cache stays on; carton
+          # itself is what makes `make test-shard` (which delegates
+          # to `prove --lib -I auto-lib`) find the dep tree.
+          cache-autolib: "false"
+
+      - name: Download auto-lib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: auto-lib
+
+      - name: Unpack auto-lib
+        run: |
+          tar --extract --gzip --file auto-lib.tar.gz
+          rm auto-lib.tar.gz
+
       - name: Test
         run: |
-          make test
+          make test-shard SHARD=${{ matrix.shard }}
         env:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
