@@ -20,5 +20,13 @@ cpanfile.snapshot
 .DS_Store
 .project
 
+# PR 18 (stack18) replaced the botocore git submodule with vendored
+# files in share/. CI workflows fetch botocore on the fly into
+# `botocore/` for backwards compatibility with gen_classes.pl.
+# Anchor with leading slash so this only matches the repo-root
+# `botocore/` checkout dir and not the tracked `share/botocore/`
+# vendored tree.
+/botocore/
+
 # Emacs save files:
 *~

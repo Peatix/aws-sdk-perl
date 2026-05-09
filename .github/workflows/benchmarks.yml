@@ -17,8 +17,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # script/gen-service in the next step reads from
+        # botocore/botocore/data/. Pre-stack18 this came from the
+        # submodule; post-stack18 we fetch it on the fly.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
         with:
-          submodules: recursive
+          repository: boto/botocore
+          ref: develop
+          path: botocore
 
       - name: Set up Perl + dependencies
         uses: ./.github/actions/setup-paws-perl

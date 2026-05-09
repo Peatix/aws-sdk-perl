@@ -25,8 +25,41 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Resolve pinned botocore SHA
+        # PR 18 (stack18) removed the botocore submodule. The test
+        # workflow regenerates auto-lib via `make
+        # gen-classes-no-doc-fetch`, so the upstream checkout must
+        # be deterministic — fetching `develop` HEAD breaks the
+        # build whenever upstream introduces a service / protocol
+        # the Builder doesn't yet support (e.g. smithyrpc-v2-cbor
+        # post 1.38.19). We pin to the same SHA the committed
+        # auto-lib was generated against; updates land via
+        # generate-and-pr.yml + the marker file.
+        if: hashFiles('.gitmodules') == ''
+        id: botocore-pin
+        run: |
+          set -eu
+          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          if [ -z "$sha" ]
+          then
+            echo "error: share/botocore/.upstream-sha is empty"
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # PR 18 (stack18) removed the botocore submodule; the
+        # generator still reads from `botocore/botocore/data/` so we
+        # populate it from the pinned upstream SHA here. Once the
+        # generator is taught to read share/botocore/ directly this
+        # step can go away.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
         with:
-          submodules: recursive
+          repository: boto/botocore
+          ref: ${{ steps.botocore-pin.outputs.sha }}
+          path: botocore
 
       - name: Set up Perl + dependencies
         id: perl

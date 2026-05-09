@@ -23,7 +23,18 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.ref || github.ref }}
-          submodules: recursive
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # `make dist` itself doesn't need botocore, but a release built
+        # from a fresh checkout that wants to re-run `make gen-classes`
+        # before packaging would. Keep this step here so the workflow
+        # works against either the pre- or post-stack18 layout.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
+        with:
+          repository: boto/botocore
+          ref: develop
+          path: botocore
 
       - name: Set up Perl + dependencies
         uses: ./.github/actions/setup-paws-perl

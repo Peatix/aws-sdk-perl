@@ -25,7 +25,19 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.base_branch }}
-          submodules: recursive
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # PR 18 (stack18) replaced the botocore submodule. The
+        # generator still reads from `botocore/botocore/data/`. Use
+        # the `develop` ref to mirror the old `make pull-boto-develop`
+        # behaviour by default; `pull_boto_develop=false` could fall
+        # back to a pinned tag in a follow-up.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
+        with:
+          repository: boto/botocore
+          ref: develop
+          path: botocore
 
       - name: Set up Perl + dependencies
         uses: ./.github/actions/setup-paws-perl
@@ -39,8 +51,8 @@ jobs:
             Pod::HTML2Pod
             Template
 
-      - name: Update botocore
-        if: ${{ inputs.pull_boto_develop }}
+      - name: Update botocore (legacy submodule path)
+        if: ${{ inputs.pull_boto_develop && hashFiles('.gitmodules') != '' }}
         run: |
           make pull-other-sdks
           make pull-boto-develop

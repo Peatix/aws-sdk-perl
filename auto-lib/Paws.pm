@@ -92,11 +92,71 @@ sub load_class {
   my (undef, @classes) = @_;
   state %loaded;
   foreach my $class (grep !$loaded{$_}, @classes) {
-    Module::Runtime::require_module($class);
+    # PR 18 (stack18): if the on-disk .pm exists, require_module it.
+    # Otherwise fall through to the materialiser, which loads the
+    # service IR from share/smithy/ (with share/botocore/ fallback)
+    # and constructs the class in-memory. After PR 19 drops auto-lib/,
+    # the on-disk path stops working and the materialiser is the
+    # only path; this conditional handles the migration window.
+    if (_class_on_disk($class)) {
+      Module::Runtime::require_module($class);
+    } else {
+      _materialise_class($class);
+    }
     $loaded{$class} = 1;
     # immutability is a global setting that will affect all instances
-    $class->meta->make_immutable if (Paws->default_config->immutable);
+    if (Paws->default_config->immutable
+        && $class->can('meta')
+        && $class->meta->can('make_immutable')) {
+      $class->meta->make_immutable;
+    }
   }
+}
+
+sub _class_on_disk {
+  my ($class) = @_;
+  my $rel = $class;
+  $rel =~ s{::}{/}g;
+  $rel .= '.pm';
+  for my $dir (@INC) {
+    return 1 if -r "$dir/$rel";
+  }
+  return 0;
+}
+
+sub _materialise_class {
+  my ($class) = @_;
+  return if $class !~ /^Paws::([^:]+)/;
+  my $service_name = $1;
+
+  # Lazy-load the materialiser path. require_module here so a
+  # Paws install that lacks the materialiser modules (theoretical
+  # while the stack lands) falls back to the original error.
+  Module::Runtime::require_module('Paws::Materializer::Auto');
+  Paws::Materializer::Auto::_install_hook();
+
+  # Materializer::Auto's hook re-routes load_class through itself,
+  # so a recursive load_class call here would loop. Instead, drive
+  # the materialiser directly via the resolver.
+  Module::Runtime::require_module('Paws::Model::Loader::Resolver');
+  Module::Runtime::require_module('Paws::Materializer');
+  Module::Runtime::require_module('Paws::Materializer::Moo');
+
+  my $resolver = Paws::Model::Loader::Resolver->new;
+  my $ir       = eval { $resolver->load_service($service_name) };
+  if (!$ir) {
+    # Fall back to the original require error so the user gets a
+    # familiar diagnostic.
+    Module::Runtime::require_module($class);
+    return;
+  }
+
+  my $backend = $ENV{PAWS_OO_BACKEND} // 'Moo';
+  my $mat_class = $backend eq 'Moose'
+    ? 'Paws::Materializer'
+    : 'Paws::Materializer::Moo';
+  my $mat = $mat_class->new(loader => undef);
+  $mat->materialize_service($ir);
 }
 
 # converts the params the user passed to the call into objects that represent the call

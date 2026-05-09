@@ -27,8 +27,38 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Resolve pinned botocore SHA
+        # The byte-identical assertion below compares regenerated
+        # output against the committed auto-lib, which was generated
+        # against a specific botocore SHA. We pin the upstream
+        # checkout to that same SHA via share/botocore/.upstream-sha
+        # so this gate is deterministic. `make pull-boto-develop` /
+        # generate-and-pr.yml are the workflows that intentionally
+        # roll botocore forward; they update this marker as part of
+        # producing a regenerated-auto-lib PR.
+        if: hashFiles('.gitmodules') == ''
+        id: botocore-pin
+        run: |
+          set -eu
+          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          if [ -z "$sha" ]
+          then
+            echo "error: share/botocore/.upstream-sha is empty"
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch botocore data (post-stack18 — submodule removed)
+        # PR 18 (stack18) removed the botocore submodule; gen_classes.pl
+        # still reads from `botocore/botocore/data/` so we populate it
+        # from a pinned upstream SHA here.
+        if: hashFiles('.gitmodules') == ''
+        uses: actions/checkout@v6
         with:
-          submodules: recursive
+          repository: boto/botocore
+          ref: ${{ steps.botocore-pin.outputs.sha }}
+          path: botocore
 
       - name: Set up Perl + dependencies
         uses: ./.github/actions/setup-paws-perl

@@ -10,6 +10,11 @@ requires 'Moo';
 requires 'MooX::ClassAttribute';
 requires 'Type::Tiny';
 requires 'Types::Standard';
+
+# PR 18 (stack18): the materialiser caches IR via Sereal so repeated
+# Paws->service('X') calls in the same process don't re-parse JSON.
+requires 'Sereal::Encoder';
+requires 'Sereal::Decoder';
 requires 'HTTP::Tiny';
 requires 'Throwable::Error';
 requires 'Data::Compare';
