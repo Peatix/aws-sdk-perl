@@ -101,12 +101,26 @@ sub _build_service {
 
     # @aws.api#service carries endpointPrefix / sdkId.
     my $api_service_trait = $svc_traits->{'aws.api#service'} // {};
-    my $endpoint_prefix   = $api_service_trait->{endpointPrefix} // _local_part($svc_id);
-    my $sdk_id            = $api_service_trait->{sdkId}          // _local_part($svc_id);
 
-    # Operations live in the service shape's operations[].
-    my @op_targets =
-        map { $_->{target} } @{ $svc_shape->{operations} // [] };
+    # endpointPrefix may be omitted (account.smithy.json is one such
+    # service). Botocore equivalent never omits it: e.g. account's
+    # service-2.json has metadata.endpointPrefix='account'. Fall back
+    # to arnNamespace (which is also lowercased and matches what
+    # botocore emits in the absence of an explicit endpoint-prefix
+    # override), then to a lowercased local name as last resort.
+    my $endpoint_prefix
+        =  $api_service_trait->{endpointPrefix}
+        // $api_service_trait->{arnNamespace}
+        // lc(_local_part($svc_id));
+    my $sdk_id            = $api_service_trait->{sdkId} // _local_part($svc_id);
+
+    # Operations live in two places in a Smithy AST: directly on the
+    # service shape's `operations[]`, and indirectly via
+    # `service.resources[]` (a resource being a Smithy concept that
+    # botocore JSON has no equivalent of). Walk both so services like
+    # account -- which expose every operation through a resource --
+    # don't appear empty.
+    my @op_targets = $self->_collect_operation_targets($shapes, $svc_shape);
 
     my %operations;
     for my $tgt (@op_targets) {
@@ -118,11 +132,14 @@ sub _build_service {
 
     # All structures (and the supporting list/map/scalar shapes) become
     # IR shapes.
-    my %ir_shapes;
+    my %ir_shapes = %{ _smithy_prelude_shapes() };
     for my $id (sort keys %$shapes) {
         my $s = $shapes->{$id};
-        next if ($s->{type} // '') eq 'service';
-        next if ($s->{type} // '') eq 'operation';
+        my $t = $s->{type} // '';
+        # `service` / `operation` / `resource` are not data shapes.
+        # `resource` in particular is a Smithy-only concept that has
+        # no IR equivalent, so we skip it like the other two.
+        next if $t eq 'service' || $t eq 'operation' || $t eq 'resource';
         my $local = _local_part($id);
         $ir_shapes{$local} = $self->_build_shape($local, $s);
     }
@@ -130,6 +147,13 @@ sub _build_service {
     # Service-level documentation comes from the @smithy.api#documentation trait.
     my $svc_doc = ($svc_traits->{'smithy.api#documentation'} // undef);
 
+    # Smithy 2.0 spec: the awsJson*/awsQuery target_prefix (used by
+    # the X-Amz-Target header) is the *local name of the service shape*
+    # when no explicit override is set. Botocore exposes this as
+    # `metadata.targetPrefix` -- e.g. for Health that's
+    # `AWSHealth_20160804` (the local name), not `Health` (the sdkId).
+    # The previous behaviour emitted sdkId, breaking awsJson services
+    # whose service shape name differs from the sdkId.
     return Paws::Model::IR::Service->new(
         name              => $sdk_id,
         full_name         => $api_service_trait->{sdkId} // $sdk_id,
@@ -138,13 +162,107 @@ sub _build_service {
         api_version       => $svc_shape->{version} // '0000-00-00',
         protocol          => $protocol,
         json_version      => $json_version,
-        target_prefix     => $api_service_trait->{sdkId},
+        target_prefix     => _local_part($svc_id),
         signature_version => 'v4',
         uid               => sprintf('%s-%s', $endpoint_prefix, ($svc_shape->{version} // '0000-00-00')),
         documentation     => $svc_doc,
         operations        => \%operations,
         shapes            => \%ir_shapes,
     );
+}
+
+# Smithy has a "prelude" of built-in primitive shapes (defined in
+# spec section "Prelude shapes") that are referenced as e.g.
+# `smithy.api#Integer` from member targets but are *not* required to
+# appear in the AST's `shapes` map. Botocore JSON has no equivalent --
+# it inlines primitive types into each member -- so the IR has no
+# special path for them either.
+#
+# Pre-populate the IR shapes map with synthetic primitive shapes that
+# the loader can resolve by local-name lookup when it walks members
+# whose target points into the prelude. The local-name keys
+# (`Integer`, `String`, ...) match what `_local_part` returns for
+# `smithy.api#Integer`, `smithy.api#String`, etc.
+#
+# Returns a fresh hashref each call so callers can mutate freely.
+sub _smithy_prelude_shapes {
+    my %types = (
+        Boolean    => 'boolean',
+        Byte       => 'integer',
+        Short      => 'integer',
+        Integer    => 'integer',
+        Long       => 'long',
+        Float      => 'float',
+        Double     => 'double',
+        BigInteger => 'long',
+        BigDecimal => 'double',
+        String     => 'string',
+        Blob       => 'blob',
+        Timestamp  => 'timestamp',
+        Document   => 'string',  # the IR has no document type yet;
+                                 # treat as opaque string.
+    );
+
+    # PrimitiveX is a Smithy alias of X with the @default trait
+    # implied; same on-the-wire treatment as the bare X.
+    %types = ( %types,
+        PrimitiveBoolean => 'boolean',
+        PrimitiveByte    => 'integer',
+        PrimitiveShort   => 'integer',
+        PrimitiveInteger => 'integer',
+        PrimitiveLong    => 'long',
+        PrimitiveFloat   => 'float',
+        PrimitiveDouble  => 'double',
+    );
+
+    my %prelude;
+    for my $name (keys %types) {
+        $prelude{$name} = Paws::Model::IR::Shape->new(
+            name => $name,
+            type => $types{$name},
+        );
+    }
+    return \%prelude;
+}
+
+# Recursively collect operation shape IDs reachable from a service
+# shape. Smithy services declare operations either directly under
+# `service.operations[]` or through `service.resources[]`, where each
+# resource may carry:
+#
+#   - per-lifecycle operations: create / read / update / delete /
+#     put / list -- each a single { target: ... } reference
+#   - free-standing instance ops: operations[]
+#   - free-standing collection ops: collectionOperations[]
+#   - nested sub-resources via resources[], which we recurse into
+#
+# Returns a deduplicated list of fully-qualified shape IDs.
+sub _collect_operation_targets {
+    my ($self, $shapes, $svc_shape) = @_;
+
+    my @ops = map { $_->{target} } @{ $svc_shape->{operations} // [] };
+
+    my @resource_targets = map { $_->{target} } @{ $svc_shape->{resources} // [] };
+    my %seen_resources;
+    while (defined(my $rid = shift @resource_targets)) {
+        next if $seen_resources{$rid}++;
+        my $resource = $shapes->{$rid}
+            or next;
+        for my $verb (qw(create read update delete put list)) {
+            my $ref = $resource->{$verb} or next;
+            push @ops, $ref->{target} if defined $ref->{target};
+        }
+        push @ops, map { $_->{target} } @{ $resource->{operations} // [] };
+        push @ops, map { $_->{target} } @{ $resource->{collectionOperations} // [] };
+        push @resource_targets, map { $_->{target} }
+            @{ $resource->{resources} // [] };
+    }
+
+    # Dedupe while preserving first-seen order. A resource-bound
+    # operation could in principle also be listed under
+    # service.operations[]; keep one copy.
+    my %seen_op;
+    return grep { !$seen_op{$_}++ } @ops;
 }
 
 sub _build_operation {
@@ -161,8 +279,20 @@ sub _build_operation {
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
     );
     $args{http_status_code} = $http->{code} if defined $http->{code};
-    $args{input_shape}      = _local_part($op->{input}{target})  if $op->{input};
-    $args{output_shape}     = _local_part($op->{output}{target}) if $op->{output};
+
+    # smithy.api#Unit is Smithy's placeholder for "operation has no
+    # input/output payload". The IR represents that as undef so the
+    # materialiser does not chase a non-existent `Unit` shape.
+    if (my $in = $op->{input}) {
+        my $tgt = $in->{target} // '';
+        $args{input_shape} = _local_part($tgt)
+            if $tgt ne '' && $tgt ne 'smithy.api#Unit';
+    }
+    if (my $out = $op->{output}) {
+        my $tgt = $out->{target} // '';
+        $args{output_shape} = _local_part($tgt)
+            if $tgt ne '' && $tgt ne 'smithy.api#Unit';
+    }
 
     if ($op->{errors}) {
         $args{error_shapes} = [ map { _local_part($_->{target}) } @{ $op->{errors} } ];

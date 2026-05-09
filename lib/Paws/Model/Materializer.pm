@@ -245,7 +245,18 @@ sub materialize_operation {
     } else {
         $meta->add_method(_returns => sub { undef });
     }
-    $meta->add_method(_result_key => sub { undef });
+
+    # Mirror templates/query/callargs_class.tt: awsQuery responses
+    # carry a wrapper element named `<OpName>Result` between the
+    # outer response envelope and the actual fields. The XML response
+    # decoder uses _result_key to unwrap. Other protocols leave it
+    # undef (their decoders don't need the unwrap).
+    if ($service_ir->protocol eq 'query' && $op->output_shape) {
+        my $result_key = $op_name . 'Result';
+        $meta->add_method(_result_key => sub { $result_key });
+    } else {
+        $meta->add_method(_result_key => sub { undef });
+    }
 
     $self->_materialised_classes->{$op_pkg} = 1;
     return $op_pkg;
