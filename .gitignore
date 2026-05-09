@@ -28,5 +28,20 @@ cpanfile.snapshot
 # vendored tree.
 /botocore/
 
+# share/{smithy,botocore} get populated by `make dist-prep` (see
+# script/paws-vendor-{smithy,botocore}) immediately before `dzil
+# build`. The populated content is large (~100MB raw, ~27MB
+# compressed in the dist tarball) and regeneratable from upstream
+# at the SHA pinned in share/botocore/.upstream-sha + the smithy
+# vendor source pinned in script/paws-vendor-smithy. Keep the
+# tracked entries (.placeholder + .upstream-sha) so the layout
+# documents itself and the refresh-source-deps workflow has a SHA
+# file to bump.
+/share/smithy/*
+!/share/smithy/.placeholder
+/share/botocore/*
+!/share/botocore/.placeholder
+!/share/botocore/.upstream-sha
+
 # Emacs save files:
 *~
