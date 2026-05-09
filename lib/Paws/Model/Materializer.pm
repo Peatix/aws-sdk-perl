@@ -235,6 +235,12 @@ sub materialize_operation {
     $meta->add_method(_api_method => sub { $api_method });
     $meta->add_method(_api_uri    => sub { $api_uri });
     $meta->add_method(_stream_param => sub { $stream_param }) if defined $stream_param;
+    if (defined(my $tle = $op->input_top_level_element)) {
+        $meta->add_method(_top_level_element => sub { $tle });
+    }
+    if (defined(my $tns = $op->input_top_level_namespace)) {
+        $meta->add_method(_top_level_namespace => sub { $tns });
+    }
 
     if (my $output = $op->output_shape) {
         my $returns_pkg = $service_pkg . '::' . $output;

@@ -97,6 +97,25 @@ sub materialize_service {
                           : '';
     my $svc_flattened = _service_flattened_arrays($service_ir);
 
+    # region_rules from etc/_endpoints.json (loaded by the Botocore
+    # loader and surfaced on the IR). Only the ~10 services with
+    # custom endpoint rules need this (IAM, STS, Route53, SDB, S3,
+    # CloudFront, CloudFrontKeyValueStore, ImportExport, RDS); the rest
+    # default to {service}.{region}.amazonaws.com via Paws::API::EndpointResolver's
+    # _default_rules.
+    my $region_rules_method = '';
+    if (my $rules = $service_ir->region_rules) {
+        require Data::Dumper;
+        my $dumper = Data::Dumper->new([$rules], ['regioninfo'])
+            ->Indent(0)->Quotekeys(0)->Sortkeys(1)->Useqq(1);
+        my $rules_perl = $dumper->Dump;
+        # Strip the 'my $regioninfo =' / trailing semicolon so we can
+        # inline the data structure directly.
+        $rules_perl =~ s/^\$regioninfo = //;
+        $rules_perl =~ s/;\s*$//;
+        $region_rules_method = "has '+region_rules' => (default => sub { $rules_perl });";
+    }
+
     my @op_names = $service_ir->operation_names;
     my $op_names_q = join(' ', @op_names);
 
@@ -133,6 +152,8 @@ sub materialize_service {
              'Paws::API::EndpointResolver',
              'Paws::Net::V4Signature',
              '$caller_role';
+
+        $region_rules_method
 
         @{[ join("\n", @op_methods) ]}
 
@@ -219,6 +240,16 @@ sub materialize_operation {
         ? "sub _stream_param { '" . _esc($stream_param) . "' }"
         : '';
 
+    # rest-xml top-level wrapping (Route53 CreateHostedZone et al.).
+    my $tle = $op->input_top_level_element;
+    my $tns = $op->input_top_level_namespace;
+    my $top_level_element_method   = defined $tle
+        ? "sub _top_level_element   { '" . _esc($tle) . "' }"
+        : '';
+    my $top_level_namespace_method = defined $tns
+        ? "sub _top_level_namespace { '" . _esc($tns) . "' }"
+        : '';
+
     my $src = qq{
         package $op_pkg;
         use Moo;
@@ -232,6 +263,8 @@ sub materialize_operation {
         $returns_method
         sub _result_key  { undef }
         $stream_param_method
+        $top_level_element_method
+        $top_level_namespace_method
 
         1;
     };

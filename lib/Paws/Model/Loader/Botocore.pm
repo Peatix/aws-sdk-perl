@@ -23,8 +23,17 @@ with 'Paws::Model::Loader';
 use JSON::MaybeXS qw();
 use File::Slurper qw(read_text);
 use File::Spec;
+use FindBin ();
 
 use Paws::Model::IR;
+
+# Loaded lazily on first use; cached at package level. Keyed by the
+# service's botocore endpointPrefix (e.g. `iam`, `sts`, `s3`), since
+# that's what `etc/_endpoints.json` keys by. The file is a snapshot
+# of the legacy pplu/botocore _regions.json from before the upstream
+# switched to endpoint-rule-set-1.json. Vendored alongside the dist.
+my %ENDPOINT_RULES_CACHE;
+my $ENDPOINT_RULES_LOADED = 0;
 
 sub name { 'botocore' }
 
@@ -121,10 +130,13 @@ sub _build_service {
         $sdk_name =~ s/\s+//g;
     }
 
+    my $endpoint_prefix = $meta->{endpointPrefix} // 'unknown';
+    my $region_rules = _region_rules_for($endpoint_prefix);
+
     return Paws::Model::IR::Service->new(
         name              => $sdk_name,
         full_name         => $meta->{serviceFullName} // $meta->{endpointPrefix} // 'unknown',
-        endpoint_prefix   => $meta->{endpointPrefix} // 'unknown',
+        endpoint_prefix   => $endpoint_prefix,
         signing_name      => $meta->{signingName},
         api_version       => $meta->{apiVersion} // '0000-00-00',
         protocol          => $protocol,
@@ -135,7 +147,49 @@ sub _build_service {
         documentation     => $api->{documentation},
         operations        => \%operations,
         shapes            => \%shapes,
+        region_rules      => $region_rules,
     );
+}
+
+# Find and decode etc/_endpoints.json once per process. Looks first
+# alongside the dist (resolves Paws.pm's lib/ -> dist root -> etc/),
+# then falls back to a botocore checkout if present.
+sub _region_rules_for {
+    my ($endpoint_prefix) = @_;
+    _load_endpoint_rules() if !$ENDPOINT_RULES_LOADED;
+    my $rules = $ENDPOINT_RULES_CACHE{$endpoint_prefix};
+    return defined $rules ? $rules : undef;
+}
+
+sub _load_endpoint_rules {
+    $ENDPOINT_RULES_LOADED = 1;
+
+    # Resolve etc/_endpoints.json via @INC: lib/Paws.pm lives at
+    # <dist>/lib/Paws.pm, so the dist root is two `..` up from the
+    # @INC entry that contains lib/Paws.pm. Most installs put @INC
+    # entries that point at lib/.
+    require Paws;
+    (my $rel_paws = 'Paws.pm') =~ s{::}{/}g;
+    my $paws_path = $INC{$rel_paws};
+    my @candidates;
+    if (defined $paws_path) {
+        my $lib_dir = (File::Spec->splitpath($paws_path))[1];
+        my $dist_root = File::Spec->canonpath(File::Spec->catdir($lib_dir, File::Spec->updir, File::Spec->updir));
+        push @candidates, File::Spec->catfile($dist_root, 'etc', '_endpoints.json');
+    }
+    push @candidates, 'etc/_endpoints.json';
+    push @candidates, 'botocore/botocore/data/_endpoints.json';
+
+    for my $path (@candidates) {
+        next if !-r $path;
+        my $struct = eval { JSON::MaybeXS->new->decode(read_text($path)) };
+        next if !$struct;
+        for my $key (keys %$struct) {
+            next if $key =~ /^_/;
+            $ENDPOINT_RULES_CACHE{$key} = $struct->{$key};
+        }
+        return;
+    }
 }
 
 sub _build_operation {
@@ -152,7 +206,12 @@ sub _build_operation {
     );
 
     $args{http_status_code} = $http->{responseCode} if defined $http->{responseCode};
-    $args{input_shape}      = $op->{input}{shape}   if $op->{input};
+    if (my $in = $op->{input}) {
+        $args{input_shape} = $in->{shape};
+        $args{input_top_level_element}   = $in->{locationName};
+        $args{input_top_level_namespace} = $in->{xmlNamespace}{uri}
+            if ref $in->{xmlNamespace};
+    }
     $args{output_shape}     = $op->{output}{shape}  if $op->{output};
 
     if ($op->{errors}) {

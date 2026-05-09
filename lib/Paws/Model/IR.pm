@@ -50,6 +50,14 @@ package Paws::Model::IR::Service {
         default => sub { {} },
     );
 
+    # Per-service endpoint rules (the "region_rules" array the
+    # `Paws::API::EndpointResolver` role consumes). Loaded from
+    # etc/_endpoints.json at IR-build time so the IR is the single
+    # source of truth for runtime endpoint resolution. Empty arrayref
+    # for services with no custom rules; the EndpointResolver falls
+    # back to its `_default_rules` in that case.
+    has region_rules => (is => 'ro', isa => 'Maybe[ArrayRef[HashRef]]');
+
     sub operation_names { return sort keys %{ $_[0]->operations } }
     sub shape_names     { return sort keys %{ $_[0]->shapes } }
 
@@ -77,6 +85,13 @@ package Paws::Model::IR::Operation {
     has documentation     => (is => 'ro', isa => 'Maybe[Str]');
     has deprecated        => (is => 'ro', isa => 'Bool', default => 0);
     has paginator         => (is => 'ro', isa => 'Maybe[HashRef]');
+
+    # rest-xml top-level element + xml namespace, lifted from the
+    # operation's `input.locationName` / `input.xmlNamespace.uri`
+    # (Route53, CloudFront, etc. emit these to wrap the request body
+    # in `<RequestName xmlns="..."> ... </RequestName>`).
+    has input_top_level_element   => (is => 'ro', isa => 'Maybe[Str]');
+    has input_top_level_namespace => (is => 'ro', isa => 'Maybe[Str]');
 
     __PACKAGE__->meta->make_immutable;
 }
