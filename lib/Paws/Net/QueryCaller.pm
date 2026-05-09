@@ -62,6 +62,32 @@ package Paws::Net::QueryCaller;
             $i++;
           }
         }
+      } elsif ($type =~ m/^HashRef\[(.*)\]/) {
+        # Inline HashRef[X]: the materialiser emits this directly for
+        # botocore `map` shapes. The wire format depends on the per-
+        # shape `flattened` flag and the per-side `locationName`
+        # overrides, surfaced via the SerDes side-table:
+        #   - flattened  : <key>.N.<key_loc>=k       <key>.N.<value_loc>=v
+        #   - wrapped    : <key>.entry.N.<key_loc>=k <key>.entry.N.<value_loc>=v
+        my $inner = $1;
+        my $key_loc = $serdes->map_key_location_name_for($att);
+        my $val_loc = $serdes->map_value_location_name_for($att);
+        my $flat    = $serdes->map_flattened_for($att);
+        my $infix   = $flat ? '' : '.entry';
+        my $i = 1;
+        for my $map_key (sort keys %$value) {
+          my $map_val = $value->{$map_key};
+          $p{ "$key$infix.$i.$key_loc" } = $map_key;
+          if (Paws->is_internal_type($inner)) {
+            $p{ "$key$infix.$i.$val_loc" } = $map_val;
+          } else {
+            my %complex_value = $self->_to_querycaller_params($map_val);
+            for my $sub_key (keys %complex_value) {
+              $p{ "$key$infix.$i.$val_loc.$sub_key" } = $complex_value{$sub_key};
+            }
+          }
+          $i++;
+        }
       } else {
         # Map and structure shapes. Use the value's own SerDes to
         # decide which (we still have to look at the *value*, not the

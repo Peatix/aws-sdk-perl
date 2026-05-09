@@ -60,6 +60,27 @@ package Paws::Net::EC2Caller;
             $i++;
           }
         }
+      } elsif ($type =~ m/^HashRef\[(.*)\]/) {
+        # Inline HashRef[X]: same wire-format rules as QueryCaller.
+        my $inner = $1;
+        my $key_loc = $serdes->map_key_location_name_for($att);
+        my $val_loc = $serdes->map_value_location_name_for($att);
+        my $flat    = $serdes->map_flattened_for($att);
+        my $infix   = $flat ? '' : '.entry';
+        my $i = 1;
+        for my $map_key (sort keys %$value) {
+          my $map_val = $value->{$map_key};
+          $p{ "$key$infix.$i.$key_loc" } = $map_key;
+          if (Paws->is_internal_type($inner)) {
+            $p{ "$key$infix.$i.$val_loc" } = $map_val;
+          } else {
+            my %complex_value = $self->_to_querycaller_params($map_val);
+            for my $sub_key (keys %complex_value) {
+              $p{ "$key$infix.$i.$val_loc.$sub_key" } = $complex_value{$sub_key};
+            }
+          }
+          $i++;
+        }
       } else {
         my %complex_value = $self->_to_querycaller_params($value);
         map { $p{ "$key.$_" } = $complex_value{$_} } keys %complex_value;

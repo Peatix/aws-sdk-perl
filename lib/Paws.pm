@@ -257,6 +257,27 @@ sub new_with_coercions {
           }
           $p{ $att } = [ map { Paws->new_with_coercions("$subtype", %{ $_ }) } @{ $params{ $att } } ];
         }
+      } elsif ("$type" =~ m/^HashRef\[(.*?)\]$/){
+        # The materialiser emits inline HashRef[X] for botocore `map`
+        # shapes (where the AOT path used to emit a per-map class with
+        # a single `Map` attribute). Mirror the ArrayRef[X] branch:
+        # native value types pass through, object value types recurse
+        # to build the hash one entry at a time.
+        my $subtype = "$1";
+        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
+          $p{ $att } = $params{ $att };
+        } else {
+          if ($type->can('type_parameter') && $type->type_parameter->can('class')) {
+            $subtype = $type->type_parameter->class;
+          } else {
+            $subtype = _unwrap_class_from_type_string($subtype);
+          }
+          $p{ $att } = {
+            map {
+              ($_ => Paws->new_with_coercions("$subtype", %{ $params{ $att }->{ $_ } }))
+            } keys %{ $params{ $att } }
+          };
+        }
       } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum') || ($type->can('parent') && $type->can('values'))){
         # Type::Tiny enums are Type::Tiny instances with a `values`
         # accessor and a parent of `Str`; fall through to the
@@ -304,6 +325,20 @@ sub to_hash {
           $refHash->{ $key } = $params->$att;
         } else {
           $refHash->{ $key } = [ map { Paws->to_hash($_) } @{ $params->$att } ];
+        }
+      } elsif ($att_type =~ m/^HashRef\[(.*)\]/) {
+        # Symmetric with the ArrayRef[X] branch above. Native values
+        # (Str, Num, Int, Bool) pass through; object values recurse
+        # via to_hash so the produced JSON matches what
+        # Paws::Net::JsonCaller expects on the wire.
+        my $inner = "$1";
+        $inner = _unwrap_class_from_type_string($inner);
+        if (Paws->is_internal_type($inner)){
+          $refHash->{ $key } = $params->$att;
+        } else {
+          $refHash->{ $key } = {
+            map { ($_ => Paws->to_hash($params->$att->{$_})) } keys %{ $params->$att }
+          };
         }
       } elsif ($att_type->isa('Moose::Meta::TypeConstraint::Enum')) {
         $refHash->{ $key } = $params->$att;

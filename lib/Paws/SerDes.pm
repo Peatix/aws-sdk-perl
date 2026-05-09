@@ -110,7 +110,10 @@ sub register {
             location      => ($rec->{location}      // 'body'),
             location_name => ($rec->{location_name} // undef),
             traits        => ($rec->{traits}        // {}),
-            ($rec->{auto} ? (auto => $rec->{auto}) : ()),
+            ($rec->{auto}                    ? (auto                    => $rec->{auto})                    : ()),
+            ($rec->{map_key_locationName}    ? (map_key_locationName    => $rec->{map_key_locationName})    : ()),
+            ($rec->{map_value_locationName}  ? (map_value_locationName  => $rec->{map_value_locationName})  : ()),
+            ($rec->{map_flattened}           ? (map_flattened           => 1)                               : ()),
         };
     }
 
@@ -263,6 +266,27 @@ sub trait_for {
 sub auto_for {
     my ($self, $name) = @_;
     return ($self->attributes->{$name} // {})->{auto};
+}
+
+# Map-shape metadata. Only populated on records whose type is
+# HashRef[X]; mirrors Paws::Model::IR::Shape::map_*_locationName /
+# flattened. Default values match botocore: 'key' / 'value' for the
+# per-side localion names, false for `flattened`. The wire layer uses
+# these to decide between the wrapped (`entry.N.key/value`) and
+# flattened (`N.Name/Value`) Query forms.
+sub map_key_location_name_for {
+    my ($self, $name) = @_;
+    return ($self->attributes->{$name} // {})->{map_key_locationName} // 'key';
+}
+
+sub map_value_location_name_for {
+    my ($self, $name) = @_;
+    return ($self->attributes->{$name} // {})->{map_value_locationName} // 'value';
+}
+
+sub map_flattened_for {
+    my ($self, $name) = @_;
+    return ($self->attributes->{$name} // {})->{map_flattened} ? 1 : 0;
 }
 
 # Test/maintenance helper: clear the cache. The wire layer never calls

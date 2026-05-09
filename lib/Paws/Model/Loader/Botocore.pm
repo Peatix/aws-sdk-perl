@@ -177,8 +177,15 @@ sub _build_shape {
         $args{flattened}                = $shape->{flattened} ? 1 : 0;
     }
     elsif ($type eq 'map') {
-        $args{map_key_shape}   = $shape->{key}{shape}   if $shape->{key};
-        $args{map_value_shape} = $shape->{value}{shape} if $shape->{value};
+        if (my $k = $shape->{key}) {
+            $args{map_key_shape}        = $k->{shape};
+            $args{map_key_locationName} = $k->{locationName};
+        }
+        if (my $v = $shape->{value}) {
+            $args{map_value_shape}        = $v->{shape};
+            $args{map_value_locationName} = $v->{locationName};
+        }
+        $args{flattened} = $shape->{flattened} ? 1 : 0;
     }
     elsif ($type eq 'string' && $shape->{enum}) {
         $args{enum_values} = $shape->{enum};

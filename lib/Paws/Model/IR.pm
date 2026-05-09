@@ -106,10 +106,18 @@ package Paws::Model::IR::Shape {
     # list / map: target shape names
     has list_member_shape => (is => 'ro', isa => 'Maybe[Str]');
     has list_member_locationName => (is => 'ro', isa => 'Maybe[Str]');
-    has map_key_shape   => (is => 'ro', isa => 'Maybe[Str]');
-    has map_value_shape => (is => 'ro', isa => 'Maybe[Str]');
+    has map_key_shape         => (is => 'ro', isa => 'Maybe[Str]');
+    has map_value_shape       => (is => 'ro', isa => 'Maybe[Str]');
+    # map-only: per-side locationName overrides (default to "key" /
+    # "value"; SQS, ELB, etc. customise these so the wire layer can
+    # emit e.g. `MessageAttribute.N.Name` / `MessageAttribute.N.Value`
+    # instead of the default `MessageAttribute.entry.N.key` form).
+    has map_key_locationName   => (is => 'ro', isa => 'Maybe[Str]');
+    has map_value_locationName => (is => 'ro', isa => 'Maybe[Str]');
 
-    # list-only
+    # list / map: when set, the wire layer emits values flat under the
+    # key (no `member.` / `entry.` infix). Botocore's per-shape
+    # `flattened: true` flag.
     has flattened => (is => 'ro', isa => 'Bool', default => 0);
 
     # primitive enum

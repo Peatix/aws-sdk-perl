@@ -354,6 +354,22 @@ sub _install_structure_members {
             is_list       => ($type_string =~ /^ArrayRef\[/  ? 1 : 0),
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
         );
+
+        # Surface map shape metadata so the wire layer can reproduce the
+        # per-protocol "entry.N.key/value" / "N.Name/Value" / etc.
+        # serialisation that the AOT path used to drive from the auto-
+        # generated map parser classes (Paws::*::SomethingMap with
+        # str-to-{native,obj}-map roles). These keys are only set on
+        # records whose type is HashRef[X].
+        if ($record{is_map}) {
+            my $map_shape = $service_ir->shape($m->shape);
+            if ($map_shape && $map_shape->is_map) {
+                $record{map_key_locationName}   = $map_shape->map_key_locationName;
+                $record{map_value_locationName} = $map_shape->map_value_locationName;
+                $record{map_flattened}          = $map_shape->flattened ? 1 : 0;
+            }
+        }
+
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
                 $record{traits}{ParamInHeader} = 1;

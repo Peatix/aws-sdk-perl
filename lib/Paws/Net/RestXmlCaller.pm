@@ -6,6 +6,7 @@ package Paws::Net::RestXmlCaller;
   use URI::Template;
   use URI::Escape;
   use Moose::Util;
+  use Scalar::Util;
 
   use Paws::Net::RestXMLResponse;
   use Paws::SerDes;
@@ -137,7 +138,12 @@ package Paws::Net::RestXmlCaller;
           $serdes->location_name_for($att) => $value,
         );
       } elsif ($serdes->trait_for($att, 'ParamInHeaders')) {
-        my $map    = $value->Map;
+        # ParamInHeaders typed attributes were Paws::S3::Metadata-style
+        # parser objects in the AOT path (with a `Map` accessor). The
+        # materialiser emits them as inline HashRef[Str] instead, so
+        # accept either form.
+        my $map = (Scalar::Util::blessed($value) && $value->can('Map'))
+                  ? $value->Map : $value;
         my $prefix = $serdes->location_name_for($att);
         for my $header (keys %$map) {
           $request->headers->header(
