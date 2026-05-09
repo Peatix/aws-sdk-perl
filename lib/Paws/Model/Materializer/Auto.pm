@@ -118,11 +118,33 @@ sub _on_disk {
 # (Paws::IAM); operation and shape classes are materialised
 # eagerly when the service is, so the user's intended class will
 # exist after this returns.
+#
+# Both this hook and lib/Paws.pm's `_materialise_class` (the direct
+# entry point used when the hook hasn't been installed yet) need to
+# avoid double-materialising a service. Without that, a load_class
+# for `Paws::EC2::DescribeInstances` after `Paws::EC2` has already
+# been materialised would trigger a full service rebuild and trip
+# Moose's "Constructor for Paws::<Svc> has been inlined and cannot
+# be updated" + a wave of "Subroutine X redefined" warnings.
+#
+# Detect "already materialised" by introspecting the target service
+# package: `Paws::Model::Materializer::Moo::materialize_service`
+# defines a `sub operations { ... }` on the service package as part
+# of its eval, and the Moose backend defines the same method via
+# class_has + a method handler. Both backends therefore expose
+# `Paws::<Svc>->can('operations')` once the service has been built.
+# Using runtime introspection rather than a parallel state hash
+# means this hook and `_materialise_class` (and any future entry
+# point) all share the same source of truth without having to wire
+# up explicit state-sharing.
 sub _materialise {
     my ($class) = @_;
 
     return 0 if $class !~ /^Paws::([^:]+)/;
     my $service_name = $1;
+    my $service_class = "Paws::$service_name";
+
+    return 1 if $service_class->can('operations');
 
     my $ir = _resolve_ir($service_name);
     return 0 if !$ir;

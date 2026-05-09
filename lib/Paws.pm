@@ -135,17 +135,13 @@ sub _materialise_class {
   # Paws::Model::Materializer::Moo::materialize_service). A subsequent
   # load_class for an inner class (e.g. Paws::EC2::DescribeInstances)
   # therefore doesn't need a separate materialise pass once the
-  # service has been built. Track materialised SERVICES (not classes)
-  # so a later re-entry into _materialise_class for an inner class
-  # short-circuits and avoids the redefine-warning + duplicate
-  # materialisation cost. Paws::Model::Materializer::Auto's patched
-  # load_class is what catches these in the steady-state case; this
-  # state hash is the belt-and-braces version for the single-call
-  # path that bypasses the patched version (e.g. multi-arg
-  # load_class iteration).
-  state %materialised_service;
-  return if $materialised_service{$service_class};
-  $materialised_service{$service_class} = 1;
+  # service has been built. Detect "already materialised" by
+  # introspecting for the `operations` method that both materialiser
+  # backends install on Paws::<Svc> as part of materialize_service.
+  # This shares the same source of truth as
+  # Paws::Model::Materializer::Auto's hook without needing an
+  # explicit cross-module state hash.
+  return if $service_class->can('operations');
 
   # Lazy-load the materialiser path. require_module here so a
   # Paws install that lacks the materialiser modules (theoretical
