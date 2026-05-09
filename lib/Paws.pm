@@ -177,22 +177,18 @@ sub _materialise_class {
   $mat->materialize_service($ir);
 }
 
-# TODO(stack19-retry): under the Moo + Type::Tiny materialiser
-# backend, attribute type constraints stringify as
-# `InstanceOf["Paws::EC2::BlockDeviceMapping"]` rather than the bare
-# class name. The recursive `Paws->new_with_coercions("$type", ...)`
-# call below then asks the type-constraint string for `does(...)` and
-# `meta->find_attribute_by_name(...)`, both of which fail because the
-# string is not a class name. Fixing this requires either:
-#   - unwrapping `InstanceOf[X]` to `X` before recursing, or
-#   - branching on the type-constraint *object* (Type::Tiny::Class
-#     exposes `->class`; Moose::Meta::TypeConstraint::Class exposes
-#     `->class`).
-# Today this only bites integration tests (t/05_service_calls.t,
-# t/glacier/, t/route53/, t/s3/) that are not in the curated `make
-# test` list, so CI stays green. The stack19 re-attempt (which drops
-# auto-lib/ and routes every load through the materialiser) is the
-# trigger; that PR should land the fix at the same time.
+# Strip a Type::Tiny `InstanceOf["X"]` (or `InstanceOf['X']`,
+# `InstanceOf[X]`) wrapping back to the bare class name `X`. Returns
+# the input unchanged if it doesn't match. Used to keep the recursive
+# `Paws->new_with_coercions(...)` call below working under both the
+# Moose backend (stringifies as the bare class name) and the
+# Moo + Type::Tiny backend (stringifies as `InstanceOf[...]`) that
+# stack13 added and stack19 promoted to the only path.
+sub _unwrap_class_from_type_string {
+  my ($s) = @_;
+  $s =~ s/^InstanceOf\[\s*['"]?([^'"\]]+)['"]?\s*\]\z/$1/;
+  return $s;
+}
 
 # converts the params the user passed to the call into objects that represent the call
 sub new_with_coercions {
@@ -202,10 +198,13 @@ sub new_with_coercions {
   my %p;
 
   if (do { state %d; $d{$class} //= $class->does('Paws::API::StrToObjMapParser') }) {
-    my ($subtype) = ($class->meta->find_attribute_by_name('Map')->type_constraint =~ m/^HashRef\[(.*?)\]$/);
+    my $map_tc = $class->meta->find_attribute_by_name('Map')->type_constraint;
+    my ($subtype) = ("$map_tc" =~ m/^HashRef\[(.*?)\]$/);
     if (my ($array_of) = ($subtype =~ m/^ArrayRef\[(.*?)\]$/)){
+      $array_of = _unwrap_class_from_type_string($array_of);
       $p{ Map } = { map { $_ => [ map { Paws->new_with_coercions("$array_of", %$_) } @{ $params{ $_ } } ] } keys %params };
     } else {
+      $subtype = _unwrap_class_from_type_string($subtype);
       $p{ Map } = { map { $_ => Paws->new_with_coercions("$subtype", %{ $params{ $_ } }) } keys %params };
     }
   } elsif (do { state %d; $d{$class} //= $class->does('Paws::API::StrToNativeMapParser') }) {
@@ -221,17 +220,36 @@ sub new_with_coercions {
         $p{ $att } = ($params{ $att } == 1)?1:0;
       } elsif ($type eq 'Str' or $type eq 'Num' or $type eq 'Int') {
         $p{ $att } = $params{ $att };
-      } elsif ($type =~ m/^ArrayRef\[(.*?)\]$/){
+      } elsif ("$type" =~ m/^ArrayRef\[(.*?)\]$/){
         my $subtype = "$1";
         if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
           $p{ $att } = $params{ $att };
         } else {
+          # Under Moose, $1 is the bare class name. Under Moo +
+          # Type::Tiny (stack13 backend), `ArrayRef[InstanceOf["X"]]`
+          # stringifies the inner type as `InstanceOf["X"]`; prefer
+          # the type-constraint object's parameter accessor, which
+          # both backends expose, to recover the bare class.
+          if ($type->can('type_parameter') && $type->type_parameter->can('class')) {
+            $subtype = $type->type_parameter->class;
+          } else {
+            $subtype = _unwrap_class_from_type_string($subtype);
+          }
           $p{ $att } = [ map { Paws->new_with_coercions("$subtype", %{ $_ }) } @{ $params{ $att } } ];
         }
-      } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum')){
+      } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum') || ($type->can('parent') && $type->can('values'))){
+        # Type::Tiny enums are Type::Tiny instances with a `values`
+        # accessor and a parent of `Str`; fall through to the
+        # native-string path the same way the Moose enum case does.
         $p{ $att } = $params{ $att };
       } else {
-        $p{ $att } = Paws->new_with_coercions("$type", %{ $params{ $att } });
+        # Recurse with the bare class name. Under Moose, $type is a
+        # Moose::Meta::TypeConstraint::Class whose ->class returns
+        # the bare class. Under Moo + Type::Tiny, Type::Tiny::Class
+        # also exposes ->class. Fall back to string-unwrapping for
+        # any other parameterised type-constraint object (defensive).
+        my $target = $type->can('class') ? $type->class : _unwrap_class_from_type_string("$type");
+        $p{ $att } = Paws->new_with_coercions($target, %{ $params{ $att } });
       }
     }
   }
