@@ -92,29 +92,104 @@ sub load_class {
   my (undef, @classes) = @_;
   state %loaded;
   foreach my $class (grep !$loaded{$_}, @classes) {
-    Module::Runtime::require_module($class);
+    # PR 18 (stack18): if the on-disk .pm exists, require_module it.
+    # Otherwise fall through to the materialiser, which loads the
+    # service IR from share/smithy/ (with share/botocore/ fallback)
+    # and constructs the class in-memory. After PR 19 drops auto-lib/,
+    # the on-disk path stops working and the materialiser is the
+    # only path; this conditional handles the migration window.
+    if (_class_on_disk($class)) {
+      Module::Runtime::require_module($class);
+    } else {
+      _materialise_class($class);
+    }
     $loaded{$class} = 1;
     # immutability is a global setting that will affect all instances
-    $class->meta->make_immutable if (Paws->default_config->immutable);
+    if (Paws->default_config->immutable
+        && $class->can('meta')
+        && $class->meta->can('make_immutable')) {
+      $class->meta->make_immutable;
+    }
   }
 }
 
-# TODO(stack19-retry): under the Moo + Type::Tiny materialiser
-# backend, attribute type constraints stringify as
-# `InstanceOf["Paws::EC2::BlockDeviceMapping"]` rather than the bare
-# class name. The recursive `Paws->new_with_coercions("$type", ...)`
-# call below then asks the type-constraint string for `does(...)` and
-# `meta->find_attribute_by_name(...)`, both of which fail because the
-# string is not a class name. Fixing this requires either:
-#   - unwrapping `InstanceOf[X]` to `X` before recursing, or
-#   - branching on the type-constraint *object* (Type::Tiny::Class
-#     exposes `->class`; Moose::Meta::TypeConstraint::Class exposes
-#     `->class`).
-# Today this only bites integration tests (t/05_service_calls.t,
-# t/glacier/, t/route53/, t/s3/) that are not in the curated `make
-# test` list, so CI stays green. The stack19 re-attempt (which drops
-# auto-lib/ and routes every load through the materialiser) is the
-# trigger; that PR should land the fix at the same time.
+sub _class_on_disk {
+  my ($class) = @_;
+  my $rel = $class;
+  $rel =~ s{::}{/}g;
+  $rel .= '.pm';
+  for my $dir (@INC) {
+    return 1 if -r "$dir/$rel";
+  }
+  return 0;
+}
+
+sub _materialise_class {
+  my ($class) = @_;
+  return if $class !~ /^Paws::([^:]+)/;
+  my $service_name = $1;
+  my $service_class = "Paws::$service_name";
+
+  # Materialising a service builds the service class plus every
+  # operation / shape class for that service in one go (see
+  # Paws::Model::Materializer::Moo::materialize_service). A subsequent
+  # load_class for an inner class (e.g. Paws::EC2::DescribeInstances)
+  # therefore doesn't need a separate materialise pass once the
+  # service has been built. Detect "already materialised" by
+  # introspecting for the `operations` method that both materialiser
+  # backends install on Paws::<Svc> as part of materialize_service.
+  # This shares the same source of truth as
+  # Paws::Model::Materializer::Auto's hook without needing an
+  # explicit cross-module state hash.
+  return if $service_class->can('operations');
+
+  # Lazy-load the materialiser path. require_module here so a
+  # Paws install that lacks the materialiser modules (theoretical
+  # while the stack lands) falls back to the original error.
+  Module::Runtime::require_module('Paws::Model::Materializer::Auto');
+  Paws::Model::Materializer::Auto::_install_hook();
+
+  # Materializer::Auto's hook re-routes load_class through itself,
+  # so a recursive load_class call here would loop. Instead, drive
+  # the materialiser directly via the resolver.
+  Module::Runtime::require_module('Paws::Model::Loader::Resolver');
+  Module::Runtime::require_module('Paws::Model::Materializer');
+  Module::Runtime::require_module('Paws::Model::Materializer::Moo');
+
+  # Resolver is cached at package scope: the botocore SDK-name ->
+  # directory index it builds for non-mechanical mappings (e.g.
+  # ACMPCA -> acm-pca, CognitoIdentityProvider -> cognito-idp) is
+  # ~25s on cold cache for ~400 services, and is amortised across
+  # every subsequent load_service in the same process.
+  state $resolver = Paws::Model::Loader::Resolver->new;
+  my $ir = eval { $resolver->load_service($service_name) };
+  if (!$ir) {
+    # Fall back to the original require error so the user gets a
+    # familiar diagnostic.
+    Module::Runtime::require_module($class);
+    return;
+  }
+
+  my $backend = $ENV{PAWS_OO_BACKEND} // 'Moo';
+  my $mat_class = $backend eq 'Moose'
+    ? 'Paws::Model::Materializer'
+    : 'Paws::Model::Materializer::Moo';
+  my $mat = $mat_class->new(loader => undef);
+  $mat->materialize_service($ir);
+}
+
+# Strip a Type::Tiny `InstanceOf["X"]` (or `InstanceOf['X']`,
+# `InstanceOf[X]`) wrapping back to the bare class name `X`. Returns
+# the input unchanged if it doesn't match. Used to keep the recursive
+# `Paws->new_with_coercions(...)` call below working under both the
+# Moose backend (stringifies as the bare class name) and the
+# Moo + Type::Tiny backend (stringifies as `InstanceOf[...]`) that
+# stack13 added and stack19 promoted to the only path.
+sub _unwrap_class_from_type_string {
+  my ($s) = @_;
+  $s =~ s/^InstanceOf\[\s*['"]?([^'"\]]+)['"]?\s*\]\z/$1/;
+  return $s;
+}
 
 # converts the params the user passed to the call into objects that represent the call
 sub new_with_coercions {
@@ -124,10 +199,13 @@ sub new_with_coercions {
   my %p;
 
   if (do { state %d; $d{$class} //= $class->does('Paws::API::StrToObjMapParser') }) {
-    my ($subtype) = ($class->meta->find_attribute_by_name('Map')->type_constraint =~ m/^HashRef\[(.*?)\]$/);
+    my $map_tc = $class->meta->find_attribute_by_name('Map')->type_constraint;
+    my ($subtype) = ("$map_tc" =~ m/^HashRef\[(.*?)\]$/);
     if (my ($array_of) = ($subtype =~ m/^ArrayRef\[(.*?)\]$/)){
+      $array_of = _unwrap_class_from_type_string($array_of);
       $p{ Map } = { map { $_ => [ map { Paws->new_with_coercions("$array_of", %$_) } @{ $params{ $_ } } ] } keys %params };
     } else {
+      $subtype = _unwrap_class_from_type_string($subtype);
       $p{ Map } = { map { $_ => Paws->new_with_coercions("$subtype", %{ $params{ $_ } }) } keys %params };
     }
   } elsif (do { state %d; $d{$class} //= $class->does('Paws::API::StrToNativeMapParser') }) {
@@ -143,17 +221,36 @@ sub new_with_coercions {
         $p{ $att } = ($params{ $att } == 1)?1:0;
       } elsif ($type eq 'Str' or $type eq 'Num' or $type eq 'Int') {
         $p{ $att } = $params{ $att };
-      } elsif ($type =~ m/^ArrayRef\[(.*?)\]$/){
+      } elsif ("$type" =~ m/^ArrayRef\[(.*?)\]$/){
         my $subtype = "$1";
         if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
           $p{ $att } = $params{ $att };
         } else {
+          # Under Moose, $1 is the bare class name. Under Moo +
+          # Type::Tiny (stack13 backend), `ArrayRef[InstanceOf["X"]]`
+          # stringifies the inner type as `InstanceOf["X"]`; prefer
+          # the type-constraint object's parameter accessor, which
+          # both backends expose, to recover the bare class.
+          if ($type->can('type_parameter') && $type->type_parameter->can('class')) {
+            $subtype = $type->type_parameter->class;
+          } else {
+            $subtype = _unwrap_class_from_type_string($subtype);
+          }
           $p{ $att } = [ map { Paws->new_with_coercions("$subtype", %{ $_ }) } @{ $params{ $att } } ];
         }
-      } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum')){
+      } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum') || ($type->can('parent') && $type->can('values'))){
+        # Type::Tiny enums are Type::Tiny instances with a `values`
+        # accessor and a parent of `Str`; fall through to the
+        # native-string path the same way the Moose enum case does.
         $p{ $att } = $params{ $att };
       } else {
-        $p{ $att } = Paws->new_with_coercions("$type", %{ $params{ $att } });
+        # Recurse with the bare class name. Under Moose, $type is a
+        # Moose::Meta::TypeConstraint::Class whose ->class returns
+        # the bare class. Under Moo + Type::Tiny, Type::Tiny::Class
+        # also exposes ->class. Fall back to string-unwrapping for
+        # any other parameterised type-constraint object (defensive).
+        my $target = $type->can('class') ? $type->class : _unwrap_class_from_type_string("$type");
+        $p{ $att } = Paws->new_with_coercions($target, %{ $params{ $att } });
       }
     }
   }
@@ -205,7 +302,7 @@ sub available_services {
 
   my $skip_list = {
     API => 1, Credential => 1, Exception => 1, RegionInfo => 1,
-    SerDes => 1,
+    SerDes => 1, Model => 1, Net => 1,
     # Test helpers under t/lib/Paws that get picked up by
     # Module::Find::findsubmod when t/lib is on @INC. They are not
     # real services and have no `operations` method, so preload_service
@@ -219,9 +316,34 @@ sub available_services {
     RestJsonParamsService       => 1,
     RestXmlParamsService        => 1,
   };
+
+  my %all;
+
+  # Install-time enumeration: hand-written services living on disk
+  # under lib/Paws/* (e.g. Paws::Signin) and any AOT-generated
+  # leftovers a downstream consumer may have re-introduced via
+  # PERL5LIB. Module::Find returns flat children of Paws:: only
+  # (not Paws::API::*, Paws::Net::*, etc.).
   require Module::Find;
   my $class_prefix = $self->_class_prefix;
-  return grep { not $skip_list->{ $_ } } map { $_ =~ s/^$class_prefix//; $_ } Module::Find::findsubmod Paws;
+  $all{$_} = 1 for grep { not $skip_list->{ $_ } }
+                   map { $_ =~ s/^$class_prefix//; $_ }
+                   Module::Find::findsubmod Paws;
+
+  # Materialiser-time enumeration: every service the resolver can
+  # reach via share/smithy/* or share/botocore/* (or, in dev / CI,
+  # via the botocore checkout at botocore/botocore/data/*). After
+  # stack19 dropped auto-lib/, this is the dominant source: for an
+  # end user with `cpanm Paws` installed, install-time enumeration
+  # only covers Paws::Signin (the one handwritten service); every
+  # other service is reachable iff its IR is in share/.
+  if (eval { Module::Runtime::require_module('Paws::Model::Loader::Resolver'); 1 }) {
+    state $resolver = Paws::Model::Loader::Resolver->new;
+    $all{$_} = 1 for grep { not $skip_list->{ $_ } }
+                     $resolver->available_services;
+  }
+
+  return sort keys %all;
 }
 
 sub get_self {
@@ -353,6 +475,7 @@ kept stable, and changes to it should be notified via ChangeLog
 
 [% FOREACH service = c.services.sort %]
 L<Paws::[% service %]>
+
 [% END %]
 
 =head1 SERVICES CLASSES
