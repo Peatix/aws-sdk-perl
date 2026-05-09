@@ -211,9 +211,19 @@ prove --lib -I auto-lib t/20_json_syntetic_responses.t
 # One service's ad-hoc tests
 prove --lib -I auto-lib t/route53/
 
+# One named CI shard (mirrors the GH Actions matrix cells)
+script/test-shard responses
+make test-shard SHARD=load-a
+script/test-shard --list           # what shards exist
+script/test-shard --files mocked   # which files are in this shard
+
 # Coverage
 make cover
 ```
+
+`script/test-shard` is the canonical definition of which `.t` files
+belong to which CI shard. The `test` workflow's `strategy.matrix`
+references shard *names* only — the file lists live in the script.
 
 Local test runs require `auto-lib/` to be populated. If the directory is
 empty, run `make pull-other-sdks` followed by `make gen-classes` first

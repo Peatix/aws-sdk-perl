@@ -131,18 +131,56 @@ but everything else still benefits.
 
 ## How `test.yml` runs
 
-The workflow is a thin wrapper around the Makefile:
+The workflow is split into two stages — a single `build-autolib` job and
+a `test` matrix that fans out across N shards in parallel:
 
-1. Check out the repo with `submodules: recursive` so `botocore/` is populated.
-2. Install perl deps + restore caches via the `setup-paws-perl` composite action.
-3. `make gen-classes-no-doc-fetch` to regenerate every service from `botocore/` source data without performing the slow per-operation HTTP HEAD requests against `docs.aws.amazon.com` that `make gen-classes` does. **Skipped if the auto-lib cache restored.**
-4. `make test` to run `prove` over the full `t/` tree.
+1. **`build-autolib`** — checks out the repo, fetches the pinned botocore data
+   (post-stack18 vendored layout), restores the auto-lib cache via the
+   `setup-paws-perl` composite action, runs `make gen-classes-no-doc-fetch`
+   on cache miss, then tars `auto-lib/` and uploads it as a workflow
+   artifact. Skipping the regen on cache hit is what keeps warm-cache PRs
+   under a minute for this stage. The artifact (~22 MB compressed from
+   ~250 MB / ~52k tiny files) is what the matrix downloads.
+2. **`test` (matrix)** — depends on `build-autolib`. Each cell runs one
+   named shard, defined by `script/test-shard`. Per-shard rationale and
+   the (CI-measured) runtime budget live in the comment block at the top
+   of that script.
+
+The shard names are listed in the workflow YAML; the assignment of `.t`
+files to shards lives entirely in `script/test-shard`. Re-balancing is a
+script-side change. `script/test-shard --verify` asserts that every `.t`
+file under `t/` belongs to exactly one shard (with `t/01_load.t` the
+deliberate exception — it appears in `load-a` and `load-b`, each running
+it with a different alphabetical half of `Paws->available_services` as
+`@ARGV`).
+
+The local developer entry point is unchanged: `make test` runs the whole
+suite serially. `make test-shard SHARD=<name>` exists for parity with CI
+when reproducing a shard locally.
 
 There is no per-service or per-test list maintained inside the YAML — the canonical sources of truth are:
 
 - the list of services to generate: `Paws::API::Builder::Paws->boto_file_information` (in `builder-lib/`),
 - which services to skip: `Paws::API::Builder::Paws->service_skip_list`,
-- the list of tests to run: every file under `t/` per the `test` target in `Makefile`.
+- the list of tests to run: every file under `t/` per the `test` target in `Makefile`,
+- the CI-only assignment of `.t` files to shards: `script/test-shard`.
+
+### Why an artefact, not 6 cache-restores
+
+The matrix could equally well have each cell call the `setup-paws-perl`
+composite action with `cache-autolib: "true"` and let every cell hit
+`actions/cache@v4` independently. We don't, for two reasons:
+
+1. **Cold-cache compute.** When the auto-lib cache key misses, the
+   single-build pattern runs `gen-classes-no-doc-fetch` once
+   (~25–30 minutes). The N-cells-restore-cache pattern would run it
+   N times in parallel, multiplying compute by N for no wall-time win.
+2. **52k tiny .pm files vs. one 22 MB tarball.** The cache action
+   compresses the cache content as a single archive when it saves, but
+   when *reading* it has to spread the files back into `auto-lib/`.
+   Six cells doing that in parallel still beats one cell serially, but
+   the artefact path is uniformly faster and removes the cold-path
+   amplification entirely.
 
 ## Service generation tolerances
 
