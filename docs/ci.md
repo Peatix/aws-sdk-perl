@@ -284,21 +284,31 @@ current pin, the job exits with a `notice` and no PR.
 Each job, when it detects an upstream change:
 
 1. Updates the relevant file(s).
-2. Opens a **draft** PR via `peter-evans/create-pull-request@v8`,
-   labelled `automated`, branch named
-   `automation/bump-{botocore-pin,smithy-vendor}-<short-upstream-sha>`.
-3. Watches the standard `pull_request` workflows on that PR with
+2. Creates the bump branch
+   (`automation/bump-{botocore-pin,smithy-vendor}-<short-upstream-sha>`)
+   and force-pushes the commit via plain `git`.
+3. Opens (or reuses, on a same-SHA re-run) a **draft** PR labelled
+   `automated` via `actions/github-script@v8` —
+   `github.rest.pulls.list` first, `pulls.create` if no open PR
+   matches the head branch, `issues.addLabels` either way.
+4. Watches the standard `pull_request` workflows on that PR with
    `gh pr checks --watch --interval 30`.
-4. On green, marks the PR ready and `gh pr merge --squash --delete-branch`.
-5. On red, leaves the PR as draft for the maintainer to investigate.
+5. On green, marks the PR ready and `gh pr merge --squash --delete-branch`.
+6. On red, leaves the PR as draft for the maintainer to investigate.
 
 The workflow does NOT close or supersede previously-opened auto-bump
 PRs that are still open. If the maintainer ignored yesterday's
 botocore bump and the workflow runs again today against a newer
 SHA, a fresh PR opens against a fresh branch — the SHA-keyed branch
 naming makes that automatic. The maintainer can close the stale
-one (or merge it first; the new one will rebase on the next run
-through `delete-branch: true`).
+one (or merge it first; a same-SHA re-run force-pushes the bump
+branch so the existing PR auto-updates with the latest commit).
+
+The shell + `github-script` split replaces the previous
+`peter-evans/create-pull-request` action: fewer third-party
+dependencies, more direct control over commit messages and the
+existing-PR-reuse path, and aligns with the github-script pattern
+already in `generate-and-pr.yml`.
 
 ### `PAWS_BUMP_PAT` secret
 
