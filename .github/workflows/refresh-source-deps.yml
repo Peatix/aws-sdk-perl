@@ -336,28 +336,98 @@ jobs:
             --description 'Opened by an automated workflow' \
             --force
 
-      - name: Open / update bump pull request
+      - name: Create bump branch + commit
         if: steps.state.outputs.vendored == 'true' && steps.diff.outputs.needs_bump == 'true'
-        id: pr
-        uses: peter-evans/create-pull-request@v8
-        with:
-          token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
-          base: master
+        id: commit
+        env:
           # Branch keyed on aws-sdk-rust short SHA: same upstream
           # commit hits the same branch (no duplicates), fresh
           # commit gets a fresh PR.
-          branch: automation/bump-smithy-vendor-${{ steps.head.outputs.short }}
-          delete-branch: true
-          commit-message: 'Refresh vendored Smithy IR (aws-sdk-rust ${{ steps.head.outputs.short }})'
-          title: 'Refresh vendored Smithy IR from aws-sdk-rust'
-          body: |
+          BRANCH_NAME: automation/bump-smithy-vendor-${{ steps.head.outputs.short }}
+          COMMIT_MESSAGE: 'Refresh vendored Smithy IR (aws-sdk-rust ${{ steps.head.outputs.short }})'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if git diff --quiet HEAD -- && [ -z "$(git status --porcelain)" ]
+          then
+            printf 'has_changes=false\n' >> "${GITHUB_OUTPUT}"
+            printf 'no changes to commit; skipping pull request\n'
+            exit 0
+          fi
+
+          git checkout -b "${BRANCH_NAME}"
+          git add -A
+          git commit -m "${COMMIT_MESSAGE}"
+          # Force-push so a same-SHA re-run overwrites the previous
+          # branch (matches peter-evans' delete-branch: true semantics).
+          git push --force origin "${BRANCH_NAME}"
+
+          printf 'has_changes=true\n'           >> "${GITHUB_OUTPUT}"
+          printf 'branch=%s\n' "${BRANCH_NAME}" >> "${GITHUB_OUTPUT}"
+
+      - name: Open / update bump pull request
+        if: steps.state.outputs.vendored == 'true' && steps.diff.outputs.needs_bump == 'true' && steps.commit.outputs.has_changes == 'true'
+        id: pr
+        uses: actions/github-script@v8
+        env:
+          BASE_BRANCH: master
+          HEAD_BRANCH: ${{ steps.commit.outputs.branch }}
+          PR_TITLE: 'Refresh vendored Smithy IR from aws-sdk-rust'
+          PR_BODY: |
             Daily auto-refresh of `share/smithy/` via `script/paws-vendor-smithy --clean`.
 
             - upstream: https://github.com/awslabs/aws-sdk-rust/commit/${{ steps.head.outputs.sha }}
 
             See [`docs/ci.md`](../blob/master/docs/ci.md#source-dep-refresh) for the workflow rationale.
-          labels: automated
-          draft: true
+          DRAFT: 'true'
+          LABELS: 'automated'
+        with:
+          # Match peter-evans' token preference: PAT-when-present so
+          # the PR is opened by the PAT user and any downstream
+          # GITHUB_TOKEN-vs-PAT distinctions stay consistent across
+          # the push and the API call.
+          github-token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          script: |
+            const { BASE_BRANCH, HEAD_BRANCH, PR_TITLE, PR_BODY, DRAFT, LABELS } = process.env;
+
+            const { data: existing } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              head:  `${context.repo.owner}:${HEAD_BRANCH}`,
+              base:  BASE_BRANCH,
+              state: 'open',
+            });
+
+            let pull;
+            if (existing.length > 0) {
+              pull = existing[0];
+              core.notice(`Reusing existing pull request #${pull.number}: ${pull.html_url}`);
+            } else {
+              const created = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                base:  BASE_BRANCH,
+                head:  HEAD_BRANCH,
+                title: PR_TITLE,
+                body:  PR_BODY,
+                draft: DRAFT === 'true',
+              });
+              pull = created.data;
+              core.notice(`Opened pull request #${pull.number}: ${pull.html_url}`);
+            }
+
+            if (LABELS) {
+              await github.rest.issues.addLabels({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: pull.number,
+                labels:       LABELS.split(',').map(s => s.trim()).filter(Boolean),
+              });
+            }
+
+            core.setOutput('pull-request-number', pull.number);
 
       - name: Watch CI and merge on green
         if: steps.state.outputs.vendored == 'true' && steps.diff.outputs.needs_bump == 'true' && steps.pr.outputs.pull-request-number
