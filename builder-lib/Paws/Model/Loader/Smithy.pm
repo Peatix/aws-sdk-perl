@@ -132,7 +132,7 @@ sub _build_service {
 
     # All structures (and the supporting list/map/scalar shapes) become
     # IR shapes.
-    my %ir_shapes;
+    my %ir_shapes = %{ _smithy_prelude_shapes() };
     for my $id (sort keys %$shapes) {
         my $s = $shapes->{$id};
         my $t = $s->{type} // '';
@@ -169,6 +169,60 @@ sub _build_service {
         operations        => \%operations,
         shapes            => \%ir_shapes,
     );
+}
+
+# Smithy has a "prelude" of built-in primitive shapes (defined in
+# spec section "Prelude shapes") that are referenced as e.g.
+# `smithy.api#Integer` from member targets but are *not* required to
+# appear in the AST's `shapes` map. Botocore JSON has no equivalent --
+# it inlines primitive types into each member -- so the IR has no
+# special path for them either.
+#
+# Pre-populate the IR shapes map with synthetic primitive shapes that
+# the loader can resolve by local-name lookup when it walks members
+# whose target points into the prelude. The local-name keys
+# (`Integer`, `String`, ...) match what `_local_part` returns for
+# `smithy.api#Integer`, `smithy.api#String`, etc.
+#
+# Returns a fresh hashref each call so callers can mutate freely.
+sub _smithy_prelude_shapes {
+    my %types = (
+        Boolean    => 'boolean',
+        Byte       => 'integer',
+        Short      => 'integer',
+        Integer    => 'integer',
+        Long       => 'long',
+        Float      => 'float',
+        Double     => 'double',
+        BigInteger => 'long',
+        BigDecimal => 'double',
+        String     => 'string',
+        Blob       => 'blob',
+        Timestamp  => 'timestamp',
+        Document   => 'string',  # the IR has no document type yet;
+                                 # treat as opaque string.
+    );
+
+    # PrimitiveX is a Smithy alias of X with the @default trait
+    # implied; same on-the-wire treatment as the bare X.
+    %types = ( %types,
+        PrimitiveBoolean => 'boolean',
+        PrimitiveByte    => 'integer',
+        PrimitiveShort   => 'integer',
+        PrimitiveInteger => 'integer',
+        PrimitiveLong    => 'long',
+        PrimitiveFloat   => 'float',
+        PrimitiveDouble  => 'double',
+    );
+
+    my %prelude;
+    for my $name (keys %types) {
+        $prelude{$name} = Paws::Model::IR::Shape->new(
+            name => $name,
+            type => $types{$name},
+        );
+    }
+    return \%prelude;
 }
 
 # Recursively collect operation shape IDs reachable from a service
