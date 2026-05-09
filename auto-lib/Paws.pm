@@ -128,6 +128,24 @@ sub _materialise_class {
   my ($class) = @_;
   return if $class !~ /^Paws::([^:]+)/;
   my $service_name = $1;
+  my $service_class = "Paws::$service_name";
+
+  # Materialising a service builds the service class plus every
+  # operation / shape class for that service in one go (see
+  # Paws::Materializer::Moo::materialize_service). A subsequent
+  # load_class for an inner class (e.g. Paws::EC2::DescribeInstances)
+  # therefore doesn't need a separate materialise pass once the
+  # service has been built. Track materialised SERVICES (not classes)
+  # so a later re-entry into _materialise_class for an inner class
+  # short-circuits and avoids the redefine-warning + duplicate
+  # materialisation cost. Paws::Materializer::Auto's patched
+  # load_class is what catches these in the steady-state case; this
+  # state hash is the belt-and-braces version for the single-call
+  # path that bypasses the patched version (e.g. multi-arg
+  # load_class iteration).
+  state %materialised_service;
+  return if $materialised_service{$service_class};
+  $materialised_service{$service_class} = 1;
 
   # Lazy-load the materialiser path. require_module here so a
   # Paws install that lacks the materialiser modules (theoretical
@@ -249,6 +267,18 @@ sub available_services {
   my $skip_list = {
     API => 1, Credential => 1, Exception => 1, RegionInfo => 1,
     Materializer => 1, SerDes => 1,
+    # Test helpers under t/lib/Paws that get picked up by
+    # Module::Find::findsubmod when t/lib is on @INC. They are not
+    # real services and have no `operations` method, so preload_service
+    # would die on them.
+    Crawler                     => 1,
+    EC2ParamsService            => 1,
+    GlacierParamsService        => 1,
+    JsonParamsService           => 1,
+    QueryFlattenedParamsService => 1,
+    QueryParamsService          => 1,
+    RestJsonParamsService       => 1,
+    RestXmlParamsService        => 1,
   };
   require Module::Find;
   my $class_prefix = $self->_class_prefix;
