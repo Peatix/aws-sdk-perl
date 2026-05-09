@@ -11,10 +11,14 @@ dist:
 	PATH=$(PATH):dzil-local/bin PERL5LIB=dzil-local/lib/perl5 dzil build
 
 test:
-	carton exec -- prove -r -v -I lib -I auto-lib t/
+	carton exec -- prove -r -v -I lib -I builder-lib t/
 
 pod-test:
-	for i in `find auto-lib/Paws/ -name \*.pm`; do podchecker $$i; done;
+	# PR 19 (stack19) removed auto-lib/. Hand-written modules live
+	# in lib/Paws/; per-shape POD lives in the Paws-Docs companion
+	# dist (see paws-docs-dist/). Validate both.
+	for i in `find lib/Paws/ -name '*.pm'`; do podchecker $$i; done;
+	if [ -d paws-docs-dist/lib/Paws ]; then for i in `find paws-docs-dist/lib/Paws/ -name '*.pod'`; do podchecker $$i; done; fi
 
 cover:
 	cover -delete
@@ -25,24 +29,22 @@ cover:
 # in that it does not rely on `carton exec` (CI installs deps system-wide
 # via cpm) and it tolerates the absence of cover_db on the first run.
 #
-# Scope (after PR #55 re-added the 401-service auto-lib, the previous
-# whole-suite cover-ci hung past the 30-min timeout):
+# Scope (post-PR #19 / stack19, after auto-lib/ was dropped):
 #
 #   - Devel::Cover's instrumentation list is restricted to lib/ via
-#     +ignore,^auto-lib/, +ignore,^t/, and +ignore,^local/. auto-lib/
-#     is generated code (~52k .pm files); instrumenting it adds
-#     compile-time and per-statement-execution overhead but no signal
-#     a PR reviewer would care about. t/lib/ is test fixtures.
-#     local/ is where CI's cpm installs CPAN deps; without ignoring
-#     it, the (Moose / DateTime / XML::SAX / ...) trees show up in
-#     cover_db with single-digit coverage and pull the headline
-#     number down ~30pp.
+#     +ignore,^t/ and +ignore,^local/. The +ignore,^auto-lib/ entry
+#     from PR #68 is now a no-op (auto-lib/ doesn't exist) but is
+#     kept defensively so a stray regen during a CI run doesn't
+#     skew coverage. t/lib/ is test fixtures. local/ is where CI's
+#     cpm installs CPAN deps; without ignoring it, the (Moose /
+#     DateTime / XML::SAX / ...) trees show up in cover_db with
+#     single-digit coverage and pull the headline number down ~30pp.
 #   - The test list excludes t/01_load.t and t/99_pod_*.t. They
-#     preload all 401 services through Moose meta-class introspection
-#     (and 99_pod_syntax additionally walks 52k .pm files for POD),
-#     dominating the runtime under Devel::Cover without contributing
-#     any lib/ statement coverage. Service-loading is gated by the
-#     `test` workflow; POD validity by `make pod-test`.
+#     preload all 401 services through the materialiser (and
+#     99_pod_syntax walks the dist's POD), dominating the runtime
+#     under Devel::Cover without contributing any lib/ statement
+#     coverage. Service-loading is gated by the `test` workflow;
+#     POD validity by `make pod-test`.
 #   - --jobs 1 because Devel::Cover serialises cover_db merges on
 #     finish, so parallel jobs only add contention.
 #
@@ -51,7 +53,7 @@ cover-ci:
 	rm -rf cover_db
 	HARNESS_PERL_SWITCHES='-MDevel::Cover=-silent,1,-summary,0,+ignore,^auto-lib/,+ignore,^t/,+ignore,^local/' \
 	  prove --lib --verbose --jobs 1 \
-	  -I auto-lib -I t/lib \
+	  -I builder-lib -I t/lib \
 	  $$(find t -type f -name '*.t' \
 	    \! -name '01_load.t' \
 	    \! -name '99_pod_*.t' \
@@ -73,22 +75,28 @@ vendor-smithy:
 pull-other-sdks: vendor-smithy
 pull-boto-develop: vendor-smithy
 
+# PR 19 (stack19) removed auto-lib/. Service classes are
+# materialised on demand by Paws::Model::Materializer from the
+# vendored Smithy IR (with botocore JSON fallback), so there is no
+# AOT regeneration step anymore. The targets are kept as no-ops so
+# that contributor muscle memory + any external tooling that runs
+# `make gen-classes` (e.g. older CI scripts) gets an actionable
+# message instead of a cryptic builder failure.
 gen-paws:
-	carton exec ./builder-bin/gen_classes.pl --paws_pm
+	@echo "gen-paws is a no-op since stack19 / Paws 1.00."
+	@echo "Paws.pm is now a hand-edited file at lib/Paws.pm; the"
+	@echo "templates/default/paws_pm.tt template is kept in sync"
+	@echo "for downstream regen but doesn't drive a build step."
 
 gen-classes:
-	mkdir -p auto-lib/Paws/DeleteMe
-	rm -r auto-lib/Paws/*
-	carton exec ./builder-bin/gen_classes.pl --docu_links
-	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
+	@echo "gen-classes is a no-op since stack19 / Paws 1.00."
+	@echo "Service classes are materialised on demand from"
+	@echo "share/smithy/ (and share/botocore/ as fallback)."
+	@echo "Refresh the vendored sources with:"
+	@echo "  make vendor-smithy"
 
-# Same as gen-classes but skips the --docu_links step that fetches AWS
-# documentation URLs over HTTP. Use this in CI / pull request checks
-# where speed and isolation matter more than documentation completeness.
-gen-classes-no-doc-fetch:
-	mkdir -p auto-lib/Paws/DeleteMe
-	rm -r auto-lib/Paws/*
-	carton exec ./builder-bin/gen_classes.pl --paws_pm --classes
+# Backward-compat aliases.
+gen-classes-no-doc-fetch: gen-classes
 
 # Regenerate one (or several) services. SERVICE accepts a botocore
 # directory name (e.g. sqs), a Paws class name (e.g. SQS, ACMPCA), or
@@ -132,36 +140,29 @@ test-shard:
 	fi
 	carton exec -- ./script/test-shard $(SHARD)
 
-# Run one shard of the auto-lib generator. SHARD is a name from
-# `script/gen-shard --list`. The CI test workflow's `build-autolib`
-# stage fans out across these shards on PRs that miss the auto-lib
-# cache, so each cell pays roughly 1/N of the gen-classes wall time.
-# Local developers should normally just use `make gen-classes` (or
-# `make gen-classes-no-doc-fetch`); this target is here so the CI
-# step matches the developer-facing entry point.
-#   make gen-shard SHARD=a
+# gen-shard / docu-links: PR 19 (stack19) removed auto-lib/, so
+# the matrix-shard build pipeline these targets fed disappears with
+# it. Kept as no-ops with a pointer to the new path so muscle
+# memory doesn't bite.
 gen-shard:
-	@if [ -z "$(SHARD)" ]; then \
-	  echo 'usage: make gen-shard SHARD=<name>' >&2; \
-	  echo '       (`script/gen-shard --list` for the names)' >&2; \
-	  exit 2; \
-	fi
-	carton exec -- ./script/gen-shard $(SHARD)
+	@echo "gen-shard is a no-op since stack19 / Paws 1.00."
+	@echo "There's no auto-lib/ to fan out across anymore. The"
+	@echo "vendored Smithy IR is the source of truth; refresh via:"
+	@echo "  make vendor-smithy"
 
 docu-links:
-	carton exec ./builder-bin/gen_classes.pl --docu_links
+	@echo "docu-links is a no-op since stack19 / Paws 1.00."
+	@echo "Per-shape POD lives in the Paws-Docs companion dist;"
+	@echo "regenerate via paws-docs-dist/Makefile."
 
+# numbers used to count the auto-lib/ files. Now reports the number
+# of vendored IR sources. Smithy is the preferred format; botocore
+# is the fallback for services without a Smithy IR.
 numbers:
-	echo "Number of services" ; ls auto-lib/Paws/*.pm | wc -l
-	echo "Number of methods" ; grep "sub [A-Z]" auto-lib/Paws/*.pm | wc -l
-	echo "Number of IN/OUT objects" ; ls auto-lib/Paws/*/*.pm | wc -l
-	echo "Number of attributes" ; grep "has [A-Z]" auto-lib/Paws/*/*.pm  | wc -l
-	echo "-----------"
-	echo "JSON" ; grep "::JsonCaller" auto-lib/Paws/*.pm | wc -l
-	echo "REST-JSON" ; grep "::RestJsonCaller" auto-lib/Paws/*.pm | wc -l
-	echo "Query" ; grep "::QueryCaller" auto-lib/Paws/*.pm | wc -l
-	echo "REST-XML" ; grep "::RestXML" auto-lib/Paws/*.pm | wc -l
-	echo "EC2Caller" ; grep "::EC2Caller" auto-lib/Paws/*.pm | wc -l
+	@echo "Number of Smithy services in share/" ; \
+	  find share/smithy -name '*.smithy.json' 2>/dev/null | wc -l
+	@echo "Number of botocore services in share/" ; \
+	  find share/botocore -name 'service-2.json' 2>/dev/null | wc -l
 
 run_dynamo_local:
 	( mkdir /tmp/dynamodb-local && curl https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz | tar xvz --directory /tmp/dynamodb-local ) ; cd /tmp/dynamodb-local; java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -inMemory
