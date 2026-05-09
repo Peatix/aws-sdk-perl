@@ -34,7 +34,7 @@ jobs:
           apt-get install -y --no-install-recommends git ca-certificates
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install build dependencies
         run: |
@@ -43,7 +43,7 @@ jobs:
           # / zlib1g-dev cover the other XS modules in the cpanfile.
           apt-get install -y --no-install-recommends \
             build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
-          # actions/checkout@v4 already runs `git config --global --add
+          # actions/checkout@v6 already runs `git config --global --add
           # safe.directory <workspace>` (set-safe-directory: true), but the
           # checkout runs as a different user than later steps inside the
           # container, so re-add it here defensively for dzil's [@Git] bundle.
