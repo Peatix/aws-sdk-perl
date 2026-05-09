@@ -1,0 +1,4147 @@
+{
+   "shapes" : {
+      "com.amazonaws.appfabric#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You are not authorized to perform this operation.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ApiKeyCredential" : {
+         "members" : {
+            "apiKey" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An API key for an application.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains API key credential information.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AppAuthorization" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appAuthorizationArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app bundle for the app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "authType" : {
+               "target" : "com.amazonaws.appfabric#AuthType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authorization type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "authUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The application URL for the OAuth flow.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the app authorization was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "persona" : {
+               "target" : "com.amazonaws.appfabric#Persona",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user persona of the app authorization.</p>\n         <p>This field should always be <code>admin</code>.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorizationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the app authorization.</p>\n         <p>The following states are possible:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PendingConnect</code>: The initial state of the app authorization. The app\n               authorization is created but not yet connected.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Connected</code>: The app authorization is connected to the application, and\n               is ready to be used.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ConnectionValidationFailed</code>: The app authorization received a\n               validation exception when trying to connect to the application. If the app\n               authorization is in this state, you should verify the configured credentials and try\n               to connect the app authorization again.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TokenAutoRotationFailed</code>: AppFabric failed to refresh the access token. If\n               the app authorization is in this state, you should try to reconnect the app\n               authorization.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tenant" : {
+               "target" : "com.amazonaws.appfabric#Tenant",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an application tenant, such as the application display name\n         and identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the app authorization was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an app authorization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AppAuthorizationStatus" : {
+         "members" : {
+            "CONNECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Connected"
+               }
+            },
+            "CONNECTION_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ConnectionValidationFailed"
+               }
+            },
+            "PENDING_CONNECT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PendingConnect"
+               }
+            },
+            "TOKEN_AUTO_ROTATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TokenAutoRotationFailed"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#AppAuthorizationSummary" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appAuthorizationArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app bundle for the app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorizationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the app authorization.</p>\n         <p>The following states are possible:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PendingConnect</code>: The initial state of the app authorization. The app\n               authorization is created but not yet connected.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Connected</code>: The app authorization is connected to the application, and\n               is ready to be used.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ConnectionValidationFailed</code>: The app authorization received a\n               validation exception when trying to connect to the application. If the app\n               authorization is in this state, you should verify the configured credentials and try\n               to connect the app authorization again.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TokenAutoRotationFailed</code>: AppFabric failed to refresh the access token. If\n               the app authorization is in this state, you should try to reconnect the app\n               authorization.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tenant" : {
+               "target" : "com.amazonaws.appfabric#Tenant",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an application tenant, such as the application display name\n         and identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp for when the app authorization was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains a summary of an app authorization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AppAuthorizationSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#AppAuthorizationSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#AppBundle" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app bundle.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "customerManagedKeyArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Key Management Service (KMS) key\n         used to encrypt the application data.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an app bundle.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AppBundleSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app bundle.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains a summary of an app bundle.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AppBundleSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#AppBundleSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#Arn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:.+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#AuditLogDestinationConfiguration" : {
+         "members" : {
+            "destination" : {
+               "target" : "com.amazonaws.appfabric#Destination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an audit log destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an audit log destination configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AuditLogProcessingConfiguration" : {
+         "members" : {
+            "format" : {
+               "target" : "com.amazonaws.appfabric#Format",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format in which the audit logs need to be formatted.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "schema" : {
+               "target" : "com.amazonaws.appfabric#Schema",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The event schema in which the audit logs need to be formatted.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an audit log processing configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AuthRequest" : {
+         "members" : {
+            "code" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authorization code returned by the application after permission is granted in the\n         application OAuth page (after clicking on the AuthURL).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "redirectUri" : {
+               "target" : "com.amazonaws.appfabric#RedirectUri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The redirect URL that is specified in the AuthURL and the application client.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains authorization request information, which is required for Amazon Web Services AppFabric to get the\n         OAuth2 access token for an application.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#AuthType" : {
+         "members" : {
+            "API_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "apiKey"
+               }
+            },
+            "OAUTH2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "oauth2"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#BatchGetUserAccessTasks" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#BatchGetUserAccessTasksRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#BatchGetUserAccessTasksResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets user access details in a batch request.</p>\n         <p>This action polls data from the tasks that are kicked off by the\n            <code>StartUserAccessTasks</code> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/useraccess/batchget"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#BatchGetUserAccessTasksRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "taskIdList" : {
+               "target" : "com.amazonaws.appfabric#TaskIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tasks IDs to use for the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#BatchGetUserAccessTasksResponse" : {
+         "members" : {
+            "userAccessResultsList" : {
+               "target" : "com.amazonaws.appfabric#UserAccessResultsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a list of user access results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource ID.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request has created a conflict. Check the request parameters and try again.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ConnectAppAuthorization" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#ConnectAppAuthorizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#ConnectAppAuthorizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to\n         call the APIs of the application.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}/connect"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#ConnectAppAuthorizationRequest" : {
+         "members" : {
+            "appAuthorizationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app\n         authorization to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         that contains the app authorization to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "authRequest" : {
+               "target" : "com.amazonaws.appfabric#AuthRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains OAuth2 authorization information.</p>\n         <p>This is required if the app authorization for the request is configured with an OAuth2\n            (<code>oauth2</code>) authorization type.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ConnectAppAuthorizationResponse" : {
+         "members" : {
+            "appAuthorizationSummary" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorizationSummary",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a summary of the app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateAppAuthorization" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#CreateAppAuthorizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#CreateAppAuthorizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an app authorization within an app bundle, which allows AppFabric to connect to an\n         application.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/appbundles/{appBundleIdentifier}/appauthorizations"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#CreateAppAuthorizationRequest" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>\n         <p>Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SLACK</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ASANA</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>JIRA</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>M365</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>M365AUDITLOGS</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ZOOM</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ZENDESK</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>OKTA</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>GOOGLE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DROPBOX</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SMARTSHEET</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>CISCO</code>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "authType" : {
+               "target" : "com.amazonaws.appfabric#AuthType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authorization type for the app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.appfabric#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency\n         of the request. This lets you safely retry the request without accidentally performing the\n         same operation a second time. Passing the same value to a later call to an operation\n         requires that you also pass the same value for all other parameters. We recommend that you\n         use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of\n            value</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n         you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with different\n         parameters, the retry fails with an <code>IdempotentParameterMismatch</code> error.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "credential" : {
+               "target" : "com.amazonaws.appfabric#Credential",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains credentials for the application, such as an API key or OAuth2 client ID and\n         secret.</p>\n         <p>Specify credentials that match the authorization type for your request. For example, if\n         the authorization type for your request is OAuth2 (<code>oauth2</code>), then you should\n         provide only the OAuth2 credentials.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.appfabric#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of the key-value pairs of the tag or tags to assign to the resource.</p>"
+               }
+            },
+            "tenant" : {
+               "target" : "com.amazonaws.appfabric#Tenant",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an application tenant, such as the application display name\n         and identifier.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateAppAuthorizationResponse" : {
+         "members" : {
+            "appAuthorization" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorization",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateAppBundle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#CreateAppBundleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#CreateAppBundleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an app bundle to collect data from an application using AppFabric.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/appbundles"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#CreateAppBundleRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.appfabric#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency\n         of the request. This lets you safely retry the request without accidentally performing the\n         same operation a second time. Passing the same value to a later call to an operation\n         requires that you also pass the same value for all other parameters. We recommend that you\n         use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of\n            value</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n         you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with different\n         parameters, the retry fails with an <code>IdempotentParameterMismatch</code> error.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "customerManagedKeyIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to\n         use to encrypt the application data. If this is not specified, an Amazon Web Services owned key is used for encryption.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.appfabric#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of the key-value pairs of the tag or tags to assign to the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateAppBundleResponse" : {
+         "members" : {
+            "appBundle" : {
+               "target" : "com.amazonaws.appfabric#AppBundle",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an app bundle.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateIngestion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#CreateIngestionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#CreateIngestionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a data ingestion for an application.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#CreateIngestionDestination" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#CreateIngestionDestinationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#CreateIngestionDestinationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates an ingestion destination, which specifies how an application's ingested data is\n         processed by Amazon Web Services AppFabric and where it's delivered.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#CreateIngestionDestinationRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.appfabric#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency\n         of the request. This lets you safely retry the request without accidentally performing the\n         same operation a second time. Passing the same value to a later call to an operation\n         requires that you also pass the same value for all other parameters. We recommend that you\n         use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of\n            value</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n         you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with different\n         parameters, the retry fails with an <code>IdempotentParameterMismatch</code> error.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "destinationConfiguration" : {
+               "target" : "com.amazonaws.appfabric#DestinationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the destination of ingested data.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "processingConfiguration" : {
+               "target" : "com.amazonaws.appfabric#ProcessingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about how ingested data is processed.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.appfabric#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of the key-value pairs of the tag or tags to assign to the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateIngestionDestinationResponse" : {
+         "members" : {
+            "ingestionDestination" : {
+               "target" : "com.amazonaws.appfabric#IngestionDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an ingestion destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateIngestionRequest" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>\n         <p>Valid values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SLACK</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ASANA</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>JIRA</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>M365</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>M365AUDITLOGS</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ZOOM</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ZENDESK</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>OKTA</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>GOOGLE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DROPBOX</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SMARTSHEET</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>CISCO</code>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.appfabric#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency\n         of the request. This lets you safely retry the request without accidentally performing the\n         same operation a second time. Passing the same value to a later call to an operation\n         requires that you also pass the same value for all other parameters. We recommend that you\n         use a <a href=\"https://wikipedia.org/wiki/Universally_unique_identifier\">UUID type of\n            value</a>.</p>\n         <p>If you don't provide this value, then Amazon Web Services generates a random one for\n         you.</p>\n         <p>If you retry the operation with the same <code>ClientToken</code>, but with different\n         parameters, the retry fails with an <code>IdempotentParameterMismatch</code> error.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "ingestionType" : {
+               "target" : "com.amazonaws.appfabric#IngestionType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ingestion type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.appfabric#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of the key-value pairs of the tag or tags to assign to the resource.</p>"
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.appfabric#TenantIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the application tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#CreateIngestionResponse" : {
+         "members" : {
+            "ingestion" : {
+               "target" : "com.amazonaws.appfabric#Ingestion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#Credential" : {
+         "members" : {
+            "apiKeyCredential" : {
+               "target" : "com.amazonaws.appfabric#ApiKeyCredential",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains API key credential information.</p>"
+               }
+            },
+            "oauth2Credential" : {
+               "target" : "com.amazonaws.appfabric#Oauth2Credential",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains OAuth2 client credential information.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains credential information for an application.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.appfabric#DateTime" : {
+         "traits" : {
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.appfabric#DeleteAppAuthorization" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#DeleteAppAuthorizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#DeleteAppAuthorizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an app authorization. You must delete the associated ingestion before you can\n         delete an app authorization.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#DeleteAppAuthorizationRequest" : {
+         "members" : {
+            "appAuthorizationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app\n         authorization to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteAppAuthorizationResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteAppBundle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#DeleteAppBundleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#DeleteAppBundleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an app bundle. You must delete all associated app authorizations before you can\n         delete an app bundle.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/appbundles/{appBundleIdentifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#DeleteAppBundleRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID or Amazon Resource Name (ARN) of the app bundle that needs to be deleted.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteAppBundleResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteIngestion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#DeleteIngestionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#DeleteIngestionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an ingestion. You must stop (disable) the ingestion and you must delete all\n         associated ingestion destinations before you can delete an app ingestion.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#DeleteIngestionDestination" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#DeleteIngestionDestinationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#DeleteIngestionDestinationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes an ingestion destination.</p>\n         <p>This deletes the association between an ingestion and it's destination. It doesn't\n         delete previously ingested data or the storage destination, such as the Amazon S3\n         bucket where the data is delivered. If the ingestion destination is deleted while the\n         associated ingestion is enabled, the ingestion will fail and is eventually disabled.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#DeleteIngestionDestinationRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionDestinationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion\n         destination to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteIngestionDestinationResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteIngestionRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#DeleteIngestionResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#Destination" : {
+         "members" : {
+            "firehoseStream" : {
+               "target" : "com.amazonaws.appfabric#FirehoseStream",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an Amazon Kinesis Data Firehose delivery stream.</p>"
+               }
+            },
+            "s3Bucket" : {
+               "target" : "com.amazonaws.appfabric#S3Bucket",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an Amazon S3 bucket.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an audit log destination.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.appfabric#DestinationConfiguration" : {
+         "members" : {
+            "auditLog" : {
+               "target" : "com.amazonaws.appfabric#AuditLogDestinationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an audit log destination configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about the destination of ingested data.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.appfabric#Email" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 320
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#FabricFrontEndService" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.appfabric#BatchGetUserAccessTasks"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConnectAppAuthorization"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#CreateAppAuthorization"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#CreateAppBundle"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#CreateIngestion"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#CreateIngestionDestination"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#DeleteAppAuthorization"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#DeleteAppBundle"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#DeleteIngestion"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#DeleteIngestionDestination"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#GetAppAuthorization"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#GetAppBundle"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#GetIngestion"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#GetIngestionDestination"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ListAppAuthorizations"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ListAppBundles"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ListIngestionDestinations"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ListIngestions"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#StartIngestion"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#StartUserAccessTasks"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#StopIngestion"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#UpdateAppAuthorization"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#UpdateIngestionDestination"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "appfabric",
+               "sdkId" : "AppFabric"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "appfabric"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#documentation" : "<p>Amazon Web Services AppFabric quickly connects software as a service (SaaS) applications across your\n         organization. This allows IT and security teams to easily manage and secure applications\n         using a standard schema, and employees can complete everyday tasks faster using generative\n         artificial intelligence (AI). You can use these APIs to complete AppFabric tasks, such as\n         setting up audit log ingestions or viewing user access. For more information about AppFabric,\n         including the required permissions to use the service, see the <a href=\"https://docs.aws.amazon.com/appfabric/latest/adminguide/\">Amazon Web Services AppFabric Administration Guide</a>. For more\n         information about using the Command Line Interface (CLI) to manage your\n         AppFabric resources, see the <a href=\"https://docs.aws.amazon.com/cli/latest/reference/appfabric/index.html\">AppFabric section of the CLI\n            Reference</a>.</p>",
+            "smithy.api#title" : "AppFabric",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://appfabric-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://appfabric-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://appfabric.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://appfabric.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://appfabric.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2023-05-19"
+      },
+      "com.amazonaws.appfabric#FirehoseStream" : {
+         "members" : {
+            "streamName" : {
+               "target" : "com.amazonaws.appfabric#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon Kinesis Data Firehose delivery stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an Amazon Kinesis Data Firehose delivery stream.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#Format" : {
+         "members" : {
+            "JSON" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "json"
+               }
+            },
+            "PARQUET" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "parquet"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#GetAppAuthorization" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#GetAppAuthorizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#GetAppAuthorizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an app authorization.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#GetAppAuthorizationRequest" : {
+         "members" : {
+            "appAuthorizationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app\n         authorization to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetAppAuthorizationResponse" : {
+         "members" : {
+            "appAuthorization" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorization",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetAppBundle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#GetAppBundleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#GetAppBundleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an app bundle.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#GetAppBundleRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetAppBundleResponse" : {
+         "members" : {
+            "appBundle" : {
+               "target" : "com.amazonaws.appfabric#AppBundle",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an app bundle.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetIngestion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#GetIngestionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#GetIngestionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an ingestion.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#GetIngestionDestination" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#GetIngestionDestinationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#GetIngestionDestinationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about an ingestion destination.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#GetIngestionDestinationRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionDestinationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion\n         destination to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetIngestionDestinationResponse" : {
+         "members" : {
+            "ingestionDestination" : {
+               "target" : "com.amazonaws.appfabric#IngestionDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an ingestion destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetIngestionRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#GetIngestionResponse" : {
+         "members" : {
+            "ingestion" : {
+               "target" : "com.amazonaws.appfabric#Ingestion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#Identifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#Ingestion" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the app bundle for the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the ingestion was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionType" : {
+               "target" : "com.amazonaws.appfabric#IngestionType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.appfabric#IngestionState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.appfabric#TenantIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the application tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the ingestion was last updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an ingestion.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#IngestionDestination" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the ingestion destination was created.</p>"
+               }
+            },
+            "destinationConfiguration" : {
+               "target" : "com.amazonaws.appfabric#DestinationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the destination of ingested data.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "processingConfiguration" : {
+               "target" : "com.amazonaws.appfabric#ProcessingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about how ingested data is processed.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.appfabric#IngestionDestinationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the ingestion destination.</p>\n         <p>The following states are possible:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>Active</code>: The ingestion destination is active and is ready to be\n               used.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Failed</code>: The ingestion destination has failed. If the ingestion\n               destination is in this state, you should verify the ingestion destination\n               configuration and try again.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "statusReason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the current status of the ingestion destination.</p>\n         <p>Only present when the <code>status</code> of ingestion destination is\n            <code>Failed</code>.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.appfabric#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the ingestion destination was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an ingestion destination.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#IngestionDestinationList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#IngestionDestinationSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#IngestionDestinationStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Active"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Failed"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#IngestionDestinationSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains a summary of an ingestion destination.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#IngestionList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#IngestionSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#IngestionState" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "enabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#IngestionSummary" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.appfabric#IngestionState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the ingestion.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.appfabric#TenantIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the application tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains a summary of an ingestion.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#IngestionType" : {
+         "members" : {
+            "AUDIT_LOG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "auditLog"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#Integer" : {
+         "type" : "integer"
+      },
+      "com.amazonaws.appfabric#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "com.amazonaws.appfabric#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The period of time after which you should retry your request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request processing has failed because of an unknown error, exception, or failure\n         with an internal server.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListAppAuthorizations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#ListAppAuthorizationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#ListAppAuthorizationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of all app authorizations configured for an app bundle.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}/appauthorizations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "appAuthorizationSummaryList",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#ListAppAuthorizationsRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.appfabric#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use\n            <code>nextToken</code> to obtain further pages of results.</p>\n         <p>This is only an upper limit. The actual number of results returned per call might be\n         fewer than the specified maximum.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListAppAuthorizationsResponse" : {
+         "members" : {
+            "appAuthorizationSummaryList" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorizationSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a list of app authorization summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListAppBundles" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#ListAppBundlesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#ListAppBundlesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of app bundles.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "appBundleSummaryList",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#ListAppBundlesRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.appfabric#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use\n            <code>nextToken</code> to obtain further pages of results.</p>\n         <p>This is only an upper limit. The actual number of results returned per call might be\n         fewer than the specified maximum.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListAppBundlesResponse" : {
+         "members" : {
+            "appBundleSummaryList" : {
+               "target" : "com.amazonaws.appfabric#AppBundleSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a list of app bundle summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListIngestionDestinations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#ListIngestionDestinationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#ListIngestionDestinationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of all ingestion destinations configured for an ingestion.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "ingestionDestinations",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#ListIngestionDestinationsRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.appfabric#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use\n            <code>nextToken</code> to obtain further pages of results.</p>\n         <p>This is only an upper limit. The actual number of results returned per call might be\n         fewer than the specified maximum.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListIngestionDestinationsResponse" : {
+         "members" : {
+            "ingestionDestinations" : {
+               "target" : "com.amazonaws.appfabric#IngestionDestinationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a list of ingestion destination summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListIngestions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#ListIngestionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#ListIngestionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of all ingestions configured for an app bundle.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "ingestions",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#ListIngestionsRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.appfabric#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results that are returned per call. You can use\n            <code>nextToken</code> to obtain further pages of results.</p>\n         <p>This is only an upper limit. The actual number of results returned per call might be\n         fewer than the specified maximum.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListIngestionsResponse" : {
+         "members" : {
+            "ingestions" : {
+               "target" : "com.amazonaws.appfabric#IngestionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a list of ingestion summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If <code>nextToken</code> is returned, there are more results available. The value of\n            <code>nextToken</code> is a unique pagination token for each page. Make the call again\n         using the returned token to retrieve the next page. Keep all other arguments unchanged.\n         Each pagination token expires after 24 hours. Using an expired pagination token will return\n         an <i>HTTP 400 InvalidToken error</i>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of tags for a resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource for which you want to retrieve\n         tags.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.appfabric#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of the key-value pairs for the tag or tags assigned to the specified resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.appfabric#Oauth2Credential" : {
+         "members" : {
+            "clientId" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client ID of the client application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientSecret" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client secret of the client application.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains OAuth2 client credential information.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#Persona" : {
+         "members" : {
+            "ADMIN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "admin"
+               }
+            },
+            "ENDUSER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "endUser"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#ProcessingConfiguration" : {
+         "members" : {
+            "auditLog" : {
+               "target" : "com.amazonaws.appfabric#AuditLogProcessingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an audit log processing configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about how ingested data is processed.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.appfabric#RedirectUri" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024
+            },
+            "smithy.api#pattern" : "^https://[-a-zA-Z0-9-._~:/?#@!$&'()*+,;=]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource ID.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource does not exist.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ResultStatus" : {
+         "members" : {
+            "COMPLETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPLETED"
+               }
+            },
+            "EXPIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXPIRED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#S3Bucket" : {
+         "members" : {
+            "bucketName" : {
+               "target" : "com.amazonaws.appfabric#String63",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon S3 bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "prefix" : {
+               "target" : "com.amazonaws.appfabric#String120",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The object key to use.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an Amazon S3 bucket.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#Schema" : {
+         "members" : {
+            "OCSF" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ocsf"
+               }
+            },
+            "RAW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "raw"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.appfabric#SensitiveString2048" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code for the quota exceeded.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource ID.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "serviceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the service.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request exceeds a service quota.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#StartIngestion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#StartIngestionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#StartIngestionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts (enables) an ingestion, which collects data from an application.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/start"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#StartIngestionRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#StartIngestionResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#StartUserAccessTasks" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#StartUserAccessTasksRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#StartUserAccessTasksResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts the tasks to search user access status for a specific email address.</p>\n         <p>The tasks are stopped when the user access status data is found. The tasks are\n         terminated when the API calls to the application time out.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/useraccess/start"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#StartUserAccessTasksRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "email" : {
+               "target" : "com.amazonaws.appfabric#Email",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The email address of the target user.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#StartUserAccessTasksResponse" : {
+         "members" : {
+            "userAccessTasksList" : {
+               "target" : "com.amazonaws.appfabric#UserAccessTasksList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains a list of user access task information.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#StopIngestion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#StopIngestionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#StopIngestionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stops (disables) an ingestion.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/stop"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#StopIngestionRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#StopIngestionResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#String120" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 120,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#String2048" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#String255" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#String63" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 63,
+               "min" : 3
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#String64" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 3
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#Tag" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.appfabric#TagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tag key.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.appfabric#TagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tag value.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The key or keys of the key-value pairs for the tag or tags assigned to a\n         resource.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#TagList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#Tag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Assigns one or more tags (key-value pairs) to the specified resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource that you want to tag.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.appfabric#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of the key-value pairs of the tag or tags to assign to the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#TaskError" : {
+         "members" : {
+            "errorCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the error.</p>"
+               }
+            },
+            "errorMessage" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The message of the error.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an error returned from a user access task.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#TaskIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#UUID"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#Tenant" : {
+         "members" : {
+            "tenantDisplayName" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tenantIdentifier" : {
+               "target" : "com.amazonaws.appfabric#TenantIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the application tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about an application tenant.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#TenantIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code for the quota exceeded.</p>"
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "com.amazonaws.appfabric#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The period of time after which you should retry your request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            },
+            "serviceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code of the service.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request rate exceeds the limit.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UUID" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.appfabric#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes a tag or tags from a resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.appfabric#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource that you want to untag.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.appfabric#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The keys of the key-value pairs for the tag or tags you want to remove from the\n         specified resource.</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UpdateAppAuthorization" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#UpdateAppAuthorizationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#UpdateAppAuthorizationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an app authorization within an app bundle, which allows AppFabric to connect to an\n         application.</p>\n         <p>If the app authorization was in a <code>connected</code> state, updating the app\n         authorization will set it back to a <code>PendingConnect</code> state.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/appbundles/{appBundleIdentifier}/appauthorizations/{appAuthorizationIdentifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#UpdateAppAuthorizationRequest" : {
+         "members" : {
+            "appAuthorizationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app\n         authorization to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "credential" : {
+               "target" : "com.amazonaws.appfabric#Credential",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains credentials for the application, such as an API key or OAuth2 client ID and\n         secret.</p>\n         <p>Specify credentials that match the authorization type of the app authorization to\n         update. For example, if the authorization type of the app authorization is OAuth2\n            (<code>oauth2</code>), then you should provide only the OAuth2 credentials.</p>"
+               }
+            },
+            "tenant" : {
+               "target" : "com.amazonaws.appfabric#Tenant",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an application tenant, such as the application display name\n         and identifier.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UpdateAppAuthorizationResponse" : {
+         "members" : {
+            "appAuthorization" : {
+               "target" : "com.amazonaws.appfabric#AppAuthorization",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an app authorization.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UpdateIngestionDestination" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.appfabric#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.appfabric#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.appfabric#UpdateIngestionDestinationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.appfabric#UpdateIngestionDestinationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an ingestion destination, which specifies how an application's ingested data is\n         processed by Amazon Web Services AppFabric and where it's delivered.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/appbundles/{appBundleIdentifier}/ingestions/{ingestionIdentifier}/ingestiondestinations/{ingestionDestinationIdentifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.appfabric#UpdateIngestionDestinationRequest" : {
+         "members" : {
+            "appBundleIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle\n         to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "destinationConfiguration" : {
+               "target" : "com.amazonaws.appfabric#DestinationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the destination of ingested data.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionDestinationIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion\n         destination to use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ingestionIdentifier" : {
+               "target" : "com.amazonaws.appfabric#Identifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the ingestion to\n         use for the request.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UpdateIngestionDestinationResponse" : {
+         "members" : {
+            "ingestionDestination" : {
+               "target" : "com.amazonaws.appfabric#IngestionDestination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an ingestion destination.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UserAccessResultItem" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>"
+               }
+            },
+            "email" : {
+               "target" : "com.amazonaws.appfabric#Email",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The email address of the target user.</p>"
+               }
+            },
+            "resultStatus" : {
+               "target" : "com.amazonaws.appfabric#ResultStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the user access result item.</p>\n         <p>The following states are possible:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>IN_PROGRESS</code>: The user access task is in progress.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETED</code>: The user access task completed successfully.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code>: The user access task failed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EXPIRED</code>: The user access task expired.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "taskError" : {
+               "target" : "com.amazonaws.appfabric#TaskError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about an error returned from a user access task.</p>"
+               }
+            },
+            "taskId" : {
+               "target" : "com.amazonaws.appfabric#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the task.</p>"
+               }
+            },
+            "tenantDisplayName" : {
+               "target" : "com.amazonaws.appfabric#String2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the tenant.</p>"
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.appfabric#TenantIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the application tenant.</p>"
+               }
+            },
+            "userFirstName" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The first name of the user.</p>"
+               }
+            },
+            "userFullName" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The full name of the user.</p>"
+               }
+            },
+            "userId" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of user.</p>"
+               }
+            },
+            "userLastName" : {
+               "target" : "com.amazonaws.appfabric#SensitiveString2048",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The last name of the user.</p>"
+               }
+            },
+            "userStatus" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the user returned by the application.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about a user's access to an application.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UserAccessResultsList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#UserAccessResultItem"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#UserAccessTaskItem" : {
+         "members" : {
+            "app" : {
+               "target" : "com.amazonaws.appfabric#String255",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "error" : {
+               "target" : "com.amazonaws.appfabric#TaskError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Error from the task, if any.</p>"
+               }
+            },
+            "taskId" : {
+               "target" : "com.amazonaws.appfabric#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the task.</p>"
+               }
+            },
+            "tenantId" : {
+               "target" : "com.amazonaws.appfabric#TenantIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the application tenant.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about a user access task.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#UserAccessTasksList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#UserAccessTaskItem"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#ValidationException" : {
+         "members" : {
+            "fieldList" : {
+               "target" : "com.amazonaws.appfabric#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field list.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.appfabric#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the exception.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request has invalid or missing parameters.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ValidationExceptionField" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message about the validation exception.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field name where the invalid entry was detected.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The input failed to meet the constraints specified by the Amazon Web Services service in\n         a specified field.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.appfabric#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.appfabric#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.appfabric#ValidationExceptionReason" : {
+         "members" : {
+            "CANNOT_PARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "cannotParse"
+               }
+            },
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "fieldValidationFailed"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "other"
+               }
+            },
+            "UNKNOWN_OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "unknownOperation"
+               }
+            }
+         },
+         "type" : "enum"
+      }
+   },
+   "smithy" : "2.0"
+}

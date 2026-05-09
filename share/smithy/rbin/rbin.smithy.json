@@ -1,0 +1,2418 @@
+{
+   "metadata" : {
+      "suppressions" : [
+         {
+            "id" : "HttpMethodSemantics",
+            "namespace" : "*"
+         },
+         {
+            "id" : "HttpResponseCodeSemantics",
+            "namespace" : "*"
+         },
+         {
+            "id" : "PaginatedTrait",
+            "namespace" : "*"
+         },
+         {
+            "id" : "HttpHeaderTrait",
+            "namespace" : "*"
+         },
+         {
+            "id" : "HttpUriConflict",
+            "namespace" : "*"
+         },
+         {
+            "id" : "Service",
+            "namespace" : "*"
+         }
+      ]
+   },
+   "shapes" : {
+      "com.amazonaws.rbin#AmazonRecycleBin" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.rbin#CreateRule"
+            },
+            {
+               "target" : "com.amazonaws.rbin#DeleteRule"
+            },
+            {
+               "target" : "com.amazonaws.rbin#GetRule"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ListRules"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.rbin#LockRule"
+            },
+            {
+               "target" : "com.amazonaws.rbin#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.rbin#UnlockRule"
+            },
+            {
+               "target" : "com.amazonaws.rbin#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.rbin#UpdateRule"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "rbin",
+               "cloudFormationName" : "Rbin",
+               "cloudTrailEventSource" : "rbin.amazonaws.com",
+               "endpointPrefix" : "rbin",
+               "sdkId" : "rbin"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "rbin"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#documentation" : "<p>This is the <i>Recycle Bin API Reference</i>. This documentation provides \n      descriptions and syntax for each of the actions and data types in Recycle Bin.</p>\n         <p>Recycle Bin is a resource recovery feature that enables you to restore accidentally deleted \n      EBS volumes, EBS snapshots, and EBS-backed AMIs. When using Recycle Bin, if your resources are \n      deleted, they are retained in the Recycle Bin for a time period that you specify.</p>\n         <p>You can restore a resource from the Recycle Bin at any time before its retention period \n      expires. After you restore a resource from the Recycle Bin, the resource is removed from the \n      Recycle Bin, and you can then use it in the same way you use any other resource of that type \n      in your account. If the retention period expires and the resource is not restored, the resource \n      is permanently deleted from the Recycle Bin and is no longer available for recovery. For more \n      information about Recycle Bin, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html\">\n        Recycle Bin</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.</p>",
+            "smithy.api#title" : "Amazon Recycle Bin",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseDualStack"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "assign" : "PartitionResult",
+                                 "fn" : "aws.partition"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    },
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://rbin-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://rbin-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS is enabled but this partition does not support FIPS",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://rbin.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "DualStack is enabled but this partition does not support DualStack",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : "https://rbin.{Region}.{PartitionResult#dnsSuffix}"
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region af-south-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.af-south-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "af-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-northeast-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-northeast-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-northeast-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-northeast-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-northeast-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-northeast-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-northeast-3 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-northeast-3.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-northeast-3",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-south-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-south-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-southeast-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-southeast-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-southeast-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ap-southeast-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ap-southeast-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-southeast-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region ca-central-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.ca-central-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ca-central-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-central-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.eu-central-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-central-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.eu-north-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-south-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.eu-south-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.eu-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-west-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.eu-west-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-west-3 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.eu-west-3.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-west-3",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region me-south-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.me-south-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "me-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region sa-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.sa-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "sa-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-east-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-west-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-west-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://rbin.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2021-06-15"
+      },
+      "com.amazonaws.rbin#ConflictException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.rbin#ErrorMessage"
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.rbin#ConflictExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the exception.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified retention rule lock request can't be completed.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ConflictExceptionReason" : {
+         "members" : {
+            "INVALID_RULE_STATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INVALID_RULE_STATE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#CreateRule" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#CreateRuleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#CreateRuleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a Recycle Bin retention rule. You can create two types of retention rules:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>Tag-level retention rules</b> - These retention rules use \n          resource tags to identify the resources to protect. For each retention rule, you specify one or \n          more tag key and value pairs. Resources (of the specified type) that have at least one of these \n          tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this \n          type of retention rule to protect specific resources in your account based on their tags.</p>\n            </li>\n            <li>\n               <p>\n                  <b>Region-level retention rules</b> - These retention rules, \n          by default, apply to all of the resources (of the specified type) in the Region, even if the \n          resources are not tagged. However, you can specify exclusion tags to exclude resources that have \n          specific tags. Use this type of retention rule to protect all resources of a specific type in a \n          Region.</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/ebs/latest/userguide/recycle-bin.html\">\n      Create Recycle Bin retention rules</a> in the <i>Amazon EBS User Guide</i>.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/rules"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#CreateRuleRequest" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded, \nor ignored, by a Region-level retention rule. Resources that have any of these tags are not retained by the retention rule \nupon deletion.</p>\n         <p>You can't specify exclusion tags for tag-level retention rules.</p>"
+               }
+            },
+            "LockConfiguration" : {
+               "target" : "com.amazonaws.rbin#LockConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule lock configuration.</p>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a \n  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that \n  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have \n  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule.</p>\n         <p>You can add the same tag key and value pair to a maximum or five retention rules.</p>\n         <p>To create a Region-level retention rule, omit this parameter. A Region-level retention rule \n      does not have any resource tags specified. It retains all deleted resources of the specified \n      resource type in the Region in which the rule is created, even if the resources are not tagged.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs \n      are supported.</p>\n         <ul>\n            <li>\n               <p>To retain EBS volumes, specify <code>EBS_VOLUME</code>.</p>\n            </li>\n            <li>\n               <p>To retain EBS snapshots, specify <code>EBS_SNAPSHOT</code>\n               </p>\n            </li>\n            <li>\n               <p>To retain EBS-backed AMIs, specify <code>EC2_IMAGE</code>.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention period for which the retention rule is to \n  retain resources.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.rbin#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the tags to assign to the retention rule.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#CreateRuleResponse" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be \nexcluded, or ignored, by the retention rule.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>"
+               }
+            },
+            "LockConfiguration" : {
+               "target" : "com.amazonaws.rbin#LockConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule lock configuration.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] The lock state for the retention rule.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>locked</code> - The retention rule is locked and can't be modified or deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending_unlock</code> - The retention rule has been unlocked but it is still within \n          the unlock delay period. The retention rule can be modified or deleted only after the unlock \n          delay period has expired.</p>\n            </li>\n            <li>\n               <p>\n                  <code>unlocked</code> - The retention rule is unlocked and it can be modified or deleted by \n          any user with the required permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>null</code> - The retention rule has never been locked. Once a retention rule has \n        been locked, it can transition between the <code>locked</code> and <code>unlocked</code> states \n        only; it can never transition back to <code>null</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type retained by the retention rule.</p>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod"
+            },
+            "RuleArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.rbin#RuleStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the retention rule. Only retention rules that are in the <code>available</code> \n      state retain resources.</p>"
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.rbin#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the tags assigned to the retention rule.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#DeleteRule" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#DeleteRuleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#DeleteRuleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a Recycle Bin retention rule. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule\">\n      Delete Recycle Bin retention rules</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/rules/{Identifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#DeleteRuleRequest" : {
+         "members" : {
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#DeleteRuleResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#Description" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[\\S ]{0,255}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#ErrorMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#ExcludeResourceTags" : {
+         "member" : {
+            "target" : "com.amazonaws.rbin#ResourceTag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 5,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.rbin#GetRule" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#GetRuleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#GetRuleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets information about a Recycle Bin retention rule.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/rules/{Identifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#GetRuleRequest" : {
+         "members" : {
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#GetRuleResponse" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be \nexcluded, or ignored, by the retention rule.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>"
+               }
+            },
+            "LockConfiguration" : {
+               "target" : "com.amazonaws.rbin#LockConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule lock configuration.</p>"
+               }
+            },
+            "LockEndTime" : {
+               "target" : "com.amazonaws.rbin#TimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time at which the unlock delay is set to expire. Only returned \n      for retention rules that have been unlocked and that are still within the unlock \n      delay period.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] The lock state for the retention rule.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>locked</code> - The retention rule is locked and can't be modified or deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending_unlock</code> - The retention rule has been unlocked but it is still within \n          the unlock delay period. The retention rule can be modified or deleted only after the unlock \n          delay period has expired.</p>\n            </li>\n            <li>\n               <p>\n                  <code>unlocked</code> - The retention rule is unlocked and it can be modified or deleted by \n          any user with the required permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>null</code> - The retention rule has never been locked. Once a retention rule has \n        been locked, it can transition between the <code>locked</code> and <code>unlocked</code> states \n        only; it can never transition back to <code>null</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type retained by the retention rule.</p>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention period for which the retention rule is to \n  retain resources.</p>"
+               }
+            },
+            "RuleArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.rbin#RuleStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the retention rule. Only retention rules that are in the <code>available</code> \n      state retain resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#InternalServerException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.rbin#ErrorMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The service could not respond to the request due to an internal problem.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ListRules" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#ListRulesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#ListRulesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the Recycle Bin retention rules in the Region.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/list-rules"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Rules",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#ListRulesRequest" : {
+         "members" : {
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be \nexcluded, or ignored, by the retention rule.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lock state of the retention rules to list. Only retention rules with the specified \n      lock state are returned.</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.rbin#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return with a single call.\n\tTo retrieve the remaining results, make another call with the returned <code>NextToken</code> value.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.rbin#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type retained by the retention rule. Only retention rules that retain \n      the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.</p>\n         <ul>\n            <li>\n               <p>To list retention rules that retain EBS volumes, specify <code>EBS_VOLUME</code>.</p>\n            </li>\n            <li>\n               <p>To list retention rules that retain EBS snapshots, specify <code>EBS_SNAPSHOT</code>.</p>\n            </li>\n            <li>\n               <p>To list retention rules that retain EBS-backed AMIs, specify <code>EC2_IMAGE</code>.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ListRulesResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.rbin#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use to retrieve the next page of results. This value is <code>null</code> when there are no more results to return.</p>"
+               }
+            },
+            "Rules" : {
+               "target" : "com.amazonaws.rbin#RuleSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rules.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the tags assigned to a retention rule.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{ResourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#ListTagsForResourceRequest" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ListTagsForResourceResponse" : {
+         "members" : {
+            "Tags" : {
+               "target" : "com.amazonaws.rbin#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the tags assigned to the retention rule.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#LockConfiguration" : {
+         "members" : {
+            "UnlockDelay" : {
+               "target" : "com.amazonaws.rbin#UnlockDelay",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule unlock delay.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a retention rule lock configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#LockRule" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#LockRuleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#LockRuleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Locks a Region-level retention rule. A locked retention rule can't be modified or \n      deleted.</p>\n         <note>\n            <p>You can't lock tag-level retention rules, or Region-level retention rules that \n        have exclusion tags.</p>\n         </note>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/rules/{Identifier}/lock"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#LockRuleRequest" : {
+         "members" : {
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "LockConfiguration" : {
+               "target" : "com.amazonaws.rbin#LockConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule lock configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#LockRuleResponse" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be \nexcluded, or ignored, by the retention rule.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>"
+               }
+            },
+            "LockConfiguration" : {
+               "target" : "com.amazonaws.rbin#LockConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule lock configuration.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] The lock state for the retention rule.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>locked</code> - The retention rule is locked and can't be modified or deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending_unlock</code> - The retention rule has been unlocked but it is still within \n          the unlock delay period. The retention rule can be modified or deleted only after the unlock \n          delay period has expired.</p>\n            </li>\n            <li>\n               <p>\n                  <code>unlocked</code> - The retention rule is unlocked and it can be modified or deleted by \n          any user with the required permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>null</code> - The retention rule has never been locked. Once a retention rule has \n        been locked, it can transition between the <code>locked</code> and <code>unlocked</code> states \n        only; it can never transition back to <code>null</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type retained by the retention rule.</p>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod"
+            },
+            "RuleArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.rbin#RuleStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the retention rule. Only retention rules that are in the <code>available</code> \n      state retain resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#LockState" : {
+         "members" : {
+            "LOCKED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "locked"
+               }
+            },
+            "PENDING_UNLOCK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pending_unlock"
+               }
+            },
+            "UNLOCKED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "unlocked"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 1000,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.rbin#NextToken" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[A-Za-z0-9+/=]{1,2048}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#ResourceNotFoundException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.rbin#ErrorMessage"
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the exception.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource was not found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ResourceNotFoundExceptionReason" : {
+         "members" : {
+            "RULE_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RULE_NOT_FOUND"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#ResourceTag" : {
+         "members" : {
+            "ResourceTagKey" : {
+               "target" : "com.amazonaws.rbin#ResourceTagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceTagValue" : {
+               "target" : "com.amazonaws.rbin#ResourceTagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag value.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ResourceTagKey" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[\\S\\s]{1,128}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#ResourceTagValue" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[\\S\\s]{0,256}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#ResourceTags" : {
+         "member" : {
+            "target" : "com.amazonaws.rbin#ResourceTag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.rbin#ResourceType" : {
+         "members" : {
+            "EBS_SNAPSHOT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EBS_SNAPSHOT"
+               }
+            },
+            "EBS_VOLUME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EBS_VOLUME"
+               }
+            },
+            "EC2_IMAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EC2_IMAGE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#RetentionPeriod" : {
+         "members" : {
+            "RetentionPeriodUnit" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriodUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unit of time in which the retention period is measured. Currently, only <code>DAYS</code> \n      is supported.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RetentionPeriodValue" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriodValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The period value for which the retention rule is to retain resources, measured in days. \n      The supported retention periods are:</p>\n         <ul>\n            <li>\n               <p>EBS volumes: 1 - 7 days</p>\n            </li>\n            <li>\n               <p>EBS snapshots and EBS-backed AMIs: 1 - 365 days</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the retention period for which the retention rule is to \n  retain resources.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#RetentionPeriodUnit" : {
+         "members" : {
+            "DAYS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAYS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#RetentionPeriodValue" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 3650,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.rbin#RuleArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^arn:\\S+:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#RuleIdentifier" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[0-9a-zA-Z]{11}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#RuleStatus" : {
+         "members" : {
+            "AVAILABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "available"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pending"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#RuleSummary" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] The lock state for the retention rule.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>locked</code> - The retention rule is locked and can't be modified or deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending_unlock</code> - The retention rule has been unlocked but it is still within \n          the unlock delay period. The retention rule can be modified or deleted only after the unlock \n          delay period has expired.</p>\n            </li>\n            <li>\n               <p>\n                  <code>unlocked</code> - The retention rule is unlocked and it can be modified or deleted by \n          any user with the required permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>null</code> - The retention rule has never been locked. Once a retention rule has \n        been locked, it can transition between the <code>locked</code> and <code>unlocked</code> states \n        only; it can never transition back to <code>null</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention period for which the retention rule is to \n  retain resources.</p>"
+               }
+            },
+            "RuleArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a Recycle Bin retention rule.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#RuleSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.rbin#RuleSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.rbin#ServiceQuotaExceededException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.rbin#ErrorMessage"
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.rbin#ServiceQuotaExceededExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the exception.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request would cause a service quota for the number of tags per resource to be exceeded.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ServiceQuotaExceededExceptionReason" : {
+         "members" : {
+            "SERVICE_QUOTA_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SERVICE_QUOTA_EXCEEDED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#Tag" : {
+         "members" : {
+            "Key" : {
+               "target" : "com.amazonaws.rbin#TagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag key.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Value" : {
+               "target" : "com.amazonaws.rbin#TagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag value.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the tags to assign to the retention rule.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.rbin#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.rbin#TagList" : {
+         "member" : {
+            "target" : "com.amazonaws.rbin#Tag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.rbin#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Assigns tags to the specified retention rule.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/tags/{ResourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#TagResourceRequest" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.rbin#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the tags to assign to the retention rule.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.rbin#TimeStamp" : {
+         "type" : "timestamp"
+      },
+      "com.amazonaws.rbin#UnlockDelay" : {
+         "members" : {
+            "UnlockDelayUnit" : {
+               "target" : "com.amazonaws.rbin#UnlockDelayUnit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unit of time in which to measure the unlock delay. Currently, the unlock delay can \n      be measured only in days.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UnlockDelayValue" : {
+               "target" : "com.amazonaws.rbin#UnlockDelayValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unlock delay period, measured in the unit specified for <b>\n      UnlockDelayUnit</b>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the retention rule unlock delay. The unlock delay is the period after which \n      a retention rule can be modified or edited after it has been unlocked by a user with the required \n      permissions. The retention rule can't be modified or deleted during the unlock delay.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#UnlockDelayUnit" : {
+         "members" : {
+            "DAYS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAYS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.rbin#UnlockDelayValue" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 30,
+               "min" : 7
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.rbin#UnlockRule" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#UnlockRuleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#UnlockRuleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted \n      only after the unlock delay period expires.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/rules/{Identifier}/unlock"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#UnlockRuleRequest" : {
+         "members" : {
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#UnlockRuleResponse" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be \nexcluded, or ignored, by the retention rule.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>"
+               }
+            },
+            "LockConfiguration" : {
+               "target" : "com.amazonaws.rbin#LockConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention rule lock configuration.</p>"
+               }
+            },
+            "LockEndTime" : {
+               "target" : "com.amazonaws.rbin#TimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time at which the unlock delay is set to expire. Only returned \n      for retention rules that have been unlocked and that are still within the unlock \n      delay period.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] The lock state for the retention rule.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>locked</code> - The retention rule is locked and can't be modified or deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending_unlock</code> - The retention rule has been unlocked but it is still within \n          the unlock delay period. The retention rule can be modified or deleted only after the unlock \n          delay period has expired.</p>\n            </li>\n            <li>\n               <p>\n                  <code>unlocked</code> - The retention rule is unlocked and it can be modified or deleted by \n          any user with the required permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>null</code> - The retention rule has never been locked. Once a retention rule has \n        been locked, it can transition between the <code>locked</code> and <code>unlocked</code> states \n        only; it can never transition back to <code>null</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type retained by the retention rule.</p>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod"
+            },
+            "RuleArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.rbin#RuleStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the retention rule. Only retention rules that are in the <code>available</code> \n      state retain resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Unassigns a tag from a retention rule.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/tags/{ResourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#UntagResourceRequest" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TagKeys" : {
+               "target" : "com.amazonaws.rbin#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag keys of the tags to unassign. All tags that have the specified tag key are unassigned.</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#UpdateRule" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.rbin#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.rbin#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.rbin#UpdateRuleRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.rbin#UpdateRuleResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an existing Recycle Bin retention rule. You can update a retention rule's description, \n      resource tags, and retention period at any time after creation. You can't update a retention rule's \n      resource type after creation. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule\">\n      Update Recycle Bin retention rules</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/rules/{Identifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.rbin#UpdateRuleRequest" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded, \nor ignored, by a Region-level retention rule. Resources that have any of these tags are not retained by the retention rule \nupon deletion.</p>\n         <p>You can't specify exclusion tags for tag-level retention rules.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a \n  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that \n  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have \n  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule.</p>\n         <p>You can add the same tag key and value pair to a maximum or five retention rules.</p>\n         <p>To create a Region-level retention rule, omit this parameter. A Region-level retention rule \n      does not have any resource tags specified. It retains all deleted resources of the specified \n      resource type in the Region in which the rule is created, even if the resources are not tagged.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<note>\n            <p>This parameter is currently not supported. You can't update a retention rule's resource type \n      after creation.</p>\n         </note>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the retention period for which the retention rule is to \n  retain resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#UpdateRuleResponse" : {
+         "members" : {
+            "Description" : {
+               "target" : "com.amazonaws.rbin#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The retention rule description.</p>"
+               }
+            },
+            "ExcludeResourceTags" : {
+               "target" : "com.amazonaws.rbin#ExcludeResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be \nexcluded, or ignored, by the retention rule.</p>"
+               }
+            },
+            "Identifier" : {
+               "target" : "com.amazonaws.rbin#RuleIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique ID of the retention rule.</p>"
+               }
+            },
+            "LockEndTime" : {
+               "target" : "com.amazonaws.rbin#TimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time at which the unlock delay is set to expire. Only returned \n      for retention rules that have been unlocked and that are still within the unlock \n      delay period.</p>"
+               }
+            },
+            "LockState" : {
+               "target" : "com.amazonaws.rbin#LockState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Region-level retention rules only] The lock state for the retention rule.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>locked</code> - The retention rule is locked and can't be modified or deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>pending_unlock</code> - The retention rule has been unlocked but it is still within \n          the unlock delay period. The retention rule can be modified or deleted only after the unlock \n          delay period has expired.</p>\n            </li>\n            <li>\n               <p>\n                  <code>unlocked</code> - The retention rule is unlocked and it can be modified or deleted by \n          any user with the required permissions.</p>\n            </li>\n            <li>\n               <p>\n                  <code>null</code> - The retention rule has never been locked. Once a retention rule has \n        been locked, it can transition between the <code>locked</code> and <code>unlocked</code> states \n        only; it can never transition back to <code>null</code>.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "ResourceTags" : {
+               "target" : "com.amazonaws.rbin#ResourceTags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>[Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention \n      rule.</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.rbin#ResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource type retained by the retention rule.</p>"
+               }
+            },
+            "RetentionPeriod" : {
+               "target" : "com.amazonaws.rbin#RetentionPeriod"
+            },
+            "RuleArn" : {
+               "target" : "com.amazonaws.rbin#RuleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the retention rule.</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.rbin#RuleStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the retention rule. Only retention rules that are in the <code>available</code> \n      state retain resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ValidationException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.rbin#ErrorMessage"
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.rbin#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the exception.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>One or more of the parameters in the request is not valid.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.rbin#ValidationExceptionReason" : {
+         "members" : {
+            "INVALID_PAGE_TOKEN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INVALID_PAGE_TOKEN"
+               }
+            },
+            "INVALID_PARAMETER_VALUE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INVALID_PARAMETER_VALUE"
+               }
+            }
+         },
+         "type" : "enum"
+      }
+   },
+   "smithy" : "2.0"
+}

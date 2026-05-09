@@ -1,0 +1,3529 @@
+{
+   "shapes" : {
+      "com.amazonaws.connecthealth#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This error is thrown when the client does not supply proper credentials to the API.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 401
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ActivateSubscription" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#ActivateSubscriptionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#ActivateSubscriptionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Activates a Subscription to enable billing for a user.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/domains/{domainId}/subscriptions/{subscriptionId}/activate"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#ActivateSubscriptionInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the parent Domain.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "domainId"
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Subscription.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "subscriptionId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ActivateSubscriptionOutput" : {
+         "members" : {
+            "subscription" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#notProperty" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ArtifactDetails" : {
+         "members" : {
+            "failureReason" : {
+               "target" : "com.amazonaws.connecthealth#ErrorMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for failure if the artifact generation failed</p>"
+               }
+            },
+            "outputLocation" : {
+               "target" : "com.amazonaws.connecthealth#Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#PostStreamArtifactGenerationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The generation status of the artifact</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about a generated artifact including location and status</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#AudioChunk" : {
+         "type" : "blob"
+      },
+      "com.amazonaws.connecthealth#AudioOffset" : {
+         "type" : "double"
+      },
+      "com.amazonaws.connecthealth#ClinicalNoteGenerationResult" : {
+         "members" : {
+            "afterVisitSummaryResult" : {
+               "target" : "com.amazonaws.connecthealth#ArtifactDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the generated after visit summary</p>"
+               }
+            },
+            "noteResult" : {
+               "target" : "com.amazonaws.connecthealth#ArtifactDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the generated clinical note</p>"
+               }
+            },
+            "transcriptResult" : {
+               "target" : "com.amazonaws.connecthealth#ArtifactDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the generated transcript</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Results of clinical note generation including note, transcript, and summary</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ClinicalNoteGenerationSettings" : {
+         "members" : {
+            "noteTemplateSettings" : {
+               "target" : "com.amazonaws.connecthealth#NoteTemplateSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Settings for the note template to use</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Settings for generating clinical notes from the audio stream</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ClinicalNoteGenerationSettingsResponse" : {
+         "members" : {
+            "noteTemplateSettings" : {
+               "target" : "com.amazonaws.connecthealth#NoteTemplateSettingsResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Settings for the note template used</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response containing settings for clinical note generation</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This error is thrown when a resource update is no longer valid due to assumptions about initial state changing.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ConnectHealth" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.connecthealth#ActivateSubscription"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#CreateDomain"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#CreateSubscription"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#DeactivateSubscription"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#DeleteDomain"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#GetDomain"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#GetMedicalScribeListeningSession"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#GetPatientInsightsJob"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#GetSubscription"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ListDomains"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ListSubscriptions"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#StartMedicalScribeListeningSession"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#StartPatientInsightsJob"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#UntagResource"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "health-agent",
+               "cloudTrailEventSource" : "health-agent.amazonaws.com",
+               "endpointPrefix" : "health-agent",
+               "sdkId" : "ConnectHealth"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "health-agent"
+            },
+            "aws.endpoints#dualStackOnlyEndpoints" : {},
+            "aws.endpoints#standardRegionalEndpoints" : {},
+            "aws.iam#supportedPrincipalTypes" : [
+               "Root",
+               "IAMUser",
+               "IAMRole",
+               "FederatedUser"
+            ],
+            "aws.protocols#restJson1" : {
+               "eventStreamHttp" : [
+                  "h2"
+               ],
+               "http" : [
+                  "h2",
+                  "http/1.1"
+               ]
+            },
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "*",
+                  "content-type",
+                  "content-length",
+                  "authorization",
+                  "x-amz-date",
+                  "x-amz-security-token",
+                  "x-amz-content-sha256",
+                  "x-amz-user-agent",
+                  "x-api-key"
+               ],
+               "additionalExposedHeaders" : [
+                  "x-amzn-errortype",
+                  "x-amzn-requestid",
+                  "x-amzn-trace-id",
+                  "Access-Control-Allow-Origin"
+               ],
+               "maxAge" : 86400,
+               "origin" : "*"
+            },
+            "smithy.api#documentation" : "<p>Health Agent for healthcare providers and patient engagement</p>",
+            "smithy.api#title" : "Connect Health",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://health-agent-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://health-agent.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://health-agent-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://health-agent.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://health-agent-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://health-agent.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://health-agent-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://health-agent.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2025-01-29"
+      },
+      "com.amazonaws.connecthealth#CreateDomain" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#ServiceQuotaExceededException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#CreateDomainInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#CreateDomainOutput"
+         },
+         "traits" : {
+            "aws.iam#requiredActions" : [
+               "health-agent:TagResource",
+               "iam:PassRole"
+            ],
+            "smithy.api#documentation" : "<p>Creates a new Domain for managing HealthAgent resources.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/domain"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#CreateDomainInput" : {
+         "members" : {
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.connecthealth#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key to use for encrypting data in this Domain.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connecthealth#DomainName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name for the new Domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connecthealth#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tags to associate with the Domain.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "webAppSetupConfiguration" : {
+               "target" : "com.amazonaws.connecthealth#CreateWebAppConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for the Domain web application. Optional, but if provided all fields are required.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#CreateDomainOutput" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connecthealth#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "encryptionContext" : {
+               "target" : "com.amazonaws.connecthealth#EncryptionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.connecthealth#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connecthealth#DomainName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#DomainStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "webAppConfiguration" : {
+               "target" : "com.amazonaws.connecthealth#WebAppConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "webAppUrl" : {
+               "target" : "com.amazonaws.connecthealth#WebAppUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#CreateSubscription" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#CreateSubscriptionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#CreateSubscriptionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new Subscription within a Domain for billing and user management.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/domains/{domainId}/subscriptions"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#CreateSubscriptionInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the parent Domain.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#CreateSubscriptionOutput" : {
+         "members" : {
+            "activatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "deactivatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "domainId"
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "subscriptionId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#CreateWebAppConfiguration" : {
+         "members" : {
+            "ehrRole" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the IAM role used for EHR operations.</p>",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^arn:aws:iam::[0-9]{12}:role/.+$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "idcInstanceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Identity Center instance ID to use for creating the application.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "idcRegion" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS region where Identity Center is configured.</p>",
+                  "smithy.api#length" : {
+                     "max" : 64,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Input configuration for creating a web application. Used only in CreateDomain operation input.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#CustomTemplate" : {
+         "members" : {
+            "templateInstructions" : {
+               "target" : "com.amazonaws.connecthealth#TemplateInstructions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Custom instructions for each section of the template</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "templateType" : {
+               "target" : "com.amazonaws.connecthealth#CustomTemplateBase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The base template type to customize</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for using a custom note template with specific instructions</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#CustomTemplateBase" : {
+         "members" : {
+            "BEHAVIORAL_SOAP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BEHAVIORAL_SOAP"
+               }
+            },
+            "BIRP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BIRP"
+               }
+            },
+            "DAP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAP"
+               }
+            },
+            "GIRPP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GIRPP"
+               }
+            },
+            "HISTORY_AND_PHYSICAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HISTORY_AND_PHYSICAL"
+               }
+            },
+            "SIRP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SIRP"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#CustomTemplateResponse" : {
+         "members" : {
+            "templateType" : {
+               "target" : "com.amazonaws.connecthealth#CustomTemplateBase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The base template type that was customized</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response containing custom template information</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#DeactivateSubscription" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#DeactivateSubscriptionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#DeactivateSubscriptionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deactivates a Subscription to stop billing for a user.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/domains/{domainId}/subscriptions/{subscriptionId}/deactivate"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#DeactivateSubscriptionInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the parent Domain.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "domainId"
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Subscription.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "subscriptionId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#DeactivateSubscriptionOutput" : {
+         "members" : {
+            "subscription" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#notProperty" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#DeleteDomain" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#DeleteDomainInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#DeleteDomainOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a Domain and all associated resources.</p>",
+            "smithy.api#http" : {
+               "method" : "DELETE",
+               "uri" : "/domain/{domainId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#DeleteDomainInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The id of the Domain to delete</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#DeleteDomainOutput" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connecthealth#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Domain that was requested for deletion</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The id of the Domain requested for deletion</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#DomainStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current status of Domain</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#DomainArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:aws:health-agent:[a-z0-9-]+:[0-9]{12}:domain/(hai-|dom-)[a-z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#DomainId" : {
+         "traits" : {
+            "aws.api#arnReference" : {
+               "type" : "AWS::HealthAgent::Domain"
+            },
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^(hai-|dom-)[a-z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#DomainName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#DomainStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "DELETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETED"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#DomainSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connecthealth#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the Domain was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connecthealth#DomainName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#DomainStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a Domain.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#DomainSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.connecthealth#DomainSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connecthealth#EncounterContext" : {
+         "members" : {
+            "unstructuredContext" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveMarkdownString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unstructured context information in markdown format</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Context information about the clinical encounter</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#EncryptionContext" : {
+         "members" : {
+            "encryptionType" : {
+               "target" : "com.amazonaws.connecthealth#EncryptionType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of encryption key used.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.connecthealth#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key. Only present when encryptionType is CUSTOMER_MANAGED_KEY.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Encryption context for a Domain.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#EncryptionType" : {
+         "members" : {
+            "AWS_OWNED_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_OWNED_KEY"
+               }
+            },
+            "CUSTOMER_MANAGED_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOMER_MANAGED_KEY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#ErrorMessage" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\s\\S]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#FHIRServer" : {
+         "members" : {
+            "fhirEndpoint" : {
+               "target" : "com.amazonaws.connecthealth#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>FHIR server endpoint URL for accessing patient data.</p>",
+                  "smithy.api#pattern" : "^https?://[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]+$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "oauthToken" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveNonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>OAuth token for authenticating with the FHIR server.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>FHIR server configuration for input data source</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetDomain" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#GetDomainInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#GetDomainOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves information about a Domain.</p>",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/domain/{domainId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#GetDomainInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The id of the Domain to get</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetDomainOutput" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connecthealth#DomainArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "encryptionContext" : {
+               "target" : "com.amazonaws.connecthealth#EncryptionContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.connecthealth#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connecthealth#DomainName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#DomainStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connecthealth#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tags associated with the Domain</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "webAppConfiguration" : {
+               "target" : "com.amazonaws.connecthealth#WebAppConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "webAppUrl" : {
+               "target" : "com.amazonaws.connecthealth#WebAppUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetMedicalScribeListeningSession" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#GetMedicalScribeListeningSessionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#GetMedicalScribeListeningSessionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves details about an existing Medical Scribe listening session</p>",
+            "smithy.api#endpoint" : {
+               "hostPrefix" : "streaming."
+            },
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/medical-scribe-stream/domain/{domainId}/subscription/{subscriptionId}/session/{sessionId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#GetMedicalScribeListeningSessionInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Domain identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.connecthealth#ScribeSessionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Session identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Subscription identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetMedicalScribeListeningSessionOutput" : {
+         "members" : {
+            "medicalScribeListeningSessionDetails" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeListeningSessionDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the Medical Scribe listening session</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetPatientInsightsJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#GetPatientInsightsJobRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#GetPatientInsightsJobResponse"
+         },
+         "traits" : {
+            "aws.api#dataPlane" : {},
+            "aws.iam#iamAction" : {
+               "resources" : {
+                  "required" : {
+                     "DomainResource" : {},
+                     "PatientInsightsJobResource" : {}
+                  }
+               }
+            },
+            "smithy.api#documentation" : "<p>Get details of a started patient insights job.</p>",
+            "smithy.api#endpoint" : {
+               "hostPrefix" : "runtime."
+            },
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/domain/{domainId}/patient-insights-job/{jobId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#GetPatientInsightsJobRequest" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "jobId" : {
+               "target" : "com.amazonaws.connecthealth#JobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetPatientInsightsJobResponse" : {
+         "members" : {
+            "creationTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date and time the patient insights job was submitted.</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "encounterContext" : {
+               "target" : "com.amazonaws.connecthealth#PatientInsightsEncounterContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "inputDataConfig" : {
+               "target" : "com.amazonaws.connecthealth#InputDataConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "insightsContext" : {
+               "target" : "com.amazonaws.connecthealth#InsightsContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "insightsOutput" : {
+               "target" : "com.amazonaws.connecthealth#InsightsOutput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "jobArn" : {
+               "target" : "com.amazonaws.connecthealth#JobArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "jobId" : {
+               "target" : "com.amazonaws.connecthealth#JobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "jobStatus" : {
+               "target" : "com.amazonaws.connecthealth#JobStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "outputDataConfig" : {
+               "target" : "com.amazonaws.connecthealth#OutputDataConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "patientContext" : {
+               "target" : "com.amazonaws.connecthealth#PatientInsightsPatientContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusDetails" : {
+               "target" : "com.amazonaws.connecthealth#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the status of a job.</p>"
+               }
+            },
+            "updatedTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date and time the patient insights job was last updated.</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.connecthealth#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetSubscription" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#GetSubscriptionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#GetSubscriptionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves information about a Subscription.</p>",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/domains/{domainId}/subscriptions/{subscriptionId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#GetSubscriptionInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the parent Domain.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "domainId"
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Subscription.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "subscriptionId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#GetSubscriptionOutput" : {
+         "members" : {
+            "subscription" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#notProperty" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#InputDataConfig" : {
+         "members" : {
+            "fhirServer" : {
+               "target" : "com.amazonaws.connecthealth#FHIRServer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>FHIR server configuration to retrieve patient data.</p>"
+               }
+            },
+            "s3Sources" : {
+               "target" : "com.amazonaws.connecthealth#S3Sources",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of S3 sources containing patient data.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration details for input patient data</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#InsightsContext" : {
+         "members" : {
+            "insightsType" : {
+               "target" : "com.amazonaws.connecthealth#InsightsType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details for insights that user wants to generate</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#InsightsOutput" : {
+         "members" : {
+            "uri" : {
+               "target" : "com.amazonaws.connecthealth#S3Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Output of patient insights job</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#InsightsType" : {
+         "members" : {
+            "PRE_VISIT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRE_VISIT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This error is thrown when a transient error causes our API to fail.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#JobArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z]*:health-agent:[-a-z0-9]+:[0-9]{12}:domain/[-a-zA-Z0-9-]+/patient-insights-job/[-a-zA-Z0-9_/.]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#JobId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#JobStatus" : {
+         "members" : {
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "SUBMITTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUBMITTED"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#KmsKeyArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#ListDomains" : {
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#ListDomainsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#ListDomainsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists Domains for a given account.</p>",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/domain"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "domains",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListDomainsSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#ListDomainsInput" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#notProperty" : {},
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for pagination.</p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#DomainStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by Domain status.</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ListDomainsOutput" : {
+         "members" : {
+            "domains" : {
+               "target" : "com.amazonaws.connecthealth#DomainSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of Domains.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for the next page of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ListSubscriptions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#ListSubscriptionsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#ListSubscriptionsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all Subscriptions within a Domain.</p>",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/domains/{domainId}/subscriptions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "subscriptions",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#ListSubscriptionsInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the parent Domain.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of results to return.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for pagination.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ListSubscriptionsOutput" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for the next page of results.</p>"
+               }
+            },
+            "subscriptions" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of Subscriptions.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ListTagsForResource" : {
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#ListTagsForResourceInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#ListTagsForResourceOutput"
+         },
+         "traits" : {
+            "aws.iam#actionPermissionDescription" : "Grants permission to list the tags for the specified resource",
+            "smithy.api#documentation" : "<p>Lists the tags associated with the specified resource</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#ListTagsForResourceInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the resource to list tags for</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ListTagsForResourceOutput" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.connecthealth#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags associated with the resource</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ManagedNoteTemplate" : {
+         "members" : {
+            "BEHAVIORAL_SOAP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BEHAVIORAL_SOAP"
+               }
+            },
+            "BIRP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BIRP"
+               }
+            },
+            "DAP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAP"
+               }
+            },
+            "GIRPP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GIRPP"
+               }
+            },
+            "HISTORY_AND_PHYSICAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HISTORY_AND_PHYSICAL"
+               }
+            },
+            "PHYSICAL_SOAP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PHYSICAL_SOAP"
+               }
+            },
+            "SIRP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SIRP"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#ManagedTemplate" : {
+         "members" : {
+            "templateType" : {
+               "target" : "com.amazonaws.connecthealth#ManagedNoteTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of managed template to use</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for using a managed note template</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ManagedTemplateResponse" : {
+         "members" : {
+            "templateType" : {
+               "target" : "com.amazonaws.connecthealth#ManagedNoteTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of managed template used</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response containing managed template information</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeAudioEvent" : {
+         "members" : {
+            "audioChunk" : {
+               "target" : "com.amazonaws.connecthealth#AudioChunk",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The audio data chunk</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An event containing audio data for the Medical Scribe stream</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeChannelDefinition" : {
+         "members" : {
+            "channelId" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeChannelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The channel identifier</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "participantRole" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeParticipantRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The role of the participant on this channel</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines a channel in the audio stream</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeChannelDefinitions" : {
+         "member" : {
+            "target" : "com.amazonaws.connecthealth#MedicalScribeChannelDefinition"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 2
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeChannelId" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 1,
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeConfigurationEvent" : {
+         "members" : {
+            "channelDefinitions" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeChannelDefinitions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Channel definitions for the audio stream</p>"
+               }
+            },
+            "encounterContext" : {
+               "target" : "com.amazonaws.connecthealth#EncounterContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Context information about the clinical encounter</p>"
+               }
+            },
+            "postStreamActionSettings" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribePostStreamActionSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Settings for actions to perform after the stream ends</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An event containing configuration for the Medical Scribe session</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeInputStream" : {
+         "members" : {
+            "audioEvent" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeAudioEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "configurationEvent" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeConfigurationEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "sessionControlEvent" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeSessionControlEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Input stream for Medical Scribe containing audio and configuration events</p>",
+            "smithy.api#streaming" : {}
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeLanguageCode" : {
+         "members" : {
+            "EN_US" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "en-US"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeListeningSessionDetails" : {
+         "members" : {
+            "channelDefinitions" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeChannelDefinitions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Channel definitions for the audio stream</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Domain identifier</p>"
+               }
+            },
+            "encounterContextProvided" : {
+               "target" : "com.amazonaws.connecthealth#NonNullBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether encounter context was provided</p>"
+               }
+            },
+            "languageCode" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeLanguageCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Language Code for the audio in the session</p>"
+               }
+            },
+            "mediaEncoding" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeMediaEncoding",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encoding for the input audio</p>"
+               }
+            },
+            "mediaSampleRateHertz" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeMediaSampleRateHertz",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sample rate of the input audio</p>"
+               }
+            },
+            "postStreamActionResult" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribePostStreamActionsResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Results of post-stream actions</p>"
+               }
+            },
+            "postStreamActionSettings" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribePostStreamActionSettingsResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Settings for post-stream actions</p>"
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.connecthealth#ScribeSessionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Session identifier</p>"
+               }
+            },
+            "streamCreationTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the stream was created</p>"
+               }
+            },
+            "streamEndTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the stream ended</p>"
+               }
+            },
+            "streamStatus" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeStreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the stream</p>"
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Subscription identifier</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Detailed information about a Medical Scribe listening session</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeMediaEncoding" : {
+         "members" : {
+            "FLAC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "flac"
+               }
+            },
+            "PCM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pcm"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeMediaSampleRateHertz" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 48000,
+               "min" : 8000
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeOutputStream" : {
+         "members" : {
+            "internalFailureException" : {
+               "target" : "com.amazonaws.connecthealth#InternalServerException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "transcriptEvent" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeTranscriptEvent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "validationException" : {
+               "target" : "com.amazonaws.connecthealth#ValidationException",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Output stream from Medical Scribe containing transcript events and errors</p>",
+            "smithy.api#streaming" : {}
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeParticipantRole" : {
+         "members" : {
+            "CLINICIAN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CLINICIAN"
+               }
+            },
+            "PATIENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PATIENT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#MedicalScribePostStreamActionSettings" : {
+         "members" : {
+            "clinicalNoteGenerationSettings" : {
+               "target" : "com.amazonaws.connecthealth#ClinicalNoteGenerationSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Settings for clinical note generation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "outputS3Uri" : {
+               "target" : "com.amazonaws.connecthealth#S3Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Settings for actions to perform after the audio stream ends</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribePostStreamActionSettingsResponse" : {
+         "members" : {
+            "clinicalNoteGenerationSettings" : {
+               "target" : "com.amazonaws.connecthealth#ClinicalNoteGenerationSettingsResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Settings for clinical note generation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "outputS3Uri" : {
+               "target" : "com.amazonaws.connecthealth#S3Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response containing settings for post-stream actions</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribePostStreamActionsResult" : {
+         "members" : {
+            "clinicalNoteGenerationResult" : {
+               "target" : "com.amazonaws.connecthealth#ClinicalNoteGenerationResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Results of clinical note generation</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Results of post-stream actions performed after the audio stream ended</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeSessionControlEvent" : {
+         "members" : {
+            "type" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeSessionControlEventType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of session control event</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An event for controlling the Medical Scribe session</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeSessionControlEventType" : {
+         "members" : {
+            "END_OF_SESSION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "END_OF_SESSION"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeStreamStatus" : {
+         "members" : {
+            "COMPLETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPLETED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "PAUSED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PAUSED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeTranscriptEvent" : {
+         "members" : {
+            "transcriptSegment" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeTranscriptSegment",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A segment of the transcript</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An event containing transcript data from the Medical Scribe stream</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#MedicalScribeTranscriptSegment" : {
+         "members" : {
+            "audioBeginOffset" : {
+               "target" : "com.amazonaws.connecthealth#AudioOffset",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The offset from audio start when the audio for this segment begins</p>"
+               }
+            },
+            "audioEndOffset" : {
+               "target" : "com.amazonaws.connecthealth#AudioOffset",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The offset from audio start when the audio for this segment ends</p>"
+               }
+            },
+            "channelId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The channel identifier for this segment</p>"
+               }
+            },
+            "content" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The transcript text content</p>"
+               }
+            },
+            "isPartial" : {
+               "target" : "com.amazonaws.connecthealth#NonNullBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether this is a partial or final transcript</p>"
+               }
+            },
+            "segmentId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for this segment</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A segment of transcript text with timing and channel information</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#NonEmptyString" : {
+         "traits" : {
+            "smithy.api#pattern" : "[\\s\\S]*\\S[\\s\\S]*"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#NonNullBoolean" : {
+         "type" : "boolean"
+      },
+      "com.amazonaws.connecthealth#NoteTemplateSettings" : {
+         "members" : {
+            "customTemplate" : {
+               "target" : "com.amazonaws.connecthealth#CustomTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "managedTemplate" : {
+               "target" : "com.amazonaws.connecthealth#ManagedTemplate",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Settings for the note template to use for clinical note generation</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.connecthealth#NoteTemplateSettingsResponse" : {
+         "members" : {
+            "customTemplate" : {
+               "target" : "com.amazonaws.connecthealth#CustomTemplateResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "managedTemplate" : {
+               "target" : "com.amazonaws.connecthealth#ManagedTemplateResponse",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Response containing note template settings</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.connecthealth#OutputDataConfig" : {
+         "members" : {
+            "s3OutputPath" : {
+               "target" : "com.amazonaws.connecthealth#S3Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>S3 URI where the insights output will be stored.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration details for insights output.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#PatientInsightsEncounterContext" : {
+         "members" : {
+            "encounterReason" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveNonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Chief complaint for the visit</p>",
+                  "smithy.api#length" : {
+                     "max" : 256,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^[a-zA-Z0-9 .,-]+$",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details for an encounter</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#PatientInsightsPatientContext" : {
+         "members" : {
+            "dateOfBirth" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveIsoDateString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date of birth of the patient.</p>"
+               }
+            },
+            "patientId" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveNonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the patient</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pronouns" : {
+               "target" : "com.amazonaws.connecthealth#Pronouns",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pronouns preferred by the patient.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details for a patient</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#PostStreamArtifactGenerationStatus" : {
+         "members" : {
+            "COMPLETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPLETED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#Pronouns" : {
+         "members" : {
+            "HE_HIM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HE_HIM"
+               }
+            },
+            "SHE_HER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SHE_HER"
+               }
+            },
+            "THEY_THEM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "THEY_THEM"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#ProviderRole" : {
+         "members" : {
+            "CLINICIAN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CLINICIAN"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#RequestId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This error is thrown when the requested resource is not found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#S3Source" : {
+         "members" : {
+            "uri" : {
+               "target" : "com.amazonaws.connecthealth#S3Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The S3 URI.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>S3 uri for input data source</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#S3Sources" : {
+         "member" : {
+            "target" : "com.amazonaws.connecthealth#S3Source"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connecthealth#S3Uri" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024
+            },
+            "smithy.api#pattern" : "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#ScribeSessionId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 36
+            },
+            "smithy.api#pattern" : "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SensitiveAlphanumericString" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9]+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SensitiveIsoDateString" : {
+         "traits" : {
+            "smithy.api#pattern" : "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SensitiveMarkdownString" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~/]+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SensitiveNonEmptyString" : {
+         "traits" : {
+            "smithy.api#pattern" : "[\\s\\S]*\\S[\\s\\S]*",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request exceeds a service quota.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#Specialty" : {
+         "members" : {
+            "PRIMARY_CARE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PRIMARY_CARE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#StartMedicalScribeListeningSession" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#StartMedicalScribeListeningSessionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#StartMedicalScribeListeningSessionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts a new Medical Scribe listening session for real-time audio transcription</p>",
+            "smithy.api#endpoint" : {
+               "hostPrefix" : "streaming."
+            },
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/medical-scribe-stream/"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#StartMedicalScribeListeningSessionInput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Domain identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-domain-id",
+                  "smithy.api#required" : {}
+               }
+            },
+            "inputStream" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeInputStream",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#httpPayload" : {}
+               }
+            },
+            "languageCode" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeLanguageCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Language Code for the audio in the session</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-language-code",
+                  "smithy.api#required" : {}
+               }
+            },
+            "mediaEncoding" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeMediaEncoding",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encoding for the input audio</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-media-encoding",
+                  "smithy.api#required" : {}
+               }
+            },
+            "mediaSampleRateHertz" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeMediaSampleRateHertz",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sample rate of the input audio</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-sample-rate",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.connecthealth#ScribeSessionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Session identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-session-id",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Subscription identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-subscription-id",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#StartMedicalScribeListeningSessionOutput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Domain identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-domain-id"
+               }
+            },
+            "languageCode" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeLanguageCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Language Code for the audio in the session</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-language-code"
+               }
+            },
+            "mediaEncoding" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeMediaEncoding",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The encoding for the input audio</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-media-encoding"
+               }
+            },
+            "mediaSampleRateHertz" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeMediaSampleRateHertz",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sample rate of the input audio</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-sample-rate"
+               }
+            },
+            "requestId" : {
+               "target" : "com.amazonaws.connecthealth#RequestId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Request identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-request-id"
+               }
+            },
+            "responseStream" : {
+               "target" : "com.amazonaws.connecthealth#MedicalScribeOutputStream",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output stream containing transcript events</p>",
+                  "smithy.api#httpPayload" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.connecthealth#ScribeSessionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Session identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-session-id"
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Subscription identifier</p>",
+                  "smithy.api#httpHeader" : "x-amzn-medscribe-subscription-id"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#StartPatientInsightsJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connecthealth#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connecthealth#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#StartPatientInsightsJobRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connecthealth#StartPatientInsightsJobResponse"
+         },
+         "traits" : {
+            "aws.api#dataPlane" : {},
+            "aws.iam#iamAction" : {
+               "resources" : {
+                  "required" : {
+                     "DomainResource" : {},
+                     "PatientInsightsJobResource" : {}
+                  }
+               }
+            },
+            "smithy.api#documentation" : "<p>Starts a new patient insights job.</p>",
+            "smithy.api#endpoint" : {
+               "hostPrefix" : "runtime."
+            },
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/domain/{domainId}/patient-insights-job"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#StartPatientInsightsJobRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.connecthealth#NonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "encounterContext" : {
+               "target" : "com.amazonaws.connecthealth#PatientInsightsEncounterContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "inputDataConfig" : {
+               "target" : "com.amazonaws.connecthealth#InputDataConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "insightsContext" : {
+               "target" : "com.amazonaws.connecthealth#InsightsContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "outputDataConfig" : {
+               "target" : "com.amazonaws.connecthealth#OutputDataConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "patientContext" : {
+               "target" : "com.amazonaws.connecthealth#PatientInsightsPatientContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "userContext" : {
+               "target" : "com.amazonaws.connecthealth#UserContext",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#StartPatientInsightsJobResponse" : {
+         "members" : {
+            "creationTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date and time the patient insights job was submitted.</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "jobArn" : {
+               "target" : "com.amazonaws.connecthealth#JobArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "jobId" : {
+               "target" : "com.amazonaws.connecthealth#JobId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#SubscriptionArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:aws:health-agent:[a-z0-9-]+:[0-9]{12}:domain/(hai-|dom-)[a-z0-9]+/subscription/sub-[a-zA-Z0-9]{21}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SubscriptionDescription" : {
+         "members" : {
+            "activatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "deactivatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.connecthealth#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "domainId"
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subscriptionId" : {
+               "target" : "com.amazonaws.connecthealth#SubscriptionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "subscriptionId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Complete subscription resource data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#SubscriptionId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 25
+            },
+            "smithy.api#pattern" : "^sub-[a-zA-Z0-9]{21}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#SubscriptionList" : {
+         "member" : {
+            "target" : "com.amazonaws.connecthealth#SubscriptionDescription"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connecthealth#SubscriptionStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "DELETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETED"
+               }
+            },
+            "INACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INACTIVE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.connecthealth#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.connecthealth#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connecthealth#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.connecthealth#TagKey"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.connecthealth#TagValue"
+         }
+      },
+      "com.amazonaws.connecthealth#TagResource" : {
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#TagResourceInput"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "aws.iam#actionPermissionDescription" : "Grants permission to add the specified tags to the specified resource",
+            "aws.iam#conditionKeys" : [
+               "aws:TagKeys",
+               "aws:RequestTag/${TagKey}"
+            ],
+            "smithy.api#documentation" : "<p>Associates the specified tags with the specified resource</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#TagResourceInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the resource to tag</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connecthealth#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to add to the resource</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#TemplateInstructions" : {
+         "member" : {
+            "target" : "com.amazonaws.connecthealth#TemplateSectionInstruction"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connecthealth#TemplateSectionInstruction" : {
+         "members" : {
+            "sectionHeader" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveAlphanumericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The header for this section of the template</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sectionInstruction" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveMarkdownString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The instruction for generating this section</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Instructions for generating a specific section of a clinical note</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This error is thrown when the client exceeds the allowed request rate.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#UntagResource" : {
+         "input" : {
+            "target" : "com.amazonaws.connecthealth#UntagResourceInput"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "aws.iam#actionPermissionDescription" : "Grants permission to remove the specified tags from the specified resource",
+            "aws.iam#conditionKeys" : [
+               "aws:TagKeys"
+            ],
+            "smithy.api#documentation" : "<p>Removes the specified tags from the specified resource</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connecthealth#UntagResourceInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the resource to untag</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.connecthealth#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag keys to remove from the resource</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#Uri" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 1
+            },
+            "smithy.api#pattern" : "(s3://|http(s*)://).+"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connecthealth#UserContext" : {
+         "members" : {
+            "role" : {
+               "target" : "com.amazonaws.connecthealth#ProviderRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "specialty" : {
+               "target" : "com.amazonaws.connecthealth#Specialty",
+               "traits" : {
+                  "smithy.api#documentation" : "<p/>"
+               }
+            },
+            "userId" : {
+               "target" : "com.amazonaws.connecthealth#SensitiveNonEmptyString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the user</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details for user initiating insights job</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>This error is thrown when the client supplies invalid input to the API.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#WebAppConfiguration" : {
+         "members" : {
+            "ehrRole" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the IAM role used for EHR operations.</p>",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^arn:aws:iam::[0-9]{12}:role/.+$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "idcApplicationId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Identity Center application ID associated with this Domain.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "idcRegion" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS region where Identity Center is configured.</p>",
+                  "smithy.api#length" : {
+                     "max" : 64,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for the Domain web application, including Identity Center settings. If provided, all fields are required.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connecthealth#WebAppUrl" : {
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}

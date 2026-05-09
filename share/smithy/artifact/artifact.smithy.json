@@ -1,0 +1,2433 @@
+{
+   "shapes" : {
+      "com.amazonaws.artifact#AcceptanceType" : {
+         "members" : {
+            "EXPLICIT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Require explicit click-through acceptance of the\nTerm associated with this Report.",
+                  "smithy.api#enumValue" : "EXPLICIT"
+               }
+            },
+            "PASSTHROUGH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "Do not require explicit click-through acceptance\nof the Term associated with this Report",
+                  "smithy.api#enumValue" : "PASSTHROUGH"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>User does not have sufficient access to perform this action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#AccountSettings" : {
+         "members" : {
+            "notificationSubscriptionStatus" : {
+               "target" : "com.amazonaws.artifact#NotificationSubscriptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Notification subscription status of the customer.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Account settings for the customer.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#AccountSettingsResource" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.artifact#GetAccountSettings"
+            },
+            {
+               "target" : "com.amazonaws.artifact#PutAccountSettings"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.artifact#AgreementTerms" : {
+         "member" : {
+            "target" : "com.amazonaws.artifact#LongStringAttribute"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.artifact#AgreementType" : {
+         "members" : {
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            },
+            "DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEFAULT"
+               }
+            },
+            "MODIFIED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MODIFIED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#Artifact" : {
+         "resources" : [
+            {
+               "target" : "com.amazonaws.artifact#AccountSettingsResource"
+            },
+            {
+               "target" : "com.amazonaws.artifact#CustomerAgreementResource"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ReportResource"
+            },
+            {
+               "target" : "com.amazonaws.artifact#TermResource"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "artifact",
+               "cloudTrailEventSource" : "artifact.amazonaws.com",
+               "sdkId" : "Artifact"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "artifact"
+            },
+            "aws.endpoints#standardPartitionalEndpoints" : {
+               "endpointPatternType" : "service_region_dnsSuffix"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#documentation" : "<p>This reference provides descriptions of the low-level AWS Artifact Service API.</p>",
+            "smithy.api#title" : "AWS Artifact",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4",
+                                                               "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://artifact-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4",
+                                                               "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://artifact-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {
+                                                         "authSchemes" : [
+                                                            {
+                                                               "name" : "sigv4",
+                                                               "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                            }
+                                                         ]
+                                                      },
+                                                      "url" : "https://artifact.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://artifact.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.cn-northwest-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.cn-northwest-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eusc-de-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eusc-de-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.eusc-de-east-1.amazonaws.eu"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eusc-de-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region eusc-de-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eusc-de-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.eusc-de-east-1.amazonaws.eu"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eusc-de-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-iso-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-iso-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-isob-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-isob-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-isoe-west-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eu-isoe-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.eu-isoe-west-1.cloud.adc-e.uk"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-isoe-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-isoe-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "eu-isoe-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.eu-isoe-west-1.cloud.adc-e.uk"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-isoe-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isof-south-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-isof-south-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-isof-south-1.csp.hci.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isof-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isof-south-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-isof-south-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-isof-south-1.csp.hci.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isof-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact-fips.us-gov-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://artifact.us-gov-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2018-05-10"
+      },
+      "com.amazonaws.artifact#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the affected resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the affected resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request to create/modify content would result in a conflict.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#CustomerAgreementIdAttribute" : {
+         "traits" : {
+            "smithy.api#pattern" : "^customer-agreement-[a-zA-Z0-9]{16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#CustomerAgreementList" : {
+         "member" : {
+            "target" : "com.amazonaws.artifact#CustomerAgreementSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.artifact#CustomerAgreementResource" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.artifact#ListCustomerAgreements"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.artifact#CustomerAgreementState" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "AWS_TERMINATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_TERMINATED"
+               }
+            },
+            "CUSTOMER_TERMINATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOMER_TERMINATED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#CustomerAgreementSummary" : {
+         "members" : {
+            "acceptanceTerms" : {
+               "target" : "com.amazonaws.artifact#AgreementTerms",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Terms required to accept the agreement resource.</p>"
+               }
+            },
+            "agreementArn" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the agreement resource the customer-agreement resource represents.</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the customer-agreement resource.</p>"
+               }
+            },
+            "awsAccountId" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>AWS account Id that owns the resource.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description of the resource.</p>"
+               }
+            },
+            "effectiveEnd" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating when the agreement was terminated.</p>"
+               }
+            },
+            "effectiveStart" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating when the agreement became effective.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.artifact#CustomerAgreementIdAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the customer-agreement resource.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the customer-agreement resource.</p>"
+               }
+            },
+            "organizationArn" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the organization that owns the resource.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.artifact#CustomerAgreementState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>State of the resource.</p>"
+               }
+            },
+            "terminateTerms" : {
+               "target" : "com.amazonaws.artifact#AgreementTerms",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Terms required to terminate the customer-agreement resource.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.artifact#AgreementType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the customer-agreement resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary for customer-agreement resource.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetAccountSettings" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#GetAccountSettingsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#GetAccountSettingsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get the account settings for Artifact.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/account-settings/get"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#GetAccountSettingsRequest" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetAccountSettingsResponse" : {
+         "members" : {
+            "accountSettings" : {
+               "target" : "com.amazonaws.artifact#AccountSettings"
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#GetReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#GetReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get the content for a single report.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/report/get"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#GetReportMetadata" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#GetReportMetadataRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#GetReportMetadataResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get the metadata for a single report.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/report/getMetadata"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#GetReportMetadataRequest" : {
+         "members" : {
+            "reportId" : {
+               "target" : "com.amazonaws.artifact#ReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ID for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reportVersion" : {
+               "target" : "com.amazonaws.artifact#VersionAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Version for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportVersion"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetReportMetadataResponse" : {
+         "members" : {
+            "reportDetails" : {
+               "target" : "com.amazonaws.artifact#ReportDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Report resource detail.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetReportRequest" : {
+         "members" : {
+            "reportId" : {
+               "target" : "com.amazonaws.artifact#ReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ID for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reportVersion" : {
+               "target" : "com.amazonaws.artifact#VersionAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Version for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportVersion"
+               }
+            },
+            "termToken" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique download token provided by GetTermForReport API.</p>",
+                  "smithy.api#httpQuery" : "termToken",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetReportResponse" : {
+         "members" : {
+            "documentPresignedUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Presigned S3 url to access the report content.</p>",
+                  "smithy.api#length" : {
+                     "max" : 10240,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetTermForReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#GetTermForReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#GetTermForReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get the Term content associated with a single report.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/report/getTermForReport"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#GetTermForReportRequest" : {
+         "members" : {
+            "reportId" : {
+               "target" : "com.amazonaws.artifact#ReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ID for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reportVersion" : {
+               "target" : "com.amazonaws.artifact#VersionAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Version for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportVersion"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#GetTermForReportResponse" : {
+         "members" : {
+            "documentPresignedUrl" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Presigned S3 url to access the term content.</p>",
+                  "smithy.api#length" : {
+                     "max" : 10240,
+                     "min" : 1
+                  }
+               }
+            },
+            "termToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique token representing this request event.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of seconds in which the caller can retry the request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An unknown server exception has occurred.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ListCustomerAgreements" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#ListCustomerAgreementsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#ListCustomerAgreementsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List active customer-agreements applicable to calling identity.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/customer-agreement/list"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "customerAgreements",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#ListCustomerAgreementsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.artifact#MaxResultsAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of resources to return in the paginated response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.artifact#NextTokenAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token to request the next page of resources.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ListCustomerAgreementsResponse" : {
+         "members" : {
+            "customerAgreements" : {
+               "target" : "com.amazonaws.artifact#CustomerAgreementList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of customer-agreement resources.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.artifact#NextTokenAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token to request the next page of resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ListReportVersions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#ListReportVersionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#ListReportVersionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List available report versions for a given report.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/report/listVersions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "reports",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#ListReportVersionsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.artifact#MaxResultsAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of resources to return in the paginated response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.artifact#NextTokenAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token to request the next page of resources.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "reportId" : {
+               "target" : "com.amazonaws.artifact#ReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ID for the report resource.</p>",
+                  "smithy.api#httpQuery" : "reportId",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ListReportVersionsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.artifact#NextTokenAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token to request the next page of resources.</p>"
+               }
+            },
+            "reports" : {
+               "target" : "com.amazonaws.artifact#ReportsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of report resources.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ListReports" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#ListReportsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#ListReportsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List available reports.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/report/list"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "reports",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#ListReportsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.artifact#MaxResultsAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of resources to return in the paginated response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.artifact#NextTokenAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token to request the next page of resources.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ListReportsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.artifact#NextTokenAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token to request the next page of resources.</p>"
+               }
+            },
+            "reports" : {
+               "target" : "com.amazonaws.artifact#ReportsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of report resources.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#LongStringAttribute" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^<>]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#MaxResultsAttribute" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 300,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.artifact#NextTokenAttribute" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#NotificationSubscriptionStatus" : {
+         "members" : {
+            "NOT_SUBSCRIBED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_SUBSCRIBED"
+               }
+            },
+            "SUBSCRIBED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUBSCRIBED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#PublishedState" : {
+         "members" : {
+            "PUBLISHED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PUBLISHED"
+               }
+            },
+            "UNPUBLISHED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNPUBLISHED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#PutAccountSettings" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.artifact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.artifact#PutAccountSettingsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.artifact#PutAccountSettingsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Put the account settings for Artifact.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/account-settings/put"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.artifact#PutAccountSettingsRequest" : {
+         "members" : {
+            "notificationSubscriptionStatus" : {
+               "target" : "com.amazonaws.artifact#NotificationSubscriptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Desired notification subscription status.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#PutAccountSettingsResponse" : {
+         "members" : {
+            "accountSettings" : {
+               "target" : "com.amazonaws.artifact#AccountSettings"
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ReportDetail" : {
+         "members" : {
+            "acceptanceType" : {
+               "target" : "com.amazonaws.artifact#AcceptanceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Acceptance type for report.</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN for the report resource.</p>"
+               }
+            },
+            "category" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Category for the report resource.</p>"
+               }
+            },
+            "companyName" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Associated company name for the report resource.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating when the report resource was created.</p>"
+               }
+            },
+            "deletedAt" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating when the report resource was deleted.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description for the report resource.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.artifact#ReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ID for the report resource.</p>"
+               }
+            },
+            "lastModifiedAt" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating when the report resource was last modified.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name for the report resource.</p>"
+               }
+            },
+            "periodEnd" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating the report resource effective end.</p>"
+               }
+            },
+            "periodStart" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating the report resource effective start.</p>"
+               }
+            },
+            "productName" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Associated product name for the report resource.</p>"
+               }
+            },
+            "sequenceNumber" : {
+               "target" : "com.amazonaws.artifact#SequenceNumberAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sequence number to enforce optimistic locking.</p>"
+               }
+            },
+            "series" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Series for the report resource.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.artifact#PublishedState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current state of the report resource</p>"
+               }
+            },
+            "statusMessage" : {
+               "target" : "com.amazonaws.artifact#StatusMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The message associated with the current upload state.</p>"
+               }
+            },
+            "termArn" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ARN for term resource.</p>"
+               }
+            },
+            "uploadState" : {
+               "target" : "com.amazonaws.artifact#UploadState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current state of the document upload.</p>"
+               }
+            },
+            "version" : {
+               "target" : "com.amazonaws.artifact#VersionAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Version for the report resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Full detail for report resource metadata.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ReportId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^report-[a-zA-Z0-9]{16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#ReportResource" : {
+         "identifiers" : {
+            "reportId" : {
+               "target" : "com.amazonaws.artifact#ReportId"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.artifact#ListReports"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.artifact#GetReport"
+            },
+            {
+               "target" : "com.amazonaws.artifact#GetTermForReport"
+            },
+            {
+               "target" : "com.amazonaws.artifact#ListReportVersions"
+            }
+         ],
+         "read" : {
+            "target" : "com.amazonaws.artifact#GetReportMetadata"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.artifact#ReportSummary" : {
+         "members" : {
+            "acceptanceType" : {
+               "target" : "com.amazonaws.artifact#AcceptanceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Acceptance type for report.</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN for the report resource.</p>"
+               }
+            },
+            "category" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Category for the report resource.</p>"
+               }
+            },
+            "companyName" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Associated company name for the report resource.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.artifact#LongStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description for the report resource.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.artifact#ReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique resource ID for the report resource.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name for the report resource.</p>"
+               }
+            },
+            "periodEnd" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating the report resource effective end.</p>"
+               }
+            },
+            "periodStart" : {
+               "target" : "com.amazonaws.artifact#TimestampAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp indicating the report resource effective start.</p>"
+               }
+            },
+            "productName" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Associated product name for the report resource.</p>"
+               }
+            },
+            "series" : {
+               "target" : "com.amazonaws.artifact#ShortStringAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Series for the report resource.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.artifact#PublishedState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current state of the report resource.</p>"
+               }
+            },
+            "statusMessage" : {
+               "target" : "com.amazonaws.artifact#StatusMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The message associated with the current upload state.</p>"
+               }
+            },
+            "uploadState" : {
+               "target" : "com.amazonaws.artifact#UploadState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current state of the document upload.</p>"
+               }
+            },
+            "version" : {
+               "target" : "com.amazonaws.artifact#VersionAttribute",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Version for the report resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary for report resource.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ReportsList" : {
+         "member" : {
+            "target" : "com.amazonaws.artifact#ReportSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.artifact#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the affected resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the affected resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request references a resource which does not exist.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#SequenceNumberAttribute" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 1
+            }
+         },
+         "type" : "long"
+      },
+      "com.amazonaws.artifact#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Code for the affected quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the affected resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the affected resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "serviceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Code for the affected service.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request would cause a service quota to be exceeded.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ShortStringAttribute" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-\\s]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#StatusMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#TermId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^term-[a-zA-Z0-9]{16}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#TermResource" : {
+         "identifiers" : {
+            "termId" : {
+               "target" : "com.amazonaws.artifact#TermId"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.artifact#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Code for the affected quota.</p>"
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of seconds in which the caller can retry the request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            },
+            "serviceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Code for the affected service.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request was denied due to request throttling.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#TimestampAttribute" : {
+         "traits" : {
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.artifact#UploadState" : {
+         "members" : {
+            "COMPLETE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPLETE"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "FAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAULT"
+               }
+            },
+            "PROCESSING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PROCESSING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.artifact#ValidationException" : {
+         "members" : {
+            "fieldList" : {
+               "target" : "com.amazonaws.artifact#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field that caused the error, if applicable.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.artifact#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason the request failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Request fails to satisfy the constraints specified by an AWS service.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ValidationExceptionField" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Message describing why the field failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of validation exception.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Validation exception message and name.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.artifact#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.artifact#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.artifact#ValidationExceptionReason" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "UNKNOWN_OPERATION",
+                  "value" : "unknownOperation"
+               },
+               {
+                  "name" : "CANNOT_PARSE",
+                  "value" : "cannotParse"
+               },
+               {
+                  "name" : "FIELD_VALIDATION_FAILED",
+                  "value" : "fieldValidationFailed"
+               },
+               {
+                  "name" : "INVALID_TOKEN",
+                  "value" : "invalidToken"
+               },
+               {
+                  "name" : "OTHER",
+                  "value" : "other"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.artifact#VersionAttribute" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 1
+            }
+         },
+         "type" : "long"
+      }
+   },
+   "smithy" : "2.0"
+}

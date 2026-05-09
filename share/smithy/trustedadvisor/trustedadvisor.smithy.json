@@ -1,0 +1,3466 @@
+{
+   "shapes" : {
+      "com.amazonaws.trustedadvisor#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exception that access has been denied due to insufficient access</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#AccountId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 12,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^\\d+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#AccountRecommendationArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor::\\d{12}:recommendation\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#AccountRecommendationIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor::\\d{12}:recommendation\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#AccountRecommendationLifecycleSummary" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID</p>"
+               }
+            },
+            "accountRecommendationArn" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation ARN</p>"
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was last updated</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle stage from AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "updateReason" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationUpdateReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason for the lifecycle stage change</p>"
+               }
+            },
+            "updateReasonCode" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStageReasonCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason code for the lifecycle state change</p>"
+               }
+            },
+            "updatedOnBehalfOf" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority </p>"
+               }
+            },
+            "updatedOnBehalfOfJobTitle" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The job title of the person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary of an AccountRecommendationLifecycle for an Organization Recommendation</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#AccountRecommendationLifecycleSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#AccountRecommendationLifecycleSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#BatchUpdateRecommendationResourceExclusion" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#BatchUpdateRecommendationResourceExclusionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#BatchUpdateRecommendationResourceExclusionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/batch-update-recommendation-resource-exclusion"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.api#tags" : [
+               "not_aws-cn_prod",
+               "not_aws-us-gov_prod"
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#BatchUpdateRecommendationResourceExclusionRequest" : {
+         "members" : {
+            "recommendationResourceExclusions" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourceExclusionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of recommendation resource ARNs and exclusion status to update</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#BatchUpdateRecommendationResourceExclusionResponse" : {
+         "members" : {
+            "batchUpdateRecommendationResourceExclusionErrors" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationResourceExclusionErrorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of recommendation resource ARNs whose exclusion status failed to update, if any</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#CheckArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor:::check\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#CheckIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor:::check\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#CheckSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#CheckArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the AWS Trusted Advisor Check</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsServices" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsServiceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Services that the Check applies to</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of what the AWS Trusted Advisor Check is monitoring</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the AWS Trusted Advisor Check</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.trustedadvisor#StringMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The column headings for the metadata returned in the resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AWS Trusted Advisor Check</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pillars" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation pillars that the AWS Trusted Advisor Check falls under</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A summary of an AWS Trusted Advisor Check</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#CheckSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#CheckSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exception that the request was denied due to conflictions in state</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ExclusionStatus" : {
+         "members" : {
+            "EXCLUDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "excluded"
+               }
+            },
+            "INCLUDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "included"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#GetOrganizationRecommendation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#GetOrganizationRecommendationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#GetOrganizationRecommendationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/organization-recommendations/{organizationRecommendationIdentifier}"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#GetOrganizationRecommendationRequest" : {
+         "members" : {
+            "organizationRecommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#GetOrganizationRecommendationResponse" : {
+         "members" : {
+            "organizationRecommendation" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#GetRecommendation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#GetRecommendationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#GetRecommendationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/recommendations/{recommendationIdentifier}"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#GetRecommendationRequest" : {
+         "members" : {
+            "language" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLanguage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 639-1 code for the language that you want your recommendations to appear in.</p>",
+                  "smithy.api#httpQuery" : "language"
+               }
+            },
+            "recommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#GetRecommendationResponse" : {
+         "members" : {
+            "recommendation" : {
+               "target" : "com.amazonaws.trustedadvisor#Recommendation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exception to notify that an unexpected internal error occurred during processing of the request</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListChecks" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#ListChecksRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#ListChecksResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/checks"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "checkSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#ListChecksRequest" : {
+         "members" : {
+            "awsService" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsService",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The aws service associated with the check</p>",
+                  "smithy.api#httpQuery" : "awsService"
+               }
+            },
+            "language" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLanguage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 639-1 code for the language that you want your checks to appear in.</p>",
+                  "smithy.api#httpQuery" : "language"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 200,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "pillar" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillar",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar of the check</p>",
+                  "smithy.api#httpQuery" : "pillar"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the check</p>",
+                  "smithy.api#httpQuery" : "source"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListChecksResponse" : {
+         "members" : {
+            "checkSummaries" : {
+               "target" : "com.amazonaws.trustedadvisor#CheckSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Checks</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationAccounts" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationAccountsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationAccountsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/organization-recommendations/{organizationRecommendationIdentifier}/accounts"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "accountRecommendationLifecycleSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationAccountsRequest" : {
+         "members" : {
+            "affectedAccountId" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An account affected by this organization recommendation</p>",
+                  "smithy.api#httpQuery" : "affectedAccountId"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 200,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "organizationRecommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationAccountsResponse" : {
+         "members" : {
+            "accountRecommendationLifecycleSummaries" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationLifecycleSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account recommendations lifecycles that are applicable to the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationResources" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationResourcesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationResourcesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/organization-recommendations/{organizationRecommendationIdentifier}/resources"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "organizationRecommendationResourceSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationResourcesRequest" : {
+         "members" : {
+            "affectedAccountId" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An account affected by this organization recommendation</p>",
+                  "smithy.api#httpQuery" : "affectedAccountId"
+               }
+            },
+            "exclusionStatus" : {
+               "target" : "com.amazonaws.trustedadvisor#ExclusionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The exclusion status of the resource</p>",
+                  "smithy.api#httpQuery" : "exclusionStatus"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 200,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "organizationRecommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Organization organization's Recommendation identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "regionCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Region code of the resource</p>",
+                  "smithy.api#httpQuery" : "regionCode"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the resource</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationResourcesResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "organizationRecommendationResourceSummaries" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationResourceSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of Recommendation Resources</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/organization-recommendations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "organizationRecommendationSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationsRequest" : {
+         "members" : {
+            "afterLastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>After the last update of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "afterLastUpdatedAt"
+               }
+            },
+            "awsService" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsService",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The aws service associated with the Recommendation</p>",
+                  "smithy.api#httpQuery" : "awsService"
+               }
+            },
+            "beforeLastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Before the last update of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "beforeLastUpdatedAt"
+               }
+            },
+            "checkIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#CheckIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The check identifier of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "checkIdentifier"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 200,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "pillar" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillar",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "pillar"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "source"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "type"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListOrganizationRecommendationsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "organizationRecommendationSummaries" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Recommendations</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListRecommendationResources" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#ListRecommendationResourcesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#ListRecommendationResourcesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/recommendations/{recommendationIdentifier}/resources"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "recommendationResourceSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#ListRecommendationResourcesRequest" : {
+         "members" : {
+            "exclusionStatus" : {
+               "target" : "com.amazonaws.trustedadvisor#ExclusionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The exclusion status of the resource</p>",
+                  "smithy.api#httpQuery" : "exclusionStatus"
+               }
+            },
+            "language" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLanguage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 639-1 code for the language that you want your recommendations to appear in.</p>",
+                  "smithy.api#httpQuery" : "language"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 5000,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "recommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation identifier</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "regionCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Region code of the resource</p>",
+                  "smithy.api#httpQuery" : "regionCode"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the resource</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListRecommendationResourcesResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "recommendationResourceSummaries" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourceSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of Recommendation Resources</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListRecommendations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#ListRecommendationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.trustedadvisor#ListRecommendationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/recommendations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "recommendationSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#ListRecommendationsRequest" : {
+         "members" : {
+            "afterLastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>After the last update of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "afterLastUpdatedAt"
+               }
+            },
+            "awsService" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsService",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The aws service associated with the Recommendation</p>",
+                  "smithy.api#httpQuery" : "awsService"
+               }
+            },
+            "beforeLastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Before the last update of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "beforeLastUpdatedAt"
+               }
+            },
+            "checkIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#CheckIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The check identifier of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "checkIdentifier"
+               }
+            },
+            "language" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLanguage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ISO 639-1 code for the language that you want your recommendations to appear in.</p>",
+                  "smithy.api#httpQuery" : "language"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 200,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#httpQuery" : "nextToken",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "pillar" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillar",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "pillar"
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "source"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the Recommendation</p>",
+                  "smithy.api#httpQuery" : "type"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ListRecommendationsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. </p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 4
+                  }
+               }
+            },
+            "recommendationSummaries" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Recommendations</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendation" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsServices" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsServiceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Services that the Recommendation applies to</p>"
+               }
+            },
+            "checkArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Trusted Advisor Check ARN that relates to the Recommendation</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was created, if created by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "createdBy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The creator, if created by AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description for AWS Trusted Advisor recommendations</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID which identifies where the Recommendation was produced</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was last updated</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle stage from AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AWS Trusted Advisor Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pillarSpecificAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarSpecificAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar aggregations for cost savings</p>"
+               }
+            },
+            "pillars" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Pillars that the Recommendation is optimizing</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resolvedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was resolved</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "resourcesAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourcesAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An aggregation of all resources</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateReason" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationUpdateReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason for the lifecycle stage change</p>"
+               }
+            },
+            "updateReasonCode" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStageReasonCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason code for the lifecycle state change</p>"
+               }
+            },
+            "updatedOnBehalfOf" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority </p>"
+               }
+            },
+            "updatedOnBehalfOfJobTitle" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The job title of the person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A Recommendation for accounts within an Organization</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendationArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor:::organization-recommendation\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendationIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor:::organization-recommendation\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendationResourceSummary" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS resource identifier. There are certain checks that generate recommendation resources without an awsResourceId.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "exclusionStatus" : {
+               "target" : "com.amazonaws.trustedadvisor#ExclusionStatus",
+               "traits" : {
+                  "smithy.api#default" : "included",
+                  "smithy.api#documentation" : "<p>The exclusion status of the Recommendation Resource</p>"
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation Resource was last updated</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.trustedadvisor#StringMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata associated with the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recommendationArn" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation ARN</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "regionCode" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationRegionCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Region code that the Recommendation Resource is in</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Organization Recommendation Resource Summary</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendationResourceSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationResourceSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendationSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsServices" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsServiceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Services that the Recommendation applies to</p>"
+               }
+            },
+            "checkArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Trusted Advisor Check ARN that relates to the Recommendation</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was created, if created by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID which identifies where the Recommendation was produced</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was last updated</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle stage from AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AWS Trusted Advisor Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pillarSpecificAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarSpecificAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar aggregations for cost savings</p>"
+               }
+            },
+            "pillars" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Pillars that the Recommendation is optimizing</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourcesAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourcesAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An aggregation of all resources</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary of recommendation for accounts within an Organization</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#OrganizationRecommendationSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#Recommendation" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsServices" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsServiceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Services that the Recommendation applies to</p>"
+               }
+            },
+            "checkArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Trusted Advisor Check ARN that relates to the Recommendation</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was created, if created by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "createdBy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The creator, if created by AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description for AWS Trusted Advisor recommendations</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID which identifies where the Recommendation was produced</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was last updated</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle stage from AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AWS Trusted Advisor Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pillarSpecificAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarSpecificAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar aggregations for cost savings</p>"
+               }
+            },
+            "pillars" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Pillars that the Recommendation is optimizing</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resolvedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was resolved</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "resourcesAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourcesAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An aggregation of all resources</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "com.amazonaws.trustedadvisor#StatusReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This attribute provides additional details about potential discrepancies in check status determination.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateReason" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationUpdateReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason for the lifecycle stage change</p>"
+               }
+            },
+            "updateReasonCode" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStageReasonCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason code for the lifecycle state change</p>"
+               }
+            },
+            "updatedOnBehalfOf" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority </p>"
+               }
+            },
+            "updatedOnBehalfOfJobTitle" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The job title of the person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A Recommendation for an Account</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationAwsService" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 30,
+               "min" : 2
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationAwsServiceList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#RecommendationAwsService"
+         },
+         "traits" : {
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationCostOptimizingAggregates" : {
+         "members" : {
+            "estimatedMonthlySavings" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The estimated monthly savings</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "estimatedPercentMonthlySavings" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The estimated percently monthly savings</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Cost optimizing aggregates for a Recommendation</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationLanguage" : {
+         "members" : {
+            "BAHASA_INDONESIA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "id"
+               }
+            },
+            "BRAZILIAN_PORTUGUESE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pt_BR"
+               }
+            },
+            "CHINESE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "zh"
+               }
+            },
+            "ENGLISH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "en"
+               }
+            },
+            "FRENCH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "fr"
+               }
+            },
+            "GERMAN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "de"
+               }
+            },
+            "ITALIAN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "it"
+               }
+            },
+            "JAPANESE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ja"
+               }
+            },
+            "KOREAN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ko"
+               }
+            },
+            "SPANISH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "es"
+               }
+            },
+            "TRADITIONAL_CHINESE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "zh_TW"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationLifecycleStage" : {
+         "members" : {
+            "DISMISSED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "dismissed"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "in_progress"
+               }
+            },
+            "PENDING_RESPONSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pending_response"
+               }
+            },
+            "RESOLVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resolved"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationPillar" : {
+         "members" : {
+            "COST_OPTIMIZING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "cost_optimizing"
+               }
+            },
+            "FAULT_TOLERANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "fault_tolerance"
+               }
+            },
+            "OPERATIONAL_EXCELLENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "operational_excellence"
+               }
+            },
+            "PERFORMANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "performance"
+               }
+            },
+            "SECURITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "security"
+               }
+            },
+            "SERVICE_LIMITS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "service_limits"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationPillarList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#RecommendationPillar"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationPillarSpecificAggregates" : {
+         "members" : {
+            "costOptimizing" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationCostOptimizingAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Cost optimizing aggregates</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Recommendation pillar aggregates</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationRegionCode" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 9
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationResourceArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:[\\w-]+:trustedadvisor::\\d{12}:recommendation-resource\\/[\\w-]+\\/[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationResourceExclusion" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "isExcluded" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The exclusion status</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN and corresponding exclusion status</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationResourceExclusionList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#RecommendationResourceExclusion"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationResourceSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS resource identifier. There are certain checks that generate recommendation resources without an awsResourceId.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "exclusionStatus" : {
+               "target" : "com.amazonaws.trustedadvisor#ExclusionStatus",
+               "traits" : {
+                  "smithy.api#default" : "included",
+                  "smithy.api#documentation" : "<p>The exclusion status of the Recommendation Resource</p>"
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation Resource was last updated</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.trustedadvisor#StringMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata associated with the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recommendationArn" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation ARN</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "regionCode" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationRegionCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Region code that the Recommendation Resource is in</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#ResourceStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the Recommendation Resource</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary of a Recommendation Resource</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationResourceSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#RecommendationResourceSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationResourcesAggregates" : {
+         "members" : {
+            "errorCount" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of AWS resources that were flagged to have errors according to the Trusted Advisor check</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "excludedCount" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of AWS resources belonging to this Trusted Advisor check that were excluded by the customer</p>"
+               }
+            },
+            "okCount" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of AWS resources that were flagged to be OK according to the Trusted Advisor check</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "warningCount" : {
+               "target" : "smithy.api#Long",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of AWS resources that were flagged to have warning according to the Trusted Advisor check </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Aggregation of Recommendation Resources</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationSource" : {
+         "members" : {
+            "AWS_CONFIG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "aws_config"
+               }
+            },
+            "COMPUTE_OPTIMIZER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "compute_optimizer"
+               }
+            },
+            "COST_EXPLORER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "cost_explorer"
+               }
+            },
+            "COST_OPTIMIZATION_HUB" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "cost_optimization_hub"
+               }
+            },
+            "LSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "lse"
+               }
+            },
+            "MANUAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "manual"
+               }
+            },
+            "PSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pse"
+               }
+            },
+            "RDS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "rds"
+               }
+            },
+            "RESILIENCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resilience"
+               }
+            },
+            "RESILIENCE_HUB" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resilience_hub"
+               }
+            },
+            "SECURITY_HUB" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "security_hub"
+               }
+            },
+            "STIR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "stir"
+               }
+            },
+            "TA_CHECK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ta_check"
+               }
+            },
+            "WELL_ARCHITECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "well_architected"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationStatus" : {
+         "members" : {
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "error"
+               }
+            },
+            "OK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ok"
+               }
+            },
+            "WARNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "warning"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "awsServices" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationAwsServiceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Services that the Recommendation applies to</p>"
+               }
+            },
+            "checkArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS Trusted Advisor Check ARN that relates to the Recommendation</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was created, if created by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID which identifies where the Recommendation was produced</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the Recommendation was last updated</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle stage from AWS Trusted Advisor Priority</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the AWS Trusted Advisor Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pillarSpecificAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarSpecificAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pillar aggregations for cost savings</p>"
+               }
+            },
+            "pillars" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationPillarList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Pillars that the Recommendation is optimizing</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourcesAggregates" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourcesAggregates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An aggregation of all resources</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "source" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the Recommendation</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "com.amazonaws.trustedadvisor#StatusReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>This attribute provides additional details about potential discrepancies in check status determination.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary of Recommendation for an Account</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#RecommendationSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationType" : {
+         "members" : {
+            "PRIORITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "priority"
+               }
+            },
+            "STANDARD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "standard"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#RecommendationUpdateReason" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 10
+            },
+            "smithy.api#pattern" : "^[\\s\\S]*$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.trustedadvisor#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exception that the requested resource has not been found</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#ResourceStatus" : {
+         "members" : {
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "error"
+               }
+            },
+            "OK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ok"
+               }
+            },
+            "WARNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "warning"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#StatusReason" : {
+         "members" : {
+            "NO_DATA_OK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "no_data_ok"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#StringMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.trustedadvisor#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exception to notify that requests are being throttled</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#TrustedAdvisor" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#BatchUpdateRecommendationResourceExclusion"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#GetOrganizationRecommendation"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#GetRecommendation"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ListChecks"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationAccounts"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendationResources"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ListOrganizationRecommendations"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ListRecommendationResources"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ListRecommendations"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#UpdateOrganizationRecommendationLifecycle"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycle"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "trustedadvisor",
+               "cloudTrailEventSource" : "trustedadvisor.amazonaws.com",
+               "sdkId" : "TrustedAdvisor"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "trustedadvisor"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "amz-sdk-invocation-id",
+                  "amz-sdk-request",
+                  "authorization",
+                  "content-length",
+                  "content-type",
+                  "date",
+                  "retry-after",
+                  "x-amz-apigw-id",
+                  "x-amz-cf-id",
+                  "x-amz-content-sha256",
+                  "x-amz-date",
+                  "x-amz-security-token",
+                  "x-amz-target",
+                  "x-amz-user-agent",
+                  "x-amzn-errormessage",
+                  "x-amzn-errortype",
+                  "x-amzn-platform-id",
+                  "x-amzn-requestid",
+                  "x-amzn-trace-id",
+                  "x-amzn-waf-action",
+                  "x-api-key"
+               ],
+               "additionalExposedHeaders" : [
+                  "date",
+                  "retry-after",
+                  "x-amz-apigw-id",
+                  "x-amz-cf-id",
+                  "x-amzn-errormessage",
+                  "x-amzn-errortype",
+                  "x-amzn-requestid",
+                  "x-amzn-trace-id",
+                  "x-amzn-waf-action"
+               ]
+            },
+            "smithy.api#documentation" : "<p>TrustedAdvisor Public API</p>",
+            "smithy.api#title" : "TrustedAdvisor Public API",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://trustedadvisor-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://trustedadvisor-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://trustedadvisor.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://trustedadvisor.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://trustedadvisor.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2022-09-15"
+      },
+      "com.amazonaws.trustedadvisor#UpdateOrganizationRecommendationLifecycle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#UpdateOrganizationRecommendationLifecycleRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/organization-recommendations/{organizationRecommendationIdentifier}/lifecycle"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#UpdateOrganizationRecommendationLifecycleRequest" : {
+         "members" : {
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new lifecycle stage</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "organizationRecommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#OrganizationRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation identifier for AWS Trusted Advisor Priority recommendations</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateReason" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationUpdateReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason for the lifecycle stage change</p>"
+               }
+            },
+            "updateReasonCode" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStageReasonCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason code for the lifecycle state change</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycle" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.trustedadvisor#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.trustedadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/v1/recommendations/{recommendationIdentifier}/lifecycle"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.api#tags" : []
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleRequest" : {
+         "members" : {
+            "lifecycleStage" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new lifecycle stage</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recommendationIdentifier" : {
+               "target" : "com.amazonaws.trustedadvisor#AccountRecommendationIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Recommendation identifier for AWS Trusted Advisor Priority recommendations</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "updateReason" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationUpdateReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason for the lifecycle stage change</p>"
+               }
+            },
+            "updateReasonCode" : {
+               "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStageReasonCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason code for the lifecycle state change</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStage" : {
+         "members" : {
+            "DISMISSED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "dismissed"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "in_progress"
+               }
+            },
+            "PENDING_RESPONSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "pending_response"
+               }
+            },
+            "RESOLVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resolved"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#UpdateRecommendationLifecycleStageReasonCode" : {
+         "members" : {
+            "LOW_PRIORITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "low_priority"
+               }
+            },
+            "NON_CRITICAL_ACCOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "non_critical_account"
+               }
+            },
+            "NOT_APPLICABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "not_applicable"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "other"
+               }
+            },
+            "OTHER_METHODS_AVAILABLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "other_methods_available"
+               }
+            },
+            "TEMPORARY_ACCOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "temporary_account"
+               }
+            },
+            "VALID_BUSINESS_CASE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "valid_business_case"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.trustedadvisor#UpdateRecommendationResourceExclusionError" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.trustedadvisor#RecommendationResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Recommendation Resource</p>"
+               }
+            },
+            "errorCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error code</p>"
+               }
+            },
+            "errorMessage" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error message</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The error entry for Recommendation Resource exclusion. Each entry is a combination of Recommendation Resource ARN, error code and error message</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.trustedadvisor#UpdateRecommendationResourceExclusionErrorList" : {
+         "member" : {
+            "target" : "com.amazonaws.trustedadvisor#UpdateRecommendationResourceExclusionError"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.trustedadvisor#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Exception that the request failed to satisfy service constraints</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}

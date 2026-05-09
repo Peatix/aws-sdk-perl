@@ -1,0 +1,3669 @@
+{
+   "shapes" : {
+      "com.amazonaws.workspacesinstances#ARN" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^arn:.*"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#AccessDeniedException" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Detailed explanation of the access denial.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates insufficient permissions to perform the requested action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#AmdSevSnpEnum" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "enabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#AssociateVolume" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#AssociateVolumeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#AssociateVolumeResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to associate a workspace managed volume to a workspace managed instance in your account"
+            },
+            "smithy.api#documentation" : "<p>Attaches a volume to a WorkSpace Instance.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#AssociateVolumeRequest" : {
+         "members" : {
+            "Device" : {
+               "target" : "com.amazonaws.workspacesinstances#DeviceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Device path for volume attachment.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "VolumeId" : {
+               "target" : "com.amazonaws.workspacesinstances#VolumeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Volume to be attached.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>WorkSpace Instance to attach volume to.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies volume attachment parameters.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#AssociateVolumeResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Confirms volume attachment.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#AutoRecoveryEnum" : {
+         "members" : {
+            "DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "default"
+               }
+            },
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#AvailabilityZone" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-z]{2}-[a-z]+-\\d(?:[a-z]|-[a-z]+-\\d[a-z])$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#BandwidthWeightingEnum" : {
+         "members" : {
+            "DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "default"
+               }
+            },
+            "EBS_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ebs-1"
+               }
+            },
+            "VPC_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "vpc-1"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#BillingConfiguration" : {
+         "members" : {
+            "BillingMode" : {
+               "target" : "com.amazonaws.workspacesinstances#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the billing mode for WorkSpace Instances. MONTHLY provides fixed monthly rates for predictable budgeting, while HOURLY enables pay-per-second billing for actual usage.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines billing configuration settings for WorkSpace Instances, containing the billing mode selection.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#BillingMode" : {
+         "members" : {
+            "HOURLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HOURLY"
+               }
+            },
+            "MONTHLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MONTHLY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#BlockDeviceMappingRequest" : {
+         "members" : {
+            "DeviceName" : {
+               "target" : "com.amazonaws.workspacesinstances#DeviceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the device for storage mapping.</p>"
+               }
+            },
+            "Ebs" : {
+               "target" : "com.amazonaws.workspacesinstances#EbsBlockDevice",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>EBS volume configuration for the device.</p>"
+               }
+            },
+            "NoDevice" : {
+               "target" : "com.amazonaws.workspacesinstances#DeviceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates device should not be mapped.</p>"
+               }
+            },
+            "VirtualName" : {
+               "target" : "com.amazonaws.workspacesinstances#VirtualName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Virtual device name for ephemeral storage.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines device mapping for WorkSpace Instance storage.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#BlockDeviceMappings" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#BlockDeviceMappingRequest"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#CapacityReservationPreferenceEnum" : {
+         "members" : {
+            "CAPACITY_RESERVATIONS_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "capacity-reservations-only"
+               }
+            },
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "none"
+               }
+            },
+            "OPEN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "open"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#CapacityReservationSpecification" : {
+         "members" : {
+            "CapacityReservationPreference" : {
+               "target" : "com.amazonaws.workspacesinstances#CapacityReservationPreferenceEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Preference for using capacity reservation.</p>"
+               }
+            },
+            "CapacityReservationTarget" : {
+               "target" : "com.amazonaws.workspacesinstances#CapacityReservationTarget",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific capacity reservation target.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies capacity reservation preferences.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CapacityReservationTarget" : {
+         "members" : {
+            "CapacityReservationId" : {
+               "target" : "com.amazonaws.workspacesinstances#String128",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for the capacity reservation.</p>"
+               }
+            },
+            "CapacityReservationResourceGroupArn" : {
+               "target" : "com.amazonaws.workspacesinstances#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the capacity reservation resource group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies a specific capacity reservation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#ConflictException" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description of the conflict encountered.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the conflicting resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the conflicting resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Signals a conflict with the current state of the resource.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ConnectionTrackingSpecificationRequest" : {
+         "members" : {
+            "TcpEstablishedTimeout" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timeout for established TCP connections.</p>"
+               }
+            },
+            "UdpStreamTimeout" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timeout for UDP stream connections.</p>"
+               }
+            },
+            "UdpTimeout" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>General timeout for UDP connections.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines connection tracking parameters for network interfaces.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CpuCreditsEnum" : {
+         "members" : {
+            "STANDARD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "standard"
+               }
+            },
+            "UNLIMITED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "unlimited"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#CpuOptionsRequest" : {
+         "members" : {
+            "AmdSevSnp" : {
+               "target" : "com.amazonaws.workspacesinstances#AmdSevSnpEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>AMD Secure Encrypted Virtualization configuration.</p>"
+               }
+            },
+            "CoreCount" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of CPU cores to allocate.</p>"
+               }
+            },
+            "ThreadsPerCore" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of threads per CPU core.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures CPU-specific settings for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CreateVolume" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#CreateVolumeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#CreateVolumeResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to create a workspace managed volume in your account"
+            },
+            "smithy.api#documentation" : "<p>Creates a new volume for WorkSpace Instances.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#CreateVolumeRequest" : {
+         "members" : {
+            "AvailabilityZone" : {
+               "target" : "com.amazonaws.workspacesinstances#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Availability zone for the volume.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.workspacesinstances#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique token to prevent duplicate volume creation.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "Encrypted" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates if the volume should be encrypted.</p>"
+               }
+            },
+            "Iops" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Input/output operations per second for the volume.</p>"
+               }
+            },
+            "KmsKeyId" : {
+               "target" : "com.amazonaws.workspacesinstances#KmsKeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>KMS key for volume encryption.</p>"
+               }
+            },
+            "SizeInGB" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Volume size in gigabytes.</p>"
+               }
+            },
+            "SnapshotId" : {
+               "target" : "com.amazonaws.workspacesinstances#SnapshotId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Source snapshot for volume creation.</p>"
+               }
+            },
+            "TagSpecifications" : {
+               "target" : "com.amazonaws.workspacesinstances#TagSpecifications",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata tags for the volume.</p>"
+               }
+            },
+            "Throughput" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Volume throughput performance.</p>"
+               }
+            },
+            "VolumeType" : {
+               "target" : "com.amazonaws.workspacesinstances#VolumeTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of EBS volume.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies volume creation parameters.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CreateVolumeResponse" : {
+         "members" : {
+            "VolumeId" : {
+               "target" : "com.amazonaws.workspacesinstances#VolumeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for the new volume.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the created volume identifier.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CreateWorkspaceInstance" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#CreateWorkspaceInstanceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#CreateWorkspaceInstanceResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to create a workspace managed instance in your account"
+            },
+            "smithy.api#documentation" : "<p>Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.</p>",
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#CreateWorkspaceInstanceRequest" : {
+         "members" : {
+            "BillingConfiguration" : {
+               "target" : "com.amazonaws.workspacesinstances#BillingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional billing configuration for the WorkSpace Instance. Allows customers to specify their preferred billing mode when creating a new instance. Defaults to hourly billing if not specified.</p>"
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.workspacesinstances#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique token to ensure idempotent instance creation, preventing duplicate workspace launches.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "ManagedInstance" : {
+               "target" : "com.amazonaws.workspacesinstances#ManagedInstanceRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Comprehensive configuration settings for the WorkSpaces Instance, including network, compute, and storage parameters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.workspacesinstances#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional metadata tags for categorizing and managing WorkSpaces Instances.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the configuration parameters for creating a new WorkSpaces Instance.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CreateWorkspaceInstanceResponse" : {
+         "members" : {
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier assigned to the newly created WorkSpaces Instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the unique identifier for the newly created WorkSpaces Instance.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#CreditSpecificationRequest" : {
+         "members" : {
+            "CpuCredits" : {
+               "target" : "com.amazonaws.workspacesinstances#CpuCreditsEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>CPU credit specification mode.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines CPU credit configuration for burstable instances.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#DeleteVolume" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#DeleteVolumeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#DeleteVolumeResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete a workspace managed volume in your account"
+            },
+            "smithy.api#documentation" : "<p>Deletes a specified volume.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#DeleteVolumeRequest" : {
+         "members" : {
+            "VolumeId" : {
+               "target" : "com.amazonaws.workspacesinstances#VolumeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the volume to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the volume to delete.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#DeleteVolumeResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Confirms volume deletion.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#DeleteWorkspaceInstance" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#DeleteWorkspaceInstanceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#DeleteWorkspaceInstanceResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete a workspace managed instance in your account"
+            },
+            "smithy.api#documentation" : "<p>Deletes the specified WorkSpace</p> <important> <p>Usage of this API will result in deletion of the resource in question.</p> </important>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#DeleteWorkspaceInstanceRequest" : {
+         "members" : {
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the WorkSpaces Instance targeted for deletion.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The WorkSpace to delete</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#DeleteWorkspaceInstanceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Confirms the successful deletion of the specified WorkSpace Instance.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#Description" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1000,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[\\S\\s]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#DeviceName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#DisassociateModeEnum" : {
+         "members" : {
+            "FORCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FORCE"
+               }
+            },
+            "NO_FORCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NO_FORCE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#DisassociateVolume" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#DisassociateVolumeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#DisassociateVolumeResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to disassociate a workspace managed volume from a workspace managed instance in your account"
+            },
+            "smithy.api#documentation" : "<p>Detaches a volume from a WorkSpace Instance.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#DisassociateVolumeRequest" : {
+         "members" : {
+            "Device" : {
+               "target" : "com.amazonaws.workspacesinstances#DeviceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Device path of volume to detach.</p>"
+               }
+            },
+            "DisassociateMode" : {
+               "target" : "com.amazonaws.workspacesinstances#DisassociateModeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Mode for volume detachment.</p>"
+               }
+            },
+            "VolumeId" : {
+               "target" : "com.amazonaws.workspacesinstances#VolumeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Volume to be detached.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>WorkSpace Instance to detach volume from.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies volume detachment parameters.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#DisassociateVolumeResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Confirms volume detachment.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#EC2InstanceError" : {
+         "members" : {
+            "EC2ErrorCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique error code identifying the specific EC2 instance error.</p>"
+               }
+            },
+            "EC2ErrorMessage" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Detailed description of the EC2 instance error.</p>"
+               }
+            },
+            "EC2ExceptionType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of exception encountered during EC2 instance operation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Captures detailed error information for EC2 instance operations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#EC2InstanceErrors" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#EC2InstanceError"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#EC2ManagedInstance" : {
+         "members" : {
+            "InstanceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the managed EC2 instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents an EC2 instance managed by WorkSpaces.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#EUCMIFrontendAPIService" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AssociateVolume"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#CreateVolume"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#CreateWorkspaceInstance"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#DeleteVolume"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#DeleteWorkspaceInstance"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#DisassociateVolume"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#GetWorkspaceInstance"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ListInstanceTypes"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ListRegions"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ListWorkspaceInstances"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#UntagResource"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "workspaces-instances",
+               "cloudFormationName" : "WorkspacesInstances",
+               "cloudTrailEventSource" : "workspaces-instances.amazonaws.com",
+               "sdkId" : "Workspaces Instances"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "workspaces-instances"
+            },
+            "aws.endpoints#dualStackOnlyEndpoints" : {},
+            "aws.endpoints#standardRegionalEndpoints" : {},
+            "aws.iam#defineConditionKeys" : {
+               "aws:RequestTag/${TagKey}" : {
+                  "documentation" : "Filters access based on the tags that are passed in the request",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requesttag",
+                  "type" : "String"
+               },
+               "aws:ResourceTag/${TagKey}" : {
+                  "documentation" : "Filters access based on the tags associated with the resource",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourcetag",
+                  "type" : "String"
+               },
+               "aws:TagKeys" : {
+                  "documentation" : "Filters access based on the tag keys that are passed in the request",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys",
+                  "type" : "ArrayOfString"
+               }
+            },
+            "aws.iam#supportedPrincipalTypes" : [
+               "Root",
+               "IAMUser",
+               "IAMRole",
+               "FederatedUser"
+            ],
+            "aws.protocols#awsJson1_0" : {},
+            "smithy.api#documentation" : "<p>Amazon WorkSpaces Instances provides an API framework for managing virtual workspace environments across multiple AWS regions, enabling programmatic creation and configuration of desktop infrastructure.</p>",
+            "smithy.api#title" : "Amazon Workspaces Instances",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://workspaces-instances-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://workspaces-instances.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://workspaces-instances-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://workspaces-instances.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://workspaces-instances-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://workspaces-instances.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://workspaces-instances-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://workspaces-instances.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2022-07-26"
+      },
+      "com.amazonaws.workspacesinstances#EbsBlockDevice" : {
+         "members" : {
+            "Encrypted" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates if the volume is encrypted.</p>"
+               }
+            },
+            "Iops" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Input/output operations per second for the volume.</p>"
+               }
+            },
+            "KmsKeyId" : {
+               "target" : "com.amazonaws.workspacesinstances#KmsKeyId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>KMS key used for volume encryption.</p>"
+               }
+            },
+            "Throughput" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Volume data transfer rate.</p>"
+               }
+            },
+            "VolumeSize" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Size of the EBS volume in gigabytes.</p>"
+               }
+            },
+            "VolumeType" : {
+               "target" : "com.amazonaws.workspacesinstances#VolumeTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of EBS volume (e.g., gp2, io1).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines configuration for an Elastic Block Store volume.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#EnaSrdSpecificationRequest" : {
+         "members" : {
+            "EnaSrdEnabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables ENA SRD for network performance.</p>"
+               }
+            },
+            "EnaSrdUdpSpecification" : {
+               "target" : "com.amazonaws.workspacesinstances#EnaSrdUdpSpecificationRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures UDP-specific ENA SRD settings.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines Elastic Network Adapter (ENA) Scalable Reliable Datagram (SRD) configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#EnaSrdUdpSpecificationRequest" : {
+         "members" : {
+            "EnaSrdUdpEnabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables ENA SRD for UDP traffic.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies UDP configuration for ENA SRD.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#EnclaveOptionsRequest" : {
+         "members" : {
+            "Enabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables AWS Nitro Enclaves for enhanced security.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures AWS Nitro Enclave options for the WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#GetWorkspaceInstance" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#GetWorkspaceInstanceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#GetWorkspaceInstanceResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to get details for a specific workspace managed instance in your account"
+            },
+            "smithy.api#documentation" : "<p>Retrieves detailed information about a specific WorkSpace Instance.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#GetWorkspaceInstanceRequest" : {
+         "members" : {
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the WorkSpace Instance to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Identifies the WorkSpaces Instance to retrieve detailed information for.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#GetWorkspaceInstanceResponse" : {
+         "members" : {
+            "BillingConfiguration" : {
+               "target" : "com.amazonaws.workspacesinstances#BillingConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns the current billing configuration for the WorkSpace Instance, indicating the active billing mode.</p>"
+               }
+            },
+            "EC2InstanceErrors" : {
+               "target" : "com.amazonaws.workspacesinstances#EC2InstanceErrors",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Includes any underlying EC2 instance errors encountered.</p>"
+               }
+            },
+            "EC2ManagedInstance" : {
+               "target" : "com.amazonaws.workspacesinstances#EC2ManagedInstance",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the associated EC2 managed instance.</p>"
+               }
+            },
+            "ProvisionState" : {
+               "target" : "com.amazonaws.workspacesinstances#ProvisionStateEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current provisioning state of the WorkSpaces Instance.</p>"
+               }
+            },
+            "WorkspaceInstanceErrors" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceErrors",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Captures any errors specific to the WorkSpace Instance lifecycle.</p>"
+               }
+            },
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the retrieved WorkSpaces Instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides comprehensive details about the requested WorkSpaces Instance.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#HibernationOptionsRequest" : {
+         "members" : {
+            "Configured" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables instance hibernation capability.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines hibernation configuration for the WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#HostId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^h-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#HostnameTypeEnum" : {
+         "members" : {
+            "IP_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ip-name"
+               }
+            },
+            "RESOURCE_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "resource-name"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#HttpEndpointEnum" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "enabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#HttpProtocolIpv6Enum" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "enabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#HttpPutResponseHopLimit" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.workspacesinstances#HttpTokensEnum" : {
+         "members" : {
+            "OPTIONAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "optional"
+               }
+            },
+            "REQUIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "required"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#IamInstanceProfileSpecification" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.workspacesinstances#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Amazon Resource Name (ARN) of the IAM instance profile.</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.workspacesinstances#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the IAM instance profile.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines IAM instance profile configuration for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ImageId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^ami-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#InstanceConfigurationFilter" : {
+         "members" : {
+            "BillingMode" : {
+               "target" : "com.amazonaws.workspacesinstances#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters WorkSpace Instance types based on supported billing modes. Allows customers to search for instance types that support their preferred billing model, such as HOURLY or MONTHLY billing.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PlatformType" : {
+               "target" : "com.amazonaws.workspacesinstances#PlatformTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters WorkSpace Instance types by operating system platform. Allows customers to find instances that support their desired OS, such as Windows, Linux/UNIX, Ubuntu Pro, RHEL, or SUSE.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tenancy" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceConfigurationTenancyEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters WorkSpace Instance types by tenancy model. Allows customers to find instances that match their tenancy requirements, such as SHARED or DEDICATED.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines filtering criteria for WorkSpace Instance type searches. Combines multiple filter conditions including billing mode, platform type, and tenancy to help customers find instance types that meet their specific requirements.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceConfigurationTenancyEnum" : {
+         "members" : {
+            "DEDICATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEDICATED"
+               }
+            },
+            "SHARED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SHARED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#InstanceInterruptionBehaviorEnum" : {
+         "members" : {
+            "HIBERNATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hibernate"
+               }
+            },
+            "STOP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "stop"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#InstanceIpv6Address" : {
+         "members" : {
+            "Ipv6Address" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv6Address",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific IPv6 address assigned to the instance.</p>"
+               }
+            },
+            "IsPrimaryIpv6" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates if this is the primary IPv6 address for the instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents an IPv6 address configuration for a WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceMaintenanceOptionsRequest" : {
+         "members" : {
+            "AutoRecovery" : {
+               "target" : "com.amazonaws.workspacesinstances#AutoRecoveryEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables automatic instance recovery.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures automatic maintenance settings for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceMarketOptionsRequest" : {
+         "members" : {
+            "MarketType" : {
+               "target" : "com.amazonaws.workspacesinstances#MarketTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the type of marketplace for instance deployment.</p>"
+               }
+            },
+            "SpotOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#SpotMarketOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration options for spot instance deployment.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures marketplace-specific instance deployment options.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceMetadataOptionsRequest" : {
+         "members" : {
+            "HttpEndpoint" : {
+               "target" : "com.amazonaws.workspacesinstances#HttpEndpointEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables HTTP endpoint for instance metadata.</p>"
+               }
+            },
+            "HttpProtocolIpv6" : {
+               "target" : "com.amazonaws.workspacesinstances#HttpProtocolIpv6Enum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures IPv6 support for instance metadata HTTP protocol.</p>"
+               }
+            },
+            "HttpPutResponseHopLimit" : {
+               "target" : "com.amazonaws.workspacesinstances#HttpPutResponseHopLimit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sets maximum number of network hops for metadata PUT responses.</p>"
+               }
+            },
+            "HttpTokens" : {
+               "target" : "com.amazonaws.workspacesinstances#HttpTokensEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures token requirement for instance metadata retrieval.</p>"
+               }
+            },
+            "InstanceMetadataTags" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceMetadataTagsEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables instance metadata tags retrieval.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines instance metadata service configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceMetadataTagsEnum" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "disabled"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "enabled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#InstanceNetworkInterfaceSpecification" : {
+         "members" : {
+            "AssociateCarrierIpAddress" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables carrier IP address association.</p>"
+               }
+            },
+            "AssociatePublicIpAddress" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables public IP address assignment.</p>"
+               }
+            },
+            "ConnectionTrackingSpecification" : {
+               "target" : "com.amazonaws.workspacesinstances#ConnectionTrackingSpecificationRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures network connection tracking parameters.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.workspacesinstances#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Descriptive text for the network interface.</p>"
+               }
+            },
+            "DeviceIndex" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique index for the network interface.</p>"
+               }
+            },
+            "EnaSrdSpecification" : {
+               "target" : "com.amazonaws.workspacesinstances#EnaSrdSpecificationRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures Elastic Network Adapter Scalable Reliable Datagram settings.</p>"
+               }
+            },
+            "Groups" : {
+               "target" : "com.amazonaws.workspacesinstances#SecurityGroupIds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Security groups associated with the network interface.</p>"
+               }
+            },
+            "InterfaceType" : {
+               "target" : "com.amazonaws.workspacesinstances#InterfaceTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the type of network interface.</p>"
+               }
+            },
+            "Ipv4PrefixCount" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of IPv4 prefixes to assign.</p>"
+               }
+            },
+            "Ipv4Prefixes" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv4Prefixes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>IPv4 prefix configurations for the interface.</p>"
+               }
+            },
+            "Ipv6AddressCount" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of IPv6 addresses to assign.</p>"
+               }
+            },
+            "Ipv6Addresses" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv6Addresses",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific IPv6 addresses for the interface.</p>"
+               }
+            },
+            "Ipv6PrefixCount" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of IPv6 prefixes to assign.</p>"
+               }
+            },
+            "Ipv6Prefixes" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv6Prefixes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>IPv6 prefix configurations for the interface.</p>"
+               }
+            },
+            "NetworkCardIndex" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Index of the network card for multiple network interfaces.</p>"
+               }
+            },
+            "NetworkInterfaceId" : {
+               "target" : "com.amazonaws.workspacesinstances#NetworkInterfaceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for the network interface.</p>"
+               }
+            },
+            "PrimaryIpv6" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates the primary IPv6 configuration.</p>"
+               }
+            },
+            "PrivateIpAddress" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv4Address",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Primary private IP address for the interface.</p>"
+               }
+            },
+            "PrivateIpAddresses" : {
+               "target" : "com.amazonaws.workspacesinstances#PrivateIpAddresses",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of private IP addresses for the interface.</p>"
+               }
+            },
+            "SecondaryPrivateIpAddressCount" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of additional private IP addresses to assign.</p>"
+               }
+            },
+            "SubnetId" : {
+               "target" : "com.amazonaws.workspacesinstances#SubnetId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Subnet identifier for the network interface.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines network interface configuration for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceNetworkPerformanceOptionsRequest" : {
+         "members" : {
+            "BandwidthWeighting" : {
+               "target" : "com.amazonaws.workspacesinstances#BandwidthWeightingEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines bandwidth allocation strategy for network interfaces.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures network performance settings for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceType" : {
+         "traits" : {
+            "smithy.api#pattern" : "^([a-z0-9-]+)\\.([a-z0-9]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#InstanceTypeInfo" : {
+         "members" : {
+            "InstanceType" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for the WorkSpace Instance type.</p>"
+               }
+            },
+            "SupportedInstanceConfigurations" : {
+               "target" : "com.amazonaws.workspacesinstances#SupportedInstanceConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Lists all valid combinations of tenancy, platform type, and billing mode supported for the specific WorkSpace Instance type. Contains the complete set of configuration options available for this instance type.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides details about a specific WorkSpace Instance type.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#InstanceTypes" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#InstanceTypeInfo"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#InterfaceTypeEnum" : {
+         "members" : {
+            "EFA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "efa"
+               }
+            },
+            "EFA_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "efa-only"
+               }
+            },
+            "INTERFACE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "interface"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#InternalServerException" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description of the internal server error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RetryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recommended wait time before retrying the request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates an unexpected server-side error occurred.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#Ipv4Address" : {
+         "traits" : {
+            "smithy.api#pattern" : "^(\\b25[0-5]|\\b2[0-4][0-9]|\\b[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#Ipv4Prefix" : {
+         "traits" : {
+            "smithy.api#pattern" : "(?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)(?:/\\d{1,2})?"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#Ipv4PrefixSpecificationRequest" : {
+         "members" : {
+            "Ipv4Prefix" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv4Prefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific IPv4 prefix for network interface configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies IPv4 prefix configuration for network interfaces.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#Ipv4Prefixes" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#Ipv4PrefixSpecificationRequest"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#Ipv6Address" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#Ipv6Addresses" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#InstanceIpv6Address"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#Ipv6Prefix" : {
+         "traits" : {
+            "smithy.api#pattern" : "^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))\\/([0-9]{1,2}|1[01][0-9]|12[0-8])$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#Ipv6PrefixSpecificationRequest" : {
+         "members" : {
+            "Ipv6Prefix" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv6Prefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific IPv6 prefix for network interface configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies IPv6 prefix configuration for network interfaces.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#Ipv6Prefixes" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#Ipv6PrefixSpecificationRequest"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#KmsKeyId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#LicenseConfigurationRequest" : {
+         "members" : {
+            "LicenseConfigurationArn" : {
+               "target" : "com.amazonaws.workspacesinstances#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the license configuration for the WorkSpace Instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies license configuration for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#LicenseSpecifications" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#LicenseConfigurationRequest"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#ListInstanceTypes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#ListInstanceTypesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#ListInstanceTypesResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list all supported instance types"
+            },
+            "smithy.api#documentation" : "<p>Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "InstanceTypes",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#ListInstanceTypesMaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 600,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.workspacesinstances#ListInstanceTypesRequest" : {
+         "members" : {
+            "InstanceConfigurationFilter" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceConfigurationFilter",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional filter to narrow instance type results based on configuration requirements. Only returns instance types that support the specified combination of tenancy, platform type, and billing mode.</p>"
+               }
+            },
+            "MaxResults" : {
+               "target" : "com.amazonaws.workspacesinstances#ListInstanceTypesMaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of instance types to return in a single API call. Enables pagination of instance type results.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.workspacesinstances#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token for retrieving subsequent pages of instance type results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines input parameters for retrieving supported WorkSpaces Instances instance types.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListInstanceTypesResponse" : {
+         "members" : {
+            "InstanceTypes" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceTypes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Collection of supported instance types for WorkSpaces Instances.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.workspacesinstances#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving additional instance types if the result set is paginated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the list of instance types supported by WorkSpaces Instances.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListRegions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#ListRegionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#ListRegionsResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list all supported AWS regions"
+            },
+            "smithy.api#documentation" : "<p>Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "Regions",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListRegionsSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#ListRegionsRequest" : {
+         "members" : {
+            "MaxResults" : {
+               "target" : "com.amazonaws.workspacesinstances#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of regions to return in a single API call. Enables pagination of region results.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.workspacesinstances#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token for retrieving subsequent pages of region results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines input parameters for retrieving supported WorkSpaces Instances regions.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListRegionsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.workspacesinstances#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving additional regions if the result set is paginated.</p>"
+               }
+            },
+            "Regions" : {
+               "target" : "com.amazonaws.workspacesinstances#RegionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Collection of AWS regions supported by WorkSpaces Instances.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the list of supported AWS regions for WorkSpaces Instances.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list user tags for resources in your account"
+            },
+            "smithy.api#documentation" : "<p>Retrieves tags for a WorkSpace Instance.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#ListTagsForResourceRequest" : {
+         "members" : {
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the WorkSpace Instance.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the WorkSpace Instance to retrieve tags for.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListTagsForResourceResponse" : {
+         "members" : {
+            "Tags" : {
+               "target" : "com.amazonaws.workspacesinstances#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Collection of tags associated with the WorkSpace Instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the list of tags for the specified WorkSpace Instance.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListWorkspaceInstances" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#ListWorkspaceInstancesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#ListWorkspaceInstancesResponse"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list workspace managed instances in your account"
+            },
+            "smithy.api#documentation" : "<p>Retrieves a collection of WorkSpaces Instances based on specified filters.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "WorkspaceInstances",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#ListWorkspaceInstancesRequest" : {
+         "members" : {
+            "MaxResults" : {
+               "target" : "com.amazonaws.workspacesinstances#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum number of WorkSpaces Instances to return in a single response.</p>"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.workspacesinstances#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Pagination token for retrieving subsequent pages of WorkSpaces Instances.</p>"
+               }
+            },
+            "ProvisionStates" : {
+               "target" : "com.amazonaws.workspacesinstances#ProvisionStates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter WorkSpaces Instances by their current provisioning states.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines filters and pagination parameters for retrieving WorkSpaces Instances.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ListWorkspaceInstancesResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.workspacesinstances#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving additional WorkSpaces Instances if the result set is paginated.</p>"
+               }
+            },
+            "WorkspaceInstances" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstances",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Collection of WorkSpaces Instances returned by the query.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the list of WorkSpaces Instances matching the specified criteria.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ManagedInstanceRequest" : {
+         "members" : {
+            "BlockDeviceMappings" : {
+               "target" : "com.amazonaws.workspacesinstances#BlockDeviceMappings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures block device mappings for storage.</p>"
+               }
+            },
+            "CapacityReservationSpecification" : {
+               "target" : "com.amazonaws.workspacesinstances#CapacityReservationSpecification",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies capacity reservation preferences.</p>"
+               }
+            },
+            "CpuOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#CpuOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures CPU-specific settings.</p>"
+               }
+            },
+            "CreditSpecification" : {
+               "target" : "com.amazonaws.workspacesinstances#CreditSpecificationRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines CPU credit configuration for burstable instances.</p>"
+               }
+            },
+            "DisableApiStop" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Prevents API-initiated instance stop.</p>"
+               }
+            },
+            "EbsOptimized" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables optimized EBS performance.</p>"
+               }
+            },
+            "EnablePrimaryIpv6" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables primary IPv6 address configuration.</p>"
+               }
+            },
+            "EnclaveOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#EnclaveOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures AWS Nitro Enclave settings.</p>"
+               }
+            },
+            "HibernationOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#HibernationOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures instance hibernation capabilities.</p>"
+               }
+            },
+            "IamInstanceProfile" : {
+               "target" : "com.amazonaws.workspacesinstances#IamInstanceProfileSpecification",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies IAM instance profile configuration.</p>"
+               }
+            },
+            "ImageId" : {
+               "target" : "com.amazonaws.workspacesinstances#ImageId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the Amazon Machine Image (AMI) for the instance.</p>"
+               }
+            },
+            "InstanceMarketOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceMarketOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures marketplace-specific deployment options.</p>"
+               }
+            },
+            "InstanceType" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the WorkSpace Instance type.</p>"
+               }
+            },
+            "Ipv6AddressCount" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies number of IPv6 addresses to assign.</p>"
+               }
+            },
+            "Ipv6Addresses" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv6Addresses",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures specific IPv6 addresses.</p>"
+               }
+            },
+            "KernelId" : {
+               "target" : "com.amazonaws.workspacesinstances#String128",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the kernel for the instance.</p>"
+               }
+            },
+            "KeyName" : {
+               "target" : "com.amazonaws.workspacesinstances#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the key pair for instance access.</p>"
+               }
+            },
+            "LicenseSpecifications" : {
+               "target" : "com.amazonaws.workspacesinstances#LicenseSpecifications",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures license-related settings.</p>"
+               }
+            },
+            "MaintenanceOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceMaintenanceOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines automatic maintenance settings.</p>"
+               }
+            },
+            "MetadataOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceMetadataOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures instance metadata service settings.</p>"
+               }
+            },
+            "Monitoring" : {
+               "target" : "com.amazonaws.workspacesinstances#RunInstancesMonitoringEnabled",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables detailed instance monitoring.</p>"
+               }
+            },
+            "NetworkInterfaces" : {
+               "target" : "com.amazonaws.workspacesinstances#NetworkInterfaces",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures network interface settings.</p>"
+               }
+            },
+            "NetworkPerformanceOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceNetworkPerformanceOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines network performance configuration.</p>"
+               }
+            },
+            "Placement" : {
+               "target" : "com.amazonaws.workspacesinstances#Placement",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies instance placement preferences.</p>"
+               }
+            },
+            "PrivateDnsNameOptions" : {
+               "target" : "com.amazonaws.workspacesinstances#PrivateDnsNameOptionsRequest",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures private DNS name settings.</p>"
+               }
+            },
+            "PrivateIpAddress" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv4Address",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the primary private IP address.</p>"
+               }
+            },
+            "RamdiskId" : {
+               "target" : "com.amazonaws.workspacesinstances#String128",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the ramdisk for the instance.</p>"
+               }
+            },
+            "SecurityGroupIds" : {
+               "target" : "com.amazonaws.workspacesinstances#SecurityGroupIds",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies security group identifiers.</p>"
+               }
+            },
+            "SecurityGroups" : {
+               "target" : "com.amazonaws.workspacesinstances#SecurityGroupNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures security group settings.</p>"
+               }
+            },
+            "SubnetId" : {
+               "target" : "com.amazonaws.workspacesinstances#SubnetId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the subnet for the instance.</p>"
+               }
+            },
+            "TagSpecifications" : {
+               "target" : "com.amazonaws.workspacesinstances#TagSpecifications",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configures resource tagging specifications.</p>"
+               }
+            },
+            "UserData" : {
+               "target" : "com.amazonaws.workspacesinstances#UserData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides custom initialization data for the instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines comprehensive configuration for a managed WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#MarketTypeEnum" : {
+         "members" : {
+            "CAPACITY_BLOCK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "capacity-block"
+               }
+            },
+            "SPOT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "spot"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 25,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.workspacesinstances#NetworkInterfaceId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^eni-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#NetworkInterfaces" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#InstanceNetworkInterfaceSpecification"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#NextToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#NonNegativeInteger" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.workspacesinstances#Placement" : {
+         "members" : {
+            "Affinity" : {
+               "target" : "com.amazonaws.workspacesinstances#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies host affinity for dedicated instances.</p>"
+               }
+            },
+            "AvailabilityZone" : {
+               "target" : "com.amazonaws.workspacesinstances#AvailabilityZone",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the specific AWS availability zone.</p>"
+               }
+            },
+            "GroupId" : {
+               "target" : "com.amazonaws.workspacesinstances#PlacementGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for placement group.</p>"
+               }
+            },
+            "GroupName" : {
+               "target" : "com.amazonaws.workspacesinstances#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the placement group.</p>"
+               }
+            },
+            "HostId" : {
+               "target" : "com.amazonaws.workspacesinstances#HostId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifies the specific dedicated host.</p>"
+               }
+            },
+            "HostResourceGroupArn" : {
+               "target" : "com.amazonaws.workspacesinstances#ARN",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>ARN of the host resource group.</p>"
+               }
+            },
+            "PartitionNumber" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies partition number for partition placement groups.</p>"
+               }
+            },
+            "Tenancy" : {
+               "target" : "com.amazonaws.workspacesinstances#TenancyEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines instance tenancy configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines instance placement configuration for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#PlacementGroupId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^pg-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#PlatformTypeEnum" : {
+         "members" : {
+            "LINUX_BYOL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Red Hat BYOL Linux"
+               }
+            },
+            "LINUX_UNIX" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Linux/UNIX"
+               }
+            },
+            "RHEL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Red Hat Enterprise Linux"
+               }
+            },
+            "SUSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUSE Linux"
+               }
+            },
+            "UBUNTU_PRO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Ubuntu Pro Linux"
+               }
+            },
+            "WINDOWS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Windows"
+               }
+            },
+            "WINDOWS_BYOL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Windows BYOL"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#PrivateDnsNameOptionsRequest" : {
+         "members" : {
+            "EnableResourceNameDnsAAAARecord" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables DNS AAAA record for resource name resolution.</p>"
+               }
+            },
+            "EnableResourceNameDnsARecord" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables DNS A record for resource name resolution.</p>"
+               }
+            },
+            "HostnameType" : {
+               "target" : "com.amazonaws.workspacesinstances#HostnameTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the type of hostname configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures private DNS name settings for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#PrivateIpAddressSpecification" : {
+         "members" : {
+            "Primary" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates if this is the primary private IP address.</p>"
+               }
+            },
+            "PrivateIpAddress" : {
+               "target" : "com.amazonaws.workspacesinstances#Ipv4Address",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific private IP address for the network interface.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines private IP address configuration for network interface.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#PrivateIpAddresses" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#PrivateIpAddressSpecification"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#ProvisionStateEnum" : {
+         "members" : {
+            "ALLOCATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALLOCATED"
+               }
+            },
+            "ALLOCATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ALLOCATING"
+               }
+            },
+            "DEALLOCATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEALLOCATED"
+               }
+            },
+            "DEALLOCATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEALLOCATING"
+               }
+            },
+            "ERROR_ALLOCATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ERROR_ALLOCATING"
+               }
+            },
+            "ERROR_DEALLOCATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ERROR_DEALLOCATING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#ProvisionStates" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#ProvisionStateEnum"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#Region" : {
+         "members" : {
+            "RegionName" : {
+               "target" : "com.amazonaws.workspacesinstances#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the AWS region.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents an AWS region supported by WorkSpaces Instances.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#RegionList" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#Region"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#RegionName" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[-0-9a-z]{1,31}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#ResourceNotFoundException" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details about the missing resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the resource that was not found.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of the resource that was not found.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates the requested resource could not be found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ResourceTypeEnum" : {
+         "members" : {
+            "INSTANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "instance"
+               }
+            },
+            "NETWORK_INTERFACE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "network-interface"
+               }
+            },
+            "SPOT_INSTANCES_REQUEST" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "spot-instances-request"
+               }
+            },
+            "VOLUME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "volume"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#RunInstancesMonitoringEnabled" : {
+         "members" : {
+            "Enabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Enables or disables detailed instance monitoring.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configures detailed monitoring for WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#SecurityGroupId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^sg-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#SecurityGroupIds" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#SecurityGroupId"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#SecurityGroupName" : {
+         "traits" : {
+            "smithy.api#pattern" : "^(?!sg-)[\\w .:/()#,@\\[\\]+=&;{}!$*-]{0,255}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#SecurityGroupNames" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#SecurityGroupName"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#ServiceQuotaExceededException" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description of the quota limitation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "QuotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific code for the exceeded quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Identifier of the resource related to the quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of resource related to the quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ServiceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Code identifying the service with the quota limitation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates that a service quota has been exceeded.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#SnapshotId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^snap-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#SpotInstanceTypeEnum" : {
+         "members" : {
+            "ONE_TIME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "one-time"
+               }
+            },
+            "PERSISTENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "persistent"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#SpotMarketOptions" : {
+         "members" : {
+            "BlockDurationMinutes" : {
+               "target" : "com.amazonaws.workspacesinstances#NonNegativeInteger",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Duration of spot instance block reservation.</p>"
+               }
+            },
+            "InstanceInterruptionBehavior" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceInterruptionBehaviorEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies behavior when spot instance is interrupted.</p>"
+               }
+            },
+            "MaxPrice" : {
+               "target" : "com.amazonaws.workspacesinstances#String64",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Maximum hourly price for spot instance.</p>"
+               }
+            },
+            "SpotInstanceType" : {
+               "target" : "com.amazonaws.workspacesinstances#SpotInstanceTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Defines the type of spot instance request.</p>"
+               }
+            },
+            "ValidUntilUtc" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp until which spot instance request is valid.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines configuration for spot instance deployment.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#String128" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#String64" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#SubnetId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^subnet-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#SupportedInstanceConfiguration" : {
+         "members" : {
+            "BillingMode" : {
+               "target" : "com.amazonaws.workspacesinstances#BillingMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the billing mode supported in this configuration combination.</p>"
+               }
+            },
+            "PlatformType" : {
+               "target" : "com.amazonaws.workspacesinstances#PlatformTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the operating system platform supported in this configuration combination.</p>"
+               }
+            },
+            "Tenancy" : {
+               "target" : "com.amazonaws.workspacesinstances#InstanceConfigurationTenancyEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the tenancy model supported in this configuration combination.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a single valid configuration combination that an instance type supports, combining tenancy, platform type, and billing mode into one complete configuration specification.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#SupportedInstanceConfigurations" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#SupportedInstanceConfiguration"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#Tag" : {
+         "members" : {
+            "Key" : {
+               "target" : "com.amazonaws.workspacesinstances#TagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for the tag.</p>"
+               }
+            },
+            "Value" : {
+               "target" : "com.amazonaws.workspacesinstances#TagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Value associated with the tag key.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a key-value metadata tag.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#TagList" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#Tag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#TagResourceResponse"
+         },
+         "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:RequestTag/${TagKey}",
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to add user tags to resources in your account"
+            },
+            "smithy.api#documentation" : "<p>Adds tags to a WorkSpace Instance.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#TagResourceRequest" : {
+         "members" : {
+            "Tags" : {
+               "target" : "com.amazonaws.workspacesinstances#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tags to be added to the WorkSpace Instance.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the WorkSpace Instance to tag.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies tags to add to a WorkSpace Instance.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Confirms successful tag addition.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#TagSpecification" : {
+         "members" : {
+            "ResourceType" : {
+               "target" : "com.amazonaws.workspacesinstances#ResourceTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type of resource being tagged.</p>"
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.workspacesinstances#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Collection of tags for the specified resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines tagging configuration for a resource.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#TagSpecifications" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#TagSpecification"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 30
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#TenancyEnum" : {
+         "members" : {
+            "DEDICATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "dedicated"
+               }
+            },
+            "DEFAULT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "default"
+               }
+            },
+            "HOST" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "host"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#ThrottlingException" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Description of the throttling event.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "QuotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific code for the throttling quota.</p>"
+               }
+            },
+            "RetryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Recommended wait time before retrying the request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            },
+            "ServiceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Code identifying the service experiencing throttling.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates the request rate has exceeded limits.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.workspacesinstances#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.workspacesinstances#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.workspacesinstances#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.workspacesinstances#UntagResourceResponse"
+         },
+         "traits" : {
+            "aws.iam#conditionKeys" : [
+               "aws:TagKeys"
+            ],
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to remove user tags from resources in your account"
+            },
+            "smithy.api#documentation" : "<p>Removes tags from a WorkSpace Instance.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.workspacesinstances#UntagResourceRequest" : {
+         "members" : {
+            "TagKeys" : {
+               "target" : "com.amazonaws.workspacesinstances#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Keys of tags to be removed.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier of the WorkSpace Instance to untag.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies tags to remove from a WorkSpace Instance.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Confirms successful tag removal.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#UserData" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 16000,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#ValidationException" : {
+         "members" : {
+            "FieldList" : {
+               "target" : "com.amazonaws.workspacesinstances#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of fields that failed validation.</p>"
+               }
+            },
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Overall description of validation failures.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Reason" : {
+               "target" : "com.amazonaws.workspacesinstances#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specific reason for the validation failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Indicates invalid input parameters in the request.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ValidationExceptionField" : {
+         "members" : {
+            "Message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Detailed error message describing the validation issue.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Name of the field that failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Reason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Reason for the validation failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a validation error field in an API request.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#ValidationExceptionReason" : {
+         "members" : {
+            "CANNOT_PARSE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANNOT_PARSE"
+               }
+            },
+            "DEPENDENCY_FAILURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEPENDENCY_FAILURE"
+               }
+            },
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FIELD_VALIDATION_FAILED"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OTHER"
+               }
+            },
+            "UNKNOWN_OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNKNOWN_OPERATION"
+               }
+            },
+            "UNSUPPORTED_OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNSUPPORTED_OPERATION"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#VirtualName" : {
+         "traits" : {
+            "smithy.api#pattern" : "^ephemeral(0|[1-9][0-9]{0,2})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#VolumeId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^vol-[0-9a-zA-Z]{1,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#VolumeTypeEnum" : {
+         "members" : {
+            "GP2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "gp2"
+               }
+            },
+            "GP3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "gp3"
+               }
+            },
+            "IO1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "io1"
+               }
+            },
+            "IO2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "io2"
+               }
+            },
+            "SC1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "sc1"
+               }
+            },
+            "ST1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "st1"
+               }
+            },
+            "STANDARD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "standard"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.workspacesinstances#WorkspaceInstance" : {
+         "members" : {
+            "EC2ManagedInstance" : {
+               "target" : "com.amazonaws.workspacesinstances#EC2ManagedInstance",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the associated EC2 managed instance.</p>"
+               }
+            },
+            "ProvisionState" : {
+               "target" : "com.amazonaws.workspacesinstances#ProvisionStateEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Current provisioning state of the WorkSpace Instance.</p>"
+               }
+            },
+            "WorkspaceInstanceId" : {
+               "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for the WorkSpace Instance.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a single WorkSpace Instance.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#WorkspaceInstanceError" : {
+         "members" : {
+            "ErrorCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique error code for the WorkSpace Instance error.</p>"
+               }
+            },
+            "ErrorMessage" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Detailed description of the WorkSpace Instance error.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Captures errors specific to WorkSpace Instance operations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.workspacesinstances#WorkspaceInstanceErrors" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#WorkspaceInstanceError"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.workspacesinstances#WorkspaceInstanceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 70,
+               "min" : 15
+            },
+            "smithy.api#pattern" : "^wsinst-[0-9a-zA-Z]{8,63}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.workspacesinstances#WorkspaceInstances" : {
+         "member" : {
+            "target" : "com.amazonaws.workspacesinstances#WorkspaceInstance"
+         },
+         "type" : "list"
+      }
+   },
+   "smithy" : "2.0"
+}

@@ -1,0 +1,3126 @@
+{
+   "shapes" : {
+      "com.amazonaws.connectcampaigns#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "You do not have sufficient access to perform this action.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#AgentlessDialerConfig" : {
+         "members" : {
+            "dialingCapacity" : {
+               "target" : "com.amazonaws.connectcampaigns#DialingCapacity"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Agentless Dialer config"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#AmazonConnectCampaignService" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#CreateCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#DeleteCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#DeleteConnectInstanceConfig"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#DeleteInstanceOnboardingJob"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#DescribeCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#GetCampaignState"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#GetCampaignStateBatch"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#GetConnectInstanceConfig"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#GetInstanceOnboardingJobStatus"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ListCampaigns"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#PauseCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#PutDialRequestBatch"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResumeCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#StartCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#StartInstanceOnboardingJob"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#StopCampaign"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#UpdateCampaignDialerConfig"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#UpdateCampaignName"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#UpdateCampaignOutboundCallConfig"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "connect-campaigns",
+               "cloudTrailEventSource" : "connect-campaigns.amazonaws.com",
+               "sdkId" : "ConnectCampaigns"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "connect-campaigns"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "*",
+                  "Authorization",
+                  "Date",
+                  "X-Amz-Date",
+                  "X-Amz-Security-Token",
+                  "X-Amz-Target",
+                  "content-type",
+                  "x-amz-content-sha256",
+                  "x-amz-user-agent",
+                  "x-amzn-platform-id",
+                  "x-amzn-trace-id"
+               ],
+               "additionalExposedHeaders" : [
+                  "x-amzn-errortype",
+                  "x-amzn-requestid",
+                  "x-amzn-errormessage",
+                  "x-amzn-trace-id",
+                  "x-amz-apigw-id",
+                  "date"
+               ],
+               "maxAge" : 86400,
+               "origin" : "*"
+            },
+            "smithy.api#documentation" : "Provide APIs to create and manage Amazon Connect Campaigns.",
+            "smithy.api#title" : "AmazonConnectCampaignService",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseDualStack"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "assign" : "PartitionResult",
+                                 "fn" : "aws.partition"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    },
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://connect-campaigns-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://connect-campaigns-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS is enabled but this partition does not support FIPS",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://connect-campaigns.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "DualStack is enabled but this partition does not support DualStack",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : "https://connect-campaigns.{Region}.{PartitionResult#dnsSuffix}"
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region ap-southeast-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.ap-southeast-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-southeast-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-west-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.eu-west-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-west-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-west-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://connect-campaigns.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2021-01-30"
+      },
+      "com.amazonaws.connectcampaigns#AnswerMachineDetectionConfig" : {
+         "members" : {
+            "awaitAnswerMachinePrompt" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "Enable or disable await answer machine prompt"
+               }
+            },
+            "enableAnswerMachineDetection" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "Enable or disable answering machine detection",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Answering Machine Detection config"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#Arn" : {
+         "traits" : {
+            "smithy.api#documentation" : "Arn",
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:.*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#AttributeName" : {
+         "traits" : {
+            "smithy.api#documentation" : "The key of the attribute. Attribute keys can include only alphanumeric, dash, and underscore characters.",
+            "smithy.api#length" : {
+               "max" : 32767,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\-_]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#AttributeValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "The value of the attribute.",
+            "smithy.api#length" : {
+               "max" : 32767,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^.*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#Attributes" : {
+         "key" : {
+            "target" : "com.amazonaws.connectcampaigns#AttributeName"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.connectcampaigns#AttributeValue"
+         }
+      },
+      "com.amazonaws.connectcampaigns#BandwidthAllocation" : {
+         "traits" : {
+            "smithy.api#documentation" : "The bandwidth allocation of a queue resource.",
+            "smithy.api#range" : {
+               "max" : 1,
+               "min" : 0
+            }
+         },
+         "type" : "double"
+      },
+      "com.amazonaws.connectcampaigns#Campaign" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignArn",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "dialerConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#DialerConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignName",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "outboundCallConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#OutboundCallConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connectcampaigns#TagMap"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "An Amazon Connect campaign."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#CampaignArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "The resource name of an Amazon Connect campaign.",
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 20
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#CampaignFilters" : {
+         "members" : {
+            "instanceIdFilter" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceIdFilter"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Filter model by type"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#CampaignId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Identifier representing a Campaign",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[\\S]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#CampaignIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#CampaignId"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of CampaignId"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#CampaignName" : {
+         "traits" : {
+            "smithy.api#documentation" : "The name of an Amazon Connect Campaign name.",
+            "smithy.api#length" : {
+               "max" : 127,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#CampaignState" : {
+         "traits" : {
+            "smithy.api#documentation" : "State of a campaign",
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Campaign is in initialized state",
+                  "name" : "INITIALIZED",
+                  "value" : "Initialized"
+               },
+               {
+                  "documentation" : "Campaign is in running state",
+                  "name" : "RUNNING",
+                  "value" : "Running"
+               },
+               {
+                  "documentation" : "Campaign is in paused state",
+                  "name" : "PAUSED",
+                  "value" : "Paused"
+               },
+               {
+                  "documentation" : "Campaign is in stopped state",
+                  "name" : "STOPPED",
+                  "value" : "Stopped"
+               },
+               {
+                  "documentation" : "Campaign is in failed state",
+                  "name" : "FAILED",
+                  "value" : "Failed"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#CampaignSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignArn",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignName",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "An Amazon Connect campaign summary."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#CampaignSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#CampaignSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of Amazon Connect campaigns."
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#ClientToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "Client provided parameter used for idempotency. Its value must be unique for each request.",
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-.]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request could not be processed because of conflict in the current state of the resource.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ContactFlowId" : {
+         "traits" : {
+            "smithy.api#documentation" : "The identifier of the contact flow for the outbound call.",
+            "smithy.api#length" : {
+               "max" : 500
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#CreateCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#CreateCampaignRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#CreateCampaignResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Creates a campaign for the specified Amazon Connect account. This API is idempotent.",
+            "smithy.api#http" : {
+               "method" : "PUT",
+               "uri" : "/campaigns"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#CreateCampaignRequest" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "dialerConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#DialerConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignName",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "outboundCallConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#OutboundCallConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connectcampaigns#TagMap"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request for Create Campaign API."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#CreateCampaignResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignArn"
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId"
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connectcampaigns#TagMap"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The response for Create Campaign API"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DeleteCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#DeleteCampaignRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Deletes a campaign from the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "DELETE",
+               "uri" : "/campaigns/{id}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#DeleteCampaignRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "DeleteCampaignRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DeleteConnectInstanceConfig" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#DeleteConnectInstanceConfigRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Deletes a connect instance config from the specified AWS account.",
+            "smithy.api#http" : {
+               "method" : "DELETE",
+               "uri" : "/connect-instance/{connectInstanceId}/config"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#DeleteConnectInstanceConfigRequest" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "DeleteCampaignRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DeleteInstanceOnboardingJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#DeleteInstanceOnboardingJobRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.",
+            "smithy.api#http" : {
+               "method" : "DELETE",
+               "uri" : "/connect-instance/{connectInstanceId}/onboarding"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#DeleteInstanceOnboardingJobRequest" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request for DeleteInstanceOnboardingJob API."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DescribeCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#DescribeCampaignRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#DescribeCampaignResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Describes the specific campaign.",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/campaigns/{id}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#DescribeCampaignRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "DescribeCampaignRequests"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DescribeCampaignResponse" : {
+         "members" : {
+            "campaign" : {
+               "target" : "com.amazonaws.connectcampaigns#Campaign"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "DescribeCampaignResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DestinationPhoneNumber" : {
+         "traits" : {
+            "smithy.api#documentation" : "The phone number of the customer, in E.164 format.",
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[\\d\\-+]*$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#DialRequest" : {
+         "members" : {
+            "attributes" : {
+               "target" : "com.amazonaws.connectcampaigns#Attributes",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.connectcampaigns#ClientToken",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "expirationTime" : {
+               "target" : "com.amazonaws.connectcampaigns#TimeStamp",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "phoneNumber" : {
+               "target" : "com.amazonaws.connectcampaigns#DestinationPhoneNumber",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A dial request for a campaign."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#DialRequestId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Identifier representing a Dial request",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-.]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#DialRequestList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#DialRequest"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of dial requests.",
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#DialerConfig" : {
+         "members" : {
+            "agentlessDialerConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#AgentlessDialerConfig"
+            },
+            "predictiveDialerConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#PredictiveDialerConfig"
+            },
+            "progressiveDialerConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#ProgressiveDialerConfig"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The possible types of dialer config parameters"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.connectcampaigns#DialingCapacity" : {
+         "traits" : {
+            "smithy.api#documentation" : "Allocates dialing capacity for this campaign between multiple active campaigns",
+            "smithy.api#range" : {
+               "max" : 1,
+               "min" : 0.01
+            }
+         },
+         "type" : "double"
+      },
+      "com.amazonaws.connectcampaigns#Enabled" : {
+         "traits" : {
+            "smithy.api#default" : false,
+            "smithy.api#documentation" : "Boolean to indicate if custom encryption has been enabled."
+         },
+         "type" : "boolean"
+      },
+      "com.amazonaws.connectcampaigns#EncryptionConfig" : {
+         "members" : {
+            "enabled" : {
+               "target" : "com.amazonaws.connectcampaigns#Enabled",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#required" : {}
+               }
+            },
+            "encryptionType" : {
+               "target" : "com.amazonaws.connectcampaigns#EncryptionType"
+            },
+            "keyArn" : {
+               "target" : "com.amazonaws.connectcampaigns#EncryptionKey"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Encryption config for Connect Instance. Note that sensitive data will always be encrypted.\nIf disabled, service will perform encryption with its own key.\nIf enabled, a KMS key id needs to be provided and KMS charges will apply.\nKMS is only type supported"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#EncryptionKey" : {
+         "traits" : {
+            "smithy.api#documentation" : "KMS key id/arn for encryption config.",
+            "smithy.api#length" : {
+               "max" : 500
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#EncryptionType" : {
+         "traits" : {
+            "smithy.api#documentation" : "Server-side encryption type.",
+            "smithy.api#enum" : [
+               {
+                  "name" : "KMS",
+                  "value" : "KMS"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#FailedCampaignStateResponse" : {
+         "members" : {
+            "campaignId" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId"
+            },
+            "failureCode" : {
+               "target" : "com.amazonaws.connectcampaigns#GetCampaignStateBatchFailureCode"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Failed response of campaign state"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#FailedCampaignStateResponseList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#FailedCampaignStateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of failed requests of campaign state",
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#FailedRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.connectcampaigns#ClientToken"
+            },
+            "failureCode" : {
+               "target" : "com.amazonaws.connectcampaigns#FailureCode"
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#DialRequestId"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A failed request identified by the unique client token."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#FailedRequestList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#FailedRequest"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of failed requests.",
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#FailureCode" : {
+         "traits" : {
+            "smithy.api#documentation" : "A predefined code indicating the error that caused the failure.",
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "The request failed to satisfy the constraints specified by the service",
+                  "name" : "INVALID_INPUT",
+                  "value" : "InvalidInput"
+               },
+               {
+                  "documentation" : "Request throttled due to large number of pending dial requests",
+                  "name" : "REQUEST_THROTTLED",
+                  "value" : "RequestThrottled"
+               },
+               {
+                  "documentation" : "Unexpected error during processing of request",
+                  "name" : "UNKNOWN_ERROR",
+                  "value" : "UnknownError"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignState" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#GetCampaignStateRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#GetCampaignStateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Get state of a campaign for the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/campaigns/{id}/state"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignStateBatch" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#GetCampaignStateBatchRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#GetCampaignStateBatchResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Get state of campaigns for the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns-state"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignStateBatchFailureCode" : {
+         "traits" : {
+            "smithy.api#documentation" : "A predefined code indicating the error that caused the failure in getting state of campaigns",
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "The specified resource was not found",
+                  "name" : "RESOURCE_NOT_FOUND",
+                  "value" : "ResourceNotFound"
+               },
+               {
+                  "documentation" : "Unexpected error during processing of request",
+                  "name" : "UNKNOWN_ERROR",
+                  "value" : "UnknownError"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignStateBatchRequest" : {
+         "members" : {
+            "campaignIds" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignIdList",
+               "traits" : {
+                  "smithy.api#length" : {
+                     "max" : 25,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetCampaignStateBatchRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignStateBatchResponse" : {
+         "members" : {
+            "failedRequests" : {
+               "target" : "com.amazonaws.connectcampaigns#FailedCampaignStateResponseList"
+            },
+            "successfulRequests" : {
+               "target" : "com.amazonaws.connectcampaigns#SuccessfulCampaignStateResponseList"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetCampaignStateBatchResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignStateRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetCampaignStateRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetCampaignStateResponse" : {
+         "members" : {
+            "state" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignState"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetCampaignStateResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetConnectInstanceConfig" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#GetConnectInstanceConfigRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#GetConnectInstanceConfigResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Get the specific Connect instance config.",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/connect-instance/{connectInstanceId}/config"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#GetConnectInstanceConfigRequest" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetConnectInstanceConfigRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetConnectInstanceConfigResponse" : {
+         "members" : {
+            "connectInstanceConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceConfig"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetConnectInstanceConfigResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetInstanceOnboardingJobStatus" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#GetInstanceOnboardingJobStatusRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#GetInstanceOnboardingJobStatusResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Get the specific instance onboarding job status.",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/connect-instance/{connectInstanceId}/onboarding"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#GetInstanceOnboardingJobStatusRequest" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetInstanceOnboardingJobStatusRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#GetInstanceOnboardingJobStatusResponse" : {
+         "members" : {
+            "connectInstanceOnboardingJobStatus" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceOnboardingJobStatus"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "GetInstanceOnboardingJobStatusResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#InstanceConfig" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "encryptionConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#EncryptionConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "serviceLinkedRoleArn" : {
+               "target" : "com.amazonaws.connectcampaigns#ServiceLinkedRoleArn",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Instance config object"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#InstanceId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Amazon Connect Instance Id",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-.]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#InstanceIdFilter" : {
+         "members" : {
+            "operator" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceIdFilterOperator",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Connect instance identifier filter"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#InstanceIdFilterOperator" : {
+         "traits" : {
+            "smithy.api#documentation" : "Operators for Connect instance identifier filter",
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Equals operator",
+                  "name" : "EQ",
+                  "value" : "Eq"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#InstanceOnboardingJobFailureCode" : {
+         "traits" : {
+            "smithy.api#documentation" : "Enumeration of the possible failure codes for instance onboarding job",
+            "smithy.api#enum" : [
+               {
+                  "name" : "EVENT_BRIDGE_ACCESS_DENIED",
+                  "value" : "EVENT_BRIDGE_ACCESS_DENIED"
+               },
+               {
+                  "name" : "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED",
+                  "value" : "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED"
+               },
+               {
+                  "name" : "IAM_ACCESS_DENIED",
+                  "value" : "IAM_ACCESS_DENIED"
+               },
+               {
+                  "name" : "KMS_ACCESS_DENIED",
+                  "value" : "KMS_ACCESS_DENIED"
+               },
+               {
+                  "name" : "KMS_KEY_NOT_FOUND",
+                  "value" : "KMS_KEY_NOT_FOUND"
+               },
+               {
+                  "name" : "INTERNAL_FAILURE",
+                  "value" : "INTERNAL_FAILURE"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#InstanceOnboardingJobStatus" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "failureCode" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceOnboardingJobFailureCode"
+            },
+            "status" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceOnboardingJobStatusCode",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Instance onboarding job status object"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#InstanceOnboardingJobStatusCode" : {
+         "traits" : {
+            "smithy.api#documentation" : "Enumeration of the possible states for instance onboarding job",
+            "smithy.api#enum" : [
+               {
+                  "name" : "IN_PROGRESS",
+                  "value" : "IN_PROGRESS"
+               },
+               {
+                  "name" : "SUCCEEDED",
+                  "value" : "SUCCEEDED"
+               },
+               {
+                  "name" : "FAILED",
+                  "value" : "FAILED"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Request processing failed because of an error or failure with the service.",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#InvalidCampaignStateException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignState",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request could not be processed because of conflict in the current state of the campaign.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#InvalidStateException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request could not be processed because of conflict in the current state.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ListCampaigns" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#ListCampaignsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#ListCampaignsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Provides summary information about the campaigns under the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns-summary"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "campaignSummaryList",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#ListCampaignsRequest" : {
+         "members" : {
+            "filters" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignFilters"
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.connectcampaigns#MaxResults"
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.connectcampaigns#NextToken"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "ListCampaignsRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ListCampaignsResponse" : {
+         "members" : {
+            "campaignSummaryList" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignSummaryList"
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.connectcampaigns#NextToken"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "ListCampaignsResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List tags for a resource.",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/tags/{arn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#ListTagsForResourceRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connectcampaigns#Arn",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "ListTagsForResource"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.connectcampaigns#TagMap"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "ListTagsForResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#MaxResults" : {
+         "traits" : {
+            "smithy.api#documentation" : "The maximum number of results to return per page.",
+            "smithy.api#range" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.connectcampaigns#NextToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "The token for the next set of results.",
+            "smithy.api#length" : {
+               "max" : 1000
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#OutboundCallConfig" : {
+         "members" : {
+            "answerMachineDetectionConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#AnswerMachineDetectionConfig"
+            },
+            "connectContactFlowId" : {
+               "target" : "com.amazonaws.connectcampaigns#ContactFlowId",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "connectQueueId" : {
+               "target" : "com.amazonaws.connectcampaigns#QueueId"
+            },
+            "connectSourcePhoneNumber" : {
+               "target" : "com.amazonaws.connectcampaigns#SourcePhoneNumber"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The configuration used for outbound calls."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#PauseCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidCampaignStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#PauseCampaignRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Pauses a campaign for the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/pause"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#PauseCampaignRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "PauseCampaignRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#PredictiveDialerConfig" : {
+         "members" : {
+            "bandwidthAllocation" : {
+               "target" : "com.amazonaws.connectcampaigns#BandwidthAllocation",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "dialingCapacity" : {
+               "target" : "com.amazonaws.connectcampaigns#DialingCapacity"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Predictive Dialer config"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ProgressiveDialerConfig" : {
+         "members" : {
+            "bandwidthAllocation" : {
+               "target" : "com.amazonaws.connectcampaigns#BandwidthAllocation",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "dialingCapacity" : {
+               "target" : "com.amazonaws.connectcampaigns#DialingCapacity"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Progressive Dialer config"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#PutDialRequestBatch" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidCampaignStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#PutDialRequestBatchRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#PutDialRequestBatchResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.",
+            "smithy.api#http" : {
+               "method" : "PUT",
+               "uri" : "/campaigns/{id}/dial-requests"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#PutDialRequestBatchRequest" : {
+         "members" : {
+            "dialRequests" : {
+               "target" : "com.amazonaws.connectcampaigns#DialRequestList",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "PutDialRequestBatchRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#PutDialRequestBatchResponse" : {
+         "members" : {
+            "failedRequests" : {
+               "target" : "com.amazonaws.connectcampaigns#FailedRequestList"
+            },
+            "successfulRequests" : {
+               "target" : "com.amazonaws.connectcampaigns#SuccessfulRequestList"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "PutDialRequestBatchResponse"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#QueueId" : {
+         "traits" : {
+            "smithy.api#documentation" : "The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.",
+            "smithy.api#length" : {
+               "max" : 500
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The specified resource was not found.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ResumeCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidCampaignStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#ResumeCampaignRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Stops a campaign for the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/resume"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#ResumeCampaignRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "ResumeCampaignRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ServiceLinkedRoleArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "Service linked role arn",
+            "smithy.api#length" : {
+               "max" : 256
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Request would cause a service quota to be exceeded.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#SourcePhoneNumber" : {
+         "traits" : {
+            "smithy.api#documentation" : "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.",
+            "smithy.api#length" : {
+               "max" : 100
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#StartCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidCampaignStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#StartCampaignRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Starts a campaign for the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/start"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#StartCampaignRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "StartCampaignRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#StartInstanceOnboardingJob" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#StartInstanceOnboardingJobRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.connectcampaigns#StartInstanceOnboardingJobResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Onboard the specific Amazon Connect instance to Connect Campaigns.",
+            "smithy.api#http" : {
+               "method" : "PUT",
+               "uri" : "/connect-instance/{connectInstanceId}/onboarding"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#StartInstanceOnboardingJobRequest" : {
+         "members" : {
+            "connectInstanceId" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "encryptionConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#EncryptionConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request for StartInstanceOnboardingJob API."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#StartInstanceOnboardingJobResponse" : {
+         "members" : {
+            "connectInstanceOnboardingJobStatus" : {
+               "target" : "com.amazonaws.connectcampaigns#InstanceOnboardingJobStatus"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The response for StartInstanceOnboardingJob API."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#StopCampaign" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InvalidCampaignStateException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#StopCampaignRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Stops a campaign for the specified Amazon Connect account.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/stop"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#StopCampaignRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "StopCampaignRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#SuccessfulCampaignStateResponse" : {
+         "members" : {
+            "campaignId" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId"
+            },
+            "state" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignState"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Successful response of campaign state"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#SuccessfulCampaignStateResponseList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#SuccessfulCampaignStateResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of successful response of campaign state",
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#SuccessfulRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.connectcampaigns#ClientToken"
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#DialRequestId"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A successful request identified by the unique client token."
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#SuccessfulRequestList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#SuccessfulRequest"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "A list of successful requests identified by the unique client token.",
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#TagKey" : {
+         "traits" : {
+            "smithy.api#documentation" : "Tag key.",
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(?!aws:)[a-zA-Z+-=._:/]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.connectcampaigns#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "List of tag keys.",
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.connectcampaigns#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.connectcampaigns#TagKey"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Tag map with key and value."
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.connectcampaigns#TagValue"
+         }
+      },
+      "com.amazonaws.connectcampaigns#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Tag a resource.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/tags/{arn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#TagResourceRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connectcampaigns#Arn",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.connectcampaigns#TagMap",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "TagResourceRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#TagValue" : {
+         "traits" : {
+            "smithy.api#documentation" : "Tag value.",
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.connectcampaigns#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The request was denied due to request throttling.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#TimeStamp" : {
+         "traits" : {
+            "smithy.api#documentation" : "Timestamp with no UTC offset or timezone",
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.connectcampaigns#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Untag a resource.",
+            "smithy.api#http" : {
+               "method" : "DELETE",
+               "uri" : "/tags/{arn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#UntagResourceRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.connectcampaigns#Arn",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.connectcampaigns#TagKeyList",
+               "traits" : {
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "UntagResourceRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#UpdateCampaignDialerConfig" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#UpdateCampaignDialerConfigRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Updates the dialer config of a campaign. This API is idempotent.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/dialer-config"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#UpdateCampaignDialerConfigRequest" : {
+         "members" : {
+            "dialerConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#DialerConfig",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "UpdateCampaignDialerConfigRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#UpdateCampaignName" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#UpdateCampaignNameRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Updates the name of a campaign. This API is idempotent.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/name"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#UpdateCampaignNameRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignName",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "UpdateCampaignNameRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#UpdateCampaignOutboundCallConfig" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.connectcampaigns#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.connectcampaigns#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.connectcampaigns#UpdateCampaignOutboundCallConfigRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Updates the outbound call config of a campaign. This API is idempotent.",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/campaigns/{id}/outbound-call-config"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.connectcampaigns#UpdateCampaignOutboundCallConfigRequest" : {
+         "members" : {
+            "answerMachineDetectionConfig" : {
+               "target" : "com.amazonaws.connectcampaigns#AnswerMachineDetectionConfig"
+            },
+            "connectContactFlowId" : {
+               "target" : "com.amazonaws.connectcampaigns#ContactFlowId"
+            },
+            "connectSourcePhoneNumber" : {
+               "target" : "com.amazonaws.connectcampaigns#SourcePhoneNumber"
+            },
+            "id" : {
+               "target" : "com.amazonaws.connectcampaigns#CampaignId",
+               "traits" : {
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "UpdateCampaignOutboundCallConfigRequest"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "xAmzErrorType" : {
+               "target" : "com.amazonaws.connectcampaigns#XAmazonErrorType",
+               "traits" : {
+                  "smithy.api#httpHeader" : "x-amzn-ErrorType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "The input fails to satisfy the constraints specified by an AWS service.",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.connectcampaigns#XAmazonErrorType" : {
+         "traits" : {
+            "smithy.api#documentation" : "A header that defines the error encountered while processing the request."
+         },
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}

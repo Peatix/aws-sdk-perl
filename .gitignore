@@ -30,11 +30,11 @@ cpanfile.snapshot
 
 # share/smithy/ Smithy IR is vendored from awslabs/aws-sdk-rust at
 # the SHA pinned in share/smithy/.upstream-sha. The .smithy.json
-# files are tracked in git and ship in the dist as-is — no build-
-# time vendoring step is required. Use `make vendor-smithy` to
+# files ARE tracked in git (so the dist ships them as-is, no
+# build-time vendoring step required). Use `make vendor-smithy` to
 # refresh the tree from upstream after bumping .upstream-sha.
 #
-# share/botocore/ get populated by `make dist-prep` (see
+# share/botocore/ gets populated by `make dist-prep` (see
 # script/paws-vendor-botocore) immediately before `dzil build`.
 # The populated content is large (~100MB raw) and regeneratable
 # from upstream at the SHA pinned in share/botocore/.upstream-sha.

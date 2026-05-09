@@ -1,0 +1,1289 @@
+{
+   "shapes" : {
+      "com.amazonaws.marketplacedeployment#AWSMPDeploymentParametersService" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#UntagResource"
+            }
+         ],
+         "resources" : [
+            {
+               "target" : "com.amazonaws.marketplacedeployment#DeploymentParameter"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "aws-marketplace",
+               "endpointPrefix" : "deployment-marketplace",
+               "sdkId" : "Marketplace Deployment"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "aws-marketplace"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {},
+            "smithy.api#documentation" : "<p>The AWS Marketplace Deployment Service supports the Quick Launch experience, which is a deployment option for software as a service (SaaS) products. \n      Quick Launch simplifies and reduces the time, resources, and steps required to configure, deploy, and launch a products. \n      The AWS Marketplace Deployment Service provides sellers with a secure method for passing deployment parameters, such as \n      API keys and external IDs, to buyers during the Quick Launch experience.</p>",
+            "smithy.api#title" : "AWS Marketplace Deployment Service",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://deployment-marketplace-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://deployment-marketplace-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://deployment-marketplace.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://deployment-marketplace.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://deployment-marketplace.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2023-01-25"
+      },
+      "com.amazonaws.marketplacedeployment#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You do not have sufficient access to perform this action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#Catalog" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 32
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9/_+=.:@-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the resource associated with the error.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request configuration has conflicts. For details, see the accompanying error message.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#DeploymentParameter" : {
+         "create" : {
+            "target" : "com.amazonaws.marketplacedeployment#PutDeploymentParameter"
+         },
+         "identifiers" : {
+            "catalog" : {
+               "target" : "com.amazonaws.marketplacedeployment#Catalog"
+            },
+            "deploymentParameterId" : {
+               "target" : "com.amazonaws.marketplacedeployment#DeploymentParameterResourceIdentifier"
+            },
+            "productId" : {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceId"
+            }
+         },
+         "traits" : {
+            "aws.api#arn" : {
+               "template" : "DeploymentParameter:catalogs/{catalog}/products/{productId}/{deploymentParameterId}"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.marketplacedeployment#DeploymentParameterInput" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.marketplacedeployment#DeploymentParameterName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The desired name of the deployment parameter. This is the identifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "secretString" : {
+               "target" : "com.amazonaws.marketplacedeployment#SecretString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The text to encrypt and store in the secret.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The shape containing the requested deployment parameter name and secretString.</p>\n         <note>\n            <p>To support AWS CloudFormation dynamic references to this resource using Quick Launch,\n        this value must match a parameter defined in the CloudFormation templated provided to\n        buyers.</p>\n         </note>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#DeploymentParameterName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 400,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9/_+=.@-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#DeploymentParameterResourceIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^dp-[a-zA-Z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>There was an internal service exception.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacedeployment#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacedeployment#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacedeployment#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "aws.iam#actionPermissionDescription" : "Grants permission to list all tags on a DeploymentParameter resource",
+            "smithy.api#documentation" : "<p>Lists all tags that have been added to a deployment parameter resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacedeployment#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to list tags on.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.marketplacedeployment#Tags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of key-value pairs, where each pair represents a tag present on the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#PutDeploymentParameter" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacedeployment#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacedeployment#PutDeploymentParameterRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacedeployment#PutDeploymentParameterResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates or updates a deployment parameter and is targeted by <code>catalog</code> and <code>agreementId</code>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/catalogs/{catalog}/products/{productId}/deployment-parameters"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacedeployment#PutDeploymentParameterRequest" : {
+         "members" : {
+            "agreementId" : {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the agreement.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.marketplacedeployment#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog related to the request. Fixed value: <code>AWSMarketplace</code>\n         </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.marketplacedeployment#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The idempotency token for deployment parameters. A unique identifier for the new version.</p>\n         <note>\n            <p>This field is not required if you're calling using an AWS SDK. Otherwise, a\n          <code>clientToken</code> must be provided with the request.</p>\n         </note>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "deploymentParameter" : {
+               "target" : "com.amazonaws.marketplacedeployment#DeploymentParameterInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "expirationDate" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date when deployment parameters expire and are scheduled for deletion.</p>",
+                  "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "productId" : {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The product for which AWS Marketplace will save secrets for the buyer’s account.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.marketplacedeployment#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#PutDeploymentParameterResponse" : {
+         "members" : {
+            "agreementId" : {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the agreement.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "deploymentParameterId" : {
+               "target" : "com.amazonaws.marketplacedeployment#DeploymentParameterResourceIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the deployment parameter.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceArn" : {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to create or update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.marketplacedeployment#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of key-value pairs, where each pair represents a tag saved to the resource. Tags will only be applied for create operations, and they'll be ignored if the resource already exists.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#ResourceArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9:*/-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#ResourceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z0-9_/-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource wasn't found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#SecretString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 15000,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The maximum number of requests per account has been exceeded.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#StringList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.marketplacedeployment#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9/_+=.:@-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacedeployment#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacedeployment#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacedeployment#TagResourceResponse"
+         },
+         "traits" : {
+            "aws.iam#actionPermissionDescription" : "Grants permission to add or overwrite one or more tags for the specified DeploymentParameter resource",
+            "smithy.api#documentation" : "<p>Tags a resource.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacedeployment#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) associated with the resource you want to tag.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.marketplacedeployment#Tags",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of key-value pairs, where each pair represents a tag present on the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9/_+=.:@-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.marketplacedeployment#Tags" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.marketplacedeployment#TagsMap" : {
+         "key" : {
+            "target" : "com.amazonaws.marketplacedeployment#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.marketplacedeployment#TagValue"
+         }
+      },
+      "com.amazonaws.marketplacedeployment#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Too many requests.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.marketplacedeployment#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.marketplacedeployment#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.marketplacedeployment#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.marketplacedeployment#UntagResourceResponse"
+         },
+         "traits" : {
+            "aws.iam#actionPermissionDescription" : "Grants permission to disassociate one or more tags from the specified DeploymentParameter resource",
+            "smithy.api#documentation" : "<p>Removes a tag or list of tags from a resource.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.marketplacedeployment#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.marketplacedeployment#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of key names of tags to be removed.</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.marketplacedeployment#ValidationException" : {
+         "members" : {
+            "fieldName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field name associated with the error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An error occurred during validation.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}
