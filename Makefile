@@ -22,10 +22,14 @@ cover:
 # whole-suite cover-ci hung past the 30-min timeout):
 #
 #   - Devel::Cover's instrumentation list is restricted to lib/ via
-#     +ignore,^auto-lib/ and +ignore,^t/. auto-lib/ is generated code
-#     (~52k .pm files); instrumenting it adds compile-time and
-#     per-statement-execution overhead but no signal a PR reviewer
-#     would care about. t/lib/ is test fixtures.
+#     +ignore,^auto-lib/, +ignore,^t/, and +ignore,^local/. auto-lib/
+#     is generated code (~52k .pm files); instrumenting it adds
+#     compile-time and per-statement-execution overhead but no signal
+#     a PR reviewer would care about. t/lib/ is test fixtures.
+#     local/ is where CI's cpm installs CPAN deps; without ignoring
+#     it, the (Moose / DateTime / XML::SAX / ...) trees show up in
+#     cover_db with single-digit coverage and pull the headline
+#     number down ~30pp.
 #   - The test list excludes t/01_load.t and t/99_pod_*.t. They
 #     preload all 401 services through Moose meta-class introspection
 #     (and 99_pod_syntax additionally walks 52k .pm files for POD),
@@ -38,7 +42,7 @@ cover:
 # See docs/testing.md "Scope of cover-ci" for the longer explanation.
 cover-ci:
 	rm -rf cover_db
-	HARNESS_PERL_SWITCHES='-MDevel::Cover=-silent,1,-summary,0,+ignore,^auto-lib/,+ignore,^t/' \
+	HARNESS_PERL_SWITCHES='-MDevel::Cover=-silent,1,-summary,0,+ignore,^auto-lib/,+ignore,^t/,+ignore,^local/' \
 	  prove --lib --verbose --jobs 1 \
 	  -I auto-lib -I t/lib \
 	  $$(find t -type f -name '*.t' \

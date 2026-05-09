@@ -81,11 +81,15 @@ Two intentional restrictions, both encoded in the `cover-ci` Makefile
 target:
 
 - **Devel::Cover instrumentation** is bounded to `lib/` via
-  `+ignore,^auto-lib/` and `+ignore,^t/`. `auto-lib/` is generated
-  code (~52k `.pm` files); instrumenting it adds enough compile-time
-  and per-statement-execution overhead to push the run past the
-  workflow's 30-min cap, without producing a signal a PR reviewer
-  would care about. `t/lib/` is test fixtures.
+  `+ignore,^auto-lib/`, `+ignore,^t/`, and `+ignore,^local/`.
+  `auto-lib/` is generated code (~52k `.pm` files); instrumenting it
+  adds enough compile-time and per-statement-execution overhead to
+  push the run past the workflow's 30-min cap, without producing a
+  signal a PR reviewer would care about. `t/lib/` is test fixtures.
+  `local/` is where CI's `cpm` installs CPAN dependencies (Moose,
+  DateTime, XML::SAX, ...); without that ignore the dependency
+  trees show up in `cover_db` with single-digit coverage and pull
+  the headline number down ~30pp.
 - **The test list excludes `t/01_load.t` and `t/99_pod_*.t`**.
   `t/01_load.t` preloads all 401 services through Moose meta-class
   introspection; `t/99_pod_syntax.t` POD-parses every `.pm` in
