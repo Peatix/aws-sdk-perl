@@ -2,9 +2,9 @@
 
 # Tests for Paws::Model::Loader::Resolver.
 #
-# The resolver tries loaders in the configured order and returns the
-# IR produced by the first one that finds a source file. Default order
-# prefers Smithy over Botocore; PAWS_LOADER_ORDER overrides.
+# Default order is Smithy-only after the smithy-only-vendor-into-git
+# stack: PAWS_LOADER_ORDER overrides for users who explicitly point
+# the resolver at a botocore checkout for a deprecated service.
 
 use strict;
 use warnings;
@@ -19,8 +19,8 @@ use lib "$Bin/../../builder-lib";
 use Paws::Model::Loader::Resolver;
 
 # We point both search paths at our fixture tree. The Smithy fixture
-# is at .../tinyservice.smithy.json, the Botocore fixture is at
-# .../tinyservice/2024-01-01/service-2.json.
+# is at .../tinyservice/tinyservice.smithy.json (nested layout), the
+# Botocore fixture is at .../tinyservice/2024-01-01/service-2.json.
 my $smithy_dir   = "$Bin/fixtures";
 my $botocore_dir = "$Bin/fixtures";
 
@@ -33,10 +33,12 @@ sub make_resolver {
     );
 }
 
-subtest 'default order prefers Smithy when both available' => sub {
+subtest 'default order is Smithy-only' => sub {
     delete local $ENV{PAWS_LOADER_ORDER};
 
     my $r = make_resolver();
+    is_deeply $r->order, [ 'Smithy' ], 'default order is [Smithy]';
+
     my ($ir, $loader) = $r->load_service('tinyservice');
     is($loader,         'Smithy',     'resolver chose Smithy');
     is($ir->name,       'TinyService','IR built from Smithy fixture');
@@ -53,7 +55,7 @@ subtest 'PAWS_LOADER_ORDER pins the order' => sub {
 };
 
 subtest 'falls back when first loader has no file' => sub {
-    delete local $ENV{PAWS_LOADER_ORDER};
+    local $ENV{PAWS_LOADER_ORDER} = 'Smithy,Botocore';
 
     my $r = Paws::Model::Loader::Resolver->new(
         smithy_search_paths   => ['/nonexistent/smithy'],
@@ -62,6 +64,13 @@ subtest 'falls back when first loader has no file' => sub {
     my ($ir, $loader) = $r->load_service('tinyservice');
     is($loader, 'Botocore', 'resolver fell back to Botocore');
     is($ir->name, 'TinyService', 'IR loaded');
+};
+
+subtest 'default botocore_search_paths is empty' => sub {
+    delete local $ENV{PAWS_LOADER_ORDER};
+    my $r = Paws::Model::Loader::Resolver->new;
+    is_deeply $r->botocore_search_paths, [],
+        'botocore_search_paths default is the empty list';
 };
 
 subtest 'unknown service raises' => sub {
@@ -77,6 +86,63 @@ subtest 'unknown loader name in order raises' => sub {
     throws_ok { $r->load_service('tinyservice') }
         qr/unknown loader name/,
         'unknown loader name in PAWS_LOADER_ORDER raises';
+};
+
+subtest 'dropped service raises with deprecation reason' => sub {
+    delete local $ENV{PAWS_LOADER_ORDER};
+    my $r = make_resolver();
+    throws_ok { $r->load_service('OpsWorks') }
+        qr/no longer ship-able.*OpsWorks Stacks shutdown 2024-05-26.*deprecated-services\.md/s,
+        'OpsWorks raises with shutdown date + doc pointer';
+
+    throws_ok { $r->load_service('QLDB') }
+        qr/no longer ship-able.*QLDB shutdown 2025-07-31/s,
+        'QLDB raises with shutdown date';
+
+    throws_ok { $r->load_service('SMS') }
+        qr/no longer ship-able.*Server Migration Service.*MGN/s,
+        'SMS raises with successor pointer (MGN)';
+};
+
+subtest 'PAWS_TO_SMITHY name map covers cosmetic + substantive renames' => sub {
+    # Cosmetic separator differences:
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{ApiGateway},
+       'api-gateway',
+       'ApiGateway -> api-gateway';
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{ACMPCA},
+       'acm-pca',
+       'ACMPCA -> acm-pca (not derivable from lc())';
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{CloudHSMv2},
+       'cloudhsm-v2',
+       'CloudHSMv2 -> cloudhsm-v2';
+
+    # Substantive renames:
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{DMS},
+       'database-migration-service',
+       'DMS -> database-migration-service';
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{ELB},
+       'elastic-load-balancing',
+       'ELB -> elastic-load-balancing';
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{StepFunctions},
+       'sfn',
+       'StepFunctions -> sfn';
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{SDB},
+       'simpledbv2',
+       'SDB -> simpledbv2 (Smithy ships only the v2 SigV4 model)';
+
+    # The events / EventBridge ambiguity:
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{EventBridge},
+       'eventbridge',
+       'EventBridge -> eventbridge (canonical)';
+    is $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{CloudWatchEvents},
+       'cloudwatch-events',
+       'CloudWatchEvents -> cloudwatch-events (legacy alias)';
+
+    # Services not in the map fall through to lc():
+    ok !exists $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{IAM},
+       'IAM not in map (lc() fallback covers it)';
+    ok !exists $Paws::Model::Loader::Resolver::PAWS_TO_SMITHY{S3},
+       'S3 not in map (lc() fallback covers it)';
 };
 
 done_testing;
