@@ -188,6 +188,7 @@ sub available_services {
 
   my $skip_list = {
     API => 1, Credential => 1, Exception => 1, RegionInfo => 1,
+    Materializer => 1,
   };
   require Module::Find;
   my $class_prefix = $self->_class_prefix;
