@@ -1,34 +1,34 @@
 {
    "files" : {
-      "builder-lib/Paws/Model/IR.pm" : {
+      "lib/Paws/Model/IR.pm" : {
          "branch" : null,
          "condition" : 0,
          "statement" : 93.5483870967742,
          "subroutine" : 93.3333333333333,
          "total" : 87.7551020408163
       },
-      "builder-lib/Paws/Model/Loader.pm" : {
+      "lib/Paws/Model/Loader.pm" : {
          "branch" : null,
          "condition" : null,
          "statement" : 100,
          "subroutine" : 100,
          "total" : 100
       },
-      "builder-lib/Paws/Model/Loader/Botocore.pm" : {
+      "lib/Paws/Model/Loader/Botocore.pm" : {
          "branch" : 79.5454545454545,
          "condition" : 44.6808510638298,
          "statement" : 97.8723404255319,
          "subroutine" : 100,
          "total" : 81.5
       },
-      "builder-lib/Paws/Model/Loader/Resolver.pm" : {
+      "lib/Paws/Model/Loader/Resolver.pm" : {
          "branch" : 88.8888888888889,
          "condition" : 33.3333333333333,
          "statement" : 100,
          "subroutine" : 100,
          "total" : 95.4545454545455
       },
-      "builder-lib/Paws/Model/Loader/Smithy.pm" : {
+      "lib/Paws/Model/Loader/Smithy.pm" : {
          "branch" : 70.3125,
          "condition" : 53.3333333333333,
          "statement" : 93.3823529411765,
