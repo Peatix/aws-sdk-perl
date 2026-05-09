@@ -47,7 +47,7 @@ caching that materially speeds up CI.
 | `install-modules` | `App::cpanminus`+`Carton` | Bootstrap modules; pass extras for richer workflows |
 | `carton-install`  | `true`                 | Run `carton install` after Perl setup |
 | `cache-carton`    | `true`                 | Cache `local/` |
-| `cache-autolib`   | `false`                | Cache `auto-lib/` regen output (opt-in) |
+| `cache-autolib`   | `false`                | Cache `auto-lib/`. Three values: `false` / `true` (read+write) / `restore-only` (read-only, no post-step save). |
 
 ### Outputs
 
@@ -131,56 +131,102 @@ but everything else still benefits.
 
 ## How `test.yml` runs
 
-The workflow is split into two stages — a single `build-autolib` job and
-a `test` matrix that fans out across N shards in parallel:
+The workflow has four stages. On cache hit, only `build-autolib-plan`
+and the `test` matrix run — the shard / merge stages are skipped. On
+cache miss the full chain executes:
 
-1. **`build-autolib`** — checks out the repo, fetches the pinned botocore data
-   (post-stack18 vendored layout), restores the auto-lib cache via the
-   `setup-paws-perl` composite action, runs `make gen-classes-no-doc-fetch`
-   on cache miss, then tars `auto-lib/` and uploads it as a workflow
-   artifact. Skipping the regen on cache hit is what keeps warm-cache PRs
-   under a minute for this stage. The artifact (~22 MB compressed from
-   ~250 MB / ~52k tiny files) is what the matrix downloads.
-2. **`test` (matrix)** — depends on `build-autolib`. Each cell runs one
-   named shard, defined by `script/test-shard`. Per-shard rationale and
-   the (CI-measured) runtime budget live in the comment block at the top
-   of that script.
+```
+build-autolib-plan
+  └─► build-autolib-shard (matrix a..f, parallel)
+        └─► build-autolib-merge
+              └─► test (matrix load-a, load-b, network, responses, mocked, subdirs)
+```
 
-The shard names are listed in the workflow YAML; the assignment of `.t`
-files to shards lives entirely in `script/test-shard`. Re-balancing is a
-script-side change. `script/test-shard --verify` asserts that every `.t`
-file under `t/` belongs to exactly one shard (with `t/01_load.t` the
-deliberate exception — it appears in `load-a` and `load-b`, each running
-it with a different alphabetical half of `Paws->available_services` as
-`@ARGV`).
+1. **`build-autolib-plan`** — checks out the repo, sets up Perl with
+   `cache-autolib: "restore-only"` (read-only `actions/cache/restore@v4`
+   under the same key the merge job will write), and on cache hit packs
+   the restored `auto-lib/` and uploads it as the `auto-lib` artifact.
+   On cache miss, emits `cache-hit=false` and exits. Plan runs without
+   `carton-install` / `cache-carton` to keep the cache-hit path lean.
+2. **`build-autolib-shard`** — strategy matrix of six cells (`a` … `f`)
+   that only runs on cache miss. Each cell regenerates one slice of
+   `auto-lib/` via `script/gen-shard <name>`. The shard partition is a
+   largest-first greedy bin-packing on `service-2.json` byte size, applied
+   to `Paws::API::Builder::Paws->boto_file_information` (skip-list
+   honoured); see the comment block in `script/gen-shard` for the
+   algorithm rationale and determinism notes. Each cell uploads its
+   slice as `auto-lib-shard-<name>`.
+3. **`build-autolib-merge`** — only runs on cache miss. Downloads every
+   shard tarball, assembles them into a single `auto-lib/`, runs
+   `gen_classes.pl --paws_pm` once over the full service set to produce
+   the master `Paws.pm` + `Paws/API/Retry.pm` index, packs the assembled
+   tree, and uploads it as `auto-lib`. Uses `cache-autolib: "true"`, so
+   the post-step writes the assembled tree to `actions/cache` for the
+   next warm-cache PR.
+4. **`test` (matrix)** — `needs: [build-autolib-plan, build-autolib-merge]`
+   with an `if:` that runs when plan succeeded AND (cache hit OR merge
+   succeeded). Each cell runs one named shard from `script/test-shard`.
 
-The local developer entry point is unchanged: `make test` runs the whole
-suite serially. `make test-shard SHARD=<name>` exists for parity with CI
-when reproducing a shard locally.
+`script/test-shard --verify` asserts that every `.t` file under `t/`
+belongs to exactly one shard (with `t/01_load.t` the deliberate
+exception — it appears in `load-a` and `load-b`, each running it with
+a different alphabetical half of `Paws->available_services` as `@ARGV`).
+`script/gen-shard --verify` does the equivalent for the auto-lib
+generator side: every service in `boto_file_information` ends up in
+exactly one shard.
 
-There is no per-service or per-test list maintained inside the YAML — the canonical sources of truth are:
+The local developer entry point is unchanged: `make test` runs the
+whole suite serially and `make gen-classes(-no-doc-fetch)` regenerates
+`auto-lib/` in one process. `make test-shard SHARD=<name>` and
+`make gen-shard SHARD=<name>` exist for parity with CI when reproducing
+one cell locally.
+
+There is no per-service or per-test list maintained inside the YAML —
+the canonical sources of truth are:
 
 - the list of services to generate: `Paws::API::Builder::Paws->boto_file_information` (in `builder-lib/`),
 - which services to skip: `Paws::API::Builder::Paws->service_skip_list`,
 - the list of tests to run: every file under `t/` per the `test` target in `Makefile`,
-- the CI-only assignment of `.t` files to shards: `script/test-shard`.
+- the CI-only assignment of services to gen shards: `script/gen-shard`,
+- the CI-only assignment of `.t` files to test shards: `script/test-shard`.
 
 ### Why an artefact, not 6 cache-restores
 
-The matrix could equally well have each cell call the `setup-paws-perl`
-composite action with `cache-autolib: "true"` and let every cell hit
-`actions/cache@v4` independently. We don't, for two reasons:
+The test matrix could equally well have each cell call the
+`setup-paws-perl` composite action with `cache-autolib: "true"` and let
+every cell hit `actions/cache@v4` independently. We don't, for two
+reasons:
 
 1. **Cold-cache compute.** When the auto-lib cache key misses, the
-   single-build pattern runs `gen-classes-no-doc-fetch` once
-   (~25–30 minutes). The N-cells-restore-cache pattern would run it
-   N times in parallel, multiplying compute by N for no wall-time win.
+   single-build pattern runs the gen pipeline once. The
+   N-cells-restore-cache pattern would race N gens in parallel,
+   multiplying compute by N for no wall-time win.
 2. **52k tiny .pm files vs. one 22 MB tarball.** The cache action
    compresses the cache content as a single archive when it saves, but
    when *reading* it has to spread the files back into `auto-lib/`.
    Six cells doing that in parallel still beats one cell serially, but
    the artefact path is uniformly faster and removes the cold-path
    amplification entirely.
+
+### Why the gen-classes side is sharded but the test side isn't
+
+The previous single-job `build-autolib` paid ~28 min on every cache-miss
+PR (PRs that touch `builder-lib/`, `builder-bin/`, `templates/`,
+`cpanfile`, or `share/botocore/.upstream-sha`) because `gen_classes.pl`
+runs a `Parallel::ForkManager` pool of up to 16 workers, but a
+`ubuntu-latest` runner only has 4 cores so only 4 are effective. Six
+shards on six 4-core runners give 24 effective workers, balanced near
+1.0× of the per-shard mean (largest-first bin-packing), so each cell's
+wall time is roughly `(28 min) / 6 ≈ 4.7 min`. The `--paws_pm` master
+index runs once at merge stage and only takes ~30s.
+
+Net cache-miss wall: plan (30s) + max(shard) (~6 min including per-cell
+setup) + merge (~2-3 min including the cache save) + test matrix
+(~5 min) ≈ **~13-14 min total** vs. the previous **~28 min build-autolib
++ ~5 min test = ~33 min**.
+
+Cache-hit wall is unchanged in shape: plan probes the cache, packs and
+uploads the artefact, the test matrix downloads and runs.
 
 ## Service generation tolerances
 
