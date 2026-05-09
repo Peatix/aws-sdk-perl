@@ -17,6 +17,7 @@ short and points at the code rather than duplicating it.
 | `t/20_*` … `t/23_*`, `t/29_*`-`t/31_*`| **Synthetic-service response decoding** per protocol family (see below).|
 | `t/26_paginators.t`                   | Paginator behaviour (S3-shaped fixtures).                               |
 | `t/27_signing_name.t`                 | Signer name resolution.                                                 |
+| `t/32_debug_caller.t`                 | `Paws::Net::DebugCaller` request/response YAML capture (see `docs/debug-capture.md`). |
 | `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape.               |
 | `t/lib/`                              | Test-only helpers and synthetic services (see below).                   |
 | `t/types/`                            | Type-validation, coercion, and edge-case **contract tests**. Pin behaviour without depending on Moose-specific error messages. |
@@ -54,6 +55,7 @@ with per-trait request-side wire fixtures.
 | `TestRequestCaller.pm`        | Caller that captures the request the SDK would have sent. Used for asserting the request side. |
 | `FileCaller.pm`               | Reads canned responses from disk fixtures.                       |
 | `TestCaller.pm`, `Test05Caller.pm`, `TestMakerCaller.pm`, `TestMakerLWPCaller.pm`, `TestFromYaml.pm` | Various test-specific callers. |
+| `TestSyntheticHttpCaller.pm`  | Caller that exposes the full `send_request` / `caller_to_response` split with a canned APIResponse, for testing wrappers that need both primitives (e.g. `Paws::Net::DebugCaller`). |
 | `Test/CustomCredentials.pm`   | A no-op credential class.                                        |
 | `Test04/Stub*.pm`             | Stub `LWP::UserAgent`s for the credential-provider tests.        |
 
