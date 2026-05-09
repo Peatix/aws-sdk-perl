@@ -143,16 +143,38 @@ sub available_services {
 
     my %seen;
 
-    # Smithy: filenames are the SDK name. Both flat and nested
-    # layouts are supported.
+    # Inverse %PAWS_TO_SMITHY: smithy basename -> Paws class name.
+    # Built once per call (cheap; 171 entries). Used to translate
+    # the basenames we find in share/smithy/ back to the Paws class
+    # names callers actually use (`Paws::ApiGateway` not
+    # `Paws::api-gateway`, etc.).
+    my %smithy_to_paws;
+    while (my ($paws, $smithy) = each %PAWS_TO_SMITHY) {
+        $smithy_to_paws{$smithy} = $paws;
+    }
+
+    # Smithy: directory names are basenames (botocore-style: `ec2`,
+    # `cognito-idp`, `acm-pca`). Translate to Paws class names so
+    # the materialiser path produces classes the rest of the code
+    # base can address. Basenames whose lc() form already matches
+    # the Paws class name (~254 services) round-trip through
+    # ucfirst + the IR-name override in Paws::_materialise_class /
+    # Paws::Model::Materializer::Auto::_materialise; basenames that
+    # contain a dash and aren't in %PAWS_TO_SMITHY values (~17 new-
+    # GA services Smithy added that the AOT path never had a name
+    # for: bedrock-agentcore, mwaa-serverless, transcribe-streaming,
+    # etc.) are skipped because there's no derivation that gives a
+    # valid Perl identifier without reading the sdkId trait. Adding
+    # explicit %PAWS_TO_SMITHY entries for those is a follow-up.
     for my $base (@{ $self->smithy_search_paths }) {
         next if !-d $base;
         opendir(my $dh, $base) or next;
         for my $entry (readdir $dh) {
             next if $entry =~ /^\.\.?$/;
             my $path = File::Spec->catfile($base, $entry);
+            my $basename;
             if (-f $path && $entry =~ /^([A-Za-z][\w-]*)\.smithy\.json\z/) {
-                $seen{$1} = 1;
+                $basename = $1;
             }
             elsif (-d $path) {
                 # nested: <base>/<svc>/<svc>.smithy.json
@@ -161,11 +183,25 @@ sub available_services {
                     File::Spec->catfile($path, lc($entry) . ".smithy.json"),
                 ) {
                     if (-r $candidate) {
-                        $seen{$entry} = 1;
+                        $basename = $entry;
                         last;
                     }
                 }
             }
+            next if !defined $basename;
+
+            if (my $paws = $smithy_to_paws{$basename}) {
+                $seen{$paws} = 1;
+            }
+            elsif ($basename !~ /-/) {
+                # All-lowercase basenames map to Paws::<basename>
+                # via the lc() fallback in _smithy_path_for; the IR
+                # mutation in the materialiser entry points keeps
+                # the materialised class name aligned.
+                $seen{$basename} = 1;
+            }
+            # else: dash-containing basename with no explicit
+            # mapping. Skipped (see comment above).
         }
         closedir $dh;
     }

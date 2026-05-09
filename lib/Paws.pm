@@ -175,6 +175,25 @@ sub _materialise_class {
     ? 'Paws::Model::Materializer'
     : 'Paws::Model::Materializer::Moo';
   my $mat = $mat_class->new(loader => undef);
+
+  # The resolver maps requested service names to Smithy basenames
+  # via %Paws::Model::Loader::Resolver::PAWS_TO_SMITHY (or lc()
+  # fallback) but the IR's `name` field reflects the Smithy sdkId
+  # trait (PascalCase: `DynamoDB`, `AccessAnalyzer`). For lookups
+  # via the canonical Paws class name (`Paws::DynamoDB`) those line
+  # up; for a basename lookup (`Paws::dynamodb`, returned by
+  # `Paws->available_services` when the resolver is the only
+  # enumeration source - i.e. on a `cpanm Paws` install with
+  # auto-lib/ removed) they don't. Mutate the IR's name to the
+  # requested service so the materialiser builds the requested
+  # service class plus every operation / shape under it in the
+  # user-facing namespace. The IR is freshly loaded above and not
+  # shared with anything else, so direct mutation is safe; we
+  # bypass Moose's read-only attribute machinery deliberately.
+  if ($service_name ne $ir->name) {
+    $ir->{name} = $service_name;
+  }
+
   $mat->materialize_service($ir);
 }
 

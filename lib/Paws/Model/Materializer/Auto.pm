@@ -162,6 +162,18 @@ sub _materialise {
     }
     eval { Module::Runtime::require_module($mat_class); 1 } or return 0;
 
+    # The resolver maps requested service names to Smithy basenames
+    # (e.g. dynamodb, s3) but the IR's `name` field reflects the
+    # Smithy sdkId (DynamoDB, S3). For lookups via the basename
+    # form (post-stack19 `Paws->available_services` returns these
+    # when only the resolver is the enumeration source), mutate IR
+    # name to the requested service so the materialiser builds
+    # Paws::<requested>/<op>/<shape> rather than
+    # Paws::<sdkId>/<op>/<shape>. Same logic as in
+    # Paws::_materialise_class; both entry points need it.
+    if ($service_name ne $ir->name) {
+        $ir->{name} = $service_name;
+    }
     my $mat = $mat_class->new(loader => undef);
     $mat->materialize_service($ir);
 
