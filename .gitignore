@@ -28,17 +28,18 @@ cpanfile.snapshot
 # vendored tree.
 /botocore/
 
-# share/{smithy,botocore} get populated by `make dist-prep` (see
-# script/paws-vendor-{smithy,botocore}) immediately before `dzil
-# build`. The populated content is large (~100MB raw, ~27MB
-# compressed in the dist tarball) and regeneratable from upstream
-# at the SHA pinned in share/botocore/.upstream-sha + the smithy
-# vendor source pinned in script/paws-vendor-smithy. Keep the
-# tracked entries (.placeholder + .upstream-sha) so the layout
-# documents itself and the refresh-source-deps workflow has a SHA
-# file to bump.
-/share/smithy/*
-!/share/smithy/.placeholder
+# share/smithy/ Smithy IR is vendored from awslabs/aws-sdk-rust at
+# the SHA pinned in share/smithy/.upstream-sha. The .smithy.json
+# files are tracked in git and ship in the dist as-is — no build-
+# time vendoring step is required. Use `make vendor-smithy` to
+# refresh the tree from upstream after bumping .upstream-sha.
+#
+# share/botocore/ get populated by `make dist-prep` (see
+# script/paws-vendor-botocore) immediately before `dzil build`.
+# The populated content is large (~100MB raw) and regeneratable
+# from upstream at the SHA pinned in share/botocore/.upstream-sha.
+# Keep the tracked entries (.placeholder + .upstream-sha) so the
+# layout documents itself.
 /share/botocore/*
 !/share/botocore/.placeholder
 !/share/botocore/.upstream-sha

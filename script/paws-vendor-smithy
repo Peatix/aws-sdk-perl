@@ -2,24 +2,49 @@
 
 # paws-vendor-smithy
 #
-# Refresh the share/smithy/ tree from upstream Smithy IR sources.
-# Replaces the workflow that used the botocore submodule + custom
-# generator pipeline.
+# Refresh the share/smithy/ tree from upstream Smithy IR sources. The
+# pinned SHA lives in share/smithy/.upstream-sha (the
+# refresh-source-deps workflow bumps it daily; see
+# .github/workflows/refresh-source-deps.yml).
 #
 # Default upstream: aws-sdk-rust's vendored aws-models tree
 # (https://github.com/awslabs/aws-sdk-rust/tree/main/aws-models).
 # Each service has a single .smithy.json file which is exactly the
 # input shape Paws::Model::Loader::Smithy expects.
 #
+# Workflow for contributors:
+#
+#   1. Bump share/smithy/.upstream-sha to the desired
+#      awslabs/aws-sdk-rust commit SHA.
+#   2. Run `make vendor-smithy` (or this script directly).
+#   3. `git diff --stat share/smithy/` to verify the diff scope.
+#   4. Commit the bumped pin file together with the regenerated tree.
+#
+# The vendored .smithy.json files are TRACKED in git (the dist no
+# longer regenerates share/smithy/ at build time — `make dist` ships
+# the committed tree as-is). The refresh-source-deps workflow runs
+# this script on a schedule to open a PR with the regenerated tree
+# whenever upstream moves.
+#
+# Layout produced under --dest:
+#
+#   share/smithy/<service>/<service>.smithy.json
+#
+# This nested layout matches Paws::Model::Loader::Resolver's
+# nested-layout search path (see builder-lib/Paws/Model/Loader/Resolver.pm).
+#
+# Pin file (.upstream-sha) and placeholder (.placeholder) are NOT
+# touched.
+#
 # Usage:
 #
-#   script/paws-vendor-smithy --source <git-url-or-path>
-#                             [--service NAME]   # restrict to one
-#                             [--clean]          # rm share/smithy/* first
+#   script/paws-vendor-smithy                         # use pinned SHA
+#   script/paws-vendor-smithy --service iam           # restrict to one
+#   script/paws-vendor-smithy --clean                 # rm share/smithy/<svc>/* first
+#   script/paws-vendor-smithy --source <local-dir>    # use existing checkout
+#   script/paws-vendor-smithy --sha <git-sha>         # override pinned SHA
 #
-# This script is intentionally simple: it copies, doesn't transform.
-# Smithy IR is produced by `smithy build` (Java) but we don't run it
-# here - we vendor pre-built ASTs so contributors don't need a JVM.
+# Idempotent: re-running with the same pin produces the same tree.
 
 use strict;
 use warnings;
@@ -29,44 +54,79 @@ use Getopt::Long qw(:config posix_default no_ignore_case);
 use File::Path qw(make_path remove_tree);
 use File::Spec;
 use File::Copy;
+use JSON::PP qw(decode_json encode_json);
 
-my $source = 'https://github.com/awslabs/aws-sdk-rust.git';
-my $only   = '';
-my $clean  = 0;
-my $help   = 0;
-my $dest   = 'share/smithy';
+my $source   = 'https://github.com/awslabs/aws-sdk-rust.git';
+my $only     = '';
+my $clean    = 0;
+my $help     = 0;
+my $dest     = 'share/smithy';
+my $sha      = '';
+my $sha_file = 'share/smithy/.upstream-sha';
 
 GetOptions(
-    'source=s'  => \$source,
-    'service=s' => \$only,
-    'clean'     => \$clean,
-    'dest=s'    => \$dest,
-    'help|h'    => \$help,
+    'source=s'   => \$source,
+    'service=s'  => \$only,
+    'clean'      => \$clean,
+    'dest=s'     => \$dest,
+    'sha=s'      => \$sha,
+    'sha-file=s' => \$sha_file,
+    'help|h'     => \$help,
 ) or die "invalid arguments\n";
 
 if ($help) {
     print <<'USAGE';
 usage: paws-vendor-smithy [--source URL_OR_PATH] [--service NAME]
                           [--clean] [--dest share/smithy]
+                          [--sha <git-sha>] [--sha-file <path>]
 
 Vendors Smithy AST JSON files into share/smithy/ from an upstream
 source.
 
   --source     git URL or local checkout (default:
                https://github.com/awslabs/aws-sdk-rust.git)
-  --service    restrict to one service name
-  --clean      remove share/smithy/* before vendoring
+  --service    restrict to one service name (matches the Smithy file
+               basename, e.g. `iam`, `eventbridge`, `api-gateway`)
+  --clean      remove share/smithy/<svc>/* before vendoring
+               (preserves .placeholder + .upstream-sha)
   --dest       where to write (default: share/smithy)
+  --sha        git revision to checkout from --source (default: read
+               from --sha-file)
+  --sha-file   file containing the pinned SHA, one line, leading/
+               trailing whitespace stripped (default:
+               share/smithy/.upstream-sha)
 USAGE
     exit 0;
 }
 
+# Resolve the SHA if it wasn't passed explicitly. We allow --source to
+# point at a local checkout in which case the SHA is informational only
+# (we don't run `git checkout` against a non-git directory).
+my $source_is_dir = -d $source;
+if (!length $sha && !$source_is_dir) {
+    if (!-r $sha_file) {
+        die "vendor: cannot read pin file $sha_file: $!\n"
+          . "vendor: pass --sha <commit> or --sha-file <path> to override\n";
+    }
+    open(my $fh, '<', $sha_file)
+        or die "vendor: cannot read pin file $sha_file: $!\n";
+    my $line = <$fh>;
+    close $fh;
+    $line //= '';
+    $line =~ s/\s+//g;
+    length $line
+        or die "vendor: pin file $sha_file is empty\n";
+    $sha = $line;
+}
+say STDERR "vendor: pin sha=" . ($sha || '<local source>');
+
 if ($clean && -d $dest) {
-    say STDERR "vendor: cleaning $dest (preserving .placeholder)";
+    say STDERR "vendor: cleaning $dest (preserving .placeholder/.upstream-sha)";
     opendir(my $dh, $dest) or die "vendor: opendir $dest: $!\n";
     my @entries = grep {
         $_ ne '.' && $_ ne '..'
         && $_ !~ /^\.placeholder$/
+        && $_ !~ /^\.upstream-sha$/
     } readdir $dh;
     closedir $dh;
     for my $entry (@entries) {
@@ -80,19 +140,33 @@ if ($clean && -d $dest) {
 }
 make_path($dest) if !-d $dest;
 
-# If --source looks like a directory, use it directly. Otherwise
-# clone shallowly into a tempdir.
+# Resolve --source. Local directory: use directly. Git URL: clone
+# shallowly with sparse-checkout so we only fetch + check out
+# aws-models/, keeping the working tree minimal.
 my $work_dir;
-if (-d $source) {
+if ($source_is_dir) {
+    say STDERR "vendor: using local source $source";
     $work_dir = $source;
 } else {
     require File::Temp;
     my $tmp = File::Temp->newdir('paws-vendor-smithyXXXXXX', TMPDIR => 1);
-    my @cmd = ('git', 'clone', '--depth=1', '--filter=blob:none', $source,
-               $tmp->dirname);
-    say STDERR "vendor: " . join(' ', @cmd);
-    system(@cmd) == 0 or die "git clone failed\n";
-    $work_dir = $tmp->dirname;
+    my $tmp_dir = $tmp->dirname;
+
+    # Shallow clone with --filter=blob:none so we only fetch the tree
+    # objects up front, --no-checkout + --sparse so we can scope the
+    # working-tree population to aws-models/. The full repo is ~250 MB;
+    # the aws-models/ subset is ~50 MB.
+    say STDERR "vendor: git init in $tmp_dir";
+    _run('git', 'init', '--quiet', $tmp_dir);
+    say STDERR "vendor: git fetch $source $sha (depth=1, blob-filtered)";
+    _run('git', '-C', $tmp_dir, 'fetch',
+         '--depth=1', '--filter=blob:none', '--quiet',
+         $source, $sha);
+    _run('git', '-C', $tmp_dir, 'sparse-checkout', 'init', '--no-cone');
+    _run('git', '-C', $tmp_dir, 'sparse-checkout', 'set', 'aws-models/');
+    _run('git', '-C', $tmp_dir, 'checkout', '--quiet', 'FETCH_HEAD');
+
+    $work_dir = $tmp_dir;
     # File::Temp will clean up at process exit; keep the dir alive for
     # the rest of the script.
     $main::__vendor_tmp = $tmp;
@@ -112,14 +186,77 @@ for my $name (sort readdir $dh) {
     next if !-f $src;
     next if $name !~ /\.json$/;
 
+    # aws-models/ also ships three configuration files
+    # (sdk-default-configuration.json, sdk-endpoints.json,
+    # sdk-partitions.json) that are not service models. Skip them.
+    next if $service =~ /^sdk-/;
+
     my $svc_dir = File::Spec->catdir($dest, $service);
     make_path($svc_dir) if !-d $svc_dir;
     my $dst = File::Spec->catfile($svc_dir, "${service}.smithy.json");
-    File::Copy::copy($src, $dst) or die "copy $src -> $dst: $!\n";
+    _copy_stripped($src, $dst);
     say STDERR "vendor: ${service}";
     $vendored++;
 }
 closedir $dh;
 
-say STDERR "vendor: services=$vendored dest=$dest";
+say STDERR "vendor: services=$vendored dest=$dest sha=" . ($sha || '<local source>');
 exit 0;
+
+sub _run {
+    my @cmd = @_;
+    system(@cmd) == 0
+        or die "vendor: command failed (exit @{[ $? >> 8 ]}): @cmd\n";
+    return;
+}
+
+# Copy a Smithy AST from $src to $dst, stripping `smithy.api#examples`
+# traits along the way. Examples are documentation-only metadata
+# (input/output samples for the AWS docs site); the Paws Smithy
+# loader does not consume them. Reasons to drop:
+#
+#   1. They occasionally contain JWT-shaped or token-shaped strings
+#      (e.g. share/smithy/sso-oidc/sso-oidc.smithy.json's documented
+#      JWT bearer assertion, an obviously-fake but spec-compliant
+#      JWT) which trip GitHub's push-protection secret scanner with
+#      false positives. Stripping at vendor time keeps the committed
+#      tree pushable to repos that have push-protection enabled.
+#   2. They inflate the dist with content the runtime never reads.
+#
+# Stripping is recursive: we walk every shape in `$ast->{shapes}`
+# and remove the `smithy.api#examples` key from each shape's
+# `traits` map (if present). Shapes / traits without examples are
+# unchanged.
+#
+# Re-encodes with `canonical => 1` so the output is deterministic
+# and the resulting tree diffs cleanly across vendor runs.
+sub _copy_stripped {
+    my ($src, $dst) = @_;
+    open(my $sfh, '<:raw', $src) or die "vendor: open $src: $!\n";
+    local $/;
+    my $raw = <$sfh>;
+    close $sfh;
+
+    my $ast = eval { decode_json($raw) };
+    if (!$ast) {
+        # Defensive fallback: if the file is somehow not JSON, copy
+        # bytes verbatim. Should never happen for aws-models/.
+        warn "vendor: $src is not JSON ($@); falling back to byte copy\n";
+        File::Copy::copy($src, $dst) or die "copy $src -> $dst: $!\n";
+        return;
+    }
+
+    if (ref($ast->{shapes}) eq 'HASH') {
+        for my $shape_id (keys %{ $ast->{shapes} }) {
+            my $shape = $ast->{shapes}{$shape_id};
+            next if ref($shape) ne 'HASH';
+            next if ref($shape->{traits}) ne 'HASH';
+            delete $shape->{traits}{'smithy.api#examples'};
+        }
+    }
+
+    open(my $dfh, '>:raw', $dst) or die "vendor: open-write $dst: $!\n";
+    print $dfh JSON::PP->new->utf8->canonical->pretty->encode($ast);
+    close $dfh;
+    return;
+}
