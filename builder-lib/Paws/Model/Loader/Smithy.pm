@@ -130,6 +130,13 @@ sub _build_service {
     # Service-level documentation comes from the @smithy.api#documentation trait.
     my $svc_doc = ($svc_traits->{'smithy.api#documentation'} // undef);
 
+    # Smithy 2.0 spec: the awsJson*/awsQuery target_prefix (used by
+    # the X-Amz-Target header) is the *local name of the service shape*
+    # when no explicit override is set. Botocore exposes this as
+    # `metadata.targetPrefix` -- e.g. for Health that's
+    # `AWSHealth_20160804` (the local name), not `Health` (the sdkId).
+    # The previous behaviour emitted sdkId, breaking awsJson services
+    # whose service shape name differs from the sdkId.
     return Paws::Model::IR::Service->new(
         name              => $sdk_id,
         full_name         => $api_service_trait->{sdkId} // $sdk_id,
@@ -138,7 +145,7 @@ sub _build_service {
         api_version       => $svc_shape->{version} // '0000-00-00',
         protocol          => $protocol,
         json_version      => $json_version,
-        target_prefix     => $api_service_trait->{sdkId},
+        target_prefix     => _local_part($svc_id),
         signature_version => 'v4',
         uid               => sprintf('%s-%s', $endpoint_prefix, ($svc_shape->{version} // '0000-00-00')),
         documentation     => $svc_doc,
