@@ -20,6 +20,11 @@ requires 'Throwable::Error';
 requires 'Data::Compare';
 requires 'URI';
 requires 'Net::Amazon::Signature::V4';
+# CryptX provides Crypt::PK::ECC, Crypt::Mac::HMAC, and
+# Crypt::Digest::SHA256, used by Paws::Net::V4ASignature for ECDSA
+# P-256 signing. Pinning the distribution rather than its sub-modules
+# so a single dependency line covers all three.
+requires 'CryptX';
 requires 'JSON::MaybeXS';
 requires 'XML::Simple' => '2.21';
 requires 'IO::Socket::SSL' => '>2.009';
