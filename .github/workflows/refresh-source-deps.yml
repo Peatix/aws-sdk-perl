@@ -1,0 +1,313 @@
+name: refresh-source-deps
+
+# Daily auto-refresh of the upstream sources Paws materialises against.
+#
+# Two parallel jobs:
+#
+# 1. bump-botocore-pin — resolves boto/botocore@develop's HEAD,
+#    compares against the SHA in share/botocore/.upstream-sha, opens
+#    a draft PR with the new pin if upstream has moved.
+# 2. bump-smithy-vendor — runs script/paws-vendor-smithy --clean,
+#    diffs share/smithy/, opens a draft PR with the refreshed tree if
+#    anything changed. Short-circuits with a notice if share/smithy/
+#    is still placeholder-only (i.e. the team hasn't started vendoring
+#    Smithy IR yet).
+#
+# Lifecycle: each job opens its PR as draft, waits for the standard
+# pull_request workflows (test, coverage, install-smoke, benchmarks)
+# via `gh pr checks --watch`, then on green flips the PR to ready and
+# squash-merges. On any check failure the PR stays draft for the
+# maintainer to investigate. The workflow does NOT close or supersede
+# stale auto-bump PRs from previous runs — let the maintainer decide.
+#
+# PAT requirement (PAWS_BUMP_PAT)
+# -------------------------------
+# When a workflow uses the default GITHUB_TOKEN to push a branch /
+# open a PR, the resulting `pull_request` events do NOT trigger
+# downstream workflow runs (GitHub deliberately blocks this to
+# prevent recursive workflow loops). That means test.yml et al. will
+# not fire on the bump branch when GITHUB_TOKEN is the actor.
+#
+# To get end-to-end auto-merge, provision a fine-grained PAT with
+# `contents:write` + `pull-requests:write` on this repository as
+# `secrets.PAWS_BUMP_PAT`. The workflow falls back to GITHUB_TOKEN
+# when the secret is unset and emits a `warning` log line so the
+# maintainer can spot why CI isn't running on auto-bump PRs. See
+# docs/ci.md "Source-dep refresh" for the full rundown.
+#
+# Auto-merge gating
+# -----------------
+# This repo currently has no required status checks on master and
+# `allow_auto_merge` is off, so `gh pr merge --auto --squash` would
+# squash immediately without waiting for CI. Instead we keep the PR
+# as draft, watch checks ourselves with `gh pr checks --watch`, and
+# only ready+merge after green. Maintainers can tighten this further
+# by enabling required-checks branch protection and flipping
+# `allow_auto_merge=true` on the repo, in which case the workflow
+# can be simplified to a single `gh pr merge --auto` call.
+#
+# Cron drift
+# ----------
+# GitHub spreads scheduled workflows to avoid hot-spots, so the
+# 04:00 UTC run can drift up to ~60 min. Daily cadence matches
+# upstream botocore/aws-sdk-rust commit rates without flooding the
+# maintainer with bump PRs. Tweak the cron line below if a different
+# cadence is wanted.
+
+on:
+  schedule:
+    - cron: '0 4 * * *'   # daily 04:00 UTC; off-peak for US + EU contributors
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump-botocore-pin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60   # generous: PR open + CI watch + merge
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          # Use the PAT (when present) so the bump-branch push
+          # triggers the standard pull_request workflows. Falls back
+          # to GITHUB_TOKEN; in that case CI won't fire on the bump
+          # branch and the watch step short-circuits with a warning.
+          token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Resolve upstream botocore HEAD
+        id: head
+        run: |
+          set -eu
+          sha=$(git ls-remote https://github.com/boto/botocore.git refs/heads/develop | awk '{print $1}')
+          if [ -z "$sha" ]
+          then
+            echo "::error::could not resolve boto/botocore@develop"
+            exit 1
+          fi
+          short=$(printf '%s' "$sha" | cut -c1-12)
+          {
+            printf 'sha=%s\n'   "$sha"
+            printf 'short=%s\n' "$short"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Compare to current pin
+        id: diff
+        run: |
+          set -eu
+          previous=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          if [ "$previous" = '${{ steps.head.outputs.sha }}' ]
+          then
+            printf 'needs_bump=false\n' >> "$GITHUB_OUTPUT"
+            echo "::notice::botocore pin already at HEAD ($previous); nothing to bump"
+          else
+            {
+              printf 'needs_bump=true\n'
+              printf 'previous=%s\n' "$previous"
+            } >> "$GITHUB_OUTPUT"
+            echo "::notice::bumping botocore pin: $previous -> ${{ steps.head.outputs.sha }}"
+          fi
+
+      - name: Update pin file
+        if: steps.diff.outputs.needs_bump == 'true'
+        run: |
+          set -eu
+          printf '%s\n' '${{ steps.head.outputs.sha }}' > share/botocore/.upstream-sha
+
+      - name: Ensure 'automated' label exists
+        if: steps.diff.outputs.needs_bump == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          # Idempotent: --force updates color/description if the
+          # label already exists, creates it otherwise. Also covers
+          # generate-and-pr.yml, which uses the same label.
+          gh label create automated \
+            --color ededed \
+            --description 'Opened by an automated workflow' \
+            --force
+
+      - name: Open / update bump pull request
+        if: steps.diff.outputs.needs_bump == 'true'
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          base: master
+          # Branch name is keyed on the new SHA so re-runs targeting
+          # the same upstream commit hit the existing PR (no duplicate
+          # PRs); a fresh upstream commit gets a fresh branch + PR,
+          # leaving any previous open auto-bump PR for the maintainer
+          # to handle.
+          branch: automation/bump-botocore-pin-${{ steps.head.outputs.short }}
+          delete-branch: true
+          commit-message: 'Bump botocore pin to ${{ steps.head.outputs.short }}'
+          title: 'Bump botocore pin to ${{ steps.head.outputs.short }}'
+          body: |
+            Daily auto-refresh of `share/botocore/.upstream-sha`.
+
+            - previous: `${{ steps.diff.outputs.previous }}`
+            - new: `${{ steps.head.outputs.sha }}`
+            - upstream: https://github.com/boto/botocore/commit/${{ steps.head.outputs.sha }}
+
+            See [`docs/ci.md`](../blob/master/docs/ci.md#source-dep-refresh) for the workflow rationale.
+          labels: automated
+          draft: true
+
+      - name: Watch CI and merge on green
+        if: steps.diff.outputs.needs_bump == 'true' && steps.pr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
+          PAT_PRESENT: ${{ secrets.PAWS_BUMP_PAT != '' }}
+        run: |
+          set -eu
+          if [ "$PAT_PRESENT" != 'true' ]
+          then
+            echo "::warning::PAWS_BUMP_PAT secret unset — pull_request workflows will NOT trigger on the bump branch (GITHUB_TOKEN is blocked from spawning further workflow runs). Leaving PR #$PR_NUMBER as draft for manual review."
+            exit 0
+          fi
+          echo "::notice::watching CI on PR #$PR_NUMBER"
+          if ! gh pr checks "$PR_NUMBER" --watch --interval 30
+          then
+            echo "::warning::CI failed on PR #$PR_NUMBER — leaving as draft for the maintainer to investigate."
+            exit 0
+          fi
+          echo "::notice::CI passed; marking PR #$PR_NUMBER ready and squash-merging"
+          gh pr ready "$PR_NUMBER"
+          gh pr merge "$PR_NUMBER" --squash --delete-branch
+
+  bump-smithy-vendor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Detect Smithy IR vendoring state
+        id: state
+        # Until the team starts vendoring Smithy IR, share/smithy/
+        # holds only `.placeholder` and there is nothing to refresh.
+        # Detect that and skip cleanly. Once paws-vendor-smithy is
+        # producing committed content, this branch becomes a no-op
+        # and the rest of the job runs normally.
+        run: |
+          set -eu
+          tracked=$(git ls-files share/smithy/ | grep -v '^share/smithy/\.placeholder$' || true)
+          if [ -z "$tracked" ]
+          then
+            printf 'vendored=false\n' >> "$GITHUB_OUTPUT"
+            echo "::notice::share/smithy/ contains only .placeholder; skipping smithy refresh until the team starts vendoring."
+          else
+            printf 'vendored=true\n' >> "$GITHUB_OUTPUT"
+            echo "::notice::share/smithy/ has vendored content; will run paws-vendor-smithy --clean"
+          fi
+
+      - name: Resolve upstream aws-sdk-rust HEAD
+        if: steps.state.outputs.vendored == 'true'
+        id: head
+        run: |
+          set -eu
+          sha=$(git ls-remote https://github.com/awslabs/aws-sdk-rust.git refs/heads/main | awk '{print $1}')
+          if [ -z "$sha" ]
+          then
+            echo "::error::could not resolve awslabs/aws-sdk-rust@main"
+            exit 1
+          fi
+          short=$(printf '%s' "$sha" | cut -c1-12)
+          {
+            printf 'sha=%s\n'   "$sha"
+            printf 'short=%s\n' "$short"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Set up Perl 5.36
+        if: steps.state.outputs.vendored == 'true'
+        # script/paws-vendor-smithy uses only core modules
+        # (File::Path, File::Spec, File::Copy, Getopt::Long,
+        # File::Temp), so a vanilla Perl install is enough — no
+        # carton install needed.
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.36"
+
+      - name: Refresh vendored Smithy IR
+        if: steps.state.outputs.vendored == 'true'
+        run: |
+          set -eu
+          script/paws-vendor-smithy --clean
+
+      - name: Detect tree changes
+        if: steps.state.outputs.vendored == 'true'
+        id: diff
+        run: |
+          set -eu
+          if git status --porcelain -- share/smithy | grep -q .
+          then
+            printf 'needs_bump=true\n' >> "$GITHUB_OUTPUT"
+            echo "::notice::share/smithy/ tree changed; opening bump PR"
+          else
+            printf 'needs_bump=false\n' >> "$GITHUB_OUTPUT"
+            echo "::notice::share/smithy/ tree unchanged; nothing to bump"
+          fi
+
+      - name: Ensure 'automated' label exists
+        if: steps.state.outputs.vendored == 'true' && steps.diff.outputs.needs_bump == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          gh label create automated \
+            --color ededed \
+            --description 'Opened by an automated workflow' \
+            --force
+
+      - name: Open / update bump pull request
+        if: steps.state.outputs.vendored == 'true' && steps.diff.outputs.needs_bump == 'true'
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          base: master
+          # Branch keyed on aws-sdk-rust short SHA: same upstream
+          # commit hits the same branch (no duplicates), fresh
+          # commit gets a fresh PR.
+          branch: automation/bump-smithy-vendor-${{ steps.head.outputs.short }}
+          delete-branch: true
+          commit-message: 'Refresh vendored Smithy IR (aws-sdk-rust ${{ steps.head.outputs.short }})'
+          title: 'Refresh vendored Smithy IR from aws-sdk-rust'
+          body: |
+            Daily auto-refresh of `share/smithy/` via `script/paws-vendor-smithy --clean`.
+
+            - upstream: https://github.com/awslabs/aws-sdk-rust/commit/${{ steps.head.outputs.sha }}
+
+            See [`docs/ci.md`](../blob/master/docs/ci.md#source-dep-refresh) for the workflow rationale.
+          labels: automated
+          draft: true
+
+      - name: Watch CI and merge on green
+        if: steps.state.outputs.vendored == 'true' && steps.diff.outputs.needs_bump == 'true' && steps.pr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.PAWS_BUMP_PAT || secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.pull-request-number }}
+          PAT_PRESENT: ${{ secrets.PAWS_BUMP_PAT != '' }}
+        run: |
+          set -eu
+          if [ "$PAT_PRESENT" != 'true' ]
+          then
+            echo "::warning::PAWS_BUMP_PAT secret unset — pull_request workflows will NOT trigger on the bump branch. Leaving PR #$PR_NUMBER as draft for manual review."
+            exit 0
+          fi
+          echo "::notice::watching CI on PR #$PR_NUMBER"
+          if ! gh pr checks "$PR_NUMBER" --watch --interval 30
+          then
+            echo "::warning::CI failed on PR #$PR_NUMBER — leaving as draft for the maintainer to investigate."
+            exit 0
+          fi
+          echo "::notice::CI passed; marking PR #$PR_NUMBER ready and squash-merging"
+          gh pr ready "$PR_NUMBER"
+          gh pr merge "$PR_NUMBER" --squash --delete-branch
