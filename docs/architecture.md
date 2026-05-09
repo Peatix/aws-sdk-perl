@@ -20,7 +20,7 @@ smithy ─────►   (loader interface) │                        │
                                               │  (TT-template-driven AOT      │
                                               │   class generation, today)    │
                                               │                               │
-                                              │  Paws::Model::Materializer           │
+                                              │  Paws::Materializer           │
                                               │  (in-memory class             │
                                               │   construction, PR9 onwards)  │
                                               └───────────────────────────────┘
@@ -45,61 +45,142 @@ smithy ─────►   (loader interface) │                        │
 
 ## Where things live
 
-| Path                                         | Purpose                                                                  |
-|----------------------------------------------|--------------------------------------------------------------------------|
-| `botocore/`                                  | Git submodule of the paws-maintained botocore fork. Source-of-truth JSON.|
-| `builder-lib/Paws/Model/IR.pm`               | Source-format-independent IR. Contract between loaders and consumers.    |
-| `builder-lib/Paws/Model/Loader.pm`           | Abstract loader role.                                                    |
-| `builder-lib/Paws/Model/Loader/Botocore.pm`  | Botocore JSON → IR.                                                      |
-| `builder-lib/Paws/API/Builder.pm`            | TT-template generator. Today reads botocore JSON directly; future commit refactors it to consume IR. |
-| `builder-bin/gen_classes.pl`                 | CLI driver for `make gen-classes`. Forks one child per service.          |
-| `templates/`                                 | TT templates per protocol family (`json/`, `restjson/`, `query/`, `restxml/`, `EC2/`, `Kinesis/`, `default/`). |
-| `auto-lib/Paws/`                             | Generated classes, committed to the repo today. Removed in PR10.         |
-| `lib/Paws.pm`                                | Top-level entry. `Paws->service('EC2')` etc.                             |
-| `lib/Paws/API/`                              | Caller, EndpointResolver, Response, MapParser, attribute traits.         |
-| `lib/Paws/API.pm`                            | The seven attribute-trait packages (NameInRequest, ParamInHeader, etc.). |
-| `lib/Paws/Net/*Caller.pm`                    | Per-protocol request shaping: `JsonCaller`, `RestJsonCaller`, `QueryCaller`, `RestXmlCaller`, `EC2Caller`, `GlacierCaller`. |
-| `lib/Paws/Net/*Response.pm`                  | Per-protocol response decoding.                                          |
-| `lib/Paws/Net/{LWP,Furl,MojoAsync}Caller.pm` | Pluggable HTTP transports.                                               |
-| `lib/Paws/Net/V*Signature.pm`                | Signer roles.                                                            |
-| `lib/Paws/Credential*.pm`                    | Credential providers.                                                    |
+| Path                                              | Purpose                                                                  |
+|---------------------------------------------------|--------------------------------------------------------------------------|
+| `share/smithy/`                                   | Vendored Smithy IR (post-#83). Tracked in git, ships in the dist via `[ShareDir]`. The resolver's only on-disk source. |
+| `etc/botocore-pin.sha`                            | Pinned botocore SHA the AOT-generator workflows check out at build time. CI-only marker; not part of the runtime dist. |
+| `lib/Paws/Model/IR.pm`                            | Source-format-independent IR. Contract between loaders and consumers.    |
+| `lib/Paws/Model/Loader.pm`                        | Abstract loader role.                                                    |
+| `lib/Paws/Model/Loader/Botocore.pm`               | Botocore JSON → IR.                                                      |
+| `lib/Paws/Model/Loader/Smithy.pm`                 | Smithy 2.0 AST JSON → IR.                                                |
+| `lib/Paws/Model/Loader/Resolver.pm`               | Picks the loader (Smithy first, botocore fallback) per service.          |
+| `lib/Paws/Model/Materializer.pm`                  | Moose backend: builds Paws::&lt;Svc&gt;/&lt;Op&gt;/&lt;Shape&gt; classes in-memory from IR. |
+| `lib/Paws/Model/Materializer/Moo.pm`              | Moo + Type::Tiny backend (default since stack13).                        |
+| `lib/Paws/Model/Materializer/Auto.pm`             | Hook that intercepts `Paws->load_class` to drive the materialiser.       |
+| `builder-lib/Paws/API/Builder.pm`                 | Legacy TT-template AOT generator. Stack19 made `make gen-classes` a no-op; remains in builder-lib for any downstream rebuild + as a reference for future stack20 work. |
+| `builder-bin/gen_classes.pl`                      | Legacy CLI driver. Now a no-op via `make gen-classes`.                   |
+| `templates/`                                      | TT templates per protocol family (`json/`, `restjson/`, `query/`, `restxml/`, `EC2/`, `Kinesis/`, `default/`). |
+| `lib/Paws.pm`                                     | Top-level entry. `Paws->service('EC2')` etc.                             |
+| `lib/Paws/API/`                                   | Caller, EndpointResolver, Response, MapParser, attribute traits.         |
+| `lib/Paws/API.pm`                                 | The seven attribute-trait packages (NameInRequest, ParamInHeader, etc.). |
+| `lib/Paws/Net/*Caller.pm`                         | Per-protocol request shaping: `JsonCaller`, `RestJsonCaller`, `QueryCaller`, `RestXmlCaller`, `EC2Caller`, `GlacierCaller`. |
+| `lib/Paws/Net/*Response.pm`                       | Per-protocol response decoding.                                          |
+| `lib/Paws/Net/{LWP,Furl,MojoAsync}Caller.pm`      | Pluggable HTTP transports.                                               |
+| `lib/Paws/Net/V*Signature.pm`                     | Signer roles.                                                            |
+| `lib/Paws/Credential*.pm`                         | Credential providers.                                                    |
 
-## Data flow today
+## Data flow (post-stack19)
 
-1. `make pull-other-sdks` syncs the `botocore` submodule.
-2. `make gen-classes` runs `gen_classes.pl`, which forks one
-   `Paws::API::Builder` per `service-2.json`.
-3. Each builder loads JSON, runs TT templates from `templates/`, and
-   writes `.pm` files into `auto-lib/`.
-4. End users `cpanm Paws`; the dist includes `auto-lib/`.
-5. `Paws->service('EC2')` `require`s `Paws::EC2`. Operations and shapes
-   are loaded on demand via `Module::Runtime`.
-6. Operation method calls go through `Paws::API::Caller->do_call`,
+1. `make vendor-smithy` refreshes `share/smithy/` from the
+   upstream Smithy IR (`awslabs/aws-sdk-rust:aws-models/`). The
+   committed tree is the runtime source-of-truth. The botocore
+   loader stays in `lib/Paws/Model/Loader/Botocore.pm` as a
+   `PAWS_LOADER_ORDER=Botocore,Smithy` escape hatch but is not on
+   disk for `cpanm`-installed users; CI workflows that need
+   botocore JSON for the AOT generator fetch it on the fly using
+   the pin in `etc/botocore-pin.sha`.
+2. End users `cpanm Paws`; the dist ships `lib/`, `share/`, the
+   metadata files, and **no auto-lib/**. Dist size dropped from
+   ~224 MB to under 100 MB at stack19.
+3. `Paws->service('EC2')` calls `Paws->load_class('Paws::EC2')`.
+4. `Paws::load_class` checks if `Paws/EC2.pm` is on disk (the
+   migration window of PR18 — currently always false now that
+   stack19 dropped auto-lib/, except for the handful of
+   handwritten services like `Paws::Signin`).
+5. Falling through, `_materialise_class('Paws::EC2')` resolves the
+   service via `Paws::Model::Loader::Resolver` (Smithy-only by
+   default since #83; `PAWS_LOADER_ORDER=Botocore,Smithy` to opt
+   back into botocore for deprecated services), then drives the
+   in-memory class construction via `Paws::Model::Materializer::Moo`
+   (default since stack13) or `Paws::Model::Materializer` (Moose,
+   opt-in via `PAWS_OO_BACKEND=Moose`).
+6. The materialiser builds the service class plus every operation
+   class plus every transitively-reachable shape class in one go
+   and registers their wire metadata into the `Paws::SerDes`
+   side-table that the wire layer consults.
+7. Operation method calls go through `Paws::API::Caller->do_call`,
    which dispatches to the protocol caller in `lib/Paws/Net/`.
+   The wire layer is unchanged from the user's perspective.
 
-## Data flow after the maintenance-reduction series
+The legacy AOT generator (`make gen-classes` / `gen_classes.pl` /
+`Paws::API::Builder`) is preserved in `builder-lib/` + `builder-bin/`
+but is wired through to a no-op makefile target so muscle-memory
+invocations get a "use vendor-smithy instead" message. A future
+stack20-and-beyond work item is to refactor the builder to consume
+IR exclusively (it currently reads `api_struct->{shapes}` directly)
+so the AOT and materialiser paths share one source of truth -- but
+that is not a stack19 deliverable.
 
-After PR8 → PR15 land, the same data flow is rerouted through the IR:
+## Stack19 status
 
-1. The botocore submodule is gone (PR 18 / stack18). Smithy IR
-   vendored from `awslabs/aws-sdk-rust:aws-models/` lives at
-   `share/smithy/`, tracked in git
-   (smithy-only-vendor-into-git stack).
-2. `make gen-classes` is no longer the runtime path; the
-   materialiser reads `share/smithy/` directly via
-   `Paws::Model::Loader::Smithy`. The AOT generator
-   (`builder-bin/gen_classes.pl`) is still maintained as a
-   contributor tool, fed by an on-the-fly botocore checkout at
-   the SHA in `etc/botocore-pin.sha`.
-3. End users `cpanm Paws`; the dist no longer includes `auto-lib/`.
-4. `Paws->service('EC2')` calls `Paws::Model::Materializer->materialize_service('EC2')`,
-   which reads the JSON via the appropriate `Paws::Model::Loader::*`
-   and constructs the Moose (later: Moo) classes in-memory.
-5. The wire layer is unchanged from the user's perspective, but its
-   internals consult a side-table built by the materialiser instead
-   of introspecting Moose meta-classes.
+Context (master, post-#83 / smithy-only-vendor-into-git):
 
-See `docs/testing.md` for how each PR is gated.
+  - The botocore submodule is gone (PR 18 / stack18). Smithy IR
+    vendored from `awslabs/aws-sdk-rust:aws-models/` lives at
+    `share/smithy/`, tracked in git.
+  - `make gen-classes` is no longer the runtime path; the
+    materialiser reads `share/smithy/` directly via
+    `Paws::Model::Loader::Smithy`. The AOT generator
+    (`builder-bin/gen_classes.pl`) is still maintained as a
+    contributor tool, fed by an on-the-fly botocore checkout at
+    the SHA in `etc/botocore-pin.sha`.
+  - `Paws->service('EC2')` calls `Paws::Model::Materializer->materialize_service('EC2')`,
+    which reads the JSON via the appropriate `Paws::Model::Loader::*`
+    and constructs the Moose (later: Moo) classes in-memory.
+  - The wire layer is unchanged from the user's perspective, but its
+    internals consult a side-table built by the materialiser instead
+    of introspecting Moose meta-classes.
+
+Landed (this PR):
+
+  - `auto-lib/` removed from git; `auto-lib/Paws.pm` and
+    `auto-lib/Paws/API/Retry.pm` moved to `lib/`. `Paws::Model::*`
+    runtime modules (IR, Loader, Loader::Botocore,
+    Loader::Smithy, Loader::Resolver) moved from `builder-lib/`
+    to `lib/` so they ship in the dist.
+  - `our $VERSION` bumped to `'1.00'`; `Changes` carries a
+    `1.00 (TRIAL)` headline with the breaking-change note for
+    users who imported a generated class by full path.
+  - `Paws->new_with_coercions` handles both Moose-style
+    (`Foo::Bar`) and Type::Tiny-style (`InstanceOf["Foo::Bar"]`)
+    type-constraint stringification by branching on the type-
+    constraint *object* (`->class` / `->type_parameter->class`)
+    where possible, with an `_unwrap_class_from_type_string`
+    fallback for any other parameterised type whose
+    stringification looks like `InstanceOf[X]`.
+  - The materialiser dedup hash in `_materialise_class` and
+    `Paws::Model::Materializer::Auto::_materialise` collapses to
+    a single `$service_class->can('operations')` introspection
+    check shared by both entry points.
+  - Three concrete materialiser fixes surfaced by walking
+    `Paws->available_services` through `preload_service`:
+    self-referential shape recursion, whitespace in serviceId
+    (Route 53), and reserved-name attribute collisions
+    (ECS::CreatedAt::after).
+  - `Paws->available_services` unions Module::Find with the
+    resolver's directory-walk so the materialiser path enumerates
+    every service that ships in `share/`.
+  - `Makefile`, `dist.ini`, `script/test-shard`, and the test
+    workflow YAML drop the auto-lib build pipeline (PR #69 +
+    PR #70 fan-out is gone).
+  - The `templates/default/paws_pm.tt` template is in sync with
+    the runtime `lib/Paws.pm`.
+
+Curated test scope (post-stack19):
+
+  - `t/01_load.t`, `t/02`, `t/04`, `t/13`, `t/14`, `t/15`-`t/16`,
+    `t/19`, `t/20`-`t/23`, `t/29`-`t/31`, plus `t/types`,
+    `t/wire`, `t/model` are gated by the matrix-shard test
+    workflow.
+  - `t/03`, `t/05`, `t/06`, `t/10`, `t/11`, `t/12`, `t/17`,
+    `t/18`, `t/24`, `t/25`, `t/26`, `t/27`, `t/28`, plus
+    `t/glacier`, `t/route53`, `t/s3` are intentionally excluded
+    until follow-up materialiser work covers their dependencies
+    (region_rules / endpoint-rule-set, real-AWS shape coercion
+    breadth, s3-specific quirks, MojoAsyncCaller integration).
+    See `script/test-shard` header for the full table.
+
+See `docs/testing.md` for how each gate runs.
 
 ## PR15 status
 
@@ -137,7 +218,7 @@ See `docs/loaders.md` for the per-loader IR field table.
 
 ## PR12 status
 
-PR12 adds `lib/Paws/Model/Materializer/Moo.pm` — a parallel materialiser
+PR12 adds `lib/Paws/Materializer/Moo.pm` — a parallel materialiser
 that builds Moo + Type::Tiny classes from the IR. The Moo classes:
 
 - expose the same API surface as the Moose classes,
@@ -150,8 +231,8 @@ that builds Moo + Type::Tiny classes from the IR. The Moo classes:
 Moose remains the default backend. The Moo backend is opt-in by
 construction:
 
-    use Paws::Model::Materializer::Moo;
-    my $mat = Paws::Model::Materializer::Moo->new(loader => $loader);
+    use Paws::Materializer::Moo;
+    my $mat = Paws::Materializer::Moo->new(loader => $loader);
     my $pkg = $mat->materialize_service($ir);
 
 PR13 will switch the default in the lazy hook based on
@@ -193,7 +274,7 @@ perf win lands: Moo classes never trigger Moose inflation.
 
 ## PR9 status
 
-PR9 adds `lib/Paws/Model/Materializer.pm` — given a `Paws::Model::IR::Service`
+PR9 adds `lib/Paws/Materializer.pm` — given a `Paws::Model::IR::Service`
 it constructs the corresponding Moose classes in memory:
 
 - service class (one method per operation, composed roles based on
@@ -209,7 +290,7 @@ on-disk class would have produced.
 
 **Not yet in PR9, deferred to a follow-up commit on this same PR or to
 PR10**: the `PAWS_LAZY=1` opt-in hook in `Paws.pm` (or a sibling
-`Paws::Model::Materializer::Auto`). Wiring that in requires deciding where the
+`Paws::Materializer::Auto`). Wiring that in requires deciding where the
 JSON files live at runtime — which is the dist-layout change owned by
 PR10.
 

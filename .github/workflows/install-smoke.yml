@@ -63,10 +63,17 @@ jobs:
           cpanm --notest --quiet --local-lib=smoke-lib ./Paws-*.tar.gz
 
       - name: Run smoke
-        # PAWS_SMOKE_REQUIRE_AUTO is intentionally not set here yet;
-        # master is currently in a state where auto-lib service .pm
-        # files are not committed (a separate branch regenerates them).
-        # Once that lands, set PAWS_SMOKE_REQUIRE_AUTO: 1 to make the
-        # auto-generated portion of the smoke a hard gate.
+        # PAWS_SMOKE_REQUIRE_AUTO is intentionally not set here:
+        # post-stack19, the dist ships only `share/{smithy,botocore}/.placeholder`
+        # (the vendored IR is not yet committed -- it would add tens
+        # of MB to the git tree and is gated separately on its own
+        # vendoring workflow). Without IR data on disk, the
+        # materialiser's `auto` portion (Paws::S3 ListBuckets) can't
+        # resolve a service-2.json source and dies.
+        #
+        # Flip PAWS_SMOKE_REQUIRE_AUTO=1 once vendor-smithy data
+        # ships in the dist -- a follow-up PR after stack19. The
+        # `core` portion (Paws::Signin) stays a hard gate; that's
+        # what catches packaging breakage today.
         run: |
           PERL5LIB=smoke-lib/lib/perl5 perl examples/smoke.pl

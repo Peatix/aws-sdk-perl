@@ -58,7 +58,7 @@ __PACKAGE__->meta->make_immutable;
 
 package Paws;
 
-our $VERSION = '[% c.version %]';
+our $VERSION = '1.00';
 
 use Carp;
 
@@ -94,10 +94,10 @@ sub load_class {
   foreach my $class (grep !$loaded{$_}, @classes) {
     # PR 18 (stack18): if the on-disk .pm exists, require_module it.
     # Otherwise fall through to the materialiser, which loads the
-    # service IR from share/smithy/ (with share/botocore/ fallback)
-    # and constructs the class in-memory. After PR 19 drops auto-lib/,
-    # the on-disk path stops working and the materialiser is the
-    # only path; this conditional handles the migration window.
+    # service IR from share/smithy/ and constructs the class in-memory.
+    # After PR 19 drops auto-lib/, the on-disk path stops working and
+    # the materialiser is the only path; this conditional handles the
+    # migration window.
     if (_class_on_disk($class)) {
       Module::Runtime::require_module($class);
     } else {
@@ -175,6 +175,25 @@ sub _materialise_class {
     ? 'Paws::Model::Materializer'
     : 'Paws::Model::Materializer::Moo';
   my $mat = $mat_class->new(loader => undef);
+
+  # The resolver maps requested service names to Smithy basenames
+  # via %Paws::Model::Loader::Resolver::PAWS_TO_SMITHY (or lc()
+  # fallback) but the IR's `name` field reflects the Smithy sdkId
+  # trait (PascalCase: `DynamoDB`, `AccessAnalyzer`). For lookups
+  # via the canonical Paws class name (`Paws::DynamoDB`) those line
+  # up; for a basename lookup (`Paws::dynamodb`, returned by
+  # `Paws->available_services` when the resolver is the only
+  # enumeration source - i.e. on a `cpanm Paws` install with
+  # auto-lib/ removed) they don't. Mutate the IR's name to the
+  # requested service so the materialiser builds the requested
+  # service class plus every operation / shape under it in the
+  # user-facing namespace. The IR is freshly loaded above and not
+  # shared with anything else, so direct mutation is safe; we
+  # bypass Moose's read-only attribute machinery deliberately.
+  if ($service_name ne $ir->name) {
+    $ir->{name} = $service_name;
+  }
+
   $mat->materialize_service($ir);
 }
 
@@ -473,10 +492,811 @@ kept stable, and changes to it should be notified via ChangeLog
 
 =head1 SUPPORTED SERVICES
 
-[% FOREACH service = c.services.sort %]
-L<Paws::[% service %]>
 
-[% END %]
+L<Paws::AccessAnalyzer>
+
+L<Paws::Account>
+
+L<Paws::ACM>
+
+L<Paws::ACMPCA>
+
+L<Paws::Amplify>
+
+L<Paws::AmplifyBackend>
+
+L<Paws::AmplifyUIBuilder>
+
+L<Paws::ApiGateway>
+
+L<Paws::ApiGatewayManagement>
+
+L<Paws::ApiGatewayV2>
+
+L<Paws::AppConfig>
+
+L<Paws::AppConfigData>
+
+L<Paws::AppFabric>
+
+L<Paws::Appflow>
+
+L<Paws::AppIntegrations>
+
+L<Paws::ApplicationAutoScaling>
+
+L<Paws::ApplicationCostProfiler>
+
+L<Paws::ApplicationInsights>
+
+L<Paws::ApplicationMigration>
+
+L<Paws::ApplicationSignals>
+
+L<Paws::AppMesh>
+
+L<Paws::AppRunner>
+
+L<Paws::AppStream>
+
+L<Paws::AppSync>
+
+L<Paws::AppTest>
+
+L<Paws::ARCZonalShift>
+
+L<Paws::Artifact>
+
+L<Paws::Athena>
+
+L<Paws::AuditManager>
+
+L<Paws::AutoScaling>
+
+L<Paws::AutoScalingPlans>
+
+L<Paws::B2bi>
+
+L<Paws::Backup>
+
+L<Paws::BackupGateway>
+
+L<Paws::BackupSearch>
+
+L<Paws::Batch>
+
+L<Paws::BCMDataExports>
+
+L<Paws::BCMPricingCalculator>
+
+L<Paws::Bedrock>
+
+L<Paws::BedrockAgent>
+
+L<Paws::BedrockAgentRuntime>
+
+L<Paws::BedrockDataAutomation>
+
+L<Paws::BedrockDataAutomationRuntime>
+
+L<Paws::BedrockRuntime>
+
+L<Paws::Billing>
+
+L<Paws::Billingconductor>
+
+L<Paws::Braket>
+
+L<Paws::Budgets>
+
+L<Paws::Chatbot>
+
+L<Paws::Chime>
+
+L<Paws::ChimeSDKIdentity>
+
+L<Paws::ChimeSDKMediaPipelines>
+
+L<Paws::ChimeSDKMeetings>
+
+L<Paws::ChimeSDKMessaging>
+
+L<Paws::ChimeSDKVoice>
+
+L<Paws::CleanRooms>
+
+L<Paws::CleanRoomsML>
+
+L<Paws::Cloud9>
+
+L<Paws::CloudControl>
+
+L<Paws::CloudDirectory>
+
+L<Paws::CloudFormation>
+
+L<Paws::CloudFront>
+
+L<Paws::CloudFrontKeyValueStore>
+
+L<Paws::CloudHSM>
+
+L<Paws::CloudHSMv2>
+
+L<Paws::CloudSearch>
+
+L<Paws::CloudSearchDomain>
+
+L<Paws::CloudTrail>
+
+L<Paws::CloudTrailData>
+
+L<Paws::CloudWatch>
+
+L<Paws::CloudWatchEvents>
+
+L<Paws::CloudWatchLogs>
+
+L<Paws::CodeArtifact>
+
+L<Paws::CodeBuild>
+
+L<Paws::CodeCatalyst>
+
+L<Paws::CodeCommit>
+
+L<Paws::CodeConnections>
+
+L<Paws::CodeDeploy>
+
+L<Paws::CodeGuruProfiler>
+
+L<Paws::CodeGuruReviewer>
+
+L<Paws::CodeGuruSecurity>
+
+L<Paws::CodePipeline>
+
+L<Paws::CodeStarConnections>
+
+L<Paws::CodeStarNotifications>
+
+L<Paws::CognitoIdentity>
+
+L<Paws::CognitoIdp>
+
+L<Paws::CognitoSync>
+
+L<Paws::Comprehend>
+
+L<Paws::ComprehendMedical>
+
+L<Paws::ComputeOptimizer>
+
+L<Paws::Config>
+
+L<Paws::Connect>
+
+L<Paws::ConnectCampaigns>
+
+L<Paws::ConnectCampaignsV2>
+
+L<Paws::ConnectCases>
+
+L<Paws::ConnectContactLens>
+
+L<Paws::ConnectParticipant>
+
+L<Paws::ControlCatalog>
+
+L<Paws::ControlTower>
+
+L<Paws::CostExplorer>
+
+L<Paws::CostOptimizationHub>
+
+L<Paws::CUR>
+
+L<Paws::CustomerProfiles>
+
+L<Paws::DataExchange>
+
+L<Paws::DataPipeline>
+
+L<Paws::Datasync>
+
+L<Paws::DataZone>
+
+L<Paws::DAX>
+
+L<Paws::Deadline>
+
+L<Paws::Detective>
+
+L<Paws::DeviceFarm>
+
+L<Paws::DevOpsGuru>
+
+L<Paws::DirectConnect>
+
+L<Paws::DirectoryServiceData>
+
+L<Paws::Discovery>
+
+L<Paws::DLM>
+
+L<Paws::DMS>
+
+L<Paws::DocDB>
+
+L<Paws::DocDBElastic>
+
+L<Paws::Drs>
+
+L<Paws::DS>
+
+L<Paws::DSQL>
+
+L<Paws::DynamoDB>
+
+L<Paws::DynamoDBStreams>
+
+L<Paws::EBS>
+
+L<Paws::EC2>
+
+L<Paws::EC2InstanceConnect>
+
+L<Paws::ECR>
+
+L<Paws::ECRPublic>
+
+L<Paws::ECS>
+
+L<Paws::EFS>
+
+L<Paws::EKS>
+
+L<Paws::EKSAuth>
+
+L<Paws::ElastiCache>
+
+L<Paws::ElasticBeanstalk>
+
+L<Paws::ElasticTranscoder>
+
+L<Paws::ELB>
+
+L<Paws::ELBv2>
+
+L<Paws::EMR>
+
+L<Paws::EMRContainers>
+
+L<Paws::EMRServerless>
+
+L<Paws::EntityResolution>
+
+L<Paws::ES>
+
+L<Paws::Evidently>
+
+L<Paws::Finspace>
+
+L<Paws::FinspaceData>
+
+L<Paws::Firehose>
+
+L<Paws::FIS>
+
+L<Paws::FMS>
+
+L<Paws::Forecast>
+
+L<Paws::ForecastQuery>
+
+L<Paws::FraudDetector>
+
+L<Paws::FreeTier>
+
+L<Paws::FSX>
+
+L<Paws::GameLift>
+
+L<Paws::GameLiftStreams>
+
+L<Paws::GeoMaps>
+
+L<Paws::GeoPlaces>
+
+L<Paws::GeoRoutes>
+
+L<Paws::Glacier>
+
+L<Paws::GlobalAccelerator>
+
+L<Paws::Glue>
+
+L<Paws::GlueDataBrew>
+
+L<Paws::Grafana>
+
+L<Paws::Greengrass>
+
+L<Paws::GreengrassV2>
+
+L<Paws::GroundStation>
+
+L<Paws::GuardDuty>
+
+L<Paws::Health>
+
+L<Paws::HealthLake>
+
+L<Paws::IAM>
+
+L<Paws::ImageBuilder>
+
+L<Paws::ImportExport>
+
+L<Paws::Inspector>
+
+L<Paws::Inspector2>
+
+L<Paws::InspectorScan>
+
+L<Paws::InternetMonitor>
+
+L<Paws::Invoicing>
+
+L<Paws::IoT>
+
+L<Paws::IoTAnalytics>
+
+L<Paws::IoTData>
+
+L<Paws::IoTDeviceAdvisor>
+
+L<Paws::IoTEvents>
+
+L<Paws::IoTEventsData>
+
+L<Paws::IoTFleetHub>
+
+L<Paws::IoTFleetWise>
+
+L<Paws::IoTJobsData>
+
+L<Paws::IoTManagedIntegrations>
+
+L<Paws::IoTSecureTunneling>
+
+L<Paws::IoTSiteWise>
+
+L<Paws::IoTThingsGraph>
+
+L<Paws::IoTTwinMaker>
+
+L<Paws::IoTWireless>
+
+L<Paws::IVS>
+
+L<Paws::Ivschat>
+
+L<Paws::IVSRealTime>
+
+L<Paws::Kafka>
+
+L<Paws::KafkaConnect>
+
+L<Paws::Kendra>
+
+L<Paws::KendraRanking>
+
+L<Paws::Keyspaces>
+
+L<Paws::Kinesis>
+
+L<Paws::KinesisAnalytics>
+
+L<Paws::KinesisAnalyticsV2>
+
+L<Paws::KinesisVideo>
+
+L<Paws::KinesisVideoArchivedMedia>
+
+L<Paws::KinesisVideoMedia>
+
+L<Paws::KinesisVideoSignaling>
+
+L<Paws::KinesisVideoWebRTCStorage>
+
+L<Paws::KMS>
+
+L<Paws::LakeFormation>
+
+L<Paws::Lambda>
+
+L<Paws::LaunchWizard>
+
+L<Paws::LexModels>
+
+L<Paws::LexModelsV2>
+
+L<Paws::LexRuntime>
+
+L<Paws::LexRuntimeV2>
+
+L<Paws::LicenseManager>
+
+L<Paws::LicenseManagerLinuxSubscriptions>
+
+L<Paws::LicenseManagerUserSubscriptions>
+
+L<Paws::Lightsail>
+
+L<Paws::LocationService>
+
+L<Paws::LookoutEquipment>
+
+L<Paws::LookoutMetrics>
+
+L<Paws::LookoutVision>
+
+L<Paws::M2>
+
+L<Paws::MachineLearning>
+
+L<Paws::Macie2>
+
+L<Paws::MailManager>
+
+L<Paws::ManagedBlockchain>
+
+L<Paws::ManagedBlockchainQuery>
+
+L<Paws::MarketplaceAgreement>
+
+L<Paws::MarketplaceCatalog>
+
+L<Paws::MarketplaceCommerceAnalytics>
+
+L<Paws::MarketplaceDeployment>
+
+L<Paws::MarketplaceEntitlement>
+
+L<Paws::MarketplaceMetering>
+
+L<Paws::MarketplaceReporting>
+
+L<Paws::MediaConnect>
+
+L<Paws::MediaConvert>
+
+L<Paws::MediaPackage>
+
+L<Paws::MediaPackageV2>
+
+L<Paws::MediaPackageVod>
+
+L<Paws::MediaStore>
+
+L<Paws::MediaStoreData>
+
+L<Paws::MediaTailor>
+
+L<Paws::MedicalImaging>
+
+L<Paws::MemoryDB>
+
+L<Paws::MigrationHub>
+
+L<Paws::MigrationHubConfig>
+
+L<Paws::MigrationHubOrchestrator>
+
+L<Paws::MigrationHubRefactorSpaces>
+
+L<Paws::MigrationHubStrategy>
+
+L<Paws::MQ>
+
+L<Paws::MTurk>
+
+L<Paws::MWAA>
+
+L<Paws::Neptune>
+
+L<Paws::Neptunedata>
+
+L<Paws::NeptuneGraph>
+
+L<Paws::NetworkFirewall>
+
+L<Paws::NetworkFlowMonitor>
+
+L<Paws::NetworkManager>
+
+L<Paws::NetworkMonitor>
+
+L<Paws::Notifications>
+
+L<Paws::NotificationsContacts>
+
+L<Paws::OAM>
+
+L<Paws::ObservabilityAdmin>
+
+L<Paws::Omics>
+
+L<Paws::OpenSearch>
+
+L<Paws::OpenSearchServerless>
+
+L<Paws::OpsWorks>
+
+L<Paws::OpsWorksCM>
+
+L<Paws::Organizations>
+
+L<Paws::OSIS>
+
+L<Paws::Outposts>
+
+L<Paws::Panorama>
+
+L<Paws::PartnerCentralSelling>
+
+L<Paws::PaymentCryptography>
+
+L<Paws::PaymentCryptographyData>
+
+L<Paws::PcaConnectorAd>
+
+L<Paws::PcaConnectorScep>
+
+L<Paws::PCS>
+
+L<Paws::PerformanceInsights>
+
+L<Paws::Personalize>
+
+L<Paws::PersonalizeEvents>
+
+L<Paws::PersonalizeRuntime>
+
+L<Paws::PinpointEmail>
+
+L<Paws::PinpointSMSVoice>
+
+L<Paws::PinpointSMSVoice>
+
+L<Paws::PinpointSMSVoiceV2>
+
+L<Paws::Pipes>
+
+L<Paws::Polly>
+
+L<Paws::Pricing>
+
+L<Paws::PrivateNetworks>
+
+L<Paws::Prometheus>
+
+L<Paws::Proton>
+
+L<Paws::QApps>
+
+L<Paws::QBusiness>
+
+L<Paws::QConnect>
+
+L<Paws::QLDB>
+
+L<Paws::QLDBSession>
+
+L<Paws::RAM>
+
+L<Paws::Rbin>
+
+L<Paws::RDS>
+
+L<Paws::RDSData>
+
+L<Paws::RedShift>
+
+L<Paws::RedshiftData>
+
+L<Paws::RedshiftServerless>
+
+L<Paws::Rekognition>
+
+L<Paws::Repostspace>
+
+L<Paws::Resiliencehub>
+
+L<Paws::ResourceExplorer2>
+
+L<Paws::ResourceGroups>
+
+L<Paws::ResourceTagging>
+
+L<Paws::Robomaker>
+
+L<Paws::RolesAnywhere>
+
+L<Paws::Route53>
+
+L<Paws::Route53Domains>
+
+L<Paws::Route53Profiles>
+
+L<Paws::Route53RecoveryCluster>
+
+L<Paws::Route53RecoveryControlConfig>
+
+L<Paws::Route53RecoveryReadiness>
+
+L<Paws::Route53Resolver>
+
+L<Paws::RUM>
+
+L<Paws::S3>
+
+L<Paws::S3Control>
+
+L<Paws::S3Outposts>
+
+L<Paws::S3Tables>
+
+L<Paws::SageMaker>
+
+L<Paws::SageMakerA2IRuntime>
+
+L<Paws::SageMakerEdge>
+
+L<Paws::SageMakerFeatureStoreRuntime>
+
+L<Paws::SageMakerGeospatial>
+
+L<Paws::SageMakerMetrics>
+
+L<Paws::SageMakerRuntime>
+
+L<Paws::SavingsPlans>
+
+L<Paws::Scheduler>
+
+L<Paws::Schemas>
+
+L<Paws::SDB>
+
+L<Paws::SecretsManager>
+
+L<Paws::SecurityHub>
+
+L<Paws::SecurityIR>
+
+L<Paws::SecurityLake>
+
+L<Paws::ServerlessRepo>
+
+L<Paws::ServiceCatalog>
+
+L<Paws::ServiceCatalogAppRegistry>
+
+L<Paws::ServiceDiscovery>
+
+L<Paws::ServiceQuotas>
+
+L<Paws::SES>
+
+L<Paws::SESv2>
+
+L<Paws::Shield>
+
+L<Paws::Signer>
+
+L<Paws::SimpleWorkflow>
+
+L<Paws::SimSpaceWeaver>
+
+L<Paws::SMS>
+
+L<Paws::Snowball>
+
+L<Paws::SnowDeviceManagement>
+
+L<Paws::SNS>
+
+L<Paws::SocialMessaging>
+
+L<Paws::SQS>
+
+L<Paws::SSM>
+
+L<Paws::SSMContacts>
+
+L<Paws::SSMGuiConnect>
+
+L<Paws::SSMIncidents>
+
+L<Paws::SSMQuickSetup>
+
+L<Paws::SsmSap>
+
+L<Paws::SSO>
+
+L<Paws::SSOAdmin>
+
+L<Paws::SSOIdentityStore>
+
+L<Paws::SSOOidc>
+
+L<Paws::StepFunctions>
+
+L<Paws::StorageGateway>
+
+L<Paws::STS>
+
+L<Paws::SupplyChain>
+
+L<Paws::Support>
+
+L<Paws::SupportApp>
+
+L<Paws::Synthetics>
+
+L<Paws::TaxSettings>
+
+L<Paws::Textract>
+
+L<Paws::TimestreamInfluxDB>
+
+L<Paws::TimestreamQuery>
+
+L<Paws::TimestreamWrite>
+
+L<Paws::Tnb>
+
+L<Paws::Transcribe>
+
+L<Paws::Transfer>
+
+L<Paws::Translate>
+
+L<Paws::TrustedAdvisor>
+
+L<Paws::VerifiedPermissions>
+
+L<Paws::VoiceID>
+
+L<Paws::VPCLattice>
+
+L<Paws::WAF>
+
+L<Paws::WAFRegional>
+
+L<Paws::WAFV2>
+
+L<Paws::WellArchitected>
+
+L<Paws::Wisdom>
+
+L<Paws::WorkDocs>
+
+L<Paws::WorkMail>
+
+L<Paws::WorkMailMessageFlow>
+
+L<Paws::WorkSpaces>
+
+L<Paws::WorkSpacesThinClient>
+
+L<Paws::WorkSpacesWeb>
+
+L<Paws::XRay>
+
 
 =head1 SERVICES CLASSES
 
@@ -727,6 +1547,150 @@ This code is distributed under the Apache 2 License. The full text of the licens
 
 =head1 CONTRIBUITIONS
 
-[% c.contributors %]
+
+CAPSiDE (https://www.capside.com) for letting Paws be contributed in an open source model
+and giving me time to build and maintain it regularly.
+
+ZipRecruiter (https://www.ziprecruiter.com/) for sponsoring development of Paws. Lots of work
+from ZipRecruiter has been done via Shadowcat Systems (https://shadow.cat/).
+
+castaway for contributing to fixing documentation problems
+ - taking the reigns of Paws, become part of the core team that pushes it forward
+ - properly providing backlinks between related pages
+ - making TOCs render correctly on search.cpan.org
+ - generating helpful copy-paste ready scenarios in the synopsis of each method call
+
+Luis Alberto Gimenez (@agimenez) for
+ - The git-fu cleaning up the "pull other sdks" code
+ - Credential Providers code
+ - Fixes for users that have no HOME env variable
+ - FileCaller to fully mock responses
+
+Srinvas (@kidambisrinivas) for testing, bug reporting and fixing
+
+juair10 for corrections and testing
+
+CHORNY for CPAN and cpanfile packaging corrections
+
+Iñigo Tejedor for service endpoint resolution based on rules
+
+codehead for helping fix SQS Queue Maps
+
+mbartold for helping fix SQS MessageBatch functionality
+
+coreymayer for reporting bug in RestXmlCaller
+
+arc (Aaron Crane) for documentation patches
+
+dtikhonov for LWP Caller and bug reporting/fixing
+
+vivus-ignis for DynamoDB bug reporting and test scripts for DynamoDB
+
+karenetheridge for bug reporting, pull requests and help
+
+ioanrogers for fixing unicode issues in tests
+
+ilmari for fixing issues with timestamps in Date and X-Amz-Date headers,
+test fixes and 5.10 support fixes, documentation issue fixes for S3,
+CloudFront and Route53, help with number stringification
+
+stevecaldwell77 for 
+ - contributing support for temporary credentials in S3
+ - Fixing test suite failure scenarios
+
+Ryan Olson (BeerBikesBBQ) for contributing documentation fixes
+
+Roger Pettett for testing and contributing fixes for tests on MacOSX
+
+Henri Yandell for help with licensing issues
+
+Oriol Soriano (@ureesoriano) for contributions to API builders and better
+documentation generation
+
+H. Daniel Cesario (@maneta) for devel setup instructions on RH and MacOSX
+
+Glen van Ginkel for contributions to get S3 working
+
+Javier Arellano for discovering Tagging bug
+
+Ioan Rogers for contributing AssumeRoleWithSAML with ADFS auth example
+
+Miquel Soriano for reporting a bug with DescribeAutoScalingGroups
+
+Albert Bendicho (wiof) for contributing better retry logic
+
+Brian Hartsock for better handling of XMLResponse exceptions
+
+rpcme for reporting various bugs in the SDK
+
+glenveegee for lots of work sorting out the S3 implementation
+
+Grinzz
+ - many bugs, suggestions and fixes
+ - Installation speedup with Module::Builder::Tiny
+
+Dakkar
+  - solving issues with parameter passing
+  - fixing dns and other tests when a proxy is in use
+
+Arthur Axel fREW Schmidt for speeding up credential refreshing
+
+PopeFelix for solving issues around S3 and MojoAsyncCaller
+
+meis for (between others):
+ - contributing Paws::Credential::Explicit
+ - enabling unstable warnings to be silenced
+
+sven-schubert for contributing fixes to RestXML services,
+working on fixing S3 to work correctly.
+
+SeptamusNonovant for fixing paginators in non-callback mode
+
+gadgetjunkie for contributing the ECS credential provider
+
+mla for contributing a fix to correct dependencies
+
+autarch for correcting signature generation for a bunch of services
+
+piratefinn for linking calls to documentation AWS URLs
+
+slobo for fixing S3 behaviour
+
+bork1n for fixes to MojoAsynCaller
+
+atoomic for:
+ - tweaking CPAN packaging
+ - improving paws CLI
+
+leonerd for (between others)
+ - documenting retry logic
+ - fixing retry sleep of MojoAsyncCaller
+
+campus-explorer for contributing to test suite
+
+byterock for:
+ - testing and fixing PinPoint
+ - standing up as comaint, and releasing 0.43
+ - improving S3 support
+
+torrentale for fixing QueryCaller to correctly signal empty arrays
+
+Jess Robinson and shadowcat.co.uk for:
+ - doing lots of comaint work
+ - working hard on new features
+
+shogo82148 for migrating our Travis pipelines to GitHub Actions (and 
+improving them)
+
+aeruder for contributing
+ - Fixing DynamoDB retry fixes
+ - Completing speedups and benchmarking code
+ - Substituting Config::INI for Config::AWS 
+ - Parrallelizing and fixing generation inconsistencies of the SDK
+
+dheffx for making ContainerProfile credential provider more robust
+
+0leksii for building support for Instance Metadata Service v2 (IMDSv2)
+
 
 =cut
