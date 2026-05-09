@@ -15,6 +15,10 @@ requires 'Types::Standard';
 # Paws->service('X') calls in the same process don't re-parse JSON.
 requires 'Sereal::Encoder';
 requires 'Sereal::Decoder';
+# Resolves the dist's installed share/ directory at runtime so the
+# materialiser can find vendored Smithy / botocore IR after a plain
+# `cpanm Paws` install. Issue #80; see Paws::Model::Loader::Resolver.
+requires 'File::ShareDir';
 requires 'HTTP::Tiny';
 requires 'Throwable::Error';
 requires 'Data::Compare';

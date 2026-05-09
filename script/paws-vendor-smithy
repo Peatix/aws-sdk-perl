@@ -62,8 +62,21 @@ USAGE
 }
 
 if ($clean && -d $dest) {
-    say STDERR "vendor: cleaning $dest";
-    remove_tree($dest, { keep_root => 1 });
+    say STDERR "vendor: cleaning $dest (preserving .placeholder)";
+    opendir(my $dh, $dest) or die "vendor: opendir $dest: $!\n";
+    my @entries = grep {
+        $_ ne '.' && $_ ne '..'
+        && $_ !~ /^\.placeholder$/
+    } readdir $dh;
+    closedir $dh;
+    for my $entry (@entries) {
+        my $path = File::Spec->catfile($dest, $entry);
+        if (-d $path) {
+            remove_tree($path);
+        } elsif (-f $path) {
+            unlink $path or warn "vendor: unlink $path: $!\n";
+        }
+    }
 }
 make_path($dest) if !-d $dest;
 

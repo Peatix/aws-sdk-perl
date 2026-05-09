@@ -1,0 +1,233 @@
+#!/usr/bin/env perl
+
+# paws-vendor-botocore
+#
+# Refresh the share/botocore/ tree from upstream botocore. The pinned
+# SHA lives in share/botocore/.upstream-sha (the refresh-source-deps
+# workflow bumps it daily; see .github/workflows/refresh-source-deps.yml).
+#
+# Layout produced under --dest:
+#
+#   share/botocore/<service>/<api-version>/service-2.json
+#   share/botocore/<service>/<api-version>/paginators-1.json   (when present)
+#   share/botocore/<service>/<api-version>/endpoint-rule-set-1.json
+#                                                              (when present)
+#   share/botocore/<service>/<api-version>/examples-1.json     (when present)
+#
+# This is the layout Paws::Model::Loader::Resolver expects (the
+# botocore-style `<endpoint-prefix>/<date>/service-2.json`).
+#
+# What we deliberately DO NOT copy:
+#
+#   - documentation-1.json: ~2.5 MB across all services and only used
+#     by the Paws-Docs companion dist; out-of-scope for the runtime
+#     SDK and would inflate the Paws tarball noticeably.
+#   - waiters-2.json: not consumed by Paws today.
+#   - *.sdk-extras.json: AWS-SDK-internal overlay files; the loader
+#     does not read them.
+#   - .changes/, README*, top-level _retry.json, partitions.json,
+#     endpoints.json: not per-service runtime data.
+#
+# Pin file (.upstream-sha) and placeholder (.placeholder) are NOT
+# touched — they are the only tracked entries under share/botocore/.
+#
+# Usage:
+#
+#   script/paws-vendor-botocore                       # use pinned SHA
+#   script/paws-vendor-botocore --service sqs         # restrict to one
+#   script/paws-vendor-botocore --clean               # rm share/botocore/<svc>/* first
+#   script/paws-vendor-botocore --source <local-dir>  # use existing checkout
+#
+# Idempotent: re-running with the same pin produces the same tree.
+
+use strict;
+use warnings;
+use v5.20;
+
+use Getopt::Long qw(:config posix_default no_ignore_case);
+use File::Path qw(make_path remove_tree);
+use File::Spec;
+use File::Copy qw(copy);
+
+my $source  = 'https://github.com/boto/botocore.git';
+my $only    = '';
+my $clean   = 0;
+my $help    = 0;
+my $dest    = 'share/botocore';
+my $sha     = '';
+my $sha_file = 'share/botocore/.upstream-sha';
+
+GetOptions(
+    'source=s'   => \$source,
+    'service=s'  => \$only,
+    'clean'      => \$clean,
+    'dest=s'     => \$dest,
+    'sha=s'      => \$sha,
+    'sha-file=s' => \$sha_file,
+    'help|h'     => \$help,
+) or die "invalid arguments\n";
+
+if ($help) {
+    print <<'USAGE';
+usage: paws-vendor-botocore [--source URL_OR_PATH] [--service NAME]
+                            [--clean] [--dest share/botocore]
+                            [--sha <git-sha>] [--sha-file <path>]
+
+Vendors botocore service-2.json (and siblings) into share/botocore/
+from an upstream source.
+
+  --source     git URL or local checkout (default:
+               https://github.com/boto/botocore.git)
+  --service    restrict to one botocore service directory name
+  --clean      remove share/botocore/<svc>/* before vendoring
+               (preserves .placeholder + .upstream-sha)
+  --dest       where to write (default: share/botocore)
+  --sha        git revision to checkout from --source (default: read
+               from --sha-file)
+  --sha-file   file containing the pinned SHA, one line, leading/
+               trailing whitespace stripped (default:
+               share/botocore/.upstream-sha)
+USAGE
+    exit 0;
+}
+
+# Resolve the SHA if it wasn't passed explicitly.
+if (!length $sha) {
+    open(my $fh, '<', $sha_file)
+        or die "vendor: cannot read pin file $sha_file: $!\n";
+    my $line = <$fh>;
+    close $fh;
+    $line //= '';
+    $line =~ s/\s+//g;
+    length $line
+        or die "vendor: pin file $sha_file is empty\n";
+    $sha = $line;
+}
+say STDERR "vendor: pin sha=$sha";
+
+if ($clean && -d $dest) {
+    say STDERR "vendor: cleaning $dest (preserving .placeholder/.upstream-sha)";
+    opendir(my $dh, $dest) or die "vendor: opendir $dest: $!\n";
+    my @entries = grep { $_ ne '.' && $_ ne '..' && $_ !~ /^\.placeholder$/ && $_ !~ /^\.upstream-sha$/ } readdir $dh;
+    closedir $dh;
+    for my $entry (@entries) {
+        my $path = File::Spec->catfile($dest, $entry);
+        if (-d $path) {
+            remove_tree($path);
+        } elsif (-f $path) {
+            unlink $path or warn "vendor: unlink $path: $!\n";
+        }
+    }
+}
+make_path($dest) if !-d $dest;
+
+# Resolve --source. If it points at a directory, use it directly
+# (developer convenience; lets you point at a pre-existing
+# botocore checkout). Otherwise clone shallowly at the pinned SHA.
+my $work_dir;
+if (-d $source) {
+    say STDERR "vendor: using local source $source";
+    $work_dir = $source;
+} else {
+    require File::Temp;
+    my $tmp = File::Temp->newdir('paws-vendor-botocoreXXXXXX', TMPDIR => 1);
+    my $tmp_dir = $tmp->dirname;
+
+    # Shallow clone + fetch the pinned commit. `git clone --depth=1`
+    # against a branch tip is the cheapest path; for an arbitrary
+    # commit we init + fetch with depth=1.
+    say STDERR "vendor: git init in $tmp_dir";
+    _run('git', 'init', '--quiet', $tmp_dir);
+    say STDERR "vendor: git fetch $source $sha (depth=1)";
+    _run('git', '-C', $tmp_dir, 'fetch', '--depth=1', '--quiet', $source, $sha);
+    _run('git', '-C', $tmp_dir, 'checkout', '--quiet', 'FETCH_HEAD');
+
+    $work_dir = $tmp_dir;
+    # File::Temp will clean up at process exit; keep the dir alive
+    # for the rest of the script.
+    $main::__vendor_tmp = $tmp;
+}
+
+my $data_dir = File::Spec->catdir($work_dir, 'botocore', 'data');
+-d $data_dir
+    or die "vendor: $data_dir does not exist (expected a botocore checkout)\n";
+
+# Per-service files we copy. Keep this list small: only the four
+# files Paws::Model::Loader::Botocore looks for (or will look for —
+# endpoint-rule-set-1 is consumed by future region-rule work but
+# already lives next to service-2.json in upstream).
+my @COPY_FILES = qw(
+    service-2.json
+    paginators-1.json
+    endpoint-rule-set-1.json
+    examples-1.json
+);
+
+opendir(my $top, $data_dir) or die "vendor: opendir $data_dir: $!\n";
+my @services = sort grep {
+    !/^[._]/
+    && -d File::Spec->catdir($data_dir, $_)
+} readdir $top;
+closedir $top;
+
+my $service_count   = 0;
+my $copied_files    = 0;
+for my $svc (@services) {
+    next if length $only && $svc ne $only;
+
+    my $svc_src = File::Spec->catdir($data_dir, $svc);
+
+    # Each service has one or more api-version directories
+    # (`2010-05-08/` etc.). Vendor every version we find — Paws's
+    # resolver picks the most recent at load time, but having older
+    # versions on disk is what matches upstream's source layout
+    # and lets contributors re-pin a service to an older API
+    # without an extra checkout.
+    opendir(my $svc_dh, $svc_src) or do {
+        warn "vendor: cannot read $svc_src: $!\n";
+        next;
+    };
+    my @versions = sort grep {
+        /^\d{4}-\d{2}-\d{2}\z/
+        && -d File::Spec->catdir($svc_src, $_)
+    } readdir $svc_dh;
+    closedir $svc_dh;
+
+    next if !@versions;
+
+    my $vendored_any = 0;
+    for my $ver (@versions) {
+        my $ver_src = File::Spec->catdir($svc_src, $ver);
+        my $ver_dst = File::Spec->catdir($dest, $svc, $ver);
+
+        my $svc2_src = File::Spec->catfile($ver_src, 'service-2.json');
+        next if !-r $svc2_src;
+
+        make_path($ver_dst) if !-d $ver_dst;
+
+        for my $name (@COPY_FILES) {
+            my $src = File::Spec->catfile($ver_src, $name);
+            next if !-r $src;
+            my $dst = File::Spec->catfile($ver_dst, $name);
+            copy($src, $dst) or die "vendor: copy $src -> $dst: $!\n";
+            $copied_files++;
+        }
+
+        $vendored_any = 1;
+    }
+
+    if ($vendored_any) {
+        $service_count++;
+        say STDERR "vendor: ${svc}";
+    }
+}
+
+say STDERR "vendor: services=$service_count files=$copied_files dest=$dest sha=$sha";
+exit 0;
+
+sub _run {
+    my @cmd = @_;
+    system(@cmd) == 0
+        or die "vendor: command failed (exit @{[ $? >> 8 ]}): @cmd\n";
+    return;
+}

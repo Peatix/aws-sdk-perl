@@ -1,7 +1,19 @@
-dist:
+# `make dist` ships a tarball ready for `cpanm`. dist-prep refreshes
+# the vendored share/{smithy,botocore} trees so the materialiser can
+# resolve services straight out of the installed share dir (see
+# Paws::Model::Loader::Resolver and lib/Paws/Model/Materializer/Auto.pm).
+# Without dist-prep, the dist would only ship .placeholder files
+# under share/{smithy,botocore} and `Paws->service(...)` would die
+# after a fresh install once auto-lib/ stops shipping (issue #80).
+dist: dist-prep
 	cpanm -n -l dzil-local Dist::Zilla
 	PATH=$(PATH):dzil-local/bin PERL5LIB=dzil-local/lib/perl5 dzil authordeps --missing | cpanm -n -l dzil-local/
 	PATH=$(PATH):dzil-local/bin PERL5LIB=dzil-local/lib/perl5 dzil build
+
+# Pre-build vendoring step. Runs both vendor scripts so the share/
+# tree is populated before [GatherDir / VendoredModels] picks it up.
+# Idempotent — re-running is safe.
+dist-prep: vendor-smithy vendor-botocore
 
 test:
 	carton exec -- prove -r -v -I lib -I auto-lib t/
@@ -58,6 +70,12 @@ cover-ci:
 # share/botocore/). Refresh via:
 vendor-smithy:
 	./script/paws-vendor-smithy --clean
+
+# Refresh share/botocore/ from upstream botocore at the SHA pinned in
+# share/botocore/.upstream-sha. Drives `make dist` (via dist-prep) and
+# the daily refresh-source-deps workflow.
+vendor-botocore:
+	./script/paws-vendor-botocore --clean
 
 # Backward-compat aliases for any contributor muscle memory.
 pull-other-sdks: vendor-smithy
