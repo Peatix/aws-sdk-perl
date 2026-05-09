@@ -97,3 +97,9 @@ add a third loader (OpenAPI? Hand-written?) it's:
 
 See `t/model/01_botocore_loader.t` and `t/model/03_smithy_loader.t`
 as templates.
+
+## See also
+
+- `docs/materialisation.md` — how the IR these loaders return is
+  consumed by the AOT generator and the runtime materialiser, and
+  how to drive the materialiser directly when debugging.

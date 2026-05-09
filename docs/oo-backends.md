@@ -102,3 +102,9 @@ introspects them.
 
 - Core `class` (Corinna). Requires Perl 5.38+; would bump Paws's
   minimum from 5.12 by 12 years. Premature.
+
+## See also
+
+- `docs/materialisation.md` — when each backend gets selected at
+  runtime (`PAWS_OO_BACKEND`, `PAWS_LAZY_FORCE`) and the AOT vs.
+  in-memory tradeoffs.
