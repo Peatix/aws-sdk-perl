@@ -58,6 +58,25 @@ my %SERVICE_TO_CALLER_ROLE = (
     Glacier => 'Paws::Net::GlacierCaller',
 );
 
+# Map an IR Service to the Paws::Net::*Signature role. Mirrors the
+# AOT generator's $c->signature_role and the Moose materialiser's
+# _signature_role_for so the three paths agree on which signer a
+# given service composes. See Paws::Model::Materializer for details.
+sub _signature_role_for {
+    my ($service_ir) = @_;
+    my $sv = $service_ir->signature_version;
+    return 'Paws::Net::V4Signature' if !defined $sv || $sv eq '';
+    my $role = sprintf 'Paws::Net::%sSignature', uc $sv;
+    my $path = $role; $path =~ s{::}{/}g; $path .= '.pm';
+    eval { require $path; 1 } or do {
+        croak sprintf(
+            "materialize_service: signature role %s for signatureVersion=%s is missing: %s",
+            $role, $sv, $@,
+        );
+    };
+    return $role;
+}
+
 # Mapping from botocore primitive type to the Type::Tiny constructor
 # expression we'll string-eval into the materialised class.
 my %PRIMITIVE_TO_TYPE_EXPR = (
@@ -83,6 +102,8 @@ sub materialize_service {
                    // $PROTOCOL_TO_CALLER_ROLE{ $service_ir->protocol }
         // croak sprintf('materialize_service: unknown protocol=%s service=%s',
                          $service_ir->protocol, $service_ir->name);
+
+    my $signature_role = _signature_role_for($service_ir);
 
     # Build via string-eval. Simplest reliable way to construct a Moo
     # package programmatically; matches what Moo's own internals do.
@@ -150,7 +171,7 @@ sub materialize_service {
 
         with 'Paws::API::Caller',
              'Paws::API::EndpointResolver',
-             'Paws::Net::V4Signature',
+             '$signature_role',
              '$caller_role';
 
         $region_rules_method
@@ -240,6 +261,16 @@ sub materialize_operation {
         ? "sub _stream_param { '" . _esc($stream_param) . "' }"
         : '';
 
+    # Mirror templates/query/callargs_class.tt: awsQuery responses
+    # carry a wrapper element named `<OpName>Result` between the
+    # outer response envelope and the actual fields. The XML response
+    # decoder uses _result_key to unwrap. Other protocols leave it
+    # undef (their decoders don't need the unwrap).
+    my $result_key_method =
+        ($service_ir->protocol eq 'query' && $op->output_shape)
+            ? "sub _result_key  { '${op_name}Result' }"
+            : "sub _result_key  { undef }";
+
     # rest-xml top-level wrapping (Route53 CreateHostedZone et al.).
     my $tle = $op->input_top_level_element;
     my $tns = $op->input_top_level_namespace;
@@ -261,7 +292,7 @@ sub materialize_operation {
         sub _api_method  { '$api_method' }
         sub _api_uri     { '$api_uri' }
         $returns_method
-        sub _result_key  { undef }
+        $result_key_method
         $stream_param_method
         $top_level_element_method
         $top_level_namespace_method
