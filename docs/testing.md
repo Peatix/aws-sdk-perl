@@ -73,6 +73,31 @@ By default a regression of more than 1.0 percentage point at the top
 level fails the build; per-file regressions are reported but advisory.
 Pass `--strict` to `coverage-compare` to fail on any drop.
 
+### Scope of `cover-ci`
+
+`cover-ci` measures coverage of `lib/` only — the handwritten core
+(callers, signers, SerDes, materialiser, credential providers, etc.).
+Two intentional restrictions, both encoded in the `cover-ci` Makefile
+target:
+
+- **Devel::Cover instrumentation** is bounded to `lib/` via
+  `+ignore,^auto-lib/` and `+ignore,^t/`. `auto-lib/` is generated
+  code (~52k `.pm` files); instrumenting it adds enough compile-time
+  and per-statement-execution overhead to push the run past the
+  workflow's 30-min cap, without producing a signal a PR reviewer
+  would care about. `t/lib/` is test fixtures.
+- **The test list excludes `t/01_load.t` and `t/99_pod_*.t`**.
+  `t/01_load.t` preloads all 401 services through Moose meta-class
+  introspection; `t/99_pod_syntax.t` POD-parses every `.pm` in
+  `lib/` and `auto-lib/`; `t/99_pod_presence.t` preloads all
+  services *again* and then walks `%INC`. None contribute lib/
+  statement coverage. Service loading is gated by the `test`
+  workflow; POD validity by `make pod-test`.
+
+These restrictions were added in the cover-ci-hang fix that followed
+PR #55 (auto-lib regen from 0 to 401 services). The 30-min
+`timeout-minutes` from PR #65 stays in place as a defensive cap.
+
 ## Distribution install smoke
 
 `examples/smoke.pl` is a packaging smoke test: it loads `Paws`,

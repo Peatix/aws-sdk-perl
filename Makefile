@@ -17,11 +17,34 @@ cover:
 # Deterministic, machine-readable coverage run for CI. Differs from `cover`
 # in that it does not rely on `carton exec` (CI installs deps system-wide
 # via cpm) and it tolerates the absence of cover_db on the first run.
+#
+# Scope (after PR #55 re-added the 401-service auto-lib, the previous
+# whole-suite cover-ci hung past the 30-min timeout):
+#
+#   - Devel::Cover's instrumentation list is restricted to lib/ via
+#     +ignore,^auto-lib/ and +ignore,^t/. auto-lib/ is generated code
+#     (~52k .pm files); instrumenting it adds compile-time and
+#     per-statement-execution overhead but no signal a PR reviewer
+#     would care about. t/lib/ is test fixtures.
+#   - The test list excludes t/01_load.t and t/99_pod_*.t. They
+#     preload all 401 services through Moose meta-class introspection
+#     (and 99_pod_syntax additionally walks 52k .pm files for POD),
+#     dominating the runtime under Devel::Cover without contributing
+#     any lib/ statement coverage. Service-loading is gated by the
+#     `test` workflow; POD validity by `make pod-test`.
+#   - --jobs 1 because Devel::Cover serialises cover_db merges on
+#     finish, so parallel jobs only add contention.
+#
+# See docs/testing.md "Scope of cover-ci" for the longer explanation.
 cover-ci:
 	rm -rf cover_db
-	HARNESS_PERL_SWITCHES=-MDevel::Cover=-silent,1,-summary,0 \
-	  prove --lib --recurse --verbose --jobs 2 \
-	  -I auto-lib t/ \
+	HARNESS_PERL_SWITCHES='-MDevel::Cover=-silent,1,-summary,0,+ignore,^auto-lib/,+ignore,^t/' \
+	  prove --lib --verbose --jobs 1 \
+	  -I auto-lib -I t/lib \
+	  $$(find t -type f -name '*.t' \
+	    \! -name '01_load.t' \
+	    \! -name '99_pod_*.t' \
+	    | LC_ALL=C sort) \
 	  || true
 	cover -summary
 	cover -report json -outputdir cover_db || true

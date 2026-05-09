@@ -9,11 +9,10 @@ on:
 
 jobs:
   coverage:
-    # Stop-gap: this job hangs at "Run test suite under Devel::Cover" because the
-    # 401-service auto-lib combined with AUTHOR_TESTING=1 makes t/99_pod_*.t sweep
-    # every shape and balloon to multiple hours. Cap the runtime so a hung job
-    # frees the runner instead of consuming the free tier. Underlying perf issue
-    # tracked separately.
+    # Defensive 30-min cap from PR #65: even with the cover-ci scope
+    # fixes that brought this job back under budget, future drift
+    # (e.g. a new test that preloads all services) could cause hangs
+    # again. The cap keeps the runner free in that case.
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -39,11 +38,15 @@ jobs:
             JSON::MaybeXS
 
       - name: Run test suite under Devel::Cover
+        # Scope of cover-ci is intentionally narrower than `make test`:
+        # see Makefile cover-ci comment / docs/testing.md "Scope of
+        # cover-ci" for the rationale (skip 01_load.t / 99_pod_*.t,
+        # +ignore auto-lib/ and t/ from Devel::Cover). AUTHOR_TESTING
+        # is not set: t/99_pod_*.t are POD validation gates, not
+        # lib/ statement-coverage signal.
         run: make cover-ci
         env:
-          AUTHOR_TESTING: 1
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
-          HARNESS_PERL_SWITCHES: -MDevel::Cover=-silent,1,-summary,0
 
       - name: Generate coverage summary JSON
         run: cover -report json -outputdir cover_db || true
