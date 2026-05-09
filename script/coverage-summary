@@ -86,17 +86,31 @@ sub canonicalise {
 sub pluck_metrics {
     my ($entry) = @_;
     return {
-        statement   => num($entry->{statement}{percentage} // $entry->{statement}),
-        branch      => num($entry->{branch}{percentage}    // $entry->{branch}),
-        condition   => num($entry->{condition}{percentage} // $entry->{condition}),
-        subroutine  => num($entry->{subroutine}{percentage} // $entry->{subroutine}),
-        total       => num($entry->{total}{percentage}     // $entry->{total}),
+        statement   => pluck($entry, 'statement'),
+        branch      => pluck($entry, 'branch'),
+        condition   => pluck($entry, 'condition'),
+        subroutine  => pluck($entry, 'subroutine'),
+        total       => pluck($entry, 'total'),
     };
+}
+
+# Pluck one metric from a Devel::Cover summary entry. Some entries
+# (e.g. files that don't have any branch instrumentation) omit the
+# metric key entirely; without the existence check the previous
+# `$entry->{$k}{percentage} // $entry->{$k}` form autovivified the
+# hash and then numified the resulting hashref, leaking pointer
+# addresses into the baseline.
+sub pluck {
+    my ($entry, $key) = @_;
+    return undef if !exists $entry->{$key};
+    my $v = $entry->{$key};
+    return num(ref($v) eq 'HASH' ? $v->{percentage} : $v);
 }
 
 sub num {
     my ($v) = @_;
     return undef if !defined $v;
+    return undef if ref $v;
     return undef if $v eq 'n/a';
     return 0 + $v;
 }
