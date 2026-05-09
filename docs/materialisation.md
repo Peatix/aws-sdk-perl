@@ -22,11 +22,11 @@ does:
 2. **Materialiser fall-through** — otherwise `_materialise_class`
    (`auto-lib/Paws.pm:127-178`) resolves the IR via
    `Paws::Model::Loader::Resolver` (Smithy first, botocore fallback)
-   and asks `Paws::Materializer::Moo` (or `Paws::Materializer` when
+   and asks `Paws::Model::Materializer::Moo` (or `Paws::Model::Materializer` when
    `PAWS_OO_BACKEND=Moose`) to construct the service class plus
    every operation and shape class in memory.
 
-`Paws::Materializer::Auto` (`lib/Paws/Materializer/Auto.pm`) is an
+`Paws::Model::Materializer::Auto` (`lib/Paws/Model/Materializer/Auto.pm`) is an
 opt-in hook that monkey-patches `Paws->load_class` to pick the
 materialiser even when an on-disk file exists, gated by
 `PAWS_LAZY_FORCE=1`.
@@ -110,14 +110,14 @@ can exercise it today by:
 - removing the relevant `auto-lib/Paws/<Service>/` directory and the
   top-level `auto-lib/Paws/<Service>.pm`,
 - or setting `PAWS_LAZY_FORCE=1` after loading
-  `Paws::Materializer::Auto` (env vars documented at
-  `lib/Paws/Materializer/Auto.pm:18-37`), which forces
+  `Paws::Model::Materializer::Auto` (env vars documented at
+  `lib/Paws/Model/Materializer/Auto.pm:18-37`), which forces
   materialisation even when the on-disk file exists.
 
 Set `PAWS_OO_BACKEND=Moose` to switch the materialiser to the Moose
-backend (`lib/Paws/Materializer.pm`) instead of the default Moo +
-Type::Tiny backend (`lib/Paws/Materializer/Moo.pm`). Both
-`auto-lib/Paws.pm:172` and `lib/Paws/Materializer/Auto.pm:134`
+backend (`lib/Paws/Model/Materializer.pm`) instead of the default Moo +
+Type::Tiny backend (`lib/Paws/Model/Materializer/Moo.pm`). Both
+`auto-lib/Paws.pm:172` and `lib/Paws/Model/Materializer/Auto.pm:134`
 default to `Moo`. The Moose backend matches the AOT generator's
 output more closely; it's the right knob when isolating a
 Moo-specific bug. See `docs/oo-backends.md` for the type-mapping
@@ -160,10 +160,10 @@ I expect`:
 
    ```perl
    use Paws::Model::Loader::Resolver;
-   use Paws::Materializer::Moo;
+   use Paws::Model::Materializer::Moo;
 
    my ($ir, $loader) = Paws::Model::Loader::Resolver->new->load_service('EC2');
-   my $mat = Paws::Materializer::Moo->new(loader => undef);
+   my $mat = Paws::Model::Materializer::Moo->new(loader => undef);
    $mat->materialize_service($ir);
 
    # Inspect the materialised class:
@@ -180,7 +180,7 @@ I expect`:
    committed `auto-lib/`.
 4. **Force the materialiser path under tests.**
    `PAWS_LAZY_FORCE=1` (env var listed at
-   `lib/Paws/Materializer/Auto.pm:18-37`) bypasses the on-disk check
+   `lib/Paws/Model/Materializer/Auto.pm:18-37`) bypasses the on-disk check
    so tests exercise the in-memory build.
 5. **Switch OO backend.** `PAWS_OO_BACKEND=Moose` falls back to the
    Moose materialiser, which is closer to the AOT generator's output

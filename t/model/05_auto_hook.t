@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# Test the Paws::Materializer::Auto opt-in hook.
+# Test the Paws::Model::Materializer::Auto opt-in hook.
 #
 # Verifies:
 #   - The hook installs without breaking on-disk class loads
@@ -25,8 +25,8 @@ use lib "$Bin/../../lib";
 $ENV{PAWS_LAZY_DIR}   = "$Bin/fixtures";
 $ENV{PAWS_LAZY_FORCE} = '1';
 
-require Paws::Materializer::Auto;
-Paws::Materializer::Auto->import;
+require Paws::Model::Materializer::Auto;
+Paws::Model::Materializer::Auto->import;
 
 # The service name in the fixture is 'TinyService' (from sdkId in
 # Smithy + serviceId in botocore JSON). Materialising it should
@@ -58,7 +58,7 @@ subtest 'PAWS_OO_BACKEND=Moose escape hatch (post-PR13)' => sub {
         '-I', "$Bin/../../builder-lib",
         '-I', "$Bin/../../lib",
         '-I', "$Bin/../../auto-lib",
-        '-MPaws::Materializer::Auto',
+        '-MPaws::Model::Materializer::Auto',
         '-e', q{
             use Paws;
             Paws->load_class('Paws::TinyService');
@@ -92,7 +92,7 @@ subtest 'PAWS_OO_BACKEND=Moo (now the default)' => sub {
         '-I', "$Bin/../../builder-lib",
         '-I', "$Bin/../../lib",
         '-I', "$Bin/../../auto-lib",
-        '-MPaws::Materializer::Auto',
+        '-MPaws::Model::Materializer::Auto',
         '-e', q{
             use Paws;
             Paws->load_class('Paws::TinyService');

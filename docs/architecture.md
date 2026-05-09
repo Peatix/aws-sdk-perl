@@ -20,7 +20,7 @@ smithy ─────►   (loader interface) │                        │
                                               │  (TT-template-driven AOT      │
                                               │   class generation, today)    │
                                               │                               │
-                                              │  Paws::Materializer           │
+                                              │  Paws::Model::Materializer           │
                                               │  (in-memory class             │
                                               │   construction, PR9 onwards)  │
                                               └───────────────────────────────┘
@@ -86,7 +86,7 @@ After PR8 → PR15 land, the same data flow is rerouted through the IR:
 2. `make gen-classes` is replaced by a `dist-prepare` step that
    copies the JSON sources into `share/`.
 3. End users `cpanm Paws`; the dist no longer includes `auto-lib/`.
-4. `Paws->service('EC2')` calls `Paws::Materializer->materialize_service('EC2')`,
+4. `Paws->service('EC2')` calls `Paws::Model::Materializer->materialize_service('EC2')`,
    which reads the JSON via the appropriate `Paws::Model::Loader::*`
    and constructs the Moose (later: Moo) classes in-memory.
 5. The wire layer is unchanged from the user's perspective, but its
@@ -131,7 +131,7 @@ See `docs/loaders.md` for the per-loader IR field table.
 
 ## PR12 status
 
-PR12 adds `lib/Paws/Materializer/Moo.pm` — a parallel materialiser
+PR12 adds `lib/Paws/Model/Materializer/Moo.pm` — a parallel materialiser
 that builds Moo + Type::Tiny classes from the IR. The Moo classes:
 
 - expose the same API surface as the Moose classes,
@@ -144,8 +144,8 @@ that builds Moo + Type::Tiny classes from the IR. The Moo classes:
 Moose remains the default backend. The Moo backend is opt-in by
 construction:
 
-    use Paws::Materializer::Moo;
-    my $mat = Paws::Materializer::Moo->new(loader => $loader);
+    use Paws::Model::Materializer::Moo;
+    my $mat = Paws::Model::Materializer::Moo->new(loader => $loader);
     my $pkg = $mat->materialize_service($ir);
 
 PR13 will switch the default in the lazy hook based on
@@ -187,7 +187,7 @@ perf win lands: Moo classes never trigger Moose inflation.
 
 ## PR9 status
 
-PR9 adds `lib/Paws/Materializer.pm` — given a `Paws::Model::IR::Service`
+PR9 adds `lib/Paws/Model/Materializer.pm` — given a `Paws::Model::IR::Service`
 it constructs the corresponding Moose classes in memory:
 
 - service class (one method per operation, composed roles based on
@@ -203,7 +203,7 @@ on-disk class would have produced.
 
 **Not yet in PR9, deferred to a follow-up commit on this same PR or to
 PR10**: the `PAWS_LAZY=1` opt-in hook in `Paws.pm` (or a sibling
-`Paws::Materializer::Auto`). Wiring that in requires deciding where the
+`Paws::Model::Materializer::Auto`). Wiring that in requires deciding where the
 JSON files live at runtime — which is the dist-layout change owned by
 PR10.
 

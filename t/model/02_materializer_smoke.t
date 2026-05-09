@@ -1,9 +1,9 @@
 #!/usr/bin/env perl
 
-# Smoke test for Paws::Materializer.
+# Smoke test for Paws::Model::Materializer.
 #
 # Loads the synthetic tinyservice fixture via Paws::Model::Loader::Botocore
-# and asks Paws::Materializer to build the corresponding Moose classes
+# and asks Paws::Model::Materializer to build the corresponding Moose classes
 # in memory. Verifies:
 #
 #   - the service class exists and responds to operations(),
@@ -25,7 +25,7 @@ use lib "$Bin/../../builder-lib";
 use lib "$Bin/../../lib";
 
 use Paws::Model::Loader::Botocore;
-use Paws::Materializer;
+use Paws::Model::Materializer;
 
 my $fixture = "$Bin/fixtures/tinyservice/2024-01-01/service-2.json";
 my $loader  = Paws::Model::Loader::Botocore->new;
@@ -47,7 +47,7 @@ my $renamed = Paws::Model::IR::Service->new(
     shapes            => $svc_ir->shapes,
 );
 
-my $mat = Paws::Materializer->new(loader => $loader);
+my $mat = Paws::Model::Materializer->new(loader => $loader);
 my $svc_pkg = $mat->materialize_service($renamed);
 is($svc_pkg, 'Paws::T9SmokeService', 'service package returned');
 

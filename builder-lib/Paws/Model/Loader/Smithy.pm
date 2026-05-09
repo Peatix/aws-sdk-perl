@@ -8,7 +8,7 @@ package Paws::Model::Loader::Smithy;
 #
 # The IR is the same shape that the Botocore loader produces, so
 # downstream consumers (Paws::API::Builder once refactored,
-# Paws::Materializer, Paws::Materializer::Moo) work with both
+# Paws::Model::Materializer, Paws::Model::Materializer::Moo) work with both
 # loaders without knowing which source they were fed from.
 #
 # Smithy carries a richer model than botocore JSON (service-level

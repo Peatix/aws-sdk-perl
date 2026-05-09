@@ -4,7 +4,7 @@
 #
 # Drives the per-shape POD generator for the Paws-Docs companion dist.
 # Walks every service known to the loader resolver, materialises it
-# via Paws::Materializer, and writes one .pod file per shape under
+# via Paws::Model::Materializer, and writes one .pod file per shape under
 # the configured output root.
 #
 # The .pod files are deliberately self-contained (no leading

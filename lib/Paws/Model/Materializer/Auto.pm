@@ -1,16 +1,16 @@
-package Paws::Materializer::Auto;
+package Paws::Model::Materializer::Auto;
 
 # Opt-in hook that switches Paws->load_class to use the materialiser
 # when a class isn't already available on disk.
 #
 # Usage:
 #
-#   perl -MPaws::Materializer::Auto -e '...'
-#   PERL5OPT=-MPaws::Materializer::Auto your-script.pl
+#   perl -MPaws::Model::Materializer::Auto -e '...'
+#   PERL5OPT=-MPaws::Model::Materializer::Auto your-script.pl
 #
 # Or in code:
 #
-#   BEGIN { use Paws::Materializer::Auto }
+#   BEGIN { use Paws::Model::Materializer::Auto }
 #   use Paws;
 #
 # Environment variables:
@@ -134,9 +134,9 @@ sub _materialise {
     my $backend = $ENV{PAWS_OO_BACKEND} // 'Moo';
     my $mat_class;
     if ($backend eq 'Moo') {
-        $mat_class = 'Paws::Materializer::Moo';
+        $mat_class = 'Paws::Model::Materializer::Moo';
     } else {
-        $mat_class = 'Paws::Materializer';
+        $mat_class = 'Paws::Model::Materializer';
     }
     eval { Module::Runtime::require_module($mat_class); 1 } or return 0;
 
@@ -226,18 +226,18 @@ __END__
 
 =head1 NAME
 
-Paws::Materializer::Auto - opt-in lazy materialisation hook
+Paws::Model::Materializer::Auto - opt-in lazy materialisation hook
 
 =head1 SYNOPSIS
 
   # Enable for a single script:
-  perl -MPaws::Materializer::Auto your-script.pl
+  perl -MPaws::Model::Materializer::Auto your-script.pl
 
   # Or process-wide:
-  PERL5OPT=-MPaws::Materializer::Auto your-script.pl
+  PERL5OPT=-MPaws::Model::Materializer::Auto your-script.pl
 
   # Pick the OO backend:
-  PAWS_OO_BACKEND=Moo perl -MPaws::Materializer::Auto -e ...
+  PAWS_OO_BACKEND=Moo perl -MPaws::Model::Materializer::Auto -e ...
 
 =head1 DESCRIPTION
 

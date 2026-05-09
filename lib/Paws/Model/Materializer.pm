@@ -1,4 +1,4 @@
-package Paws::Materializer;
+package Paws::Model::Materializer;
 
 # In-memory materialiser. Given a Paws::Model::IR::Service, builds the
 # Moose classes that the existing AOT generator would have written to
@@ -347,7 +347,7 @@ __END__
 
 =head1 NAME
 
-Paws::Materializer - in-memory construction of Paws::<Service>::*
+Paws::Model::Materializer - in-memory construction of Paws::<Service>::*
 classes from a Paws::Model::IR::Service
 
 =head1 STATUS
@@ -367,7 +367,7 @@ t/model/fixtures/tinyservice through the wire layer.
 
 What's deferred to follow-up commits on this same PR:
 
-  - Sereal-backed IR cache (Paws::Materializer::Cache); first-touch
+  - Sereal-backed IR cache (Paws::Model::Materializer::Cache); first-touch
     cost is bounded by the JSON parse + Moose construction.
   - Per-shape lazy materialisation (today: eager when the service
     materialises). Eager is correct and easy to reason about; lazy

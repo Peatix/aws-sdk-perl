@@ -9,7 +9,7 @@ package Paws::Model::IR;
 #     after a future commit refactors it to read from IR rather than
 #     directly from `api_struct->{shapes}` / `->{operations}`;
 #   - the lazy in-memory materialiser introduced in PR9
-#     (lib/Paws/Materializer.pm).
+#     (lib/Paws/Model/Materializer.pm).
 #
 # Source-format-independent. Both Botocore JSON and Smithy IR loaders
 # normalise to this shape.

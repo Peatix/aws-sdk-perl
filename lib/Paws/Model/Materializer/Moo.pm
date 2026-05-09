@@ -1,13 +1,13 @@
-package Paws::Materializer::Moo;
+package Paws::Model::Materializer::Moo;
 
-# Moo + Type::Tiny backend for Paws::Materializer.
+# Moo + Type::Tiny backend for Paws::Model::Materializer.
 #
-# Same interface as Paws::Materializer (the Moose backend), but builds
+# Same interface as Paws::Model::Materializer (the Moose backend), but builds
 # Moo classes with Type::Tiny type constraints instead of Moose
 # classes with Moose stringy types.
 #
 # Why a separate module rather than a backend hook in
-# Paws::Materializer? Two reasons:
+# Paws::Model::Materializer? Two reasons:
 #
 #   1. The two backends use different OO systems entirely (Moo can't
 #      compose Moose roles, and vice-versa). A shared facade would
@@ -397,18 +397,18 @@ __END__
 
 =head1 NAME
 
-Paws::Materializer::Moo - Moo + Type::Tiny backend for the materialiser
+Paws::Model::Materializer::Moo - Moo + Type::Tiny backend for the materialiser
 
 =head1 STATUS
 
 PR12 lands the Moo backend as opt-in. Construct directly:
 
-    use Paws::Materializer::Moo;
-    my $mat = Paws::Materializer::Moo->new(loader => $loader);
+    use Paws::Model::Materializer::Moo;
+    my $mat = Paws::Model::Materializer::Moo->new(loader => $loader);
     my $pkg = $mat->materialize_service($ir);
 
 PR13 will switch the default backend selection (in
-Paws::Materializer's facade or in the Paws.pm hook) to Moo when
+Paws::Model::Materializer's facade or in the Paws.pm hook) to Moo when
 PAWS_OO_BACKEND=Moo is unset, with PAWS_OO_BACKEND=Moose as the
 escape hatch.
 

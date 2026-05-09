@@ -130,7 +130,7 @@ sub register {
 # today on every request. The point of the side-table is to amortise
 # the cost: build once, read many.
 #
-# In a follow-up commit, Paws::Materializer will install side-tables
+# In a follow-up commit, Paws::Model::Materializer will install side-tables
 # directly via Paws::SerDes->register($class => \%data), avoiding the
 # meta-class round-trip entirely.
 sub _build_from_meta {

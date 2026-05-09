@@ -13,7 +13,7 @@ package Paws::Model::Loader;
 # All loaders MUST return a Paws::Model::IR::Service. Any loader-specific
 # information that doesn't fit the IR is silently dropped or reported
 # via the loader's own diagnostic interface; the consumers
-# (Paws::API::Builder, Paws::Materializer) only ever see IR.
+# (Paws::API::Builder, Paws::Model::Materializer) only ever see IR.
 
 use strict;
 use warnings;
