@@ -101,8 +101,18 @@ sub _build_service {
 
     # @aws.api#service carries endpointPrefix / sdkId.
     my $api_service_trait = $svc_traits->{'aws.api#service'} // {};
-    my $endpoint_prefix   = $api_service_trait->{endpointPrefix} // _local_part($svc_id);
-    my $sdk_id            = $api_service_trait->{sdkId}          // _local_part($svc_id);
+
+    # endpointPrefix may be omitted (account.smithy.json is one such
+    # service). Botocore equivalent never omits it: e.g. account's
+    # service-2.json has metadata.endpointPrefix='account'. Fall back
+    # to arnNamespace (which is also lowercased and matches what
+    # botocore emits in the absence of an explicit endpoint-prefix
+    # override), then to a lowercased local name as last resort.
+    my $endpoint_prefix
+        =  $api_service_trait->{endpointPrefix}
+        // $api_service_trait->{arnNamespace}
+        // lc(_local_part($svc_id));
+    my $sdk_id            = $api_service_trait->{sdkId} // _local_part($svc_id);
 
     # Operations live in the service shape's operations[].
     my @op_targets =
