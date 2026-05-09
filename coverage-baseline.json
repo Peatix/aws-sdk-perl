@@ -1,12 +1,439 @@
 {
+   "files" : {
+      "builder-lib/Paws/Model/IR.pm" : {
+         "branch" : null,
+         "condition" : 0,
+         "statement" : 93.5483870967742,
+         "subroutine" : 93.3333333333333,
+         "total" : 87.7551020408163
+      },
+      "builder-lib/Paws/Model/Loader.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "builder-lib/Paws/Model/Loader/Botocore.pm" : {
+         "branch" : 79.5454545454545,
+         "condition" : 44.6808510638298,
+         "statement" : 97.8723404255319,
+         "subroutine" : 100,
+         "total" : 81.5
+      },
+      "builder-lib/Paws/Model/Loader/Resolver.pm" : {
+         "branch" : 88.8888888888889,
+         "condition" : 33.3333333333333,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 95.4545454545455
+      },
+      "builder-lib/Paws/Model/Loader/Smithy.pm" : {
+         "branch" : 70.3125,
+         "condition" : 53.3333333333333,
+         "statement" : 93.3823529411765,
+         "subroutine" : 100,
+         "total" : 78.2758620689655
+      },
+      "lib/Paws/API.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/API/Base64Attribute.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/API/Caller.pm" : {
+         "branch" : 0,
+         "condition" : 0,
+         "statement" : 36.3636363636364,
+         "subroutine" : 85.7142857142857,
+         "total" : 27.8481012658228
+      },
+      "lib/Paws/API/EndpointResolver.pm" : {
+         "branch" : 83.3333333333333,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 95.4022988505747
+      },
+      "lib/Paws/API/JSONAttribute.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/API/MapParser.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/API/Response.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/API/StrToNativeMapParser.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/API/StrToObjMapParser.pm" : {
+         "branch" : 0,
+         "condition" : null,
+         "statement" : 42.8571428571429,
+         "subroutine" : 50,
+         "total" : 36.3636363636364
+      },
+      "lib/Paws/Credential.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Credential/CredProcess.pm" : {
+         "branch" : 85.7142857142857,
+         "condition" : null,
+         "statement" : 97.5609756097561,
+         "subroutine" : 100,
+         "total" : 95.1612903225806
+      },
+      "lib/Paws/Credential/ECSContainerProfile.pm" : {
+         "branch" : 80.7692307692308,
+         "condition" : 62.5,
+         "statement" : 96.2962962962963,
+         "subroutine" : 100,
+         "total" : 89.6907216494845
+      },
+      "lib/Paws/Credential/Environment.pm" : {
+         "branch" : 100,
+         "condition" : 88.8888888888889,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 96.7741935483871
+      },
+      "lib/Paws/Credential/Explicit.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Credential/File.pm" : {
+         "branch" : 75,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 95.9183673469388
+      },
+      "lib/Paws/Credential/InstanceProfile.pm" : {
+         "branch" : 70,
+         "condition" : 66.6666666666667,
+         "statement" : 97.0588235294118,
+         "subroutine" : 100,
+         "total" : 90.7407407407407
+      },
+      "lib/Paws/Credential/InstanceProfileV2.pm" : {
+         "branch" : 64.2857142857143,
+         "condition" : 66.6666666666667,
+         "statement" : 97.4358974358974,
+         "subroutine" : 100,
+         "total" : 88.8888888888889
+      },
+      "lib/Paws/Credential/ProviderChain.pm" : {
+         "branch" : 50,
+         "condition" : null,
+         "statement" : 84.6153846153846,
+         "subroutine" : 100,
+         "total" : 82.3529411764706
+      },
+      "lib/Paws/Exception.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Materializer.pm" : {
+         "branch" : 72.7272727272727,
+         "condition" : 41.6666666666667,
+         "statement" : 93.7853107344633,
+         "subroutine" : 87.5,
+         "total" : 85.4368932038835
+      },
+      "lib/Paws/Materializer/Auto.pm" : {
+         "branch" : 44.4444444444444,
+         "condition" : 50,
+         "statement" : 73.0769230769231,
+         "subroutine" : 82.3529411764706,
+         "total" : 66.6666666666667
+      },
+      "lib/Paws/Materializer/Moo.pm" : {
+         "branch" : 68.9189189189189,
+         "condition" : 40.9090909090909,
+         "statement" : 93.2038834951456,
+         "subroutine" : 96.875,
+         "total" : 82.0224719101124
+      },
+      "lib/Paws/Net/APIRequest.pm" : {
+         "branch" : 100,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Net/APIResponse.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Net/Caller.pm" : {
+         "branch" : 75,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 96.4285714285714
+      },
+      "lib/Paws/Net/CallerRole.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Net/EC2Caller.pm" : {
+         "branch" : 81.25,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 96.7032967032967
+      },
+      "lib/Paws/Net/FileMockCaller.pm" : {
+         "branch" : 50,
+         "condition" : null,
+         "statement" : 91.4285714285714,
+         "subroutine" : 100,
+         "total" : 91.304347826087
+      },
+      "lib/Paws/Net/FurlCaller.pm" : {
+         "branch" : 75,
+         "condition" : 66.6666666666667,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 93.75
+      },
+      "lib/Paws/Net/GlacierCaller.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Net/JsonCaller.pm" : {
+         "branch" : 87.5,
+         "condition" : 33.3333333333333,
+         "statement" : 97.1830985915493,
+         "subroutine" : 100,
+         "total" : 93.3962264150943
+      },
+      "lib/Paws/Net/JsonResponse.pm" : {
+         "branch" : 84.1463414634146,
+         "condition" : 68.9655172413793,
+         "statement" : 89.8550724637681,
+         "subroutine" : 100,
+         "total" : 86.2595419847328
+      },
+      "lib/Paws/Net/LWPCaller.pm" : {
+         "branch" : 75,
+         "condition" : 66.6666666666667,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 94.4444444444444
+      },
+      "lib/Paws/Net/MockCaller.pm" : {
+         "branch" : 65,
+         "condition" : null,
+         "statement" : 84.9056603773585,
+         "subroutine" : 90.9090909090909,
+         "total" : 80.9523809523809
+      },
+      "lib/Paws/Net/MojoAsyncCaller.pm" : {
+         "branch" : 50,
+         "condition" : 33.3333333333333,
+         "statement" : 88,
+         "subroutine" : 91.6666666666667,
+         "total" : 80.5194805194805
+      },
+      "lib/Paws/Net/NoResponseMockCaller.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 75,
+         "subroutine" : 75,
+         "total" : 75
+      },
+      "lib/Paws/Net/NoSignature.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Net/QueryCaller.pm" : {
+         "branch" : 75,
+         "condition" : 33.3333333333333,
+         "statement" : 84.0909090909091,
+         "subroutine" : 100,
+         "total" : 82.1705426356589
+      },
+      "lib/Paws/Net/ResponseRole.pm" : {
+         "branch" : 85.7142857142857,
+         "condition" : 62.5,
+         "statement" : 93.1034482758621,
+         "subroutine" : 100,
+         "total" : 81.1594202898551
+      },
+      "lib/Paws/Net/RestJsonCaller.pm" : {
+         "branch" : 84.0909090909091,
+         "condition" : 75,
+         "statement" : 88.695652173913,
+         "subroutine" : 100,
+         "total" : 87.5
+      },
+      "lib/Paws/Net/RestJsonResponse.pm" : {
+         "branch" : 68.0555555555556,
+         "condition" : 46.1538461538462,
+         "statement" : 71.2962962962963,
+         "subroutine" : 90.9090909090909,
+         "total" : 69.6078431372549
+      },
+      "lib/Paws/Net/RestXMLResponse.pm" : {
+         "branch" : 50.8333333333333,
+         "condition" : 61.5384615384615,
+         "statement" : 62.874251497006,
+         "subroutine" : 83.3333333333333,
+         "total" : 59.0769230769231
+      },
+      "lib/Paws/Net/RestXmlCaller.pm" : {
+         "branch" : 97.0588235294118,
+         "condition" : 62.5,
+         "statement" : 96.551724137931,
+         "subroutine" : 94.4444444444444,
+         "total" : 95.5223880597015
+      },
+      "lib/Paws/Net/RetryCallerRole.pm" : {
+         "branch" : 100,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Net/S3APIRequest.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 78.9473684210526,
+         "subroutine" : 83.3333333333333,
+         "total" : 80
+      },
+      "lib/Paws/Net/S3Signature.pm" : {
+         "branch" : 50,
+         "condition" : 60,
+         "statement" : 95.8333333333333,
+         "subroutine" : 100,
+         "total" : 86.8421052631579
+      },
+      "lib/Paws/Net/SigninCaller.pm" : {
+         "branch" : 33.3333333333333,
+         "condition" : null,
+         "statement" : 93.5483870967742,
+         "subroutine" : 100,
+         "total" : 86.046511627907
+      },
+      "lib/Paws/Net/V2Signature.pm" : {
+         "branch" : 50,
+         "condition" : 33.3333333333333,
+         "statement" : 85.7142857142857,
+         "subroutine" : 91.6666666666667,
+         "total" : 76.1467889908257
+      },
+      "lib/Paws/Net/V4Signature.pm" : {
+         "branch" : 83.3333333333333,
+         "condition" : 66.6666666666667,
+         "statement" : 95.2380952380952,
+         "subroutine" : 100,
+         "total" : 89.4736842105263
+      },
+      "lib/Paws/Net/XMLResponse.pm" : {
+         "branch" : 71.969696969697,
+         "condition" : 63.1578947368421,
+         "statement" : 85.7988165680473,
+         "subroutine" : 100,
+         "total" : 78.6324786324786
+      },
+      "lib/Paws/SerDes.pm" : {
+         "branch" : 77.2727272727273,
+         "condition" : 56.6666666666667,
+         "statement" : 97.4025974025974,
+         "subroutine" : 94.7368421052632,
+         "total" : 80.5
+      },
+      "lib/Paws/Signin.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 88.8888888888889,
+         "subroutine" : 70,
+         "total" : 83.7837837837838
+      },
+      "lib/Paws/Signin/GetSigninToken.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Signin/GetSigninTokenResponse.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Signin/Login.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      },
+      "lib/Paws/Signin/LoginResponse.pm" : {
+         "branch" : null,
+         "condition" : null,
+         "statement" : 100,
+         "subroutine" : 100,
+         "total" : 100
+      }
+   },
    "schema" : 1,
    "summary" : {
-      "branch" : null,
-      "condition" : null,
-      "statement" : null,
-      "subroutine" : null,
-      "total" : null
-   },
-   "files" : {},
-   "_note" : "Populated by the first successful coverage CI run on master. Until then, coverage-compare treats this as a no-op (see script/coverage-compare). After the first run downloads the coverage-current artefact, copy it over this file to lock in a baseline."
+      "branch" : 71.2765957446808,
+      "condition" : 53.099173553719,
+      "statement" : 89.1237640640982,
+      "subroutine" : 94.4230769230769,
+      "total" : 82.2507403751234
+   }
 }
