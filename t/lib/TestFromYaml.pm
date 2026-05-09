@@ -19,8 +19,9 @@ package TestFromYaml;
 
   has tests => (is => 'ro', isa => 'ArrayRef|Undef', lazy => 1, default => sub {
     my $self = shift; 
-    return [] if (not exists $self->_contents->{ tests } or $self->_contents->{ tests } eq '');
-    return $self->_contents->{ tests };
+    my $tests = $self->_contents->{ tests };
+    return [] if (not defined $tests or (not ref $tests and $tests eq ''));
+    return $tests;
   });
   has has_tests => (is => 'ro', isa => 'Bool', lazy => 1, default => sub { defined shift->tests });
 

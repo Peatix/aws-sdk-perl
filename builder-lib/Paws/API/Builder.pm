@@ -370,8 +370,12 @@ package Paws::API::Builder {
           $shape = $self->capitalize_shape($shape);
           foreach my $i_key (keys %$input) {
             next if $i_key eq 'shape';
+            # `documentation` legitimately appears on both the shape
+            # definition (description of the type) and the operation's
+            # input block (description of the call site). The operation
+            # override is the intended winner. Don't warn on this case.
             warn "INPUT shape $sh_name already has a key $i_key"
-              if (exists $shape->{ $i_key });
+              if (exists $shape->{ $i_key } and $i_key ne 'documentation');
             $shape->{ $i_key } = $input->{ $i_key };
           }
           $ret->{ $sh_name } = $shape
@@ -619,7 +623,12 @@ package Paws::API::Builder {
     }
     pop @class_parts;
     eval { mkdir "auto-lib/" . ( join '/', @class_parts ) };
-    open my $file, ">", $class_file_name;
+    # Encode service docstrings (which can contain non-ASCII) as UTF-8
+    # on the way out. Without ":utf8" the bytes written are still
+    # UTF-8 (Perl falls back to encoding any wide character internally)
+    # but it warns "Wide character in print at .../Builder.pm line ...".
+    # The byte output is unchanged; this just silences the warning.
+    open my $file, ">:utf8", $class_file_name;
     print $file $content;
     close $file;
   }
