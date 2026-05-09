@@ -153,6 +153,11 @@ quicksight at time of writing). See `docs/ci.md` for a tour of the
 generator codepath and where to add fixes / paginator names / map shape
 handlers.
 
+For when (and why) to re-materialise a single service AOT vs. let the
+runtime materialiser build it in memory — useful when iterating on the
+generator, debugging a generated-code issue, or bundling a subset of
+services into a downstream app — see `docs/materialisation.md`.
+
 Perl versions
 ============
 

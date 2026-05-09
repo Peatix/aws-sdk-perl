@@ -54,3 +54,9 @@ submodule, no JVM-based smithy build at install time.
 `Paws-Docs` (separate dist; see `docs/paws-docs.md`) ships per-shape
 POD pages built from the same vendored sources. Both should be
 released together so docs and runtime never drift.
+
+## See also
+
+- `docs/materialisation.md` — when to re-materialise a single service
+  AOT (`script/gen-service`) vs. let the runtime materialiser build
+  classes from these sources in memory.

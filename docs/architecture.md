@@ -3,6 +3,10 @@
 Navigation document for contributors. Points at the code rather than
 duplicating it.
 
+For the user-facing "when do I bundle vs. let the materialiser handle
+it" question and the single-service AOT regen workflow, see
+`docs/materialisation.md`.
+
 ## High-level shape
 
 ```

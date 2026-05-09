@@ -231,6 +231,10 @@ empty, run `make pull-other-sdks` followed by `make gen-classes` first
 
 ### Fast iteration: `script/gen-service` + `script/test-one`
 
+For the wider picture of when to re-materialise a service AOT vs.
+let the materialiser build it in memory at runtime, see
+`docs/materialisation.md`.
+
 Full code generation and the full test suite are slow (`make
 gen-classes-no-doc-fetch` is ~10 min locally / ~30 min on CI; `make test`
 is ~5 min on CI / ~11 min locally). When iterating on a single service
