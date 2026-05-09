@@ -107,6 +107,21 @@ test-one:
 	fi
 	./script/test-one $(TEST)
 
+# Run one shard of the test suite. SHARD is a name from
+# `script/test-shard --list`. The CI test workflow fans out across
+# these shards in a strategy matrix to cut wall-clock time. Local
+# developers should normally just use `make test`; this target is
+# here so the CI step matches the developer-facing entry point.
+#   make test-shard SHARD=load-a
+#   make test-shard SHARD=responses
+test-shard:
+	@if [ -z "$(SHARD)" ]; then \
+	  echo 'usage: make test-shard SHARD=<name>' >&2; \
+	  echo '       (`script/test-shard --list` for the names)' >&2; \
+	  exit 2; \
+	fi
+	carton exec -- ./script/test-shard $(SHARD)
+
 docu-links:
 	carton exec ./builder-bin/gen_classes.pl --docu_links
 

@@ -1,0 +1,306 @@
+#!/usr/bin/env bash
+# test-shard: run one named shard of the test suite.
+#
+# The CI `test` workflow fans out across a strategy matrix where each
+# matrix cell runs one shard. Keeping the shard list here (rather than
+# in the workflow YAML) is the single source of truth — the workflow
+# only knows shard *names*, not which .t files belong to each shard.
+#
+# Usage:
+#   script/test-shard SHARD              # run the shard
+#   script/test-shard --list             # list shard names (one per line)
+#   script/test-shard --files SHARD      # list .t files in a shard
+#   script/test-shard --verify           # check that the union of shards
+#                                        # exactly matches `find t -name '*.t'`
+#
+# Environment:
+#   PAWS_SILENCE_UNSTABLE_WARNINGS=1 is set automatically.
+#   Pass extra prove arguments via PROVE_ARGS, e.g.
+#     PROVE_ARGS='--jobs 4 --timer' script/test-shard core
+#
+# Shard rationale (CI wallclock measured on master @ 15eb101b3 from
+# the test workflow on PR #67 — Ubuntu runner, perl 5.36):
+#
+#   load-a      ~85s   t/01_load.t restricted to first ~half of
+#   load-b      ~85s    `Paws->available_services` (~402 services
+#                       split alphabetically). t/01_load.t loads
+#                       every service serially with materialiser
+#                       round-trips, so it dominated the single-job
+#                       wall time at ~166s. Two cells run in parallel
+#                       to halve that.
+#   network     ~90s   t/03, t/04, t/12, t/13, t/14
+#                       (DNS / connect timeout heavy; ~35s per file —
+#                       the timeout-bound files set the floor)
+#   responses   ~38s   t/06, t/10, t/11
+#                       (t/10_responses.t is ~9,900 sub-tests)
+#   mocked      ~5s    t/05, t/15-19, t/20-31 (synthetic protocol +
+#                       mocked responses; cheap once load is done)
+#   subdirs     ~15s   t/02, t/26, t/99 + t/glacier, t/model,
+#                       t/route53, t/s3, t/types, t/wire
+#
+# Wall-time of the workflow == max(shard) + per-job overhead. With
+# `load-a/b` and `network` all in the 85-95s range the slowest cell
+# determines the ceiling. Re-balance if a future change pushes any
+# single cell above ~120s — that's the signal to either split it or
+# move files to a lighter shard.
+
+set -euo pipefail
+
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+repo_root=$(cd -- "$script_dir/.." && pwd)
+cd -- "$repo_root"
+
+# Each shard is a space-separated list of paths, evaluated relative to
+# the repo root. Paths can be individual .t files or directories
+# (matched recursively via prove -r). The strings here are the
+# canonical definition of what runs where; do NOT duplicate them
+# anywhere else.
+shard_files() {
+  case "$1" in
+    load-a|load-b)
+      echo t/01_load.t
+      ;;
+    network)
+      echo t/03_aws_default_object.t \
+           t/04_credentials.t \
+           t/12_regions.t \
+           t/13_client_connect_errors.t \
+           t/14_dns_client_errors.t
+      ;;
+    responses)
+      echo t/06_endpoint_override.t \
+           t/10_responses.t \
+           t/11_client_exceptions.t
+      ;;
+    mocked)
+      echo t/05_service_calls.t \
+           t/15_timeouts.t \
+           t/16_retries.t \
+           t/17_s3metadata.t \
+           t/18_mocked.t \
+           t/19_signin_login.t \
+           t/20_json_syntetic_responses.t \
+           t/21_restjson_syntetic_responses.t \
+           t/22_query_syntetic_responses.t \
+           t/23_queryflatten_syntetic_responses.t \
+           t/24_error_from_nonreturningmethod.t \
+           t/25_error_on_malformed_response.t \
+           t/27_signing_name.t \
+           t/28_retries_mojoasynccaller.t \
+           t/29_restxml_syntetic_responses.t \
+           t/30_ec2_syntetic_responses.t \
+           t/31_glacier_syntetic_responses.t
+      ;;
+    subdirs)
+      echo t/02_aws_object.t \
+           t/26_paginators.t \
+           t/99_pod_presence.t \
+           t/99_pod_syntax.t \
+           t/glacier \
+           t/model \
+           t/route53 \
+           t/s3 \
+           t/types \
+           t/wire
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+all_shards() {
+  echo load-a load-b network responses mocked subdirs
+}
+
+usage() {
+  cat <<'EOF' >&2
+usage:
+  script/test-shard SHARD              run the shard via prove
+  script/test-shard --list             list shard names
+  script/test-shard --files SHARD      list .t files that the shard
+                                       would run (after recursive
+                                       expansion of any directories)
+  script/test-shard --verify           assert that every .t file under
+                                       t/ belongs to exactly one shard
+EOF
+  exit 2
+}
+
+# Expand a shard's files-or-dirs into the actual list of .t files,
+# matching what `prove -r` would discover. Used by --files and --verify.
+expand_shard() {
+  local shard_name="$1"
+  local entries
+  if ! entries=$(shard_files "$shard_name")
+  then
+    echo "unknown shard: $shard_name" >&2
+    return 1
+  fi
+
+  for entry in $entries
+  do
+    if [ -f "$entry" ]
+    then
+      echo "$entry"
+    elif [ -d "$entry" ]
+    then
+      find "$entry" -type f -name '*.t' | LC_ALL=C sort
+    else
+      echo "shard '$shard_name' references missing path: $entry" >&2
+      return 1
+    fi
+  done
+}
+
+cmd_list() {
+  all_shards | tr ' ' '\n'
+}
+
+cmd_files() {
+  if [ "$#" -lt 1 ]
+  then
+    usage
+  fi
+  expand_shard "$1" | LC_ALL=C sort
+}
+
+cmd_verify() {
+  TMP_DIR=$(mktemp -d)
+  trap 'rm -rf "$TMP_DIR"' EXIT
+  local tmp_union="$TMP_DIR/union"
+  local tmp_actual="$TMP_DIR/actual"
+
+  for shard in $(all_shards)
+  do
+    expand_shard "$shard" >> "$tmp_union"
+  done
+
+  # Detect duplicates first — every .t file should be in exactly one
+  # shard. The `load-a` / `load-b` pair is the deliberate exception:
+  # they share t/01_load.t but each runs it with a different subset
+  # of services in @ARGV, so the file appearing in both is correct.
+  local dupes
+  dupes=$(LC_ALL=C sort "$tmp_union" | uniq -d | grep -v '^t/01_load\.t$' || true)
+  if [ -n "$dupes" ]
+  then
+    echo "ERROR: the following .t files appear in more than one shard:" >&2
+    printf '  %s\n' $dupes >&2
+    exit 1
+  fi
+
+  LC_ALL=C sort -u "$tmp_union" -o "$tmp_union"
+
+  find t -type f -name '*.t' | LC_ALL=C sort -u > "$tmp_actual"
+
+  if diff -u "$tmp_actual" "$tmp_union"
+  then
+    local count
+    count=$(wc -l < "$tmp_union" | tr -d ' ')
+    echo "ok: $count test files covered by $(all_shards | wc -w | tr -d ' ') shards"
+  else
+    echo "ERROR: shard coverage does not match \`find t -name '*.t'\`" >&2
+    echo "       lines starting with - are missing from shards;" >&2
+    echo "       lines starting with + are extra (non-existent files)." >&2
+    exit 1
+  fi
+}
+
+# Compute the service-name subset for one of the load-* shards.
+# t/01_load.t accepts service names as @ARGV; we pass these via prove's
+# `::` separator. The split is alphabetical (sort + slice) so it stays
+# deterministic across runs and matches what `Paws->available_services`
+# already returns sorted.
+load_services_chunk() {
+  local idx="$1" total="$2"
+  perl -I lib -I auto-lib -e '
+    use strict;
+    use warnings;
+    use Paws;
+    my @services = sort Paws->new->available_services;
+    my $idx = $ARGV[0] - 1;
+    my $total = $ARGV[1];
+    my $n = scalar @services;
+    my $chunk = int($n / $total);
+    my $remainder = $n % $total;
+    my $start = $idx * $chunk + ($idx < $remainder ? $idx : $remainder);
+    my $size = $chunk + ($idx < $remainder ? 1 : 0);
+    print join(" ", @services[$start .. $start + $size - 1]);
+  ' "$idx" "$total"
+}
+
+cmd_run() {
+  if [ "$#" -lt 1 ]
+  then
+    usage
+  fi
+  local shard_name="$1"
+  local entries
+  if ! entries=$(shard_files "$shard_name")
+  then
+    echo "unknown shard: $shard_name" >&2
+    echo "available shards:" >&2
+    all_shards | tr ' ' '\n' | sed 's/^/  /' >&2
+    exit 1
+  fi
+
+  declare -a prove_argv=(-r --lib -I auto-lib --verbose)
+  if [ -n "${PROVE_ARGS:-}" ]
+  then
+    # shellcheck disable=SC2206
+    prove_argv+=(${PROVE_ARGS})
+  fi
+
+  # Read entries (may include directories) into the prove argv. prove
+  # -r recurses into any directories.
+  # shellcheck disable=SC2206
+  prove_argv+=($entries)
+
+  # The load-* shards split t/01_load.t alphabetically by service
+  # name. t/01_load.t reads @ARGV; prove passes anything after `::`
+  # to the test as @ARGV.
+  case "$shard_name" in
+    load-a)
+      local services
+      services=$(load_services_chunk 1 2)
+      prove_argv+=(:: $services)
+      ;;
+    load-b)
+      local services
+      services=$(load_services_chunk 2 2)
+      prove_argv+=(:: $services)
+      ;;
+  esac
+
+  echo "running shard '$shard_name': prove ${prove_argv[*]}" >&2
+
+  PAWS_SILENCE_UNSTABLE_WARNINGS=1 \
+    exec prove "${prove_argv[@]}"
+}
+
+if [ "$#" -lt 1 ]
+then
+  usage
+fi
+
+case "$1" in
+  --list)
+    cmd_list
+    ;;
+  --files)
+    shift
+    cmd_files "$@"
+    ;;
+  --verify)
+    cmd_verify
+    ;;
+  -h|--help)
+    usage
+    ;;
+  --*)
+    usage
+    ;;
+  *)
+    cmd_run "$@"
+    ;;
+esac
