@@ -65,6 +65,28 @@ my %PROTOCOL_TO_CALLER_ROLE = (
     'ec2'       => 'Paws::Net::EC2Caller',
 );
 
+# Map an IR Service to the Paws::Net::*Signature role to compose.
+# Mirrors builder-lib/Paws/API/Builder.pm's signature_role
+# convention so AOT-generated and materialised classes pick the
+# same signer for the same service. The role is loaded on demand
+# so a cpanfile dependency for, say, CryptX (used by V4ASignature)
+# isn't paid by every Paws process — only by services that actually
+# declare signatureVersion=v4a.
+sub _signature_role_for {
+    my ($service_ir) = @_;
+    my $sv = $service_ir->signature_version;
+    return 'Paws::Net::V4Signature' if !defined $sv || $sv eq '';
+    my $role = sprintf 'Paws::Net::%sSignature', uc $sv;
+    my $path = $role; $path =~ s{::}{/}g; $path .= '.pm';
+    eval { require $path; 1 } or do {
+        croak sprintf(
+            "materialize_service: signature role %s for signatureVersion=%s is missing: %s",
+            $role, $sv, $@,
+        );
+    };
+    return $role;
+}
+
 # Mapping from botocore primitive type to the Moose isa string.
 my %PRIMITIVE_TO_ISA = (
     string    => 'Str',
@@ -130,12 +152,17 @@ sub materialize_service {
         is => 'ro', isa => 'ArrayRef', default => sub { [] },
     ));
 
-    # Compose roles.
+    # Compose roles. The signature role is derived from the IR's
+    # signature_version (matching the AOT Builder's mapping) so
+    # services like S3, ImportExport (v2), S3Control (s3v4), and
+    # CodeCatalyst (bearer) materialise with the right signer rather
+    # than always defaulting to SigV4.
+    my $signature_role = _signature_role_for($service_ir);
     Moose::Util::apply_all_roles(
         $meta,
         'Paws::API::Caller',
         'Paws::API::EndpointResolver',
-        'Paws::Net::V4Signature',
+        $signature_role,
         $caller_role,
     );
 

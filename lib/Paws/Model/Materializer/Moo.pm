@@ -49,6 +49,25 @@ my %PROTOCOL_TO_CALLER_ROLE = (
     'ec2'       => 'Paws::Net::EC2Caller',
 );
 
+# Map an IR Service to the Paws::Net::*Signature role. Mirrors the
+# AOT generator's $c->signature_role and the Moose materialiser's
+# _signature_role_for so the three paths agree on which signer a
+# given service composes. See Paws::Model::Materializer for details.
+sub _signature_role_for {
+    my ($service_ir) = @_;
+    my $sv = $service_ir->signature_version;
+    return 'Paws::Net::V4Signature' if !defined $sv || $sv eq '';
+    my $role = sprintf 'Paws::Net::%sSignature', uc $sv;
+    my $path = $role; $path =~ s{::}{/}g; $path .= '.pm';
+    eval { require $path; 1 } or do {
+        croak sprintf(
+            "materialize_service: signature role %s for signatureVersion=%s is missing: %s",
+            $role, $sv, $@,
+        );
+    };
+    return $role;
+}
+
 # Mapping from botocore primitive type to the Type::Tiny constructor
 # expression we'll string-eval into the materialised class.
 my %PRIMITIVE_TO_TYPE_EXPR = (
@@ -73,6 +92,8 @@ sub materialize_service {
     my $caller_role = $PROTOCOL_TO_CALLER_ROLE{ $service_ir->protocol }
         // croak sprintf('materialize_service: unknown protocol=%s service=%s',
                          $service_ir->protocol, $service_ir->name);
+
+    my $signature_role = _signature_role_for($service_ir);
 
     # Build via string-eval. Simplest reliable way to construct a Moo
     # package programmatically; matches what Moo's own internals do.
@@ -120,7 +141,7 @@ sub materialize_service {
 
         with 'Paws::API::Caller',
              'Paws::API::EndpointResolver',
-             'Paws::Net::V4Signature',
+             '$signature_role',
              '$caller_role';
 
         @{[ join("\n", @op_methods) ]}
