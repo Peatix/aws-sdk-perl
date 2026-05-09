@@ -300,6 +300,12 @@ $known_regions->{ '[UNDEF]' }->{ signin }     = 'signin.aws.amazon.com';
 
 my $paws = Paws->new(config => { credentials => 'Test::CustomCredentials' });
 
+# Service codes from _endpoints.json that don't have a mapping in
+# Paws::API::ServiceToClass. Collected once and noted at the end so the
+# diagnostic survives but doesn't print once-per-region-per-service to
+# stderr (~250 lines of noise per CI run).
+my %unmapped_services;
+
 for my $region ( sort keys %$known_regions ) {
   for my $service ( sort keys %{ $known_regions->{$region} } ) {
     my $expected_endpoint = $known_regions->{ $region }->{ $service };
@@ -307,7 +313,7 @@ for my $region ( sort keys %$known_regions ) {
     # If we don't have a Class for a service, just skip it
     my $paws_service = eval { Paws::API::ServiceToClass::service_to_class($service); };
     if (not defined $paws_service){
-      warn "No service for $service";
+      $unmapped_services{$service}++;
       next;
     }
 
@@ -316,6 +322,11 @@ for my $region ( sort keys %$known_regions ) {
 
     cmp_ok($svc->endpoint_host, 'eq', $expected_endpoint, "Paws->service('$service', region => $region) endpoint is $expected_endpoint");
   }
+}
+
+if (%unmapped_services) {
+  note "service codes without a Paws::API::ServiceToClass mapping: "
+    . join(', ', sort keys %unmapped_services);
 }
 
 my $global_services = {
