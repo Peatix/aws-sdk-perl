@@ -91,6 +91,38 @@ After PR8 → PR15 land, the same data flow is rerouted through the IR:
 
 See `docs/testing.md` for how each PR is gated.
 
+## PR11 status
+
+PR11 introduces `lib/Paws/SerDes.pm`: per-class serialisation metadata
+side-table built once and cached. The wire layer reads from the
+side-table instead of `$obj->meta->...` on every request.
+
+Today's PR11 commit:
+
+- `lib/Paws/SerDes.pm` with the `_build_from_meta` fallback (mirrors
+  what the wire layer used to do; keeps full compatibility with
+  AOT-generated and materialised classes).
+- `lib/Paws/Net/JsonCaller.pm` migrated to `Paws::SerDes` as a worked
+  example. Other callers (RestJsonCaller, QueryCaller, RestXmlCaller,
+  EC2Caller, GlacierCaller) and response decoders
+  (JsonResponse, RestJsonResponse, RestXMLResponse, XMLResponse)
+  migrate piecemeal in follow-up commits on this same PR.
+- `t/wire/serdes_parity.t` asserts the side-table answers match
+  `meta->...` for the seven attribute traits.
+
+The migration pattern is mechanical: replace
+`$params->meta->get_attribute_list` with
+`$serdes->serializable_attributes`, replace
+`$params->meta->get_attribute($att)->does('Paws::API::...')` with
+`$serdes->trait_for($att, 'NameInRequest')`, replace
+`->request_name` / `->header_name` / `->query_name` / `->uri_name`
+with `$serdes->wire_key_for($att)` / `$serdes->location_name_for($att)`.
+
+PR12 (Moo + Type::Tiny) populates the side-table directly via a new
+`Paws::SerDes->register($class => \%data)` API instead of the
+`_build_from_meta` Moose-introspection fallback. That's where the
+perf win lands: Moo classes never trigger Moose inflation.
+
 ## PR9 status
 
 PR9 adds `lib/Paws/Materializer.pm` — given a `Paws::Model::IR::Service`

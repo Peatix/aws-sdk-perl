@@ -5,6 +5,7 @@ package Paws::Net::EC2Caller;
   use POSIX qw(strftime); 
 
   use Paws::Net::XMLResponse;
+  use Paws::SerDes;
 
   has response_to_object => (
     is => 'ro',
@@ -18,49 +19,50 @@ package Paws::Net::EC2Caller;
     return ($self->flattened_arrays)?'%s.%d':'%s.member.%d';
   }
 
-  # converts the objects that represent the call into parameters that the API can understand
+  # PR11: routed through Paws::SerDes.
   sub _to_querycaller_params {
     my ($self, $params) = @_;
+    my $serdes = Paws::SerDes->for($params);
+
     my %p;
-    foreach my $att (grep { $_ !~ m/^_/ } $params->meta->get_attribute_list) {
-      my $key;
-      if ($params->meta->get_attribute($att)->does('Paws::API::Attribute::Trait::NameInRequest')){
-        $key = $params->meta->get_attribute($att)->request_name;
-      } else {
-        $key = $att;
-      }
-      
-      # This is due to code found in serialize.py (EC2Serializer)
-      substr($key,0,1) = uc(substr($key,0,1));
+    for my $att ($serdes->serializable_attributes) {
+      my $key = $serdes->wire_key_for($att);
 
-      if (defined $params->$att) {
-        my $att_type = $params->meta->get_attribute($att)->type_constraint;
+      # EC2Serializer uppercases the first letter of every wire key
+      # (this is a botocore EC2-protocol quirk; see serialize.py in
+      # botocore).
+      substr($key, 0, 1) = uc(substr($key, 0, 1));
 
-        if (Paws->is_internal_type($att_type)) {
-          if ($att_type eq 'Bool') {
-            $p{ $key } = ($params->{$att} == 1) ? 'true' : 'false';
-          } else {
-            $p{ $key } = $params->{$att};
-          }
-        } elsif ($att_type =~ m/^ArrayRef\[(.*)\]/) {
-          if (Paws->is_internal_type("$1")){
-            my $i = 1;
-            foreach my $value (@{ $params->$att }){
-              $p{ sprintf($self->array_flatten_string, $key, $i) } = $value;
-              $i++
-            }
-          } else {
-            my $i = 1;
-            foreach my $value (@{ $params->$att }){
-              my %complex_value = $self->_to_querycaller_params($value);
-              map { $p{ sprintf($self->array_flatten_string . ".%s", $key, $i, $_) } = $complex_value{$_} } keys %complex_value;
-              $i++
-            }
+      my $value = $params->$att;
+      next if !defined $value;
+
+      my $type = $serdes->type_for($att);
+
+      if (Paws->is_internal_type($type)) {
+        if ($type eq 'Bool') {
+          $p{$key} = ($value == 1) ? 'true' : 'false';
+        } else {
+          $p{$key} = $value;
+        }
+      } elsif ($type =~ m/^ArrayRef\[(.*)\]/) {
+        my $inner = $1;
+        if (Paws->is_internal_type($inner)) {
+          my $i = 1;
+          for my $v (@$value) {
+            $p{ sprintf($self->array_flatten_string, $key, $i) } = $v;
+            $i++;
           }
         } else {
-          my %complex_value = $self->_to_querycaller_params($params->$att);
-          map { $p{ "$key.$_" } = $complex_value{$_} } keys %complex_value;
+          my $i = 1;
+          for my $v (@$value) {
+            my %complex_value = $self->_to_querycaller_params($v);
+            map { $p{ sprintf($self->array_flatten_string . '.%s', $key, $i, $_) } = $complex_value{$_} } keys %complex_value;
+            $i++;
+          }
         }
+      } else {
+        my %complex_value = $self->_to_querycaller_params($value);
+        map { $p{ "$key.$_" } = $complex_value{$_} } keys %complex_value;
       }
     }
     return %p;

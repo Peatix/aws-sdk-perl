@@ -8,6 +8,7 @@ package Paws::Net::RestJsonCaller;
   use Scalar::Util;
 
   use Paws::Net::RestJsonResponse;
+  use Paws::SerDes;
 
   has response_to_object => (
     is => 'ro',
@@ -16,50 +17,66 @@ package Paws::Net::RestJsonCaller;
     }
   );
 
-  # converts the objects that represent the call into parameters that the API can understand
+  # converts the objects that represent the call into parameters that
+  # the API can understand. PR11: routed through Paws::SerDes.
   sub _to_jsoncaller_params {
     my ($self, $params) = @_;
+    my $serdes = Paws::SerDes->for($params);
+
     my %p;
-    foreach my $att (grep { $_ !~ m/^_/ } $params->meta->get_attribute_list) {
-      my $attribute = $params->meta->get_attribute($att);
+    for my $att ($serdes->serializable_attributes) {
+      # Skip attributes that go elsewhere on the wire (header / query
+      # string / URI / body-as-payload).
+      my $loc = $serdes->location_for($att);
+      next if $loc eq 'header' || $loc eq 'headers'
+           || $loc eq 'querystring' || $loc eq 'uri';
+      next if $serdes->trait_for($att, 'ParamInBody');
 
-      next if ($attribute->does('ParamInHeader') or
-               $attribute->does('ParamInQuery') or
-               $attribute->does('ParamInURI') or
-               $attribute->does('ParamInBody')
-      );
+      my $value = $params->$att;
+      next if !defined $value;
 
-      my $key = $attribute->does('Paws::API::Attribute::Trait::NameInRequest')?$attribute->request_name:$att;
-      if (defined $params->$att) {
-        my $att_type = $attribute->type_constraint;
-        if ($att_type eq 'Bool') {
-          $p{ $key } = ($params->$att)?\1:\0;
-        } elsif ($att_type eq 'Int') {
-          $p{ $key } = int($params->$att);
-        } elsif ($att_type eq 'Str') {
-          # concatenate an empty string so numbers get transmitted as strings
-          $p{ $key } = "" . $params->$att;
-        } elsif (Paws->is_internal_type($att_type)) {
-          $p{ $key } = $params->$att;
-        } elsif ($att_type =~ m/^ArrayRef\[(.*)\]/) {
-          if (Paws->is_internal_type("$1")){
-            $p{ $key } = $params->$att;
+      my $key  = $serdes->wire_key_for($att);
+      my $type = $serdes->type_for($att);
+      my $type_object = $serdes->type_object_for($att);
+
+      if ($type eq 'Bool') {
+        $p{$key} = $value ? \1 : \0;
+      } elsif ($type eq 'Int') {
+        $p{$key} = int($value);
+      } elsif ($type eq 'Str') {
+        $p{$key} = "" . $value;
+      } elsif (Paws->is_internal_type($type)) {
+        $p{$key} = $value;
+      } elsif ($type =~ m/^ArrayRef\[(.*)\]/) {
+        my $inner = $1;
+        if (Paws->is_internal_type($inner)) {
+          $p{$key} = $value;
+        } else {
+          $p{$key} = [ map { $self->_to_jsoncaller_params($_) } @$value ];
+        }
+      } elsif (defined $type_object && $type_object->isa('Moose::Meta::TypeConstraint::Enum')) {
+        $p{$key} = $value;
+      } else {
+        my $value_serdes = Paws::SerDes->for($value);
+        if ($value_serdes->is_str_to_native_map) {
+          $p{$key} = { %{ $value->Map } };
+        } elsif ($value_serdes->is_str_to_obj_map) {
+          my $map_type = $value_serdes->type_for('Map');
+          if ($map_type =~ m/^HashRef\[ArrayRef\[/) {
+            $p{$key} = {
+              map { my $k = $_;
+                    ( $k => [ map { $self->_to_jsoncaller_params($_) }
+                                  @{ $value->Map->{$_} } ] )
+                  } keys %{ $value->Map }
+            };
           } else {
-            $p{ $key } = [ map { $self->_to_jsoncaller_params($_) } @{ $params->$att } ];
-          }
-        } elsif ($att_type->isa('Moose::Meta::TypeConstraint::Enum')) {
-          $p{ $key } = $params->$att;
-        } elsif ($params->$att->does('Paws::API::StrToNativeMapParser')){ 
-          $p{ $key } = { %{ $params->$att->Map }  };
-        } elsif ($params->$att->does('Paws::API::StrToObjMapParser')){
-          my $type = $params->$att->meta->get_attribute('Map')->type_constraint;
-          if (my ($inner) = ("$type" =~ m/^HashRef\[ArrayRef\[(.*?)\]/)) {
-            $p{ $key } = { map { my $k = $_; ( $k => [ map { $self->_to_jsoncaller_params($_) } @{$params->$att->Map->{$_} } ] ) } keys %{ $params->$att->Map } };
-          } else {
-            $p{ $key } = { map { $_ => $self->_to_jsoncaller_params($params->$att->Map->{$_}) } keys %{ $params->$att->Map } };
+            $p{$key} = {
+              map { $_ => $self->_to_jsoncaller_params($value->Map->{$_}) }
+              keys %{ $value->Map }
+            };
           }
         } else {
-          $p{ $key } = $self->_to_jsoncaller_params($params->$att);
+          $p{$key} = $self->_to_jsoncaller_params($value);
         }
       }
     }
@@ -68,16 +85,16 @@ package Paws::Net::RestJsonCaller;
 
   sub _call_uri {
     my ($self, $call) = @_;
-    my $uri_template = $call->meta->name->_api_uri;
+    my $uri_template = ref($call) . '';
+    $uri_template = $call->_api_uri;
     my $t = URI::Template->new( $uri_template );
 
-    my $vars = {};
+    my $serdes = Paws::SerDes->for($call);
 
-    foreach my $attribute ($call->meta->get_all_attributes) {
-      my $att_name = $attribute->name;
-      if ($attribute->does('Paws::API::Attribute::Trait::ParamInURI')) {
-        $vars->{ $attribute->uri_name } = $call->$att_name
-      }
+    my $vars = {};
+    for my $att ($serdes->serializable_attributes) {
+      next if !$serdes->trait_for($att, 'ParamInURI');
+      $vars->{ $serdes->location_name_for($att) } = $call->$att;
     }
 
     my $uri = $t->process($vars);
@@ -86,10 +103,14 @@ package Paws::Net::RestJsonCaller;
 
   sub _to_header_params {
     my ($self, $request, $call) = @_;
-    foreach my $attribute ($call->meta->get_all_attributes) {
-      if ($attribute->does('Paws::API::Attribute::Trait::ParamInHeader') and $attribute->has_value($call)) {
-        $request->headers->header( $attribute->header_name => $attribute->get_value($call) );
-      }
+    my $serdes = Paws::SerDes->for($call);
+    for my $att ($serdes->serializable_attributes) {
+      next if !$serdes->trait_for($att, 'ParamInHeader');
+      my $value = $call->$att;
+      next if !defined $value;
+      $request->headers->header(
+        $serdes->location_name_for($att) => $value,
+      );
     }
   }
 
@@ -100,12 +121,13 @@ package Paws::Net::RestJsonCaller;
 
     my $uri = $self->_call_uri($call);
 
+    my $serdes  = Paws::SerDes->for($call);
     my $qparams = { $uri->query_form };
-    foreach my $attribute ($call->meta->get_all_attributes) {
-      my $att_name = $attribute->name;
-      if ($attribute->does('Paws::API::Attribute::Trait::ParamInQuery')) {
-        $qparams->{ $attribute->query_name } = $call->$att_name if (defined $call->$att_name);
-      }
+    for my $att ($serdes->serializable_attributes) {
+      next if !$serdes->trait_for($att, 'ParamInQuery');
+      my $value = $call->$att;
+      next if !defined $value;
+      $qparams->{ $serdes->location_name_for($att) } = $value;
     }
     $uri->query_form(%$qparams);
 
@@ -120,10 +142,14 @@ package Paws::Net::RestJsonCaller;
       if (Scalar::Util::blessed($call->$param_name)){
           my $attribute = $call->$param_name;
           my $content   = $self->_to_jsoncaller_params($attribute);
-          my $att = $call->meta->get_attribute($param_name);
-          # if($att->does('Paws::API::Attribute::Trait::NameInRequest')) {
-          #   $content = { $att->request_name => $content };
-          # }
+          # The historical code peeked at $call->meta->get_attribute($param_name)
+          # to see if the stream attribute carried NameInRequest, but
+          # the wrapping was always commented out. SerDes-equivalent
+          # would be:
+          #   my $serdes = Paws::SerDes->for($call);
+          #   if ($serdes->trait_for($param_name, 'NameInRequest')) {
+          #     $content = { $serdes->wire_key_for($param_name) => $content };
+          #   }
           $content = encode_json($content);
           $request->content($content);
           $request->headers->header('Content-Type'=>'application/json');

@@ -5,6 +5,7 @@ package Paws::Net::QueryCaller;
   use POSIX qw(strftime); 
 
   use Paws::Net::XMLResponse;
+  use Paws::SerDes;
 
   has response_to_object => (
     is => 'ro',
@@ -18,63 +19,83 @@ package Paws::Net::QueryCaller;
     return ($self->flattened_arrays)?'%s.%d':'%s.member.%d';
   }
 
-  # converts the objects that represent the call into parameters that the API can understand
+  # converts the objects that represent the call into parameters that
+  # the API can understand. PR11 routes wire metadata lookups through
+  # Paws::SerDes (built once per class, cached) instead of round-
+  # tripping through $obj->meta->get_attribute(...) on every request.
   sub _to_querycaller_params {
     my ($self, $params) = @_;
-    my %p;
-    foreach my $att (grep { $_ !~ m/^_/ } $params->meta->get_attribute_list) {
-      my $key = $params->meta->get_attribute($att)->does('Paws::API::Attribute::Trait::NameInRequest')?$params->meta->get_attribute($att)->request_name:$att;
-      if (defined $params->$att) {
-        my $att_type = $params->meta->get_attribute($att)->type_constraint;
+    my $serdes = Paws::SerDes->for($params);
 
-        if (Paws->is_internal_type($att_type)) {
-          if ($att_type eq 'Bool') {
-            $p{ $key } = ($params->{$att} == 1) ? 'true' : 'false';
-          } else {
-            $p{ $key } = $params->{$att};
-          }
-        } elsif ($att_type =~ m/^ArrayRef\[(.*)\]/) {
-	  if (scalar @{ $params->$att } == 0 ) {
-	     $p{ $att } = '';
-	  } elsif (Paws->is_internal_type("$1")){
-            my $i = 1;
-            foreach my $value (@{ $params->$att }){
-              $p{ sprintf($self->array_flatten_string, $key, $i) } = $value;
-              $i++
-            }
-          } else {
-            my $i = 1;
-            foreach my $value (@{ $params->$att }){
-              my %complex_value = $self->_to_querycaller_params($value);
-              map { $p{ sprintf($self->array_flatten_string . ".%s", $key, $i, $_) } = $complex_value{$_} } keys %complex_value;
-              $i++
-            }
-          }
-        } elsif ($params->$att->does('Paws::API::StrToObjMapParser')) {
+    my %p;
+    for my $att ($serdes->serializable_attributes) {
+      my $value = $params->$att;
+      next if !defined $value;
+
+      my $key  = $serdes->wire_key_for($att);
+      my $type = $serdes->type_for($att);
+
+      if (Paws->is_internal_type($type)) {
+        if ($type eq 'Bool') {
+          $p{ $key } = ($value == 1) ? 'true' : 'false';
+        } else {
+          $p{ $key } = $value;
+        }
+      } elsif ($type =~ m/^ArrayRef\[(.*)\]/) {
+        my $inner = $1;
+        if (scalar @$value == 0) {
+          # Preserves the long-standing behaviour: empty list serialises
+          # as an empty string under the *attribute* name (not the wire
+          # key). Comment for posterity in case it surprises a reader.
+          $p{ $att } = '';
+        } elsif (Paws->is_internal_type($inner)) {
           my $i = 1;
-          foreach my $map_key (keys %{ $params->$att->Map }){
-            $p{ "$key.$i.Name" } = $map_key;
-            my %complex_value = $self->_to_querycaller_params($params->$att->Map->{ $map_key });
-            map { $p{ "$key.$i.Value.$_" } = $complex_value{$_} } keys %complex_value;
-            $i++;
-          }
-        } elsif ($params->$att->does('Paws::API::StrToNativeMapParser')) {
-          my $i = 1;
-          foreach my $map_key (keys %{ $params->$att->Map }){
-            $p{ "$key.entry.$i.key" }   = $map_key;
-            $p{ "$key.entry.$i.value" } = $params->$att->Map->{ $map_key };
-            $i++;
-          }
-        } elsif ($params->$att->does('Paws::API::MapParser')){
-          my $i = 1;
-          foreach my $map_key (sort $params->$att->meta->get_attribute_list){
-            next if (not defined $params->$att->$map_key);
-            $p{ "$key.$i.Name" } = $map_key;
-            $p{ "$key.$i.Value" } = $params->$att->$map_key;
+          for my $v (@$value) {
+            $p{ sprintf($self->array_flatten_string, $key, $i) } = $v;
             $i++;
           }
         } else {
-          my %complex_value = $self->_to_querycaller_params($params->$att);
+          my $i = 1;
+          for my $v (@$value) {
+            my %complex_value = $self->_to_querycaller_params($v);
+            map { $p{ sprintf($self->array_flatten_string . '.%s', $key, $i, $_) } = $complex_value{$_} } keys %complex_value;
+            $i++;
+          }
+        }
+      } else {
+        # Map and structure shapes. Use the value's own SerDes to
+        # decide which (we still have to look at the *value*, not the
+        # parent attribute, because Map shapes are themselves objects
+        # with role-flavoured side-tables).
+        my $value_serdes = Paws::SerDes->for($value);
+        if ($value_serdes->is_str_to_obj_map) {
+          my $i = 1;
+          for my $map_key (keys %{ $value->Map }) {
+            $p{ "$key.$i.Name" } = $map_key;
+            my %complex_value = $self->_to_querycaller_params($value->Map->{$map_key});
+            map { $p{ "$key.$i.Value.$_" } = $complex_value{$_} } keys %complex_value;
+            $i++;
+          }
+        } elsif ($value_serdes->is_str_to_native_map) {
+          my $i = 1;
+          for my $map_key (keys %{ $value->Map }) {
+            $p{ "$key.entry.$i.key" }   = $map_key;
+            $p{ "$key.entry.$i.value" } = $value->Map->{$map_key};
+            $i++;
+          }
+        } elsif ($value->can('does') && $value->does('Paws::API::MapParser')) {
+          # MapParser is a less-common shape that lays out keys as
+          # public attributes on the value object itself. The wire
+          # layer has always sorted those for stable output.
+          my $i = 1;
+          for my $map_key ($value_serdes->serializable_attributes) {
+            next if !defined $value->$map_key;
+            $p{ "$key.$i.Name" }  = $map_key;
+            $p{ "$key.$i.Value" } = $value->$map_key;
+            $i++;
+          }
+        } else {
+          my %complex_value = $self->_to_querycaller_params($value);
           map { $p{ "$key.$_" } = $complex_value{$_} } keys %complex_value;
         }
       }
