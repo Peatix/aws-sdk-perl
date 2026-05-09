@@ -189,6 +189,18 @@ sub available_services {
   my $skip_list = {
     API => 1, Credential => 1, Exception => 1, RegionInfo => 1,
     Materializer => 1, SerDes => 1,
+    # Test helpers under t/lib/Paws that get picked up by
+    # Module::Find::findsubmod when t/lib is on @INC. They are not
+    # real services and have no `operations` method, so preload_service
+    # would die on them.
+    Crawler                     => 1,
+    EC2ParamsService            => 1,
+    GlacierParamsService        => 1,
+    JsonParamsService           => 1,
+    QueryFlattenedParamsService => 1,
+    QueryParamsService          => 1,
+    RestJsonParamsService       => 1,
+    RestXmlParamsService        => 1,
   };
   require Module::Find;
   my $class_prefix = $self->_class_prefix;
