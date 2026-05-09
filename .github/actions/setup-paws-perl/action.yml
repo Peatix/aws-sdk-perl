@@ -124,20 +124,19 @@ runs:
       shell: bash
       run: |
         # Prefer the submodule SHA (pre-stack18 layout). Fall back to
-        # the share/botocore tree (post-stack18 vendored layout) and
-        # finally to a marker so the cache key still varies.
+        # the etc/botocore-pin.sha pin (post-smithy-only layout: the
+        # AOT generator workflows fetch botocore at runtime at this
+        # SHA; share/botocore is gone). Finally fall back to a
+        # marker so the cache key still varies.
         if git ls-files --error-unmatch .gitmodules >/dev/null 2>&1
         then
           echo "sha=$(git rev-parse HEAD:botocore)" >> "$GITHUB_OUTPUT"
+        elif [ -r etc/botocore-pin.sha ]
+        then
+          sha=$(tr -d '[:space:]' < etc/botocore-pin.sha)
+          echo "sha=pin-${sha:-empty}" >> "$GITHUB_OUTPUT"
         else
-          if [ -d share/botocore ]
-          then
-            sha=$(find share/botocore -type f -print0 | sort -z | xargs -0 sha1sum 2>/dev/null | sha1sum | awk '{print $1}')
-            sha=${sha:-novendored}
-            echo "sha=share-$sha" >> "$GITHUB_OUTPUT"
-          else
-            echo "sha=no-botocore" >> "$GITHUB_OUTPUT"
-          fi
+          echo "sha=no-botocore" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Cache auto-lib/ regenerated content (read + write)

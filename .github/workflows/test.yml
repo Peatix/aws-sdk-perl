@@ -110,17 +110,19 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Resolve pinned botocore SHA
-        # PR 18 (stack18) removed the botocore submodule; the
-        # generator still reads from `botocore/botocore/data/` so we
-        # populate it from the pinned upstream SHA below.
+        # PR 18 (stack18) removed the botocore submodule and the
+        # smithy-only-vendor stack moved the pin from
+        # share/botocore/.upstream-sha to etc/botocore-pin.sha.
+        # The AOT generator still reads from `botocore/botocore/data/`
+        # so we populate it from the pinned upstream SHA below.
         if: hashFiles('.gitmodules') == ''
         id: botocore-pin
         run: |
           set -eu
-          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          sha=$(tr -d '[:space:]' < etc/botocore-pin.sha)
           if [ -z "$sha" ]
           then
-            echo "error: share/botocore/.upstream-sha is empty"
+            echo "error: etc/botocore-pin.sha is empty"
             exit 1
           fi
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
@@ -184,10 +186,10 @@ jobs:
         id: botocore-pin
         run: |
           set -eu
-          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          sha=$(tr -d '[:space:]' < etc/botocore-pin.sha)
           if [ -z "$sha" ]
           then
-            echo "error: share/botocore/.upstream-sha is empty"
+            echo "error: etc/botocore-pin.sha is empty"
             exit 1
           fi
           echo "sha=$sha" >> "$GITHUB_OUTPUT"
