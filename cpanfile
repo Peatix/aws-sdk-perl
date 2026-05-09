@@ -1,6 +1,15 @@
 requires 'perl' => '5.012001';
 requires 'Moose';
 requires 'MooseX::ClassAttribute';
+
+# Moo + Type::Tiny stack: opt-in OO backend (PR12). Required because
+# the materialiser's Moo backend is shipped in lib/. Moose remains
+# the default backend; switch via PAWS_OO_BACKEND=Moo (PR13 will
+# flip the default).
+requires 'Moo';
+requires 'MooX::ClassAttribute';
+requires 'Type::Tiny';
+requires 'Types::Standard';
 requires 'HTTP::Tiny';
 requires 'Throwable::Error';
 requires 'Data::Compare';
