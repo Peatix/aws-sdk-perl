@@ -24,6 +24,24 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.ref || github.ref }}
 
+      - name: Resolve pinned botocore SHA
+        # Pin the upstream checkout to the SHA that auto-lib/ was
+        # generated against (see share/botocore/.upstream-sha) so a
+        # release packaged from a fresh checkout sees the same
+        # botocore data as the committed auto-lib. Mirrors the pattern
+        # in test.yml + regen-byte-identical.yml.
+        if: hashFiles('.gitmodules') == ''
+        id: botocore-pin
+        run: |
+          set -eu
+          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          if [ -z "$sha" ]
+          then
+            echo "error: share/botocore/.upstream-sha is empty"
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
       - name: Fetch botocore data (post-stack18 — submodule removed)
         # `make dist` itself doesn't need botocore, but a release built
         # from a fresh checkout that wants to re-run `make gen-classes`
@@ -33,7 +51,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: boto/botocore
-          ref: develop
+          ref: ${{ steps.botocore-pin.outputs.sha }}
           path: botocore
 
       - name: Set up Perl + dependencies

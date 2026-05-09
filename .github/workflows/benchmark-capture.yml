@@ -23,12 +23,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Resolve pinned botocore SHA
+        # Pin the upstream checkout to the SHA that auto-lib/ was
+        # generated against (see share/botocore/.upstream-sha) so the
+        # captured baseline isn't perturbed by botocore HEAD churn.
+        # Mirrors the pattern in test.yml + regen-byte-identical.yml.
+        if: hashFiles('.gitmodules') == ''
+        id: botocore-pin
+        run: |
+          set -eu
+          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          if [ -z "$sha" ]
+          then
+            echo "error: share/botocore/.upstream-sha is empty"
+            exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
       - name: Fetch botocore data (post-stack18 — submodule removed)
         if: hashFiles('.gitmodules') == ''
         uses: actions/checkout@v6
         with:
           repository: boto/botocore
-          ref: develop
+          ref: ${{ steps.botocore-pin.outputs.sha }}
           path: botocore
 
       - name: Set up Perl + dependencies
