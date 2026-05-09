@@ -58,7 +58,7 @@ __PACKAGE__->meta->make_immutable;
 
 package Paws;
 
-our $VERSION = '0.46';
+our $VERSION = '1.00';
 
 use Carp;
 

@@ -1,3 +1,43 @@
+1.00 (TRIAL) — stack19 (auto-lib drop)
+ - BREAKING CHANGE: auto-lib/Paws/<Service>/*.pm is no longer
+   shipped in the dist. Service classes (e.g. Paws::EC2,
+   Paws::EC2::DescribeInstances, Paws::EC2::Filter) are now built
+   in-memory at first use by Paws::Model::Materializer from the
+   vendored Smithy IR under share/smithy/ (with share/botocore/
+   JSON fallback).
+
+   Anything that imports a generated class by its full path -- e.g.
+   `use Paws::EC2::DescribeInstances ()`, `use parent
+   Paws::EC2::CreateImage` -- needs to switch to
+   `Paws->load_class('Paws::EC2::DescribeInstances')` so the
+   materialiser gets a chance to build it. The recommended entry
+   point -- `Paws->service('EC2')->DescribeInstances(...)` -- is
+   unchanged.
+
+   Per-shape POD that used to ship in auto-lib/ is now in the
+   Paws-Docs companion dist (see paws-docs-dist/ in the source
+   tree); install with `cpanm Paws::Docs` once it's published.
+
+ - Dist size drops from ~224 MB to <100 MB.
+
+ - The default OO backend for materialised classes is Moo +
+   Type::Tiny (PR #59). Set PAWS_OO_BACKEND=Moose to opt back into
+   the Moose backend for the duration of one release as the
+   documented escape hatch (see docs/oo-backends.md).
+
+ - new_with_coercions now branches on the type-constraint object
+   under both backends instead of stringifying first, so the
+   recursive `Paws->new_with_coercions("$type", ...)` path works
+   under Type::Tiny's `InstanceOf["X"]` stringification.
+
+ - Materializer::Auto and lib/Paws.pm now share a single
+   `Paws::<Svc>->can('operations')` introspection check for "is
+   this service already materialised?", replacing two parallel
+   state hashes that left the Auto path under-deduped.
+
+ - Tagged 1.00 (TRIAL) for one upload window before promoting to
+   stable. Use `cpanm --dev Paws` to pull this version.
+
 0.46 20 January 2024
  - Fix issue with failing tests when proxy environment vars are set
  - Mostly a re-lease of 0.45 as that failed to index on pause
