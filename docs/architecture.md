@@ -81,10 +81,16 @@ smithy ─────►   (loader interface) │                        │
 
 After PR8 → PR15 land, the same data flow is rerouted through the IR:
 
-1. The `botocore` submodule is unchanged. A future Smithy loader
-   reads vendored Smithy JSON from `share/smithy/`.
-2. `make gen-classes` is replaced by a `dist-prepare` step that
-   copies the JSON sources into `share/`.
+1. The botocore submodule is gone (PR 18 / stack18). Smithy IR
+   vendored from `awslabs/aws-sdk-rust:aws-models/` lives at
+   `share/smithy/`, tracked in git
+   (smithy-only-vendor-into-git stack).
+2. `make gen-classes` is no longer the runtime path; the
+   materialiser reads `share/smithy/` directly via
+   `Paws::Model::Loader::Smithy`. The AOT generator
+   (`builder-bin/gen_classes.pl`) is still maintained as a
+   contributor tool, fed by an on-the-fly botocore checkout at
+   the SHA in `etc/botocore-pin.sha`.
 3. End users `cpanm Paws`; the dist no longer includes `auto-lib/`.
 4. `Paws->service('EC2')` calls `Paws::Model::Materializer->materialize_service('EC2')`,
    which reads the JSON via the appropriate `Paws::Model::Loader::*`

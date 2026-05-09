@@ -1,0 +1,4249 @@
+{
+   "shapes" : {
+      "com.amazonaws.partnercentralchannel#AcceptChannelHandshake" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#AcceptChannelHandshakeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#AcceptChannelHandshakeResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Accepts a pending channel handshake request from another AWS account.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/AcceptChannelHandshake"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#AcceptChannelHandshakeDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the accepted handshake.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the accepted handshake.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the accepted handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about an accepted channel handshake.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#AcceptChannelHandshakeRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the handshake request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the channel handshake to accept.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#AcceptChannelHandshakeResponse" : {
+         "members" : {
+            "channelHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#AcceptChannelHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the accepted channel handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the access denial.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the access denial.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was denied due to insufficient permissions.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#AccountId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 12,
+               "min" : 12
+            },
+            "smithy.api#pattern" : "^[0-9]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#AccountIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#AccountId"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#Arn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#AssociatedResourceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 17,
+               "min" : 16
+            },
+            "smithy.api#pattern" : "^(pma|rs)-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#AssociatedResourceIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 16
+            },
+            "smithy.api#pattern" : "^((arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?)|(pma|rs)-[a-z0-9]{13})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#AssociatedResourceIdentifierList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#AssociatedResourceIdentifier"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#AssociationType" : {
+         "members" : {
+            "DOWNSTREAM_SELLER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DOWNSTREAM_SELLER"
+               }
+            },
+            "END_CUSTOMER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "END_CUSTOMER"
+               }
+            },
+            "INTERNAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNAL"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#AssociationTypeList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#AssociationType"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#CancelChannelHandshake" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#CancelChannelHandshakeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#CancelChannelHandshakeResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Cancels a pending channel handshake request.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/CancelChannelHandshake"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#CancelChannelHandshakeDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the canceled handshake.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the canceled handshake.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the canceled handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a canceled channel handshake.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CancelChannelHandshakeRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the handshake request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the channel handshake to cancel.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CancelChannelHandshakeResponse" : {
+         "members" : {
+            "channelHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#CancelChannelHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the canceled channel handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#Catalog" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ChannelHandshakeId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 16,
+               "min" : 16
+            },
+            "smithy.api#pattern" : "^ch-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ChannelHandshakeIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 16
+            },
+            "smithy.api#pattern" : "^(arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/channel-handshake/)?ch-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ChannelHandshakePayload" : {
+         "members" : {
+            "revokeServicePeriodPayload" : {
+               "target" : "com.amazonaws.partnercentralchannel#RevokeServicePeriodPayload",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Payload for revoking a service period handshake.</p>"
+               }
+            },
+            "startServicePeriodPayload" : {
+               "target" : "com.amazonaws.partnercentralchannel#StartServicePeriodPayload",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Payload for starting a service period handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the payload data for different types of channel handshakes.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.partnercentralchannel#ChannelHandshakeResource" : {
+         "create" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateChannelHandshake"
+         },
+         "identifiers" : {
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeIdentifier"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListChannelHandshakes"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AcceptChannelHandshake"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#CancelChannelHandshake"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#RejectChannelHandshake"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.partnercentralchannel#ChannelHandshakeSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ChannelHandshakeSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the handshake.</p>"
+               }
+            },
+            "associatedResourceId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociatedResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource associated with the handshake.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier associated with the handshake.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the handshake was created.</p>"
+               }
+            },
+            "detail" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Detailed information about the handshake.</p>"
+               }
+            },
+            "handshakeType" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the handshake.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the handshake.</p>"
+               }
+            },
+            "ownerAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID of the handshake owner.</p>"
+               }
+            },
+            "receiverAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID of the handshake receiver.</p>"
+               }
+            },
+            "senderAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID of the handshake sender.</p>"
+               }
+            },
+            "senderDisplayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#PartnerProfileDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the handshake sender.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the handshake.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the handshake was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a channel handshake.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[!-~]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that caused the conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that caused the conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request could not be completed due to a conflict with the current state of the resource.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#Coverage" : {
+         "members" : {
+            "ENTIRE_ORGANIZATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENTIRE_ORGANIZATION"
+               }
+            },
+            "MANAGEMENT_ACCOUNT_ONLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MANAGEMENT_ACCOUNT_ONLY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#CreateChannelHandshake" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateChannelHandshakeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateChannelHandshakeResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new channel handshake request to establish a partnership with another AWS account.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/CreateChannelHandshake"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#CreateChannelHandshakeDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the created handshake.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the created handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a newly created channel handshake.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateChannelHandshakeRequest" : {
+         "members" : {
+            "associatedResourceIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociatedResourceIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource associated with this handshake.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the handshake request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "handshakeType" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of handshake to create (e.g., start service period, revoke service period).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "payload" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakePayload",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payload containing specific details for the handshake type.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Key-value pairs to associate with the channel handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateChannelHandshakeResponse" : {
+         "members" : {
+            "channelHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#CreateChannelHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the created channel handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateProgramManagementAccount" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateProgramManagementAccountRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateProgramManagementAccountResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new program management account for managing partner relationships.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/CreateProgramManagementAccount"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "CreateProgramManagementAccountFailure",
+                  "params" : {
+                     "accountId" : "000000000000",
+                     "catalog" : "AWS",
+                     "displayName" : "TestAccount",
+                     "program" : "SOLUTION_PROVIDER"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#CreateProgramManagementAccountDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the created program management account.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the created program management account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a newly created program management account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateProgramManagementAccountRequest" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID to associate with the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable name for the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "program" : {
+               "target" : "com.amazonaws.partnercentralchannel#Program",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The program type for the management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Key-value pairs to associate with the program management account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateProgramManagementAccountResponse" : {
+         "members" : {
+            "programManagementAccountDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#CreateProgramManagementAccountDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the created program management account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateRelationship" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateRelationshipRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateRelationshipResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new partner relationship between accounts.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/CreateRelationship"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "CreateRelationshipFailure",
+                  "params" : {
+                     "associatedAccountId" : "000000000000",
+                     "associationType" : "END_CUSTOMER",
+                     "catalog" : "AWS",
+                     "displayName" : "TestRelationship",
+                     "programManagementAccountIdentifier" : "pma-1234567890123",
+                     "sector" : "COMMERCIAL"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#CreateRelationshipDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the created relationship.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the created relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a newly created relationship.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateRelationshipRequest" : {
+         "members" : {
+            "associatedAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID to associate in this relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "associationType" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of association for the relationship (e.g., reseller, distributor).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable name for the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "programManagementAccountIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account for this relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "requestedSupportPlan" : {
+               "target" : "com.amazonaws.partnercentralchannel#SupportPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The support plan requested for this relationship.</p>"
+               }
+            },
+            "resaleAccountModel" : {
+               "target" : "com.amazonaws.partnercentralchannel#ResaleAccountModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resale account model for the relationship.</p>"
+               }
+            },
+            "sector" : {
+               "target" : "com.amazonaws.partnercentralchannel#Sector",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The business sector for the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Key-value pairs to associate with the relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#CreateRelationshipResponse" : {
+         "members" : {
+            "relationshipDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#CreateRelationshipDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the created relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#DateTime" : {
+         "traits" : {
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.partnercentralchannel#DeleteProgramManagementAccount" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#DeleteProgramManagementAccountRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#DeleteProgramManagementAccountResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a program management account.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/DeleteProgramManagementAccount"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#DeleteProgramManagementAccountRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the program management account to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#DeleteProgramManagementAccountResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#DeleteRelationship" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#DeleteRelationshipRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#DeleteRelationshipResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a partner relationship.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/DeleteRelationship"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#DeleteRelationshipRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the relationship to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "programManagementAccountIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account associated with the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#DeleteRelationshipResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#GetRelationship" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#GetRelationshipRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#GetRelationshipResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves details of a specific partner relationship.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/GetRelationship"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#GetRelationshipRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the relationship to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "programManagementAccountIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account associated with the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#GetRelationshipResponse" : {
+         "members" : {
+            "relationshipDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the requested relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#HandshakeDetail" : {
+         "members" : {
+            "programManagementAccountHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details for a program management account handshake.</p>"
+               }
+            },
+            "revokeServicePeriodHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#RevokeServicePeriodHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details for a revoke service period handshake.</p>"
+               }
+            },
+            "startServicePeriodHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#StartServicePeriodHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details for a start service period handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains detailed information about different types of handshakes.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.partnercentralchannel#HandshakeStatus" : {
+         "members" : {
+            "ACCEPTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACCEPTED"
+               }
+            },
+            "CANCELED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELED"
+               }
+            },
+            "EXPIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXPIRED"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "REJECTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REJECTED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#HandshakeStatusList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#HandshakeStatus"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#HandshakeType" : {
+         "members" : {
+            "PROGRAM_MANAGEMENT_ACCOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PROGRAM_MANAGEMENT_ACCOUNT"
+               }
+            },
+            "REVOKE_SERVICE_PERIOD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REVOKE_SERVICE_PERIOD"
+               }
+            },
+            "START_SERVICE_PERIOD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "START_SERVICE_PERIOD"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the internal server error.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An internal server error occurred while processing the request.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListChannelHandshakes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListChannelHandshakesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListChannelHandshakesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists channel handshakes based on specified criteria.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/ListChannelHandshakes"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#ListChannelHandshakesRequest" : {
+         "members" : {
+            "associatedResourceIdentifiers" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociatedResourceIdentifierList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by associated resource identifiers.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier to filter handshakes.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "handshakeType" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter results by handshake type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "handshakeTypeFilters" : {
+               "target" : "com.amazonaws.partnercentralchannel#ListChannelHandshakesTypeFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type-specific filters for handshakes.</p>"
+               }
+            },
+            "handshakeTypeSort" : {
+               "target" : "com.amazonaws.partnercentralchannel#ListChannelHandshakesTypeSort",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Type-specific sorting options for handshakes.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : 20,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single call.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving the next page of results.</p>"
+               }
+            },
+            "participantType" : {
+               "target" : "com.amazonaws.partnercentralchannel#ParticipantType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by participant type (sender or receiver).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statuses" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeStatusList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter results by handshake status.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListChannelHandshakesResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of channel handshakes matching the criteria.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving the next page of results, if available.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListChannelHandshakesTypeFilters" : {
+         "members" : {
+            "programManagementAccountTypeFilters" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountTypeFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters specific to program management account handshakes.</p>"
+               }
+            },
+            "revokeServicePeriodTypeFilters" : {
+               "target" : "com.amazonaws.partnercentralchannel#RevokeServicePeriodTypeFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters specific to revoke service period handshakes.</p>"
+               }
+            },
+            "startServicePeriodTypeFilters" : {
+               "target" : "com.amazonaws.partnercentralchannel#StartServicePeriodTypeFilters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filters specific to start service period handshakes.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Type-specific filters for listing channel handshakes.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.partnercentralchannel#ListChannelHandshakesTypeSort" : {
+         "members" : {
+            "programManagementAccountTypeSort" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountTypeSort",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sorting options specific to program management account handshakes.</p>"
+               }
+            },
+            "revokeServicePeriodTypeSort" : {
+               "target" : "com.amazonaws.partnercentralchannel#RevokeServicePeriodTypeSort",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sorting options specific to revoke service period handshakes.</p>"
+               }
+            },
+            "startServicePeriodTypeSort" : {
+               "target" : "com.amazonaws.partnercentralchannel#StartServicePeriodTypeSort",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sorting options specific to start service period handshakes.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Type-specific sorting options for listing channel handshakes.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.partnercentralchannel#ListProgramManagementAccounts" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists program management accounts based on specified criteria.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/ListProgramManagementAccounts"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "ListProgramManagementAccountsSuccess",
+                  "params" : {
+                     "catalog" : "AWS",
+                     "maxResults" : 1
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsRequest" : {
+         "members" : {
+            "accountIds" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by AWS account IDs.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier to filter accounts.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayNames" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by display names.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : 20,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single call.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving the next page of results.</p>"
+               }
+            },
+            "programs" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by program types.</p>"
+               }
+            },
+            "sort" : {
+               "target" : "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsSortBase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sorting options for the results.</p>"
+               }
+            },
+            "statuses" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountStatusList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by program management account statuses.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of program management accounts matching the criteria.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving the next page of results, if available.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsSortBase" : {
+         "members" : {
+            "sortBy" : {
+               "target" : "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsSortName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort by.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.partnercentralchannel#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order (ascending or descending).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Base sorting configuration for program management accounts.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListProgramManagementAccountsSortName" : {
+         "members" : {
+            "UPDATED_AT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UpdatedAt"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ListRelationships" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListRelationshipsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListRelationshipsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists partner relationships based on specified criteria.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/ListRelationships"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "ListRelationshipsSuccess",
+                  "params" : {
+                     "catalog" : "AWS",
+                     "maxResults" : 1
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#ListRelationshipsRequest" : {
+         "members" : {
+            "associatedAccountIds" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by associated AWS account IDs.</p>"
+               }
+            },
+            "associationTypes" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociationTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by association types.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier to filter relationships.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayNames" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by display names.</p>"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : 20,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single call.</p>",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving the next page of results.</p>"
+               }
+            },
+            "programManagementAccountIdentifiers" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifierList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by program management account identifiers.</p>"
+               }
+            },
+            "sort" : {
+               "target" : "com.amazonaws.partnercentralchannel#ListRelationshipsSortBase",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sorting options for the results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListRelationshipsResponse" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of relationships matching the criteria.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.partnercentralchannel#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Token for retrieving the next page of results, if available.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListRelationshipsSortBase" : {
+         "members" : {
+            "sortBy" : {
+               "target" : "com.amazonaws.partnercentralchannel#ListRelationshipsSortName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort by.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.partnercentralchannel#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order (ascending or descending).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Base sorting configuration for relationships.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListRelationshipsSortName" : {
+         "members" : {
+            "UPDATED_AT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UpdatedAt"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists tags associated with a specific resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/ListTagsForResource"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "ListTagsForResourceFailure",
+                  "params" : {
+                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/program-management-account/pma-1234567890123"
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.partnercentralchannel#TaggableArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to list tags for.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Key-value pairs associated with the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#MinimumNoticeDays" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#NextToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^\\x00-\\x1F\\x7F\\x20]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#Note" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 300,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^\\x00-\\x1F\\x7F]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ParticipantType" : {
+         "members" : {
+            "RECEIVER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RECEIVER"
+               }
+            },
+            "SENDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SENDER"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#PartnerCentralChannel" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "operations" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#UntagResource"
+            }
+         ],
+         "resources" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeResource"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountResource"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipResource"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "partnercentral",
+               "cloudTrailEventSource" : "partnercentral-channel.amazonaws.com",
+               "endpointPrefix" : "partnercentral-channel",
+               "sdkId" : "PartnerCentral Channel"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "partnercentral-channel"
+            },
+            "aws.auth#sigv4a" : {
+               "name" : "partnercentral-channel"
+            },
+            "aws.endpoints#dualStackOnlyEndpoints" : {},
+            "aws.endpoints#standardPartitionalEndpoints" : {
+               "endpointPatternType" : "aws_recommended"
+            },
+            "aws.iam#defineConditionKeys" : {
+               "aws:RequestTag/${TagKey}" : {
+                  "documentation" : "Filters access by the tags that are passed in the request",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requesttag",
+                  "type" : "String"
+               },
+               "aws:ResourceTag/${TagKey}" : {
+                  "documentation" : "Filters access by the tags associated with the resource",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourcetag",
+                  "type" : "String"
+               },
+               "aws:TagKeys" : {
+                  "documentation" : "Filters access by a list of tag keys that are allowed in the request",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys",
+                  "type" : "ArrayOfString"
+               },
+               "partnercentral:Catalog" : {
+                  "documentation" : "Catalog",
+                  "relativeDocumentation" : "page.html#Catalog",
+                  "type" : "String"
+               },
+               "partnercentral:ChannelHandshakeType" : {
+                  "documentation" : "ChannelHandshakeType",
+                  "relativeDocumentation" : "page.html#ChannelHandshakeType",
+                  "type" : "String"
+               }
+            },
+            "aws.protocols#awsJson1_0" : {},
+            "smithy.api#auth" : [
+               "aws.auth#sigv4a",
+               "aws.auth#sigv4"
+            ],
+            "smithy.api#cors" : {},
+            "smithy.api#documentation" : "<p>AWS Partner Central Channel service for managing partner relationships, handshakes, and program management accounts.</p>",
+            "smithy.api#title" : "Partner Central Channel API",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {
+                                 "authSchemes" : [
+                                    {
+                                       "name" : "sigv4a",
+                                       "signingRegionSet" : [
+                                          "*"
+                                       ]
+                                    },
+                                    {
+                                       "name" : "sigv4"
+                                    }
+                                 ]
+                              },
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "name"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                "aws-us-gov"
+                                             ],
+                                             "fn" : "stringEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4a",
+                                                   "signingRegionSet" : [
+                                                      "*"
+                                                   ]
+                                                },
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "us-gov-west-1"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://partnercentral-channel.us-gov.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "name"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                "aws-us-gov"
+                                             ],
+                                             "fn" : "stringEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4a",
+                                                   "signingRegionSet" : [
+                                                      "*"
+                                                   ]
+                                                },
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "us-gov-west-1"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://partnercentral-channel-fips.us-gov.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4a",
+                                                   "signingRegionSet" : [
+                                                      "*"
+                                                   ]
+                                                },
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://partnercentral-channel-fips.global.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4a",
+                                                   "signingRegionSet" : [
+                                                      "*"
+                                                   ]
+                                                },
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://partnercentral-channel.global.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4"
+                                 }
+                              ]
+                           },
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://partnercentral-channel-fips.global.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://partnercentral-channel.global.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://partnercentral-channel-fips.global.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://partnercentral-channel.global.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://partnercentral-channel-fips.us-gov.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4a",
+                                    "signingRegionSet" : [
+                                       "*"
+                                    ]
+                                 },
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://partnercentral-channel.us-gov.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2024-03-18"
+      },
+      "com.amazonaws.partnercentralchannel#PartnerLedSupport" : {
+         "members" : {
+            "coverage" : {
+               "target" : "com.amazonaws.partnercentralchannel#Coverage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The coverage level for partner-led support.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "provider" : {
+               "target" : "com.amazonaws.partnercentralchannel#Provider",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The provider of the partner-led support.</p>"
+               }
+            },
+            "tamLocation" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the Technical Account Manager (TAM).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for partner-led support plans.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#PartnerProfileDisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 40,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\x00-\\x7E\\xA9\\xAE\\xA2-\\xA5\\u202F]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#Program" : {
+         "members" : {
+            "DISTRIBUTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISTRIBUTION"
+               }
+            },
+            "DISTRIBUTION_SELLER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISTRIBUTION_SELLER"
+               }
+            },
+            "SOLUTION_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SOLUTION_PROVIDER"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#Program"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 30,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^\\x00-\\x1F\\x7F]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayNameList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayName"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountHandshakeDetail" : {
+         "members" : {
+            "program" : {
+               "target" : "com.amazonaws.partnercentralchannel#Program",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The program associated with the handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details specific to program management account handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 17,
+               "min" : 17
+            },
+            "smithy.api#pattern" : "^pma-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 17
+            },
+            "smithy.api#pattern" : "^(arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifierList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountResource" : {
+         "create" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateProgramManagementAccount"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.partnercentralchannel#DeleteProgramManagementAccount"
+         },
+         "identifiers" : {
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListProgramManagementAccounts"
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccount"
+         }
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "INACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INACTIVE"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountStatusList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountStatus"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountSummary" : {
+         "members" : {
+            "accountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID associated with the program management account.</p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the program management account.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier associated with the account.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the account was created.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the program management account.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the program management account.</p>"
+               }
+            },
+            "program" : {
+               "target" : "com.amazonaws.partnercentralchannel#Program",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The program type for the management account.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current revision number of the program management account.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the program management account.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the program management account.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the account was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a program management account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountTypeFilters" : {
+         "members" : {
+            "programs" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by program types.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Type-specific filters for program management accounts.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountTypeSort" : {
+         "members" : {
+            "sortBy" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountTypeSortName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort by.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.partnercentralchannel#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order (ascending or descending).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Type-specific sorting options for program management accounts.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ProgramManagementAccountTypeSortName" : {
+         "members" : {
+            "UPDATED_AT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UpdatedAt"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#Provider" : {
+         "members" : {
+            "DISTRIBUTION_SELLER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISTRIBUTION_SELLER"
+               }
+            },
+            "DISTRIBUTOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISTRIBUTOR"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#RejectChannelHandshake" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#RejectChannelHandshakeRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#RejectChannelHandshakeResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Rejects a pending channel handshake request.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/RejectChannelHandshake"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#RejectChannelHandshakeDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the rejected handshake.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the rejected handshake.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.partnercentralchannel#HandshakeStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the rejected handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about a rejected channel handshake.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RejectChannelHandshakeRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the handshake request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ChannelHandshakeIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the channel handshake to reject.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RejectChannelHandshakeResponse" : {
+         "members" : {
+            "channelHandshakeDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#RejectChannelHandshakeDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the rejected channel handshake.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the relationship.</p>"
+               }
+            },
+            "associatedAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID associated in this relationship.</p>"
+               }
+            },
+            "associationType" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of association for the relationship.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier associated with the relationship.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the relationship was created.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the relationship.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the relationship.</p>"
+               }
+            },
+            "programManagementAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account.</p>"
+               }
+            },
+            "resaleAccountModel" : {
+               "target" : "com.amazonaws.partnercentralchannel#ResaleAccountModel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resale account model for the relationship.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current revision number of the relationship.</p>"
+               }
+            },
+            "sector" : {
+               "target" : "com.amazonaws.partnercentralchannel#Sector",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The business sector for the relationship.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the relationship.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the relationship was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Detailed information about a partner relationship.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipDisplayName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 30,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[^\\x00-\\x1F\\x7F]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipDisplayNameList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayName"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 16,
+               "min" : 16
+            },
+            "smithy.api#pattern" : "^rs-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipIdentifier" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 16
+            },
+            "smithy.api#pattern" : "^(arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/pma-[a-z0-9]{13}/relationship/)?rs-[a-z0-9]{13}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipResource" : {
+         "create" : {
+            "target" : "com.amazonaws.partnercentralchannel#CreateRelationship"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.partnercentralchannel#DeleteRelationship"
+         },
+         "identifiers" : {
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipIdentifier"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.partnercentralchannel#ListRelationships"
+         },
+         "read" : {
+            "target" : "com.amazonaws.partnercentralchannel#GetRelationship"
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.partnercentralchannel#UpdateRelationship"
+         }
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#RelationshipSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#RelationshipSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the relationship.</p>"
+               }
+            },
+            "associatedAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID associated in this relationship.</p>"
+               }
+            },
+            "associationType" : {
+               "target" : "com.amazonaws.partnercentralchannel#AssociationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of association for the relationship.</p>"
+               }
+            },
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier associated with the relationship.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the relationship was created.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The display name of the relationship.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the relationship.</p>"
+               }
+            },
+            "programManagementAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current revision number of the relationship.</p>"
+               }
+            },
+            "sector" : {
+               "target" : "com.amazonaws.partnercentralchannel#Sector",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The business sector for the relationship.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the relationship.</p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the relationship was last updated.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a partner relationship.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ResaleAccountModel" : {
+         "members" : {
+            "DISTRIBUTOR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISTRIBUTOR"
+               }
+            },
+            "END_CUSTOMER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "END_CUSTOMER"
+               }
+            },
+            "SOLUTION_PROVIDER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SOLUTION_PROVIDER"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ResoldEnterprise" : {
+         "members" : {
+            "chargeAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID to charge for the support plan.</p>"
+               }
+            },
+            "coverage" : {
+               "target" : "com.amazonaws.partnercentralchannel#Coverage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The coverage level for resold enterprise support.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tamLocation" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the Technical Account Manager (TAM).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for resold enterprise support plans.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ResoldUnifiedOperations" : {
+         "members" : {
+            "chargeAccountId" : {
+               "target" : "com.amazonaws.partnercentralchannel#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The AWS account ID to charge for the support plan.</p>"
+               }
+            },
+            "coverage" : {
+               "target" : "com.amazonaws.partnercentralchannel#Coverage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The coverage level for resold unified operations support.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tamLocation" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location of the Technical Account Manager (TAM).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for resold unified operations support plans.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the resource not found error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that was not found.</p>"
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that was not found.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource was not found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#Revision" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#RevokeServicePeriodHandshakeDetail" : {
+         "members" : {
+            "endDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date of the service period being revoked.</p>"
+               }
+            },
+            "minimumNoticeDays" : {
+               "target" : "com.amazonaws.partnercentralchannel#MinimumNoticeDays",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum number of days notice required for revocation.</p>"
+               }
+            },
+            "note" : {
+               "target" : "com.amazonaws.partnercentralchannel#Note",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A note explaining the reason for revoking the service period.</p>"
+               }
+            },
+            "servicePeriodType" : {
+               "target" : "com.amazonaws.partnercentralchannel#ServicePeriodType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of service period being revoked.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the service period being revoked.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details specific to revoke service period handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RevokeServicePeriodPayload" : {
+         "members" : {
+            "note" : {
+               "target" : "com.amazonaws.partnercentralchannel#Note",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A note explaining the reason for revoking the service period.</p>"
+               }
+            },
+            "programManagementAccountIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Payload for revoke service period handshake requests.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RevokeServicePeriodTypeFilters" : {
+         "members" : {
+            "servicePeriodTypes" : {
+               "target" : "com.amazonaws.partnercentralchannel#ServicePeriodTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by service period types.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters specific to revoke service period handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RevokeServicePeriodTypeSort" : {
+         "members" : {
+            "sortBy" : {
+               "target" : "com.amazonaws.partnercentralchannel#RevokeServicePeriodTypeSortName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort by.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.partnercentralchannel#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order (ascending or descending).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sorting options specific to revoke service period handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#RevokeServicePeriodTypeSortName" : {
+         "members" : {
+            "UPDATED_AT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UpdatedAt"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#Sector" : {
+         "members" : {
+            "COMMERCIAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMMERCIAL"
+               }
+            },
+            "GOVERNMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GOVERNMENT"
+               }
+            },
+            "GOVERNMENT_EXCEPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GOVERNMENT_EXCEPTION"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ServicePeriodType" : {
+         "members" : {
+            "FIXED_COMMITMENT_PERIOD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FIXED_COMMITMENT_PERIOD"
+               }
+            },
+            "MINIMUM_NOTICE_PERIOD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MINIMUM_NOTICE_PERIOD"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#ServicePeriodTypeList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ServicePeriodType"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the service quota exceeded error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code identifying the specific quota that would be exceeded.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that would exceed the quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that would exceed the quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request would exceed a service quota limit.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#SortOrder" : {
+         "members" : {
+            "ASCENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Ascending"
+               }
+            },
+            "DESCENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Descending"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#StartServicePeriodHandshakeDetail" : {
+         "members" : {
+            "endDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date of the service period.</p>"
+               }
+            },
+            "minimumNoticeDays" : {
+               "target" : "com.amazonaws.partnercentralchannel#MinimumNoticeDays",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum number of days notice required for changes.</p>"
+               }
+            },
+            "note" : {
+               "target" : "com.amazonaws.partnercentralchannel#Note",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A note providing additional information about the service period.</p>"
+               }
+            },
+            "servicePeriodType" : {
+               "target" : "com.amazonaws.partnercentralchannel#ServicePeriodType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of service period being started.</p>"
+               }
+            },
+            "startDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start date of the service period.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details specific to start service period handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#StartServicePeriodPayload" : {
+         "members" : {
+            "endDate" : {
+               "target" : "com.amazonaws.partnercentralchannel#DateTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end date of the service period.</p>"
+               }
+            },
+            "minimumNoticeDays" : {
+               "target" : "com.amazonaws.partnercentralchannel#MinimumNoticeDays",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum number of days notice required for changes.</p>"
+               }
+            },
+            "note" : {
+               "target" : "com.amazonaws.partnercentralchannel#Note",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A note providing additional information about the service period.</p>"
+               }
+            },
+            "programManagementAccountIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "servicePeriodType" : {
+               "target" : "com.amazonaws.partnercentralchannel#ServicePeriodType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of service period being started.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Payload for start service period handshake requests.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#StartServicePeriodTypeFilters" : {
+         "members" : {
+            "servicePeriodTypes" : {
+               "target" : "com.amazonaws.partnercentralchannel#ServicePeriodTypeList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter by service period types.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Filters specific to start service period handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#StartServicePeriodTypeSort" : {
+         "members" : {
+            "sortBy" : {
+               "target" : "com.amazonaws.partnercentralchannel#StartServicePeriodTypeSortName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort by.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.partnercentralchannel#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order (ascending or descending).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sorting options specific to start service period handshakes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#StartServicePeriodTypeSortName" : {
+         "members" : {
+            "UPDATED_AT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UpdatedAt"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.partnercentralchannel#SupportPlan" : {
+         "members" : {
+            "partnerLedSupport" : {
+               "target" : "com.amazonaws.partnercentralchannel#PartnerLedSupport",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for partner-led support plans.</p>"
+               }
+            },
+            "resoldEnterprise" : {
+               "target" : "com.amazonaws.partnercentralchannel#ResoldEnterprise",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for resold enterprise support plans.</p>"
+               }
+            },
+            "resoldUnifiedOperations" : {
+               "target" : "com.amazonaws.partnercentralchannel#ResoldUnifiedOperations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for resold unified operations support plans.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for different types of support plans.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.partnercentralchannel#Tag" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the tag.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the tag.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A key-value pair that can be associated with a resource.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#TagKey"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#TagList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#Tag"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds or updates tags for a specified resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/TagResource"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "TagResourceFailure",
+                  "params" : {
+                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/program-management-account/pma-1234567890123",
+                     "tags" : [
+                        {
+                           "key" : "TestKey",
+                           "value" : "TestValue"
+                        }
+                     ]
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.partnercentralchannel#TaggableArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to tag.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Key-value pairs to associate with the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256
+            },
+            "smithy.api#pattern" : "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#TaggableArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/(program-management-account/pma-[a-z0-9]{13}(/relationship/rs-[a-z0-9]{13})?|channel-handshake/ch-[a-z0-9]{13})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.partnercentralchannel#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the throttling error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The quota code associated with the throttling error.</p>"
+               }
+            },
+            "serviceCode" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service code associated with the throttling error.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was throttled due to too many requests being sent in a short period.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes tags from a specified resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/UntagResource"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "failure" : {}
+                  },
+                  "id" : "UntagResourceFailure",
+                  "params" : {
+                     "resourceArn" : "arn:aws:partnercentral:us-east-1:123456789012:catalog/AWS/program-management-account/pma-1234567890123",
+                     "tagKeys" : [
+                        "TestKey"
+                     ]
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.partnercentralchannel#TaggableArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource to remove tags from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.partnercentralchannel#TagKeyList",
+               "traits" : {
+                  "aws.iam#conditionKeyValue" : "aws:TagKeys",
+                  "smithy.api#documentation" : "<p>The keys of the tags to remove from the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccount" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccountRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccountResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the properties of a program management account.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/UpdateProgramManagementAccount"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccountDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the updated program management account.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated display name of the program management account.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated program management account.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new revision number of the program management account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about an updated program management account.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccountRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the program management account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new display name for the program management account.</p>"
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the program management account to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current revision number of the program management account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccountResponse" : {
+         "members" : {
+            "programManagementAccountDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#UpdateProgramManagementAccountDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the updated program management account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateRelationship" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.partnercentralchannel#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.partnercentralchannel#UpdateRelationshipRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.partnercentralchannel#UpdateRelationshipResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the properties of a partner relationship.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/UpdateRelationship"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateRelationshipDetail" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.partnercentralchannel#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the updated relationship.</p>"
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated display name of the relationship.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the updated relationship.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new revision number of the relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains details about an updated relationship.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateRelationshipRequest" : {
+         "members" : {
+            "catalog" : {
+               "target" : "com.amazonaws.partnercentralchannel#Catalog",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The catalog identifier for the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "displayName" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipDisplayName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new display name for the relationship.</p>"
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#RelationshipIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the relationship to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "programManagementAccountIdentifier" : {
+               "target" : "com.amazonaws.partnercentralchannel#ProgramManagementAccountIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the program management account associated with the relationship.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "requestedSupportPlan" : {
+               "target" : "com.amazonaws.partnercentralchannel#SupportPlan",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated support plan for the relationship.</p>"
+               }
+            },
+            "revision" : {
+               "target" : "com.amazonaws.partnercentralchannel#Revision",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current revision number of the relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#UpdateRelationshipResponse" : {
+         "members" : {
+            "relationshipDetail" : {
+               "target" : "com.amazonaws.partnercentralchannel#UpdateRelationshipDetail",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the updated relationship.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ValidationException" : {
+         "members" : {
+            "fieldList" : {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of fields that failed validation.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the validation error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.partnercentralchannel#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the validation failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request failed validation due to invalid input parameters.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ValidationExceptionField" : {
+         "members" : {
+            "code" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The validation error code for the field.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A descriptive message about the validation error.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the field that failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a field that failed validation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralchannel#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.partnercentralchannel#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.partnercentralchannel#ValidationExceptionReason" : {
+         "members" : {
+            "BUSINESS_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BUSINESS_VALIDATION_FAILED"
+               }
+            },
+            "REQUEST_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REQUEST_VALIDATION_FAILED"
+               }
+            }
+         },
+         "type" : "enum"
+      }
+   },
+   "smithy" : "2.0"
+}

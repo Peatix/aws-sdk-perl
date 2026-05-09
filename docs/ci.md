@@ -7,7 +7,7 @@ This repository ships three GitHub Actions workflows under `.github/workflows/`:
 | `test.yml` | `pull_request` (filtered to code paths) | Generate the full set of service classes and run the test suite. |
 | `generate-and-pr.yml` | `workflow_dispatch` | Pull botocore (optionally), regenerate classes via `make gen-classes`, and open a draft PR with the result. |
 | `package.yml` | `workflow_dispatch` and tag pushes | Build a `Paws-*.tar.gz` distribution archive and upload it as a workflow artifact. |
-| `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/botocore/.upstream-sha` and refresh `share/smithy/`; open + auto-merge bump PRs. See ["Source-dep refresh"](#source-dep-refresh). |
+| `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree under `share/smithy/`; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 
 (Additional workflows arrive in stack 01–17 of the maintenance-reduction series:
 `coverage.yml`, `install-smoke.yml`, `benchmarks.yml`,
@@ -213,7 +213,7 @@ reasons:
 
 The previous single-job `build-autolib` paid ~28 min on every cache-miss
 PR (PRs that touch `builder-lib/`, `builder-bin/`, `templates/`,
-`cpanfile`, or `share/botocore/.upstream-sha`) because `gen_classes.pl`
+`cpanfile`, or `etc/botocore-pin.sha`) because `gen_classes.pl`
 runs a `Parallel::ForkManager` pool of up to 16 workers, but a
 `ubuntu-latest` runner only has 4 cores so only 4 are effective. Six
 shards on six 4-core runners give 24 effective workers, balanced near
@@ -239,23 +239,21 @@ For CI to operate without a full `make docu-links` (which hits `docs.aws.amazon.
 
 ## Source-dep refresh
 
-`.github/workflows/refresh-source-deps.yml` keeps the two upstream
-sources Paws materialises against fresh, without manual nudges:
+`.github/workflows/refresh-source-deps.yml` keeps the runtime upstream
+fresh, without manual nudges:
 
-1. **`share/botocore/.upstream-sha`** — the SHA at which
-   `boto/botocore@develop` is checked out by `test.yml`,
-   `regen-byte-identical.yml`, `benchmarks.yml`,
-   `benchmark-capture.yml`, `package.yml`, `install-smoke.yml`, and
-   `generate-and-pr.yml`.
-2. **`share/smithy/`** — the vendored Smithy IR tree produced by
-   `script/paws-vendor-smithy --clean` from
-   `awslabs/aws-sdk-rust@main`'s `aws-models/` directory. While
-   `share/smithy/` contains only `.placeholder` (i.e. the team has
-   not started vendoring yet) the smithy job short-circuits with a
-   `notice` log line and opens no PR.
+- **`share/smithy/`** + **`share/smithy/.upstream-sha`** — the
+  vendored Smithy IR tree produced by `script/paws-vendor-smithy
+  --clean` from `awslabs/aws-sdk-rust@main`'s `aws-models/` directory
+  at the SHA pinned in `share/smithy/.upstream-sha`. The single
+  `bump-smithy-vendor` job re-resolves `main`, rewrites the pin file
+  if it has moved, runs the vendor script, and opens a PR with the
+  drift.
 
-Each upstream maps to one job in the workflow; the jobs run in
-parallel and operate independently.
+The workflow does NOT auto-track the AOT-generator-only botocore
+pin in `etc/botocore-pin.sha` — that pin only changes when a
+contributor regenerates `auto-lib/` at a new botocore SHA via
+`generate-and-pr.yml`, which is a manual workflow.
 
 ### Schedule
 
@@ -281,12 +279,14 @@ current pin, the job exits with a `notice` and no PR.
 
 ### Lifecycle
 
-Each job, when it detects an upstream change:
+When `bump-smithy-vendor` detects an upstream change:
 
-1. Updates the relevant file(s).
+1. Rewrites `share/smithy/.upstream-sha` to the new
+   `awslabs/aws-sdk-rust@main` SHA and runs
+   `script/paws-vendor-smithy --clean` to regenerate the IR tree.
 2. Creates the bump branch
-   (`automation/bump-{botocore-pin,smithy-vendor}-<short-upstream-sha>`)
-   and force-pushes the commit via plain `git`.
+   (`automation/bump-smithy-vendor-<short-upstream-sha>`) and
+   force-pushes the commit via plain `git`.
 3. Opens (or reuses, on a same-SHA re-run) a **draft** PR labelled
    `automated` via `actions/github-script@v8` —
    `github.rest.pulls.list` first, `pulls.create` if no open PR
@@ -298,8 +298,8 @@ Each job, when it detects an upstream change:
 
 The workflow does NOT close or supersede previously-opened auto-bump
 PRs that are still open. If the maintainer ignored yesterday's
-botocore bump and the workflow runs again today against a newer
-SHA, a fresh PR opens against a fresh branch — the SHA-keyed branch
+smithy bump and the workflow runs again today against a newer SHA,
+a fresh PR opens against a fresh branch — the SHA-keyed branch
 naming makes that automatic. The maintainer can close the stale
 one (or merge it first; a same-SHA re-run force-pushes the bump
 branch so the existing PR auto-updates with the latest commit).
@@ -326,8 +326,8 @@ the following scopes on this repository:
 - `contents: write`
 - `pull-requests: write`
 
-Save it as `secrets.PAWS_BUMP_PAT`. Both jobs prefer the PAT and
-fall back to `GITHUB_TOKEN` when it's unset; in fallback mode each
+Save it as `secrets.PAWS_BUMP_PAT`. The job prefers the PAT and
+falls back to `GITHUB_TOKEN` when it's unset; in fallback mode the
 job emits a `warning` log line and leaves its bump PR as draft for
 manual handling. The workflow itself does not fail, so a missing
 PAT only degrades automation, not the surrounding CI surface.

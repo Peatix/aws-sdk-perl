@@ -1,0 +1,2735 @@
+{
+   "metadata" : {
+      "suppressions" : [
+         {
+            "id" : "HttpMethodSemantics",
+            "namespace" : "*"
+         },
+         {
+            "id" : "HttpResponseCodeSemantics",
+            "namespace" : "*"
+         },
+         {
+            "id" : "PaginatedTrait",
+            "namespace" : "*"
+         },
+         {
+            "id" : "HttpHeaderTrait",
+            "namespace" : "*"
+         },
+         {
+            "id" : "HttpUriConflict",
+            "namespace" : "*"
+         },
+         {
+            "id" : "Service",
+            "namespace" : "*"
+         }
+      ]
+   },
+   "shapes" : {
+      "com.amazonaws.iotdeviceadvisor#AmazonResourceName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#AuthenticationMethod" : {
+         "members" : {
+            "SignatureVersion4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SignatureVersion4"
+               }
+            },
+            "X509ClientCertificate" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "X509ClientCertificate"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iotdeviceadvisor#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\u0021-\\u007E]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Message",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sends a Conflict Exception message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sends a Conflict Exception.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#CreateSuiteDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#CreateSuiteDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#CreateSuiteDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a Device Advisor test suite.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">CreateSuiteDefinition</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/suiteDefinitions"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#CreateSuiteDefinitionRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client token for the test suite definition creation. \n            This token is used for tracking test suite definition creation \n            using retries and obtaining its status. This parameter is optional.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "suiteDefinitionConfiguration" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Creates a Device Advisor test suite with suite definition configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to be attached to the suite definition.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#CreateSuiteDefinitionResponse" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the test suite was created.</p>"
+               }
+            },
+            "suiteDefinitionArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the test suite.</p>"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The UUID of the test suite created.</p>"
+               }
+            },
+            "suiteDefinitionName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The suite definition name of the test suite. This is a required parameter.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#DeleteSuiteDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#DeleteSuiteDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#DeleteSuiteDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a Device Advisor test suite.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">DeleteSuiteDefinition</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#DeleteSuiteDefinitionRequest" : {
+         "members" : {
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite to be deleted.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#DeleteSuiteDefinitionResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#DeviceUnderTest" : {
+         "members" : {
+            "certificateArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Lists device's certificate ARN.</p>"
+               }
+            },
+            "deviceRoleArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Lists device's role ARN.</p>"
+               }
+            },
+            "thingArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Lists device's thing ARN.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information of a test device. A thing ARN, certificate ARN \n            or device role ARN is required.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#DeviceUnderTestList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#DeviceUnderTest"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#Endpoint" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 75,
+               "min" : 45
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#ErrorReason" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#Failure" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetEndpoint" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetEndpointRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetEndpointResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets information about an Device Advisor endpoint.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/endpoint"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetEndpointRequest" : {
+         "members" : {
+            "authenticationMethod" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AuthenticationMethod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication method used during the device connection.</p>",
+                  "smithy.api#httpQuery" : "authenticationMethod"
+               }
+            },
+            "certificateArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The certificate ARN of the device. This is an optional parameter.</p>",
+                  "smithy.api#httpQuery" : "certificateArn"
+               }
+            },
+            "deviceRoleArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The device role ARN of the device. This is an optional parameter.</p>",
+                  "smithy.api#httpQuery" : "deviceRoleArn"
+               }
+            },
+            "thingArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The thing ARN of the device. This is an optional parameter.</p>",
+                  "smithy.api#httpQuery" : "thingArn"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetEndpointResponse" : {
+         "members" : {
+            "endpoint" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Endpoint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The response of an Device Advisor endpoint.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets information about a Device Advisor test suite.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetSuiteDefinition</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteDefinitionRequest" : {
+         "members" : {
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite to get.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition version of the test suite to get.</p>",
+                  "smithy.api#httpQuery" : "suiteDefinitionVersion"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteDefinitionResponse" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the suite definition was created.</p>"
+               }
+            },
+            "lastModifiedAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the suite definition was last modified.</p>"
+               }
+            },
+            "latestVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Latest suite definition version of the suite definition.</p>"
+               }
+            },
+            "suiteDefinitionArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the suite definition.</p>"
+               }
+            },
+            "suiteDefinitionConfiguration" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite configuration of the suite definition.</p>"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the suite definition.</p>"
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition version of the suite definition.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tags attached to the suite definition.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets information about a Device Advisor test suite run.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetSuiteRun</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteRunReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteRunReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteRunReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets a report download link for a successful Device Advisor qualifying test suite run.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">GetSuiteRunReport</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/report"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteRunReportRequest" : {
+         "members" : {
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite run ID of the test suite run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteRunReportResponse" : {
+         "members" : {
+            "qualificationReportDownloadUrl" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#QualificationReportDownloadUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Download URL of the qualification report.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteRunRequest" : {
+         "members" : {
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID for the test suite run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite run ID for the test suite run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GetSuiteRunResponse" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the test suite run ended.</p>"
+               }
+            },
+            "errorReason" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#ErrorReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Error reason for any test suite run failure.</p>"
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the test suite run started.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Status for the test suite run.</p>"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID for the test suite run.</p>"
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition version for the test suite run.</p>"
+               }
+            },
+            "suiteRunArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the suite run.</p>"
+               }
+            },
+            "suiteRunConfiguration" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite run configuration for the test suite run.</p>"
+               }
+            },
+            "suiteRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite run ID for the test suite run.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags attached to the suite run.</p>"
+               }
+            },
+            "testResult" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestResult",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Test results for the test suite run.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GroupName" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#GroupResult" : {
+         "members" : {
+            "groupId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Group result ID.</p>"
+               }
+            },
+            "groupName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#GroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Group Result Name.</p>"
+               }
+            },
+            "tests" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestCaseRuns",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Tests under Group Result.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Show Group Result.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#GroupResultList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#GroupResult"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Group Result list.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#IntendedForQualificationBoolean" : {
+         "type" : "boolean"
+      },
+      "com.amazonaws.iotdeviceadvisor#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Message",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sends an Internal Failure Exception message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sends an Internal Failure exception.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#IotSenateService" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#CreateSuiteDefinition"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#DeleteSuiteDefinition"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#GetEndpoint"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteDefinition"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteRun"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#GetSuiteRunReport"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ListSuiteDefinitions"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ListSuiteRuns"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#StartSuiteRun"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#StopSuiteRun"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#UpdateSuiteDefinition"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "iotdeviceadvisor",
+               "cloudFormationName" : "IotDeviceAdvisor",
+               "cloudTrailEventSource" : "iotdeviceadvisor.amazonaws.com",
+               "endpointPrefix" : "api.iotdeviceadvisor",
+               "sdkId" : "IotDeviceAdvisor"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "iotdeviceadvisor"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#documentation" : "<p>Amazon Web Services IoT Core Device Advisor is a cloud-based, fully managed test capability for validating IoT\n            devices during device software development. Device Advisor provides pre-built tests that you\n            can use to validate IoT devices for reliable and secure connectivity with Amazon Web Services IoT Core\n            before deploying devices to production. By using Device Advisor, you can confirm that your\n            devices can connect to Amazon Web Services IoT Core, follow security best practices and, if applicable,\n            receive software updates from IoT Device Management. You can also download signed\n            qualification reports to submit to the Amazon Web Services Partner Network to get your device\n            qualified for the Amazon Web Services Partner Device Catalog without the need to send your device in\n            and wait for it to be tested.</p>",
+            "smithy.api#title" : "AWS IoT Core Device Advisor",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseDualStack"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "assign" : "PartitionResult",
+                                 "fn" : "aws.partition"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    },
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://api.iotdeviceadvisor-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://api.iotdeviceadvisor-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS is enabled but this partition does not support FIPS",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://api.iotdeviceadvisor.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "DualStack is enabled but this partition does not support DualStack",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : "https://api.iotdeviceadvisor.{Region}.{PartitionResult#dnsSuffix}"
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region ap-northeast-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.ap-northeast-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "ap-northeast-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.eu-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-west-2 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-west-2.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-west-2",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://api.iotdeviceadvisor.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2020-09-18"
+      },
+      "com.amazonaws.iotdeviceadvisor#IsLongDurationTestBoolean" : {
+         "type" : "boolean"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListSuiteDefinitions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#ListSuiteDefinitionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#ListSuiteDefinitionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the Device Advisor test suites you have created.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListSuiteDefinitions</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/suiteDefinitions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListSuiteDefinitionsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return at once.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Token",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token used to get the next set of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListSuiteDefinitionsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Token",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token used to get the next set of results.</p>"
+               }
+            },
+            "suiteDefinitionInformationList" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionInformationList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of objects that provide summaries of information about the suite definitions\n            in the list.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListSuiteRuns" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#ListSuiteRunsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#ListSuiteRunsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists runs of the specified Device Advisor test suite. You can list all runs of the test\n            suite, or the runs of a specific version of the test suite.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListSuiteRuns</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/suiteRuns"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListSuiteRunsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return at once.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Token",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to retrieve the next set of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Lists the test suite runs of the specified test suite based on suite definition\n            ID.</p>",
+                  "smithy.api#httpQuery" : "suiteDefinitionId"
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Must be passed along with <code>suiteDefinitionId</code>. Lists the test suite runs of\n            the specified test suite based on suite definition version.</p>",
+                  "smithy.api#httpQuery" : "suiteDefinitionVersion"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListSuiteRunsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Token",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A token to retrieve the next set of results.</p>"
+               }
+            },
+            "suiteRunsList" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of objects that provide summaries of information about the suite runs in the\n            list.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the tags attached to an IoT Device Advisor resource.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">ListTagsForResource</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource ARN of the IoT Device Advisor resource. This can be SuiteDefinition ARN or\n            SuiteRun ARN.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags attached to the IoT Device Advisor resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#LogUrl" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.iotdeviceadvisor#Message" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#ParallelRun" : {
+         "type" : "boolean"
+      },
+      "com.amazonaws.iotdeviceadvisor#Protocol" : {
+         "members" : {
+            "MqttV3_1_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MqttV3_1_1"
+               }
+            },
+            "MqttV3_1_1_OverWebSocket" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MqttV3_1_1_OverWebSocket"
+               }
+            },
+            "MqttV5" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MqttV5"
+               }
+            },
+            "MqttV5_OverWebSocket" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MqttV5_OverWebSocket"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iotdeviceadvisor#QualificationReportDownloadUrl" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Message",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sends a Resource Not Found Exception message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sends a Resource Not Found exception.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#RootGroup" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#SelectedTestList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#UUID"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#StartSuiteRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#StartSuiteRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#StartSuiteRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts a Device Advisor test suite run.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">StartSuiteRun</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}/suiteRuns"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#StartSuiteRunRequest" : {
+         "members" : {
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition version of the test suite.</p>"
+               }
+            },
+            "suiteRunConfiguration" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Suite run configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to be attached to the suite run.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#StartSuiteRunResponse" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Starts a Device Advisor test suite run based on suite create time.</p>"
+               }
+            },
+            "endpoint" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Endpoint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The response of an Device Advisor test endpoint.</p>"
+               }
+            },
+            "suiteRunArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Amazon Resource Name (ARN) of the started suite run.</p>"
+               }
+            },
+            "suiteRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite Run ID of the started suite run.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#Status" : {
+         "members" : {
+            "CANCELED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELED"
+               }
+            },
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ERROR"
+               }
+            },
+            "FAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAIL"
+               }
+            },
+            "PASS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS"
+               }
+            },
+            "PASS_WITH_WARNINGS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS_WITH_WARNINGS"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "RUNNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUNNING"
+               }
+            },
+            "STOPPED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STOPPED"
+               }
+            },
+            "STOPPING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STOPPING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iotdeviceadvisor#StopSuiteRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#StopSuiteRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#StopSuiteRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stops a Device Advisor test suite run that is currently running.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">StopSuiteRun</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}/suiteRuns/{suiteRunId}/stop"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#StopSuiteRunRequest" : {
+         "members" : {
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite run to be stopped.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite run ID of the test suite run to be stopped.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#StopSuiteRunResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#String128" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#String256" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteDefinitionConfiguration" : {
+         "members" : {
+            "devicePermissionRoleArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Gets the device permission ARN. This is a required parameter.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "devices" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#DeviceUnderTestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Gets the devices configured.</p>"
+               }
+            },
+            "intendedForQualification" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#IntendedForQualificationBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Gets the tests intended for qualification in a suite.</p>"
+               }
+            },
+            "isLongDurationTest" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#IsLongDurationTestBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Verifies if the test suite is a long duration test.</p>"
+               }
+            },
+            "protocol" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Protocol",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sets the MQTT protocol that is configured in the suite definition.</p>"
+               }
+            },
+            "rootGroup" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#RootGroup",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Gets the test suite root group. This is a required parameter.\n            For updating or creating the latest qualification suite, \n            if <code>intendedForQualification</code> is set to true, \n            <code>rootGroup</code> can be an empty string. If <code>intendedForQualification</code> is false, \n            <code>rootGroup</code> cannot be an empty string.\n            If <code>rootGroup</code> is empty, and \n            <code>intendedForQualification</code> is set to true, \n            all the qualification tests are included, and the configuration is default.</p>\n         <p>\n            For a qualification suite, the minimum length is 0, and the maximum is 2048.  For a \n            non-qualification suite, the minimum length is 1, and the maximum is 2048.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteDefinitionName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionName",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Gets the suite definition name. This is a required parameter.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets the suite definition configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteDefinitionInformation" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the test suite was created.</p>"
+               }
+            },
+            "defaultDevices" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#DeviceUnderTestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the devices that are under test for the test suite.</p>"
+               }
+            },
+            "intendedForQualification" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#IntendedForQualificationBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies if the test suite is intended for qualification.</p>"
+               }
+            },
+            "isLongDurationTest" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#IsLongDurationTestBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Verifies if the test suite is a long duration test.</p>"
+               }
+            },
+            "protocol" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Protocol",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Gets the MQTT protocol that is configured in the suite definition.</p>"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite.</p>"
+               }
+            },
+            "suiteDefinitionName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite name of the test suite.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the suite definition.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteDefinitionInformationList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionInformation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteDefinitionName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 2
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteRunConfiguration" : {
+         "members" : {
+            "parallelRun" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#ParallelRun",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>TRUE if multiple test suites run in parallel.</p>"
+               }
+            },
+            "primaryDevice" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#DeviceUnderTest",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Sets the primary device for the test suite run. This requires a thing ARN or a\n            certificate ARN.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "selectedTestList" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SelectedTestList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sets test case list.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets suite run configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteRunInformation" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the suite run was created.</p>"
+               }
+            },
+            "endAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the suite run ended.</p>"
+               }
+            },
+            "failed" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunResultCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of test cases that failed in the suite run.</p>"
+               }
+            },
+            "passed" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunResultCount",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Number of test cases that passed in the suite run.</p>"
+               }
+            },
+            "startedAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Date (in Unix epoch time) when the suite run was started.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Status of the suite run.</p>"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the suite run.</p>"
+               }
+            },
+            "suiteDefinitionName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition name of the suite run.</p>"
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition version of the suite run.</p>"
+               }
+            },
+            "suiteRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite run ID of the suite run.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the suite run.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">SuiteRunInformation</a> action.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteRunResultCount" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 500,
+               "min" : 0
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteRunStatus" : {
+         "members" : {
+            "CANCELED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELED"
+               }
+            },
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ERROR"
+               }
+            },
+            "FAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAIL"
+               }
+            },
+            "PASS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS"
+               }
+            },
+            "PASS_WITH_WARNINGS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS_WITH_WARNINGS"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "RUNNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUNNING"
+               }
+            },
+            "STOPPED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STOPPED"
+               }
+            },
+            "STOPPING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STOPPING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iotdeviceadvisor#SuiteRunsList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#SuiteRunInformation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#SystemMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#String128"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#String128"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#String256"
+         }
+      },
+      "com.amazonaws.iotdeviceadvisor#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds to and modifies existing tags of an IoT Device Advisor resource.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">TagResource</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or\n            SuiteRun ARN.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagMap",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>The tags to be attached to the IoT Device Advisor resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseDefinitionName" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseRun" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case run end time.</p>"
+               }
+            },
+            "failure" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Failure",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case run failure result.</p>"
+               }
+            },
+            "logUrl" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#LogUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case run log URL.</p>"
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case run start time.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Status",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides the test case run status. Status is one of the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PASS</code>: Test passed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAIL</code>: Test failed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING</code>: Test has not started running but is scheduled.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RUNNING</code>: Test is running.</p>\n            </li>\n            <li>\n               <p>\n                  <code>STOPPING</code>: Test is performing cleanup steps. You will see this\n                    status only if you stop a suite run.</p>\n            </li>\n            <li>\n               <p>\n                  <code>STOPPED</code> Test is stopped. You will see this status only if you\n                    stop a suite run.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PASS_WITH_WARNINGS</code>: Test passed with warnings.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ERORR</code>: Test faced an error when running due to an internal\n                    issue.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "testCaseDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides the test case run definition ID.</p>"
+               }
+            },
+            "testCaseDefinitionName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestCaseDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides the test case run definition name.</p>"
+               }
+            },
+            "testCaseRunId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides the test case run ID.</p>"
+               }
+            },
+            "testScenarios" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestCaseScenariosList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> Provides the test scenarios for the test case run. </p>"
+               }
+            },
+            "warnings" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Warnings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case run warnings.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides the test case run.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseRuns" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#TestCaseRun"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Tests under each group result.</p>"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseScenario" : {
+         "members" : {
+            "failure" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Failure",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case scenario failure result.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestCaseScenarioStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides the test case scenario status. Status is one of the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>PASS</code>: Test passed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>FAIL</code>: Test failed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING</code>: Test has not started running but is scheduled.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RUNNING</code>: Test is running.</p>\n            </li>\n            <li>\n               <p>\n                  <code>STOPPING</code>: Test is performing cleanup steps. You will see this\n                    status only if you stop a suite run.</p>\n            </li>\n            <li>\n               <p>\n                  <code>STOPPED</code> Test is stopped. You will see this status only if you\n                    stop a suite run.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PASS_WITH_WARNINGS</code>: Test passed with warnings.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ERORR</code>: Test faced an error when running due to an internal\n                    issue.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "systemMessage" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SystemMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case scenario system messages if any.</p>"
+               }
+            },
+            "testCaseScenarioId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestCaseScenarioId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case scenario ID.</p>"
+               }
+            },
+            "testCaseScenarioType" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TestCaseScenarioType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides test case scenario type. Type is one of the following:</p>\n         <ul>\n            <li>\n               <p>Advanced</p>\n            </li>\n            <li>\n               <p>Basic</p>\n            </li>\n         </ul>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides test case scenario.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseScenarioId" : {
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseScenarioStatus" : {
+         "members" : {
+            "CANCELED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CANCELED"
+               }
+            },
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ERROR"
+               }
+            },
+            "FAIL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAIL"
+               }
+            },
+            "PASS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS"
+               }
+            },
+            "PASS_WITH_WARNINGS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PASS_WITH_WARNINGS"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            },
+            "RUNNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUNNING"
+               }
+            },
+            "STOPPED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STOPPED"
+               }
+            },
+            "STOPPING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STOPPING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseScenarioType" : {
+         "members" : {
+            "Advanced" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Advanced"
+               }
+            },
+            "Basic" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Basic"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestCaseScenariosList" : {
+         "member" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#TestCaseScenario"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.iotdeviceadvisor#TestResult" : {
+         "members" : {
+            "groups" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#GroupResultList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Show each group of test results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Show each group result.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#Timestamp" : {
+         "type" : "timestamp"
+      },
+      "com.amazonaws.iotdeviceadvisor#Token" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2000,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#UUID" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 36,
+               "min" : 12
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.iotdeviceadvisor#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes tags from an IoT Device Advisor resource.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UntagResource</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource ARN of an IoT Device Advisor resource. This can be SuiteDefinition ARN or\n            SuiteRun ARN.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#TagKeyList",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>List of tag keys to remove from the IoT Device Advisor resource.</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#UpdateSuiteDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.iotdeviceadvisor#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#UpdateSuiteDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.iotdeviceadvisor#UpdateSuiteDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a Device Advisor test suite.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions\">UpdateSuiteDefinition</a> action.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/suiteDefinitions/{suiteDefinitionId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.iotdeviceadvisor#UpdateSuiteDefinitionRequest" : {
+         "members" : {
+            "suiteDefinitionConfiguration" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionConfiguration",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "<p>Updates a Device Advisor test suite with suite definition configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the test suite to be updated.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#UpdateSuiteDefinitionResponse" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp of when the test suite was created.</p>"
+               }
+            },
+            "lastUpdatedAt" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Timestamp of when the test suite was updated.</p>"
+               }
+            },
+            "suiteDefinitionArn" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#AmazonResourceName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Amazon Resource Name (ARN) of the updated test suite.</p>"
+               }
+            },
+            "suiteDefinitionId" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#UUID",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition ID of the updated test suite.</p>"
+               }
+            },
+            "suiteDefinitionName" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Updates the suite definition name. This is a required parameter.</p>"
+               }
+            },
+            "suiteDefinitionVersion" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#SuiteDefinitionVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Suite definition version of the updated test suite.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.iotdeviceadvisor#Message",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Sends a Validation Exception message.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sends a validation exception.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.iotdeviceadvisor#Warnings" : {
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}

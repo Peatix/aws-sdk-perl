@@ -21,9 +21,11 @@ does:
    ships all 401 services so this is the default branch on master.
 2. **Materialiser fall-through** — otherwise `_materialise_class`
    (`auto-lib/Paws.pm:127-178`) resolves the IR via
-   `Paws::Model::Loader::Resolver` (Smithy first, botocore fallback)
-   and asks `Paws::Model::Materializer::Moo` (or `Paws::Model::Materializer` when
-   `PAWS_OO_BACKEND=Moose`) to construct the service class plus
+   `Paws::Model::Loader::Resolver` (Smithy-only by default; see
+   `docs/sources.md` for the optional `PAWS_LOADER_ORDER=Botocore,Smithy`
+   escape hatch) and asks `Paws::Model::Materializer::Moo` (or
+   `Paws::Model::Materializer` when `PAWS_OO_BACKEND=Moose`) to
+   construct the service class plus
    every operation and shape class in memory.
 
 `Paws::Model::Materializer::Auto` (`lib/Paws/Model/Materializer/Auto.pm`) is an
@@ -237,8 +239,10 @@ It captures `startup-cold` (forks + loads DynamoDB) and
 
 - `docs/architecture.md` — the data flow and where each module lives.
 - `docs/loaders.md` — Smithy and Botocore loaders + IR coverage table.
-- `docs/sources.md` — vendored sources and the `share/smithy/` /
-  `share/botocore/` layout.
+- `docs/sources.md` — the vendored Smithy IR layout under
+  `share/smithy/` and the refresh workflow.
+- `docs/deprecated-services.md` — the 14 botocore-only services
+  Paws can no longer ship and the migration paths.
 - `docs/oo-backends.md` — Moose vs Moo + Type::Tiny tradeoffs.
 - `docs/serdes.md` — the wire-layer side-table both backends populate.
 - `docs/testing.md` — `script/test-one`, the synthetic-service drivers,

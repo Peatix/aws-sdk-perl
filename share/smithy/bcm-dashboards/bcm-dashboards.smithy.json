@@ -1,0 +1,3208 @@
+{
+   "shapes" : {
+      "com.amazonaws.bcmdashboards#AWSBCMDashboardsService" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#CreateDashboard"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#CreateScheduledReport"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#DeleteDashboard"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#DeleteScheduledReport"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ExecuteScheduledReport"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#GetDashboard"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#GetResourcePolicy"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#GetScheduledReport"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ListDashboards"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ListScheduledReports"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#UpdateDashboard"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#UpdateScheduledReport"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "bcm-dashboards",
+               "endpointPrefix" : "bcm-dashboards",
+               "sdkId" : "BCM Dashboards"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "bcm-dashboards"
+            },
+            "aws.endpoints#dualStackOnlyEndpoints" : {},
+            "aws.endpoints#standardPartitionalEndpoints" : {
+               "endpointPatternType" : "service_region_dnsSuffix"
+            },
+            "aws.protocols#awsJson1_0" : {},
+            "smithy.api#documentation" : "<p>Amazon Web Services Billing and Cost Management Dashboards is a service that enables you to create, manage, and share dashboards that combine multiple visualizations of your Amazon Web Services cost and usage data. You can combine multiple data sources including Cost Explorer, Savings Plans, and Reserved Instance metrics into unified dashboards, helping you analyze spending patterns and share cost insights across your organization.</p> <p>You can use the Amazon Web Services Billing and Cost Management Dashboards API to programmatically create, manage, and share dashboards. This includes creating custom dashboards, configuring widgets, managing dashboard permissions, and sharing dashboards across accounts in your organization.</p>",
+            "smithy.api#title" : "AWS Billing and Cost Management Dashboards",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://bcm-dashboards-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {
+                                             "authSchemes" : [
+                                                {
+                                                   "name" : "sigv4",
+                                                   "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                                                }
+                                             ]
+                                          },
+                                          "url" : "https://bcm-dashboards.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://bcm-dashboards-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-east-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://bcm-dashboards.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://bcm-dashboards-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "cn-northwest-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://bcm-dashboards.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://bcm-dashboards-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "properties" : {
+                              "authSchemes" : [
+                                 {
+                                    "name" : "sigv4",
+                                    "signingRegion" : "us-gov-west-1"
+                                 }
+                              ]
+                           },
+                           "url" : "https://bcm-dashboards.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2025-08-18"
+      },
+      "com.amazonaws.bcmdashboards#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\u0021-\\u007E]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request could not be completed due to a conflict with the current state of the resource. For example, attempting to create a resource that already exists or is being created.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#CostAndUsageQuery" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bcmdashboards#Expression",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filter expression to be applied to the cost and usage data.</p>"
+               }
+            },
+            "granularity" : {
+               "target" : "com.amazonaws.bcmdashboards#Granularity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The granularity of the retrieved data: <code>HOURLY</code>, <code>DAILY</code>, or <code>MONTHLY</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "groupBy" : {
+               "target" : "com.amazonaws.bcmdashboards#GroupDefinitions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies how to group the retrieved data, such as by <code>SERVICE</code>, <code>ACCOUNT</code>, or <code>TAG</code>.</p>"
+               }
+            },
+            "metrics" : {
+               "target" : "com.amazonaws.bcmdashboards#MetricNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specific cost and usage metrics to retrieve.</p> <note> <p>Valid values for CostAndUsageQuery metrics are <code>AmortizedCost</code>, <code>BlendedCost</code>, <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>, <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and <code>UsageQuantity</code>.</p> </note>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time period for which to retrieve data. Can be specified as absolute dates or relative time periods.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the parameters for retrieving Amazon Web Services cost and usage data. Includes specifications for metrics, time periods, granularity, grouping dimensions, and filtering conditions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#CostCategoryValues" : {
+         "members" : {
+            "key" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the cost category to filter on.</p>"
+               }
+            },
+            "matchOptions" : {
+               "target" : "com.amazonaws.bcmdashboards#MatchOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The match options for cost category values, such as <code>EQUALS</code>, <code>CONTAINS</code>, <code>STARTS_WITH</code>, or <code>ENDS_WITH</code>.</p>"
+               }
+            },
+            "values" : {
+               "target" : "com.amazonaws.bcmdashboards#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to match for the specified cost category key.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the values and match options for cost category-based filtering in cost and usage queries.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#CreateDashboard" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#CreateDashboardRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#CreateDashboardResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new dashboard that can contain multiple widgets displaying cost and usage data. You can add custom widgets or use predefined widgets, arranging them in your preferred layout.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#CreateDashboardRequest" : {
+         "members" : {
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the dashboard's purpose or contents.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the dashboard. The name must be unique within your account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceTags" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to apply to the dashboard resource for organization and management.</p>"
+               }
+            },
+            "widgets" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of widget configurations that define the visualizations to be displayed in the dashboard. Each dashboard can contain up to 20 widgets.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#CreateDashboardResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the newly created dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#CreateScheduledReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#CreateScheduledReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#CreateScheduledReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#CreateScheduledReportRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.bcmdashboards#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#httpHeader" : "X-Amzn-Client-Token",
+                  "smithy.api#idempotencyToken" : {},
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "resourceTags" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to apply to the scheduled report resource for organization and management.</p>"
+               }
+            },
+            "scheduledReport" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for the scheduled report, including the dashboard to report on, the schedule, and the execution role that the service will use to generate the dashboard snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#CreateScheduledReportResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the newly created scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DashboardArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\\*|[-a-z0-9]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#DashboardName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 2
+            },
+            "smithy.api#pattern" : "^(?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#DashboardReference" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the referenced dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the dashboard was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the referenced dashboard.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the referenced dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dashboard type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the dashboard was last modified.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains basic information about a dashboard, including its ARN, name, type, and timestamps.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DashboardReferenceList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#DashboardReference"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#DashboardType" : {
+         "members" : {
+            "CUSTOM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOM"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#DateTimeRange" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end time of the date range for querying data.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of the date range for querying data.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines a time period with explicit start and end times for data queries.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DateTimeType" : {
+         "members" : {
+            "ABSOLUTE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ABSOLUTE"
+               }
+            },
+            "RELATIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RELATIVE"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#DateTimeValue" : {
+         "members" : {
+            "type" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of date/time value: <code>ABSOLUTE</code> for specific dates or <code>RELATIVE</code> for dynamic time periods.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The actual date/time value.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a point in time that can be specified as either an absolute date (for example, \"2025-07-01\") or a relative time period using ISO 8601 duration format (for example, \"-P3M\" for three months ago).</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DeleteDashboard" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#DeleteDashboardRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#DeleteDashboardResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a specified dashboard. This action cannot be undone.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#DeleteDashboardRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard to be deleted.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DeleteDashboardResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard that was deleted.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DeleteScheduledReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#DeleteScheduledReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#DeleteScheduledReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a specified scheduled report. This is an irreversible operation.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#DeleteScheduledReportRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report to delete.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DeleteScheduledReportResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report that was deleted.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#Description" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&\\-_/\\\\]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#Dimension" : {
+         "members" : {
+            "AZ" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AZ"
+               }
+            },
+            "BILLING_ENTITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BILLING_ENTITY"
+               }
+            },
+            "CACHE_ENGINE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CACHE_ENGINE"
+               }
+            },
+            "COST_CATEGORY_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COST_CATEGORY_NAME"
+               }
+            },
+            "DATABASE_ENGINE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DATABASE_ENGINE"
+               }
+            },
+            "DEPLOYMENT_OPTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEPLOYMENT_OPTION"
+               }
+            },
+            "INSTANCE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INSTANCE_TYPE"
+               }
+            },
+            "INSTANCE_TYPE_FAMILY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INSTANCE_TYPE_FAMILY"
+               }
+            },
+            "LEGAL_ENTITY_NAME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LEGAL_ENTITY_NAME"
+               }
+            },
+            "LINKED_ACCOUNT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LINKED_ACCOUNT"
+               }
+            },
+            "OPERATING_SYSTEM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OPERATING_SYSTEM"
+               }
+            },
+            "OPERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OPERATION"
+               }
+            },
+            "PLATFORM" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PLATFORM"
+               }
+            },
+            "PURCHASE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PURCHASE_TYPE"
+               }
+            },
+            "RECORD_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RECORD_TYPE"
+               }
+            },
+            "REGION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REGION"
+               }
+            },
+            "RESERVATION_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RESERVATION_ID"
+               }
+            },
+            "RESOURCE_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RESOURCE_ID"
+               }
+            },
+            "SAVINGS_PLANS_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SAVINGS_PLANS_TYPE"
+               }
+            },
+            "SCOPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SCOPE"
+               }
+            },
+            "SERVICE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SERVICE"
+               }
+            },
+            "SUBSCRIPTION_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUBSCRIPTION_ID"
+               }
+            },
+            "TAG_KEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TAG_KEY"
+               }
+            },
+            "TENANCY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TENANCY"
+               }
+            },
+            "USAGE_TYPE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USAGE_TYPE"
+               }
+            },
+            "USAGE_TYPE_GROUP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USAGE_TYPE_GROUP"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#DimensionValues" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.bcmdashboards#Dimension",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the dimension to filter on (for example, <code>SERVICE</code>, <code>USAGE_TYPE</code>, or <code>OPERATION</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "matchOptions" : {
+               "target" : "com.amazonaws.bcmdashboards#MatchOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The match options for dimension values, such as <code>EQUALS</code>, <code>CONTAINS</code>, <code>STARTS_WITH</code>, or <code>ENDS_WITH</code>.</p>"
+               }
+            },
+            "values" : {
+               "target" : "com.amazonaws.bcmdashboards#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to match for the specified dimension key.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the values and match options for dimension-based filtering in cost and usage queries.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#DisplayConfig" : {
+         "members" : {
+            "graph" : {
+               "target" : "com.amazonaws.bcmdashboards#GraphDisplayConfigMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for graphical display of the widget data, including chart type and visual options.</p>"
+               }
+            },
+            "table" : {
+               "target" : "com.amazonaws.bcmdashboards#TableDisplayConfigStruct",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration for tabular display of the widget data.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines how the widget's data should be visualized, including chart type, color schemes, axis configurations, and other display preferences.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bcmdashboards#ExecuteScheduledReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#ExecuteScheduledReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#ExecuteScheduledReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in <code>ENABLED</code> state. Calling this operation on a <code>DISABLED</code> scheduled report returns a <code>ValidationException</code>.</p> <note> <p>If a <code>clientToken</code> is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.</p> </note>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#ExecuteScheduledReportRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report to execute.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.bcmdashboards#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#httpHeader" : "X-Amzn-Client-Token",
+                  "smithy.api#idempotencyToken" : {},
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "dryRun" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When set to <code>true</code>, validates the scheduled report configuration without triggering an actual execution.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ExecuteScheduledReportResponse" : {
+         "members" : {
+            "executionTriggered" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether the execution was successfully triggered.</p>"
+               }
+            },
+            "healthStatus" : {
+               "target" : "com.amazonaws.bcmdashboards#HealthStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The health status of the scheduled report after the execution request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#Expression" : {
+         "members" : {
+            "and" : {
+               "target" : "com.amazonaws.bcmdashboards#Expressions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of expressions to combine with AND logic.</p>"
+               }
+            },
+            "costCategories" : {
+               "target" : "com.amazonaws.bcmdashboards#CostCategoryValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The cost category values to include in the filter expression.</p>"
+               }
+            },
+            "dimensions" : {
+               "target" : "com.amazonaws.bcmdashboards#DimensionValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dimension values to include in the filter expression.</p>"
+               }
+            },
+            "not" : {
+               "target" : "com.amazonaws.bcmdashboards#Expression",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An expression to negate with NOT logic.</p>"
+               }
+            },
+            "or" : {
+               "target" : "com.amazonaws.bcmdashboards#Expressions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of expressions to combine with OR logic.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.bcmdashboards#TagValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag values to include in the filter expression.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines complex filtering conditions using logical operators (<code>AND</code>, <code>OR</code>, <code>NOT</code>) and various filter types.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#Expressions" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#Expression"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#GenericString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[\\S\\s]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#GenericTimeStamp" : {
+         "type" : "timestamp"
+      },
+      "com.amazonaws.bcmdashboards#GetDashboard" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#GetDashboardRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#GetDashboardResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#GetDashboardRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard to retrieve. This is required to uniquely identify the dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GetDashboardResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the retrieved dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the dashboard was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the retrieved dashboard.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the retrieved dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates the dashboard type.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the dashboard was last modified.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "widgets" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of widget configurations that make up the dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GetResourcePolicy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#GetResourcePolicyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#GetResourcePolicyResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#GetResourcePolicyRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard whose resource-based policy you want to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GetResourcePolicyResponse" : {
+         "members" : {
+            "policyDocument" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The JSON policy document that represents the dashboard's resource-based policy.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceArn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard for which the resource-based policy was retrieved.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GetScheduledReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#GetScheduledReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#GetScheduledReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the configuration and metadata of a specified scheduled report.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#GetScheduledReportRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report to retrieve.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GetScheduledReportResponse" : {
+         "members" : {
+            "scheduledReport" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReport",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scheduled report configuration and metadata.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#Granularity" : {
+         "members" : {
+            "DAILY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DAILY"
+               }
+            },
+            "HOURLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HOURLY"
+               }
+            },
+            "MONTHLY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MONTHLY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#GraphDisplayConfig" : {
+         "members" : {
+            "visualType" : {
+               "target" : "com.amazonaws.bcmdashboards#VisualType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of visualization to use for the data.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the visual representation settings for widget data, including the visualization type, styling options, and display preferences for different metric types.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GraphDisplayConfigMap" : {
+         "key" : {
+            "target" : "com.amazonaws.bcmdashboards#GenericString"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.bcmdashboards#GraphDisplayConfig"
+         }
+      },
+      "com.amazonaws.bcmdashboards#GroupDefinition" : {
+         "members" : {
+            "key" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key to use for grouping cost and usage data.</p>",
+                  "smithy.api#length" : {
+                     "max" : 1024,
+                     "min" : 1
+                  },
+                  "smithy.api#pattern" : "^[\\S\\s]*$",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.bcmdashboards#GroupDefinitionType",
+               "traits" : {
+                  "smithy.api#default" : "DIMENSION",
+                  "smithy.api#documentation" : "<p>The type of grouping to apply.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies how to group cost and usage data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#GroupDefinitionType" : {
+         "members" : {
+            "COST_CATEGORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COST_CATEGORY"
+               }
+            },
+            "DIMENSION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DIMENSION"
+               }
+            },
+            "TAG" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TAG"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#GroupDefinitions" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#GroupDefinition"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#HealthStatus" : {
+         "members" : {
+            "lastRefreshedAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the health status was last refreshed.</p>"
+               }
+            },
+            "statusCode" : {
+               "target" : "com.amazonaws.bcmdashboards#HealthStatusCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The health status code. <code>HEALTHY</code> indicates the scheduled report is configured properly and has all required permissions to execute. <code>UNHEALTHY</code> indicates the scheduled report is unable to deliver the notification to the default Amazon EventBridge EventBus in your account and your action is needed. The reason for the unhealthy state is captured in the health status reasons.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReasons" : {
+               "target" : "com.amazonaws.bcmdashboards#StatusReasonList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of reasons for the current health status. Only present when the status is <code>UNHEALTHY</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the health status information for a scheduled report, including the status code and any reasons for an unhealthy state.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#HealthStatusCode" : {
+         "members" : {
+            "HEALTHY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "HEALTHY"
+               }
+            },
+            "UNHEALTHY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNHEALTHY"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ListDashboards" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#ListDashboardsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#ListDashboardsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of all dashboards in your account.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "dashboards",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListDashboardsSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#ListDashboardsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.bcmdashboards#MaxResults",
+               "traits" : {
+                  "smithy.api#default" : 20,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single call. The default value is 20.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.bcmdashboards#NextPageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results. Use the value returned in the previous response.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ListDashboardsResponse" : {
+         "members" : {
+            "dashboards" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardReferenceList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of dashboard references, containing basic information about each dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.bcmdashboards#NextPageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use to retrieve the next page of results. Not returned if there are no more results to retrieve.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ListScheduledReports" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#ListScheduledReportsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#ListScheduledReportsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of scheduled reports in your account.</p>",
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "scheduledReports",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#ListScheduledReportsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.bcmdashboards#MaxResults",
+               "traits" : {
+                  "smithy.api#default" : 50,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return in a single call. Valid range is 1 to 100. The default value is 50.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.bcmdashboards#NextPageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results. Use the value returned in the previous response.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ListScheduledReportsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.bcmdashboards#NextPageToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to use to retrieve the next page of results. Not returned if there are no more results to retrieve.</p>"
+               }
+            },
+            "scheduledReports" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of scheduled report summaries, containing basic information about each scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a list of all tags associated with a specified dashboard resource.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ListTagsForResourceResponse" : {
+         "members" : {
+            "resourceTags" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of tags associated with the specified dashboard resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#MatchOption" : {
+         "members" : {
+            "ABSENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ABSENT"
+               }
+            },
+            "CASE_INSENSITIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CASE_INSENSITIVE"
+               }
+            },
+            "CASE_SENSITIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CASE_SENSITIVE"
+               }
+            },
+            "CONTAINS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONTAINS"
+               }
+            },
+            "ENDS_WITH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENDS_WITH"
+               }
+            },
+            "EQUALS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EQUALS"
+               }
+            },
+            "GREATER_THAN_OR_EQUAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GREATER_THAN_OR_EQUAL"
+               }
+            },
+            "STARTS_WITH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STARTS_WITH"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#MatchOptions" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#MatchOption"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.bcmdashboards#MetricName" : {
+         "members" : {
+            "AmortizedCost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AmortizedCost"
+               }
+            },
+            "BlendedCost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BlendedCost"
+               }
+            },
+            "Cost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Cost"
+               }
+            },
+            "Hour" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Hour"
+               }
+            },
+            "NetAmortizedCost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NetAmortizedCost"
+               }
+            },
+            "NetUnblendedCost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NetUnblendedCost"
+               }
+            },
+            "NormalizedUsageAmount" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NormalizedUsageAmount"
+               }
+            },
+            "SpendCoveredBySavingsPlans" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SpendCoveredBySavingsPlans"
+               }
+            },
+            "UnblendedCost" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UnblendedCost"
+               }
+            },
+            "Unit" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Unit"
+               }
+            },
+            "UsageQuantity" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UsageQuantity"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#MetricNames" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#MetricName"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#NextPageToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 8192,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\S\\s]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#QueryParameters" : {
+         "members" : {
+            "costAndUsage" : {
+               "target" : "com.amazonaws.bcmdashboards#CostAndUsageQuery",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters for querying cost and usage data, including metrics, time range, granularity, grouping dimensions, and filters.</p>"
+               }
+            },
+            "reservationCoverage" : {
+               "target" : "com.amazonaws.bcmdashboards#ReservationCoverageQuery",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters for querying Reserved Instance coverage data, showing how much of your eligible instance usage is covered by Reserved Instances.</p>"
+               }
+            },
+            "reservationUtilization" : {
+               "target" : "com.amazonaws.bcmdashboards#ReservationUtilizationQuery",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters for querying Reserved Instance utilization data, showing how effectively your Reserved Instances are being used.</p>"
+               }
+            },
+            "savingsPlansCoverage" : {
+               "target" : "com.amazonaws.bcmdashboards#SavingsPlansCoverageQuery",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters for querying Savings Plans coverage data, showing how much of your eligible compute usage is covered by Savings Plans.</p>"
+               }
+            },
+            "savingsPlansUtilization" : {
+               "target" : "com.amazonaws.bcmdashboards#SavingsPlansUtilizationQuery",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters for querying Savings Plans utilization data, showing how effectively your Savings Plans are being used.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the data retrieval parameters for a widget.</p>"
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.bcmdashboards#ReservationCoverageQuery" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bcmdashboards#Expression"
+            },
+            "granularity" : {
+               "target" : "com.amazonaws.bcmdashboards#Granularity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time granularity of the retrieved data: <code>HOURLY</code>, <code>DAILY</code>, or <code>MONTHLY</code>.</p>"
+               }
+            },
+            "groupBy" : {
+               "target" : "com.amazonaws.bcmdashboards#GroupDefinitions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies how to group the Reserved Instance coverage data, such as by service, Region, or instance type.</p>"
+               }
+            },
+            "metrics" : {
+               "target" : "com.amazonaws.bcmdashboards#MetricNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The coverage metrics to include in the results.</p> <note> <p>Valid values for ReservationCoverageQuery metrics are <code>Hour</code>, <code>Unit</code>, and <code>Cost</code>.</p> </note>"
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the parameters for querying Reserved Instance coverage data, including grouping options, metrics, and sorting preferences.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ReservationUtilizationQuery" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bcmdashboards#Expression"
+            },
+            "granularity" : {
+               "target" : "com.amazonaws.bcmdashboards#Granularity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time granularity of the retrieved data: <code>HOURLY</code>, <code>DAILY</code>, or <code>MONTHLY</code>.</p>"
+               }
+            },
+            "groupBy" : {
+               "target" : "com.amazonaws.bcmdashboards#GroupDefinitions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies how to group the Reserved Instance utilization data, such as by service, Region, or instance type.</p>"
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the parameters for querying Reserved Instance utilization data, including grouping options and time granularity.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ResourceArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\\*|[-a-z0-9]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource (dashboard, policy, or widget) was not found. Verify the ARN and try again.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ResourceTag" : {
+         "members" : {
+            "key" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the tag to be attached to the dashboard resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "value" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value of the tag to be attached to the dashboard resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A key-value pair that can be attached to a dashboard for organization and management purposes.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ResourceTagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\S\\s]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#ResourceTagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#ResourceTagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#ResourceTagList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#ResourceTag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#ResourceTagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[\\S\\s]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#SavingsPlansCoverageQuery" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bcmdashboards#Expression"
+            },
+            "granularity" : {
+               "target" : "com.amazonaws.bcmdashboards#Granularity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time granularity of the retrieved data: <code>HOURLY</code>, <code>DAILY</code>, or <code>MONTHLY</code>.</p>"
+               }
+            },
+            "groupBy" : {
+               "target" : "com.amazonaws.bcmdashboards#GroupDefinitions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies how to group the Savings Plans coverage data, such as by service or instance family.</p>"
+               }
+            },
+            "metrics" : {
+               "target" : "com.amazonaws.bcmdashboards#MetricNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The coverage metrics to include in the results.</p> <note> <p>Valid value for SavingsPlansCoverageQuery metrics is <code>SpendCoveredBySavingsPlans</code>.</p> </note>"
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the parameters for querying Savings Plans coverage data, including metrics, grouping options, and time granularity.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#SavingsPlansUtilizationQuery" : {
+         "members" : {
+            "filter" : {
+               "target" : "com.amazonaws.bcmdashboards#Expression"
+            },
+            "granularity" : {
+               "target" : "com.amazonaws.bcmdashboards#Granularity",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time granularity of the retrieved data: <code>HOURLY</code>, <code>DAILY</code>, or <code>MONTHLY</code>.</p>"
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the parameters for querying Savings Plans utilization data, including time granularity and sorting preferences.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ScheduleConfig" : {
+         "members" : {
+            "scheduleExpression" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression consisting of six fields separated by white spaces: <code>cron(minutes hours day_of_month month day_of_week year)</code>.</p>"
+               }
+            },
+            "scheduleExpressionTimeZone" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time zone for the schedule expression, for example, <code>UTC</code>.</p>"
+               }
+            },
+            "schedulePeriod" : {
+               "target" : "com.amazonaws.bcmdashboards#SchedulePeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time period during which the schedule is active.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduleState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the schedule. <code>ENABLED</code> means the scheduled report runs according to its schedule expression. <code>DISABLED</code> means the scheduled report is paused and will not run until re-enabled.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the schedule for a scheduled report, including the cron expression, time zone, active period, and the schedule state.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#SchedulePeriod" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end time of the schedule period. If not specified, defaults to 3 years from the time of the create or update request. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit returns a <code>ValidationException</code>.</p>"
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of the schedule period. If not specified, defaults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the request.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the active time period for execution of the scheduled report.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ScheduleState" : {
+         "members" : {
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DISABLED"
+               }
+            },
+            "ENABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#ScheduledReport" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the scheduled report was created.</p>"
+               }
+            },
+            "dashboardArn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard associated with the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the scheduled report's purpose or contents.</p>"
+               }
+            },
+            "healthStatus" : {
+               "target" : "com.amazonaws.bcmdashboards#HealthStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The health status of the scheduled report at last refresh time.</p>"
+               }
+            },
+            "lastExecutionAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of the most recent execution of the scheduled report.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduleConfig" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduleConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule configuration that defines when and how often the report is generated.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduledReportExecutionRoleArn" : {
+               "target" : "com.amazonaws.bcmdashboards#ServiceRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericTimeStamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the scheduled report was last modified.</p>"
+               }
+            },
+            "widgetDateRangeOverride" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date range override applied to widgets in the scheduled report.</p>"
+               }
+            },
+            "widgetIds" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of widget identifiers included in the scheduled report.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the full configuration and metadata of a scheduled report.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ScheduledReportArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\\*|[-a-z0-9]+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#ScheduledReportInput" : {
+         "members" : {
+            "dashboardArn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard to generate the scheduled report from.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the scheduled report's purpose or contents.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduleConfig" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduleConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule configuration that defines when and how often the report is generated. If the schedule state is not specified, it defaults to <code>ENABLED</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduledReportExecutionRoleArn" : {
+               "target" : "com.amazonaws.bcmdashboards#ServiceRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "widgetDateRangeOverride" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date range override to apply to widgets in the scheduled report.</p>"
+               }
+            },
+            "widgetIds" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the configuration for creating a new scheduled report, including the dashboard, schedule, execution role, and optional widget settings.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ScheduledReportName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 2
+            },
+            "smithy.api#pattern" : "^(?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#ScheduledReportSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "dashboardArn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard associated with the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "healthStatus" : {
+               "target" : "com.amazonaws.bcmdashboards#HealthStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The health status of the scheduled report as of its last refresh time.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduleExpression" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule expression that defines when the report runs.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "scheduleExpressionTimeZone" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time zone for the schedule expression, for example, <code>UTC</code>.</p>"
+               }
+            },
+            "state" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduleState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The state of the schedule: <code>ENABLED</code> or <code>DISABLED</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "widgetIds" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of widget identifiers included in the scheduled report.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains summary information for a scheduled report.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ScheduledReportSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#ScheduledReportSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request would exceed a service quota. Review the service quotas for Amazon Web Services Billing and Cost Management Dashboards and retry your request.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ServiceRoleArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#StatusReason" : {
+         "members" : {
+            "DASHBOARD_ACCESS_DENIED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DASHBOARD_ACCESS_DENIED"
+               }
+            },
+            "DASHBOARD_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DASHBOARD_NOT_FOUND"
+               }
+            },
+            "DATA_SOURCE_ACCESS_DENIED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DATA_SOURCE_ACCESS_DENIED"
+               }
+            },
+            "EXECUTION_ROLE_ASSUME_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXECUTION_ROLE_ASSUME_FAILED"
+               }
+            },
+            "EXECUTION_ROLE_INSUFFICIENT_PERMISSIONS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "EXECUTION_ROLE_INSUFFICIENT_PERMISSIONS"
+               }
+            },
+            "INTERNAL_FAILURE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNAL_FAILURE"
+               }
+            },
+            "WIDGET_ID_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "WIDGET_ID_NOT_FOUND"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#StatusReasonList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#StatusReason"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#StringList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#TableDisplayConfigStruct" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration structure for customizing the tabular display of widget data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds or updates tags for a specified dashboard resource.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceTags" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to add to the dashboard resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#TagValues" : {
+         "members" : {
+            "key" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The key of the tag to filter on.</p>"
+               }
+            },
+            "matchOptions" : {
+               "target" : "com.amazonaws.bcmdashboards#MatchOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The match options for tag values, such as <code>EQUALS</code>, <code>CONTAINS</code>, <code>STARTS_WITH</code>, or <code>ENDS_WITH</code>.</p>"
+               }
+            },
+            "values" : {
+               "target" : "com.amazonaws.bcmdashboards#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The values to match for the specified tag key.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies tag-based filtering options for cost and usage queries.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes specified tags from a dashboard resource.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceTagKeys" : {
+               "target" : "com.amazonaws.bcmdashboards#ResourceTagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The keys of the tags to remove from the dashboard resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#UpdateDashboard" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#UpdateDashboardRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#UpdateDashboardResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an existing dashboard's properties, including its name, description, and widget configurations.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#UpdateDashboardRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new description for the dashboard.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new name for the dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "widgets" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated array of widget configurations for the dashboard. Replaces all existing widgets.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#UpdateDashboardResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the updated dashboard.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#UpdateScheduledReport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.bcmdashboards#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.bcmdashboards#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.bcmdashboards#UpdateScheduledReportRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.bcmdashboards#UpdateScheduledReportResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.</p>"
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.bcmdashboards#UpdateScheduledReportRequest" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the scheduled report to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clearWidgetDateRangeOverride" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "Set to true to clear existing widgetDateRangeOverride. "
+               }
+            },
+            "clearWidgetIds" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#default" : false,
+                  "smithy.api#documentation" : "Set to true to clear existing widgetIds."
+               }
+            },
+            "dashboardArn" : {
+               "target" : "com.amazonaws.bcmdashboards#DashboardArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the dashboard to associate with the scheduled report.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new description for the scheduled report.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new name for the scheduled report.</p>"
+               }
+            },
+            "scheduleConfig" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduleConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated schedule configuration for the report.</p>"
+               }
+            },
+            "scheduledReportExecutionRoleArn" : {
+               "target" : "com.amazonaws.bcmdashboards#ServiceRoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.</p>"
+               }
+            },
+            "widgetDateRangeOverride" : {
+               "target" : "com.amazonaws.bcmdashboards#DateTimeRange",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date range override to apply to widgets in the scheduled report.</p>"
+               }
+            },
+            "widgetIds" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#UpdateScheduledReportResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.bcmdashboards#ScheduledReportArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the updated scheduled report.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.bcmdashboards#GenericString",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The input parameters do not satisfy the requirements. Check the error message for specific validation details.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#VisualType" : {
+         "members" : {
+            "BAR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "BAR"
+               }
+            },
+            "LINE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LINE"
+               }
+            },
+            "STACK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STACK"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bcmdashboards#Widget" : {
+         "members" : {
+            "configs" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetConfigList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of configurations that define the data queries and display settings for the widget.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.bcmdashboards#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the widget's purpose or the data it displays.</p>"
+               }
+            },
+            "height" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetHeight",
+               "traits" : {
+                  "smithy.api#default" : 7,
+                  "smithy.api#documentation" : "<p>The height of the widget in row spans. The dashboard layout consists of a grid system.</p>"
+               }
+            },
+            "horizontalOffset" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>Specifies the starting column position of the widget in the dashboard's grid layout. Used to control widget placement.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the widget.</p>"
+               }
+            },
+            "title" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetTitle",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The title of the widget.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "width" : {
+               "target" : "com.amazonaws.bcmdashboards#WidgetWidth",
+               "traits" : {
+                  "smithy.api#default" : 4,
+                  "smithy.api#documentation" : "<p>The width of the widget in column spans. The dashboard layout consists of a grid system.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A configurable visualization component within a dashboard that displays specific cost and usage metrics. Each widget can show data as charts or tables and includes settings for data querying, filtering, and visual presentation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#WidgetConfig" : {
+         "members" : {
+            "displayConfig" : {
+               "target" : "com.amazonaws.bcmdashboards#DisplayConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The configuration that determines how the retrieved data should be visualized in the widget.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "queryParameters" : {
+               "target" : "com.amazonaws.bcmdashboards#QueryParameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters that define what data the widget should retrieve and how it should be filtered or grouped.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Defines the complete configuration for a widget, including data retrieval settings and visualization preferences.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bcmdashboards#WidgetConfigList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#WidgetConfig"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#WidgetHeight" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 10,
+               "min" : 4
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.bcmdashboards#WidgetId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 32
+            },
+            "smithy.api#pattern" : "^[0-9a-f]{32}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#WidgetIdList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#WidgetList" : {
+         "member" : {
+            "target" : "com.amazonaws.bcmdashboards#Widget"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bcmdashboards#WidgetTitle" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 2
+            },
+            "smithy.api#pattern" : "^(?!.* {2})[a-zA-Z0-9_-][ a-zA-Z0-9_-]*[a-zA-Z0-9_-]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bcmdashboards#WidgetWidth" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 6,
+               "min" : 2
+            }
+         },
+         "type" : "integer"
+      }
+   },
+   "smithy" : "2.0"
+}

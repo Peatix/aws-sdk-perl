@@ -22,8 +22,10 @@ make -C paws-docs-dist build
 Internally:
 
 1. `script/paws-build-pod` walks every service known to
-   `Paws::Model::Loader::Resolver` (Smithy in `share/smithy/` first,
-   Botocore JSON fallback).
+   `Paws::Model::Loader::Resolver` (Smithy in `share/smithy/`;
+   set `PAWS_LOADER_ORDER=Botocore,Smithy` and supply a botocore
+   checkout to fall back for deprecated services — see
+   `docs/sources.md`).
 2. For each service it materialises the IR, then for each shape it
    renders POD using the same conventions the AOT generator emitted
    today (`=head1 NAME` + DESCRIPTION + ATTRIBUTES + SEE ALSO).
@@ -47,8 +49,8 @@ that produced it. Bump `paws-docs-dist/lib/Paws/Docs.pm`'s
 ## Running it
 
 ```
-# Build everything (requires Paws's botocore submodule populated
-# OR share/smithy/ vendored - see PR 18):
+# Build everything (uses Paws's vendored share/smithy/ tree
+# committed to git):
 make -C paws-docs-dist build
 
 # Or generate POD for one service:

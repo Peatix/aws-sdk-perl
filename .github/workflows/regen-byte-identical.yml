@@ -32,8 +32,8 @@ jobs:
         # The byte-identical assertion below compares regenerated
         # output against the committed auto-lib, which was generated
         # against a specific botocore SHA. We pin the upstream
-        # checkout to that same SHA via share/botocore/.upstream-sha
-        # so this gate is deterministic. `make pull-boto-develop` /
+        # checkout to that same SHA via etc/botocore-pin.sha so this
+        # gate is deterministic. `make pull-boto-develop` /
         # generate-and-pr.yml are the workflows that intentionally
         # roll botocore forward; they update this marker as part of
         # producing a regenerated-auto-lib PR.
@@ -41,10 +41,10 @@ jobs:
         id: botocore-pin
         run: |
           set -eu
-          sha=$(tr -d '[:space:]' < share/botocore/.upstream-sha)
+          sha=$(tr -d '[:space:]' < etc/botocore-pin.sha)
           if [ -z "$sha" ]
           then
-            echo "error: share/botocore/.upstream-sha is empty"
+            echo "error: etc/botocore-pin.sha is empty"
             exit 1
           fi
           echo "sha=$sha" >> "$GITHUB_OUTPUT"

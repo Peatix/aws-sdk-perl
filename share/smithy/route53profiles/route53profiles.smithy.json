@@ -1,0 +1,2566 @@
+{
+   "shapes" : {
+      "com.amazonaws.route53profiles#AccessDeniedException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  The current account doesn't have the IAM permissions required to perform the specified operation.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#AccountId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32,
+               "min" : 12
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#Arn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#AssociateProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceExistsException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#AssociateProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#AssociateProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). \n  For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities\">https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities</a>.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/profileassociation"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#AssociateProfileRequest" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  A name for the association.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The ID of the VPC.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.route53profiles#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  A list of the tag keys and values that you want to identify the Profile association.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#AssociateProfileResponse" : {
+         "members" : {
+            "ProfileAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#AssociateResourceToProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InternalServiceErrorException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#AssociateResourceToProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#AssociateResourceToProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Associates a DNS reource configuration to a Route 53 Profile.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/profileresourceassociation"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#AssociateResourceToProfileRequest" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Name for the resource association.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceArn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Amazon resource number, ARN, of the DNS resource.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceProperties" : {
+               "target" : "com.amazonaws.route53profiles#ResourceProperties",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.\n</p>\n         <p>The allowed values for priority are between 100 and 9900.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#AssociateResourceToProfileResponse" : {
+         "members" : {
+            "ProfileResourceAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileResourceAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Infromation about the <code>AssociateResourceToProfile</code>, including a status message.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ConflictException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\nThe request you submitted conflicts with an existing request.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#CreateProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#CreateProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#CreateProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Creates an empty Route 53 Profile.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/profile"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#CreateProfileRequest" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.route53profiles#CreatorRequestId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            <code>ClientToken</code> is an idempotency token that ensures a call to <code>CreateProfile</code> completes only once. You choose the value to pass. \n  For example, an issue might prevent you from getting a response from <code>CreateProfile</code>. \n  In this case, safely retry your call to <code>CreateProfile</code> by using the same <code>CreateProfile</code> parameter value.\n</p>",
+                  "smithy.api#idempotencyToken" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  A name for the Profile.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.route53profiles#TagList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  A list of the tag keys and values that you want to associate with the Route 53 Profile.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#CreateProfileResponse" : {
+         "members" : {
+            "Profile" : {
+               "target" : "com.amazonaws.route53profiles#Profile",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Profile that you just created.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#CreatorRequestId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#DeleteProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#DeleteProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#DeleteProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/profile/{ProfileId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#DeleteProfileRequest" : {
+         "members" : {
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The ID of the Profile that you want to delete.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#DeleteProfileResponse" : {
+         "members" : {
+            "Profile" : {
+               "target" : "com.amazonaws.route53profiles#Profile",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the <code>DeleteProfile</code> request, including the status of the request.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#DisassociateProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#DisassociateProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#DisassociateProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Dissociates a specified Route 53 Profile from the specified VPC.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/profileassociation/Profileid/{ProfileId}/resourceid/{ResourceId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#DisassociateProfileRequest" : {
+         "members" : {
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The ID of the VPC.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#DisassociateProfileResponse" : {
+         "members" : {
+            "ProfileAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the <code>DisassociateProfile</code> request.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#DisassociateResourceFromProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InternalServiceErrorException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#DisassociateResourceFromProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#DisassociateResourceFromProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Dissoaciated a specified resource, from the Route 53 Profile.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/profileresourceassociation/profileid/{ProfileId}/resourcearn/{ResourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#DisassociateResourceFromProfileRequest" : {
+         "members" : {
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The ID of the Profile.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceArn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the resource.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#DisassociateResourceFromProfileResponse" : {
+         "members" : {
+            "ProfileResourceAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileResourceAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the <code>DisassociateResourceFromProfile</code> request, including the status of the request.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ExceptionMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#GetProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#GetProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#GetProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profile/{ProfileId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#GetProfileAssociation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#GetProfileAssociationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#GetProfileAssociationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs. \n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profileassociation/{ProfileAssociationId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#GetProfileAssociationRequest" : {
+         "members" : {
+            "ProfileAssociationId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The identifier of the association you want to get information about.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#GetProfileAssociationResponse" : {
+         "members" : {
+            "ProfileAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the Profile association that you specified in a <code>GetProfileAssociation</code> request.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#GetProfileRequest" : {
+         "members" : {
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#GetProfileResourceAssociation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#GetProfileResourceAssociationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#GetProfileResourceAssociationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Returns information about a specified Route 53 Profile resource association.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profileresourceassociation/{ProfileResourceAssociationId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#GetProfileResourceAssociationRequest" : {
+         "members" : {
+            "ProfileResourceAssociationId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  \n  The ID of the profile resource association that you want to get information about.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#GetProfileResourceAssociationResponse" : {
+         "members" : {
+            "ProfileResourceAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileResourceAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the Profile resource association that you specified in a <code>GetProfileResourceAssociation</code> request.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#GetProfileResponse" : {
+         "members" : {
+            "Profile" : {
+               "target" : "com.amazonaws.route53profiles#Profile",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the Profile, including the status of the Profile.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#InternalServiceErrorException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\nAn internal server error occured. Retry your request.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#InvalidNextTokenException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#String"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\nThe <code>NextToken</code> you provided isn;t valid.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#InvalidParameterException" : {
+         "members" : {
+            "FieldName" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n      The parameter field name for the invalid parameter exception.\n    </p>"
+               }
+            },
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#ExceptionMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  One or more parameters in this request are not valid.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#LimitExceededException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#String"
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n      The resource type that caused the limits to be exceeded.\n    </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  The request caused one or more limits to be exceeded.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListProfileAssociations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidNextTokenException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#ListProfileAssociationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#ListProfileAssociationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Lists all the VPCs that the specified Route 53 Profile is associated with.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profileassociations"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ProfileAssociations",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#ListProfileAssociationsRequest" : {
+         "members" : {
+            "MaxResults" : {
+               "target" : "com.amazonaws.route53profiles#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The maximum number of objects that you want to return for this request. If more objects are available, in the response, \n  a <code>NextToken</code> value, which you can use in a subsequent call to get the next batch of objects, is provided.</p>\n         <p>\n    If you don't specify a value for <code>MaxResults</code>, up to 100 objects are returned.\n</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.route53profiles#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  For the first call to this list request, omit this value.\n</p>\n         <p>When you request a list of objects, at most the number of objects specified by <code>MaxResults</code> is returned. \n    If more objects are available for retrieval, a <code>NextToken</code> value is returned in the response. \n    To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nID of the Profile.\n</p>",
+                  "smithy.api#httpQuery" : "profileId"
+               }
+            },
+            "ResourceId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the VPC.\n</p>",
+                  "smithy.api#httpQuery" : "resourceId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListProfileAssociationsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.route53profiles#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  If more than <code>MaxResults</code> profile associations match the specified criteria, you can submit another \n  <code>ListProfileAssociations</code> request to get the next group of results. In the next request, specify the value of <code>NextToken</code> from the previous response.\n</p>"
+               }
+            },
+            "ProfileAssociations" : {
+               "target" : "com.amazonaws.route53profiles#ProfileAssociations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  A complex type that containts settings information about the profile's VPC associations.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListProfileResourceAssociations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InternalServiceErrorException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidNextTokenException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#ListProfileResourceAssociationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#ListProfileResourceAssociationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Lists all the resource associations for the specified Route 53 Profile.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profileresourceassociations/profileid/{ProfileId}"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ProfileResourceAssociations",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#ListProfileResourceAssociationsRequest" : {
+         "members" : {
+            "MaxResults" : {
+               "target" : "com.amazonaws.route53profiles#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n    The maximum number of objects that you want to return for this request. If more objects are available, in the response, \n    a <code>NextToken</code> value, which you can use in a subsequent call to get the next batch of objects, is provided.</p>\n         <p>\n    If you don't specify a value for <code>MaxResults</code>, up to 100 objects are returned.\n  </p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.route53profiles#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n    For the first call to this list request, omit this value.\n  </p>\n         <p>When you request a list of objects, at most the number of objects specified by <code>MaxResults</code> is returned. \n    If more objects are available for retrieval, a <code>NextToken</code> value is returned in the response. \n    To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nThe ID of the Profile.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of a resource if you want information on only one type.\n</p>",
+                  "smithy.api#httpQuery" : "resourceType"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListProfileResourceAssociationsResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.route53profiles#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n    If more than <code>MaxResults</code> resource associations match the specified criteria, you can submit another \n    <code>ListProfileResourceAssociations</code> request to get the next group of results. In the next request, specify the value of <code>NextToken</code> from the previous response.\n  </p>"
+               }
+            },
+            "ProfileResourceAssociations" : {
+               "target" : "com.amazonaws.route53profiles#ProfileResourceAssociations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the profile resource association that you specified in a <code>GetProfileResourceAssociation</code> request.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListProfiles" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidNextTokenException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#ListProfilesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#ListProfilesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Lists all the Route 53 Profiles associated with your Amazon Web Services account.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profiles"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "NextToken",
+               "items" : "ProfileSummaries",
+               "outputToken" : "NextToken",
+               "pageSize" : "MaxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#ListProfilesRequest" : {
+         "members" : {
+            "MaxResults" : {
+               "target" : "com.amazonaws.route53profiles#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n    The maximum number of objects that you want to return for this request. If more objects are available, in the response, \n    a <code>NextToken</code> value, which you can use in a subsequent call to get the next batch of objects, is provided.</p>\n         <p>\n    If you don't specify a value for <code>MaxResults</code>, up to 100 objects are returned.\n  </p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "NextToken" : {
+               "target" : "com.amazonaws.route53profiles#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n    For the first call to this list request, omit this value.\n  </p>\n         <p>When you request a list of objects, at most the number of objects specified by <code>MaxResults</code> is returned. \n    If more objects are available for retrieval, a <code>NextToken</code> value is returned in the response. \n    To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListProfilesResponse" : {
+         "members" : {
+            "NextToken" : {
+               "target" : "com.amazonaws.route53profiles#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n    If more than <code>MaxResults</code> resource associations match the specified criteria, you can submit another \n    <code>ListProfiles</code> request to get the next group of results. In the next request, specify the value of <code>NextToken</code> from the previous response.\n  </p>"
+               }
+            },
+            "ProfileSummaries" : {
+               "target" : "com.amazonaws.route53profiles#ProfileSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Summary information about the Profiles.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Lists the tags that you associated with the specified resource.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{ResourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#ListTagsForResourceRequest" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) for the resource that you want to list the tags for.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ListTagsForResourceResponse" : {
+         "members" : {
+            "Tags" : {
+               "target" : "com.amazonaws.route53profiles#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The tags that are associated with the resource that you specified in the <code>ListTagsForResource</code> request.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.route53profiles#Name" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#NextToken" : {
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#Profile" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) of the Profile.\n</p>"
+               }
+            },
+            "ClientToken" : {
+               "target" : "com.amazonaws.route53profiles#CreatorRequestId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The <code>ClientToken</code> value that was assigned when the Profile was created.\n</p>"
+               }
+            },
+            "CreationTime" : {
+               "target" : "com.amazonaws.route53profiles#Rfc3339Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The date and time that the Profile was created, in Unix time format and Coordinated Universal Time (UTC).\n</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nID of the Profile.\n</p>"
+               }
+            },
+            "ModificationTime" : {
+               "target" : "com.amazonaws.route53profiles#Rfc3339Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The date and time that the Profile was modified, in Unix time format and Coordinated Universal Time (UTC).\n</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nName of the Profile.\n</p>"
+               }
+            },
+            "OwnerId" : {
+               "target" : "com.amazonaws.route53profiles#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Amazon Web Services account ID of the Profile owner.\n</p>"
+               }
+            },
+            "ShareStatus" : {
+               "target" : "com.amazonaws.route53profiles#ShareStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Sharing status for the Profile.\n</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.route53profiles#ProfileStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The status for the Profile.\n</p>"
+               }
+            },
+            "StatusMessage" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Status message that includes additiona information about the Profile.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  A complex type that includes settings for a Route 53 Profile.\n</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ProfileAssociation" : {
+         "members" : {
+            "CreationTime" : {
+               "target" : "com.amazonaws.route53profiles#Rfc3339Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The date and time that the Profile association was created, in Unix time format and Coordinated Universal Time (UTC).\n</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile association.\n</p>"
+               }
+            },
+            "ModificationTime" : {
+               "target" : "com.amazonaws.route53profiles#Rfc3339Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The date and time that the Profile association was modified, in Unix time format and Coordinated Universal Time (UTC).\n</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Name of the Profile association.\n</p>"
+               }
+            },
+            "OwnerId" : {
+               "target" : "com.amazonaws.route53profiles#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Amazon Web Services account ID of the Profile association owner.\n</p>"
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nID of the Profile.\n</p>"
+               }
+            },
+            "ResourceId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) of the VPC.\n</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.route53profiles#ProfileStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Status of the Profile association.\n</p>"
+               }
+            },
+            "StatusMessage" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Additional information about the Profile association.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  An association between a Route 53 Profile and a VPC.\n</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ProfileAssociations" : {
+         "member" : {
+            "target" : "com.amazonaws.route53profiles#ProfileAssociation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.route53profiles#ProfileResourceAssociation" : {
+         "members" : {
+            "CreationTime" : {
+               "target" : "com.amazonaws.route53profiles#Rfc3339Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The date and time that the Profile resource association was created, in Unix time format and Coordinated Universal Time (UTC).\n</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile resource association.\n</p>"
+               }
+            },
+            "ModificationTime" : {
+               "target" : "com.amazonaws.route53profiles#Rfc3339Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The date and time that the Profile resource association was modified, in Unix time format and Coordinated Universal Time (UTC).\n</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Name of the Profile resource association.\n</p>"
+               }
+            },
+            "OwnerId" : {
+               "target" : "com.amazonaws.route53profiles#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Amazon Web Services account ID of the Profile resource association owner.\n</p>"
+               }
+            },
+            "ProfileId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Profile ID of the Profile that the resources are associated with.\n</p>"
+               }
+            },
+            "ResourceArn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) of the resource association.\n</p>"
+               }
+            },
+            "ResourceProperties" : {
+               "target" : "com.amazonaws.route53profiles#ResourceProperties",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  If the DNS resource is a DNS Firewall rule group, this indicates the priority.\n</p>"
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Resource type, such as a private hosted zone, or DNS Firewall rule group.\n</p>"
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.route53profiles#ProfileStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Status of the Profile resource association.\n</p>"
+               }
+            },
+            "StatusMessage" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Additional information about the Profile resource association.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  The association between a Route 53 Profile and resources.\n</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ProfileResourceAssociations" : {
+         "member" : {
+            "target" : "com.amazonaws.route53profiles#ProfileResourceAssociation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.route53profiles#ProfileStatus" : {
+         "members" : {
+            "COMPLETE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "COMPLETE"
+               }
+            },
+            "CREATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATING"
+               }
+            },
+            "DELETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETED"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "UPDATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UPDATING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.route53profiles#ProfileSummary" : {
+         "members" : {
+            "Arn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) of the Profile.\n</p>"
+               }
+            },
+            "Id" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  ID of the Profile.\n</p>"
+               }
+            },
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Name of the Profile.\n</p>"
+               }
+            },
+            "ShareStatus" : {
+               "target" : "com.amazonaws.route53profiles#ShareStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Share status of the Profile.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Summary information about a Route 53 Profile.\n</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ProfileSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.route53profiles#ProfileSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.route53profiles#ResourceExistsException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#String"
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n      The resource type that caused the resource exists exception.\n    </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n The resource you are trying to associate, has already been associated.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ResourceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#ResourceNotFoundException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#String"
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.route53profiles#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n      The resource type that caused the resource not found exception.\n    </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\nThe resource you are associating is not found.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ResourceProperties" : {
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#Rfc3339Timestamp" : {
+         "type" : "timestamp"
+      },
+      "com.amazonaws.route53profiles#Route53Profiles" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AssociateProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#AssociateResourceToProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#CreateProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#DeleteProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#DisassociateProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#DisassociateResourceFromProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#GetProfile"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#GetProfileAssociation"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#GetProfileResourceAssociation"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ListProfileAssociations"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ListProfileResourceAssociations"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ListProfiles"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#UpdateProfileResourceAssociation"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "route53profiles",
+               "cloudTrailEventSource" : "route53profiles.amazonaws.com",
+               "sdkId" : "Route53Profiles"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "route53profiles"
+            },
+            "aws.iam#defineConditionKeys" : {
+               "aws:RequestTag/${TagKey}" : {
+                  "documentation" : "Filters access by the presence of tag key-value pairs in the request",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-requesttag",
+                  "type" : "String"
+               },
+               "aws:ResourceTag/${TagKey}" : {
+                  "documentation" : "Filters access by the presence of tag key-value pairs attached to the resource",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-resourcetag",
+                  "type" : "String"
+               },
+               "aws:TagKeys" : {
+                  "documentation" : "Filters access by the presence of tag keys in the request",
+                  "externalDocumentation" : "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys",
+                  "type" : "ArrayOfString"
+               }
+            },
+            "aws.iam#supportedPrincipalTypes" : [
+               "Root",
+               "IAMUser",
+               "IAMRole",
+               "FederatedUser"
+            ],
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {},
+            "smithy.api#documentation" : "<p>\n With Amazon Route 53 Profiles you can share Route 53 configurations with VPCs and AWS accounts\n</p>",
+            "smithy.api#title" : "Route 53 Profiles",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://route53profiles-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://route53profiles-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://route53profiles.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://route53profiles.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://route53profiles.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2018-05-10"
+      },
+      "com.amazonaws.route53profiles#ShareStatus" : {
+         "members" : {
+            "NOT_SHARED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NOT_SHARED"
+               }
+            },
+            "SHARED_BY_ME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SHARED_BY_ME"
+               }
+            },
+            "SHARED_WITH_ME" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SHARED_WITH_ME"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.route53profiles#String" : {
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#Tag" : {
+         "members" : {
+            "Key" : {
+               "target" : "com.amazonaws.route53profiles#TagKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Key associated with the <code>Tag</code>.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Value" : {
+               "target" : "com.amazonaws.route53profiles#TagValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nValue for the Tag.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\nTag for the Profile.\n</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.route53profiles#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.route53profiles#TagList" : {
+         "member" : {
+            "target" : "com.amazonaws.route53profiles#Tag"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.route53profiles#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.route53profiles#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.route53profiles#TagValue"
+         }
+      },
+      "com.amazonaws.route53profiles#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Adds one or more tags to a specified resource.\n</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/tags/{ResourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#TagResourceRequest" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) for the resource that you want to add tags to. \n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "Tags" : {
+               "target" : "com.amazonaws.route53profiles#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The tags that you want to add to the specified resource.\n</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#TagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.route53profiles#ThrottlingException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  The request was throttled. Try again in a few minutes.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  Removes one or more tags from a specified resource.\n</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/tags/{ResourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#UntagResourceRequest" : {
+         "members" : {
+            "ResourceArn" : {
+               "target" : "com.amazonaws.route53profiles#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The Amazon Resource Name (ARN) for the resource that you want to remove tags from.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "TagKeys" : {
+               "target" : "com.amazonaws.route53profiles#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  The tags that you want to remove to the specified resource.\n</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#UntagResourceResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#UpdateProfileResourceAssociation" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.route53profiles#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InternalServiceErrorException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#InvalidParameterException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#LimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.route53profiles#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.route53profiles#UpdateProfileResourceAssociationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.route53profiles#UpdateProfileResourceAssociationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\nUpdates the specified Route 53 Profile resourse association.\n</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/profileresourceassociation/{ProfileResourceAssociationId}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.route53profiles#UpdateProfileResourceAssociationRequest" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.route53profiles#Name",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nName of the resource association.\n</p>"
+               }
+            },
+            "ProfileResourceAssociationId" : {
+               "target" : "com.amazonaws.route53profiles#ResourceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\nID of the resource association.\n</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceProperties" : {
+               "target" : "com.amazonaws.route53profiles#ResourceProperties",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value.\n  </p>\n         <p>The allowed values for priority are between 100 and 9900.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#UpdateProfileResourceAssociationResponse" : {
+         "members" : {
+            "ProfileResourceAssociation" : {
+               "target" : "com.amazonaws.route53profiles#ProfileResourceAssociation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n  Information about the <code>UpdateProfileResourceAssociation</code> request, including a status message.\n</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.route53profiles#ValidationException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.route53profiles#ExceptionMessage"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n  You have provided an invalid command.\n</p>",
+            "smithy.api#error" : "client"
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}

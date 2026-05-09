@@ -1,0 +1,3526 @@
+{
+   "shapes" : {
+      "com.amazonaws.novaact#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>You don't have sufficient permissions to perform this action. Verify your IAM permissions and try again.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You don't have sufficient permissions to perform this action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ActError" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#SensitiveString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A human-readable description of the error that occurred.</p>",
+                  "smithy.api#length" : {
+                     "max" : 10000,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type or category of error that occurred.</p>",
+                  "smithy.api#length" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Error information when an act fails to execute successfully.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ActResource" : {
+         "create" : {
+            "target" : "com.amazonaws.novaact#CreateAct"
+         },
+         "identifiers" : {
+            "actId" : {
+               "target" : "com.amazonaws.novaact#UuidString"
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString"
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName"
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.novaact#ListActs"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.novaact#InvokeActStep"
+            },
+            {
+               "target" : "com.amazonaws.novaact#UpdateAct"
+            }
+         ],
+         "type" : "resource"
+      },
+      "com.amazonaws.novaact#ActStatus" : {
+         "members" : {
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "PENDING_CLIENT_ACTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_CLIENT_ACTION"
+               }
+            },
+            "PENDING_HUMAN_ACTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING_HUMAN_ACTION"
+               }
+            },
+            "RUNNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUNNING"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            },
+            "TIMED_OUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TIMED_OUT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#ActSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#ActSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#ActSummary" : {
+         "members" : {
+            "actId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the act.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "endedAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the act completed execution, if applicable.</p>"
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session containing this act.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startedAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the act started execution.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#ActStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current execution status of the act.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "traceLocation" : {
+               "target" : "com.amazonaws.novaact#TraceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location where trace information for this act is stored.</p>"
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run containing this act.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about an act, including its status and execution timing.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#AmazonNovaAgentsDataPlane" : {
+         "resources" : [
+            {
+               "target" : "com.amazonaws.novaact#ActResource"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ModelResource"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ServiceLinkedRoleResource"
+            },
+            {
+               "target" : "com.amazonaws.novaact#SessionResource"
+            },
+            {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionResource"
+            },
+            {
+               "target" : "com.amazonaws.novaact#WorkflowRunResource"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "nova-act",
+               "endpointPrefix" : "nova-act",
+               "sdkId" : "Nova Act"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "nova-act"
+            },
+            "aws.endpoints#standardRegionalEndpoints" : {},
+            "aws.protocols#restJson1" : {},
+            "smithy.api#documentation" : "<p>The Nova Act service provides a REST API for managing AI-powered workflow automation. It enables users to create workflow definitions, execute workflow runs, manage sessions, and orchestrate acts (individual AI tasks) with tool integrations.</p>",
+            "smithy.api#title" : "Nova Act Service",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {},
+                                                      "url" : "https://nova-act-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {},
+                                                      "url" : "https://nova-act-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                false
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "endpoint" : {
+                                                      "headers" : {},
+                                                      "properties" : {},
+                                                      "url" : "https://nova-act.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                   },
+                                                   "type" : "endpoint"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "endpoint" : {
+                                          "headers" : {},
+                                          "properties" : {},
+                                          "url" : "https://nova-act.{Region}.{PartitionResult#dnsSuffix}"
+                                       },
+                                       "type" : "endpoint"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.cn-northwest-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.cn-northwest-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.cn-northwest-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-northwest-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eusc-de-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.eusc-de-east-1.amazonaws.eu"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eusc-de-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region eusc-de-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.eusc-de-east-1.amazonaws.eu"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eusc-de-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-isoe-west-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.eu-isoe-west-1.cloud.adc-e.uk"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-isoe-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region eu-isoe-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.eu-isoe-west-1.cloud.adc-e.uk"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "eu-isoe-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isof-south-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-isof-south-1.csp.hci.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isof-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isof-south-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-isof-south-1.csp.hci.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isof-south-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act-fips.us-gov-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-gov-west-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://nova-act.us-gov-west-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-west-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2025-08-22"
+      },
+      "com.amazonaws.novaact#Call" : {
+         "members" : {
+            "callId" : {
+               "target" : "com.amazonaws.novaact#CallId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique identifier for this tool call, used to match results back to requests.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "input" : {
+               "target" : "com.amazonaws.novaact#SensitiveDocument",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The input parameters for the tool call, formatted according to the tool's schema.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the tool to invoke, following the pattern 'tool.{toolName}' or 'browser.{browserAction}'.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A request for the client to execute a specific tool with given parameters.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CallId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#CallResult" : {
+         "members" : {
+            "callId" : {
+               "target" : "com.amazonaws.novaact#CallId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the tool call that this result corresponds to.</p>"
+               }
+            },
+            "content" : {
+               "target" : "com.amazonaws.novaact#CallResultContents",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content returned by the tool execution, which can include text or other media types.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The result returned from executing a tool call.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CallResultContent" : {
+         "members" : {
+            "text" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Text content returned from the tool execution.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Content returned from a tool call execution.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.novaact#CallResultContents" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#CallResultContent"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#CallResults" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#CallResult"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#Calls" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#Call"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#ClientInfo" : {
+         "members" : {
+            "compatibilityVersion" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The compatibility version of the client, used to ensure API compatibility.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sdkVersion" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the SDK being used by the client.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about the client making API requests, used for compatibility checking.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 33
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#CloudWatchLogGroupName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 512,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_/.-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#CompatibilityInformation" : {
+         "members" : {
+            "clientCompatibilityVersion" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client compatibility version that was requested.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional information about compatibility requirements or recommendations.</p>"
+               }
+            },
+            "supportedModelIds" : {
+               "target" : "com.amazonaws.novaact#ModelIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of model IDs that are supported for the client compatibility version.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about client compatibility and supported model versions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The requested operation conflicts with the current state of the resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that caused the conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of resource that caused the conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request could not be completed due to a conflict with the current state of the resource.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateAct" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#CreateActRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#CreateActResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new AI task (act) within a session that can interact with tools and perform specific actions.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}/sessions/{sessionId}/acts"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#CreateActRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.novaact#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session to create the act in.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "task" : {
+               "target" : "com.amazonaws.novaact#Task",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The task description that defines what the act should accomplish.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "toolSpecs" : {
+               "target" : "com.amazonaws.novaact#ToolSpecs",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of tool specifications that the act can invoke to complete its task.</p>"
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the session.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run containing the session.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateActResponse" : {
+         "members" : {
+            "actId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the created act.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#ActStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The initial status of the act after creation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateSession" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#CreateSessionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#CreateSessionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new session context within a workflow run to manage conversation state and acts.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}/sessions"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#CreateSessionRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.novaact#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the workflow run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run to create the session in.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateSessionResponse" : {
+         "members" : {
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the created session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateWorkflowDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#CreateWorkflowDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#CreateWorkflowDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new workflow definition template that can be used to execute multiple workflow runs.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#CreateWorkflowDefinitionRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.novaact#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.novaact#WorkflowDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional description of the workflow definition's purpose and functionality.</p>"
+               }
+            },
+            "exportConfig" : {
+               "target" : "com.amazonaws.novaact#WorkflowExportConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for exporting workflow execution data to Amazon Simple Storage Service.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition. Must be unique within your account and region.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateWorkflowDefinitionResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the workflow definition after creation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateWorkflowRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#CreateWorkflowRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#CreateWorkflowRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new execution instance of a workflow definition with specified parameters.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#CreateWorkflowRunRequest" : {
+         "members" : {
+            "clientInfo" : {
+               "target" : "com.amazonaws.novaact#ClientInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the client making the request, including compatibility version and SDK version.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.novaact#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "logGroupName" : {
+               "target" : "com.amazonaws.novaact#CloudWatchLogGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The CloudWatch log group name for storing workflow execution logs.</p>"
+               }
+            },
+            "modelId" : {
+               "target" : "com.amazonaws.novaact#ModelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the AI model to use for workflow execution.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition to execute.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#CreateWorkflowRunResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The initial status of the workflow run after creation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for the created workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#DateTimestamp" : {
+         "traits" : {
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.novaact#DeleteWorkflowDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#DeleteWorkflowDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#DeleteWorkflowDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a workflow definition and all associated resources. This operation cannot be undone.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "DELETE",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#DeleteWorkflowDefinitionRequest" : {
+         "members" : {
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#DeleteWorkflowDefinitionResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the workflow definition after deletion request.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#DeleteWorkflowRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#DeleteWorkflowRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#DeleteWorkflowRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Terminates and cleans up a workflow run, stopping all associated acts and sessions.</p>",
+            "smithy.api#http" : {
+               "code" : 202,
+               "method" : "DELETE",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#DeleteWorkflowRunRequest" : {
+         "members" : {
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the workflow run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#DeleteWorkflowRunResponse" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the workflow run after deletion request.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#GetWorkflowDefinition" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#GetWorkflowDefinitionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#GetWorkflowDefinitionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the details and configuration of a specific workflow definition.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#GetWorkflowDefinitionRequest" : {
+         "members" : {
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition to retrieve.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#GetWorkflowDefinitionResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the workflow definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the workflow definition was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.novaact#WorkflowDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the workflow definition.</p>"
+               }
+            },
+            "exportConfig" : {
+               "target" : "com.amazonaws.novaact#WorkflowExportConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The export configuration for the workflow definition.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the workflow definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#GetWorkflowRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#GetWorkflowRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#GetWorkflowRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the current state, configuration, and execution details of a workflow run.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#GetWorkflowRunRequest" : {
+         "members" : {
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the workflow run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run to retrieve.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#GetWorkflowRunResponse" : {
+         "members" : {
+            "endedAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the workflow run completed execution, if applicable.</p>"
+               }
+            },
+            "logGroupName" : {
+               "target" : "com.amazonaws.novaact#CloudWatchLogGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The CloudWatch log group name for this workflow run's logs.</p>"
+               }
+            },
+            "modelId" : {
+               "target" : "com.amazonaws.novaact#ModelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the AI model being used for this workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startedAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the workflow run started execution.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current execution status of the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunArn" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service encountered an internal error. Try again later.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.novaact#InternalServerExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the internal server error.</p>"
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of seconds to wait before retrying the request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An internal server error occurred. Please try again later.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#InternalServerExceptionReason" : {
+         "members" : {
+            "INVALID_MODEL_GENERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "InvalidModelGeneration"
+               }
+            },
+            "TOKEN_LIMIT_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RequestTokenLimitExceeded"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#InvokeActStep" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#InvokeActStepRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#InvokeActStepResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Executes the next step of an act, processing tool call results and returning new tool calls if needed.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}/sessions/{sessionId}/acts/{actId}/invoke-step/"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#InvokeActStepRequest" : {
+         "members" : {
+            "actId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the act to invoke the next step for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "callResults" : {
+               "target" : "com.amazonaws.novaact#CallResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The results from previous tool calls that the act requested.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "previousStepId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the previous step, used for tracking execution flow.</p>"
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session containing the act.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the act.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run containing the act.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#InvokeActStepResponse" : {
+         "members" : {
+            "calls" : {
+               "target" : "com.amazonaws.novaact#Calls",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of tool calls that the act wants to execute in this step.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "stepId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier for this execution step.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListActs" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#ListActsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#ListActsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all acts within a specific session with their current status and execution details.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/acts"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "actSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#ListActsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.novaact#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of acts to return in a single response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session to list acts for.</p>",
+                  "smithy.api#httpQuery" : "sessionId"
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.novaact#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order for the returned acts (ascending or descending).</p>"
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the session.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run containing the session.</p>",
+                  "smithy.api#httpQuery" : "workflowRunId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListActsResponse" : {
+         "members" : {
+            "actSummaries" : {
+               "target" : "com.amazonaws.novaact#ActSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of summary information for acts in the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results, if available.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListModels" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#ListModelsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#ListModelsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all available AI models that can be used for workflow execution, including their status and compatibility information.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/models"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "ListModelsSuccess",
+                  "params" : {
+                     "clientCompatibilityVersion" : 1
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#ListModelsRequest" : {
+         "members" : {
+            "clientCompatibilityVersion" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client compatibility version to filter models by compatibility.</p>",
+                  "smithy.api#httpQuery" : "clientCompatibilityVersion",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListModelsResponse" : {
+         "members" : {
+            "compatibilityInformation" : {
+               "target" : "com.amazonaws.novaact#CompatibilityInformation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about client compatibility and supported models.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "modelAliases" : {
+               "target" : "com.amazonaws.novaact#ModelAliases",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of model aliases that provide stable references to model versions.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "modelSummaries" : {
+               "target" : "com.amazonaws.novaact#ModelSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of available AI models with their status and compatibility information.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListSessions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#ListSessionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#ListSessionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all sessions within a specific workflow run.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "sessionSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#ListSessionsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.novaact#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of sessions to return in a single response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.novaact#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order for the returned sessions (ascending or descending).</p>"
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the workflow run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run to list sessions for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListSessionsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results, if available.</p>"
+               }
+            },
+            "sessionSummaries" : {
+               "target" : "com.amazonaws.novaact#SessionSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of summary information for sessions in the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListWorkflowDefinitions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#ListWorkflowDefinitionsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#ListWorkflowDefinitionsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all workflow definitions in your account with optional filtering and pagination.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/workflow-definitions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "workflowDefinitionSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#ListWorkflowDefinitionsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.novaact#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of workflow definitions to return in a single response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.novaact#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order for the returned workflow definitions (ascending or descending).</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListWorkflowDefinitionsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results, if available.</p>"
+               }
+            },
+            "workflowDefinitionSummaries" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of summary information for workflow definitions.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListWorkflowRuns" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#ListWorkflowRunsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#ListWorkflowRunsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all workflow runs for a specific workflow definition with optional filtering and pagination.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "workflowRunSummaries",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#ListWorkflowRunsRequest" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "com.amazonaws.novaact#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of workflow runs to return in a single response.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.novaact#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order for the returned workflow runs (ascending or descending).</p>"
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition to list workflow runs for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ListWorkflowRunsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.novaact#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for retrieving the next page of results, if available.</p>"
+               }
+            },
+            "workflowRunSummaries" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of summary information for workflow runs.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.novaact#ModelAlias" : {
+         "members" : {
+            "aliasName" : {
+               "target" : "com.amazonaws.novaact#ModelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the model alias.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "latestModelId" : {
+               "target" : "com.amazonaws.novaact#ModelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The model ID that this alias currently points to.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resolvedModelId" : {
+               "target" : "com.amazonaws.novaact#ModelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resolved model ID after alias resolution.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An alias that provides a stable reference to a model version.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ModelAliases" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#ModelAlias"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#ModelId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ModelIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#ModelId"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#ModelLifecycle" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.novaact#ModelStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current lifecycle status of the model.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lifecycle information for an AI model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ModelResource" : {
+         "identifiers" : {
+            "modelId" : {
+               "target" : "com.amazonaws.novaact#ModelId"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.novaact#ListModels"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.novaact#ModelStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "DEPRECATED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DEPRECATED"
+               }
+            },
+            "LEGACY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LEGACY"
+               }
+            },
+            "PREVIEW" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PREVIEW"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#ModelSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#ModelSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#ModelSummary" : {
+         "members" : {
+            "minimumCompatibilityVersion" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The minimum client compatibility version required to use this model.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "modelId" : {
+               "target" : "com.amazonaws.novaact#ModelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the model.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "modelLifecycle" : {
+               "target" : "com.amazonaws.novaact#ModelLifecycle",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle information for the model.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about an available AI model.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#NextToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^\\S*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#NonBlankString" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[\\s\\S]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specified resource was not found.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that wasn't found.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of resource that wasn't found.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The requested resource was not found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#S3BucketName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 63,
+               "min" : 3
+            },
+            "smithy.api#pattern" : "^[a-z0-9][a-z0-9.-]*[a-z0-9]$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#S3KeyPrefix" : {
+         "traits" : {
+            "smithy.api#documentation" : "A prefix for S3 object keys that will be prepended to 'step_{N}.json'.\nMust follow S3 object key naming guidelines and cannot end with a forward slash\nas it will be directly concatenated with the filename.",
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9!\\-_.*'()]+(?:/[a-zA-Z0-9!\\-_.*'()]+)*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#SensitiveDocument" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "document"
+      },
+      "com.amazonaws.novaact#SensitiveString" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ServiceLinkedRoleResource" : {
+         "type" : "resource"
+      },
+      "com.amazonaws.novaact#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request would exceed one or more service quotas for your account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The code for the specific quota that was exceeded.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource that exceeded the quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of resource that exceeded the quota.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "serviceCode" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service code for the quota that was exceeded.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request would exceed a service quota limit.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#SessionResource" : {
+         "create" : {
+            "target" : "com.amazonaws.novaact#CreateSession"
+         },
+         "identifiers" : {
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString"
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName"
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.novaact#ListSessions"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.novaact#SessionSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#SessionSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#SessionSummary" : {
+         "members" : {
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a session within a workflow run.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#SortOrder" : {
+         "members" : {
+            "ASC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Ascending"
+               }
+            },
+            "DESC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Descending"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#Task" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10000,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The request was denied due to request throttling.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "quotaCode" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The quota code related to the throttling.</p>"
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of seconds to wait before retrying the throttled request.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            },
+            "serviceCode" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service code where throttling occurred.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was throttled due to too many requests. Please try again later.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {
+               "throttling" : true
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ToolDescription" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10000,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ToolInputSchema" : {
+         "members" : {
+            "json" : {
+               "target" : "com.amazonaws.novaact#ToolInputSchemaDocument",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The JSON schema that defines the expected input format for the tool.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The schema definition for tool input parameters.</p>",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "union"
+      },
+      "com.amazonaws.novaact#ToolInputSchemaDocument" : {
+         "type" : "document"
+      },
+      "com.amazonaws.novaact#ToolName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ToolSpec" : {
+         "members" : {
+            "description" : {
+               "target" : "com.amazonaws.novaact#ToolDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of what the tool does and how it should be used.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "inputSchema" : {
+               "target" : "com.amazonaws.novaact#ToolInputSchema",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The JSON schema that defines the expected input format for the tool.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.novaact#ToolName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique name of the tool that acts will use to invoke it.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specification for a tool that acts can invoke, including its name, description, and input schema.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ToolSpecs" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#ToolSpec"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#TraceLocation" : {
+         "members" : {
+            "location" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specific location where the trace data is stored.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "locationType" : {
+               "target" : "com.amazonaws.novaact#TraceLocationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of storage location for the trace data.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about where trace data is stored for debugging and monitoring.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#TraceLocationType" : {
+         "members" : {
+            "S3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "S3"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#UpdateAct" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#UpdateActRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#UpdateActResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates an existing act's configuration, status, or error information.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}/sessions/{sessionId}/acts/{actId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#UpdateActRequest" : {
+         "members" : {
+            "actId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the act to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "error" : {
+               "target" : "com.amazonaws.novaact#ActError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Error information to associate with the act, if applicable.</p>"
+               }
+            },
+            "sessionId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session containing the act.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#ActStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new status to set for the act.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the act.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run containing the act.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#UpdateActResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#UpdateWorkflowRun" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.novaact#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.novaact#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.novaact#UpdateWorkflowRunRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.novaact#UpdateWorkflowRunResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the configuration or state of an active workflow run.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/workflow-definitions/{workflowDefinitionName}/workflow-runs/{workflowRunId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.novaact#UpdateWorkflowRunRequest" : {
+         "members" : {
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new status to set for the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition containing the workflow run.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#UpdateWorkflowRunResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#UuidString" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#ValidationException" : {
+         "members" : {
+            "fieldList" : {
+               "target" : "com.amazonaws.novaact#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of fields that failed validation.</p>"
+               }
+            },
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by the service.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.novaact#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for the validation failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The input parameters for the request are invalid.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ValidationExceptionField" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the validation error for this field.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.novaact#NonBlankString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the field that failed validation.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Information about a field that failed validation.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#ValidationExceptionReason" : {
+         "members" : {
+            "FIELD_VALIDATION_FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FieldValidationFailed"
+               }
+            },
+            "GUARDRAIL_INTERVENED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GuardrailIntervened"
+               }
+            },
+            "INVALID_STATUS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "InvalidStatus"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#WorkflowDefinitionArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:(aws|aws-cn|aws-us-gov):nova-act:[a-z0-9-]+:[0-9]{12}:workflow-definition/[a-zA-Z0-9_-]{1,40}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#WorkflowDefinitionName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 40,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]{1,40}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#WorkflowDefinitionResource" : {
+         "create" : {
+            "target" : "com.amazonaws.novaact#CreateWorkflowDefinition"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.novaact#DeleteWorkflowDefinition"
+         },
+         "identifiers" : {
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.novaact#ListWorkflowDefinitions"
+         },
+         "read" : {
+            "target" : "com.amazonaws.novaact#GetWorkflowDefinition"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.novaact#WorkflowDefinitionStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#WorkflowDefinitionSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#WorkflowDefinitionSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#WorkflowDefinitionSummary" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the workflow definition was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the workflow definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowDefinitionArn" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the workflow definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow definition.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a workflow definition, used in list operations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#WorkflowDescription" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4000,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#WorkflowExportConfig" : {
+         "members" : {
+            "s3BucketName" : {
+               "target" : "com.amazonaws.novaact#S3BucketName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of your Amazon S3 bucket, that Nova Act uses to export your workflow data. Note that the IAM role used to access Nova Act must also have write permissions to this bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "s3KeyPrefix" : {
+               "target" : "com.amazonaws.novaact#S3KeyPrefix",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional prefix for Amazon S3 object keys to organize exported data.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration settings for exporting workflow execution data and logs to Amazon Simple Storage Service (Amazon S3).</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.novaact#WorkflowRunArn" : {
+         "traits" : {
+            "smithy.api#pattern" : "^arn:(aws|aws-cn|aws-us-gov):nova-act:[a-z0-9-]+:[0-9]{12}:workflow-definition/[a-zA-Z0-9_-]{1,40}/workflow-run/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.novaact#WorkflowRunResource" : {
+         "create" : {
+            "target" : "com.amazonaws.novaact#CreateWorkflowRun"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.novaact#DeleteWorkflowRun"
+         },
+         "identifiers" : {
+            "workflowDefinitionName" : {
+               "target" : "com.amazonaws.novaact#WorkflowDefinitionName"
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.novaact#ListWorkflowRuns"
+         },
+         "read" : {
+            "target" : "com.amazonaws.novaact#GetWorkflowRun"
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.novaact#UpdateWorkflowRun"
+         }
+      },
+      "com.amazonaws.novaact#WorkflowRunStatus" : {
+         "members" : {
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "RUNNING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "RUNNING"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            },
+            "TIMED_OUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TIMED_OUT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.novaact#WorkflowRunSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.novaact#WorkflowRunSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.novaact#WorkflowRunSummary" : {
+         "members" : {
+            "endedAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the workflow run completed execution, if applicable.</p>"
+               }
+            },
+            "startedAt" : {
+               "target" : "com.amazonaws.novaact#DateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the workflow run started execution.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current execution status of the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "traceLocation" : {
+               "target" : "com.amazonaws.novaact#TraceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location where trace information for this workflow run is stored.</p>"
+               }
+            },
+            "workflowRunArn" : {
+               "target" : "com.amazonaws.novaact#WorkflowRunArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workflowRunId" : {
+               "target" : "com.amazonaws.novaact#UuidString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the workflow run.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a workflow run, including execution status and timing.</p>"
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}

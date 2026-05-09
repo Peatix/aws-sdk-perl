@@ -1,0 +1,3096 @@
+{
+   "shapes" : {
+      "com.amazonaws.docdbelastic#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An error message explaining why access was denied.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An exception that occurs when there are not sufficient permissions to perform an action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ApplyPendingMaintenanceAction" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#ApplyPendingMaintenanceActionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#ApplyPendingMaintenanceActionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The type of pending maintenance action to be applied to the resource.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/pending-action"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#ApplyPendingMaintenanceActionInput" : {
+         "members" : {
+            "applyAction" : {
+               "target" : "com.amazonaws.docdbelastic#InputString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pending maintenance action to apply to the resource.</p>\n         <p>Valid actions are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ENGINE_UPDATE<i/>\n                  </code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ENGINE_UPGRADE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SECURITY_UPDATE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>OS_UPDATE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>MASTER_USER_PASSWORD_UPDATE</code>\n               </p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "applyOn" : {
+               "target" : "com.amazonaws.docdbelastic#InputString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A specific date to apply the pending maintenance action. Required if opt-in-type is <code>APPLY_ON</code>. Format: <code>yyyy/MM/dd HH:mm-yyyy/MM/dd HH:mm</code>\n         </p>"
+               }
+            },
+            "optInType" : {
+               "target" : "com.amazonaws.docdbelastic#OptInType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type <code>IMMEDIATE</code> can't be undone.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceArn" : {
+               "target" : "com.amazonaws.docdbelastic#InputString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ApplyPendingMaintenanceActionOutput" : {
+         "members" : {
+            "resourcePendingMaintenanceAction" : {
+               "target" : "com.amazonaws.docdbelastic#ResourcePendingMaintenanceAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output of the pending maintenance action being applied.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#Arn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1011,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#Auth" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "PLAIN_TEXT",
+                  "value" : "PLAIN_TEXT"
+               },
+               {
+                  "name" : "SECRET_ARN",
+                  "value" : "SECRET_ARN"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#ChimeraDbLionfishServiceLambda" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#ApplyPendingMaintenanceAction"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#CopyClusterSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#CreateCluster"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#CreateClusterSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#DeleteCluster"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#DeleteClusterSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#GetCluster"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#GetClusterSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#GetPendingMaintenanceAction"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ListClusters"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ListClusterSnapshots"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ListPendingMaintenanceActions"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#RestoreClusterFromSnapshot"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#StartCluster"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#StopCluster"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#UntagResource"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#UpdateCluster"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "docdb-elastic",
+               "cloudTrailEventSource" : "CASCADES_EVENT_SOURCE",
+               "sdkId" : "DocDB Elastic"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "docdb-elastic"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "*",
+                  "content-type",
+                  "x-amz-content-sha256",
+                  "x-amz-user-agent",
+                  "x-amzn-platform-id",
+                  "x-amzn-trace-id"
+               ],
+               "additionalExposedHeaders" : [
+                  "x-amzn-errortype",
+                  "x-amzn-requestid",
+                  "x-amzn-trace-id"
+               ],
+               "maxAge" : 86400
+            },
+            "smithy.api#documentation" : "<fullname>Amazon DocumentDB elastic clusters</fullname>\n         <p>Amazon DocumentDB elastic-clusters support workloads with millions of reads/writes per second and petabytes of storage capacity. \n      Amazon DocumentDB elastic clusters also simplify how developers interact with Amazon DocumentDB elastic-clusters by eliminating the need to choose, manage or upgrade instances.</p>\n         <p>Amazon DocumentDB elastic-clusters were created to:</p>\n         <ul>\n            <li>\n               <p>provide a solution for customers looking for a database that provides virtually limitless scale with rich query capabilities and MongoDB API compatibility.</p>\n            </li>\n            <li>\n               <p>give customers higher connection limits, and to reduce downtime from patching.</p>\n            </li>\n            <li>\n               <p>continue investing in a cloud-native, elastic, and class leading architecture for JSON workloads.</p>\n            </li>\n         </ul>",
+            "smithy.api#title" : "Amazon DocumentDB Elastic Clusters",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://docdb-elastic-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://docdb-elastic-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://docdb-elastic.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://docdb-elastic.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://docdb-elastic.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2022-11-28"
+      },
+      "com.amazonaws.docdbelastic#Cluster" : {
+         "members" : {
+            "adminUserName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster administrator.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "authType" : {
+               "target" : "com.amazonaws.docdbelastic#Auth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication type for the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "backupRetentionPeriod" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of days for which automatic snapshots are retained.</p>"
+               }
+            },
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterEndpoint" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL used to connect to the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "createTime" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the elastic cluster was created in Universal Coordinated Time (UTC).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The KMS key identifier to use to encrypt the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "preferredBackupWindow" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daily time range during which automated backups are created if automated backups are enabled, as determined by <code>backupRetentionPeriod</code>.</p>"
+               }
+            },
+            "preferredMaintenanceWindow" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).</p>\n         <p>\n            <i>Format</i>: <code>ddd:hh24:mi-ddd:hh24:mi</code>\n         </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shardCapacity" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. \n      Allowed values are 2, 4, 8, 16, 32, 64.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shardCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of shards assigned to the elastic cluster. Maximum is 32.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shardInstanceCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of replica instances applying to all shards in the cluster. \n      A <code>shardInstanceCount</code> value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.</p>"
+               }
+            },
+            "shards" : {
+               "target" : "com.amazonaws.docdbelastic#ShardList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of shards in the cluster.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.docdbelastic#Status",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon EC2 subnet IDs for the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcSecurityGroupIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of EC2 VPC security groups associated with thie elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about a specific elastic cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ClusterInList" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.docdbelastic#Status",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of Amazon DocumentDB elastic clusters.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ClusterList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#ClusterInList"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#ClusterSnapshot" : {
+         "members" : {
+            "adminUserName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster administrator.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterCreationTime" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the elastic cluster was created in Universal Coordinated Time (UTC).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. \n      If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key.\n      If an encryption key is not specified here, Amazon DocumentDB uses the default encryption key that KMS creates for your account. \n      Your account has a different default encryption key for each Amazon Region.\n    </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotCreationTime" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the elastic cluster snapshot was created in Universal Coordinated Time (UTC).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotType" : {
+               "target" : "com.amazonaws.docdbelastic#SnapshotType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of cluster snapshots to be returned. \n      You can specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>automated</code> - Return all cluster snapshots that Amazon DocumentDB has automatically created for your Amazon Web Services account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>manual</code> - Return all cluster snapshots that you have manually created for your Amazon Web Services account.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.docdbelastic#Status",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon EC2 subnet IDs for the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcSecurityGroupIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of EC2 VPC security groups to associate with the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about a specific elastic cluster snapshot.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ClusterSnapshotInList" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotCreationTime" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the elastic cluster snapshot was created in Universal Coordinated Time (UTC).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.docdbelastic#Status",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of elastic cluster snapshots.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ClusterSnapshotList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#ClusterSnapshotInList"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resource where there was an access conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource where there was an access conflict.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>There was an access conflict.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#CopyClusterSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#CopyClusterSnapshotInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#CopyClusterSnapshotOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Copies a snapshot of an elastic cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/cluster-snapshot/{snapshotArn}/copy"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#CopyClusterSnapshotInput" : {
+         "members" : {
+            "copyTags" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>Set to <code>true</code> to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. \n      The default is <code>false</code>.</p>"
+               }
+            },
+            "kmsKeyId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services KMS key ID for an encrypted elastic cluster snapshot. \n      The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web Services KMS encryption key.</p>\n         <p>If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account, you can specify a value for <code>KmsKeyId</code> to encrypt the copy with a new Amazon Web ServicesS KMS encryption key. \n      If you don't specify a value for <code>KmsKeyId</code>, then the copy of the elastic cluster snapshot is encrypted with the same <code>AWS</code> KMS key as the source elastic cluster snapshot.</p>\n         <p>To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set <code>KmsKeyId</code> to the Amazon Web Services KMS key ID that you want to use to encrypt the copy of the elastic cluster snapshot in the destination region. \n      Amazon Web Services KMS encryption keys are specific to the Amazon Web Services region that they are created in, and you can't use encryption keys from one Amazon Web Services region in another Amazon Web Services region.</p>\n         <p>If you copy an unencrypted elastic cluster snapshot and specify a value for the <code>KmsKeyId</code> parameter, an error is returned.</p>"
+               }
+            },
+            "snapshotArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "snapshotArn"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.docdbelastic#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to be assigned to the elastic cluster snapshot.</p>"
+               }
+            },
+            "targetSnapshotName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. \n      This parameter is not case sensitive.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must contain from 1 to 63 letters, numbers, or hyphens.</p>\n            </li>\n            <li>\n               <p>The first character must be a letter.</p>\n            </li>\n            <li>\n               <p>Cannot end with a hyphen or contain two consecutive hyphens.</p>\n            </li>\n         </ul>\n         <p>Example: <code>elastic-cluster-snapshot-5</code>\n         </p>",
+                  "smithy.api#length" : {
+                     "max" : 63,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#CopyClusterSnapshotOutput" : {
+         "members" : {
+            "snapshot" : {
+               "target" : "com.amazonaws.docdbelastic#ClusterSnapshot",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#CreateCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#CreateClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#CreateClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/cluster"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#CreateClusterInput" : {
+         "members" : {
+            "adminUserName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Amazon DocumentDB elastic clusters administrator.</p>\n         <p>\n            <i>Constraints</i>:</p>\n         <ul>\n            <li>\n               <p>Must be from 1 to 63 letters or numbers.</p>\n            </li>\n            <li>\n               <p>The first character must be a letter.</p>\n            </li>\n            <li>\n               <p>Cannot be a reserved word.</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "adminUserPassword" : {
+               "target" : "com.amazonaws.docdbelastic#Password",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The password for the Amazon DocumentDB elastic clusters administrator. The password can contain any printable ASCII characters.</p>\n         <p>\n            <i>Constraints</i>:</p>\n         <ul>\n            <li>\n               <p>Must contain from 8 to 100 characters.</p>\n            </li>\n            <li>\n               <p>Cannot contain a forward slash (/), double quote (\"), or the \"at\" symbol (@).</p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "authType" : {
+               "target" : "com.amazonaws.docdbelastic#Auth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication type used to determine where to fetch the password used for accessing the elastic cluster. \n      Valid types are <code>PLAIN_TEXT</code> or <code>SECRET_ARN</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "backupRetentionPeriod" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of days for which automatic snapshots are retained.</p>"
+               }
+            },
+            "clientToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client token for the elastic cluster.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "clusterName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the new elastic cluster. This parameter is stored as\n      a lowercase string.</p>\n         <p>\n            <i>Constraints</i>:</p>\n         <ul>\n            <li>\n               <p>Must contain from 1 to 63 letters, numbers, or hyphens.</p>\n            </li>\n            <li>\n               <p>The first character must be a letter.</p>\n            </li>\n            <li>\n               <p>Cannot end with a hyphen or contain two consecutive hyphens.</p>\n            </li>\n         </ul>\n         <p>\n            <i>Example</i>: <code>my-cluster</code>\n         </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The KMS key identifier to use to encrypt the new elastic cluster.</p>\n         <p>The KMS key identifier is the Amazon Resource Name (ARN) for the KMS\n        encryption key. If you are creating a cluster using the same Amazon account\n        that owns this KMS encryption key, you can use the KMS key alias instead\n        of the ARN as the KMS encryption key.</p>\n         <p>If an encryption key is not specified, Amazon DocumentDB uses the\n        default encryption key that KMS creates for your account. Your account\n        has a different default encryption key for each Amazon Region.</p>"
+               }
+            },
+            "preferredBackupWindow" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daily time range during which automated backups are created if automated backups are enabled, as determined by the <code>backupRetentionPeriod</code>.</p>"
+               }
+            },
+            "preferredMaintenanceWindow" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The weekly time range during which system maintenance can occur,\n      in Universal Coordinated Time (UTC).</p>\n         <p>\n            <i>Format</i>: <code>ddd:hh24:mi-ddd:hh24:mi</code>\n         </p>\n         <p>\n            <i>Default</i>: a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.</p>\n         <p>\n            <i>Valid days</i>: Mon, Tue, Wed, Thu, Fri, Sat, Sun</p>\n         <p>\n            <i>Constraints</i>: Minimum 30-minute window.</p>"
+               }
+            },
+            "shardCapacity" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shardCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of shards assigned to the elastic cluster. Maximum is 32.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shardInstanceCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of replica instances applying to all shards in the elastic cluster. \n      A <code>shardInstanceCount</code> value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.</p>"
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon EC2 subnet IDs for the new elastic cluster.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.docdbelastic#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to be assigned to the new elastic cluster.</p>"
+               }
+            },
+            "vpcSecurityGroupIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of EC2 VPC security groups to associate with the new\n      elastic cluster.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#CreateClusterOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new elastic cluster that has been created.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#CreateClusterSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#CreateClusterSnapshotInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#CreateClusterSnapshotOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a snapshot of an elastic cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/cluster-snapshot"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#CreateClusterSnapshotInput" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster of which you want to create a snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "snapshotName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the new elastic cluster snapshot.</p>",
+                  "smithy.api#length" : {
+                     "max" : 63,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.docdbelastic#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags to be assigned to the new elastic cluster snapshot.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#CreateClusterSnapshotOutput" : {
+         "members" : {
+            "snapshot" : {
+               "target" : "com.amazonaws.docdbelastic#ClusterSnapshot",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about the new elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#DeleteCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#DeleteClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#DeleteClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Delete an elastic cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/cluster/{clusterArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#DeleteClusterInput" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster that is to be deleted.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "clusterArn"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#DeleteClusterOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about the newly deleted elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#DeleteClusterSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#DeleteClusterSnapshotInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#DeleteClusterSnapshotOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Delete an elastic cluster snapshot.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/cluster-snapshot/{snapshotArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#DeleteClusterSnapshotInput" : {
+         "members" : {
+            "snapshotArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster snapshot that is to be deleted.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "snapshotArn"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#DeleteClusterSnapshotOutput" : {
+         "members" : {
+            "snapshot" : {
+               "target" : "com.amazonaws.docdbelastic#ClusterSnapshot",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about the newly deleted elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#GetCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#GetClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#GetClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about a specific elastic cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/cluster/{clusterArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#GetClusterInput" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "clusterArn"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#GetClusterOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about a specific elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#GetClusterSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#GetClusterSnapshotInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#GetClusterSnapshotOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about a specific elastic cluster snapshot</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/cluster-snapshot/{snapshotArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#GetClusterSnapshotInput" : {
+         "members" : {
+            "snapshotArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster snapshot.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "snapshotArn"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#GetClusterSnapshotOutput" : {
+         "members" : {
+            "snapshot" : {
+               "target" : "com.amazonaws.docdbelastic#ClusterSnapshot",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about a specific elastic cluster snapshot.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#GetPendingMaintenanceAction" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#GetPendingMaintenanceActionInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#GetPendingMaintenanceActionOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves all maintenance actions that are pending.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/pending-action/{resourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#GetPendingMaintenanceActionInput" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.docdbelastic#InputString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN).</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "resourceArn"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#GetPendingMaintenanceActionOutput" : {
+         "members" : {
+            "resourcePendingMaintenanceAction" : {
+               "target" : "com.amazonaws.docdbelastic#ResourcePendingMaintenanceAction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides information about a pending maintenance action for a resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#InputString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>There was an internal server error.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListClusterSnapshots" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#ListClusterSnapshotsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#ListClusterSnapshotsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about snapshots for a specified elastic cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/cluster-snapshots"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "snapshots",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#ListClusterSnapshotsInput" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#httpQuery" : "clusterArn"
+               }
+            },
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The maximum number of elastic cluster snapshot results to receive in the response.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 20
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.docdbelastic#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pagination token provided by a previous request. \n      If this parameter is specified, the response includes only records beyond this token, up to the value specified by <code>max-results</code>.</p>\n         <p>If there is no more data in the responce, the <code>nextToken</code> will not be returned.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "snapshotType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of cluster snapshots to be returned. You can specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>automated</code> - Return all cluster snapshots that Amazon DocumentDB has automatically created for your Amazon Web Services account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>manual</code> - Return all cluster snapshots that you have manually created for your Amazon Web Services account.</p>\n            </li>\n         </ul>",
+                  "smithy.api#httpQuery" : "snapshotType"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListClusterSnapshotsOutput" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.docdbelastic#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pagination token provided by a previous request. \n      If this parameter is specified, the response includes only records beyond this token, up to the value specified by <code>max-results</code>.</p>\n         <p>If there is no more data in the responce, the <code>nextToken</code> will not be returned.</p>"
+               }
+            },
+            "snapshots" : {
+               "target" : "com.amazonaws.docdbelastic#ClusterSnapshotList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of snapshots for a specified elastic cluster.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListClusters" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#ListClustersInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#ListClustersOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns information about provisioned Amazon DocumentDB elastic clusters.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/clusters"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "clusters",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#ListClustersInput" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The maximum number of elastic cluster snapshot results to receive in the response.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.docdbelastic#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pagination token provided by a previous request. \n      If this parameter is specified, the response includes only records beyond this token, up to the value specified by <code>max-results</code>.</p>\n         <p>If there is no more data in the responce, the <code>nextToken</code> will not be returned.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListClustersOutput" : {
+         "members" : {
+            "clusters" : {
+               "target" : "com.amazonaws.docdbelastic#ClusterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of Amazon DocumentDB elastic clusters.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.docdbelastic#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A pagination token provided by a previous request. \n      If this parameter is specified, the response includes only records beyond this token, up to the value specified by <code>max-results</code>.</p>\n         <p>If there is no more data in the responce, the <code>nextToken</code> will not be returned.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListPendingMaintenanceActions" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#ListPendingMaintenanceActionsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#ListPendingMaintenanceActionsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves a list of all maintenance actions that are pending.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/pending-actions"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "resourcePendingMaintenanceActions",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#ListPendingMaintenanceActionsInput" : {
+         "members" : {
+            "maxResults" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#default" : null,
+                  "smithy.api#documentation" : "<p>The maximum number of results to include in the response. \n      If more records exist than the specified <code>maxResults</code> value, a pagination token (marker) is included in the response so that the remaining results can be retrieved.</p>",
+                  "smithy.api#httpQuery" : "maxResults",
+                  "smithy.api#range" : {
+                     "max" : 100,
+                     "min" : 1
+                  }
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.docdbelastic#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by <code>maxResults</code>.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListPendingMaintenanceActionsOutput" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.docdbelastic#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An optional pagination token provided by a previous request. If this parameter is displayed, the responses will include only records beyond the marker, up to the value specified by <code>maxResults</code>.</p>"
+               }
+            },
+            "resourcePendingMaintenanceActions" : {
+               "target" : "com.amazonaws.docdbelastic#ResourcePendingMaintenanceActionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides information about a pending maintenance action for a resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all tags on a elastic cluster resource</p>",
+            "smithy.api#http" : {
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.docdbelastic#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster resource.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.docdbelastic#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of tags for the specified elastic cluster resource.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#OptInType" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "IMMEDIATE",
+                  "value" : "IMMEDIATE"
+               },
+               {
+                  "name" : "NEXT_MAINTENANCE",
+                  "value" : "NEXT_MAINTENANCE"
+               },
+               {
+                  "name" : "APPLY_ON",
+                  "value" : "APPLY_ON"
+               },
+               {
+                  "name" : "UNDO_OPT_IN",
+                  "value" : "UNDO_OPT_IN"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#PaginationToken" : {
+         "traits" : {
+            "smithy.api#documentation" : "    Token or cursor used in paginated operations.\n\n    When this value is provided as operation input, the service returns results from where the previous response left off.\n    When this value is present in operation output, it indicates that there are more results to retrieve.\n\n    This should be opaque to not expose implementation details and potentially versioned to allow evolution of pagination\n    strategy.\n"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#Password" : {
+         "traits" : {
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#PendingMaintenanceActionDetails" : {
+         "members" : {
+            "action" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Displays the specific action of a pending maintenance action.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "autoAppliedAfterDate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Displays the date of the maintenance window when the action is applied. \n      The maintenance action is applied to the resource during its first maintenance window after this date. \n      If this date is specified, any <code>NEXT_MAINTENANCE</code>\n            <code>optInType</code> requests are ignored.</p>"
+               }
+            },
+            "currentApplyDate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Displays the effective date when the pending maintenance action is applied to the resource.</p>"
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Displays a description providing more detail about the maintenance action.</p>"
+               }
+            },
+            "forcedApplyDate" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Displays the date when the maintenance action is automatically applied. \n      The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource. \n      If this date is specified, any <code>IMMEDIATE</code>\n            <code>optInType</code> requests are ignored.</p>"
+               }
+            },
+            "optInStatus" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Displays the type of <code>optInType</code> request that has been received for the resource.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the details of maintenance actions that are pending.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#PendingMaintenanceActionDetailsList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#PendingMaintenanceActionDetails"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An error message describing the failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the resource that could not be located.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resourceType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource that could not be found.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specified resource could not be located.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ResourcePendingMaintenanceAction" : {
+         "members" : {
+            "pendingMaintenanceActionDetails" : {
+               "target" : "com.amazonaws.docdbelastic#PendingMaintenanceActionDetailsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides information about a pending maintenance action for a resource.</p>"
+               }
+            },
+            "resourceArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Provides information about a pending maintenance action for a resource.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ResourcePendingMaintenanceActionList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#ResourcePendingMaintenanceAction"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#RestoreClusterFromSnapshot" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#RestoreClusterFromSnapshotInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#RestoreClusterFromSnapshotOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Restores an elastic cluster from a snapshot.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/cluster-snapshot/{snapshotArn}/restore"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#RestoreClusterFromSnapshotInput" : {
+         "members" : {
+            "clusterName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "kmsKeyId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The KMS key identifier to use to encrypt the new Amazon DocumentDB elastic clusters cluster.</p>\n         <p>The KMS key identifier is the Amazon Resource Name (ARN) for the KMS\n        encryption key. If you are creating a cluster using the same Amazon account\n        that owns this KMS encryption key, you can use the KMS key alias instead\n        of the ARN as the KMS encryption key.</p>\n         <p>If an encryption key is not specified here, Amazon DocumentDB uses the\n        default encryption key that KMS creates for your account. Your account\n        has a different default encryption key for each Amazon Region.</p>"
+               }
+            },
+            "shardCapacity" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The capacity of each shard in the new restored elastic cluster.</p>"
+               }
+            },
+            "shardInstanceCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of replica instances applying to all shards in the elastic cluster. \n      A <code>shardInstanceCount</code> value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.</p>"
+               }
+            },
+            "snapshotArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster snapshot.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "snapshotArn"
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon EC2 subnet IDs for the elastic cluster.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.docdbelastic#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of the tag names to be assigned to the restored elastic cluster, in the form of an array of key-value pairs in which the key is the tag name and the value is the key value.</p>"
+               }
+            },
+            "vpcSecurityGroupIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of EC2 VPC security groups to associate with the elastic cluster.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#RestoreClusterFromSnapshotOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about a the restored elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The service quota for the action was exceeded.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#Shard" : {
+         "members" : {
+            "createTime" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the shard was created in Universal Coordinated Time (UTC).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shardId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the shard.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.docdbelastic#Status",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the shard.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The name of the shard.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ShardList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#Shard"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#SnapshotType" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "MANUAL",
+                  "value" : "MANUAL"
+               },
+               {
+                  "name" : "AUTOMATED",
+                  "value" : "AUTOMATED"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#StartCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#StartClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#StartClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Restarts the stopped elastic cluster that is specified by <code>clusterARN</code>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/cluster/{clusterArn}/start"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#StartClusterInput" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "clusterArn"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#StartClusterOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#Status" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "CREATING",
+                  "value" : "CREATING"
+               },
+               {
+                  "name" : "ACTIVE",
+                  "value" : "ACTIVE"
+               },
+               {
+                  "name" : "DELETING",
+                  "value" : "DELETING"
+               },
+               {
+                  "name" : "UPDATING",
+                  "value" : "UPDATING"
+               },
+               {
+                  "name" : "VPC_ENDPOINT_LIMIT_EXCEEDED",
+                  "value" : "VPC_ENDPOINT_LIMIT_EXCEEDED"
+               },
+               {
+                  "name" : "IP_ADDRESS_LIMIT_EXCEEDED",
+                  "value" : "IP_ADDRESS_LIMIT_EXCEEDED"
+               },
+               {
+                  "name" : "INVALID_SECURITY_GROUP_ID",
+                  "value" : "INVALID_SECURITY_GROUP_ID"
+               },
+               {
+                  "name" : "INVALID_SUBNET_ID",
+                  "value" : "INVALID_SUBNET_ID"
+               },
+               {
+                  "name" : "INACCESSIBLE_ENCRYPTION_CREDS",
+                  "value" : "INACCESSIBLE_ENCRYPTION_CREDS"
+               },
+               {
+                  "name" : "INACCESSIBLE_SECRET_ARN",
+                  "value" : "INACCESSIBLE_SECRET_ARN"
+               },
+               {
+                  "name" : "INACCESSIBLE_VPC_ENDPOINT",
+                  "value" : "INACCESSIBLE_VPC_ENDPOINT"
+               },
+               {
+                  "name" : "INCOMPATIBLE_NETWORK",
+                  "value" : "INCOMPATIBLE_NETWORK"
+               },
+               {
+                  "name" : "MERGING",
+                  "value" : "MERGING"
+               },
+               {
+                  "name" : "MODIFYING",
+                  "value" : "MODIFYING"
+               },
+               {
+                  "name" : "SPLITTING",
+                  "value" : "SPLITTING"
+               },
+               {
+                  "name" : "COPYING",
+                  "value" : "COPYING"
+               },
+               {
+                  "name" : "STARTING",
+                  "value" : "STARTING"
+               },
+               {
+                  "name" : "STOPPING",
+                  "value" : "STOPPING"
+               },
+               {
+                  "name" : "STOPPED",
+                  "value" : "STOPPED"
+               },
+               {
+                  "name" : "MAINTENANCE",
+                  "value" : "MAINTENANCE"
+               },
+               {
+                  "name" : "INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE",
+                  "value" : "INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#StopCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#StopClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#StopClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stops the running elastic cluster that is specified by <code>clusterArn</code>. \n      The elastic cluster must be in the <i>available</i> state. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/cluster/{clusterArn}/stop"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#StopClusterInput" : {
+         "members" : {
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "clusterArn"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#StopClusterOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#StringList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^(?!aws:)[a-zA-Z+-=._:/]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#TagKeyList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#TagMap" : {
+         "key" : {
+            "target" : "com.amazonaws.docdbelastic#TagKey"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.docdbelastic#TagValue"
+         }
+      },
+      "com.amazonaws.docdbelastic#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Adds metadata tags to an elastic cluster resource</p>",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.docdbelastic#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster resource.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.docdbelastic#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags that are assigned to the elastic cluster resource.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#TagResourceResponse" : {
+         "members" : {},
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.docdbelastic#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "retryAfterSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of seconds to wait before retrying the operation.</p>",
+                  "smithy.api#httpHeader" : "Retry-After"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>ThrottlingException will be thrown when request was denied due to request throttling.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes metadata tags from an elastic cluster resource</p>",
+            "smithy.api#http" : {
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.docdbelastic#Arn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster resource.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.docdbelastic#TagKeyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tag keys to be removed from the elastic cluster resource.</p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#UntagResourceResponse" : {
+         "members" : {},
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#UpdateCluster" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.docdbelastic#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.docdbelastic#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.docdbelastic#UpdateClusterInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.docdbelastic#UpdateClusterOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Modifies an elastic cluster. This includes updating admin-username/password, \n    upgrading the API version, and setting up a backup window and maintenance window</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/cluster/{clusterArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.docdbelastic#UpdateClusterInput" : {
+         "members" : {
+            "adminUserPassword" : {
+               "target" : "com.amazonaws.docdbelastic#Password",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The password associated with the elastic cluster administrator. \n      This password can contain any printable ASCII character except forward slash (/), double quote (\"), or the \"at\" symbol (@).</p>\n         <p>\n            <i>Constraints</i>: Must contain from 8 to 100 characters.</p>"
+               }
+            },
+            "authType" : {
+               "target" : "com.amazonaws.docdbelastic#Auth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication type used to determine where to fetch the password used for accessing the elastic cluster. \n      Valid types are <code>PLAIN_TEXT</code> or <code>SECRET_ARN</code>.</p>"
+               }
+            },
+            "backupRetentionPeriod" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of days for which automatic snapshots are retained.</p>"
+               }
+            },
+            "clientToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The client token for the elastic cluster.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "clusterArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN identifier of the elastic cluster.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "clusterArn"
+               }
+            },
+            "preferredBackupWindow" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daily time range during which automated backups are created if automated backups are enabled, as determined by the <code>backupRetentionPeriod</code>.</p>"
+               }
+            },
+            "preferredMaintenanceWindow" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).</p>\n         <p>\n            <i>Format</i>: <code>ddd:hh24:mi-ddd:hh24:mi</code>\n         </p>\n         <p>\n            <i>Default</i>: a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.</p>\n         <p>\n            <i>Valid days</i>: Mon, Tue, Wed, Thu, Fri, Sat, Sun</p>\n         <p>\n            <i>Constraints</i>: Minimum 30-minute window.</p>"
+               }
+            },
+            "shardCapacity" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of vCPUs assigned to each elastic cluster shard. \n      Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.</p>"
+               }
+            },
+            "shardCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of shards assigned to the elastic cluster. Maximum is 32.</p>"
+               }
+            },
+            "shardInstanceCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of replica instances applying to all shards in the elastic cluster. \n      A <code>shardInstanceCount</code> value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.</p>"
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon EC2 subnet IDs for the elastic cluster.</p>"
+               }
+            },
+            "vpcSecurityGroupIds" : {
+               "target" : "com.amazonaws.docdbelastic#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of EC2 VPC security groups to associate with the elastic cluster.</p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#UpdateClusterOutput" : {
+         "members" : {
+            "cluster" : {
+               "target" : "com.amazonaws.docdbelastic#Cluster",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Returns information about the updated elastic cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ValidationException" : {
+         "members" : {
+            "fieldList" : {
+               "target" : "com.amazonaws.docdbelastic#ValidationExceptionFieldList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of the fields in which the validation exception occurred.</p>"
+               }
+            },
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An error message describing the validation exception.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "com.amazonaws.docdbelastic#ValidationExceptionReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason why the validation exception occurred (one of <code>unknownOperation</code>,\n      <code>cannotParse</code>, <code>fieldValidationFailed</code>, or <code>other</code>).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A structure defining a validation exception.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ValidationExceptionField" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An error message describing the validation exception in this field.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the field where the validation exception occurred.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A specific field in which a given validation exception occurred.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.docdbelastic#ValidationExceptionFieldList" : {
+         "member" : {
+            "target" : "com.amazonaws.docdbelastic#ValidationExceptionField"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.docdbelastic#ValidationExceptionReason" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "name" : "UNKNOWN_OPERATION",
+                  "value" : "unknownOperation"
+               },
+               {
+                  "name" : "CANNOT_PARSE",
+                  "value" : "cannotParse"
+               },
+               {
+                  "name" : "FIELD_VALIDATION_FAILED",
+                  "value" : "fieldValidationFailed"
+               },
+               {
+                  "name" : "OTHER",
+                  "value" : "other"
+               }
+            ]
+         },
+         "type" : "string"
+      }
+   },
+   "smithy" : "2.0"
+}

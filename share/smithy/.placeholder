@@ -1,7 +1,19 @@
-share/smithy/ holds Smithy AST JSON files vendored from upstream
+share/smithy/ holds Smithy 2.0 AST JSON files vendored from upstream
 (by default, awslabs/aws-sdk-rust's aws-models tree).
 
-Run `script/paws-vendor-smithy --clean` to populate / refresh.
+The vendored .smithy.json files are committed to git — `make dist`
+ships the tree as-is, no build-time vendoring required.
 
-Layout: share/smithy/<Service>/<Service>.smithy.json - matches
+Layout: share/smithy/<service>/<service>.smithy.json - matches
 Paws::Model::Loader::Resolver's nested-layout search path.
+
+Refresh from upstream:
+  1. Bump the SHA in .upstream-sha to the desired
+     awslabs/aws-sdk-rust commit.
+  2. Run `make vendor-smithy` (drives script/paws-vendor-smithy --clean).
+  3. `git diff --stat` to verify the diff scope.
+  4. Commit the bumped pin file with the regenerated tree.
+
+The refresh-source-deps workflow (.github/workflows/refresh-source-deps.yml)
+runs this on a daily schedule and opens a draft PR with the
+regenerated tree whenever upstream moves.

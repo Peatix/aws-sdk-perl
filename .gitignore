@@ -21,27 +21,19 @@ cpanfile.snapshot
 .project
 
 # PR 18 (stack18) replaced the botocore git submodule with vendored
-# files in share/. CI workflows fetch botocore on the fly into
-# `botocore/` for backwards compatibility with gen_classes.pl.
-# Anchor with leading slash so this only matches the repo-root
-# `botocore/` checkout dir and not the tracked `share/botocore/`
-# vendored tree.
+# files in share/; this stack dropped share/botocore/ and went
+# Smithy-only. The contributor-facing AOT generator (builder-bin/
+# gen_classes.pl) still reads from `botocore/botocore/data/`, so CI
+# workflows fetch botocore on the fly into `botocore/` at the SHA
+# pinned in etc/botocore-pin.sha. Anchor with a leading slash so
+# this only matches the repo-root checkout dir.
 /botocore/
 
-# share/{smithy,botocore} get populated by `make dist-prep` (see
-# script/paws-vendor-{smithy,botocore}) immediately before `dzil
-# build`. The populated content is large (~100MB raw, ~27MB
-# compressed in the dist tarball) and regeneratable from upstream
-# at the SHA pinned in share/botocore/.upstream-sha + the smithy
-# vendor source pinned in script/paws-vendor-smithy. Keep the
-# tracked entries (.placeholder + .upstream-sha) so the layout
-# documents itself and the refresh-source-deps workflow has a SHA
-# file to bump.
-/share/smithy/*
-!/share/smithy/.placeholder
-/share/botocore/*
-!/share/botocore/.placeholder
-!/share/botocore/.upstream-sha
+# share/smithy/ Smithy IR is vendored from awslabs/aws-sdk-rust at
+# the SHA pinned in share/smithy/.upstream-sha. The .smithy.json
+# files ARE tracked in git (so the dist ships them as-is, no
+# build-time vendoring step required). Use `make vendor-smithy` to
+# refresh the tree from upstream after bumping .upstream-sha.
 
 # Emacs save files:
 *~

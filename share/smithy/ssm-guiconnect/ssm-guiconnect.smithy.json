@@ -1,0 +1,1218 @@
+{
+   "shapes" : {
+      "com.amazonaws.ssmguiconnect#AccessDeniedException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You do not have sufficient access to perform this action.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 403
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#AccountId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssmguiconnect#BucketName" : {
+         "traits" : {
+            "smithy.api#pattern" : "(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssmguiconnect#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssmguiconnect#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An error occurred due to a conflict.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#Connection" : {
+         "identifiers" : {
+            "ConnectionArn" : {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionArn"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#ConnectionAccess" : {
+         "identifiers" : {
+            "ConnectionToken" : {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionToken"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#ConnectionArn" : {
+         "type" : "string"
+      },
+      "com.amazonaws.ssmguiconnect#ConnectionPreferences" : {
+         "identifiers" : {
+            "AccountId" : {
+               "target" : "com.amazonaws.ssmguiconnect#AccountId"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#ConnectionRecordingPreferences" : {
+         "members" : {
+            "KMSKeyArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of a KMS key that is used to encrypt data while it is being processed by the service. This key must exist in the same Amazon Web Services Region as the node you start an RDP connection to.</p>",
+                  "smithy.api#length" : {
+                     "max" : 2048,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "RecordingDestinations" : {
+               "target" : "com.amazonaws.ssmguiconnect#RecordingDestinations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Determines where recordings of RDP connections are stored.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The set of preferences used for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#ConnectionToken" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}_[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.ssmguiconnect#ConnectionsCollection" : {
+         "identifiers" : {
+            "AccountId" : {
+               "target" : "com.amazonaws.ssmguiconnect#AccountId"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#DeleteConnectionRecordingPreferences" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssmguiconnect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssmguiconnect#DeleteConnectionRecordingPreferencesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssmguiconnect#DeleteConnectionRecordingPreferencesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes the preferences for recording RDP connections.</p>",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/DeleteConnectionRecordingPreferences"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "DeleteConnectionRecordingPreferencesSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssmguiconnect#DeleteConnectionRecordingPreferencesRequest" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.ssmguiconnect#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>User-provided idempotency token.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#DeleteConnectionRecordingPreferencesResponse" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.ssmguiconnect#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Service-provided idempotency token.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#ErrorMessage" : {
+         "type" : "string"
+      },
+      "com.amazonaws.ssmguiconnect#GetConnectionRecordingPreferences" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssmguiconnect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "smithy.api#Unit"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssmguiconnect#GetConnectionRecordingPreferencesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.</p>",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/GetConnectionRecordingPreferences"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "GetConnectionRecordingPreferencesSuccess",
+                  "params" : {},
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssmguiconnect#GetConnectionRecordingPreferencesResponse" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.ssmguiconnect#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Service-provided idempotency token.</p>"
+               }
+            },
+            "ConnectionRecordingPreferences" : {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionRecordingPreferences",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The set of preferences used for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request processing has failed because of an unknown error, exception or failure.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#ModifyConnectionPreferences" : {
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#ModifyRecordingPreferences" : {
+         "delete" : {
+            "target" : "com.amazonaws.ssmguiconnect#DeleteConnectionRecordingPreferences"
+         },
+         "read" : {
+            "target" : "com.amazonaws.ssmguiconnect#GetConnectionRecordingPreferences"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#RecordingDestinations" : {
+         "members" : {
+            "S3Buckets" : {
+               "target" : "com.amazonaws.ssmguiconnect#S3Buckets",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The S3 bucket where RDP connection recordings are stored.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Determines where recordings of RDP connections are stored.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#RecordingPreferences" : {
+         "create" : {
+            "target" : "com.amazonaws.ssmguiconnect#UpdateConnectionRecordingPreferences"
+         },
+         "identifiers" : {
+            "AccountId" : {
+               "target" : "com.amazonaws.ssmguiconnect#AccountId"
+            }
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.ssmguiconnect#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The resource could not be found.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#S3Bucket" : {
+         "members" : {
+            "BucketName" : {
+               "target" : "com.amazonaws.ssmguiconnect#BucketName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the S3 bucket where RDP connection recordings are stored.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "BucketOwner" : {
+               "target" : "com.amazonaws.ssmguiconnect#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services account number that owns the S3 bucket.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The S3 bucket where RDP connection recordings are stored.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#S3Buckets" : {
+         "member" : {
+            "target" : "com.amazonaws.ssmguiconnect#S3Bucket"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.ssmguiconnect#SSMGuiConnect" : {
+         "resources" : [
+            {
+               "target" : "com.amazonaws.ssmguiconnect#Connection"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionAccess"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionPreferences"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionsCollection"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ModifyConnectionPreferences"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ModifyRecordingPreferences"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#RecordingPreferences"
+            }
+         ],
+         "traits" : {
+            "aws.api#controlPlane" : {},
+            "aws.api#service" : {
+               "arnNamespace" : "ssm-guiconnect",
+               "sdkId" : "SSM GuiConnect"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "ssm-guiconnect"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "*",
+                  "content-type",
+                  "x-amz-content-sha256",
+                  "x-amz-user-agent",
+                  "x-amzn-platform-id",
+                  "x-amzn-trace-id"
+               ],
+               "additionalExposedHeaders" : [
+                  "x-amzn-errortype",
+                  "x-amzn-requestid",
+                  "x-amzn-trace-id"
+               ],
+               "maxAge" : 86400
+            },
+            "smithy.api#documentation" : "<fullname>AWS Systems Manager GUI Connect</fullname>\n         <p>Systems Manager GUI Connect, a component of Fleet Manager, lets you connect to your Window\n         Server-type Amazon Elastic Compute Cloud (Amazon EC2) instances using the Remote Desktop Protocol (RDP). GUI\n         Connect, which is powered by <a href=\"https://docs.aws.amazon.com/dcv/latest/adminguide/what-is-dcv.html\">Amazon DCV</a>, provides you\n         with secure connectivity to your Windows Server instances directly from the Systems Manager console.\n         You can have up to four simultaneous connections in a single browser window. In the\n         console, GUI Connect is also referred to as Fleet Manager Remote Desktop.</p>\n         <p>This reference is intended to be used with the <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/\">\n               <i>Amazon Web Services Systems Manager User\n            Guide</i>\n            </a>. To get started, see the following user guide topics:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html\">Setting up\n                     Amazon Web Services Systems Manager</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/systems-manager/latest/userguide/fleet-rdp.html\">Connect to a Windows Server managed instance using Remote Desktop</a>\n               </p>\n            </li>\n         </ul>",
+            "smithy.api#title" : "AWS SSM-GUIConnect",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                                 "type" : "error"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : {
+                                       "ref" : "Endpoint"
+                                    }
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "fn" : "isSet"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "Region"
+                                          }
+                                       ],
+                                       "assign" : "PartitionResult",
+                                       "fn" : "aws.partition"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                },
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://ssm-guiconnect-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseFIPS"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsFIPS"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      },
+                                                      true
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://ssm-guiconnect-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "FIPS is enabled but this partition does not support FIPS",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "ref" : "UseDualStack"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [
+                                                {
+                                                   "argv" : [
+                                                      true,
+                                                      {
+                                                         "argv" : [
+                                                            {
+                                                               "ref" : "PartitionResult"
+                                                            },
+                                                            "supportsDualStack"
+                                                         ],
+                                                         "fn" : "getAttr"
+                                                      }
+                                                   ],
+                                                   "fn" : "booleanEquals"
+                                                }
+                                             ],
+                                             "rules" : [
+                                                {
+                                                   "conditions" : [],
+                                                   "rules" : [
+                                                      {
+                                                         "conditions" : [],
+                                                         "endpoint" : {
+                                                            "headers" : {},
+                                                            "properties" : {},
+                                                            "url" : "https://ssm-guiconnect.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                                         },
+                                                         "type" : "endpoint"
+                                                      }
+                                                   ],
+                                                   "type" : "tree"
+                                                }
+                                             ],
+                                             "type" : "tree"
+                                          },
+                                          {
+                                             "conditions" : [],
+                                             "error" : "DualStack is enabled but this partition does not support DualStack",
+                                             "type" : "error"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://ssm-guiconnect.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              }
+                           ],
+                           "type" : "tree"
+                        },
+                        {
+                           "conditions" : [],
+                           "error" : "Invalid Configuration: Missing Region",
+                           "type" : "error"
+                        }
+                     ],
+                     "type" : "tree"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://ssm-guiconnect.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2021-05-01"
+      },
+      "com.amazonaws.ssmguiconnect#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Your request exceeds a service quota.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was denied due to request throttling.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#UpdateConnectionRecordingPreferences" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.ssmguiconnect#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.ssmguiconnect#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.ssmguiconnect#UpdateConnectionRecordingPreferencesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.ssmguiconnect#UpdateConnectionRecordingPreferencesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the preferences for recording RDP connections.</p>",
+            "smithy.api#http" : {
+               "method" : "POST",
+               "uri" : "/UpdateConnectionRecordingPreferences"
+            },
+            "smithy.api#idempotent" : {},
+            "smithy.test#smokeTests" : [
+               {
+                  "expect" : {
+                     "success" : {}
+                  },
+                  "id" : "UpdateConnectionRecordingPreferencesSuccess",
+                  "params" : {
+                     "ConnectionRecordingPreferences" : {
+                        "KMSKeyArn" : "arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab",
+                        "RecordingDestinations" : {
+                           "S3Buckets" : [
+                              {
+                                 "BucketName" : "test-bucket",
+                                 "BucketOwner" : "111122223333"
+                              }
+                           ]
+                        }
+                     }
+                  },
+                  "vendorParams" : {
+                     "region" : "us-east-1"
+                  },
+                  "vendorParamsShape" : "aws.test#AwsVendorParams"
+               }
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.ssmguiconnect#UpdateConnectionRecordingPreferencesRequest" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.ssmguiconnect#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>User-provided idempotency token.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "ConnectionRecordingPreferences" : {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionRecordingPreferences",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The set of preferences used for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#UpdateConnectionRecordingPreferencesResponse" : {
+         "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.ssmguiconnect#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Service-provided idempotency token.</p>"
+               }
+            },
+            "ConnectionRecordingPreferences" : {
+               "target" : "com.amazonaws.ssmguiconnect#ConnectionRecordingPreferences",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The set of preferences used for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region. This includes details such as which S3 bucket recordings are stored in.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.ssmguiconnect#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.ssmguiconnect#ErrorMessage",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by an AWS service.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}

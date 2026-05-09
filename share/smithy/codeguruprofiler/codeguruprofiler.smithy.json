@@ -1,0 +1,3760 @@
+{
+   "shapes" : {
+      "com.amazonaws.codeguruprofiler#ActionGroup" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Permission group type for Agent APIs - ConfigureAgent, PostAgentProfile",
+                  "name" : "AGENT_PERMISSIONS",
+                  "value" : "agentPermissions"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#AddNotificationChannels" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#AddNotificationChannelsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#AddNotificationChannelsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Add up to 2 anomaly notifications channels for a profiling group.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/profilingGroups/{profilingGroupName}/notificationConfiguration"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#AddNotificationChannelsRequest" : {
+         "members" : {
+            "channels" : {
+               "target" : "com.amazonaws.codeguruprofiler#Channels",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>One or 2 channels to report to when anomalies are detected.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group that we are setting up notifications for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the AddNotificationChannelsRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AddNotificationChannelsResponse" : {
+         "members" : {
+            "notificationConfiguration" : {
+               "target" : "com.amazonaws.codeguruprofiler#NotificationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new notification configuration for this profiling group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the AddNotificationChannelsResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AgentConfiguration" : {
+         "members" : {
+            "agentParameters" : {
+               "target" : "com.amazonaws.codeguruprofiler#AgentParameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         Parameters used by the profiler. The valid parameters are: \n      </p> \n         <ul>\n            <li>\n               <p>\n                  <code>MaxStackDepth</code> - The maximum depth of the stacks in the code that is represented in \n               the profile. For example, if CodeGuru Profiler finds a method <code>A</code>, \n               which calls method <code>B</code>, which calls method <code>C</code>, which \n               calls method <code>D</code>, then the depth is 4. If the <code>maxDepth</code> is \n               set to 2, then the profiler evaluates <code>A</code> and <code>B</code>.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>MemoryUsageLimitPercent</code> - The percentage of memory that is used by the\n               profiler.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MinimumTimeForReportingInMilliseconds</code> - The minimum time in milliseconds between \n               sending reports.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>ReportingIntervalInMilliseconds</code> - The reporting interval in milliseconds used \n               to report profiles.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>SamplingIntervalInMilliseconds</code> - The sampling interval in milliseconds that is used to \n               profile samples.\n            </p>\n            </li>\n         </ul>"
+               }
+            },
+            "periodInSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         How long a profiling agent should send profiling data using \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html\">\n               <code>ConfigureAgent</code>\n            </a>. \n         For example, if this is set to 300, the profiling agent calls <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html\">\n               <code>ConfigureAgent</code>\n            </a> \n         every 5 minutes to submit the profiled data collected during that period. \n      </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "shouldProfile" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A <code>Boolean</code> that specifies whether the profiling agent collects profiling data or not. Set to <code>true</code>\n        to enable profiling.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         The response of <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html\">\n               <code>ConfigureAgent</code>\n            </a> that \n         specifies if an agent profiles or not and for how long to return profiling data.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AgentOrchestrationConfig" : {
+         "members" : {
+            "profilingEnabled" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A <code>Boolean</code> that specifies whether the profiling agent collects profiling data or not. Set to <code>true</code>\n         to enable profiling.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Specifies whether profiling is enabled or disabled for a profiling group. It \n         is used by <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html\">\n               <code>ConfigureAgent</code>\n            </a> \n         to enable or disable profiling for a profiling group.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AgentParameterField" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Sampling interval in milliseconds used to sample profiles.",
+                  "name" : "SAMPLING_INTERVAL_IN_MILLISECONDS",
+                  "value" : "SamplingIntervalInMilliseconds"
+               },
+               {
+                  "documentation" : "Reporting interval in milliseconds used to report profiles.",
+                  "name" : "REPORTING_INTERVAL_IN_MILLISECONDS",
+                  "value" : "ReportingIntervalInMilliseconds"
+               },
+               {
+                  "documentation" : "Minimum time in milliseconds between sending reports.",
+                  "name" : "MINIMUM_TIME_FOR_REPORTING_IN_MILLISECONDS",
+                  "value" : "MinimumTimeForReportingInMilliseconds"
+               },
+               {
+                  "documentation" : "Percentage of memory to be used by CodeGuru profiler. Minimum of 30MB is required for the agent.",
+                  "name" : "MEMORY_USAGE_LIMIT_PERCENT",
+                  "value" : "MemoryUsageLimitPercent"
+               },
+               {
+                  "documentation" : "Maximum stack depth to be captured by the CodeGuru Profiler.",
+                  "name" : "MAX_STACK_DEPTH",
+                  "value" : "MaxStackDepth"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#AgentParameters" : {
+         "key" : {
+            "target" : "com.amazonaws.codeguruprofiler#AgentParameterField"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.codeguruprofiler#AgentProfile" : {
+         "type" : "blob"
+      },
+      "com.amazonaws.codeguruprofiler#AggregatedProfile" : {
+         "type" : "blob"
+      },
+      "com.amazonaws.codeguruprofiler#AggregatedProfileTime" : {
+         "members" : {
+            "period" : {
+               "target" : "com.amazonaws.codeguruprofiler#AggregationPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The aggregation period. This indicates the period during which an aggregation profile \n         collects posted agent profiles for a profiling group. Use one of three valid \n         durations that are specified using the ISO 8601 format.\n      </p>\n         <ul>\n            <li>\n               <p>\n                  <code>P1D</code> — 1 day\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT1H</code> — 1 hour\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT5M</code> — 5 minutes\n            </p>\n            </li>\n         </ul>"
+               }
+            },
+            "start" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The time that aggregation of posted agent profiles for a profiling group starts. The aggregation profile \n         contains profiles posted by the agent starting at this time for an aggregation period  \n         specified by the <code>period</code> property of the <code>AggregatedProfileTime</code> \n         object.\n      </p>\n         <p>\n         Specify <code>start</code> using the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Specifies the aggregation period and aggregation start time for \n         an aggregated profile. An aggregated profile is used to collect posted agent profiles \n         during an aggregation period. There are three possible aggregation periods (1 day, \n         1 hour, or 5 minutes).\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AggregationPeriod" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Period of five minutes.",
+                  "name" : "PT5M",
+                  "value" : "PT5M"
+               },
+               {
+                  "documentation" : "Period of one hour.",
+                  "name" : "PT1H",
+                  "value" : "PT1H"
+               },
+               {
+                  "documentation" : "Period of one day.",
+                  "name" : "P1D",
+                  "value" : "P1D"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#Anomalies" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#Anomaly"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#Anomaly" : {
+         "members" : {
+            "instances" : {
+               "target" : "com.amazonaws.codeguruprofiler#AnomalyInstances",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A list of the instances of the detected anomalies during the requested period.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "metric" : {
+               "target" : "com.amazonaws.codeguruprofiler#Metric",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            Details about the metric that the analysis used when it detected the anomaly. \n            The metric includes the name of the frame that was analyzed with the type and \n            thread states used to derive the metric value for that frame.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "reason" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The reason for which metric was flagged as anomalous.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Details about an anomaly in a specific metric of application profile. The anomaly is detected using  \n            analysis of the metric data over a period of time.\n        </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AnomalyInstance" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The end time of the period during which the metric is flagged as anomalous. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.\n        </p>"
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The universally unique identifier (UUID) of an instance of an anomaly in a metric.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The start time of the period during which the metric is flagged as anomalous. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "userFeedback" : {
+               "target" : "com.amazonaws.codeguruprofiler#UserFeedback",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Feedback type on a specific instance of anomaly submitted by the user.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The specific duration in which the metric is flagged as anomalous.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#AnomalyInstanceId" : {
+         "traits" : {
+            "smithy.api#pattern" : "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#AnomalyInstances" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#AnomalyInstance"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#BatchGetFrameMetricData" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#BatchGetFrameMetricDataRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#BatchGetFrameMetricDataResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Returns the time series of values for a requested list \n         of frame metrics from a time period.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/profilingGroups/{profilingGroupName}/frames/-/metrics"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#BatchGetFrameMetricDataRequest" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The end time of the time period for the returned time series values. \n         This is specified \n         using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n         millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>",
+                  "smithy.api#httpQuery" : "endTime"
+               }
+            },
+            "frameMetrics" : {
+               "target" : "com.amazonaws.codeguruprofiler#FrameMetrics",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The details of the metrics that are used to request a time series of values. The metric includes \n         the name of the frame, the aggregation type to calculate the metric value for the \n         frame, and the thread states to use to get the count for the metric value of the frame.</p>"
+               }
+            },
+            "period" : {
+               "target" : "com.amazonaws.codeguruprofiler#Period",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The duration of the frame metrics used to return the time series values. \n         Specify using the ISO 8601 format. The maximum period duration \n         is one day (<code>PT24H</code> or <code>P1D</code>).\n      </p>",
+                  "smithy.api#httpQuery" : "period"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The name of the profiling group associated with the \n         the frame metrics used to return the time series values.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The start time of the time period for the frame metrics used to return the time series values. \n         This is specified \n         using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n         millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>",
+                  "smithy.api#httpQuery" : "startTime"
+               }
+            },
+            "targetResolution" : {
+               "target" : "com.amazonaws.codeguruprofiler#AggregationPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The requested resolution of time steps for the returned time series of values. \n         If the requested target resolution is not available due to data not being retained we provide a best effort \n         result by falling back to the most granular available resolution after the target resolution. \n         There are 3 valid values.\n      </p>\n         <ul>\n            <li>\n               <p>\n                  <code>P1D</code> — 1 day\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT1H</code> — 1 hour\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT5M</code> — 5 minutes\n            </p>\n            </li>\n         </ul>",
+                  "smithy.api#httpQuery" : "targetResolution"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the BatchGetFrameMetricDataRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#BatchGetFrameMetricDataResponse" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The end time of the time period for the returned time series values. \n         This is specified \n         using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n         millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "endTimes" : {
+               "target" : "com.amazonaws.codeguruprofiler#ListOfTimestamps",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         List of instances, or time steps, in the time series. For example, if the \n         <code>period</code> is one day (<code>PT24H)</code>), and the <code>resolution</code> \n         is five minutes (<code>PT5M</code>), then there are 288 <code>endTimes</code> in the \n         list that are each five minutes appart.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "frameMetricData" : {
+               "target" : "com.amazonaws.codeguruprofiler#FrameMetricData",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Details of the metrics to request a time series of values. The metric includes \n         the name of the frame, the aggregation type to calculate the metric value for the frame, \n         and the thread states to use to get the count for the metric value of the frame.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "resolution" : {
+               "target" : "com.amazonaws.codeguruprofiler#AggregationPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Resolution or granularity of the profile data used to generate the time series. \n         This is the value used to jump through time steps in a time series. There are 3 valid values.\n      </p>\n         <ul>\n            <li>\n               <p>\n                  <code>P1D</code> — 1 day\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT1H</code> — 1 hour\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT5M</code> — 5 minutes\n            </p>\n            </li>\n         </ul>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The start time of the time period for the returned time series values. \n         This is specified \n         using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n         millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "unprocessedEndTimes" : {
+               "target" : "com.amazonaws.codeguruprofiler#UnprocessedEndTimeMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of instances which remained unprocessed. This will create a missing time step in the list of end times.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the BatchGetFrameMetricDataResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Channel" : {
+         "members" : {
+            "eventPublishers" : {
+               "target" : "com.amazonaws.codeguruprofiler#EventPublishers",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of publishers for different type of events that may be detected in an application from the profile. Anomaly detection is the only event publisher in Profiler.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.codeguruprofiler#ChannelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique identifier for each <code>Channel</code> in the notification configuration of a Profiling Group. A random UUID for channelId is used when adding a channel to the notification configuration if not specified in the request.</p>"
+               }
+            },
+            "uri" : {
+               "target" : "com.amazonaws.codeguruprofiler#ChannelUri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Unique arn of the resource to be used for notifications. We support a valid SNS topic arn as a channel uri.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Notification medium for users to get alerted for events that occur in application profile. We support SNS topic as a notification channel.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ChannelId" : {
+         "traits" : {
+            "smithy.api#pattern" : "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#ChannelUri" : {
+         "traits" : {
+            "aws.api#arnReference" : {},
+            "smithy.api#documentation" : "Channel URI uniquely identifies a Notification Channel.\nTopicArn is the uri for an SNS channel, emailId is uri for an email channel etc.\nCurrently we only support SNS channels and thus required to be an ARN"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#Channels" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#Channel"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ClientToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#CodeGuruProfiler" : {
+         "operations" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#GetFindingsReportAccountSummary"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ListTagsForResource"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#TagResource"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#UntagResource"
+            }
+         ],
+         "resources" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroup"
+            }
+         ],
+         "traits" : {
+            "aws.api#service" : {
+               "arnNamespace" : "codeguru-profiler",
+               "cloudFormationName" : "CodeGuruProfiler",
+               "cloudTrailEventSource" : "codeguru-profiler.amazonaws.com",
+               "endpointPrefix" : "codeguru-profiler",
+               "sdkId" : "CodeGuruProfiler"
+            },
+            "aws.auth#sigv4" : {
+               "name" : "codeguru-profiler"
+            },
+            "aws.protocols#restJson1" : {},
+            "smithy.api#cors" : {
+               "additionalAllowedHeaders" : [
+                  "X-Amz-Content-Sha256",
+                  "X-Amz-User-Agent",
+                  "Content-Type"
+               ]
+            },
+            "smithy.api#documentation" : "<p>\n          This section provides documentation for the Amazon CodeGuru Profiler API operations.\n      </p>\n         <p>\n         Amazon CodeGuru Profiler collects runtime performance data from your live applications, and provides\n         recommendations that can help you fine-tune your application performance. Using machine learning\n         algorithms, CodeGuru Profiler can help you find your most expensive lines of code and suggest ways you can\n         improve efficiency and remove CPU bottlenecks.\n      </p>\n         <p>\n         Amazon CodeGuru Profiler provides different visualizations of profiling data to help you identify what code is\n         running on the CPU, see how much time is consumed, and suggest ways to reduce CPU utilization.\n      </p>\n         <note>\n            <p>Amazon CodeGuru Profiler currently supports applications written in all Java virtual machine (JVM)\n            languages and Python. While CodeGuru Profiler supports both visualizations and recommendations for applications\n            written in Java, it can also generate visualizations and a subset of recommendations for\n            applications written in other JVM languages and Python.</p>\n         </note>\n         <p>\n         For more information, see <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-ug/what-is-codeguru-profiler.html\">What is Amazon CodeGuru Profiler</a> in \n         the <i>Amazon CodeGuru Profiler User Guide</i>.\n      </p>",
+            "smithy.api#title" : "Amazon CodeGuru Profiler",
+            "smithy.rules#endpointRuleSet" : {
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "rules" : [
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Endpoint"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseFIPS"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "UseDualStack"
+                                    },
+                                    true
+                                 ],
+                                 "fn" : "booleanEquals"
+                              }
+                           ],
+                           "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                           "type" : "error"
+                        },
+                        {
+                           "conditions" : [],
+                           "endpoint" : {
+                              "headers" : {},
+                              "properties" : {},
+                              "url" : {
+                                 "ref" : "Endpoint"
+                              }
+                           },
+                           "type" : "endpoint"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "Region"
+                              }
+                           ],
+                           "fn" : "isSet"
+                        }
+                     ],
+                     "rules" : [
+                        {
+                           "conditions" : [
+                              {
+                                 "argv" : [
+                                    {
+                                       "ref" : "Region"
+                                    }
+                                 ],
+                                 "assign" : "PartitionResult",
+                                 "fn" : "aws.partition"
+                              }
+                           ],
+                           "rules" : [
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    },
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          },
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://codeguru-profiler-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseFIPS"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsFIPS"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                },
+                                                true
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://codeguru-profiler-fips.{Region}.{PartitionResult#dnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "FIPS is enabled but this partition does not support FIPS",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [
+                                    {
+                                       "argv" : [
+                                          {
+                                             "ref" : "UseDualStack"
+                                          },
+                                          true
+                                       ],
+                                       "fn" : "booleanEquals"
+                                    }
+                                 ],
+                                 "rules" : [
+                                    {
+                                       "conditions" : [
+                                          {
+                                             "argv" : [
+                                                true,
+                                                {
+                                                   "argv" : [
+                                                      {
+                                                         "ref" : "PartitionResult"
+                                                      },
+                                                      "supportsDualStack"
+                                                   ],
+                                                   "fn" : "getAttr"
+                                                }
+                                             ],
+                                             "fn" : "booleanEquals"
+                                          }
+                                       ],
+                                       "rules" : [
+                                          {
+                                             "conditions" : [],
+                                             "endpoint" : {
+                                                "headers" : {},
+                                                "properties" : {},
+                                                "url" : "https://codeguru-profiler.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                                             },
+                                             "type" : "endpoint"
+                                          }
+                                       ],
+                                       "type" : "tree"
+                                    },
+                                    {
+                                       "conditions" : [],
+                                       "error" : "DualStack is enabled but this partition does not support DualStack",
+                                       "type" : "error"
+                                    }
+                                 ],
+                                 "type" : "tree"
+                              },
+                              {
+                                 "conditions" : [],
+                                 "endpoint" : {
+                                    "headers" : {},
+                                    "properties" : {},
+                                    "url" : "https://codeguru-profiler.{Region}.{PartitionResult#dnsSuffix}"
+                                 },
+                                 "type" : "endpoint"
+                              }
+                           ],
+                           "type" : "tree"
+                        }
+                     ],
+                     "type" : "tree"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "version" : "1.0"
+            },
+            "smithy.rules#endpointTests" : {
+               "testCases" : [
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.us-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.us-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.cn-north-1.api.amazonwebservices.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.cn-north-1.amazonaws.com.cn"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "cn-north-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack enabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.us-gov-east-1.api.aws"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-gov-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.us-gov-east-1.amazonaws.com"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-gov-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.us-iso-east-1.c2s.ic.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-iso-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler-fips.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://codeguru-profiler.us-isob-east-1.sc2s.sgov.gov"
+                        }
+                     },
+                     "params" : {
+                        "Region" : "us-isob-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with region not set and fips disabled and dualstack disabled",
+                     "expect" : {
+                        "endpoint" : {
+                           "url" : "https://example.com"
+                        }
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "UseDualStack" : false,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips enabled and dualstack disabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: FIPS and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : false,
+                        "UseFIPS" : true
+                     }
+                  },
+                  {
+                     "documentation" : "For custom endpoint with fips disabled and dualstack enabled",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported"
+                     },
+                     "params" : {
+                        "Endpoint" : "https://example.com",
+                        "Region" : "us-east-1",
+                        "UseDualStack" : true,
+                        "UseFIPS" : false
+                     }
+                  },
+                  {
+                     "documentation" : "Missing region",
+                     "expect" : {
+                        "error" : "Invalid Configuration: Missing Region"
+                     }
+                  }
+               ],
+               "version" : "1.0"
+            }
+         },
+         "type" : "service",
+         "version" : "2019-07-18"
+      },
+      "com.amazonaws.codeguruprofiler#ComputePlatform" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Compute platform meant to used for all usecases (like EC2, Fargate, physical servers etc.) but AWS Lambda.",
+                  "name" : "DEFAULT",
+                  "value" : "Default"
+               },
+               {
+                  "documentation" : "Compute platform meant to used for AWS Lambda.",
+                  "name" : "AWSLAMBDA",
+                  "value" : "AWSLambda"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#ConfigureAgent" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#ConfigureAgentRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#ConfigureAgentResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n          Used by profiler agents to report their current state and to receive remote \n          configuration updates. For example, <code>ConfigureAgent</code> can be used \n         to tell an agent whether to profile or not and for how long to return profiling data.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/profilingGroups/{profilingGroupName}/configureAgent"
+            },
+            "smithy.api#tags" : [
+               "dataplane"
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#ConfigureAgentRequest" : {
+         "members" : {
+            "fleetInstanceId" : {
+               "target" : "com.amazonaws.codeguruprofiler#FleetInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A universally unique identifier (UUID) for a profiling instance. For example, if the\n         profiling instance is an Amazon EC2 instance, it is the instance ID. If it is an AWS\n         Fargate container, it is the container's task ID. </p>"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.codeguruprofiler#Metadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> Metadata captured about the compute platform the agent is running on. It includes\n         information about sampling and reporting. The valid fields are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>COMPUTE_PLATFORM</code> - The compute platform on which the agent is running\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>AGENT_ID</code> - The ID for an agent instance.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>AWS_REQUEST_ID</code> - The AWS request ID of a Lambda invocation.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>EXECUTION_ENVIRONMENT</code> - The execution environment a Lambda function is running on.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>LAMBDA_FUNCTION_ARN</code> - The Amazon Resource Name (ARN) that is used to invoke a Lambda function.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>LAMBDA_MEMORY_LIMIT_IN_MB</code> - The memory allocated to a Lambda function.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>LAMBDA_REMAINING_TIME_IN_MILLISECONDS</code> - The time in milliseconds before execution of a Lambda function times out.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>LAMBDA_TIME_GAP_BETWEEN_INVOKES_IN_MILLISECONDS</code> - The time in milliseconds between two invocations of a Lambda function.\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS</code> - The time in milliseconds for the previous Lambda invocation.\n            </p>\n            </li>\n         </ul>"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The name of the profiling group for which the configured agent is collecting profiling data.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the configureAgentRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ConfigureAgentResponse" : {
+         "members" : {
+            "configuration" : {
+               "target" : "com.amazonaws.codeguruprofiler#AgentConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         An <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AgentConfiguration.html\">\n               <code>AgentConfiguration</code>\n            </a> \n         object that specifies if an agent profiles or not and for how long to return profiling data.\n      </p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the configureAgentResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ConflictException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The requested operation would cause a conflict with the current state \n        of a service resource associated with the request. Resolve the conflict \n        before retrying this request.\n      </p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 409
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#CreateProfilingGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#CreateProfilingGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#CreateProfilingGroupResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a profiling group.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/profilingGroups"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#CreateProfilingGroupRequest" : {
+         "members" : {
+            "agentOrchestrationConfig" : {
+               "target" : "com.amazonaws.codeguruprofiler#AgentOrchestrationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         Specifies whether profiling is enabled or disabled for the created profiling group.\n      </p>"
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the\n         accidental creation of duplicate profiling groups if there are failures and retries. </p>",
+                  "smithy.api#httpQuery" : "clientToken",
+                  "smithy.api#idempotencyToken" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "computePlatform" : {
+               "target" : "com.amazonaws.codeguruprofiler#ComputePlatform",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The compute platform of the profiling group. Use <code>AWSLambda</code> if your application \n         runs on AWS Lambda. Use <code>Default</code> if your application runs on a compute platform that \n         is not AWS Lambda, such an Amazon EC2 instance, an on-premises server, or a different platform. \n         If not specified, <code>Default</code> is used.         \n      </p>"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group to create.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.codeguruprofiler#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A list of tags to add to the created profiling group.\n      </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the createProfiliingGroupRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#CreateProfilingGroupResponse" : {
+         "members" : {
+            "profilingGroup" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> The returned <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> object that contains information\n         about the created profiling group. </p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the createProfilingGroupResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#DeleteProfilingGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#DeleteProfilingGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#DeleteProfilingGroupResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a profiling group.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/profilingGroups/{profilingGroupName}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#DeleteProfilingGroupRequest" : {
+         "members" : {
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the deleteProfilingGroupRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#DeleteProfilingGroupResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the deleteProfilingGroupResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#DescribeProfilingGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#DescribeProfilingGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#DescribeProfilingGroupResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Returns a <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> \n         object that contains information about the requested profiling group.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profilingGroups/{profilingGroupName}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#DescribeProfilingGroupRequest" : {
+         "members" : {
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The name of the profiling group to get information about.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the describeProfilingGroupRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#DescribeProfilingGroupResponse" : {
+         "members" : {
+            "profilingGroup" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The returned <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> \n         object that contains information about the requested profiling group.\n      </p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the describeProfilingGroupResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#EventPublisher" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Notifications for Anomaly Detection",
+                  "name" : "ANOMALY_DETECTION",
+                  "value" : "AnomalyDetection"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#EventPublishers" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#EventPublisher"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            },
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#FeedbackType" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Profiler recommendation flagged as useful.",
+                  "name" : "Positive",
+                  "value" : "Positive"
+               },
+               {
+                  "documentation" : "Profiler recommendation flagged as not useful.",
+                  "name" : "Negative",
+                  "value" : "Negative"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#FindingsReportId" : {
+         "traits" : {
+            "smithy.api#pattern" : "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#FindingsReportSummaries" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#FindingsReportSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#FindingsReportSummary" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.codeguruprofiler#FindingsReportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) of the recommendation report.</p>"
+               }
+            },
+            "profileEndTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The end time of the period during which the metric is flagged as anomalous. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.\n        </p>"
+               }
+            },
+            "profileStartTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of the profile the analysis data is about. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.</p>"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group that is associated with the analysis data.</p>"
+               }
+            },
+            "totalNumberOfFindings" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The total number of different recommendations that were found by the analysis.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Information about potential recommendations that might be created from the \n            analysis of profiling data.\n        </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#FleetInstanceId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#FrameMetric" : {
+         "members" : {
+            "frameName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> Name of the method common across the multiple occurrences of a frame in an application\n         profile.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "threadStates" : {
+               "target" : "com.amazonaws.codeguruprofiler#ThreadStates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of application runtime thread states used to get the counts for a frame a derive a metric value.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.codeguruprofiler#MetricType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A type of aggregation that specifies how a metric for a frame is analyzed. The\n         supported value <code>AggregatedRelativeTotalTime</code> is an aggregation of the metric\n         value for one frame that is calculated across the occurrences of all frames in a profile. </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         The frame name, metric type, and thread states. These are used \n         to derive the value of the metric for the frame.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#FrameMetricData" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#FrameMetricDatum"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#FrameMetricDatum" : {
+         "members" : {
+            "frameMetric" : {
+               "target" : "com.amazonaws.codeguruprofiler#FrameMetric",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "values" : {
+               "target" : "com.amazonaws.codeguruprofiler#FrameMetricValues",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A list of values that are associated with a frame metric.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Information about a frame metric and its values.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#FrameMetricValue" : {
+         "type" : "double"
+      },
+      "com.amazonaws.codeguruprofiler#FrameMetricValues" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#FrameMetricValue"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#FrameMetrics" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#FrameMetric"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#GetFindingsReportAccountSummary" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetFindingsReportAccountSummaryRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetFindingsReportAccountSummaryResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Returns a list of \n            <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html\">\n               <code>FindingsReportSummary</code>\n            </a> \n            objects that contain analysis results for all profiling groups in your AWS account.\n        </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/internal/findingsReports"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#GetFindingsReportAccountSummaryRequest" : {
+         "members" : {
+            "dailyReportsOnly" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A <code>Boolean</code> value indicating whether to only return reports from daily profiles. If set \n            to <code>True</code>, only analysis data from daily profiles is returned. If set to <code>False</code>, \n            analysis data is returned from smaller time windows (for example, one hour).</p>",
+                  "smithy.api#httpQuery" : "dailyReportsOnly"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.codeguruprofiler#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results returned by <code> GetFindingsReportAccountSummary</code> in paginated output. \n            When this parameter is used, <code>GetFindingsReportAccountSummary</code> only returns <code>maxResults</code> \n            results in a single page along with a <code>nextToken</code> response element. The remaining results of the initial \n            request can be seen by sending another <code>GetFindingsReportAccountSummary</code> request with the returned \n            <code>nextToken</code> value.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value returned from a previous paginated <code>GetFindingsReportAccountSummary</code>\n         request where <code>maxResults</code> was used and the results exceeded the value of that parameter.\n         Pagination continues from the end of the previous results that returned the <code>nextToken</code> value.\n      </p>\n         <note>\n            <p>This token should be treated as an opaque identifier that is only used to retrieve\n         the next items in a list and not for other programmatic purposes.</p>\n         </note>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the GetFindingsReportAccountSummaryRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetFindingsReportAccountSummaryResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value to include in a future <code>GetFindingsReportAccountSummary</code> request.\n         When the results of a <code>GetFindingsReportAccountSummary</code> request exceed <code>maxResults</code>, this\n         value can be used to retrieve the next page of results. This value is <code>null</code> when there are no more\n         results to return.</p>"
+               }
+            },
+            "reportSummaries" : {
+               "target" : "com.amazonaws.codeguruprofiler#FindingsReportSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The return list of \n            <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html\">\n               <code>FindingsReportSummary</code>\n            </a> \n            objects taht contain summaries of analysis results for all profiling groups in your AWS account.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the GetFindingsReportAccountSummaryResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetNotificationConfiguration" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetNotificationConfigurationRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetNotificationConfigurationResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Get the current configuration for anomaly notifications for a profiling group.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profilingGroups/{profilingGroupName}/notificationConfiguration"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#GetNotificationConfigurationRequest" : {
+         "members" : {
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group we want to get the notification configuration for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the GetNotificationConfigurationRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetNotificationConfigurationResponse" : {
+         "members" : {
+            "notificationConfiguration" : {
+               "target" : "com.amazonaws.codeguruprofiler#NotificationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current notification configuration for this profiling group.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the GetNotificationConfigurationResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetPolicy" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetPolicyRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetPolicyResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Returns the JSON-formatted resource-based policy on a profiling group.\n        </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profilingGroups/{profilingGroupName}/policy"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#GetPolicyRequest" : {
+         "members" : {
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            The structure representing the <code>getPolicyRequest</code>.\n        </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetPolicyResponse" : {
+         "members" : {
+            "policy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The JSON-formatted resource-based policy attached to the <code>ProfilingGroup</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "revisionId" : {
+               "target" : "com.amazonaws.codeguruprofiler#RevisionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique identifier for the current revision of the returned policy.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the <code>getPolicyResponse</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Gets the aggregated profile of a profiling group for a specified time range. \n         Amazon CodeGuru Profiler collects posted agent profiles for a profiling group \n         into aggregated profiles.  \n     </p>\n      \n         <note>\n            <p>\n            Because aggregated profiles expire over time <code>GetProfile</code> is not idempotent.\n         </p>\n         </note>\n      \n         <p>\n         Specify the time range for the requested aggregated profile using 1 or 2 of the following parameters: <code>startTime</code>, \n         <code>endTime</code>, <code>period</code>. The maximum time range allowed is 7 days. If you specify all 3 parameters, \n         an exception is thrown. If you specify only <code>period</code>, the latest aggregated profile is returned. \n      </p>\n      \n         <p>\n         Aggregated profiles are available with aggregation periods of 5 minutes, 1 hour, and 1 day, aligned to \n         UTC. The aggregation period of an aggregated profile determines how long it is retained. For more \n         information, see <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html\">\n               <code>AggregatedProfileTime</code>\n            </a>. The aggregated profile's aggregation period determines how long  \n         it is retained by CodeGuru Profiler.\n      </p>\n      \n         <ul>\n            <li>\n               <p>\n               If the aggregation period is 5 minutes, the aggregated profile is retained for 15 days.\n            </p>\n            </li>\n            <li>\n               <p>\n               If the aggregation period is 1 hour, the aggregated profile is retained for 60 days.\n            </p>\n            </li>\n            <li>\n               <p>\n               If the aggregation period is 1 day, the aggregated profile is retained for 3 years.\n            </p>\n            </li>\n         </ul>\n      \n         <p>There are two use cases for calling <code>GetProfile</code>.</p>\n         <ol>\n            <li>\n               <p>\n               If you want to return an aggregated profile that already exists, use \n               <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ListProfileTimes.html\">\n                     <code>ListProfileTimes</code>\n                  </a> to \n               view the time ranges of existing aggregated profiles. Use them in a <code>GetProfile</code> request to return a specific, \n               existing aggregated profile.\n            </p>\n            </li>\n            <li>\n               <p>\n               If you want to return an aggregated profile for a time range that doesn't align with an existing aggregated profile, \n               then CodeGuru Profiler makes a best effort to combine existing aggregated profiles from the requested time \n               range and return them as one aggregated profile. \n            </p>\n            \n               <p> If aggregated profiles do not exist for the full time range requested, then\n               aggregated profiles for a smaller time range are returned. For example, if the\n               requested time range is from 00:00 to 00:20, and the existing aggregated profiles are\n               from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned. </p>\n            \n            \n            </li>\n         </ol>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profilingGroups/{profilingGroupName}/profile"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#GetProfileRequest" : {
+         "members" : {
+            "accept" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The format of the returned profiling data. The format maps to the \n         <code>Accept</code> and <code>Content-Type</code> headers of the \n         HTTP request. You can specify one of the following: \n        or the default .\n      </p>\n      \n         <ul>\n            <li>\n               <p>\n                  <code>application/json</code> — standard JSON format \n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>application/x-amzn-ion</code> — the Amazon Ion data format. For more information, \n               see <a href=\"http://amzn.github.io/ion-docs/\">Amazon Ion</a>.\n            </p>\n            </li>\n         </ul>",
+                  "smithy.api#httpHeader" : "Accept"
+               }
+            },
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The end time of the requested profile. Specify using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>\n         <p>\n         If you specify <code>endTime</code>, then you must also specify <code>period</code> \n         or <code>startTime</code>, but not both.\n      </p>",
+                  "smithy.api#httpQuery" : "endTime"
+               }
+            },
+            "maxDepth" : {
+               "target" : "com.amazonaws.codeguruprofiler#MaxDepth",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The maximum depth of the stacks in the code that is represented in \n         the aggregated profile. For example, if CodeGuru Profiler finds a method <code>A</code>, \n         which calls method <code>B</code>, which calls method <code>C</code>, which \n         calls method <code>D</code>, then the depth is 4. If the <code>maxDepth</code> is \n         set to 2, then the aggregated profile contains representations of methods <code>A</code> \n         and <code>B</code>.\n      </p>",
+                  "smithy.api#httpQuery" : "maxDepth"
+               }
+            },
+            "period" : {
+               "target" : "com.amazonaws.codeguruprofiler#Period",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         Used with <code>startTime</code> or <code>endTime</code> to specify \n         the time range for the returned aggregated profile. Specify using \n         the ISO 8601 format. For example, <code>P1DT1H1M1S</code>.\n      </p>\n      \n         <p>\n         To get the latest aggregated profile, specify only <code>period</code>. \n      </p>",
+                  "smithy.api#httpQuery" : "period"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group to get.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of the profile to get. Specify using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</p>\n      \n         <p>\n         If you specify <code>startTime</code>, then you must also specify <code>period</code> \n         or <code>endTime</code>, but not both.\n      </p>",
+                  "smithy.api#httpQuery" : "startTime"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the getProfileRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetProfileResponse" : {
+         "members" : {
+            "contentEncoding" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content encoding of the profile.</p>",
+                  "smithy.api#httpHeader" : "Content-Encoding"
+               }
+            },
+            "contentType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The content type of the profile in the payload. It is\n        either <code>application/json</code> or the default \n        <code>application/x-amzn-ion</code>.</p>",
+                  "smithy.api#httpHeader" : "Content-Type",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profile" : {
+               "target" : "com.amazonaws.codeguruprofiler#AggregatedProfile",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about the profile.</p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the getProfileResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetRecommendations" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetRecommendationsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#GetRecommendationsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Returns a list of \n            <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Recommendation.html\">\n               <code>Recommendation</code>\n            </a> \n            objects that contain recommendations for a profiling group for a given time period. A list of \n            <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Anomaly.html\">\n               <code>Anomaly</code>\n            </a> \n            objects that contains details about anomalies detected in the profiling group for the same time period is also \n            returned.\n        </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/internal/profilingGroups/{profilingGroupName}/recommendations"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#GetRecommendationsRequest" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The start time of the profile to get analysis data about. You must specify <code>startTime</code> and <code>endTime</code>. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC. \n        </p>",
+                  "smithy.api#httpQuery" : "endTime",
+                  "smithy.api#required" : {}
+               }
+            },
+            "locale" : {
+               "target" : "com.amazonaws.codeguruprofiler#Locale",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The language used to provide analysis. Specify using a string that is one \n            of the following <code>BCP 47</code> language codes.\n        </p>\n        <ul>\n            <li>\n                <p>\n                    <code>de-DE</code> - German, Germany\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>en-GB</code> - English, United Kingdom\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>en-US</code> - English, United States\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>es-ES</code> - Spanish, Spain\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>fr-FR</code> - French, France\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>it-IT</code> - Italian, Italy\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>ja-JP</code> - Japanese, Japan\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>ko-KR</code> - Korean, Republic of Korea\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>pt-BR</code> - Portugese, Brazil\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>zh-CN</code> - Chinese, China\n                </p>\n            </li>\n            <li>\n                <p>\n                    <code>zh-TW</code> - Chinese, Taiwan\n                </p>\n            </li>\n         </ul>",
+                  "smithy.api#httpQuery" : "locale"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The name of the profiling group to get analysis data about.\n        </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The end time of the profile to get analysis data about. You must specify <code>startTime</code> and <code>endTime</code>. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.\n        </p>",
+                  "smithy.api#httpQuery" : "startTime",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the GetRecommendationsRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#GetRecommendationsResponse" : {
+         "members" : {
+            "anomalies" : {
+               "target" : "com.amazonaws.codeguruprofiler#Anomalies",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The list of anomalies that the analysis has found for this profile.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profileEndTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The end time of the profile the analysis data is about. This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profileStartTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The start time of the profile the analysis data is about. This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC. \n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group the analysis data is about.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recommendations" : {
+               "target" : "com.amazonaws.codeguruprofiler#Recommendations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of recommendations that the analysis found for this profile.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the GetRecommendationsResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#InternalServerException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The server encountered an internal error and is unable to complete the request.</p>",
+            "smithy.api#error" : "server",
+            "smithy.api#httpError" : 500,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListFindingsReports" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListFindingsReportsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListFindingsReportsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>List the available reports for a given profiling group and time range.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/internal/profilingGroups/{profilingGroupName}/findingsReports"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#ListFindingsReportsRequest" : {
+         "members" : {
+            "dailyReportsOnly" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A <code>Boolean</code> value indicating whether to only return reports from daily profiles. If set \n        to <code>True</code>, only analysis data from daily profiles is returned. If set to <code>False</code>, \n        analysis data is returned from smaller time windows (for example, one hour).</p>",
+                  "smithy.api#httpQuery" : "dailyReportsOnly"
+               }
+            },
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The end time of the profile to get analysis data about. You must specify <code>startTime</code> and <code>endTime</code>. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.\n        </p>",
+                  "smithy.api#httpQuery" : "endTime",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.codeguruprofiler#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of report results returned by <code>ListFindingsReports</code>\n         in paginated output. When this parameter is used, <code>ListFindingsReports</code> only returns\n         <code>maxResults</code> results in a single page along with a <code>nextToken</code> response\n         element. The remaining results of the initial request\n         can be seen by sending another <code>ListFindingsReports</code> request with the returned\n         <code>nextToken</code> value.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value returned from a previous paginated <code>ListFindingsReportsRequest</code>\n         request where <code>maxResults</code> was used and the results exceeded the value of that parameter.\n         Pagination continues from the end of the previous results that returned the <code>nextToken</code> value.\n      </p>\n         <note>\n            <p>This token should be treated as an opaque identifier that is only used to retrieve\n      the next items in a list and not for other programmatic purposes.</p>\n         </note>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group from which to search for analysis data.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The start time of the profile to get analysis data about. You must specify <code>startTime</code> and <code>endTime</code>. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC. \n        </p>",
+                  "smithy.api#httpQuery" : "startTime",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the ListFindingsReportsRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListFindingsReportsResponse" : {
+         "members" : {
+            "findingsReportSummaries" : {
+               "target" : "com.amazonaws.codeguruprofiler#FindingsReportSummaries",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of analysis results summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value to include in a future <code>ListFindingsReports</code> request.\n         When the results of a <code>ListFindingsReports</code> request exceed <code>maxResults</code>, this\n         value can be used to retrieve the next page of results. This value is <code>null</code> when there are no more\n         results to return.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the ListFindingsReportsResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListOfTimestamps" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#TimestampStructure"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ListProfileTimes" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListProfileTimesRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListProfileTimesResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the start times of the available aggregated profiles of a profiling group \n        for an aggregation period within the specified time range.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profilingGroups/{profilingGroupName}/profileTimes"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "profileTimes",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#ListProfileTimesRequest" : {
+         "members" : {
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end time of the time range from which to list the profiles.</p>",
+                  "smithy.api#httpQuery" : "endTime",
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.codeguruprofiler#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of profile time results returned by <code>ListProfileTimes</code> \n         in paginated output. When this parameter is used, <code>ListProfileTimes</code> only returns \n         <code>maxResults</code> results in a single page with a <code>nextToken</code> response \n         element. The remaining results of the initial request \n         can be seen by sending another <code>ListProfileTimes</code> request with the returned \n         <code>nextToken</code> value. \n      </p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value returned from a previous paginated \n         <code>ListProfileTimes</code> request where <code>maxResults</code> was used and the results \n         exceeded the value of that parameter. Pagination continues from the end of the previous results \n         that returned the <code>nextToken</code> value. \n      </p>\n         <note>\n            <p>This token should be treated as an opaque identifier that is only used to retrieve \n         the next items in a list and not for other programmatic purposes.</p>\n         </note>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "orderBy" : {
+               "target" : "com.amazonaws.codeguruprofiler#OrderBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The order (ascending or descending by start time of the profile) to\n        use when listing profiles. Defaults to <code>TIMESTAMP_DESCENDING</code>.\n      </p>",
+                  "smithy.api#httpQuery" : "orderBy"
+               }
+            },
+            "period" : {
+               "target" : "com.amazonaws.codeguruprofiler#AggregationPeriod",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The aggregation period. This specifies the period during which an aggregation profile \n         collects posted agent profiles for a profiling group. There are 3 valid values.\n      </p>\n         <ul>\n            <li>\n               <p>\n                  <code>P1D</code> — 1 day\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT1H</code> — 1 hour\n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>PT5M</code> — 5 minutes\n            </p>\n            </li>\n         </ul>",
+                  "smithy.api#httpQuery" : "period",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of the time range from which to list the profiles.</p>",
+                  "smithy.api#httpQuery" : "startTime",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the listProfileTimesRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListProfileTimesResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value to include in a future <code>ListProfileTimes</code> request. \n         When the results of a <code>ListProfileTimes</code> request exceed <code>maxResults</code>, this \n         value can be used to retrieve the next page of results. This value is <code>null</code> when there are no more \n         results to return. </p>"
+               }
+            },
+            "profileTimes" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfileTimes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of start times of the available profiles for the aggregation \n        period in the specified time range.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the listProfileTimesResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListProfilingGroups" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListProfilingGroupsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListProfilingGroupsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Returns a list of profiling groups. The profiling groups are returned as \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> \n         objects.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/profilingGroups"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#ListProfilingGroupsRequest" : {
+         "members" : {
+            "includeDescription" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A <code>Boolean</code> value indicating whether to include a description. If <code>true</code>, \n      then a list of \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> objects \n      that contain detailed information about profiling groups is returned. If <code>false</code>, then \n      a list of profiling group names is returned.</p>",
+                  "smithy.api#httpQuery" : "includeDescription"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.codeguruprofiler#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of profiling groups results returned by <code>ListProfilingGroups</code> \n         in paginated output. When this parameter is used, <code>ListProfilingGroups</code> only returns \n         <code>maxResults</code> results in a single page along with a <code>nextToken</code> response \n         element. The remaining results of the initial request \n         can be seen by sending another <code>ListProfilingGroups</code> request with the returned \n         <code>nextToken</code> value. \n      </p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value returned from a previous paginated \n         <code>ListProfilingGroups</code> request where <code>maxResults</code> was used and the results \n         exceeded the value of that parameter. Pagination continues from the end of the previous results \n         that returned the <code>nextToken</code> value. \n      </p>\n         <note>\n            <p>This token should be treated as an opaque identifier that is only used to retrieve \n         the next items in a list and not for other programmatic purposes.</p>\n         </note>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the listProfilingGroupsRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListProfilingGroupsResponse" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The <code>nextToken</code> value to include in a future <code>ListProfilingGroups</code> request. \n         When the results of a <code>ListProfilingGroups</code> request exceed <code>maxResults</code>, this \n         value can be used to retrieve the next page of results. This value is <code>null</code> when there are no more \n         results to return. </p>"
+               }
+            },
+            "profilingGroupNames" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A returned list of profiling group names. A list of the names is returned only if \n         <code>includeDescription</code> is <code>false</code>, otherwise a list of \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> objects \n         is returned.         \n      </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroups" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupDescriptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A returned list \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> \n         objects. A list of \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> \n         objects is returned only if <code>includeDescription</code> is <code>true</code>, otherwise a list of profiling group names is returned.\n      </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the listProfilingGroupsResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListTagsForResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListTagsForResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListTagsForResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Returns a list of the tags that are assigned to a specified resource.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#ListTagsForResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The Amazon Resource Name (ARN) of the resource that contains the tags to return.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ListTagsForResourceResponse" : {
+         "members" : {
+            "tags" : {
+               "target" : "com.amazonaws.codeguruprofiler#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The list of tags assigned to the specified resource. This is the list of tags \n         returned in the response.\n      </p>"
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Locale" : {
+         "traits" : {
+            "smithy.api#documentation" : "BCP47 language code. Supported locales: de-DE, en-GB, en-US, es-ES, fr-FR, it-IT, ja-JP, ko-KR, pt-BR, zh-CN, zh-TW"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#Match" : {
+         "members" : {
+            "frameAddress" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The location in the profiling graph that contains a recommendation found during analysis.</p>"
+               }
+            },
+            "targetFramesIndex" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target frame that triggered a match.</p>"
+               }
+            },
+            "thresholdBreachValue" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The value in the profile data that exceeded the recommendation threshold.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The part of a profile that contains a recommendation found during analysis.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Matches" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#Match"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#MaxDepth" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 10000,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.codeguruprofiler#MaxResults" : {
+         "traits" : {
+            "smithy.api#range" : {
+               "max" : 1000,
+               "min" : 1
+            }
+         },
+         "type" : "integer"
+      },
+      "com.amazonaws.codeguruprofiler#Metadata" : {
+         "key" : {
+            "target" : "com.amazonaws.codeguruprofiler#MetadataField"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.codeguruprofiler#MetadataField" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Compute platform on which agent is running.",
+                  "name" : "COMPUTE_PLATFORM",
+                  "value" : "ComputePlatform"
+               },
+               {
+                  "documentation" : "Unique identifier for the agent instance.",
+                  "name" : "AGENT_ID",
+                  "value" : "AgentId"
+               },
+               {
+                  "documentation" : "AWS requestId of the Lambda invocation.",
+                  "name" : "AWS_REQUEST_ID",
+                  "value" : "AwsRequestId"
+               },
+               {
+                  "documentation" : "Execution environment on which Lambda function is running.",
+                  "name" : "EXECUTION_ENVIRONMENT",
+                  "value" : "ExecutionEnvironment"
+               },
+               {
+                  "documentation" : "Function ARN that's used to invoke the Lambda function.",
+                  "name" : "LAMBDA_FUNCTION_ARN",
+                  "value" : "LambdaFunctionArn"
+               },
+               {
+                  "documentation" : "Memory allocated for the Lambda function.",
+                  "name" : "LAMBDA_MEMORY_LIMIT_IN_MB",
+                  "value" : "LambdaMemoryLimitInMB"
+               },
+               {
+                  "documentation" : "Time in milliseconds left before the execution times out.",
+                  "name" : "LAMBDA_REMAINING_TIME_IN_MILLISECONDS",
+                  "value" : "LambdaRemainingTimeInMilliseconds"
+               },
+               {
+                  "documentation" : "Time in milliseconds between two invocations of the Lambda function.",
+                  "name" : "LAMBDA_TIME_GAP_BETWEEN_INVOKES_IN_MILLISECONDS",
+                  "value" : "LambdaTimeGapBetweenInvokesInMilliseconds"
+               },
+               {
+                  "documentation" : "Time in milliseconds for the previous Lambda invocation.",
+                  "name" : "LAMBDA_PREVIOUS_EXECUTION_TIME_IN_MILLISECONDS",
+                  "value" : "LambdaPreviousExecutionTimeInMilliseconds"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#Metric" : {
+         "members" : {
+            "frameName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The name of the method that appears as a frame in any stack in a profile.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "threadStates" : {
+               "target" : "com.amazonaws.codeguruprofiler#Strings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The list of application runtime thread states that is used to calculate the \n            metric value for the frame.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.codeguruprofiler#MetricType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A type that specifies how a metric for a frame is analyzed. \n            The supported value <code>AggregatedRelativeTotalTime</code> is an \n            aggregation of the metric value for one frame that is calculated across the \n            occurences of all frames in a profile.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Details about the metric that the analysis used when it detected the anomaly. \n            The metric what is analyzed to create recommendations. It includes the name of the \n            frame that was analyzed and the type and thread states used to derive the metric \n            value for that frame.\n        </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#MetricType" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Metric value aggregated for all instances of a frame name in a profile relative to the root frame.",
+                  "name" : "AggregatedRelativeTotalTime",
+                  "value" : "AggregatedRelativeTotalTime"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#NotificationConfiguration" : {
+         "members" : {
+            "channels" : {
+               "target" : "com.amazonaws.codeguruprofiler#Channels",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of up to two channels to be used for sending notifications for events detected from\n         the application profile.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The configuration for notifications stored for each profiling group. This includes up to\n         to two channels and a list of event publishers associated with each channel.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#OrderBy" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Order by timestamp in descending order.",
+                  "name" : "TIMESTAMP_DESCENDING",
+                  "value" : "TimestampDescending"
+               },
+               {
+                  "documentation" : "Order by timestamp in ascending order.",
+                  "name" : "TIMESTAMP_ASCENDING",
+                  "value" : "TimestampAscending"
+               }
+            ]
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#PaginationToken" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#Pattern" : {
+         "members" : {
+            "countersToAggregate" : {
+               "target" : "com.amazonaws.codeguruprofiler#Strings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A list of the different counters used to determine if there is a match.\n        </p>"
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the recommendation. This explains a potential \n            inefficiency in a profiled application.</p>"
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) of this pattern.</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name for this pattern.</p>"
+               }
+            },
+            "resolutionSteps" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A string that contains the steps recommended to address the potential inefficiency.\n        </p>"
+               }
+            },
+            "targetFrames" : {
+               "target" : "com.amazonaws.codeguruprofiler#TargetFrames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of frame names that were searched during the analysis that generated \n            a recommendation.</p>"
+               }
+            },
+            "thresholdPercent" : {
+               "target" : "com.amazonaws.codeguruprofiler#Percentage",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>\n            The percentage of time an application spends in one method that triggers \n            a recommendation. The percentage of time is the same as the percentage of \n            the total gathered sample counts during analysis.\n        </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            A set of rules used to make a recommendation during an analysis.\n        </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Percentage" : {
+         "traits" : {
+            "smithy.api#default" : 0,
+            "smithy.api#range" : {
+               "max" : 100,
+               "min" : 0
+            }
+         },
+         "type" : "double"
+      },
+      "com.amazonaws.codeguruprofiler#Period" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#PostAgentProfile" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#PostAgentProfileRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#PostAgentProfileResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Submits profiling data to an aggregated profile of a profiling group. To get an  \n         aggregated profile that is created with this profiling data, use \n         <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_GetProfile.html\">\n               <code>GetProfile</code>\n            </a>.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/profilingGroups/{profilingGroupName}/agentProfile"
+            },
+            "smithy.api#tags" : [
+               "dataplane"
+            ]
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#PostAgentProfileRequest" : {
+         "members" : {
+            "agentProfile" : {
+               "target" : "com.amazonaws.codeguruprofiler#AgentProfile",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The submitted profiling data.\n      </p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "contentType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The format of the submitted profiling data. The format maps to the \n         <code>Accept</code> and <code>Content-Type</code> headers of the \n         HTTP request. You can specify one of the following: \n         or the default .\n      </p>\n      \n         <ul>\n            <li>\n               <p>\n                  <code>application/json</code> — standard JSON format \n            </p>\n            </li>\n            <li>\n               <p>\n                  <code>application/x-amzn-ion</code> — the Amazon Ion data format. For more information, \n               see <a href=\"http://amzn.github.io/ion-docs/\">Amazon Ion</a>.\n            </p>\n            </li>\n         </ul>",
+                  "smithy.api#httpHeader" : "Content-Type",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profileToken" : {
+               "target" : "com.amazonaws.codeguruprofiler#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the\n         accidental submission of duplicate profiling data if there are failures and retries. </p>",
+                  "smithy.api#httpQuery" : "profileToken",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The name of the profiling group with the aggregated profile that receives the \n         submitted profiling data.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the postAgentProfileRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#PostAgentProfileResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the postAgentProfileResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Principal" : {
+         "traits" : {
+            "aws.api#arnReference" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#Principals" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#Principal"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ProfileTime" : {
+         "members" : {
+            "start" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of a profile. It is specified using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Contains the start time of a profile.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ProfileTimes" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#ProfileTime"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingGroup" : {
+         "delete" : {
+            "target" : "com.amazonaws.codeguruprofiler#DeleteProfilingGroup"
+         },
+         "identifiers" : {
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListProfilingGroups"
+         },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#AddNotificationChannels"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#BatchGetFrameMetricData"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConfigureAgent"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#GetNotificationConfiguration"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#GetPolicy"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#GetProfile"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#GetRecommendations"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ListFindingsReports"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ListProfileTimes"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#PostAgentProfile"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#PutPermission"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#RemoveNotificationChannel"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#RemovePermission"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#SubmitFeedback"
+            }
+         ],
+         "put" : {
+            "target" : "com.amazonaws.codeguruprofiler#CreateProfilingGroup"
+         },
+         "read" : {
+            "target" : "com.amazonaws.codeguruprofiler#DescribeProfilingGroup"
+         },
+         "traits" : {
+            "aws.api#arn" : {
+               "absolute" : false,
+               "noAccount" : false,
+               "noRegion" : false,
+               "template" : "profilingGroup/{profilingGroupName}"
+            }
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.codeguruprofiler#UpdateProfilingGroup"
+         }
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingGroupArn" : {
+         "traits" : {
+            "aws.api#arnReference" : {
+               "resource" : "com.amazonaws.codeguruprofiler#ProfilingGroup",
+               "service" : "com.amazonaws.codeguruprofiler#CodeGuruProfiler",
+               "type" : "AWS::CodeGuruProfiler::ProfilingGroup"
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingGroupDescription" : {
+         "members" : {
+            "agentOrchestrationConfig" : {
+               "target" : "com.amazonaws.codeguruprofiler#AgentOrchestrationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         An <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AgentOrchestrationConfig.html\">\n               <code>AgentOrchestrationConfig</code>\n            </a> \n         object that indicates if the profiling group is enabled for profiled or not.\n      </p>"
+               }
+            },
+            "arn" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) identifying the profiling group resource.</p>"
+               }
+            },
+            "computePlatform" : {
+               "target" : "com.amazonaws.codeguruprofiler#ComputePlatform",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The compute platform of the profiling group. If it is set to <code>AWSLambda</code>, then \n         the profiled application runs on AWS Lambda. If it is set to <code>Default</code>, then the \n         profiled application runs on a compute platform that is not AWS Lambda, such an Amazon EC2 instance, \n         an on-premises server, or a different platform. The default is <code>Default</code>.         \n      </p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the profiling group was created. Specify using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group.</p>"
+               }
+            },
+            "profilingStatus" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingStatus.html\">\n               <code>ProfilingStatus</code>\n            </a> object \n         that includes information about the last time a profile agent pinged back, \n         the last time a profile was received, and the aggregation period and start time for the \n         most recent aggregated profile.\n      </p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.codeguruprofiler#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A list of the tags that belong to this profiling group.\n      </p>"
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The date and time when the profiling group was last updated. Specify using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Contains information about a profiling group.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingGroupDescriptions" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupDescription"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingGroupName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[\\w-]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingGroupNames" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ProfilingStatus" : {
+         "members" : {
+            "latestAgentOrchestratedAt" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the profiling agent most recently pinged back. Specify using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</p>"
+               }
+            },
+            "latestAgentProfileReportedAt" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time when the most recent profile was received. Specify using \n         the ISO 8601 format. For example, \n         2020-06-01T13:15:02.001Z  represents 1 millisecond past June 1, 2020 1:15:02 PM UTC.</p>"
+               }
+            },
+            "latestAggregatedProfile" : {
+               "target" : "com.amazonaws.codeguruprofiler#AggregatedProfileTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         An <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AggregatedProfileTime.html\">\n               <code>AggregatedProfileTime</code>\n            </a> \n         object that contains the aggregation period and start time for an aggregated profile.\n      </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Profiling status includes information about the last time a profile agent pinged back, \n         the last time a profile was received, and the aggregation period and start time for the \n         most recent aggregated profile.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#PutPermission" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#PutPermissionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#PutPermissionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            Adds permissions to a profiling group's resource-based policy \n            that are provided using an action group. If a profiling group doesn't have \n            a resource-based policy, one is created for it using the permissions in the action group and \n            the roles and users in the <code>principals</code> parameter.\n        </p>\n        \n        <p> The one supported action group that can be added is <code>agentPermission</code>\n            which grants <code>ConfigureAgent</code> and <code>PostAgent</code> permissions. For\n            more information, see <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html\">Resource-based\n                policies in CodeGuru Profiler</a> in the <i>Amazon CodeGuru Profiler User\n                Guide</i>, <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html\">\n               <code>ConfigureAgent</code>\n            </a>, and <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html\">\n               <code>PostAgentProfile</code>\n            </a>. </p>\n        \n        <p>\n            The first time you call <code>PutPermission</code> on a profiling group, do not specify a <code>revisionId</code> because \n            it doesn't have a resource-based policy. Subsequent calls must provide a <code>revisionId</code> to specify \n            which revision of the resource-based policy to add the permissions to.\n        </p>\n        \n        <p>\n            The response contains the profiling group's JSON-formatted resource policy. \n        </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/profilingGroups/{profilingGroupName}/policy/{actionGroup}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#PutPermissionRequest" : {
+         "members" : {
+            "actionGroup" : {
+               "target" : "com.amazonaws.codeguruprofiler#ActionGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            Specifies an action group that contains permissions to add to \n            a profiling group resource. One action group is supported, <code>agentPermissions</code>, which \n            grants permission to perform actions required by the profiling agent, <code>ConfigureAgent</code> \n            and <code>PostAgentProfile</code> permissions.\n        </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "principals" : {
+               "target" : "com.amazonaws.codeguruprofiler#Principals",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A list ARNs for the roles and users you want to grant access to the profiling group. \n            Wildcards are not are supported in the ARNs.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group to grant access to.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "revisionId" : {
+               "target" : "com.amazonaws.codeguruprofiler#RevisionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A universally unique identifier (UUID) for the revision of the policy you \n            are adding to the profiling group. Do not specify \n            this when you add permissions to a profiling group for the first time. If a policy already exists on the \n            profiling group, you must specify the <code>revisionId</code>.\n        </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the <code>putPermissionRequest</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#PutPermissionResponse" : {
+         "members" : {
+            "policy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The JSON-formatted resource-based policy on the profiling group that includes the  \n            added permissions.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "revisionId" : {
+               "target" : "com.amazonaws.codeguruprofiler#RevisionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A universally unique identifier (UUID) for the revision of the resource-based policy\n            that includes the added permissions. The JSON-formatted policy is in the\n                <code>policy</code> element of the response. </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the <code>putPermissionResponse</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Recommendation" : {
+         "members" : {
+            "allMatchesCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How many different places in the profile graph triggered a match.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "allMatchesSum" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>How much of the total sample count is potentially affected.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "endTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>End time of the profile that was used by this analysis. \n            This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "pattern" : {
+               "target" : "com.amazonaws.codeguruprofiler#Pattern",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pattern that analysis recognized in the profile to make this recommendation.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "startTime" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The start time of the profile that was used by this analysis. \n        This is specified \n            using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n            millisecond past June 1, 2020 1:15:02 PM UTC.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "topMatches" : {
+               "target" : "com.amazonaws.codeguruprofiler#Matches",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>List of the matches with most impact. </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A potential improvement that was found from analyzing the profiling data.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Recommendations" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#Recommendation"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#RemoveNotificationChannel" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#RemoveNotificationChannelRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#RemoveNotificationChannelResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Remove one anomaly notifications channel for a profiling group.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/profilingGroups/{profilingGroupName}/notificationConfiguration/{channelId}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#RemoveNotificationChannelRequest" : {
+         "members" : {
+            "channelId" : {
+               "target" : "com.amazonaws.codeguruprofiler#ChannelId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The id of the channel that we want to stop receiving notifications.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group we want to change notification configuration for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the RemoveNotificationChannelRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#RemoveNotificationChannelResponse" : {
+         "members" : {
+            "notificationConfiguration" : {
+               "target" : "com.amazonaws.codeguruprofiler#NotificationConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The new notification configuration for this profiling group.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the RemoveNotificationChannelResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#RemovePermission" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#RemovePermissionRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#RemovePermissionResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p> Removes permissions from a profiling group's resource-based policy that are provided\n            using an action group. The one supported action group that can be removed is\n                <code>agentPermission</code> which grants <code>ConfigureAgent</code> and\n                <code>PostAgent</code> permissions. For more information, see <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html\">Resource-based policies in CodeGuru Profiler</a> in the <i>Amazon\n                CodeGuru Profiler User Guide</i>, <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html\">\n               <code>ConfigureAgent</code>\n            </a>, and <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html\">\n               <code>PostAgentProfile</code>\n            </a>. </p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/profilingGroups/{profilingGroupName}/policy/{actionGroup}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#RemovePermissionRequest" : {
+         "members" : {
+            "actionGroup" : {
+               "target" : "com.amazonaws.codeguruprofiler#ActionGroup",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            Specifies an action group that contains the permissions to remove from \n            a profiling group's resource-based policy. One action group is supported, <code>agentPermissions</code>, which \n            grants <code>ConfigureAgent</code> and <code>PostAgentProfile</code> permissions.\n        </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "revisionId" : {
+               "target" : "com.amazonaws.codeguruprofiler#RevisionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            A universally unique identifier (UUID) for the revision of the resource-based policy from which \n            you want to remove permissions.\n        </p>",
+                  "smithy.api#httpQuery" : "revisionId",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n            \n            The structure representing the <code>removePermissionRequest</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#RemovePermissionResponse" : {
+         "members" : {
+            "policy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The JSON-formatted resource-based policy on the profiling group after \n            the specified permissions were removed.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "revisionId" : {
+               "target" : "com.amazonaws.codeguruprofiler#RevisionId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A universally unique identifier (UUID) for the revision of the resource-based policy\n            after the specified permissions were removed. The updated JSON-formatted policy is in the\n                <code>policy</code> element of the response. </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the <code>removePermissionResponse</code>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ResourceNotFoundException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The resource specified in the request does not exist.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 404
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#RevisionId" : {
+         "traits" : {
+            "smithy.api#pattern" : "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.codeguruprofiler#ServiceQuotaExceededException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>You have exceeded your service quota. To perform the requested action, \n        remove some of the relevant resources, or use <a href=\"https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html\">Service Quotas</a> to request a \n        service quota increase. \n      </p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 402,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Strings" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#SubmitFeedback" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#SubmitFeedbackRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#SubmitFeedbackResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is \n            useful or not.</p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/internal/profilingGroups/{profilingGroupName}/anomalies/{anomalyInstanceId}/feedback"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#SubmitFeedbackRequest" : {
+         "members" : {
+            "anomalyInstanceId" : {
+               "target" : "com.amazonaws.codeguruprofiler#AnomalyInstanceId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The universally unique identifier (UUID) of the \n            <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_AnomalyInstance.html\">\n               <code>AnomalyInstance</code>\n            </a> object \n            that is included in the analysis data.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "comment" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional feedback about this anomaly.</p>"
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group that is associated with the analysis data.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.codeguruprofiler#FeedbackType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n            The feedback tpye. Thee are two valid values, <code>Positive</code> and <code>Negative</code>.\n        </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the SubmitFeedbackRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#SubmitFeedbackResponse" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the SubmitFeedbackResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#TagKeys" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#TagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#TagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#TagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Use to assign one or more tags to a resource.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "POST",
+               "uri" : "/tags/{resourceArn}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#TagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The Amazon Resource Name (ARN) of the resource that the tags are added to.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.codeguruprofiler#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The list of tags that are added to the specified resource.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#TagResourceResponse" : {
+         "members" : {},
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#TagsMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.codeguruprofiler#TargetFrame" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#TargetFrames" : {
+         "member" : {
+            "target" : "com.amazonaws.codeguruprofiler#TargetFrame"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ThreadStates" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.codeguruprofiler#ThrottlingException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The request was denied due to request throttling.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 429,
+            "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#Timestamp" : {
+         "traits" : {
+            "smithy.api#timestampFormat" : "date-time"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.codeguruprofiler#TimestampStructure" : {
+         "members" : {
+            "value" : {
+               "target" : "com.amazonaws.codeguruprofiler#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A <code>Timestamp</code>. This is specified \n         using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n         millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         A data type that contains a <code>Timestamp</code> object. This is specified \n         using the ISO 8601 format. For example, 2020-06-01T13:15:02.001Z represents 1 \n         millisecond past June 1, 2020 1:15:02 PM UTC.\n      </p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#UnprocessedEndTimeMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.codeguruprofiler#ListOfTimestamps"
+         }
+      },
+      "com.amazonaws.codeguruprofiler#UntagResource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#UntagResourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#UntagResourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>\n         Use to remove one or more tags from a resource.\n      </p>",
+            "smithy.api#http" : {
+               "code" : 204,
+               "method" : "DELETE",
+               "uri" : "/tags/{resourceArn}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#UntagResourceRequest" : {
+         "members" : {
+            "resourceArn" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         The Amazon Resource Name (ARN) of the resource that contains the tags to remove.\n      </p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "tagKeys" : {
+               "target" : "com.amazonaws.codeguruprofiler#TagKeys",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A list of tag keys. Existing tags of resources with keys in this list are removed from \n         the specified resource.\n      </p>",
+                  "smithy.api#httpQuery" : "tagKeys",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#UntagResourceResponse" : {
+         "members" : {},
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#UpdateProfilingGroup" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.codeguruprofiler#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.codeguruprofiler#UpdateProfilingGroupRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.codeguruprofiler#UpdateProfilingGroupResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a profiling group.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/profilingGroups/{profilingGroupName}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.codeguruprofiler#UpdateProfilingGroupRequest" : {
+         "members" : {
+            "agentOrchestrationConfig" : {
+               "target" : "com.amazonaws.codeguruprofiler#AgentOrchestrationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         Specifies whether profiling is enabled or disabled for a profiling group. \n      </p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "profilingGroupName" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the profiling group to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the updateProfilingGroupRequest.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#UpdateProfilingGroupResponse" : {
+         "members" : {
+            "profilingGroup" : {
+               "target" : "com.amazonaws.codeguruprofiler#ProfilingGroupDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>\n         A <a href=\"https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html\">\n               <code>ProfilingGroupDescription</code>\n            </a> \n         that contains information about the returned updated profiling group.\n      </p>",
+                  "smithy.api#httpPayload" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The structure representing the updateProfilingGroupResponse.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#UserFeedback" : {
+         "members" : {
+            "type" : {
+               "target" : "com.amazonaws.codeguruprofiler#FeedbackType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional <code>Positive</code> or <code>Negative</code> feedback submitted by \n            the user about whether the recommendation is useful or not.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Feedback that can be submitted for each instance of an anomaly by the user. \n            Feedback is be used for improvements in generating recommendations for the application.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.codeguruprofiler#ValidationException" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The parameter is not valid.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      }
+   },
+   "smithy" : "2.0"
+}

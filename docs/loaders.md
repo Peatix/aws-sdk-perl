@@ -23,39 +23,75 @@ Both implement the `Paws::Model::Loader` role:
 
 ## Where source files live
 
-- Botocore: the `botocore/` git submodule; per-service paths look
-  like `botocore/botocore/data/<service>/<date>/service-2.json`.
-- Smithy: vendored under `share/smithy/<service>.smithy.json` (this
-  directory is a forward-looking layout; the dist will populate it
-  in PR15 / the dist-prepare step).
+- Smithy (the runtime source of truth): vendored under
+  `share/smithy/<service>/<service>.smithy.json` from
+  `awslabs/aws-sdk-rust:aws-models/` at the SHA pinned in
+  `share/smithy/.upstream-sha`. Tracked in git; `make dist` ships
+  it as-is.
+- Botocore (only consumed by the AOT generator workflows, not by
+  the runtime materialiser): fetched on the fly into `botocore/`
+  at the SHA pinned in `etc/botocore-pin.sha`. Per-service paths
+  look like `botocore/botocore/data/<service>/<date>/service-2.json`.
 
 ## Loader resolution
 
-`Paws::Model::Loader::Resolver` walks the configured search paths and
-returns the IR produced by the first loader that finds a matching
-source file:
+`Paws::Model::Loader::Resolver` walks the configured search paths
+and returns the IR produced by the first loader that finds a
+matching source file:
 
 ```
 use Paws::Model::Loader::Resolver;
 
-my $r = Paws::Model::Loader::Resolver->new(
-    smithy_search_paths   => ['share/smithy'],
-    botocore_search_paths => ['botocore/botocore/data'],
-);
+# Default: Smithy-only against share/smithy/.
+my $r = Paws::Model::Loader::Resolver->new;
 my ($ir, $loader_name) = $r->load_service('IAM');
+
+# Opt back into botocore for a deprecated-but-still-needed service:
+$ENV{PAWS_LOADER_ORDER} = 'Botocore,Smithy';
+my $r2 = Paws::Model::Loader::Resolver->new(
+    botocore_search_paths => ['/path/to/botocore/botocore/data'],
+);
 ```
 
-Default order: Smithy first, Botocore fallback. Override via
-`PAWS_LOADER_ORDER=Botocore,Smithy` if a regression appears.
+Default order: Smithy-only. The Botocore loader is reachable for
+users who construct the resolver explicitly with
+`botocore_search_paths` — see `docs/deprecated-services.md` for the
+14 services that warrant this escape hatch.
 
 Search-path layouts checked:
 
-- Smithy: `<base>/<service>.smithy.json` (flat),
-  `<base>/<lc service>.smithy.json`,
-  `<base>/<service>/<service>.smithy.json` (nested),
-  `<base>/<lc service>/<lc service>.smithy.json`.
+- Smithy: `<base>/<smithy-name>/<smithy-name>.smithy.json`
+  (canonical nested layout; matches the vendored tree),
+  `<base>/<smithy-name>.smithy.json` (tolerated flat layout for
+  fixtures), plus `lc(class)`-based fallbacks. The
+  `<smithy-name>` is resolved from the Paws class via
+  `%Paws::Model::Loader::Resolver::PAWS_TO_SMITHY` (see below).
 - Botocore: `<base>/<service>/<date>/service-2.json` (newest dated
   subdirectory wins), and the lowercase-service-name variant.
+
+## Paws class → Smithy file basename
+
+Smithy file basenames do not always equal `lc(paws_class)`.
+`%Paws::Model::Loader::Resolver::PAWS_TO_SMITHY` is the explicit
+map; `lc(class)` is the fallback for the ~217 cases where they
+already line up.
+
+The map covers:
+
+- 144 cosmetic separator differences (`ApiGateway` →
+  `api-gateway`, `ACMPCA` → `acm-pca`).
+- 27 substantive renames (`DMS` → `database-migration-service`,
+  `StepFunctions` → `sfn`, `SDB` → `simpledbv2`, ...).
+- The `events` ambiguity: `Paws::EventBridge` → `eventbridge`
+  (modern), `Paws::CloudWatchEvents` → `cloudwatch-events`
+  (legacy alias), both backed by the same AWS endpoint.
+
+`%Paws::Model::Loader::Resolver::PAWS_DROPPED_SERVICES` lists the
+14 botocore-era services AWS retired (and `awslabs/aws-sdk-rust`
+no longer ships a model for). Asking the resolver for one dies
+with the AWS shutdown date and a pointer at
+`docs/deprecated-services.md` rather than the generic "no source
+file found".
 
 ## IR coverage by loader
 
