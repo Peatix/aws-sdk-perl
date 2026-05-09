@@ -63,17 +63,46 @@ package Paws::Net::JsonCaller;
           my $inner = $1;
           if (Paws->is_internal_type($inner)) {
             $p{$key} = $value;
+          } elsif ($inner =~ m/^HashRef\[(.+)\]$/) {
+            # ArrayRef[HashRef[X]] - array of maps. DynamoDB
+            # BatchGetItem.Keys lands here.
+            my $element = $1;
+            if (Paws->is_internal_type($element)) {
+              $p{$key} = $value;
+            } else {
+              $p{$key} = [
+                map {
+                  my $h = $_;
+                  +{ map { ($_ => $self->_to_jsoncaller_params($h->{$_})) }
+                         keys %$h };
+                } @$value
+              ];
+            }
           } else {
             $p{$key} = [ map { $self->_to_jsoncaller_params($_) } @$value ];
           }
         } elsif ($type =~ m/^HashRef\[(.*)\]/) {
           # Inline HashRef[X]: the materialiser emits this for botocore
           # `map` shapes that the AOT path used to wrap in a per-map
-          # parser class. Native value types pass through; object value
-          # types recurse one entry at a time.
+          # parser class. Native value types pass through; object
+          # value types recurse one entry at a time. The
+          # HashRef[ArrayRef[...]] case is supported because some
+          # services (DynamoDB BatchWriteItem, ECS, ...) nest an
+          # array-of-objects under each map key.
           my $inner = $1;
           if (Paws->is_internal_type($inner)) {
             $p{$key} = $value;
+          } elsif ($inner =~ m/^ArrayRef\[(.+)\]$/) {
+            my $element = $1;
+            if (Paws->is_internal_type($element)) {
+              $p{$key} = $value;
+            } else {
+              $p{$key} = {
+                map { my $k = $_;
+                      ($k => [ map { $self->_to_jsoncaller_params($_) } @{ $value->{$k} } ])
+                    } keys %$value
+              };
+            }
           } else {
             $p{$key} = { map { $_ => $self->_to_jsoncaller_params($value->{$_}) }
                          keys %$value };

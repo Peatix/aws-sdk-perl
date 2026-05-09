@@ -244,6 +244,26 @@ sub new_with_coercions {
         my $subtype = "$1";
         if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
           $p{ $att } = $params{ $att };
+        } elsif ($subtype =~ m/^HashRef\[(.+)\]$/) {
+          # ArrayRef[HashRef[X]] - array of maps. The materialiser
+          # emits this for botocore list-of-map shapes (DynamoDB
+          # BatchGetItem KeyList = list of Key, where Key is a map of
+          # AttributeName -> AttributeValue). Each element is a
+          # hashref keyed by the map's key shape; each value is
+          # either a native or a recursive new_with_coercions call.
+          my $element = $1;
+          if (Paws->is_internal_type($element)) {
+            $p{ $att } = $params{ $att };
+          } else {
+            my $target = _unwrap_class_from_type_string($element);
+            $p{ $att } = [
+              map {
+                my $h = $_;
+                +{ map { ($_ => Paws->new_with_coercions($target, %{ $h->{$_} })) }
+                       keys %$h };
+              } @{ $params{ $att } }
+            ];
+          }
         } else {
           # Under Moose, $1 is the bare class name. Under Moo +
           # Type::Tiny (stack13 backend), `ArrayRef[InstanceOf["X"]]`
@@ -261,22 +281,37 @@ sub new_with_coercions {
         # The materialiser emits inline HashRef[X] for botocore `map`
         # shapes (where the AOT path used to emit a per-map class with
         # a single `Map` attribute). Mirror the ArrayRef[X] branch:
-        # native value types pass through, object value types recurse
-        # to build the hash one entry at a time.
+        # native value types and lists-of-natives pass through; object
+        # value types recurse to build the hash one entry at a time.
         my $subtype = "$1";
-        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
+        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool'
+            or $subtype =~ m/^ArrayRef\[(?:Str(?:\|Undef)?|Num|Int|Bool)\]$/) {
           $p{ $att } = $params{ $att };
         } else {
           if ($type->can('type_parameter') && $type->type_parameter->can('class')) {
             $subtype = $type->type_parameter->class;
+            $p{ $att } = {
+              map {
+                ($_ => Paws->new_with_coercions("$subtype", %{ $params{ $att }->{ $_ } }))
+              } keys %{ $params{ $att } }
+            };
+          } elsif ($subtype =~ m/^ArrayRef\[(.+)\]$/) {
+            # HashRef[ArrayRef[Class]] - hash of arrays of objects.
+            my $inner = _unwrap_class_from_type_string($1);
+            $p{ $att } = {
+              map { my $k = $_;
+                    ($k => [ map { Paws->new_with_coercions("$inner", %$_) }
+                                @{ $params{ $att }->{ $k } } ])
+                  } keys %{ $params{ $att } }
+            };
           } else {
             $subtype = _unwrap_class_from_type_string($subtype);
+            $p{ $att } = {
+              map {
+                ($_ => Paws->new_with_coercions("$subtype", %{ $params{ $att }->{ $_ } }))
+              } keys %{ $params{ $att } }
+            };
           }
-          $p{ $att } = {
-            map {
-              ($_ => Paws->new_with_coercions("$subtype", %{ $params{ $att }->{ $_ } }))
-            } keys %{ $params{ $att } }
-          };
         }
       } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum') || ($type->can('parent') && $type->can('values'))){
         # Type::Tiny enums are Type::Tiny instances with a `values`

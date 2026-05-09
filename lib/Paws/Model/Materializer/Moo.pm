@@ -49,24 +49,14 @@ my %PROTOCOL_TO_CALLER_ROLE = (
     'ec2'       => 'Paws::Net::EC2Caller',
 );
 
-# Map an IR Service to the Paws::Net::*Signature role. Mirrors the
-# AOT generator's $c->signature_role and the Moose materialiser's
-# _signature_role_for so the three paths agree on which signer a
-# given service composes. See Paws::Model::Materializer for details.
-sub _signature_role_for {
-    my ($service_ir) = @_;
-    my $sv = $service_ir->signature_version;
-    return 'Paws::Net::V4Signature' if !defined $sv || $sv eq '';
-    my $role = sprintf 'Paws::Net::%sSignature', uc $sv;
-    my $path = $role; $path =~ s{::}{/}g; $path .= '.pm';
-    eval { require $path; 1 } or do {
-        croak sprintf(
-            "materialize_service: signature role %s for signatureVersion=%s is missing: %s",
-            $role, $sv, $@,
-        );
-    };
-    return $role;
-}
+# Per-service caller-role overrides: services whose Paws::Net::*Caller
+# is a specialisation of the generic protocol caller (Glacier wraps
+# rest-json with the x-amz-glacier-version header injection role).
+# Mirrors what the AOT path encoded in the per-service service_class.tt
+# under templates/<svc>/.
+my %SERVICE_TO_CALLER_ROLE = (
+    Glacier => 'Paws::Net::GlacierCaller',
+);
 
 # Mapping from botocore primitive type to the Type::Tiny constructor
 # expression we'll string-eval into the materialised class.
@@ -89,11 +79,10 @@ sub materialize_service {
 
     return $service_pkg if $self->_materialised_classes->{$service_pkg};
 
-    my $caller_role = $PROTOCOL_TO_CALLER_ROLE{ $service_ir->protocol }
+    my $caller_role = $SERVICE_TO_CALLER_ROLE{ $service_ir->name }
+                   // $PROTOCOL_TO_CALLER_ROLE{ $service_ir->protocol }
         // croak sprintf('materialize_service: unknown protocol=%s service=%s',
                          $service_ir->protocol, $service_ir->name);
-
-    my $signature_role = _signature_role_for($service_ir);
 
     # Build via string-eval. Simplest reliable way to construct a Moo
     # package programmatically; matches what Moo's own internals do.
@@ -142,7 +131,7 @@ sub materialize_service {
 
         with 'Paws::API::Caller',
              'Paws::API::EndpointResolver',
-             '$signature_role',
+             'Paws::Net::V4Signature',
              '$caller_role';
 
         @{[ join("\n", @op_methods) ]}
@@ -183,11 +172,38 @@ sub materialize_operation {
     my @attr_lines;
     my @serdes_records;
 
+    my $stream_param;
     if (my $input_name = $op->input_shape) {
         my $input_shape = $service_ir->shape($input_name)
             // croak "input shape $input_name missing for op $op_name";
         ($self->_install_structure_members($input_shape, $service_ir,
                                            \@attr_lines, \@serdes_records));
+
+        # Surface `_stream_param` for both flavours of HTTP-binding
+        # protocols. Mirrors templates/restjson/callargs_class.tt and
+        # templates/restxml/callargs_class.tt:
+        #
+        #   - rest-json: any operation whose input shape declares
+        #     `payload` gets _stream_param. The payload member may be
+        #     a scalar (Lambda Invoke's Payload) or a structure
+        #     (S3Control PutObjectRetention etc.); the wire layer
+        #     branches on `Scalar::Util::blessed`.
+        #   - rest-xml / other: only when a member has `streaming:
+        #     true` (S3 PutObject Body, Glacier UploadArchive Body,
+        #     ...). Non-streaming payloads (e.g. S3
+        #     PutBucketLifecycleConfiguration's
+        #     LifecycleConfiguration) emit XML body the normal way.
+        my $protocol = $service_ir->protocol;
+        if ($protocol eq 'rest-json' && defined $input_shape->payload) {
+            $stream_param = _paws_member_name($input_shape->payload);
+        } else {
+            for my $mname (sort keys %{ $input_shape->members }) {
+                my $m = $input_shape->members->{$mname};
+                next if !$m->streaming;
+                $stream_param = _paws_member_name($mname);
+                last;
+            }
+        }
     }
 
     my $api_call    = _esc($op_name);
@@ -199,16 +215,9 @@ sub materialize_operation {
     my $returns_method = $returns_pkg
         ? "sub _returns { '$returns_pkg' }"
         : "sub _returns { undef }";
-
-    # Mirror templates/query/callargs_class.tt: awsQuery responses
-    # carry a wrapper element named `<OpName>Result` between the
-    # outer response envelope and the actual fields. The XML response
-    # decoder uses _result_key to unwrap. Other protocols leave it
-    # undef (their decoders don't need the unwrap).
-    my $result_key_method =
-        ($service_ir->protocol eq 'query' && $op->output_shape)
-            ? "sub _result_key  { '${op_name}Result' }"
-            : "sub _result_key  { undef }";
+    my $stream_param_method = defined $stream_param
+        ? "sub _stream_param { '" . _esc($stream_param) . "' }"
+        : '';
 
     my $src = qq{
         package $op_pkg;
@@ -221,7 +230,8 @@ sub materialize_operation {
         sub _api_method  { '$api_method' }
         sub _api_uri     { '$api_uri' }
         $returns_method
-        $result_key_method
+        sub _result_key  { undef }
+        $stream_param_method
 
         1;
     };
@@ -343,6 +353,21 @@ sub _install_structure_members {
         #      Paws-side rename to TitleCase changed it).
         my $wire_key = $m->locationName // $mname_orig;
 
+        # AOT-style list-member locationName bubbling: when the
+        # member targets a list shape and the *list's member* has a
+        # locationName, the AOT generator emits
+        # `traits => ['NameInRequest'], request_name => $listmember_locationName`
+        # so the wire layer renders e.g. <Items><Path>...</Path></Items>
+        # rather than <Items>...$value...</Items>. Mirrors
+        # templates/default/shape_attributes.tt lines 6-7.
+        my $listmember_loc;
+        if (!defined $m->locationName) {
+            my $target = $service_ir->shape($m->shape);
+            if ($target && $target->is_list && defined $target->list_member_locationName) {
+                $listmember_loc = $target->list_member_locationName;
+            }
+        }
+
         # Derive trait info for the SerDes side-table.
         my %record = (
             name          => $mname,
@@ -372,7 +397,16 @@ sub _install_structure_members {
 
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
-                $record{traits}{ParamInHeader} = 1;
+                # ContentMD5 is the long-standing Paws SDK
+                # customisation - it gets auto-computed before the
+                # request goes out unless the user explicitly sets
+                # one. Mirrors templates/default/shape_attributes.tt.
+                if ($mname eq 'ContentMD5') {
+                    $record{traits}{AutoInHeader} = 1;
+                    $record{auto} = 'MD5';
+                } else {
+                    $record{traits}{ParamInHeader} = 1;
+                }
                 $record{location} = 'header';
                 $record{location_name} = $wire_key;
             } elsif ($loc eq 'headers') {
@@ -391,6 +425,15 @@ sub _install_structure_members {
         } elsif (defined $m->locationName && $m->locationName ne $mname) {
             $record{traits}{NameInRequest} = 1;
             $record{location_name} = $m->locationName;
+            $record{wire_key}      = $m->locationName;
+        } elsif (defined $listmember_loc) {
+            # The AOT path renames the wire key to the list's
+            # member locationName so RestXmlCaller emits the
+            # right inner element name without having to look
+            # at the list shape itself.
+            $record{traits}{NameInRequest} = 1;
+            $record{location_name} = $listmember_loc;
+            $record{wire_key}      = $listmember_loc;
         } elsif ($mname ne $mname_orig) {
             # Pure capitalisation rename: the wire still wants the
             # original lowercase name; record the body-position trait so
@@ -408,25 +451,40 @@ sub _install_structure_members {
         push @$attr_lines,
             "        has $mname => (is => 'ro', isa => $type_expr$required_part);";
 
-        # If the member targets a structure, materialise that structure.
-        my $target = $service_ir->shape($m->shape);
-        if ($target && $target->is_structure) {
-            $self->_materialise_shape_class($service_ir, $m->shape);
-        }
-        if ($target && $target->is_list) {
-            my $inner = $service_ir->shape($target->list_member_shape);
-            if ($inner && $inner->is_structure) {
-                $self->_materialise_shape_class($service_ir, $target->list_member_shape);
-            }
-        }
-        if ($target && $target->is_map) {
-            my $inner = $service_ir->shape($target->map_value_shape);
-            if ($inner && $inner->is_structure) {
-                $self->_materialise_shape_class($service_ir, $target->map_value_shape);
-            }
-        }
+        # Recursively walk into the member's target shape so that any
+        # structure types reachable through arbitrarily-nested
+        # list/map wrappers get a Paws::*::Class. Without this,
+        # HashRef[ArrayRef[Paws::DynamoDB::WriteRequest]] (and similar
+        # nested-container types) reference a class that nobody ever
+        # materialises and the wire layer dies trying to dispatch on
+        # an unblessed package name.
+        $self->_materialise_reachable_shapes($service_ir, $m->shape);
     }
 
+    return;
+}
+
+# Walk a shape's transitive list/map descendants, materialising any
+# structure shape encountered. Idempotent via the
+# _materialised_classes dedup the materialiser already maintains.
+sub _materialise_reachable_shapes {
+    my ($self, $service_ir, $shape_name) = @_;
+    my $shape = $service_ir->shape($shape_name) or return;
+
+    if ($shape->is_structure) {
+        $self->_materialise_shape_class($service_ir, $shape_name);
+        return;
+    }
+    if ($shape->is_list) {
+        $self->_materialise_reachable_shapes($service_ir, $shape->list_member_shape)
+            if defined $shape->list_member_shape;
+        return;
+    }
+    if ($shape->is_map) {
+        $self->_materialise_reachable_shapes($service_ir, $shape->map_value_shape)
+            if defined $shape->map_value_shape;
+        return;
+    }
     return;
 }
 

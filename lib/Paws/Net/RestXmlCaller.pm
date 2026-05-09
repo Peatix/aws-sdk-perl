@@ -186,7 +186,13 @@ package Paws::Net::RestXmlCaller;
     if (Moose::Util::find_meta($type)) {
       $xml = sprintf '<%s>%s</%s>', $location, $self->_to_xml($value), $location;
     }
-    elsif ($type eq 'ArrayRef[Str|Undef]') {
+    elsif ($type =~ m/^ArrayRef\[(Str(?:\|Undef)?|Num|Int|Bool)\]$/) {
+      # Array of native scalars. The wire layer wraps the array in
+      # <attr>, then emits <name>$value</name> per element where
+      # `name` is the wire_key (the AOT path bubbles the list's
+      # member locationName up to the parent attribute via the
+      # NameInRequest trait, so wire_key already contains 'Path' /
+      # 'member' / etc. by the time we reach here).
       my $req_name = $owner_serdes->wire_key_for($att_name);
       $xml = "<${att_name}>"
            . ( join '', map { sprintf '<%s>%s</%s>', $req_name, $_, $req_name } @$value )
@@ -222,13 +228,20 @@ package Paws::Net::RestXmlCaller;
     my ($self, $call) = @_;
     my $serdes = Paws::SerDes->for($call);
 
+    my $stream_param = $call->can('_stream_param') ? $call->_stream_param : undef;
+
     my $xml = '';
     for my $att ($serdes->serializable_attributes) {
       my $v = $call->$att;
       next if !defined $v;
       next if $serdes->trait_for($att, 'ParamInHeader');
+      next if $serdes->trait_for($att, 'ParamInHeaders');
       next if $serdes->trait_for($att, 'ParamInQuery');
       next if $serdes->trait_for($att, 'ParamInURI');
+      # Streaming payload: prepare_request_for_call writes raw bytes
+      # via $call->$param after _to_xml_body returns. Don't XML-wrap
+      # the same value here.
+      next if defined $stream_param && $att eq $stream_param;
       # Historically: skip Paws::S3::Metadata typed attributes (the
       # S3 metadata bag is serialised as headers, not body XML).
       next if ($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';

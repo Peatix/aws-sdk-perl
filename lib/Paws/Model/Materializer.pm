@@ -65,27 +65,11 @@ my %PROTOCOL_TO_CALLER_ROLE = (
     'ec2'       => 'Paws::Net::EC2Caller',
 );
 
-# Map an IR Service to the Paws::Net::*Signature role to compose.
-# Mirrors builder-lib/Paws/API/Builder.pm's signature_role
-# convention so AOT-generated and materialised classes pick the
-# same signer for the same service. The role is loaded on demand
-# so a cpanfile dependency for, say, CryptX (used by V4ASignature)
-# isn't paid by every Paws process — only by services that actually
-# declare signatureVersion=v4a.
-sub _signature_role_for {
-    my ($service_ir) = @_;
-    my $sv = $service_ir->signature_version;
-    return 'Paws::Net::V4Signature' if !defined $sv || $sv eq '';
-    my $role = sprintf 'Paws::Net::%sSignature', uc $sv;
-    my $path = $role; $path =~ s{::}{/}g; $path .= '.pm';
-    eval { require $path; 1 } or do {
-        croak sprintf(
-            "materialize_service: signature role %s for signatureVersion=%s is missing: %s",
-            $role, $sv, $@,
-        );
-    };
-    return $role;
-}
+# Per-service caller-role overrides; mirrors
+# Paws::Model::Materializer::Moo's table.
+my %SERVICE_TO_CALLER_ROLE = (
+    Glacier => 'Paws::Net::GlacierCaller',
+);
 
 # Mapping from botocore primitive type to the Moose isa string.
 my %PRIMITIVE_TO_ISA = (
@@ -111,7 +95,8 @@ sub materialize_service {
         return $service_pkg;
     }
 
-    my $caller_role = $PROTOCOL_TO_CALLER_ROLE{ $service_ir->protocol }
+    my $caller_role = $SERVICE_TO_CALLER_ROLE{ $service_ir->name }
+                   // $PROTOCOL_TO_CALLER_ROLE{ $service_ir->protocol }
         // croak sprintf(
             "materialize_service: unknown protocol=%s service=%s",
             $service_ir->protocol, $service_ir->name,
@@ -153,17 +138,12 @@ sub materialize_service {
         is => 'ro', isa => 'ArrayRef', default => sub { [] },
     ));
 
-    # Compose roles. The signature role is derived from the IR's
-    # signature_version (matching the AOT Builder's mapping) so
-    # services like S3, ImportExport (v2), S3Control (s3v4), and
-    # CodeCatalyst (bearer) materialise with the right signer rather
-    # than always defaulting to SigV4.
-    my $signature_role = _signature_role_for($service_ir);
+    # Compose roles.
     Moose::Util::apply_all_roles(
         $meta,
         'Paws::API::Caller',
         'Paws::API::EndpointResolver',
-        $signature_role,
+        'Paws::Net::V4Signature',
         $caller_role,
     );
 
@@ -221,10 +201,27 @@ sub materialize_operation {
         superclasses => ['Moose::Object'],
     );
 
+    my $stream_param;
     if (my $input_name = $op->input_shape) {
         my $input_shape = $service_ir->shape($input_name)
             // croak "input shape $input_name missing for op $op_name";
         $self->_install_structure_members($meta, $service_ir, $input_shape);
+
+        # Mirror the AOT templates' two-mode rule for `_stream_param`
+        # (see Paws::Model::Materializer::Moo for the long-form
+        # comment): rest-json honours `shape.payload`; rest-xml &
+        # friends only emit when a member has `streaming: true`.
+        my $protocol = $service_ir->protocol;
+        if ($protocol eq 'rest-json' && defined $input_shape->payload) {
+            $stream_param = _paws_member_name($input_shape->payload);
+        } else {
+            for my $mname (sort keys %{ $input_shape->members }) {
+                my $m = $input_shape->members->{$mname};
+                next if !$m->streaming;
+                $stream_param = _paws_member_name($mname);
+                last;
+            }
+        }
     }
 
     # Class attributes for the API metadata. We install plain methods
@@ -237,6 +234,7 @@ sub materialize_operation {
     $meta->add_method(_api_call   => sub { $api_call });
     $meta->add_method(_api_method => sub { $api_method });
     $meta->add_method(_api_uri    => sub { $api_uri });
+    $meta->add_method(_stream_param => sub { $stream_param }) if defined $stream_param;
 
     if (my $output = $op->output_shape) {
         my $returns_pkg = $service_pkg . '::' . $output;
@@ -246,18 +244,7 @@ sub materialize_operation {
     } else {
         $meta->add_method(_returns => sub { undef });
     }
-
-    # Mirror templates/query/callargs_class.tt: awsQuery responses
-    # carry a wrapper element named `<OpName>Result` between the
-    # outer response envelope and the actual fields. The XML response
-    # decoder uses _result_key to unwrap. Other protocols leave it
-    # undef (their decoders don't need the unwrap).
-    if ($service_ir->protocol eq 'query' && $op->output_shape) {
-        my $result_key = $op_name . 'Result';
-        $meta->add_method(_result_key => sub { $result_key });
-    } else {
-        $meta->add_method(_result_key => sub { undef });
-    }
+    $meta->add_method(_result_key => sub { undef });
 
     $self->_materialised_classes->{$op_pkg} = 1;
     return $op_pkg;
@@ -312,11 +299,35 @@ sub _install_structure_members {
         # original member name as locationName when it capitalises).
         my $wire_key  = $m->locationName // $mname_orig;
 
+        # AOT-style list-member locationName bubbling: when the
+        # member targets a list shape and the *list's member* has a
+        # locationName, request_name in the materialised class is
+        # the list-member locationName so RestXmlCaller renders e.g.
+        # <Items><Path>...</Path></Items> rather than
+        # <Items>$value</Items>. Mirrors templates/default/shape_attributes.tt.
+        my $listmember_loc;
+        if (!defined $m->locationName) {
+            my $target = $service_ir->shape($m->shape);
+            if ($target && $target->is_list && defined $target->list_member_locationName) {
+                $listmember_loc = $target->list_member_locationName;
+            }
+        }
+
         # Resolve trait + named-arg pair from member.location.
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
-                push @traits, 'ParamInHeader';
-                $extra{header_name} = $wire_key;
+                # ContentMD5 is the long-standing Paws SDK
+                # customisation - it gets auto-computed before the
+                # request goes out unless the user explicitly sets
+                # one. Mirrors templates/default/shape_attributes.tt.
+                if ($mname eq 'ContentMD5') {
+                    push @traits, 'AutoInHeader';
+                    $extra{auto}        = 'MD5';
+                    $extra{header_name} = $wire_key;
+                } else {
+                    push @traits, 'ParamInHeader';
+                    $extra{header_name} = $wire_key;
+                }
             } elsif ($loc eq 'headers') {
                 push @traits, 'ParamInHeaders';
                 $extra{header_prefix} = $wire_key;
@@ -331,6 +342,9 @@ sub _install_structure_members {
         } elsif (defined $m->locationName && $m->locationName ne $mname) {
             push @traits, 'NameInRequest';
             $extra{request_name} = $m->locationName;
+        } elsif (defined $listmember_loc) {
+            push @traits, 'NameInRequest';
+            $extra{request_name} = $listmember_loc;
         } elsif ($mname ne $mname_orig) {
             # Pure capitalisation rename (no explicit locationName); the
             # wire still wants the original lowercase name.

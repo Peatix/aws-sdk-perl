@@ -34,11 +34,13 @@ sub load {
     my ($self, $arg) = @_;
 
     my $service_2_path;
+    my $name_override;
     my %companions;
     if (ref $arg eq 'HASH') {
         $service_2_path = $arg->{service_2}
             or die "Paws::Model::Loader::Botocore->load: 'service_2' required\n";
-        %companions = %{ $arg->{companions} // {} };
+        %companions    = %{ $arg->{companions} // {} };
+        $name_override = $arg->{name_override};
     } else {
         $service_2_path = $arg;
     }
@@ -64,7 +66,11 @@ sub load {
         $paginators = $struct->{pagination} // {};
     }
 
-    return $self->_build_service($api, paginators => $paginators);
+    return $self->_build_service(
+        $api,
+        paginators    => $paginators,
+        name_override => $name_override,
+    );
 }
 
 sub _decode_json {
@@ -100,9 +106,20 @@ sub _build_service {
     # generator's Paws::API::Builder::Paws->boto_file_information
     # used to fix up; mirror that fix-up here so the IR is the
     # single source of normalised identifiers.
-    my $sdk_name = $meta->{serviceId} // $meta->{endpointPrefix} // 'unknown';
-    substr($sdk_name, 0, 1) = uc(substr($sdk_name, 0, 1));
-    $sdk_name =~ s/\s+//g;
+    #
+    # Callers (resolver) may also pass a `name_override` to honour the
+    # ~70-entry directory-name -> SDK-name table that Paws has
+    # historically diverged from upstream serviceId on (see
+    # Paws::API::Builder::Paws->servicefile_to_class_overrides /
+    # Paws::Model::Loader::Resolver's vendored copy).
+    my $sdk_name;
+    if (defined $opts{name_override} && length $opts{name_override}) {
+        $sdk_name = $opts{name_override};
+    } else {
+        $sdk_name = $meta->{serviceId} // $meta->{endpointPrefix} // 'unknown';
+        substr($sdk_name, 0, 1) = uc(substr($sdk_name, 0, 1));
+        $sdk_name =~ s/\s+//g;
+    }
 
     return Paws::Model::IR::Service->new(
         name              => $sdk_name,

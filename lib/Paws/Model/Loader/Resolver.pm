@@ -1,28 +1,12 @@
 package Paws::Model::Loader::Resolver;
 
 # Loader resolver: given a service name, find the on-disk source
-# files and return a Paws::Model::IR::Service via the appropriate
-# loader.
+# files in either the botocore or the smithy layout and return a
+# Paws::Model::IR::Service via the appropriate loader.
 #
-# Default: Smithy-only. share/smithy/ is committed to git and shipped
-# in the dist; the Smithy IR covers every non-deprecated AWS service
-# Paws ships today plus 33 services botocore does not have a model
-# for. Override via
+# Default order: smithy first, botocore fallback. Override via
 #   PAWS_LOADER_ORDER=Botocore,Smithy
-# (and supply botocore_search_paths) for users who need to point at a
-# botocore checkout for a deprecated-but-still-needed service.
-#
-# Naming: a Paws service class name (e.g. `ApiGateway`, `EventBridge`,
-# `DMS`) does not always match the Smithy file basename
-# (`api-gateway`, `eventbridge`, `database-migration-service`). The
-# %PAWS_TO_SMITHY table below is the authoritative map; lc(class)
-# is the fallback for the ~217 cases where the names already line
-# up.
-#
-# Dropped services: the 14 services in %PAWS_DROPPED_SERVICES are
-# AWS-deprecated and have no Smithy IR upstream. Asking the resolver
-# for one of them dies with a pointer at
-# docs/deprecated-services.md and the AWS shutdown date.
+# if a regression appears on a specific service.
 
 use strict;
 use warnings;
@@ -37,70 +21,161 @@ use Paws::Model::Loader::Smithy;
 
 use Moose;
 
-# Forward-declare so the package-scoped hashes are visible to
-# load_service / _paws_to_smithy below; the actual entries are
-# populated further down.
-our %PAWS_TO_SMITHY;
-our %PAWS_DROPPED_SERVICES;
-
-# Resolve the dist's installed share/ directory at runtime so the
-# defaults can prefer the vendored, fully-self-contained tree
-# (`<install-prefix>/auto/share/dist/Paws/smithy`) over the in-tree
-# dev path. File::ShareDir::dist_dir dies for an uninstalled /
-# unregistered dist, which is the normal state during in-tree
-# development; eval-wrap and fall through. Cached at package scope:
-# dist_dir does file system probing and the result never changes for
-# the life of the process.
-my $SHARE_DIR;
-sub _share_dir {
-    return $SHARE_DIR if defined $SHARE_DIR;
-    require File::ShareDir;
-    my $dir = eval { File::ShareDir::dist_dir('Paws') };
-    $SHARE_DIR = defined $dir ? $dir : '';
-    return $SHARE_DIR;
-}
-
-# Where to look for source files. Each path is checked in turn.
+# Botocore directory name -> Paws SDK class name overrides.
 #
-# Default order:
-#   1. The dist's installed sharedir (populated by [ShareDir] from the
-#      committed share/smithy/ tree). This is the path that makes a
-#      plain `cpanm Paws` install actually work end-to-end (issue #80).
-#   2. The in-tree dev path (CWD-relative). Lets contributors run
-#      tests from a checkout without `dzil build` + `cpanm` round-trip.
+# The default mapping derived from `metadata.serviceId` (whitespace
+# stripped, first letter capitalised) gets the right answer for most
+# services but produces the wrong name for ~70 cases where Paws has
+# historically diverged from the upstream serviceId. This table is the
+# vendored copy of Paws::API::Builder::Paws->servicefile_to_class_overrides
+# so the runtime materialiser path can locate `Paws::ELB`,
+# `Paws::LexRuntime`, `Paws::SDB`, `Paws::CloudWatch`, ... that live in
+# botocore directories with completely different names (`elb`,
+# `lex-runtime`, `sdb`, `monitoring`, ...).
 #
-# Both paths are tried for every service before giving up; this
-# keeps in-tree dev work going against a freshly-vendored share/
-# tree even when an installed Paws happens to be earlier in @INC.
-has smithy_search_paths => (
-    is      => 'ro',
-    isa     => 'ArrayRef[Str]',
-    lazy    => 1,
-    default => sub {
-        my @paths;
-        if (my $dir = _share_dir()) {
-            push @paths, File::Spec->catdir($dir, 'smithy');
-        }
-        push @paths, 'share/smithy';
-        return \@paths;
-    },
+# Keep in sync with builder-lib/Paws/API/Builder/Paws.pm. The two
+# tables are intentionally redundant: the builder produces auto-lib/
+# at AOT time, the resolver builds materialised classes at runtime,
+# and both have to land on the same Paws::<Name> for downstream
+# consumers (test helpers, hand-written services, user code) to
+# resolve a single canonical SDK name.
+my %BOTOCORE_DIR_TO_SDK_NAME = (
+    'acm-pca'                           => 'ACMPCA',
+    'alexaforbusiness'                  => 'AlexaForBusiness',
+    'amp'                               => 'Prometheus',
+    'apigateway'                        => 'ApiGateway',
+    'apigatewaymanagementapi'           => 'ApiGatewayManagement',
+    'application-autoscaling'           => 'ApplicationAutoScaling',
+    'application-insights'              => 'ApplicationInsights',
+    'appmesh'                           => 'AppMesh',
+    'autoscaling'                       => 'AutoScaling',
+    'autoscaling-plans'                 => 'AutoScalingPlans',
+    'ce'                                => 'CostExplorer',
+    'cloudhsmv2'                        => 'CloudHSMv2',
+    'cloudsearchdomain'                 => 'CloudSearchDomain',
+    'codeartifact'                      => 'CodeArtifact',
+    'codeguru-reviewer'                 => 'CodeGuruReviewer',
+    'codestar-connections'              => 'CodeStarConnections',
+    'codestar-notifications'            => 'CodeStarNotifications',
+    'cognito-identity'                  => 'CognitoIdentity',
+    'cognito-idp'                       => 'CognitoIdp',
+    'cognito-sync'                      => 'CognitoSync',
+    'config'                            => 'Config',
+    'cur'                               => 'CUR',
+    'databrew'                          => 'GlueDataBrew',
+    'datapipeline'                      => 'DataPipeline',
+    'datasync'                          => 'Datasync',
+    'devicefarm'                        => 'DeviceFarm',
+    'directconnect'                     => 'DirectConnect',
+    'discovery'                         => 'Discovery',
+    'dms'                               => 'DMS',
+    'ds'                                => 'DS',
+    'dynamodbstreams'                   => 'DynamoDBStreams',
+    'ec2-instance-connect'              => 'EC2InstanceConnect',
+    'ecr-public'                        => 'ECRPublic',
+    'elasticbeanstalk'                  => 'ElasticBeanstalk',
+    # botocore's "elasticfilesystem" is Paws::EFS in master.
+    'elasticfilesystem'                 => 'EFS',
+    'elasticloadbalancing'              => 'ELB',
+    'elasticmapreduce'                  => 'EMR',
+    'elastictranscoder'                 => 'ElasticTranscoder',
+    'elb'                               => 'ELB',
+    'elbv2'                             => 'ELBv2',
+    'email'                             => 'SES',
+    'emr-containers'                    => 'EMRContainers',
+    'es'                                => 'ES',
+    'events'                            => 'CloudWatchEvents',
+    'finspace-data'                     => 'FinspaceData',
+    'fis'                               => 'FIS',
+    'forecast'                          => 'Forecast',
+    'forecastquery'                     => 'ForecastQuery',
+    'fsx'                               => 'FSX',
+    'globalaccelerator'                 => 'GlobalAccelerator',
+    'identitystore'                     => 'SSOIdentityStore',
+    'imagebuilder'                      => 'ImageBuilder',
+    'iot-data'                          => 'IoTData',
+    'iot-jobs-data'                     => 'IoTJobsData',
+    'iot1click-devices'                 => 'IoT1ClickDevices',
+    'iot1click-projects'                => 'IoT1ClickProjects',
+    'iotdeviceadvisor'                  => 'IoTDeviceAdvisor',
+    'iotevents'                         => 'IoTEvents',
+    'iotevents-data'                    => 'IoTEventsData',
+    'ivs'                               => 'IVS',
+    'kendra'                            => 'Kendra',
+    'kinesis-video-archived-media'      => 'KinesisVideoArchivedMedia',
+    'kinesis-video-media'               => 'KinesisVideoMedia',
+    'kinesisanalytics'                  => 'KinesisAnalytics',
+    'kinesisanalyticsv2'                => 'KinesisAnalyticsV2',
+    'kinesisvideo'                      => 'KinesisVideo',
+    'lex-models'                        => 'LexModels',
+    'lex-runtime'                       => 'LexRuntime',
+    'license-manager'                   => 'LicenseManager',
+    'location'                          => 'LocationService',
+    'logs'                              => 'CloudWatchLogs',
+    'machinelearning'                   => 'MachineLearning',
+    'marketplace-catalog'               => 'MarketplaceCatalog',
+    'marketplace-entitlement'           => 'MarketplaceEntitlement',
+    'marketplacecommerceanalytics'      => 'MarketplaceCommerceAnalytics',
+    'mediapackage-vod'                  => 'MediaPackageVod',
+    'mediastore-data'                   => 'MediaStoreData',
+    'meteringmarketplace'               => 'MarketplaceMetering',
+    'mgh'                               => 'MigrationHub',
+    'mgn'                               => 'ApplicationMigration',
+    'mobile'                            => 'MobileHub',
+    'monitoring'                        => 'CloudWatch',
+    'mq'                                => 'MQ',
+    'nimble'                            => 'NimbleStudio',
+    'personalize-events'                => 'PersonalizeEvents',
+    'personalize-runtime'               => 'PersonalizeRuntime',
+    'pi'                                => 'PerformanceInsights',
+    'pinpoint-email'                    => 'PinpointEmail',
+    'pinpoint-sms-voice'                => 'PinpointSMSVoice',
+    'qldb-session'                      => 'QLDBSession',
+    'quicksight'                        => 'Quicksight',
+    'rds-data'                          => 'RDSData',
+    'redshift'                          => 'RedShift',
+    'resource-groups'                   => 'ResourceGroups',
+    'resourcegroupstaggingapi'          => 'ResourceTagging',
+    'robomaker'                         => 'Robomaker',
+    'route53'                           => 'Route53',
+    'route53domains'                    => 'Route53Domains',
+    's3control'                         => 'S3Control',
+    'sagemaker-edge'                    => 'SageMakerEdge',
+    'sagemaker-runtime'                 => 'SageMakerRuntime',
+    'savingsplans'                      => 'SavingsPlans',
+    'sdb'                               => 'SDB',
+    'schemas'                           => 'Schemas',
+    'secretsmanager'                    => 'SecretsManager',
+    'serverlessrepo'                    => 'ServerlessRepo',
+    'service-quotas'                    => 'ServiceQuotas',
+    'servicecatalog'                    => 'ServiceCatalog',
+    'signer'                            => 'Signer',
+    'signin'                            => 'Signin',
+    'simpledb'                          => 'SimpleDB',
+    'sms-voice'                         => 'PinpointSMSVoice',
+    'sso-oidc'                          => 'SSOOidc',
+    'stepfunctions'                     => 'StepFunctions',
+    'storagegateway'                    => 'StorageGateway',
+    'swf'                               => 'SimpleWorkflow',
+    'waf-regional'                      => 'WAFRegional',
 );
 
-# Defaults to the empty list — botocore is no longer the canonical
-# source. The Botocore loader (Paws::Model::Loader::Botocore) stays
-# wired in for users who construct a resolver explicitly with
-# botocore_search_paths and PAWS_LOADER_ORDER=Botocore,Smithy
-# pointing at a botocore checkout.
+# Where to look for source files. Each path is checked in turn.
 has botocore_search_paths => (
     is      => 'ro',
     isa     => 'ArrayRef[Str]',
-    lazy    => 1,
-    default => sub { [] },
+    default => sub { ['botocore/botocore/data'] },
+);
+
+has smithy_search_paths => (
+    is      => 'ro',
+    isa     => 'ArrayRef[Str]',
+    default => sub { ['share/smithy'] },
 );
 
 # Order in which loaders are tried. The first one that finds a source
 # file wins. Defaults from PAWS_LOADER_ORDER if set, else
-# 'Smithy' (botocore is opt-in via the env var).
+# 'Smithy,Botocore'.
 has order => (
     is      => 'ro',
     isa     => 'ArrayRef[Str]',
@@ -110,7 +185,7 @@ has order => (
         if (defined $env && length $env) {
             return [ split /,/, $env ];
         }
-        return [ 'Smithy' ];
+        return [ 'Smithy', 'Botocore' ];
     },
 );
 
@@ -143,38 +218,16 @@ sub available_services {
 
     my %seen;
 
-    # Inverse %PAWS_TO_SMITHY: smithy basename -> Paws class name.
-    # Built once per call (cheap; 171 entries). Used to translate
-    # the basenames we find in share/smithy/ back to the Paws class
-    # names callers actually use (`Paws::ApiGateway` not
-    # `Paws::api-gateway`, etc.).
-    my %smithy_to_paws;
-    while (my ($paws, $smithy) = each %PAWS_TO_SMITHY) {
-        $smithy_to_paws{$smithy} = $paws;
-    }
-
-    # Smithy: directory names are basenames (botocore-style: `ec2`,
-    # `cognito-idp`, `acm-pca`). Translate to Paws class names so
-    # the materialiser path produces classes the rest of the code
-    # base can address. Basenames whose lc() form already matches
-    # the Paws class name (~254 services) round-trip through
-    # ucfirst + the IR-name override in Paws::_materialise_class /
-    # Paws::Model::Materializer::Auto::_materialise; basenames that
-    # contain a dash and aren't in %PAWS_TO_SMITHY values (~17 new-
-    # GA services Smithy added that the AOT path never had a name
-    # for: bedrock-agentcore, mwaa-serverless, transcribe-streaming,
-    # etc.) are skipped because there's no derivation that gives a
-    # valid Perl identifier without reading the sdkId trait. Adding
-    # explicit %PAWS_TO_SMITHY entries for those is a follow-up.
+    # Smithy: filenames are the SDK name. Both flat and nested
+    # layouts are supported.
     for my $base (@{ $self->smithy_search_paths }) {
         next if !-d $base;
         opendir(my $dh, $base) or next;
         for my $entry (readdir $dh) {
             next if $entry =~ /^\.\.?$/;
             my $path = File::Spec->catfile($base, $entry);
-            my $basename;
             if (-f $path && $entry =~ /^([A-Za-z][\w-]*)\.smithy\.json\z/) {
-                $basename = $1;
+                $seen{$1} = 1;
             }
             elsif (-d $path) {
                 # nested: <base>/<svc>/<svc>.smithy.json
@@ -183,25 +236,11 @@ sub available_services {
                     File::Spec->catfile($path, lc($entry) . ".smithy.json"),
                 ) {
                     if (-r $candidate) {
-                        $basename = $entry;
+                        $seen{$entry} = 1;
                         last;
                     }
                 }
             }
-            next if !defined $basename;
-
-            if (my $paws = $smithy_to_paws{$basename}) {
-                $seen{$paws} = 1;
-            }
-            elsif ($basename !~ /-/) {
-                # All-lowercase basenames map to Paws::<basename>
-                # via the lc() fallback in _smithy_path_for; the IR
-                # mutation in the materialiser entry points keeps
-                # the materialised class name aligned.
-                $seen{$basename} = 1;
-            }
-            # else: dash-containing basename with no explicit
-            # mapping. Skipped (see comment above).
         }
         closedir $dh;
     }
@@ -264,24 +303,35 @@ sub _botocore_sdk_name {
     return undef if !@dates;
 
     my $service_2 = File::Spec->catfile($svc_path, $dates[-1], 'service-2.json');
-    open(my $fh, '<', $service_2) or return undef;
-    local $/;
-    my $json = <$fh>;
-    close $fh;
 
-    require JSON::PP;
-    my $struct = eval { JSON::PP->new->utf8(1)->decode($json) };
-    return undef if !$struct;
-    my $sid = $struct->{metadata}->{serviceId};
-    return undef if !defined $sid;
+    # Pull the directory leaf to consult the override map. This lets
+    # us honour `lex-runtime` -> `LexRuntime` etc. without paying the
+    # JSON decode for services where the directory name has a known
+    # mapping.
+    my $dir_leaf = (File::Spec->splitdir($svc_path))[-1];
+    my $override = $BOTOCORE_DIR_TO_SDK_NAME{$dir_leaf};
 
-    # Same fix-ups Paws::API::Builder::Paws applies (see
-    # boto_file_information): capitalise first letter, drop
-    # whitespace, so e.g. `cloud watch` becomes `CloudWatch`.
-    substr($sid, 0, 1) = uc(substr($sid, 0, 1));
-    $sid =~ s/\s+//g;
+    my $sid = $override;
+    if (!defined $sid) {
+        open(my $fh, '<', $service_2) or return undef;
+        local $/;
+        my $json = <$fh>;
+        close $fh;
 
-    $cache->{$svc_path}            = $sid;
+        require JSON::PP;
+        my $struct = eval { JSON::PP->new->utf8(1)->decode($json) };
+        return undef if !$struct;
+        $sid = $struct->{metadata}->{serviceId};
+        return undef if !defined $sid;
+
+        # Same fix-ups Paws::API::Builder::Paws applies (see
+        # boto_file_information): capitalise first letter, drop
+        # whitespace, so e.g. `cloud watch` becomes `CloudWatch`.
+        substr($sid, 0, 1) = uc(substr($sid, 0, 1));
+        $sid =~ s/\s+//g;
+    }
+
+    $cache->{$svc_path}                  = $sid;
     $self->_botocore_sdk_to_path->{$sid} = $service_2;
     return $sid;
 }
@@ -289,7 +339,7 @@ sub _botocore_sdk_name {
 # Public entry: load the named service via the first loader in the
 # resolution order that can find a source file for it.
 #
-# Returns ($ir, $loader_name) in list context; $ir in scalar context.
+# Returns ($ir, $loader_name).
 sub load_service {
     my ($self, $service_name) = @_;
 
@@ -298,17 +348,17 @@ sub load_service {
         next if !defined $path;
         my $loader = $self->_loaders->{$loader_name}
             // croak "resolver: no loader instance for $loader_name";
-        my $ir = $loader->load($path);
+        # Pass the SDK name through so the loader pins the IR's
+        # `name` to the requested name. Without this, the IR comes
+        # out with the serviceId-derived name (e.g. botocore says
+        # `Elastic Load Balancing` -> `ElasticLoadBalancing`) and the
+        # materialiser would build the wrong class (`Paws::ElasticLoadBalancing`
+        # rather than `Paws::ELB`).
+        my $ir = $loader->load({
+            service_2     => $path,
+            name_override => $service_name,
+        });
         return wantarray ? ($ir, $loader_name) : $ir;
-    }
-
-    # Differentiate "we know this service is gone" from "we don't
-    # know what you're asking for". The former gets a pointed error
-    # with the AWS shutdown date and a doc pointer; the latter the
-    # generic "no source file" message.
-    if (my $reason = $PAWS_DROPPED_SERVICES{$service_name}) {
-        croak "resolver: service '$service_name' is no longer ship-able: "
-            . "$reason. See docs/deprecated-services.md for the migration path.";
     }
 
     croak "resolver: no source file found for service=$service_name in any of "
@@ -321,19 +371,15 @@ sub _find_path_for {
     my ($self, $loader_name, $service_name) = @_;
 
     if ($loader_name eq 'Smithy') {
-        my $smithy_basename = _paws_to_smithy($service_name);
         for my $base (@{ $self->smithy_search_paths }) {
             for my $candidate (
-                # Flat layout (tolerant of older trees / fixtures):
-                # share/smithy/<basename>.smithy.json
-                File::Spec->catfile($base, "$smithy_basename.smithy.json"),
-                File::Spec->catfile($base, lc($service_name) . ".smithy.json"),
+                # Flat layout: share/smithy/<service>.smithy.json
                 File::Spec->catfile($base, "$service_name.smithy.json"),
-                # Nested layout (canonical for the vendored tree):
-                # share/smithy/<basename>/<basename>.smithy.json
-                File::Spec->catfile($base, $smithy_basename, "$smithy_basename.smithy.json"),
-                File::Spec->catfile($base, lc($service_name), lc($service_name) . ".smithy.json"),
+                File::Spec->catfile($base, lc($service_name) . ".smithy.json"),
+                # Nested layout (test fixtures, vendored mirrors):
+                # share/smithy/<service>/<service>.smithy.json
                 File::Spec->catfile($base, $service_name, "$service_name.smithy.json"),
+                File::Spec->catfile($base, lc($service_name), lc($service_name) . ".smithy.json"),
             ) {
                 return $candidate if -r $candidate;
             }
@@ -387,246 +433,6 @@ sub _find_path_for {
     croak "resolver: unknown loader name '$loader_name'";
 }
 
-# Map a Paws service class suffix (`ApiGateway`, `DMS`) to the Smithy
-# file basename used under share/smithy/<basename>/<basename>.smithy.json.
-#
-# The %PAWS_TO_SMITHY hash holds the explicit cases:
-#   - 144 entries where the Smithy basename is the dash-separated
-#     lowercase form of the sdkId (e.g. ApiGateway -> api-gateway,
-#     CloudHSMv2 -> cloudhsm-v2). These are mechanical but not
-#     derivable from `lc($class)` alone — ACMPCA's smithy basename
-#     is `acm-pca`, not `acmpca`.
-#   - 27 entries where AWS renamed the service between the botocore
-#     era and the Smithy era (Config -> config-service,
-#     DMS -> database-migration-service, StepFunctions -> sfn,
-#     ELB -> elastic-load-balancing, ...).
-#   - The CloudWatchEvents / Events ambiguity: Smithy ships both
-#     `cloudwatch-events` and `eventbridge` for the same `events`
-#     endpoint. EventBridge is the canonical modern name and has
-#     the more complete model, so Paws::EventBridge resolves to
-#     `eventbridge`. The legacy Paws::CloudWatchEvents continues to
-#     work against `cloudwatch-events` so existing user code does
-#     not break.
-#
-# A Paws class not in the table falls through to lc($class), which
-# covers the ~217 cases where the names already line up
-# (e.g. IAM -> iam, S3 -> s3, DynamoDB -> dynamodb).
-%PAWS_TO_SMITHY = (
-    # --- Cosmetic separator differences (auto-derived from sdkId) ---
-    ACMPCA                              => 'acm-pca',
-    ARCZonalShift                       => 'arc-zonal-shift',
-    ApiGateway                          => 'api-gateway',
-    AppMesh                             => 'app-mesh',
-    ApplicationAutoScaling              => 'application-auto-scaling',
-    ApplicationInsights                 => 'application-insights',
-    ApplicationSignals                  => 'application-signals',
-    AutoScaling                         => 'auto-scaling',
-    AutoScalingPlans                    => 'auto-scaling-plans',
-    BCMDataExports                      => 'bcm-data-exports',
-    BCMPricingCalculator                => 'bcm-pricing-calculator',
-    BackupGateway                       => 'backup-gateway',
-    BedrockAgent                        => 'bedrock-agent',
-    BedrockAgentRuntime                 => 'bedrock-agent-runtime',
-    BedrockDataAutomation               => 'bedrock-data-automation',
-    BedrockDataAutomationRuntime        => 'bedrock-data-automation-runtime',
-    BedrockRuntime                      => 'bedrock-runtime',
-    ChimeSDKIdentity                    => 'chime-sdk-identity',
-    ChimeSDKMediaPipelines              => 'chime-sdk-media-pipelines',
-    ChimeSDKMeetings                    => 'chime-sdk-meetings',
-    ChimeSDKMessaging                   => 'chime-sdk-messaging',
-    ChimeSDKVoice                       => 'chime-sdk-voice',
-    CloudFrontKeyValueStore             => 'cloudfront-keyvaluestore',
-    CloudHSMv2                          => 'cloudhsm-v2',
-    CloudSearchDomain                   => 'cloudsearch-domain',
-    CloudTrailData                      => 'cloudtrail-data',
-    CloudWatchEvents                    => 'cloudwatch-events',
-    CloudWatchLogs                      => 'cloudwatch-logs',
-    CodeGuruReviewer                    => 'codeguru-reviewer',
-    CodeGuruSecurity                    => 'codeguru-security',
-    CodeStarConnections                 => 'codestar-connections',
-    CodeStarNotifications               => 'codestar-notifications',
-    CognitoIdentity                     => 'cognito-identity',
-    CognitoSync                         => 'cognito-sync',
-    ComputeOptimizer                    => 'compute-optimizer',
-    ConnectContactLens                  => 'connect-contact-lens',
-    CostExplorer                        => 'cost-explorer',
-    CostOptimizationHub                 => 'cost-optimization-hub',
-    CustomerProfiles                    => 'customer-profiles',
-    DataPipeline                        => 'data-pipeline',
-    DevOpsGuru                          => 'devops-guru',
-    DeviceFarm                          => 'device-farm',
-    DirectConnect                       => 'direct-connect',
-    DirectoryServiceData                => 'directory-service-data',
-    DocDBElastic                        => 'docdb-elastic',
-    DynamoDBStreams                     => 'dynamodb-streams',
-    EC2InstanceConnect                  => 'ec2-instance-connect',
-    ECRPublic                           => 'ecr-public',
-    EKSAuth                             => 'eks-auth',
-    EMRContainers                       => 'emr-containers',
-    EMRServerless                       => 'emr-serverless',
-    ElasticBeanstalk                    => 'elastic-beanstalk',
-    ElasticTranscoder                   => 'elastic-transcoder',
-    FinspaceData                        => 'finspace-data',
-    GeoMaps                             => 'geo-maps',
-    GeoPlaces                           => 'geo-places',
-    GeoRoutes                           => 'geo-routes',
-    GlobalAccelerator                   => 'global-accelerator',
-    IVSRealTime                         => 'ivs-realtime',
-    InspectorScan                       => 'inspector-scan',
-    IoTEvents                           => 'iot-events',
-    IoTEventsData                       => 'iot-events-data',
-    IoTManagedIntegrations              => 'iot-managed-integrations',
-    IoTWireless                         => 'iot-wireless',
-    KendraRanking                       => 'kendra-ranking',
-    KinesisAnalytics                    => 'kinesis-analytics',
-    KinesisAnalyticsV2                  => 'kinesis-analytics-v2',
-    KinesisVideo                        => 'kinesis-video',
-    KinesisVideoArchivedMedia           => 'kinesis-video-archived-media',
-    KinesisVideoMedia                   => 'kinesis-video-media',
-    KinesisVideoSignaling               => 'kinesis-video-signaling',
-    KinesisVideoWebRTCStorage           => 'kinesis-video-webrtc-storage',
-    LaunchWizard                        => 'launch-wizard',
-    LexModelsV2                         => 'lex-models-v2',
-    LexRuntimeV2                        => 'lex-runtime-v2',
-    LicenseManager                      => 'license-manager',
-    LicenseManagerLinuxSubscriptions    => 'license-manager-linux-subscriptions',
-    LicenseManagerUserSubscriptions     => 'license-manager-user-subscriptions',
-    MachineLearning                     => 'machine-learning',
-    ManagedBlockchainQuery              => 'managedblockchain-query',
-    MarketplaceAgreement                => 'marketplace-agreement',
-    MarketplaceCatalog                  => 'marketplace-catalog',
-    MarketplaceCommerceAnalytics        => 'marketplace-commerce-analytics',
-    MarketplaceDeployment               => 'marketplace-deployment',
-    MarketplaceMetering                 => 'marketplace-metering',
-    MarketplaceReporting                => 'marketplace-reporting',
-    MediaPackageVod                     => 'mediapackage-vod',
-    MediaStoreData                      => 'mediastore-data',
-    MedicalImaging                      => 'medical-imaging',
-    MigrationHub                        => 'migration-hub',
-    MigrationHubConfig                  => 'migrationhub-config',
-    MigrationHubRefactorSpaces          => 'migration-hub-refactor-spaces',
-    NeptuneGraph                        => 'neptune-graph',
-    NetworkFirewall                     => 'network-firewall',
-    PartnerCentralSelling               => 'partnercentral-selling',
-    PaymentCryptography                 => 'payment-cryptography',
-    PaymentCryptographyData             => 'payment-cryptography-data',
-    PcaConnectorAd                      => 'pca-connector-ad',
-    PcaConnectorScep                    => 'pca-connector-scep',
-    PersonalizeEvents                   => 'personalize-events',
-    PersonalizeRuntime                  => 'personalize-runtime',
-    PinpointEmail                       => 'pinpoint-email',
-    PinpointSMSVoice                    => 'pinpoint-sms-voice',
-    PinpointSMSVoiceV2                  => 'pinpoint-sms-voice-v2',
-    RDSData                             => 'rds-data',
-    RedshiftData                        => 'redshift-data',
-    RedshiftServerless                  => 'redshift-serverless',
-    ResourceExplorer2                   => 'resource-explorer-2',
-    ResourceGroups                      => 'resource-groups',
-    Route53                             => 'route-53',
-    Route53Domains                      => 'route-53-domains',
-    Route53RecoveryCluster              => 'route53-recovery-cluster',
-    Route53RecoveryControlConfig        => 'route53-recovery-control-config',
-    Route53RecoveryReadiness            => 'route53-recovery-readiness',
-    S3Control                           => 's3-control',
-    SSMContacts                         => 'ssm-contacts',
-    SSMGuiConnect                       => 'ssm-guiconnect',
-    SSMIncidents                        => 'ssm-incidents',
-    SSMQuickSetup                       => 'ssm-quicksetup',
-    SSOAdmin                            => 'sso-admin',
-    SSOOidc                             => 'sso-oidc',
-    SageMakerA2IRuntime                 => 'sagemaker-a2i-runtime',
-    SageMakerEdge                       => 'sagemaker-edge',
-    SageMakerFeatureStoreRuntime        => 'sagemaker-featurestore-runtime',
-    SageMakerGeospatial                 => 'sagemaker-geospatial',
-    SageMakerMetrics                    => 'sagemaker-metrics',
-    SageMakerRuntime                    => 'sagemaker-runtime',
-    SecretsManager                      => 'secrets-manager',
-    SecurityIR                          => 'security-ir',
-    ServiceCatalog                      => 'service-catalog',
-    ServiceCatalogAppRegistry           => 'service-catalog-appregistry',
-    ServiceQuotas                       => 'service-quotas',
-    SnowDeviceManagement                => 'snow-device-management',
-    SsmSap                              => 'ssm-sap',
-    StorageGateway                      => 'storage-gateway',
-    SupportApp                          => 'support-app',
-    TimestreamInfluxDB                  => 'timestream-influxdb',
-    TimestreamQuery                     => 'timestream-query',
-    TimestreamWrite                     => 'timestream-write',
-    VPCLattice                          => 'vpc-lattice',
-    VoiceID                             => 'voice-id',
-    WAFRegional                         => 'waf-regional',
-    WorkSpacesThinClient                => 'workspaces-thin-client',
-    WorkSpacesWeb                       => 'workspaces-web',
-
-    # --- Substantive renames (botocore-era name -> Smithy basename) ---
-    ApiGatewayManagement                => 'apigatewaymanagementapi',
-    ApplicationMigration                => 'mgn',
-    CUR                                 => 'cost-and-usage-report-service',
-    CognitoIdp                          => 'cognito-identity-provider',
-    Config                              => 'config-service',
-    DMS                                 => 'database-migration-service',
-    DS                                  => 'directory-service',
-    Discovery                           => 'application-discovery-service',
-    ELB                                 => 'elastic-load-balancing',
-    ELBv2                               => 'elastic-load-balancing-v2',
-    ES                                  => 'elasticsearch-service',
-    GlueDataBrew                        => 'databrew',
-    IoTData                             => 'iot-data-plane',
-    IoTJobsData                         => 'iot-jobs-data-plane',
-    LexModels                           => 'lex-model-building-service',
-    LexRuntime                          => 'lex-runtime-service',
-    LocationService                     => 'location',
-    MarketplaceEntitlement              => 'marketplace-entitlement-service',
-    PerformanceInsights                 => 'pi',
-    Prometheus                          => 'amp',
-    ResourceTagging                     => 'resource-groups-tagging-api',
-    SDB                                 => 'simpledbv2',
-    SSOIdentityStore                    => 'identitystore',
-    ServerlessRepo                      => 'serverlessapplicationrepository',
-    SimpleWorkflow                      => 'swf',
-    StepFunctions                       => 'sfn',
-
-    # --- The events / EventBridge ambiguity ---
-    # Smithy ships TWO service models for the `events` endpoint:
-    # `eventbridge` (modern, more complete) and `cloudwatch-events`
-    # (legacy alias). Map the canonical Paws::EventBridge to the
-    # modern model and leave the existing Paws::CloudWatchEvents
-    # pointing at the legacy file (covered above) so user code that
-    # still uses `Paws->service('CloudWatchEvents')` keeps working.
-    EventBridge                         => 'eventbridge',
-);
-
-# Services AWS has deprecated, end-of-lifed, or scheduled for shutdown.
-# Smithy upstream (awslabs/aws-sdk-rust:aws-models/) no longer ships a
-# model for any of these — see docs/deprecated-services.md for the
-# AWS shutdown timeline + migration paths.
-#
-# The resolver checks this hash when it cannot find a Smithy file
-# for a service, so users get a pointed error rather than the
-# generic "no source file found" message.
-%PAWS_DROPPED_SERVICES = (
-    AppTest         => 'AWS Mainframe Modernization Application Testing was discontinued by AWS in late 2024',
-    Evidently       => 'CloudWatch Evidently shutdown 2025-10-16',
-    ImportExport    => 'Legacy disk-shipping API (SigV2), retired by AWS years ago',
-    IoTAnalytics    => 'IoT Analytics shutdown announced for 2025-12-15',
-    IoTFleetHub     => 'IoT FleetHub deprecated alongside the rest of the AWS IoT 1-Click family',
-    LookoutMetrics  => 'Lookout for Metrics shutdown 2025-10-17',
-    LookoutVision   => 'Lookout for Vision shutdown 2025-10-31',
-    OpsWorks        => 'OpsWorks Stacks shutdown 2024-05-26',
-    OpsWorksCM      => 'OpsWorks for Chef/Puppet shutdown 2024-05-26',
-    PrivateNetworks => 'AWS Private 5G shutdown 2024',
-    QLDB            => 'QLDB shutdown 2025-07-31',
-    QLDBSession     => 'QLDB runtime — same EoL as QLDB',
-    Robomaker       => 'RoboMaker shutdown 2025-09-10',
-    SMS             => 'Server Migration Service end-of-support 2023-03-31, replaced by MGN (Paws::ApplicationMigration)',
-);
-
-sub _paws_to_smithy {
-    my ($service_name) = @_;
-    return $PAWS_TO_SMITHY{$service_name} if exists $PAWS_TO_SMITHY{$service_name};
-    return lc $service_name;
-}
-
 __PACKAGE__->meta->make_immutable;
 1;
 
@@ -641,26 +447,15 @@ available loader in resolution order
 
   use Paws::Model::Loader::Resolver;
 
-  # Default: Smithy-only against share/smithy/.
-  my $resolver = Paws::Model::Loader::Resolver->new;
+  my $resolver = Paws::Model::Loader::Resolver->new(
+      smithy_search_paths   => ['share/smithy'],
+      botocore_search_paths => ['botocore/botocore/data'],
+  );
+
   my ($ir, $loader_name) = $resolver->load_service('IAM');
   say "loaded via $loader_name";
 
-  # Opt back into botocore for a deprecated-but-still-needed service:
+  # Override the default order at process scope:
   $ENV{PAWS_LOADER_ORDER} = 'Botocore,Smithy';
-  my $r = Paws::Model::Loader::Resolver->new(
-      botocore_search_paths => ['/path/to/botocore/botocore/data'],
-  );
-
-=head1 NAMING
-
-Paws service class names do not always match the Smithy file basename.
-The C<%Paws::Model::Loader::Resolver::PAWS_TO_SMITHY> hash holds the
-explicit map; lc(class) is the fallback.
-
-The C<%Paws::Model::Loader::Resolver::PAWS_DROPPED_SERVICES> hash
-documents the 14 botocore-era services that are no longer ship-able
-because AWS retired them. Asking for one of them dies with a pointer
-at C<docs/deprecated-services.md>.
 
 =cut
