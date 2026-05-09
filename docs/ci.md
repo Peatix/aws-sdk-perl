@@ -7,6 +7,7 @@ This repository ships three GitHub Actions workflows under `.github/workflows/`:
 | `test.yml` | `pull_request` (filtered to code paths) | Generate the full set of service classes and run the test suite. |
 | `generate-and-pr.yml` | `workflow_dispatch` | Pull botocore (optionally), regenerate classes via `make gen-classes`, and open a draft PR with the result. |
 | `package.yml` | `workflow_dispatch` and tag pushes | Build a `Paws-*.tar.gz` distribution archive and upload it as a workflow artifact. |
+| `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/botocore/.upstream-sha` and refresh `share/smithy/`; open + auto-merge bump PRs. See ["Source-dep refresh"](#source-dep-refresh). |
 
 (Additional workflows arrive in stack 01–17 of the maintenance-reduction series:
 `coverage.yml`, `install-smoke.yml`, `benchmarks.yml`,
@@ -235,6 +236,122 @@ For CI to operate without a full `make docu-links` (which hits `docs.aws.amazon.
 - Missing `documentation-1.json` → returns a stub `{ api_url => undef, methods => {} }` with a warning. Generated POD links degrade but the service classes are produced.
 - Missing `_endpoints.json` in `botocore/botocore/data/` → falls back to the vendored copy at `etc/_endpoints.json`.
 - Missing both → emits no per-service region rules and lets `Paws::API::EndpointResolver` use its built-in default rules.
+
+## Source-dep refresh
+
+`.github/workflows/refresh-source-deps.yml` keeps the two upstream
+sources Paws materialises against fresh, without manual nudges:
+
+1. **`share/botocore/.upstream-sha`** — the SHA at which
+   `boto/botocore@develop` is checked out by `test.yml`,
+   `regen-byte-identical.yml`, `benchmarks.yml`,
+   `benchmark-capture.yml`, `package.yml`, `install-smoke.yml`, and
+   `generate-and-pr.yml`.
+2. **`share/smithy/`** — the vendored Smithy IR tree produced by
+   `script/paws-vendor-smithy --clean` from
+   `awslabs/aws-sdk-rust@main`'s `aws-models/` directory. While
+   `share/smithy/` contains only `.placeholder` (i.e. the team has
+   not started vendoring yet) the smithy job short-circuits with a
+   `notice` log line and opens no PR.
+
+Each upstream maps to one job in the workflow; the jobs run in
+parallel and operate independently.
+
+### Schedule
+
+Daily at `0 4 * * *` (04:00 UTC). The cadence matches upstream's
+commit rate without flooding review. GitHub spreads scheduled
+workflows across runners to smooth load, so the actual run can
+drift up to ~60 minutes from the nominal time — that's expected.
+The cron line is a single line at the top of the workflow so it's
+easy to retune.
+
+### Manual trigger
+
+`workflow_dispatch` is also wired up:
+
+```
+gh workflow run refresh-source-deps.yml --ref master
+gh run watch
+```
+
+Or trigger from the Actions tab in the GitHub UI. Manual runs use
+the same logic as the cron run; if upstream hasn't moved since the
+current pin, the job exits with a `notice` and no PR.
+
+### Lifecycle
+
+Each job, when it detects an upstream change:
+
+1. Updates the relevant file(s).
+2. Opens a **draft** PR via `peter-evans/create-pull-request@v8`,
+   labelled `automated`, branch named
+   `automation/bump-{botocore-pin,smithy-vendor}-<short-upstream-sha>`.
+3. Watches the standard `pull_request` workflows on that PR with
+   `gh pr checks --watch --interval 30`.
+4. On green, marks the PR ready and `gh pr merge --squash --delete-branch`.
+5. On red, leaves the PR as draft for the maintainer to investigate.
+
+The workflow does NOT close or supersede previously-opened auto-bump
+PRs that are still open. If the maintainer ignored yesterday's
+botocore bump and the workflow runs again today against a newer
+SHA, a fresh PR opens against a fresh branch — the SHA-keyed branch
+naming makes that automatic. The maintainer can close the stale
+one (or merge it first; the new one will rebase on the next run
+through `delete-branch: true`).
+
+### `PAWS_BUMP_PAT` secret
+
+GitHub deliberately blocks workflows triggered by pushes from the
+default `GITHUB_TOKEN` to prevent recursive runs. Net result: when
+this workflow uses `GITHUB_TOKEN` to push the bump branch, the
+`pull_request` event for the bump PR fires but `test.yml`,
+`coverage.yml`, `benchmarks.yml`, `install-smoke.yml`, and friends
+all stay quiet. Without CI signal, the watch step has nothing to
+wait on and bails.
+
+To get end-to-end auto-merge, provision a fine-grained PAT with
+the following scopes on this repository:
+
+- `contents: write`
+- `pull-requests: write`
+
+Save it as `secrets.PAWS_BUMP_PAT`. Both jobs prefer the PAT and
+fall back to `GITHUB_TOKEN` when it's unset; in fallback mode each
+job emits a `warning` log line and leaves its bump PR as draft for
+manual handling. The workflow itself does not fail, so a missing
+PAT only degrades automation, not the surrounding CI surface.
+
+### Auto-merge gating
+
+Master currently has no required status checks and the repo has
+`allow_auto_merge=false`, so `gh pr merge --auto --squash` would
+land the PR instantly even before CI started. Instead the workflow
+opens the PR as draft, runs `gh pr checks --watch` itself, and only
+flips ready + squash-merges after every `pull_request` workflow on
+the PR has succeeded. If a maintainer enables required checks +
+flips on `allow_auto_merge`, the watch+ready+merge sequence in the
+workflow can be replaced with a single `gh pr merge --auto --squash`
+call.
+
+The watch only sees checks that the standard `pull_request`
+workflows produce, so if any of those workflows tightens its `paths:`
+filter to exclude `share/`, the auto-merge silently stops covering
+that case (the relevant workflow won't fire on the bump PR).
+`test.yml`, `regen-byte-identical.yml`, `benchmarks.yml`,
+`benchmark-capture.yml`, and `package.yml` already include `share/**`
+or run unconditionally, so this is fine today.
+
+### Disabling temporarily
+
+Two options:
+
+1. **Comment out the cron line** in
+   `.github/workflows/refresh-source-deps.yml`. `workflow_dispatch`
+   stays available for manual nudges.
+2. **Disable the workflow in the GitHub UI** under Actions →
+   refresh-source-deps → ⋯ → Disable workflow. This stops both the
+   cron and `workflow_dispatch`. Re-enable the same way.
 
 ## Where to look when something breaks
 
