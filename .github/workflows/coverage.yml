@@ -9,6 +9,12 @@ on:
 
 jobs:
   coverage:
+    # Stop-gap: this job hangs at "Run test suite under Devel::Cover" because the
+    # 401-service auto-lib combined with AUTHOR_TESTING=1 makes t/99_pod_*.t sweep
+    # every shape and balloon to multiple hours. Cap the runtime so a hung job
+    # frees the runner instead of consuming the free tier. Underlying perf issue
+    # tracked separately.
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
