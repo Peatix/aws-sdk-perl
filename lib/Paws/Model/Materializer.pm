@@ -133,7 +133,8 @@ sub materialize_service {
     $meta->add_method(service       => sub { $svc_name });
     $meta->add_method(signing_name  => sub { $svc_signing });
     $meta->add_method(version       => sub { $svc_version });
-    $meta->add_method(flattened_arrays => sub { 0 });
+    my $svc_flattened = _service_flattened_arrays($service_ir);
+    $meta->add_method(flattened_arrays => sub { $svc_flattened });
     $meta->add_method(target_prefix => sub { $svc_target })  if defined $svc_target;
     $meta->add_method(json_version  => sub { $svc_jsonver }) if defined $svc_jsonver;
 
@@ -364,6 +365,27 @@ sub _paws_member_name {
     return $name if $name =~ /^[A-Z_]/;
     substr($name, 0, 1) = uc(substr($name, 0, 1));
     return $name;
+}
+
+# True iff the service's Paws::Net::*Caller should serialise lists in
+# the flattened "key.N" form (rather than the wrapped "key.member.N"
+# form). Matches the AOT path's heuristic in Paws::API::Builder:
+#
+#   - protocol "ec2" services always flatten (the EC2 query wire
+#     format never emits .member. infixes; Paws::API::Builder::EC2
+#     hardcodes flattened_arrays => 1);
+#   - other services flatten iff at least one list shape carries
+#     `"flattened": true` in botocore data (so e.g. S3's many
+#     flattened lists flip the whole service to flattened, matching
+#     master's `sub flattened_arrays { 1 }` for Paws::S3).
+sub _service_flattened_arrays {
+    my ($service_ir) = @_;
+    return 1 if $service_ir->protocol eq 'ec2';
+    for my $shape_name ($service_ir->shape_names) {
+        my $shape = $service_ir->shape($shape_name);
+        return 1 if $shape->is_list && $shape->flattened;
+    }
+    return 0;
 }
 
 # Compute the Moose isa-string for a member's target shape. Side
