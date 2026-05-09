@@ -201,6 +201,15 @@ sub _smithy_prelude_shapes {
         Timestamp  => 'timestamp',
         Document   => 'string',  # the IR has no document type yet;
                                  # treat as opaque string.
+        # `Unit` is the Smithy 2.0 zero-information shape used as
+        # operation input/output (and as the empty variant of unions).
+        # The IR has no first-class Unit; map it to `string` (the
+        # materialiser treats it as a no-op attribute) for the same
+        # reason `Document` falls through to `string` above. Operation-
+        # level Unit references are already filtered upstream
+        # (see _build_operation), so this only catches stray
+        # member-level / union-variant references that survived.
+        Unit       => 'string',
     );
 
     # PrimitiveX is a Smithy alias of X with the @default trait
@@ -313,7 +322,14 @@ sub _build_shape {
         documentation => $traits->{'smithy.api#documentation'},
     );
 
-    if ($type eq 'structure') {
+    # Smithy 2.0 `union` shapes have a `members` map structurally
+    # identical to a `structure` shape; the difference is the
+    # one-of-N runtime semantic which neither the wire layer nor
+    # the AOT path has ever enforced (botocore models the same data
+    # as a plain structure with all members optional). Materialise
+    # unions like structures: one attribute per variant. Tightening
+    # the one-of invariant is left as a follow-up.
+    if ($type eq 'structure' || $type eq 'union') {
         my %members;
         for my $mname (sort keys %{ $shape->{members} // {} }) {
             $members{$mname} = $self->_build_member(
@@ -337,6 +353,19 @@ sub _build_shape {
                 last;
             }
         }
+
+        # Normalise IR.type so Shape->is_structure / materialiser
+        # branches don't need a separate `union` arm.
+        $args{type} = 'structure';
+    }
+    elsif ($type eq 'document') {
+        # Smithy 2.0 `document` is a free-form JSON value (any
+        # scalar / array / object). The IR has no first-class
+        # document type so far; map to `string` for the same
+        # reason the prelude `Document` shape is mapped to
+        # `string` above. Round-trips through the wire layer as
+        # opaque JSON.
+        $args{type} = 'string';
     }
     elsif ($type eq 'list') {
         my $member = $shape->{member} // {};
@@ -355,6 +384,13 @@ sub _build_shape {
         # don't need a new branch.
         $args{type} = 'string';
         $args{enum_values} = [ sort keys %{ $shape->{members} // {} } ];
+    }
+    elsif ($type eq 'intEnum') {
+        # Smithy 2.0 `intEnum` is the integer counterpart of `enum`.
+        # Map to `integer` so the materialiser emits an Int-typed
+        # attribute. Enum values are not surfaced for int enums (the
+        # AOT path didn't either); the materialiser sees a plain Int.
+        $args{type} = 'integer';
     }
     elsif ($type eq 'string' && (my $enum_trait = $traits->{'smithy.api#enum'})) {
         # Smithy 1.0-style enum string.
