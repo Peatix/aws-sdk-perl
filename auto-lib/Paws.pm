@@ -177,6 +177,23 @@ sub _materialise_class {
   $mat->materialize_service($ir);
 }
 
+# TODO(stack19-retry): under the Moo + Type::Tiny materialiser
+# backend, attribute type constraints stringify as
+# `InstanceOf["Paws::EC2::BlockDeviceMapping"]` rather than the bare
+# class name. The recursive `Paws->new_with_coercions("$type", ...)`
+# call below then asks the type-constraint string for `does(...)` and
+# `meta->find_attribute_by_name(...)`, both of which fail because the
+# string is not a class name. Fixing this requires either:
+#   - unwrapping `InstanceOf[X]` to `X` before recursing, or
+#   - branching on the type-constraint *object* (Type::Tiny::Class
+#     exposes `->class`; Moose::Meta::TypeConstraint::Class exposes
+#     `->class`).
+# Today this only bites integration tests (t/05_service_calls.t,
+# t/glacier/, t/route53/, t/s3/) that are not in the curated `make
+# test` list, so CI stays green. The stack19 re-attempt (which drops
+# auto-lib/ and routes every load through the materialiser) is the
+# trigger; that PR should land the fix at the same time.
+
 # converts the params the user passed to the call into objects that represent the call
 sub new_with_coercions {
   my (undef, $class, %params) = @_;
