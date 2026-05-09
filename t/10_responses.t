@@ -133,6 +133,12 @@ sub test_file {
       if (not defined $got and not defined $t->{expected}){
         pass("Got undef on $path from result");
       } else {
+        # Some response fixtures legitimately compare undef to an empty
+        # string (eq '') or to 0 (==). cmp_ok's behaviour in those cases
+        # is correct, but its eval emits "Use of uninitialized value"
+        # diagnostics that make CI logs noisy. Suppress them in the
+        # narrow scope of the comparison itself.
+        no warnings 'uninitialized';
         cmp_ok($got, $t->{op}, $t->{expected}, "Got $path $t->{op} $t->{expected} from result");
       }
     }
