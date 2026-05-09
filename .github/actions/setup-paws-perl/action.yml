@@ -52,12 +52,12 @@ inputs:
       Auto-lib cache mode. Three accepted values:
 
         * "false"        - no auto-lib cache (default).
-        * "true"         - read + write (actions/cache@v4). On miss,
+        * "true"         - read + write (actions/cache@v5). On miss,
                            the post-step saves whatever is in
                            auto-lib/ at job-end. Use this from the
                            job that produces the canonical auto-lib
                            (today: build-autolib-merge in test.yml).
-        * "restore-only" - read-only (actions/cache/restore@v4).
+        * "restore-only" - read-only (actions/cache/restore@v5).
                            No post-step save. Use this from a "plan"
                            job that wants to learn whether the cache
                            is populated without committing to writing
@@ -92,7 +92,7 @@ runs:
     - name: Cache local/ (carton install dir)
       if: ${{ inputs.cache-carton == 'true' }}
       id: carton-cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: local
         # Key on (perl version, cpanfile contents). Use a snapshot
@@ -146,7 +146,7 @@ runs:
       # canonical producer" in the input docs above.
       if: ${{ inputs.cache-autolib == 'true' }}
       id: autolib-cache-rw
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: auto-lib
         # Key on every input that affects generation. Including
@@ -162,12 +162,12 @@ runs:
 
     - name: Restore auto-lib/ regenerated content (read only)
       # Active when cache-autolib: "restore-only". Same key as the
-      # rw step above; no post-step save (actions/cache/restore@v4
+      # rw step above; no post-step save (actions/cache/restore@v5
       # has no post-step). Use from a plan job that just wants to
       # learn whether the cache is populated.
       if: ${{ inputs.cache-autolib == 'restore-only' }}
       id: autolib-cache-ro
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       with:
         path: auto-lib
         key: |

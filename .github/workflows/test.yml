@@ -41,7 +41,7 @@ jobs:
   #
   # Plan deliberately runs WITHOUT carton-install / cache-carton to
   # keep the cache-hit path lean. cache-autolib: "restore-only" uses
-  # actions/cache/restore@v4 — read-only, no post-step save — so a
+  # actions/cache/restore@v5 — read-only, no post-step save — so a
   # miss here won't accidentally save an empty auto-lib/ into the
   # cache slot the merge job is going to populate.
   build-autolib-plan:
@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload auto-lib artifact (cache hit)
         if: steps.perl.outputs.autolib-cache-hit == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: auto-lib
           path: auto-lib.tar.gz
@@ -158,7 +158,7 @@ jobs:
           tar --create --gzip --file auto-lib-shard-${{ matrix.shard }}.tar.gz auto-lib
 
       - name: Upload shard artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: auto-lib-shard-${{ matrix.shard }}
           path: auto-lib-shard-${{ matrix.shard }}.tar.gz
@@ -215,7 +215,7 @@ jobs:
           cache-autolib: "true"
 
       - name: Download shard artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: auto-lib-shard-*
           path: shard-tarballs
@@ -251,7 +251,7 @@ jobs:
           tar --create --gzip --file auto-lib.tar.gz auto-lib
 
       - name: Upload auto-lib artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: auto-lib
           path: auto-lib.tar.gz
@@ -313,7 +313,7 @@ jobs:
           cache-autolib: "false"
 
       - name: Download auto-lib artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: auto-lib
 

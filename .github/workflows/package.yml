@@ -68,7 +68,7 @@ jobs:
           shasum -a 256 Paws-*.tar.gz > SHA256SUMS
 
       - name: Upload package artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: paws-dist-${{ github.run_id }}
           path: |
