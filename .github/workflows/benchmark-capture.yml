@@ -65,7 +65,10 @@ jobs:
           carton exec -- benchmarks/run-all --iterations 5 --output .ci-out/benchmarks-current.json
         env:
           PAWS_SILENCE_UNSTABLE_WARNINGS: 1
-          PERL5LIB: lib:auto-lib
+          # Post-stack19 the materialiser dependencies all live under
+          # lib/, and DynamoDB is materialised on demand from the
+          # botocore checkout above.
+          PERL5LIB: lib:builder-lib
 
       - name: Compare to current baseline
         run: |
