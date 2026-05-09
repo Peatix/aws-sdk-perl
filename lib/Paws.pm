@@ -156,8 +156,13 @@ sub _materialise_class {
   Module::Runtime::require_module('Paws::Model::Materializer');
   Module::Runtime::require_module('Paws::Model::Materializer::Moo');
 
-  my $resolver = Paws::Model::Loader::Resolver->new;
-  my $ir       = eval { $resolver->load_service($service_name) };
+  # Resolver is cached at package scope: the botocore SDK-name ->
+  # directory index it builds for non-mechanical mappings (e.g.
+  # ACMPCA -> acm-pca, CognitoIdentityProvider -> cognito-idp) is
+  # ~25s on cold cache for ~400 services, and is amortised across
+  # every subsequent load_service in the same process.
+  state $resolver = Paws::Model::Loader::Resolver->new;
+  my $ir = eval { $resolver->load_service($service_name) };
   if (!$ir) {
     # Fall back to the original require error so the user gets a
     # familiar diagnostic.
@@ -297,7 +302,7 @@ sub available_services {
 
   my $skip_list = {
     API => 1, Credential => 1, Exception => 1, RegionInfo => 1,
-    SerDes => 1,
+    SerDes => 1, Model => 1, Net => 1,
     # Test helpers under t/lib/Paws that get picked up by
     # Module::Find::findsubmod when t/lib is on @INC. They are not
     # real services and have no `operations` method, so preload_service
@@ -311,9 +316,34 @@ sub available_services {
     RestJsonParamsService       => 1,
     RestXmlParamsService        => 1,
   };
+
+  my %all;
+
+  # Install-time enumeration: hand-written services living on disk
+  # under lib/Paws/* (e.g. Paws::Signin) and any AOT-generated
+  # leftovers a downstream consumer may have re-introduced via
+  # PERL5LIB. Module::Find returns flat children of Paws:: only
+  # (not Paws::API::*, Paws::Net::*, etc.).
   require Module::Find;
   my $class_prefix = $self->_class_prefix;
-  return grep { not $skip_list->{ $_ } } map { $_ =~ s/^$class_prefix//; $_ } Module::Find::findsubmod Paws;
+  $all{$_} = 1 for grep { not $skip_list->{ $_ } }
+                   map { $_ =~ s/^$class_prefix//; $_ }
+                   Module::Find::findsubmod Paws;
+
+  # Materialiser-time enumeration: every service the resolver can
+  # reach via share/smithy/* or share/botocore/* (or, in dev / CI,
+  # via the botocore checkout at botocore/botocore/data/*). After
+  # stack19 dropped auto-lib/, this is the dominant source: for an
+  # end user with `cpanm Paws` installed, install-time enumeration
+  # only covers Paws::Signin (the one handwritten service); every
+  # other service is reachable iff its IR is in share/.
+  if (eval { Module::Runtime::require_module('Paws::Model::Loader::Resolver'); 1 }) {
+    state $resolver = Paws::Model::Loader::Resolver->new;
+    $all{$_} = 1 for grep { not $skip_list->{ $_ } }
+                     $resolver->available_services;
+  }
+
+  return sort keys %all;
 }
 
 sub get_self {

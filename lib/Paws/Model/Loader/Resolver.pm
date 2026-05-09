@@ -127,6 +127,129 @@ has _loaders => (
     },
 );
 
+# Enumerate the set of SDK class names that have a source file in
+# any of the configured search paths. Returns the names sorted, with
+# duplicates collapsed (a service that exists in both Smithy and
+# Botocore appears once). Lightweight: walks directory entries and
+# only opens a file when the SDK name is not derivable from the
+# filename / directory name (botocore: `metadata.serviceId` is the
+# canonical SDK name; we cache it after the first read).
+#
+# `Paws::available_services` calls into this so the materialiser
+# path has the same enumeration semantics that Module::Find used to
+# give the AOT path.
+sub available_services {
+    my ($self) = @_;
+
+    my %seen;
+
+    # Smithy: filenames are the SDK name. Both flat and nested
+    # layouts are supported.
+    for my $base (@{ $self->smithy_search_paths }) {
+        next if !-d $base;
+        opendir(my $dh, $base) or next;
+        for my $entry (readdir $dh) {
+            next if $entry =~ /^\.\.?$/;
+            my $path = File::Spec->catfile($base, $entry);
+            if (-f $path && $entry =~ /^([A-Za-z][\w-]*)\.smithy\.json\z/) {
+                $seen{$1} = 1;
+            }
+            elsif (-d $path) {
+                # nested: <base>/<svc>/<svc>.smithy.json
+                for my $candidate (
+                    File::Spec->catfile($path, "$entry.smithy.json"),
+                    File::Spec->catfile($path, lc($entry) . ".smithy.json"),
+                ) {
+                    if (-r $candidate) {
+                        $seen{$entry} = 1;
+                        last;
+                    }
+                }
+            }
+        }
+        closedir $dh;
+    }
+
+    # Botocore: directory names are endpoint prefixes (e.g. `iam`,
+    # `cognito-idp`). The SDK class name is the `serviceId` field
+    # in metadata of service-2.json. We have to open each one to
+    # find out -- but only once per process; the result is cached
+    # on the resolver instance.
+    for my $base (@{ $self->botocore_search_paths }) {
+        next if !-d $base;
+        opendir(my $dh, $base) or next;
+        for my $svc_dir (readdir $dh) {
+            next if $svc_dir =~ /^\.\.?$/;
+            next if $svc_dir =~ /^_/;
+            my $svc_path = File::Spec->catdir($base, $svc_dir);
+            next if !-d $svc_path;
+
+            my $sdk = $self->_botocore_sdk_name($svc_path);
+            $seen{$sdk} = 1 if defined $sdk;
+        }
+        closedir $dh;
+    }
+
+    return sort keys %seen;
+}
+
+has _botocore_sdk_name_cache => (
+    is      => 'ro',
+    isa     => 'HashRef[Str]',
+    lazy    => 1,
+    default => sub { {} },
+);
+
+# SDK class name -> path-to-service-2.json. Populated as a side-
+# effect of available_services so subsequent load_service calls
+# don't have to re-scan to map an SDK class name back to its
+# botocore directory (which is keyed by endpointPrefix, not by
+# serviceId — `ACMPCA` is `acm-pca/`, `CognitoIdentityProvider` is
+# `cognito-idp/`, etc.).
+has _botocore_sdk_to_path => (
+    is      => 'ro',
+    isa     => 'HashRef[Str]',
+    lazy    => 1,
+    default => sub { {} },
+);
+
+sub _botocore_sdk_name {
+    my ($self, $svc_path) = @_;
+
+    my $cache = $self->_botocore_sdk_name_cache;
+    return $cache->{$svc_path} if exists $cache->{$svc_path};
+
+    opendir(my $dh, $svc_path) or return undef;
+    my @dates = sort grep {
+        /^\d{4}-\d{2}-\d{2}\z/
+        && -r File::Spec->catfile($svc_path, $_, 'service-2.json')
+    } readdir $dh;
+    closedir $dh;
+    return undef if !@dates;
+
+    my $service_2 = File::Spec->catfile($svc_path, $dates[-1], 'service-2.json');
+    open(my $fh, '<', $service_2) or return undef;
+    local $/;
+    my $json = <$fh>;
+    close $fh;
+
+    require JSON::PP;
+    my $struct = eval { JSON::PP->new->utf8(1)->decode($json) };
+    return undef if !$struct;
+    my $sid = $struct->{metadata}->{serviceId};
+    return undef if !defined $sid;
+
+    # Same fix-ups Paws::API::Builder::Paws applies (see
+    # boto_file_information): capitalise first letter, drop
+    # whitespace, so e.g. `cloud watch` becomes `CloudWatch`.
+    substr($sid, 0, 1) = uc(substr($sid, 0, 1));
+    $sid =~ s/\s+//g;
+
+    $cache->{$svc_path}            = $sid;
+    $self->_botocore_sdk_to_path->{$sid} = $service_2;
+    return $sid;
+}
+
 # Public entry: load the named service via the first loader in the
 # resolution order that can find a source file for it.
 #
@@ -183,17 +306,19 @@ sub _find_path_for {
     }
 
     if ($loader_name eq 'Botocore') {
+        # Heuristic first: try the SDK name as-is and lowercased
+        # against each search base. Catches the common case
+        # (`ec2` -> `EC2`, `iam` -> `IAM`, `sqs` -> `SQS`) without
+        # paying the per-process cost of enumerating every
+        # service's serviceId. The "as-is" pass also matches any
+        # vendored botocore mirror that uses the SDK class name as
+        # the directory.
         for my $base (@{ $self->botocore_search_paths }) {
-            # botocore/botocore/data/<endpoint-prefix>/<date>/service-2.json
-            # service_name we get from the user is the SDK name (e.g. EC2);
-            # botocore uses the endpoint prefix in the directory name
-            # (e.g. 'ec2'). Try a few normalisations.
             for my $candidate_dir (
                 File::Spec->catdir($base, $service_name),
                 File::Spec->catdir($base, lc $service_name),
             ) {
                 next if !-d $candidate_dir;
-                # Find the most recent dated subdirectory.
                 opendir(my $dh, $candidate_dir) or next;
                 my @dates = sort grep {
                     /^\d{4}-\d{2}-\d{2}$/
@@ -203,6 +328,22 @@ sub _find_path_for {
                 next if !@dates;
                 return File::Spec->catfile($candidate_dir, $dates[-1], 'service-2.json');
             }
+        }
+
+        # Heuristic miss: fall back to the canonical SDK class name
+        # -> directory mapping derived from each service-2.json's
+        # `serviceId` field. Many services have non-mechanical
+        # mappings (ACMPCA -> acm-pca, CognitoIdentityProvider ->
+        # cognito-idp, ElasticLoadBalancingv2 -> elasticloadbalancingv2,
+        # ...). Build the mapping lazily by triggering
+        # available_services, which side-effect-populates
+        # _botocore_sdk_to_path. The cost is amortised across all
+        # subsequent load_service calls on this resolver instance.
+        if (!keys %{ $self->_botocore_sdk_to_path }) {
+            $self->available_services;
+        }
+        if (my $cached = $self->_botocore_sdk_to_path->{$service_name}) {
+            return $cached if -r $cached;
         }
         return undef;
     }

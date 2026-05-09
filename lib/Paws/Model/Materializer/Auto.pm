@@ -177,7 +177,12 @@ sub _resolve_ir {
     my ($service_name) = @_;
 
     if (eval { Module::Runtime::require_module('Paws::Model::Loader::Resolver'); 1 }) {
-        my $resolver = Paws::Model::Loader::Resolver->new(_resolver_search_paths());
+        # Cache the resolver so its (eventually-built) botocore
+        # SDK-name -> directory index is reused across all
+        # _resolve_ir calls in this process. Without this, every
+        # load_class for a non-mechanical-name service (e.g.
+        # ACMPCA -> acm-pca) re-scans every service-2.json.
+        state $resolver = Paws::Model::Loader::Resolver->new(_resolver_search_paths());
         my $ir = eval { $resolver->load_service($service_name) };
         return $ir if $ir;
     }
