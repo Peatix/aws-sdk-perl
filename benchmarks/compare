@@ -76,6 +76,9 @@ for my $name (sort keys %seen) {
     my $delta_str;
     my $within = '-';
 
+    # A null baseline median (e.g. the skeleton committed by stack17
+    # before the first auto-capture lands) is treated as "no
+    # comparison possible". Pass informationally even under --strict.
     if (defined $b && defined $c && $b > 0) {
         my $pct = (($c - $b) / $b) * 100.0;
         $delta_str = sprintf('%+.1f%%', $pct);
