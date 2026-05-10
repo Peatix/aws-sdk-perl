@@ -2,6 +2,7 @@ package Paws::Net::RetryCallerRole;
   use Moose::Role;
   use Time::HiRes 'sleep';
   use Paws::API::Retry;
+  use Paws::API::Retry::TokenBucket;
 
   sub _resolve_retry_mode {
     my $mode = $ENV{AWS_RETRY_MODE} // 'legacy';
@@ -21,6 +22,13 @@ package Paws::Net::RetryCallerRole;
     return $service->max_attempts;
   }
 
+  sub _endpoint_key {
+    my ($self, $service) = @_;
+    my $region  = $service->region // 'global';
+    my $svc     = $service->service;
+    return "$region/$svc";
+  }
+
   sub do_call {
     my ($self, $service, $call_object) = @_;
 
@@ -34,15 +42,34 @@ package Paws::Net::RetryCallerRole;
       retry_rules => $service->retriables,
     );
 
-    do {
+    my $token_bucket;
+    if ($mode eq 'adaptive') {
+      $token_bucket = Paws::API::Retry::TokenBucket->for_endpoint(
+        $self->_endpoint_key($service)
+      );
+    }
+
+    while (1) {
       $tracker->one_more_try;
 
       my $response = $self->send_request($service, $call_object);
       my $result = $self->caller_to_response($service, $call_object, $response);
       $tracker->operation_result($result);
 
-      sleep $tracker->sleep_time if($tracker->should_retry);
-    } while ($tracker->should_retry);
+      if (not $tracker->result_is_exception and $token_bucket) {
+        $token_bucket->release;
+      }
+
+      last unless $tracker->should_retry;
+
+      if ($token_bucket) {
+        my $error_type = $tracker->classify_error;
+        my $cost = Paws::API::Retry::TokenBucket->token_cost_for_error($error_type);
+        last unless $token_bucket->acquire($cost);
+      }
+
+      sleep $tracker->sleep_time;
+    }
 
     if ($tracker->result_is_exception){
       $tracker->operation_result->throw;
