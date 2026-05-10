@@ -39,9 +39,10 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     outputs:
-      shards: ${{ steps.shards.outputs.matrix }}
-      epoch:  ${{ steps.epoch.outputs.epoch }}
-      tag:    ${{ steps.tag.outputs.tag }}
+      shards:        ${{ steps.shards.outputs.matrix }}
+      epoch:         ${{ steps.epoch.outputs.epoch }}
+      tag:           ${{ steps.tag.outputs.tag }}
+      service_count: ${{ steps.shards.outputs.service_count }}
     steps:
       - name: Resolve release tag
         id: tag
@@ -95,12 +96,13 @@ jobs:
                 services => join(",", @{ $shards[$i] }),
               };
             }
+            my $total_svcs = scalar(@{[ map { split /,/, $_->{services} } @entries ]});
             print "::notice::release-modular shard_count=" . scalar(@entries)
-                . " total_services=" . scalar(@{[ map { split /,/, $_->{services} } @entries ]})
-                . "\n";
+                . " total_services=$total_svcs\n";
             my $json = JSON::PP::encode_json(\@entries);
             open my $fh, ">>", $ENV{GITHUB_OUTPUT} or die $!;
             print $fh "matrix=$json\n";
+            print $fh "service_count=$total_svcs\n";
             close $fh;
           '
 
@@ -317,5 +319,21 @@ jobs:
           if [ "$asset_count" -lt "${{ steps.flatten.outputs.total }}" ]
           then
             echo "::error::asset_count $asset_count < expected ${{ steps.flatten.outputs.total }}"
+            exit 1
+          fi
+
+      - name: Assert expected service fleet size
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ needs.plan.outputs.tag }}"
+          service_count="${{ needs.plan.outputs.service_count }}"
+          expected_total=$(( 1 + 2 * service_count ))
+          asset_count=$(gh release view "$tag" --repo "${{ github.repository }}" \
+                            --json assets --jq '.assets | length')
+          echo "::notice::release-modular tag=$tag service_count=$service_count expected_total=$expected_total asset_count=$asset_count"
+          if [ "$asset_count" -lt "$expected_total" ]
+          then
+            echo "::error::asset_count=$asset_count expected_total=$expected_total (1 core + 2*$service_count service dists)"
             exit 1
           fi
