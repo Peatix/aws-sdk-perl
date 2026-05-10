@@ -713,6 +713,22 @@ our @KNOWN_PAWS_SERVICE_NAMES = qw(
     WorkSpacesWeb XRay
 );
 
+# Case-insensitive dedup: GitHub Releases asset names are case-insensitive
+# on the upload API ("ReleaseAsset.name already exists" 422 even when
+# the case differs). Where we have both `SSO` and `Sso` in the list
+# above (legacy auto-lib variants), the first canonical name wins;
+# keep `SSO`, drop `Sso`. Same for `SSOOidc` / `SsoOidc`.
+{
+    my %seen;
+    my @deduped;
+    for my $name (@KNOWN_PAWS_SERVICE_NAMES) {
+        my $key = lc $name;
+        next if $seen{$key}++;
+        push @deduped, $name;
+    }
+    @KNOWN_PAWS_SERVICE_NAMES = @deduped;
+}
+
 # A4-B build-pipeline entry. Returns the sorted list of Paws service
 # class names whose Smithy IR file is present under any configured
 # smithy_search_path AND whose Paws class name appears in
