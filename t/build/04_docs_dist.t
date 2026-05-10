@@ -26,7 +26,14 @@ my $rc = system($^X, '-I', "$repo_root/lib",
                 $script, '--output-dir', $dist_dir, $svc);
 is($rc, 0, "build-modular-docs-dist STS exited cleanly") or BAIL_OUT("build failed");
 
-my $tarball = "$dist_dir/Paws-${svc}-Docs-1.00.tar.gz";
+my ($version) = do {
+    open my $fh, '<', "$repo_root/lib/Paws.pm" or BAIL_OUT("open Paws.pm: $!");
+    local $/; my $body = <$fh>;
+    $body =~ /our\s+\$VERSION\s*=\s*'([^']+)'/
+        ? ($1) : BAIL_OUT("could not extract VERSION from lib/Paws.pm");
+};
+
+my $tarball = "$dist_dir/Paws-${svc}-Docs-$version.tar.gz";
 ok(-r $tarball, "tarball produced at $tarball");
 
 my @lines = split /\n/, qx{tar -tzf $tarball};
@@ -35,9 +42,9 @@ ok(@pod_files >= 5, "tarball contains at least 5 .pod files (saw " . scalar(@pod
 
 # Spot-check structure.
 my @expected = (
-    "Paws-${svc}-Docs-1.00/lib/Paws/STS.pod",
-    "Paws-${svc}-Docs-1.00/lib/Paws/STS/AssumeRole.pod",
-    "Paws-${svc}-Docs-1.00/lib/Paws/STS/Credentials.pod",
+    "Paws-${svc}-Docs-$version/lib/Paws/STS.pod",
+    "Paws-${svc}-Docs-$version/lib/Paws/STS/AssumeRole.pod",
+    "Paws-${svc}-Docs-$version/lib/Paws/STS/Credentials.pod",
 );
 for my $exp (@expected) {
     ok((grep { $_ eq $exp } @lines), "tarball contains $exp");

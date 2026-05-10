@@ -49,7 +49,14 @@ remove_tree("$repo_root/tmp/build") if -d "$repo_root/tmp/build";
 my $rc2 = build_into($dir2);
 is($rc2, 0, "second build exited cleanly") or BAIL_OUT("build failed");
 
-my @tarballs = ("$dir1/Paws-$svc-1.00.tar.gz", "$dir2/Paws-$svc-1.00.tar.gz");
+# build-modular-dist reads its version from lib/Paws.pm.
+my ($version) = do {
+    open my $fh, '<', "$repo_root/lib/Paws.pm" or BAIL_OUT("open Paws.pm: $!");
+    local $/; my $body = <$fh>;
+    $body =~ /our\s+\$VERSION\s*=\s*'([^']+)'/
+        ? ($1) : BAIL_OUT("could not extract VERSION from lib/Paws.pm");
+};
+my @tarballs = ("$dir1/Paws-$svc-$version.tar.gz", "$dir2/Paws-$svc-$version.tar.gz");
 ok(-r $tarballs[0], "first tarball exists at $tarballs[0]");
 ok(-r $tarballs[1], "second tarball exists at $tarballs[1]");
 
