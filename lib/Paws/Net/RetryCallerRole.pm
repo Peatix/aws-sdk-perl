@@ -1,7 +1,9 @@
 package Paws::Net::RetryCallerRole;
   use Moose::Role;
   use Time::HiRes 'sleep';
-  use Paws::API::Retry;
+  use Paws::Net::InterceptorContext;
+  use Paws::Net::InterceptorChain;
+  use Paws::Net::Interceptor::Retry;
 
   has interceptors => (
     is      => 'rw',
@@ -24,29 +26,51 @@ package Paws::Net::RetryCallerRole;
     return $self;
   }
 
+  sub _build_chain {
+    my ($self) = @_;
+    my $retry = Paws::Net::Interceptor::Retry->new;
+    return Paws::Net::InterceptorChain->new(
+      interceptors => [ $retry, $self->all_interceptors ],
+    );
+  }
+
   sub do_call {
     my ($self, $service, $call_object) = @_;
-   
-    my $tracker = Paws::API::Retry->new(
-      %{ $service->retry }, 
-      max_tries => $service->max_attempts,
-      retry_rules => $service->retriables,
+
+    my $chain = $self->_build_chain;
+    my $context = Paws::Net::InterceptorContext->new(
+      service     => $service,
+      call_object => $call_object,
     );
 
+    $chain->run_hook('before_request', $context);
+
     do {
-      $tracker->one_more_try;
+      $context->should_retry(0);
+      $context->retry_delay(0);
+
+      $chain->run_hook('before_attempt', $context);
 
       my $response = $self->send_request($service, $call_object);
-      my $result = $self->caller_to_response($service, $call_object, $response);
-      $tracker->operation_result($result);
+      my $result   = $self->caller_to_response($service, $call_object, $response);
+      $context->response($response);
+      $context->result($result);
 
-      sleep $tracker->sleep_time if($tracker->should_retry);
-    } while ($tracker->should_retry);
+      if ($context->result_is_exception) {
+        $chain->run_hook('on_error', $context);
+      }
 
-    if ($tracker->result_is_exception){
-      $tracker->operation_result->throw;
+      $chain->run_hook('after_attempt', $context);
+
+      sleep $context->retry_delay if $context->should_retry;
+    } while ($context->should_retry);
+
+    $chain->run_hook('after_request', $context);
+
+    if ($context->result_is_exception) {
+      $context->result->throw;
     } else {
-      return $tracker->operation_result;
+      return $context->result;
     }
   }
 
