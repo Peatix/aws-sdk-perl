@@ -1,0 +1,237 @@
+#!/usr/bin/env perl
+# build-modular-dist <Service>
+#
+# Phase 1 of the A4-B distribution plan
+# (docs/distribution-plan-a4b.md §3.1). Produces a
+# `Paws-<Service>-<version>.tar.gz` ready for `cpanm` install.
+#
+# Inputs:
+#   $ARGV[0]                  - Paws service class name, e.g. S3, EC2, SecretsManager
+#   --output-dir <dir>        - where to drop the tarball; default "dist/"
+#   --version <ver>           - dist version; default reads from lib/Paws.pm
+#   --paws-core-version <ver> - "Paws::Core" minimum version pin in
+#                               the generated cpanfile; default = same as --version
+#
+# Pipeline:
+#   1. Resolve the smithy basename via %PAWS_TO_SMITHY.
+#   2. Load Paws::Model::IR via Loader::Smithy.
+#   3. Drive Materializer::Moo with an emit_callback that captures
+#      the per-package source strings.
+#   4. Write each captured source string to lib/Paws/<Service>/<inner>.pm
+#      under a tmp/build/Paws-<Service> tree (top-level Paws/<Service>.pm
+#      gets the service-class source).
+#   5. Write a generated dist.ini, Makefile.PL fallback, MANIFEST,
+#      and cpanfile.
+#   6. Tarball the tree as Paws-<Service>-<version>.tar.gz with a
+#      deterministic SOURCE_DATE_EPOCH.
+#
+# Determinism is asserted by t/build/01_determinism.t.
+# Per-class layout (vs single-file-per-service) is asserted by
+# t/build/02_layout.t. The single-file layout was rejected per #87
+# (cold-fork +260% regression).
+
+use strict;
+use warnings;
+use v5.10;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use Getopt::Long;
+use File::Path qw(make_path remove_tree);
+use File::Spec;
+use File::Slurper qw(write_text read_text);
+use File::Basename qw(dirname);
+
+use Paws::Model::Loader::Resolver;
+use Paws::Model::Materializer::Moo;
+
+my $output_dir          = 'dist';
+my $version;
+my $paws_core_version;
+# Until Phase 3 splits Paws::Core out of the monolithic Paws dist
+# the per-service sub-dists declare a runtime dep on the Paws dist
+# itself (which provides Paws.pm + Paws::Net::* + the wire layer).
+# Phase 3 flips this to 'Paws::Core'.
+my $core_dep_module = 'Paws';
+
+GetOptions(
+    'output-dir=s'        => \$output_dir,
+    'version=s'           => \$version,
+    'paws-core-version=s' => \$paws_core_version,
+    'core-dep-module=s'   => \$core_dep_module,
+) or die "bad args\n";
+
+my $service = shift @ARGV;
+defined($service) && length($service)
+    or die "usage: $0 [--output-dir DIR] [--version VER] <Service>\n";
+
+if (!defined $version) {
+    my $paws_pm = read_text("$FindBin::Bin/../lib/Paws.pm");
+    if ($paws_pm =~ /our\s+\$VERSION\s*=\s*'([^']+)'/) {
+        $version = $1;
+    } else {
+        die "could not extract version from lib/Paws.pm\n";
+    }
+}
+$paws_core_version //= $version;
+
+# 1. Build IR.
+my $resolver = Paws::Model::Loader::Resolver->new;
+my $ir = eval { $resolver->load_service($service) };
+if (!$ir) {
+    die "build-modular-dist: resolver could not find IR for $service: $@";
+}
+# Mirror Materializer::Auto's name normalisation so the produced
+# packages get "Paws::SecretsManager" not "Paws::Secrets Manager".
+if ($service ne $ir->name) {
+    $ir->{name} = $service;
+}
+
+my $service_pkg = "Paws::$service";
+
+# 2. Tmp build tree.
+my $tmp_root = "tmp/build/Paws-$service";
+remove_tree($tmp_root) if -d $tmp_root;
+make_path("$tmp_root/lib");
+
+# 3. Materialise with emit_callback.
+my @emitted;  # ordered (pkg, src) tuples
+my $emit_count = 0;
+my $mat = Paws::Model::Materializer::Moo->new(
+    loader         => undef,
+    emit_callback  => sub {
+        my ($pkg, $src) = @_;
+        $emit_count++;
+        my $rel = $pkg;
+        $rel =~ s{::}{/}g;
+        $rel .= '.pm';
+        my $abs = "$tmp_root/lib/$rel";
+        make_path(dirname($abs));
+        # Ensure trailing newline + leading shebang-free.
+        $src =~ s/^\s*\n+//;
+        write_text($abs, $src);
+        push @emitted, [$pkg, $rel];
+    },
+);
+
+$mat->materialize_service($ir);
+
+print STDERR "build-modular-dist svc=$service emitted=$emit_count packages\n";
+
+# 4. Generated dist files.
+my $dist_name = "Paws-$service";
+write_text("$tmp_root/dist.ini", <<EOT);
+name             = $dist_name
+version          = $version
+author           = Peatix Paws maintainers
+license          = Apache_2_0
+copyright_holder = Jose Luis Martinez and Peatix Paws maintainers
+copyright_year   = 2014
+
+[GatherDir]
+[ModuleBuildTiny::Fallback]
+[Manifest]
+EOT
+
+write_text("$tmp_root/cpanfile", <<EOT);
+requires 'perl' => '5.012001';
+requires '$core_dep_module' => '>= $paws_core_version';
+EOT
+
+# Manual MANIFEST so we don't need dzil installed for non-CI paths.
+my @manifest = ('cpanfile', 'dist.ini');
+push @manifest, map { $_->[1] } @emitted;
+@manifest = sort map { "lib/$_" } map { $_->[1] } @emitted;
+unshift @manifest, 'cpanfile', 'dist.ini';
+push @manifest, 'MANIFEST';
+write_text("$tmp_root/MANIFEST", join("\n", @manifest) . "\n");
+
+# Minimal META.yml so cpanm can resolve the dist without a build step.
+my $meta_yml = <<EOT;
+---
+abstract: 'Modular AWS SDK: $service_pkg client (Paws A4-B)'
+author:
+  - 'Peatix Paws maintainers'
+configure_requires:
+  Module::Build::Tiny: '0.034'
+build_requires:
+  Module::Build::Tiny: '0.034'
+dynamic_config: 0
+generated_by: 'script/build-modular-dist'
+license: apache_2_0
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: $dist_name
+provides:
+  $service_pkg:
+    file: lib/Paws/$service.pm
+    version: $version
+requires:
+  $core_dep_module: '$paws_core_version'
+  perl: '5.012001'
+version: '$version'
+EOT
+write_text("$tmp_root/META.yml", $meta_yml);
+
+write_text("$tmp_root/Build.PL", <<'EOT');
+use strict;
+use warnings;
+use Module::Build::Tiny 0.034;
+Build_PL();
+EOT
+
+write_text("$tmp_root/Makefile.PL", <<'EOT');
+require Module::Build::Tiny;
+Module::Build::Tiny::Build_PL();
+EOT
+
+# 5. Tarball.
+make_path($output_dir);
+my $tarball = File::Spec->catfile($output_dir, "$dist_name-$version.tar.gz");
+unlink $tarball if -e $tarball;
+
+# Determinism: pin tarball mtimes via SOURCE_DATE_EPOCH and sorted
+# input order. Use GNU tar's --mtime if available; fall back to
+# touch + plain tar otherwise.
+my $epoch = $ENV{SOURCE_DATE_EPOCH} // 0;
+{
+    # Reset every file's mtime so tar sees a uniform tree.
+    require File::Find;
+    File::Find::find(sub {
+        utime $epoch, $epoch, $_ if -e $_;
+    }, $tmp_root);
+}
+
+# Use gtar (GNU tar) on macOS where the system tar is BSD; fall
+# through to plain `tar` otherwise. macOS tar's --mtime support is
+# limited but the utime pass above already canonicalised mtimes.
+my @file_args = sort map { $_->[1] eq '' ? () : $_ } (
+    map { ['lib', $_->[1]] } @emitted,
+);
+my @paths = sort('cpanfile', 'dist.ini', 'META.yml', 'Build.PL', 'Makefile.PL', 'MANIFEST', 'lib');
+
+# Tar the parent so the tree lands under "$dist_name-$version/".
+# Rename rather than copy to avoid the File::Copy::Recursive dep
+# (cpanfile already pulls in enough; not adding one more for the
+# build pipeline alone).
+my $stage = "tmp/build/$dist_name-$version";
+remove_tree($stage) if -d $stage;
+rename($tmp_root, $stage)
+    or die "rename($tmp_root, $stage): $!";
+
+# Re-pin mtimes after the rename.
+require File::Find;
+File::Find::find(sub {
+    utime $epoch, $epoch, $_ if -e $_;
+}, $stage);
+
+my $rc = system('tar', '--create', '--gzip', '--file', $tarball,
+                '--directory', 'tmp/build', "$dist_name-$version");
+$rc == 0 or die "tar exited with rc=$rc\n";
+
+my $size = -s $tarball;
+print STDERR "build-modular-dist svc=$service tarball=$tarball bytes=$size packages=$emit_count\n";
+
+print "$tarball\n";
