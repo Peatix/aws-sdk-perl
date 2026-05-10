@@ -1,3 +1,33 @@
+1.0.0 — Phase 3 (Paws::Core slimming)
+ - BREAKING CHANGE: the dist is now named `Paws-Core` (not `Paws`).
+   Per-service modular sub-dists (`Paws-S3`, `Paws-EC2`, ...) ship as
+   separate CPAN distributions that declare `requires Paws::Core`.
+   See docs/distribution-plan-a4b.md §2.1.
+
+ - share/smithy/ no longer ships in the dist. The IR files are kept
+   in the master tree (build pipeline reads them) but are excluded
+   from the Paws-Core tarball via dist.ini's Git::GatherDir
+   exclude_match. Install size for Paws::Core drops from ~166 MB
+   (post-stack19 with vendored IR) to ~1.7 MB / ~500 KB compressed.
+
+ - lib/Paws/Model/{Materializer,Loader,IR}* no longer ship.
+   Build-pipeline only. Per Q9 in plan §2.5, dropped entirely from
+   any user-facing dist; the build pipeline (script/build-modular-dist
+   + .github/workflows/release-modular.yml) consumes them via
+   `-I lib` at master HEAD.
+
+ - lib/Paws.pm's `_materialise_class` runtime fallback removed.
+   `load_class` is now a thin wrapper around
+   `Module::Runtime::require_module`. A missing service class
+   produces the canonical Perl `Can't locate Paws/<Svc>.pm in @INC`
+   error rather than falling through to the materialiser; the
+   intended fix is `cpanm Paws::<Svc>` from the modular release.
+
+ - New `lib/Paws/Core.pm` stub registers the `Paws::Core` namespace
+   so per-service sub-dists' `requires Paws::Core` resolves cleanly
+   on CPAN. The runtime entry point is still `Paws.pm`; users `use
+   Paws;` as before.
+
 1.00 (TRIAL) — stack19 (auto-lib drop)
  - BREAKING CHANGE: auto-lib/Paws/<Service>/*.pm is no longer
    shipped in the dist. Service classes (e.g. Paws::EC2,
