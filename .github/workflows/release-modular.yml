@@ -255,18 +255,52 @@ jobs:
       - name: Upload to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOAD_BATCH_SIZE: '30'
+          UPLOAD_BATCH_SLEEP: '10'
         run: |
           tag="${{ needs.plan.outputs.tag }}"
-          # `gh release upload` accepts many files in one invocation
-          # and retries on transient errors. Upload code dists first,
-          # docs second; --clobber so re-runs of the workflow against
-          # the same tag overwrite previous attempts.
-          gh release upload "$tag" release/*.tar.gz --repo "${{ github.repository }}" --clobber
-          if ls release/docs/*.tar.gz >/dev/null 2>&1
+          # GitHub Releases' upload API has a secondary rate limit
+          # ("HTTP 403: You have exceeded a secondary rate limit").
+          # With ~611 tarballs `gh release upload <600 files>` in a
+          # single invocation tripped it; chunk uploads into batches
+          # of UPLOAD_BATCH_SIZE files with a sleep between batches.
+          # --clobber so workflow re-runs against the same tag
+          # overwrite stale assets cleanly.
+          upload_batched () {
+            local files=("$@")
+            local total=${#files[@]}
+            local batch=$UPLOAD_BATCH_SIZE
+            local start=0
+            while [ $start -lt $total ]
+            do
+              local end=$((start + batch))
+              [ $end -gt $total ] && end=$total
+              local chunk=("${files[@]:$start:$batch}")
+              echo "::group::upload batch start=$start size=${#chunk[@]} (of $total)"
+              gh release upload "$tag" "${chunk[@]}" \
+                  --repo "${{ github.repository }}" --clobber
+              echo "::endgroup::"
+              start=$end
+              if [ $start -lt $total ]
+              then
+                sleep "$UPLOAD_BATCH_SLEEP"
+              fi
+            done
+          }
+
+          mapfile -t code_files < <(ls release/*.tar.gz 2>/dev/null)
+          if [ ${#code_files[@]} -gt 0 ]
           then
-            gh release upload "$tag" release/docs/*.tar.gz --repo "${{ github.repository }}" --clobber
+            upload_batched "${code_files[@]}"
           fi
-          echo "::notice::release-modular upload tag=$tag"
+
+          mapfile -t docs_files < <(ls release/docs/*.tar.gz 2>/dev/null)
+          if [ ${#docs_files[@]} -gt 0 ]
+          then
+            upload_batched "${docs_files[@]}"
+          fi
+
+          echo "::notice::release-modular upload tag=$tag code=${#code_files[@]} docs=${#docs_files[@]}"
 
       - name: Verify upload count
         env:
