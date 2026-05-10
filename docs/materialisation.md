@@ -1,5 +1,18 @@
 # Materialising Paws services
 
+> **A4-B status (2026-05-10)**: under the modular layout, materialisation
+> is **build-time only**. `script/build-modular-dist` (Phase 1) drives
+> `Paws::Model::Materializer::Moo` to dump per-service `lib/Paws/<Svc>/*.pm`
+> files into a per-service tarball; the tarball ships pre-materialised
+> classes to end users. Runtime materialisation (the `_materialise_class`
+> fallback in pre-Phase-3 `lib/Paws.pm`) is gone — `Paws->load_class`
+> is now a thin wrapper around `Module::Runtime::require_module`.
+>
+> This document still describes the materialiser machinery for
+> contributors working on the build pipeline. The "AOT vs runtime"
+> framing below is historical: under A4-B, AOT is the only path,
+> just expressed at build time rather than at runtime.
+
 How a `Paws::<Service>` class comes into existence — and the levers
 contributors and downstream apps have to choose between
 **ahead-of-time on disk** (AOT) and **runtime in-memory** materialisation.

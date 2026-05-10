@@ -1,7 +1,19 @@
 # Service description sources
 
+> **A4-B status (2026-05-10)**: under the modular layout, `share/smithy/`
+> is **build-time only** at master HEAD. The IR files are inputs to
+> `script/build-modular-dist` (Phase 1) and the
+> `release-modular.yml` workflow (Phase 2); they are NOT shipped to
+> end users in the `Paws-Core` tarball or in any per-service
+> sub-dist. End users see only the pre-materialised
+> `lib/Paws/<Service>/*.pm` files inside each Paws-<Service> sub-dist.
+>
+> See `docs/distribution-plan-a4b.md` and `README.md` for the
+> install pattern. The text below describes how the build pipeline
+> consumes share/smithy/ at master HEAD.
+
 `Paws` consumes machine-readable service descriptions from a single
-on-disk location, shipped in the dist under `share/`:
+on-disk location, present at master HEAD under `share/`:
 
 | Path                  | Format                            | Loader                            |
 |-----------------------|-----------------------------------|-----------------------------------|
