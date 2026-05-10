@@ -13,7 +13,7 @@ package Paws::Net::InterceptorContext;
 
   has response => (
     is  => 'rw',
-    isa => 'Maybe[Paws::Net::APIResponse]',
+
   );
 
   has result => (
