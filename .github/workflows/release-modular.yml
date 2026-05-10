@@ -1,0 +1,282 @@
+name: release-modular
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag of the release to build for (must already exist as a draft / published release).'
+        required: true
+
+# Phase 2 of the A4-B distribution plan
+# (docs/distribution-plan-a4b.md §3.4). Triggers on `release.published`,
+# builds the full per-service modular fleet (~305 code dists +
+# ~305 docs companions + 1 Paws::Core stand-in), and uploads every
+# tarball as a release asset.
+#
+# Sharding: GitHub Actions caps a workflow run at ~256 concurrent
+# matrix jobs. With ~305 services and one job per service we'd be
+# right at the limit; instead we shard the service list into chunks
+# of ~50 so the matrix stays small (7 shards) while each shard's job
+# loops through its slice of services serially.
+#
+# Determinism: SOURCE_DATE_EPOCH is pinned to the release tag's
+# commit author-date so re-running the workflow produces byte-
+# identical tarballs (Phase 1 t/build/01_determinism.t verifies the
+# scripts honour this).
+#
+# Concurrency policy: max-parallel=50 stays within free-tier
+# concurrency budgets and avoids hitting GitHub Releases' upload
+# rate limits. The publish job uploads in a single `gh release
+# upload` invocation (which retries internally on transient API
+# errors) rather than one-file-at-a-time loops.
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.shards.outputs.matrix }}
+      epoch:  ${{ steps.epoch.outputs.epoch }}
+      tag:    ${{ steps.tag.outputs.tag }}
+    steps:
+      - name: Resolve release tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]
+          then
+            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ github.event.inputs.tag }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
+
+      - name: Set up Perl + Paws cpanfile deps
+        uses: ./.github/actions/setup-paws-perl
+        with:
+          carton-install: 'false'
+
+      - name: Install runtime cpanfile deps
+        run: |
+          cpm install --show-build-log-on-failure --resolver metadb,https://cpan.metacpan.org \
+              --workers 8 || cpanm --notest --quiet --installdeps --cpanfile cpanfile .
+
+      - name: Pin SOURCE_DATE_EPOCH from tag's commit author date
+        id: epoch
+        run: |
+          tag="${{ steps.tag.outputs.tag }}"
+          epoch=$(git log -1 --format=%at "$tag")
+          echo "epoch=$epoch" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag epoch=$epoch"
+
+      - name: Compute shard matrix from Resolver->all_known_services
+        id: shards
+        env:
+          SHARD_SIZE: '50'
+        run: |
+          perl -I lib -MJSON::PP -MPaws::Model::Loader::Resolver -e '
+            my @svcs = Paws::Model::Loader::Resolver->new->all_known_services;
+            my $size = $ENV{SHARD_SIZE} || 50;
+            my @shards;
+            while (@svcs) {
+              push @shards, [ splice(@svcs, 0, $size) ];
+            }
+            my @entries;
+            for my $i (0 .. $#shards) {
+              push @entries, {
+                name     => sprintf("shard-%02d", $i),
+                services => join(",", @{ $shards[$i] }),
+              };
+            }
+            print "::notice::release-modular shard_count=" . scalar(@entries)
+                . " total_services=" . scalar(@{[ map { split /,/, $_->{services} } @entries ]})
+                . "\n";
+            my $json = JSON::PP::encode_json(\@entries);
+            open my $fh, ">>", $ENV{GITHUB_OUTPUT} or die $!;
+            print $fh "matrix=$json\n";
+            close $fh;
+          '
+
+  build-core:
+    needs: plan
+    runs-on: ubuntu-latest
+    container:
+      image: perl:5.36-slim
+    steps:
+      - name: Install git for actions/checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.plan.outputs.tag }}
+
+      - name: Install build dependencies
+        run: |
+          apt-get install -y --no-install-recommends \
+            build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          cpanm --notest --quiet Dist::Zilla
+          dzil authordeps --missing | cpanm --notest --quiet
+          dzil listdeps --missing  | cpanm --notest --quiet
+
+      - name: Build Paws::Core stand-in tarball
+        env:
+          SOURCE_DATE_EPOCH: ${{ needs.plan.outputs.epoch }}
+        run: |
+          dzil build
+          mkdir -p dist
+          mv Paws-*.tar.gz dist/
+          ls -la dist/
+
+      - name: Upload core artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-modular-core
+          path: dist/Paws-*.tar.gz
+          if-no-files-found: error
+          retention-days: 7
+
+  build-services:
+    needs: plan
+    runs-on: ubuntu-latest
+    container:
+      image: perl:5.36-slim
+    strategy:
+      max-parallel: 50
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    steps:
+      - name: Install git for actions/checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.plan.outputs.tag }}
+
+      - name: Install build dependencies
+        run: |
+          apt-get install -y --no-install-recommends \
+            build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          cpanm --notest --quiet --installdeps --cpanfile cpanfile .
+
+      - name: Build code + docs dists for ${{ matrix.shard.name }}
+        env:
+          SOURCE_DATE_EPOCH: ${{ needs.plan.outputs.epoch }}
+        run: |
+          mkdir -p dist dist/docs
+          IFS=','
+          fail=0
+          for svc in ${{ matrix.shard.services }}
+          do
+            echo "::group::build $svc"
+            if ! perl -I lib script/build-modular-dist --output-dir dist "$svc"
+            then
+              echo "::error::build-modular-dist failed for $svc"
+              fail=1
+            elif ! perl -I lib script/build-modular-docs-dist --output-dir dist/docs "$svc"
+            then
+              echo "::error::build-modular-docs-dist failed for $svc"
+              fail=1
+            fi
+            echo "::endgroup::"
+            # Reclaim disk before next service: keep tarballs, drop tmp/build trees.
+            rm -rf tmp
+          done
+          ls dist | wc -l
+          ls dist/docs | wc -l
+          exit $fail
+
+      - name: Upload ${{ matrix.shard.name }} artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-modular-${{ matrix.shard.name }}
+          path: |
+            dist/*.tar.gz
+            dist/docs/*.tar.gz
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: [plan, build-core, build-services]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artefacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artefacts
+
+      - name: Flatten + count
+        id: flatten
+        run: |
+          mkdir -p release
+          # All artefact dirs land under artefacts/<name>/...; tarballs
+          # live in either .../*.tar.gz or .../docs/*.tar.gz. Move
+          # them all into a single release/ dir, preserving the
+          # original docs/ separation under release/docs/.
+          mkdir -p release/docs
+          find artefacts -maxdepth 4 -type f -name '*.tar.gz' \
+              | while read -r f
+          do
+            case "$f" in
+              */docs/*) cp "$f" release/docs/ ;;
+              *)        cp "$f" release/ ;;
+            esac
+          done
+          code_count=$(ls release/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
+          docs_count=$(ls release/docs/*.tar.gz 2>/dev/null | wc -l | tr -d ' ')
+          total=$((code_count + docs_count))
+          echo "code_count=$code_count" >> "$GITHUB_OUTPUT"
+          echo "docs_count=$docs_count" >> "$GITHUB_OUTPUT"
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          echo "::notice::release-modular code_count=$code_count docs_count=$docs_count total=$total"
+
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ needs.plan.outputs.tag }}"
+          # `gh release upload` accepts many files in one invocation
+          # and retries on transient errors. Upload code dists first,
+          # docs second; --clobber so re-runs of the workflow against
+          # the same tag overwrite previous attempts.
+          gh release upload "$tag" release/*.tar.gz --repo "${{ github.repository }}" --clobber
+          if ls release/docs/*.tar.gz >/dev/null 2>&1
+          then
+            gh release upload "$tag" release/docs/*.tar.gz --repo "${{ github.repository }}" --clobber
+          fi
+          echo "::notice::release-modular upload tag=$tag"
+
+      - name: Verify upload count
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ needs.plan.outputs.tag }}"
+          asset_count=$(gh release view "$tag" --repo "${{ github.repository }}" \
+                            --json assets --jq '.assets | length')
+          echo "::notice::release-modular tag=$tag asset_count=$asset_count expected=${{ steps.flatten.outputs.total }}"
+          # Final asset count may include other non-modular artefacts
+          # if the maintainer attached anything by hand. We only assert
+          # the modular fleet successfully uploaded by checking that
+          # the asset count is at least the modular total.
+          if [ "$asset_count" -lt "${{ steps.flatten.outputs.total }}" ]
+          then
+            echo "::error::asset_count $asset_count < expected ${{ steps.flatten.outputs.total }}"
+            exit 1
+          fi
