@@ -229,24 +229,9 @@ working `carton install` tree which is per-developer.
   + SageMaker as the cells with the highest cumulative byte total
   (cells `a` and `b` at ~5:21-5:24 wall — see PR #70), which sets a
   rough upper bound for any single big service.
-- **Materialiser at runtime, first call**: not yet captured.
-  `benchmarks/baseline.json` reserves a `startup-cold` slot but the
-  median is `null` until `benchmark-capture.yml` runs on master with
-  populated baselines. See `benchmarks/RESULTS.md`.
 - **On-disk load via `Module::Runtime::require_module`**: dominated
   by the per-shape `.pm` count for the service (each shape is an
-  individual `.pm`). Same caveat as above — no machine-captured
-  median yet.
-
-When you need a number that isn't in this list, drive
-`benchmarks/run-all` locally:
-
-```
-benchmarks/run-all --iterations 5 --output /tmp/bench.json
-```
-
-It captures `startup-cold` (forks + loads DynamoDB) and
-`decode-warm-2500` (in-process 2500-row Query response decode).
+  individual `.pm`). No machine-captured median yet.
 
 ## See also
 
