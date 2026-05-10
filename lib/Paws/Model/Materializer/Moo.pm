@@ -40,6 +40,32 @@ sub new {
 sub loader { $_[0]->{loader} }
 sub _materialised_classes { $_[0]->{_materialised} }
 
+# emit_callback (optional, A4-B build-pipeline hook): when set to a
+# coderef, the three eval-$src sites below call
+#   $self->{emit_callback}->($pkg_name, $src)
+# instead of compiling the source into the running interpreter. This
+# lets `script/build-modular-dist` (per docs/distribution-plan-a4b.md
+# §3.1) write the materialised source to per-class .pm files in a
+# temporary build tree without polluting the build host's symbol
+# table.
+#
+# When emit_callback is set, the dedup hash is still updated, the
+# SerDes->register side-table call still runs, and recursive
+# materialise_operation / _materialise_shape_class calls still
+# happen. Only the eval is suppressed.
+sub _emit_or_eval {
+    my ($self, $pkg, $src) = @_;
+    if (my $cb = $self->{emit_callback}) {
+        $cb->($pkg, $src);
+        return;
+    }
+    no warnings 'redefine';
+    local $@;
+    eval $src;
+    croak "_emit_or_eval($pkg): eval error: $@\nSOURCE:\n$src" if $@;
+    return;
+}
+
 # Mapping from botocore protocol to the Paws::Net role.
 my %PROTOCOL_TO_CALLER_ROLE = (
     'json'      => 'Paws::Net::JsonCaller',
@@ -151,12 +177,7 @@ sub materialize_service {
         1;
     };
 
-    {
-        no warnings 'redefine';
-        local $@;
-        eval $src;
-        croak "materialize_service($service_pkg): eval error: $@\nSOURCE:\n$src" if $@;
-    }
+    $self->_emit_or_eval($service_pkg, $src);
 
     $self->_materialised_classes->{$service_pkg} = 1;
 
@@ -225,12 +246,7 @@ sub materialize_operation {
         1;
     };
 
-    {
-        no warnings 'redefine';
-        local $@;
-        eval $src;
-        croak "materialize_operation($op_pkg): eval error: $@\nSOURCE:\n$src" if $@;
-    }
+    $self->_emit_or_eval($op_pkg, $src);
 
     # Install the SerDes side-table directly. Mirrors what
     # Paws::SerDes->_build_from_meta would have produced from the
@@ -311,12 +327,7 @@ sub _materialise_shape_class {
         1;
     };
 
-    {
-        no warnings 'redefine';
-        local $@;
-        eval $src;
-        croak "materialise_shape_class($pkg): eval error: $@\nSOURCE:\n$src" if $@;
-    }
+    $self->_emit_or_eval($pkg, $src);
 
     Paws::SerDes->register($pkg, \@serdes_records);
 

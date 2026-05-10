@@ -627,6 +627,122 @@ sub _paws_to_smithy {
     return lc $service_name;
 }
 
+# Authoritative list of Paws service class names sourced from the
+# legacy auto-lib/ tree (which the AOT generator produced from
+# botocore service-2.json files, capturing the canonical
+# capitalisation Paws has shipped historically: S3, EC2, IAM, KMS,
+# CloudHSMv2, etc.). The list is checked into source rather than
+# computed at runtime because the canonical capitalisation cannot be
+# derived mechanically from the Smithy basename for acronym-style
+# names (s3 -> S3, not Ucfirst-d "S3"; cloudhsm-v2 -> CloudHSMv2,
+# not "Cloudhsm-v2").
+#
+# Used by all_known_services() for the A4-B build pipeline. New
+# Smithy services added by AWS that have no legacy Paws class need
+# to be added here AND, if their name doesn't round-trip through
+# lc(class), to %PAWS_TO_SMITHY.
+our @KNOWN_PAWS_SERVICE_NAMES = qw(
+    ACM ACMPCA API AccessAnalyzer AlexaForBusiness Amplify
+    AmplifyBackend ApiGateway ApiGatewayManagement ApiGatewayV2
+    AppConfig AppIntegrations AppMesh AppRunner AppStream AppSync
+    Appflow ApplicationAutoScaling ApplicationCostProfiler
+    ApplicationInsights AppRegistry Athena AuditManager AutoScaling
+    AutoScalingPlans Backup BackupGateway Batch BillingConductor
+    Braket Budgets CUR Chime ChimeSDKIdentity ChimeSDKMediaPipelines
+    ChimeSDKMeetings ChimeSDKMessaging Cloud9 CloudDirectory
+    CloudFormation CloudFront CloudHSM CloudHSMv2 CloudSearch
+    CloudSearchDomain CloudTrail CloudTrailData CloudWatch
+    CloudWatchEvents CloudWatchLogs CodeArtifact CodeBuild CodeCommit
+    CodeDeploy CodeGuruProfiler CodeGuruReviewer CodePipeline
+    CodeStar CodeStarConnections CodeStarNotifications CognitoIdentity
+    CognitoIdp CognitoSync Comprehend ComprehendMedical
+    ComputeOptimizer Config Connect ConnectCampaigns ConnectCases
+    ConnectContactLens ConnectParticipant ControlTower CostExplorer
+    CustomerProfiles DAX DLM DMS DS DataExchange DataPipeline
+    DataSync Detective DeviceFarm DevOpsGuru DirectConnect Discovery
+    DocDB DocDBElastic Drs DynamoDB DynamoDBStreams EBS EC2
+    EC2InstanceConnect ECR ECRPublic ECS EFS EKS EMR EMRContainers
+    EMRServerless ELB ELBv2 ES ElastiCache ElasticBeanstalk
+    ElasticTranscoder EventBridge Evidently FIS FMS FSX Finspace
+    FinspaceData Firehose Forecast ForecastQuery FraudDetector
+    GameLift Glacier GlobalAccelerator Glue GlueDataBrew Grafana
+    Greengrass GreengrassV2 GroundStation GuardDuty Health
+    HealthLake Honeycode IAM IVS IVSRealTime IdentityStore
+    Imagebuilder ImportExport InspectorScan Inspector Inspector2
+    InternetMonitor IoT IoTAnalytics IoTData IoTEvents IoTEventsData
+    IoTFleetHub IoTFleetWise IoTJobsData IoTRoboRunner
+    IoTSecureTunneling IoTSiteWise IoTThingsGraph IoTTwinMaker
+    IoTWireless IotDeviceAdvisor KMS Kafka KafkaConnect Kendra
+    KendraRanking KeySpaces Kinesis KinesisAnalytics
+    KinesisAnalyticsV2 KinesisVideo KinesisVideoArchivedMedia
+    KinesisVideoMedia KinesisVideoSignaling LakeFormation Lambda
+    LexModels LexModelsV2 LexRuntime LexRuntimeV2 LicenseManager
+    LicenseManagerLinuxSubscriptions LicenseManagerUserSubscriptions
+    Lightsail Location LookoutEquipment LookoutMetrics LookoutVision
+    M2 MQ MTurk MWAA MachineLearning Macie Macie2
+    ManagedBlockchain MarketplaceCatalog MarketplaceCommerceAnalytics
+    MarketplaceEntitlement MarketplaceMetering MediaConnect
+    MediaConvert MediaLive MediaPackage MediaPackageVod MediaStore
+    MediaStoreData MediaTailor MemoryDB MgmtConsole MgmtConsoleSignin
+    MigrationHub MigrationHubConfig MigrationHubRefactorSpaces
+    MigrationHubStrategy Mobile NetworkFirewall NetworkManager
+    Nimble OAM OpenSearch OpenSearchServerless OpsWorks OpsWorksCM
+    Organizations Outposts P9NManagedPrivateNetworks Panorama
+    PartnerCentralSelling Personalize PersonalizeEvents
+    PersonalizeRuntime PerformanceInsights Pinpoint PinpointEmail
+    PinpointSMSVoice PinpointSMSVoiceV2 Polly Pricing PrivateNetworks
+    Prometheus Proton QBusiness QLDB QLDBSession QuickSight RAM
+    RDS RDSData RUM RBin RecycleBin Redshift RedshiftData
+    RedshiftServerless Rekognition Resiliencehub ResourceExplorer2
+    ResourceGroups ResourceTagging RoboMaker RolesAnywhere Route53
+    Route53Domains Route53RecoveryCluster Route53RecoveryControlConfig
+    Route53RecoveryReadiness Route53Resolver S3 S3Control SDB SES
+    SESV2 SFN SMS SNS SQS SSM SSMContacts SSMIncidents SSMSAP SSO
+    SSOAdmin SSOOidc SageMaker SageMakerA2IRuntime SageMakerEdge
+    SageMakerFeatureStoreRuntime SageMakerGeospatial SageMakerMetrics
+    SageMakerRuntime SavingsPlans Schemas SecretsManager
+    SecurityHub SecurityIR ServerlessRepo ServiceCatalog
+    ServiceCatalogAppRegistry ServiceQuotas Shield Signer
+    SimpleWorkflow Snowball SnowDeviceManagement Sso SsoOidc
+    StepFunctions StorageGateway Support SupportApp SupplyChain
+    Synthetics Textract TimestreamInfluxDB TimestreamQuery
+    TimestreamWrite Tnb Transcribe TranscribeStreaming Transfer
+    Translate VPCLattice VerifiedPermissions VoiceID WAF WAFRegional
+    WAFV2 WellArchitected Wisdom WorkDocs WorkLink WorkMail
+    WorkMailMessageFlow WorkSpaces WorkSpacesThinClient
+    WorkSpacesWeb XRay
+);
+
+# A4-B build-pipeline entry. Returns the sorted list of Paws service
+# class names whose Smithy IR file is present under any configured
+# smithy_search_path AND whose Paws class name appears in
+# @KNOWN_PAWS_SERVICE_NAMES (so the canonical capitalisation is
+# known). Drops anything in %PAWS_DROPPED_SERVICES.
+sub all_known_services {
+    my ($self) = @_;
+    my %has_smithy_ir;
+    for my $base (@{ $self->smithy_search_paths }) {
+        next if !-d $base;
+        opendir(my $dh, $base) or next;
+        for my $entry (readdir $dh) {
+            next if $entry =~ /^\./;
+            my $dir = File::Spec->catdir($base, $entry);
+            next if !-d $dir;
+            my $ir_file = File::Spec->catfile($dir, "$entry.smithy.json");
+            $has_smithy_ir{$entry} = 1 if -r $ir_file;
+        }
+        closedir $dh;
+    }
+    my @out;
+    for my $paws (@KNOWN_PAWS_SERVICE_NAMES) {
+        next if exists $PAWS_DROPPED_SERVICES{$paws};
+        my $base = _paws_to_smithy($paws);
+        next unless $has_smithy_ir{$base};
+        push @out, $paws;
+    }
+    return sort @out;
+}
+
 __PACKAGE__->meta->make_immutable;
 1;
 
