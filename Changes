@@ -1,7 +1,12 @@
-1.0.0 — Phase 3 (Paws::Core slimming)
+1.0.0 — A4-B modular distribution
+ - First release of the per-service modular layout: ~305 sub-dists
+   (`Paws-S3`, `Paws-EC2`, ...) on GitHub Releases plus a slim
+   `Paws-Core` runtime. See docs/distribution-plan-a4b.md and
+   issue #87 for the design rationale.
+
  - BREAKING CHANGE: the dist is now named `Paws-Core` (not `Paws`).
    Per-service modular sub-dists (`Paws-S3`, `Paws-EC2`, ...) ship as
-   separate CPAN distributions that declare `requires Paws::Core`.
+   separate CPAN distributions that declare `requires Paws`.
    See docs/distribution-plan-a4b.md §2.1.
 
  - share/smithy/ no longer ships in the dist. The IR files are kept
