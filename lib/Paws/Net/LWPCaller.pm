@@ -17,7 +17,7 @@ package Paws::Net::LWPCaller;
   );
 
   sub send_request {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
 
     my $requestObj = $service->prepare_request_for_call($call_object); 
 
@@ -41,13 +41,27 @@ package Paws::Net::LWPCaller;
           return '';
         },
       );
-      $response = $self->ua->request($req);
+      if (my $cb = $params{response_callback}) {
+        $response = $self->ua->request($req, ':content_cb' => $cb);
+      } else {
+        $response = $self->ua->request($req);
+      }
     } else {
-      $response = $self->ua->$method(
+      my $req = HTTP::Request->new(
+        uc($method),
         $requestObj->url,
-          %$headers,
-          (defined $requestObj->content)?(Content => $requestObj->content):(),
+        [ %$headers ],
+        $requestObj->content,
       );
+      if (my $cb = $params{response_callback}) {
+        $response = $self->ua->request($req, ':content_cb' => $cb);
+      } else {
+        $response = $self->ua->$method(
+          $requestObj->url,
+            %$headers,
+            (defined $requestObj->content)?(Content => $requestObj->content):(),
+        );
+      }
     }
 
    my $lcheaders = {};

@@ -4,7 +4,7 @@ package Paws::Net::RetryCallerRole;
   use Paws::API::Retry;
 
   sub do_call {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
    
     my $tracker = Paws::API::Retry->new(
       %{ $service->retry }, 
@@ -15,7 +15,7 @@ package Paws::Net::RetryCallerRole;
     do {
       $tracker->one_more_try;
 
-      my $response = $self->send_request($service, $call_object);
+      my $response = $self->send_request($service, $call_object, %params);
       my $result = $self->caller_to_response($service, $call_object, $response);
       $tracker->operation_result($result);
 

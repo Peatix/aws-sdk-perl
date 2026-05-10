@@ -17,7 +17,7 @@ package Paws::Net::FurlCaller;
   );
 
   sub send_request {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
     my $requestObj = $service->prepare_request_for_call($call_object); 
 
     my $headers = $requestObj->header_hash;
@@ -43,6 +43,10 @@ package Paws::Net::FurlCaller;
       };
     } elsif (defined $requestObj->content) {
       $req_opts{content} = $requestObj->content;
+    }
+
+    if (my $cb = $params{response_callback}) {
+      $req_opts{write_code} = $cb;
     }
 
     my $response = $self->ua->request(%req_opts);
