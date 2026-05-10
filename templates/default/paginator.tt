@@ -3,6 +3,21 @@
     [%- paginator = c.paginators_struct.$op %]
     my $self = shift;
 
+    if (ref($_[0]) eq 'HASH' and $_[0]->{iterator}) {
+      shift @_;
+      require Paws::API::Paginator;
+      return Paws::API::Paginator->new(
+        service       => $self,
+        operation     => '[% op %]',
+        call_args     => [ @_ ],
+        input_tokens  => [ [% FOREACH token IN paginator.input_token %]'[% token %]', [% END %]],
+        output_tokens => [ [% FOREACH token IN paginator.output_token %]'[% token %]', [% END %]],
+    [%- IF (paginator.more_results.defined) %]
+        more_results  => '[% paginator.more_results %]',
+    [%- END %]
+      );
+    }
+
     my $callback = shift @_ if (ref($_[0]) eq 'CODE');
     my $result = $self->[% op %](@_);
     my $next_result = $result;
