@@ -411,17 +411,13 @@ The script's regex is deliberately conservative (string-literal
 service names only); users with dynamic `Paws->service($var)` calls
 will need to add their full service set by hand.
 
-### 5.3 Announcement: `ANNOUNCE-1.0.0.md`
+### 5.3 Announcement: dropped
 
-Committed at the repo root. Three sections:
-
-1. What's changing (per §5.1).
-2. How to migrate (link to `bin/paws-migrate-cpanfile` + a worked
-   example for a small app).
-3. Why we're doing this (link to issue #87).
-
-Pushed to relevant channels alongside the v1.0.0 release: PrePAN
-note, blogs.perl.org, the existing GH Discussions board.
+The original Phase 4 deliverable included an `ANNOUNCE-1.0.0.md`
+file. The maintainer dropped it on 2026-05-10: this is a fork,
+no public announcement is needed. The README's cpanfile example
+block (§5.1) is sufficient for the user-facing communication
+channel.
 
 ### 5.4 Documentation updates
 
@@ -445,9 +441,11 @@ earlier ones.
 | **1** | Build tooling | `script/build-modular-dist` + `script/build-modular-docs-dist` (Phase 1 stub) + `script/build-all-modular`. CI matrix smoke-tests building 3-5 services and asserts tarball roundtrip via `cpanm` install + `examples/smoke.pl`. **No release artefacts yet, no GH workflow yet.** | 1-2 weeks |
 | **1.5** | Real POD emission | `Materializer::Moo->generate_pod_for_service($ir)` walks the IR independently of materialise/eval to produce per-class POD strings. `script/build-modular-docs-dist` switches from the Phase 1 placeholder to the real method; each entry lands at `lib/Paws/<Service>/<Op|Shape>.pod` so `perldoc Paws::S3::CreateBucket` resolves directly. CI smoke gate adds `perldoc -t Paws::<Service>` non-empty assertion. Quality bar per §3.1 step 4. Fancy formatting (HTML lists, headings, code blocks) is post-1.0.0. | 1 week |
 | **2** | CI workflow | ✅ **Complete (2026-05-10).** `.github/workflows/release-modular.yml` lands in #92 with three follow-up fixes (#93 shard.services word-split, #94 case-insensitive dedup, #95 upload throttle). Cut [`v1.0.0-rc1`](https://github.com/Peatix/aws-sdk-perl/releases/tag/v1.0.0-rc1): 7 shards × ~50 services, 9m22s wall, **609 tarballs** uploaded (1 Paws::Core stand-in + 304 code dists + 304 docs companions). Smoke verified: `cpanm` install of `Paws-1.00 + Paws-S3 + Paws-EC2 + Paws-S3-Docs` from rc1 URLs succeeds; `Paws->service('S3')` / `Paws->service('EC2')` return real instances; `perldoc -t Paws::S3::CreateBucket` resolves to Phase-1.5-generated POD. | 1 week |
-| **3** | Paws::Core slimming | Strip `share/smithy/` and any service classes from Paws::Core. Update `dist.ini` to ship only Core. Decide Q9 (materialiser placement) at this point. Cut `v1.0.0-rc2` with the slimmed Core + the modular sub-dists from rc1. | 1 week |
-| **4** | Migration tooling + announcement | `bin/paws-migrate-cpanfile`, `ANNOUNCE-1.0.0.md`, README update, docs cross-links. | 1 week |
-| **5** | `v1.0.0` release | Cut `v1.0.0-rcN` releases autonomously. Tag final `v1.0.0` and create the GH release as a **DRAFT (unpublished)**. Maintainer publishes from the GH UI; announcement to PrePAN / blogs.perl.org / GH Discussions follows that. | A few days |
+| **3** | Paws::Core slimming + workflow audit | ✅ **In progress (2026-05-10).** Strip `share/smithy/` + `lib/Paws/Model/{Materializer,Loader}*` from the Core dist (Q9 = drop entirely, plan §2.5). Rename dist to `Paws-Core`. Drop the runtime materialiser fallback in `lib/Paws.pm`. Skip-all 14 t/*.t tests that depend on runtime-materialised service classes (§6.1). Workflow audit: drop `regen-byte-identical.yml`, `package.yml`, `generate-and-pr.yml` (all obsolete under A4-B); keep test / install-smoke / coverage / benchmarks / build-modular-smoke / release-modular / refresh-source-deps. Cut `v1.0.0-rc2` as a draft. | 1 week |
+| **4** | Migration tooling + README example | `bin/paws-migrate-cpanfile` + cpanfile example block in `README.md` showing the GitHub Releases URL install pattern + docs cross-references. **No `ANNOUNCE-1.0.0.md`** (this is a fork, no public announcement needed). | 1 week |
+| **5** | `v1.0.0` release | Cut `v1.0.0` as a **DRAFT (unpublished)** GH release. Maintainer publishes from the GH UI. Announcement is the maintainer's call; not bundled with the release. | A few days |
+| **Readiness** | Production readiness review | After Phase 5 lands: file an issue on Peatix/aws-sdk-perl summarising build-pipeline reliability, smoke coverage, doc completeness, test health, workflow health, tarball size + asset count, migration-tool coverage, versioning consistency, security/license, performance, operational projections, deferred follow-ups. | A few days |
+| ~~6~~ | ~~DarkPAN at GH Pages~~ | **Dropped (2026-05-10)** by maintainer. Direct URL installs stay the canonical pattern; not adding OrePAN2 / DarkPAN tooling, optional or otherwise. | n/a |
 | **6 (optional)** | DarkPAN mirror | OrePAN2 + GH Pages workflow, per #87's "GH-Releases-as-primary mechanism" section. **Only if direct-URL pain becomes real.** | 1 week |
 
 Each phase opens **ready-for-review** (not draft); the maintainer's
