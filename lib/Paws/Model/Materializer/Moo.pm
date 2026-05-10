@@ -722,12 +722,24 @@ sub _pod_clean_text {
     $text =~ s/&amp;/&/g;
 
     # Convert known HTML to placeholder tokens so the generic
-    # tag-stripper at the end doesn't eat them. \x{1} / \x{2} are
-    # control characters that won't appear in the source documentation.
-    # <a href="X">text</a> -> POD L<text|X>, via placeholder.
-    $text =~ s{<a\s+[^>]*href="([^"]+)"[^>]*>(.*?)</a>}{\x{1}L\x{2}$2|$1\x{3}}gis;
-    # <code>X</code> -> POD C<X>
-    $text =~ s{<code>(.*?)</code>}{\x{1}C\x{2}$1\x{3}}gis;
+    # tag-stripper at the end doesn't eat them. \x{1} / \x{2} / \x{3}
+    # are control characters that won't appear in source documentation.
+    # <a href="X">text</a> -> POD L<text|X>, via placeholder. Trim
+    # surrounding whitespace inside the link text so Pod::Simple
+    # doesn't complain "L<> starts or ends with whitespace".
+    $text =~ s{<a\s+[^>]*href="([^"]+)"[^>]*>(.*?)</a>}{
+        my ($url, $body) = ($1, $2);
+        $body =~ s/^\s+|\s+$//g;
+        $body = '_' if $body eq '';
+        "\x{1}L\x{2}${body}|${url}\x{3}"
+    }gise;
+    # <code>X</code> -> POD C<X>; trim inner whitespace so
+    # 'starts/ends with whitespace' doesn't fire here either.
+    $text =~ s{<code>(.*?)</code>}{
+        my $body = $1;
+        $body =~ s/^\s+|\s+$//g;
+        "\x{1}C\x{2}${body}\x{3}"
+    }gise;
     # <p> ... </p> -> blank-line paragraph break
     $text =~ s{</?p[^>]*>}{\n\n}gis;
     $text =~ s{<br\s*/?>}{\n}gis;
