@@ -181,10 +181,7 @@ File::Find::find(sub {
 
 my $stage = "tmp/build/$dist_name-$version";
 remove_tree($stage) if -d $stage;
-make_path($stage);
-require File::Copy::Recursive;
-File::Copy::Recursive::dircopy($tmp_root, $stage)
-    or die "stage dircopy failed: $!";
+rename($tmp_root, $stage) or die "rename($tmp_root, $stage): $!";
 File::Find::find(sub {
     utime $epoch, $epoch, $_ if -e $_;
 }, $stage);

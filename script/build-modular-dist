@@ -213,14 +213,15 @@ my @file_args = sort map { $_->[1] eq '' ? () : $_ } (
 my @paths = sort('cpanfile', 'dist.ini', 'META.yml', 'Build.PL', 'Makefile.PL', 'MANIFEST', 'lib');
 
 # Tar the parent so the tree lands under "$dist_name-$version/".
+# Rename rather than copy to avoid the File::Copy::Recursive dep
+# (cpanfile already pulls in enough; not adding one more for the
+# build pipeline alone).
 my $stage = "tmp/build/$dist_name-$version";
 remove_tree($stage) if -d $stage;
-make_path($stage);
-require File::Copy::Recursive;
-File::Copy::Recursive::dircopy($tmp_root, $stage)
-    or die "stage dircopy failed: $!";
+rename($tmp_root, $stage)
+    or die "rename($tmp_root, $stage): $!";
 
-# Re-pin mtimes after the dircopy.
+# Re-pin mtimes after the rename.
 require File::Find;
 File::Find::find(sub {
     utime $epoch, $epoch, $_ if -e $_;
