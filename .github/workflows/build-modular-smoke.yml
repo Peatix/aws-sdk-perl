@@ -1,0 +1,159 @@
+name: build-modular-smoke
+
+on:
+  pull_request:
+    paths:
+      - 'script/build-modular-dist'
+      - 'script/build-modular-docs-dist'
+      - 'script/build-all-modular'
+      - 'lib/Paws/Model/**'
+      - 'share/smithy/**'
+      - 't/build/**'
+      - '.github/workflows/build-modular-smoke.yml'
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - 'script/build-modular-dist'
+      - 'script/build-modular-docs-dist'
+      - 'script/build-all-modular'
+      - 'lib/Paws/Model/**'
+      - 'share/smithy/**'
+      - 't/build/**'
+      - '.github/workflows/build-modular-smoke.yml'
+  workflow_dispatch:
+
+# Phase 1 of the A4-B distribution plan
+# (docs/distribution-plan-a4b.md §3.4).
+#
+# For each of the user's 10 production services, this workflow:
+#   1. Builds the per-service code dist via script/build-modular-dist.
+#   2. Builds the docs companion dist via script/build-modular-docs-dist
+#      (Phase 1 stub).
+#   3. Builds the legacy single-dist Paws tarball as the Paws::Core
+#      stand-in (Phase 3 will split a real Paws::Core dist out of the
+#      monolith; until then the per-service sub-dists declare a
+#      runtime dep on `Paws` itself, not `Paws::Core`).
+#   4. Installs Paws + Paws-<Service> into a fresh local-lib.
+#   5. Smoke: `Paws->service('<Service>')` returns an instance.
+#
+# A failure in any service of the matrix fails the whole workflow,
+# matching the existing test.yml policy.
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    container:
+      image: perl:5.36-slim
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - SecretsManager
+          - S3
+          - SSM
+          - SES
+          - SQS
+          - EC2
+          - CloudWatch
+          - Firehose
+          - KMS
+          - DynamoDB
+    steps:
+      - name: Install git for actions/checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install build dependencies
+        run: |
+          apt-get install -y --no-install-recommends \
+            build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          cpanm --notest --quiet Dist::Zilla
+          dzil authordeps --missing | cpanm --notest --quiet
+          dzil listdeps --missing  | cpanm --notest --quiet
+
+      - name: Build legacy Paws tarball (Paws::Core stand-in)
+        run: |
+          dzil build
+          ls -la Paws-*.tar.gz
+
+      - name: Build Paws-${{ matrix.service }} sub-dist
+        run: |
+          SOURCE_DATE_EPOCH=1700000000 \
+            perl -I lib script/build-modular-dist ${{ matrix.service }}
+          ls -la dist/Paws-${{ matrix.service }}-*.tar.gz
+
+      - name: Build Paws-${{ matrix.service }}-Docs companion (stub)
+        run: |
+          SOURCE_DATE_EPOCH=1700000000 \
+            perl -I lib script/build-modular-docs-dist ${{ matrix.service }}
+          ls -la dist/docs/Paws-${{ matrix.service }}-Docs-*.tar.gz
+
+      - name: Install Paws + sub-dist into a fresh local-lib
+        run: |
+          rm -rf smoke-lib
+          # The legacy Paws tarball provides Paws::Core's runtime
+          # surface (Paws.pm + wire layer) under the `Paws` namespace
+          # — same dep target the build-modular-dist generates today.
+          cpanm --notest --local-lib=smoke-lib ./Paws-*.tar.gz
+          cpanm --notest --local-lib=smoke-lib ./dist/Paws-${{ matrix.service }}-*.tar.gz
+
+      - name: Smoke — Paws->service('${{ matrix.service }}') returns an instance
+        env:
+          AWS_ACCESS_KEY_ID:     AKIAIOSFODNN7EXAMPLE
+          AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+        run: |
+          PERL5LIB=smoke-lib/lib/perl5 perl -e '
+              use strict;
+              use warnings;
+              use Paws;
+              my $svc = Paws->service("${{ matrix.service }}", region => "us-east-1");
+              die "no instance" unless ref($svc) eq "Paws::${{ matrix.service }}";
+              print "ok class=", ref($svc), "\n";
+          '
+
+      - name: Run t/build determinism + layout tests
+        run: |
+          rm -rf tmp
+          prove --lib t/build/
+
+  audit:
+    runs-on: ubuntu-latest
+    container:
+      image: perl:5.36-slim
+    needs: smoke
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    steps:
+      - name: Install git for actions/checkout
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install build dependencies
+        run: |
+          apt-get install -y --no-install-recommends \
+            build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          cpanm --notest --quiet --installdeps --cpanfile cpanfile .
+
+      - name: Build the user's 10 services
+        run: |
+          SOURCE_DATE_EPOCH=1700000000 \
+            perl -I lib script/build-all-modular --skip-docs \
+              --services SecretsManager,S3,SSM,SES,SQS,EC2,CloudWatch,Firehose,KMS,DynamoDB
+
+      - name: Audit cross-service shape duplication
+        run: |
+          perl -I lib script/audit-shared-shapes \
+              --services SecretsManager,S3,SSM,SES,SQS,EC2,CloudWatch,Firehose,KMS,DynamoDB \
+              --build-dir tmp/build \
+              || echo "audit script returned non-zero (informational)"
