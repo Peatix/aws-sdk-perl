@@ -39,7 +39,7 @@ use warnings;
 use lib '/tmp/paws-rfc-20260510-081300/repo/lib';
 use File::Path qw(make_path);
 
-my @services = qw(STS SQS SecretsManager SES IAM DynamoDB S3 EC2 SSM);
+my @services = qw(SecretsManager S3 SSM SES SQS EC2 CloudWatch Firehose KMS DynamoDB);
 
 my $concat_dir = '/tmp/paws-rfc-20260510-081300/installs/A3-concat/lib';
 make_path("$concat_dir/Paws");

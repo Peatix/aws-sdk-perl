@@ -50,7 +50,7 @@ for my $f (qw(Paws.pm API.pm Credential.pm Exception.pm Signin.pm SerDes.pm)) {
 }
 
 # Copy 7 hot service AOT trees from legacy.
-my @hot = qw(S3 EC2 IAM STS SQS DynamoDB Lambda);
+my @hot = qw(SecretsManager S3 SSM SES SQS EC2 CloudWatch Firehose KMS DynamoDB);
 for my $svc (@hot) {
     my $pm = "$src_legacy/Paws/$svc.pm";
     my $dir = "$src_legacy/Paws/$svc";

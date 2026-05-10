@@ -23,7 +23,7 @@ use JSON::MaybeXS;
 use File::Slurper qw(read_text write_text);
 use File::Spec;
 
-my @services = qw(sts sqs iam dynamodb s3 ec2 ses secrets-manager ssm);
+my @services = qw(secrets-manager s3 ssm ses sqs ec2 cloudwatch firehose kms dynamodb);
 my $share_dir = '/tmp/paws-rfc-20260510-081300/repo/share/smithy';
 my $out_dir   = '/tmp/paws-rfc-20260510-081300/installs/A1-stripped';
 mkdir $out_dir unless -d $out_dir;

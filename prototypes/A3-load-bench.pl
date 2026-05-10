@@ -17,7 +17,7 @@ use Time::HiRes qw(gettimeofday tv_interval);
 use IPC::Open3;
 use Symbol 'gensym';
 
-my @services = qw(STS SQS SecretsManager SES IAM DynamoDB S3 EC2 SSM);
+my @services = qw(SecretsManager S3 SSM SES SQS EC2 CloudWatch Firehose KMS DynamoDB);
 
 print "service\tload_ms_min\tload_ms_med\tload_ms_max\n";
 

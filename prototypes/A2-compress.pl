@@ -18,7 +18,7 @@ use IO::Uncompress::Gunzip qw(gunzip $GunzipError);
 use JSON::MaybeXS;
 use File::Slurper qw(read_text write_text read_binary write_binary);
 
-my @services = qw(sts sqs iam dynamodb s3 ec2 ses secrets-manager ssm);
+my @services = qw(secrets-manager s3 ssm ses sqs ec2 cloudwatch firehose kms dynamodb);
 my $share_dir = '/tmp/paws-rfc-20260510-081300/repo/share/smithy';
 my $strip_dir = '/tmp/paws-rfc-20260510-081300/installs/A1-stripped';
 
