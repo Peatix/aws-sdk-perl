@@ -442,7 +442,8 @@ earlier ones.
 
 | Phase | Scope | Deliverable | Estimate |
 |---|---|---|---|
-| **1** | Build tooling | `script/build-modular-dist` + `script/build-modular-docs-dist` + `script/build-all-modular`. CI matrix smoke-tests building 3-5 services and asserts tarball roundtrip via `cpanm` install + `examples/smoke.pl`. **No release artefacts yet, no GH workflow yet.** | 1-2 weeks |
+| **1** | Build tooling | `script/build-modular-dist` + `script/build-modular-docs-dist` (Phase 1 stub) + `script/build-all-modular`. CI matrix smoke-tests building 3-5 services and asserts tarball roundtrip via `cpanm` install + `examples/smoke.pl`. **No release artefacts yet, no GH workflow yet.** | 1-2 weeks |
+| **1.5** | Real POD emission | `Materializer::Moo->generate_pod_for_service($ir)` walks the IR independently of materialise/eval to produce per-class POD strings. `script/build-modular-docs-dist` switches from the Phase 1 placeholder to the real method; each entry lands at `lib/Paws/<Service>/<Op|Shape>.pod` so `perldoc Paws::S3::CreateBucket` resolves directly. CI smoke gate adds `perldoc -t Paws::<Service>` non-empty assertion. Quality bar per §3.1 step 4. Fancy formatting (HTML lists, headings, code blocks) is post-1.0.0. | 1 week |
 | **2** | CI workflow | `.github/workflows/release-modular.yml`. Cut a `v1.0.0-rc1` GH release, manually upload tarballs from a local `script/build-all-modular` run (or run the workflow once and verify). **Manually verify a couple installs.** | 1 week |
 | **3** | Paws::Core slimming | Strip `share/smithy/` and any service classes from Paws::Core. Update `dist.ini` to ship only Core. Decide Q9 (materialiser placement) at this point. Cut `v1.0.0-rc2` with the slimmed Core + the modular sub-dists from rc1. | 1 week |
 | **4** | Migration tooling + announcement | `bin/paws-migrate-cpanfile`, `ANNOUNCE-1.0.0.md`, README update, docs cross-links. | 1 week |
