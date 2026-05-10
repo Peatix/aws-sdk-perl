@@ -7,6 +7,15 @@ For the user-facing "when do I bundle vs. let the materialiser handle
 it" question and the single-service AOT regen workflow, see
 `docs/materialisation.md`.
 
+> **Direction note (2026-05-10)**: this document describes the
+> current single-dist + on-demand-materialiser architecture. The
+> project has chosen to move to per-service modular sub-dists with
+> build-time materialisation (A4-B per
+> [issue #87](https://github.com/Peatix/aws-sdk-perl/issues/87)).
+> See `docs/distribution-plan-a4b.md` for the implementation
+> roadmap. This document will be updated when the plan's Phase 4
+> (documentation update) lands.
+
 ## High-level shape
 
 ```
