@@ -106,7 +106,7 @@ EOT
 
 write_text("$tmp_root/cpanfile", <<EOT);
 requires 'perl' => '5.012001';
-requires 'Paws::$service' => '>= $version';
+requires 'Paws::$service';
 EOT
 
 my @manifest = sort
@@ -147,7 +147,7 @@ name: $dist_name
 provides:
 $provides
 requires:
-  Paws::$service: '$version'
+  Paws::$service: '0'
   perl: '5.012001'
 version: '$version'
 EOT
