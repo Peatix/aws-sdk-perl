@@ -1,0 +1,81 @@
+#!/usr/bin/env perl
+# build-all-modular
+#
+# Phase 1 of the A4-B distribution plan
+# (docs/distribution-plan-a4b.md §3.3). Orchestrator: for every Paws
+# service known to Paws::Model::Loader::Resolver->all_known_services,
+# build the code + docs sub-dist tarballs.
+#
+# Inputs:
+#   --services A,B,C    explicit list (otherwise: all_known_services)
+#   --output-dir DIR    default "dist/"
+#   --skip-docs         skip the docs sub-dist (useful for fast smoke)
+#   --version VER       passed through to per-service builders
+
+use strict;
+use warnings;
+use v5.10;
+
+use FindBin;
+use lib "$FindBin::Bin/../lib";
+
+use Getopt::Long;
+use Paws::Model::Loader::Resolver;
+
+my @services_arg;
+my $output_dir = 'dist';
+my $skip_docs  = 0;
+my $version;
+
+GetOptions(
+    'services=s' => \@services_arg,
+    'output-dir=s' => \$output_dir,
+    'skip-docs'    => \$skip_docs,
+    'version=s'    => \$version,
+) or die "bad args\n";
+
+@services_arg = split(/,/, join(',', @services_arg));
+
+my @services;
+if (@services_arg) {
+    @services = @services_arg;
+} else {
+    my $resolver = Paws::Model::Loader::Resolver->new;
+    @services = $resolver->all_known_services;
+}
+
+print STDERR "build-all-modular services_count=" . scalar(@services) . " skip_docs=$skip_docs\n";
+
+my @failed;
+my @ok;
+for my $svc (@services) {
+    my $rc;
+    $rc = system($^X, "$FindBin::Bin/build-modular-dist",
+                 ($version ? ('--version', $version) : ()),
+                 '--output-dir', $output_dir, $svc);
+    if ($rc != 0) {
+        warn "build-all-modular svc=$svc step=code rc=$rc\n";
+        push @failed, $svc;
+        next;
+    }
+    if (!$skip_docs) {
+        my $docs_dir = "$output_dir/docs";
+        $rc = system($^X, "$FindBin::Bin/build-modular-docs-dist",
+                     ($version ? ('--version', $version) : ()),
+                     '--output-dir', $docs_dir, $svc);
+        if ($rc != 0) {
+            warn "build-all-modular svc=$svc step=docs rc=$rc\n";
+            push @failed, $svc;
+            next;
+        }
+    }
+    push @ok, $svc;
+}
+
+printf STDERR "build-all-modular ok_count=%d failed_count=%d\n",
+    scalar(@ok), scalar(@failed);
+for my $svc (@failed) {
+    printf STDERR "build-all-modular failed svc=%s\n", $svc;
+}
+
+exit @failed ? 1 : 0;
