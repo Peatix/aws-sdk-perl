@@ -6,6 +6,7 @@ package Paws::Net::RestXmlCaller;
   use URI::Template;
   use URI::Escape;
   use Moose::Util;
+  use Scalar::Util;
 
   use Paws::Net::RestXMLResponse;
   use Paws::SerDes;
@@ -30,7 +31,6 @@ package Paws::Net::RestXmlCaller;
 
     my %p;
     for my $att ($serdes->serializable_attributes) {
-      # e.g. S3 metadata objects, which are passed in the header
       next if $serdes->trait_for($att, 'ParamInHeaders');
 
       my $value = $params->$att;
@@ -148,9 +148,6 @@ package Paws::Net::RestXmlCaller;
     }
   }
 
-  # URI escaping adapted from URI::Escape
-  #c.f. http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1
-  # perl 5.6 ready UTF-8 encoding adapted from JSON::PP
   our %escapes = map { chr($_) => sprintf("%%%02X", $_) } 0..255;
   our $unsafe_char = qr/[^A-Za-z0-9\-\._~]/;
 
@@ -162,13 +159,6 @@ package Paws::Net::RestXmlCaller;
     return $str;
   }
 
-  # PR11: SerDes-driven; no per-attribute Moose meta lookups.
-  # The type_string -> "is a Paws structure class?" check still uses
-  # Moose::Util::find_meta because that is the same answer regardless
-  # of OO backend (Moo classes inflate on first MOP touch). The wire
-  # layer's hot path doesn't go through here for the protocols
-  # tested in PR4 (json/restjson/query); RestXML's xml-building is
-  # only exercised by S3, Route53, CloudFront, etc.
   sub _attribute_to_xml {
     my ($self, $owner_serdes, $att_name, $value) = @_;
     my $type     = $owner_serdes->type_for($att_name);
@@ -187,7 +177,6 @@ package Paws::Net::RestXmlCaller;
            . "</${att_name}>";
     }
     elsif ($type =~ m/^ArrayRef\[(.*?::.*)\]/) {
-      # Array of Paws API objects.
       $xml = join '', map { sprintf '<%s>%s</%s>', $location, $self->_to_xml($_), $location } @$value;
       if (!$self->flattened_arrays) {
         $xml = sprintf('<%s>%s</%s>', $att_name, $xml, $att_name);
@@ -223,13 +212,10 @@ package Paws::Net::RestXmlCaller;
       next if $serdes->trait_for($att, 'ParamInHeader');
       next if $serdes->trait_for($att, 'ParamInQuery');
       next if $serdes->trait_for($att, 'ParamInURI');
-      # Historically: skip Paws::S3::Metadata typed attributes (the
-      # S3 metadata bag is serialised as headers, not body XML).
       next if ($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
       $xml .= $self->_attribute_to_xml($serdes, $att, $v);
     }
 
-    # Extra level of top-level wrapping, if set on the call object.
     if ($call->can('_top_level_element')) {
       $xml = sprintf('<%s xmlns="%s">%s</%s>',
                      $call->_top_level_element,
@@ -281,10 +267,15 @@ package Paws::Net::RestXmlCaller;
 
     if ($call->can('_stream_param')) {
       my $param_name = $call->_stream_param;
-      my $content = $call->$param_name // '';
-      $request->content($content);
-      $request->headers->header( 'content-length' => $request->content_length );
-      #$request->headers->header( 'content-type'   => $self->content_type );
+      my $param_value = $call->$param_name // '';
+      if (ref($param_value) eq 'GLOB'
+          || Scalar::Util::openhandle($param_value)
+          || (Scalar::Util::blessed($param_value) && $param_value->isa('IO::Handle'))) {
+          $request->stream_body($param_value);
+      } else {
+          $request->content($param_value);
+          $request->headers->header( 'content-length' => $request->content_length );
+      }
     }
 
     $self->_to_header_params($request, $call);

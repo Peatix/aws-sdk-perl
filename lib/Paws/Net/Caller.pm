@@ -22,13 +22,25 @@ package Paws::Net::Caller;
     # HTTP::Tiny derives the Host header from the URL. It's an error to set it.
     delete $headers->{Host}; 
 
+    my %options = (headers => $headers);
+
+    if ($requestObj->is_streaming_body) {
+      my $fh = $requestObj->stream_body;
+      my $chunk_size = 65536;
+      $options{content} = sub {
+        my $buf;
+        my $n = read($fh, $buf, $chunk_size);
+        return $buf if $n;
+        return '';
+      };
+    } elsif (defined $requestObj->content) {
+      $options{content} = $requestObj->content;
+    }
+
     my $response = $self->ua->request(
       $requestObj->method,
       $requestObj->url,
-      {
-        headers => $headers,
-        (defined $requestObj->content)?(content => $requestObj->content):(),
-      }
+      \%options,
     );
     return Paws::Net::APIResponse->new(
       status  => $response->{status},

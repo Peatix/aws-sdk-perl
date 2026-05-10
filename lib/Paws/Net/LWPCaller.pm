@@ -2,6 +2,7 @@ package Paws::Net::LWPCaller;
   # This caller uses LWP::UserAgent -- thus HTTPS proxies are supported.
   use Moose;
   with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
+  use HTTP::Request;
   use Paws::Net::APIResponse;
 
   has debug              => ( is => 'rw', required => 0, default => sub { 0 } );
@@ -25,12 +26,29 @@ package Paws::Net::LWPCaller;
     delete $headers->{Host};
 
     my $method = lc $requestObj->method;
-    my $response = $self->ua->$method(
-      $requestObj->url,
-        %$headers,
-        (defined $requestObj->content)?(Content => $requestObj->content):(),
-    );
-   
+
+    my $response;
+    if ($requestObj->is_streaming_body) {
+      my $fh = $requestObj->stream_body;
+      my $req = HTTP::Request->new(
+        uc($method),
+        $requestObj->url,
+        [ %$headers ],
+        sub {
+          my $buf;
+          my $n = read($fh, $buf, 65536);
+          return $buf if $n;
+          return '';
+        },
+      );
+      $response = $self->ua->request($req);
+    } else {
+      $response = $self->ua->$method(
+        $requestObj->url,
+          %$headers,
+          (defined $requestObj->content)?(Content => $requestObj->content):(),
+      );
+    }
 
    my $lcheaders = {};
    $response->headers->scan(sub { $lcheaders->{ lc$_[0] } = $_[1] });
