@@ -177,11 +177,16 @@ jobs:
       - name: Build code + docs dists for ${{ matrix.shard.name }}
         env:
           SOURCE_DATE_EPOCH: ${{ needs.plan.outputs.epoch }}
+          SHARD_SERVICES:    ${{ matrix.shard.services }}
         run: |
           mkdir -p dist dist/docs
+          # The matrix variable lands as a single comma-separated string;
+          # word-split via IFS into a real loop. The SHARD_SERVICES env
+          # var is quoted on assignment so it survives the GitHub
+          # Actions expansion intact.
           IFS=','
           fail=0
-          for svc in ${{ matrix.shard.services }}
+          for svc in $SHARD_SERVICES
           do
             echo "::group::build $svc"
             if ! perl -I lib script/build-modular-dist --output-dir dist "$svc"
