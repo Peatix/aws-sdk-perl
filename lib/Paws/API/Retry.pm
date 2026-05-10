@@ -30,8 +30,9 @@ package Paws::API::Retry;
     sub { defined $_[0]->http_status and $_[0]->http_status == 429 },
   ] });
 
+  has mode => (is => 'ro', isa => 'Str', default => 'legacy');
   has max_tries => (is => 'ro', required => 1);
-  has type => (is => 'ro', required => 1);
+  has type => (is => 'ro', default => 'exponential');
 
   has tries => (is => 'rw', default => 0);
 
@@ -45,13 +46,23 @@ package Paws::API::Retry;
   around BUILDARGS => sub {
     my ($orig, $class, %args) = @_;
 
-    if ($args{ type } eq 'exponential') {
+    my $mode = $args{ mode } // 'legacy';
+
+    if ($mode eq 'legacy') {
+      if ($args{ type } eq 'exponential') {
+        $args{ generator } = sub {
+          my $self = shift;
+          (2 ** ($self->tries - 2)) + (rand(1) / 2);
+        };
+      } else {
+        die "Don't know how to make a retry type of $args{ type }";
+      }
+    } else {
+      $args{ type } //= 'exponential';
       $args{ generator } = sub {
         my $self = shift;
         (2 ** ($self->tries - 2)) + (rand(1) / 2);
       };
-    } else {
-      die "Don't know how to make a retry type of $args{ type }";
     }
 
     return $class->$orig(%args);
