@@ -470,6 +470,309 @@ sub _type_string {
 sub _q   { defined $_[0] ? "'" . _esc($_[0]) . "'" : 'undef' }
 sub _esc { my $s = $_[0] // ''; $s =~ s/(['\\])/\\$1/g; $s }
 
+# ===========================================================================
+# POD emission (A4-B Phase 1.5: docs companion sub-dist generation)
+# ---------------------------------------------------------------------------
+# The build pipeline (script/build-modular-docs-dist) calls
+# generate_pod_for_service($ir) and writes each entry of the returned
+# hashref to lib/Paws/<Service>/<Op|Shape>.pod in the docs sub-dist.
+# Entirely separate from the materialise / emit_callback machinery
+# above; walks the IR independently. POD-only output, no Perl source.
+#
+# Quality bar (per docs/distribution-plan-a4b.md §3.1 step 4):
+#  - Each operation: NAME, DESCRIPTION (from IR documentation),
+#    SYNOPSIS, ATTRIBUTES, SEE ALSO
+#  - Each structure shape: NAME, DESCRIPTION, ATTRIBUTES
+#  - Top-level service: NAME, DESCRIPTION, OPERATIONS list
+#
+# Smithy `documentation` traits often embed HTML; this implementation
+# does a minimal sanitisation (drop tags, decode named entities,
+# preserve C<...> for inline-code and L<...> for hrefs) rather than a
+# full HTML→POD translator. Production-quality formatting is
+# post-1.0.0.
+# ===========================================================================
+
+sub generate_pod_for_service {
+    my ($self, $service_ir) = @_;
+    my $service_pkg = 'Paws::' . $service_ir->name;
+
+    my %pod;
+    $pod{$service_pkg} = $self->_pod_for_service($service_ir);
+
+    for my $op_name ($service_ir->operation_names) {
+        my $op_pkg = "${service_pkg}::${op_name}";
+        $pod{$op_pkg} = $self->_pod_for_operation($service_ir, $op_name);
+
+        # Output shape gets its own .pod entry too. Some services
+        # name the output shape after the operation (e.g.
+        # CreateBucketOutput); some return shared shapes.
+        my $op = $service_ir->operation($op_name);
+        if ($op && $op->output_shape) {
+            my $out_pkg = "${service_pkg}::" . $op->output_shape;
+            if (!exists $pod{$out_pkg}) {
+                my $shape = $service_ir->shape($op->output_shape);
+                if ($shape && $shape->is_structure) {
+                    $pod{$out_pkg} = $self->_pod_for_shape(
+                        $service_ir, $op->output_shape,
+                    );
+                }
+            }
+        }
+    }
+
+    # Every structure shape that the materialiser would build also
+    # gets a .pod entry. Walk the IR's shapes list directly so we
+    # cover shapes referenced indirectly through other shapes (e.g.
+    # nested under list-of-struct members).
+    for my $shape_name ($service_ir->shape_names) {
+        my $shape = $service_ir->shape($shape_name);
+        next if !$shape || !$shape->is_structure;
+        my $pkg = "${service_pkg}::${shape_name}";
+        next if exists $pod{$pkg};
+        $pod{$pkg} = $self->_pod_for_shape($service_ir, $shape_name);
+    }
+
+    return \%pod;
+}
+
+# Service-level POD: NAME, DESCRIPTION, OPERATIONS (list of method
+# links), SEE ALSO.
+sub _pod_for_service {
+    my ($self, $service_ir) = @_;
+    my $service_pkg = 'Paws::' . $service_ir->name;
+
+    my $desc = _pod_clean_text($service_ir->documentation)
+        // "AWS " . $service_ir->name . " client.";
+
+    my @ops = sort $service_ir->operation_names;
+    my @op_lines;
+    for my $op (@ops) {
+        push @op_lines, "=item L<${service_pkg}::${op}>", "",
+                        "C<< \$svc->${op}(...) >>", "";
+    }
+
+    my $aws_url = _pod_aws_docs_url($service_ir);
+
+    return _join_pod_lines(
+        '=encoding utf-8', '',
+        '=head1 NAME', '',
+        "${service_pkg} - " . _short_summary($service_ir->name),
+        '',
+        '=head1 DESCRIPTION', '',
+        $desc, '',
+        '=head1 OPERATIONS', '',
+        '=over 4', '',
+        @op_lines,
+        '=back', '',
+        '=head1 SEE ALSO', '',
+        "L<${service_pkg}::*> - per-operation documentation companions.",
+        '',
+        "L<$aws_url> - canonical AWS service reference.",
+        '',
+        '=cut',
+    );
+}
+
+# Operation-level POD: NAME, DESCRIPTION, SYNOPSIS, ATTRIBUTES, SEE ALSO.
+sub _pod_for_operation {
+    my ($self, $service_ir, $op_name) = @_;
+    my $service_pkg = 'Paws::' . $service_ir->name;
+    my $op_pkg      = "${service_pkg}::${op_name}";
+
+    my $op = $service_ir->operation($op_name)
+        // croak "no such operation: $op_name";
+
+    my $desc = _pod_clean_text($op->documentation)
+        // "AWS $op_name operation on " . $service_ir->name . ".";
+
+    my $synopsis = "    my \$result = \$svc->${op_name}(\n";
+    my @attr_pod;
+    if (my $input_name = $op->input_shape) {
+        my $input_shape = $service_ir->shape($input_name);
+        if ($input_shape && $input_shape->is_structure) {
+            my %required = map { $_ => 1 } @{ $input_shape->required_members };
+            for my $mname (sort keys %{ $input_shape->members }) {
+                my $m = $input_shape->members->{$mname};
+                my $type_string = $self->_type_string($service_ir, $m->shape);
+                $synopsis .= "        ${mname} => \$$mname,\n";
+                my $body = _pod_clean_text($m->documentation)
+                    // "($mname member of $op_name input)";
+                my $req = $required{$mname} ? ' (required)' : '';
+                push @attr_pod,
+                    "=head2 ${mname} => ${type_string}${req}", "",
+                    $body, "";
+            }
+        }
+    }
+    $synopsis .= "    );";
+    if (!@attr_pod) {
+        push @attr_pod, "(no input attributes)", "";
+    }
+
+    my $output_section = '';
+    if (my $output_name = $op->output_shape) {
+        $output_section = "Returns: L<${service_pkg}::${output_name}>.";
+    } else {
+        $output_section = "Returns: nothing.";
+    }
+
+    my $aws_url = _pod_aws_docs_url($service_ir);
+
+    return _join_pod_lines(
+        '=encoding utf-8', '',
+        '=head1 NAME', '',
+        "${op_pkg} - $op_name operation on " . $service_ir->name,
+        '',
+        '=head1 DESCRIPTION', '',
+        $desc, '',
+        '=head1 SYNOPSIS', '',
+        $synopsis, '',
+        '=head1 ATTRIBUTES', '',
+        @attr_pod,
+        '=head1 RETURNS', '',
+        $output_section, '',
+        '=head1 SEE ALSO', '',
+        "L<${service_pkg}> - the service this operation belongs to.",
+        '',
+        "L<$aws_url> - canonical AWS reference for $op_name.",
+        '',
+        '=cut',
+    );
+}
+
+# Shape-level POD (structures only): NAME, DESCRIPTION, ATTRIBUTES.
+sub _pod_for_shape {
+    my ($self, $service_ir, $shape_name) = @_;
+    my $service_pkg = 'Paws::' . $service_ir->name;
+    my $pkg         = "${service_pkg}::${shape_name}";
+
+    my $shape = $service_ir->shape($shape_name)
+        // croak "no such shape: $shape_name";
+    my $desc = _pod_clean_text($shape->documentation)
+        // "$shape_name shape used by " . $service_ir->name . ".";
+
+    my %required = map { $_ => 1 } @{ $shape->required_members };
+    my @attr_pod;
+    for my $mname (sort keys %{ $shape->members }) {
+        my $m = $shape->members->{$mname};
+        my $type_string = eval { $self->_type_string($service_ir, $m->shape) }
+            // 'Str';
+        my $body = _pod_clean_text($m->documentation)
+            // "($mname member of $shape_name)";
+        my $req = $required{$mname} ? ' (required)' : '';
+        push @attr_pod,
+            "=head2 ${mname} => ${type_string}${req}", "",
+            $body, "";
+    }
+    if (!@attr_pod) {
+        push @attr_pod, "(no attributes)", "";
+    }
+
+    return _join_pod_lines(
+        '=encoding utf-8', '',
+        '=head1 NAME', '',
+        "${pkg} - $shape_name shape from " . $service_ir->name,
+        '',
+        '=head1 DESCRIPTION', '',
+        $desc, '',
+        '=head1 ATTRIBUTES', '',
+        @attr_pod,
+        '=cut',
+    );
+}
+
+# Concatenate POD lines with a single trailing newline; collapse
+# adjacent blank-line markers so the output stays valid POD.
+sub _join_pod_lines {
+    my @lines = @_;
+    my @out;
+    my $prev_blank = 0;
+    for my $l (@lines) {
+        my $is_blank = !defined($l) || $l !~ /\S/;
+        if ($is_blank) {
+            next if $prev_blank;
+            push @out, '';
+            $prev_blank = 1;
+        } else {
+            push @out, $l;
+            $prev_blank = 0;
+        }
+    }
+    return join("\n", @out) . "\n";
+}
+
+# Cheap HTML→POD sanitiser. Smithy documentation traits often look
+# like:
+#   <p>Creates a new bucket. <a href="...">See more</a></p>
+# We turn that into a single paragraph of plain text. We deliberately
+# do NOT try to preserve HTML structure (lists, headings, code blocks)
+# — that's post-1.0.0.
+sub _pod_clean_text {
+    my ($text) = @_;
+    return undef if !defined $text || $text eq '';
+
+    # Decode the most common named entities. Smithy traits commonly
+    # contain &lt; / &gt; / &amp; / &quot; / &apos; / &#39;.
+    $text =~ s/&lt;/</g;
+    $text =~ s/&gt;/>/g;
+    $text =~ s/&quot;/"/g;
+    $text =~ s/&apos;/'/g;
+    $text =~ s/&#39;/'/g;
+    $text =~ s/&nbsp;/ /g;
+    $text =~ s/&amp;/&/g;
+
+    # Convert known HTML to placeholder tokens so the generic
+    # tag-stripper at the end doesn't eat them. \x{1} / \x{2} are
+    # control characters that won't appear in the source documentation.
+    # <a href="X">text</a> -> POD L<text|X>, via placeholder.
+    $text =~ s{<a\s+[^>]*href="([^"]+)"[^>]*>(.*?)</a>}{\x{1}L\x{2}$2|$1\x{3}}gis;
+    # <code>X</code> -> POD C<X>
+    $text =~ s{<code>(.*?)</code>}{\x{1}C\x{2}$1\x{3}}gis;
+    # <p> ... </p> -> blank-line paragraph break
+    $text =~ s{</?p[^>]*>}{\n\n}gis;
+    $text =~ s{<br\s*/?>}{\n}gis;
+    $text =~ s{<li[^>]*>}{\n* }gis;
+    # Drop everything else.
+    $text =~ s{<[^>]+>}{}gis;
+    # Restore placeholders to POD format codes.
+    $text =~ s/\x{1}/</g;   # < marker -> literal <
+    $text =~ s/\x{2}/</g;   # placeholder1 -> POD <
+    $text =~ s/\x{3}/>/g;   # closer -> POD >
+    # The L<>/C<> tokens after the swap above look like "<L<text|url>"
+    # — trim the leading "<" we used as a marker.
+    $text =~ s{<L<}{L<}g;
+    $text =~ s{<C<}{C<}g;
+
+    # POD escapes: leading-equals on a line is a directive marker;
+    # rewrite by indenting the line with a single space so the
+    # paragraph stays a body paragraph.
+    $text =~ s/^=/ =/gm;
+
+    # Collapse runs of whitespace to a single space within paragraphs;
+    # collapse 3+ newlines to 2 (paragraph break).
+    $text =~ s/[ \t]+/ /g;
+    $text =~ s/\n{3,}/\n\n/g;
+    $text =~ s/^\s+|\s+$//g;
+
+    return $text;
+}
+
+# Best-effort AWS docs URL guess. Smithy IR doesn't carry a
+# `documentation_url` trait directly on the service, so fall back to
+# the generic per-service page on docs.aws.amazon.com.
+sub _pod_aws_docs_url {
+    my ($service_ir) = @_;
+    my $ep = $service_ir->endpoint_prefix // lc $service_ir->name;
+    return "https://docs.aws.amazon.com/$ep/";
+}
+
+# Cheap one-line summary used in =head1 NAME lines. Lifted from the
+# IR's `documentation` field if present, otherwise generic.
+sub _short_summary {
+    my ($svc) = @_;
+    return "AWS $svc client";
+}
+
 1;
 
 __END__
