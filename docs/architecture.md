@@ -7,14 +7,33 @@ For the user-facing "when do I bundle vs. let the materialiser handle
 it" question and the single-service AOT regen workflow, see
 `docs/materialisation.md`.
 
-> **Direction note (2026-05-10)**: this document describes the
-> current single-dist + on-demand-materialiser architecture. The
-> project has chosen to move to per-service modular sub-dists with
-> build-time materialisation (A4-B per
-> [issue #87](https://github.com/Peatix/aws-sdk-perl/issues/87)).
+> **A4-B status (Phase 4, 2026-05-10)**: this document describes
+> the historical single-dist + on-demand-materialiser architecture
+> for context. The project shipped the A4-B modular layout in
+> Phases 1-3:
+>
+> - Per-service code dists (`Paws-S3`, `Paws-EC2`, …) ship as
+>   separate CPAN tarballs on GitHub Releases. Each contains
+>   pre-materialised `lib/Paws/<Service>/*.pm` files built by
+>   `script/build-modular-dist` from the vendored Smithy IR.
+> - Per-service docs companions (`Paws-S3-Docs`, …) ship POD-only
+>   `.pod` files at the same `Paws::<Service>::*` namespace.
+> - `Paws-Core` ships the runtime: `lib/Paws.pm` (entry point),
+>   `lib/Paws/Net/*` (wire layer), `lib/Paws/Credential/*`,
+>   `lib/Paws/Signin/*`, signers, exception types, mock caller.
+> - The materialiser + loaders live in master under
+>   `lib/Paws/Model/{Materializer,Loader}*` for the build pipeline
+>   only; they are excluded from every user-facing dist via
+>   `dist.ini` `Git::GatherDir` excludes.
+> - Runtime materialisation is gone: a missing service class
+>   produces the canonical Perl `Can't locate Paws/<Svc>.pm in @INC`
+>   error.
+>
 > See `docs/distribution-plan-a4b.md` for the implementation
-> roadmap. This document will be updated when the plan's Phase 4
-> (documentation update) lands.
+> roadmap and `README.md` for the install pattern. The
+> "single-dist + on-demand-materialiser" view below documents the
+> intermediate pre-Phase-3 state (still useful when reading commit
+> history from PR #82 / #83 / #75).
 
 ## High-level shape
 

@@ -20,17 +20,66 @@ Version on CPAN: [![CPAN version](https://badge.fury.io/pl/Paws.svg)](https://ba
 Installation
 ============
 
-If you want to install and use Paws then just install it via cpan, cpanm, carton or the likes. If you want to contribute code: read on
+The Peatix fork of Paws ships as a **modular distribution** under the
+A4-B distribution plan (see [`docs/distribution-plan-a4b.md`](docs/distribution-plan-a4b.md)
+for the design rationale). Install Paws::Core (the slim runtime, ~500 KB)
+plus a per-service sub-dist for each AWS service your code uses. The
+tarballs are published on GitHub Releases at
+<https://github.com/Peatix/aws-sdk-perl/releases>.
 
-```
-cpanm Paws
+One-shot install via direct URLs:
+
+```sh
+cpanm \
+    https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-Core-1.0.0.tar.gz \
+    https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-S3-1.0.0.tar.gz \
+    https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-EC2-1.0.0.tar.gz
 ```
 
-```
-echo "requires 'Paws';" >> cpanfile
-carton install
+Or via cpanfile (recommended for reproducible installs):
 
-carton exec my_script_that_uses_paws
+```perl
+# cpanfile
+my $V    = '1.0.0';
+my $base = "https://github.com/Peatix/aws-sdk-perl/releases/download";
+
+requires 'Paws',      url => "$base/v$V/Paws-Core-$V.tar.gz";
+requires 'Paws::S3',  url => "$base/v$V/Paws-S3-$V.tar.gz";
+requires 'Paws::EC2', url => "$base/v$V/Paws-EC2-$V.tar.gz";
+
+# Optional per-service docs companions (POD only, ~30-100 KB each):
+# requires 'Paws::S3::Docs', url => "$base/v$V/Paws-S3-Docs-$V.tar.gz";
+```
+
+Then `carton install` (or `cpm install`) and `carton exec my_script.pl` as before.
+
+Migration helper: `bin/paws-migrate-cpanfile` greps your project's
+source tree for `Paws->service('X')` / `Paws->load_class('Paws::X')`
+references and emits a cpanfile snippet covering the services it
+detects. Existing cpanfile-based projects can use it as a one-shot
+migration:
+
+```sh
+perl bin/paws-migrate-cpanfile --root . --version 1.0.0 --output cpanfile.paws
+```
+
+User code stays unchanged — `use Paws;` and `Paws->service('S3')`
+work exactly as before for any service whose sub-dist is installed.
+Calling a service whose sub-dist is **not** installed produces the
+canonical Perl `Can't locate Paws/<Svc>.pm in @INC` error rather
+than silently materialising the class at runtime (the Phase 3
+`Paws::Core` slim removed the runtime materialiser).
+
+Upstream `Paws@0.46` from CPAN
+------------------------------
+
+The upstream [`Pplu/Paws`](https://github.com/pplu/aws-sdk-perl) /
+CPAN releases are still available; this fork's modular layout is
+incompatible with the upstream monolithic dist. If you need the
+classic `cpanm Paws` install, use the upstream version:
+
+```sh
+cpanm Paws    # upstream JROBINSON/Paws-0.46.tar.gz, monolithic
 ```
 
 Development setup
