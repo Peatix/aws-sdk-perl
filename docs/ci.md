@@ -10,8 +10,8 @@ This repository ships three GitHub Actions workflows under `.github/workflows/`:
 | `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree under `share/smithy/`; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 
 (Additional workflows arrive in stack 01–17 of the maintenance-reduction series:
-`coverage.yml`, `install-smoke.yml`, `benchmarks.yml`,
-`regen-byte-identical.yml`, `benchmark-capture.yml`. Each one should also use
+`coverage.yml`, `install-smoke.yml`,
+`regen-byte-identical.yml`. Each one should also use
 the composite action introduced below.)
 
 ## Shared setup: `.github/actions/setup-paws-perl`
@@ -105,11 +105,9 @@ For workflows that regenerate `auto-lib/`:
 | `package.yml`           | ✓ (this PR) |
 | `coverage.yml`          | TODO — adopt when stack 01 lands |
 | `install-smoke.yml`     | TODO — adopt when stack 03 lands |
-| `benchmarks.yml`        | TODO — adopt when stack 04 lands |
 | `regen-byte-identical.yml` | TODO — adopt when stack 09 lands |
-| `benchmark-capture.yml` | TODO — adopt when stack 17 lands |
 
-The five `TODO` workflows are introduced by stack PRs that are already open;
+The three `TODO` workflows are introduced by stack PRs that are already open;
 adopting the composite action there is a one-line change per workflow.
 
 ### Expected savings
@@ -316,7 +314,7 @@ GitHub deliberately blocks workflows triggered by pushes from the
 default `GITHUB_TOKEN` to prevent recursive runs. Net result: when
 this workflow uses `GITHUB_TOKEN` to push the bump branch, the
 `pull_request` event for the bump PR fires but `test.yml`,
-`coverage.yml`, `benchmarks.yml`, `install-smoke.yml`, and friends
+`coverage.yml`, `install-smoke.yml`, and friends
 all stay quiet. Without CI signal, the watch step has nothing to
 wait on and bails.
 
@@ -348,8 +346,8 @@ The watch only sees checks that the standard `pull_request`
 workflows produce, so if any of those workflows tightens its `paths:`
 filter to exclude `share/`, the auto-merge silently stops covering
 that case (the relevant workflow won't fire on the bump PR).
-`test.yml`, `regen-byte-identical.yml`, `benchmarks.yml`,
-`benchmark-capture.yml`, and `package.yml` already include `share/**`
+`test.yml`, `regen-byte-identical.yml`,
+and `package.yml` already include `share/**`
 or run unconditionally, so this is fine today.
 
 ### Disabling temporarily
