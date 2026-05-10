@@ -1,22 +1,32 @@
 # CI workflows
 
-This repository ships three GitHub Actions workflows under `.github/workflows/`:
+This repository ships six GitHub Actions workflows under `.github/workflows/`:
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
 | `test.yml` | `pull_request` (filtered to code paths) | Generate the full set of service classes and run the test suite. |
-| `generate-and-pr.yml` | `workflow_dispatch` | Pull botocore (optionally), regenerate classes via `make gen-classes`, and open a draft PR with the result. |
-| `package.yml` | `workflow_dispatch` and tag pushes | Build a `Paws-*.tar.gz` distribution archive and upload it as a workflow artifact. |
+| `install-smoke.yml` | `pull_request`, `push` to master/develop, `workflow_dispatch` | Build the dist via dzil, install the tarball into a fresh container, and run `examples/smoke.pl` against the installed Paws. |
+| `coverage.yml` | `pull_request`, `push` to master/develop, `workflow_dispatch` | Run the test suite under `Devel::Cover` and produce a coverage report. |
+| `build-modular-smoke.yml` | `pull_request` + `push` (filtered to build/model/smithy paths), `workflow_dispatch` | Phase 1 A4-B gate: build per-service modular dists for a representative set of services, install them, and run smoke tests. |
+| `release-modular.yml` | `release.published`, `workflow_dispatch` | Phase 2 A4-B: build the full per-service modular fleet (~305 code + ~305 docs companions + 1 Paws::Core) and upload tarballs to the GitHub release. |
 | `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree under `share/smithy/`; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 
-(Additional workflows arrive in stack 01–17 of the maintenance-reduction series:
-`coverage.yml`, `install-smoke.yml`, `benchmarks.yml`,
-`regen-byte-identical.yml`, `benchmark-capture.yml`. Each one should also use
-the composite action introduced below.)
+### Dropped workflows
+
+The following workflows were removed as part of the A4-B modular distribution
+work (Phase 3):
+
+| Workflow | Reason |
+| --- | --- |
+| `generate-and-pr.yml` | Superseded by the modular build pipeline (`build-modular-smoke.yml`, `release-modular.yml`). |
+| `package.yml` | Replaced by `release-modular.yml` which produces per-service tarballs. |
+| `regen-byte-identical.yml` | The determinism property it verified is now covered by `t/build/01_determinism.t` in the modular build pipeline. |
+| `benchmarks.yml` | Measured the runtime materialiser, which no longer exists (A4-B ships pre-built service classes). |
+| `benchmark-capture.yml` | Companion to `benchmarks.yml`; removed for the same reason. |
 
 ## Shared setup: `.github/actions/setup-paws-perl`
 
-All three workflows above share a near-identical setup block: install Perl,
+All workflows share a near-identical setup block: install Perl,
 install the bootstrap modules, run `carton install`. The composite action at
 `.github/actions/setup-paws-perl/action.yml` factors that out and adds
 caching that materially speeds up CI.
@@ -95,22 +105,6 @@ For workflows that regenerate `auto-lib/`:
   if: steps.perl.outputs.autolib-cache-hit != 'true'
   run: make gen-classes-no-doc-fetch
 ```
-
-### Adoption status
-
-| Workflow | Adopts composite action |
-| --- | --- |
-| `test.yml`              | ✓ (this PR) |
-| `generate-and-pr.yml`   | ✓ (this PR) |
-| `package.yml`           | ✓ (this PR) |
-| `coverage.yml`          | TODO — adopt when stack 01 lands |
-| `install-smoke.yml`     | TODO — adopt when stack 03 lands |
-| `benchmarks.yml`        | TODO — adopt when stack 04 lands |
-| `regen-byte-identical.yml` | TODO — adopt when stack 09 lands |
-| `benchmark-capture.yml` | TODO — adopt when stack 17 lands |
-
-The five `TODO` workflows are introduced by stack PRs that are already open;
-adopting the composite action there is a one-line change per workflow.
 
 ### Expected savings
 
@@ -239,7 +233,7 @@ For CI to operate without a full `make docu-links` (which hits `docs.aws.amazon.
 
 ## Source-dep refresh
 
-`.github/workflows/refresh-source-deps.yml` keeps the runtime upstream
+`.github/workflows/refresh-source-deps.yml` keeps the vendored Smithy IR
 fresh, without manual nudges:
 
 - **`share/smithy/`** + **`share/smithy/.upstream-sha`** — the
@@ -252,8 +246,7 @@ fresh, without manual nudges:
 
 The workflow does NOT auto-track the AOT-generator-only botocore
 pin in `etc/botocore-pin.sha` — that pin only changes when a
-contributor regenerates `auto-lib/` at a new botocore SHA via
-`generate-and-pr.yml`, which is a manual workflow.
+contributor regenerates `auto-lib/` at a new botocore SHA manually.
 
 ### Schedule
 
@@ -304,19 +297,13 @@ naming makes that automatic. The maintainer can close the stale
 one (or merge it first; a same-SHA re-run force-pushes the bump
 branch so the existing PR auto-updates with the latest commit).
 
-The shell + `github-script` split replaces the previous
-`peter-evans/create-pull-request` action: fewer third-party
-dependencies, more direct control over commit messages and the
-existing-PR-reuse path, and aligns with the github-script pattern
-already in `generate-and-pr.yml`.
-
 ### `PAWS_BUMP_PAT` secret
 
 GitHub deliberately blocks workflows triggered by pushes from the
 default `GITHUB_TOKEN` to prevent recursive runs. Net result: when
 this workflow uses `GITHUB_TOKEN` to push the bump branch, the
 `pull_request` event for the bump PR fires but `test.yml`,
-`coverage.yml`, `benchmarks.yml`, `install-smoke.yml`, and friends
+`coverage.yml`, `install-smoke.yml`, and friends
 all stay quiet. Without CI signal, the watch step has nothing to
 wait on and bails.
 
@@ -348,8 +335,7 @@ The watch only sees checks that the standard `pull_request`
 workflows produce, so if any of those workflows tightens its `paths:`
 filter to exclude `share/`, the auto-merge silently stops covering
 that case (the relevant workflow won't fire on the bump PR).
-`test.yml`, `regen-byte-identical.yml`, `benchmarks.yml`,
-`benchmark-capture.yml`, and `package.yml` already include `share/**`
+`test.yml` and `coverage.yml` already include `share/**`
 or run unconditionally, so this is fine today.
 
 ### Disabling temporarily
