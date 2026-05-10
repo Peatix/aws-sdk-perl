@@ -95,7 +95,7 @@ jobs:
             perl -I lib script/build-modular-docs-dist ${{ matrix.service }}
           ls -la dist/docs/Paws-${{ matrix.service }}-Docs-*.tar.gz
 
-      - name: Install Paws + sub-dist into a fresh local-lib
+      - name: Install Paws + sub-dist + docs companion into a fresh local-lib
         run: |
           rm -rf smoke-lib
           # The legacy Paws tarball provides Paws::Core's runtime
@@ -103,6 +103,7 @@ jobs:
           # — same dep target the build-modular-dist generates today.
           cpanm --notest --local-lib=smoke-lib ./Paws-*.tar.gz
           cpanm --notest --local-lib=smoke-lib ./dist/Paws-${{ matrix.service }}-*.tar.gz
+          cpanm --notest --local-lib=smoke-lib ./dist/docs/Paws-${{ matrix.service }}-Docs-*.tar.gz
 
       - name: Smoke — Paws->service('${{ matrix.service }}') returns an instance
         env:
@@ -117,6 +118,23 @@ jobs:
               die "no instance" unless ref($svc) eq "Paws::${{ matrix.service }}";
               print "ok class=", ref($svc), "\n";
           '
+
+      - name: Docs gate — perldoc resolves Paws::${{ matrix.service }}
+        run: |
+          out=$(PERL5LIB=smoke-lib/lib/perl5 perldoc -t Paws::${{ matrix.service }} 2>&1)
+          rc=$?
+          if [ $rc -ne 0 ]
+          then
+            echo "perldoc Paws::${{ matrix.service }} exited rc=$rc"
+            echo "$out"
+            exit 1
+          fi
+          if [ -z "$out" ]
+          then
+            echo "perldoc Paws::${{ matrix.service }} returned empty"
+            exit 1
+          fi
+          echo "$out" | head -20
 
       - name: Run t/build determinism + layout tests
         run: |
