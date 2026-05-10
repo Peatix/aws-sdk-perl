@@ -363,6 +363,59 @@ Two options:
    refresh-source-deps → ⋯ → Disable workflow. This stops both the
    cron and `workflow_dispatch`. Re-enable the same way.
 
+## GitHub Releases asset limits
+
+GitHub imposes a hard limit of **1000 assets per release**. Each
+release of Paws uploads one Paws-Core tarball plus two tarballs per
+service (code dist + docs dist):
+
+```
+total_assets = 1 + 2 * service_count
+```
+
+### Current utilisation
+
+| Metric | Value |
+| --- | --- |
+| Service count (after audit) | 306 |
+| Total assets | 613 (1 + 2 Ã 306) |
+| GitHub limit | 1000 |
+| Utilisation | ~61% |
+
+The `release-modular.yml` publish job's "Assert expected service fleet
+size" step enforces `asset_count >= 1 + 2 * service_count` at the end
+of every release run.
+
+### Case-insensitive asset name dedup
+
+GitHub's release-asset upload API treats asset names as
+case-insensitive: uploading `Paws-SSO-1.00.tar.gz` after
+`Paws-Sso-1.00.tar.gz` returns HTTP 422 ("ReleaseAsset.name already
+exists"). The rc1 release hit this because `@KNOWN_PAWS_SERVICE_NAMES`
+contained both `SSO` and `Sso` (legacy auto-lib variants of the same
+service). PR #94 added a runtime case-insensitive dedup as a quick
+fix; this branch replaces that with a clean service list that has no
+case-insensitive collisions (see
+`lib/Paws/Model/Loader/Resolver.pm:@KNOWN_PAWS_SERVICE_NAMES`).
+
+### Growth projection
+
+AWS adds roughly 5â10 new services per year. At the current rate
+of +10 services/year (worst case) adding 20 assets each:
+
+| Year | Est. services | Est. assets | Headroom |
+| --- | --- | --- | --- |
+| 2026 | 306 | 613 | 387 |
+| 2028 | ~326 | ~653 | ~347 |
+| 2030 | ~346 | ~693 | ~307 |
+| 2035 | ~396 | ~793 | ~207 |
+
+At worst-case growth the 1000-asset ceiling won't be reached before
+~2040. If AWS accelerates service launches, split the release across
+multiple GitHub Releases (e.g. `v1.0.0-core`, `v1.0.0-services-a-m`,
+`v1.0.0-services-n-z`) or move large assets to a separate distribution
+channel (S3, CPAN).
+
 ## Where to look when something breaks
 
 | Symptom | Look at |
