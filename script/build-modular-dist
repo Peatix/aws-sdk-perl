@@ -49,10 +49,12 @@ use Paws::Model::Materializer::Moo;
 my $output_dir          = 'dist';
 my $version;
 my $paws_core_version;
-# Until Phase 3 splits Paws::Core out of the monolithic Paws dist
-# the per-service sub-dists declare a runtime dep on the Paws dist
-# itself (which provides Paws.pm + Paws::Net::* + the wire layer).
-# Phase 3 flips this to 'Paws::Core'.
+# Per-service sub-dists declare a runtime dep on the `Paws` package
+# (provided by lib/Paws.pm), which now ships in the renamed
+# `Paws-Core` dist (Phase 3 of the A4-B plan, docs/distribution-plan-a4b.md
+# §2.1). Phase 3's prior draft introduced a Paws::Core shim package
+# but the maintainer rejected it: `Paws-Core` is just the dist name;
+# the package surface stays `Paws`.
 my $core_dep_module = 'Paws';
 
 GetOptions(

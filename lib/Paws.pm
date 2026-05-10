@@ -58,7 +58,7 @@ __PACKAGE__->meta->make_immutable;
 
 package Paws;
 
-our $VERSION = '1.00';
+our $VERSION = '1.0.0';
 
 use Carp;
 
@@ -92,17 +92,17 @@ sub load_class {
   my (undef, @classes) = @_;
   state %loaded;
   foreach my $class (grep !$loaded{$_}, @classes) {
-    # PR 18 (stack18): if the on-disk .pm exists, require_module it.
-    # Otherwise fall through to the materialiser, which loads the
-    # service IR from share/smithy/ and constructs the class in-memory.
-    # After PR 19 drops auto-lib/, the on-disk path stops working and
-    # the materialiser is the only path; this conditional handles the
-    # migration window.
-    if (_class_on_disk($class)) {
-      Module::Runtime::require_module($class);
-    } else {
-      _materialise_class($class);
-    }
+    # Phase 3 of the A4-B distribution plan
+    # (docs/distribution-plan-a4b.md §2.5) drops the runtime-
+    # materialiser fallback. load_class is now a thin wrapper
+    # around Module::Runtime::require_module: a missing service
+    # class produces the canonical Perl
+    # `Can't locate Paws/<Svc>.pm in @INC ...` error, which is the
+    # signal to the user to `cpanm Paws::<Svc>` from the modular
+    # release. The materialiser + loader code lives in master at
+    # lib/Paws/Model/{Materializer,Loader}* but is excluded from
+    # the Paws::Core dist via dist.ini's Git::GatherDir excludes.
+    Module::Runtime::require_module($class);
     $loaded{$class} = 1;
     # immutability is a global setting that will affect all instances
     if (Paws->default_config->immutable
@@ -111,90 +111,6 @@ sub load_class {
       $class->meta->make_immutable;
     }
   }
-}
-
-sub _class_on_disk {
-  my ($class) = @_;
-  my $rel = $class;
-  $rel =~ s{::}{/}g;
-  $rel .= '.pm';
-  for my $dir (@INC) {
-    return 1 if -r "$dir/$rel";
-  }
-  return 0;
-}
-
-sub _materialise_class {
-  my ($class) = @_;
-  return if $class !~ /^Paws::([^:]+)/;
-  my $service_name = $1;
-  my $service_class = "Paws::$service_name";
-
-  # Materialising a service builds the service class plus every
-  # operation / shape class for that service in one go (see
-  # Paws::Model::Materializer::Moo::materialize_service). A subsequent
-  # load_class for an inner class (e.g. Paws::EC2::DescribeInstances)
-  # therefore doesn't need a separate materialise pass once the
-  # service has been built. Detect "already materialised" by
-  # introspecting for the `operations` method that both materialiser
-  # backends install on Paws::<Svc> as part of materialize_service.
-  # This shares the same source of truth as
-  # Paws::Model::Materializer::Auto's hook without needing an
-  # explicit cross-module state hash.
-  return if $service_class->can('operations');
-
-  # Lazy-load the materialiser path. require_module here so a
-  # Paws install that lacks the materialiser modules (theoretical
-  # while the stack lands) falls back to the original error.
-  Module::Runtime::require_module('Paws::Model::Materializer::Auto');
-  Paws::Model::Materializer::Auto::_install_hook();
-
-  # Materializer::Auto's hook re-routes load_class through itself,
-  # so a recursive load_class call here would loop. Instead, drive
-  # the materialiser directly via the resolver.
-  Module::Runtime::require_module('Paws::Model::Loader::Resolver');
-  Module::Runtime::require_module('Paws::Model::Materializer');
-  Module::Runtime::require_module('Paws::Model::Materializer::Moo');
-
-  # Resolver is cached at package scope: the botocore SDK-name ->
-  # directory index it builds for non-mechanical mappings (e.g.
-  # ACMPCA -> acm-pca, CognitoIdentityProvider -> cognito-idp) is
-  # ~25s on cold cache for ~400 services, and is amortised across
-  # every subsequent load_service in the same process.
-  state $resolver = Paws::Model::Loader::Resolver->new;
-  my $ir = eval { $resolver->load_service($service_name) };
-  if (!$ir) {
-    # Fall back to the original require error so the user gets a
-    # familiar diagnostic.
-    Module::Runtime::require_module($class);
-    return;
-  }
-
-  my $backend = $ENV{PAWS_OO_BACKEND} // 'Moo';
-  my $mat_class = $backend eq 'Moose'
-    ? 'Paws::Model::Materializer'
-    : 'Paws::Model::Materializer::Moo';
-  my $mat = $mat_class->new(loader => undef);
-
-  # The resolver maps requested service names to Smithy basenames
-  # via %Paws::Model::Loader::Resolver::PAWS_TO_SMITHY (or lc()
-  # fallback) but the IR's `name` field reflects the Smithy sdkId
-  # trait (PascalCase: `DynamoDB`, `AccessAnalyzer`). For lookups
-  # via the canonical Paws class name (`Paws::DynamoDB`) those line
-  # up; for a basename lookup (`Paws::dynamodb`, returned by
-  # `Paws->available_services` when the resolver is the only
-  # enumeration source - i.e. on a `cpanm Paws` install with
-  # auto-lib/ removed) they don't. Mutate the IR's name to the
-  # requested service so the materialiser builds the requested
-  # service class plus every operation / shape under it in the
-  # user-facing namespace. The IR is freshly loaded above and not
-  # shared with anything else, so direct mutation is safe; we
-  # bypass Moose's read-only attribute machinery deliberately.
-  if ($service_name ne $ir->name) {
-    $ir->{name} = $service_name;
-  }
-
-  $mat->materialize_service($ir);
 }
 
 # Strip a Type::Tiny `InstanceOf["X"]` (or `InstanceOf['X']`,

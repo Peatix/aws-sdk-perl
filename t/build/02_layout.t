@@ -27,7 +27,17 @@ my $rc = system($^X, '-I', "$repo_root/lib",
                 $script, '--output-dir', $dist_dir, $svc);
 is($rc, 0, "build-modular-dist S3 exited cleanly") or BAIL_OUT("build failed");
 
-my $tarball = "$dist_dir/Paws-$svc-1.00.tar.gz";
+# build-modular-dist reads its version from lib/Paws.pm; resolve the
+# expected tarball name from the same source so this test follows
+# Paws::Core version bumps without manual maintenance.
+my ($version) = do {
+    open my $fh, '<', "$repo_root/lib/Paws.pm" or BAIL_OUT("open Paws.pm: $!");
+    local $/; my $body = <$fh>;
+    $body =~ /our\s+\$VERSION\s*=\s*'([^']+)'/
+        ? ($1) : BAIL_OUT("could not extract VERSION from lib/Paws.pm");
+};
+
+my $tarball = "$dist_dir/Paws-$svc-$version.tar.gz";
 ok(-r $tarball, "tarball produced at $tarball");
 
 # List the .pm files in the tarball.
@@ -38,9 +48,9 @@ ok(@pm_files >= 50, "tarball contains at least 50 inner .pm files (saw " . scala
 
 # Spot-check known operations and shapes.
 my @expected = (
-    "Paws-$svc-1.00/lib/Paws/S3.pm",
-    "Paws-$svc-1.00/lib/Paws/S3/CreateBucket.pm",
-    "Paws-$svc-1.00/lib/Paws/S3/ListObjects.pm",
+    "Paws-$svc-$version/lib/Paws/S3.pm",
+    "Paws-$svc-$version/lib/Paws/S3/CreateBucket.pm",
+    "Paws-$svc-$version/lib/Paws/S3/ListObjects.pm",
 );
 for my $exp (@expected) {
     ok((grep { $_ eq $exp } @lines), "tarball contains $exp");
@@ -49,7 +59,7 @@ for my $exp (@expected) {
 # Asserting NO single-file blob is present is implicit in the
 # above: if S3.pm were the monolithic file, the inner ops would
 # not appear as separate entries.
-my $top_pm = "Paws-$svc-1.00/lib/Paws/S3.pm";
+my $top_pm = "Paws-$svc-$version/lib/Paws/S3.pm";
 ok((grep { $_ eq $top_pm } @lines),
     "top-level service .pm is exactly Paws/S3.pm (not Paws-S3.pm or anything bundled)");
 
