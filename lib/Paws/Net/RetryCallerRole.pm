@@ -3,6 +3,27 @@ package Paws::Net::RetryCallerRole;
   use Time::HiRes 'sleep';
   use Paws::API::Retry;
 
+  has interceptors => (
+    is      => 'rw',
+    isa     => 'ArrayRef',
+    traits  => ['Array'],
+    default => sub { [] },
+    handles => {
+      all_interceptors    => 'elements',
+      add_interceptor     => 'push',
+      interceptor_count   => 'count',
+    },
+  );
+
+  sub register_interceptor {
+    my ($self, $interceptor) = @_;
+    require Moose::Util;
+    Moose::Util::does_role($interceptor, 'Paws::Net::Interceptor')
+      or die "Interceptor must consume the Paws::Net::Interceptor role";
+    $self->add_interceptor($interceptor);
+    return $self;
+  }
+
   sub do_call {
     my ($self, $service, $call_object) = @_;
    
