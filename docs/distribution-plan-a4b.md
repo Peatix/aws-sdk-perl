@@ -57,7 +57,7 @@ Three dist categories ship under A4-B, plus an optional fourth.
 | `lib/Paws/Credential/*` | Credential providers (Environment, File, ECS, InstanceProfile, AssumeRole, ProviderChain, …). |
 | `lib/Paws/Net/*` | Wire layer: `JsonCaller`, `RestJsonCaller`, `QueryCaller`, `RestXmlCaller`, `EC2Caller`, signers (V4, V4A, BEARER, V4S3, NoSignature), HTTP transport. |
 | `lib/Paws/Signin/*` | OIDC / SSO sign-in helpers. |
-| `lib/Paws/Model/*` | Loader (Resolver, Smithy, Botocore), IR, **Materializer + Materializer::Moo + Materializer::Auto** (see §7 Q9 — possibly moved to a separate companion). |
+| `lib/Paws/Model/IR.pm` | IR data classes — needed by the wire layer to walk shapes at request time. |
 | `lib/Paws/SerDes.pm` | Side-table that the wire layer reads (post-stack-12). |
 | `lib/Paws/Exception.pm` | Standard exception class. |
 | `bin/paws-migrate-cpanfile` | One-time migration helper for users moving from the old monolithic `Paws@1.00` install (see §5). |
@@ -68,11 +68,23 @@ Three dist categories ship under A4-B, plus an optional fourth.
   shipped to end users. Build-time only.
 - Any `Paws::<Service>` or `Paws::<Service>::*` classes. Those live
   in their per-service sub-dists.
+- Per the **Q9 decision** in §7, the materialiser, loaders
+  (`Paws::Model::Loader::Resolver`, `::Smithy`, `::Botocore`,
+  `Paws::Model::Loader`), and the `IR::Service`/`Operation`/`Shape`
+  classes that the loaders construct are **NOT shipped in any
+  user-facing dist**. They live on the master branch as build-time
+  tooling only and are excluded from `Paws::Core`'s `dist.ini`
+  GatherDir via `exclude_match = ^lib/Paws/Model/(Loader|Materializer)`
+  and `exclude_filename = lib/Paws/Model/IR.pm` (or equivalent).
+  Note: a thin `IR.pm` lives in Core for the wire layer's runtime
+  needs (walking shapes during serialisation). The full IR module
+  with its `::Service` / `::Operation` constructor logic stays
+  build-time-only.
 
 Approximate size, measured against the existing local install minus
 `share/smithy/` (issue #87 prototype): **~1.7 MB installed, ~668 KB
-tarball**. 11 packages of materialiser/loader code are ~120 KB of
-those 1.7 MB; their fate is open question Q9 (keep, move, drop).
+tarball**. With the materialiser + full loader stack also stripped
+the install drops further (~1.6 MB / ~620 KB tarball estimated).
 
 ### 2.2 `Paws-<Service>` (~411 dists; per-service AOT)
 
@@ -137,26 +149,33 @@ users migrating from the legacy `cpanm Paws` UX, but it is **not on
 the critical path** for the first modular release. Defer to a Phase
 6 follow-up if user demand materialises.
 
-### 2.5 Build-time-only modules
+### 2.5 Build-time-only modules (Q9 decided)
 
-The materialiser, loaders, and IR (`lib/Paws/Model/Materializer*`,
-`lib/Paws/Model/Loader/*`, `lib/Paws/Model/IR.pm`) are referenced
-both at build time (per-service dist generation) and at runtime
-(for hybrid users who want to extend). Their final placement is
-open question Q9:
+**Decision (2026-05-10): Option C — drop entirely from any user-facing
+dist.** Hybrid mode (user drops their own `share/smithy/` and expects
+on-demand materialisation) is unreachable post-A4-B; users who want
+that behaviour must run the build pipeline locally.
 
-- **Option A** — keep in `Paws::Core`. Cost: ~120 KB of code that
-  runtime A4-B users do not exercise. Benefit: hybrid users (drop
-  their own `share/smithy/<svc>/` somewhere) get on-demand
-  materialisation via the existing `_class_on_disk` → fallback path.
-- **Option B** — move to a separate `Paws::Materializer` companion
-  dist. Cost: +1 dist on GH Releases. Benefit: minimum-base Core stays
-  minimum.
-- **Option C** — drop entirely from any user-facing dist (build-time
-  only, never installed). Cost: hybrid mode is unreachable without
-  re-installing the build pipeline. Benefit: simplest mental model.
+The materialiser (`lib/Paws/Model/Materializer.pm`,
+`lib/Paws/Model/Materializer/Moo.pm`,
+`lib/Paws/Model/Materializer/Auto.pm`), the loaders
+(`lib/Paws/Model/Loader/Resolver.pm`, `::Smithy.pm`, `::Botocore.pm`,
+`lib/Paws/Model/Loader.pm`), and the IR constructor classes live on
+the master branch at `lib/Paws/Model/{Materializer,Loader,IR}*` for
+the build pipeline's use, but are excluded from every user-facing
+dist via the relevant `dist.ini`'s
+`[Git::GatherDir] exclude_match` rules.
 
-Decide during Phase 3 (Paws::Core slimming).
+The build pipeline (`script/build-modular-dist`) loads them via
+`-I lib` at build time, runs the materialiser, dumps source into
+the per-service tmp tree, and discards the loader/materialiser
+stack from the produced tarball. Production users never see the
+materialiser at runtime.
+
+`Paws.pm`'s `_materialise_class` fallback path is removed in Phase 3
+when Core is slimmed; `load_class` becomes pure
+`Module::Runtime::require_module($class)` with the canonical
+`Can't locate Paws/<svc>.pm in @INC` error if the class is missing.
 
 ## 3. Build pipeline
 
@@ -181,8 +200,15 @@ Steps:
    `tmp/build/Paws-<Service>/lib/Paws/<Service>.pm` and one
    `tmp/build/Paws-<Service>/lib/Paws/<Service>/<Op|Shape>.pm` per
    inner class.
-4. POD-strip step (Q11 — `Pod::Strip` from CPAN, ~30 line Build.PL
-   hook OR materialiser-side emission of POD-less source).
+4. **(Q11 decided 2026-05-10: materialiser-side.)** The
+   build script constructs the materialiser with a `pod => 0` flag
+   (or equivalent — `materialize_service` gains a "no-pod mode").
+   `Materializer::Moo`'s string templates have a single conditional
+   block per emitted package that includes the operation /
+   shape POD; in `pod => 0` mode that block emits nothing. No
+   post-process step. The materialiser's default behaviour
+   stays POD-full so the docs companion build (§3.2) gets the
+   POD it needs from the same materialiser instance.
 5. Emit a generated `dist.ini`:
    ```
    name = Paws-<Service>
@@ -324,6 +350,10 @@ update by changing one variable. If URL-rewriting becomes a real
 operational pain, Phase 6 adds the DarkPAN mirror to give
 `cpanm Paws::S3` (no URL) the same UX it had on `Paws@0.46`.
 
+All-bump-together versioning (§4) means a single `$V` variable in
+cpanfile templates is sufficient; per-service version drift is
+post-1.0.0 future work.
+
 ## 4. Versioning
 
 - **Paws::Core** is the version anchor. 1.0.0 is the first modular
@@ -416,13 +446,42 @@ earlier ones.
 | **2** | CI workflow | `.github/workflows/release-modular.yml`. Cut a `v1.0.0-rc1` GH release, manually upload tarballs from a local `script/build-all-modular` run (or run the workflow once and verify). **Manually verify a couple installs.** | 1 week |
 | **3** | Paws::Core slimming | Strip `share/smithy/` and any service classes from Paws::Core. Update `dist.ini` to ship only Core. Decide Q9 (materialiser placement) at this point. Cut `v1.0.0-rc2` with the slimmed Core + the modular sub-dists from rc1. | 1 week |
 | **4** | Migration tooling + announcement | `bin/paws-migrate-cpanfile`, `ANNOUNCE-1.0.0.md`, README update, docs cross-links. | 1 week |
-| **5** | `v1.0.0` release | Tag `v1.0.0`, publish GH release, push announcement to PrePAN / blogs.perl.org / GH Discussions. | A few days |
+| **5** | `v1.0.0` release | Cut `v1.0.0-rcN` releases autonomously. Tag final `v1.0.0` and create the GH release as a **DRAFT (unpublished)**. Maintainer publishes from the GH UI; announcement to PrePAN / blogs.perl.org / GH Discussions follows that. | A few days |
 | **6 (optional)** | DarkPAN mirror | OrePAN2 + GH Pages workflow, per #87's "GH-Releases-as-primary mechanism" section. **Only if direct-URL pain becomes real.** | 1 week |
 
-Each phase opens as a draft PR; user reviews and merges before the
-next phase starts. CI gates on the PR are the existing test +
-install-smoke + benchmarks workflows, plus any new build-pipeline
-tests Phase 1 introduces.
+Each phase opens **ready-for-review** (not draft); the maintainer's
+operating policy is to flip back to draft only if a phase explicitly
+needs human gating. CI gates on the PR are the existing test +
+install-smoke + coverage + regen + package workflows, plus any new
+build-pipeline tests Phase 1 introduces. `benchmarks` remains
+`continue-on-error`.
+
+### 6.1 Test infrastructure under A4-B (split suites)
+
+The current `t/` tree assumes a single dist with all services
+materialisable on demand. Under A4-B, runtime materialisation is
+gone (Q9), so most current `t/` files no longer have a viable
+loadpath for service classes.
+
+The split:
+
+- **`Paws::Core` `t/`**: minimal suite for loaders, IR, wire layer,
+  credential providers, signers, exception handling, generic
+  materialiser unit tests. Service classes mocked via
+  `Paws::Net::MockCaller`. Roughly 1/3 of the current `t/` corpus
+  survives unchanged; another 1/3 is rewritten to use mocks; the
+  final 1/3 (per-service end-to-end smokes) moves to the sub-dists.
+- **`Paws-<Service>` `t/`**: per-service smoke. Asserts the dist's
+  own service class loads, `Paws->service('S3')` returns an
+  instance, signature is well-formed, a representative method
+  call serialises correctly. Each sub-dist has a tiny `t/00_load.t`
+  and `t/01_smoke.t`.
+
+The migration of existing tests happens in Phase 3 (Core slimming).
+Phase 1's CI gate uses a temporary harness:
+`.github/workflows/build-modular-smoke.yml` builds the user's
+10-service set into a local-lib and runs a synthetic smoke that
+calls each service's no-arg constructor + a representative method.
 
 ## 7. Open questions deferred to during-implementation
 
@@ -430,20 +489,15 @@ These are decisions that depend on data we don't have yet (or
 decisions whose cost is small enough that we should defer them
 until they're concretely blocking).
 
-- **Q9** (#87 carryover) — **Materialiser placement in IR-stripped
-  Core.** Decide during Phase 3. Three options laid out in §2.5.
-- **Q11** (#87 carryover) — **POD-stripping mechanism.** Decide during
-  Phase 1 when wiring `script/build-modular-dist`. Either
-  `Pod::Strip` post-process (~30 line Build.PL hook) or
-  materialiser-side emission of POD-less source (cleaner, requires
-  modifying `Materializer::Moo`'s string templates).
-- **Cross-service shared shapes audit.** #87 noted "if there are
-  ~10 shared-shape sub-dists" as an open count. Audit during
-  Phase 1: walk the materialiser's per-service output and
-  count distinct cross-references. If >0:
-  - Option A (simpler): duplicate the shape per-service (~KB cost).
-  - Option B (cleaner): extract to `Paws::Util::<Shape>` companion
-    dists with their own version. One extra dep per affected dist.
+- ~~**Q9** Materialiser placement~~ — **Decided 2026-05-10** (Option C, drop entirely from any user-facing dist). See §2.5.
+- ~~**Q11** POD-stripping mechanism~~ — **Decided 2026-05-10** (materialiser-side: `Materializer::Moo` gains a `pod => 0` mode). See §3.1 step 4.
+- **Cross-service shared shape inventory.** Phase 1 will count
+  distinct shape names referenced by ≥2 services + total KB cost
+  of duplication. Filed as a follow-up issue at Phase 1's close.
+  **Default policy is always-duplicate** per maintainer decision
+  (sub-dist independence first; never extract shared shapes to a
+  `Paws::Util::*` companion). Revisit only if duplication scale
+  turns out to be material.
 - **Pplu/Paws upstream namespace.** If/when upstream releases the
   `Paws::*` namespace on PAUSE, can we move from GH Releases to
   PAUSE? Not a blocker; revisit annually.
