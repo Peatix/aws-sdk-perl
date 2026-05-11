@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
+use Paws::Test::SkipNoServiceClasses;
 
 use English qw(-no-match-vars);
 use Carp;
