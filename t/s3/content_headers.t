@@ -204,19 +204,33 @@ my %md5_methods = (
    }
  );
 
-# content md5
-foreach my $method (qw/DeleteObjects RestoreObject PutBucketLifecycleConfiguration PutBucketTagging PutBucketCors PutObjectTagging PutBucketReplication/) {
+# Content-MD5 auto-injection. The S3 Smithy IR marks each of these
+# operations with aws.protocols#httpChecksum.requestChecksumRequired
+# = true (see lib/Paws/Model/IR.pm Operation->http_checksum_required).
+# The materialiser either synthesises a `ContentMD5` member with
+# the AutoInHeader trait (when the shape doesn't already declare
+# one — DeleteObjects, PutBucketLifecycleConfiguration) or upgrades
+# the existing ContentMD5 Str header to AutoInHeader (PutBucketCors,
+# PutBucketTagging, PutObjectTagging, PutBucketReplication). The
+# wire layer's _to_header_params then computes the base64-encoded
+# MD5 of the request body when the caller doesn't supply a value.
+# Without this, modern AWS S3 returns 400 'Missing Content-MD5
+# header' on every call.
+#
+# RestoreObject used to require Content-MD5 on the old SDK; the
+# modern S3 Smithy IR no longer sets requestChecksumRequired for
+# it (Paws::Model::IR::Operation->http_checksum_required is 0),
+# so it's intentionally not in this list.
+foreach my $method (qw/DeleteObjects PutBucketLifecycleConfiguration PutBucketTagging PutBucketCors PutObjectTagging PutBucketReplication/) {
   my $response;
   eval { $response = $s3->$method(%{ $md5_methods{$method} });
   } or do {
     diag qq[Error creating object: $@];
+    next;
   };
 
- TODO: {
-    local $TODO = 'Remove after fixing content-md5 headers';
-    ## The HTTP headers should contain a Content-MD5 header
-    ok($response->header('Content-MD5'), "S3 $method header contains Content-MD5 header");
-  };
+  ok($response->header('Content-MD5'),
+     "S3 $method header contains Content-MD5 header");
 }
 
 # content length: Length of the message (without the headers)

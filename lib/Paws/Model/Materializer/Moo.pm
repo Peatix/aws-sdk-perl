@@ -211,6 +211,56 @@ sub materialize_operation {
                                            \@attr_lines, \@serdes_records));
     }
 
+    # Operations with aws.protocols#httpChecksum.requestChecksumRequired
+    # (S3's DeleteObjects / PutBucket*Configuration / PutObjectTagging
+    # / PutBucketReplication, plus a handful in other services) need
+    # an integrity header before AWS will accept the request. Two
+    # subcases, both handled below:
+    #
+    #   (a) The input shape already declares a `ContentMD5` Str
+    #       header member (PutBucketCors, PutBucketTagging,
+    #       PutObjectTagging, PutBucketReplication). Tag its
+    #       existing SerDes record with AutoInHeader+auto='MD5' so
+    #       the wire layer's _to_header_params computes the MD5 of
+    #       the body when the caller doesn't supply a value.
+    #
+    #   (b) The input shape has no ContentMD5 member (DeleteObjects,
+    #       PutBucketLifecycleConfiguration). Synthesise the
+    #       attribute + SerDes record from whole cloth.
+    #
+    # Modern S3 also accepts `x-amz-checksum-*` headers; this commit
+    # stays on legacy Content-MD5 to keep the surface small (the
+    # caller-supplied ChecksumAlgorithm / Checksum<ALG> path is
+    # already handled by the existing input-member attributes).
+    if ($op->http_checksum_required && $input_shape) {
+        if (exists $input_shape->members->{ContentMD5}) {
+            # Case (a): find the existing record and upgrade it.
+            for my $rec (@serdes_records) {
+                next unless $rec->{name} eq 'ContentMD5';
+                $rec->{traits}{AutoInHeader} = 1;
+                $rec->{auto} = 'MD5';
+                last;
+            }
+        } else {
+            # Case (b): synthesise.
+            push @attr_lines,
+                "        has ContentMD5 => (is => 'ro', isa => Maybe[Str]);";
+            push @serdes_records, {
+                name          => 'ContentMD5',
+                type          => 'Str',
+                wire_key      => 'ContentMD5',
+                location      => 'header',
+                location_name => 'Content-MD5',
+                traits        => { AutoInHeader => 1 },
+                auto          => 'MD5',
+                is_list       => 0,
+                is_map        => 0,
+                is_required   => 0,
+                flattened     => 0,
+            };
+        }
+    }
+
     my $api_call    = _esc($op_name);
     my $api_method  = _esc($op->http_method);
     my $api_uri     = _esc($op->http_uri);
