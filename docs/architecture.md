@@ -3,59 +3,57 @@
 Navigation document for contributors. Points at the code rather than
 duplicating it.
 
-For the user-facing "when do I bundle vs. let the materialiser handle
-it" question and the single-service AOT regen workflow, see
-`docs/materialisation.md`.
+For the user-facing install pattern and the build-time materialisation
+workflow, see `docs/materialisation.md`.
 
 ## High-level shape
 
 ```
-            ┌──────────────────────┐
-smithy ─────►  Paws::Model::Loader │──► Paws::Model::IR ──► …
-            │   (loader interface) │                        │
-            └──────────────────────┘                        ▼
-                                              ┌───────────────────────────────┐
-                                              │  Paws::API::Builder           │
-                                              │  (TT-template-driven AOT      │
-                                              │   class generation, today)    │
-                                              │                               │
-                                              │  Paws::Materializer           │
-                                              │  (in-memory class             │
-                                              │   construction, PR9 onwards)  │
-                                              └───────────────────────────────┘
+                    ┌──────────────────────┐
+smithy IR ──────────►  Paws::Model::Loader │──► Paws::Model::IR ──► …
+                    │   (loader interface)  │                        │
+                    └──────────────────────┘                        ▼
+                                                      ┌───────────────────────────────┐
+                                                      │  Paws::Model::Materializer    │
+                                                      │  ::Moo                        │
+                                                      │  (Moo + Type::Tiny class      │
+                                                      │   construction from IR)        │
+                                                      └───────────────────────────────┘
 
-                                                          │
-                                                          ▼
-                                              ┌───────────────────────────────┐
-                                              │  Generated/materialised       │
-                                              │  Paws::<Service>::* classes   │
-                                              └───────────────────────────────┘
+                                                                  │
+                                                                  ▼
+                                                      ┌───────────────────────────────┐
+                                                      │  Pre-materialised             │
+                                                      │  Paws::<Service>::* classes   │
+                                                      │  (shipped in per-service      │
+                                                      │   sub-dist tarballs)          │
+                                                      └───────────────────────────────┘
 
-                                                          │
-                                                          ▼
-                                              ┌───────────────────────────────┐
-                                              │  lib/Paws/Net/*               │
-                                              │  (handwritten wire layer:     │
-                                              │   per-protocol callers,       │
-                                              │   signers, transports,        │
-                                              │   response decoders)          │
-                                              └───────────────────────────────┘
+                                                                  │
+                                                                  ▼
+                                                      ┌───────────────────────────────┐
+                                                      │  lib/Paws/Net/*               │
+                                                      │  (handwritten wire layer:     │
+                                                      │   per-protocol callers,       │
+                                                      │   signers, transports,        │
+                                                      │   response decoders)          │
+                                                      └───────────────────────────────┘
 ```
 
 ## Where things live
 
 | Path                                              | Purpose                                                                  |
 |---------------------------------------------------|--------------------------------------------------------------------------|
-| `share/smithy/`                                   | Vendored Smithy IR (post-#83). Tracked in git, ships in the dist via `[ShareDir]`. The resolver's only on-disk source. |
+| `share/smithy/`                                   | Vendored Smithy IR tracked in git. Input to the build pipeline; not shipped to end users. |
 | `lib/Paws/Model/IR.pm`                            | Source-format-independent IR. Contract between loaders and consumers.    |
 | `lib/Paws/Model/Loader.pm`                        | Abstract loader role.                                                    |
 | `lib/Paws/Model/Loader/Smithy.pm`                 | Smithy 2.0 AST JSON → IR.                                                |
-| `lib/Paws/Model/Loader/Resolver.pm`               | Resolves a Paws class name to the appropriate Smithy source file.        |
-| `lib/Paws/Model/Materializer.pm`                  | Moose backend: builds Paws::&lt;Svc&gt;/&lt;Op&gt;/&lt;Shape&gt; classes in-memory from IR. |
-| `lib/Paws/Model/Materializer/Moo.pm`              | Moo + Type::Tiny backend (default since stack13).                        |
-| `lib/Paws/Model/Materializer/Auto.pm`             | Hook that intercepts `Paws->load_class` to drive the materialiser.       |
-| `builder-lib/Paws/API/Builder.pm`                 | Legacy TT-template AOT generator. Stack19 made `make gen-classes` a no-op; remains in builder-lib for any downstream rebuild + as a reference for future stack20 work. |
-| `builder-bin/gen_classes.pl`                      | Legacy CLI driver. Now a no-op via `make gen-classes`.                   |
+| `lib/Paws/Model/Loader/Botocore.pm`               | Botocore JSON → IR. Available for deprecated services only.              |
+| `lib/Paws/Model/Loader/Resolver.pm`               | Picks the loader per service. Defaults to Smithy-only.                   |
+| `lib/Paws/Model/Materializer.pm`                  | Moose backend (escape hatch via `PAWS_OO_BACKEND=Moose`).               |
+| `lib/Paws/Model/Materializer/Moo.pm`              | Moo + Type::Tiny backend (default). Used by the build pipeline.          |
+| `builder-lib/Paws/API/Builder.pm`                 | Legacy TT-template AOT generator. Retained for reference; not used in the current build pipeline. |
+| `builder-bin/gen_classes.pl`                       | Legacy CLI driver for the TT generator.                                  |
 | `templates/`                                      | TT templates per protocol family (`json/`, `restjson/`, `query/`, `restxml/`, `EC2/`, `Kinesis/`, `default/`). |
 | `lib/Paws.pm`                                     | Top-level entry. `Paws->service('EC2')` etc.                             |
 | `lib/Paws/API/`                                   | Caller, EndpointResolver, Response, MapParser, attribute traits.         |
@@ -65,249 +63,61 @@ smithy ─────►  Paws::Model::Loader │──► Paws::Model::IR ─�
 | `lib/Paws/Net/{LWP,Furl,MojoAsync}Caller.pm`      | Pluggable HTTP transports.                                               |
 | `lib/Paws/Net/V*Signature.pm`                     | Signer roles.                                                            |
 | `lib/Paws/Credential*.pm`                         | Credential providers.                                                    |
+| `lib/Paws/SerDes.pm`                              | Per-class serialisation metadata side-table for the wire layer.          |
+| `script/build-modular-dist`                       | Builds a per-service code sub-dist tarball from the Smithy IR.           |
+| `script/build-modular-docs-dist`                  | Builds a per-service POD companion sub-dist tarball.                     |
+| `script/build-all-modular`                        | Orchestrator that builds all service + docs tarballs.                    |
 
-## Data flow (post-stack19)
+## Distribution layout
 
-1. `make vendor-smithy` refreshes `share/smithy/` from the
-   upstream Smithy IR (`awslabs/aws-sdk-rust:aws-models/`). The
-   committed tree is the runtime source-of-truth.
-2. End users `cpanm Paws`; the dist ships `lib/`, `share/`, the
-   metadata files, and **no auto-lib/**. Dist size dropped from
-   ~224 MB to under 100 MB at stack19.
-3. `Paws->service('EC2')` calls `Paws->load_class('Paws::EC2')`.
-4. `Paws::load_class` checks if `Paws/EC2.pm` is on disk (the
-   migration window of PR18 — currently always false now that
-   stack19 dropped auto-lib/, except for the handful of
-   handwritten services like `Paws::Signin`).
-5. Falling through, `_materialise_class('Paws::EC2')` resolves the
-   service via `Paws::Model::Loader::Resolver` (Smithy-only), then
-   drives the in-memory class construction via
-   `Paws::Model::Materializer::Moo` (default since stack13) or
-   `Paws::Model::Materializer` (Moose, opt-in via
-   `PAWS_OO_BACKEND=Moose`).
-6. The materialiser builds the service class plus every operation
-   class plus every transitively-reachable shape class in one go
-   and registers their wire metadata into the `Paws::SerDes`
-   side-table that the wire layer consults.
-7. Operation method calls go through `Paws::API::Caller->do_call`,
+Paws ships as modular sub-distributions:
+
+- **`Paws-Core`** — slim runtime: `lib/Paws.pm`, `lib/Paws/Net/*`,
+  `lib/Paws/Credential/*`, `lib/Paws/API/*`, `lib/Paws/SerDes.pm`,
+  exception types. Does NOT include the materialiser, loaders, IR
+  constructor classes, or `share/smithy/`.
+- **`Paws-<Service>`** (~300+ dists) — pre-materialised `lib/Paws/<Service>/*.pm`
+  files, one dist per AWS service. Declares `Paws::Core` as a dependency.
+- **`Paws-<Service>-Docs`** — optional POD companion. `perldoc Paws::S3::CreateBucket`
+  resolves when this is installed.
+
+The materialiser, loaders, and Smithy IR live on `master` as build-time
+tooling. They are excluded from every user-facing dist via `dist.ini`
+`Git::GatherDir` excludes. `script/build-modular-dist` loads them at
+build time, runs `Materializer::Moo` to dump `.pm` source files, and
+packages the result into per-service tarballs.
+
+## Data flow
+
+1. `script/paws-vendor-smithy --clean` refreshes `share/smithy/` from
+   upstream `awslabs/aws-sdk-rust:aws-models/`. The committed tree is
+   the build-time source of truth.
+2. `script/build-modular-dist <Service>` loads the Smithy IR via
+   `Paws::Model::Loader::Resolver`, drives `Materializer::Moo` to
+   dump per-class `.pm` source files, and packages them into a
+   `Paws-<Service>-<version>.tar.gz` tarball.
+3. End users install `Paws-Core` plus whichever `Paws-<Service>`
+   tarballs they need from GitHub Releases.
+4. `Paws->service('EC2')` calls `Paws->load_class('Paws::EC2')`,
+   which is a thin wrapper around `Module::Runtime::require_module`.
+   If the class is not installed, the standard Perl
+   `Can't locate Paws/EC2.pm in @INC` error fires.
+5. Operation method calls go through `Paws::API::Caller->do_call`,
    which dispatches to the protocol caller in `lib/Paws/Net/`.
-   The wire layer is unchanged from the user's perspective.
-
-The legacy AOT generator (`make gen-classes` / `gen_classes.pl` /
-`Paws::API::Builder`) is preserved in `builder-lib/` + `builder-bin/`
-but is wired through to a no-op makefile target so muscle-memory
-invocations get a "use vendor-smithy instead" message. A future
-stack20-and-beyond work item is to refactor the builder to consume
-IR exclusively (it currently reads `api_struct->{shapes}` directly)
-so the AOT and materialiser paths share one source of truth -- but
-that is not a stack19 deliverable.
-
-## Stack19 status
-
-Context (master, post-#83 / smithy-only-vendor-into-git):
-
-  - Smithy IR vendored from `awslabs/aws-sdk-rust:aws-models/`
-    lives at `share/smithy/`, tracked in git.
-  - `make gen-classes` is no longer the runtime path; the
-    materialiser reads `share/smithy/` directly via
-    `Paws::Model::Loader::Smithy`.
-  - `Paws->service('EC2')` calls `Paws::Model::Materializer->materialize_service('EC2')`,
-    which reads the JSON via the appropriate `Paws::Model::Loader::*`
-    and constructs the Moose (later: Moo) classes in-memory.
-  - The wire layer is unchanged from the user's perspective, but its
-    internals consult a side-table built by the materialiser instead
-    of introspecting Moose meta-classes.
-
-Landed (this PR):
-
-  - `auto-lib/` removed from git; `auto-lib/Paws.pm` and
-    `auto-lib/Paws/API/Retry.pm` moved to `lib/`. `Paws::Model::*`
-    runtime modules (IR, Loader, Loader::Smithy, Loader::Resolver)
-    moved from `builder-lib/` to `lib/` so they ship in the dist.
-  - `our $VERSION` bumped to `'1.00'`; `Changes` carries a
-    `1.00 (TRIAL)` headline with the breaking-change note for
-    users who imported a generated class by full path.
-  - `Paws->new_with_coercions` handles both Moose-style
-    (`Foo::Bar`) and Type::Tiny-style (`InstanceOf["Foo::Bar"]`)
-    type-constraint stringification by branching on the type-
-    constraint *object* (`->class` / `->type_parameter->class`)
-    where possible, with an `_unwrap_class_from_type_string`
-    fallback for any other parameterised type whose
-    stringification looks like `InstanceOf[X]`.
-  - The materialiser dedup hash in `_materialise_class` and
-    `Paws::Model::Materializer::Auto::_materialise` collapses to
-    a single `$service_class->can('operations')` introspection
-    check shared by both entry points.
-  - Three concrete materialiser fixes surfaced by walking
-    `Paws->available_services` through `preload_service`:
-    self-referential shape recursion, whitespace in serviceId
-    (Route 53), and reserved-name attribute collisions
-    (ECS::CreatedAt::after).
-  - `Paws->available_services` unions Module::Find with the
-    resolver's directory-walk so the materialiser path enumerates
-    every service that ships in `share/`.
-  - `Makefile`, `dist.ini`, `script/test-shard`, and the test
-    workflow YAML drop the auto-lib build pipeline (PR #69 +
-    PR #70 fan-out is gone).
-  - The `templates/default/paws_pm.tt` template is in sync with
-    the runtime `lib/Paws.pm`.
-
-Curated test scope (post-stack19):
-
-  - `t/01_load.t`, `t/02`, `t/04`, `t/13`, `t/14`, `t/15`-`t/16`,
-    `t/19`, `t/20`-`t/23`, `t/29`-`t/31`, plus `t/types`,
-    `t/wire`, `t/model` are gated by the matrix-shard test
-    workflow.
-  - `t/03`, `t/05`, `t/06`, `t/10`, `t/11`, `t/12`, `t/17`,
-    `t/18`, `t/24`, `t/25`, `t/26`, `t/27`, `t/28`, plus
-    `t/glacier`, `t/route53`, `t/s3` are intentionally excluded
-    until follow-up materialiser work covers their dependencies
-    (region_rules / endpoint-rule-set, real-AWS shape coercion
-    breadth, s3-specific quirks, MojoAsyncCaller integration).
-    See `script/test-shard` header for the full table.
-
-See `docs/testing.md` for how each gate runs.
-
-## PR15 status
-
-PR15 adds `builder-lib/Paws/Model/Loader/Resolver.pm`. Given a service
-name, the resolver walks the configured search paths and returns the
-IR produced by the first loader that finds a matching source file.
-
-Default order:
-
-  1. **Smithy** — `share/smithy/<service>.smithy.json` (flat) or
-     `share/smithy/<service>/<service>.smithy.json` (nested).
-
-The resolver returns both the IR and the loader name it used, so
-diagnostics can record which source-of-truth produced a given class.
-
-`t/model/04_resolver.t` covers: default order picks Smithy when both
-exist; env override flips it; falls back when first loader has no
-file; unknown service raises; unknown loader name raises.
-
-## PR14 status
-
-PR14 added `Paws::Model::Loader::Smithy`: reads Smithy 2.0 AST JSON
-into the IR.
-
-`t/model/03_smithy_loader.t` includes an IR-parity subtest that
-loads the tinyservice fixture from both formats and asserts the
-relevant IR fields match (operation HTTP method/URI, member
-locations, etc.). This is the gate that PR15 uses to switch the
-default resolver to "prefer Smithy when both exist".
-
-See `docs/loaders.md` for the per-loader IR field table.
-
-## PR12 status
-
-PR12 adds `lib/Paws/Materializer/Moo.pm` — a parallel materialiser
-that builds Moo + Type::Tiny classes from the IR. The Moo classes:
-
-- expose the same API surface as the Moose classes,
-- populate the `Paws::SerDes` side-table directly via
-  `Paws::SerDes->register`, so the wire layer never has to inflate
-  the Moo class to Moose for introspection,
-- round-trip through the live wire layer (proven by
-  `t/model/03_materializer_moo.t`).
-
-Moose remains the default backend. The Moo backend is opt-in by
-construction:
-
-    use Paws::Materializer::Moo;
-    my $mat = Paws::Materializer::Moo->new(loader => $loader);
-    my $pkg = $mat->materialize_service($ir);
-
-PR13 will switch the default in the lazy hook based on
-`PAWS_OO_BACKEND`.
-
-See `docs/oo-backends.md` for type mapping and tradeoffs.
-
-## PR11 status
-
-PR11 introduces `lib/Paws/SerDes.pm`: per-class serialisation metadata
-side-table built once and cached. The wire layer reads from the
-side-table instead of `$obj->meta->...` on every request.
-
-Today's PR11 commit:
-
-- `lib/Paws/SerDes.pm` with the `_build_from_meta` fallback (mirrors
-  what the wire layer used to do; keeps full compatibility with
-  AOT-generated and materialised classes).
-- `lib/Paws/Net/JsonCaller.pm` migrated to `Paws::SerDes` as a worked
-  example. Other callers (RestJsonCaller, QueryCaller, RestXmlCaller,
-  EC2Caller, GlacierCaller) and response decoders
-  (JsonResponse, RestJsonResponse, RestXMLResponse, XMLResponse)
-  migrate piecemeal in follow-up commits on this same PR.
-- `t/wire/serdes_parity.t` asserts the side-table answers match
-  `meta->...` for the seven attribute traits.
-
-The migration pattern is mechanical: replace
-`$params->meta->get_attribute_list` with
-`$serdes->serializable_attributes`, replace
-`$params->meta->get_attribute($att)->does('Paws::API::...')` with
-`$serdes->trait_for($att, 'NameInRequest')`, replace
-`->request_name` / `->header_name` / `->query_name` / `->uri_name`
-with `$serdes->wire_key_for($att)` / `$serdes->location_name_for($att)`.
-
-PR12 (Moo + Type::Tiny) populates the side-table directly via a new
-`Paws::SerDes->register($class => \%data)` API instead of the
-`_build_from_meta` Moose-introspection fallback. That's where the
-perf win lands: Moo classes never trigger Moose inflation.
-
-## PR9 status
-
-PR9 adds `lib/Paws/Materializer.pm` — given a `Paws::Model::IR::Service`
-it constructs the corresponding Moose classes in memory:
-
-- service class (one method per operation, composed roles based on
-  protocol),
-- operation classes (input attributes with the right traits, plus
-  `_api_call` / `_api_method` / `_api_uri` / `_returns`),
-- structure shape classes (input and output, recursively).
-
-`t/model/02_materializer_smoke.t` constructs a service from the
-tinyservice fixture, then sends a request through the live wire
-layer (`TestRequestCaller`) — the captured request matches what an
-on-disk class would have produced.
-
-**Not yet in PR9, deferred to a follow-up commit on this same PR or to
-PR10**: the `PAWS_LAZY=1` opt-in hook in `Paws.pm` (or a sibling
-`Paws::Materializer::Auto`). Wiring that in requires deciding where the
-JSON files live at runtime — which is the dist-layout change owned by
-PR10.
-
-## PR8 status (this commit)
-
-PR8 landed the IR as a standalone module. The existing
-`Paws::API::Builder` is **not yet** refactored to consume IR — it still
-reads `api_struct->{shapes}` directly. The "byte-identical auto-lib
-regen" CI gate from the plan is therefore deferred to a follow-up
-commit on this same PR; what lands here is:
-
-- `Paws::Model::IR` with `Service`, `Operation`, `Shape`, `Member`.
-- `Paws::Model::Loader` abstract role.
-- `t/model/03_smithy_loader.t` unit tests against a synthetic
-  fixture `t/model/fixtures/tinyservice/`.
-
-The IR is enough for PR9 (lazy materialiser) to start consuming it
-without first having to refactor the existing builder. The byte-identical
-regen check can be added once the builder is rerouted through the
-loader, which is risk-bounded because the loader is now well-tested in
-isolation.
+   The wire layer reads per-class metadata from `Paws::SerDes`.
 
 ## Companion files not (yet) absorbed into IR
 
-The service model directory historically contained:
+The Smithy source files carry most of what the IR needs. Fields not
+yet folded in (event streams, mixins, resource shapes, document type)
+are added incrementally as the wire layer grows support.
 
-- `service-2.json`           — absorbed
-- `paginators-1.json`        — absorbed (as `Operation->paginator`)
-- `examples-1.json`          — sniffed but not yet parsed
-- `waiters-2.json`           — read directly by `Paws::API::Builder`
-- `endpoint-rule-set-1.json` — read directly
-- `service-2.sdk-extras.json`— read directly
-- `_retry.json`              — read directly (separate `Paws::API::Builder::Retry`)
+## See also
 
-These will fold into the IR in a follow-up commit when the builder is
-rerouted. They're left out of PR8 to keep the loader narrow and the
-unit tests focused on shape/operation correctness.
+- `docs/materialisation.md` — how the build pipeline produces per-service dists.
+- `docs/loaders.md` — loader interface and IR coverage table.
+- `docs/sources.md` — Smithy IR layout and refresh workflow.
+- `docs/serdes.md` — wire-layer side-table.
+- `docs/oo-backends.md` — Moose vs Moo tradeoffs.
+- `docs/ci.md` — CI workflow design.
+- `docs/testing.md` — test suite navigation.
