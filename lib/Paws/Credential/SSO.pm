@@ -4,6 +4,7 @@ package Paws::Credential::SSO;
   use Digest::SHA qw/sha1_hex/;
   use File::HomeDir;
   use JSON::MaybeXS qw/decode_json/;
+  use Time::Local qw/timegm/;
   use Paws::Credential::None;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
@@ -47,9 +48,22 @@ package Paws::Credential::SSO;
     return $self->_config_contents->{$profile} || {};
   });
 
+  has _sso_session_name => (is => 'ro', isa => 'Str|Undef', lazy => 1, default => sub {
+    my $self = shift;
+    return $self->_profile_config->{sso_session};
+  });
+
+  has _sso_session_config => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
+    my $self = shift;
+    my $session_name = $self->_sso_session_name;
+    return {} unless defined $session_name;
+    return $self->_config_contents->{"sso-session $session_name"} || {};
+  });
+
   sub _build_from_config_sso_start_url {
     my $self = shift;
-    return $self->_profile_config->{sso_start_url};
+    return $self->_profile_config->{sso_start_url}
+        // $self->_sso_session_config->{sso_start_url};
   }
 
   sub _build_from_config_sso_account_id {
@@ -64,7 +78,8 @@ package Paws::Credential::SSO;
 
   sub _build_from_config_sso_region {
     my $self = shift;
-    return $self->_profile_config->{sso_region};
+    return $self->_profile_config->{sso_region}
+        // $self->_sso_session_config->{sso_region};
   }
 
   has sso => (is => 'ro', isa => 'Object', lazy => 1, default => sub {
@@ -73,10 +88,25 @@ package Paws::Credential::SSO;
     Paws->service('SSO', region => $region, credentials => Paws::Credential::None->new);
   });
 
+  sub _parse_iso8601_utc {
+    my ($self, $timestamp) = @_;
+    if ($timestamp =~ /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?Z$/) {
+      return timegm($6, $5, $4, $3, $2 - 1, $1);
+    }
+    return;
+  }
+
   sub _read_cached_token {
     my $self = shift;
-    my $start_url = $self->sso_start_url // die "sso_start_url is required: configure it in ~/.aws/config or pass sso_start_url";
-    my $cache_key = sha1_hex($start_url);
+
+    my $session_name = $self->_sso_session_name;
+    my $cache_key;
+    if (defined $session_name) {
+      $cache_key = sha1_hex($session_name);
+    } else {
+      my $start_url = $self->sso_start_url // die "sso_start_url is required: configure it in ~/.aws/config or pass sso_start_url";
+      $cache_key = sha1_hex($start_url);
+    }
     my $cache_file = $self->sso_cache_dir . '/' . $cache_key . '.json';
 
     if (not -e $cache_file) {
@@ -90,6 +120,13 @@ package Paws::Credential::SSO;
     my $data = decode_json($json);
     if (not defined $data->{accessToken}) {
       die "SSO cache file missing accessToken path=$cache_file. Run 'aws sso login' to re-authenticate.";
+    }
+
+    if (defined $data->{expiresAt}) {
+      my $expires_epoch = $self->_parse_iso8601_utc($data->{expiresAt});
+      if (defined $expires_epoch && $expires_epoch <= time) {
+        die "SSO access token expired at=$data->{expiresAt}. Run 'aws sso login' to re-authenticate.";
+      }
     }
 
     return $data;
@@ -141,13 +178,24 @@ Paws::Credential::SSO
 
   use Paws::Credential::SSO;
 
-  # Using configuration from ~/.aws/config:
+  # Legacy config (all keys in profile):
   #
   #   [profile my-sso-profile]
   #   sso_start_url = https://my-sso-portal.awsapps.com/start
   #   sso_region = us-east-1
   #   sso_account_id = 123456789012
   #   sso_role_name = MyRole
+  #
+  # Modern config with sso_session (AWS CLI v2 / IAM Identity Center):
+  #
+  #   [profile my-sso-profile]
+  #   sso_session = my-session
+  #   sso_account_id = 123456789012
+  #   sso_role_name = MyRole
+  #
+  #   [sso-session my-session]
+  #   sso_start_url = https://my-sso-portal.awsapps.com/start
+  #   sso_region = us-east-1
   #
   # First authenticate with: aws sso login --profile my-sso-profile
 

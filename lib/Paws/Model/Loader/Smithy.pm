@@ -113,6 +113,8 @@ sub _build_service {
         // $api_service_trait->{arnNamespace}
         // lc(_local_part($svc_id));
     my $sdk_id            = $api_service_trait->{sdkId} // _local_part($svc_id);
+    substr($sdk_id, 0, 1) = uc(substr($sdk_id, 0, 1));
+    $sdk_id =~ s/\s+//g;
 
     # Operations live in two places in a Smithy AST: directly on the
     # service shape's `operations[]`, and indirectly via
@@ -297,6 +299,19 @@ sub _build_operation {
     );
     $args{http_status_code} = $http->{code} if defined $http->{code};
 
+    # aws.protocols#httpChecksum is the modern Smithy trait that
+    # tells us whether the request body needs an integrity header.
+    # S3's DeleteObjects / PutBucket*Configuration / RestoreObject /
+    # PutObjectTagging carry `requestChecksumRequired: true` plus a
+    # `requestAlgorithmMember` naming the input attribute that
+    # selects the algorithm (typically `ChecksumAlgorithm`).
+    if (my $checksum = $traits->{'aws.protocols#httpChecksum'}) {
+        $args{http_checksum_required}
+            = $checksum->{requestChecksumRequired} ? 1 : 0;
+        $args{http_checksum_algorithm_member}
+            = $checksum->{requestAlgorithmMember};
+    }
+
     # smithy.api#Unit is Smithy's placeholder for "operation has no
     # input/output payload". The IR represents that as undef so the
     # materialiser does not chase a non-existent `Unit` shape.
@@ -336,6 +351,12 @@ sub _build_shape {
         # the fields. See Paws::Model::IR::Shape POD.
         xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
         xml_name      => $traits->{'smithy.api#xmlName'},
+        # `smithy.api#streaming` on a blob (S3's StreamingBlob) tells
+        # the materialiser that any member targeting this shape
+        # should map to `_stream_param` rather than being run through
+        # XML/JSON serialisation. The trait is on the *target* shape,
+        # not the member that references it.
+        streaming     => exists $traits->{'smithy.api#streaming'} ? 1 : 0,
     );
 
     # Smithy 2.0 `union` shapes have a `members` map structurally

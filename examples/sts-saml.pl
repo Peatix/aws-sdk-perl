@@ -1,5 +1,9 @@
 #!/usr/bin/env perl
 
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
+
 use v5.16.2;
 use warnings;
 use Config::INI::Reader;

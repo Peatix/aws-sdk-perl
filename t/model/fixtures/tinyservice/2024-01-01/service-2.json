@@ -46,7 +46,11 @@
       },
       "input":{"shape":"DeleteThingRequest"},
       "deprecated":true,
-      "documentation":"<p>Delete a thing.</p>"
+      "documentation":"<p>Delete a thing.</p>",
+      "httpChecksum":{
+        "requestChecksumRequired":true,
+        "requestAlgorithmMember":"ChecksumAlgorithm"
+      }
     }
   },
   "shapes":{

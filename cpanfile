@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 requires 'perl' => '5.012001';
 requires 'Moose';
 requires 'MooseX::ClassAttribute';
@@ -13,13 +16,15 @@ requires 'Types::Standard';
 
 # PR 18 (stack18): the materialiser caches IR via Sereal so repeated
 # Paws->service('X') calls in the same process don't re-parse JSON.
-requires 'Sereal::Encoder';
-requires 'Sereal::Decoder';
+requires 'Sereal::Encoder', '>= 5.000';
+requires 'Sereal::Decoder', '>= 5.000';
 # Resolves the dist's installed share/ directory at runtime so the
 # materialiser can find vendored Smithy / botocore IR after a plain
 # `cpanm Paws` install. Issue #80; see Paws::Model::Loader::Resolver.
 requires 'File::ShareDir';
-requires 'HTTP::Tiny';
+requires 'HTTP::Tiny', '>= 0.083';
+requires 'HTTP::Message';
+requires 'HTTP::Date';
 requires 'Throwable::Error';
 requires 'Data::Compare';
 requires 'URI';
@@ -28,9 +33,9 @@ requires 'Net::Amazon::Signature::V4';
 # Crypt::Digest::SHA256, used by Paws::Net::V4ASignature for ECDSA
 # P-256 signing. Pinning the distribution rather than its sub-modules
 # so a single dependency line covers all three.
-requires 'CryptX';
+requires 'CryptX', '>= 0.087';
 requires 'JSON::MaybeXS';
-requires 'XML::Simple' => '2.21';
+requires 'XML::Simple' => '2.25';
 requires 'IO::Socket::SSL' => '>2.009';
 requires 'DateTime';
 requires 'DateTime::Format::ISO8601';
@@ -50,7 +55,7 @@ requires 'File::HomeDir';
 requires 'String::CRC32';
 requires 'Path::Tiny' => '0.017';
 # Paws::Net::DebugCaller serialises request/response captures to YAML.
-requires 'YAML';
+requires 'YAML', '>= 1.28';
 suggests "Future::Mojo";
 
 on 'develop' => sub {

@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::RestJsonCaller;
   use Paws;
   use Moose::Role;
@@ -17,16 +20,12 @@ package Paws::Net::RestJsonCaller;
     }
   );
 
-  # converts the objects that represent the call into parameters that
-  # the API can understand. PR11: routed through Paws::SerDes.
   sub _to_jsoncaller_params {
     my ($self, $params) = @_;
     my $serdes = Paws::SerDes->for($params);
 
     my %p;
     for my $att ($serdes->serializable_attributes) {
-      # Skip attributes that go elsewhere on the wire (header / query
-      # string / URI / body-as-payload).
       my $loc = $serdes->location_for($att);
       next if $loc eq 'header' || $loc eq 'headers'
            || $loc eq 'querystring' || $loc eq 'uri';
@@ -139,23 +138,20 @@ package Paws::Net::RestJsonCaller;
 
     if ($call->can('_stream_param')) {
       my $param_name = $call->_stream_param;
-      if (Scalar::Util::blessed($call->$param_name)){
-          my $attribute = $call->$param_name;
-          my $content   = $self->_to_jsoncaller_params($attribute);
-          # The historical code peeked at $call->meta->get_attribute($param_name)
-          # to see if the stream attribute carried NameInRequest, but
-          # the wrapping was always commented out. SerDes-equivalent
-          # would be:
-          #   my $serdes = Paws::SerDes->for($call);
-          #   if ($serdes->trait_for($param_name, 'NameInRequest')) {
-          #     $content = { $serdes->wire_key_for($param_name) => $content };
-          #   }
+      my $param_value = $call->$param_name;
+      if (ref($param_value) eq 'GLOB'
+          || Scalar::Util::openhandle($param_value)
+          || (Scalar::Util::blessed($param_value) && $param_value->isa('IO::Handle'))) {
+          $request->stream_body($param_value);
+          $request->headers->header('x-amz-content-sha256' => 'UNSIGNED-PAYLOAD');
+      } elsif (Scalar::Util::blessed($param_value)) {
+          my $content   = $self->_to_jsoncaller_params($param_value);
           $content = encode_json($content);
           $request->content($content);
           $request->headers->header('Content-Type'=>'application/json');
           $request->headers->header('Content-Length'=>length($content));
       } else {
-          $request->content($call->$param_name);
+          $request->content($param_value);
       }
     } else {
       my $data = $self->_to_jsoncaller_params($call);

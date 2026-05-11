@@ -1,551 +1,178 @@
-aws-sdk-perl
-============
+# Paws — AWS SDK for Perl (Peatix fork)
 
-Attempt to build a complete AWS SDK in Perl
+A modular, per-service distribution of the [Paws](https://github.com/pplu/aws-sdk-perl)
+AWS SDK for Perl, maintained by [Peatix](https://github.com/Peatix/aws-sdk-perl).
 
-This project is attempting to build an entire AWS SDK from the information
-that is stored in other AWS SDKs. Other AWS SDKs have a "data-driven" approach,
-meaning that the definitions for the method calls are stored in a data structure
-describing input and output parameters.
+Paws provides Perl bindings for AWS APIs. Service classes are generated from
+the upstream AWS service models, and each service ships as its own installable
+distribution (`Paws-S3`, `Paws-EC2`, …). You install only the services your
+project uses; `Paws::Core` provides the shared runtime (wire layer, signers,
+credential providers).
 
-The project is actually generating all of it's classes from botocore
+This fork diverges from the upstream `Pplu/Paws` (CPAN `Paws@0.46`) in two
+major ways:
 
-Project info:
+1. **Modular packaging** — ~304 per-service distributions instead of one
+   monolithic tarball.
+2. **GitHub Releases as the distribution channel** — tarballs are attached to
+   tagged releases rather than published to CPAN (the `Paws` PAUSE namespace
+   belongs to upstream).
 
-GitHub Actions status: ![Build Status](https://github.com/pplu/aws-sdk-perl/actions/workflows/test.yml/badge.svg)
+## Installation
 
-Version on CPAN: [![CPAN version](https://badge.fury.io/pl/Paws.svg)](https://badge.fury.io/pl/Paws)
+> **Note:** The URLs below reference the `v1.0.0` release assets which will
+> resolve once that release is published. Track progress on the
+> [releases page](https://github.com/Peatix/aws-sdk-perl/releases).
 
-
-Installation
-============
-
-The Peatix fork of Paws ships as a **modular distribution** under the
-A4-B distribution plan (see [`docs/distribution-plan-a4b.md`](docs/distribution-plan-a4b.md)
-for the design rationale). Install Paws::Core (the slim runtime, ~500 KB)
-plus a per-service sub-dist for each AWS service your code uses. The
-tarballs are published on GitHub Releases at
-<https://github.com/Peatix/aws-sdk-perl/releases>.
-
-One-shot install via direct URLs:
-
-```sh
-cpanm \
-    https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-Core-1.0.0.tar.gz \
-    https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-S3-1.0.0.tar.gz \
-    https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-EC2-1.0.0.tar.gz
-```
-
-Or via cpanfile (recommended for reproducible installs):
+Add the services you need to your `cpanfile`:
 
 ```perl
-# cpanfile
 my $V    = '1.0.0';
-my $base = "https://github.com/Peatix/aws-sdk-perl/releases/download";
+my $base = "https://github.com/Peatix/aws-sdk-perl/releases/download/v$V";
 
-requires 'Paws',      url => "$base/v$V/Paws-Core-$V.tar.gz";
-requires 'Paws::S3',  url => "$base/v$V/Paws-S3-$V.tar.gz";
-requires 'Paws::EC2', url => "$base/v$V/Paws-EC2-$V.tar.gz";
-
-# Optional per-service docs companions (POD only, ~30-100 KB each):
-# requires 'Paws::S3::Docs', url => "$base/v$V/Paws-S3-Docs-$V.tar.gz";
+requires 'Paws', url => "$base/Paws-Core-$V.tar.gz";
+requires 'Paws::S3', url => "$base/Paws-S3-$V.tar.gz";
+requires 'Paws::SQS', url => "$base/Paws-SQS-$V.tar.gz";
 ```
 
-Then `carton install` (or `cpm install`) and `carton exec my_script.pl` as before.
+Then install with `cpanm` or `carton`:
 
-Migration helper: `bin/paws-migrate-cpanfile` greps your project's
-source tree for `Paws->service('X')` / `Paws->load_class('Paws::X')`
-references and emits a cpanfile snippet covering the services it
-detects. Existing cpanfile-based projects can use it as a one-shot
-migration:
-
-```sh
-perl bin/paws-migrate-cpanfile --root . --version 1.0.0 --output cpanfile.paws
-```
-
-User code stays unchanged — `use Paws;` and `Paws->service('S3')`
-work exactly as before for any service whose sub-dist is installed.
-Calling a service whose sub-dist is **not** installed produces the
-canonical Perl `Can't locate Paws/<Svc>.pm in @INC` error rather
-than silently materialising the class at runtime (the Phase 3
-`Paws::Core` slim removed the runtime materialiser).
-
-Upstream `Paws@0.46` from CPAN
-------------------------------
-
-The upstream [`Pplu/Paws`](https://github.com/pplu/aws-sdk-perl) /
-CPAN releases are still available; this fork's modular layout is
-incompatible with the upstream monolithic dist. If you need the
-classic `cpanm Paws` install, use the upstream version:
-
-```sh
-cpanm Paws    # upstream JROBINSON/Paws-0.46.tar.gz, monolithic
-```
-
-Development setup
-============
-
-If you want to develop a feature, or contribute code in some way, you need a development setup. This is done by cloning
-the repo into a local directory.
-
-```
-# Clone the repo. For what it's worth, you can clone from a fork too :)
-git clone https://github.com/pplu/aws-sdk-perl.git
-cd aws-sdk-perl
-```
-
-With carton you can install all the dependencies needed in a local environment, so you can play around with dependencies without
-affecting the system libraries. The cpanfile is used to track the dependencies needed.
-
-It's possible that you need -dev libraries for compiling some of these modules. These packages are:
-
-* In Debian/Ubuntu:
-
-```
-sudo apt-get install libxml2-dev libssl-dev
-```
-
-* In Red Hat/CentOS:
-
-```
-sudo yum install libxml2-devel openssl-devel
-```
-
-* In Mac OS X:
-
-```
-brew install openssl
-```
-
-If yo are using Mac OS X - El Capitan(10.11) you will probably need to force the link of the openssl header to /usr/local:
-
-```
-brew link openssl --force
-```
-
-And now tell carton to install the dependecies in a local lib
-
-```
+```bash
+cpanm --installdeps .
+# or
 carton install
-# drop into a shell so perl can always find the local libraries
-carton exec $SHELL -l
 ```
 
-Now we'll pull the paws-maintained fork of boto (so we can generate the SDK)
+For one-shot installs without a cpanfile:
 
-```
-make pull-other-sdks
-```
-
-Now we're ready to code away! Happy hacking.
-
-Organization
-============
-
-builder-lib: Contains classes that convert the botocore definitions into perl classes.
-
-auto-lib: Contains the auto-generated classes. Changes to code in this directory
-will be overwritten, so only commit autogenerated code; never handwritten code (see "Generating API").
-
-Changes that fix something in auto-lib are welcome, but cannot be applied directly, since they will be
-overwritten. Usually, they indicate some kind of general problem with other APIs, so the
-problem has to be fixed generically.
-
-lib: Contains roles and classes that the auto-generated classes use to call the API,
-sign requests, handle responses, etc.
-
-Generating API
-============
-
-Note: This step is not necessary if you want to try out the SDK. We commit in "auto-lib"
-the classes generated by the definitions to which the "botocore" submodule points to. If you're
-not developing the SDK, go directly to the "Trying it out" step :)
-
-Execute command make pull-other-sdks This will do a git pull of some official AWS sdks
-that are data-driven, and used to generate the SDK.
-
-If you want generated POD to include links to the AWS API docs (slow; runs an
-HTTP HEAD against `docs.aws.amazon.com` for every operation across every
-service), populate `documentation-1.json` once with:
-```
-make docu-links
+```bash
+cpanm \
+  https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-Core-1.0.0.tar.gz \
+  https://github.com/Peatix/aws-sdk-perl/releases/download/v1.0.0/Paws-S3-1.0.0.tar.gz
 ```
 
-To generate the full set of service classes (including operation doc links if
-`make docu-links` was run earlier):
-```
-make gen-classes
-```
+See [docs/install.md](docs/install.md) for full installation and upgrade
+instructions covering fresh installs, upgrades from upstream `Paws@0.46`, and
+upgrades from earlier Peatix release candidates.
 
-For day-to-day development and CI where doc links are not needed, the same
-generation step is also available without the HTTP fetch pass:
-```
-make gen-classes-no-doc-fetch
-```
-The builder tolerates missing `documentation-1.json` files in this mode and
-the resulting service classes are functionally equivalent — only POD doc
-links are absent. This is the target the `test` GitHub Actions workflow
-uses on pull requests so a fresh checkout can regenerate every service in a
-self-contained run.
+## Quick start
 
-To generate the API for a single service:
-```
-./builder-bin/gen_classes.pl --classes botocore/botocore/data/SERVICE/DATE/service-2.json
-```
-
-This will generate file(s) in auto-lib.
-
-A small number of services in the pinned upstream botocore checkout cannot
-currently be generated by the in-tree builder and are skipped via
-`Paws::API::Builder::Paws->service_skip_list` (medialive, pinpoint,
-quicksight at time of writing). See `docs/ci.md` for a tour of the
-generator codepath and where to add fixes / paginator names / map shape
-handlers.
-
-For when (and why) to re-materialise a single service AOT vs. let the
-runtime materialiser build it in memory — useful when iterating on the
-generator, debugging a generated-code issue, or bundling a subset of
-services into a downstream app — see `docs/materialisation.md`.
-
-Perl versions
-============
-
-The SDK is targeted at modern Perl versions. Since a new perl gets released every year, distributions perl tend to lag behind, so
-support for perl versions on any modern, widespread distribution is our target.
-Very old versions may work, but no intention to support them is made. You can always install a modern version of perl with perlbrew or
-plenv in a breeze. We're running the test cases on GitHub Actions for all "supported" perl versions. If you want to support a lower version,
-you can contribute back. Acceptance of patches for older versions of Perl won't mean that the compatibility will be maintained
-long-term, although it will be tried :).
-
-Dependencies
-============
-
-Dependencies are versioned in a cpanfile. If you have carton, just execute 'carton install' in the sdk directory, and all dependencies
-will be pulled in automatically into a local library path. After that use 'carton exec ...' to execute your scripts.
-
-If you add a dependency, just add it to the cpanfile file. There are three sections:
-
- - the general section is for dependencies that are needed only in runtime
- - the test section is for dependecies needed to run the test suite
- - the develop section is for dependencies needed for developers
-
-carton install installs all dependencies in all sections (after all, we're in developer mode here)
-
-Packaging
-============
-
-Packaging is managed with Dist::Zilla. To install Dist::Zilla and the necessary plugins, run:
-
-```
-make dist
-```
-
-After this, you will have a tar.gz suitable for uploading to CPAN or to your own mini-CPAN
-
-Releasing
-============
-
-The release process is as follows:
-
-X.XX will be the version that you are currently working on (the one you want to release)
-Y.YY will be the next version (which we start). This assumes `origin` as the main SDK source.
-
-```
-git checkout release/X.XX
-git pull origin release/X.XX
-```
-
-Edit README.md to add any relevant contributions.
-
-```
-make gen-paws
-```
-
-Will copy the contents of the Contributions section of README.md into Paws.pm so that the same
-section appears in CPAN also.
-
-Now edit the `Changes` file to add the date of release, adjusting the entry for version X.XX to 
-todays date.
-
-Commit everything up till now and push
-
-```
-git push origin release/X.XX
-```
-
-Take a look at Github Actions to see if the branch you're going to release is green: https://github.com/pplu/aws-sdk-perl/actions/
-
-We don't want to ship Paws when it's failing it's tests.
-
-If everything is OK:
-
-```
-git checkout master
-git pull origin master
-git merge release/X.XX
-git push origin master
-git tag release-X.XX
-git push origin release-X.XX
-make dist
-```
-
-this will generate Paws-X.XX.tar.gz, which is the artifact that is uploadable to CPAN
-
-```
-git checkout -b release/Y.YY
-git push --set-upstream origin release/Y.YY
-```
-
-This creates the branch for working on the next release.
-
-We bump the version number in the builder. Edit `builder-lib/Paws/API/Builder/Paws.pm`. Near line 12
-we will find Paws version number. Replace X.XX for Y.YY
-
-We add Y.YY to the Changes file. Commit the changes and push:
-
-```
-git push origin release/Y.YY
-```
-
-We're ready for developing Y.YY
-
-After that: upload Paws-X.XX.tar.gz to CPAN an do a walk around issues and MRs that have
-been fixed / merged in the release, notifying that "Paws X.XX has hit CPAN with this issue fixed"
-
-
-Trying it out
-============
-
-Each class for each API can be constructed in the following way:
-
-Create a Perl script (myscript.pl)
-
-```
-#!/usr/bin/env perl
-
+```perl
 use Paws;
-use Data::Printer;
 
-my $iam = Paws->service('IAM');
+my $paws = Paws->new(config => { region => 'ap-northeast-1' });
 
-my $summary = $iam->GetAccountSummary;
-p $summary->SummaryMap;
+my $s3  = $paws->service('S3');
+my $res = $s3->ListBuckets;
+
+for my $bucket (@{ $res->Buckets }) {
+    print $bucket->Name, "\n";
+}
 ```
 
-also take a look at the CLI utility (see below) for fast testing)
+Credentials are resolved automatically via the standard provider chain
+(environment variables, `~/.aws/credentials`, EC2/ECS instance profile). See
+`perldoc Paws` for configuration options.
 
-Credentials
-============
+## Migrating from upstream Pplu/Paws
 
-See MetaCPAN https://metacpan.org/pod/Paws#AUTHENTICATION
+If your project currently uses the upstream monolithic `Paws` (CPAN `Paws@0.46`
+or the pre-modular Peatix builds), you need to switch to per-service
+dependencies.
 
-or
+### 1. Detect which services your code uses
 
-```
-perldoc Paws
-```
-
-Status
-================
-
-Don't consider the SDK as "stable" code. There is a lot of experimenting going on. That said,
-people are using it in production, so changes to the way you call APIs, although not guaranteed, are
-not prone to change because they are autogenerated. Expect changes around the way you obtain
-service classes, transmit credentials, etc. Look at the TODO for expected changes to come.
-
-As of 2015-02 I'm documenting breaking changes in the Changes file. API changes that break stuff
-will be documented there. Please read the Changes file before updating your git clone.
-
-Using the SDK in your code
-================
-
-Although the code isn't considered stable yet, it works, and more than one person is using it
-already. I recommend you to using a cpanfile, and bundling Paws with carton bundle
-
-Supported AWS Services
-================
-
-Take a look at https://metacpan.org/pod/Paws#SUPPORTED-SERVICES
-
-If a service is not supported, it will warn on construction with an explicit "non supported API"
-message. Basically all query and json services are supported. RestXML and RestJSON services are in the coming.
-
-Documentation
-================
-All services get auto-generated POD documentation. perldoc a file to take a look at the documentation.
-
-CLI utility
-================
-Paws comes with a command-line utility to exercise the SDK. Just like Paws is the namespace
-for the SDK, "paws" (in /script) is the cli utility. It's quite rudimentary, but think of it as
-a quick way to try out calling services. Just call:
-
-```
-paws
+```bash
+bin/paws-migrate-cpanfile --root /path/to/your/project
 ```
 
-to list all services. If a service isn't supported yet, it will die explicitly advising you that
-Paws doesn't support that service yet.
+The tool scans `.pl`, `.pm`, `.psgi`, and `.t` files for
+`Paws->service('...')`, `use Paws::...`, and `Paws->load_class('Paws::...')`
+calls, then prints a cpanfile snippet to stdout:
 
+```perl
+my $V    = '1.0.0';
+my $base = "https://github.com/Peatix/aws-sdk-perl/releases/download/v$V";
+
+requires 'Paws', url => "$base/Paws-Core-$V.tar.gz";
+
+# Services detected in the source tree:
+requires 'Paws::EC2', url => "$base/Paws-EC2-$V.tar.gz";
+requires 'Paws::S3', url => "$base/Paws-S3-$V.tar.gz";
+requires 'Paws::SQS', url => "$base/Paws-SQS-$V.tar.gz";
 ```
-paws EC2 --region eu-west-1 DescribeInstances
+
+### 2. Replace old Paws dependencies in your cpanfile
+
+Remove any `requires 'Paws'` line that points to CPAN or an old tarball. Paste
+the output from step 1 into your cpanfile (or use `--output cpanfile.paws` to
+write it directly, then merge).
+
+### 3. Install and smoke-test
+
+```bash
+cpanm --installdeps .
+
+perl -e '
+  use Paws;
+  use Paws::Net::NoResponseMockCaller;
+  use Paws::Credential::Explicit;
+  my $p = Paws->new(config => {
+    caller      => Paws::Net::NoResponseMockCaller->new,
+    credentials => Paws::Credential::Explicit->new(
+      access_key => "test", secret_key => "test",
+    ),
+    region => "us-east-1",
+  });
+  $p->service("S3");
+  print "ok\n";
+'
 ```
 
-Parameters needed in for DescribeInstances can be passed as a list of parameters (see https://metacpan.org/pod/ARGV::Struct) for complete
-documentation of how to pass parameters via command line.
+If the script prints `ok`, the core runtime and your service dependencies are
+installed correctly.
 
+> **Note:** `paws-migrate-cpanfile` matches string-literal service names only.
+> If your code dispatches dynamically (e.g. `Paws->service($var)`), add those
+> services by hand.
+
+Migrating from `Net::Amazon::S3`? See
+[`docs/migrating-from-net-amazon-s3.md`](docs/migrating-from-net-amazon-s3.md)
+for the API surface mapping, install pattern, and worked examples
+(including pre-signed URLs via `$s3->presign(...)`).
+
+## Available services
+
+~304 AWS services are available as individual `Paws-<Service>` distributions.
+Each release tag on GitHub attaches the full set of tarballs. Optional
+`Paws-<Service>-Docs` companion distributions provide `perldoc`-accessible
+POD for each service's operations and shapes.
+
+Browse the assets on the
+[latest release](https://github.com/Peatix/aws-sdk-perl/releases) to see the
+full list.
+
+## Contributing / Development
+
+Clone the repository and install dev dependencies:
+
+```bash
+git clone https://github.com/Peatix/aws-sdk-perl.git
+cd aws-sdk-perl
+carton install
 ```
-paws EC2 --region eu-west-1 DescribeInstances Parameter1: ValueForParameter1 ListParameter: [ V1 V2 ] ComplexParam { Key1 Value1 Key2 Value 2 }
-```
 
-License
-================
+Key directories:
 
-This code is distributed under the Apache v2 License
+- `lib/` — core runtime (`Paws.pm`, wire layer, credential providers, signers)
+- `auto-lib/` — AOT-generated service classes (regenerated via `make gen-classes`)
+- `builder-lib/` — code generator that converts botocore definitions into Perl classes
+- `script/` — build and CI helper scripts
+- `docs/` — architecture, CI, and distribution documentation
 
-Thanks
-================
+See [docs/ci.md](docs/ci.md) for a guide to the CI workflows and how the test
+pipeline is structured.
 
-CAPSiDE (https://www.capside.com) for letting Paws be contributed in an open source model
-and giving me time to build and maintain it regularly.
+## License
 
-ZipRecruiter (https://www.ziprecruiter.com/) for sponsoring development of Paws. Lots of work
-from ZipRecruiter has been done via Shadowcat Systems (https://shadow.cat/).
-
-castaway for contributing to fixing documentation problems
- - taking the reigns of Paws, become part of the core team that pushes it forward
- - properly providing backlinks between related pages
- - making TOCs render correctly on search.cpan.org
- - generating helpful copy-paste ready scenarios in the synopsis of each method call
-
-Luis Alberto Gimenez (@agimenez) for
- - The git-fu cleaning up the "pull other sdks" code
- - Credential Providers code
- - Fixes for users that have no HOME env variable
- - FileCaller to fully mock responses
-
-Srinvas (@kidambisrinivas) for testing, bug reporting and fixing
-
-juair10 for corrections and testing
-
-CHORNY for CPAN and cpanfile packaging corrections
-
-Iñigo Tejedor for service endpoint resolution based on rules
-
-codehead for helping fix SQS Queue Maps
-
-mbartold for helping fix SQS MessageBatch functionality
-
-coreymayer for reporting bug in RestXmlCaller
-
-arc (Aaron Crane) for documentation patches
-
-dtikhonov for LWP Caller and bug reporting/fixing
-
-vivus-ignis for DynamoDB bug reporting and test scripts for DynamoDB
-
-karenetheridge for bug reporting, pull requests and help
-
-ioanrogers for fixing unicode issues in tests
-
-ilmari for fixing issues with timestamps in Date and X-Amz-Date headers,
-test fixes and 5.10 support fixes, documentation issue fixes for S3,
-CloudFront and Route53, help with number stringification
-
-stevecaldwell77 for 
- - contributing support for temporary credentials in S3
- - Fixing test suite failure scenarios
-
-Ryan Olson (BeerBikesBBQ) for contributing documentation fixes
-
-Roger Pettett for testing and contributing fixes for tests on MacOSX
-
-Henri Yandell for help with licensing issues
-
-Oriol Soriano (@ureesoriano) for contributions to API builders and better
-documentation generation
-
-H. Daniel Cesario (@maneta) for devel setup instructions on RH and MacOSX
-
-Glen van Ginkel for contributions to get S3 working
-
-Javier Arellano for discovering Tagging bug
-
-Ioan Rogers for contributing AssumeRoleWithSAML with ADFS auth example
-
-Miquel Soriano for reporting a bug with DescribeAutoScalingGroups
-
-Albert Bendicho (wiof) for contributing better retry logic
-
-Brian Hartsock for better handling of XMLResponse exceptions
-
-rpcme for reporting various bugs in the SDK
-
-glenveegee for lots of work sorting out the S3 implementation
-
-Grinzz
- - many bugs, suggestions and fixes
- - Installation speedup with Module::Builder::Tiny
-
-Dakkar
-  - solving issues with parameter passing
-  - fixing dns and other tests when a proxy is in use
-
-Arthur Axel fREW Schmidt for speeding up credential refreshing
-
-PopeFelix for solving issues around S3 and MojoAsyncCaller
-
-meis for (between others):
- - contributing Paws::Credential::Explicit
- - enabling unstable warnings to be silenced
-
-sven-schubert for contributing fixes to RestXML services,
-working on fixing S3 to work correctly.
-
-SeptamusNonovant for fixing paginators in non-callback mode
-
-gadgetjunkie for contributing the ECS credential provider
-
-mla for contributing a fix to correct dependencies
-
-autarch for correcting signature generation for a bunch of services
-
-piratefinn for linking calls to documentation AWS URLs
-
-slobo for fixing S3 behaviour
-
-bork1n for fixes to MojoAsynCaller
-
-atoomic for:
- - tweaking CPAN packaging
- - improving paws CLI
-
-leonerd for (between others)
- - documenting retry logic
- - fixing retry sleep of MojoAsyncCaller
-
-campus-explorer for contributing to test suite
-
-byterock for:
- - testing and fixing PinPoint
- - standing up as comaint, and releasing 0.43
- - improving S3 support
-
-torrentale for fixing QueryCaller to correctly signal empty arrays
-
-Jess Robinson and shadowcat.co.uk for:
- - doing lots of comaint work
- - working hard on new features
-
-shogo82148 for migrating our Travis pipelines to GitHub Actions (and 
-improving them)
-
-aeruder for contributing
- - Fixing DynamoDB retry fixes
- - Completing speedups and benchmarking code
- - Substituting Config::INI for Config::AWS 
- - Parrallelizing and fixing generation inconsistencies of the SDK
-
-dheffx for making ContainerProfile credential provider more robust
-
-0leksii for building support for Instance Metadata Service v2 (IMDSv2)
+This code is distributed under the [Apache License 2.0](LICENSE).

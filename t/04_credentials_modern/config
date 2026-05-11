@@ -10,3 +10,12 @@ sso_role_name = TestRole
 [profile incomplete-sso]
 sso_start_url = https://test-portal.awsapps.com/start
 sso_region = us-west-2
+
+[profile test-sso-session]
+sso_session = my-test-session
+sso_account_id = 123456789012
+sso_role_name = SessionRole
+
+[sso-session my-test-session]
+sso_start_url = https://session-portal.awsapps.com/start
+sso_region = eu-west-1

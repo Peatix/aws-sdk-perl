@@ -20,9 +20,11 @@
 #   4. Write each captured source string to lib/Paws/<Service>/<inner>.pm
 #      under a tmp/build/Paws-<Service> tree (top-level Paws/<Service>.pm
 #      gets the service-class source).
-#   5. Write a generated dist.ini, Makefile.PL fallback, MANIFEST,
+#   5. Generate t/00_load.t and t/01_smoke.t test files.
+#   6. Write a generated dist.ini, Makefile.PL fallback, MANIFEST,
 #      and cpanfile.
-#   6. Tarball the tree as Paws-<Service>-<version>.tar.gz with a
+#   7. Smoke-test: run prove --lib t/ to verify the package loads.
+#   8. Tarball the tree as Paws-<Service>-<version>.tar.gz with a
 #      deterministic SOURCE_DATE_EPOCH.
 #
 # Determinism is asserted by t/build/01_determinism.t.
@@ -42,6 +44,7 @@ use File::Path qw(make_path remove_tree);
 use File::Spec;
 use File::Slurper qw(write_text read_text);
 use File::Basename qw(dirname);
+use Cwd qw(abs_path);
 
 use Paws::Model::Loader::Resolver;
 use Paws::Model::Materializer::Moo;
@@ -121,7 +124,40 @@ $mat->materialize_service($ir);
 
 print STDERR "build-modular-dist svc=$service emitted=$emit_count packages\n";
 
-# 4. Generated dist files.
+# 4. Generated test files.
+make_path("$tmp_root/t");
+
+write_text("$tmp_root/t/00_load.t", <<"EOT");
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Test::More tests => 1;
+
+use_ok('$service_pkg');
+EOT
+
+write_text("$tmp_root/t/01_smoke.t", <<"EOT");
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Test::More tests => 2;
+
+use Paws;
+use Paws::Credential::Explicit;
+
+my \$paws = Paws->new(config => {
+    credentials => Paws::Credential::Explicit->new(
+        access_key => 'AKIAIOSFODNN7EXAMPLE',
+        secret_key => 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    ),
+});
+
+my \$svc = \$paws->service('$service', region => 'us-east-1');
+ok(defined \$svc, 'service object is defined');
+isa_ok(\$svc, '$service_pkg');
+EOT
+
+# 5. Generated dist files.
 my $dist_name = "Paws-$service";
 write_text("$tmp_root/dist.ini", <<EOT);
 name             = $dist_name
@@ -139,13 +175,32 @@ EOT
 write_text("$tmp_root/cpanfile", <<EOT);
 requires 'perl' => '5.012001';
 requires '$core_dep_module' => '>= $paws_core_version';
+
+on 'test' => sub {
+    requires 'Test::More' => '0.96';
+};
 EOT
 
 # Manual MANIFEST so we don't need dzil installed for non-CI paths.
-my @manifest = ('cpanfile', 'dist.ini');
-push @manifest, map { $_->[1] } @emitted;
-@manifest = sort map { "lib/$_" } map { $_->[1] } @emitted;
+my @manifest;
+push @manifest, sort map { "lib/$_" } map { $_->[1] } @emitted;
 unshift @manifest, 'cpanfile', 'dist.ini';
+
+# Collect generated test files.
+{
+    my @test_files;
+    require File::Find;
+    File::Find::find({
+        wanted => sub {
+            return unless $_ =~ /\.t$/;
+            (my $rel = $_) =~ s{^\Q$tmp_root\E/}{};
+            push @test_files, $rel;
+        },
+        no_chdir => 1,
+    }, "$tmp_root/t");
+    push @manifest, sort @test_files;
+}
+
 push @manifest, 'MANIFEST';
 write_text("$tmp_root/MANIFEST", join("\n", @manifest) . "\n");
 
@@ -159,6 +214,7 @@ configure_requires:
   Module::Build::Tiny: '0.034'
 build_requires:
   Module::Build::Tiny: '0.034'
+  Test::More: '0.96'
 dynamic_config: 0
 generated_by: 'script/build-modular-dist'
 license: apache_2_0
@@ -189,7 +245,24 @@ require Module::Build::Tiny;
 Module::Build::Tiny::Build_PL();
 EOT
 
-# 5. Tarball.
+# 7. Smoke-test the sub-dist before tarball creation.
+# Run with the sub-dist's own lib/ first on @INC, plus the repo-root
+# lib/ so Paws::Core (a runtime dependency) is available.
+{
+    my $repo_lib = abs_path("$FindBin::Bin/../lib");
+    my $sub_lib  = abs_path("$tmp_root/lib");
+    local $ENV{PERL5LIB} = join(':', $sub_lib, $repo_lib, $ENV{PERL5LIB} // '');
+
+    my $prove_rc = system('prove', '--lib', "$tmp_root/t/");
+    if ($prove_rc != 0)
+    {
+        die "build-modular-dist: smoke test failed for $service "
+          . "(prove exit=$prove_rc)\n";
+    }
+    print STDERR "build-modular-dist svc=$service smoke=ok\n";
+}
+
+# 8. Tarball.
 make_path($output_dir);
 my $tarball = File::Spec->catfile($output_dir, "$dist_name-$version.tar.gz");
 unlink $tarball if -e $tarball;
@@ -229,6 +302,9 @@ File::Find::find(sub {
     utime $epoch, $epoch, $_ if -e $_;
 }, $stage);
 
+# COPYFILE_DISABLE prevents macOS BSD tar from embedding
+# com.apple.provenance xattrs, which are non-deterministic.
+local $ENV{COPYFILE_DISABLE} = 1;
 my $rc = system('tar', '--create', '--gzip', '--file', $tarball,
                 '--directory', 'tmp/build', "$dist_name-$version");
 $rc == 0 or die "tar exited with rc=$rc\n";

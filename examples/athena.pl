@@ -1,5 +1,9 @@
 #!/usr/bin/env perl
 
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
+
 # Example contributed by frioux in (https://github.com/pplu/aws-sdk-perl/issues/176).
 # This version is a bit modified, as found here: https://blog.afoolishmanifesto.com/posts/using-amazon-athena-from-perl/ 
 

@@ -2,6 +2,7 @@ package Paws::Net::LWPCaller;
   # This caller uses LWP::UserAgent -- thus HTTPS proxies are supported.
   use Moose;
   with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
+  use HTTP::Request;
   use Paws::Net::APIResponse;
 
   has debug              => ( is => 'rw', required => 0, default => sub { 0 } );
@@ -16,7 +17,7 @@ package Paws::Net::LWPCaller;
   );
 
   sub send_request {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
 
     my $requestObj = $service->prepare_request_for_call($call_object); 
 
@@ -25,12 +26,44 @@ package Paws::Net::LWPCaller;
     delete $headers->{Host};
 
     my $method = lc $requestObj->method;
-    my $response = $self->ua->$method(
-      $requestObj->url,
-        %$headers,
-        (defined $requestObj->content)?(Content => $requestObj->content):(),
-    );
-   
+
+    my $response;
+    if ($requestObj->is_streaming_body) {
+      my $fh = $requestObj->stream_body;
+      my $req = HTTP::Request->new(
+        uc($method),
+        $requestObj->url,
+        [ %$headers ],
+        sub {
+          my $buf;
+          my $n = read($fh, $buf, 65536);
+          die "read failed on streaming body: $!" unless defined $n;
+          return $buf if $n;
+          return '';
+        },
+      );
+      if (my $cb = $params{response_callback}) {
+        $response = $self->ua->request($req, ':content_cb' => $cb);
+      } else {
+        $response = $self->ua->request($req);
+      }
+    } else {
+      my $req = HTTP::Request->new(
+        uc($method),
+        $requestObj->url,
+        [ %$headers ],
+        $requestObj->content,
+      );
+      if (my $cb = $params{response_callback}) {
+        $response = $self->ua->request($req, ':content_cb' => $cb);
+      } else {
+        $response = $self->ua->$method(
+          $requestObj->url,
+            %$headers,
+            (defined $requestObj->content)?(Content => $requestObj->content):(),
+        );
+      }
+    }
 
    my $lcheaders = {};
    $response->headers->scan(sub { $lcheaders->{ lc$_[0] } = $_[1] });
