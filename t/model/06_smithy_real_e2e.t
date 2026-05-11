@@ -5,10 +5,9 @@
 #
 # Why this test exists
 # --------------------
-# The Smithy loader (Paws::Model::Loader::Smithy, added in PR #60) was
+# The Smithy loader (Paws::Model::Loader::Smithy) was originally
 # unit-tested only against a hand-written 50-line synthetic fixture
-# (t/model/fixtures/tinyservice/tinyservice.smithy.json) that was
-# specifically designed to be parity-with-the-botocore-loader-output.
+# (t/model/fixtures/tinyservice/tinyservice.smithy.json).
 # It carried none of the things real Smithy IR has: resources,
 # resource-bound operations, missing endpointPrefix, smithy.api#Unit
 # for empty input/output, target_prefix derivation from the service
@@ -62,8 +61,8 @@ use TestRequestCaller;
 use Test::CustomCredentials;
 
 # Per-service rename of the IR's `name` field, so the materialised
-# Paws::<name> doesn't collide with the auto-lib classes built from
-# botocore. The same trick is used in t/model/02 and t/model/03.
+# Paws::<name> doesn't collide with any existing classes. The same
+# trick is used in t/model/02 and t/model/03.
 sub _rename_service {
     my ($svc, $new_name) = @_;
     return Paws::Model::IR::Service->new(
@@ -115,7 +114,7 @@ subtest 'health.smithy.json: awsJson1_1' => sub {
         is $svc->api_version,     '2016-08-04',       'api_version';
 
         is $svc->target_prefix, 'AWSHealth_20160804',
-            'target_prefix is the service shape local name (botocore parity)';
+            'target_prefix is the service shape local name';
 
         my @ops = $svc->operation_names;
         is scalar(@ops), 14, 'all 14 operations enumerated';

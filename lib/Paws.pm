@@ -256,9 +256,8 @@ sub available_services {
                    Module::Find::findsubmod Paws;
 
   # Materialiser-time enumeration: every service the resolver can
-  # reach via share/smithy/* or share/botocore/* (or, in dev / CI,
-  # via the botocore checkout at botocore/botocore/data/*). After
-  # stack19 dropped auto-lib/, this is the dominant source: for an
+  # reach via share/smithy/*. After stack19 dropped auto-lib/, this
+  # is the dominant source: for an
   # end user with `cpanm Paws` installed, install-time enumeration
   # only covers Paws::Signin (the one handwritten service); every
   # other service is reachable iff its IR is in share/.

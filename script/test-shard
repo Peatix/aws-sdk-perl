@@ -21,31 +21,43 @@
 # Shard rationale (post-stack19, after auto-lib/ was dropped and the
 # materialiser became the only path):
 #
-#   load-a      ~85s   t/01_load.t restricted to first ~half of
-#   load-b      ~85s    `Paws->available_services` (~402 services
-#                       split alphabetically). t/01_load.t loads
-#                       every service serially through the
-#                       materialiser, so it dominates wall time;
-#                       two cells run in parallel to halve it.
-#   network     ~70s   t/04, t/13, t/14
-#                       (DNS / connect timeout heavy; ~35s per file —
-#                       the timeout-bound files set the floor)
-#   mocked      ~30s   t/15, t/16, t/19, t/20-23, t/29-31
+#   load-a      ~85s   t/01_load.t restricted to the first half of
+#   load-b      ~85s    Resolver->all_known_services (~306 services
+#                       split alphabetically). t/01_load.t materialises
+#                       each service from Smithy IR and constructs the
+#                       service object; two cells run in parallel to
+#                       halve wall time.
+#   network     ~70s   t/04, t/04_credentials_modern, t/13, t/14
+#                       (credential providers + DNS / connect timeout
+#                       heavy; ~35s per file on the timeout-bound tests)
+#   mocked      ~40s   t/16, t/19, t/20-25, t/29-32, t/33_interceptors,
+#                       t/33_retry_modes
 #                       (synthetic protocol + mocked responses; the
-#                       per-protocol synthetic-wire tests)
-#   subdirs     ~15s   t/02, t/types, t/wire, t/model
+#                       per-protocol synthetic-wire tests, error
+#                       handling, interceptor and retry framework)
+#   subdirs     ~20s   t/02, t/27_paginator_iterator, t/32_v4a,
+#                       t/33_streaming, t/34_s3_transfer, t/model,
+#                       t/types, t/wire
+#   s3          ~20s   t/s3, t/route53/uri_generation.t
+#                       (real-service-shape tests for S3 + Route53
+#                       URI generation — presigning, URI encoding,
+#                       XML creation, content headers, multipart
+#                       upload, streaming)
+#   build       ~30s   t/build
+#                       (build-modular-dist determinism, layout,
+#                       POD emission, docs-dist)
 #
-# Tests intentionally NOT in any shard (need follow-up materialiser
-# work to widen coverage; see docs/testing.md "Curated test scope"):
+# Tests intentionally NOT in any shard:
+#
+# -- Materialiser gaps (need follow-up work; see docs/testing.md
+#    "Curated test scope"):
 #
 #   t/03_aws_default_object.t         exercises Paws->service('IAM')
 #                                     with no region, which needs
 #                                     region_rules / global-service
 #                                     metadata in the materialised
 #                                     service class. The IR doesn't
-#                                     yet absorb endpoint rules
-#                                     (see builder-lib/Paws/Model/
-#                                     Loader/Botocore.pm header) so
+#                                     yet absorb endpoint rules so
 #                                     IAM/STS materialisation falls
 #                                     back to the default rule and
 #                                     dies on undefined region.
@@ -56,51 +68,46 @@
 #   t/06_endpoint_override.t          same root cause as t/03 — the
 #                                     IAM endpoint-override path
 #                                     touches region_rules.
-#   t/10_responses.t                  the S3 subset of this file's
-#                                     ~9,900 sub-tests runs under
-#                                     the `s3` shard; the rest is
-#                                     deferred until materialiser
-#                                     coverage widens.
-#   t/11_client_exceptions*.t         multi-transport exception
+#   t/10_responses.t                  ~9,900 sub-tests of real-AWS
+#                                     response decoding; a sample of
+#                                     these surfaces shape patterns
+#                                     the materialiser doesn't yet
+#                                     handle correctly.
+#   t/11_client_exceptions.t          multi-transport exception
 #                                     surface; depends on a wider
 #                                     service set than load-* covers.
 #   t/12_regions.t                    same root cause as t/03 — the
 #                                     IAM/STS/Route53 global-service
 #                                     paths need region_rules in the
 #                                     materialiser.
+#   t/17_s3metadata.t                 S3 needs the route53/s3 work
+#                                     below to land first.
 #   t/18_mocked.t                     ~4,007 sub-tests; same root
 #                                     cause as t/10.
-#   t/24_error_from_nonreturningmethod.t / t/25_error_on_malformed_response.t
-#                                     mocked-response error paths
-#                                     using JsonParamsService /
-#                                     friends; deferred until the
-#                                     `t/lib/Paws/*ParamsService.pm`
-#                                     test helpers are themselves
-#                                     materialised cleanly.
-#   t/26_paginators.t                 wired into the `s3` shard but
-#                                     currently skip_all'd because
-#                                     the materialiser does not yet
-#                                     emit paginator helpers (e.g.
-#                                     `ListAllObjects`).
-#   t/27_signing_name.t               deferred until the LexRuntime /
-#                                     IoT / Pricing / Pinpoint service
-#                                     classes the test exercises are
-#                                     materialised cleanly.
-#   t/28_retries_mojoasynccaller.t    Mojo async caller integration.
-#   t/glacier/, t/route53/            real-service-shape tests; same
-#                                     follow-up family as t/05 / t/17.
-#                                     (t/s3/ now runs under the `s3`
-#                                     shard with the in-test
-#                                     Paws::Test::MaterialiseServices
-#                                     shim.)
-#   t/17_s3metadata.t                 wired into the `s3` shard but
-#                                     currently skip_all'd because
-#                                     the materialiser does not yet
-#                                     emit a wrapper class for
-#                                     ParamInHeaders-located map
-#                                     shapes (S3 Metadata is the
-#                                     canonical example).
-#   t/99_pod_*.t                      author-only, never in CI test.
+#   t/26_paginators.t                 paginators + materialiser;
+#                                     same root cause as t/10.
+#   t/27_signing_name.t               same.
+#   t/glacier/                         Glacier operations materialise
+#                                     without certain attributes
+#                                     (AccountId, VaultName, UploadId)
+#                                     because the Smithy IR doesn't
+#                                     carry REST-JSON header members
+#                                     consistently; needs materialiser
+#                                     work.
+#   t/route53/xml_creation.t          ChangeResourceRecordSets and
+#                                     ChangeTagsForResource XML body
+#                                     generation fails; the Route53
+#                                     REST-XML wrapper logic needs
+#                                     special handling for these ops.
+#
+# -- AUTHOR_TESTING / CI-gated (skip automatically in CI):
+#
+#   t/15_timeouts.t                   `plan skip_all` when $ENV{CI}
+#                                     or !$ENV{AUTHOR_TESTING}.
+#   t/28_retries_mojoasynccaller.t    same gates as t/15; also needs
+#                                     optional MojoAsyncCaller dep.
+#   t/99_pod_presence.t               author-only POD coverage.
+#   t/99_pod_syntax.t                 author-only POD syntax.
 #
 # Wall-time of the workflow == max(shard) + per-job overhead. With
 # `load-a/b` and `network` all in the 85-95s range the slowest cell
@@ -126,38 +133,42 @@ shard_files() {
       ;;
     network)
       echo t/04_credentials.t \
+           t/04_credentials_modern.t \
            t/13_client_connect_errors.t \
            t/14_dns_client_errors.t
       ;;
     mocked)
-      echo t/15_timeouts.t \
-           t/16_retries.t \
+      echo t/16_retries.t \
            t/19_signin_login.t \
            t/20_json_syntetic_responses.t \
            t/21_restjson_syntetic_responses.t \
            t/22_query_syntetic_responses.t \
            t/23_queryflatten_syntetic_responses.t \
+           t/24_error_from_nonreturningmethod.t \
+           t/25_error_on_malformed_response.t \
            t/29_restxml_syntetic_responses.t \
            t/30_ec2_syntetic_responses.t \
            t/31_glacier_syntetic_responses.t \
-           t/32_debug_caller.t
+           t/32_debug_caller.t \
+           t/33_interceptors.t \
+           t/33_retry_modes.t
       ;;
     subdirs)
       echo t/02_aws_object.t \
+           t/27_paginator_iterator.t \
+           t/32_v4a_signature.t \
+           t/33_streaming.t \
+           t/34_s3_transfer.t \
            t/model \
            t/types \
            t/wire
       ;;
     s3)
-      # S3 wire-shape coverage materialised via the in-test shim
-      # `t/lib/Paws/Test/MaterialiseServices.pm`. t/10_responses.t is
-      # included for the S3 response fixtures only — the shard's
-      # `cmd_run` adds `:: $(ls t/10_responses/s3-*.response)` so the
-      # test driver iterates only those files.
       echo t/s3 \
-           t/17_s3metadata.t \
-           t/26_paginators.t \
-           t/10_responses.t
+           t/route53/uri_generation.t
+      ;;
+    build)
+      echo t/build
       ;;
     *)
       return 1
@@ -166,7 +177,7 @@ shard_files() {
 }
 
 all_shards() {
-  echo load-a load-b network mocked subdirs s3
+  echo load-a load-b network mocked subdirs s3 build
 }
 
 usage() {
@@ -246,24 +257,70 @@ cmd_verify() {
 
   local count
   count=$(LC_ALL=C sort -u "$tmp_union" | wc -l | tr -d ' ')
+
+  # Completeness: every .t file must be in a shard or on the exclusion list.
+  # To add a new exclusion, append to the array below with a comment.
+  local -a excluded_files=(
+    # -- Materialiser gaps (need follow-up materialiser work) --
+    t/03_aws_default_object.t           # region_rules / global-service metadata
+    t/05_service_calls.t                # wider service surface, unimplemented shapes
+    t/06_endpoint_override.t            # region_rules (same root cause as t/03)
+    t/10_responses.t                    # ~9900 sub-tests, shape patterns
+    t/11_client_exceptions.t            # wider service set than load-* covers
+    t/12_regions.t                      # region_rules (same root cause as t/03)
+    t/17_s3metadata.t                   # S3-specific materialiser work
+    t/18_mocked.t                       # ~4007 sub-tests (same as t/10)
+    t/26_paginators.t                   # paginators + materialiser
+    t/27_signing_name.t                 # signing name materialisation
+
+    # -- Service-shape gaps (pre-existing attribute/XML issues) --
+    t/glacier/content_headers.t         # Glacier ops missing attributes
+    t/glacier/multipartupload.t         # Glacier ops missing attributes
+    t/route53/xml_creation.t            # Route53 XML body wrapping
+
+    # -- AUTHOR_TESTING / CI-gated (skip automatically) --
+    t/15_timeouts.t                     # plan skip_all in CI / AUTHOR_TESTING
+    t/28_retries_mojoasynccaller.t      # same gates + optional Mojo dep
+    t/99_pod_presence.t                 # author-only POD coverage
+    t/99_pod_syntax.t                   # author-only POD syntax
+  )
+
+  local tmp_excluded="$TMP_DIR/excluded"
+  printf '%s\n' "${excluded_files[@]}" > "$tmp_excluded"
+
+  local tmp_all="$TMP_DIR/all"
+  find t/ -name '*.t' -not -path '*/aws-sdk-perl-*' | LC_ALL=C sort > "$tmp_all"
+
+  local tmp_covered="$TMP_DIR/covered"
+  LC_ALL=C sort -u "$tmp_union" "$tmp_excluded" > "$tmp_covered"
+
+  local uncovered
+  uncovered=$(comm -23 "$tmp_all" "$tmp_covered")
+  if [ -n "$uncovered" ]
+  then
+    echo "ERROR: the following .t files are not in any shard and not on" >&2
+    echo "the exclusion list in cmd_verify(). Either add them to a shard" >&2
+    echo "or add an exclusion entry with a reason:" >&2
+    printf '  %s\n' $uncovered >&2
+    exit 1
+  fi
+
   echo "ok: $count test files covered by $(all_shards | wc -w | tr -d ' ') shards"
-  echo "(post-stack19 the shard set is a curated subset of t/; see"
-  echo "the comment block at the top of this script for the rationale"
-  echo "around what's intentionally excluded.)"
+  echo "    ${#excluded_files[@]} files on the documented exclusion list"
 }
 
 # Compute the service-name subset for one of the load-* shards.
 # t/01_load.t accepts service names as @ARGV; we pass these via prove's
 # `::` separator. The split is alphabetical (sort + slice) so it stays
-# deterministic across runs and matches what `Paws->available_services`
-# already returns sorted.
+# deterministic across runs. Uses Resolver->all_known_services to match
+# the service list t/01_load.t defaults to when @ARGV is empty.
 load_services_chunk() {
   local idx="$1" total="$2"
   perl -I lib -I builder-lib -e '
     use strict;
     use warnings;
-    use Paws;
-    my @services = sort Paws->new->available_services;
+    use Paws::Model::Loader::Resolver;
+    my @services = Paws::Model::Loader::Resolver->new->all_known_services;
     my $idx = $ARGV[0] - 1;
     my $total = $ARGV[1];
     my $n = scalar @services;
@@ -315,19 +372,6 @@ cmd_run() {
       local services
       services=$(load_services_chunk 2 2)
       prove_argv+=(:: $services)
-      ;;
-    s3)
-      # Run t/10_responses.t against only the S3 response fixtures.
-      # The other .t files in the shard (t/s3/*, t/17_s3metadata.t,
-      # t/26_paginators.t) don't read @ARGV so the extra positional
-      # arguments are inert for them.
-      local s3_fixtures
-      s3_fixtures=$(ls t/10_responses/s3-*.response 2>/dev/null | tr '\n' ' ')
-      if [ -n "$s3_fixtures" ]
-      then
-        # shellcheck disable=SC2206
-        prove_argv+=(:: $s3_fixtures)
-      fi
       ;;
   esac
 

@@ -5,8 +5,8 @@ Two backends produce the per-service Perl classes from the IR
 
 | Backend                       | Module                          | Status      |
 |-------------------------------|---------------------------------|-------------|
-| Moose (escape hatch)          | `Paws::Model::Materializer`            | always-on   |
-| Moo + Type::Tiny (default)    | `Paws::Model::Materializer::Moo`       | default from PR13 |
+| Moo + Type::Tiny (default)    | `Paws::Model::Materializer::Moo`       | default     |
+| Moose (escape hatch)          | `Paws::Model::Materializer`            | opt-in via `PAWS_OO_BACKEND=Moose` |
 
 Both produce classes that:
 
@@ -19,32 +19,17 @@ Both produce classes that:
 - populate the same `Paws::SerDes` side-table so the wire layer
   cannot tell them apart.
 
-## How to use the Moo backend today
+## How to switch backends
 
-```
-use Paws::Model::Loader::Botocore;
-use Paws::Model::Materializer::Moo;
-
-my $loader = Paws::Model::Loader::Botocore->new;
-my $ir     = $loader->load($path_to_service_2_json);
-
-my $mat    = Paws::Model::Materializer::Moo->new(loader => $loader);
-my $pkg    = $mat->materialize_service($ir);
-
-my $svc = $pkg->new(region => 'us-east-1', ...);
-$svc->ListThings(...);
-```
-
-From PR13, `Paws::Model::Materializer::Auto` defaults to the Moo backend.
-`PAWS_OO_BACKEND=Moose` is the documented escape hatch for one
-release while users update any code that depends on Moose-specific
-error message text.
+The Moo + Type::Tiny backend is the default. Set `PAWS_OO_BACKEND=Moose`
+to use the Moose backend instead. The Moose backend is useful for
+narrowing whether a bug is Moo-specific.
 
 ## Type mapping
 
-Botocore primitive → Type::Tiny constructor:
+IR primitive → Type::Tiny constructor:
 
-| botocore type | Type::Tiny     | notes                                 |
+| IR type       | Type::Tiny     | notes                                 |
 |---------------|----------------|---------------------------------------|
 | `string`      | `Str`          |                                       |
 | `integer`     | `Int`          |                                       |
@@ -73,20 +58,19 @@ Same:
 
 Different:
 
-- Class-construction time (Moo is materially faster; benchmarks land
-  with PR13).
+- Class-construction time (Moo is materially faster).
 - `$obj->meta` works only on Moose-backend classes. On Moo-backend
-  classes, `$obj->meta` triggers Moo's Moose-compat inflation - that
+  classes, `$obj->meta` triggers Moo's Moose-compat inflation — that
   is a one-time cost and the inflation produces a real Moose meta-
-  class, but it defeats the perf win of using Moo. PR11 ensured the
-  internal wire layer never touches `->meta`; user code that does
-  `$obj->meta->...` still works.
+  class, but it defeats the perf win of using Moo. The wire layer
+  never touches `->meta`; user code that does `$obj->meta->...` still
+  works.
 
 ## Custom traits
 
 The Moose backend uses the seven attribute-trait packages in
 `lib/Paws/API.pm` (`NameInRequest`, `ParamInHeader`, etc.). The Moo
-backend skips those entirely - the equivalent metadata is recorded in
+backend skips those entirely — the equivalent metadata is recorded in
 the SerDes side-table at materialise time. The traits remain in the
 codebase for backward compatibility with any user code that
 introspects them.
@@ -95,16 +79,14 @@ introspects them.
 
 - Object::Pad backend. Object::Pad is faster again than Moo for both
   cold-start and warm dispatch, but introduces a different syntax
-  (`field`, `method`) and is not in core. Worth considering once Moo
-  is the default and we have benchmarks. Adding a third backend is a
-  small PR because the Paws::Model::Materializer / Paws::Model::Materializer::Moo
-  split is already the precedent.
+  (`field`, `method`) and is not in core. Worth considering once we
+  have benchmarks. Adding a third backend is a small change because the
+  Materializer / Materializer::Moo split is already the precedent.
 
 - Core `class` (Corinna). Requires Perl 5.38+; would bump Paws's
   minimum from 5.12 by 12 years. Premature.
 
 ## See also
 
-- `docs/materialisation.md` — when each backend gets selected at
-  runtime (`PAWS_OO_BACKEND`, `PAWS_LAZY_FORCE`) and the AOT vs.
-  in-memory tradeoffs.
+- `docs/materialisation.md` — how the build pipeline selects and
+  drives the materialiser backend.

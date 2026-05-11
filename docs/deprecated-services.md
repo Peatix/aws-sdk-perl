@@ -14,7 +14,7 @@ call site.
 
 ## What was dropped
 
-| Paws class               | botocore name      | AWS lifecycle status                                                                       | Migration path                                                                                                |
+| Paws class               | service name       | AWS lifecycle status                                                                       | Migration path                                                                                                |
 |--------------------------|--------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | `Paws::AppTest`          | `apptest`          | AWS Mainframe Modernization Application Testing — discontinuation announced late 2024.    | None. Service is gone.                                                                                         |
 | `Paws::Evidently`        | `evidently`        | CloudWatch Evidently shutdown 2025-10-16.                                                  | None. AWS recommends rebuilding A/B-testing flows on top of CloudWatch + custom infra.                         |
@@ -62,8 +62,8 @@ set of model files for services AWS no longer maintains.
 
 ## Services gained from Smithy
 
-Switching to Smithy gained Paws 33 services that botocore does not
-have a model for, of which ~14 are real new GA / public AWS
+Switching to Smithy gained Paws 33 additional services, of which ~14
+are real new GA / public AWS
 services that previously had no Paws coverage:
 
 - Bedrock AgentCore (`Paws::BedrockAgentCore`,
@@ -81,25 +81,12 @@ services that previously had no Paws coverage:
 
 ## Migrating off a dropped service
 
-Three options, in order of effort:
+Two options:
 
 1. **Stop calling it.** If the service is one AWS has already shut
    down, your call site is dead code regardless of which SDK it
    went through.
 2. **Pin to an older Paws release.** Releases prior to the
-   Smithy-only switchover bundled botocore JSON for these services.
-   Calls will still hit a `404 / NoSuchService` from AWS, but the
-   code will at least load.
-3. **Construct the resolver explicitly against a botocore
-   checkout.** The Botocore loader
-   (`Paws::Model::Loader::Botocore`) is still part of the codebase
-   for exactly this case; what's no longer included is the vendored
-   botocore tree. To use it:
-
-   ```perl
-   use Paws::Model::Loader::Resolver;
-   $ENV{PAWS_LOADER_ORDER} = 'Botocore,Smithy';
-   my $r = Paws::Model::Loader::Resolver->new(
-       botocore_search_paths => ['/path/to/botocore/botocore/data'],
-   );
-   ```
+   Smithy-only switchover bundled service descriptions for these
+   services. Calls will still hit a `404 / NoSuchService` from AWS,
+   but the code will at least load.

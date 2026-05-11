@@ -1,5 +1,8 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 use lib qw(t/lib);
-use Paws::Test::SkipNoServiceClasses;
+use Paws::Test::MaterialiseServices;
 
 
 use strict;
@@ -14,7 +17,7 @@ use Test::CustomCredentials;
 my $paws = Paws->new(config => { caller => 'Test05Caller', credentials => 'Test::CustomCredentials' } );
 
 # test with which service name we sign. Expectations track the
-# signingName/endpointPrefix in the pinned upstream botocore data; AWS has
+# signingName/endpointPrefix in the upstream Smithy models; AWS has
 # changed some of these over time (e.g. IoT moved from execute-api to iot).
 my $services = {
   LexRuntime => { 'us-east-1' => 'lex', },

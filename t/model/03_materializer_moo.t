@@ -18,12 +18,12 @@ use lib "$Bin/../lib";
 use lib "$Bin/../../builder-lib";
 use lib "$Bin/../../lib";
 
-use Paws::Model::Loader::Botocore;
+use Paws::Model::Loader::Smithy;
 use Paws::Model::Materializer::Moo;
 use Paws::SerDes;
 
-my $fixture = "$Bin/fixtures/tinyservice/2024-01-01/service-2.json";
-my $loader  = Paws::Model::Loader::Botocore->new;
+my $fixture = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
+my $loader  = Paws::Model::Loader::Smithy->new;
 my $svc_ir  = $loader->load($fixture);
 
 # Different namespace so we don't collide with the Moose backend test.
