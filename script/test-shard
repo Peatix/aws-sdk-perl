@@ -115,6 +115,9 @@ cd -- "$repo_root"
 # anywhere else.
 shard_files() {
   case "$1" in
+    load-a|load-b)
+      echo t/01_load.t
+      ;;
     network)
       echo t/04_credentials.t \
            t/13_client_connect_errors.t \
@@ -157,7 +160,7 @@ shard_files() {
 }
 
 all_shards() {
-  echo network mocked subdirs s3
+  echo load-a load-b network mocked subdirs s3
 }
 
 usage() {
@@ -222,9 +225,12 @@ cmd_verify() {
     expand_shard "$shard" >> "$tmp_union"
   done
 
-  # Detect duplicates - every .t file should be in exactly one shard.
+  # Detect duplicates - every .t file should be in exactly one
+  # shard. The `load-a` / `load-b` pair is the deliberate exception:
+  # they share t/01_load.t but each runs it with a different subset
+  # of services in @ARGV, so the file appearing in both is correct.
   local dupes
-  dupes=$(LC_ALL=C sort "$tmp_union" | uniq -d || true)
+  dupes=$(LC_ALL=C sort "$tmp_union" | uniq -d | grep -v '^t/01_load\.t$' || true)
   if [ -n "$dupes" ]
   then
     echo "ERROR: the following .t files appear in more than one shard:" >&2
@@ -238,6 +244,29 @@ cmd_verify() {
   echo "(post-stack19 the shard set is a curated subset of t/; see"
   echo "the comment block at the top of this script for the rationale"
   echo "around what's intentionally excluded.)"
+}
+
+# Compute the service-name subset for one of the load-* shards.
+# t/01_load.t accepts service names as @ARGV; we pass these via prove's
+# `::` separator. The split is alphabetical (sort + slice) so it stays
+# deterministic across runs and matches what
+# Resolver->all_known_services already returns sorted.
+load_services_chunk() {
+  local idx="$1" total="$2"
+  perl -I lib -I builder-lib -e '
+    use strict;
+    use warnings;
+    use Paws::Model::Loader::Resolver;
+    my @services = Paws::Model::Loader::Resolver->new->all_known_services;
+    my $idx = $ARGV[0] - 1;
+    my $total = $ARGV[1];
+    my $n = scalar @services;
+    my $chunk = int($n / $total);
+    my $remainder = $n % $total;
+    my $start = $idx * $chunk + ($idx < $remainder ? $idx : $remainder);
+    my $size = $chunk + ($idx < $remainder ? 1 : 0);
+    print join(" ", @services[$start .. $start + $size - 1]);
+  ' "$idx" "$total"
 }
 
 cmd_run() {
@@ -267,7 +296,20 @@ cmd_run() {
   # shellcheck disable=SC2206
   prove_argv+=($entries)
 
+  # The load-* shards split t/01_load.t alphabetically by service
+  # name. t/01_load.t reads @ARGV; prove passes anything after `::`
+  # to the test as @ARGV.
   case "$shard_name" in
+    load-a)
+      local services
+      services=$(load_services_chunk 1 2)
+      prove_argv+=(:: $services)
+      ;;
+    load-b)
+      local services
+      services=$(load_services_chunk 2 2)
+      prove_argv+=(:: $services)
+      ;;
     s3)
       # Run t/10_responses.t against only the S3 response fixtures.
       # The other .t files in the shard (t/s3/*, t/17_s3metadata.t,
