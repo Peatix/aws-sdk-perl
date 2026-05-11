@@ -1,4 +1,8 @@
 #!/usr/bin/env perl
+
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 use lib qw(t/lib);
 use Paws::Test::MaterialiseServices;
 

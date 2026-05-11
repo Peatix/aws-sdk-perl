@@ -1,0 +1,6 @@
+{
+  "accessToken": "test-sso-session-access-token",
+  "expiresAt": "2099-12-31T23:59:59Z",
+  "region": "eu-west-1",
+  "startUrl": "https://session-portal.awsapps.com/start"
+}

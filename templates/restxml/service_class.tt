@@ -1,3 +1,5 @@
+[%# This file has been modified from the original upstream distribution
+    by Peatix, Inc. See the git log for this file for details of changes. %]
 [%- IF (c.enums.size) -%]
 use Moose::Util::TypeConstraints;
 [%- FOR enum_name IN c.enums.keys.sort %]
@@ -5,7 +7,6 @@ enum '[% enum_name %]', [[% FOR val IN c.enums.$enum_name %]'[% val %]',[% END %
 [%- END %]
 [%- END -%]
 package [% c.api %];
-  warn "[% c.api %] is not stable / supported / entirely developed" unless $ENV{'PAWS_SILENCE_UNSTABLE_WARNINGS'};
   use Moose;
   sub service { '[% c.service %]' }
   sub signing_name { '[% c.signing_name %]' }

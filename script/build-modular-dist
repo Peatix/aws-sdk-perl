@@ -302,6 +302,9 @@ File::Find::find(sub {
     utime $epoch, $epoch, $_ if -e $_;
 }, $stage);
 
+# COPYFILE_DISABLE prevents macOS BSD tar from embedding
+# com.apple.provenance xattrs, which are non-deterministic.
+local $ENV{COPYFILE_DISABLE} = 1;
 my $rc = system('tar', '--create', '--gzip', '--file', $tarball,
                 '--directory', 'tmp/build', "$dist_name-$version");
 $rc == 0 or die "tar exited with rc=$rc\n";

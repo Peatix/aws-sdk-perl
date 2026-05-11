@@ -104,6 +104,15 @@ sub _build_service {
     substr($sdk_name, 0, 1) = uc(substr($sdk_name, 0, 1));
     $sdk_name =~ s/\s+//g;
 
+    # Service-level default XML namespace. Botocore models stash it
+    # under `metadata.xmlNamespace.uri`; the Smithy loader pulls
+    # the equivalent from `smithy.api#xmlNamespace` on the service
+    # shape. Both feed into IR::Service->xml_namespace, which the
+    # materialiser consumes for REST-XML body-wrapper generation.
+    my $svc_xmlns = ref($meta->{xmlNamespace}) eq 'HASH'
+        ? $meta->{xmlNamespace}{uri}
+        : undef;
+
     return Paws::Model::IR::Service->new(
         name              => $sdk_name,
         full_name         => $meta->{serviceFullName} // $meta->{endpointPrefix} // 'unknown',
@@ -116,6 +125,7 @@ sub _build_service {
         signature_version => $meta->{signatureVersion},
         uid               => $meta->{uid},
         documentation     => $api->{documentation},
+        xml_namespace     => $svc_xmlns,
         operations        => \%operations,
         shapes            => \%shapes,
     );
@@ -142,6 +152,20 @@ sub _build_operation {
         $args{error_shapes} = [ map { $_->{shape} } @{ $op->{errors} } ];
     }
 
+    # Botocore exposes the integrity-header requirement two ways
+    # depending on the model vintage: the older `httpChecksumRequired`
+    # boolean and the newer `httpChecksum.requestChecksumRequired`
+    # block (which also carries the algorithm-member name). Read
+    # whichever is present, then fall back to the older form.
+    if (ref($op->{httpChecksum}) eq 'HASH') {
+        $args{http_checksum_required}
+            = $op->{httpChecksum}{requestChecksumRequired} ? 1 : 0;
+        $args{http_checksum_algorithm_member}
+            = $op->{httpChecksum}{requestAlgorithmMember};
+    } elsif ($op->{httpChecksumRequired}) {
+        $args{http_checksum_required} = 1;
+    }
+
     $args{paginator} = $paginator if $paginator;
 
     return Paws::Model::IR::Operation->new(%args);
@@ -154,6 +178,17 @@ sub _build_shape {
         name          => $name,
         type          => $shape->{type} // 'string',
         documentation => $shape->{documentation},
+        # Per-shape XML namespace + element-name override. Mirrors
+        # the Smithy loader's extraction of `smithy.api#xmlNamespace`
+        # and `smithy.api#xmlName`. Consumers that don't need them
+        # ignore the fields.
+        xml_namespace => (ref($shape->{xmlNamespace}) eq 'HASH'
+                            ? $shape->{xmlNamespace}{uri}
+                            : undef),
+        xml_name      => $shape->{xmlName},
+        # Streaming blob marker. Parity with the Smithy loader's
+        # `smithy.api#streaming` extraction.
+        streaming     => $shape->{streaming} ? 1 : 0,
     );
 
     my $type = $args{type};
@@ -197,6 +232,12 @@ sub _build_member {
         location      => $member->{location},
         locationName  => $member->{locationName},
         streaming     => $member->{streaming} ? 1 : 0,
+        # Botocore puts `flattened: true` on the member that points at
+        # a list shape (parity with the Smithy member-side xmlFlattened).
+        flattened     => $member->{flattened} ? 1 : 0,
+        xml_namespace => (ref($member->{xmlNamespace}) eq 'HASH'
+                            ? $member->{xmlNamespace}{uri}
+                            : undef),
         documentation => $member->{documentation},
         deprecated    => $member->{deprecated} ? 1 : 0,
     );

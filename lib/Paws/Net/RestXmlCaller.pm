@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::RestXmlCaller;
   use Paws;
   use Moose::Role;
@@ -6,6 +9,7 @@ package Paws::Net::RestXmlCaller;
   use URI::Template;
   use URI::Escape;
   use Moose::Util;
+  use Scalar::Util;
 
   use Paws::Net::RestXMLResponse;
   use Paws::SerDes;
@@ -30,7 +34,6 @@ package Paws::Net::RestXmlCaller;
 
     my %p;
     for my $att ($serdes->serializable_attributes) {
-      # e.g. S3 metadata objects, which are passed in the header
       next if $serdes->trait_for($att, 'ParamInHeaders');
 
       my $value = $params->$att;
@@ -148,9 +151,6 @@ package Paws::Net::RestXmlCaller;
     }
   }
 
-  # URI escaping adapted from URI::Escape
-  #c.f. http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1
-  # perl 5.6 ready UTF-8 encoding adapted from JSON::PP
   our %escapes = map { chr($_) => sprintf("%%%02X", $_) } 0..255;
   our $unsafe_char = qr/[^A-Za-z0-9\-\._~]/;
 
@@ -169,6 +169,20 @@ package Paws::Net::RestXmlCaller;
   # layer's hot path doesn't go through here for the protocols
   # tested in PR4 (json/restjson/query); RestXML's xml-building is
   # only exercised by S3, Route53, CloudFront, etc.
+  #
+  # Flattening: a list-typed attribute is rendered as
+  # `<Wrapper><Elem>..</Elem></Wrapper>` if the model treats it as
+  # non-flattened, and as `<Elem><Elem>..` (no wrapper) if it's
+  # flattened. Two sources of "flattened":
+  #
+  #   - per-attribute (materialiser side): the SerDes record's
+  #     `flattened` boolean, set from either the IR shape-level
+  #     `xmlFlattened` trait OR the IR member-level `xmlFlattened`
+  #     trait. S3 hits both forms; see lib/Paws/Model/Materializer/Moo.pm.
+  #   - per-service (AOT side): the legacy `flattened_arrays`
+  #     boolean on the service class. Older AOT-generated classes
+  #     rely on this. Fall back to it when the SerDes record's
+  #     per-attribute flag is unset.
   sub _attribute_to_xml {
     my ($self, $owner_serdes, $att_name, $value) = @_;
     my $type     = $owner_serdes->type_for($att_name);
@@ -176,22 +190,28 @@ package Paws::Net::RestXmlCaller;
                      ? $owner_serdes->wire_key_for($att_name)
                      : $att_name;
 
+    my $is_flattened = $owner_serdes->is_flattened($att_name)
+                    || $self->flattened_arrays
+                    ? 1 : 0;
+
     my $xml;
     if (Moose::Util::find_meta($type)) {
       $xml = sprintf '<%s>%s</%s>', $location, $self->_to_xml($value), $location;
     }
     elsif ($type eq 'ArrayRef[Str|Undef]') {
-      my $req_name = $owner_serdes->wire_key_for($att_name);
-      $xml = "<${att_name}>"
-           . ( join '', map { sprintf '<%s>%s</%s>', $req_name, $_, $req_name } @$value )
-           . "</${att_name}>";
+      my $elem_name = $owner_serdes->wire_key_for($att_name);
+      my $inner = join '', map { sprintf '<%s>%s</%s>', $elem_name, $_, $elem_name } @$value;
+      $xml = $is_flattened
+        ? $inner
+        : "<${att_name}>${inner}</${att_name}>";
     }
     elsif ($type =~ m/^ArrayRef\[(.*?::.*)\]/) {
       # Array of Paws API objects.
-      $xml = join '', map { sprintf '<%s>%s</%s>', $location, $self->_to_xml($_), $location } @$value;
-      if (!$self->flattened_arrays) {
-        $xml = sprintf('<%s>%s</%s>', $att_name, $xml, $att_name);
-      }
+      my $elem_name = $location;
+      my $inner = join '', map { sprintf '<%s>%s</%s>', $elem_name, $self->_to_xml($_), $elem_name } @$value;
+      $xml = $is_flattened
+        ? $inner
+        : sprintf('<%s>%s</%s>', $att_name, $inner, $att_name);
     }
     else {
       $xml = sprintf '<%s>%s</%s>', $location, $value, $location;
@@ -214,6 +234,36 @@ package Paws::Net::RestXmlCaller;
 
   sub _to_xml_body {
     my ($self, $call) = @_;
+
+    # The materialiser-side body-wrapping hooks. Two cases, both
+    # honoured here:
+    #
+    #   (a) `_payload_member`: the call's wire body is exactly one
+    #       member of the input shape (e.g. PutBucketLifecycleConfiguration's
+    #       `LifecycleConfiguration` -> `BucketLifecycleConfiguration`
+    #       structure). Serialise only that member's value and wrap
+    #       in <PayloadElement xmlns="ns">...</PayloadElement>. Skip
+    #       the rest of the iterate-all-attributes path.
+    #
+    #   (b) `_top_level_element` + `_top_level_namespace`: wrap the
+    #       full iterate-all-attributes output in
+    #       <Element xmlns="ns">...</Element>. SelectObjectContent
+    #       and similar all-body input shapes use this path.
+    #
+    # The existing iterate-each-attribute path is the default when
+    # neither hook is set.
+    if ($call->can('_payload_member')) {
+      my $member = $call->_payload_member;
+      my $value  = $call->$member;
+      return undef if !defined $value;
+
+      my $inner = $self->_to_xml($value);
+      my $element   = $call->_payload_element;
+      my $namespace = $call->_payload_namespace;
+      return sprintf '<%s xmlns="%s">%s</%s>',
+                     $element, $namespace, $inner, $element;
+    }
+
     my $serdes = Paws::SerDes->for($call);
 
     my $xml = '';
@@ -223,13 +273,10 @@ package Paws::Net::RestXmlCaller;
       next if $serdes->trait_for($att, 'ParamInHeader');
       next if $serdes->trait_for($att, 'ParamInQuery');
       next if $serdes->trait_for($att, 'ParamInURI');
-      # Historically: skip Paws::S3::Metadata typed attributes (the
-      # S3 metadata bag is serialised as headers, not body XML).
       next if ($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
       $xml .= $self->_attribute_to_xml($serdes, $att, $v);
     }
 
-    # Extra level of top-level wrapping, if set on the call object.
     if ($call->can('_top_level_element')) {
       $xml = sprintf('<%s xmlns="%s">%s</%s>',
                      $call->_top_level_element,
@@ -281,10 +328,16 @@ package Paws::Net::RestXmlCaller;
 
     if ($call->can('_stream_param')) {
       my $param_name = $call->_stream_param;
-      my $content = $call->$param_name // '';
-      $request->content($content);
-      $request->headers->header( 'content-length' => $request->content_length );
-      #$request->headers->header( 'content-type'   => $self->content_type );
+      my $param_value = $call->$param_name // '';
+      if (ref($param_value) eq 'GLOB'
+          || Scalar::Util::openhandle($param_value)
+          || (Scalar::Util::blessed($param_value) && $param_value->isa('IO::Handle'))) {
+          $request->stream_body($param_value);
+          $request->headers->header('x-amz-content-sha256' => 'UNSIGNED-PAYLOAD');
+      } else {
+          $request->content($param_value);
+          $request->headers->header( 'content-length' => $request->content_length );
+      }
     }
 
     $self->_to_header_params($request, $call);
