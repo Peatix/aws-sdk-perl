@@ -45,48 +45,51 @@ my $upload_output = $s3->CreateMultipartUpload(
 
 ok($upload_output->UploadId, 'S3 CreateMultipartUpload returned an UploadId');
 
-TODO: {
-  $TODO = 'May fail if S3 CreateMultipartUpload fails';
-  my $part_output = $s3->UploadPart(
-    Bucket => $bucketname,
-    Key    => $key,
-    UploadId => $upload_output->UploadId,
-    PartNumber => 1,
-    Body => 'X' x 1000,
-   );
-  ok($part_output->ETag, 'S3 UploadPart returns an ETag');
+# These assertions used to sit inside a TODO block hedging against
+# CreateMultipartUpload failing in record mode against live S3. In
+# REPLAY mode (which is what this test runs in), the responses come
+# from the mock fixture under t/s3/multipartupload/ and the
+# assertions reliably hold. Drop the TODO so a future regression
+# surfaces as a real failure rather than a noisy TODO-pass.
+my $part_output = $s3->UploadPart(
+  Bucket     => $bucketname,
+  Key        => $key,
+  UploadId   => $upload_output->UploadId,
+  PartNumber => 1,
+  Body       => 'X' x 1000,
+);
+ok($part_output->ETag, 'S3 UploadPart returns an ETag');
 
-  my $parts = $s3->ListParts(
-    Bucket => $bucketname,
-    Key    => $key,
-    UploadId =>  $upload_output->UploadId,
-   );
+my $parts = $s3->ListParts(
+  Bucket   => $bucketname,
+  Key      => $key,
+  UploadId => $upload_output->UploadId,
+);
 
-  ok(@{ $parts->Parts }, 'S3 ListParts returns at least one Part');
-  ok($parts->Parts->[0]->Size, 'S3 ListParts Part has a size');
-  is($parts->Parts->[0]->PartNumber, 1, 'S3 ListParts Part has PartNumber 1');
+ok(@{ $parts->Parts }, 'S3 ListParts returns at least one Part');
+ok($parts->Parts->[0]->Size, 'S3 ListParts Part has a size');
+is($parts->Parts->[0]->PartNumber, 1, 'S3 ListParts Part has PartNumber 1');
 
-  # Can't complete an upload without its MultipartUpload data
-  dies_ok(sub { $s3->CompleteMultipartUpload(
-    Bucket => $bucketname,
-    Key    => 'testkey',
-    UploadId => $upload_output->UploadId,
-   );
-  }, 'S3 CompleteMultipartUpload fails with no multipart data');
-  my $complete_output = $s3->CompleteMultipartUpload(
-   Bucket => $bucketname,
-   Key    => 'testkey',
-   UploadId => $upload_output->UploadId,
-   MultipartUpload => {
-     Parts => [
-       {
-         ETag => $parts->Parts->[0]->ETag,
-         PartNumber => 1,
-       },
-      ],
-   },
-   );
-  ok($complete_output->Location, 'S3 CompleteMultipartUpload returns a Location');
-}
+# Can't complete an upload without its MultipartUpload data
+dies_ok(sub { $s3->CompleteMultipartUpload(
+  Bucket   => $bucketname,
+  Key      => 'testkey',
+  UploadId => $upload_output->UploadId,
+ );
+}, 'S3 CompleteMultipartUpload fails with no multipart data');
+my $complete_output = $s3->CompleteMultipartUpload(
+  Bucket          => $bucketname,
+  Key             => 'testkey',
+  UploadId        => $upload_output->UploadId,
+  MultipartUpload => {
+    Parts => [
+      {
+        ETag       => $parts->Parts->[0]->ETag,
+        PartNumber => 1,
+      },
+     ],
+  },
+);
+ok($complete_output->Location, 'S3 CompleteMultipartUpload returns a Location');
 
 done_testing;

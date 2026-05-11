@@ -128,7 +128,6 @@ sub test_file {
 
   SKIP: {
     skip "$test_def_file is lacking service or call entry",1 if (not $test->service or not $test->method);
-    local $TODO = "$test_def_file is TODO: " . $test->todo_reason if ($test->is_todo);
 
     my $service = $aws->service($test->service,
       region => 'fake_region',
@@ -141,13 +140,42 @@ sub test_file {
     my $call_class = $service->meta->name . '::' . $call_method;
     my $call_object = get_stub_call_args($call_class);
 
+    # Dispatch: 'does the SDK reach the FileCaller without dying?'.
+    # Run it outside the per-fixture TODO scope so that a fixture
+    # whose data assertions are TODO'd (because of a wire-layer
+    # decoder gap) still records a real success when the call
+    # itself dispatches cleanly. If the dispatch DIES on a TODO'd
+    # fixture (e.g. the call constructor itself trips the gap),
+    # we record the failure under TODO so it's treated as
+    # expected-fail. If dispatch dies on a non-TODO fixture, that's
+    # a real failure of the suite.
     my $res;
-    my $passed = lives_ok {
-      $res = $service->$call_method(%$call_object)
-    } "Call " . $test->service . '->' . $test->method . " from $file";
+    my $dispatched = eval {
+      $res = $service->$call_method(%$call_object);
+      1;
+    };
+    my $dispatch_err = $@;
 
-    if (not $passed or $TODO) {
-      fail("Can't test method access because something went horribly wrong in the call to $call_method");
+    my $todo_reason = $test->is_todo
+                        ? "$test_def_file is TODO: " . $test->todo_reason
+                        : undef;
+
+    if ($dispatched) {
+      pass("Call " . $test->service . '->' . $test->method . " from $file");
+    } elsif (defined $todo_reason) {
+      TODO: {
+        local $TODO = $todo_reason;
+        my $msg = $dispatch_err;
+        chomp $msg if defined $msg;
+        fail("Call " . $test->service . '->' . $test->method
+                . " from $file (dispatch died: $msg)");
+      }
+      next;
+    } else {
+      fail("Call " . $test->service . '->' . $test->method . " from $file");
+      my $msg = $dispatch_err;
+      chomp $msg if defined $msg;
+      diag("dispatch died: $msg");
       next;
     }
 
@@ -155,6 +183,8 @@ sub test_file {
 
     my $crawler = Paws::Crawler->new;
     foreach my $t (@{ $test->tests }){
+      local $TODO = $todo_reason if defined $todo_reason;
+
       my $got;
       my $path;
       if (defined $t->{path}){
