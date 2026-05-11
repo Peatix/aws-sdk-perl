@@ -1,18 +1,5 @@
 # Materialising Paws services
 
-> **A4-B status (2026-05-10)**: under the modular layout, materialisation
-> is **build-time only**. `script/build-modular-dist` (Phase 1) drives
-> `Paws::Model::Materializer::Moo` to dump per-service `lib/Paws/<Svc>/*.pm`
-> files into a per-service tarball; the tarball ships pre-materialised
-> classes to end users. Runtime materialisation (the `_materialise_class`
-> fallback in pre-Phase-3 `lib/Paws.pm`) is gone — `Paws->load_class`
-> is now a thin wrapper around `Module::Runtime::require_module`.
->
-> This document still describes the materialiser machinery for
-> contributors working on the build pipeline. The "AOT vs runtime"
-> framing below is historical: under A4-B, AOT is the only path,
-> just expressed at build time rather than at runtime.
-
 How a `Paws::<Service>` class comes into existence — and the levers
 contributors and downstream apps have to choose between
 **ahead-of-time on disk** (AOT) and **runtime in-memory** materialisation.
@@ -34,9 +21,8 @@ does:
    ships all 401 services so this is the default branch on master.
 2. **Materialiser fall-through** — otherwise `_materialise_class`
    (`auto-lib/Paws.pm:127-178`) resolves the IR via
-   `Paws::Model::Loader::Resolver` (Smithy-only by default; see
-   `docs/sources.md` for the optional `PAWS_LOADER_ORDER=Botocore,Smithy`
-   escape hatch) and asks `Paws::Model::Materializer::Moo` (or
+   `Paws::Model::Loader::Resolver` (Smithy-only; see
+   `docs/sources.md`) and asks `Paws::Model::Materializer::Moo` (or
    `Paws::Model::Materializer` when `PAWS_OO_BACKEND=Moose`) to
    construct the service class plus
    every operation and shape class in memory.
@@ -61,13 +47,9 @@ template change is part of stack19's scope; until then, treat
 
 ## When to re-materialise a single service AOT
 
-Use `script/gen-service`. It is a thin wrapper over
-`builder-bin/gen_classes.pl --classes <files>` that accepts:
-
-- a botocore directory name (`sqs`, `acm-pca`, `cognito-idp`),
-- a Paws class name (`SQS`, `ACMPCA`, `CognitoIdp`) — resolved via
-  `Paws::API::Builder::Paws->servicefile_to_class_overrides`,
-- an explicit `service-2.json` path.
+Use `builder-bin/gen_classes.pl --classes <files>` which accepts
+a Paws class name (`SQS`, `ACMPCA`, `CognitoIdp`) resolved via
+`Paws::API::Builder::Paws->servicefile_to_class_overrides`.
 
 Common reasons:
 
@@ -94,9 +76,8 @@ running the generator. `script/gen-service --docu` re-fetches AWS
 documentation links over HTTP (off by default to keep the script
 fast and offline-friendly).
 
-`script/gen-service` deliberately does **not** rebuild
-`auto-lib/Paws.pm` (the master service index) — that requires the
-full botocore set on disk. If you need a fresh `Paws.pm`, run
+The single-service regen does **not** rebuild `auto-lib/Paws.pm`
+(the master service index). If you need a fresh `Paws.pm`, run
 `make gen-classes` or `make gen-classes-no-doc-fetch`.
 
 ## When to use the full regen
@@ -104,8 +85,8 @@ full botocore set on disk. If you need a fresh `Paws.pm`, run
 `make gen-classes` (`Makefile:69-73`) regenerates every service plus
 the master `Paws.pm` and `Paws/API/Retry.pm` indexes. Use it when:
 
-- pulling a fresh botocore / Smithy snapshot (the master index has
-  to know about new services),
+- pulling a fresh Smithy snapshot (the master index has to know
+  about new services),
 - rebuilding the dist tarball before release,
 - exercising the full generator pipeline before merging a generator
   change.
@@ -168,8 +149,7 @@ I expect`:
 
 1. **Check the on-disk file.** `auto-lib/Paws/EC2/DescribeInstances.pm`
    is what `Module::Runtime` loads today. If the service hasn't been
-   regenerated since the last botocore / Smithy bump, regenerate via
-   `script/gen-service EC2`.
+   regenerated since the last Smithy update, regenerate it.
 2. **For the materialiser path** (no on-disk file, or
    `PAWS_LAZY_FORCE=1`), construct the service in a one-off script:
 
@@ -229,17 +209,32 @@ working `carton install` tree which is per-developer.
   + SageMaker as the cells with the highest cumulative byte total
   (cells `a` and `b` at ~5:21-5:24 wall — see PR #70), which sets a
   rough upper bound for any single big service.
+- **Materialiser at runtime, first call**: not yet captured.
+  `benchmarks/baseline.json` reserves a `startup-cold` slot but the
+  median is `null` until `benchmark-capture.yml` runs on master with
+  populated baselines. See `benchmarks/RESULTS.md`.
 - **On-disk load via `Module::Runtime::require_module`**: dominated
   by the per-shape `.pm` count for the service (each shape is an
-  individual `.pm`). No machine-captured median yet.
+  individual `.pm`). Same caveat as above — no machine-captured
+  median yet.
+
+When you need a number that isn't in this list, drive
+`benchmarks/run-all` locally:
+
+```
+benchmarks/run-all --iterations 5 --output /tmp/bench.json
+```
+
+It captures `startup-cold` (forks + loads DynamoDB) and
+`decode-warm-2500` (in-process 2500-row Query response decode).
 
 ## See also
 
 - `docs/architecture.md` — the data flow and where each module lives.
-- `docs/loaders.md` — Smithy and Botocore loaders + IR coverage table.
+- `docs/loaders.md` — Smithy loader + IR coverage table.
 - `docs/sources.md` — the vendored Smithy IR layout under
   `share/smithy/` and the refresh workflow.
-- `docs/deprecated-services.md` — the 14 botocore-only services
+- `docs/deprecated-services.md` — the 14 AWS-retired services
   Paws can no longer ship and the migration paths.
 - `docs/oo-backends.md` — Moose vs Moo + Type::Tiny tradeoffs.
 - `docs/serdes.md` — the wire-layer side-table both backends populate.

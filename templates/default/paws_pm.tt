@@ -1,5 +1,3 @@
-[%# This file has been modified from the original upstream distribution
-    by Peatix, Inc. See the git log for this file for details of changes. %]
 package Paws::SDK::Config;
 
 use Moose;
@@ -96,10 +94,10 @@ sub load_class {
   foreach my $class (grep !$loaded{$_}, @classes) {
     # PR 18 (stack18): if the on-disk .pm exists, require_module it.
     # Otherwise fall through to the materialiser, which loads the
-    # service IR from share/smithy/ (with share/botocore/ fallback)
-    # and constructs the class in-memory. After PR 19 drops auto-lib/,
-    # the on-disk path stops working and the materialiser is the
-    # only path; this conditional handles the migration window.
+    # service IR from share/smithy/ and constructs the class in-memory.
+    # After PR 19 drops auto-lib/, the on-disk path stops working and
+    # the materialiser is the only path; this conditional handles the
+    # migration window.
     if (_class_on_disk($class)) {
       Module::Runtime::require_module($class);
     } else {
@@ -158,10 +156,9 @@ sub _materialise_class {
   Module::Runtime::require_module('Paws::Model::Materializer');
   Module::Runtime::require_module('Paws::Model::Materializer::Moo');
 
-  # Resolver is cached at package scope: the botocore SDK-name ->
-  # directory index it builds for non-mechanical mappings (e.g.
-  # ACMPCA -> acm-pca, CognitoIdentityProvider -> cognito-idp) is
-  # ~25s on cold cache for ~400 services, and is amortised across
+  # Resolver is cached at package scope: the name mapping it builds
+  # for non-mechanical cases (e.g. ACMPCA -> acm-pca,
+  # CognitoIdentityProvider -> cognito-idp) is amortised across
   # every subsequent load_service in the same process.
   state $resolver = Paws::Model::Loader::Resolver->new;
   my $ir = eval { $resolver->load_service($service_name) };
@@ -333,9 +330,8 @@ sub available_services {
                    Module::Find::findsubmod Paws;
 
   # Materialiser-time enumeration: every service the resolver can
-  # reach via share/smithy/* or share/botocore/* (or, in dev / CI,
-  # via the botocore checkout at botocore/botocore/data/*). After
-  # stack19 dropped auto-lib/, this is the dominant source: for an
+  # reach via share/smithy/*. After stack19 dropped auto-lib/, this
+  # is the dominant source: for an
   # end user with `cpanm Paws` installed, install-time enumeration
   # only covers Paws::Signin (the one handwritten service); every
   # other service is reachable iff its IR is in share/.

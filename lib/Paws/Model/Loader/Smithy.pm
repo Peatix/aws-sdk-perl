@@ -6,18 +6,12 @@ package Paws::Model::Loader::Smithy;
 # Smithy AST docs:
 #   https://smithy.io/2.0/spec/json-ast.html
 #
-# The IR is the same shape that the Botocore loader produces, so
-# downstream consumers (Paws::API::Builder once refactored,
-# Paws::Model::Materializer, Paws::Model::Materializer::Moo) work with both
-# loaders without knowing which source they were fed from.
-#
-# Smithy carries a richer model than botocore JSON (service-level
-# traits like @aws.api#service, operation-level traits like
-# @smithy.api#http, member-level traits like @smithy.api#jsonName).
-# This loader normalises the parts that overlap with botocore JSON.
-# Smithy-only constructs (event streams, document type, mixins,
-# resources) are out of scope for PR14 - they'll be folded in once
-# the IR grows additional fields.
+# Smithy carries a rich model (service-level traits like
+# @aws.api#service, operation-level traits like @smithy.api#http,
+# member-level traits like @smithy.api#jsonName). This loader
+# normalises the Smithy AST into the Paws IR. Smithy-only constructs
+# (event streams, document type, mixins, resources) are out of scope
+# for now — they'll be folded in once the IR grows additional fields.
 
 use strict;
 use warnings;
@@ -34,8 +28,7 @@ use Paws::Model::IR;
 
 sub name { 'smithy' }
 
-# Maps Smithy protocol-trait IDs to the `protocol` value the IR uses
-# (which matches botocore's `metadata.protocol`).
+# Maps Smithy protocol-trait IDs to the `protocol` value the IR uses.
 my %SMITHY_PROTOCOL_TRAIT = (
     'aws.protocols#awsJson1_0'  => 'json',
     'aws.protocols#awsJson1_1'  => 'json',
@@ -103,11 +96,8 @@ sub _build_service {
     my $api_service_trait = $svc_traits->{'aws.api#service'} // {};
 
     # endpointPrefix may be omitted (account.smithy.json is one such
-    # service). Botocore equivalent never omits it: e.g. account's
-    # service-2.json has metadata.endpointPrefix='account'. Fall back
-    # to arnNamespace (which is also lowercased and matches what
-    # botocore emits in the absence of an explicit endpoint-prefix
-    # override), then to a lowercased local name as last resort.
+    # service). Fall back to arnNamespace (which is also lowercased),
+    # then to a lowercased local name as last resort.
     my $endpoint_prefix
         =  $api_service_trait->{endpointPrefix}
         // $api_service_trait->{arnNamespace}
@@ -116,10 +106,9 @@ sub _build_service {
 
     # Operations live in two places in a Smithy AST: directly on the
     # service shape's `operations[]`, and indirectly via
-    # `service.resources[]` (a resource being a Smithy concept that
-    # botocore JSON has no equivalent of). Walk both so services like
-    # account -- which expose every operation through a resource --
-    # don't appear empty.
+    # `service.resources[]`. Walk both so services like account --
+    # which expose every operation through a resource -- don't appear
+    # empty.
     my @op_targets = $self->_collect_operation_targets($shapes, $svc_shape);
 
     my %operations;
@@ -156,8 +145,7 @@ sub _build_service {
 
     # Smithy 2.0 spec: the awsJson*/awsQuery target_prefix (used by
     # the X-Amz-Target header) is the *local name of the service shape*
-    # when no explicit override is set. Botocore exposes this as
-    # `metadata.targetPrefix` -- e.g. for Health that's
+    # when no explicit override is set — e.g. for Health that's
     # `AWSHealth_20160804` (the local name), not `Health` (the sdkId).
     # The previous behaviour emitted sdkId, breaking awsJson services
     # whose service shape name differs from the sdkId.
@@ -182,9 +170,8 @@ sub _build_service {
 # Smithy has a "prelude" of built-in primitive shapes (defined in
 # spec section "Prelude shapes") that are referenced as e.g.
 # `smithy.api#Integer` from member targets but are *not* required to
-# appear in the AST's `shapes` map. Botocore JSON has no equivalent --
-# it inlines primitive types into each member -- so the IR has no
-# special path for them either.
+# appear in the AST's `shapes` map. The IR has no special path for
+# prelude shapes; they are synthesised on demand below.
 #
 # Pre-populate the IR shapes map with synthetic primitive shapes that
 # the loader can resolve by local-name lookup when it walks members
@@ -360,10 +347,9 @@ sub _build_shape {
     # Smithy 2.0 `union` shapes have a `members` map structurally
     # identical to a `structure` shape; the difference is the
     # one-of-N runtime semantic which neither the wire layer nor
-    # the AOT path has ever enforced (botocore models the same data
-    # as a plain structure with all members optional). Materialise
-    # unions like structures: one attribute per variant. Tightening
-    # the one-of invariant is left as a follow-up.
+    # the AOT path has ever enforced. Materialise unions like
+    # structures: one attribute per variant. Tightening the one-of
+    # invariant is left as a follow-up.
     if ($type eq 'structure' || $type eq 'union') {
         my %members;
         for my $mname (sort keys %{ $shape->{members} // {} }) {
@@ -461,7 +447,7 @@ sub _build_member {
     }
 
     # Fallback: jsonName / xmlName is the body-rename equivalent of
-    # botocore's locationName.
+    # the IR's locationName.
     $location_name //= $traits->{'smithy.api#jsonName'};
     $location_name //= $traits->{'smithy.api#xmlName'};
 
@@ -513,16 +499,9 @@ Paws::Model::IR
       say "$op";
   }
 
-=head1 STATUS
-
-PR14 lands the Smithy loader as a peer of Paws::Model::Loader::Botocore.
-Both produce the same IR. PR15 adds loader resolution order so a service
-that has both a botocore JSON and a smithy AST file prefers the smithy
-one (where the IR diverges, smithy carries more information).
-
 =head1 SEE ALSO
 
-L<Paws::Model::IR>, L<Paws::Model::Loader::Botocore>,
+L<Paws::Model::IR>, L<Paws::Model::Loader::Resolver>,
 L<docs/loaders.md|file:docs/loaders.md>.
 
 =cut

@@ -40,33 +40,7 @@ sub new {
 sub loader { $_[0]->{loader} }
 sub _materialised_classes { $_[0]->{_materialised} }
 
-# emit_callback (optional, A4-B build-pipeline hook): when set to a
-# coderef, the three eval-$src sites below call
-#   $self->{emit_callback}->($pkg_name, $src)
-# instead of compiling the source into the running interpreter. This
-# lets `script/build-modular-dist` (per docs/distribution-plan-a4b.md
-# §3.1) write the materialised source to per-class .pm files in a
-# temporary build tree without polluting the build host's symbol
-# table.
-#
-# When emit_callback is set, the dedup hash is still updated, the
-# SerDes->register side-table call still runs, and recursive
-# materialise_operation / _materialise_shape_class calls still
-# happen. Only the eval is suppressed.
-sub _emit_or_eval {
-    my ($self, $pkg, $src) = @_;
-    if (my $cb = $self->{emit_callback}) {
-        $cb->($pkg, $src);
-        return;
-    }
-    no warnings 'redefine';
-    local $@;
-    eval $src;
-    croak "_emit_or_eval($pkg): eval error: $@\nSOURCE:\n$src" if $@;
-    return;
-}
-
-# Mapping from botocore protocol to the Paws::Net role.
+# Mapping from IR protocol to the Paws::Net role.
 my %PROTOCOL_TO_CALLER_ROLE = (
     'json'      => 'Paws::Net::JsonCaller',
     'rest-json' => 'Paws::Net::RestJsonCaller',
@@ -94,7 +68,7 @@ sub _signature_role_for {
     return $role;
 }
 
-# Mapping from botocore primitive type to the Type::Tiny constructor
+# Mapping from IR primitive type to the Type::Tiny constructor
 # expression we'll string-eval into the materialised class.
 my %PRIMITIVE_TO_TYPE_EXPR = (
     string    => 'Str',
@@ -177,7 +151,12 @@ sub materialize_service {
         1;
     };
 
-    $self->_emit_or_eval($service_pkg, $src);
+    {
+        no warnings 'redefine';
+        local $@;
+        eval $src;
+        croak "materialize_service($service_pkg): eval error: $@\nSOURCE:\n$src" if $@;
+    }
 
     $self->_materialised_classes->{$service_pkg} = 1;
 
@@ -203,62 +182,11 @@ sub materialize_operation {
     my @attr_lines;
     my @serdes_records;
 
-    my $input_shape;
     if (my $input_name = $op->input_shape) {
-        $input_shape = $service_ir->shape($input_name)
+        my $input_shape = $service_ir->shape($input_name)
             // croak "input shape $input_name missing for op $op_name";
         ($self->_install_structure_members($input_shape, $service_ir,
                                            \@attr_lines, \@serdes_records));
-    }
-
-    # Operations with aws.protocols#httpChecksum.requestChecksumRequired
-    # (S3's DeleteObjects / PutBucket*Configuration / PutObjectTagging
-    # / PutBucketReplication, plus a handful in other services) need
-    # an integrity header before AWS will accept the request. Two
-    # subcases, both handled below:
-    #
-    #   (a) The input shape already declares a `ContentMD5` Str
-    #       header member (PutBucketCors, PutBucketTagging,
-    #       PutObjectTagging, PutBucketReplication). Tag its
-    #       existing SerDes record with AutoInHeader+auto='MD5' so
-    #       the wire layer's _to_header_params computes the MD5 of
-    #       the body when the caller doesn't supply a value.
-    #
-    #   (b) The input shape has no ContentMD5 member (DeleteObjects,
-    #       PutBucketLifecycleConfiguration). Synthesise the
-    #       attribute + SerDes record from whole cloth.
-    #
-    # Modern S3 also accepts `x-amz-checksum-*` headers; this commit
-    # stays on legacy Content-MD5 to keep the surface small (the
-    # caller-supplied ChecksumAlgorithm / Checksum<ALG> path is
-    # already handled by the existing input-member attributes).
-    if ($op->http_checksum_required && $input_shape) {
-        if (exists $input_shape->members->{ContentMD5}) {
-            # Case (a): find the existing record and upgrade it.
-            for my $rec (@serdes_records) {
-                next unless $rec->{name} eq 'ContentMD5';
-                $rec->{traits}{AutoInHeader} = 1;
-                $rec->{auto} = 'MD5';
-                last;
-            }
-        } else {
-            # Case (b): synthesise.
-            push @attr_lines,
-                "        has ContentMD5 => (is => 'ro', isa => Maybe[Str]);";
-            push @serdes_records, {
-                name          => 'ContentMD5',
-                type          => 'Str',
-                wire_key      => 'ContentMD5',
-                location      => 'header',
-                location_name => 'Content-MD5',
-                traits        => { AutoInHeader => 1 },
-                auto          => 'MD5',
-                is_list       => 0,
-                is_map        => 0,
-                is_required   => 0,
-                flattened     => 0,
-            };
-        }
     }
 
     my $api_call    = _esc($op_name);
@@ -281,97 +209,6 @@ sub materialize_operation {
             ? "sub _result_key  { '${op_name}Result' }"
             : "sub _result_key  { undef }";
 
-    # REST-XML body wrapping. Two cases, both rendered as class
-    # methods that `Paws::Net::RestXmlCaller::_to_xml_body` consults.
-    #
-    #   (a) The input shape has a `payload` member targeting a
-    #       structure. The wire body is *only* that member's value,
-    #       wrapped in <PayloadElement xmlns="...">...</PayloadElement>.
-    #       Element name comes from the payload member's locationName
-    #       (falling back to the member name); namespace from the
-    #       payload-target shape's xml_namespace, falling back to the
-    #       service xml_namespace. Streaming payloads (httpPayload on
-    #       a blob/string with smithy.api#streaming) are excluded
-    #       here — they're handled by _stream_param.
-    #
-    #   (b) The input shape has no payload member but the service
-    #       carries a default xml_namespace. The wire body is every
-    #       body member iterated, wrapped in
-    #       <InputShape xmlns="...">...</InputShape>. SelectObjectContent
-    #       is the canonical example: input shape
-    #       SelectObjectContentRequest gets wrapped with the S3
-    #       service's xmlns.
-    #
-    # Anything else (input has no payload, service has no xml_namespace)
-    # gets no wrapper — the existing iterate-each-attribute path in
-    # the wire layer handles it as before.
-    my @xml_class_methods;
-    my $stream_param;
-    if ($service_ir->protocol eq 'rest-xml' && $input_shape) {
-        my $payload_name = $input_shape->payload;
-        my $payload_target;
-        my $payload_streaming = 0;
-        if (defined $payload_name) {
-            my $member = $input_shape->members->{$payload_name};
-            $payload_target   = $member ? $service_ir->shape($member->shape) : undef;
-            # `smithy.api#streaming` can sit on either the member that
-            # references the payload shape OR on the shape itself. S3
-            # puts it on the target (StreamingBlob) for PutObject /
-            # UploadPart; other services may put it on the member.
-            $payload_streaming = ($member && $member->streaming)
-                              || ($payload_target && $payload_target->streaming)
-                              ? 1 : 0;
-        }
-
-        # Streaming payload: emit `_stream_param` so the wire layer
-        # binds the raw body bytes to that member instead of running
-        # them through XML serialisation. Skip the structure-payload
-        # wrapper path entirely.
-        if (defined $payload_name && $payload_streaming) {
-            $stream_param = $payload_name;
-        }
-        elsif (   defined $payload_name
-            && $payload_target
-            && $payload_target->is_structure
-            && !$payload_streaming
-        ) {
-            my $member  = $input_shape->members->{$payload_name};
-            my $element = $member->locationName // $payload_name;
-            my $ns      = $payload_target->xml_namespace
-                       // $service_ir->xml_namespace;
-            if (defined $ns) {
-                push @xml_class_methods,
-                    "sub _payload_member    { '" . _esc($payload_name) . "' }",
-                    "sub _payload_element   { '" . _esc($element) . "' }",
-                    "sub _payload_namespace { '" . _esc($ns) . "' }";
-            }
-        }
-        elsif (!defined $payload_name) {
-            my $ns      = $input_shape->xml_namespace
-                       // $service_ir->xml_namespace;
-            my $element = $input_shape->xml_name
-                       // $input_shape->name;
-            # Only emit when there's something for the wire layer to
-            # do. A wrapper around zero body members produces empty
-            # `<ShapeName xmlns="ns"></ShapeName>` envelopes that
-            # AWS doesn't expect on no-body requests; gate on
-            # whether the input shape has at least one body member
-            # by checking that there's something non-located.
-            my $has_body_member = 0;
-            for my $mname (keys %{ $input_shape->members }) {
-                my $loc = $input_shape->members->{$mname}->location;
-                next if defined $loc && $loc ne '';
-                $has_body_member = 1;
-                last;
-            }
-            if (defined $ns && $has_body_member) {
-                push @xml_class_methods,
-                    "sub _top_level_element   { '" . _esc($element) . "' }",
-                    "sub _top_level_namespace { '" . _esc($ns) . "' }";
-            }
-        }
-    }
-
     my $src = qq{
         package $op_pkg;
         use Moo;
@@ -385,14 +222,15 @@ sub materialize_operation {
         $returns_method
         $result_key_method
 
-@{[ join("\n", @xml_class_methods) ]}
-
-@{[ defined $stream_param ? "        sub _stream_param { '" . _esc($stream_param) . "' }" : '' ]}
-
         1;
     };
 
-    $self->_emit_or_eval($op_pkg, $src);
+    {
+        no warnings 'redefine';
+        local $@;
+        eval $src;
+        croak "materialize_operation($op_pkg): eval error: $@\nSOURCE:\n$src" if $@;
+    }
 
     # Install the SerDes side-table directly. Mirrors what
     # Paws::SerDes->_build_from_meta would have produced from the
@@ -437,7 +275,7 @@ sub _materialise_shape_class {
 
     # `use Moo` injects `before`, `after`, `around`, `extends`,
     # `with`, `has` into the package as method modifiers. If the
-    # botocore shape has an attribute with one of those names
+    # IR shape has an attribute with one of those names
     # (e.g. ECS::CreatedAt has `after` / `before`; several services
     # have an `extends` member), Method::Generate::Accessor::install
     # dies with "You cannot overwrite a locally defined method
@@ -473,7 +311,12 @@ sub _materialise_shape_class {
         1;
     };
 
-    $self->_emit_or_eval($pkg, $src);
+    {
+        no warnings 'redefine';
+        local $@;
+        eval $src;
+        croak "materialise_shape_class($pkg): eval error: $@\nSOURCE:\n$src" if $@;
+    }
 
     Paws::SerDes->register($pkg, \@serdes_records);
 
@@ -491,15 +334,7 @@ sub _install_structure_members {
         my $type_expr   = $self->_type_expr($service_ir, $m->shape);
         my $type_string = $self->_type_string($service_ir, $m->shape);
 
-        # Derive trait info for the SerDes side-table. The
-        # `flattened` flag is true if EITHER the target list shape
-        # carries `xmlFlattened` (Shape->flattened) or the member
-        # itself does (Member->flattened); the wire layer treats
-        # both as equivalent. S3 hits both forms across its model.
-        my $target_shape   = $service_ir->shape($m->shape);
-        my $shape_flatten  = $target_shape && $target_shape->is_list && $target_shape->flattened ? 1 : 0;
-        my $member_flatten = $m->flattened ? 1 : 0;
-
+        # Derive trait info for the SerDes side-table.
         my %record = (
             name          => $mname,
             type          => $type_string,
@@ -509,7 +344,6 @@ sub _install_structure_members {
             traits        => {},
             is_list       => ($type_string =~ /^ArrayRef\[/  ? 1 : 0),
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
-            flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
@@ -624,321 +458,6 @@ sub _type_string {
 # Quote a value for inlining as a Perl string literal.
 sub _q   { defined $_[0] ? "'" . _esc($_[0]) . "'" : 'undef' }
 sub _esc { my $s = $_[0] // ''; $s =~ s/(['\\])/\\$1/g; $s }
-
-# ===========================================================================
-# POD emission (A4-B Phase 1.5: docs companion sub-dist generation)
-# ---------------------------------------------------------------------------
-# The build pipeline (script/build-modular-docs-dist) calls
-# generate_pod_for_service($ir) and writes each entry of the returned
-# hashref to lib/Paws/<Service>/<Op|Shape>.pod in the docs sub-dist.
-# Entirely separate from the materialise / emit_callback machinery
-# above; walks the IR independently. POD-only output, no Perl source.
-#
-# Quality bar (per docs/distribution-plan-a4b.md §3.1 step 4):
-#  - Each operation: NAME, DESCRIPTION (from IR documentation),
-#    SYNOPSIS, ATTRIBUTES, SEE ALSO
-#  - Each structure shape: NAME, DESCRIPTION, ATTRIBUTES
-#  - Top-level service: NAME, DESCRIPTION, OPERATIONS list
-#
-# Smithy `documentation` traits often embed HTML; this implementation
-# does a minimal sanitisation (drop tags, decode named entities,
-# preserve C<...> for inline-code and L<...> for hrefs) rather than a
-# full HTML→POD translator. Production-quality formatting is
-# post-1.0.0.
-# ===========================================================================
-
-sub generate_pod_for_service {
-    my ($self, $service_ir) = @_;
-    my $service_pkg = 'Paws::' . $service_ir->name;
-
-    my %pod;
-    $pod{$service_pkg} = $self->_pod_for_service($service_ir);
-
-    for my $op_name ($service_ir->operation_names) {
-        my $op_pkg = "${service_pkg}::${op_name}";
-        $pod{$op_pkg} = $self->_pod_for_operation($service_ir, $op_name);
-
-        # Output shape gets its own .pod entry too. Some services
-        # name the output shape after the operation (e.g.
-        # CreateBucketOutput); some return shared shapes.
-        my $op = $service_ir->operation($op_name);
-        if ($op && $op->output_shape) {
-            my $out_pkg = "${service_pkg}::" . $op->output_shape;
-            if (!exists $pod{$out_pkg}) {
-                my $shape = $service_ir->shape($op->output_shape);
-                if ($shape && $shape->is_structure) {
-                    $pod{$out_pkg} = $self->_pod_for_shape(
-                        $service_ir, $op->output_shape,
-                    );
-                }
-            }
-        }
-    }
-
-    # Every structure shape that the materialiser would build also
-    # gets a .pod entry. Walk the IR's shapes list directly so we
-    # cover shapes referenced indirectly through other shapes (e.g.
-    # nested under list-of-struct members).
-    for my $shape_name ($service_ir->shape_names) {
-        my $shape = $service_ir->shape($shape_name);
-        next if !$shape || !$shape->is_structure;
-        my $pkg = "${service_pkg}::${shape_name}";
-        next if exists $pod{$pkg};
-        $pod{$pkg} = $self->_pod_for_shape($service_ir, $shape_name);
-    }
-
-    return \%pod;
-}
-
-# Service-level POD: NAME, DESCRIPTION, OPERATIONS (list of method
-# links), SEE ALSO.
-sub _pod_for_service {
-    my ($self, $service_ir) = @_;
-    my $service_pkg = 'Paws::' . $service_ir->name;
-
-    my $desc = _pod_clean_text($service_ir->documentation)
-        // "AWS " . $service_ir->name . " client.";
-
-    my @ops = sort $service_ir->operation_names;
-    my @op_lines;
-    for my $op (@ops) {
-        push @op_lines, "=item L<${service_pkg}::${op}>", "",
-                        "C<< \$svc->${op}(...) >>", "";
-    }
-
-    my $aws_url = _pod_aws_docs_url($service_ir);
-
-    return _join_pod_lines(
-        '=encoding utf-8', '',
-        '=head1 NAME', '',
-        "${service_pkg} - " . _short_summary($service_ir->name),
-        '',
-        '=head1 DESCRIPTION', '',
-        $desc, '',
-        '=head1 OPERATIONS', '',
-        '=over 4', '',
-        @op_lines,
-        '=back', '',
-        '=head1 SEE ALSO', '',
-        "L<${service_pkg}::*> - per-operation documentation companions.",
-        '',
-        "L<$aws_url> - canonical AWS service reference.",
-        '',
-        '=cut',
-    );
-}
-
-# Operation-level POD: NAME, DESCRIPTION, SYNOPSIS, ATTRIBUTES, SEE ALSO.
-sub _pod_for_operation {
-    my ($self, $service_ir, $op_name) = @_;
-    my $service_pkg = 'Paws::' . $service_ir->name;
-    my $op_pkg      = "${service_pkg}::${op_name}";
-
-    my $op = $service_ir->operation($op_name)
-        // croak "no such operation: $op_name";
-
-    my $desc = _pod_clean_text($op->documentation)
-        // "AWS $op_name operation on " . $service_ir->name . ".";
-
-    my $synopsis = "    my \$result = \$svc->${op_name}(\n";
-    my @attr_pod;
-    if (my $input_name = $op->input_shape) {
-        my $input_shape = $service_ir->shape($input_name);
-        if ($input_shape && $input_shape->is_structure) {
-            my %required = map { $_ => 1 } @{ $input_shape->required_members };
-            for my $mname (sort keys %{ $input_shape->members }) {
-                my $m = $input_shape->members->{$mname};
-                my $type_string = $self->_type_string($service_ir, $m->shape);
-                $synopsis .= "        ${mname} => \$$mname,\n";
-                my $body = _pod_clean_text($m->documentation)
-                    // "($mname member of $op_name input)";
-                my $req = $required{$mname} ? ' (required)' : '';
-                push @attr_pod,
-                    "=head2 ${mname} => ${type_string}${req}", "",
-                    $body, "";
-            }
-        }
-    }
-    $synopsis .= "    );";
-    if (!@attr_pod) {
-        push @attr_pod, "(no input attributes)", "";
-    }
-
-    my $output_section = '';
-    if (my $output_name = $op->output_shape) {
-        $output_section = "Returns: L<${service_pkg}::${output_name}>.";
-    } else {
-        $output_section = "Returns: nothing.";
-    }
-
-    my $aws_url = _pod_aws_docs_url($service_ir);
-
-    return _join_pod_lines(
-        '=encoding utf-8', '',
-        '=head1 NAME', '',
-        "${op_pkg} - $op_name operation on " . $service_ir->name,
-        '',
-        '=head1 DESCRIPTION', '',
-        $desc, '',
-        '=head1 SYNOPSIS', '',
-        $synopsis, '',
-        '=head1 ATTRIBUTES', '',
-        @attr_pod,
-        '=head1 RETURNS', '',
-        $output_section, '',
-        '=head1 SEE ALSO', '',
-        "L<${service_pkg}> - the service this operation belongs to.",
-        '',
-        "L<$aws_url> - canonical AWS reference for $op_name.",
-        '',
-        '=cut',
-    );
-}
-
-# Shape-level POD (structures only): NAME, DESCRIPTION, ATTRIBUTES.
-sub _pod_for_shape {
-    my ($self, $service_ir, $shape_name) = @_;
-    my $service_pkg = 'Paws::' . $service_ir->name;
-    my $pkg         = "${service_pkg}::${shape_name}";
-
-    my $shape = $service_ir->shape($shape_name)
-        // croak "no such shape: $shape_name";
-    my $desc = _pod_clean_text($shape->documentation)
-        // "$shape_name shape used by " . $service_ir->name . ".";
-
-    my %required = map { $_ => 1 } @{ $shape->required_members };
-    my @attr_pod;
-    for my $mname (sort keys %{ $shape->members }) {
-        my $m = $shape->members->{$mname};
-        my $type_string = eval { $self->_type_string($service_ir, $m->shape) }
-            // 'Str';
-        my $body = _pod_clean_text($m->documentation)
-            // "($mname member of $shape_name)";
-        my $req = $required{$mname} ? ' (required)' : '';
-        push @attr_pod,
-            "=head2 ${mname} => ${type_string}${req}", "",
-            $body, "";
-    }
-    if (!@attr_pod) {
-        push @attr_pod, "(no attributes)", "";
-    }
-
-    return _join_pod_lines(
-        '=encoding utf-8', '',
-        '=head1 NAME', '',
-        "${pkg} - $shape_name shape from " . $service_ir->name,
-        '',
-        '=head1 DESCRIPTION', '',
-        $desc, '',
-        '=head1 ATTRIBUTES', '',
-        @attr_pod,
-        '=cut',
-    );
-}
-
-# Concatenate POD lines with a single trailing newline; collapse
-# adjacent blank-line markers so the output stays valid POD.
-sub _join_pod_lines {
-    my @lines = @_;
-    my @out;
-    my $prev_blank = 0;
-    for my $l (@lines) {
-        my $is_blank = !defined($l) || $l !~ /\S/;
-        if ($is_blank) {
-            next if $prev_blank;
-            push @out, '';
-            $prev_blank = 1;
-        } else {
-            push @out, $l;
-            $prev_blank = 0;
-        }
-    }
-    return join("\n", @out) . "\n";
-}
-
-# Cheap HTML→POD sanitiser. Smithy documentation traits often look
-# like:
-#   <p>Creates a new bucket. <a href="...">See more</a></p>
-# We turn that into a single paragraph of plain text. We deliberately
-# do NOT try to preserve HTML structure (lists, headings, code blocks)
-# — that's post-1.0.0.
-sub _pod_clean_text {
-    my ($text) = @_;
-    return undef if !defined $text || $text eq '';
-
-    # Decode the most common named entities. Smithy traits commonly
-    # contain &lt; / &gt; / &amp; / &quot; / &apos; / &#39;.
-    $text =~ s/&lt;/</g;
-    $text =~ s/&gt;/>/g;
-    $text =~ s/&quot;/"/g;
-    $text =~ s/&apos;/'/g;
-    $text =~ s/&#39;/'/g;
-    $text =~ s/&nbsp;/ /g;
-    $text =~ s/&amp;/&/g;
-
-    # Convert known HTML to placeholder tokens so the generic
-    # tag-stripper at the end doesn't eat them. \x{1} / \x{2} / \x{3}
-    # are control characters that won't appear in source documentation.
-    # <a href="X">text</a> -> POD L<text|X>, via placeholder. Trim
-    # surrounding whitespace inside the link text so Pod::Simple
-    # doesn't complain "L<> starts or ends with whitespace".
-    $text =~ s{<a\s+[^>]*href="([^"]+)"[^>]*>(.*?)</a>}{
-        my ($url, $body) = ($1, $2);
-        $body =~ s/^\s+|\s+$//g;
-        $body = '_' if $body eq '';
-        "\x{1}L\x{2}${body}|${url}\x{3}"
-    }gise;
-    # <code>X</code> -> POD C<X>; trim inner whitespace so
-    # 'starts/ends with whitespace' doesn't fire here either.
-    $text =~ s{<code>(.*?)</code>}{
-        my $body = $1;
-        $body =~ s/^\s+|\s+$//g;
-        "\x{1}C\x{2}${body}\x{3}"
-    }gise;
-    # <p> ... </p> -> blank-line paragraph break
-    $text =~ s{</?p[^>]*>}{\n\n}gis;
-    $text =~ s{<br\s*/?>}{\n}gis;
-    $text =~ s{<li[^>]*>}{\n* }gis;
-    # Drop everything else.
-    $text =~ s{<[^>]+>}{}gis;
-    # Restore placeholders to POD format codes.
-    $text =~ s/\x{1}/</g;   # < marker -> literal <
-    $text =~ s/\x{2}/</g;   # placeholder1 -> POD <
-    $text =~ s/\x{3}/>/g;   # closer -> POD >
-    # The L<>/C<> tokens after the swap above look like "<L<text|url>"
-    # — trim the leading "<" we used as a marker.
-    $text =~ s{<L<}{L<}g;
-    $text =~ s{<C<}{C<}g;
-
-    # POD escapes: leading-equals on a line is a directive marker;
-    # rewrite by indenting the line with a single space so the
-    # paragraph stays a body paragraph.
-    $text =~ s/^=/ =/gm;
-
-    # Collapse runs of whitespace to a single space within paragraphs;
-    # collapse 3+ newlines to 2 (paragraph break).
-    $text =~ s/[ \t]+/ /g;
-    $text =~ s/\n{3,}/\n\n/g;
-    $text =~ s/^\s+|\s+$//g;
-
-    return $text;
-}
-
-# Best-effort AWS docs URL guess. Smithy IR doesn't carry a
-# `documentation_url` trait directly on the service, so fall back to
-# the generic per-service page on docs.aws.amazon.com.
-sub _pod_aws_docs_url {
-    my ($service_ir) = @_;
-    my $ep = $service_ir->endpoint_prefix // lc $service_ir->name;
-    return "https://docs.aws.amazon.com/$ep/";
-}
-
-# Cheap one-line summary used in =head1 NAME lines. Lifted from the
-# IR's `documentation` field if present, otherwise generic.
-sub _short_summary {
-    my ($svc) = @_;
-    return "AWS $svc client";
-}
 
 1;
 

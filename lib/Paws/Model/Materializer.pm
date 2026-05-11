@@ -56,7 +56,7 @@ has _materialised_classes => (
     default => sub { {} },
 );
 
-# Mapping from botocore protocol name to the Paws::Net role.
+# Mapping from IR protocol name to the Paws::Net role.
 my %PROTOCOL_TO_CALLER_ROLE = (
     'json'      => 'Paws::Net::JsonCaller',
     'rest-json' => 'Paws::Net::RestJsonCaller',
@@ -87,7 +87,7 @@ sub _signature_role_for {
     return $role;
 }
 
-# Mapping from botocore primitive type to the Moose isa string.
+# Mapping from IR primitive type to the Moose isa string.
 my %PRIMITIVE_TO_ISA = (
     string    => 'Str',
     integer   => 'Int',
@@ -400,7 +400,7 @@ The materialiser today builds:
   - operation classes with input attributes + class_has metadata,
   - structure shape classes (input and output),
 
-and is enough to round-trip the Botocore-loader fixture in
+and is enough to round-trip the loader fixture in
 t/model/fixtures/tinyservice through the wire layer.
 
 What's deferred to follow-up commits on this same PR:

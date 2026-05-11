@@ -367,4 +367,4 @@ $s3->CompleteMultipartUpload(
   shaped XML bodies and headers.
 * `docs/architecture.md` — Paws's materialiser-first model.
 * `docs/distribution-plan-a4b.md` — 1.0.0 install pattern.
-* `docs/loaders.md` — Smithy vs. botocore IR source-of-truth.
+* `docs/loaders.md` — Smithy IR source-of-truth.

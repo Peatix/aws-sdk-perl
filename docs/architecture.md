@@ -7,41 +7,12 @@ For the user-facing "when do I bundle vs. let the materialiser handle
 it" question and the single-service AOT regen workflow, see
 `docs/materialisation.md`.
 
-> **A4-B status (Phase 4, 2026-05-10)**: this document describes
-> the historical single-dist + on-demand-materialiser architecture
-> for context. The project shipped the A4-B modular layout in
-> Phases 1-3:
->
-> - Per-service code dists (`Paws-S3`, `Paws-EC2`, …) ship as
->   separate CPAN tarballs on GitHub Releases. Each contains
->   pre-materialised `lib/Paws/<Service>/*.pm` files built by
->   `script/build-modular-dist` from the vendored Smithy IR.
-> - Per-service docs companions (`Paws-S3-Docs`, …) ship POD-only
->   `.pod` files at the same `Paws::<Service>::*` namespace.
-> - `Paws-Core` ships the runtime: `lib/Paws.pm` (entry point),
->   `lib/Paws/Net/*` (wire layer), `lib/Paws/Credential/*`,
->   `lib/Paws/Signin/*`, signers, exception types, mock caller.
-> - The materialiser + loaders live in master under
->   `lib/Paws/Model/{Materializer,Loader}*` for the build pipeline
->   only; they are excluded from every user-facing dist via
->   `dist.ini` `Git::GatherDir` excludes.
-> - Runtime materialisation is gone: a missing service class
->   produces the canonical Perl `Can't locate Paws/<Svc>.pm in @INC`
->   error.
->
-> See `docs/distribution-plan-a4b.md` for the implementation
-> roadmap and `README.md` for the install pattern. The
-> "single-dist + on-demand-materialiser" view below documents the
-> intermediate pre-Phase-3 state (still useful when reading commit
-> history from PR #82 / #83 / #75).
-
 ## High-level shape
 
 ```
             ┌──────────────────────┐
-botocore ───►                      │
-            │  Paws::Model::Loader │──► Paws::Model::IR ──► …
-smithy ─────►   (loader interface) │                        │
+smithy ─────►  Paws::Model::Loader │──► Paws::Model::IR ──► …
+            │   (loader interface) │                        │
             └──────────────────────┘                        ▼
                                               ┌───────────────────────────────┐
                                               │  Paws::API::Builder           │
@@ -76,12 +47,10 @@ smithy ─────►   (loader interface) │                        │
 | Path                                              | Purpose                                                                  |
 |---------------------------------------------------|--------------------------------------------------------------------------|
 | `share/smithy/`                                   | Vendored Smithy IR (post-#83). Tracked in git, ships in the dist via `[ShareDir]`. The resolver's only on-disk source. |
-| `etc/botocore-pin.sha`                            | Pinned botocore SHA the AOT-generator workflows check out at build time. CI-only marker; not part of the runtime dist. |
 | `lib/Paws/Model/IR.pm`                            | Source-format-independent IR. Contract between loaders and consumers.    |
 | `lib/Paws/Model/Loader.pm`                        | Abstract loader role.                                                    |
-| `lib/Paws/Model/Loader/Botocore.pm`               | Botocore JSON → IR.                                                      |
 | `lib/Paws/Model/Loader/Smithy.pm`                 | Smithy 2.0 AST JSON → IR.                                                |
-| `lib/Paws/Model/Loader/Resolver.pm`               | Picks the loader (Smithy first, botocore fallback) per service.          |
+| `lib/Paws/Model/Loader/Resolver.pm`               | Resolves a Paws class name to the appropriate Smithy source file.        |
 | `lib/Paws/Model/Materializer.pm`                  | Moose backend: builds Paws::&lt;Svc&gt;/&lt;Op&gt;/&lt;Shape&gt; classes in-memory from IR. |
 | `lib/Paws/Model/Materializer/Moo.pm`              | Moo + Type::Tiny backend (default since stack13).                        |
 | `lib/Paws/Model/Materializer/Auto.pm`             | Hook that intercepts `Paws->load_class` to drive the materialiser.       |
@@ -101,12 +70,7 @@ smithy ─────►   (loader interface) │                        │
 
 1. `make vendor-smithy` refreshes `share/smithy/` from the
    upstream Smithy IR (`awslabs/aws-sdk-rust:aws-models/`). The
-   committed tree is the runtime source-of-truth. The botocore
-   loader stays in `lib/Paws/Model/Loader/Botocore.pm` as a
-   `PAWS_LOADER_ORDER=Botocore,Smithy` escape hatch but is not on
-   disk for `cpanm`-installed users; CI workflows that need
-   botocore JSON for the AOT generator fetch it on the fly using
-   the pin in `etc/botocore-pin.sha`.
+   committed tree is the runtime source-of-truth.
 2. End users `cpanm Paws`; the dist ships `lib/`, `share/`, the
    metadata files, and **no auto-lib/**. Dist size dropped from
    ~224 MB to under 100 MB at stack19.
@@ -116,12 +80,11 @@ smithy ─────►   (loader interface) │                        │
    stack19 dropped auto-lib/, except for the handful of
    handwritten services like `Paws::Signin`).
 5. Falling through, `_materialise_class('Paws::EC2')` resolves the
-   service via `Paws::Model::Loader::Resolver` (Smithy-only by
-   default since #83; `PAWS_LOADER_ORDER=Botocore,Smithy` to opt
-   back into botocore for deprecated services), then drives the
-   in-memory class construction via `Paws::Model::Materializer::Moo`
-   (default since stack13) or `Paws::Model::Materializer` (Moose,
-   opt-in via `PAWS_OO_BACKEND=Moose`).
+   service via `Paws::Model::Loader::Resolver` (Smithy-only), then
+   drives the in-memory class construction via
+   `Paws::Model::Materializer::Moo` (default since stack13) or
+   `Paws::Model::Materializer` (Moose, opt-in via
+   `PAWS_OO_BACKEND=Moose`).
 6. The materialiser builds the service class plus every operation
    class plus every transitively-reachable shape class in one go
    and registers their wire metadata into the `Paws::SerDes`
@@ -143,15 +106,11 @@ that is not a stack19 deliverable.
 
 Context (master, post-#83 / smithy-only-vendor-into-git):
 
-  - The botocore submodule is gone (PR 18 / stack18). Smithy IR
-    vendored from `awslabs/aws-sdk-rust:aws-models/` lives at
-    `share/smithy/`, tracked in git.
+  - Smithy IR vendored from `awslabs/aws-sdk-rust:aws-models/`
+    lives at `share/smithy/`, tracked in git.
   - `make gen-classes` is no longer the runtime path; the
     materialiser reads `share/smithy/` directly via
-    `Paws::Model::Loader::Smithy`. The AOT generator
-    (`builder-bin/gen_classes.pl`) is still maintained as a
-    contributor tool, fed by an on-the-fly botocore checkout at
-    the SHA in `etc/botocore-pin.sha`.
+    `Paws::Model::Loader::Smithy`.
   - `Paws->service('EC2')` calls `Paws::Model::Materializer->materialize_service('EC2')`,
     which reads the JSON via the appropriate `Paws::Model::Loader::*`
     and constructs the Moose (later: Moo) classes in-memory.
@@ -163,9 +122,8 @@ Landed (this PR):
 
   - `auto-lib/` removed from git; `auto-lib/Paws.pm` and
     `auto-lib/Paws/API/Retry.pm` moved to `lib/`. `Paws::Model::*`
-    runtime modules (IR, Loader, Loader::Botocore,
-    Loader::Smithy, Loader::Resolver) moved from `builder-lib/`
-    to `lib/` so they ship in the dist.
+    runtime modules (IR, Loader, Loader::Smithy, Loader::Resolver)
+    moved from `builder-lib/` to `lib/` so they ship in the dist.
   - `our $VERSION` bumped to `'1.00'`; `Changes` carries a
     `1.00 (TRIAL)` headline with the breaking-change note for
     users who imported a generated class by full path.
@@ -220,11 +178,8 @@ Default order:
 
   1. **Smithy** — `share/smithy/<service>.smithy.json` (flat) or
      `share/smithy/<service>/<service>.smithy.json` (nested).
-  2. **Botocore** — `botocore/botocore/data/<service>/<date>/service-2.json`,
-     newest dated subdirectory.
 
-Override per process via `PAWS_LOADER_ORDER=Botocore,Smithy`. The
-resolver returns both the IR and the loader name it used, so
+The resolver returns both the IR and the loader name it used, so
 diagnostics can record which source-of-truth produced a given class.
 
 `t/model/04_resolver.t` covers: default order picks Smithy when both
@@ -233,8 +188,8 @@ file; unknown service raises; unknown loader name raises.
 
 ## PR14 status
 
-PR14 adds `builder-lib/Paws/Model/Loader/Smithy.pm`: a peer to the
-Botocore loader that reads Smithy 2.0 AST JSON. Same IR contract.
+PR14 added `Paws::Model::Loader::Smithy`: reads Smithy 2.0 AST JSON
+into the IR.
 
 `t/model/03_smithy_loader.t` includes an IR-parity subtest that
 loads the tinyservice fixture from both formats and asserts the
@@ -324,7 +279,7 @@ PR10.
 
 ## PR8 status (this commit)
 
-PR8 lands the IR + Botocore loader as standalone modules. The existing
+PR8 landed the IR as a standalone module. The existing
 `Paws::API::Builder` is **not yet** refactored to consume IR — it still
 reads `api_struct->{shapes}` directly. The "byte-identical auto-lib
 regen" CI gate from the plan is therefore deferred to a follow-up
@@ -332,8 +287,7 @@ commit on this same PR; what lands here is:
 
 - `Paws::Model::IR` with `Service`, `Operation`, `Shape`, `Member`.
 - `Paws::Model::Loader` abstract role.
-- `Paws::Model::Loader::Botocore` implementation.
-- `t/model/01_botocore_loader.t` unit tests against a synthetic
+- `t/model/03_smithy_loader.t` unit tests against a synthetic
   fixture `t/model/fixtures/tinyservice/`.
 
 The IR is enough for PR9 (lazy materialiser) to start consuming it
@@ -344,7 +298,7 @@ isolation.
 
 ## Companion files not (yet) absorbed into IR
 
-The botocore service directory contains:
+The service model directory historically contained:
 
 - `service-2.json`           — absorbed
 - `paginators-1.json`        — absorbed (as `Operation->paginator`)

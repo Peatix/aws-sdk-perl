@@ -23,9 +23,7 @@ Internally:
 
 1. `script/paws-build-pod` walks every service known to
    `Paws::Model::Loader::Resolver` (Smithy in `share/smithy/`;
-   set `PAWS_LOADER_ORDER=Botocore,Smithy` and supply a botocore
-   checkout to fall back for deprecated services — see
-   `docs/sources.md`).
+   see `docs/sources.md`).
 2. For each service it materialises the IR, then for each shape it
    renders POD using the same conventions the AOT generator emitted
    today (`=head1 NAME` + DESCRIPTION + ATTRIBUTES + SEE ALSO).

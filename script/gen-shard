@@ -42,10 +42,9 @@
 # Why dynamic by-size, not a hardcoded shard-to-services list:
 #
 #   New services land via .github/workflows/generate-and-pr.yml when
-#   etc/botocore-pin.sha rolls forward. A hardcoded list would go
-#   stale silently and need manual maintenance every time the
-#   upstream pin moves. Dynamic by-size stays balanced as long as
-#   the size proxy holds.
+#   the Smithy model set is updated. A hardcoded list would go stale
+#   silently and need manual maintenance every time models change.
+#   Dynamic by-size stays balanced as long as the size proxy holds.
 #
 # Determinism note (regen-byte-identical workflow):
 #
