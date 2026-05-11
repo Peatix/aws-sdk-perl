@@ -29,6 +29,27 @@ package Paws::Net::RetryCallerRole;
     return "$region/$svc";
   }
 
+  has interceptors => (
+    is      => 'rw',
+    isa     => 'ArrayRef',
+    traits  => ['Array'],
+    default => sub { [] },
+    handles => {
+      all_interceptors    => 'elements',
+      add_interceptor     => 'push',
+      interceptor_count   => 'count',
+    },
+  );
+
+  sub register_interceptor {
+    my ($self, $interceptor) = @_;
+    require Moose::Util;
+    Moose::Util::does_role($interceptor, 'Paws::Net::Interceptor')
+      or die "Interceptor must consume the Paws::Net::Interceptor role";
+    $self->add_interceptor($interceptor);
+    return $self;
+  }
+
   sub do_call {
     my ($self, $service, $call_object) = @_;
 
@@ -49,6 +70,16 @@ package Paws::Net::RetryCallerRole;
       );
     }
 
+    my $context;
+    if ($self->interceptor_count) {
+      require Paws::Net::InterceptorContext;
+      $context = Paws::Net::InterceptorContext->new(
+        service     => $service,
+        call_object => $call_object,
+      );
+      $_->before_request($context) for $self->all_interceptors;
+    }
+
     while (1) {
       $tracker->one_more_try;
 
@@ -56,6 +87,11 @@ package Paws::Net::RetryCallerRole;
         unless ($token_bucket->acquire(1)) {
           last;
         }
+      }
+
+      if ($context) {
+        $context->attempt($tracker->tries);
+        $_->before_attempt($context) for $self->all_interceptors;
       }
 
       my $response = $self->send_request($service, $call_object);
@@ -66,7 +102,20 @@ package Paws::Net::RetryCallerRole;
         $token_bucket->release;
       }
 
-      last unless $tracker->should_retry;
+      if ($context) {
+        $context->response($response);
+        $context->result($result);
+        $context->should_retry($tracker->should_retry ? 1 : 0);
+        $context->retry_delay($tracker->should_retry ? $tracker->sleep_time : 0);
+
+        if ($context->result_is_exception) {
+          $_->on_error($context) for $self->all_interceptors;
+        }
+        $_->after_attempt($context) for $self->all_interceptors;
+      }
+
+      my $should_retry = $context ? $context->should_retry : $tracker->should_retry;
+      last unless $should_retry;
 
       if ($token_bucket) {
         my $error_type = $tracker->classify_error;
@@ -74,7 +123,13 @@ package Paws::Net::RetryCallerRole;
         $token_bucket->acquire($cost);
       }
 
-      sleep $tracker->sleep_time;
+      my $delay = $context ? $context->retry_delay : $tracker->sleep_time;
+      sleep $delay;
+    }
+
+    if ($context) {
+      $context->result($tracker->operation_result);
+      $_->after_request($context) for $self->all_interceptors;
     }
 
     if ($tracker->result_is_exception){
