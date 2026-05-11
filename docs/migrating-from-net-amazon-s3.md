@@ -22,8 +22,7 @@ cpanm Net::Amazon::S3
 
 ### New: Paws::Core plus the per-service sub-dist
 
-Paws@1.0.0 ships as a modular distribution under the
-[A4-B plan](distribution-plan-a4b.md). Install the slim core plus
+Paws ships as a modular distribution. Install the slim core plus
 the per-service tarball for each AWS service your code uses.
 
 ```sh
@@ -365,6 +364,5 @@ $s3->CompleteMultipartUpload(
   `selectcontent.t` (mocked end-to-end).
 * `t/10_responses/s3-*` — response-decoding fixtures, real-AWS-
   shaped XML bodies and headers.
-* `docs/architecture.md` — Paws's materialiser-first model.
-* `docs/distribution-plan-a4b.md` — 1.0.0 install pattern.
-* `docs/loaders.md` — Smithy IR source-of-truth.
+* `docs/architecture.md` — Paws high-level architecture.
+* `docs/loaders.md` — Smithy loader and IR source-of-truth.
