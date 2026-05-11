@@ -251,7 +251,7 @@ EOT
 {
     my $repo_lib = abs_path("$FindBin::Bin/../lib");
     my $sub_lib  = abs_path("$tmp_root/lib");
-    local $ENV{PERL5LIB} = join(':', $sub_lib, $repo_lib);
+    local $ENV{PERL5LIB} = join(':', $sub_lib, $repo_lib, $ENV{PERL5LIB} // '');
 
     my $prove_rc = system('prove', '--lib', "$tmp_root/t/");
     if ($prove_rc != 0)
