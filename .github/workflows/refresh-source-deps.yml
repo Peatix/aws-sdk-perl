@@ -12,14 +12,6 @@ name: refresh-source-deps
 # maintainer to investigate. The workflow does NOT close or supersede
 # stale auto-bump PRs from previous runs — let the maintainer decide.
 #
-# Botocore pin
-# ------------
-# Botocore is no longer the runtime source of truth — the materialiser
-# is Smithy-only — so this workflow has no botocore-bump job. The
-# AOT-generator-only botocore pin (etc/botocore-pin.sha) is bumped by
-# hand when a contributor wants to regenerate auto-lib/ at a newer
-# botocore SHA; that path runs through .github/workflows/generate-and-pr.yml.
-#
 # PAT requirement (PAWS_BUMP_PAT)
 # -------------------------------
 # When a workflow uses the default GITHUB_TOKEN to push a branch /

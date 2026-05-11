@@ -19,6 +19,7 @@ use Paws::Model::Loader::Smithy;
 
 my $smithy_path = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
 
+
 my $smithy_loader   = Paws::Model::Loader::Smithy->new;
 is($smithy_loader->name, 'smithy', 'loader identifies as smithy');
 

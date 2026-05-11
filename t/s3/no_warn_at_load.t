@@ -14,20 +14,12 @@
 # canonical signal to users that the legacy AOT-generated S3
 # code was a work in progress.
 #
-# The materialiser-built `Paws::S3` (post-stack19) does not emit
-# that warning — `Paws::Model::Materializer::Moo` writes the
-# service class without a warn line. This stack also removed the
-# warn line from the legacy template
-# (`templates/restxml/service_class.tt`) so any future contributor
-# who runs the dormant AOT generator doesn't reintroduce the
-# noise.
+# The materialiser-built `Paws::S3` does not emit that warning —
+# `Paws::Model::Materializer::Moo` writes the service class without
+# a warn line.
 #
-# This test pins both invariants:
-#
-#   1. Constructing a materialised Paws::S3 emits no
-#      "is not stable" text on stderr.
-#   2. The legacy AOT template file no longer contains the warn
-#      line.
+# This test pins the invariant: constructing a materialised Paws::S3
+# emits no "is not stable" text on stderr.
 
 use strict;
 use warnings;
@@ -36,8 +28,6 @@ use lib 't/lib';
 use Paws::Test::MaterialiseServices;
 
 use Test::More;
-use File::Slurper qw(read_text);
-use FindBin qw($Bin);
 
 # --- (1) Materialise Paws::S3 with PAWS_SILENCE_UNSTABLE_WARNINGS
 #         deliberately unset; capture stderr; assert nothing
@@ -74,17 +64,6 @@ use FindBin qw($Bin);
         'child perl successfully materialised and constructed Paws::S3');
     unlike($output, qr/is not stable/,
         'no "is not stable" warning at Paws::S3 load with PAWS_SILENCE_UNSTABLE_WARNINGS unset');
-}
-
-# --- (2) The legacy AOT template no longer carries the warn line.
-
-{
-    my $tt_path = "$Bin/../../templates/restxml/service_class.tt";
-    my $tt      = read_text($tt_path);
-    unlike($tt, qr/is not stable/,
-        "templates/restxml/service_class.tt no longer emits the legacy 'is not stable' warning");
-    unlike($tt, qr/PAWS_SILENCE_UNSTABLE_WARNINGS/,
-        "templates/restxml/service_class.tt no longer references PAWS_SILENCE_UNSTABLE_WARNINGS");
 }
 
 done_testing;

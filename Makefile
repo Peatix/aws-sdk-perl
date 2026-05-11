@@ -32,13 +32,10 @@ cover:
 # in that it does not rely on `carton exec` (CI installs deps system-wide
 # via cpm) and it tolerates the absence of cover_db on the first run.
 #
-# Scope (post-PR #19 / stack19, after auto-lib/ was dropped):
+# Scope:
 #
 #   - Devel::Cover's instrumentation list is restricted to lib/ via
-#     +ignore,^t/ and +ignore,^local/. The +ignore,^auto-lib/ entry
-#     from PR #68 is now a no-op (auto-lib/ doesn't exist) but is
-#     kept defensively so a stray regen during a CI run doesn't
-#     skew coverage. t/lib/ is test fixtures. local/ is where CI's
+#     +ignore,^t/ and +ignore,^local/. t/lib/ is test fixtures. local/ is where CI's
 #     cpm installs CPAN deps; without ignoring it, the (Moose /
 #     DateTime / XML::SAX / ...) trees show up in cover_db with
 #     single-digit coverage and pull the headline number down ~30pp.
@@ -54,7 +51,7 @@ cover:
 # See docs/testing.md "Scope of cover-ci" for the longer explanation.
 cover-ci:
 	rm -rf cover_db
-	HARNESS_PERL_SWITCHES='-MDevel::Cover=-silent,1,-summary,0,+ignore,^auto-lib/,+ignore,^t/,+ignore,^local/' \
+	HARNESS_PERL_SWITCHES='-MDevel::Cover=-silent,1,-summary,0,+ignore,^t/,+ignore,^local/' \
 	  prove --lib --verbose --jobs 1 \
 	  -I builder-lib -I t/lib \
 	  $$(find t -type f -name '*.t' \
@@ -71,49 +68,6 @@ cover-ci:
 # bumping the pin (`git diff --stat share/smithy/` to verify scope).
 vendor-smithy:
 	./script/paws-vendor-smithy --clean
-
-# Backward-compat aliases for any contributor muscle memory.
-# Pre-stack18 these pulled the botocore submodule; post-stack18 they
-# pull Smithy. The botocore vendoring path is gone.
-pull-other-sdks: vendor-smithy
-pull-boto-develop: vendor-smithy
-
-# PR 19 (stack19) removed auto-lib/. Service classes are
-# materialised on demand by Paws::Model::Materializer from the
-# vendored Smithy IR (with botocore JSON fallback), so there is no
-# AOT regeneration step anymore. The targets are kept as no-ops so
-# that contributor muscle memory + any external tooling that runs
-# `make gen-classes` (e.g. older CI scripts) gets an actionable
-# message instead of a cryptic builder failure.
-gen-paws:
-	@echo "gen-paws is a no-op since stack19 / Paws 1.00."
-	@echo "Paws.pm is now a hand-edited file at lib/Paws.pm; the"
-	@echo "templates/default/paws_pm.tt template is kept in sync"
-	@echo "for downstream regen but doesn't drive a build step."
-
-gen-classes:
-	@echo "gen-classes is a no-op since stack19 / Paws 1.00."
-	@echo "Service classes are materialised on demand from"
-	@echo "share/smithy/ (and share/botocore/ as fallback)."
-	@echo "Refresh the vendored sources with:"
-	@echo "  make vendor-smithy"
-
-# Backward-compat aliases.
-gen-classes-no-doc-fetch: gen-classes
-
-# Regenerate one (or several) services. SERVICE accepts a botocore
-# directory name (e.g. sqs), a Paws class name (e.g. SQS, ACMPCA), or
-# the full path to a service-2.json file. Multiple values can be
-# space-separated. See `script/gen-service --help` for details.
-#   make gen-service SERVICE=sqs
-#   make gen-service SERVICE='sqs s3 ec2'
-gen-service:
-	@if [ -z "$(SERVICE)" ]; then \
-	  echo 'usage: make gen-service SERVICE=<name>' >&2; \
-	  echo '       (multiple OK: SERVICE="sqs s3 ec2")' >&2; \
-	  exit 2; \
-	fi
-	./script/gen-service $(SERVICE)
 
 # Run a single test file (or pattern that resolves to one). TEST is
 # either a path under t/ or a substring matched against `t/*TEST*.t`.
@@ -143,29 +97,9 @@ test-shard:
 	fi
 	carton exec -- ./script/test-shard $(SHARD)
 
-# gen-shard / docu-links: PR 19 (stack19) removed auto-lib/, so
-# the matrix-shard build pipeline these targets fed disappears with
-# it. Kept as no-ops with a pointer to the new path so muscle
-# memory doesn't bite.
-gen-shard:
-	@echo "gen-shard is a no-op since stack19 / Paws 1.00."
-	@echo "There's no auto-lib/ to fan out across anymore. The"
-	@echo "vendored Smithy IR is the source of truth; refresh via:"
-	@echo "  make vendor-smithy"
-
-docu-links:
-	@echo "docu-links is a no-op since stack19 / Paws 1.00."
-	@echo "Per-shape POD lives in the Paws-Docs companion dist;"
-	@echo "regenerate via paws-docs-dist/Makefile."
-
-# numbers used to count the auto-lib/ files. Now reports the number
-# of vendored IR sources. Smithy is the preferred format; botocore
-# is the fallback for services without a Smithy IR.
 numbers:
 	@echo "Number of Smithy services in share/" ; \
 	  find share/smithy -name '*.smithy.json' 2>/dev/null | wc -l
-	@echo "Number of botocore services in share/" ; \
-	  find share/botocore -name 'service-2.json' 2>/dev/null | wc -l
 
 run_dynamo_local:
 	( mkdir /tmp/dynamodb-local && curl https://s3.eu-central-1.amazonaws.com/dynamodb-local-frankfurt/dynamodb_local_latest.tar.gz | tar xvz --directory /tmp/dynamodb-local ) ; cd /tmp/dynamodb-local; java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -inMemory

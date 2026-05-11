@@ -20,9 +20,8 @@
 #     PROVE_ARGS='--verbose --jobs 4' script/test-one 10
 #
 # Notes:
-#   - Top-level service classes (auto-lib/Paws/<Service>.pm) are NOT
-#     tracked in git. Run `script/gen-service <Service>` first if a
-#     test loads a service whose top-level .pm is missing.
+#   - Service classes are materialised on demand from the Smithy IR
+#     in share/smithy/. No ahead-of-time generation step is required.
 
 set -euo pipefail
 
@@ -65,7 +64,7 @@ do
   tests+=("${matches[@]}")
 done
 
-declare -a prove_argv=(--lib -I auto-lib --verbose)
+declare -a prove_argv=(--lib --verbose)
 if [ -n "${PROVE_ARGS:-}" ]
 then
   # shellcheck disable=SC2206
