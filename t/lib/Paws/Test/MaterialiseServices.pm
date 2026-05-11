@@ -147,12 +147,18 @@ sub _materialise_service {
     my $ir = eval { scalar $resolver->load_service($svc) };
     if (!$ir) {
         my $err = $@;
-        # Surface the resolver's own message verbatim — it already
-        # references docs/deprecated-services.md when the service is
-        # known-deprecated.
         croak "Paws::Test::MaterialiseServices: can't materialise "
             . "service '$svc': $err";
     }
+
+    # The Smithy sdkId doesn't always match the Paws class name
+    # (e.g. sdkId "Keyspaces" vs Paws "KeySpaces", sdkId "API Gateway"
+    # vs Paws "ApiGateway"). Stamp the canonical class name so the
+    # materialiser produces correctly-named packages.
+    if ($ir->name ne $svc) {
+        $ir->{name} = $svc;
+    }
+
     $materialiser->materialize_service($ir);
 }
 

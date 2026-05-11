@@ -299,17 +299,6 @@ sub load_service {
         my $loader = $self->_loaders->{$loader_name}
             // croak "resolver: no loader instance for $loader_name";
         my $ir = $loader->load($path);
-
-        # The Smithy sdkId (and, to a lesser extent, the botocore
-        # serviceId) don't always match the Paws class naming
-        # convention. E.g. sdkId "Keyspaces" -> Paws class "KeySpaces",
-        # sdkId "API Gateway" -> Paws class "ApiGateway". Stamp the
-        # canonical Paws class name that the caller asked for so the
-        # materialiser produces correctly-named packages.
-        if ($ir->name ne $service_name) {
-            $ir->{name} = $service_name;
-        }
-
         return wantarray ? ($ir, $loader_name) : $ir;
     }
 
