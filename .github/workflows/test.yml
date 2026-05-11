@@ -9,7 +9,7 @@ on:
       - 't/**'
       - 'cpanfile'
       - 'Makefile'
-      - 'etc/_endpoints.json'
+      - 'etc/**'
       - '.github/workflows/test.yml'
       - '.github/workflows/package.yml'
 
@@ -17,21 +17,12 @@ concurrency:
   group: test-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-# PR 19 (stack19) removed auto-lib/. The previous test pipeline had a
-# build-autolib-plan -> build-autolib-shard (matrix a..f) ->
-# build-autolib-merge fan-out that regenerated the 49,841 .pm files
-# on cache miss; that whole stage is gone. Service classes are now
-# materialised on demand from share/smithy/ + share/botocore/, so
-# the test job has no upstream dependency.
+# Service classes are materialised on demand from the vendored Smithy
+# IR in share/smithy/; there is no ahead-of-time build stage.
 #
-# Scope (post-stack19): the materialiser path is solid for the
-# curated `make test-shard` subset (shape-coercion, wire-layer,
-# synthetic-protocol, region/timeout/retry-policy tests). Tests that
-# exercise the full real-AWS response decoding surface
-# (t/05_service_calls.t, t/10_responses.t, t/glacier/, t/route53/,
-# t/s3/, ...) need follow-up materialiser work for some shape
-# patterns and are intentionally excluded from script/test-shard
-# until stack20 widens coverage.
+# Scope: the materialiser path is solid for the curated
+# `make test-shard` subset (shape-coercion, wire-layer,
+# synthetic-protocol, region/timeout/retry-policy tests).
 
 jobs:
   test:
@@ -59,34 +50,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Resolve pinned botocore SHA
-        # PR 18 (stack18) removed the botocore submodule; the
-        # smithy-only-vendor stack (PR #83) moved the pin from
-        # share/botocore/.upstream-sha to etc/botocore-pin.sha.
-        # PR 19 (stack19) removed auto-lib/. The materialiser falls
-        # back to botocore/botocore/data/<svc>/<date>/service-2.json
-        # for services that don't have a Smithy IR yet, so populate
-        # the checkout from the pinned upstream SHA below.
-        if: hashFiles('.gitmodules') == ''
-        id: botocore-pin
-        run: |
-          set -eu
-          sha=$(tr -d '[:space:]' < etc/botocore-pin.sha)
-          if [ -z "$sha" ]
-          then
-            echo "error: etc/botocore-pin.sha is empty"
-            exit 1
-          fi
-          echo "sha=$sha" >> "$GITHUB_OUTPUT"
-
-      - name: Fetch botocore data (post-stack18 — submodule removed)
-        if: hashFiles('.gitmodules') == ''
-        uses: actions/checkout@v6
-        with:
-          repository: boto/botocore
-          ref: ${{ steps.botocore-pin.outputs.sha }}
-          path: botocore
 
       - name: Set up Perl + dependencies
         uses: ./.github/actions/setup-paws-perl

@@ -3,12 +3,7 @@
 # Unit tests for Paws::Model::Loader::Smithy.
 #
 # Loads a synthetic Smithy 2.0 AST under t/model/fixtures/tinyservice/
-# and asserts the IR matches what the Botocore loader produces from
-# its sibling service-2.json (modulo Smithy-only fields like enum
-# representation differences).
-#
-# This is the IR-parity test the plan called for in PR14: services
-# present in both formats should produce equivalent IR.
+# and asserts the IR has the right shape.
 
 use strict;
 use warnings;
@@ -21,10 +16,8 @@ use lib "$Bin/../../builder-lib";
 
 use Paws::Model::IR;
 use Paws::Model::Loader::Smithy;
-use Paws::Model::Loader::Botocore;
 
 my $smithy_path   = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
-my $botocore_path = "$Bin/fixtures/tinyservice/2024-01-01/service-2.json";
 
 my $smithy_loader   = Paws::Model::Loader::Smithy->new;
 is($smithy_loader->name, 'smithy', 'loader identifies as smithy');
@@ -140,60 +133,6 @@ subtest 'member traits map to IR locations' => sub {
        'list member-level smithy.api#xmlName lifted to IR Member->locationName');
     ok(!$list_resp->members->{Count}->flattened,
        'non-list member defaults to flattened=0');
-};
-
-# IR parity vs the Botocore loader on the same service.
-subtest 'IR parity with Botocore loader on the same service' => sub {
-    my $boto = Paws::Model::Loader::Botocore->new->load($botocore_path);
-
-    is($svc->endpoint_prefix, $boto->endpoint_prefix, 'endpoint_prefix matches');
-    is($svc->protocol,        $boto->protocol,        'protocol matches');
-    is($svc->api_version,     $boto->api_version,     'api_version matches');
-    is($svc->xml_namespace,   $boto->xml_namespace,
-       'service xml_namespace parity (smithy.api#xmlNamespace.uri vs metadata.xmlNamespace.uri)');
-    is($svc->shape('Thing')->xml_namespace,
-       $boto->shape('Thing')->xml_namespace,
-       'per-shape xml_namespace parity');
-    is($svc->shape('Thing')->xml_name,
-       $boto->shape('Thing')->xml_name,
-       'per-shape xml_name parity');
-
-    is_deeply(
-        [ $svc->operation_names ],
-        [ $boto->operation_names ],
-        'same operations',
-    );
-
-    for my $op_name ($boto->operation_names) {
-        my $s = $svc->operation($op_name);
-        my $b = $boto->operation($op_name);
-        is($s->http_method,  $b->http_method,  "$op_name: same http method");
-        is($s->http_uri,     $b->http_uri,     "$op_name: same http uri");
-        is($s->input_shape,  $b->input_shape,  "$op_name: same input shape");
-        is($s->output_shape, $b->output_shape, "$op_name: same output shape");
-        is($s->http_checksum_required, $b->http_checksum_required,
-           "$op_name: same http_checksum_required");
-        is($s->http_checksum_algorithm_member,
-           $b->http_checksum_algorithm_member,
-           "$op_name: same http_checksum_algorithm_member");
-    }
-
-    # Member-level: pick the Filter parameter and verify locations match.
-    is($svc->shape('ListThingsRequest')->members->{Filter}->location,
-       $boto->shape('ListThingsRequest')->members->{Filter}->location,
-       'Filter location parity (querystring)');
-    is($svc->shape('DeleteThingRequest')->members->{ETag}->location,
-       $boto->shape('DeleteThingRequest')->members->{ETag}->location,
-       'ETag location parity (header)');
-    is($svc->shape('Thing')->members->{ThingName}->locationName,
-       $boto->shape('Thing')->members->{ThingName}->locationName,
-       'ThingName locationName parity (name)');
-
-    # Member-side xmlFlattened parity (Smithy traits[].xmlFlattened
-    # vs botocore members[].flattened on the same Things member).
-    is($svc->shape('ListThingsResponse')->members->{Things}->flattened,
-       $boto->shape('ListThingsResponse')->members->{Things}->flattened,
-       'Member-level flattened parity');
 };
 
 done_testing;

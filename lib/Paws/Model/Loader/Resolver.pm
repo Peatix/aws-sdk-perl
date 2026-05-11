@@ -6,11 +6,7 @@ package Paws::Model::Loader::Resolver;
 #
 # Default: Smithy-only. share/smithy/ is committed to git and shipped
 # in the dist; the Smithy IR covers every non-deprecated AWS service
-# Paws ships today plus 33 services botocore does not have a model
-# for. Override via
-#   PAWS_LOADER_ORDER=Botocore,Smithy
-# (and supply botocore_search_paths) for users who need to point at a
-# botocore checkout for a deprecated-but-still-needed service.
+# Paws ships today.
 #
 # Naming: a Paws service class name (e.g. `ApiGateway`, `EventBridge`,
 # `DMS`) does not always match the Smithy file basename
@@ -32,7 +28,6 @@ use Carp qw(croak);
 use File::Spec;
 
 use Paws::Model::IR;
-use Paws::Model::Loader::Botocore;
 use Paws::Model::Loader::Smithy;
 
 use Moose;
@@ -86,45 +81,11 @@ has smithy_search_paths => (
     },
 );
 
-# Defaults to the empty list — botocore is no longer the canonical
-# source. The Botocore loader (Paws::Model::Loader::Botocore) stays
-# wired in for users who construct a resolver explicitly with
-# botocore_search_paths and PAWS_LOADER_ORDER=Botocore,Smithy
-# pointing at a botocore checkout.
-has botocore_search_paths => (
+# Loader instance.
+has _smithy_loader => (
     is      => 'ro',
-    isa     => 'ArrayRef[Str]',
     lazy    => 1,
-    default => sub { [] },
-);
-
-# Order in which loaders are tried. The first one that finds a source
-# file wins. Defaults from PAWS_LOADER_ORDER if set, else
-# 'Smithy' (botocore is opt-in via the env var).
-has order => (
-    is      => 'ro',
-    isa     => 'ArrayRef[Str]',
-    lazy    => 1,
-    default => sub {
-        my $env = $ENV{PAWS_LOADER_ORDER};
-        if (defined $env && length $env) {
-            return [ split /,/, $env ];
-        }
-        return [ 'Smithy' ];
-    },
-);
-
-# Loader instance per name.
-has _loaders => (
-    is      => 'ro',
-    isa     => 'HashRef',
-    lazy    => 1,
-    default => sub {
-        return {
-            Smithy   => Paws::Model::Loader::Smithy->new,
-            Botocore => Paws::Model::Loader::Botocore->new,
-        };
-    },
+    default => sub { Paws::Model::Loader::Smithy->new },
 );
 
 # Enumerate the set of SDK class names that have a source file in
@@ -206,100 +167,20 @@ sub available_services {
         closedir $dh;
     }
 
-    # Botocore: directory names are endpoint prefixes (e.g. `iam`,
-    # `cognito-idp`). The SDK class name is the `serviceId` field
-    # in metadata of service-2.json. We have to open each one to
-    # find out -- but only once per process; the result is cached
-    # on the resolver instance.
-    for my $base (@{ $self->botocore_search_paths }) {
-        next if !-d $base;
-        opendir(my $dh, $base) or next;
-        for my $svc_dir (readdir $dh) {
-            next if $svc_dir =~ /^\.\.?$/;
-            next if $svc_dir =~ /^_/;
-            my $svc_path = File::Spec->catdir($base, $svc_dir);
-            next if !-d $svc_path;
-
-            my $sdk = $self->_botocore_sdk_name($svc_path);
-            $seen{$sdk} = 1 if defined $sdk;
-        }
-        closedir $dh;
-    }
 
     return sort keys %seen;
 }
 
-has _botocore_sdk_name_cache => (
-    is      => 'ro',
-    isa     => 'HashRef[Str]',
-    lazy    => 1,
-    default => sub { {} },
-);
-
-# SDK class name -> path-to-service-2.json. Populated as a side-
-# effect of available_services so subsequent load_service calls
-# don't have to re-scan to map an SDK class name back to its
-# botocore directory (which is keyed by endpointPrefix, not by
-# serviceId — `ACMPCA` is `acm-pca/`, `CognitoIdentityProvider` is
-# `cognito-idp/`, etc.).
-has _botocore_sdk_to_path => (
-    is      => 'ro',
-    isa     => 'HashRef[Str]',
-    lazy    => 1,
-    default => sub { {} },
-);
-
-sub _botocore_sdk_name {
-    my ($self, $svc_path) = @_;
-
-    my $cache = $self->_botocore_sdk_name_cache;
-    return $cache->{$svc_path} if exists $cache->{$svc_path};
-
-    opendir(my $dh, $svc_path) or return undef;
-    my @dates = sort grep {
-        /^\d{4}-\d{2}-\d{2}\z/
-        && -r File::Spec->catfile($svc_path, $_, 'service-2.json')
-    } readdir $dh;
-    closedir $dh;
-    return undef if !@dates;
-
-    my $service_2 = File::Spec->catfile($svc_path, $dates[-1], 'service-2.json');
-    open(my $fh, '<', $service_2) or return undef;
-    local $/;
-    my $json = <$fh>;
-    close $fh;
-
-    require JSON::PP;
-    my $struct = eval { JSON::PP->new->utf8(1)->decode($json) };
-    return undef if !$struct;
-    my $sid = $struct->{metadata}->{serviceId};
-    return undef if !defined $sid;
-
-    # Same fix-ups Paws::API::Builder::Paws applies (see
-    # boto_file_information): capitalise first letter, drop
-    # whitespace, so e.g. `cloud watch` becomes `CloudWatch`.
-    substr($sid, 0, 1) = uc(substr($sid, 0, 1));
-    $sid =~ s/\s+//g;
-
-    $cache->{$svc_path}            = $sid;
-    $self->_botocore_sdk_to_path->{$sid} = $service_2;
-    return $sid;
-}
-
-# Public entry: load the named service via the first loader in the
-# resolution order that can find a source file for it.
+# Public entry: load the named service from the Smithy IR.
 #
 # Returns ($ir, $loader_name) in list context; $ir in scalar context.
 sub load_service {
     my ($self, $service_name) = @_;
 
-    for my $loader_name (@{ $self->order }) {
-        my $path = $self->_find_path_for($loader_name, $service_name);
-        next if !defined $path;
-        my $loader = $self->_loaders->{$loader_name}
-            // croak "resolver: no loader instance for $loader_name";
-        my $ir = $loader->load($path);
-        return wantarray ? ($ir, $loader_name) : $ir;
+    my $path = $self->_find_smithy_path($service_name);
+    if (defined $path) {
+        my $ir = $self->_smithy_loader->load($path);
+        return wantarray ? ($ir, 'Smithy') : $ir;
     }
 
     # Differentiate "we know this service is gone" from "we don't
@@ -315,76 +196,23 @@ sub load_service {
         . join(',', @{ $self->order });
 }
 
-# For each loader name, look in the configured search paths for a
-# matching source file.
-sub _find_path_for {
-    my ($self, $loader_name, $service_name) = @_;
+sub _find_smithy_path {
+    my ($self, $service_name) = @_;
 
-    if ($loader_name eq 'Smithy') {
-        my $smithy_basename = _paws_to_smithy($service_name);
-        for my $base (@{ $self->smithy_search_paths }) {
-            for my $candidate (
-                # Flat layout (tolerant of older trees / fixtures):
-                # share/smithy/<basename>.smithy.json
-                File::Spec->catfile($base, "$smithy_basename.smithy.json"),
-                File::Spec->catfile($base, lc($service_name) . ".smithy.json"),
-                File::Spec->catfile($base, "$service_name.smithy.json"),
-                # Nested layout (canonical for the vendored tree):
-                # share/smithy/<basename>/<basename>.smithy.json
-                File::Spec->catfile($base, $smithy_basename, "$smithy_basename.smithy.json"),
-                File::Spec->catfile($base, lc($service_name), lc($service_name) . ".smithy.json"),
-                File::Spec->catfile($base, $service_name, "$service_name.smithy.json"),
-            ) {
-                return $candidate if -r $candidate;
-            }
+    my $smithy_basename = _paws_to_smithy($service_name);
+    for my $base (@{ $self->smithy_search_paths }) {
+        for my $candidate (
+            File::Spec->catfile($base, "$smithy_basename.smithy.json"),
+            File::Spec->catfile($base, lc($service_name) . ".smithy.json"),
+            File::Spec->catfile($base, "$service_name.smithy.json"),
+            File::Spec->catfile($base, $smithy_basename, "$smithy_basename.smithy.json"),
+            File::Spec->catfile($base, lc($service_name), lc($service_name) . ".smithy.json"),
+            File::Spec->catfile($base, $service_name, "$service_name.smithy.json"),
+        ) {
+            return $candidate if -r $candidate;
         }
-        return undef;
     }
-
-    if ($loader_name eq 'Botocore') {
-        # Heuristic first: try the SDK name as-is and lowercased
-        # against each search base. Catches the common case
-        # (`ec2` -> `EC2`, `iam` -> `IAM`, `sqs` -> `SQS`) without
-        # paying the per-process cost of enumerating every
-        # service's serviceId. The "as-is" pass also matches any
-        # vendored botocore mirror that uses the SDK class name as
-        # the directory.
-        for my $base (@{ $self->botocore_search_paths }) {
-            for my $candidate_dir (
-                File::Spec->catdir($base, $service_name),
-                File::Spec->catdir($base, lc $service_name),
-            ) {
-                next if !-d $candidate_dir;
-                opendir(my $dh, $candidate_dir) or next;
-                my @dates = sort grep {
-                    /^\d{4}-\d{2}-\d{2}$/
-                    && -f File::Spec->catfile($candidate_dir, $_, 'service-2.json')
-                } readdir $dh;
-                closedir $dh;
-                next if !@dates;
-                return File::Spec->catfile($candidate_dir, $dates[-1], 'service-2.json');
-            }
-        }
-
-        # Heuristic miss: fall back to the canonical SDK class name
-        # -> directory mapping derived from each service-2.json's
-        # `serviceId` field. Many services have non-mechanical
-        # mappings (ACMPCA -> acm-pca, CognitoIdentityProvider ->
-        # cognito-idp, ElasticLoadBalancingv2 -> elasticloadbalancingv2,
-        # ...). Build the mapping lazily by triggering
-        # available_services, which side-effect-populates
-        # _botocore_sdk_to_path. The cost is amortised across all
-        # subsequent load_service calls on this resolver instance.
-        if (!keys %{ $self->_botocore_sdk_to_path }) {
-            $self->available_services;
-        }
-        if (my $cached = $self->_botocore_sdk_to_path->{$service_name}) {
-            return $cached if -r $cached;
-        }
-        return undef;
-    }
-
-    croak "resolver: unknown loader name '$loader_name'";
+    return undef;
 }
 
 # Map a Paws service class suffix (`ApiGateway`, `DMS`) to the Smithy
@@ -765,11 +593,6 @@ available loader in resolution order
   my ($ir, $loader_name) = $resolver->load_service('IAM');
   say "loaded via $loader_name";
 
-  # Opt back into botocore for a deprecated-but-still-needed service:
-  $ENV{PAWS_LOADER_ORDER} = 'Botocore,Smithy';
-  my $r = Paws::Model::Loader::Resolver->new(
-      botocore_search_paths => ['/path/to/botocore/botocore/data'],
-  );
 
 =head1 NAMING
 
@@ -778,8 +601,8 @@ The C<%Paws::Model::Loader::Resolver::PAWS_TO_SMITHY> hash holds the
 explicit map; lc(class) is the fallback.
 
 The C<%Paws::Model::Loader::Resolver::PAWS_DROPPED_SERVICES> hash
-documents the 14 botocore-era services that are no longer ship-able
-because AWS retired them. Asking for one of them dies with a pointer
-at C<docs/deprecated-services.md>.
+documents the services that are no longer ship-able because AWS retired
+them. Asking for one of them dies with a pointer at
+C<docs/deprecated-services.md>.
 
 =cut

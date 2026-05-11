@@ -279,8 +279,6 @@ use Paws;
 use Paws::API::ServiceToClass;
 use Data::Dumper;
 use Test::More;
-my $rules    = "$FindBin::Bin/../botocore/botocore/data/_endpoints.json";
-
 my $json = JSON()->new->pretty;
 $json = $json->relaxed([1]);
 

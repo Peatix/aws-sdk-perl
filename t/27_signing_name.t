@@ -25,9 +25,8 @@ my $services = {
   Pricing => { 'us-east-1' => 'pricing' },
 };
 
-# Pinpoint cannot currently be generated (see service_skip_list in
-# Paws::API::Builder::Paws); only assert its signing name when the
-# class is available.
+# Pinpoint may not be available in all configurations; only assert
+# its signing name when the class is available.
 if (eval { Paws->load_class('Paws::Pinpoint'); 1 }) {
   $services->{ Pinpoint } = { 'us-east-1' => 'mobiletargeting' };
 }

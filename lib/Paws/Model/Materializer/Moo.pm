@@ -66,7 +66,7 @@ sub _emit_or_eval {
     return;
 }
 
-# Mapping from botocore protocol to the Paws::Net role.
+# Mapping from IR protocol to the Paws::Net role.
 my %PROTOCOL_TO_CALLER_ROLE = (
     'json'      => 'Paws::Net::JsonCaller',
     'rest-json' => 'Paws::Net::RestJsonCaller',
@@ -94,7 +94,7 @@ sub _signature_role_for {
     return $role;
 }
 
-# Mapping from botocore primitive type to the Type::Tiny constructor
+# Mapping from IR primitive type to the Type::Tiny constructor
 # expression we'll string-eval into the materialised class.
 my %PRIMITIVE_TO_TYPE_EXPR = (
     string    => 'Str',
@@ -437,7 +437,7 @@ sub _materialise_shape_class {
 
     # `use Moo` injects `before`, `after`, `around`, `extends`,
     # `with`, `has` into the package as method modifiers. If the
-    # botocore shape has an attribute with one of those names
+    # IR shape has an attribute with one of those names
     # (e.g. ECS::CreatedAt has `after` / `before`; several services
     # have an `extends` member), Method::Generate::Accessor::install
     # dies with "You cannot overwrite a locally defined method

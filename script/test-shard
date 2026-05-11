@@ -43,9 +43,7 @@
 #                                     region_rules / global-service
 #                                     metadata in the materialised
 #                                     service class. The IR doesn't
-#                                     yet absorb endpoint rules
-#                                     (see builder-lib/Paws/Model/
-#                                     Loader/Botocore.pm header) so
+#                                     yet absorb endpoint rules so
 #                                     IAM/STS materialisation falls
 #                                     back to the default rule and
 #                                     dies on undefined region.

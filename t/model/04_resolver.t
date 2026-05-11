@@ -2,9 +2,8 @@
 
 # Tests for Paws::Model::Loader::Resolver.
 #
-# Default order is Smithy-only after the smithy-only-vendor-into-git
-# stack: PAWS_LOADER_ORDER overrides for users who explicitly point
-# the resolver at a botocore checkout for a deprecated service.
+# The resolver finds Smithy IR files and loads them via the Smithy
+# loader. Smithy is the sole source of service definitions.
 
 use strict;
 use warnings;
@@ -18,26 +17,18 @@ use lib "$Bin/../../builder-lib";
 
 use Paws::Model::Loader::Resolver;
 
-# We point both search paths at our fixture tree. The Smithy fixture
-# is at .../tinyservice/tinyservice.smithy.json (nested layout), the
-# Botocore fixture is at .../tinyservice/2024-01-01/service-2.json.
-my $smithy_dir   = "$Bin/fixtures";
-my $botocore_dir = "$Bin/fixtures";
+my $smithy_dir = "$Bin/fixtures";
 
 sub make_resolver {
     my (%overrides) = @_;
     return Paws::Model::Loader::Resolver->new(
-        smithy_search_paths   => [$smithy_dir],
-        botocore_search_paths => [$botocore_dir],
+        smithy_search_paths => [$smithy_dir],
         %overrides,
     );
 }
 
-subtest 'default order is Smithy-only' => sub {
-    delete local $ENV{PAWS_LOADER_ORDER};
-
+subtest 'loads service from Smithy IR' => sub {
     my $r = make_resolver();
-    is_deeply $r->order, [ 'Smithy' ], 'default order is [Smithy]';
 
     my ($ir, $loader) = $r->load_service('tinyservice');
     is($loader,         'Smithy',     'resolver chose Smithy');
@@ -45,47 +36,11 @@ subtest 'default order is Smithy-only' => sub {
     is($ir->protocol,   'json',       'protocol mapped from awsJson1_1');
 };
 
-subtest 'PAWS_LOADER_ORDER pins the order' => sub {
-    local $ENV{PAWS_LOADER_ORDER} = 'Botocore,Smithy';
-
-    my $r = make_resolver();
-    my ($ir, $loader) = $r->load_service('tinyservice');
-    is($loader,         'Botocore',   'resolver chose Botocore (env override)');
-    is($ir->name,       'TinyService','IR built from Botocore fixture');
-};
-
-subtest 'falls back when first loader has no file' => sub {
-    local $ENV{PAWS_LOADER_ORDER} = 'Smithy,Botocore';
-
-    my $r = Paws::Model::Loader::Resolver->new(
-        smithy_search_paths   => ['/nonexistent/smithy'],
-        botocore_search_paths => [$botocore_dir],
-    );
-    my ($ir, $loader) = $r->load_service('tinyservice');
-    is($loader, 'Botocore', 'resolver fell back to Botocore');
-    is($ir->name, 'TinyService', 'IR loaded');
-};
-
-subtest 'default botocore_search_paths is empty' => sub {
-    delete local $ENV{PAWS_LOADER_ORDER};
-    my $r = Paws::Model::Loader::Resolver->new;
-    is_deeply $r->botocore_search_paths, [],
-        'botocore_search_paths default is the empty list';
-};
-
 subtest 'unknown service raises' => sub {
     my $r = make_resolver();
     throws_ok { $r->load_service('does-not-exist') }
         qr/no source file/,
         'unknown service raises';
-};
-
-subtest 'unknown loader name in order raises' => sub {
-    local $ENV{PAWS_LOADER_ORDER} = 'OpenAPI,Botocore';
-    my $r = make_resolver();
-    throws_ok { $r->load_service('tinyservice') }
-        qr/unknown loader name/,
-        'unknown loader name in PAWS_LOADER_ORDER raises';
 };
 
 subtest 'dropped service raises with deprecation reason' => sub {

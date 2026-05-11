@@ -78,9 +78,6 @@ my $resolver = Paws::Model::Loader::Resolver->new(
     smithy_search_paths   => [
         File::Spec->catdir($paws_root, 'share', 'smithy'),
     ],
-    botocore_search_paths => [
-        File::Spec->catdir($paws_root, 'botocore', 'botocore', 'data'),
-    ],
 );
 
 # Service inventory: easiest portable way is to look at the on-disk
