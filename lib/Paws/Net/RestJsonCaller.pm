@@ -140,6 +140,7 @@ package Paws::Net::RestJsonCaller;
           || Scalar::Util::openhandle($param_value)
           || (Scalar::Util::blessed($param_value) && $param_value->isa('IO::Handle'))) {
           $request->stream_body($param_value);
+          $request->headers->header('x-amz-content-sha256' => 'UNSIGNED-PAYLOAD');
       } elsif (Scalar::Util::blessed($param_value)) {
           my $content   = $self->_to_jsoncaller_params($param_value);
           $content = encode_json($content);

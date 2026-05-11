@@ -272,6 +272,7 @@ package Paws::Net::RestXmlCaller;
           || Scalar::Util::openhandle($param_value)
           || (Scalar::Util::blessed($param_value) && $param_value->isa('IO::Handle'))) {
           $request->stream_body($param_value);
+          $request->headers->header('x-amz-content-sha256' => 'UNSIGNED-PAYLOAD');
       } else {
           $request->content($param_value);
           $request->headers->header( 'content-length' => $request->content_length );

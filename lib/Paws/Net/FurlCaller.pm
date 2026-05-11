@@ -38,6 +38,7 @@ package Paws::Net::FurlCaller;
       $req_opts{content} = sub {
         my $buf;
         my $n = read($fh, $buf, $chunk_size);
+        die "read failed on streaming body: $!" unless defined $n;
         return $buf if $n;
         return '';
       };

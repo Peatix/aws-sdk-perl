@@ -37,6 +37,7 @@ package Paws::Net::LWPCaller;
         sub {
           my $buf;
           my $n = read($fh, $buf, 65536);
+          die "read failed on streaming body: $!" unless defined $n;
           return $buf if $n;
           return '';
         },

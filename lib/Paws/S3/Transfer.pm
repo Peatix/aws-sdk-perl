@@ -97,10 +97,10 @@ sub download {
 sub _file_size {
   my ($self, $fh, $source) = @_;
   my @stat = stat($fh);
-  return $stat[7] if @stat && $stat[7];
+  return $stat[7] if @stat && defined $stat[7];
   if (defined $source) {
     my @fstat = stat($source);
-    return $fstat[7] if @fstat;
+    return $fstat[7] if @fstat && defined $fstat[7];
   }
   return undef;
 }
@@ -139,6 +139,7 @@ sub _upload_multipart {
     while (1) {
       my $buf;
       my $n = read($fh, $buf, $self->part_size);
+      die "read failed during multipart upload: $!" unless defined $n;
       last unless $n;
 
       my $md5 = encode_base64(md5($buf), '');
