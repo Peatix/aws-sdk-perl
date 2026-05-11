@@ -1,4 +1,78 @@
 ---
-todo: test not completed
+# Exercise the response decoder against an S3 ListObjectVersions
+# response that carries:
+#
+#   - top-level scalars (Name, Prefix, MaxKeys, IsTruncated),
+#   - multiple `<Version>` elements (multi-element list path through
+#     the response decoder),
+#   - multiple `<DeleteMarker>` elements (a sibling list with
+#     different element name on the same parent),
+#   - nested `<Owner>` structures on both lists.
+#
+# Both `<Version>` and `<DeleteMarker>` carry the `smithy.api#xmlFlattened`
+# trait in the S3 Smithy model; the decoder must surface them as
+# `Versions[]` / `DeleteMarkers[]` on `ListObjectVersionsOutput`.
 call: ListObjectVersions
 service: S3
+tests:
+  - path: Name
+    op: eq
+    expected: bucket
+  - path: Prefix
+    op: eq
+    expected: my
+  - path: MaxKeys
+    op: eq
+    expected: 5
+  - path: IsTruncated
+    op: eq
+    expected: 0
+  # First <Version>
+  - path: Versions.0.Key
+    op: eq
+    expected: my-image.jpg
+  - path: Versions.0.VersionId
+    op: eq
+    expected: 3/L4kqtJl40Nr8X8gdRQBpUMLUo
+  - path: Versions.0.IsLatest
+    op: eq
+    expected: 1
+  - path: Versions.0.ETag
+    op: eq
+    expected: '"fba9dede5f27731c9771645a39863328"'
+  - path: Versions.0.Size
+    op: eq
+    expected: 434234
+  - path: Versions.0.StorageClass
+    op: eq
+    expected: STANDARD
+  - path: Versions.0.Owner.ID
+    op: eq
+    expected: 75aa57f09aa0c8caeab4f8c24e99d10f8e7faeebf76c078efc7c6caea54ba06a
+  # Second <Version>
+  - path: Versions.1.Key
+    op: eq
+    expected: my-second-image.jpg
+  - path: Versions.1.VersionId
+    op: eq
+    expected: QUpfdndhfd8438MNFDN93jdnJFkdmqnh893
+  - path: Versions.1.IsLatest
+    op: eq
+    expected: 0
+  # First <DeleteMarker>
+  - path: DeleteMarkers.0.Key
+    op: eq
+    expected: my-second-image.jpg
+  - path: DeleteMarkers.0.VersionId
+    op: eq
+    expected: 03jpff543dhffds434rfdsFDN943fdsFkdmqnh892
+  - path: DeleteMarkers.0.IsLatest
+    op: eq
+    expected: 1
+  - path: DeleteMarkers.0.Owner.ID
+    op: eq
+    expected: 75aa57f09aa0c8caeab4f8c24e99d10f8e7faeebf76c078efc7c6caea54ba06a
+  # Second <DeleteMarker> — covers the same-name multi-element path.
+  - path: DeleteMarkers.1.Key
+    op: eq
+    expected: my-third-image.jpg
