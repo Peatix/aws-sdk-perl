@@ -23,7 +23,8 @@
 #   5. Generate t/00_load.t and t/01_smoke.t test files.
 #   6. Write a generated dist.ini, Makefile.PL fallback, MANIFEST,
 #      and cpanfile.
-#   7. Tarball the tree as Paws-<Service>-<version>.tar.gz with a
+#   7. Smoke-test: run prove --lib t/ to verify the package loads.
+#   8. Tarball the tree as Paws-<Service>-<version>.tar.gz with a
 #      deterministic SOURCE_DATE_EPOCH.
 #
 # Determinism is asserted by t/build/01_determinism.t.
@@ -244,7 +245,24 @@ require Module::Build::Tiny;
 Module::Build::Tiny::Build_PL();
 EOT
 
-# 6. Tarball.
+# 7. Smoke-test the sub-dist before tarball creation.
+# Run with the sub-dist's own lib/ first on @INC, plus the repo-root
+# lib/ so Paws::Core (a runtime dependency) is available.
+{
+    my $repo_lib = abs_path("$FindBin::Bin/../lib");
+    my $sub_lib  = abs_path("$tmp_root/lib");
+    local $ENV{PERL5LIB} = join(':', $sub_lib, $repo_lib);
+
+    my $prove_rc = system('prove', '--lib', "$tmp_root/t/");
+    if ($prove_rc != 0)
+    {
+        die "build-modular-dist: smoke test failed for $service "
+          . "(prove exit=$prove_rc)\n";
+    }
+    print STDERR "build-modular-dist svc=$service smoke=ok\n";
+}
+
+# 8. Tarball.
 make_path($output_dir);
 my $tarball = File::Spec->catfile($output_dir, "$dist_name-$version.tar.gz");
 unlink $tarball if -e $tarball;
