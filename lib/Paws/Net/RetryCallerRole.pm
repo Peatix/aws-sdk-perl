@@ -1,26 +1,10 @@
 package Paws::Net::RetryCallerRole;
   use Moose::Role;
   use Time::HiRes 'sleep';
-  use Paws::API::Retry;
+  use Paws::Net::InterceptorContext;
+  use Paws::Net::InterceptorChain;
+  use Paws::Net::Interceptor::Retry;
   use Paws::API::Retry::TokenBucket;
-
-  sub _resolve_retry_mode {
-    my $mode = $ENV{AWS_RETRY_MODE} // 'legacy';
-    die "Invalid AWS_RETRY_MODE '$mode': must be legacy, standard, or adaptive"
-      unless $mode =~ /\A(?:legacy|standard|adaptive)\z/;
-    return $mode;
-  }
-
-  sub _resolve_max_attempts {
-    my ($self, $service) = @_;
-    if (defined $ENV{AWS_MAX_ATTEMPTS}) {
-      my $val = $ENV{AWS_MAX_ATTEMPTS};
-      die "Invalid AWS_MAX_ATTEMPTS '$val': must be a positive integer"
-        unless $val =~ /\A[1-9]\d*\z/;
-      return int($val);
-    }
-    return $service->max_attempts;
-  }
 
   sub _endpoint_key {
     my ($self, $service) = @_;
@@ -50,92 +34,86 @@ package Paws::Net::RetryCallerRole;
     return $self;
   }
 
+  sub _build_chain {
+    my ($self) = @_;
+    my $retry = Paws::Net::Interceptor::Retry->new;
+    return Paws::Net::InterceptorChain->new(
+      interceptors => [ $retry, $self->all_interceptors ],
+    );
+  }
+
   sub do_call {
     my ($self, $service, $call_object) = @_;
 
-    my $mode = _resolve_retry_mode();
-    my $max_attempts = $self->_resolve_max_attempts($service);
-
-    my $tracker = Paws::API::Retry->new(
-      ($mode eq 'legacy' ? (%{ $service->retry }) : ()),
-      mode => $mode,
-      max_tries => $max_attempts,
-      retry_rules => $service->retriables,
+    my $chain = $self->_build_chain;
+    my $context = Paws::Net::InterceptorContext->new(
+      service     => $service,
+      call_object => $call_object,
     );
 
+    if (!$chain->run_hook('before_request', $context)) {
+      if ($context->result_is_exception) {
+        $context->result->throw;
+      }
+      return $context->result;
+    }
+
     my $token_bucket;
-    if ($mode eq 'adaptive') {
+    if (($context->stash->{retry_mode} // 'legacy') eq 'adaptive') {
       $token_bucket = Paws::API::Retry::TokenBucket->for_endpoint(
         $self->_endpoint_key($service)
       );
     }
 
-    my $context;
-    if ($self->interceptor_count) {
-      require Paws::Net::InterceptorContext;
-      $context = Paws::Net::InterceptorContext->new(
-        service     => $service,
-        call_object => $call_object,
-      );
-      $_->before_request($context) for $self->all_interceptors;
-    }
-
-    while (1) {
-      $tracker->one_more_try;
+    RETRY: while (1) {
+      $context->should_retry(0);
+      $context->retry_delay(0);
 
       if ($token_bucket) {
         unless ($token_bucket->acquire(1)) {
-          last;
+          last RETRY;
         }
       }
 
-      if ($context) {
-        $context->attempt($tracker->tries);
-        $_->before_attempt($context) for $self->all_interceptors;
+      if (!$chain->run_hook('before_attempt', $context)) {
+        last RETRY;
       }
 
-      my $response = $self->send_request($service, $call_object);
-      my $result = $self->caller_to_response($service, $call_object, $response);
-      $tracker->operation_result($result);
+      my $response = $self->send_request($service, $context->call_object);
+      my $result   = $self->caller_to_response($service, $context->call_object, $response);
+      $context->response($response);
+      $context->result($result);
 
-      if (not $tracker->result_is_exception and $token_bucket) {
+      if (not $context->result_is_exception and $token_bucket) {
         $token_bucket->release;
       }
 
-      if ($context) {
-        $context->response($response);
-        $context->result($result);
-        $context->should_retry($tracker->should_retry ? 1 : 0);
-        $context->retry_delay($tracker->should_retry ? $tracker->sleep_time : 0);
-
-        if ($context->result_is_exception) {
-          $_->on_error($context) for $self->all_interceptors;
-        }
-        $_->after_attempt($context) for $self->all_interceptors;
+      if ($context->result_is_exception) {
+        $chain->run_hook('on_error', $context);
       }
 
-      my $should_retry = $context ? $context->should_retry : $tracker->should_retry;
-      last unless $should_retry;
+      $chain->run_hook('after_attempt', $context);
+
+      last RETRY unless $context->should_retry;
 
       if ($token_bucket) {
-        my $error_type = $tracker->classify_error;
-        my $cost = Paws::API::Retry::TokenBucket->token_cost_for_error($error_type);
-        $token_bucket->acquire($cost);
+        my $tracker = $context->stash->{retry_tracker};
+        if ($tracker) {
+          my $error_type = $tracker->classify_error;
+          my $cost = Paws::API::Retry::TokenBucket->token_cost_for_error($error_type);
+          $token_bucket->acquire($cost);
+        }
       }
 
-      my $delay = $context ? $context->retry_delay : $tracker->sleep_time;
-      sleep $delay;
+      sleep $context->retry_delay;
     }
 
-    if ($context) {
-      $context->result($tracker->operation_result);
-      $_->after_request($context) for $self->all_interceptors;
-    }
+    $chain->run_hook('after_request', $context);
 
-    if ($tracker->result_is_exception){
-      $tracker->operation_result->throw;
+    if ($context->result_is_exception) {
+      $context->result->throw;
     } else {
-      return $tracker->operation_result;
+      return $context->result;
     }
   }
 

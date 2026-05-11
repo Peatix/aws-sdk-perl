@@ -7,13 +7,12 @@ package Paws::Net::InterceptorContext;
   );
 
   has call_object => (
-    is       => 'ro',
+    is       => 'rw',
     required => 1,
   );
 
   has response => (
     is  => 'rw',
-    isa => 'Maybe[Paws::Net::APIResponse]',
   );
 
   has result => (

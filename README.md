@@ -136,6 +136,11 @@ installed correctly.
 > If your code dispatches dynamically (e.g. `Paws->service($var)`), add those
 > services by hand.
 
+Migrating from `Net::Amazon::S3`? See
+[`docs/migrating-from-net-amazon-s3.md`](docs/migrating-from-net-amazon-s3.md)
+for the API surface mapping, install pattern, and worked examples
+(including pre-signed URLs via `$s3->presign(...)`).
+
 ## Available services
 
 ~304 AWS services are available as individual `Paws-<Service>` distributions.
