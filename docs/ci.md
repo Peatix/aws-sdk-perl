@@ -1,8 +1,6 @@
 # CI workflows
 
-This repository ships six GitHub Actions workflows under `.github/workflows/`
-(two legacy benchmark workflows are being removed in PR #107 and are not
-documented here):
+This repository ships six GitHub Actions workflows under `.github/workflows/`:
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
@@ -13,20 +11,6 @@ documented here):
 | `release-modular.yml` | `release.published`, `workflow_dispatch` | Phase 2 A4-B: build the full per-service modular fleet (~305 code + ~305 docs companions) plus a legacy Paws tarball (acting as the Paws::Core stand-in via `dzil build`) and upload tarballs to the GitHub release. |
 | `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree under `share/smithy/`; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 
-### Dropped workflows
-
-The following workflows are being removed as part of the A4-B modular
-distribution work (Phase 3). `generate-and-pr.yml`, `package.yml`, and
-`regen-byte-identical.yml` were already removed; `benchmarks.yml` and
-`benchmark-capture.yml` are removed in PR #107 (`cursor/workflow-cleanup`):
-
-| Workflow | Reason |
-| --- | --- |
-| `generate-and-pr.yml` | Superseded by the modular build pipeline (`build-modular-smoke.yml`, `release-modular.yml`). |
-| `package.yml` | Replaced by `release-modular.yml` which produces per-service tarballs. |
-| `regen-byte-identical.yml` | The determinism property it verified is now covered by `t/build/01_determinism.t` in the modular build pipeline. |
-| `benchmarks.yml` | Measured the runtime materialiser, which no longer exists (A4-B ships pre-built service classes). Removal in PR #107. |
-| `benchmark-capture.yml` | Companion to `benchmarks.yml`; removed for the same reason. Removal in PR #107. |
 
 ## Shared setup: `.github/actions/setup-paws-perl`
 
@@ -251,9 +235,6 @@ fresh, without manual nudges:
   if it has moved, runs the vendor script, and opens a PR with the
   drift.
 
-The workflow does NOT auto-track the AOT-generator-only botocore
-pin in `etc/botocore-pin.sha` — that pin only changes when a
-contributor regenerates `auto-lib/` at a new botocore SHA manually.
 
 ### Schedule
 
