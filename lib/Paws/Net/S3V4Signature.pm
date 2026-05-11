@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::S3V4Signature;
   # DEPRECATED. This role is a copy-paste of Paws::Net::V4Signature
   # written before the differences between S3 and S3V4 signing were

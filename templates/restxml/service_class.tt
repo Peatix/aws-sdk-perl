@@ -1,3 +1,5 @@
+[%# This file has been modified from the original upstream distribution
+    by Peatix, Inc. See the git log for this file for details of changes. %]
 [%- IF (c.enums.size) -%]
 use Moose::Util::TypeConstraints;
 [%- FOR enum_name IN c.enums.keys.sort %]
