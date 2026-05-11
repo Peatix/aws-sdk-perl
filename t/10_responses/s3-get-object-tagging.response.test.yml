@@ -1,0 +1,33 @@
+---
+# Exercise the response decoder against a GetObjectTagging response.
+# The interesting wire-layer paths covered:
+#
+#   - structure-level xmlName="Tagging" on the output (root element
+#     differs from `GetObjectTaggingOutput`),
+#   - a non-flattened list `TagSet` whose member element is `<Tag>`
+#     (the inner shape's `xmlName`), with three elements covering
+#     mixed key/value content including a numeric value.
+call: GetObjectTagging
+service: S3
+tests:
+  - path: _request_id
+    op: eq
+    expected: 3F4567890ABCDEF1
+  - path: TagSet.0.Key
+    op: eq
+    expected: Environment
+  - path: TagSet.0.Value
+    op: eq
+    expected: Production
+  - path: TagSet.1.Key
+    op: eq
+    expected: Owner
+  - path: TagSet.1.Value
+    op: eq
+    expected: platform-team
+  - path: TagSet.2.Key
+    op: eq
+    expected: cost-center
+  - path: TagSet.2.Value
+    op: eq
+    expected: 4242

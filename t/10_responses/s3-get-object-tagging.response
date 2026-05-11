@@ -1,0 +1,26 @@
+---
+content: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <Tagging xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+      <TagSet>
+          <Tag>
+              <Key>Environment</Key>
+              <Value>Production</Value>
+          </Tag>
+          <Tag>
+              <Key>Owner</Key>
+              <Value>platform-team</Value>
+          </Tag>
+          <Tag>
+              <Key>cost-center</Key>
+              <Value>4242</Value>
+          </Tag>
+      </TagSet>
+  </Tagging>
+headers:
+  connection: close
+  date: 'Mon, 11 May 2026 09:26:45 GMT'
+  server: AmazonS3
+  x-amz-id-2: TGHJklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi=
+  x-amz-request-id: 3F4567890ABCDEF1
+status: 200

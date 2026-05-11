@@ -1,0 +1,27 @@
+---
+content: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+      <CORSRule>
+          <AllowedHeader>*</AllowedHeader>
+          <AllowedMethod>GET</AllowedMethod>
+          <AllowedMethod>HEAD</AllowedMethod>
+          <AllowedOrigin>https://example.com</AllowedOrigin>
+          <ExposeHeader>x-amz-server-side-encryption</ExposeHeader>
+          <MaxAgeSeconds>3000</MaxAgeSeconds>
+      </CORSRule>
+      <CORSRule>
+          <AllowedMethod>PUT</AllowedMethod>
+          <AllowedMethod>POST</AllowedMethod>
+          <AllowedMethod>DELETE</AllowedMethod>
+          <AllowedOrigin>https://uploads.example.com</AllowedOrigin>
+          <ID>uploads</ID>
+      </CORSRule>
+  </CORSConfiguration>
+headers:
+  connection: close
+  date: 'Mon, 11 May 2026 09:26:11 GMT'
+  server: AmazonS3
+  x-amz-id-2: A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7R8S9T0U1V2W3X4Y5Z6=
+  x-amz-request-id: F89BCD345672A012
+status: 200

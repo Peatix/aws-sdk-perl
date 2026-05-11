@@ -1,0 +1,38 @@
+---
+content: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+      <Name>example-bucket</Name>
+      <Prefix>photos/</Prefix>
+      <Delimiter>/</Delimiter>
+      <KeyCount>3</KeyCount>
+      <MaxKeys>1000</MaxKeys>
+      <IsTruncated>false</IsTruncated>
+      <Contents>
+          <Key>photos/2024/01/cat.jpg</Key>
+          <LastModified>2024-01-15T10:00:00.000Z</LastModified>
+          <ETag>&quot;aaaa1111&quot;</ETag>
+          <Size>1024</Size>
+          <StorageClass>STANDARD</StorageClass>
+      </Contents>
+      <Contents>
+          <Key>photos/2024/01/dog.jpg</Key>
+          <LastModified>2024-01-16T10:00:00.000Z</LastModified>
+          <ETag>&quot;bbbb2222&quot;</ETag>
+          <Size>2048</Size>
+          <StorageClass>STANDARD</StorageClass>
+      </Contents>
+      <CommonPrefixes>
+          <Prefix>photos/2024/02/</Prefix>
+      </CommonPrefixes>
+      <CommonPrefixes>
+          <Prefix>photos/2024/03/</Prefix>
+      </CommonPrefixes>
+  </ListBucketResult>
+headers:
+  connection: close
+  date: 'Mon, 11 May 2026 09:25:30 GMT'
+  server: AmazonS3
+  x-amz-id-2: 7N2yVK1y1ofY2yI2j6yYxHddPlfqkB8GUkAJklIqYJiU1+SU0KrHAcXg+u92m2gWmTuS9pjBfSc=
+  x-amz-request-id: 2D9B3A8E6F1C4711
+status: 200

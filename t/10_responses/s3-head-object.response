@@ -1,0 +1,23 @@
+---
+content: ''
+headers:
+  accept-ranges: bytes
+  cache-control: max-age=3600
+  connection: close
+  content-disposition: 'attachment; filename="report.pdf"'
+  content-encoding: gzip
+  content-language: en-GB
+  content-length: 524288
+  content-type: application/pdf
+  date: 'Mon, 11 May 2026 09:27:18 GMT'
+  etag: '"deadbeef-1"'
+  last-modified: 'Mon, 11 May 2026 09:00:00 GMT'
+  server: AmazonS3
+  x-amz-id-2: HxYIuW1z7+M3GLPa6gjVfXgwlMRokAaB73B7wXOmHXjP4qpd4PJRyJ0J0YJJ9Z1A0xkZP1mYj7w=
+  x-amz-meta-app-region: us-west-2
+  x-amz-meta-environment: production
+  x-amz-meta-owner: 'platform-team'
+  x-amz-request-id: 9C3E40DA7F185CCD
+  x-amz-server-side-encryption: AES256
+  x-amz-version-id: PvuxNcVCcjnNXFVRPnxKR7BgWMP7XFvR
+status: 200
