@@ -1,0 +1,17 @@
+---
+# HeadBucket is a 200 with no body (every output member is bound to
+# a response header in the Smithy IR). The fixture exercises the
+# wire layer's "no body, all headers" path:
+#   - the response decoder must not die on the empty body,
+#   - _request_id must still be populated from x-amz-request-id.
+#
+# The output BucketLocationName / BucketRegion / etc. members are
+# located on response headers; this fixture only asserts the bits
+# that don't depend on per-attribute header binding (deferred to a
+# wire-layer follow-up, same family as t/17_s3metadata.t's skip).
+call: HeadBucket
+service: S3
+tests:
+  - path: _request_id
+    op: eq
+    expected: 5C0E73C8B8A4C112

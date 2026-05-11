@@ -48,7 +48,43 @@ sub get_value_for_type {
 
 # Just make a valid structure of arguments with values for the required fields
 # for a call. The test doesn't do anything with the parameters, but we need this
-# so that "FileCaller" is happy with the parameters passed in
+# so that "FileCaller" is happy with the parameters passed in.
+#
+# Under the Moo + Type::Tiny materialiser (post-stack13, the default
+# since stack19), attributes carry Type::Tiny constraints which surface
+# through `$class->meta` as Moose proxies. `$type->name` is informative
+# for primitive types (`Bool`, `Str`, `Int`) but reports `__ANON__` for
+# parameterised types (`ArrayRef[InstanceOf['Paws::Foo']]` ->
+# `__ANON__`). Use the Type::Tiny accessors `parent`, `type_parameter`,
+# and `class` to walk the constraint tree and recover the bare class
+# name when the proxy stringifies anonymously. Same dance the
+# top-level `Paws->new_with_coercions` does in `lib/Paws.pm`.
+sub _stub_type_name {
+  my ($tc) = @_;
+  return undef if !defined $tc;
+
+  # Type::Tiny::Class (a bare `InstanceOf["X"]`) reports name=__ANON__
+  # but exposes the class via ->class. Prefer the class name.
+  return $tc->class if ref($tc) eq 'Type::Tiny::Class' && $tc->can('class');
+
+  my $name = $tc->can('name') ? $tc->name : '';
+  return $name if $name && $name ne '__ANON__';
+
+  # Anonymous parameterised Type::Tiny (ArrayRef[X] / HashRef[X]):
+  # reconstruct a stringy `ArrayRef[<inner>]` form that the dispatch
+  # below recognises. `<inner>` is the class name if the inner type
+  # is `Type::Tiny::Class`, otherwise its name.
+  if ($tc->can('type_parameter') && defined $tc->type_parameter) {
+    my $parent = $tc->can('parent') && defined $tc->parent ? $tc->parent->name : 'ArrayRef';
+    my $inner_tc = $tc->type_parameter;
+    my $inner_name = ref($inner_tc) eq 'Type::Tiny::Class' && $inner_tc->can('class') ? $inner_tc->class
+                  : $inner_tc->can('name')  ? $inner_tc->name
+                  : '';
+    return sprintf '%s[%s]', $parent, $inner_name;
+  }
+  return $name;
+}
+
 sub get_stub_call_args {
   my $call_class = shift;
 
@@ -57,8 +93,9 @@ sub get_stub_call_args {
 
   foreach my $attribute ($call_class->meta->get_all_attributes) {
     next if (not $attribute->is_required);
+    next if (not $attribute->has_type_constraint);
 
-    my $att_type = $attribute->type_constraint->name;
+    my $att_type = _stub_type_name($attribute->type_constraint);
     if ($att_type =~ m/ArrayRef\[(.*)\]/){
       my $inner_class = $1;
       if (is_native($inner_class)){
