@@ -20,7 +20,7 @@ Paws->default_config->credentials('Test::CustomCredentials');
 my $bucketname = 'shadowcatjesstest';
 my $s3 = Paws->service('S3', region => 'us-west-2');
 
-my %md5_methods = (
+my %call_args = (
   'PutBucketLifecycleConfiguration' => {
     Bucket => $bucketname,
     LifecycleConfiguration => {
@@ -30,8 +30,59 @@ my %md5_methods = (
           Filter => {
            },
           }
-       ] 
+       ]
      },
+  },
+  'PutBucketCors' => {
+    Bucket => $bucketname,
+    CORSConfiguration => {
+      CORSRules => [
+        {
+          AllowedMethods => ['GET','HEAD'],
+          AllowedOrigins => ['https://example.com'],
+        },
+       ],
+    },
+  },
+  'PutBucketTagging' => {
+    Bucket => $bucketname,
+    Tagging => {
+      TagSet => [
+        { Key => 'Environment', Value => 'Production' },
+       ],
+     },
+  },
+  'PutBucketWebsite' => {
+    Bucket => $bucketname,
+    WebsiteConfiguration => {
+      IndexDocument => { Suffix => 'index.html' },
+    },
+  },
+  'PutBucketReplication' => {
+    Bucket => $bucketname,
+    ReplicationConfiguration => {
+      Role  => 'arn:aws:iam::1234:role/replication',
+      Rules => [
+        {
+          Status      => 'Enabled',
+          Prefix      => 'archive/',
+          Destination => { Bucket => 'arn:aws:s3:::dest-bucket' },
+        },
+       ],
+    },
+  },
+  'PutBucketAcl' => {
+    Bucket => $bucketname,
+    ACL    => 'private',
+    AccessControlPolicy => {
+      Owner  => { ID => 'owner-id', DisplayName => 'owner' },
+      Grants => [
+        {
+          Grantee    => { Type => 'CanonicalUser', ID => 'grantee-id' },
+          Permission => 'FULL_CONTROL',
+        },
+       ],
+    },
   },
   'SelectObjectContent' => {
     Bucket => $bucketname,
@@ -45,28 +96,65 @@ my %md5_methods = (
    },
  );
 
+# The S3 service-level XML namespace, vendored at
+# share/smithy/s3/s3.smithy.json line ~606. Every PUT body that
+# carries a payload member (`<PayloadElement xmlns="...">`) or a
+# whole-input wrapper (`<RequestShape xmlns="...">`) uses this URI.
+my $S3_NS = 'http://s3.amazonaws.com/doc/2006-03-01/';
+
 my %xml_results = (
-  PutBucketLifecycleConfiguration => '<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Rule><Filter></Filter><Status>Enabled</Status></Rule></LifecycleConfiguration>',
-  SelectObjectContent => '<SelectObjectContentRequest xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Expression>Select * from S3Object</Expression><ExpressionType>SQL</ExpressionType><InputSerialization></InputSerialization><OutputSerialization></OutputSerialization></SelectObjectContentRequest>',
- );
+  PutBucketLifecycleConfiguration =>
+    qq{<LifecycleConfiguration xmlns="$S3_NS"><Rule><Filter></Filter><Status>Enabled</Status></Rule></LifecycleConfiguration>},
+  SelectObjectContent =>
+    qq{<SelectObjectContentRequest xmlns="$S3_NS"><Expression>Select * from S3Object</Expression><ExpressionType>SQL</ExpressionType><InputSerialization></InputSerialization><OutputSerialization></OutputSerialization></SelectObjectContentRequest>},
+);
 
-# content length: Length of the message (without the headers)
-# according to RFC 2616. This header is required for PUTs and
-# operations that load XML, such as logging and ACLs.
-foreach my $method (qw/PutBucketLifecycleConfiguration SelectObjectContent/) {
+# Exact-match assertions for the two operations with stable inner
+# content (one payload-member wrapping case + one whole-input
+# wrapping case). The other PUT operations vary on the order of
+# emitted body members across the IR walk so we assert structurally
+# below.
+foreach my $method (sort keys %xml_results) {
   my $request;
-  diag $method;
-  eval { $request = $s3->$method(%{ $md5_methods{$method} });
-  } or do {
-    diag qq[Error creating object: $@];
+  eval { $request = $s3->$method(%{ $call_args{$method} }); 1 } or do {
+    fail("S3 $method call dies: $@");
+    next;
   };
+  is($request->content(), $xml_results{$method}, "S3 $method XML body matches");
+}
 
- TODO: {
-    local $TODO = 'Remove after fixing XML generation';
-    ## The HTTP headers should contain a Content-MD5 header
-    is($request->content(), $xml_results{$method}, "S3 $method XML is ok")
-        if $xml_results{$method};
+# Structural assertions for every PUT operation in the table: the
+# body is wrapped in `<Element xmlns="$S3_NS">...</Element>` where
+# Element is the operation's payload-member name (or the input
+# shape's name, for SelectObjectContent). This exercises the
+# Smithy-loader / materialiser / wire-layer pipeline end to end on
+# operations whose AOT classes used to carry a hand-rolled
+# `_top_level_element` / `_top_level_namespace` (only
+# SelectObjectContent did) without relying on the inner field-order
+# stability that the exact-match cases above pin.
+my %expected_wrapper = (
+  PutBucketLifecycleConfiguration => 'LifecycleConfiguration',
+  PutBucketCors                   => 'CORSConfiguration',
+  PutBucketTagging                => 'Tagging',
+  PutBucketWebsite                => 'WebsiteConfiguration',
+  PutBucketReplication            => 'ReplicationConfiguration',
+  PutBucketAcl                    => 'AccessControlPolicy',
+  SelectObjectContent             => 'SelectObjectContentRequest',
+);
+
+foreach my $method (sort keys %expected_wrapper) {
+  my $element = $expected_wrapper{$method};
+  my $request;
+  eval { $request = $s3->$method(%{ $call_args{$method} }); 1 } or do {
+    fail("S3 $method call dies: $@");
+    next;
   };
+  my $body = $request->content() // '';
+  like(
+    $body,
+    qr{\A<\Q$element\E xmlns="\Q$S3_NS\E">.*</\Q$element\E>\z}s,
+    "S3 $method body wrapped in <$element xmlns=...> ... </$element>",
+  );
 }
 
 done_testing;

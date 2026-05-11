@@ -119,6 +119,18 @@ subtest 'member traits map to IR locations' => sub {
     my $thing = $svc->shape('Thing');
     is($thing->members->{ThingName}->locationName, 'name',
         'smithy.api#jsonName carried as locationName (NameInRequest equivalent)');
+
+    # Member-side smithy.api#xmlFlattened. The IR records it on the
+    # member itself (in addition to whatever the target shape says);
+    # the materialiser folds either source into a single per-attribute
+    # flag in the SerDes side-table.
+    my $list_resp = $svc->shape('ListThingsResponse');
+    ok($list_resp->members->{Things}->flattened,
+       'member-level smithy.api#xmlFlattened lifted to IR Member->flattened');
+    is($list_resp->members->{Things}->locationName, 'TinyThing',
+       'list member-level smithy.api#xmlName lifted to IR Member->locationName');
+    ok(!$list_resp->members->{Count}->flattened,
+       'non-list member defaults to flattened=0');
 };
 
 # IR parity vs the Botocore loader on the same service.
@@ -162,6 +174,12 @@ subtest 'IR parity with Botocore loader on the same service' => sub {
     is($svc->shape('Thing')->members->{ThingName}->locationName,
        $boto->shape('Thing')->members->{ThingName}->locationName,
        'ThingName locationName parity (name)');
+
+    # Member-side xmlFlattened parity (Smithy traits[].xmlFlattened
+    # vs botocore members[].flattened on the same Things member).
+    is($svc->shape('ListThingsResponse')->members->{Things}->flattened,
+       $boto->shape('ListThingsResponse')->members->{Things}->flattened,
+       'Member-level flattened parity');
 };
 
 done_testing;
