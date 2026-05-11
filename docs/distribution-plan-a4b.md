@@ -69,7 +69,7 @@ Three dist categories ship under A4-B, plus an optional fourth.
 - Any `Paws::<Service>` or `Paws::<Service>::*` classes. Those live
   in their per-service sub-dists.
 - Per the **Q9 decision** in §7, the materialiser, loaders
-  (`Paws::Model::Loader::Resolver`, `::Smithy`, `::Botocore`,
+  (`Paws::Model::Loader::Resolver`, `::Smithy`,
   `Paws::Model::Loader`), and the `IR::Service`/`Operation`/`Shape`
   classes that the loaders construct are **NOT shipped in any
   user-facing dist**. They live on the master branch as build-time
@@ -159,7 +159,7 @@ that behaviour must run the build pipeline locally.
 The materialiser (`lib/Paws/Model/Materializer.pm`,
 `lib/Paws/Model/Materializer/Moo.pm`,
 `lib/Paws/Model/Materializer/Auto.pm`), the loaders
-(`lib/Paws/Model/Loader/Resolver.pm`, `::Smithy.pm`, `::Botocore.pm`,
+(`lib/Paws/Model/Loader/Resolver.pm`, `::Smithy.pm`,
 `lib/Paws/Model/Loader.pm`), and the IR constructor classes live on
 the master branch at `lib/Paws/Model/{Materializer,Loader,IR}*` for
 the build pipeline's use, but are excluded from every user-facing
