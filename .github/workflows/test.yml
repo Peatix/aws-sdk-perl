@@ -47,6 +47,8 @@ jobs:
         # / renaming / re-balancing shards is a script-side change;
         # this YAML only knows the names.
         shard:
+          - load-a
+          - load-b
           - network
           - mocked
           - subdirs
