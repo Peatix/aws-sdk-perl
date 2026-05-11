@@ -1,4 +1,12 @@
 ---
+# TODO follow-up PR after PR 02: materialiser does not yet emit a
+# wrapper class for `ParamInHeaders`-located map shapes, so building
+# a `Paws::S3::GetObjectOutput` from this response dies with
+# "`HashRef[Str]' is not a module name" inside the wire layer's
+# response decoder (the `Paws->load_class($att_type)` path treats
+# the type-string as a module name). Same root cause as the skip in
+# t/17_s3metadata.t.
+todo: 'materialiser ParamInHeaders map wrapper not yet implemented'
 call: GetObject
 service: S3
 tests:

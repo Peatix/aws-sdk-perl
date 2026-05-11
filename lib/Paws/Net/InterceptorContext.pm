@@ -7,13 +7,12 @@ package Paws::Net::InterceptorContext;
   );
 
   has call_object => (
-    is       => 'ro',
+    is       => 'rw',
     required => 1,
   );
 
   has response => (
     is  => 'rw',
-
   );
 
   has result => (
@@ -38,6 +37,8 @@ package Paws::Net::InterceptorContext;
     default => 0,
   );
 
+  # Arbitrary per-call storage for interceptors to share state across
+  # hook invocations without polluting the context namespace.
   has stash => (
     is      => 'rw',
     isa     => 'HashRef',

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
+use Paws::Test::MaterialiseServices;
 
 use English qw(-no-match-vars);
 use Carp;
@@ -35,8 +36,11 @@ foreach my $char (@to_encode) {
     diag qq[Error creating object: $@];
   };
 
-## The URI should contain a once-encoded character:
-  is($response->url, 'https://s3-us-west-2.amazonaws.com/test-uri-paws/test' . uri_escape($char), "S3 uri encoded correctly");
+## The URI should contain a once-encoded character. Modern dot-
+## delimited host and the S3 Smithy `x-id` query parameter come
+## along for the ride; the test signal is that the *key* carries
+## the URL-escaped character exactly once.
+  is($response->url, 'https://s3.us-west-2.amazonaws.com/test-uri-paws/test' . uri_escape($char) . '?x-id=PutObject', "S3 uri encoded correctly");
 }
 
 done_testing;

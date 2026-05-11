@@ -4,6 +4,14 @@ package Paws::Net::RetryCallerRole;
   use Paws::Net::InterceptorContext;
   use Paws::Net::InterceptorChain;
   use Paws::Net::Interceptor::Retry;
+  use Paws::API::Retry::TokenBucket;
+
+  sub _endpoint_key {
+    my ($self, $service) = @_;
+    my $region  = $service->region // 'global';
+    my $svc     = $service->service;
+    return "$region/$svc";
+  }
 
   has interceptors => (
     is      => 'rw',
@@ -50,12 +58,25 @@ package Paws::Net::RetryCallerRole;
       return $context->result;
     }
 
-    do {
+    my $token_bucket;
+    if (($context->stash->{retry_mode} // 'legacy') eq 'adaptive') {
+      $token_bucket = Paws::API::Retry::TokenBucket->for_endpoint(
+        $self->_endpoint_key($service)
+      );
+    }
+
+    RETRY: while (1) {
       $context->should_retry(0);
       $context->retry_delay(0);
 
+      if ($token_bucket) {
+        unless ($token_bucket->acquire(1)) {
+          last RETRY;
+        }
+      }
+
       if (!$chain->run_hook('before_attempt', $context)) {
-        last;
+        last RETRY;
       }
 
       my $response = $self->send_request($service, $context->call_object);
@@ -63,14 +84,29 @@ package Paws::Net::RetryCallerRole;
       $context->response($response);
       $context->result($result);
 
+      if (not $context->result_is_exception and $token_bucket) {
+        $token_bucket->release;
+      }
+
       if ($context->result_is_exception) {
         $chain->run_hook('on_error', $context);
       }
 
       $chain->run_hook('after_attempt', $context);
 
-      sleep $context->retry_delay if $context->should_retry;
-    } while ($context->should_retry);
+      last RETRY unless $context->should_retry;
+
+      if ($token_bucket) {
+        my $tracker = $context->stash->{retry_tracker};
+        if ($tracker) {
+          my $error_type = $tracker->classify_error;
+          my $cost = Paws::API::Retry::TokenBucket->token_cost_for_error($error_type);
+          $token_bucket->acquire($cost);
+        }
+      }
+
+      sleep $context->retry_delay;
+    }
 
     $chain->run_hook('after_request', $context);
 
