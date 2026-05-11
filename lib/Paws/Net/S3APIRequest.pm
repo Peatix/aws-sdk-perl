@@ -4,8 +4,6 @@ package Paws::Net::S3APIRequest;
 
   use URI;
   use HTTP::Date 'time2isoz';
-  use MIME::Base64 qw(encode_base64);
-  use Digest::MD5 'md5';
 
   has _uri_obj => (is => 'ro', isa => 'URI', lazy => 1, default => sub {
     return URI->new(shift->url);
@@ -41,40 +39,14 @@ package Paws::Net::S3APIRequest;
     }
   );
 
-  has 'content_type' => (
-    is       => 'ro',
-    isa      => 'Str',
-    lazy     => 1,
-    default  => sub {
-      my $s = shift;
-      return '' if $s->method eq 'GET';
-      return '' unless $s->content;
-      return 'text/plain';
-    }
-  );
-
-  has 'content_md5' => (
-    is       => 'ro',
-    isa      => 'Str',
-    lazy     => 1,
-    default  => sub {
-      my $s = shift;
-      return '' unless $s->content;
-      return encode_base64( md5( ${ $s->content } ), '' );
-    }
-  );
-
+  # content_length is read by Paws::Net::RestXmlCaller when an S3
+  # operation declares _stream_param (e.g. PutObject->Body). The
+  # parent Paws::Net::APIRequest does not expose content_length, so
+  # the streaming path relies on this accessor.
   has 'content_length' => (
     is       => 'ro',
     isa      => 'Int|Undef',
     lazy     => 1,
     default  => sub { length( shift->content || q[] ) }
   );
-
-  sub _trim {
-    my ( $value ) = @_;
-    $value =~ s/^\s+//;
-    $value =~ s/\s+$//;
-    return $value;
-  }
 1;
