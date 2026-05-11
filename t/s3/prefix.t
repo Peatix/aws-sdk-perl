@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
+use Paws::Test::MaterialiseServices;
 
 use English qw(-no-match-vars);
 use Carp;
@@ -31,8 +32,11 @@ my %prefix_methods = (
  );
 
 my %prefix_results = (
-  ListObjectVersions => 'https://s3-us-west-2.amazonaws.com/shadowcatjesstest?prefix=TestPrefix',
-  ListObjects => 'https://s3-us-west-2.amazonaws.com/shadowcatjesstest?prefix=TestPrefix',
+  # Modern dot-delimited regional host (s3.<region>.amazonaws.com);
+  # neither ListObjects nor ListObjectVersions carry an `x-id`
+  # routing query parameter in the Smithy IR.
+  ListObjectVersions => 'https://s3.us-west-2.amazonaws.com/shadowcatjesstest?prefix=TestPrefix',
+  ListObjects        => 'https://s3.us-west-2.amazonaws.com/shadowcatjesstest?prefix=TestPrefix',
  );
 
 foreach my $method (qw/ListObjectVersions ListObjects/) {
@@ -42,11 +46,8 @@ foreach my $method (qw/ListObjectVersions ListObjects/) {
     warn qq[Error creating object: $@];
   };
 
- TODO: {
-    local $TODO = 'Remove after fixing/verifying prefix';
-    ## The URI Query params should contain a Prefix param
-    is($response->url, $prefix_results{$method}, "S3 $method URI contains Prefix");
-  };
+  ## The URI Query params should contain a Prefix param
+  is($response->url, $prefix_results{$method}, "S3 $method URI contains Prefix");
 }
 
 done_testing;
