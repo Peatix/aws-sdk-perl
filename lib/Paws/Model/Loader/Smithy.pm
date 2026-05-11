@@ -452,6 +452,13 @@ sub _build_member {
         location      => $location,
         locationName  => $location_name,
         streaming     => exists $traits->{'smithy.api#streaming'} ? 1 : 0,
+        # Member-side xmlFlattened. Smithy 2.0 allows the trait on
+        # either the list/map target shape (where _build_shape picks
+        # it up as Shape->flattened) or on the member that references
+        # one. S3 uses the member-side form on, e.g., LifecycleRules /
+        # CORSRules / DeleteObjects.Errors.
+        flattened     => exists $traits->{'smithy.api#xmlFlattened'} ? 1 : 0,
+        xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
         documentation => $traits->{'smithy.api#documentation'},
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
     );

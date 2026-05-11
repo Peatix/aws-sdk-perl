@@ -203,8 +203,9 @@ sub materialize_operation {
     my @attr_lines;
     my @serdes_records;
 
+    my $input_shape;
     if (my $input_name = $op->input_shape) {
-        my $input_shape = $service_ir->shape($input_name)
+        $input_shape = $service_ir->shape($input_name)
             // croak "input shape $input_name missing for op $op_name";
         ($self->_install_structure_members($input_shape, $service_ir,
                                            \@attr_lines, \@serdes_records));
@@ -230,6 +231,83 @@ sub materialize_operation {
             ? "sub _result_key  { '${op_name}Result' }"
             : "sub _result_key  { undef }";
 
+    # REST-XML body wrapping. Two cases, both rendered as class
+    # methods that `Paws::Net::RestXmlCaller::_to_xml_body` consults.
+    #
+    #   (a) The input shape has a `payload` member targeting a
+    #       structure. The wire body is *only* that member's value,
+    #       wrapped in <PayloadElement xmlns="...">...</PayloadElement>.
+    #       Element name comes from the payload member's locationName
+    #       (falling back to the member name); namespace from the
+    #       payload-target shape's xml_namespace, falling back to the
+    #       service xml_namespace. Streaming payloads (httpPayload on
+    #       a blob/string with smithy.api#streaming) are excluded
+    #       here — they're handled by _stream_param.
+    #
+    #   (b) The input shape has no payload member but the service
+    #       carries a default xml_namespace. The wire body is every
+    #       body member iterated, wrapped in
+    #       <InputShape xmlns="...">...</InputShape>. SelectObjectContent
+    #       is the canonical example: input shape
+    #       SelectObjectContentRequest gets wrapped with the S3
+    #       service's xmlns.
+    #
+    # Anything else (input has no payload, service has no xml_namespace)
+    # gets no wrapper — the existing iterate-each-attribute path in
+    # the wire layer handles it as before.
+    my @xml_class_methods;
+    if ($service_ir->protocol eq 'rest-xml' && $input_shape) {
+        my $payload_name = $input_shape->payload;
+        my $payload_target;
+        my $payload_streaming = 0;
+        if (defined $payload_name) {
+            my $member = $input_shape->members->{$payload_name};
+            $payload_target   = $member ? $service_ir->shape($member->shape) : undef;
+            $payload_streaming = $member && $member->streaming ? 1 : 0;
+        }
+
+        if (   defined $payload_name
+            && $payload_target
+            && $payload_target->is_structure
+            && !$payload_streaming
+        ) {
+            my $member  = $input_shape->members->{$payload_name};
+            my $element = $member->locationName // $payload_name;
+            my $ns      = $payload_target->xml_namespace
+                       // $service_ir->xml_namespace;
+            if (defined $ns) {
+                push @xml_class_methods,
+                    "sub _payload_member    { '" . _esc($payload_name) . "' }",
+                    "sub _payload_element   { '" . _esc($element) . "' }",
+                    "sub _payload_namespace { '" . _esc($ns) . "' }";
+            }
+        }
+        elsif (!defined $payload_name) {
+            my $ns      = $input_shape->xml_namespace
+                       // $service_ir->xml_namespace;
+            my $element = $input_shape->xml_name
+                       // $input_shape->name;
+            # Only emit when there's something for the wire layer to
+            # do. A wrapper around zero body members produces empty
+            # `<ShapeName xmlns="ns"></ShapeName>` envelopes that
+            # AWS doesn't expect on no-body requests; gate on
+            # whether the input shape has at least one body member
+            # by checking that there's something non-located.
+            my $has_body_member = 0;
+            for my $mname (keys %{ $input_shape->members }) {
+                my $loc = $input_shape->members->{$mname}->location;
+                next if defined $loc && $loc ne '';
+                $has_body_member = 1;
+                last;
+            }
+            if (defined $ns && $has_body_member) {
+                push @xml_class_methods,
+                    "sub _top_level_element   { '" . _esc($element) . "' }",
+                    "sub _top_level_namespace { '" . _esc($ns) . "' }";
+            }
+        }
+    }
+
     my $src = qq{
         package $op_pkg;
         use Moo;
@@ -242,6 +320,8 @@ sub materialize_operation {
         sub _api_uri     { '$api_uri' }
         $returns_method
         $result_key_method
+
+@{[ join("\n", @xml_class_methods) ]}
 
         1;
     };
@@ -345,7 +425,15 @@ sub _install_structure_members {
         my $type_expr   = $self->_type_expr($service_ir, $m->shape);
         my $type_string = $self->_type_string($service_ir, $m->shape);
 
-        # Derive trait info for the SerDes side-table.
+        # Derive trait info for the SerDes side-table. The
+        # `flattened` flag is true if EITHER the target list shape
+        # carries `xmlFlattened` (Shape->flattened) or the member
+        # itself does (Member->flattened); the wire layer treats
+        # both as equivalent. S3 hits both forms across its model.
+        my $target_shape   = $service_ir->shape($m->shape);
+        my $shape_flatten  = $target_shape && $target_shape->is_list && $target_shape->flattened ? 1 : 0;
+        my $member_flatten = $m->flattened ? 1 : 0;
+
         my %record = (
             name          => $mname,
             type          => $type_string,
@@ -355,6 +443,7 @@ sub _install_structure_members {
             traits        => {},
             is_list       => ($type_string =~ /^ArrayRef\[/  ? 1 : 0),
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
+            flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {

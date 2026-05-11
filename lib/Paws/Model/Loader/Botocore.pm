@@ -215,6 +215,12 @@ sub _build_member {
         location      => $member->{location},
         locationName  => $member->{locationName},
         streaming     => $member->{streaming} ? 1 : 0,
+        # Botocore puts `flattened: true` on the member that points at
+        # a list shape (parity with the Smithy member-side xmlFlattened).
+        flattened     => $member->{flattened} ? 1 : 0,
+        xml_namespace => (ref($member->{xmlNamespace}) eq 'HASH'
+                            ? $member->{xmlNamespace}{uri}
+                            : undef),
         documentation => $member->{documentation},
         deprecated    => $member->{deprecated} ? 1 : 0,
     );
