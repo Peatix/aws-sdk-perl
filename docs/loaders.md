@@ -2,15 +2,15 @@
 
 A loader takes a source-of-truth file describing an AWS service and
 returns a `Paws::Model::IR::Service`. The downstream consumers
-(`Paws::API::Builder` once refactored, `Paws::Model::Materializer`,
-`Paws::Model::Materializer::Moo`) work against the IR and don't care which
-loader produced it.
+(`Paws::Model::Materializer::Moo` and `Paws::Model::Materializer`)
+work against the IR and don't care which loader produced it.
 
-## Loader
+## Loaders
 
-| Loader                        | Source format        | Status    |
-|-------------------------------|----------------------|-----------|
-| `Paws::Model::Loader::Smithy`| Smithy 2.0 AST JSON | from PR14 |
+| Loader                          | Source format                          | Role                |
+|---------------------------------|----------------------------------------|---------------------|
+| `Paws::Model::Loader::Smithy`  | Smithy 2.0 AST JSON                    | Default (sole source for the build pipeline) |
+| `Paws::Model::Loader::Botocore`| botocore `service-2.json` (+ siblings) | Escape hatch for deprecated services |
 
 The loader implements the `Paws::Model::Loader` role:
 
@@ -20,11 +20,13 @@ The loader implements the `Paws::Model::Loader` role:
 
 ## Where source files live
 
-Smithy IR is vendored under
-`share/smithy/<service>/<service>.smithy.json` from
-`awslabs/aws-sdk-rust:aws-models/` at the SHA pinned in
-`share/smithy/.upstream-sha`. Tracked in git; `make dist` ships
-it as-is.
+- Smithy (the build-time source of truth): vendored under
+  `share/smithy/<service>/<service>.smithy.json` from
+  `awslabs/aws-sdk-rust:aws-models/` at the SHA pinned in
+  `share/smithy/.upstream-sha`. Tracked in git.
+- Botocore (only available for deprecated services that have no Smithy
+  model): requires a local botocore checkout. Per-service paths look
+  like `botocore/botocore/data/<service>/<date>/service-2.json`.
 
 ## Loader resolution
 
@@ -72,35 +74,35 @@ generic "no source file found".
 
 ## IR coverage
 
-The IR has the union of fields needed by the existing TT generator
-and the materialisers. Key mappings from Smithy source:
+The IR has the union of fields needed by both materialisers. Each
+loader populates the subset that its source format expresses:
 
-| Field                          | Smithy source                         |
-|--------------------------------|---------------------------------------|
-| `Service.endpoint_prefix`      | `@aws.api#service.endpointPrefix`     |
-| `Service.protocol`             | `@aws.protocols#…` trait              |
-| `Service.json_version`         | derived from `awsJson1_0`/`awsJson1_1`|
-| `Operation.http_method`        | `@smithy.api#http.method`             |
-| `Operation.http_uri`           | `@smithy.api#http.uri`                |
-| `Operation.http_status_code`   | `@smithy.api#http.code`               |
-| `Operation.deprecated`         | `@smithy.api#deprecated`              |
-| `Operation.error_shapes`       | `operation.errors[].target`           |
-| `Member.location` (header)     | `@smithy.api#httpHeader`              |
-| `Member.location` (query)      | `@smithy.api#httpQuery`               |
-| `Member.location` (uri)        | `@smithy.api#httpLabel`               |
-| `Member.locationName` (rename) | `@smithy.api#jsonName`/`@smithy.api#xmlName` |
-| `Member.streaming`             | `@smithy.api#streaming`               |
-| `Shape.required_members`       | per-member `@smithy.api#required`     |
-| `Shape.payload`                | per-member `@smithy.api#httpPayload`  |
+| Field                          | Botocore                       | Smithy                                |
+|--------------------------------|--------------------------------|---------------------------------------|
+| `Service.endpoint_prefix`      | `metadata.endpointPrefix`      | `@aws.api#service.endpointPrefix`     |
+| `Service.protocol`             | `metadata.protocol`            | `@aws.protocols#…` trait              |
+| `Service.json_version`         | `metadata.jsonVersion`         | derived from `awsJson1_0`/`awsJson1_1`|
+| `Operation.http_method`        | `operation.http.method`        | `@smithy.api#http.method`             |
+| `Operation.http_uri`           | `operation.http.requestUri`    | `@smithy.api#http.uri`               |
+| `Operation.http_status_code`   | `operation.http.responseCode`  | `@smithy.api#http.code`               |
+| `Operation.deprecated`         | `operation.deprecated`         | `@smithy.api#deprecated`              |
+| `Operation.error_shapes`       | `operation.errors[].shape`     | `operation.errors[].target`           |
+| `Member.location` (header)     | `member.location: 'header'`    | `@smithy.api#httpHeader`              |
+| `Member.location` (query)      | `member.location: 'querystring'`| `@smithy.api#httpQuery`              |
+| `Member.location` (uri)        | `member.location: 'uri'`       | `@smithy.api#httpLabel`               |
+| `Member.locationName` (rename) | `member.locationName`          | `@smithy.api#jsonName`/`@smithy.api#xmlName` |
+| `Member.streaming`             | `member.streaming`             | `@smithy.api#streaming`               |
+| `Shape.required_members`       | `shape.required[]`             | per-member `@smithy.api#required`     |
+| `Shape.payload`                | `shape.payload`                | per-member `@smithy.api#httpPayload`  |
 
 Smithy-only fields not yet absorbed into the IR (event streams, mixins,
-resource shapes, document type) — folded in additively as the wire
+resource shapes, document type) are folded in incrementally as the wire
 layer grows support.
 
 ## Adding another loader
 
-The plan in `docs/architecture.md` is loader-pluggable by design. To
-add another loader (OpenAPI? Hand-written?) it's:
+The architecture is loader-pluggable by design. To add a third loader
+(OpenAPI? Hand-written?):
 
 1. Implement `name()` and `load()` from `Paws::Model::Loader`.
 2. Return a fully-populated `Paws::Model::IR::Service`.
@@ -111,5 +113,4 @@ See `t/model/03_smithy_loader.t` as a template.
 ## See also
 
 - `docs/materialisation.md` — how the IR these loaders return is
-  consumed by the AOT generator and the runtime materialiser, and
-  how to drive the materialiser directly when debugging.
+  consumed by the build pipeline to produce per-service sub-dists.
