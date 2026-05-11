@@ -3,36 +3,38 @@
 # This file has been modified from the original upstream distribution
 # by Peatix, Inc. See the git log for this file for details of changes.
 
-use lib qw(t/lib);
-use Paws::Test::SkipNoServiceClasses;
-
-use Test::More;
-use Paws;
 use strict;
 use warnings;
 use v5.10;
 
-use Class::Unload;
+use lib qw(t/lib);
+use Paws::Test::MaterialiseServices;
 
-my $paws = Paws->new;
+use Test::More;
+use Paws;
+use Paws::Credential::Explicit;
+use Paws::Model::Loader::Resolver;
 
-my @services = @ARGV > 0 ? @ARGV : sort $paws->available_services;
+my $resolver = Paws::Model::Loader::Resolver->new;
+my @services = @ARGV > 0
+    ? @ARGV
+    : $resolver->all_known_services;
 
-foreach my $service (@services){
-  Paws->preload_service($service);
-  pass("Loaded service $service");
-  unload($paws->_class_prefix . $service);
-}
+my $creds = Paws::Credential::Explicit->new(
+    access_key => 'AKIAIOSFODNN7EXAMPLE',
+    secret_key => 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+);
 
-sub unload {
-  my $class_prefix = shift;
-  $class_prefix =~ s/\:\:/\//g;
-  foreach my $class (grep { $_ =~ m/^$class_prefix/ } keys %INC) {
-    $class =~ s/\//::/g;
-    $class =~ s/\.pm$//;
-    Class::MOP::remove_metaclass_by_name($class);
-    Class::Unload->unload($class);
-  }
+for my $service (sort @services) {
+    my $obj = eval {
+        Paws->service($service, region => 'us-east-1', credentials => $creds);
+    };
+    if ($obj) {
+        pass("materialise and construct $service");
+    } else {
+        fail("materialise and construct $service");
+        diag($@);
+    }
 }
 
 done_testing;

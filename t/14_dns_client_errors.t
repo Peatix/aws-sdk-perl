@@ -4,7 +4,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 use lib qw(t/lib);
-use Paws::Test::SkipNoServiceClasses;
+use Paws::Test::MaterialiseServices;
 
 use Paws;
 use Test::Exception;

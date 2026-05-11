@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
-use if (!-e 'META.json'), lib => './auto-lib';
+use Paws::Test::MaterialiseServices;
 
 use English qw(-no-match-vars);
 use Data::Dumper;
