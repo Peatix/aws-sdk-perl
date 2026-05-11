@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 use lib qw(t/lib);
-use Paws::Test::SkipNoServiceClasses;
+use Paws::Test::MaterialiseServices;
 
 use Paws;
 use Test::Exception;
