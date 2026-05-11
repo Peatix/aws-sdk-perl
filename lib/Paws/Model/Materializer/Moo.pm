@@ -129,6 +129,7 @@ sub _endpoint_rules_data {
             my $json = <$fh>;
             close $fh;
             eval { $data = JSON::MaybeXS::decode_json($json) };
+            warn "Paws::Model::Materializer::Moo: failed to decode $file: $@" if $@;
         }
     }
     $self->{_endpoint_rules_data} = $data;
@@ -137,13 +138,14 @@ sub _endpoint_rules_data {
 
 sub _find_endpoints_file {
     return 'etc/_endpoints.json' if -f 'etc/_endpoints.json';
+    my $shared;
     eval {
         require File::ShareDir;
         my $dir = File::ShareDir::dist_dir('Paws');
         my $f = File::Spec->catfile($dir, '_endpoints.json');
-        return $f if -f $f;
+        $shared = $f if -f $f;
     };
-    return undef;
+    return $shared;
 }
 
 sub _region_rules_source {
