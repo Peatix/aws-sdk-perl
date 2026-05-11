@@ -103,6 +103,8 @@ sub _build_service {
         // $api_service_trait->{arnNamespace}
         // lc(_local_part($svc_id));
     my $sdk_id            = $api_service_trait->{sdkId} // _local_part($svc_id);
+    substr($sdk_id, 0, 1) = uc(substr($sdk_id, 0, 1));
+    $sdk_id =~ s/\s+//g;
 
     # Operations live in two places in a Smithy AST: directly on the
     # service shape's `operations[]`, and indirectly via

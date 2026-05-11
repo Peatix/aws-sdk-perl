@@ -23,6 +23,8 @@ requires 'Sereal::Decoder', '>= 5.000';
 # `cpanm Paws` install. Issue #80; see Paws::Model::Loader::Resolver.
 requires 'File::ShareDir';
 requires 'HTTP::Tiny', '>= 0.083';
+requires 'HTTP::Message';
+requires 'HTTP::Date';
 requires 'Throwable::Error';
 requires 'Data::Compare';
 requires 'URI';

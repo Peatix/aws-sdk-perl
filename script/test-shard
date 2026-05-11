@@ -21,12 +21,12 @@
 # Shard rationale (post-stack19, after auto-lib/ was dropped and the
 # materialiser became the only path):
 #
-#   load-a      ~85s   t/01_load.t restricted to first ~half of
-#   load-b      ~85s    `Paws->available_services` (~402 services
-#                       split alphabetically). t/01_load.t loads
-#                       every service serially through the
-#                       materialiser, so it dominates wall time;
-#                       two cells run in parallel to halve it.
+#   load-a      ~85s   t/01_load.t restricted to the first half of
+#   load-b      ~85s    Resolver->all_known_services (~306 services
+#                       split alphabetically). t/01_load.t materialises
+#                       each service from Smithy IR and constructs the
+#                       service object; two cells run in parallel to
+#                       halve wall time.
 #   network     ~70s   t/04, t/13, t/14
 #                       (DNS / connect timeout heavy; ~35s per file —
 #                       the timeout-bound files set the floor)
