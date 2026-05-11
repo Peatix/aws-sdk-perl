@@ -27,16 +27,29 @@
 #                       each service from Smithy IR and constructs the
 #                       service object; two cells run in parallel to
 #                       halve wall time.
-#   network     ~70s   t/04, t/13, t/14
-#                       (DNS / connect timeout heavy; ~35s per file —
-#                       the timeout-bound files set the floor)
-#   mocked      ~30s   t/16, t/19, t/20-23, t/29-32
+#   network     ~70s   t/04, t/04_credentials_modern, t/13, t/14
+#                       (credential providers + DNS / connect timeout
+#                       heavy; ~35s per file on the timeout-bound tests)
+#   mocked      ~40s   t/16, t/19, t/20-25, t/29-32, t/33_interceptors,
+#                       t/33_retry_modes
 #                       (synthetic protocol + mocked responses; the
-#                       per-protocol synthetic-wire tests)
-#   subdirs     ~15s   t/02, t/types, t/wire, t/model
+#                       per-protocol synthetic-wire tests, error
+#                       handling, interceptor and retry framework)
+#   subdirs     ~20s   t/02, t/27_paginator_iterator, t/32_v4a,
+#                       t/33_streaming, t/34_s3_transfer, t/model,
+#                       t/types, t/wire
+#   s3          ~20s   t/s3, t/route53, t/glacier
+#                       (real-service-shape tests for S3, Route53,
+#                       Glacier — presigning, URI encoding, XML
+#                       creation, content headers, multipart upload)
+#   build       ~30s   t/build
+#                       (build-modular-dist determinism, layout,
+#                       POD emission, docs-dist)
 #
-# Tests intentionally NOT in any shard (need follow-up materialiser
-# work to widen coverage; see docs/testing.md "Curated test scope"):
+# Tests intentionally NOT in any shard:
+#
+# -- Materialiser gaps (need follow-up work; see docs/testing.md
+#    "Curated test scope"):
 #
 #   t/03_aws_default_object.t         exercises Paws->service('IAM')
 #                                     with no region, which needs
@@ -59,7 +72,7 @@
 #                                     these surfaces shape patterns
 #                                     the materialiser doesn't yet
 #                                     handle correctly.
-#   t/11_client_exceptions*.t         multi-transport exception
+#   t/11_client_exceptions.t          multi-transport exception
 #                                     surface; depends on a wider
 #                                     service set than load-* covers.
 #   t/12_regions.t                    same root cause as t/03 — the
@@ -70,19 +83,18 @@
 #                                     below to land first.
 #   t/18_mocked.t                     ~4,007 sub-tests; same root
 #                                     cause as t/10.
-#   t/24_error_from_nonreturningmethod.t / t/25_error_on_malformed_response.t
-#                                     mocked-response error paths
-#                                     using JsonParamsService /
-#                                     friends; deferred until the
-#                                     `t/lib/Paws/*ParamsService.pm`
-#                                     test helpers are themselves
-#                                     materialised cleanly.
 #   t/26_paginators.t                 paginators + materialiser;
 #                                     same root cause as t/10.
 #   t/27_signing_name.t               same.
-#   t/28_retries_mojoasynccaller.t    Mojo async caller integration.
-#   t/glacier/, t/route53/, t/s3/     real-service-shape tests.
-#   t/99_pod_*.t                      author-only, never in CI test.
+#
+# -- AUTHOR_TESTING / CI-gated (skip automatically in CI):
+#
+#   t/15_timeouts.t                   `plan skip_all` when $ENV{CI}
+#                                     or !$ENV{AUTHOR_TESTING}.
+#   t/28_retries_mojoasynccaller.t    same gates as t/15; also needs
+#                                     optional MojoAsyncCaller dep.
+#   t/99_pod_presence.t               author-only POD coverage.
+#   t/99_pod_syntax.t                 author-only POD syntax.
 #
 # Wall-time of the workflow == max(shard) + per-job overhead. With
 # `load-a/b` and `network` all in the 85-95s range the slowest cell
@@ -108,6 +120,7 @@ shard_files() {
       ;;
     network)
       echo t/04_credentials.t \
+           t/04_credentials_modern.t \
            t/13_client_connect_errors.t \
            t/14_dns_client_errors.t
       ;;
@@ -118,16 +131,32 @@ shard_files() {
            t/21_restjson_syntetic_responses.t \
            t/22_query_syntetic_responses.t \
            t/23_queryflatten_syntetic_responses.t \
+           t/24_error_from_nonreturningmethod.t \
+           t/25_error_on_malformed_response.t \
            t/29_restxml_syntetic_responses.t \
            t/30_ec2_syntetic_responses.t \
            t/31_glacier_syntetic_responses.t \
-           t/32_debug_caller.t
+           t/32_debug_caller.t \
+           t/33_interceptors.t \
+           t/33_retry_modes.t
       ;;
     subdirs)
       echo t/02_aws_object.t \
+           t/27_paginator_iterator.t \
+           t/32_v4a_signature.t \
+           t/33_streaming.t \
+           t/34_s3_transfer.t \
            t/model \
            t/types \
            t/wire
+      ;;
+    s3)
+      echo t/s3 \
+           t/route53 \
+           t/glacier
+      ;;
+    build)
+      echo t/build
       ;;
     *)
       return 1
@@ -136,7 +165,7 @@ shard_files() {
 }
 
 all_shards() {
-  echo load-a load-b network mocked subdirs
+  echo load-a load-b network mocked subdirs s3 build
 }
 
 usage() {

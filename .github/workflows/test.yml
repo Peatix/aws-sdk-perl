@@ -55,6 +55,8 @@ jobs:
           - network
           - mocked
           - subdirs
+          - s3
+          - build
 
     name: test (${{ matrix.shard }})
 
