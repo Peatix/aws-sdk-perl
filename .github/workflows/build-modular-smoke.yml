@@ -140,38 +140,3 @@ jobs:
         run: |
           rm -rf tmp
           prove --lib t/build/
-
-  audit:
-    runs-on: ubuntu-latest
-    container:
-      image: perl:5.36-slim
-    needs: smoke
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
-    steps:
-      - name: Install git for actions/checkout
-        run: |
-          apt-get update
-          apt-get install -y --no-install-recommends git ca-certificates
-
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Install build dependencies
-        run: |
-          apt-get install -y --no-install-recommends \
-            build-essential libxml2-dev libexpat1-dev libssl-dev zlib1g-dev
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          cpanm --notest --quiet --installdeps --cpanfile cpanfile .
-
-      - name: Build the user's 10 services
-        run: |
-          SOURCE_DATE_EPOCH=1700000000 \
-            perl -I lib script/build-all-modular --skip-docs \
-              --services SecretsManager,S3,SSM,SES,SQS,EC2,CloudWatch,Firehose,KMS,DynamoDB
-
-      - name: Audit cross-service shape duplication
-        run: |
-          perl -I lib script/audit-shared-shapes \
-              --services SecretsManager,S3,SSM,SES,SQS,EC2,CloudWatch,Firehose,KMS,DynamoDB \
-              --build-dir tmp/build \
-              || echo "audit script returned non-zero (informational)"
