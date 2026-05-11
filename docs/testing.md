@@ -18,9 +18,8 @@ short and points at the code rather than duplicating it.
 | `t/26_paginators.t`                   | Paginator behaviour (S3-shaped fixtures).                               |
 | `t/27_signing_name.t`                 | Signer name resolution.                                                 |
 | `t/32_debug_caller.t`                 | `Paws::Net::DebugCaller` request/response YAML capture (see `docs/debug-capture.md`). |
-| `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape. `t/s3/` runs under the `s3` shard via the in-test materialiser shim `Paws::Test::MaterialiseServices`; the other two are deferred (see `script/test-shard` header). |
+| `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape.               |
 | `t/lib/`                              | Test-only helpers and synthetic services (see below).                   |
-| `t/lib/Paws/Test/MaterialiseServices.pm` | Test-only opt-in module that monkey-patches `Paws->load_class` to materialise a missing service from `share/smithy/` (mirrors the pre-Phase-3 runtime fallback, scoped to the test path). Used by every test that needs a real materialised service class. |
 | `t/types/`                            | Type-validation, coercion, and edge-case **contract tests**. Pin behaviour without depending on Moose-specific error messages. |
 | `t/99_pod_syntax.t`                   | POD validity (syntax only — does not assert presence).                  |
 | `t/99_pod_presence.t`                 | POD presence: every auto-generated class has `=head1 NAME`; operations also have `=head1 SYNOPSIS`. Author-only. |
@@ -245,9 +244,6 @@ or test file:
 
 ```
 # Generate just one service (auto-lib/Paws/<Service>.pm + nested classes)
-script/gen-service SQS              # by Paws class name
-script/gen-service sqs              # by botocore directory
-script/gen-service ec2 sqs s3       # multiple at once
 make gen-service SERVICE=sqs        # via Makefile
 
 # List how SERVICE arguments resolve, without running the generator:
@@ -263,9 +259,9 @@ make test-one TEST=02               # via Makefile
 PROVE_ARGS='--jobs 4' script/test-one 10
 ```
 
-`script/gen-service` does NOT regenerate `auto-lib/Paws.pm` (the master
-service index), because that needs the full botocore service set as
-input. Run `make gen-classes-no-doc-fetch` if you need a fresh `Paws.pm`.
+Single-service regen does NOT regenerate `auto-lib/Paws.pm` (the master
+service index). Run `make gen-classes-no-doc-fetch` if you need a fresh
+`Paws.pm`.
 
 `script/test-one` does NOT auto-generate classes. If a test fails with
 `Can't locate Paws/<Service>.pm`, run `script/gen-service <Service>`

@@ -12,7 +12,7 @@
     "uid":"tinyservice-2024-01-01",
     "xmlNamespace":{"uri":"http://tinyservice.example.com/doc/2024-01-01/"}
   },
-  "documentation":"<p>A tiny synthetic service for unit-testing the Botocore loader.</p>",
+  "documentation":"<p>A tiny synthetic service for unit-testing the loader.</p>",
   "operations":{
     "ListThings":{
       "name":"ListThings",

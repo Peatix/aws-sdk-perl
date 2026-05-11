@@ -2,7 +2,7 @@
 
 # Smoke test for Paws::Model::Materializer.
 #
-# Loads the synthetic tinyservice fixture via Paws::Model::Loader::Botocore
+# Loads the synthetic tinyservice fixture via Paws::Model::Loader::Smithy
 # and asks Paws::Model::Materializer to build the corresponding Moose classes
 # in memory. Verifies:
 #
@@ -24,11 +24,11 @@ use lib "$Bin/../lib";
 use lib "$Bin/../../builder-lib";
 use lib "$Bin/../../lib";
 
-use Paws::Model::Loader::Botocore;
+use Paws::Model::Loader::Smithy;
 use Paws::Model::Materializer;
 
-my $fixture = "$Bin/fixtures/tinyservice/2024-01-01/service-2.json";
-my $loader  = Paws::Model::Loader::Botocore->new;
+my $fixture = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
+my $loader  = Paws::Model::Loader::Smithy->new;
 my $svc_ir  = $loader->load($fixture);
 
 # Rename the IR's service so we don't collide with anything in

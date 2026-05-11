@@ -2,14 +2,11 @@ package Paws::Net::V4ASignature;
   # AWS Signature Version 4A (asymmetric, ECDSA-P256-SHA256). Used by
   # services that need a single signature valid across regions, e.g.
   # CloudFront KeyValueStore, S3 Multi-Region Access Points, EventBridge
-  # global endpoints, SES v2 global endpoints. As of this writing
-  # (botocore release-1.38.19) AWS exposes SigV4A primarily through
-  # endpoint-rule-set authSchemes rather than service-level
-  # signatureVersion metadata, so the AOT generator only composes this
-  # role when botocore declares signatureVersion=v4a directly. The role
-  # is added now so the next botocore bump that flips a service to
-  # signatureVersion=v4a generates a working class without further code
-  # changes.
+  # global endpoints, SES v2 global endpoints. AWS exposes SigV4A
+  # primarily through endpoint-rule-set authSchemes rather than
+  # service-level signatureVersion metadata, so the AOT generator only
+  # composes this role when the model declares signatureVersion=v4a
+  # directly.
   #
   # Spec references:
   #   https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv-create-signed-request.html

@@ -1,7 +1,7 @@
 # Deprecated AWS services dropped from Paws
 
 The smithy-only-vendor-into-git stack switched the canonical service
-description source from botocore JSON to Smithy IR vendored from
+description source to Smithy IR vendored from
 `awslabs/aws-sdk-rust:aws-models/`. Smithy upstream no longer ships
 a model for 14 services that AWS has end-of-lifed, so Paws can no
 longer ship a working class for any of them either.
@@ -15,7 +15,7 @@ call site.
 
 ## What was dropped
 
-| Paws class               | botocore name      | AWS lifecycle status                                                                       | Migration path                                                                                                |
+| Paws class               | service name       | AWS lifecycle status                                                                       | Migration path                                                                                                |
 |--------------------------|--------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | `Paws::AppTest`          | `apptest`          | AWS Mainframe Modernization Application Testing — discontinuation announced late 2024.    | None. Service is gone.                                                                                         |
 | `Paws::Evidently`        | `evidently`        | CloudWatch Evidently shutdown 2025-10-16.                                                  | None. AWS recommends rebuilding A/B-testing flows on top of CloudWatch + custom infra.                         |
@@ -63,8 +63,8 @@ of model files for services AWS no longer maintains.
 
 ## What you gained in exchange
 
-Switching to Smithy gained Paws 33 services that botocore does not
-have a model for, of which ~14 are real new GA / public AWS
+Switching to Smithy gained Paws 33 additional services, of which ~14
+are real new GA / public AWS
 services that previously had no Paws coverage:
 
 - Bedrock AgentCore (`Paws::BedrockAgentCore`,
@@ -91,24 +91,7 @@ Three options, in order of effort:
    down, your call site is dead code regardless of which SDK it
    went through.
 2. **Pin to an older Paws release.** Releases of Paws prior to the
-   smithy-only switchover bundled botocore JSON for these services
+   smithy-only switchover bundled service data for these services
    and continue to compile classes for them. Calls will still hit
    a `404 / NoSuchService` from AWS, but the code will at least
    load.
-3. **Construct the resolver explicitly against a botocore
-   checkout.** The Botocore loader
-   (`Paws::Model::Loader::Botocore`) is still part of the dist for
-   exactly this case; what's no longer included is the vendored
-   botocore tree. To use it:
-
-   ```perl
-   use Paws::Model::Loader::Resolver;
-   $ENV{PAWS_LOADER_ORDER} = 'Botocore,Smithy';
-   my $r = Paws::Model::Loader::Resolver->new(
-       botocore_search_paths => ['/path/to/botocore/botocore/data'],
-   );
-   ```
-
-   The `share/botocore/.upstream-sha` you're vendoring against is
-   on you — see `etc/botocore-pin.sha` for the SHA the AOT-only
-   workflows fetch.

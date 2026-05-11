@@ -22,11 +22,11 @@ Both produce classes that:
 ## How to use the Moo backend today
 
 ```
-use Paws::Model::Loader::Botocore;
+use Paws::Model::Loader::Smithy;
 use Paws::Model::Materializer::Moo;
 
-my $loader = Paws::Model::Loader::Botocore->new;
-my $ir     = $loader->load($path_to_service_2_json);
+my $loader = Paws::Model::Loader::Smithy->new;
+my $ir     = $loader->load($path_to_smithy_json);
 
 my $mat    = Paws::Model::Materializer::Moo->new(loader => $loader);
 my $pkg    = $mat->materialize_service($ir);
@@ -42,9 +42,9 @@ error message text.
 
 ## Type mapping
 
-Botocore primitive → Type::Tiny constructor:
+IR primitive → Type::Tiny constructor:
 
-| botocore type | Type::Tiny     | notes                                 |
+| IR type       | Type::Tiny     | notes                                 |
 |---------------|----------------|---------------------------------------|
 | `string`      | `Str`          |                                       |
 | `integer`     | `Int`          |                                       |
