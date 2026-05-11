@@ -297,6 +297,19 @@ sub _build_operation {
     );
     $args{http_status_code} = $http->{code} if defined $http->{code};
 
+    # aws.protocols#httpChecksum is the modern Smithy trait that
+    # tells us whether the request body needs an integrity header.
+    # S3's DeleteObjects / PutBucket*Configuration / RestoreObject /
+    # PutObjectTagging carry `requestChecksumRequired: true` plus a
+    # `requestAlgorithmMember` naming the input attribute that
+    # selects the algorithm (typically `ChecksumAlgorithm`).
+    if (my $checksum = $traits->{'aws.protocols#httpChecksum'}) {
+        $args{http_checksum_required}
+            = $checksum->{requestChecksumRequired} ? 1 : 0;
+        $args{http_checksum_algorithm_member}
+            = $checksum->{requestAlgorithmMember};
+    }
+
     # smithy.api#Unit is Smithy's placeholder for "operation has no
     # input/output payload". The IR represents that as undef so the
     # materialiser does not chase a non-existent `Unit` shape.

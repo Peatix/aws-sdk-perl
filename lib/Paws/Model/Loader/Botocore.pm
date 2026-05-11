@@ -152,6 +152,20 @@ sub _build_operation {
         $args{error_shapes} = [ map { $_->{shape} } @{ $op->{errors} } ];
     }
 
+    # Botocore exposes the integrity-header requirement two ways
+    # depending on the model vintage: the older `httpChecksumRequired`
+    # boolean and the newer `httpChecksum.requestChecksumRequired`
+    # block (which also carries the algorithm-member name). Read
+    # whichever is present, then fall back to the older form.
+    if (ref($op->{httpChecksum}) eq 'HASH') {
+        $args{http_checksum_required}
+            = $op->{httpChecksum}{requestChecksumRequired} ? 1 : 0;
+        $args{http_checksum_algorithm_member}
+            = $op->{httpChecksum}{requestAlgorithmMember};
+    } elsif ($op->{httpChecksumRequired}) {
+        $args{http_checksum_required} = 1;
+    }
+
     $args{paginator} = $paginator if $paginator;
 
     return Paws::Model::IR::Operation->new(%args);
