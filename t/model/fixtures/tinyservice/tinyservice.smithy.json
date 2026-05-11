@@ -15,7 +15,10 @@
           "endpointPrefix": "tinyservice"
         },
         "aws.protocols#awsJson1_1": {},
-        "smithy.api#documentation": "<p>A tiny synthetic service for unit-testing the Smithy loader.</p>"
+        "smithy.api#documentation": "<p>A tiny synthetic service for unit-testing the Smithy loader.</p>",
+        "smithy.api#xmlNamespace": {
+          "uri": "http://tinyservice.example.com/doc/2024-01-01/"
+        }
       }
     },
     "com.example.tiny#ListThings": {
@@ -63,6 +66,12 @@
         "ThingId":   {"target": "com.example.tiny#ThingId",   "traits": {"smithy.api#required": {}}},
         "ThingName": {"target": "com.example.tiny#ThingName", "traits": {"smithy.api#required": {}, "smithy.api#jsonName": "name"}},
         "Status":    {"target": "com.example.tiny#Status"}
+      },
+      "traits": {
+        "smithy.api#xmlNamespace": {
+          "uri": "http://tinyservice.example.com/doc/2024-01-01/Thing"
+        },
+        "smithy.api#xmlName": "TinyThing"
       }
     },
     "com.example.tiny#ThingList": {
