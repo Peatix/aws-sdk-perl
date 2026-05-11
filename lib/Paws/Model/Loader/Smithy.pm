@@ -349,6 +349,12 @@ sub _build_shape {
         # the fields. See Paws::Model::IR::Shape POD.
         xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
         xml_name      => $traits->{'smithy.api#xmlName'},
+        # `smithy.api#streaming` on a blob (S3's StreamingBlob) tells
+        # the materialiser that any member targeting this shape
+        # should map to `_stream_param` rather than being run through
+        # XML/JSON serialisation. The trait is on the *target* shape,
+        # not the member that references it.
+        streaming     => exists $traits->{'smithy.api#streaming'} ? 1 : 0,
     );
 
     # Smithy 2.0 `union` shapes have a `members` map structurally
