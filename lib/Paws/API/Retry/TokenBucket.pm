@@ -4,7 +4,7 @@ package Paws::API::Retry::TokenBucket;
 
   use constant DEFAULT_CAPACITY          => 500;
   use constant RETRY_COST                => 5;
-  use constant RETRY_COST_THROTTLE       => 10;
+  use constant RETRY_COST_TIMEOUT        => 10;
   use constant SUCCESS_INCREMENT         => 1;
 
   has capacity => (
@@ -49,7 +49,7 @@ package Paws::API::Retry::TokenBucket;
 
   sub token_cost_for_error {
     my ($class_or_self, $error_type) = @_;
-    return RETRY_COST_THROTTLE if defined $error_type && $error_type eq 'throttling';
+    return RETRY_COST_TIMEOUT if defined $error_type && $error_type eq 'transient';
     return RETRY_COST;
   }
 

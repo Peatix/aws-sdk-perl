@@ -41,7 +41,7 @@ package Paws::API::Retry;
     IDPCommunicationError
   );
 
-  my %TRANSIENT_HTTP_CODES = map { $_ => 1 } (500, 502, 503, 504);
+  my %TRANSIENT_HTTP_CODES = map { $_ => 1 } (408, 500, 502, 503, 504);
 
   my %THROTTLING_ERROR_CODES = map { $_ => 1 } qw(
     Throttling

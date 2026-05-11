@@ -164,7 +164,7 @@ subtest 'standard mode classifies transient errors' => sub {
     ok(!$retry->is_throttling_error, "standard: $code is not throttling");
   }
 
-  for my $status (500, 502, 503, 504) {
+  for my $status (408, 500, 502, 503, 504) {
     my $retry = Paws::API::Retry->new(
       mode => 'standard', max_tries => 3, retry_rules => [],
     );
@@ -274,13 +274,13 @@ subtest 'token bucket per-endpoint keying' => sub {
 subtest 'token cost for error type' => sub {
   is(
     Paws::API::Retry::TokenBucket->token_cost_for_error('throttling'),
-    10,
-    'throttling cost is 10',
+    5,
+    'throttling cost is 5',
   );
   is(
     Paws::API::Retry::TokenBucket->token_cost_for_error('transient'),
-    5,
-    'transient cost is 5',
+    10,
+    'transient (timeout) cost is 10',
   );
   is(
     Paws::API::Retry::TokenBucket->token_cost_for_error(undef),
@@ -298,8 +298,8 @@ subtest 'token bucket exhaustion stops retries' => sub {
   ok($bucket->acquire(5), 'first transient retry: acquire 5 succeeds');
   is($bucket->current_tokens, 3, '3 tokens remain');
 
-  ok(!$bucket->acquire(5), 'second transient retry: acquire 5 fails');
-  ok(!$bucket->acquire(10), 'throttle retry: acquire 10 also fails');
+  ok(!$bucket->acquire(5), 'second throttle retry: acquire 5 fails');
+  ok(!$bucket->acquire(10), 'transient timeout retry: acquire 10 also fails');
 };
 
 # ============================================================

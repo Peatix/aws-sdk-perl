@@ -52,6 +52,12 @@ package Paws::Net::RetryCallerRole;
     while (1) {
       $tracker->one_more_try;
 
+      if ($token_bucket) {
+        unless ($token_bucket->acquire(1)) {
+          last;
+        }
+      }
+
       my $response = $self->send_request($service, $call_object);
       my $result = $self->caller_to_response($service, $call_object, $response);
       $tracker->operation_result($result);
@@ -65,7 +71,7 @@ package Paws::Net::RetryCallerRole;
       if ($token_bucket) {
         my $error_type = $tracker->classify_error;
         my $cost = Paws::API::Retry::TokenBucket->token_cost_for_error($error_type);
-        last unless $token_bucket->acquire($cost);
+        $token_bucket->acquire($cost);
       }
 
       sleep $tracker->sleep_time;
