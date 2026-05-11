@@ -1,4 +1,20 @@
 ---
-todo: test not completed
+# The S3 GetBucketPolicy response body is a JSON document (not XML
+# at all). The Smithy IR marks the `Policy` member with the
+# `smithy.api#httpPayload` trait — the wire layer is supposed to
+# bind the raw body verbatim to that member.
+# `Paws::Net::RestXMLResponse::unserialize_response` currently runs
+# every non-empty body through XML::Simple, which dies on the JSON
+# document; the decoder swallows the exception and returns undef
+# for `Policy`.
+#
+# Tracked for a follow-up: when the output shape has a single
+# `httpPayload`-traited string member, skip the XML parse and bind
+# the raw body to that member directly.
+todo: 'wire layer does not yet honour httpPayload-as-string on output shapes'
 call: GetBucketPolicy
 service: S3
+tests:
+  - path: Policy
+    op: eq
+    expected: '{"Version":"2012-10-17","Statement":[{"Sid":"AddPerm","Effect":"Allow","Principal":"*","Action":"s3:GetObject","Resource":"arn:aws:s3:::bucket-name/*"}]}'

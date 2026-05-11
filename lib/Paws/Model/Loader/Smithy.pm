@@ -147,6 +147,13 @@ sub _build_service {
     # Service-level documentation comes from the @smithy.api#documentation trait.
     my $svc_doc = ($svc_traits->{'smithy.api#documentation'} // undef);
 
+    # Service-level default XML namespace, when set. Smithy expresses
+    # this as `smithy.api#xmlNamespace = { uri => "..." }` on the
+    # service shape; REST-XML services like S3 carry this trait and
+    # the materialiser uses it as the body wrapper xmlns for
+    # operations whose payload member doesn't have its own namespace.
+    my $svc_xmlns = ($svc_traits->{'smithy.api#xmlNamespace'} // {})->{uri};
+
     # Smithy 2.0 spec: the awsJson*/awsQuery target_prefix (used by
     # the X-Amz-Target header) is the *local name of the service shape*
     # when no explicit override is set. Botocore exposes this as
@@ -166,6 +173,7 @@ sub _build_service {
         signature_version => 'v4',
         uid               => sprintf('%s-%s', $endpoint_prefix, ($svc_shape->{version} // '0000-00-00')),
         documentation     => $svc_doc,
+        xml_namespace     => $svc_xmlns,
         operations        => \%operations,
         shapes            => \%ir_shapes,
     );
@@ -289,6 +297,19 @@ sub _build_operation {
     );
     $args{http_status_code} = $http->{code} if defined $http->{code};
 
+    # aws.protocols#httpChecksum is the modern Smithy trait that
+    # tells us whether the request body needs an integrity header.
+    # S3's DeleteObjects / PutBucket*Configuration / RestoreObject /
+    # PutObjectTagging carry `requestChecksumRequired: true` plus a
+    # `requestAlgorithmMember` naming the input attribute that
+    # selects the algorithm (typically `ChecksumAlgorithm`).
+    if (my $checksum = $traits->{'aws.protocols#httpChecksum'}) {
+        $args{http_checksum_required}
+            = $checksum->{requestChecksumRequired} ? 1 : 0;
+        $args{http_checksum_algorithm_member}
+            = $checksum->{requestAlgorithmMember};
+    }
+
     # smithy.api#Unit is Smithy's placeholder for "operation has no
     # input/output payload". The IR represents that as undef so the
     # materialiser does not chase a non-existent `Unit` shape.
@@ -320,6 +341,20 @@ sub _build_shape {
         name          => $name,
         type          => $type,
         documentation => $traits->{'smithy.api#documentation'},
+        # Per-shape `smithy.api#xmlNamespace` (rest-xml services
+        # use it on payload structures to scope the body XML) and
+        # `smithy.api#xmlName` (override the wire element name when
+        # it differs from the shape's local name). Both are lifted
+        # unconditionally; consumers that don't need them ignore
+        # the fields. See Paws::Model::IR::Shape POD.
+        xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
+        xml_name      => $traits->{'smithy.api#xmlName'},
+        # `smithy.api#streaming` on a blob (S3's StreamingBlob) tells
+        # the materialiser that any member targeting this shape
+        # should map to `_stream_param` rather than being run through
+        # XML/JSON serialisation. The trait is on the *target* shape,
+        # not the member that references it.
+        streaming     => exists $traits->{'smithy.api#streaming'} ? 1 : 0,
     );
 
     # Smithy 2.0 `union` shapes have a `members` map structurally
@@ -436,6 +471,13 @@ sub _build_member {
         location      => $location,
         locationName  => $location_name,
         streaming     => exists $traits->{'smithy.api#streaming'} ? 1 : 0,
+        # Member-side xmlFlattened. Smithy 2.0 allows the trait on
+        # either the list/map target shape (where _build_shape picks
+        # it up as Shape->flattened) or on the member that references
+        # one. S3 uses the member-side form on, e.g., LifecycleRules /
+        # CORSRules / DeleteObjects.Errors.
+        flattened     => exists $traits->{'smithy.api#xmlFlattened'} ? 1 : 0,
+        xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
         documentation => $traits->{'smithy.api#documentation'},
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
     );

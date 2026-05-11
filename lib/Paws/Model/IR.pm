@@ -38,6 +38,14 @@ package Paws::Model::IR::Service {
     has uid               => (is => 'ro', isa => 'Maybe[Str]');
     has documentation     => (is => 'ro', isa => 'Maybe[Str]');
 
+    # Service-level default XML namespace URI. Populated from
+    # `smithy.api#xmlNamespace.uri` on the service shape (Smithy IR)
+    # or from `metadata.xmlNamespace.uri` (botocore JSON) when
+    # present. Consumed by the materialiser to wrap body XML in
+    # `<Root xmlns="...">...</Root>` for REST-XML services like S3
+    # whose operations don't carry a per-payload namespace.
+    has xml_namespace     => (is => 'ro', isa => 'Maybe[Str]');
+
     has operations => (
         is      => 'ro',
         isa     => 'HashRef[Paws::Model::IR::Operation]',
@@ -78,6 +86,27 @@ package Paws::Model::IR::Operation {
     has deprecated        => (is => 'ro', isa => 'Bool', default => 0);
     has paginator         => (is => 'ro', isa => 'Maybe[HashRef]');
 
+    # Operation-level integrity-header requirement, sourced from
+    # `aws.protocols#httpChecksum.requestChecksumRequired` on a
+    # Smithy operation (or the legacy botocore `httpChecksumRequired`
+    # boolean / `httpChecksum.requestChecksumRequired` block). When
+    # true, the wire layer must inject either a `Content-MD5` header
+    # or one of the modern `x-amz-checksum-*` headers before
+    # sending. S3's DeleteObjects, PutBucketLifecycleConfiguration,
+    # PutBucketCors, PutBucketTagging, PutObjectTagging,
+    # PutBucketReplication, and RestoreObject are the canonical
+    # operations carrying this trait.
+    has http_checksum_required => (is => 'ro', isa => 'Bool', default => 0);
+
+    # Name of the input-member that names the algorithm the caller
+    # wants to use (e.g. 'ChecksumAlgorithm' on the S3 operations
+    # above). When the caller supplies a value, the wire layer
+    # honours it. When the caller leaves it unset and the operation
+    # has http_checksum_required, the wire layer falls back to
+    # auto-injecting Content-MD5.
+    has http_checksum_algorithm_member =>
+        (is => 'ro', isa => 'Maybe[Str]');
+
     __PACKAGE__->meta->make_immutable;
 }
 
@@ -112,8 +141,30 @@ package Paws::Model::IR::Shape {
     # list-only
     has flattened => (is => 'ro', isa => 'Bool', default => 0);
 
+    # Whether this is a streaming payload (smithy.api#streaming on the
+    # shape itself, e.g. S3's StreamingBlob). The materialiser emits
+    # `_stream_param` on operations whose payload member points at a
+    # streaming shape, telling the wire layer to bind the raw body
+    # to that member without XML/JSON serialisation.
+    has streaming => (is => 'ro', isa => 'Bool', default => 0);
+
     # primitive enum
     has enum_values => (is => 'ro', isa => 'ArrayRef[Str]', default => sub { [] });
+
+    # Per-shape XML namespace URI, when set. Populated from the
+    # `smithy.api#xmlNamespace.uri` trait on the shape itself (or
+    # from the corresponding botocore `xmlNamespace` field). The
+    # materialiser uses this on payload-target structures to wrap
+    # the body XML in `<Element xmlns="...">...</Element>`.
+    has xml_namespace => (is => 'ro', isa => 'Maybe[Str]');
+
+    # Per-shape XML element override, when set. Populated from
+    # `smithy.api#xmlName` (Smithy) / `xmlName` (botocore) on the
+    # structure shape itself. Used by the response decoder to
+    # recognise the wire-side root element name when it differs from
+    # the IR-side shape suffix (e.g. ListObjectsV2Output ->
+    # `<ListBucketResult>`).
+    has xml_name => (is => 'ro', isa => 'Maybe[Str]');
 
     has documentation => (is => 'ro', isa => 'Maybe[Str]');
 
@@ -144,6 +195,15 @@ package Paws::Model::IR::Member {
         # | undef (i.e. body)
     has locationName => (is => 'ro', isa => 'Maybe[Str]');
     has streaming    => (is => 'ro', isa => 'Bool', default => 0);
+    # Member-level `smithy.api#xmlFlattened` (the same trait can sit
+    # on the list/map shape itself or on a member that points at one;
+    # S3's BucketLifecycleConfiguration.Rules is the canonical
+    # example of the member-side form). Consumers should honour
+    # whichever side carries the trait.
+    has flattened    => (is => 'ro', isa => 'Bool', default => 0);
+    # Member-level `smithy.api#xmlNamespace.uri`, when overridden at
+    # the use site rather than on the target shape.
+    has xml_namespace => (is => 'ro', isa => 'Maybe[Str]');
     has documentation => (is => 'ro', isa => 'Maybe[Str]');
     has deprecated   => (is => 'ro', isa => 'Bool', default => 0);
 

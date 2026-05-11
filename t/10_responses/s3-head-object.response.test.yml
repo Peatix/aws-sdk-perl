@@ -1,0 +1,45 @@
+---
+# Exercise the response decoder against an S3 HeadObject 200. All
+# output members are bound to response headers (`x-amz-meta-*` for
+# the metadata bag, `etag` / `content-length` / `last-modified` /
+# `content-type` for the standard headers, `x-amz-version-id`,
+# `x-amz-server-side-encryption`).
+#
+# The full assertions are deferred behind `todo:` because the
+# materialiser does not yet emit a wrapper class for
+# `ParamInHeaders`-located map shapes; building a
+# `Paws::S3::HeadObjectOutput` from this response dies inside the
+# wire layer with "`HashRef[Str]' is not a module name" the same
+# way t/17_s3metadata.t does. Once the wrapper is in place the
+# `todo:` marker comes off in the same PR that lights up t/17.
+todo: 'materialiser ParamInHeaders map wrapper not yet implemented (Metadata=HashRef[Str])'
+call: HeadObject
+service: S3
+tests:
+  - path: _request_id
+    op: eq
+    expected: 9C3E40DA7F185CCD
+  - path: ETag
+    op: eq
+    expected: '"deadbeef-1"'
+  - path: ContentLength
+    op: eq
+    expected: 524288
+  - path: ContentType
+    op: eq
+    expected: application/pdf
+  - path: VersionId
+    op: eq
+    expected: PvuxNcVCcjnNXFVRPnxKR7BgWMP7XFvR
+  - path: ServerSideEncryption
+    op: eq
+    expected: AES256
+  - path: Metadata.Map.environment
+    op: eq
+    expected: production
+  - path: Metadata.Map.owner
+    op: eq
+    expected: platform-team
+  - path: Metadata.Map.app-region
+    op: eq
+    expected: us-west-2

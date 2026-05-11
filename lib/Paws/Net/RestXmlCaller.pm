@@ -159,6 +159,27 @@ package Paws::Net::RestXmlCaller;
     return $str;
   }
 
+  # PR11: SerDes-driven; no per-attribute Moose meta lookups.
+  # The type_string -> "is a Paws structure class?" check still uses
+  # Moose::Util::find_meta because that is the same answer regardless
+  # of OO backend (Moo classes inflate on first MOP touch). The wire
+  # layer's hot path doesn't go through here for the protocols
+  # tested in PR4 (json/restjson/query); RestXML's xml-building is
+  # only exercised by S3, Route53, CloudFront, etc.
+  #
+  # Flattening: a list-typed attribute is rendered as
+  # `<Wrapper><Elem>..</Elem></Wrapper>` if the model treats it as
+  # non-flattened, and as `<Elem><Elem>..` (no wrapper) if it's
+  # flattened. Two sources of "flattened":
+  #
+  #   - per-attribute (materialiser side): the SerDes record's
+  #     `flattened` boolean, set from either the IR shape-level
+  #     `xmlFlattened` trait OR the IR member-level `xmlFlattened`
+  #     trait. S3 hits both forms; see lib/Paws/Model/Materializer/Moo.pm.
+  #   - per-service (AOT side): the legacy `flattened_arrays`
+  #     boolean on the service class. Older AOT-generated classes
+  #     rely on this. Fall back to it when the SerDes record's
+  #     per-attribute flag is unset.
   sub _attribute_to_xml {
     my ($self, $owner_serdes, $att_name, $value) = @_;
     my $type     = $owner_serdes->type_for($att_name);
@@ -166,21 +187,28 @@ package Paws::Net::RestXmlCaller;
                      ? $owner_serdes->wire_key_for($att_name)
                      : $att_name;
 
+    my $is_flattened = $owner_serdes->is_flattened($att_name)
+                    || $self->flattened_arrays
+                    ? 1 : 0;
+
     my $xml;
     if (Moose::Util::find_meta($type)) {
       $xml = sprintf '<%s>%s</%s>', $location, $self->_to_xml($value), $location;
     }
     elsif ($type eq 'ArrayRef[Str|Undef]') {
-      my $req_name = $owner_serdes->wire_key_for($att_name);
-      $xml = "<${att_name}>"
-           . ( join '', map { sprintf '<%s>%s</%s>', $req_name, $_, $req_name } @$value )
-           . "</${att_name}>";
+      my $elem_name = $owner_serdes->wire_key_for($att_name);
+      my $inner = join '', map { sprintf '<%s>%s</%s>', $elem_name, $_, $elem_name } @$value;
+      $xml = $is_flattened
+        ? $inner
+        : "<${att_name}>${inner}</${att_name}>";
     }
     elsif ($type =~ m/^ArrayRef\[(.*?::.*)\]/) {
-      $xml = join '', map { sprintf '<%s>%s</%s>', $location, $self->_to_xml($_), $location } @$value;
-      if (!$self->flattened_arrays) {
-        $xml = sprintf('<%s>%s</%s>', $att_name, $xml, $att_name);
-      }
+      # Array of Paws API objects.
+      my $elem_name = $location;
+      my $inner = join '', map { sprintf '<%s>%s</%s>', $elem_name, $self->_to_xml($_), $elem_name } @$value;
+      $xml = $is_flattened
+        ? $inner
+        : sprintf('<%s>%s</%s>', $att_name, $inner, $att_name);
     }
     else {
       $xml = sprintf '<%s>%s</%s>', $location, $value, $location;
@@ -203,6 +231,36 @@ package Paws::Net::RestXmlCaller;
 
   sub _to_xml_body {
     my ($self, $call) = @_;
+
+    # The materialiser-side body-wrapping hooks. Two cases, both
+    # honoured here:
+    #
+    #   (a) `_payload_member`: the call's wire body is exactly one
+    #       member of the input shape (e.g. PutBucketLifecycleConfiguration's
+    #       `LifecycleConfiguration` -> `BucketLifecycleConfiguration`
+    #       structure). Serialise only that member's value and wrap
+    #       in <PayloadElement xmlns="ns">...</PayloadElement>. Skip
+    #       the rest of the iterate-all-attributes path.
+    #
+    #   (b) `_top_level_element` + `_top_level_namespace`: wrap the
+    #       full iterate-all-attributes output in
+    #       <Element xmlns="ns">...</Element>. SelectObjectContent
+    #       and similar all-body input shapes use this path.
+    #
+    # The existing iterate-each-attribute path is the default when
+    # neither hook is set.
+    if ($call->can('_payload_member')) {
+      my $member = $call->_payload_member;
+      my $value  = $call->$member;
+      return undef if !defined $value;
+
+      my $inner = $self->_to_xml($value);
+      my $element   = $call->_payload_element;
+      my $namespace = $call->_payload_namespace;
+      return sprintf '<%s xmlns="%s">%s</%s>',
+                     $element, $namespace, $inner, $element;
+    }
+
     my $serdes = Paws::SerDes->for($call);
 
     my $xml = '';

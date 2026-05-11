@@ -18,8 +18,9 @@ short and points at the code rather than duplicating it.
 | `t/26_paginators.t`                   | Paginator behaviour (S3-shaped fixtures).                               |
 | `t/27_signing_name.t`                 | Signer name resolution.                                                 |
 | `t/32_debug_caller.t`                 | `Paws::Net::DebugCaller` request/response YAML capture (see `docs/debug-capture.md`). |
-| `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape.               |
+| `t/glacier/`, `t/route53/`, `t/s3/`   | Per-service ad-hoc tests; mostly request-side wire shape. `t/s3/` runs under the `s3` shard via the in-test materialiser shim `Paws::Test::MaterialiseServices`; the other two are deferred (see `script/test-shard` header). |
 | `t/lib/`                              | Test-only helpers and synthetic services (see below).                   |
+| `t/lib/Paws/Test/MaterialiseServices.pm` | Test-only opt-in module that monkey-patches `Paws->load_class` to materialise a missing service from `share/smithy/` (mirrors the pre-Phase-3 runtime fallback, scoped to the test path). Used by every test that needs a real materialised service class. |
 | `t/types/`                            | Type-validation, coercion, and edge-case **contract tests**. Pin behaviour without depending on Moose-specific error messages. |
 | `t/99_pod_syntax.t`                   | POD validity (syntax only — does not assert presence).                  |
 | `t/99_pod_presence.t`                 | POD presence: every auto-generated class has `=head1 NAME`; operations also have `=head1 SYNOPSIS`. Author-only. |

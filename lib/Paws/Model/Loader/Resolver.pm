@@ -162,7 +162,7 @@ sub available_services {
     # Paws::Model::Materializer::Auto::_materialise; basenames that
     # contain a dash and aren't in %PAWS_TO_SMITHY values (~17 new-
     # GA services Smithy added that the AOT path never had a name
-    # for: bedrock-agentcore, mwaa-serverless, transcribe-streaming,
+    # for: bedrock-agentcore, mwaa-serverless,
     # etc.) are skipped because there's no derivation that gives a
     # valid Perl identifier without reading the sdkId trait. Adding
     # explicit %PAWS_TO_SMITHY entries for those is a follow-up.
@@ -552,6 +552,7 @@ sub _find_path_for {
     TimestreamInfluxDB                  => 'timestream-influxdb',
     TimestreamQuery                     => 'timestream-query',
     TimestreamWrite                     => 'timestream-write',
+    TranscribeStreaming                 => 'transcribe-streaming',
     VPCLattice                          => 'vpc-lattice',
     VoiceID                             => 'voice-id',
     WAFRegional                         => 'waf-regional',
@@ -617,7 +618,7 @@ sub _find_path_for {
     PrivateNetworks => 'AWS Private 5G shutdown 2024',
     QLDB            => 'QLDB shutdown 2025-07-31',
     QLDBSession     => 'QLDB runtime — same EoL as QLDB',
-    Robomaker       => 'RoboMaker shutdown 2025-09-10',
+    RoboMaker       => 'RoboMaker shutdown 2025-09-10',
     SMS             => 'Server Migration Service end-of-support 2023-03-31, replaced by MGN (Paws::ApplicationMigration)',
 );
 
@@ -627,26 +628,27 @@ sub _paws_to_smithy {
     return lc $service_name;
 }
 
-# Authoritative list of Paws service class names sourced from the
-# legacy auto-lib/ tree (which the AOT generator produced from
-# botocore service-2.json files, capturing the canonical
-# capitalisation Paws has shipped historically: S3, EC2, IAM, KMS,
-# CloudHSMv2, etc.). The list is checked into source rather than
-# computed at runtime because the canonical capitalisation cannot be
-# derived mechanically from the Smithy basename for acronym-style
-# names (s3 -> S3, not Ucfirst-d "S3"; cloudhsm-v2 -> CloudHSMv2,
-# not "Cloudhsm-v2").
+# Authoritative list of Paws service class names. Each entry must
+# resolve to a Smithy IR file via %PAWS_TO_SMITHY or the lc($name)
+# fallback. The canonical capitalisation comes from the Smithy sdkId
+# trait (S3, EC2, IAM, CloudHSMv2, etc.) â it cannot be derived
+# mechanically from the basename for acronym-style names.
 #
 # Used by all_known_services() for the A4-B build pipeline. New
-# Smithy services added by AWS that have no legacy Paws class need
-# to be added here AND, if their name doesn't round-trip through
-# lc(class), to %PAWS_TO_SMITHY.
+# Smithy services added by AWS need to be added here AND, if their
+# name doesn't round-trip through lc(class), to %PAWS_TO_SMITHY.
+#
+# Entries that only existed for backward compatibility with legacy
+# auto-lib names (Sso/SsoOidc duplicates of SSO/SSOOidc, SSMSAP
+# misspelling of SsmSap) were removed in the build-pipeline-hardening
+# cleanup. Services in %PAWS_DROPPED_SERVICES and services whose
+# Smithy IR was removed by AWS are no longer listed here.
 our @KNOWN_PAWS_SERVICE_NAMES = qw(
-    ACM ACMPCA API AccessAnalyzer AlexaForBusiness Amplify
+    ACM ACMPCA AccessAnalyzer Amplify
     AmplifyBackend ApiGateway ApiGatewayManagement ApiGatewayV2
     AppConfig AppIntegrations AppMesh AppRunner AppStream AppSync
     Appflow ApplicationAutoScaling ApplicationCostProfiler
-    ApplicationInsights AppRegistry Athena AuditManager AutoScaling
+    ApplicationInsights Athena AuditManager AutoScaling
     AutoScalingPlans Backup BackupGateway Batch BillingConductor
     Braket Budgets CUR Chime ChimeSDKIdentity ChimeSDKMediaPipelines
     ChimeSDKMeetings ChimeSDKMessaging Cloud9 CloudDirectory
@@ -654,7 +656,7 @@ our @KNOWN_PAWS_SERVICE_NAMES = qw(
     CloudSearchDomain CloudTrail CloudTrailData CloudWatch
     CloudWatchEvents CloudWatchLogs CodeArtifact CodeBuild CodeCommit
     CodeDeploy CodeGuruProfiler CodeGuruReviewer CodePipeline
-    CodeStar CodeStarConnections CodeStarNotifications CognitoIdentity
+    CodeStarConnections CodeStarNotifications CognitoIdentity
     CognitoIdp CognitoSync Comprehend ComprehendMedical
     ComputeOptimizer Config Connect ConnectCampaigns ConnectCases
     ConnectContactLens ConnectParticipant ControlTower CostExplorer
@@ -663,14 +665,14 @@ our @KNOWN_PAWS_SERVICE_NAMES = qw(
     DocDB DocDBElastic Drs DynamoDB DynamoDBStreams EBS EC2
     EC2InstanceConnect ECR ECRPublic ECS EFS EKS EMR EMRContainers
     EMRServerless ELB ELBv2 ES ElastiCache ElasticBeanstalk
-    ElasticTranscoder EventBridge Evidently FIS FMS FSX Finspace
+    ElasticTranscoder EventBridge FIS FMS FSX Finspace
     FinspaceData Firehose Forecast ForecastQuery FraudDetector
     GameLift Glacier GlobalAccelerator Glue GlueDataBrew Grafana
     Greengrass GreengrassV2 GroundStation GuardDuty Health
-    HealthLake Honeycode IAM IVS IVSRealTime IdentityStore
-    Imagebuilder ImportExport InspectorScan Inspector Inspector2
-    InternetMonitor IoT IoTAnalytics IoTData IoTEvents IoTEventsData
-    IoTFleetHub IoTFleetWise IoTJobsData IoTRoboRunner
+    HealthLake IAM IVS IVSRealTime IdentityStore
+    Imagebuilder InspectorScan Inspector Inspector2
+    InternetMonitor IoT IoTData IoTEvents IoTEventsData
+    IoTFleetWise IoTJobsData
     IoTSecureTunneling IoTSiteWise IoTThingsGraph IoTTwinMaker
     IoTWireless IotDeviceAdvisor KMS Kafka KafkaConnect Kendra
     KendraRanking KeySpaces Kinesis KinesisAnalytics
@@ -678,56 +680,41 @@ our @KNOWN_PAWS_SERVICE_NAMES = qw(
     KinesisVideoMedia KinesisVideoSignaling LakeFormation Lambda
     LexModels LexModelsV2 LexRuntime LexRuntimeV2 LicenseManager
     LicenseManagerLinuxSubscriptions LicenseManagerUserSubscriptions
-    Lightsail Location LookoutEquipment LookoutMetrics LookoutVision
-    M2 MQ MTurk MWAA MachineLearning Macie Macie2
+    Lightsail Location LookoutEquipment
+    M2 MQ MTurk MWAA MachineLearning Macie2
     ManagedBlockchain MarketplaceCatalog MarketplaceCommerceAnalytics
     MarketplaceEntitlement MarketplaceMetering MediaConnect
     MediaConvert MediaLive MediaPackage MediaPackageVod MediaStore
-    MediaStoreData MediaTailor MemoryDB MgmtConsole MgmtConsoleSignin
+    MediaStoreData MediaTailor MemoryDB
     MigrationHub MigrationHubConfig MigrationHubRefactorSpaces
-    MigrationHubStrategy Mobile NetworkFirewall NetworkManager
-    Nimble OAM OpenSearch OpenSearchServerless OpsWorks OpsWorksCM
-    Organizations Outposts P9NManagedPrivateNetworks Panorama
+    MigrationHubStrategy NetworkFirewall NetworkManager
+    OAM OpenSearch OpenSearchServerless
+    Organizations Outposts Panorama
     PartnerCentralSelling Personalize PersonalizeEvents
     PersonalizeRuntime PerformanceInsights Pinpoint PinpointEmail
-    PinpointSMSVoice PinpointSMSVoiceV2 Polly Pricing PrivateNetworks
-    Prometheus Proton QBusiness QLDB QLDBSession QuickSight RAM
-    RDS RDSData RUM RBin RecycleBin Redshift RedshiftData
+    PinpointSMSVoice PinpointSMSVoiceV2 Polly Pricing
+    Prometheus Proton QBusiness QuickSight RAM
+    RDS RDSData RUM RBin Redshift RedshiftData
     RedshiftServerless Rekognition Resiliencehub ResourceExplorer2
-    ResourceGroups ResourceTagging RoboMaker RolesAnywhere Route53
+    ResourceGroups ResourceTagging RolesAnywhere Route53
     Route53Domains Route53RecoveryCluster Route53RecoveryControlConfig
     Route53RecoveryReadiness Route53Resolver S3 S3Control SDB SES
-    SESV2 SFN SMS SNS SQS SSM SSMContacts SSMIncidents SSMSAP SSO
+    SESV2 SFN SNS SQS SSM SSMContacts SSMIncidents SsmSap SSO
     SSOAdmin SSOOidc SageMaker SageMakerA2IRuntime SageMakerEdge
     SageMakerFeatureStoreRuntime SageMakerGeospatial SageMakerMetrics
     SageMakerRuntime SavingsPlans Schemas SecretsManager
     SecurityHub SecurityIR ServerlessRepo ServiceCatalog
     ServiceCatalogAppRegistry ServiceQuotas Shield Signer
-    SimpleWorkflow Snowball SnowDeviceManagement Sso SsoOidc
+    SimpleWorkflow Snowball SnowDeviceManagement
     StepFunctions StorageGateway Support SupportApp SupplyChain
     Synthetics Textract TimestreamInfluxDB TimestreamQuery
     TimestreamWrite Tnb Transcribe TranscribeStreaming Transfer
     Translate VPCLattice VerifiedPermissions VoiceID WAF WAFRegional
-    WAFV2 WellArchitected Wisdom WorkDocs WorkLink WorkMail
+    WAFV2 WellArchitected Wisdom WorkDocs WorkMail
     WorkMailMessageFlow WorkSpaces WorkSpacesThinClient
     WorkSpacesWeb XRay
 );
 
-# Case-insensitive dedup: GitHub Releases asset names are case-insensitive
-# on the upload API ("ReleaseAsset.name already exists" 422 even when
-# the case differs). Where we have both `SSO` and `Sso` in the list
-# above (legacy auto-lib variants), the first canonical name wins;
-# keep `SSO`, drop `Sso`. Same for `SSOOidc` / `SsoOidc`.
-{
-    my %seen;
-    my @deduped;
-    for my $name (@KNOWN_PAWS_SERVICE_NAMES) {
-        my $key = lc $name;
-        next if $seen{$key}++;
-        push @deduped, $name;
-    }
-    @KNOWN_PAWS_SERVICE_NAMES = @deduped;
-}
 
 # A4-B build-pipeline entry. Returns the sorted list of Paws service
 # class names whose Smithy IR file is present under any configured

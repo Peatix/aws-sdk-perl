@@ -56,11 +56,11 @@
 #   t/06_endpoint_override.t          same root cause as t/03 — the
 #                                     IAM endpoint-override path
 #                                     touches region_rules.
-#   t/10_responses.t                  ~9,900 sub-tests of real-AWS
-#                                     response decoding; a sample of
-#                                     these surfaces shape patterns
-#                                     the materialiser doesn't yet
-#                                     handle correctly.
+#   t/10_responses.t                  the S3 subset of this file's
+#                                     ~9,900 sub-tests runs under
+#                                     the `s3` shard; the rest is
+#                                     deferred until materialiser
+#                                     coverage widens.
 #   t/11_client_exceptions*.t         multi-transport exception
 #                                     surface; depends on a wider
 #                                     service set than load-* covers.
@@ -68,8 +68,6 @@
 #                                     IAM/STS/Route53 global-service
 #                                     paths need region_rules in the
 #                                     materialiser.
-#   t/17_s3metadata.t                 S3 needs the route53/s3 work
-#                                     below to land first.
 #   t/18_mocked.t                     ~4,007 sub-tests; same root
 #                                     cause as t/10.
 #   t/24_error_from_nonreturningmethod.t / t/25_error_on_malformed_response.t
@@ -79,11 +77,29 @@
 #                                     `t/lib/Paws/*ParamsService.pm`
 #                                     test helpers are themselves
 #                                     materialised cleanly.
-#   t/26_paginators.t                 paginators + materialiser;
-#                                     same root cause as t/10.
-#   t/27_signing_name.t               same.
+#   t/26_paginators.t                 wired into the `s3` shard but
+#                                     currently skip_all'd because
+#                                     the materialiser does not yet
+#                                     emit paginator helpers (e.g.
+#                                     `ListAllObjects`).
+#   t/27_signing_name.t               deferred until the LexRuntime /
+#                                     IoT / Pricing / Pinpoint service
+#                                     classes the test exercises are
+#                                     materialised cleanly.
 #   t/28_retries_mojoasynccaller.t    Mojo async caller integration.
-#   t/glacier/, t/route53/, t/s3/     real-service-shape tests.
+#   t/glacier/, t/route53/            real-service-shape tests; same
+#                                     follow-up family as t/05 / t/17.
+#                                     (t/s3/ now runs under the `s3`
+#                                     shard with the in-test
+#                                     Paws::Test::MaterialiseServices
+#                                     shim.)
+#   t/17_s3metadata.t                 wired into the `s3` shard but
+#                                     currently skip_all'd because
+#                                     the materialiser does not yet
+#                                     emit a wrapper class for
+#                                     ParamInHeaders-located map
+#                                     shapes (S3 Metadata is the
+#                                     canonical example).
 #   t/99_pod_*.t                      author-only, never in CI test.
 #
 # Wall-time of the workflow == max(shard) + per-job overhead. With
@@ -132,6 +148,17 @@ shard_files() {
            t/types \
            t/wire
       ;;
+    s3)
+      # S3 wire-shape coverage materialised via the in-test shim
+      # `t/lib/Paws/Test/MaterialiseServices.pm`. t/10_responses.t is
+      # included for the S3 response fixtures only — the shard's
+      # `cmd_run` adds `:: $(ls t/10_responses/s3-*.response)` so the
+      # test driver iterates only those files.
+      echo t/s3 \
+           t/17_s3metadata.t \
+           t/26_paginators.t \
+           t/10_responses.t
+      ;;
     *)
       return 1
       ;;
@@ -139,7 +166,7 @@ shard_files() {
 }
 
 all_shards() {
-  echo load-a load-b network mocked subdirs
+  echo load-a load-b network mocked subdirs s3
 }
 
 usage() {
@@ -288,6 +315,19 @@ cmd_run() {
       local services
       services=$(load_services_chunk 2 2)
       prove_argv+=(:: $services)
+      ;;
+    s3)
+      # Run t/10_responses.t against only the S3 response fixtures.
+      # The other .t files in the shard (t/s3/*, t/17_s3metadata.t,
+      # t/26_paginators.t) don't read @ARGV so the extra positional
+      # arguments are inert for them.
+      local s3_fixtures
+      s3_fixtures=$(ls t/10_responses/s3-*.response 2>/dev/null | tr '\n' ' ')
+      if [ -n "$s3_fixtures" ]
+      then
+        # shellcheck disable=SC2206
+        prove_argv+=(:: $s3_fixtures)
+      fi
       ;;
   esac
 

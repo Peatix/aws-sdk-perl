@@ -1,0 +1,54 @@
+---
+# Exercise the response decoder against a ListObjectsV2 response
+# that carries *both* `<Contents>` and `<CommonPrefixes>` siblings,
+# each flattened (smithy.api#xmlFlattened). The interesting wire-
+# layer paths covered:
+#
+#   - two flattened lists with different element names sharing a
+#     parent (Contents -> ObjectList, CommonPrefixes -> CommonPrefixList),
+#   - structure-level xmlName="ListBucketResult" (root element name
+#     differs from the Paws class suffix `ListObjectsV2Output`),
+#   - mixed scalar + list members on the same output (Name,
+#     Prefix, KeyCount, MaxKeys, IsTruncated alongside the lists).
+call: ListObjectsV2
+service: S3
+tests:
+  - path: _request_id
+    op: eq
+    expected: 2D9B3A8E6F1C4711
+  - path: Name
+    op: eq
+    expected: example-bucket
+  - path: Prefix
+    op: eq
+    expected: photos/
+  - path: Delimiter
+    op: eq
+    expected: /
+  - path: KeyCount
+    op: eq
+    expected: 3
+  - path: MaxKeys
+    op: eq
+    expected: 1000
+  - path: IsTruncated
+    op: eq
+    expected: 0
+  - path: Contents.0.Key
+    op: eq
+    expected: photos/2024/01/cat.jpg
+  - path: Contents.0.Size
+    op: eq
+    expected: 1024
+  - path: Contents.0.StorageClass
+    op: eq
+    expected: STANDARD
+  - path: Contents.1.Key
+    op: eq
+    expected: photos/2024/01/dog.jpg
+  - path: CommonPrefixes.0.Prefix
+    op: eq
+    expected: photos/2024/02/
+  - path: CommonPrefixes.1.Prefix
+    op: eq
+    expected: photos/2024/03/

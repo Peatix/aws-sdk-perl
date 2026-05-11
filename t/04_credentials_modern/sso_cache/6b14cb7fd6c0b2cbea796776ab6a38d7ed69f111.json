@@ -1,0 +1,6 @@
+{
+  "accessToken": "test-sso-access-token-value",
+  "expiresAt": "2099-12-31T23:59:59Z",
+  "region": "us-west-2",
+  "startUrl": "https://test-portal.awsapps.com/start"
+}

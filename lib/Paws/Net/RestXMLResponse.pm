@@ -303,6 +303,16 @@ package Paws::Net::RestXMLResponse;
         }
       }
     }
+
+    # _request_id is set on every response via `Paws::Net::ResponseRole`
+    # before this loop runs; SerDes records (post-PR11 materialiser
+    # path) do not enumerate underscore-prefixed attributes, so the
+    # loop above skips it. Copy it explicitly so materialised output
+    # classes (which carry `has _request_id => (is => 'ro')` but no
+    # SerDes record for it) still surface the request ID to callers
+    # asserting against it.
+    $args{_request_id} = $result->{_request_id} if exists $result->{_request_id};
+
     return $class->new(%args);
   }
 

@@ -1,0 +1,49 @@
+---
+# Exercise the response decoder against a GetBucketCors response.
+# The interesting wire-layer paths covered:
+#
+#   - structure-level xmlName="CORSConfiguration" with a flattened
+#     list whose element xmlName="CORSRule" (NameInRequest on the
+#     list member),
+#   - each `<CORSRule>` contains multiple repeated children of the
+#     same element name (`<AllowedMethod>`), which the response
+#     decoder must surface as `AllowedMethods[]` on
+#     `Paws::S3::CORSRule` per the Smithy IR's list flattening,
+#   - mixed scalar + repeated-element children inside the same
+#     parent (ID, MaxAgeSeconds alongside AllowedMethod[]).
+call: GetBucketCors
+service: S3
+tests:
+  - path: _request_id
+    op: eq
+    expected: F89BCD345672A012
+  - path: CORSRules.0.AllowedHeaders.0
+    op: eq
+    expected: '*'
+  - path: CORSRules.0.AllowedMethods.0
+    op: eq
+    expected: GET
+  - path: CORSRules.0.AllowedMethods.1
+    op: eq
+    expected: HEAD
+  - path: CORSRules.0.AllowedOrigins.0
+    op: eq
+    expected: https://example.com
+  - path: CORSRules.0.ExposeHeaders.0
+    op: eq
+    expected: x-amz-server-side-encryption
+  - path: CORSRules.0.MaxAgeSeconds
+    op: eq
+    expected: 3000
+  - path: CORSRules.1.AllowedMethods.0
+    op: eq
+    expected: PUT
+  - path: CORSRules.1.AllowedMethods.2
+    op: eq
+    expected: DELETE
+  - path: CORSRules.1.AllowedOrigins.0
+    op: eq
+    expected: https://uploads.example.com
+  - path: CORSRules.1.ID
+    op: eq
+    expected: uploads
