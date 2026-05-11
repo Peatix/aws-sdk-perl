@@ -141,6 +141,13 @@ package Paws::Model::IR::Shape {
     # list-only
     has flattened => (is => 'ro', isa => 'Bool', default => 0);
 
+    # Whether this is a streaming payload (smithy.api#streaming on the
+    # shape itself, e.g. S3's StreamingBlob). The materialiser emits
+    # `_stream_param` on operations whose payload member points at a
+    # streaming shape, telling the wire layer to bind the raw body
+    # to that member without XML/JSON serialisation.
+    has streaming => (is => 'ro', isa => 'Bool', default => 0);
+
     # primitive enum
     has enum_values => (is => 'ro', isa => 'ArrayRef[Str]', default => sub { [] });
 

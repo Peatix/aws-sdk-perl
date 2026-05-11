@@ -306,6 +306,7 @@ sub materialize_operation {
     # gets no wrapper — the existing iterate-each-attribute path in
     # the wire layer handles it as before.
     my @xml_class_methods;
+    my $stream_param;
     if ($service_ir->protocol eq 'rest-xml' && $input_shape) {
         my $payload_name = $input_shape->payload;
         my $payload_target;
@@ -313,10 +314,23 @@ sub materialize_operation {
         if (defined $payload_name) {
             my $member = $input_shape->members->{$payload_name};
             $payload_target   = $member ? $service_ir->shape($member->shape) : undef;
-            $payload_streaming = $member && $member->streaming ? 1 : 0;
+            # `smithy.api#streaming` can sit on either the member that
+            # references the payload shape OR on the shape itself. S3
+            # puts it on the target (StreamingBlob) for PutObject /
+            # UploadPart; other services may put it on the member.
+            $payload_streaming = ($member && $member->streaming)
+                              || ($payload_target && $payload_target->streaming)
+                              ? 1 : 0;
         }
 
-        if (   defined $payload_name
+        # Streaming payload: emit `_stream_param` so the wire layer
+        # binds the raw body bytes to that member instead of running
+        # them through XML serialisation. Skip the structure-payload
+        # wrapper path entirely.
+        if (defined $payload_name && $payload_streaming) {
+            $stream_param = $payload_name;
+        }
+        elsif (   defined $payload_name
             && $payload_target
             && $payload_target->is_structure
             && !$payload_streaming
@@ -372,6 +386,8 @@ sub materialize_operation {
         $result_key_method
 
 @{[ join("\n", @xml_class_methods) ]}
+
+@{[ defined $stream_param ? "        sub _stream_param { '" . _esc($stream_param) . "' }" : '' ]}
 
         1;
     };

@@ -186,6 +186,9 @@ sub _build_shape {
                             ? $shape->{xmlNamespace}{uri}
                             : undef),
         xml_name      => $shape->{xmlName},
+        # Streaming blob marker. Parity with the Smithy loader's
+        # `smithy.api#streaming` extraction.
+        streaming     => $shape->{streaming} ? 1 : 0,
     );
 
     my $type = $args{type};
