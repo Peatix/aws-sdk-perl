@@ -2,15 +2,14 @@
 
 A loader takes a source-of-truth file describing an AWS service and
 returns a `Paws::Model::IR::Service`. The downstream consumers
-(`Paws::API::Builder` once refactored, `Paws::Model::Materializer`,
-`Paws::Model::Materializer::Moo`) work against the IR and don't care which
-loader produced it.
+(`Paws::Model::Materializer::Moo` and `Paws::Model::Materializer`)
+work against the IR and don't care which loader produced it.
 
 ## Loader
 
-| Loader                        | Source format        | Status    |
-|-------------------------------|----------------------|-----------|
-| `Paws::Model::Loader::Smithy`| Smithy 2.0 AST JSON | from PR14 |
+| Loader                          | Source format                          |
+|---------------------------------|----------------------------------------|
+| `Paws::Model::Loader::Smithy`  | Smithy 2.0 AST JSON                    |
 
 The loader implements the `Paws::Model::Loader` role:
 
@@ -23,13 +22,12 @@ The loader implements the `Paws::Model::Loader` role:
 Smithy IR is vendored under
 `share/smithy/<service>/<service>.smithy.json` from
 `awslabs/aws-sdk-rust:aws-models/` at the SHA pinned in
-`share/smithy/.upstream-sha`. Tracked in git; `make dist` ships
-it as-is.
+`share/smithy/.upstream-sha`. Tracked in git.
 
 ## Loader resolution
 
-`Paws::Model::Loader::Resolver` walks the configured search paths
-and returns the IR:
+`Paws::Model::Loader::Resolver` resolves a Paws service name to its
+Smithy IR file and returns the loaded IR:
 
 ```
 use Paws::Model::Loader::Resolver;
@@ -70,10 +68,10 @@ model for). Asking the resolver for one dies with the AWS shutdown
 date and a pointer at `docs/deprecated-services.md` rather than the
 generic "no source file found".
 
-## IR coverage
+## IR field coverage
 
-The IR has the union of fields needed by the existing TT generator
-and the materialisers. Key mappings from Smithy source:
+The IR has the union of fields needed by both materialisers. The
+Smithy loader populates them as follows:
 
 | Field                          | Smithy source                         |
 |--------------------------------|---------------------------------------|
@@ -81,26 +79,26 @@ and the materialisers. Key mappings from Smithy source:
 | `Service.protocol`             | `@aws.protocols#…` trait              |
 | `Service.json_version`         | derived from `awsJson1_0`/`awsJson1_1`|
 | `Operation.http_method`        | `@smithy.api#http.method`             |
-| `Operation.http_uri`           | `@smithy.api#http.uri`                |
+| `Operation.http_uri`           | `@smithy.api#http.uri`               |
 | `Operation.http_status_code`   | `@smithy.api#http.code`               |
 | `Operation.deprecated`         | `@smithy.api#deprecated`              |
 | `Operation.error_shapes`       | `operation.errors[].target`           |
 | `Member.location` (header)     | `@smithy.api#httpHeader`              |
-| `Member.location` (query)      | `@smithy.api#httpQuery`               |
+| `Member.location` (query)      | `@smithy.api#httpQuery`              |
 | `Member.location` (uri)        | `@smithy.api#httpLabel`               |
 | `Member.locationName` (rename) | `@smithy.api#jsonName`/`@smithy.api#xmlName` |
 | `Member.streaming`             | `@smithy.api#streaming`               |
 | `Shape.required_members`       | per-member `@smithy.api#required`     |
 | `Shape.payload`                | per-member `@smithy.api#httpPayload`  |
 
-Smithy-only fields not yet absorbed into the IR (event streams, mixins,
-resource shapes, document type) — folded in additively as the wire
+Fields not yet absorbed into the IR (event streams, mixins,
+resource shapes, document type) are folded in incrementally as the wire
 layer grows support.
 
 ## Adding another loader
 
-The plan in `docs/architecture.md` is loader-pluggable by design. To
-add another loader (OpenAPI? Hand-written?) it's:
+The architecture is loader-pluggable by design. To add another loader
+(OpenAPI? Hand-written?):
 
 1. Implement `name()` and `load()` from `Paws::Model::Loader`.
 2. Return a fully-populated `Paws::Model::IR::Service`.
@@ -111,5 +109,4 @@ See `t/model/03_smithy_loader.t` as a template.
 ## See also
 
 - `docs/materialisation.md` — how the IR these loaders return is
-  consumed by the AOT generator and the runtime materialiser, and
-  how to drive the materialiser directly when debugging.
+  consumed by the build pipeline to produce per-service sub-dists.
