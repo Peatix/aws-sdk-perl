@@ -43,16 +43,23 @@ package Paws::Net::RetryCallerRole;
       call_object => $call_object,
     );
 
-    $chain->run_hook('before_request', $context);
+    if (!$chain->run_hook('before_request', $context)) {
+      if ($context->result_is_exception) {
+        $context->result->throw;
+      }
+      return $context->result;
+    }
 
     do {
       $context->should_retry(0);
       $context->retry_delay(0);
 
-      $chain->run_hook('before_attempt', $context);
+      if (!$chain->run_hook('before_attempt', $context)) {
+        last;
+      }
 
-      my $response = $self->send_request($service, $call_object);
-      my $result   = $self->caller_to_response($service, $call_object, $response);
+      my $response = $self->send_request($service, $context->call_object);
+      my $result   = $self->caller_to_response($service, $context->call_object, $response);
       $context->response($response);
       $context->result($result);
 

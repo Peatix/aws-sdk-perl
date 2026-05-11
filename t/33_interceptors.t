@@ -340,6 +340,113 @@ subtest 'Full do_call with interceptors fires hooks' => sub {
   is $rec->log->[3], 'after_request',   'fourth hook: after_request';
 };
 
+subtest 'before_request interceptor can mutate call_object used by send_request' => sub {
+  {
+    package Test::Interceptor::MutateCall;
+    use Moose;
+    with 'Paws::Net::Interceptor';
+
+    sub before_request {
+      my ($self, $context) = @_;
+      $context->call_object('MutatedCall');
+    }
+
+    __PACKAGE__->meta->make_immutable;
+  }
+
+  {
+    package Test::MockCaller::Capturing;
+    use Moose;
+    with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
+
+    our @captured_calls;
+
+    has mock_responses => (
+      is      => 'rw',
+      isa     => 'ArrayRef',
+      default => sub { [] },
+    );
+
+    has _response_idx => (
+      is      => 'rw',
+      isa     => 'Int',
+      default => 0,
+    );
+
+    sub send_request {
+      my ($self, $service, $call_object) = @_;
+      push @captured_calls, $call_object;
+      my $idx = $self->_response_idx;
+      $self->_response_idx($idx + 1);
+      return $self->mock_responses->[$idx];
+    }
+
+    sub caller_to_response {
+      my ($self, $service, $call_object, $response) = @_;
+      push @captured_calls, $call_object;
+      return { _request_id => 'test-req-id', status => $response->status };
+    }
+
+    __PACKAGE__->meta->make_immutable;
+  }
+
+  my $mutator = Test::Interceptor::MutateCall->new;
+  my $caller = Test::MockCaller::Capturing->new(
+    interceptors   => [$mutator],
+    mock_responses => [
+      Paws::Net::APIResponse->new(
+        status  => 200,
+        content => '{"ok":true}',
+        headers => {},
+      ),
+    ],
+  );
+  my $svc = Test::MockService->new;
+
+  @Test::MockCaller::Capturing::captured_calls = ();
+  my $result = $caller->do_call($svc, 'OriginalCall');
+
+  is $Test::MockCaller::Capturing::captured_calls[0], 'MutatedCall',
+    'send_request received the mutated call_object';
+  is $Test::MockCaller::Capturing::captured_calls[1], 'MutatedCall',
+    'caller_to_response received the mutated call_object';
+};
+
+subtest 'interceptor die is caught and sets exception result' => sub {
+  {
+    package Test::Interceptor::Dying;
+    use Moose;
+    with 'Paws::Net::Interceptor';
+
+    sub before_attempt {
+      my ($self, $context) = @_;
+      die "intentional explosion";
+    }
+
+    __PACKAGE__->meta->make_immutable;
+  }
+
+  my $dying = Test::Interceptor::Dying->new;
+  my $caller = Test::MockCaller->new(
+    interceptors   => [$dying],
+    mock_responses => [
+      Paws::Net::APIResponse->new(
+        status  => 200,
+        content => '{"ok":true}',
+        headers => {},
+      ),
+    ],
+  );
+  my $svc = Test::MockService->new;
+
+  dies_ok { $caller->do_call($svc, 'FakeCall') }
+    'do_call throws when interceptor dies';
+  my $err = $@;
+  ok $err->isa('Paws::Exception'), 'exception is a Paws::Exception';
+  like $err->code, qr/InterceptorError/, 'code is InterceptorError';
+  like $err->message, qr/intentional explosion/, 'message contains original error';
+};
+
 subtest 'do_call with retry fires on_error and retries' => sub {
   my $rec = Test::Interceptor::Recorder->new;
   my $caller = Test::MockCaller->new(
