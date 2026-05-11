@@ -346,9 +346,9 @@ The watch only sees checks that the standard `pull_request`
 workflows produce, so if any of those workflows tightens its `paths:`
 filter to exclude `share/`, the auto-merge silently stops covering
 that case (the relevant workflow won't fire on the bump PR).
-`test.yml`, `regen-byte-identical.yml`,
-and `package.yml` already include `share/**`
-or run unconditionally, so this is fine today.
+`test.yml` and `build-modular-smoke.yml` include `share/**`
+(or `share/smithy/**`) in their path filters, while `coverage.yml`
+and `install-smoke.yml` run unconditionally, so this is fine today.
 
 ### Disabling temporarily
 
