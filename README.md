@@ -63,6 +63,11 @@ migration:
 perl bin/paws-migrate-cpanfile --root . --version 1.0.0 --output cpanfile.paws
 ```
 
+Migrating from `Net::Amazon::S3`? See
+[`docs/migrating-from-net-amazon-s3.md`](docs/migrating-from-net-amazon-s3.md)
+for the API surface mapping, install pattern, and worked examples
+(including pre-signed URLs via `$s3->presign(...)`).
+
 User code stays unchanged — `use Paws;` and `Paws->service('S3')`
 work exactly as before for any service whose sub-dist is installed.
 Calling a service whose sub-dist is **not** installed produces the
