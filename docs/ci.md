@@ -1,35 +1,42 @@
 # CI workflows
 
-This repository ships six GitHub Actions workflows under `.github/workflows/`:
+This repository ships six GitHub Actions workflows under `.github/workflows/`
+(two legacy benchmark workflows are being removed in PR #107 and are not
+documented here):
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
-| `test.yml` | `pull_request` (filtered to code paths) | Generate the full set of service classes and run the test suite. |
+| `test.yml` | `pull_request` (filtered to code paths) | Run the test suite across matrix shards via `make test-shard`. Service classes are materialised on demand from `share/smithy/` + `share/botocore/`. |
 | `install-smoke.yml` | `pull_request`, `push` to master/develop, `workflow_dispatch` | Build the dist via dzil, install the tarball into a fresh container, and run `examples/smoke.pl` against the installed Paws. |
 | `coverage.yml` | `pull_request`, `push` to master/develop, `workflow_dispatch` | Run the test suite under `Devel::Cover` and produce a coverage report. |
 | `build-modular-smoke.yml` | `pull_request` + `push` (filtered to build/model/smithy paths), `workflow_dispatch` | Phase 1 A4-B gate: build per-service modular dists for a representative set of services, install them, and run smoke tests. |
-| `release-modular.yml` | `release.published`, `workflow_dispatch` | Phase 2 A4-B: build the full per-service modular fleet (~305 code + ~305 docs companions + 1 Paws::Core) and upload tarballs to the GitHub release. |
+| `release-modular.yml` | `release.published`, `workflow_dispatch` | Phase 2 A4-B: build the full per-service modular fleet (~305 code + ~305 docs companions) plus a legacy Paws tarball (acting as the Paws::Core stand-in via `dzil build`) and upload tarballs to the GitHub release. |
 | `refresh-source-deps.yml` | daily `schedule` + `workflow_dispatch` | Bump `share/smithy/.upstream-sha` and refresh the vendored Smithy IR tree under `share/smithy/`; open + auto-merge a bump PR. See ["Source-dep refresh"](#source-dep-refresh). |
 
 ### Dropped workflows
 
-The following workflows were removed as part of the A4-B modular distribution
-work (Phase 3):
+The following workflows are being removed as part of the A4-B modular
+distribution work (Phase 3). `generate-and-pr.yml`, `package.yml`, and
+`regen-byte-identical.yml` were already removed; `benchmarks.yml` and
+`benchmark-capture.yml` are removed in PR #107 (`cursor/workflow-cleanup`):
 
 | Workflow | Reason |
 | --- | --- |
 | `generate-and-pr.yml` | Superseded by the modular build pipeline (`build-modular-smoke.yml`, `release-modular.yml`). |
 | `package.yml` | Replaced by `release-modular.yml` which produces per-service tarballs. |
 | `regen-byte-identical.yml` | The determinism property it verified is now covered by `t/build/01_determinism.t` in the modular build pipeline. |
-| `benchmarks.yml` | Measured the runtime materialiser, which no longer exists (A4-B ships pre-built service classes). |
-| `benchmark-capture.yml` | Companion to `benchmarks.yml`; removed for the same reason. |
+| `benchmarks.yml` | Measured the runtime materialiser, which no longer exists (A4-B ships pre-built service classes). Removal in PR #107. |
+| `benchmark-capture.yml` | Companion to `benchmarks.yml`; removed for the same reason. Removal in PR #107. |
 
 ## Shared setup: `.github/actions/setup-paws-perl`
 
-All workflows share a near-identical setup block: install Perl,
-install the bootstrap modules, run `carton install`. The composite action at
-`.github/actions/setup-paws-perl/action.yml` factors that out and adds
-caching that materially speeds up CI.
+`test.yml`, `release-modular.yml`, and the benchmark workflows use the
+composite setup action. The action at
+`.github/actions/setup-paws-perl/action.yml` factors out Perl installation,
+bootstrap modules, and `carton install`, and adds caching that materially
+speeds up CI. Other workflows (`coverage.yml`, `refresh-source-deps.yml`)
+use `shogo82148/actions-setup-perl` directly, and `install-smoke.yml` /
+`build-modular-smoke.yml` use container-based bootstrap.
 
 ### What the action caches
 

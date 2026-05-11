@@ -20,6 +20,10 @@ major ways:
 
 ## Installation
 
+> **Note:** The URLs below reference the `v1.0.0` release assets which will
+> resolve once that release is published. Track progress on the
+> [releases page](https://github.com/Peatix/aws-sdk-perl/releases).
+
 Add the services you need to your `cpanfile`:
 
 ```perl

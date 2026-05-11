@@ -5,6 +5,10 @@ All distributions are hosted as tarballs on
 [GitHub Releases](https://github.com/Peatix/aws-sdk-perl/releases) — not on
 CPAN (the `Paws` PAUSE namespace belongs to the upstream `Pplu/Paws` project).
 
+> **Note:** The tarball URLs below reference the `v1.0.0` release tag. These
+> will resolve once that release is published. Track progress on the
+> [releases page](https://github.com/Peatix/aws-sdk-perl/releases).
+
 Supported install tools: `cpanm` (App::cpanminus), `carton`, and `cpm`
 (App::cpm). All three support URL-based `requires` in cpanfiles. The legacy
 `CPAN.pm` shell does not support URL sources.
