@@ -90,7 +90,13 @@
     "com.example.tiny#ListThingsResponse": {
       "type": "structure",
       "members": {
-        "Things": {"target": "com.example.tiny#ThingList"},
+        "Things": {
+          "target": "com.example.tiny#ThingList",
+          "traits": {
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "TinyThing"
+          }
+        },
         "Count":  {"target": "com.example.tiny#ThingCount"}
       }
     },

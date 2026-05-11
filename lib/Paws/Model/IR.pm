@@ -167,6 +167,15 @@ package Paws::Model::IR::Member {
         # | undef (i.e. body)
     has locationName => (is => 'ro', isa => 'Maybe[Str]');
     has streaming    => (is => 'ro', isa => 'Bool', default => 0);
+    # Member-level `smithy.api#xmlFlattened` (the same trait can sit
+    # on the list/map shape itself or on a member that points at one;
+    # S3's BucketLifecycleConfiguration.Rules is the canonical
+    # example of the member-side form). Consumers should honour
+    # whichever side carries the trait.
+    has flattened    => (is => 'ro', isa => 'Bool', default => 0);
+    # Member-level `smithy.api#xmlNamespace.uri`, when overridden at
+    # the use site rather than on the target shape.
+    has xml_namespace => (is => 'ro', isa => 'Maybe[Str]');
     has documentation => (is => 'ro', isa => 'Maybe[Str]');
     has deprecated   => (is => 'ro', isa => 'Bool', default => 0);
 

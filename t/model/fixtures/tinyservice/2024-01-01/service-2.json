@@ -91,7 +91,7 @@
     "ListThingsResponse":{
       "type":"structure",
       "members":{
-        "Things":{"shape":"ThingList"},
+        "Things":{"shape":"ThingList","flattened":true,"locationName":"TinyThing"},
         "Count":{"shape":"ThingCount"}
       }
     },
