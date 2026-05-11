@@ -15,7 +15,10 @@
           "endpointPrefix": "tinyservice"
         },
         "aws.protocols#awsJson1_1": {},
-        "smithy.api#documentation": "<p>A tiny synthetic service for unit-testing the Smithy loader.</p>"
+        "smithy.api#documentation": "<p>A tiny synthetic service for unit-testing the Smithy loader.</p>",
+        "smithy.api#xmlNamespace": {
+          "uri": "http://tinyservice.example.com/doc/2024-01-01/"
+        }
       }
     },
     "com.example.tiny#ListThings": {
@@ -43,7 +46,11 @@
       "input": {"target": "com.example.tiny#DeleteThingRequest"},
       "traits": {
         "smithy.api#http": {"method": "DELETE", "uri": "/things/{ThingId}", "code": 204},
-        "smithy.api#deprecated": {}
+        "smithy.api#deprecated": {},
+        "aws.protocols#httpChecksum": {
+          "requestChecksumRequired": true,
+          "requestAlgorithmMember": "ChecksumAlgorithm"
+        }
       }
     },
     "com.example.tiny#ThingId":    {"type": "string"},
@@ -63,6 +70,12 @@
         "ThingId":   {"target": "com.example.tiny#ThingId",   "traits": {"smithy.api#required": {}}},
         "ThingName": {"target": "com.example.tiny#ThingName", "traits": {"smithy.api#required": {}, "smithy.api#jsonName": "name"}},
         "Status":    {"target": "com.example.tiny#Status"}
+      },
+      "traits": {
+        "smithy.api#xmlNamespace": {
+          "uri": "http://tinyservice.example.com/doc/2024-01-01/Thing"
+        },
+        "smithy.api#xmlName": "TinyThing"
       }
     },
     "com.example.tiny#ThingList": {
@@ -81,7 +94,13 @@
     "com.example.tiny#ListThingsResponse": {
       "type": "structure",
       "members": {
-        "Things": {"target": "com.example.tiny#ThingList"},
+        "Things": {
+          "target": "com.example.tiny#ThingList",
+          "traits": {
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "TinyThing"
+          }
+        },
         "Count":  {"target": "com.example.tiny#ThingCount"}
       }
     },

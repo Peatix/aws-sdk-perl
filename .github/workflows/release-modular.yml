@@ -39,9 +39,10 @@ jobs:
   plan:
     runs-on: ubuntu-latest
     outputs:
-      shards: ${{ steps.shards.outputs.matrix }}
-      epoch:  ${{ steps.epoch.outputs.epoch }}
-      tag:    ${{ steps.tag.outputs.tag }}
+      shards:        ${{ steps.shards.outputs.matrix }}
+      epoch:         ${{ steps.epoch.outputs.epoch }}
+      tag:           ${{ steps.tag.outputs.tag }}
+      service_count: ${{ steps.shards.outputs.service_count }}
     steps:
       - name: Resolve release tag
         id: tag
@@ -95,12 +96,13 @@ jobs:
                 services => join(",", @{ $shards[$i] }),
               };
             }
+            my $total_svcs = scalar(@{[ map { split /,/, $_->{services} } @entries ]});
             print "::notice::release-modular shard_count=" . scalar(@entries)
-                . " total_services=" . scalar(@{[ map { split /,/, $_->{services} } @entries ]})
-                . "\n";
+                . " total_services=$total_svcs\n";
             my $json = JSON::PP::encode_json(\@entries);
             open my $fh, ">>", $ENV{GITHUB_OUTPUT} or die $!;
             print $fh "matrix=$json\n";
+            print $fh "service_count=$total_svcs\n";
             close $fh;
           '
 
@@ -222,6 +224,13 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Checkout expected-service-count baseline
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.plan.outputs.tag }}
+          sparse-checkout: .github/expected-service-count.txt
+          sparse-checkout-cone-mode: false
+
       - name: Download all artefacts
         uses: actions/download-artifact@v4
         with:
@@ -317,5 +326,75 @@ jobs:
           if [ "$asset_count" -lt "${{ steps.flatten.outputs.total }}" ]
           then
             echo "::error::asset_count $asset_count < expected ${{ steps.flatten.outputs.total }}"
+            exit 1
+          fi
+
+      - name: Assert expected service fleet size
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ needs.plan.outputs.tag }}"
+          service_count="${{ needs.plan.outputs.service_count }}"
+          min_services=$(cat "$GITHUB_WORKSPACE/.github/expected-service-count.txt" 2>/dev/null || echo 0)
+
+          if [ "$service_count" -lt "$min_services" ]
+          then
+            echo "::error::service_count=$service_count below checked-in minimum=$min_services — possible service-list regression"
+            exit 1
+          fi
+
+          # Validate each expected service has both code and docs tarballs
+          # present in the release, rather than relying on a raw asset count
+          # that could false-pass with stale assets.
+          mapfile -t asset_names < <(gh release view "$tag" --repo "${{ github.repository }}" \
+                                         --json assets --jq '.assets[].name')
+          echo "::notice::release-modular tag=$tag service_count=$service_count min_services=$min_services asset_count=${#asset_names[@]}"
+
+          # Extract service names from shards matrix JSON.
+          mapfile -t services < <(echo '${{ needs.plan.outputs.shards }}' \
+                                      | jq --raw-output '.[].services' \
+                                      | tr ',' '\n')
+
+          missing=0
+          for svc in "${services[@]}"
+          do
+            found_code=0
+            found_docs=0
+            for name in "${asset_names[@]}"
+            do
+              case "$name" in
+                Paws-"$svc"-Docs-*.tar.gz) found_docs=1 ;;
+                Paws-"$svc"-[0-9]*.tar.gz) found_code=1 ;;
+              esac
+            done
+            if [ "$found_code" -eq 0 ]
+            then
+              echo "::error::missing code dist for service=$svc"
+              missing=$((missing + 1))
+            fi
+            if [ "$found_docs" -eq 0 ]
+            then
+              echo "::error::missing docs dist for service=$svc"
+              missing=$((missing + 1))
+            fi
+          done
+
+          # Also verify core dist is present.
+          found_core=0
+          for name in "${asset_names[@]}"
+          do
+            case "$name" in
+              Paws-[0-9]*.tar.gz) found_core=1 ;;
+            esac
+          done
+          if [ "$found_core" -eq 0 ]
+          then
+            echo "::error::missing Paws core dist"
+            missing=$((missing + 1))
+          fi
+
+          if [ "$missing" -gt 0 ]
+          then
+            echo "::error::missing_assets=$missing — release is incomplete"
             exit 1
           fi

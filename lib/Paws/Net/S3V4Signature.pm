@@ -1,6 +1,15 @@
 package Paws::Net::S3V4Signature;
-  # This is just a copy of the V4Signature code, as for now, I don't know the
-  # differences between S3 and S3V4 signatures
+  # DEPRECATED. This role is a copy-paste of Paws::Net::V4Signature
+  # written before the differences between S3 and S3V4 signing were
+  # understood; we have since established that V4Signature (with the
+  # explicit X-Amz-Content-Sha256 header added in the same stack as
+  # this deprecation marker) covers S3's needs end-to-end.
+  #
+  # No package in lib/, t/, share/, script/, builder-lib/ or
+  # templates/ consumes Paws::Net::S3V4Signature, and the
+  # materialiser maps every service's signature_version => 'v4' to
+  # Paws::Net::V4Signature directly. Deletion is scheduled in a
+  # follow-up PR after one release of advance notice.
   use Moose::Role;
   use Net::Amazon::Signature::V4;
   #requires 'region';

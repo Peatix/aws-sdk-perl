@@ -9,7 +9,8 @@
     "serviceId":"TinyService",
     "signatureVersion":"v4",
     "targetPrefix":"TinyService",
-    "uid":"tinyservice-2024-01-01"
+    "uid":"tinyservice-2024-01-01",
+    "xmlNamespace":{"uri":"http://tinyservice.example.com/doc/2024-01-01/"}
   },
   "documentation":"<p>A tiny synthetic service for unit-testing the Botocore loader.</p>",
   "operations":{
@@ -45,7 +46,11 @@
       },
       "input":{"shape":"DeleteThingRequest"},
       "deprecated":true,
-      "documentation":"<p>Delete a thing.</p>"
+      "documentation":"<p>Delete a thing.</p>",
+      "httpChecksum":{
+        "requestChecksumRequired":true,
+        "requestAlgorithmMember":"ChecksumAlgorithm"
+      }
     }
   },
   "shapes":{
@@ -64,7 +69,9 @@
         "ThingId":{"shape":"ThingId"},
         "ThingName":{"shape":"ThingName","locationName":"name"},
         "Status":{"shape":"Status"}
-      }
+      },
+      "xmlNamespace":{"uri":"http://tinyservice.example.com/doc/2024-01-01/Thing"},
+      "xmlName":"TinyThing"
     },
     "ThingList":{
       "type":"list",
@@ -88,7 +95,7 @@
     "ListThingsResponse":{
       "type":"structure",
       "members":{
-        "Things":{"shape":"ThingList"},
+        "Things":{"shape":"ThingList","flattened":true,"locationName":"TinyThing"},
         "Count":{"shape":"ThingCount"}
       }
     },
