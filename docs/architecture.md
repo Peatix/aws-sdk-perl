@@ -48,8 +48,7 @@ smithy IR ──────────►  Paws::Model::Loader │──► Pa
 | `lib/Paws/Model/IR.pm`                            | Source-format-independent IR. Contract between loaders and consumers.    |
 | `lib/Paws/Model/Loader.pm`                        | Abstract loader role.                                                    |
 | `lib/Paws/Model/Loader/Smithy.pm`                 | Smithy 2.0 AST JSON → IR.                                                |
-| `lib/Paws/Model/Loader/Botocore.pm`               | Botocore JSON → IR. Available for deprecated services only.              |
-| `lib/Paws/Model/Loader/Resolver.pm`               | Picks the loader per service. Defaults to Smithy-only.                   |
+| `lib/Paws/Model/Loader/Resolver.pm`               | Resolves a Paws service name to its Smithy IR file.                      |
 | `lib/Paws/Model/Materializer.pm`                  | Moose backend (escape hatch via `PAWS_OO_BACKEND=Moose`).               |
 | `lib/Paws/Model/Materializer/Moo.pm`              | Moo + Type::Tiny backend (default). Used by the build pipeline.          |
 | `builder-lib/Paws/API/Builder.pm`                 | Legacy TT-template AOT generator. Retained for reference; not used in the current build pipeline. |

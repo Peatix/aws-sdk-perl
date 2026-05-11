@@ -85,7 +85,7 @@ When a service class doesn't behave as expected:
 - `docs/architecture.md` — the data flow and where each module lives.
 - `docs/loaders.md` — Smithy loader and IR coverage table.
 - `docs/sources.md` — the vendored Smithy IR layout and refresh workflow.
-- `docs/deprecated-services.md` — the 14 botocore-only services
+- `docs/deprecated-services.md` — the 14 AWS-retired services
   Paws can no longer ship and the migration paths.
 - `docs/oo-backends.md` — Moose vs Moo + Type::Tiny tradeoffs.
 - `docs/serdes.md` — the wire-layer side-table both backends populate.

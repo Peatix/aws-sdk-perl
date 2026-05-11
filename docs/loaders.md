@@ -5,12 +5,11 @@ returns a `Paws::Model::IR::Service`. The downstream consumers
 (`Paws::Model::Materializer::Moo` and `Paws::Model::Materializer`)
 work against the IR and don't care which loader produced it.
 
-## Loaders
+## Loader
 
-| Loader                          | Source format                          | Role                |
-|---------------------------------|----------------------------------------|---------------------|
-| `Paws::Model::Loader::Smithy`  | Smithy 2.0 AST JSON                    | Default (sole source for the build pipeline) |
-| `Paws::Model::Loader::Botocore`| botocore `service-2.json` (+ siblings) | Escape hatch for deprecated services |
+| Loader                          | Source format                          |
+|---------------------------------|----------------------------------------|
+| `Paws::Model::Loader::Smithy`  | Smithy 2.0 AST JSON                    |
 
 The loader implements the `Paws::Model::Loader` role:
 
@@ -20,18 +19,15 @@ The loader implements the `Paws::Model::Loader` role:
 
 ## Where source files live
 
-- Smithy (the build-time source of truth): vendored under
-  `share/smithy/<service>/<service>.smithy.json` from
-  `awslabs/aws-sdk-rust:aws-models/` at the SHA pinned in
-  `share/smithy/.upstream-sha`. Tracked in git.
-- Botocore (only available for deprecated services that have no Smithy
-  model): requires a local botocore checkout. Per-service paths look
-  like `botocore/botocore/data/<service>/<date>/service-2.json`.
+Smithy IR is vendored under
+`share/smithy/<service>/<service>.smithy.json` from
+`awslabs/aws-sdk-rust:aws-models/` at the SHA pinned in
+`share/smithy/.upstream-sha`. Tracked in git.
 
 ## Loader resolution
 
-`Paws::Model::Loader::Resolver` walks the configured search paths
-and returns the IR:
+`Paws::Model::Loader::Resolver` resolves a Paws service name to its
+Smithy IR file and returns the loaded IR:
 
 ```
 use Paws::Model::Loader::Resolver;
@@ -72,36 +68,36 @@ model for). Asking the resolver for one dies with the AWS shutdown
 date and a pointer at `docs/deprecated-services.md` rather than the
 generic "no source file found".
 
-## IR coverage
+## IR field coverage
 
-The IR has the union of fields needed by both materialisers. Each
-loader populates the subset that its source format expresses:
+The IR has the union of fields needed by both materialisers. The
+Smithy loader populates them as follows:
 
-| Field                          | Botocore                       | Smithy                                |
-|--------------------------------|--------------------------------|---------------------------------------|
-| `Service.endpoint_prefix`      | `metadata.endpointPrefix`      | `@aws.api#service.endpointPrefix`     |
-| `Service.protocol`             | `metadata.protocol`            | `@aws.protocols#…` trait              |
-| `Service.json_version`         | `metadata.jsonVersion`         | derived from `awsJson1_0`/`awsJson1_1`|
-| `Operation.http_method`        | `operation.http.method`        | `@smithy.api#http.method`             |
-| `Operation.http_uri`           | `operation.http.requestUri`    | `@smithy.api#http.uri`               |
-| `Operation.http_status_code`   | `operation.http.responseCode`  | `@smithy.api#http.code`               |
-| `Operation.deprecated`         | `operation.deprecated`         | `@smithy.api#deprecated`              |
-| `Operation.error_shapes`       | `operation.errors[].shape`     | `operation.errors[].target`           |
-| `Member.location` (header)     | `member.location: 'header'`    | `@smithy.api#httpHeader`              |
-| `Member.location` (query)      | `member.location: 'querystring'`| `@smithy.api#httpQuery`              |
-| `Member.location` (uri)        | `member.location: 'uri'`       | `@smithy.api#httpLabel`               |
-| `Member.locationName` (rename) | `member.locationName`          | `@smithy.api#jsonName`/`@smithy.api#xmlName` |
-| `Member.streaming`             | `member.streaming`             | `@smithy.api#streaming`               |
-| `Shape.required_members`       | `shape.required[]`             | per-member `@smithy.api#required`     |
-| `Shape.payload`                | `shape.payload`                | per-member `@smithy.api#httpPayload`  |
+| Field                          | Smithy source                         |
+|--------------------------------|---------------------------------------|
+| `Service.endpoint_prefix`      | `@aws.api#service.endpointPrefix`     |
+| `Service.protocol`             | `@aws.protocols#…` trait              |
+| `Service.json_version`         | derived from `awsJson1_0`/`awsJson1_1`|
+| `Operation.http_method`        | `@smithy.api#http.method`             |
+| `Operation.http_uri`           | `@smithy.api#http.uri`               |
+| `Operation.http_status_code`   | `@smithy.api#http.code`               |
+| `Operation.deprecated`         | `@smithy.api#deprecated`              |
+| `Operation.error_shapes`       | `operation.errors[].target`           |
+| `Member.location` (header)     | `@smithy.api#httpHeader`              |
+| `Member.location` (query)      | `@smithy.api#httpQuery`              |
+| `Member.location` (uri)        | `@smithy.api#httpLabel`               |
+| `Member.locationName` (rename) | `@smithy.api#jsonName`/`@smithy.api#xmlName` |
+| `Member.streaming`             | `@smithy.api#streaming`               |
+| `Shape.required_members`       | per-member `@smithy.api#required`     |
+| `Shape.payload`                | per-member `@smithy.api#httpPayload`  |
 
-Smithy-only fields not yet absorbed into the IR (event streams, mixins,
+Fields not yet absorbed into the IR (event streams, mixins,
 resource shapes, document type) are folded in incrementally as the wire
 layer grows support.
 
 ## Adding another loader
 
-The architecture is loader-pluggable by design. To add a third loader
+The architecture is loader-pluggable by design. To add another loader
 (OpenAPI? Hand-written?):
 
 1. Implement `name()` and `load()` from `Paws::Model::Loader`.
