@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
-use Paws::Test::SkipNoServiceClasses;
+use Paws::Test::MaterialiseServices;
 
 use English qw(-no-match-vars);
 use Carp;
@@ -46,8 +46,12 @@ foreach my $char (@to_encode) {
     diag qq[Error creating object: $@];
   };
 
-## The URI should contain a once-encoded character:
-  is($response->url, 'https://s3-us-west-2.amazonaws.com/test-uri-paws/test' . uri_escape($char), "S3 uri char " . ord($char) . " encoded correctly");
+## The URI should contain a once-encoded character. The host uses the
+## modern dot-delimited regional endpoint (s3.<region>.amazonaws.com)
+## and S3 Smithy operations include an `x-id` query parameter for
+## routing. Both are encoded once by the Smithy IR; the test signal
+## is that the *key* component carries the URL-escaped character.
+  is($response->url, 'https://s3.us-west-2.amazonaws.com/test-uri-paws/test' . uri_escape($char) . '?x-id=PutObject', "S3 uri char " . ord($char) . " encoded correctly");
 }
 
 # Do NOT encode the "/" in a Key name:
@@ -62,6 +66,6 @@ eval { $response = $s3->PutObject(
 };
 
 ## The URI should contain a once-encoded character:
-is($response->url, 'https://s3-us-west-2.amazonaws.com/test-uri-paws/test/foo/bar', "S3 uri left / unencoded in Key correctly");
+is($response->url, 'https://s3.us-west-2.amazonaws.com/test-uri-paws/test/foo/bar?x-id=PutObject', "S3 uri left / unencoded in Key correctly");
 
 done_testing;

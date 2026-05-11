@@ -1,0 +1,38 @@
+---
+# Exercise the response decoder against a multi-key DeleteObjects
+# response with:
+#   - a flattened `<Deleted>` list with mixed element shapes
+#     (versioned + plain),
+#   - a sibling flattened `<Error>` list (which the Smithy IR
+#     surfaces via `Errors` with `xmlName: Error`),
+#   - the structure-level `xmlName: DeleteResult` on the output
+#     (the root XML element name does not match the Paws class
+#     suffix; XML::Simple strips it, which is the right thing here
+#     since the inner members are body-located).
+call: DeleteObjects
+service: S3
+tests:
+  - path: _request_id
+    op: eq
+    expected: 7E3B5E9F0F2C6A92
+  - path: Deleted.0.Key
+    op: eq
+    expected: sample1.txt
+  - path: Deleted.1.Key
+    op: eq
+    expected: sample2.txt
+  - path: Deleted.1.VersionId
+    op: eq
+    expected: 4PdjN.fdg83zMxBwzn8.5wmKHkVyTC4D
+  - path: Deleted.1.DeleteMarker
+    op: eq
+    expected: 1
+  - path: Errors.0.Key
+    op: eq
+    expected: sample3.txt
+  - path: Errors.0.Code
+    op: eq
+    expected: AccessDenied
+  - path: Errors.0.Message
+    op: eq
+    expected: Access Denied

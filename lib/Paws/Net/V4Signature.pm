@@ -1,5 +1,6 @@
 package Paws::Net::V4Signature;
   use Moose::Role;
+  use Digest::SHA qw(sha256_hex);
   use Net::Amazon::Signature::V4;
   #requires 'region';
   requires 'service';
@@ -33,6 +34,22 @@ package Paws::Net::V4Signature;
         : $self->endpoint->host_port);
     if ($creds->session_token) {
       $request->header( 'X-Amz-Security-Token' => $creds->session_token );
+    }
+
+    # AWS Signature V4 requires the SHA-256 of the request payload
+    # to be included in the canonical request string and surfaced
+    # as the X-Amz-Content-Sha256 header for several services (S3
+    # always, Glacier, and others that may add it in future
+    # protocol revisions). Modern Net::Amazon::Signature::V4
+    # populates this header internally before signing, but the
+    # behaviour is not documented as part of its public contract;
+    # set it explicitly so the canonicalisation does not depend on
+    # upstream's internals. The header is harmless for services
+    # that don't require it (AWS ignores it on those endpoints).
+    if (!defined $request->header('X-Amz-Content-Sha256')) {
+      $request->header(
+        'X-Amz-Content-Sha256' => sha256_hex($request->content // ''),
+      );
     }
 
     my $name = $self->can('signing_name') ? $self->signing_name : $self->service;
