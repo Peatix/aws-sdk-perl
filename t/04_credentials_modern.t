@@ -296,4 +296,43 @@ delete @ENV{qw(
   ok($creds->are_set, 'SSO: credentials set via AWS_PROFILE env var');
 }
 
+# SSO with sso_session indirection (modern AWS CLI v2 / IAM Identity Center config)
+{
+  my $mock_sso = Test04::MockSSO::Service->new;
+  my $creds = Paws::Credential::SSO->new(
+    sso => $mock_sso,
+    config_file => 't/04_credentials_modern/config',
+    sso_cache_dir => 't/04_credentials_modern/sso_cache',
+    profile => 'test-sso-session',
+  );
+
+  cmp_ok($creds->sso_start_url, 'eq', 'https://session-portal.awsapps.com/start',
+    'SSO sso_session: sso_start_url resolved from sso-session section');
+  cmp_ok($creds->sso_region, 'eq', 'eu-west-1',
+    'SSO sso_session: sso_region resolved from sso-session section');
+  cmp_ok($creds->sso_account_id, 'eq', '123456789012',
+    'SSO sso_session: sso_account_id read from profile');
+  cmp_ok($creds->sso_role_name, 'eq', 'SessionRole',
+    'SSO sso_session: sso_role_name read from profile');
+
+  ok($creds->are_set, 'SSO sso_session: credentials are set');
+  my $a = $creds->refresh;
+  cmp_ok($a->access_key, 'eq', 'SSOAK1', 'SSO sso_session: produces valid credentials');
+}
+
+# SSO expired cache token should die with clear message
+{
+  my $creds = Paws::Credential::SSO->new(
+    sso => Test04::MockSSO::Service->new,
+    sso_start_url => 'https://expired-portal.awsapps.com/start',
+    sso_region => 'us-west-2',
+    sso_account_id => '123456789012',
+    sso_role_name => 'TestRole',
+    sso_cache_dir => 't/04_credentials_modern/sso_cache',
+  );
+
+  throws_ok { $creds->refresh } qr/SSO access token expired/,
+    'SSO: dies with clear message when cached token expiresAt is in the past';
+}
+
 done_testing;
