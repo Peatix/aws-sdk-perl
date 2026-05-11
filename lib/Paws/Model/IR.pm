@@ -38,6 +38,14 @@ package Paws::Model::IR::Service {
     has uid               => (is => 'ro', isa => 'Maybe[Str]');
     has documentation     => (is => 'ro', isa => 'Maybe[Str]');
 
+    # Service-level default XML namespace URI. Populated from
+    # `smithy.api#xmlNamespace.uri` on the service shape (Smithy IR)
+    # or from `metadata.xmlNamespace.uri` (botocore JSON) when
+    # present. Consumed by the materialiser to wrap body XML in
+    # `<Root xmlns="...">...</Root>` for REST-XML services like S3
+    # whose operations don't carry a per-payload namespace.
+    has xml_namespace     => (is => 'ro', isa => 'Maybe[Str]');
+
     has operations => (
         is      => 'ro',
         isa     => 'HashRef[Paws::Model::IR::Operation]',
@@ -114,6 +122,21 @@ package Paws::Model::IR::Shape {
 
     # primitive enum
     has enum_values => (is => 'ro', isa => 'ArrayRef[Str]', default => sub { [] });
+
+    # Per-shape XML namespace URI, when set. Populated from the
+    # `smithy.api#xmlNamespace.uri` trait on the shape itself (or
+    # from the corresponding botocore `xmlNamespace` field). The
+    # materialiser uses this on payload-target structures to wrap
+    # the body XML in `<Element xmlns="...">...</Element>`.
+    has xml_namespace => (is => 'ro', isa => 'Maybe[Str]');
+
+    # Per-shape XML element override, when set. Populated from
+    # `smithy.api#xmlName` (Smithy) / `xmlName` (botocore) on the
+    # structure shape itself. Used by the response decoder to
+    # recognise the wire-side root element name when it differs from
+    # the IR-side shape suffix (e.g. ListObjectsV2Output ->
+    # `<ListBucketResult>`).
+    has xml_name => (is => 'ro', isa => 'Maybe[Str]');
 
     has documentation => (is => 'ro', isa => 'Maybe[Str]');
 
