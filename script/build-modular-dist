@@ -211,6 +211,7 @@ configure_requires:
   Module::Build::Tiny: '0.034'
 build_requires:
   Module::Build::Tiny: '0.034'
+  Test::More: '0.96'
 dynamic_config: 0
 generated_by: 'script/build-modular-dist'
 license: apache_2_0
