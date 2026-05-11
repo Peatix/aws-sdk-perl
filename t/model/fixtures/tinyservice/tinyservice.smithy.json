@@ -46,7 +46,11 @@
       "input": {"target": "com.example.tiny#DeleteThingRequest"},
       "traits": {
         "smithy.api#http": {"method": "DELETE", "uri": "/things/{ThingId}", "code": 204},
-        "smithy.api#deprecated": {}
+        "smithy.api#deprecated": {},
+        "aws.protocols#httpChecksum": {
+          "requestChecksumRequired": true,
+          "requestAlgorithmMember": "ChecksumAlgorithm"
+        }
       }
     },
     "com.example.tiny#ThingId":    {"type": "string"},

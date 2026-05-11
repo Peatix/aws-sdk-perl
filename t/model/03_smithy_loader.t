@@ -68,6 +68,15 @@ subtest 'operation surface' => sub {
     is($del->http_method, 'DELETE',               'DELETE method');
     is($del->http_status_code, 204,               'http code from smithy.api#http.code');
     ok($del->deprecated, 'deprecated trait mapped');
+    ok($del->http_checksum_required,
+       'aws.protocols#httpChecksum.requestChecksumRequired -> http_checksum_required');
+    is($del->http_checksum_algorithm_member, 'ChecksumAlgorithm',
+       'aws.protocols#httpChecksum.requestAlgorithmMember -> http_checksum_algorithm_member');
+
+    ok(!$svc->operation('GetThing')->http_checksum_required,
+       'operation without the trait defaults to http_checksum_required=0');
+    is($svc->operation('GetThing')->http_checksum_algorithm_member, undef,
+       'operation without the trait defaults to http_checksum_algorithm_member=undef');
 };
 
 subtest 'shape surface' => sub {
@@ -162,6 +171,11 @@ subtest 'IR parity with Botocore loader on the same service' => sub {
         is($s->http_uri,     $b->http_uri,     "$op_name: same http uri");
         is($s->input_shape,  $b->input_shape,  "$op_name: same input shape");
         is($s->output_shape, $b->output_shape, "$op_name: same output shape");
+        is($s->http_checksum_required, $b->http_checksum_required,
+           "$op_name: same http_checksum_required");
+        is($s->http_checksum_algorithm_member,
+           $b->http_checksum_algorithm_member,
+           "$op_name: same http_checksum_algorithm_member");
     }
 
     # Member-level: pick the Filter parameter and verify locations match.
