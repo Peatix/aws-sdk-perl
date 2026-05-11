@@ -43,7 +43,7 @@ package Paws::Net::RetryCallerRole;
   }
 
   sub do_call {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
 
     my $chain = $self->_build_chain;
     my $context = Paws::Net::InterceptorContext->new(
@@ -79,7 +79,7 @@ package Paws::Net::RetryCallerRole;
         last RETRY;
       }
 
-      my $response = $self->send_request($service, $context->call_object);
+      my $response = $self->send_request($service, $context->call_object, %params);
       my $result   = $self->caller_to_response($service, $context->call_object, $response);
       $context->response($response);
       $context->result($result);

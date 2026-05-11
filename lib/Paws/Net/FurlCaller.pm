@@ -17,7 +17,7 @@ package Paws::Net::FurlCaller;
   );
 
   sub send_request {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
     my $requestObj = $service->prepare_request_for_call($call_object); 
 
     my $headers = $requestObj->header_hash;
@@ -25,12 +25,32 @@ package Paws::Net::FurlCaller;
     delete $headers->{Host};
 
     my $method = uc $requestObj->method;
-    my $response = $self->ua->request(
-      url => $requestObj->url,
+
+    my %req_opts = (
+      url     => $requestObj->url,
       headers => [ %$headers ],
-      method => $method,
-      (defined $requestObj->content)?(content => $requestObj->content):(),
+      method  => $method,
     );
+
+    if ($requestObj->is_streaming_body) {
+      my $fh = $requestObj->stream_body;
+      my $chunk_size = 65536;
+      $req_opts{content} = sub {
+        my $buf;
+        my $n = read($fh, $buf, $chunk_size);
+        die "read failed on streaming body: $!" unless defined $n;
+        return $buf if $n;
+        return '';
+      };
+    } elsif (defined $requestObj->content) {
+      $req_opts{content} = $requestObj->content;
+    }
+
+    if (my $cb = $params{response_callback}) {
+      $req_opts{write_code} = $cb;
+    }
+
+    my $response = $self->ua->request(%req_opts);
 
     return Paws::Net::APIResponse->new(
       status  => $response->code,
