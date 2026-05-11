@@ -4,7 +4,6 @@ package Paws::Model::Loader;
 # on-disk representation into the source-format-independent IR
 # (see Paws::Model::IR).
 #
-#
 # Concrete loader:
 #   - Paws::Model::Loader::Smithy      (smithy AST JSON)
 #

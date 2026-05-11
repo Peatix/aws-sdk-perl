@@ -26,6 +26,7 @@ use warnings;
 use v5.10;
 
 use Carp qw(croak);
+use File::Spec;
 
 use Paws::SerDes;
 
@@ -107,6 +108,67 @@ my %PRIMITIVE_TO_TYPE_EXPR = (
     blob      => 'Str',
 );
 
+# --- Endpoint rules (region_rules) support ---
+#
+# The AOT build path uses Paws::API::RegionBuilder + etc/_endpoints.json
+# to emit `has '+region_rules' => (...)` overrides in generated service
+# classes. The materialiser must do the same so that global services
+# (IAM, STS, Route53, CloudFront, WAF, ...) resolve endpoints correctly
+# when materialised at runtime.
+
+sub _endpoint_rules_data {
+    my ($self) = @_;
+    return $self->{_endpoint_rules_data} if exists $self->{_endpoint_rules_data};
+
+    my $data = {};
+    my $file = _find_endpoints_file();
+    if (defined $file) {
+        require JSON::MaybeXS;
+        if (open my $fh, '<', $file) {
+            local $/;
+            my $json = <$fh>;
+            close $fh;
+            eval { $data = JSON::MaybeXS::decode_json($json) };
+            warn "Paws::Model::Materializer::Moo: failed to decode $file: $@" if $@;
+        }
+    }
+    $self->{_endpoint_rules_data} = $data;
+    return $data;
+}
+
+sub _find_endpoints_file {
+    return 'etc/_endpoints.json' if -f 'etc/_endpoints.json';
+    my $shared;
+    eval {
+        require File::ShareDir;
+        my $dir = File::ShareDir::dist_dir('Paws');
+        my $f = File::Spec->catfile($dir, '_endpoints.json');
+        $shared = $f if -f $f;
+    };
+    return $shared;
+}
+
+sub _region_rules_source {
+    my ($self, $endpoint_prefix) = @_;
+    return '' unless defined $endpoint_prefix;
+
+    my $data = $self->_endpoint_rules_data;
+    my $rules = $data->{$endpoint_prefix};
+    return '' unless $rules && ref $rules eq 'ARRAY' && @$rules;
+
+    require Data::Dumper;
+    my $d = Data::Dumper->new([$rules]);
+    $d->Terse(1);
+    $d->Indent(1);
+    $d->Quotekeys(0);
+    $d->Sortkeys(1);
+    $d->Pad('            ');
+    my $perl_ds = $d->Dump;
+    chomp $perl_ds;
+
+    return "        has '+region_rules' => (default => sub {\n$perl_ds;\n        });";
+}
+
 # Public entry: materialise a service by name. Returns the service
 # package name. Idempotent.
 sub materialize_service {
@@ -148,6 +210,8 @@ sub materialize_service {
         };
     }
 
+    my $region_rules_src = $self->_region_rules_source($service_ir->endpoint_prefix);
+
     my $src = qq{
         package $service_pkg;
         use Moo;
@@ -169,6 +233,8 @@ sub materialize_service {
              'Paws::API::EndpointResolver',
              '$signature_role',
              '$caller_role';
+
+        $region_rules_src
 
         @{[ join("\n", @op_methods) ]}
 

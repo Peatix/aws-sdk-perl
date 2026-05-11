@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::EC2Caller;
   use Paws;
   use Moose::Role;
@@ -28,9 +31,8 @@ package Paws::Net::EC2Caller;
     for my $att ($serdes->serializable_attributes) {
       my $key = $serdes->wire_key_for($att);
 
-      # EC2Serializer uppercases the first letter of every wire key
-      # (this is a botocore EC2-protocol quirk; see serialize.py in
-      # botocore).
+      # The EC2 query protocol uppercases the first letter of every
+      # wire key.
       substr($key, 0, 1) = uc(substr($key, 0, 1));
 
       my $value = $params->$att;

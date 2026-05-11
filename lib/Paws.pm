@@ -92,16 +92,6 @@ sub load_class {
   my (undef, @classes) = @_;
   state %loaded;
   foreach my $class (grep !$loaded{$_}, @classes) {
-    # Phase 3 of the A4-B distribution plan
-    # (docs/distribution-plan-a4b.md §2.5) drops the runtime-
-    # materialiser fallback. load_class is now a thin wrapper
-    # around Module::Runtime::require_module: a missing service
-    # class produces the canonical Perl
-    # `Can't locate Paws/<Svc>.pm in @INC ...` error, which is the
-    # signal to the user to `cpanm Paws::<Svc>` from the modular
-    # release. The materialiser + loader code lives in master at
-    # lib/Paws/Model/{Materializer,Loader}* but is excluded from
-    # the Paws::Core dist via dist.ini's Git::GatherDir excludes.
     Module::Runtime::require_module($class);
     $loaded{$class} = 1;
     # immutability is a global setting that will affect all instances
@@ -266,9 +256,8 @@ sub available_services {
                    Module::Find::findsubmod Paws;
 
   # Materialiser-time enumeration: every service the resolver can
-  # reach via share/smithy/* or share/botocore/* (or, in dev / CI,
-  # via the botocore checkout at botocore/botocore/data/*). After
-  # stack19 dropped auto-lib/, this is the dominant source: for an
+  # reach via share/smithy/*. After stack19 dropped auto-lib/, this
+  # is the dominant source: for an
   # end user with `cpanm Paws` installed, install-time enumeration
   # only covers Paws::Signin (the one handwritten service); every
   # other service is reachable iff its IR is in share/.

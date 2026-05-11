@@ -3,7 +3,7 @@
 # Unit tests for Paws::Model::Loader::Smithy.
 #
 # Loads a synthetic Smithy 2.0 AST under t/model/fixtures/tinyservice/
-# and asserts the IR has the right shape.
+# and asserts the IR has the expected shape.
 
 use strict;
 use warnings;
@@ -17,7 +17,8 @@ use lib "$Bin/../../builder-lib";
 use Paws::Model::IR;
 use Paws::Model::Loader::Smithy;
 
-my $smithy_path   = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
+my $smithy_path = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
+
 
 my $smithy_loader   = Paws::Model::Loader::Smithy->new;
 is($smithy_loader->name, 'smithy', 'loader identifies as smithy');
@@ -134,5 +135,6 @@ subtest 'member traits map to IR locations' => sub {
     ok(!$list_resp->members->{Count}->flattened,
        'non-list member defaults to flattened=0');
 };
+
 
 done_testing;

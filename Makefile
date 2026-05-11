@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 # `make dist` ships a tarball ready for `cpanm`. share/smithy/ is
 # committed to git (see script/paws-vendor-smithy + the
 # share/smithy/.upstream-sha pin), so [Git::GatherDir] + [ShareDir]

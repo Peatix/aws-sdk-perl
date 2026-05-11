@@ -1,3 +1,6 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::RestXmlCaller;
   use Paws;
   use Moose::Role;
@@ -6,6 +9,7 @@ package Paws::Net::RestXmlCaller;
   use URI::Template;
   use URI::Escape;
   use Moose::Util;
+  use Scalar::Util;
 
   use Paws::Net::RestXMLResponse;
   use Paws::SerDes;
@@ -30,7 +34,6 @@ package Paws::Net::RestXmlCaller;
 
     my %p;
     for my $att ($serdes->serializable_attributes) {
-      # e.g. S3 metadata objects, which are passed in the header
       next if $serdes->trait_for($att, 'ParamInHeaders');
 
       my $value = $params->$att;
@@ -148,9 +151,6 @@ package Paws::Net::RestXmlCaller;
     }
   }
 
-  # URI escaping adapted from URI::Escape
-  #c.f. http://www.w3.org/TR/html4/interact/forms.html#h-17.13.4.1
-  # perl 5.6 ready UTF-8 encoding adapted from JSON::PP
   our %escapes = map { chr($_) => sprintf("%%%02X", $_) } 0..255;
   our $unsafe_char = qr/[^A-Za-z0-9\-\._~]/;
 
@@ -273,13 +273,10 @@ package Paws::Net::RestXmlCaller;
       next if $serdes->trait_for($att, 'ParamInHeader');
       next if $serdes->trait_for($att, 'ParamInQuery');
       next if $serdes->trait_for($att, 'ParamInURI');
-      # Historically: skip Paws::S3::Metadata typed attributes (the
-      # S3 metadata bag is serialised as headers, not body XML).
       next if ($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
       $xml .= $self->_attribute_to_xml($serdes, $att, $v);
     }
 
-    # Extra level of top-level wrapping, if set on the call object.
     if ($call->can('_top_level_element')) {
       $xml = sprintf('<%s xmlns="%s">%s</%s>',
                      $call->_top_level_element,
@@ -331,10 +328,16 @@ package Paws::Net::RestXmlCaller;
 
     if ($call->can('_stream_param')) {
       my $param_name = $call->_stream_param;
-      my $content = $call->$param_name // '';
-      $request->content($content);
-      $request->headers->header( 'content-length' => $request->content_length );
-      #$request->headers->header( 'content-type'   => $self->content_type );
+      my $param_value = $call->$param_name // '';
+      if (ref($param_value) eq 'GLOB'
+          || Scalar::Util::openhandle($param_value)
+          || (Scalar::Util::blessed($param_value) && $param_value->isa('IO::Handle'))) {
+          $request->stream_body($param_value);
+          $request->headers->header('x-amz-content-sha256' => 'UNSIGNED-PAYLOAD');
+      } else {
+          $request->content($param_value);
+          $request->headers->header( 'content-length' => $request->content_length );
+      }
     }
 
     $self->_to_header_params($request, $call);

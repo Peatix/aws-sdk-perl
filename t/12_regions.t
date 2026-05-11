@@ -1,8 +1,10 @@
 #!/usr/bin/env perl
-use lib qw(t/lib);
-use Paws::Test::SkipNoServiceClasses;
+
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
 
 use lib 't/lib';
+use Paws::Test::MaterialiseServices;
 
 use JSON::MaybeXS;
 my $known_regions = <<'EOF';
@@ -283,8 +285,7 @@ my $json = JSON()->new->pretty;
 $json = $json->relaxed([1]);
 
 my $known_regions = $json->decode($known_regions);
-# Override some differences with botocore handling of STS. It looks like they don't
-# support regional endpoints for STS
+# Override some differences with STS regional endpoint handling
 $known_regions->{ '[UNDEF]' }->{ sts }        = 'sts.amazonaws.com';
 $known_regions->{ 'us-east-1' }->{ sts }      = 'sts.us-east-1.amazonaws.com';
 $known_regions->{ 'us-west-2' }->{ sts }      = 'sts.us-west-2.amazonaws.com';

@@ -75,7 +75,7 @@ require Paws::Model::Loader::Resolver;
 require Paws::Model::IR;
 
 my $resolver = Paws::Model::Loader::Resolver->new(
-    smithy_search_paths   => [
+    smithy_search_paths => [
         File::Spec->catdir($paws_root, 'share', 'smithy'),
     ],
 );

@@ -15,20 +15,37 @@ package Paws::Net::Caller;
   );
 
   sub send_request {
-    my ($self, $service, $call_object) = @_;
+    my ($self, $service, $call_object, %params) = @_;
     my $requestObj = $service->prepare_request_for_call($call_object); 
     my $headers    = $requestObj->header_hash;
 
     # HTTP::Tiny derives the Host header from the URL. It's an error to set it.
     delete $headers->{Host}; 
 
+    my %options = (headers => $headers);
+
+    if ($requestObj->is_streaming_body) {
+      my $fh = $requestObj->stream_body;
+      my $chunk_size = 65536;
+      $options{content} = sub {
+        my $buf;
+        my $n = read($fh, $buf, $chunk_size);
+        die "read failed on streaming body: $!" unless defined $n;
+        return $buf if $n;
+        return '';
+      };
+    } elsif (defined $requestObj->content) {
+      $options{content} = $requestObj->content;
+    }
+
+    if (my $cb = $params{response_callback}) {
+      $options{data_callback} = $cb;
+    }
+
     my $response = $self->ua->request(
       $requestObj->method,
       $requestObj->url,
-      {
-        headers => $headers,
-        (defined $requestObj->content)?(content => $requestObj->content):(),
-      }
+      \%options,
     );
     return Paws::Net::APIResponse->new(
       status  => $response->{status},

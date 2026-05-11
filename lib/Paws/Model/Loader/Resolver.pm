@@ -1,12 +1,10 @@
 package Paws::Model::Loader::Resolver;
 
-# Loader resolver: given a service name, find the on-disk source
-# files and return a Paws::Model::IR::Service via the appropriate
-# loader.
+# Loader resolver: given a service name, find the on-disk Smithy
+# source file and return a Paws::Model::IR::Service.
 #
-# Default: Smithy-only. share/smithy/ is committed to git and shipped
-# in the dist; the Smithy IR covers every non-deprecated AWS service
-# Paws ships today.
+# share/smithy/ is committed to git and shipped in the dist; the
+# Smithy IR covers every non-deprecated AWS service Paws ships today.
 #
 # Naming: a Paws service class name (e.g. `ApiGateway`, `EventBridge`,
 # `DMS`) does not always match the Smithy file basename
@@ -55,7 +53,7 @@ sub _share_dir {
     return $SHARE_DIR;
 }
 
-# Where to look for source files. Each path is checked in turn.
+# Where to look for Smithy source files. Each path is checked in turn.
 #
 # Default order:
 #   1. The dist's installed sharedir (populated by [ShareDir] from the
@@ -81,20 +79,15 @@ has smithy_search_paths => (
     },
 );
 
-# Loader instance.
 has _smithy_loader => (
     is      => 'ro',
     lazy    => 1,
     default => sub { Paws::Model::Loader::Smithy->new },
 );
 
-# Enumerate the set of SDK class names that have a source file in
-# any of the configured search paths. Returns the names sorted, with
-# duplicates collapsed (a service that exists in both Smithy and
-# Botocore appears once). Lightweight: walks directory entries and
-# only opens a file when the SDK name is not derivable from the
-# filename / directory name (botocore: `metadata.serviceId` is the
-# canonical SDK name; we cache it after the first read).
+# Enumerate the set of SDK class names that have a Smithy source
+# file in any of the configured search paths. Returns the names
+# sorted.
 #
 # `Paws::available_services` calls into this so the materialiser
 # path has the same enumeration semantics that Module::Find used to
@@ -104,29 +97,17 @@ sub available_services {
 
     my %seen;
 
-    # Inverse %PAWS_TO_SMITHY: smithy basename -> Paws class name.
-    # Built once per call (cheap; 171 entries). Used to translate
-    # the basenames we find in share/smithy/ back to the Paws class
-    # names callers actually use (`Paws::ApiGateway` not
-    # `Paws::api-gateway`, etc.).
     my %smithy_to_paws;
     while (my ($paws, $smithy) = each %PAWS_TO_SMITHY) {
         $smithy_to_paws{$smithy} = $paws;
     }
 
-    # Smithy: directory names are basenames (botocore-style: `ec2`,
-    # `cognito-idp`, `acm-pca`). Translate to Paws class names so
-    # the materialiser path produces classes the rest of the code
-    # base can address. Basenames whose lc() form already matches
-    # the Paws class name (~254 services) round-trip through
-    # ucfirst + the IR-name override in Paws::_materialise_class /
-    # Paws::Model::Materializer::Auto::_materialise; basenames that
-    # contain a dash and aren't in %PAWS_TO_SMITHY values (~17 new-
-    # GA services Smithy added that the AOT path never had a name
-    # for: bedrock-agentcore, mwaa-serverless,
-    # etc.) are skipped because there's no derivation that gives a
-    # valid Perl identifier without reading the sdkId trait. Adding
-    # explicit %PAWS_TO_SMITHY entries for those is a follow-up.
+    # Directory names are basenames (`ec2`, `cognito-idp`, `acm-pca`).
+    # Translate to Paws class names so the materialiser path produces
+    # classes the rest of the code base can address. Basenames that
+    # contain a dash and aren't in %PAWS_TO_SMITHY values are skipped
+    # because there's no derivation that gives a valid Perl identifier
+    # without reading the sdkId trait.
     for my $base (@{ $self->smithy_search_paths }) {
         next if !-d $base;
         opendir(my $dh, $base) or next;
@@ -138,7 +119,6 @@ sub available_services {
                 $basename = $1;
             }
             elsif (-d $path) {
-                # nested: <base>/<svc>/<svc>.smithy.json
                 for my $candidate (
                     File::Spec->catfile($path, "$entry.smithy.json"),
                     File::Spec->catfile($path, lc($entry) . ".smithy.json"),
@@ -155,23 +135,16 @@ sub available_services {
                 $seen{$paws} = 1;
             }
             elsif ($basename !~ /-/) {
-                # All-lowercase basenames map to Paws::<basename>
-                # via the lc() fallback in _smithy_path_for; the IR
-                # mutation in the materialiser entry points keeps
-                # the materialised class name aligned.
                 $seen{$basename} = 1;
             }
-            # else: dash-containing basename with no explicit
-            # mapping. Skipped (see comment above).
         }
         closedir $dh;
     }
 
-
     return sort keys %seen;
 }
 
-# Public entry: load the named service from the Smithy IR.
+# Public entry: load the named service via the Smithy loader.
 #
 # Returns ($ir, $loader_name) in list context; $ir in scalar context.
 sub load_service {
@@ -183,17 +156,12 @@ sub load_service {
         return wantarray ? ($ir, 'Smithy') : $ir;
     }
 
-    # Differentiate "we know this service is gone" from "we don't
-    # know what you're asking for". The former gets a pointed error
-    # with the AWS shutdown date and a doc pointer; the latter the
-    # generic "no source file" message.
     if (my $reason = $PAWS_DROPPED_SERVICES{$service_name}) {
         croak "resolver: service '$service_name' is no longer ship-able: "
             . "$reason. See docs/deprecated-services.md for the migration path.";
     }
 
-    croak "resolver: no source file found for service=$service_name in any of "
-        . join(',', @{ $self->order });
+    croak "resolver: no Smithy source file found for service=$service_name";
 }
 
 sub _find_smithy_path {
@@ -202,9 +170,11 @@ sub _find_smithy_path {
     my $smithy_basename = _paws_to_smithy($service_name);
     for my $base (@{ $self->smithy_search_paths }) {
         for my $candidate (
+            # Flat layout (tolerant of older trees / fixtures):
             File::Spec->catfile($base, "$smithy_basename.smithy.json"),
             File::Spec->catfile($base, lc($service_name) . ".smithy.json"),
             File::Spec->catfile($base, "$service_name.smithy.json"),
+            # Nested layout (canonical for the vendored tree):
             File::Spec->catfile($base, $smithy_basename, "$smithy_basename.smithy.json"),
             File::Spec->catfile($base, lc($service_name), lc($service_name) . ".smithy.json"),
             File::Spec->catfile($base, $service_name, "$service_name.smithy.json"),
@@ -224,8 +194,8 @@ sub _find_smithy_path {
 #     CloudHSMv2 -> cloudhsm-v2). These are mechanical but not
 #     derivable from `lc($class)` alone — ACMPCA's smithy basename
 #     is `acm-pca`, not `acmpca`.
-#   - 27 entries where AWS renamed the service between the botocore
-#     era and the Smithy era (Config -> config-service,
+#   - 27 entries where the legacy Paws class name doesn't match the
+#     Smithy basename (Config -> config-service,
 #     DMS -> database-migration-service, StepFunctions -> sfn,
 #     ELB -> elastic-load-balancing, ...).
 #   - The CloudWatchEvents / Events ambiguity: Smithy ships both
@@ -387,7 +357,7 @@ sub _find_smithy_path {
     WorkSpacesThinClient                => 'workspaces-thin-client',
     WorkSpacesWeb                       => 'workspaces-web',
 
-    # --- Substantive renames (botocore-era name -> Smithy basename) ---
+    # --- Substantive renames (legacy Paws name -> Smithy basename) ---
     ApiGatewayManagement                => 'apigatewaymanagementapi',
     ApplicationMigration                => 'mgn',
     CUR                                 => 'cost-and-usage-report-service',
@@ -459,7 +429,7 @@ sub _paws_to_smithy {
 # Authoritative list of Paws service class names. Each entry must
 # resolve to a Smithy IR file via %PAWS_TO_SMITHY or the lc($name)
 # fallback. The canonical capitalisation comes from the Smithy sdkId
-# trait (S3, EC2, IAM, CloudHSMv2, etc.) â it cannot be derived
+# trait (S3, EC2, IAM, CloudHSMv2, etc.) — it cannot be derived
 # mechanically from the basename for acronym-style names.
 #
 # Used by all_known_services() for the A4-B build pipeline. New
@@ -581,18 +551,15 @@ __END__
 
 =head1 NAME
 
-Paws::Model::Loader::Resolver - find and load a service via the first
-available loader in resolution order
+Paws::Model::Loader::Resolver - find and load a service via Smithy IR
 
 =head1 SYNOPSIS
 
   use Paws::Model::Loader::Resolver;
 
-  # Default: Smithy-only against share/smithy/.
   my $resolver = Paws::Model::Loader::Resolver->new;
   my ($ir, $loader_name) = $resolver->load_service('IAM');
   say "loaded via $loader_name";
-
 
 =head1 NAMING
 
@@ -601,8 +568,8 @@ The C<%Paws::Model::Loader::Resolver::PAWS_TO_SMITHY> hash holds the
 explicit map; lc(class) is the fallback.
 
 The C<%Paws::Model::Loader::Resolver::PAWS_DROPPED_SERVICES> hash
-documents the services that are no longer ship-able because AWS retired
-them. Asking for one of them dies with a pointer at
+documents the 14 AWS-retired services that are no longer ship-able.
+Asking for one of them dies with a pointer at
 C<docs/deprecated-services.md>.
 
 =cut

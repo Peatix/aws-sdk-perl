@@ -1,0 +1,52 @@
+name: cpan-audit
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: "5.36"
+
+      - name: Install CPAN::Audit
+        run: cpanm --notest CPAN::Audit
+
+      - name: Run cpan-audit
+        id: audit
+        continue-on-error: true
+        run: |
+          cpan-audit deps . 2>&1 | tee /tmp/cpan-audit-output.txt
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Open issue if advisories found
+        if: steps.audit.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const output = fs.readFileSync('/tmp/cpan-audit-output.txt', 'utf8');
+            const today = new Date().toISOString().split('T')[0];
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `CPAN security advisory found (${today})`,
+              body: `## cpan-audit findings\n\n\`\`\`\n${output}\n\`\`\`\n\nRun \`cpan-audit deps .\` locally to reproduce.\n\nThis issue was automatically created by the cpan-audit workflow.`,
+              labels: ['security']
+            });
+
+      - name: Fail if advisories found
+        if: steps.audit.outcome == 'failure'
+        run: exit 1

@@ -1,9 +1,6 @@
 #!/usr/bin/env perl
 
 # Tests for Paws::Model::Loader::Resolver.
-#
-# The resolver finds Smithy IR files and loads them via the Smithy
-# loader. Smithy is the sole source of service definitions.
 
 use strict;
 use warnings;
@@ -27,7 +24,7 @@ sub make_resolver {
     );
 }
 
-subtest 'loads service from Smithy IR' => sub {
+subtest 'loads via Smithy' => sub {
     my $r = make_resolver();
 
     my ($ir, $loader) = $r->load_service('tinyservice');
@@ -39,12 +36,11 @@ subtest 'loads service from Smithy IR' => sub {
 subtest 'unknown service raises' => sub {
     my $r = make_resolver();
     throws_ok { $r->load_service('does-not-exist') }
-        qr/no source file/,
+        qr/no Smithy source file/,
         'unknown service raises';
 };
 
 subtest 'dropped service raises with deprecation reason' => sub {
-    delete local $ENV{PAWS_LOADER_ORDER};
     my $r = make_resolver();
     throws_ok { $r->load_service('OpsWorks') }
         qr/no longer ship-able.*OpsWorks Stacks shutdown 2024-05-26.*deprecated-services\.md/s,

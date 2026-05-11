@@ -11,8 +11,7 @@ package Paws::Model::IR;
 #   - the lazy in-memory materialiser introduced in PR9
 #     (lib/Paws/Model/Materializer.pm).
 #
-# Source-format-independent. Both Botocore JSON and Smithy IR loaders
-# normalise to this shape.
+# Source-format-independent. The Smithy loader normalises to this shape.
 #
 # Plain Moose classes; no roles or coercions, on purpose, so the
 # loader is cheap and the IR is trivially serialisable to
@@ -39,9 +38,8 @@ package Paws::Model::IR::Service {
     has documentation     => (is => 'ro', isa => 'Maybe[Str]');
 
     # Service-level default XML namespace URI. Populated from
-    # `smithy.api#xmlNamespace.uri` on the service shape (Smithy IR)
-    # or from `metadata.xmlNamespace.uri` (botocore JSON) when
-    # present. Consumed by the materialiser to wrap body XML in
+    # `smithy.api#xmlNamespace.uri` on the service shape. Consumed
+    # by the materialiser to wrap body XML in
     # `<Root xmlns="...">...</Root>` for REST-XML services like S3
     # whose operations don't carry a per-payload namespace.
     has xml_namespace     => (is => 'ro', isa => 'Maybe[Str]');
@@ -88,9 +86,8 @@ package Paws::Model::IR::Operation {
 
     # Operation-level integrity-header requirement, sourced from
     # `aws.protocols#httpChecksum.requestChecksumRequired` on a
-    # Smithy operation (or the legacy botocore `httpChecksumRequired`
-    # boolean / `httpChecksum.requestChecksumRequired` block). When
-    # true, the wire layer must inject either a `Content-MD5` header
+    # Smithy operation. When true, the wire layer must inject either
+    # a `Content-MD5` header
     # or one of the modern `x-amz-checksum-*` headers before
     # sending. S3's DeleteObjects, PutBucketLifecycleConfiguration,
     # PutBucketCors, PutBucketTagging, PutObjectTagging,
@@ -152,15 +149,14 @@ package Paws::Model::IR::Shape {
     has enum_values => (is => 'ro', isa => 'ArrayRef[Str]', default => sub { [] });
 
     # Per-shape XML namespace URI, when set. Populated from the
-    # `smithy.api#xmlNamespace.uri` trait on the shape itself (or
-    # from the corresponding botocore `xmlNamespace` field). The
+    # `smithy.api#xmlNamespace.uri` trait on the shape itself. The
     # materialiser uses this on payload-target structures to wrap
     # the body XML in `<Element xmlns="...">...</Element>`.
     has xml_namespace => (is => 'ro', isa => 'Maybe[Str]');
 
-    # Per-shape XML element override, when set. Populated from
-    # `smithy.api#xmlName` (Smithy) / `xmlName` (botocore) on the
-    # structure shape itself. Used by the response decoder to
+    # Per-shape XML element override, when set. Populated from the
+    # `smithy.api#xmlName` trait on the structure shape itself. Used
+    # by the response decoder to
     # recognise the wire-side root element name when it differs from
     # the IR-side shape suffix (e.g. ListObjectsV2Output ->
     # `<ListBucketResult>`).
@@ -221,10 +217,9 @@ for AWS service descriptions
 
 =head1 DESCRIPTION
 
-The IR is the contract between source-of-truth loaders
-(L<Paws::Model::Loader::Botocore>, future
-L<Paws::Model::Loader::Smithy>) and the consumers
-(the TT-based generator and the lazy materialiser).
+The IR is the contract between the source-of-truth loader
+(L<Paws::Model::Loader::Smithy>) and the consumers (the TT-based
+generator and the lazy materialiser).
 
 It is intentionally a flat data model: shapes refer to other shapes by
 name, not by reference. That makes the whole tree trivially round-trippable
@@ -233,7 +228,7 @@ parity testing tractable.
 
 =head1 SEE ALSO
 
-L<Paws::Model::Loader>, L<Paws::Model::Loader::Botocore>,
+L<Paws::Model::Loader>, L<Paws::Model::Loader::Smithy>,
 L<docs/architecture.md|file:docs/architecture.md>.
 
 =cut
