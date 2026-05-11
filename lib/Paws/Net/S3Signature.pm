@@ -34,8 +34,13 @@ package Paws::Net::S3Signature;
     $hasher->add($request->content || q[]);
     $request->header('X-Amz-Content-Sha256' => $hasher->hexdigest);
 
-    # AWS prefers X-Amz-Date but Net::Amazon::Signature::V4 only handles Date in the headerpackage Paws::Net::S3Signature;
-    $request->header( 'Date' => $request->{'date'} );
+    # AWS prefers X-Amz-Date but Net::Amazon::Signature::V4 only
+    # consults the Date header when canonicalising the request; set
+    # both so middleware that rewrites Date doesn't invalidate the
+    # signature.
+    my $date = $request->date;
+    $request->header( 'Date' => $date );
+    $request->header( 'X-Amz-Date' => $date ) unless defined $request->header('X-Amz-Date');
 
     $request->header(
         'Host' => $self->endpoint->default_port == $self->endpoint->port

@@ -1,8 +1,24 @@
 ---
-todo: 'S3 is not stable'
+# The S3 GetBucketLocation response body is a single XML root
+# element whose text content is the location (`<LocationConstraint
+# xmlns="...">EU</LocationConstraint>`). The Smithy IR carries
+# `smithy.api#xmlName` = "LocationConstraint" on the output
+# *structure*, telling the wire layer that the response's root XML
+# element name IS the output structure (not a wrapper to discard)
+# and that the structure's single member is bound to the root's
+# text content. The current `Paws::Net::RestXMLResponse` decoder
+# strips the root element by default (XML::Simple's `KeepRoot => 0`)
+# and walks the result as a plain hash, so the inner text "EU" is
+# returned as `{ content => 'EU', xmlns => '...' }` and never bound
+# to the `LocationConstraint` attribute.
+#
+# Tracked for a follow-up: surface `xmlName` on the output structure
+# in the IR + materialiser and teach the decoder to recognise the
+# structure-as-root pattern.
+todo: 'wire layer does not yet bind XML root content to structure-level xmlName'
 call: GetBucketLocation
 service: S3
 tests:
-  - expected: EU
+  - path: LocationConstraint
     op: eq
-    path: LocationConstraint
+    expected: EU

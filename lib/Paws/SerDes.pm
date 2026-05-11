@@ -105,6 +105,11 @@ sub register {
             type_object   => ($rec->{type_object}   // undef),
             is_list       => ($rec->{is_list}       ? 1 : 0),
             is_map        => ($rec->{is_map}        ? 1 : 0),
+            # Per-attribute xmlFlattened, lifted by the materialiser
+            # from the IR (either the list-shape's flattened flag or
+            # the member-level xmlFlattened trait — both forms are
+            # collapsed to a single boolean here).
+            flattened     => ($rec->{flattened}     ? 1 : 0),
             is_required   => ($rec->{is_required}   ? 1 : 0),
             wire_key      => ($rec->{wire_key}      // $rec->{name}),
             location      => ($rec->{location}      // 'body'),
@@ -263,6 +268,16 @@ sub trait_for {
 sub auto_for {
     my ($self, $name) = @_;
     return ($self->attributes->{$name} // {})->{auto};
+}
+
+# True if the attribute's list/map serialisation is flattened in the
+# wire (`<Item><Item>...` for a list, instead of
+# `<Wrapper><Item>...</Wrapper>`). Per-attribute; the materialiser
+# folds shape-level + member-level xmlFlattened into a single
+# boolean here.
+sub is_flattened {
+    my ($self, $name) = @_;
+    return ($self->attributes->{$name} // {})->{flattened} ? 1 : 0;
 }
 
 # Test/maintenance helper: clear the cache. The wire layer never calls

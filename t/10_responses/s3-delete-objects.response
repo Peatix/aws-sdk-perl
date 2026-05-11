@@ -1,0 +1,26 @@
+---
+content: |
+  <?xml version="1.0" encoding="UTF-8"?>
+  <DeleteResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+      <Deleted>
+          <Key>sample1.txt</Key>
+      </Deleted>
+      <Deleted>
+          <Key>sample2.txt</Key>
+          <VersionId>4PdjN.fdg83zMxBwzn8.5wmKHkVyTC4D</VersionId>
+          <DeleteMarker>true</DeleteMarker>
+          <DeleteMarkerVersionId>4Mt5SuQc1qbgQHM4gpJVdL_HzD80wMqM</DeleteMarkerVersionId>
+      </Deleted>
+      <Error>
+          <Key>sample3.txt</Key>
+          <Code>AccessDenied</Code>
+          <Message>Access Denied</Message>
+      </Error>
+  </DeleteResult>
+headers:
+  connection: close
+  date: 'Mon, 11 May 2026 09:24:01 GMT'
+  server: AmazonS3
+  x-amz-id-2: pZxOj8sxYNcrlGUYZG+aShfMlpYU3WEepw0lE8KbCkSnoVBzxnFx3sDLNG+yPL8QrjB9pgxnUmw=
+  x-amz-request-id: 7E3B5E9F0F2C6A92
+status: 200

@@ -40,6 +40,9 @@ subtest 'service metadata' => sub {
     is($svc->json_version,    '1.1',                   'json_version derived from protocol trait');
     is($svc->target_prefix,   'TinyService',           'targetPrefix from sdkId');
     like($svc->documentation, qr/synthetic service/,  'documentation mapped');
+    is($svc->xml_namespace,
+       'http://tinyservice.example.com/doc/2024-01-01/',
+       'service-level smithy.api#xmlNamespace.uri lifted to IR');
 };
 
 subtest 'operation surface' => sub {
@@ -73,6 +76,17 @@ subtest 'shape surface' => sub {
     ok($thing->is_structure, 'Thing is a structure');
     is_deeply([ sort keys %{ $thing->members } ], [qw(Status ThingId ThingName)], 'members');
     is_deeply($thing->required_members, [qw(ThingId ThingName)], 'required (from per-member smithy.api#required)');
+    is($thing->xml_namespace,
+       'http://tinyservice.example.com/doc/2024-01-01/Thing',
+       'per-shape smithy.api#xmlNamespace.uri lifted to IR');
+    is($thing->xml_name, 'TinyThing',
+       'per-shape smithy.api#xmlName lifted to IR');
+
+    # Shapes without explicit xml traits get undef, not garbage.
+    is($svc->shape('ListThingsRequest')->xml_namespace, undef,
+       'shape without smithy.api#xmlNamespace has undef xml_namespace');
+    is($svc->shape('ListThingsRequest')->xml_name, undef,
+       'shape without smithy.api#xmlName has undef xml_name');
 
     my $status = $svc->shape('Status');
     is($status->type, 'string', 'enum normalised back to string');
@@ -105,6 +119,18 @@ subtest 'member traits map to IR locations' => sub {
     my $thing = $svc->shape('Thing');
     is($thing->members->{ThingName}->locationName, 'name',
         'smithy.api#jsonName carried as locationName (NameInRequest equivalent)');
+
+    # Member-side smithy.api#xmlFlattened. The IR records it on the
+    # member itself (in addition to whatever the target shape says);
+    # the materialiser folds either source into a single per-attribute
+    # flag in the SerDes side-table.
+    my $list_resp = $svc->shape('ListThingsResponse');
+    ok($list_resp->members->{Things}->flattened,
+       'member-level smithy.api#xmlFlattened lifted to IR Member->flattened');
+    is($list_resp->members->{Things}->locationName, 'TinyThing',
+       'list member-level smithy.api#xmlName lifted to IR Member->locationName');
+    ok(!$list_resp->members->{Count}->flattened,
+       'non-list member defaults to flattened=0');
 };
 
 # IR parity vs the Botocore loader on the same service.
@@ -114,6 +140,14 @@ subtest 'IR parity with Botocore loader on the same service' => sub {
     is($svc->endpoint_prefix, $boto->endpoint_prefix, 'endpoint_prefix matches');
     is($svc->protocol,        $boto->protocol,        'protocol matches');
     is($svc->api_version,     $boto->api_version,     'api_version matches');
+    is($svc->xml_namespace,   $boto->xml_namespace,
+       'service xml_namespace parity (smithy.api#xmlNamespace.uri vs metadata.xmlNamespace.uri)');
+    is($svc->shape('Thing')->xml_namespace,
+       $boto->shape('Thing')->xml_namespace,
+       'per-shape xml_namespace parity');
+    is($svc->shape('Thing')->xml_name,
+       $boto->shape('Thing')->xml_name,
+       'per-shape xml_name parity');
 
     is_deeply(
         [ $svc->operation_names ],
@@ -140,6 +174,12 @@ subtest 'IR parity with Botocore loader on the same service' => sub {
     is($svc->shape('Thing')->members->{ThingName}->locationName,
        $boto->shape('Thing')->members->{ThingName}->locationName,
        'ThingName locationName parity (name)');
+
+    # Member-side xmlFlattened parity (Smithy traits[].xmlFlattened
+    # vs botocore members[].flattened on the same Things member).
+    is($svc->shape('ListThingsResponse')->members->{Things}->flattened,
+       $boto->shape('ListThingsResponse')->members->{Things}->flattened,
+       'Member-level flattened parity');
 };
 
 done_testing;

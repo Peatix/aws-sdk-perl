@@ -1,0 +1,12 @@
+[default]
+region = us-east-1
+
+[profile test-sso]
+sso_start_url = https://test-portal.awsapps.com/start
+sso_region = us-west-2
+sso_account_id = 123456789012
+sso_role_name = TestRole
+
+[profile incomplete-sso]
+sso_start_url = https://test-portal.awsapps.com/start
+sso_region = us-west-2

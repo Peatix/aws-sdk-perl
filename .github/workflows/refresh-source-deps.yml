@@ -6,7 +6,7 @@ name: refresh-source-deps
 # regenerated .smithy.json files if anything changed.
 #
 # Lifecycle: opens its PR as draft, waits for the standard
-# pull_request workflows (test, coverage, install-smoke, benchmarks)
+# pull_request workflows (test, coverage, install-smoke)
 # via `gh pr checks --watch`, then on green flips the PR to ready and
 # squash-merges. On any check failure the PR stays draft for the
 # maintainer to investigate. The workflow does NOT close or supersede
