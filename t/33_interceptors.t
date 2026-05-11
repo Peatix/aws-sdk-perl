@@ -339,6 +339,148 @@ subtest 'Metrics interceptor' => sub {
 };
 
 # ============================================================
+# Part 4: Multi-interceptor integration
+# ============================================================
+
+subtest 'Multi-interceptor ordering and stash isolation' => sub {
+  my @order;
+
+  {
+    package TestInterceptorA;
+    use Moose;
+    with 'Paws::Net::Interceptor';
+
+    has order_log => (is => 'ro', isa => 'ArrayRef', required => 1);
+
+    sub before_request {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'A:before_request';
+      $ctx->stash->{_test_a}{seen_before_request} = 1;
+    }
+
+    sub before_attempt {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'A:before_attempt';
+      $ctx->stash->{_test_a}{seen_before_attempt} = 1;
+    }
+
+    sub after_attempt {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'A:after_attempt';
+      $ctx->stash->{_test_a}{seen_after_attempt} = 1;
+    }
+
+    sub on_error {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'A:on_error';
+    }
+
+    sub after_request {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'A:after_request';
+      $ctx->stash->{_test_a}{seen_after_request} = 1;
+    }
+
+    no Moose;
+    __PACKAGE__->meta->make_immutable;
+  }
+
+  {
+    package TestInterceptorB;
+    use Moose;
+    with 'Paws::Net::Interceptor';
+
+    has order_log => (is => 'ro', isa => 'ArrayRef', required => 1);
+
+    sub before_request {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'B:before_request';
+      $ctx->stash->{_test_b}{seen_before_request} = 1;
+    }
+
+    sub before_attempt {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'B:before_attempt';
+      $ctx->stash->{_test_b}{seen_before_attempt} = 1;
+    }
+
+    sub after_attempt {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'B:after_attempt';
+      $ctx->stash->{_test_b}{seen_after_attempt} = 1;
+    }
+
+    sub on_error {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'B:on_error';
+    }
+
+    sub after_request {
+      my ($self, $ctx) = @_;
+      push @{ $self->order_log }, 'B:after_request';
+      $ctx->stash->{_test_b}{seen_after_request} = 1;
+    }
+
+    no Moose;
+    __PACKAGE__->meta->make_immutable;
+  }
+
+  my $ctx = Paws::Net::InterceptorContext->new(
+    service     => MockService->new,
+    call_object => MockCallObject->new,
+  );
+
+  my @interceptors = (
+    TestInterceptorA->new(order_log => \@order),
+    TestInterceptorB->new(order_log => \@order),
+  );
+
+  $_->before_request($ctx) for @interceptors;
+  $ctx->attempt(1);
+  $_->before_attempt($ctx) for @interceptors;
+
+  my $exception = Paws::Exception->new(
+    message     => 'Service Unavailable',
+    code        => 'ServiceUnavailable',
+    request_id  => 'MULTI1',
+    http_status => 503,
+  );
+  $ctx->result($exception);
+  $ctx->should_retry(0);
+
+  $_->on_error($ctx) for @interceptors;
+  $_->after_attempt($ctx) for @interceptors;
+  $_->after_request($ctx) for @interceptors;
+
+  is_deeply(
+    \@order,
+    [
+      'A:before_request',  'B:before_request',
+      'A:before_attempt',  'B:before_attempt',
+      'A:on_error',        'B:on_error',
+      'A:after_attempt',   'B:after_attempt',
+      'A:after_request',   'B:after_request',
+    ],
+    'hooks fire in registration order across interceptors',
+  );
+
+  ok($ctx->stash->{_test_a}{seen_before_request},  'A stash: before_request');
+  ok($ctx->stash->{_test_a}{seen_before_attempt},  'A stash: before_attempt');
+  ok($ctx->stash->{_test_a}{seen_after_attempt},   'A stash: after_attempt');
+  ok($ctx->stash->{_test_a}{seen_after_request},   'A stash: after_request');
+
+  ok($ctx->stash->{_test_b}{seen_before_request},  'B stash: before_request');
+  ok($ctx->stash->{_test_b}{seen_before_attempt},  'B stash: before_attempt');
+  ok($ctx->stash->{_test_b}{seen_after_attempt},   'B stash: after_attempt');
+  ok($ctx->stash->{_test_b}{seen_after_request},   'B stash: after_request');
+
+  ok(!exists $ctx->stash->{_test_a}{seen_before_attempt_b},
+    'A stash not polluted by B');
+  ok(!exists $ctx->stash->{_test_b}{seen_before_attempt_a},
+    'B stash not polluted by A');
+};
+
+# ============================================================
 # Framework: InterceptorContext and register_interceptor
 # ============================================================
 

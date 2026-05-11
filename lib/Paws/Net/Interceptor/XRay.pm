@@ -50,49 +50,56 @@ package Paws::Net::Interceptor::XRay;
     my $is_error = $context->result_is_exception;
     my $status   = $self->_extract_status($context);
     my $is_fault = $is_error && defined $status && $status >= 500;
-    my $is_throttle = $is_error && defined $status && $status == 429;
+    my $is_throttle = $is_error && $self->_is_throttle($context, $status);
 
-    AWS::XRay::capture($name, sub {
-      my $segment = shift;
+    eval {
+      AWS::XRay::capture($name, sub {
+        my $segment = shift;
 
-      $segment->{start_time} = $start_time if defined $start_time;
-      $segment->{end_time}   = $end_time;
+        $segment->{start_time} = $start_time if defined $start_time;
+        $segment->{end_time}   = $end_time;
 
-      $segment->{aws} = {
-        operation  => $operation,
-        region     => $self->_region($context),
-        request_id => $self->_extract_request_id($context),
-      };
-
-      $segment->{http} = {
-        request => {
-          method => $self->_extract_method($context),
-          url    => $self->_extract_url($context),
-        },
-        response => {
-          status => $status,
-        },
-      };
-
-      $segment->{annotations} = {
-        service   => $service,
-        operation => $operation,
-        attempts  => $context->attempt,
-      };
-
-      $segment->{error}    = $is_error && !$is_fault ? 1 : 0;
-      $segment->{fault}    = $is_fault    ? 1 : 0;
-      $segment->{throttle} = $is_throttle ? 1 : 0;
-
-      if ($is_error) {
-        $segment->{cause} = {
-          exceptions => [{
-            message => $context->result->message,
-            type    => $context->result->code,
-          }],
+        $segment->{aws} = {
+          operation  => $operation,
+          region     => $self->_region($context),
+          request_id => $self->_extract_request_id($context),
         };
-      }
-    });
+
+        my ($method, $url) = $self->_extract_method_and_url($context);
+
+        $segment->{http} = {
+          request => {
+            method => $method,
+            url    => $url,
+          },
+          response => {
+            status => $status,
+          },
+        };
+
+        $segment->{annotations} = {
+          service   => $service,
+          operation => $operation,
+          attempts  => $context->attempt,
+        };
+
+        $segment->{error}    = $is_error && !$is_fault ? 1 : 0;
+        $segment->{fault}    = $is_fault    ? 1 : 0;
+        $segment->{throttle} = $is_throttle ? 1 : 0;
+
+        if ($is_error) {
+          $segment->{cause} = {
+            exceptions => [{
+              message => $context->result->message,
+              type    => $context->result->code,
+            }],
+          };
+        }
+      });
+    };
+    if ($@) {
+      warn "Paws::Net::Interceptor::XRay: capture error=$@";
+    }
 
     return;
   }
@@ -121,6 +128,31 @@ package Paws::Net::Interceptor::XRay;
       : 'unknown';
   }
 
+  my @THROTTLE_CODES = qw(
+    Throttling
+    ThrottlingException
+    ThrottledException
+    RequestThrottledException
+    RequestThrottled
+    RequestLimitExceeded
+    TooManyRequestsException
+    ProvisionedThroughputExceededException
+    TransactionInProgressException
+    BandwidthLimitExceeded
+    EC2ThrottledException
+  );
+  my %THROTTLE_CODE = map { $_ => 1 } @THROTTLE_CODES;
+
+  sub _is_throttle {
+    my ($self, $context, $status) = @_;
+    return 1 if defined $status && $status == 429;
+    if ($context->result_is_exception) {
+      my $code = $context->result->code // '';
+      return 1 if $THROTTLE_CODE{$code};
+    }
+    return 0;
+  }
+
   sub _extract_status {
     my ($self, $context) = @_;
     if ($context->result_is_exception) {
@@ -146,22 +178,16 @@ package Paws::Net::Interceptor::XRay;
     return '';
   }
 
-  sub _extract_method {
+  sub _extract_method_and_url {
     my ($self, $context) = @_;
     my $svc  = $context->service;
     my $call = $context->call_object;
     my $req  = eval { $svc->prepare_request_for_call($call) };
-    return '' unless $req;
-    return eval { $req->method } // '';
-  }
-
-  sub _extract_url {
-    my ($self, $context) = @_;
-    my $svc  = $context->service;
-    my $call = $context->call_object;
-    my $req  = eval { $svc->prepare_request_for_call($call) };
-    return '' unless $req;
-    return eval { $req->url } // '';
+    return ('', '') unless $req;
+    return (
+      eval { $req->method } // '',
+      eval { $req->url }    // '',
+    );
   }
 
   no Moose;

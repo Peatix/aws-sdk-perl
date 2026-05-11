@@ -43,6 +43,7 @@ package Paws::Net::RetryCallerRole;
       $_->before_request($context) for $self->all_interceptors;
     }
 
+    my $do_retry;
     do {
       $tracker->one_more_try;
 
@@ -59,15 +60,20 @@ package Paws::Net::RetryCallerRole;
         $context->response($response);
         $context->result($result);
         $context->should_retry($tracker->should_retry ? 1 : 0);
+        $context->retry_delay($tracker->should_retry ? $tracker->sleep_time : 0);
 
         if ($context->result_is_exception) {
           $_->on_error($context) for $self->all_interceptors;
         }
         $_->after_attempt($context) for $self->all_interceptors;
-      }
 
-      sleep $tracker->sleep_time if($tracker->should_retry);
-    } while ($tracker->should_retry);
+        $do_retry = $context->should_retry;
+        sleep $context->retry_delay if $do_retry;
+      } else {
+        $do_retry = $tracker->should_retry;
+        sleep $tracker->sleep_time if $do_retry;
+      }
+    } while ($do_retry);
 
     if ($context) {
       $context->result($tracker->operation_result);
