@@ -19,14 +19,14 @@ Paginator methods are helpers that repetively call methods that return partial r
 [%- END %][%- IF (opt_list.size > 0) %][%- IF (req_list.size > 0) %], [% END %]...[% END %]);
 
   # Callback mode (per-element streaming)
-  $service->[% c.get_paginator_name(op) %](sub { my ($item, $key) = @_; ... }[%- IF (req_list.size > 0) %], [% END -%]
+  $service->[% c.get_paginator_name(op) %](sub { my ($item, $key) = @_; ... }[%- IF (req_list.size > 0 OR opt_list.size > 0) %], [% END -%]
 [%- FOREACH out_name IN req_list.sort -%]
   [%- member = c.shape(out_shape.members.$out_name.shape) -%]
   [%- out_name %] => $value[%- IF (NOT loop.last) %], [% END %]
 [%- END %][%- IF (opt_list.size > 0) %][%- IF (req_list.size > 0) %], [% END %]...[% END %]);
 
   # Iterator mode (lazy per-page)
-  my $paginator = $service->[% c.get_paginator_name(op) %]({ iterator => 1 }[%- IF (req_list.size > 0) %], [% END -%]
+  my $paginator = $service->[% c.get_paginator_name(op) %]({ iterator => 1 }[%- IF (req_list.size > 0 OR opt_list.size > 0) %], [% END -%]
 [%- FOREACH out_name IN req_list.sort -%]
   [%- member = c.shape(out_shape.members.$out_name.shape) -%]
   [%- out_name %] => $value[%- IF (NOT loop.last) %], [% END %]

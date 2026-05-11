@@ -28,6 +28,21 @@ use Paws::API::Paginator;
 }
 
 {
+  package MockS3Object;
+  use Moose;
+  has Key => (is => 'ro', isa => 'Str');
+  __PACKAGE__->meta->make_immutable;
+}
+
+{
+  package MockS3Result;
+  use Moose;
+  has NextMarker => (is => 'ro', isa => 'Maybe[Str]');
+  has Contents   => (is => 'ro', isa => 'Maybe[ArrayRef]');
+  __PACKAGE__->meta->make_immutable;
+}
+
+{
   package MockService;
   use Moose;
 
@@ -42,6 +57,15 @@ use Paws::API::Paginator;
   has call_log => (is => 'ro', isa => 'ArrayRef', default => sub { [] });
 
   sub ListThings {
+    my ($self, %args) = @_;
+    push @{ $self->call_log }, { %args };
+    my $idx = $self->_call_count;
+    $self->_inc_call;
+    die "MockService: no more responses (call index=$idx)" if $idx >= scalar @{ $self->_responses };
+    return $self->_responses->[$idx];
+  }
+
+  sub ListObjects {
     my ($self, %args) = @_;
     push @{ $self->call_log }, { %args };
     my $idx = $self->_call_count;
@@ -236,6 +260,99 @@ subtest 'empty result set' => sub {
   is_deeply($page->Items, [], 'empty items on single page');
   ok(!$p->has_next_page, 'no more pages');
   is($svc->call_count, 1, 'one call for empty result');
+};
+
+subtest 'composite output token with || operator' => sub {
+  my $svc = MockService->new(responses => [
+    MockS3Result->new(
+      NextMarker => undef,
+      Contents   => [
+        MockS3Object->new(Key => 'file1.txt'),
+        MockS3Object->new(Key => 'file2.txt'),
+      ],
+    ),
+    MockS3Result->new(
+      NextMarker => undef,
+      Contents   => [
+        MockS3Object->new(Key => 'file3.txt'),
+      ],
+    ),
+    MockS3Result->new(
+      NextMarker => undef,
+      Contents   => undef,
+    ),
+  ]);
+
+  my $p = Paws::API::Paginator->new(
+    service       => $svc,
+    operation     => 'ListObjects',
+    call_args     => [Bucket => 'test'],
+    input_tokens  => ['Marker'],
+    output_tokens => ['NextMarker || Contents[-1].Key'],
+  );
+
+  my $page1 = $p->next_page;
+  ok($p->has_next_page, 'has_next_page via Contents[-1].Key fallback');
+
+  my $page2 = $p->next_page;
+  is($svc->call_log->[1]{Marker}, 'file2.txt', 'Marker set from Contents[-1].Key');
+
+  ok($p->has_next_page, 'has_next_page after second page with one item');
+
+  my $page3 = $p->next_page;
+  ok(!$p->has_next_page, 'no more pages when Contents is undef');
+  is($svc->call_count, 3, 'three API calls made');
+};
+
+subtest 'composite output token prefers first alternative' => sub {
+  my $svc = MockService->new(responses => [
+    MockS3Result->new(
+      NextMarker => 'explicit-marker',
+      Contents   => [MockS3Object->new(Key => 'should-not-use')],
+    ),
+    MockS3Result->new(
+      NextMarker => undef,
+      Contents   => undef,
+    ),
+  ]);
+
+  my $p = Paws::API::Paginator->new(
+    service       => $svc,
+    operation     => 'ListObjects',
+    call_args     => [],
+    input_tokens  => ['Marker'],
+    output_tokens => ['NextMarker || Contents[-1].Key'],
+  );
+
+  $p->next_page;
+  ok($p->has_next_page, 'has_next_page with NextMarker set');
+
+  $p->next_page;
+  is($svc->call_log->[1]{Marker}, 'explicit-marker', 'Marker set from NextMarker (first alternative)');
+};
+
+subtest 'negative array index in path' => sub {
+  my $svc = MockService->new(responses => [
+    MockS3Result->new(
+      Contents => [
+        MockS3Object->new(Key => 'first.txt'),
+        MockS3Object->new(Key => 'last.txt'),
+      ],
+    ),
+    MockS3Result->new(Contents => undef),
+  ]);
+
+  my $p = Paws::API::Paginator->new(
+    service       => $svc,
+    operation     => 'ListObjects',
+    call_args     => [],
+    input_tokens  => ['Marker'],
+    output_tokens => ['Contents[-1].Key'],
+  );
+
+  $p->next_page;
+  $p->next_page;
+  is($svc->call_log->[1]{Marker}, 'last.txt', 'negative index extracts last element');
 };
 
 done_testing;

@@ -75,11 +75,19 @@ package Paws::API::Paginator;
   sub _extract_value {
     my ($self, $obj, $path) = @_;
 
+    if ($path =~ /\|\|/) {
+      for my $alt (split /\s*\|\|\s*/, $path) {
+        my $val = $self->_extract_value($obj, $alt);
+        return $val if defined $val;
+      }
+      return undef;
+    }
+
     my @parts = split /\./, $path;
     my $current = $obj;
 
     for my $part (@parts) {
-      if ($part =~ /^(\w+)\[(\d+)\]$/) {
+      if ($part =~ /^(\w+)\[(-?\d+)\]$/) {
         my ($attr, $index) = ($1, $2);
         $current = $current->$attr;
         return undef if not defined $current;
