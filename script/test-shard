@@ -257,10 +257,56 @@ cmd_verify() {
 
   local count
   count=$(LC_ALL=C sort -u "$tmp_union" | wc -l | tr -d ' ')
+
+  # Completeness: every .t file must be in a shard or on the exclusion list.
+  # To add a new exclusion, append to the array below with a comment.
+  local -a excluded_files=(
+    # -- Materialiser gaps (need follow-up materialiser work) --
+    t/03_aws_default_object.t           # region_rules / global-service metadata
+    t/05_service_calls.t                # wider service surface, unimplemented shapes
+    t/06_endpoint_override.t            # region_rules (same root cause as t/03)
+    t/10_responses.t                    # ~9900 sub-tests, shape patterns
+    t/11_client_exceptions.t            # wider service set than load-* covers
+    t/12_regions.t                      # region_rules (same root cause as t/03)
+    t/17_s3metadata.t                   # S3-specific materialiser work
+    t/18_mocked.t                       # ~4007 sub-tests (same as t/10)
+    t/26_paginators.t                   # paginators + materialiser
+    t/27_signing_name.t                 # signing name materialisation
+
+    # -- Service-shape gaps (pre-existing attribute/XML issues) --
+    t/glacier/content_headers.t         # Glacier ops missing attributes
+    t/glacier/multipartupload.t         # Glacier ops missing attributes
+    t/route53/xml_creation.t            # Route53 XML body wrapping
+
+    # -- AUTHOR_TESTING / CI-gated (skip automatically) --
+    t/15_timeouts.t                     # plan skip_all in CI / AUTHOR_TESTING
+    t/28_retries_mojoasynccaller.t      # same gates + optional Mojo dep
+    t/99_pod_presence.t                 # author-only POD coverage
+    t/99_pod_syntax.t                   # author-only POD syntax
+  )
+
+  local tmp_excluded="$TMP_DIR/excluded"
+  printf '%s\n' "${excluded_files[@]}" > "$tmp_excluded"
+
+  local tmp_all="$TMP_DIR/all"
+  find t/ -name '*.t' -not -path '*/aws-sdk-perl-*' | LC_ALL=C sort > "$tmp_all"
+
+  local tmp_covered="$TMP_DIR/covered"
+  LC_ALL=C sort -u "$tmp_union" "$tmp_excluded" > "$tmp_covered"
+
+  local uncovered
+  uncovered=$(comm -23 "$tmp_all" "$tmp_covered")
+  if [ -n "$uncovered" ]
+  then
+    echo "ERROR: the following .t files are not in any shard and not on" >&2
+    echo "the exclusion list in cmd_verify(). Either add them to a shard" >&2
+    echo "or add an exclusion entry with a reason:" >&2
+    printf '  %s\n' $uncovered >&2
+    exit 1
+  fi
+
   echo "ok: $count test files covered by $(all_shards | wc -w | tr -d ' ') shards"
-  echo "(post-stack19 the shard set is a curated subset of t/; see"
-  echo "the comment block at the top of this script for the rationale"
-  echo "around what's intentionally excluded.)"
+  echo "    ${#excluded_files[@]} files on the documented exclusion list"
 }
 
 # Compute the service-name subset for one of the load-* shards.
