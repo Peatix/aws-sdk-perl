@@ -11,11 +11,9 @@ description: |
      30-60s per job.
   3. An optional `actions/cache` for `auto-lib/` regenerated content,
      keyed on the union of inputs that affect generation
-     (builder-lib + builder-bin + templates + botocore submodule
-     SHA). When that key matches a previous run, we skip
-     `make gen-classes-no-doc-fetch` entirely and restore the
-     cached output. Saves the multi-minute regen step on PRs that
-     don't touch the generator.
+     (builder-lib + builder-bin + cpanfile). When that key matches
+     a previous run, we skip regeneration entirely and restore the
+     cached output.
 
   All three caches are opt-in via inputs so callers stay in control.
 
@@ -118,27 +116,6 @@ runs:
           carton install
         fi
 
-    - name: Resolve botocore source SHA
-      if: ${{ inputs.cache-autolib != 'false' }}
-      id: botocore-sha
-      shell: bash
-      run: |
-        # Prefer the submodule SHA (pre-stack18 layout). Fall back to
-        # the etc/botocore-pin.sha pin (post-smithy-only layout: the
-        # AOT generator workflows fetch botocore at runtime at this
-        # SHA; share/botocore is gone). Finally fall back to a
-        # marker so the cache key still varies.
-        if git ls-files --error-unmatch .gitmodules >/dev/null 2>&1
-        then
-          echo "sha=$(git rev-parse HEAD:botocore)" >> "$GITHUB_OUTPUT"
-        elif [ -r etc/botocore-pin.sha ]
-        then
-          sha=$(tr -d '[:space:]' < etc/botocore-pin.sha)
-          echo "sha=pin-${sha:-empty}" >> "$GITHUB_OUTPUT"
-        else
-          echo "sha=no-botocore" >> "$GITHUB_OUTPUT"
-        fi
-
     - name: Cache auto-lib/ regenerated content (read + write)
       # Active when cache-autolib: "true". Post-step saves auto-lib/
       # to the cache on miss + success — hence "use only from the
@@ -148,14 +125,8 @@ runs:
       uses: actions/cache@v5
       with:
         path: auto-lib
-        # Key on every input that affects generation. Including
-        # cpanfile so dep upgrades that change Moose / Template
-        # generation behaviour bust the cache. The botocore-source
-        # SHA is computed in a prior step because the submodule path
-        # uses a gitlink file (hashFiles can't read it) and the
-        # vendored path is a directory tree.
         key: |
-          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ steps.botocore-sha.outputs.sha }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'cpanfile') }}
+          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'cpanfile') }}
         # Don't restore-keys: a partial / older auto-lib is a
         # correctness bug. All-or-nothing.
 
@@ -170,4 +141,4 @@ runs:
       with:
         path: auto-lib
         key: |
-          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ steps.botocore-sha.outputs.sha }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'templates/**', 'cpanfile') }}
+          paws-autolib-${{ runner.os }}-perl${{ inputs.perl-version }}-${{ hashFiles('builder-lib/**', 'builder-bin/**', 'cpanfile') }}

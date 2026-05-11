@@ -20,14 +20,6 @@ cpanfile.snapshot
 .DS_Store
 .project
 
-# PR 18 (stack18) replaced the botocore git submodule with vendored
-# files in share/; this stack dropped share/botocore/ and went
-# Smithy-only. The contributor-facing AOT generator (builder-bin/
-# gen_classes.pl) still reads from `botocore/botocore/data/`, so CI
-# workflows fetch botocore on the fly into `botocore/` at the SHA
-# pinned in etc/botocore-pin.sha. Anchor with a leading slash so
-# this only matches the repo-root checkout dir.
-/botocore/
 
 # share/smithy/ Smithy IR is vendored from awslabs/aws-sdk-rust at
 # the SHA pinned in share/smithy/.upstream-sha. The .smithy.json
@@ -39,3 +31,5 @@ cpanfile.snapshot
 *~
 Paws-Core-*/
 Paws-Core-*.tar.gz
+aws-sdk-perl-streaming
+botocore

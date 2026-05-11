@@ -7,10 +7,7 @@ package Paws::Model::Loader;
 # Concrete loader:
 #   - Paws::Model::Loader::Smithy      (smithy AST JSON)
 #
-# All loaders MUST return a Paws::Model::IR::Service. Any loader-specific
-# information that doesn't fit the IR is silently dropped or reported
-# via the loader's own diagnostic interface; the consumers
-# (Paws::API::Builder, Paws::Model::Materializer) only ever see IR.
+# All loaders MUST return a Paws::Model::IR::Service.
 
 use strict;
 use warnings;
