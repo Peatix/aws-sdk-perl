@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use lib 't/lib';
+use Paws::Test::MaterialiseServices;
 
 use English qw(-no-match-vars);
 use Carp;
@@ -150,7 +151,9 @@ my %md5_methods = (
       Id => 'OtherId',
      },
   },
-  'PutBucketNotification' => {
+  # PutBucketNotification was replaced by PutBucketNotificationConfiguration
+  # in newer S3 model revisions; the Smithy IR only carries the latter.
+  'PutBucketNotificationConfiguration' => {
     Bucket => $bucketname,
     NotificationConfiguration => {
      },
@@ -219,7 +222,7 @@ foreach my $method (qw/DeleteObjects RestoreObject PutBucketLifecycleConfigurati
 # content length: Length of the message (without the headers)
 # according to RFC 2616. This header is required for PUTs and
 # operations that load XML, such as logging and ACLs.
-foreach my $method (qw/CreateBucket PutBucketAccelerateConfiguration PutBucketAcl PutBucketEncryption PutBucketInventoryConfiguration PutBucketLogging PutBucketMetricsConfiguration PutBucketNotification PutBucketPolicy PutBucketReplication PutBucketRequestPayment PutBucketVersioning PutBucketWebsite PutBucketLifecycleConfiguration PutBucketTagging PutBucketCors PutObject PutObjectTagging DeleteObjects UploadPart/) {
+foreach my $method (qw/CreateBucket PutBucketAccelerateConfiguration PutBucketAcl PutBucketEncryption PutBucketInventoryConfiguration PutBucketLogging PutBucketMetricsConfiguration PutBucketNotificationConfiguration PutBucketPolicy PutBucketReplication PutBucketRequestPayment PutBucketVersioning PutBucketWebsite PutBucketLifecycleConfiguration PutBucketTagging PutBucketCors PutObject PutObjectTagging DeleteObjects UploadPart/) {
   my $response;
   eval { $response = $s3->$method(%{ $md5_methods{$method} });
   } or do {
