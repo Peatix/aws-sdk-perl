@@ -158,7 +158,8 @@ distribution channel.
 
 ## Vendored endpoint metadata
 
-`etc/_endpoints.json` is a snapshot of the legacy botocore
-`_endpoints.json` endpoint rules. It encodes the special-case region
-rules that several `t/12_regions.t` assertions depend on (e.g. `iam`,
-`route53`, `cloudfront` global hostnames, `s3` us-east-1).
+`share/endpoint-rules.json` is compiled from the Smithy
+`endpointRuleSet` trait by `script/compile-endpoint-rules`. It encodes
+per-service endpoint rules (global services, partition-specific
+endpoints) consumed by `Paws::API::EndpointResolver`. The file is
+regenerated automatically when `script/paws-vendor-smithy` runs.

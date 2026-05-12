@@ -1,0 +1,404 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use v5.10;
+
+use File::Spec;
+use File::Find;
+use JSON::PP qw(decode_json encode_json);
+use Getopt::Long;
+
+my $smithy_dir = 'share/smithy';
+my $output_file = 'share/endpoint-rules.json';
+
+GetOptions(
+    'smithy-dir=s' => \$smithy_dir,
+    'output=s'     => \$output_file,
+) or die "Usage: $0 [--smithy-dir DIR] [--output FILE]\n";
+
+die "Smithy directory not found: $smithy_dir\n" unless -d $smithy_dir;
+
+my %PARTITION_DATA = (
+    'aws' => {
+        region_prefix   => undef,
+        dns_suffix      => 'amazonaws.com',
+    },
+    'aws-cn' => {
+        region_prefix   => 'cn-',
+        dns_suffix      => 'amazonaws.com.cn',
+    },
+    'aws-us-gov' => {
+        region_prefix   => 'us-gov-',
+        dns_suffix      => 'amazonaws.com',
+    },
+    'aws-iso' => {
+        region_prefix   => 'us-iso-',
+        dns_suffix      => 'c2s.ic.gov',
+    },
+    'aws-iso-b' => {
+        region_prefix   => 'us-isob-',
+        dns_suffix      => 'sc2s.sgov.gov',
+    },
+    'aws-iso-e' => {
+        region_prefix   => 'us-isoe-',
+        dns_suffix      => 'cloud.adc-e.uk',
+    },
+    'aws-iso-f' => {
+        region_prefix   => 'us-isof-',
+        dns_suffix      => 'csp.hci.ic.gov',
+    },
+    'aws-eusc' => {
+        region_prefix   => 'eusc-',
+        dns_suffix      => 'amazonaws.eu',
+    },
+);
+
+my @smithy_files;
+find(sub {
+    push @smithy_files, $File::Find::name if /\.smithy\.json$/;
+}, $smithy_dir);
+
+my %compiled_rules;
+my $services_processed = 0;
+
+for my $smithy_file (sort @smithy_files) {
+    my $svc_dir = (File::Spec->splitdir($smithy_file))[-2];
+
+    open my $fh, '<', $smithy_file or do {
+        warn "Cannot read $smithy_file: $!\n";
+        next;
+    };
+    local $/;
+    my $json = <$fh>;
+    close $fh;
+
+    my $data = decode_json($json);
+    my $shapes = $data->{shapes} // {};
+
+    my ($endpoint_prefix, $ruleset);
+    for my $shape_id (keys %$shapes) {
+        my $shape = $shapes->{$shape_id};
+        my $traits = $shape->{traits} // {};
+
+        my $rs = $traits->{'smithy.rules#endpointRuleSet'};
+        next unless $rs;
+
+        my $api_svc = $traits->{'aws.api#service'} // {};
+        $endpoint_prefix = $api_svc->{endpointPrefix}
+            // $api_svc->{arnNamespace}
+            // lc($svc_dir);
+
+        $ruleset = $rs;
+        last;
+    }
+
+    next unless $ruleset;
+    $services_processed++;
+
+    my @rules = extract_default_rules($ruleset->{rules}, {});
+    next unless @rules;
+
+    @rules = dedup_rules(\@rules);
+
+    my $is_only_default = is_equivalent_to_default(\@rules, $endpoint_prefix);
+    next if $is_only_default;
+
+    $compiled_rules{$endpoint_prefix} = \@rules;
+}
+
+my $out_json = JSON::PP->new->canonical(1)->pretty(1)->encode(\%compiled_rules);
+
+my $out_dir = (File::Spec->splitpath($output_file))[1];
+if ($out_dir && !-d $out_dir) {
+    require File::Path;
+    File::Path::make_path($out_dir);
+}
+
+open my $out_fh, '>', $output_file or die "Cannot write $output_file: $!\n";
+print $out_fh $out_json;
+close $out_fh;
+
+my $rule_count = scalar keys %compiled_rules;
+say "processed=$services_processed services_with_custom_rules=$rule_count output=$output_file";
+
+sub dedup_rules {
+    my ($rules) = @_;
+    my $canon = JSON::PP->new->canonical(1);
+    my @seen;
+    my @unique;
+    for my $rule (@$rules) {
+        my $key = $canon->encode($rule);
+        unless (grep { $_ eq $key } @seen) {
+            push @seen, $key;
+            push @unique, $rule;
+        }
+    }
+    return @unique;
+}
+
+sub extract_default_rules {
+    my ($rules, $env) = @_;
+    return () unless $rules && ref $rules eq 'ARRAY';
+
+    my @result;
+
+    for my $rule (@$rules) {
+        my $type = $rule->{type} // '';
+        my $conditions = $rule->{conditions} // [];
+
+        if (should_skip_branch($conditions, $env)) {
+            next;
+        }
+
+        my $new_env = derive_env($conditions, $env);
+
+        if ($type eq 'endpoint') {
+            my $converted = convert_endpoint_leaf($rule, $new_env);
+            push @result, $converted if $converted;
+        }
+        elsif ($type eq 'tree') {
+            push @result, extract_default_rules($rule->{rules}, $new_env);
+        }
+    }
+
+    return @result;
+}
+
+sub should_skip_branch {
+    my ($conditions, $env) = @_;
+
+    for my $cond (@$conditions) {
+        my $fn = $cond->{fn} // '';
+
+        if ($fn eq 'booleanEquals') {
+            my @argv = @{ $cond->{argv} // [] };
+            my ($ref_arg, $bool_arg) = identify_ref_and_literal(\@argv);
+            if ($ref_arg) {
+                my $param = $ref_arg->{ref} // '';
+                if ($param eq 'UseFIPS' && $bool_arg) {
+                    return 1;
+                }
+                if ($param eq 'UseDualStack' && $bool_arg) {
+                    return 1;
+                }
+                if ($param eq 'UseObjectLambdaEndpoint' && $bool_arg) {
+                    return 1;
+                }
+            }
+        }
+
+        if ($fn eq 'isSet') {
+            my @argv = @{ $cond->{argv} // [] };
+            if (@argv && ref $argv[0] eq 'HASH' && ($argv[0]->{ref} // '') eq 'Endpoint') {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
+sub derive_env {
+    my ($conditions, $env) = @_;
+    my %new_env = %$env;
+
+    for my $cond (@$conditions) {
+        my $fn = $cond->{fn} // '';
+
+        if ($fn eq 'aws.partition' && $cond->{assign}) {
+            $new_env{has_partition} = 1;
+        }
+
+        if ($fn eq 'stringEquals') {
+            my @argv = @{ $cond->{argv} // [] };
+            my ($ref_side, $literal) = identify_ref_and_literal_str(\@argv);
+            if ($ref_side) {
+                my $ref_expr = $ref_side;
+                if (ref $ref_expr eq 'HASH' && $ref_expr->{fn} && $ref_expr->{fn} eq 'getAttr') {
+                    my $attr_argv = $ref_expr->{argv} // [];
+                    if (@$attr_argv >= 2
+                        && ref $attr_argv->[0] eq 'HASH'
+                        && ($attr_argv->[0]->{ref} // '') eq 'PartitionResult'
+                        && $attr_argv->[1] eq 'name')
+                    {
+                        $new_env{partition_name} = $literal;
+                    }
+                }
+                elsif (ref $ref_expr eq 'HASH' && ($ref_expr->{ref} // '') eq 'Region') {
+                    $new_env{region_equals} = $literal;
+                }
+            }
+        }
+    }
+
+    return \%new_env;
+}
+
+sub convert_endpoint_leaf {
+    my ($rule, $env) = @_;
+
+    my $endpoint = $rule->{endpoint} // return undef;
+    my $url = $endpoint->{url};
+
+    return undef unless defined $url && !ref $url;
+
+    # Skip URLs with unresolvable templates (bucket, ARN, S3Express, account, etc.)
+    return undef if $url =~ /\{Bucket|uri_encoded_bucket|s3express|accessPointName|bucketArn|ParsedArn|AccountId|AccountIdEndpointMode/i;
+
+    $url = resolve_url_template($url, $env);
+
+    # For URLs with unresolved partition templates (generic fallback
+    # endpoints), resolve using the 'aws' partition as the catch-all
+    if ($url =~ /\{PartitionResult/i || $url =~ /\{partitionResult/) {
+        my $aws_data = $PARTITION_DATA{'aws'};
+        $url =~ s/\{PartitionResult#dnsSuffix\}/$aws_data->{dns_suffix}/gi;
+        $url =~ s/\{PartitionResult#dualStackDnsSuffix\}/$aws_data->{dns_suffix}/gi;
+        $url =~ s/\{partitionResult#dnsSuffix\}/$aws_data->{dns_suffix}/gi;
+    }
+
+    # Still unresolved after aws fallback — skip
+    return undef if $url =~ /\{PartitionResult/i;
+    return undef if $url =~ /\{partitionResult/;
+
+    # Skip FIPS URLs that leaked through
+    return undef if $url =~ /-fips[.\/]/;
+
+    my $uri = $url;
+
+    my %entry = (uri => $uri);
+
+    my @constraints;
+    if (my $partition = $env->{partition_name}) {
+        my $pdata = $PARTITION_DATA{$partition};
+        if ($pdata && $pdata->{region_prefix}) {
+            push @constraints, ['region', 'startsWith', $pdata->{region_prefix}];
+        }
+    }
+    if (my $region_eq = $env->{region_equals}) {
+        push @constraints, ['region', 'equals', $region_eq];
+    }
+
+    $entry{constraints} = \@constraints if @constraints;
+
+    my $auth_schemes = $endpoint->{properties}{authSchemes} // [];
+    if (@$auth_schemes) {
+        my $scheme = $auth_schemes->[0];
+        my %props;
+
+        my $signing_region = $scheme->{signingRegion};
+        my $signing_name   = $scheme->{signingName};
+
+        if (defined $signing_region && !ref $signing_region) {
+            if ($signing_region =~ /\{PartitionResult#implicitGlobalRegion\}/i) {
+                my $partition = $env->{partition_name} // 'aws';
+                my %implicit_global = (
+                    'aws'        => 'us-east-1',
+                    'aws-cn'     => 'cn-north-1',
+                    'aws-us-gov' => 'us-gov-west-1',
+                    'aws-iso'    => 'us-iso-east-1',
+                    'aws-iso-b'  => 'us-isob-east-1',
+                    'aws-iso-e'  => 'eu-isoe-west-1',
+                    'aws-iso-f'  => 'us-isof-south-1',
+                    'aws-eusc'   => 'eusc-de-east-1',
+                );
+                $signing_region = $implicit_global{$partition} // 'us-east-1';
+            }
+            if ($signing_region !~ /\{/) {
+                $props{credentialScope}{region} = $signing_region;
+            }
+        }
+        if (defined $signing_name) {
+            $props{credentialScope}{service} = $signing_name;
+        }
+
+        my $sig_name = $scheme->{name} // '';
+        if ($sig_name && $sig_name ne 'sigv4') {
+            $props{signatureVersion} = $sig_name;
+        }
+
+        $entry{properties} = \%props if %props;
+    }
+
+    return \%entry;
+}
+
+sub resolve_url_template {
+    my ($url, $env) = @_;
+
+    if (my $partition = $env->{partition_name}) {
+        my $pdata = $PARTITION_DATA{$partition};
+        if ($pdata) {
+            $url =~ s/\{PartitionResult#dnsSuffix\}/$pdata->{dns_suffix}/g;
+            $url =~ s/\{PartitionResult#dualStackDnsSuffix\}/$pdata->{dns_suffix}/g;
+        }
+    }
+
+    $url =~ s/\{Region\}/{region}/g;
+
+    return $url;
+}
+
+sub is_equivalent_to_default {
+    my ($rules, $endpoint_prefix) = @_;
+
+    return 0 unless @$rules;
+
+    for my $rule (@$rules) {
+        my $uri = $rule->{uri} // '';
+        my $props = $rule->{properties} // {};
+
+        my $expected_cn   = "https://$endpoint_prefix.{region}.amazonaws.com.cn";
+        my $expected_std  = "https://$endpoint_prefix.{region}.amazonaws.com";
+        my $expected_tmpl = "{scheme}://{service}.{region}.amazonaws.com";
+
+        my $is_standard_uri = (
+            $uri eq $expected_cn
+            || $uri eq $expected_std
+            || $uri eq $expected_tmpl
+            || $uri eq "https://{service}.{region}.amazonaws.com"
+            || $uri =~ m{^https://\Q$endpoint_prefix\E\.\{region\}\.amazonaws\.com$}
+        );
+
+        return 0 if !$is_standard_uri;
+        return 0 if exists $props->{credentialScope};
+        return 0 if exists $props->{signatureVersion} && $props->{signatureVersion} ne 'v4';
+    }
+
+    return 1;
+}
+
+sub _is_literal {
+    my ($val) = @_;
+    return 1 if !ref $val;
+    return 1 if JSON::PP::is_bool($val);
+    return 0;
+}
+
+sub identify_ref_and_literal {
+    my ($argv) = @_;
+    return (undef, undef) unless @$argv == 2;
+
+    my ($a, $b) = @$argv;
+    if (ref $a eq 'HASH' && exists $a->{ref} && _is_literal($b)) {
+        return ($a, $b);
+    }
+    if (ref $b eq 'HASH' && exists $b->{ref} && _is_literal($a)) {
+        return ($b, $a);
+    }
+    return (undef, undef);
+}
+
+sub identify_ref_and_literal_str {
+    my ($argv) = @_;
+    return (undef, undef) unless @$argv == 2;
+
+    my ($a, $b) = @$argv;
+    if (ref $a eq 'HASH' && _is_literal($b)) {
+        return ($a, $b);
+    }
+    if (ref $b eq 'HASH' && _is_literal($a)) {
+        return ($b, $a);
+    }
+    return (undef, undef);
+}

@@ -110,11 +110,12 @@ my %PRIMITIVE_TO_TYPE_EXPR = (
 
 # --- Endpoint rules (region_rules) support ---
 #
-# The AOT build path uses Paws::API::RegionBuilder + etc/_endpoints.json
-# to emit `has '+region_rules' => (...)` overrides in generated service
-# classes. The materialiser must do the same so that global services
-# (IAM, STS, Route53, CloudFront, WAF, ...) resolve endpoints correctly
-# when materialised at runtime.
+# share/endpoint-rules.json is compiled from the Smithy endpointRuleSet
+# by script/compile-endpoint-rules. It maps endpoint_prefix to an array
+# of region_rules entries consumed by Paws::API::EndpointResolver.
+# Global services (IAM, STS, Route53, CloudFront, WAF, ...) and services
+# with non-standard hostname patterns get explicit rules; all others
+# fall through to EndpointResolver's _default_rules.
 
 sub _endpoint_rules_data {
     my ($self) = @_;
@@ -137,12 +138,12 @@ sub _endpoint_rules_data {
 }
 
 sub _find_endpoints_file {
-    return 'etc/_endpoints.json' if -f 'etc/_endpoints.json';
+    return 'share/endpoint-rules.json' if -f 'share/endpoint-rules.json';
     my $shared;
     eval {
         require File::ShareDir;
         my $dir = File::ShareDir::dist_dir('Paws');
-        my $f = File::Spec->catfile($dir, '_endpoints.json');
+        my $f = File::Spec->catfile($dir, 'endpoint-rules.json');
         $shared = $f if -f $f;
     };
     return $shared;

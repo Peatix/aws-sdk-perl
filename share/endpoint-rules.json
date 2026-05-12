@@ -1,0 +1,1732 @@
+{
+   "api.ecr" : [
+      {
+         "uri" : "https://api.ecr.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.cloud.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.csp.hci.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "uri" : "https://api.ecr.{region}.amazonaws.eu"
+      }
+   ],
+   "arc-region-switch" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-north-1",
+               "service" : "arc-region-switch"
+            }
+         },
+         "uri" : "https://arc-region-switch-control-plane.cn-north-1.amazonaws.com.cn"
+      },
+      {
+         "uri" : "https://arc-region-switch.{region}.amazonaws.com"
+      }
+   ],
+   "bcm-data-exports" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-iso-east-1"
+            }
+         },
+         "uri" : "https://bcm-data-exports.us-iso-east-1.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1"
+            }
+         },
+         "uri" : "https://bcm-data-exports.us-isob-east-1.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eu-isoe-west-1"
+            }
+         },
+         "uri" : "https://bcm-data-exports.eu-isoe-west-1.cloud.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isof-south-1"
+            }
+         },
+         "uri" : "https://bcm-data-exports.us-isof-south-1.csp.hci.ic.gov"
+      }
+   ],
+   "billing" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1"
+            }
+         },
+         "uri" : "https://billing.us-east-1.api.aws"
+      }
+   ],
+   "billingconductor" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "billingconductor"
+            }
+         },
+         "uri" : "https://billingconductor.us-east-1.amazonaws.com"
+      },
+      {
+         "uri" : "https://billingconductor.{region}.amazonaws.com"
+      }
+   ],
+   "budgets" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1"
+            }
+         },
+         "uri" : "https://budgets.global.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eu-isoe-west-1"
+            }
+         },
+         "uri" : "https://budgets.global.cloud.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isof-south-1"
+            }
+         },
+         "uri" : "https://budgets.global.csp.hci.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eusc-de-east-1"
+            }
+         },
+         "uri" : "https://budgets.eusc-de-east-1.api.amazonwebservices.eu"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1"
+            }
+         },
+         "uri" : "https://budgets.amazonaws.com"
+      }
+   ],
+   "ce" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-iso-east-1"
+            }
+         },
+         "uri" : "https://ce.us-iso-east-1.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1"
+            }
+         },
+         "uri" : "https://ce.us-isob-east-1.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eu-isoe-west-1"
+            }
+         },
+         "uri" : "https://ce.eu-isoe-west-1.cloud.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isof-south-1"
+            }
+         },
+         "uri" : "https://ce.us-isof-south-1.csp.hci.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eusc-de-east-1"
+            }
+         },
+         "uri" : "https://ce.eusc-de-east-1.api.amazonwebservices.eu"
+      }
+   ],
+   "chime" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "chime"
+            }
+         },
+         "uri" : "https://chime.us-east-1.amazonaws.com"
+      },
+      {
+         "uri" : "https://chime.{region}.amazonaws.com"
+      }
+   ],
+   "cloudfront" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-northwest-1"
+            }
+         },
+         "uri" : "https://cloudfront.cn-northwest-1.amazonaws.com.cn"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1"
+            }
+         },
+         "uri" : "https://cloudfront.amazonaws.com"
+      }
+   ],
+   "codecatalyst" : [
+      {
+         "uri" : "https://codecatalyst.global.amazonaws.com"
+      }
+   ],
+   "data-ats.iot" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "cn-north-1"
+            ]
+         ],
+         "uri" : "https://data.ats.iot.cn-north-1.amazonaws.com.cn"
+      },
+      {
+         "uri" : "https://data-ats.iot.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "uri" : "https://data-ats.iot.{region}.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://data-ats.iot.{region}.amazonaws.com"
+      }
+   ],
+   "dynamodb" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "local"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "dynamodb"
+            }
+         },
+         "uri" : "http://localhost:8000"
+      },
+      {
+         "uri" : "https://dynamodb.{region}.amazonaws.com"
+      }
+   ],
+   "email" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "ses"
+            },
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://{EndpointId}.endpoints.email.amazonaws.com"
+      },
+      {
+         "uri" : "https://email.{region}.amazonaws.com"
+      }
+   ],
+   "entitlement.marketplace" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "uri" : "https://entitlement-marketplace.{region}.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "uri" : "https://entitlement-marketplace.{region}.amazonaws.eu"
+      },
+      {
+         "uri" : "https://entitlement.marketplace.{region}.amazonaws.com"
+      }
+   ],
+   "events" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "events"
+            },
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://{EndpointId}.endpoint.events.amazonaws.com"
+      },
+      {
+         "uri" : "https://events.{region}.amazonaws.com"
+      }
+   ],
+   "freetier" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "freetier"
+            }
+         },
+         "uri" : "https://freetier.us-east-1.api.aws"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "aws-cn-global"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-northwest-1",
+               "service" : "freetier"
+            }
+         },
+         "uri" : "https://freetier.cn-northwest-1.api.amazonwebservices.com.cn"
+      },
+      {
+         "uri" : "https://freetier.{region}.amazonaws.com"
+      }
+   ],
+   "geo-maps" : [
+      {
+         "uri" : "https://maps.geo.{region}.amazonaws.com/v2"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://maps.geo.{region}.amazonaws.com/v2"
+      },
+      {
+         "uri" : "https://geo-maps.{region}.amazonaws.com"
+      }
+   ],
+   "geo-places" : [
+      {
+         "uri" : "https://places.geo.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://places.geo.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://geo-places.{region}.amazonaws.com"
+      }
+   ],
+   "geo-routes" : [
+      {
+         "uri" : "https://routes.geo.{region}.amazonaws.com/v2"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://routes.geo.{region}.us-gov.amazonaws.com/v2"
+      },
+      {
+         "uri" : "https://geo-routes.{region}.amazonaws.com"
+      }
+   ],
+   "greengrass" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "dataplane-us-gov-east-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-gov-east-1",
+               "service" : "greengrass"
+            }
+         },
+         "uri" : "https://greengrass-ats.iot.us-gov-east-1.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "dataplane-us-gov-west-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-gov-west-1",
+               "service" : "greengrass"
+            }
+         },
+         "uri" : "https://greengrass-ats.iot.us-gov-west-1.amazonaws.com"
+      },
+      {
+         "uri" : "https://greengrass.{region}.amazonaws.com"
+      }
+   ],
+   "health" : [
+      {
+         "uri" : "https://health.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "aws-global"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "health"
+            }
+         },
+         "uri" : "https://global.health.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "aws-cn-global"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-northwest-1",
+               "service" : "health"
+            }
+         },
+         "uri" : "https://global.health.amazonaws.com.cn"
+      }
+   ],
+   "iam" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-north-1"
+            }
+         },
+         "uri" : "https://iam.cn-north-1.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-gov-west-1"
+            }
+         },
+         "uri" : "https://iam.us-gov.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-iso-east-1"
+            }
+         },
+         "uri" : "https://iam.us-iso-east-1.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1"
+            }
+         },
+         "uri" : "https://iam.us-isob-east-1.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eu-isoe-west-1"
+            }
+         },
+         "uri" : "https://iam.eu-isoe-west-1.cloud.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isof-south-1"
+            }
+         },
+         "uri" : "https://iam.us-isof-south-1.csp.hci.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eusc-de-east-1"
+            }
+         },
+         "uri" : "https://iam.eusc-de-east-1.amazonaws.eu"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1"
+            }
+         },
+         "uri" : "https://iam.amazonaws.com"
+      }
+   ],
+   "kinesis" : [
+      {
+         "uri" : "https://{StreamIdPrefixValue}.{StreamIdSuffixValue}.{OperationType}-kinesis.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://kinesis.{region}.amazonaws.com"
+      }
+   ],
+   "mediaconvert" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "cn-northwest-1"
+            ]
+         ],
+         "uri" : "https://subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn"
+      },
+      {
+         "uri" : "https://mediaconvert.{region}.amazonaws.com"
+      }
+   ],
+   "metering.marketplace" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "uri" : "https://metering-marketplace.{region}.amazonaws.eu"
+      },
+      {
+         "uri" : "https://metering.marketplace.{region}.amazonaws.com"
+      }
+   ],
+   "mturk-requester" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "sandbox"
+            ]
+         ],
+         "uri" : "https://mturk-requester-sandbox.us-east-1.amazonaws.com"
+      },
+      {
+         "uri" : "https://mturk-requester.{region}.amazonaws.com"
+      }
+   ],
+   "neptune-graph" : [
+      {
+         "uri" : "https://neptune-graph.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://{region}.neptune-graph.amazonaws.com"
+      }
+   ],
+   "networkmanager" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-west-2"
+            }
+         },
+         "uri" : "https://networkmanager.us-west-2.amazonaws.com"
+      }
+   ],
+   "organizations" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "organizations"
+            }
+         },
+         "uri" : "https://organizations.us-east-1.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-northwest-1",
+               "service" : "organizations"
+            }
+         },
+         "uri" : "https://organizations.cn-northwest-1.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-gov-west-1",
+               "service" : "organizations"
+            }
+         },
+         "uri" : "https://organizations.us-gov-west-1.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-iso-east-1",
+               "service" : "organizations"
+            }
+         },
+         "uri" : "https://organizations.us-iso-east-1.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1",
+               "service" : "organizations"
+            }
+         },
+         "uri" : "https://organizations.us-isob-east-1.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isof-south-1",
+               "service" : "organizations"
+            }
+         },
+         "uri" : "https://organizations.us-isof-south-1.csp.hci.ic.gov"
+      },
+      {
+         "uri" : "https://organizations.{region}.amazonaws.com"
+      }
+   ],
+   "partnercentral-channel" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://partnercentral-channel.us-gov.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://partnercentral-channel.global.amazonaws.com"
+      }
+   ],
+   "pinpoint" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-1"
+            ]
+         ],
+         "uri" : "https://pinpoint.us-east-1.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-west-2"
+            ]
+         ],
+         "uri" : "https://pinpoint.us-west-2.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-gov-west-1"
+            ]
+         ],
+         "uri" : "https://pinpoint.us-gov-west-1.amazonaws.com"
+      },
+      {
+         "uri" : "https://pinpoint.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://pinpoint.{region}.amazonaws.com"
+      }
+   ],
+   "route53" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1"
+            }
+         },
+         "uri" : "https://route53.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-northwest-1"
+            }
+         },
+         "uri" : "https://route53.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-gov-west-1"
+            }
+         },
+         "uri" : "https://route53.us-gov.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-iso-east-1"
+            }
+         },
+         "uri" : "https://route53.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1"
+            }
+         },
+         "uri" : "https://route53.sc2s.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eu-isoe-west-1"
+            }
+         },
+         "uri" : "https://route53.cloud.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isof-south-1"
+            }
+         },
+         "uri" : "https://route53.csp.hci.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "eusc-de-east-1"
+            }
+         },
+         "uri" : "https://route53.amazonaws.eu"
+      }
+   ],
+   "route53-recovery-control-config" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-west-2"
+            }
+         },
+         "uri" : "https://route53-recovery-control-config.us-west-2.amazonaws.com"
+      }
+   ],
+   "runtime.sagemaker" : [
+      {
+         "uri" : "https://runtime.sagemaker.{region}.amazonaws.com:8443"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "uri" : "https://runtime.sagemaker.{region}.amazonaws.com.cn:8443"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://runtime.sagemaker.{region}.amazonaws.com:8443"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "uri" : "https://runtime.sagemaker.{region}.c2s.ic.gov:8443"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "uri" : "https://runtime.sagemaker.{region}.sc2s.sgov.gov:8443"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "uri" : "https://runtime.sagemaker.{region}.csp.hci.ic.gov:8443"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "uri" : "https://runtime.sagemaker.{region}.amazonaws.eu:8443"
+      },
+      {
+         "uri" : "https://runtime.sagemaker.{region}.amazonaws.com"
+      }
+   ],
+   "s3" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "aws-global"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "s3"
+            }
+         },
+         "uri" : "https://s3.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "service" : "s3"
+            }
+         },
+         "uri" : "https://s3.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "s3"
+            }
+         },
+         "uri" : "https://s3.{region}.amazonaws.com"
+      }
+   ],
+   "s3-control" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "s3-outposts"
+            }
+         },
+         "uri" : "https://s3-outposts.{region}.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "s3-outposts"
+            }
+         },
+         "uri" : "https://s3-outposts.{accessPointArn#region}.{arnPartition#dnsSuffix}"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "s3"
+            }
+         },
+         "uri" : "https://s3-control.{region}.amazonaws.com"
+      }
+   ],
+   "savingsplans" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "savingsplans"
+            }
+         },
+         "uri" : "https://savingsplans.amazonaws.com"
+      },
+      {
+         "uri" : "https://savingsplans.{region}.amazonaws.com"
+      }
+   ],
+   "sdb" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-1"
+            ]
+         ],
+         "uri" : "https://sdb.amazonaws.com"
+      },
+      {
+         "uri" : "https://sdb.{region}.amazonaws.com"
+      }
+   ],
+   "shield" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "shield"
+            }
+         },
+         "uri" : "https://shield.us-east-1.amazonaws.com"
+      },
+      {
+         "uri" : "https://shield.{region}.amazonaws.com"
+      }
+   ],
+   "signin" : [
+      {
+         "uri" : "https://{region}.signin.aws.amazon.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.amazonaws.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.amazonaws-us-gov.com"
+      },
+      {
+         "uri" : "https://signin.{region}.amazonaws.com"
+      }
+   ],
+   "sts" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-northeast-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-south-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-southeast-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-southeast-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "aws-global"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ca-central-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-central-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-north-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-west-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-west-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-west-3"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "sa-east-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-west-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-west-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://sts.{region}.amazonaws.com"
+      }
+   ],
+   "support" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "support"
+            }
+         },
+         "uri" : "https://support.us-east-1.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "cn-north-1",
+               "service" : "support"
+            }
+         },
+         "uri" : "https://support.cn-north-1.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-gov-west-1",
+               "service" : "support"
+            }
+         },
+         "uri" : "https://support.us-gov-west-1.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-iso-east-1",
+               "service" : "support"
+            }
+         },
+         "uri" : "https://support.us-iso-east-1.c2s.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-isob-east-1",
+               "service" : "support"
+            }
+         },
+         "uri" : "https://support.us-isob-east-1.sc2s.sgov.gov"
+      },
+      {
+         "uri" : "https://support.{region}.amazonaws.com"
+      }
+   ],
+   "sustainability" : [
+      {
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://api.sustainability.{region}.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-gov-"
+            ]
+         ],
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://sustainability.us-gov.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "signatureVersion" : "sigv4a"
+         },
+         "uri" : "https://sustainability.global.amazonaws.com"
+      }
+   ],
+   "transcribe" : [
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "cn-north-1"
+            ]
+         ],
+         "uri" : "https://cn.transcribe.cn-north-1.amazonaws.com.cn"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "cn-northwest-1"
+            ]
+         ],
+         "uri" : "https://cn.transcribe.cn-northwest-1.amazonaws.com.cn"
+      },
+      {
+         "uri" : "https://transcribe.{region}.amazonaws.com"
+      }
+   ],
+   "waf" : [
+      {
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "waf"
+            }
+         },
+         "uri" : "https://waf.amazonaws.com"
+      },
+      {
+         "uri" : "https://waf.{region}.amazonaws.com"
+      }
+   ]
+}
