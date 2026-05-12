@@ -11,15 +11,15 @@ on:
 
 # Phase 2 of the A4-B distribution plan
 # (docs/distribution-plan-a4b.md §3.4). Triggers on `release.published`,
-# builds the full per-service modular fleet (~426 code dists +
-# ~426 docs companions + 1 Paws::Core stand-in), and uploads every
-# tarball as a release asset.
+# builds the full per-service modular fleet (code dists + docs
+# companions + 1 Paws::Core stand-in), and uploads every tarball as
+# a release asset. The service list is derived dynamically from the
+# Smithy IR directories by Paws::Model::Loader::Resolver.
 #
 # Sharding: GitHub Actions caps a workflow run at ~256 concurrent
-# matrix jobs. With ~426 services and one job per service we'd be
-# right at the limit; instead we shard the service list into chunks
-# of ~50 so the matrix stays small (9 shards) while each shard's job
-# loops through its slice of services serially.
+# matrix jobs. We shard the service list into chunks of ~50 so the
+# matrix stays small while each shard's job loops through its slice
+# of services serially.
 #
 # Determinism: SOURCE_DATE_EPOCH is pinned to the release tag's
 # commit author-date so re-running the workflow produces byte-
