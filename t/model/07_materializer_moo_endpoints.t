@@ -29,7 +29,7 @@ subtest '_find_endpoints_file finds in-tree file' => sub {
     chdir $repo_root or die "chdir $repo_root: $!";
 
     my $file = Paws::Model::Materializer::Moo::_find_endpoints_file();
-    is($file, 'etc/_endpoints.json', 'returns relative path when run from repo root');
+    is($file, 'share/endpoint-rules.json', 'returns relative path when run from repo root');
     ok(-f $file, 'returned path exists on disk');
 
     chdir $orig or die "chdir $orig: $!";

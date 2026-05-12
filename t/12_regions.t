@@ -301,7 +301,7 @@ $known_regions->{ '[UNDEF]' }->{ signin }     = 'signin.aws.amazon.com';
 
 my $paws = Paws->new(config => { credentials => 'Test::CustomCredentials' });
 
-# Service codes from _endpoints.json that don't have a mapping in
+# Service codes from the endpoint rules that don't have a mapping in
 # Paws::API::ServiceToClass. Collected once and noted at the end so the
 # diagnostic survives but doesn't print once-per-region-per-service to
 # stderr (~250 lines of noise per CI run).
