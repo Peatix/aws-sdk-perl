@@ -212,6 +212,7 @@ sub _find_smithy_path {
 %PAWS_TO_SMITHY = (
     # --- Cosmetic separator differences (auto-derived from sdkId) ---
     ACMPCA                              => 'acm-pca',
+    ARCRegionSwitch                     => 'arc-region-switch',
     ARCZonalShift                       => 'arc-zonal-shift',
     ApiGateway                          => 'api-gateway',
     AppMesh                             => 'app-mesh',
@@ -220,10 +221,14 @@ sub _find_smithy_path {
     ApplicationSignals                  => 'application-signals',
     AutoScaling                         => 'auto-scaling',
     AutoScalingPlans                    => 'auto-scaling-plans',
+    BCMDashboards                       => 'bcm-dashboards',
     BCMDataExports                      => 'bcm-data-exports',
     BCMPricingCalculator                => 'bcm-pricing-calculator',
+    BCMRecommendedActions               => 'bcm-recommended-actions',
     BackupGateway                       => 'backup-gateway',
     BedrockAgent                        => 'bedrock-agent',
+    BedrockAgentCore                    => 'bedrock-agentcore',
+    BedrockAgentCoreControl             => 'bedrock-agentcore-control',
     BedrockAgentRuntime                 => 'bedrock-agent-runtime',
     BedrockDataAutomation               => 'bedrock-data-automation',
     BedrockDataAutomationRuntime        => 'bedrock-data-automation-runtime',
@@ -246,11 +251,13 @@ sub _find_smithy_path {
     CognitoIdentity                     => 'cognito-identity',
     CognitoSync                         => 'cognito-sync',
     ComputeOptimizer                    => 'compute-optimizer',
+    ComputeOptimizerAutomation          => 'compute-optimizer-automation',
     ConnectContactLens                  => 'connect-contact-lens',
     CostExplorer                        => 'cost-explorer',
     CostOptimizationHub                 => 'cost-optimization-hub',
     CustomerProfiles                    => 'customer-profiles',
     DataPipeline                        => 'data-pipeline',
+    DevOpsAgent                         => 'devops-agent',
     DevOpsGuru                          => 'devops-guru',
     DeviceFarm                          => 'device-farm',
     DirectConnect                       => 'direct-connect',
@@ -289,12 +296,14 @@ sub _find_smithy_path {
     LicenseManager                      => 'license-manager',
     LicenseManagerLinuxSubscriptions    => 'license-manager-linux-subscriptions',
     LicenseManagerUserSubscriptions     => 'license-manager-user-subscriptions',
+    MWAAServerless                      => 'mwaa-serverless',
     MachineLearning                     => 'machine-learning',
     ManagedBlockchainQuery              => 'managedblockchain-query',
     MarketplaceAgreement                => 'marketplace-agreement',
     MarketplaceCatalog                  => 'marketplace-catalog',
     MarketplaceCommerceAnalytics        => 'marketplace-commerce-analytics',
     MarketplaceDeployment               => 'marketplace-deployment',
+    MarketplaceDiscovery                => 'marketplace-discovery',
     MarketplaceMetering                 => 'marketplace-metering',
     MarketplaceReporting                => 'marketplace-reporting',
     MediaPackageVod                     => 'mediapackage-vod',
@@ -305,6 +314,10 @@ sub _find_smithy_path {
     MigrationHubRefactorSpaces          => 'migration-hub-refactor-spaces',
     NeptuneGraph                        => 'neptune-graph',
     NetworkFirewall                     => 'network-firewall',
+    NovaAct                             => 'nova-act',
+    PartnerCentralAccount               => 'partnercentral-account',
+    PartnerCentralBenefits              => 'partnercentral-benefits',
+    PartnerCentralChannel               => 'partnercentral-channel',
     PartnerCentralSelling               => 'partnercentral-selling',
     PaymentCryptography                 => 'payment-cryptography',
     PaymentCryptographyData             => 'payment-cryptography-data',
@@ -338,11 +351,13 @@ sub _find_smithy_path {
     SageMakerGeospatial                 => 'sagemaker-geospatial',
     SageMakerMetrics                    => 'sagemaker-metrics',
     SageMakerRuntime                    => 'sagemaker-runtime',
+    SageMakerRuntimeHTTP2               => 'sagemaker-runtime-http2',
     SecretsManager                      => 'secrets-manager',
     SecurityIR                          => 'security-ir',
     ServiceCatalog                      => 'service-catalog',
     ServiceCatalogAppRegistry           => 'service-catalog-appregistry',
     ServiceQuotas                       => 'service-quotas',
+    SignerData                           => 'signer-data',
     SnowDeviceManagement                => 'snow-device-management',
     SsmSap                              => 'ssm-sap',
     StorageGateway                      => 'storage-gateway',
@@ -356,6 +371,7 @@ sub _find_smithy_path {
     WAFRegional                         => 'waf-regional',
     WorkSpacesThinClient                => 'workspaces-thin-client',
     WorkSpacesWeb                       => 'workspaces-web',
+    WorkspacesInstances                 => 'workspaces-instances',
 
     # --- Substantive renames (legacy Paws name -> Smithy basename) ---
     ApiGatewayManagement                => 'apigatewaymanagementapi',
@@ -442,75 +458,102 @@ sub _paws_to_smithy {
 # cleanup. Services in %PAWS_DROPPED_SERVICES and services whose
 # Smithy IR was removed by AWS are no longer listed here.
 our @KNOWN_PAWS_SERVICE_NAMES = qw(
-    ACM ACMPCA AccessAnalyzer Amplify
-    AmplifyBackend ApiGateway ApiGatewayManagement ApiGatewayV2
-    AppConfig AppIntegrations AppMesh AppRunner AppStream AppSync
+    ACM ACMPCA ARCRegionSwitch ARCZonalShift AccessAnalyzer Account
+    AIOps Amplify AmplifyBackend AmplifyUIBuilder ApiGateway
+    ApiGatewayManagement ApiGatewayV2 AppConfig AppConfigData
+    AppFabric AppIntegrations AppMesh AppRunner AppStream AppSync
     Appflow ApplicationAutoScaling ApplicationCostProfiler
-    ApplicationInsights Athena AuditManager AutoScaling
-    AutoScalingPlans Backup BackupGateway Batch BillingConductor
-    Braket Budgets CUR Chime ChimeSDKIdentity ChimeSDKMediaPipelines
-    ChimeSDKMeetings ChimeSDKMessaging Cloud9 CloudDirectory
-    CloudFormation CloudFront CloudHSM CloudHSMv2 CloudSearch
+    ApplicationInsights ApplicationMigration ApplicationSignals
+    Artifact Athena AuditManager AutoScaling AutoScalingPlans
+    B2BI BCMDashboards BCMDataExports BCMPricingCalculator
+    BCMRecommendedActions Backup BackupGateway BackupSearch Batch
+    Bedrock BedrockAgent BedrockAgentCore BedrockAgentCoreControl
+    BedrockAgentRuntime BedrockDataAutomation
+    BedrockDataAutomationRuntime BedrockRuntime Billing
+    BillingConductor Braket Budgets CUR Chatbot Chime
+    ChimeSDKIdentity ChimeSDKMediaPipelines ChimeSDKMeetings
+    ChimeSDKMessaging ChimeSDKVoice CleanRooms CleanRoomsML Cloud9
+    CloudControl CloudDirectory CloudFormation CloudFront
+    CloudFrontKeyValueStore CloudHSM CloudHSMv2 CloudSearch
     CloudSearchDomain CloudTrail CloudTrailData CloudWatch
-    CloudWatchEvents CloudWatchLogs CodeArtifact CodeBuild CodeCommit
-    CodeDeploy CodeGuruProfiler CodeGuruReviewer CodePipeline
+    CloudWatchEvents CloudWatchLogs CodeArtifact CodeBuild
+    CodeCatalyst CodeCommit CodeConnections CodeDeploy
+    CodeGuruProfiler CodeGuruReviewer CodeGuruSecurity CodePipeline
     CodeStarConnections CodeStarNotifications CognitoIdentity
     CognitoIdp CognitoSync Comprehend ComprehendMedical
-    ComputeOptimizer Config Connect ConnectCampaigns ConnectCases
-    ConnectContactLens ConnectParticipant ControlTower CostExplorer
-    CustomerProfiles DAX DLM DMS DS DataExchange DataPipeline
-    DataSync Detective DeviceFarm DevOpsGuru DirectConnect Discovery
-    DocDB DocDBElastic Drs DynamoDB DynamoDBStreams EBS EC2
-    EC2InstanceConnect ECR ECRPublic ECS EFS EKS EMR EMRContainers
-    EMRServerless ELB ELBv2 ES ElastiCache ElasticBeanstalk
-    ElasticTranscoder EventBridge FIS FMS FSX Finspace
-    FinspaceData Firehose Forecast ForecastQuery FraudDetector
-    GameLift Glacier GlobalAccelerator Glue GlueDataBrew Grafana
-    Greengrass GreengrassV2 GroundStation GuardDuty Health
-    HealthLake IAM IVS IVSRealTime IdentityStore
-    Imagebuilder InspectorScan Inspector Inspector2
-    InternetMonitor IoT IoTData IoTEvents IoTEventsData
-    IoTFleetWise IoTJobsData
-    IoTSecureTunneling IoTSiteWise IoTThingsGraph IoTTwinMaker
-    IoTWireless IotDeviceAdvisor KMS Kafka KafkaConnect Kendra
-    KendraRanking KeySpaces Kinesis KinesisAnalytics
-    KinesisAnalyticsV2 KinesisVideo KinesisVideoArchivedMedia
-    KinesisVideoMedia KinesisVideoSignaling LakeFormation Lambda
-    LexModels LexModelsV2 LexRuntime LexRuntimeV2 LicenseManager
-    LicenseManagerLinuxSubscriptions LicenseManagerUserSubscriptions
-    Lightsail Location LookoutEquipment
-    M2 MQ MTurk MWAA MachineLearning Macie2
-    ManagedBlockchain MarketplaceCatalog MarketplaceCommerceAnalytics
-    MarketplaceEntitlement MarketplaceMetering MediaConnect
-    MediaConvert MediaLive MediaPackage MediaPackageVod MediaStore
-    MediaStoreData MediaTailor MemoryDB
-    MigrationHub MigrationHubConfig MigrationHubRefactorSpaces
-    MigrationHubStrategy NetworkFirewall NetworkManager
-    OAM OpenSearch OpenSearchServerless
-    Organizations Outposts Panorama
-    PartnerCentralSelling Personalize PersonalizeEvents
-    PersonalizeRuntime PerformanceInsights Pinpoint PinpointEmail
-    PinpointSMSVoice PinpointSMSVoiceV2 Polly Pricing
-    Prometheus Proton QBusiness QuickSight RAM
-    RDS RDSData RUM RBin Redshift RedshiftData
-    RedshiftServerless Rekognition Resiliencehub ResourceExplorer2
-    ResourceGroups ResourceTagging RolesAnywhere Route53
-    Route53Domains Route53RecoveryCluster Route53RecoveryControlConfig
-    Route53RecoveryReadiness Route53Resolver S3 S3Control SDB SES
-    SESV2 SFN SNS SQS SSM SSMContacts SSMIncidents SsmSap SSO
-    SSOAdmin SSOOidc SageMaker SageMakerA2IRuntime SageMakerEdge
-    SageMakerFeatureStoreRuntime SageMakerGeospatial SageMakerMetrics
-    SageMakerRuntime SavingsPlans Schemas SecretsManager
-    SecurityHub SecurityIR ServerlessRepo ServiceCatalog
-    ServiceCatalogAppRegistry ServiceQuotas Shield Signer
-    SimpleWorkflow Snowball SnowDeviceManagement
-    StepFunctions StorageGateway Support SupportApp SupplyChain
-    Synthetics Textract TimestreamInfluxDB TimestreamQuery
-    TimestreamWrite Tnb Transcribe TranscribeStreaming Transfer
-    Translate VPCLattice VerifiedPermissions VoiceID WAF WAFRegional
-    WAFV2 WellArchitected Wisdom WorkDocs WorkMail
+    ComputeOptimizer ComputeOptimizerAutomation Config Connect
+    ConnectCampaigns ConnectCampaignsV2 ConnectCases
+    ConnectContactLens ConnectHealth ConnectParticipant
+    ControlCatalog ControlTower CostExplorer CostOptimizationHub
+    CustomerProfiles DAX DSQL DLM DMS DS DataExchange DataPipeline
+    DataSync DataZone Deadline Detective DevOpsAgent DevOpsGuru
+    DeviceFarm DirectConnect DirectoryServiceData Discovery DocDB
+    DocDBElastic Drs DynamoDB DynamoDBStreams EBS EC2
+    EC2InstanceConnect ECR ECRPublic ECS EFS EKS EKSAuth ELB ELBv2
+    EMR EMRContainers EMRServerless ES EVS ElastiCache
+    ElasticBeanstalk ElasticTranscoder ElementalInference
+    EntityResolution EventBridge FIS FMS FSX Finspace FinspaceData
+    Firehose Forecast ForecastQuery FraudDetector FreeTier GameLift
+    GameLiftStreams GeoMaps GeoPlaces GeoRoutes Glacier
+    GlobalAccelerator Glue GlueDataBrew Grafana Greengrass
+    GreengrassV2 GroundStation GuardDuty Health HealthLake IAM IVS
+    IVSChat IVSRealTime IdentityStore Imagebuilder Inspector
+    Inspector2 InspectorScan Interconnect InternetMonitor Invoicing
+    IoT IoTData IoTEvents IoTEventsData IoTFleetWise IoTJobsData
+    IoTManagedIntegrations IoTSecureTunneling IoTSiteWise
+    IoTThingsGraph IoTTwinMaker IoTWireless IotDeviceAdvisor KMS
+    Kafka KafkaConnect Kendra KendraRanking KeySpaces
+    KeyspacesStreams Kinesis KinesisAnalytics KinesisAnalyticsV2
+    KinesisVideo KinesisVideoArchivedMedia KinesisVideoMedia
+    KinesisVideoSignaling KinesisVideoWebRTCStorage LakeFormation
+    Lambda LaunchWizard LexModels LexModelsV2 LexRuntime
+    LexRuntimeV2 LicenseManager LicenseManagerLinuxSubscriptions
+    LicenseManagerUserSubscriptions Lightsail Location
+    LookoutEquipment M2 MPA MQ MTurk MWAA MWAAServerless
+    MachineLearning Macie2 MailManager ManagedBlockchain
+    ManagedBlockchainQuery MarketplaceAgreement MarketplaceCatalog
+    MarketplaceCommerceAnalytics MarketplaceDeployment
+    MarketplaceDiscovery MarketplaceEntitlement MarketplaceMetering
+    MarketplaceReporting MediaConnect MediaConvert MediaLive
+    MediaPackage MediaPackageV2 MediaPackageVod MediaStore
+    MediaStoreData MediaTailor MedicalImaging MemoryDB MigrationHub
+    MigrationHubConfig MigrationHubOrchestrator
+    MigrationHubRefactorSpaces MigrationHubStrategy Neptune
+    NeptuneData NeptuneGraph NetworkFirewall NetworkFlowMonitor
+    NetworkManager NetworkMonitor Notifications
+    NotificationsContacts NovaAct OAM ODB ObservabilityAdmin Omics
+    OSIS OpenSearch OpenSearchServerless Organizations Outposts PCS
+    Panorama PartnerCentralAccount PartnerCentralBenefits
+    PartnerCentralChannel PartnerCentralSelling PaymentCryptography
+    PaymentCryptographyData PcaConnectorAd PcaConnectorScep
+    Personalize PersonalizeEvents PersonalizeRuntime
+    PerformanceInsights Pinpoint PinpointEmail PinpointSMSVoice
+    PinpointSMSVoiceV2 Pipes Polly Pricing Prometheus Proton
+    QApps QBusiness QConnect QuickSight RAM RBin RDS RDSData RUM
+    RTBFabric Redshift RedshiftData RedshiftServerless Rekognition
+    RepostSpace Resiliencehub ResourceExplorer2 ResourceGroups
+    ResourceTagging RolesAnywhere Route53 Route53Domains
+    Route53GlobalResolver Route53Profiles Route53RecoveryCluster
+    Route53RecoveryControlConfig Route53RecoveryReadiness
+    Route53Resolver S3 S3Control S3Files S3Outposts S3Tables
+    S3Vectors SDB SES SESV2 SFN SNS SQS SSM SSMContacts
+    SSMGuiConnect SSMIncidents SSMQuickSetup STS SageMaker
+    SageMakerA2IRuntime SageMakerEdge SageMakerFeatureStoreRuntime
+    SageMakerGeospatial SageMakerMetrics SageMakerRuntime
+    SageMakerRuntimeHTTP2 SavingsPlans Scheduler Schemas
+    SecretsManager SecurityAgent SecurityHub SecurityIR
+    SecurityLake ServerlessRepo ServiceCatalog
+    ServiceCatalogAppRegistry ServiceDiscovery ServiceQuotas Shield
+    Signer SignerData Signin SimSpaceWeaver SimpleWorkflow Snowball
+    SnowDeviceManagement SocialMessaging SsmSap SSO SSOAdmin
+    SSOOidc StepFunctions StorageGateway SupplyChain Support
+    SupportApp Sustainability Synthetics TaxSettings Textract
+    TimestreamInfluxDB TimestreamQuery TimestreamWrite Tnb
+    Transcribe TranscribeStreaming Transfer Translate TrustedAdvisor
+    UXC VPCLattice VerifiedPermissions VoiceID WAF WAFRegional WAFV2
+    WellArchitected Wickr Wisdom WorkDocs WorkMail
     WorkMailMessageFlow WorkSpaces WorkSpacesThinClient
-    WorkSpacesWeb XRay
+    WorkSpacesWeb WorkspacesInstances XRay
 );
 
 
