@@ -10,8 +10,12 @@ package Paws::Model::Loader::Resolver;
 # `DMS`) does not always match the Smithy file basename
 # (`api-gateway`, `eventbridge`, `database-migration-service`). The
 # %PAWS_TO_SMITHY table below is the authoritative map; lc(class)
-# is the fallback for the ~217 cases where the names already line
-# up.
+# is the fallback for the majority of cases where the names line up.
+#
+# Build pipeline: all_known_services() derives the service fleet
+# dynamically from the smithy directories + sdkId traits, with
+# %PAWS_NAME_OVERRIDES for legacy/non-standard names. New services
+# are included automatically when their Smithy IR is vendored.
 #
 # Dropped services: the 14 services in %PAWS_DROPPED_SERVICES are
 # AWS-deprecated and have no Smithy IR upstream. Asking the resolver
@@ -207,11 +211,12 @@ sub _find_smithy_path {
 #     not break.
 #
 # A Paws class not in the table falls through to lc($class), which
-# covers the ~217 cases where the names already line up
+# covers the majority of cases where the names already line up
 # (e.g. IAM -> iam, S3 -> s3, DynamoDB -> dynamodb).
 %PAWS_TO_SMITHY = (
     # --- Cosmetic separator differences (auto-derived from sdkId) ---
     ACMPCA                              => 'acm-pca',
+    ARCRegionSwitch                     => 'arc-region-switch',
     ARCZonalShift                       => 'arc-zonal-shift',
     ApiGateway                          => 'api-gateway',
     AppMesh                             => 'app-mesh',
@@ -220,10 +225,14 @@ sub _find_smithy_path {
     ApplicationSignals                  => 'application-signals',
     AutoScaling                         => 'auto-scaling',
     AutoScalingPlans                    => 'auto-scaling-plans',
+    BCMDashboards                       => 'bcm-dashboards',
     BCMDataExports                      => 'bcm-data-exports',
     BCMPricingCalculator                => 'bcm-pricing-calculator',
+    BCMRecommendedActions               => 'bcm-recommended-actions',
     BackupGateway                       => 'backup-gateway',
     BedrockAgent                        => 'bedrock-agent',
+    BedrockAgentCore                    => 'bedrock-agentcore',
+    BedrockAgentCoreControl             => 'bedrock-agentcore-control',
     BedrockAgentRuntime                 => 'bedrock-agent-runtime',
     BedrockDataAutomation               => 'bedrock-data-automation',
     BedrockDataAutomationRuntime        => 'bedrock-data-automation-runtime',
@@ -246,11 +255,13 @@ sub _find_smithy_path {
     CognitoIdentity                     => 'cognito-identity',
     CognitoSync                         => 'cognito-sync',
     ComputeOptimizer                    => 'compute-optimizer',
+    ComputeOptimizerAutomation          => 'compute-optimizer-automation',
     ConnectContactLens                  => 'connect-contact-lens',
     CostExplorer                        => 'cost-explorer',
     CostOptimizationHub                 => 'cost-optimization-hub',
     CustomerProfiles                    => 'customer-profiles',
     DataPipeline                        => 'data-pipeline',
+    DevOpsAgent                         => 'devops-agent',
     DevOpsGuru                          => 'devops-guru',
     DeviceFarm                          => 'device-farm',
     DirectConnect                       => 'direct-connect',
@@ -289,12 +300,14 @@ sub _find_smithy_path {
     LicenseManager                      => 'license-manager',
     LicenseManagerLinuxSubscriptions    => 'license-manager-linux-subscriptions',
     LicenseManagerUserSubscriptions     => 'license-manager-user-subscriptions',
+    MWAAServerless                      => 'mwaa-serverless',
     MachineLearning                     => 'machine-learning',
     ManagedBlockchainQuery              => 'managedblockchain-query',
     MarketplaceAgreement                => 'marketplace-agreement',
     MarketplaceCatalog                  => 'marketplace-catalog',
     MarketplaceCommerceAnalytics        => 'marketplace-commerce-analytics',
     MarketplaceDeployment               => 'marketplace-deployment',
+    MarketplaceDiscovery                => 'marketplace-discovery',
     MarketplaceMetering                 => 'marketplace-metering',
     MarketplaceReporting                => 'marketplace-reporting',
     MediaPackageVod                     => 'mediapackage-vod',
@@ -305,6 +318,10 @@ sub _find_smithy_path {
     MigrationHubRefactorSpaces          => 'migration-hub-refactor-spaces',
     NeptuneGraph                        => 'neptune-graph',
     NetworkFirewall                     => 'network-firewall',
+    NovaAct                             => 'nova-act',
+    PartnerCentralAccount               => 'partnercentral-account',
+    PartnerCentralBenefits              => 'partnercentral-benefits',
+    PartnerCentralChannel               => 'partnercentral-channel',
     PartnerCentralSelling               => 'partnercentral-selling',
     PaymentCryptography                 => 'payment-cryptography',
     PaymentCryptographyData             => 'payment-cryptography-data',
@@ -338,11 +355,13 @@ sub _find_smithy_path {
     SageMakerGeospatial                 => 'sagemaker-geospatial',
     SageMakerMetrics                    => 'sagemaker-metrics',
     SageMakerRuntime                    => 'sagemaker-runtime',
+    SageMakerRuntimeHTTP2               => 'sagemaker-runtime-http2',
     SecretsManager                      => 'secrets-manager',
     SecurityIR                          => 'security-ir',
     ServiceCatalog                      => 'service-catalog',
     ServiceCatalogAppRegistry           => 'service-catalog-appregistry',
     ServiceQuotas                       => 'service-quotas',
+    SignerData                           => 'signer-data',
     SnowDeviceManagement                => 'snow-device-management',
     SsmSap                              => 'ssm-sap',
     StorageGateway                      => 'storage-gateway',
@@ -356,6 +375,7 @@ sub _find_smithy_path {
     WAFRegional                         => 'waf-regional',
     WorkSpacesThinClient                => 'workspaces-thin-client',
     WorkSpacesWeb                       => 'workspaces-web',
+    WorkspacesInstances                 => 'workspaces-instances',
 
     # --- Substantive renames (legacy Paws name -> Smithy basename) ---
     ApiGatewayManagement                => 'apigatewaymanagementapi',
@@ -426,102 +446,77 @@ sub _paws_to_smithy {
     return lc $service_name;
 }
 
-# Authoritative list of Paws service class names. Each entry must
-# resolve to a Smithy IR file via %PAWS_TO_SMITHY or the lc($name)
-# fallback. The canonical capitalisation comes from the Smithy sdkId
-# trait (S3, EC2, IAM, CloudHSMv2, etc.) — it cannot be derived
-# mechanically from the basename for acronym-style names.
+# Overrides for the build pipeline: smithy directory basename → Paws
+# class name, for services where removing spaces from the sdkId trait
+# does NOT produce the desired class name.
 #
-# Used by all_known_services() for the A4-B build pipeline. New
-# Smithy services added by AWS need to be added here AND, if their
-# name doesn't round-trip through lc(class), to %PAWS_TO_SMITHY.
+# Covers two categories:
+#   1. Legacy Paws names that predate Smithy (CUR, DMS, ELB, etc.)
+#   2. Services whose sdkId has non-standard capitalization
+#      (e.g. sdkId "ECRPUBLIC" → we want "ECRPublic")
 #
-# Entries that only existed for backward compatibility with legacy
-# auto-lib names (Sso/SsoOidc duplicates of SSO/SSOOidc, SSMSAP
-# misspelling of SsmSap) were removed in the build-pipeline-hardening
-# cleanup. Services in %PAWS_DROPPED_SERVICES and services whose
-# Smithy IR was removed by AWS are no longer listed here.
-our @KNOWN_PAWS_SERVICE_NAMES = qw(
-    ACM ACMPCA AccessAnalyzer Amplify
-    AmplifyBackend ApiGateway ApiGatewayManagement ApiGatewayV2
-    AppConfig AppIntegrations AppMesh AppRunner AppStream AppSync
-    Appflow ApplicationAutoScaling ApplicationCostProfiler
-    ApplicationInsights Athena AuditManager AutoScaling
-    AutoScalingPlans Backup BackupGateway Batch BillingConductor
-    Braket Budgets CUR Chime ChimeSDKIdentity ChimeSDKMediaPipelines
-    ChimeSDKMeetings ChimeSDKMessaging Cloud9 CloudDirectory
-    CloudFormation CloudFront CloudHSM CloudHSMv2 CloudSearch
-    CloudSearchDomain CloudTrail CloudTrailData CloudWatch
-    CloudWatchEvents CloudWatchLogs CodeArtifact CodeBuild CodeCommit
-    CodeDeploy CodeGuruProfiler CodeGuruReviewer CodePipeline
-    CodeStarConnections CodeStarNotifications CognitoIdentity
-    CognitoIdp CognitoSync Comprehend ComprehendMedical
-    ComputeOptimizer Config Connect ConnectCampaigns ConnectCases
-    ConnectContactLens ConnectParticipant ControlTower CostExplorer
-    CustomerProfiles DAX DLM DMS DS DataExchange DataPipeline
-    DataSync Detective DeviceFarm DevOpsGuru DirectConnect Discovery
-    DocDB DocDBElastic Drs DynamoDB DynamoDBStreams EBS EC2
-    EC2InstanceConnect ECR ECRPublic ECS EFS EKS EMR EMRContainers
-    EMRServerless ELB ELBv2 ES ElastiCache ElasticBeanstalk
-    ElasticTranscoder EventBridge FIS FMS FSX Finspace
-    FinspaceData Firehose Forecast ForecastQuery FraudDetector
-    GameLift Glacier GlobalAccelerator Glue GlueDataBrew Grafana
-    Greengrass GreengrassV2 GroundStation GuardDuty Health
-    HealthLake IAM IVS IVSRealTime IdentityStore
-    Imagebuilder InspectorScan Inspector Inspector2
-    InternetMonitor IoT IoTData IoTEvents IoTEventsData
-    IoTFleetWise IoTJobsData
-    IoTSecureTunneling IoTSiteWise IoTThingsGraph IoTTwinMaker
-    IoTWireless IotDeviceAdvisor KMS Kafka KafkaConnect Kendra
-    KendraRanking KeySpaces Kinesis KinesisAnalytics
-    KinesisAnalyticsV2 KinesisVideo KinesisVideoArchivedMedia
-    KinesisVideoMedia KinesisVideoSignaling LakeFormation Lambda
-    LexModels LexModelsV2 LexRuntime LexRuntimeV2 LicenseManager
-    LicenseManagerLinuxSubscriptions LicenseManagerUserSubscriptions
-    Lightsail Location LookoutEquipment
-    M2 MQ MTurk MWAA MachineLearning Macie2
-    ManagedBlockchain MarketplaceCatalog MarketplaceCommerceAnalytics
-    MarketplaceEntitlement MarketplaceMetering MediaConnect
-    MediaConvert MediaLive MediaPackage MediaPackageVod MediaStore
-    MediaStoreData MediaTailor MemoryDB
-    MigrationHub MigrationHubConfig MigrationHubRefactorSpaces
-    MigrationHubStrategy NetworkFirewall NetworkManager
-    OAM OpenSearch OpenSearchServerless
-    Organizations Outposts Panorama
-    PartnerCentralSelling Personalize PersonalizeEvents
-    PersonalizeRuntime PerformanceInsights Pinpoint PinpointEmail
-    PinpointSMSVoice PinpointSMSVoiceV2 Polly Pricing
-    Prometheus Proton QBusiness QuickSight RAM
-    RDS RDSData RUM RBin Redshift RedshiftData
-    RedshiftServerless Rekognition Resiliencehub ResourceExplorer2
-    ResourceGroups ResourceTagging RolesAnywhere Route53
-    Route53Domains Route53RecoveryCluster Route53RecoveryControlConfig
-    Route53RecoveryReadiness Route53Resolver S3 S3Control SDB SES
-    SESV2 SFN SNS SQS SSM SSMContacts SSMIncidents SsmSap SSO
-    SSOAdmin SSOOidc SageMaker SageMakerA2IRuntime SageMakerEdge
-    SageMakerFeatureStoreRuntime SageMakerGeospatial SageMakerMetrics
-    SageMakerRuntime SavingsPlans Schemas SecretsManager
-    SecurityHub SecurityIR ServerlessRepo ServiceCatalog
-    ServiceCatalogAppRegistry ServiceQuotas Shield Signer
-    SimpleWorkflow Snowball SnowDeviceManagement
-    StepFunctions StorageGateway Support SupportApp SupplyChain
-    Synthetics Textract TimestreamInfluxDB TimestreamQuery
-    TimestreamWrite Tnb Transcribe TranscribeStreaming Transfer
-    Translate VPCLattice VerifiedPermissions VoiceID WAF WAFRegional
-    WAFV2 WellArchitected Wisdom WorkDocs WorkMail
-    WorkMailMessageFlow WorkSpaces WorkSpacesThinClient
-    WorkSpacesWeb XRay
+# New services from AWS almost always have a well-formed sdkId
+# (e.g. "Clean Rooms" → "CleanRooms") so this hash rarely needs
+# updating. Only add an entry when sdkId (spaces removed, ucfirst
+# if all-lowercase) does not match the Paws class name you want.
+our %PAWS_NAME_OVERRIDES = (
+    'amp'                                => 'Prometheus',
+    'api-gateway'                        => 'ApiGateway',
+    'apigatewaymanagementapi'            => 'ApiGatewayManagement',
+    'application-discovery-service'      => 'Discovery',
+    'arc-region-switch'                  => 'ARCRegionSwitch',
+    'b2bi'                               => 'B2BI',
+    'cloudhsm-v2'                        => 'CloudHSMv2',
+    'codestar-connections'               => 'CodeStarConnections',
+    'codestar-notifications'             => 'CodeStarNotifications',
+    'cognito-identity-provider'          => 'CognitoIdp',
+    'config-service'                     => 'Config',
+    'cost-and-usage-report-service'      => 'CUR',
+    'database-migration-service'         => 'DMS',
+    'databrew'                           => 'GlueDataBrew',
+    'directory-service'                  => 'DS',
+    'ecr-public'                         => 'ECRPublic',
+    'elastic-load-balancing'             => 'ELB',
+    'elastic-load-balancing-v2'          => 'ELBv2',
+    'elasticsearch-service'              => 'ES',
+    'emr-containers'                     => 'EMRContainers',
+    'evs'                                => 'EVS',
+    'finspace-data'                      => 'FinspaceData',
+    'identitystore'                      => 'IdentityStore',
+    'iot-data-plane'                     => 'IoTData',
+    'iot-jobs-data-plane'                => 'IoTJobsData',
+    'ivschat'                            => 'IVSChat',
+    'lex-model-building-service'         => 'LexModels',
+    'lex-runtime-service'                => 'LexRuntime',
+    'marketplace-entitlement-service'    => 'MarketplaceEntitlement',
+    'mgn'                                => 'ApplicationMigration',
+    'neptunedata'                        => 'NeptuneData',
+    'odb'                                => 'ODB',
+    'pi'                                 => 'PerformanceInsights',
+    'repostspace'                        => 'RepostSpace',
+    'resource-groups-tagging-api'        => 'ResourceTagging',
+    'sagemaker-edge'                     => 'SageMakerEdge',
+    'serverlessapplicationrepository'    => 'ServerlessRepo',
+    'sfn'                                => 'StepFunctions',
+    'simpledbv2'                         => 'SDB',
+    'sso-oidc'                           => 'SSOOidc',
+    'swf'                                => 'SimpleWorkflow',
+    'uxc'                                => 'UXC',
 );
 
-
-# A4-B build-pipeline entry. Returns the sorted list of Paws service
-# class names whose Smithy IR file is present under any configured
-# smithy_search_path AND whose Paws class name appears in
-# @KNOWN_PAWS_SERVICE_NAMES (so the canonical capitalisation is
-# known). Drops anything in %PAWS_DROPPED_SERVICES.
+# A4-B build-pipeline entry. Enumerates every Smithy IR directory,
+# derives the canonical Paws class name from each service's sdkId
+# trait (with overrides from %PAWS_NAME_OVERRIDES), and returns the
+# sorted list. New services added upstream are automatically included
+# when their Smithy IR is vendored — no manual list maintenance.
+#
+# Requires JSON::PP (core since Perl 5.14) to parse sdkId from
+# service models not covered by %PAWS_NAME_OVERRIDES.
 sub all_known_services {
     my ($self) = @_;
-    my %has_smithy_ir;
+    require JSON::PP;
+
+    my @out;
     for my $base (@{ $self->smithy_search_paths }) {
         next if !-d $base;
         opendir(my $dh, $base) or next;
@@ -530,18 +525,47 @@ sub all_known_services {
             my $dir = File::Spec->catdir($base, $entry);
             next if !-d $dir;
             my $ir_file = File::Spec->catfile($dir, "$entry.smithy.json");
-            $has_smithy_ir{$entry} = 1 if -r $ir_file;
+            next if !-r $ir_file;
+
+            my $paws_name;
+            if (exists $PAWS_NAME_OVERRIDES{$entry}) {
+                $paws_name = $PAWS_NAME_OVERRIDES{$entry};
+            } else {
+                $paws_name = _sdkid_to_paws_name($ir_file);
+                next if !defined $paws_name;
+            }
+
+            next if exists $PAWS_DROPPED_SERVICES{$paws_name};
+            push @out, $paws_name;
         }
         closedir $dh;
     }
-    my @out;
-    for my $paws (@KNOWN_PAWS_SERVICE_NAMES) {
-        next if exists $PAWS_DROPPED_SERVICES{$paws};
-        my $base = _paws_to_smithy($paws);
-        next unless $has_smithy_ir{$base};
-        push @out, $paws;
-    }
     return sort @out;
+}
+
+sub _sdkid_to_paws_name {
+    my ($ir_file) = @_;
+    open my $fh, '<', $ir_file or return undef;
+    local $/;
+    my $json = eval { JSON::PP::decode_json(<$fh>) };
+    close $fh;
+    return undef if !$json;
+
+    for my $key (keys %{ $json->{shapes} || {} }) {
+        my $shape = $json->{shapes}{$key};
+        next if ($shape->{type} || '') ne 'service';
+        my $traits = $shape->{traits} || {};
+        my $svc_trait = $traits->{'aws.api#service'};
+        next if !$svc_trait || ref($svc_trait) ne 'HASH';
+        my $sdk_id = $svc_trait->{sdkId};
+        return undef if !defined $sdk_id || $sdk_id eq '';
+
+        my $name = $sdk_id;
+        $name =~ s/\s+//g;
+        $name = ucfirst($name) if $name =~ /^[a-z]/;
+        return $name;
+    }
+    return undef;
 }
 
 __PACKAGE__->meta->make_immutable;

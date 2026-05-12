@@ -133,6 +133,66 @@ jobs:
             echo "::notice::SHA bumped but share/smithy/ tree unchanged; opening pin-only bump PR"
           fi
 
+      - name: Update expected-service-count baseline
+        if: steps.diff.outputs.needs_bump == 'true' && steps.tree.outputs.has_changes == 'true'
+        run: |
+          set -eu
+          count=$(perl -MJSON::PP -MFile::Spec -e '
+            # Replicate Resolver::all_known_services logic without Moose.
+            # Read %PAWS_NAME_OVERRIDES and %PAWS_DROPPED_SERVICES from source.
+            my %overrides;
+            my %dropped;
+            open my $src, "<", "lib/Paws/Model/Loader/Resolver.pm" or die $!;
+            my $content = do { local $/; <$src> };
+            close $src;
+            if ($content =~ /^%PAWS_NAME_OVERRIDES\s*=\s*\((.*?)\);/ms) {
+              my $b = $1;
+              while ($b =~ /\047([^\047]+)\047\s*=>\s*\047([^\047]+)\047/g) {
+                $overrides{$1} = $2;
+              }
+            }
+            if ($content =~ /^%PAWS_DROPPED_SERVICES\s*=\s*\((.*?)\);/ms) {
+              my $b = $1;
+              while ($b =~ /(\w+)\s*=>\s*\047/g) { $dropped{$1} = 1; }
+            }
+            my $base = "share/smithy";
+            opendir(my $dh, $base) or die $!;
+            my $count = 0;
+            for my $entry (readdir $dh) {
+              next if $entry =~ /^\./;
+              my $dir = File::Spec->catdir($base, $entry);
+              next if !-d $dir;
+              my $ir = File::Spec->catfile($dir, "$entry.smithy.json");
+              next if !-r $ir;
+              my $name;
+              if (exists $overrides{$entry}) {
+                $name = $overrides{$entry};
+              } else {
+                open my $fh, "<", $ir or next;
+                my $j = eval { JSON::PP::decode_json(do { local $/; <$fh> }) };
+                close $fh;
+                next if !$j;
+                for my $k (keys %{$j->{shapes}||{}}) {
+                  my $s = $j->{shapes}{$k};
+                  next if ($s->{type}||"") ne "service";
+                  my $t = $s->{traits}{"aws.api#service"};
+                  next if !$t || ref($t) ne "HASH";
+                  $name = $t->{sdkId} // "";
+                  $name =~ s/\s+//g;
+                  $name = ucfirst($name) if $name =~ /^[a-z]/;
+                  last;
+                }
+              }
+              next if !$name || $name eq "";
+              next if exists $dropped{$name};
+              $count++;
+            }
+            closedir $dh;
+            print "$count\n";
+          ')
+          printf '%s\n' "$count" > .github/expected-service-count.txt
+          echo "::notice::updated expected-service-count.txt to $count"
+
       - name: Ensure 'automated' label exists
         if: steps.diff.outputs.needs_bump == 'true'
         env:
