@@ -90,6 +90,24 @@ for my $pkg (sort keys %$pod_by_pkg) {
 
 print STDERR "build-modular-docs-dist svc=$service pod_files=" . scalar(@pod_rel_paths) . "\n";
 
+# Stub module so `requires 'Paws::<Service>::Docs'` is verifiable.
+my $docs_pkg = "Paws::${service}::Docs";
+my $docs_rel = "lib/Paws/$service/Docs.pm";
+{
+    my $abs = "$tmp_root/$docs_rel";
+    make_path(dirname($abs));
+    write_text($abs, <<EOT);
+package $docs_pkg;
+
+use strict;
+use warnings;
+
+our \$VERSION = '$version';
+
+1;
+EOT
+}
+
 # Generated dist files.
 write_text("$tmp_root/dist.ini", <<EOT);
 name             = $dist_name
@@ -111,7 +129,7 @@ EOT
 
 my @manifest = sort
     ('cpanfile', 'dist.ini', 'META.yml', 'Build.PL', 'Makefile.PL',
-     'MANIFEST', @pod_rel_paths);
+     'MANIFEST', $docs_rel, @pod_rel_paths);
 write_text("$tmp_root/MANIFEST", join("\n", @manifest) . "\n");
 
 # Provides line: list every .pod file as a no-version provider so
@@ -140,11 +158,15 @@ build_requires:
 dynamic_config: 0
 generated_by: 'script/build-modular-docs-dist'
 license: apache_2_0
+main_module: $docs_rel
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: '1.4'
 name: $dist_name
 provides:
+  $docs_pkg:
+    file: $docs_rel
+    version: $version
 $provides
 requires:
   Paws::$service: '0'
