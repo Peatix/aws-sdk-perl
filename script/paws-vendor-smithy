@@ -201,6 +201,16 @@ for my $name (sort readdir $dh) {
 closedir $dh;
 
 say STDERR "vendor: services=$vendored dest=$dest sha=" . ($sha || '<local source>');
+
+# Recompile endpoint rules from the freshly-vendored Smithy models.
+my $compiler = File::Spec->catfile('script', 'compile-endpoint-rules');
+if (-x $compiler) {
+    say STDERR "vendor: recompiling endpoint rules";
+    _run($^X, $compiler, '--smithy-dir', $dest, '--output', 'share/endpoint-rules.json');
+} else {
+    warn "vendor: $compiler not found or not executable; skipping endpoint rules compilation\n";
+}
+
 exit 0;
 
 sub _run {
