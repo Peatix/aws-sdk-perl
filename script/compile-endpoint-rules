@@ -182,6 +182,9 @@ sub should_skip_branch {
                 if ($param eq 'UseDualStack' && $bool_arg) {
                     return 1;
                 }
+                if ($param eq 'UseObjectLambdaEndpoint' && $bool_arg) {
+                    return 1;
+                }
             }
         }
 

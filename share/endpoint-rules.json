@@ -1180,14 +1180,6 @@
    ],
    "s3" : [
       {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "s3-object-lambda"
-            }
-         },
-         "uri" : "https://s3-object-lambda.{region}.amazonaws.com"
-      },
-      {
          "constraints" : [
             [
                "region",
