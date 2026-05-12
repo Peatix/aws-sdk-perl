@@ -132,12 +132,14 @@ my @manifest = sort
      'MANIFEST', $docs_rel, @pod_rel_paths);
 write_text("$tmp_root/MANIFEST", join("\n", @manifest) . "\n");
 
-# Provides line: list every .pod file as a no-version provider so
-# CPAN clients can resolve `Paws::S3::CreateBucket` to this dist when
-# the user has explicitly cpanm-installed the docs companion.
+# Provides line: list every .pod file as a provider so CPAN clients
+# can resolve `Paws::S3::CreateBucket` to this dist when the user has
+# explicitly cpanm-installed the docs companion. Excludes the
+# top-level service class ($service_pkg) — that is provided by the
+# code dist, and listing it here creates a circular dependency.
 my @provides_lines;
 for my $pkg (sort keys %$pod_by_pkg) {
-    next unless $pkg =~ /^\Q$service_pkg\E(?:::|\z)/;
+    next unless $pkg =~ /^\Q$service_pkg\E::/;
     my $rel = $pkg; $rel =~ s{::}{/}g;
     push @provides_lines,
         "  $pkg:",
