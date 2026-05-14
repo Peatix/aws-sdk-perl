@@ -2042,6 +2042,88 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseOptions" : {
+         "members" : {
+            "Enabled" : {
+               "target" : "com.amazonaws.elasticsearchservice#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether automated snapshot pause is enabled for the domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EndTime" : {
+               "target" : "com.amazonaws.elasticsearchservice#UpdateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp at which the automated snapshot pause ends.</p>"
+               }
+            },
+            "StartTime" : {
+               "target" : "com.amazonaws.elasticsearchservice#UpdateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp at which the automated snapshot pause begins.</p>"
+               }
+            },
+            "State" : {
+               "target" : "com.amazonaws.elasticsearchservice#PauseState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current state of the automated snapshot pause. Valid values are <code>Active</code>, <code>Completed</code>, <code>Scheduled</code>, and <code>Disabled</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the automated snapshot pause options for the domain. These options allow you to temporarily pause automated snapshots for a specified time period.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseOptionsStatus" : {
+         "members" : {
+            "Options" : {
+               "target" : "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Automated snapshot pause options for the specified Elasticsearch domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Status" : {
+               "target" : "com.amazonaws.elasticsearchservice#OptionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the automated snapshot pause options for the specified Elasticsearch domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of automated snapshot pause options for the specified Elasticsearch domain.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseRequestOptions" : {
+         "members" : {
+            "Enabled" : {
+               "target" : "com.amazonaws.elasticsearchservice#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Whether to enable or disable automated snapshot pause for the domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "EndTime" : {
+               "target" : "com.amazonaws.elasticsearchservice#UpdateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp at which the automated snapshot pause should end. The maximum allowed\n           duration between <code>StartTime</code> and <code>EndTime</code> is 3 days.</p>"
+               }
+            },
+            "StartTime" : {
+               "target" : "com.amazonaws.elasticsearchservice#UpdateTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp at which the automated snapshot pause should begin.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies the automated snapshot pause request options for the domain.</p>\n       <important>\n           <p>Suspending snapshots reduces data protection. You cannot restore your domain to\n               points in time when snapshots are suspended. Use this feature only for short-term\n               operational needs such as migrations or maintenance windows.</p>\n       </important>\n       <p>Maximum suspension duration: 3 days.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.elasticsearchservice#BackendRole" : {
          "traits" : {
             "smithy.api#length" : {
@@ -2677,6 +2759,12 @@
                "target" : "com.amazonaws.elasticsearchservice#AutoTuneOptionsInput",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies Auto-Tune options.</p>"
+               }
+            },
+            "AutomatedSnapshotPauseOptions" : {
+               "target" : "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseRequestOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the automated snapshot pause options for the domain.</p>\n        <important>\n            <p>Suspending snapshots reduces data protection. You cannot restore your domain to\n                points in time when snapshots are suspended. Use this feature only for short-term\n                operational needs such as migrations or maintenance windows.</p>\n        </important>\n        <p>Maximum suspension duration: 3 days.</p>"
                }
             },
             "CognitoOptions" : {
@@ -5493,6 +5581,12 @@
                   "smithy.api#documentation" : "<p>Specifies <code>AutoTuneOptions</code> for the domain. </p>"
                }
             },
+            "AutomatedSnapshotPauseOptions" : {
+               "target" : "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseOptionsStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies <code>AutomatedSnapshotPauseOptions</code> for the domain. </p>"
+               }
+            },
             "ChangeProgressDetails" : {
                "target" : "com.amazonaws.elasticsearchservice#ChangeProgressDetails",
                "traits" : {
@@ -5608,6 +5702,12 @@
                "target" : "com.amazonaws.elasticsearchservice#AutoTuneOptionsOutput",
                "traits" : {
                   "smithy.api#documentation" : "<p>The current status of the Elasticsearch domain's Auto-Tune options.</p>"
+               }
+            },
+            "AutomatedSnapshotPauseOptions" : {
+               "target" : "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the Elasticsearch domain's automated snapshot pause options.</p>"
                }
             },
             "ChangeProgressDetails" : {
@@ -7939,6 +8039,35 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.elasticsearchservice#PauseState" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Active"
+               }
+            },
+            "COMPLETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Completed"
+               }
+            },
+            "DISABLED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Disabled"
+               }
+            },
+            "SCHEDULED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Scheduled"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.elasticsearchservice#PolicyDocument" : {
          "traits" : {
             "smithy.api#documentation" : "<p>Access policy rules for an Elasticsearch domain service endpoints. For more information, see <a href=\"http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-access-policies\" target=\"_blank\">Configuring Access Policies</a> in the <i>Amazon Elasticsearch Service Developer Guide</i>. The maximum size of a policy document is 100 KB.</p>"
@@ -9164,6 +9293,12 @@
                "target" : "com.amazonaws.elasticsearchservice#AutoTuneOptions",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies Auto-Tune options.</p>"
+               }
+            },
+            "AutomatedSnapshotPauseOptions" : {
+               "target" : "com.amazonaws.elasticsearchservice#AutomatedSnapshotPauseRequestOptions",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the automated snapshot pause options for the domain.</p>\n      <important>\n          <p>Suspending snapshots reduces data protection. You cannot restore your domain to\n              points in time when snapshots are suspended. Use this feature only for short-term\n              operational needs such as migrations or maintenance windows.</p>\n      </important>\n      <p>Maximum suspension duration: 3 days.</p>"
                }
             },
             "CognitoOptions" : {
