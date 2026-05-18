@@ -26266,6 +26266,12 @@
       },
       "com.amazonaws.connect#EventSourceName" : {
          "members" : {
+            "OnAlertUpdate" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OnAlertUpdate"
+               }
+            },
             "OnCaseCreate" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -26324,6 +26330,24 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "OnSalesforceCaseCreate"
+               }
+            },
+            "OnSchedulePublish" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OnSchedulePublish"
+               }
+            },
+            "OnScheduleTimeOffRequestActivity" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OnScheduleTimeOffRequestActivity"
+               }
+            },
+            "OnScheduleUpdate" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OnScheduleUpdate"
                }
             },
             "OnSlaBreach" : {

@@ -9920,6 +9920,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "EventLevel" : {
+               "target" : "com.amazonaws.sagemaker#ClusterEventLevel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity level of the event. Valid values are <code>Info</code>, <code>Warn</code>, and <code>Error</code>.</p>"
+               }
+            },
             "EventTime" : {
                "target" : "com.amazonaws.sagemaker#Timestamp",
                "traits" : {
@@ -9953,6 +9959,32 @@
             "smithy.api#documentation" : "<p>Detailed information about a specific event in a HyperPod cluster.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#ClusterEventLevel" : {
+         "members" : {
+            "ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Error"
+               }
+            },
+            "INFO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Info"
+               }
+            },
+            "WARN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Warn"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The severity level for a HyperPod cluster event.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.sagemaker#ClusterEventMaxResults" : {
          "traits" : {
@@ -10028,6 +10060,12 @@
                   "smithy.api#clientOptional" : {},
                   "smithy.api#documentation" : "<p>The unique identifier (UUID) of the event.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "EventLevel" : {
+               "target" : "com.amazonaws.sagemaker#ClusterEventLevel",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The severity level of the event. Valid values are <code>Info</code>, <code>Warn</code>, and <code>Error</code>.</p>"
                }
             },
             "EventTime" : {
@@ -18240,6 +18278,12 @@
       },
       "com.amazonaws.sagemaker#CreateModelPackageGroupInput" : {
          "members" : {
+            "ManagedConfiguration" : {
+               "target" : "com.amazonaws.sagemaker#ManagedConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The managed configuration of the model package group.</p>"
+               }
+            },
             "ModelPackageGroupDescription" : {
                "target" : "com.amazonaws.sagemaker#EntityDescription",
                "traits" : {
@@ -18325,6 +18369,12 @@
                "target" : "com.amazonaws.sagemaker#InferenceSpecification",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies details about inference jobs that you can run with models based on this model package, including the following information:</p> <ul> <li> <p>The Amazon ECR paths of containers that contain the inference code and model artifacts.</p> </li> <li> <p>The instance types that the model package supports for transform jobs and real-time endpoints used for inference.</p> </li> <li> <p>The input and output content formats that the model package supports for inference.</p> </li> </ul>"
+               }
+            },
+            "ManagedStorageType" : {
+               "target" : "com.amazonaws.sagemaker#ManagedStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The storage type of the model package.</p>"
                }
             },
             "MetadataProperties" : {
@@ -30745,6 +30795,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "ManagedConfiguration" : {
+               "target" : "com.amazonaws.sagemaker#ManagedConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The managed configuration of the model package group.</p>"
+               }
+            },
             "ModelPackageGroupArn" : {
                "target" : "com.amazonaws.sagemaker#ModelPackageGroupArn",
                "traits" : {
@@ -30859,6 +30915,12 @@
                "target" : "com.amazonaws.sagemaker#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The last time that the model package was modified.</p>"
+               }
+            },
+            "ManagedStorageType" : {
+               "target" : "com.amazonaws.sagemaker#ManagedStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The storage type of the model package.</p>"
                }
             },
             "MetadataProperties" : {
@@ -33462,7 +33524,7 @@
             "TargetResources" : {
                "target" : "com.amazonaws.sagemaker#SageMakerResourceNames",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>"
+                  "smithy.api#documentation" : "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints, Studio apps) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> <li> <p>A training plan for Studio apps can be used to launch JupyterLab and Code Editor apps on reserved training plan capacity.</p> </li> </ul>"
                }
             },
             "TotalInstanceCount" : {
@@ -37236,6 +37298,23 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "USER_PROFILE_NAME"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.sagemaker#ExecutionRoleSessionNameMode" : {
+         "members" : {
+            "Static" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "STATIC"
+               }
+            },
+            "UserIdentity" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "USER_IDENTITY"
                }
             }
          },
@@ -44047,6 +44126,12 @@
                   "smithy.api#documentation" : "<p>An error message describing why the instance creation or update failed, if applicable.</p>"
                }
             },
+            "InstanceRequirementsEniConfigurations" : {
+               "target" : "com.amazonaws.sagemaker#InstanceRequirementsEniConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ENI configurations for the instance types in the instance requirements, grouped by network interface category (for example, ENI-only or EFA with ENIs). At most one configuration per category.</p>"
+               }
+            },
             "LcsExecutionState" : {
                "target" : "smithy.api#String",
                "traits" : {
@@ -44184,6 +44269,32 @@
             "smithy.api#length" : {
                "min" : 1
             }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.sagemaker#InstanceRequirementsEniConfiguration" : {
+         "members" : {
+            "AdditionalEnis" : {
+               "target" : "com.amazonaws.sagemaker#AdditionalEnis",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Information about additional Elastic Network Interfaces (ENIs) associated with the instance type category.</p>"
+               }
+            },
+            "CustomerEni" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the customer-managed Elastic Network Interface (ENI) associated with the instance type category.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The customer ENI and additional ENIs associated with a network interface category.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.sagemaker#InstanceRequirementsEniConfigurations" : {
+         "member" : {
+            "target" : "com.amazonaws.sagemaker#InstanceRequirementsEniConfiguration"
          },
          "type" : "list"
       },
@@ -55493,6 +55604,20 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.sagemaker#ManagedConfiguration" : {
+         "members" : {
+            "ManagedStorageType" : {
+               "target" : "com.amazonaws.sagemaker#ManagedStorageType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The storage type of the model package.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The managed configuration of a model package group.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.sagemaker#ManagedInstanceScalingCooldownInMinutes" : {
          "traits" : {
             "smithy.api#range" : {
@@ -55556,6 +55681,17 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "ENABLED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.sagemaker#ManagedStorageType" : {
+         "members" : {
+            "RESTRICTED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Restricted"
                }
             }
          },
@@ -58586,6 +58722,12 @@
                   "smithy.api#clientOptional" : {},
                   "smithy.api#documentation" : "<p>The time that the model group was created.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "ManagedConfiguration" : {
+               "target" : "com.amazonaws.sagemaker#ManagedConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The managed configuration of the model package group.</p>"
                }
             },
             "ModelPackageGroupArn" : {
@@ -69220,7 +69362,7 @@
                }
             },
             "InstanceType" : {
-               "target" : "com.amazonaws.sagemaker#InstanceType",
+               "target" : "com.amazonaws.sagemaker#ProductionVariantInstanceType",
                "traits" : {
                   "smithy.api#clientOptional" : {},
                   "smithy.api#documentation" : "<p>The instance type the model is deployed to.</p>",
@@ -71177,6 +71319,12 @@
                "target" : "com.amazonaws.sagemaker#ImageVersionArn",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ARN of the image version created on the instance. To clear the value set for <code>SageMakerImageVersionArn</code>, pass <code>None</code> as the value.</p>"
+               }
+            },
+            "TrainingPlanArn" : {
+               "target" : "com.amazonaws.sagemaker#StudioResourceSpecTrainingPlanArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the SageMaker AI Training Plan to use for this app. When you specify a training plan, the app launches on reserved GPU capacity. This field is supported for JupyterLab and CodeEditor app types.</p> <p>For more information about how to reserve GPU capacity with SageMaker AI Training Plans, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/training-plan-utilization-for-studio-apps.html\">Using training plans in Studio applications</a>.</p>"
                }
             }
          },
@@ -74161,6 +74309,12 @@
                   "smithy.api#enumValue" : "hyperpod-cluster"
                }
             },
+            "STUDIO_APPS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "studio-apps"
+               }
+            },
             "TRAINING_JOB" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -74805,7 +74959,7 @@
             "TargetResources" : {
                "target" : "com.amazonaws.sagemaker#SageMakerResourceNames",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>"
+                  "smithy.api#documentation" : "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints, Studio apps) to search for in the offerings.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> <li> <p>A training plan for Studio apps can be used to launch JupyterLab and Code Editor apps on reserved training plan capacity.</p> </li> </ul>"
                }
             },
             "TrainingPlanArn" : {
@@ -78111,6 +78265,17 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.sagemaker#StudioResourceSpecTrainingPlanArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "TrainingPlanArn variant for ResourceSpec that allows \"None\" to detach a training plan.\nBased on TrainingPlanArn (min:50, max:2048) but with min:0 and \"None\" in pattern.",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-plan/.*|None)$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.sagemaker#StudioWebPortal" : {
          "members" : {
             "Disabled" : {
@@ -78130,6 +78295,12 @@
       },
       "com.amazonaws.sagemaker#StudioWebPortalSettings" : {
          "members" : {
+            "ExecutionRoleSessionNameMode" : {
+               "target" : "com.amazonaws.sagemaker#ExecutionRoleSessionNameMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The execution role session name mode. If this value is set to <code>USER_IDENTITY</code>, the session name of the execution role corresponds to the user's identity. For IAM domains, the session name is the IAM session name used to generate the presigned URL. For IAM Identity Center domains, the session name is the username of the associated IAM Identity Center user. If this value is set to <code>STATIC</code> or is not set, the session name defaults to <code>SageMaker</code>.</p>"
+               }
+            },
             "HiddenAppTypes" : {
                "target" : "com.amazonaws.sagemaker#HiddenAppTypesList",
                "traits" : {
@@ -81029,6 +81200,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>A <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_VpcConfig.html\">VpcConfig</a> object that specifies the VPC that this training job has access to. For more information, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/train-vpc.html\">Protect Training Jobs by Using an Amazon Virtual Private Cloud</a>.</p>"
                }
+            },
+            "WarmPoolStatus" : {
+               "target" : "com.amazonaws.sagemaker#WarmPoolStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the warm pool associated with the training job.</p>"
+               }
             }
          },
          "traits" : {
@@ -81636,7 +81813,7 @@
                "target" : "com.amazonaws.sagemaker#SageMakerResourceNames",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) for this training plan offering.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>",
+                  "smithy.api#documentation" : "<p>The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints, Studio apps) for this training plan offering.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> <li> <p>A training plan for Studio apps can be used to launch JupyterLab and Code Editor apps on reserved training plan capacity.</p> </li> </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -81838,7 +82015,7 @@
             "TargetResources" : {
                "target" : "com.amazonaws.sagemaker#SageMakerResourceNames",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The target resources (e.g., training jobs, HyperPod clusters, Endpoints) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> </ul>"
+                  "smithy.api#documentation" : "<p>The target resources (e.g., training jobs, HyperPod clusters, Endpoints, Studio apps) that can use this training plan.</p> <p>Training plans are specific to their target resource.</p> <ul> <li> <p>A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.</p> </li> <li> <p>A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.</p> </li> <li> <p>A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.</p> </li> <li> <p>A training plan for Studio apps can be used to launch JupyterLab and Code Editor apps on reserved training plan capacity.</p> </li> </ul>"
                }
             },
             "TotalInstanceCount" : {

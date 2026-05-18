@@ -14465,6 +14465,12 @@
       },
       "com.amazonaws.lightsail#InputOrigin" : {
          "members" : {
+            "ipAddressType" : {
+               "target" : "com.amazonaws.lightsail#OriginIpAddressTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP address type that the distribution uses when connecting to the origin.</p>\n         <p>The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code> for IPv6 only,\n      and <code>dualstack</code> for IPv4 and IPv6.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.lightsail#ResourceName",
                "traits" : {
@@ -19227,6 +19233,12 @@
       },
       "com.amazonaws.lightsail#Origin" : {
          "members" : {
+            "ipAddressType" : {
+               "target" : "com.amazonaws.lightsail#OriginIpAddressTypeEnum",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IP address type that the distribution uses when connecting to the origin.</p>\n         <p>The possible values are <code>ipv4</code> for IPv4 only, <code>ipv6</code> for IPv6 only,\n      and <code>dualstack</code> for IPv4 and IPv6.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.lightsail#ResourceName",
                "traits" : {
@@ -19262,6 +19274,29 @@
             "smithy.api#documentation" : "<p>Describes the origin resource of an Amazon Lightsail content delivery network (CDN)\n      distribution.</p>\n         <p>An origin can be a Lightsail instance, bucket, or load balancer. A distribution pulls\n      content from an origin, caches it, and serves it to viewers via a worldwide network of edge\n      servers.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.lightsail#OriginIpAddressTypeEnum" : {
+         "members" : {
+            "DUALSTACK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "dualstack"
+               }
+            },
+            "IPV4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ipv4"
+               }
+            },
+            "IPV6" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ipv6"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.lightsail#OriginProtocolPolicyEnum" : {
          "members" : {
