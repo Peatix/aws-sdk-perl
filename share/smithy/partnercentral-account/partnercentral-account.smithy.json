@@ -315,6 +315,12 @@
                   "smithy.api#enumValue" : "INCOMPATIBLE_LEGAL_NAME"
                }
             },
+            "INELIGIBLE_ACCOUNT_TIER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INELIGIBLE_ACCOUNT_TIER"
+               }
+            },
             "INVALID_ACCOUNT_LINKING_STATUS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -4532,6 +4538,9 @@
                "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
             },
             {
+               "target" : "com.amazonaws.partnercentralaccount#ServiceQuotaExceededException"
+            },
+            {
                "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
             },
             {
@@ -5080,6 +5089,18 @@
                "traits" : {
                   "smithy.api#enumValue" : "LIMIT_EXCEEDED_NUMBER_OF_OPEN_CONNECTION_INVITATION"
                }
+            },
+            "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_UPDATE_PER_DAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_UPDATE_PER_DAY"
+               }
+            },
+            "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_VISIBILITY_UPDATE_PER_DAY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_VISIBILITY_UPDATE_PER_DAY"
+               }
             }
          },
          "type" : "enum"
@@ -5097,6 +5118,9 @@
             },
             {
                "target" : "com.amazonaws.partnercentralaccount#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.partnercentralaccount#ServiceQuotaExceededException"
             },
             {
                "target" : "com.amazonaws.partnercentralaccount#ThrottlingException"
