@@ -181,6 +181,7 @@ package Paws::Net::RestXmlCaller;
   sub _attribute_to_xml {
     my ($self, $owner_serdes, $att_name, $value) = @_;
     my $type     = $owner_serdes->type_for($att_name);
+    $type = Paws::_unwrap_class_from_type_string($type);
     my $location = $owner_serdes->trait_for($att_name, 'NameInRequest')
                      ? $owner_serdes->wire_key_for($att_name)
                      : $att_name;
@@ -268,7 +269,7 @@ package Paws::Net::RestXmlCaller;
       next if $serdes->trait_for($att, 'ParamInHeader');
       next if $serdes->trait_for($att, 'ParamInQuery');
       next if $serdes->trait_for($att, 'ParamInURI');
-      next if ($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
+      next if Paws::_unwrap_class_from_type_string($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
       $xml .= $self->_attribute_to_xml($serdes, $att, $v);
     }
 

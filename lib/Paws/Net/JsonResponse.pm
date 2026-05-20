@@ -100,6 +100,7 @@ package Paws::Net::JsonResponse;
       $is_array = 0;
     }
 
+    $inner_class = Paws::_unwrap_class_from_type_string($inner_class);
     Paws->load_class("$inner_class");
 
     if ($is_array) {
@@ -139,6 +140,7 @@ package Paws::Net::JsonResponse;
               : $att;
 
       my $att_type = $serdes->type_for($att);
+      $att_type = Paws::_unwrap_class_from_type_string($att_type);
 
     #  use Data::Dumper;
     #  print STDERR "USING KEY:  $key\n";
@@ -203,6 +205,7 @@ package Paws::Net::JsonResponse;
           }
         }
       } elsif (my ($type) = ($att_type =~ m/^ArrayRef\[(.*)\]$/)) {
+        $type = Paws::_unwrap_class_from_type_string($type);
         my $value = $result->{ $att };
         $value = $result->{ $key } if (not defined $value and $key ne $att);
         my $value_ref = ref($value);

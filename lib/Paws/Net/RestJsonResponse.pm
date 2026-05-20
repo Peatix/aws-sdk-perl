@@ -89,6 +89,7 @@ package Paws::Net::RestJsonResponse;
 
     my $inner_class = Paws::SerDes->for($att_class)->type_for('Map');
     ($inner_class) = ($inner_class =~ m/\[(.*)\]$/);
+    $inner_class = Paws::_unwrap_class_from_type_string($inner_class);
     Paws->load_class("$inner_class");
 
     if (not defined $value){
@@ -118,6 +119,7 @@ package Paws::Net::RestJsonResponse;
               : $att;
 
       my $att_type = $serdes->type_for($att);
+      $att_type = Paws::_unwrap_class_from_type_string($att_type);
 
     #  use Data::Dumper;
     #  print STDERR "USING KEY:  $key\n";
@@ -171,6 +173,7 @@ package Paws::Net::RestJsonResponse;
           }
         }
       } elsif (my ($type) = ($att_type =~ m/^ArrayRef\[(.*)\]$/)) {
+        $type = Paws::_unwrap_class_from_type_string($type);
         my $value = $result->{ $att };
         $value = $result->{ $key } if (not defined $value and $key ne $att);
         my $value_ref = ref($value);
