@@ -76,6 +76,19 @@ my %PROTOCOL_TO_CALLER_ROLE = (
     'ec2'       => 'Paws::Net::EC2Caller',
 );
 
+# Mapping from IR protocol to the response handler class instantiated
+# by the materialised service. Defined explicitly on the class to avoid
+# a Moo/Moose role composition ordering bug where composing multiple
+# Moose roles (each defining `has response_to_object`) into Moo classes
+# in varying orders contaminates the attribute default across classes.
+my %PROTOCOL_TO_RESPONSE_CLASS = (
+    'json'      => 'Paws::Net::JsonResponse',
+    'rest-json' => 'Paws::Net::RestJsonResponse',
+    'query'     => 'Paws::Net::XMLResponse',
+    'rest-xml'  => 'Paws::Net::RestXMLResponse',
+    'ec2'       => 'Paws::Net::XMLResponse',
+);
+
 # Map an IR Service to the Paws::Net::*Signature role. Mirrors the
 # AOT generator's $c->signature_role and the Moose materialiser's
 # _signature_role_for so the three paths agree on which signer a
@@ -182,6 +195,10 @@ sub materialize_service {
         // croak sprintf('materialize_service: unknown protocol=%s service=%s',
                          $service_ir->protocol, $service_ir->name);
 
+    my $response_class = $PROTOCOL_TO_RESPONSE_CLASS{ $service_ir->protocol }
+        // croak sprintf('materialize_service: unknown protocol=%s for response class',
+                         $service_ir->protocol);
+
     my $signature_role = _signature_role_for($service_ir);
 
     # Build via string-eval. Simplest reliable way to construct a Moo
@@ -216,6 +233,7 @@ sub materialize_service {
     my $src = qq{
         package $service_pkg;
         use Moo;
+        use $response_class;
 
         sub service          { $svc_name }
         sub signing_name     { $svc_signing }
@@ -234,6 +252,10 @@ sub materialize_service {
              'Paws::API::EndpointResolver',
              '$signature_role',
              '$caller_role';
+
+        has '+response_to_object' => (default => sub {
+            ${response_class}->new;
+        });
 
         $region_rules_src
 
@@ -579,6 +601,7 @@ sub _install_structure_members {
             traits        => {},
             is_list       => ($type_string =~ /^ArrayRef\[/  ? 1 : 0),
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
+            is_required   => ($required{$mname} ? 1 : 0),
             flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
         );
         if (defined(my $loc = $m->location)) {
