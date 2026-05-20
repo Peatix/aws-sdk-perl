@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Test::CustomCredentials;
-  use Moose;
+  use Moo;
   use Paws::Credential;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';

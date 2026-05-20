@@ -8,15 +8,16 @@ use Paws::GlacierParamsService::Method1Return;
 # this PR is a minimal smoke proving the caller chain wires up.
 
 package Paws::GlacierParamsService;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int HashRef ArrayRef);
   sub service { 'glacierparams' }
   sub version { '2012-06-01' }
 
-  has max_attempts => (is => 'ro', isa => 'Int', default => 5);
-  has retry => (is => 'ro', isa => 'HashRef', default => sub {
+  has max_attempts => (is => 'ro', isa => Int, default => 5);
+  has retry => (is => 'ro', isa => HashRef, default => sub {
     { base => 'rand', type => 'exponential', growth_factor => 2 }
   });
-  has retriables => (is => 'ro', isa => 'ArrayRef', default => sub { [] });
+  has retriables => (is => 'ro', isa => ArrayRef, default => sub { [] });
 
   with 'Paws::API::Caller',
        'Paws::API::EndpointResolver',

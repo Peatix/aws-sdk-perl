@@ -244,7 +244,7 @@ sub convert_endpoint_leaf {
     return undef unless defined $url && !ref $url;
 
     # Skip URLs with unresolvable templates (bucket, ARN, S3Express, account, etc.)
-    return undef if $url =~ /\{Bucket|uri_encoded_bucket|s3express|accessPointName|bucketArn|ParsedArn|AccountId|AccountIdEndpointMode/i;
+    return undef if $url =~ /\{Bucket|uri_encoded_bucket|s3express|accessPointName|bucketArn|ParsedArn|AccountId|AccountIdEndpointMode|EndpointId/i;
 
     $url = resolve_url_template($url, $env);
 
@@ -260,6 +260,13 @@ sub convert_endpoint_leaf {
     # Still unresolved after aws fallback — skip
     return undef if $url =~ /\{PartitionResult/i;
     return undef if $url =~ /\{partitionResult/;
+
+    # Skip URLs with unresolvable template variables beyond {region},
+    # {service}, {scheme}. The EndpointResolver only passes those three to
+    # URI::Template->process(); anything else produces an invalid hostname.
+    my $check_url = $url;
+    $check_url =~ s/\{(?:region|service|scheme)\}//g;
+    return undef if $check_url =~ /\{[^}]+\}/;
 
     # Skip FIPS URLs that leaked through
     return undef if $url =~ /-fips[.\/]/;

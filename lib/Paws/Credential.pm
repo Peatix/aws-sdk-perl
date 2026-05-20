@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential;
-  use Moose::Role;
+  use Moo::Role;
 
   requires 'refresh';
 
@@ -11,5 +11,4 @@ package Paws::Credential;
     return (defined $self->refresh);
   }
 
-  no Moose;
 1;

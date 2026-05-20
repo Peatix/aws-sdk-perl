@@ -2,7 +2,8 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential::CredProcess;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Int Maybe InstanceOf);
   use JSON::MaybeXS qw/decode_json/;
   use Paws::Exception;
   use DateTime::Format::ISO8601;
@@ -10,13 +11,13 @@ package Paws::Credential::CredProcess;
 
   with 'Paws::Credential';
 
-  has credential_process => (is => 'ro', isa => 'Str', required => 1);
+  has credential_process => (is => 'ro', isa => Str, required => 1);
 
-  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+  has credentials => (is => 'rw', isa => Maybe[InstanceOf['Paws::Credential::Explicit']]);
 
   has expiration => (
     is => 'rw',
-    isa => 'Int|Undef',
+    isa => Maybe[Int],
     lazy => 1,
     default => sub { 0 }
   );
@@ -64,5 +65,4 @@ package Paws::Credential::CredProcess;
     return $self->credentials;
   }
 
-  no Moose;
 1;

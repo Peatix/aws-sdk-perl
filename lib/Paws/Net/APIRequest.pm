@@ -1,15 +1,19 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::APIRequest;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(HashRef Str Maybe InstanceOf);
   use HTTP::Headers;
   use URI;
   use Scalar::Util qw(blessed openhandle);
 
-  has parameters => (is => 'rw', isa => 'HashRef', default => sub { {} });
-  has headers    => (is => 'rw', isa => 'HTTP::Headers', default => sub { HTTP::Headers->new });
-  has content    => (is => 'rw', isa => 'Str|Undef', default => '');
-  has method     => (is => 'rw', isa => 'Str');
-  has uri        => (is => 'rw', isa => 'Str');
-  has url        => (is => 'rw', isa => 'Str');
+  has parameters => (is => 'rw', isa => HashRef, default => sub { {} });
+  has headers    => (is => 'rw', isa => InstanceOf['HTTP::Headers'], default => sub { HTTP::Headers->new });
+  has content    => (is => 'rw', isa => Maybe[Str], default => '');
+  has method     => (is => 'rw', isa => Str);
+  has uri        => (is => 'rw', isa => Str);
+  has url        => (is => 'rw', isa => Str);
 
   has stream_body => (is => 'rw', predicate => 'has_stream_body');
 

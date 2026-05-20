@@ -1,10 +1,15 @@
 package Test04::StubUAForECSFullURI;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int Str Maybe);
 
-  has calls => (is => 'rw', isa => 'Int', default => 0, traits => ['Counter'],
-                handles => { increment_calls => 'inc' });
+  has calls => (is => 'rw', isa => Int, default => 0);
 
-  has expected_auth => (is => 'ro', isa => 'Str|Undef', default => undef);
+  sub increment_calls {
+    my ($self) = @_;
+    $self->calls($self->calls + 1);
+  }
+
+  has expected_auth => (is => 'ro', isa => Maybe[Str], default => undef);
 
   use DateTime::Format::ISO8601;
 

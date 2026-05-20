@@ -88,11 +88,12 @@ subtest 'Caller builds code-ref content from streaming body' => sub {
 subtest 'RetryCallerRole passes params through' => sub {
   {
     package TestCaller::StreamParams;
-    use Moose;
+    use Moo;
+    use Types::Standard qw(HashRef);
     with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
     use Paws::Net::APIResponse;
 
-    has received_params => (is => 'rw', isa => 'HashRef', default => sub { {} });
+    has received_params => (is => 'rw', isa => HashRef, default => sub { {} });
 
     sub send_request {
       my ($self, $service, $call_object, %params) = @_;
@@ -117,7 +118,7 @@ subtest 'RetryCallerRole passes params through' => sub {
 
   {
     package FakeService::Stream;
-    use Moose;
+    use Moo;
     sub retry { { base => 'rand', type => 'exponential', growth_factor => 2 } }
     sub max_attempts { 1 }
     sub retriables { [] }
@@ -127,7 +128,7 @@ subtest 'RetryCallerRole passes params through' => sub {
 
   {
     package FakeCall::Stream;
-    use Moose;
+    use Moo;
     sub _returns { undef }
     sub _result_key { undef }
   }

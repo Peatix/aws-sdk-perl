@@ -1,5 +1,6 @@
 package Paws::Net::Interceptor::Log;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str);
   use Time::HiRes qw(gettimeofday tv_interval);
 
   with 'Paws::Net::Interceptor';
@@ -11,7 +12,7 @@ package Paws::Net::Interceptor::Log;
 
   has _stash_key => (
     is      => 'ro',
-    isa     => 'Str',
+    isa     => Str,
     default => '_interceptor_log',
   );
 
@@ -159,8 +160,6 @@ package Paws::Net::Interceptor::Log;
     return '';
   }
 
-  no Moose;
-  __PACKAGE__->meta->make_immutable;
 1;
 
 =head1 NAME

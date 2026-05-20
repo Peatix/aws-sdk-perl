@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::V4Signature;
-  use Moose::Role;
+  use Moo::Role;
   use Digest::SHA qw(sha256_hex);
   use Net::Amazon::Signature::V4;
   #requires 'region';

@@ -1,5 +1,5 @@
 package Paws::Net::Interceptor::Retry;
-  use Moose;
+  use Moo;
   use Paws::API::Retry;
   with 'Paws::Net::Interceptor';
 
@@ -55,5 +55,4 @@ package Paws::Net::Interceptor::Retry;
     }
   }
 
-  __PACKAGE__->meta->make_immutable;
 1;

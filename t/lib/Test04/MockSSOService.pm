@@ -1,20 +1,21 @@
 package Test04::MockSSO::RoleCredentials;
-  use Moose;
-  has AccessKeyId => (is => 'ro', isa => 'Str', required => 1);
-  has SecretAccessKey => (is => 'ro', isa => 'Str', required => 1);
-  has SessionToken => (is => 'ro', isa => 'Str', required => 1);
-  has Expiration => (is => 'ro', isa => 'Num', required => 1);
-  no Moose;
+  use Moo;
+  use Types::Standard qw(Str Num);
+  has AccessKeyId => (is => 'ro', isa => Str, required => 1);
+  has SecretAccessKey => (is => 'ro', isa => Str, required => 1);
+  has SessionToken => (is => 'ro', isa => Str, required => 1);
+  has Expiration => (is => 'ro', isa => Num, required => 1);
 
 package Test04::MockSSO::GetRoleCredentialsResult;
-  use Moose;
-  has RoleCredentials => (is => 'ro', isa => 'Test04::MockSSO::RoleCredentials', required => 1);
-  no Moose;
+  use Moo;
+  use Types::Standard qw(InstanceOf);
+  has RoleCredentials => (is => 'ro', isa => InstanceOf['Test04::MockSSO::RoleCredentials'], required => 1);
 
 package Test04::MockSSO::Service;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int);
 
-  has call_count => (is => 'rw', isa => 'Int', default => 0);
+  has call_count => (is => 'rw', isa => Int, default => 0);
 
   sub GetRoleCredentials {
     my ($self, %args) = @_;
@@ -37,12 +38,11 @@ package Test04::MockSSO::Service;
     );
   }
 
-  no Moose;
-
 package Test04::MockSSO::ServiceExpiring;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int);
 
-  has call_count => (is => 'rw', isa => 'Int', default => 0);
+  has call_count => (is => 'rw', isa => Int, default => 0);
 
   sub GetRoleCredentials {
     my ($self, %args) = @_;
@@ -61,5 +61,4 @@ package Test04::MockSSO::ServiceExpiring;
     );
   }
 
-  no Moose;
 1;

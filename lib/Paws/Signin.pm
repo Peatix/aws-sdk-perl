@@ -1,16 +1,19 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
 package Paws::Signin;
-  use Moose;
+  use Moo;
   use JSON::MaybeXS;
   use URI;
   use Paws::Net::APIResponse;
+  use Types::Standard qw(ArrayRef HashRef Int);
   sub service { 'signin' }
   sub version { '2010-05-08' }
   sub flattened_arrays { 0 }
-  has max_attempts => (is => 'ro', isa => 'Int', default => 5);
-  has retry => (is => 'ro', isa => 'HashRef', default => sub {
+  has max_attempts => (is => 'ro', isa => Int, default => 5);
+  has retry => (is => 'ro', isa => HashRef, default => sub {
     { base => 'rand', type => 'exponential', growth_factor => 2 }
   });
-  has retriables => (is => 'ro', isa => 'ArrayRef', default => sub { [
+  has retriables => (is => 'ro', isa => ArrayRef, default => sub { [
   ] });
 
 

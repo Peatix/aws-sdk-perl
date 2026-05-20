@@ -1,5 +1,6 @@
 package Paws::API::Retry::TokenBucket;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Num);
   use List::Util qw(min);
 
   use constant DEFAULT_CAPACITY          => 500;
@@ -9,13 +10,13 @@ package Paws::API::Retry::TokenBucket;
 
   has capacity => (
     is      => 'ro',
-    isa     => 'Num',
+    isa     => Num,
     default => DEFAULT_CAPACITY,
   );
 
   has current_tokens => (
     is      => 'rw',
-    isa     => 'Num',
+    isa     => Num,
     lazy    => 1,
     default => sub { shift->capacity },
   );
@@ -52,7 +53,5 @@ package Paws::API::Retry::TokenBucket;
     return RETRY_COST_TIMEOUT if defined $error_type && $error_type eq 'transient';
     return RETRY_COST;
   }
-
-  __PACKAGE__->meta->make_immutable;
 
 1;
