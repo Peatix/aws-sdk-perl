@@ -20,12 +20,12 @@ use Test::Exception;
 
 package Paws::Test::Edge {
     use Moo;
-    use Types::Standard qw(Str Undef Maybe ArrayRef);
-    has S        => (is => 'ro', isa => Str);
-    has SU       => (is => 'ro', isa => Str | Undef);
-    has Maybe    => (is => 'ro', isa => Maybe[Str]);
-    has Predicate => (is => 'ro', isa => Str, predicate => 'has_predicate');
-    has List     => (is => 'ro', isa => ArrayRef[Str]);
+    use Types::Standard ();
+    has S        => (is => 'ro', isa => Types::Standard::Str);
+    has SU       => (is => 'ro', isa => Types::Standard::Str | Types::Standard::Undef);
+    has Maybe    => (is => 'ro', isa => Types::Standard::Maybe[Types::Standard::Str]);
+    has Predicate => (is => 'ro', isa => Types::Standard::Str, predicate => 'has_predicate');
+    has List     => (is => 'ro', isa => Types::Standard::ArrayRef[Types::Standard::Str]);
 }
 
 package Paws::Test::Inner {

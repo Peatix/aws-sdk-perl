@@ -17,6 +17,12 @@ package Paws::API::Caller;
   has credentials => (
     is => 'ro',
     isa => sub { die "credentials must do Paws::Credential" unless blessed($_[0]) && $_[0]->does('Paws::Credential') },
+    coerce => sub {
+      my $v = $_[0];
+      return $v if ref $v;
+      Paws->load_class($v);
+      return $v->new();
+    },
     required => 1,
   );
 

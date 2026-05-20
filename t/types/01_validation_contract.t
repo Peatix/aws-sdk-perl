@@ -28,18 +28,18 @@ use Test::Exception;
 
 package Paws::Test::Types {
     use Moo;
-    use Types::Standard qw(Str Int Num Bool ArrayRef HashRef Maybe Undef);
-    has Str       => (is => 'ro', isa => Str);
-    has StrUndef  => (is => 'ro', isa => Str | Undef);
-    has Integer   => (is => 'ro', isa => Int);
-    has Number    => (is => 'ro', isa => Num);
-    has Boolean   => (is => 'ro', isa => Bool);
-    has ArrayStr  => (is => 'ro', isa => ArrayRef[Str]);
-    has ArrayInt  => (is => 'ro', isa => ArrayRef[Int]);
-    has Map       => (is => 'ro', isa => HashRef[Str]);
-    has MaybeStr  => (is => 'ro', isa => Maybe[Str]);
-    has Required  => (is => 'ro', isa => Str, required => 1);
-    has Default   => (is => 'ro', isa => Str, default => 'fallback');
+    use Types::Standard ();
+    has Str       => (is => 'ro', isa => Types::Standard::Str);
+    has StrUndef  => (is => 'ro', isa => Types::Standard::Str | Types::Standard::Undef);
+    has Integer   => (is => 'ro', isa => Types::Standard::Int);
+    has Number    => (is => 'ro', isa => Types::Standard::Num);
+    has Boolean   => (is => 'ro', isa => Types::Standard::Bool);
+    has ArrayStr  => (is => 'ro', isa => Types::Standard::ArrayRef[Types::Standard::Str]);
+    has ArrayInt  => (is => 'ro', isa => Types::Standard::ArrayRef[Types::Standard::Int]);
+    has Map       => (is => 'ro', isa => Types::Standard::HashRef[Types::Standard::Str]);
+    has MaybeStr  => (is => 'ro', isa => Types::Standard::Maybe[Types::Standard::Str]);
+    has Required  => (is => 'ro', isa => Types::Standard::Str, required => 1);
+    has Default   => (is => 'ro', isa => Types::Standard::Str, default => 'fallback');
 }
 
 package Paws::Test::Inner {
