@@ -3,17 +3,16 @@
 # application/x-www-form-urlencoded.
 
 package Paws::QueryParamsService::MethodReq;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Int ArrayRef);
 
-  has Name        => (is => 'ro', isa => 'Str');
-  has Renamed     => (is => 'ro', isa => 'Str',
-                      request_name => 'RenamedOnWire',
-                      traits => ['NameInRequest']);
-  has Number      => (is => 'ro', isa => 'Int');
-  has Items       => (is => 'ro', isa => 'ArrayRef[Str]');
+  has Name        => (is => 'ro', isa => Str);
+  has Renamed     => (is => 'ro', isa => Str);
+  has Number      => (is => 'ro', isa => Int);
+  has Items       => (is => 'ro', isa => ArrayRef[Str]);
 
-  use MooseX::ClassAttribute;
-  class_has _api_call    => (isa => 'Str', is => 'ro', default => 'MethodReq');
-  class_has _returns     => (isa => 'Str', is => 'ro');
-  class_has _result_key  => (isa => 'Str', is => 'ro');
+  use MooX::ClassAttribute;
+  class_has _api_call    => (isa => Str, is => 'ro', default => 'MethodReq');
+  class_has _returns     => (isa => Str, is => 'ro');
+  class_has _result_key  => (isa => Str, is => 'ro');
 1;

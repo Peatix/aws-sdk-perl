@@ -1,43 +1,44 @@
 package Paws::Credential::WebIdentity;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Int Object Maybe InstanceOf);
   use DateTime::Format::ISO8601;
   use Paws::Credential::None;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
-  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+  has credentials => (is => 'rw', isa => Maybe[InstanceOf['Paws::Credential::Explicit']]);
 
   has expiration => (
     is => 'rw',
-    isa => 'Int',
+    isa => Int,
     lazy => 1,
     default => sub { 0 }
   );
 
-  has sts_region => (is => 'ro', isa => 'Str|Undef', default => sub { undef });
+  has sts_region => (is => 'ro', isa => Maybe[Str], default => sub { undef });
 
-  has sts => (is => 'ro', isa => 'Object', lazy => 1, default => sub {
+  has sts => (is => 'ro', isa => Object, lazy => 1, default => sub {
     my $self = shift;
     Paws->service('STS', region => $self->sts_region, credentials => Paws::Credential::None->new);
   });
 
-  has RoleArn => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+  has RoleArn => (is => 'ro', isa => Str, lazy => 1, default => sub {
     my $self = shift;
     $ENV{AWS_ROLE_ARN} // die "RoleArn is required: set AWS_ROLE_ARN or pass RoleArn";
   });
 
-  has RoleSessionName => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+  has RoleSessionName => (is => 'ro', isa => Str, lazy => 1, default => sub {
     my $self = shift;
     $ENV{AWS_ROLE_SESSION_NAME} // 'paws-web-identity-session';
   });
 
-  has WebIdentityTokenFile => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+  has WebIdentityTokenFile => (is => 'ro', isa => Str, lazy => 1, default => sub {
     my $self = shift;
     $ENV{AWS_WEB_IDENTITY_TOKEN_FILE} // die "WebIdentityTokenFile is required: set AWS_WEB_IDENTITY_TOKEN_FILE or pass WebIdentityTokenFile";
   });
 
-  has DurationSeconds => (is => 'ro', isa => 'Maybe[Int]');
-  has Policy => (is => 'ro', isa => 'Maybe[Str]');
+  has DurationSeconds => (is => 'ro', isa => Maybe[Int]);
+  has Policy => (is => 'ro', isa => Maybe[Str]);
 
   sub _read_token_file {
     my $self = shift;
@@ -76,7 +77,6 @@ package Paws::Credential::WebIdentity;
     return $self->credentials;
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 

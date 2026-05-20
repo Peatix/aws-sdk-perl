@@ -2,7 +2,8 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::API::Caller;
-  use Moose::Role;
+  use Moo::Role;
+  use Scalar::Util qw(blessed);
   use Paws;
   use Paws::Net::APIRequest;
   use Paws::API::Response;
@@ -15,7 +16,7 @@ package Paws::API::Caller;
 
   has credentials => (
     is => 'ro',
-    does => 'Paws::Credential',
+    isa => sub { die "credentials must do Paws::Credential" unless blessed($_[0]) && $_[0]->does('Paws::Credential') },
     required => 1,
   );
 

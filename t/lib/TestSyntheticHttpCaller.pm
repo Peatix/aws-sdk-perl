@@ -10,25 +10,26 @@ package TestSyntheticHttpCaller;
   # `status` attributes (matching the t/lib/TestGivenResponse style),
   # so existing synthetic services (Paws::JsonParamsService etc.) work
   # as drivers without modification.
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Maybe Int Str HashRef);
   with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
   use Paws::Net::APIResponse;
 
   has canned_status => (
     is      => 'rw',
-    isa     => 'Maybe[Int]',
+    isa     => Maybe[Int],
     default => sub { undef },
   );
 
   has canned_content => (
     is      => 'rw',
-    isa     => 'Maybe[Str]',
+    isa     => Maybe[Str],
     default => sub { undef },
   );
 
   has canned_headers => (
     is      => 'rw',
-    isa     => 'HashRef',
+    isa     => HashRef,
     default => sub {
       {
         'x-amzn-requestid' => 'fake-uuid',
@@ -61,5 +62,4 @@ package TestSyntheticHttpCaller;
     return $service->response_to_object->process($call_object, $response);
   }
 
-  __PACKAGE__->meta->make_immutable;
 1;

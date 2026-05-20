@@ -1,13 +1,13 @@
 package TestMakerLWPCaller;
   # A copy of TestMakerCaller, but using Paws::Net::LWPCaller
-  use Moose;
+  use Moo;
   extends 'Paws::Net::LWPCaller';
   use Carp;
   use File::Slurper 'write_text';
   use YAML qw/DumpFile/;
   use DataStruct::Flat;
 
-  override do_call => sub {
+  sub do_call {
     my ($self, $service, $call_object) = @_;
 
     my $requestObj = $service->prepare_request_for_call($call_object); 
@@ -26,7 +26,7 @@ package TestMakerLWPCaller;
     my $test_file_name = 't/10_responses/' . $service->service . '-' . lc($call_object->_api_call . '.response');
     write_text($test_file_name, $response->content);
     print "Written response to $test_file_name\n";
-    my $service_class = $service->meta->name;
+    my $service_class = ref($service);
     $service_class =~ s/Paws\:\://;
     my $test = { call => $call_object->_api_call, service => $service_class, tests => [] };
     DumpFile("${test_file_name}.test.yml", $test);
@@ -49,6 +49,6 @@ package TestMakerLWPCaller;
     DumpFile("${test_file_name}.test.yml", $test);
     print "Written test case to ${test_file_name}.test.yml\n";
     return $result;
-  };
+  }
 
 1;

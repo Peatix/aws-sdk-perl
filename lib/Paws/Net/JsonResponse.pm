@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::JsonResponse;
-  use Moose;
+  use Moo;
   use JSON::MaybeXS;
   use Carp qw(croak);
   use Paws::Exception;

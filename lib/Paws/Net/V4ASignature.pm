@@ -15,7 +15,8 @@ package Paws::Net::V4ASignature;
   # the X-Amz-Region-Set header, and the credential-scope shape that
   # omits the region).
 
-  use Moose::Role;
+  use Moo::Role;
+  use Types::Standard qw(Str);
   use Carp qw(croak);
   use POSIX qw(strftime);
   use Digest::SHA qw(sha256 sha256_hex);
@@ -38,7 +39,7 @@ package Paws::Net::V4ASignature;
 
   has signing_region_set => (
     is      => 'ro',
-    isa     => 'Str',
+    isa     => Str,
     lazy    => 1,
     # Wildcard is the conventional default for SigV4A clients: it
     # tells AWS the signature is valid in any region the resource is

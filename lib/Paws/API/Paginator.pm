@@ -1,16 +1,17 @@
 package Paws::API::Paginator;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str ArrayRef Maybe Bool);
 
   has _service => (is => 'ro', required => 1, init_arg => 'service');
-  has _operation => (is => 'ro', isa => 'Str', required => 1, init_arg => 'operation');
-  has _call_args => (is => 'ro', isa => 'ArrayRef', required => 1, init_arg => 'call_args');
+  has _operation => (is => 'ro', isa => Str, required => 1, init_arg => 'operation');
+  has _call_args => (is => 'ro', isa => ArrayRef, required => 1, init_arg => 'call_args');
 
-  has _input_tokens => (is => 'ro', isa => 'ArrayRef[Str]', required => 1, init_arg => 'input_tokens');
-  has _output_tokens => (is => 'ro', isa => 'ArrayRef[Str]', required => 1, init_arg => 'output_tokens');
-  has _more_results => (is => 'ro', isa => 'Maybe[Str]', init_arg => 'more_results');
+  has _input_tokens => (is => 'ro', isa => ArrayRef[Str], required => 1, init_arg => 'input_tokens');
+  has _output_tokens => (is => 'ro', isa => ArrayRef[Str], required => 1, init_arg => 'output_tokens');
+  has _more_results => (is => 'ro', isa => Maybe[Str], init_arg => 'more_results');
 
-  has _started => (is => 'rw', isa => 'Bool', default => 0);
-  has _finished => (is => 'rw', isa => 'Bool', default => 0);
+  has _started => (is => 'rw', isa => Bool, default => 0);
+  has _finished => (is => 'rw', isa => Bool, default => 0);
   has _last_result => (is => 'rw');
 
   sub has_next_page {
@@ -102,5 +103,4 @@ package Paws::API::Paginator;
     return $current;
   }
 
-  __PACKAGE__->meta->make_immutable;
 1;

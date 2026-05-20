@@ -1,18 +1,22 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::MockCaller;
-  use Moose;
+  use Moo;
   with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
+  use Types::Standard qw(Str Int Enum CodeRef);
+  use Scalar::Util;
   use Paws::Net::APIResponse;
 
   use File::Slurper qw(read_text write_text);
   use JSON::MaybeXS;
-  use Moose::Util::TypeConstraints;
   use Path::Tiny;
   use Paws::Net::FileMockCaller;
   use Paws::Net::NoResponseMockCaller;
 
   has real_caller => (
     is => 'ro', 
-    does => 'Paws::Net::CallerRole', 
+    isa => sub { die "does not Paws::Net::CallerRole" unless Scalar::Util::blessed($_[0]) && $_[0]->does('Paws::Net::CallerRole') }, 
     default => sub {
       require Paws::Net::Caller;
       Paws::Net::Caller->new;
@@ -21,37 +25,38 @@ package Paws::Net::MockCaller;
 
   has mock_type => (
     is => 'ro',
-    isa => 'Str',
+    isa => Str,
     default => sub { 'FileMockCaller' },
   );
 
   has mock_mode => (
     is => 'ro',
     lazy => 1,
-    isa => enum([ 'REPLAY', 'RECORD' ]),
+    isa => Enum['REPLAY','RECORD'],
     required => 0,
     default => sub { $ENV{PAWS_MOCK_MODE} }
   );
 
   has mock_dir => (
     is => 'ro',
-    isa => 'Str',
+    isa => Str,
     lazy => 1,
     required => 0,
     default => sub { $ENV{PAWS_MOCK_DIR} }
   );
 
   has _request_num => (
-    is => 'ro',
-    isa => 'Int',
+    is => 'rw',
+    isa => Int,
     default => 1,
-    traits => [ 'Counter' ],
-    handles => {
-      _next_request => 'inc'
-    }
   );
 
-  has _test_file => (is => 'rw', isa => 'Str');
+  sub _next_request {
+    my ($self) = @_;
+    $self->_request_num($self->_request_num + 1);
+  }
+
+  has _test_file => (is => 'rw', isa => Str);
 
   has caller => (
     is => 'ro',
@@ -67,7 +72,7 @@ package Paws::Net::MockCaller;
 
   has result_hook => (
     is => 'ro',
-    isa => 'CodeRef',
+    isa => CodeRef,
   );
 
   sub actual_request {

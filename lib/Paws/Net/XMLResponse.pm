@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::XMLResponse;
-  use Moose;
+  use Moo;
   use XML::Simple qw//;
   use Carp qw(croak);
   use Paws::Exception;

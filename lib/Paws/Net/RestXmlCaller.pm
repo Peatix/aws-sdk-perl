@@ -3,12 +3,11 @@
 
 package Paws::Net::RestXmlCaller;
   use Paws;
-  use Moose::Role;
+  use Moo::Role;
   use HTTP::Request::Common;
   use POSIX qw(strftime);
   use URI::Template;
   use URI::Escape;
-  use Moose::Util;
   use Scalar::Util;
 
   use Paws::Net::RestXMLResponse;
@@ -163,12 +162,8 @@ package Paws::Net::RestXmlCaller;
   }
 
   # PR11: SerDes-driven; no per-attribute Moose meta lookups.
-  # The type_string -> "is a Paws structure class?" check still uses
-  # Moose::Util::find_meta because that is the same answer regardless
-  # of OO backend (Moo classes inflate on first MOP touch). The wire
-  # layer's hot path doesn't go through here for the protocols
-  # tested in PR4 (json/restjson/query); RestXML's xml-building is
-  # only exercised by S3, Route53, CloudFront, etc.
+  # The type_string -> "is a Paws structure class?" check uses
+  # $type->can('meta') which works for both Moose and Moo classes.
   #
   # Flattening: a list-typed attribute is rendered as
   # `<Wrapper><Elem>..</Elem></Wrapper>` if the model treats it as
@@ -195,7 +190,7 @@ package Paws::Net::RestXmlCaller;
                     ? 1 : 0;
 
     my $xml;
-    if (Moose::Util::find_meta($type)) {
+    if ($type->can('meta')) {
       $xml = sprintf '<%s>%s</%s>', $location, $self->_to_xml($value), $location;
     }
     elsif ($type eq 'ArrayRef[Str|Undef]') {

@@ -18,12 +18,13 @@ use Paws::Exception;
 
 {
   package Test::Interceptor::Recorder;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(ArrayRef);
   with 'Paws::Net::Interceptor';
 
   has log => (
     is      => 'rw',
-    isa     => 'ArrayRef',
+    isa     => ArrayRef,
     default => sub { [] },
   );
 
@@ -32,48 +33,45 @@ use Paws::Exception;
   sub before_attempt  { push @{ $_[0]->log }, 'before_attempt' }
   sub after_attempt   { push @{ $_[0]->log }, 'after_attempt' }
   sub on_error        { push @{ $_[0]->log }, 'on_error' }
-
-  __PACKAGE__->meta->make_immutable;
 }
 
 {
   package Test::Interceptor::Named;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str ArrayRef);
   with 'Paws::Net::Interceptor';
 
-  has name => (is => 'ro', isa => 'Str', required => 1);
-  has log  => (is => 'rw', isa => 'ArrayRef', default => sub { [] });
+  has name => (is => 'ro', isa => Str, required => 1);
+  has log  => (is => 'rw', isa => ArrayRef, default => sub { [] });
 
   sub before_request  { push @{ $_[0]->log }, $_[0]->name . ':before_request' }
   sub after_request   { push @{ $_[0]->log }, $_[0]->name . ':after_request' }
   sub before_attempt  { push @{ $_[0]->log }, $_[0]->name . ':before_attempt' }
   sub after_attempt   { push @{ $_[0]->log }, $_[0]->name . ':after_attempt' }
   sub on_error        { push @{ $_[0]->log }, $_[0]->name . ':on_error' }
-
-  __PACKAGE__->meta->make_immutable;
 }
 
 {
   package Test::NotAnInterceptor;
-  use Moose;
-  __PACKAGE__->meta->make_immutable;
+  use Moo;
 }
 
 # Minimal mock caller that composes RetryCallerRole
 {
   package Test::MockCaller;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(ArrayRef Int);
   with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
 
   has mock_responses => (
     is      => 'rw',
-    isa     => 'ArrayRef',
+    isa     => ArrayRef,
     default => sub { [] },
   );
 
   has _response_idx => (
     is      => 'rw',
-    isa     => 'Int',
+    isa     => Int,
     default => 0,
   );
 
@@ -96,33 +94,29 @@ use Paws::Exception;
     }
     return { _request_id => 'test-req-id', status => $response->status };
   }
-
-  __PACKAGE__->meta->make_immutable;
 }
 
 # Minimal service stub with retry attributes
 {
   package Test::MockService;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int HashRef ArrayRef Str);
 
-  has max_attempts => (is => 'ro', isa => 'Int', default => 5);
-  has retry        => (is => 'ro', isa => 'HashRef', default => sub {
+  has max_attempts => (is => 'ro', isa => Int, default => 5);
+  has retry        => (is => 'ro', isa => HashRef, default => sub {
     { base => 'rand', type => 'exponential', growth_factor => 2 }
   });
-  has retriables   => (is => 'ro', isa => 'ArrayRef', default => sub { [] });
-  has service      => (is => 'ro', isa => 'Str', default => 'S3');
-  has region       => (is => 'ro', isa => 'Str', default => 'us-east-1');
-
-  __PACKAGE__->meta->make_immutable;
+  has retriables   => (is => 'ro', isa => ArrayRef, default => sub { [] });
+  has service      => (is => 'ro', isa => Str, default => 'S3');
+  has region       => (is => 'ro', isa => Str, default => 'us-east-1');
 }
 
 # Mock call object for interceptor tests from master
 {
   package MockCallObject;
-  use Moose;
-  has _api_call => (is => 'ro', isa => 'Str', default => 'PutObject');
-  no Moose;
-  __PACKAGE__->meta->make_immutable;
+  use Moo;
+  use Types::Standard qw(Str);
+  has _api_call => (is => 'ro', isa => Str, default => 'PutObject');
 }
 
 # ---------- InterceptorContext tests ---------------------------------
@@ -220,9 +214,8 @@ subtest 'interceptors passed at construction' => sub {
 subtest 'default no-op hooks' => sub {
   {
     package Test::Interceptor::NoOp;
-    use Moose;
+    use Moo;
     with 'Paws::Net::Interceptor';
-    __PACKAGE__->meta->make_immutable;
   }
 
   my $noop = Test::Interceptor::NoOp->new;
@@ -352,33 +345,32 @@ subtest 'Full do_call with interceptors fires hooks' => sub {
 subtest 'before_request interceptor can mutate call_object used by send_request' => sub {
   {
     package Test::Interceptor::MutateCall;
-    use Moose;
+    use Moo;
     with 'Paws::Net::Interceptor';
 
     sub before_request {
       my ($self, $context) = @_;
       $context->call_object('MutatedCall');
     }
-
-    __PACKAGE__->meta->make_immutable;
   }
 
   {
     package Test::MockCaller::Capturing;
-    use Moose;
+    use Moo;
+    use Types::Standard qw(ArrayRef Int);
     with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
 
     our @captured_calls;
 
     has mock_responses => (
       is      => 'rw',
-      isa     => 'ArrayRef',
+      isa     => ArrayRef,
       default => sub { [] },
     );
 
     has _response_idx => (
       is      => 'rw',
-      isa     => 'Int',
+      isa     => Int,
       default => 0,
     );
 
@@ -395,8 +387,6 @@ subtest 'before_request interceptor can mutate call_object used by send_request'
       push @captured_calls, $call_object;
       return { _request_id => 'test-req-id', status => $response->status };
     }
-
-    __PACKAGE__->meta->make_immutable;
   }
 
   my $mutator = Test::Interceptor::MutateCall->new;
@@ -424,15 +414,13 @@ subtest 'before_request interceptor can mutate call_object used by send_request'
 subtest 'interceptor die is caught and sets exception result' => sub {
   {
     package Test::Interceptor::Dying;
-    use Moose;
+    use Moo;
     with 'Paws::Net::Interceptor';
 
     sub before_attempt {
       my ($self, $context) = @_;
       die "intentional explosion";
     }
-
-    __PACKAGE__->meta->make_immutable;
   }
 
   my $dying = Test::Interceptor::Dying->new;
@@ -819,10 +807,11 @@ subtest 'Multi-interceptor ordering and stash isolation' => sub {
 
   {
     package TestInterceptorA;
-    use Moose;
+    use Moo;
+    use Types::Standard qw(ArrayRef);
     with 'Paws::Net::Interceptor';
 
-    has order_log => (is => 'ro', isa => 'ArrayRef', required => 1);
+    has order_log => (is => 'ro', isa => ArrayRef, required => 1);
 
     sub before_request {
       my ($self, $ctx) = @_;
@@ -852,17 +841,15 @@ subtest 'Multi-interceptor ordering and stash isolation' => sub {
       push @{ $self->order_log }, 'A:after_request';
       $ctx->stash->{_test_a}{seen_after_request} = 1;
     }
-
-    no Moose;
-    __PACKAGE__->meta->make_immutable;
   }
 
   {
     package TestInterceptorB;
-    use Moose;
+    use Moo;
+    use Types::Standard qw(ArrayRef);
     with 'Paws::Net::Interceptor';
 
-    has order_log => (is => 'ro', isa => 'ArrayRef', required => 1);
+    has order_log => (is => 'ro', isa => ArrayRef, required => 1);
 
     sub before_request {
       my ($self, $ctx) = @_;
@@ -892,9 +879,6 @@ subtest 'Multi-interceptor ordering and stash isolation' => sub {
       push @{ $self->order_log }, 'B:after_request';
       $ctx->stash->{_test_b}{seen_after_request} = 1;
     }
-
-    no Moose;
-    __PACKAGE__->meta->make_immutable;
   }
 
   my $ctx = Paws::Net::InterceptorContext->new(

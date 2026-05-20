@@ -1,18 +1,19 @@
 package Paws::Net::Interceptor::XRay;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Bool Str);
 
   with 'Paws::Net::Interceptor';
 
   has _xray_available => (
     is      => 'ro',
-    isa     => 'Bool',
+    isa     => Bool,
     lazy    => 1,
     builder => '_check_xray',
   );
 
   has _stash_key => (
     is      => 'ro',
-    isa     => 'Str',
+    isa     => Str,
     default => '_interceptor_xray',
   );
 
@@ -190,8 +191,6 @@ package Paws::Net::Interceptor::XRay;
     );
   }
 
-  no Moose;
-  __PACKAGE__->meta->make_immutable;
 1;
 
 =head1 NAME

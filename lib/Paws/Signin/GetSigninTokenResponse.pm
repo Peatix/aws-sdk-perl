@@ -1,6 +1,9 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
 package Paws::Signin::GetSigninTokenResponse;
-  use Moose;
-  has SigninToken => (is => 'ro', isa => 'Str', required => 1);
+  use Moo;
+  use Types::Standard qw(Str);
+  has SigninToken => (is => 'ro', isa => Str, required => 1);
 1;
 
 ### main pod documentation begin ###

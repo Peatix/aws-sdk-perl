@@ -1,11 +1,12 @@
 package Paws::API::Retry;
-  use Moose;
-  use MooseX::ClassAttribute;
+  use Moo;
+  use MooX::ClassAttribute;
+  use Types::Standard qw(Str ArrayRef);
   use Paws::Exception;
   use POSIX qw(HUGE_VAL);
   use List::Util qw(min);
 
-  class_has default_rules => (is => 'ro', isa => 'ArrayRef', default => sub { [
+  class_has default_rules => (is => 'ro', isa => ArrayRef, default => sub { [
     # bad_gateway
     sub { defined $_[0]->http_status and $_[0]->http_status == 502 },
     # gateway_timeout
@@ -64,7 +65,7 @@ package Paws::API::Retry;
   use constant STANDARD_BASE_DELAY  => 1;
   use constant STANDARD_MAX_BACKOFF => 20;
 
-  has mode => (is => 'ro', isa => 'Str', default => 'legacy');
+  has mode => (is => 'ro', isa => Str, default => 'legacy');
   has max_tries => (is => 'ro', required => 1);
   has type => (is => 'ro', default => 'exponential');
 
@@ -101,7 +102,7 @@ package Paws::API::Retry;
       };
     }
 
-    return $class->$orig(%args);
+    return { %args };
   };
 
   sub should_retry {
@@ -195,7 +196,5 @@ package Paws::API::Retry;
     # TODO: evaluate if the error is retriable depending on class definition
     return 1;
   }
-
-  __PACKAGE__->meta->make_immutable;
 
 1;

@@ -1,13 +1,13 @@
 package Paws::Model::Materializer;
 
 # In-memory materialiser. Given a Paws::Model::IR::Service, builds the
-# Moose classes that the existing AOT generator would have written to
+# Moo classes that the existing AOT generator would have written to
 # auto-lib/.
 #
 # This is the alternative to `require Paws::EC2` that is selected when
 # PAWS_LAZY=1 (PR9 opt-in) or by default after PR10. The user-facing
 # API is unchanged: `Paws->service('EC2')->DescribeInstances(...)`
-# resolves to a Moose class regardless of whether it came from disk or
+# resolves to a Moo class regardless of whether it came from disk or
 # from the materialiser.
 #
 # Per the plan's Materialiser is the single place where every class is
@@ -18,11 +18,12 @@ use strict;
 use warnings;
 use v5.10;
 
-use Moose;
+use Moo;
+use Types::Standard qw(Maybe Object HashRef Bool);
 
-use Class::MOP;
-use Class::MOP::Class;
 use Carp qw(croak);
+
+use Paws::SerDes;
 
 # Import the seven attribute traits so they're meta-resolvable when we
 # add 'traits => [...]' to attributes.
@@ -41,18 +42,14 @@ use Paws::Net::V4Signature;
 
 has loader => (
     is  => 'ro',
-    # Optional. The materialiser only needs an IR; if a loader is
-    # provided, callers may use it for related lookups, but
-    # materialize_service($ir) doesn't require it.
-    isa => 'Maybe[Object]',
+    isa => Maybe[Object],
 );
 
 # Track which (Service, Operation, Shape) classes have already been
-# materialised so we don't try to add_attribute on an already-built
-# meta-class.
+# materialised so we don't try to build an already-built class.
 has _materialised_classes => (
     is      => 'ro',
-    isa     => 'HashRef[Bool]',
+    isa     => HashRef[Bool],
     default => sub { {} },
 );
 
@@ -87,8 +84,9 @@ sub _signature_role_for {
     return $role;
 }
 
-# Mapping from IR primitive type to the Moose isa string.
-my %PRIMITIVE_TO_ISA = (
+# Mapping from IR primitive type to the Type::Tiny expression for
+# eval'd source.
+my %PRIMITIVE_TO_TYPE_EXPR = (
     string    => 'Str',
     integer   => 'Int',
     long      => 'Int',
@@ -99,7 +97,7 @@ my %PRIMITIVE_TO_ISA = (
     blob      => 'Str',
 );
 
-# Public entry: given a service IR, build the Moose service class
+# Public entry: given a service IR, build the Moo service class
 # (which transitively builds operation and shape classes via lazy
 # resolution). Returns the service class name.
 sub materialize_service {
@@ -117,83 +115,72 @@ sub materialize_service {
             $service_ir->protocol, $service_ir->name,
         );
 
-    # Build the class itself.
-    my $meta = Class::MOP::Class->create(
-        $service_pkg,
-        superclasses => ['Moose::Object'],
-    );
-
-    # Service identity methods (templates have these as plain subs).
-    my $svc_name      = $service_ir->endpoint_prefix;
-    my $svc_signing   = $service_ir->signing_name // $service_ir->endpoint_prefix;
-    my $svc_version   = $service_ir->api_version;
-    my $svc_target    = $service_ir->target_prefix;
-    my $svc_jsonver   = $service_ir->json_version;
-
-    $meta->add_method(service       => sub { $svc_name });
-    $meta->add_method(signing_name  => sub { $svc_signing });
-    $meta->add_method(version       => sub { $svc_version });
-    $meta->add_method(flattened_arrays => sub { 0 });
-    $meta->add_method(target_prefix => sub { $svc_target })  if defined $svc_target;
-    $meta->add_method(json_version  => sub { $svc_jsonver }) if defined $svc_jsonver;
-
-    # Retry / retriables: minimal default. Mirrors what the templates
-    # emit for services with no service-specific retry policy.
-    $meta->add_attribute(max_attempts => (
-        is => 'ro', isa => 'Int', default => 5,
-    ));
-    $meta->add_attribute(retry => (
-        is => 'ro', isa => 'HashRef',
-        default => sub {
-            { base => 'rand', type => 'exponential', growth_factor => 2 }
-        },
-    ));
-    $meta->add_attribute(retriables => (
-        is => 'ro', isa => 'ArrayRef', default => sub { [] },
-    ));
-
-    # Compose roles. The signature role is derived from the IR's
-    # signature_version (matching the AOT Builder's mapping) so
-    # services like S3, ImportExport (v2), S3Control (s3v4), and
-    # CodeCatalyst (bearer) materialise with the right signer rather
-    # than always defaulting to SigV4.
     my $signature_role = _signature_role_for($service_ir);
-    Moose::Util::apply_all_roles(
-        $meta,
-        'Paws::API::Caller',
-        'Paws::API::EndpointResolver',
-        $signature_role,
-        $caller_role,
-    );
 
-    # One method per operation. Each constructs the call object and
-    # dispatches via the caller. Mirrors the TT default service_class.tt.
-    for my $op_name ($service_ir->operation_names) {
-        my $op    = $service_ir->operation($op_name);
-        my $input = $op->input_shape;
+    my $svc_name      = _q($service_ir->endpoint_prefix);
+    my $svc_signing   = _q($service_ir->signing_name // $service_ir->endpoint_prefix);
+    my $svc_version   = _q($service_ir->api_version);
+    my $svc_target    = $service_ir->target_prefix
+                          ? "sub target_prefix { '" . _esc($service_ir->target_prefix) . "' }"
+                          : '';
+    my $svc_jsonver   = $service_ir->json_version
+                          ? "sub json_version { '" . _esc($service_ir->json_version) . "' }"
+                          : '';
+
+    my @op_names = $service_ir->operation_names;
+    my $op_names_q = join(' ', @op_names);
+
+    my @op_methods;
+    for my $op_name (@op_names) {
         my $op_pkg = $service_pkg . '::' . $op_name;
-
-        # Closure capture: $self, args. Operation classes are
-        # materialised eagerly in the loop below, so this method only
-        # needs to construct + dispatch.
-        my $closure = sub {
-            my $self = shift;
-            my $call_object = $self->new_with_coercions($op_pkg, @_);
-            return $self->caller->do_call($self, $call_object);
+        push @op_methods, qq{
+            sub $op_name {
+                my \$self = shift;
+                my \$call = \$self->new_with_coercions('$op_pkg', \@_);
+                return \$self->caller->do_call(\$self, \$call);
+            }
         };
-        $meta->add_method($op_name => $closure);
     }
 
-    # operations() class method, used by Paws::Crawler etc.
-    my @op_names = $service_ir->operation_names;
-    $meta->add_method(operations => sub { @op_names });
+    my $src = qq{
+        package $service_pkg;
+        use Moo;
+
+        sub service          { $svc_name }
+        sub signing_name     { $svc_signing }
+        sub version          { $svc_version }
+        sub flattened_arrays { 0 }
+        $svc_target
+        $svc_jsonver
+
+        has max_attempts => (is => 'ro', default => sub { 5 });
+        has retry        => (is => 'ro', default => sub {
+            { base => 'rand', type => 'exponential', growth_factor => 2 }
+        });
+        has retriables   => (is => 'ro', default => sub { [] });
+
+        with 'Paws::API::Caller',
+             'Paws::API::EndpointResolver',
+             '$signature_role',
+             '$caller_role';
+
+        @{[ join("\n", @op_methods) ]}
+
+        sub operations { qw/$op_names_q/ }
+
+        1;
+    };
+
+    local $@;
+    eval $src;
+    croak "materialize_service($service_pkg): $@\nSOURCE:\n$src" if $@;
 
     $self->_materialised_classes->{$service_pkg} = 1;
 
     # Eagerly materialise all operation+shape classes for now. A
     # follow-up commit will defer to first-call to bring cold-start
     # cost down further; eager is correct and easy to reason about.
-    for my $op_name ($service_ir->operation_names) {
+    for my $op_name (@op_names) {
         $self->materialize_operation($service_ir, $op_name);
     }
 
@@ -213,56 +200,67 @@ sub materialize_operation {
     my $op = $service_ir->operation($op_name)
         // croak "no such operation: $op_name";
 
-    # Build the operation class. Its attributes are the input shape's
-    # members, with traits derived from member.location/locationName.
-    my $meta = Class::MOP::Class->create(
-        $op_pkg,
-        superclasses => ['Moose::Object'],
-    );
+    my @attr_lines;
+    my @serdes_records;
 
     if (my $input_name = $op->input_shape) {
         my $input_shape = $service_ir->shape($input_name)
             // croak "input shape $input_name missing for op $op_name";
-        $self->_install_structure_members($meta, $service_ir, $input_shape);
+        $self->_install_structure_members($input_shape, $service_ir,
+                                          \@attr_lines, \@serdes_records);
     }
 
-    # Class attributes for the API metadata. We install plain methods
-    # (not MooseX::ClassAttribute) - the wire layer only ever invokes
-    # these as `$pkg->_api_call`, so a constant-returning method is
-    # observationally identical and avoids the MooseX bookkeeping.
-    my $api_call    = $op_name;
-    my $api_method  = $op->http_method;
-    my $api_uri     = $op->http_uri;
-    $meta->add_method(_api_call   => sub { $api_call });
-    $meta->add_method(_api_method => sub { $api_method });
-    $meta->add_method(_api_uri    => sub { $api_uri });
-
-    if (my $output = $op->output_shape) {
-        my $returns_pkg = $service_pkg . '::' . $output;
-        $meta->add_method(_returns => sub { $returns_pkg });
-        # Materialise the output shape as well.
-        $self->_materialise_shape_class($service_ir, $output);
-    } else {
-        $meta->add_method(_returns => sub { undef });
-    }
+    my $api_call    = _esc($op_name);
+    my $api_method  = _esc($op->http_method);
+    my $api_uri     = _esc($op->http_uri);
+    my $returns_pkg = $op->output_shape
+        ? "Paws::" . $service_ir->name . '::' . $op->output_shape
+        : '';
+    my $returns_method = $returns_pkg
+        ? "sub _returns { '$returns_pkg' }"
+        : "sub _returns { undef }";
 
     # Mirror templates/query/callargs_class.tt: awsQuery responses
     # carry a wrapper element named `<OpName>Result` between the
     # outer response envelope and the actual fields. The XML response
     # decoder uses _result_key to unwrap. Other protocols leave it
     # undef (their decoders don't need the unwrap).
-    if ($service_ir->protocol eq 'query' && $op->output_shape) {
-        my $result_key = $op_name . 'Result';
-        $meta->add_method(_result_key => sub { $result_key });
-    } else {
-        $meta->add_method(_result_key => sub { undef });
+    my $result_key_method =
+        ($service_ir->protocol eq 'query' && $op->output_shape)
+            ? "sub _result_key  { '${op_name}Result' }"
+            : "sub _result_key  { undef }";
+
+    my $src = qq{
+        package $op_pkg;
+        use Moo;
+        use Types::Standard qw(Str Int Bool Num ArrayRef HashRef Maybe InstanceOf);
+
+@{[ join("\n", @attr_lines) ]}
+
+        sub _api_call    { '$api_call' }
+        sub _api_method  { '$api_method' }
+        sub _api_uri     { '$api_uri' }
+        $returns_method
+        $result_key_method
+
+        1;
+    };
+
+    local $@;
+    eval $src;
+    croak "materialize_operation($op_pkg): $@\nSOURCE:\n$src" if $@;
+
+    Paws::SerDes->register($op_pkg, \@serdes_records);
+
+    if ($op->output_shape) {
+        $self->_materialise_shape_class($service_ir, $op->output_shape);
     }
 
     $self->_materialised_classes->{$op_pkg} = 1;
     return $op_pkg;
 }
 
-# Recursively build a Moose class for a structure shape.
+# Recursively build a Moo class for a structure shape.
 sub _materialise_shape_class {
     my ($self, $service_ir, $shape_name) = @_;
 
@@ -277,108 +275,200 @@ sub _materialise_shape_class {
     # Only structures get classes. Lists/maps/scalars are typed inline.
     return $pkg if !$shape->is_structure;
 
-    my $meta = Class::MOP::Class->create(
-        $pkg,
-        superclasses => ['Moose::Object'],
-    );
-
-    $self->_install_structure_members($meta, $service_ir, $shape);
-
-    # Output shapes carry _request_id; harmless on input shapes.
-    $meta->add_attribute(_request_id => (
-        is => 'ro', isa => 'Str',
-    )) if !$meta->has_attribute('_request_id');
-
+    # Claim the dedup slot BEFORE recursing into structure members.
+    # Several services (DynamoDB.AttributeValue, S3 list pagination,
+    # Glue partition descriptors, ...) have self-referential shapes,
+    # so without this claim _install_structure_members re-enters
+    # _materialise_shape_class for the same $pkg and recurses
+    # indefinitely.
     $self->_materialised_classes->{$pkg} = 1;
+
+    my @attr_lines;
+    my @serdes_records;
+    $self->_install_structure_members($shape, $service_ir,
+                                      \@attr_lines, \@serdes_records);
+
+    # If the IR shape has an attribute with one of Moo's reserved
+    # names (before, after, around, extends, with, has), the accessor
+    # install dies with a collision. Stash-delete those names AFTER
+    # `use Moo` but BEFORE the `has` calls.
+    my @attr_names = map {
+        $_ =~ /^\s+has\s+(\w+)\s/ ? ($1) : ()
+    } @attr_lines;
+    my %attr_set = map { $_ => 1 } @attr_names;
+    my @reserved = grep { $attr_set{$_} } qw(before after around extends with has);
+    my @clear_lines;
+    if (@reserved) {
+        push @clear_lines, "        no strict 'refs';";
+        push @clear_lines, map {
+            "        delete \${'${pkg}::'}{'$_'};"
+        } @reserved;
+        push @clear_lines, "        use strict 'refs';";
+    }
+
+    my $src = qq{
+        package $pkg;
+        use Moo;
+        use Types::Standard qw(Str Int Bool Num ArrayRef HashRef Maybe InstanceOf);
+
+@{[ join("\n", @clear_lines) ]}
+
+@{[ join("\n", @attr_lines) ]}
+
+        has _request_id => (is => 'ro');
+
+        1;
+    };
+
+    local $@;
+    eval $src;
+    croak "_materialise_shape_class($pkg): $@\nSOURCE:\n$src" if $@;
+
+    Paws::SerDes->register($pkg, \@serdes_records);
+
     return $pkg;
 }
 
 sub _install_structure_members {
-    my ($self, $meta, $service_ir, $shape) = @_;
+    my ($self, $shape, $service_ir, $attr_lines, $serdes_records) = @_;
 
     my %required = map { $_ => 1 } @{ $shape->required_members };
 
     for my $mname (sort keys %{ $shape->members }) {
         my $m       = $shape->members->{$mname};
-        my $isa     = $self->_isa_for_member($service_ir, $m);
-        my %extra;
-        my @traits;
+        my $type_expr   = $self->_type_expr($service_ir, $m->shape);
+        my $type_string = $self->_type_string($service_ir, $m->shape);
 
-        # Resolve trait + named-arg pair from member.location.
-        if (defined(my $loc = $m->location)) {
-            if ($loc eq 'header') {
-                push @traits, 'ParamInHeader';
-                $extra{header_name} = $m->locationName;
-            } elsif ($loc eq 'headers') {
-                push @traits, 'ParamInHeaders';
-                $extra{header_prefix} = $m->locationName;
-            } elsif ($loc eq 'querystring') {
-                push @traits, 'ParamInQuery';
-                $extra{query_name} = $m->locationName;
-            } elsif ($loc eq 'uri') {
-                push @traits, 'ParamInURI';
-                $extra{uri_name} = $m->locationName;
-            }
-            # statusCode etc. are output-only and not added as traits.
-        } elsif (defined $m->locationName && $m->locationName ne $mname) {
-            push @traits, 'NameInRequest';
-            $extra{request_name} = $m->locationName;
-        }
+        my $target_shape   = $service_ir->shape($m->shape);
+        my $shape_flatten  = $target_shape && $target_shape->is_list && $target_shape->flattened ? 1 : 0;
+        my $member_flatten = $m->flattened ? 1 : 0;
 
-        # ParamInBody for the payload.
-        if (defined $shape->payload && $shape->payload eq $mname) {
-            push @traits, 'ParamInBody';
-        }
-
-        my %attr = (
-            is  => 'ro',
-            isa => $isa,
-            (@traits ? (traits => \@traits) : ()),
-            %extra,
-            ($required{$mname} ? (required => 1) : ()),
+        my %record = (
+            name          => $mname,
+            type          => $type_string,
+            wire_key      => $mname,
+            location      => 'body',
+            location_name => undef,
+            traits        => {},
+            is_list       => ($type_string =~ /^ArrayRef\[/  ? 1 : 0),
+            is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
+            flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
         );
 
-        $meta->add_attribute($mname => %attr);
+        if (defined(my $loc = $m->location)) {
+            if ($loc eq 'header') {
+                $record{traits}{ParamInHeader} = 1;
+                $record{location} = 'header';
+                $record{location_name} = $m->locationName;
+            } elsif ($loc eq 'headers') {
+                $record{traits}{ParamInHeaders} = 1;
+                $record{location} = 'headers';
+                $record{location_name} = $m->locationName;
+            } elsif ($loc eq 'querystring') {
+                $record{traits}{ParamInQuery} = 1;
+                $record{location} = 'querystring';
+                $record{location_name} = $m->locationName;
+            } elsif ($loc eq 'uri') {
+                $record{traits}{ParamInURI} = 1;
+                $record{location} = 'uri';
+                $record{location_name} = $m->locationName;
+            }
+        } elsif (defined $m->locationName && $m->locationName ne $mname) {
+            $record{traits}{NameInRequest} = 1;
+            $record{location_name} = $m->locationName;
+            $record{wire_key}      = $m->locationName;
+        }
+
+        if (defined $shape->payload && $shape->payload eq $mname) {
+            $record{traits}{ParamInBody} = 1;
+        }
+
+        push @$serdes_records, \%record;
+
+        my $required_part = $required{$mname} ? ', required => 1' : '';
+        push @$attr_lines,
+            "        has $mname => (is => 'ro', isa => $type_expr$required_part);";
+
+        my $target = $service_ir->shape($m->shape);
+        if ($target && $target->is_structure) {
+            $self->_materialise_shape_class($service_ir, $m->shape);
+        }
+        if ($target && $target->is_list) {
+            my $inner = $service_ir->shape($target->list_member_shape);
+            if ($inner && $inner->is_structure) {
+                $self->_materialise_shape_class($service_ir, $target->list_member_shape);
+            }
+        }
+        if ($target && $target->is_map) {
+            my $inner = $service_ir->shape($target->map_value_shape);
+            if ($inner && $inner->is_structure) {
+                $self->_materialise_shape_class($service_ir, $target->map_value_shape);
+            }
+        }
     }
+
+    return;
 }
 
-# Compute the Moose isa-string for a member's target shape. Side
-# effect: materialise any nested structure shape that becomes a
-# class.
-sub _isa_for_member {
-    my ($self, $service_ir, $member) = @_;
-    return $self->_isa_for_shape($service_ir, $member->shape);
-}
-
-sub _isa_for_shape {
+# Returns a Type::Tiny expression that will be eval'd inside the
+# materialised package. Names like Str, Int come from
+# `use Types::Standard ...` at the top of the eval'd source.
+sub _type_expr {
     my ($self, $service_ir, $shape_name) = @_;
 
     my $shape = $service_ir->shape($shape_name)
-        // croak "isa: shape $shape_name missing";
+        // croak "type expr: shape $shape_name missing";
 
-    if (my $prim = $PRIMITIVE_TO_ISA{ $shape->type }) {
+    if (my $prim = $PRIMITIVE_TO_TYPE_EXPR{ $shape->type }) {
         return $prim;
     }
 
     if ($shape->is_structure) {
         $self->_materialise_shape_class($service_ir, $shape_name);
-        return 'Paws::' . $service_ir->name . '::' . $shape_name;
+        my $pkg = 'Paws::' . $service_ir->name . '::' . $shape_name;
+        return "InstanceOf['" . _esc($pkg) . "']";
     }
 
     if ($shape->is_list) {
-        my $inner = $self->_isa_for_shape($service_ir, $shape->list_member_shape);
+        my $inner = $self->_type_expr($service_ir, $shape->list_member_shape);
         return "ArrayRef[$inner]";
     }
 
     if ($shape->is_map) {
-        my $inner = $self->_isa_for_shape($service_ir, $shape->map_value_shape);
+        my $inner = $self->_type_expr($service_ir, $shape->map_value_shape);
         return "HashRef[$inner]";
     }
 
-    croak "isa: don't know how to map shape=$shape_name type=" . $shape->type;
+    croak "type expr: don't know how to map shape=$shape_name type=" . $shape->type;
 }
 
-__PACKAGE__->meta->make_immutable;
+# Returns the string form of the type, used for Paws::SerDes records
+# (the wire layer compares against these strings: 'Str', 'Int',
+# 'ArrayRef[X]', etc.).
+sub _type_string {
+    my ($self, $service_ir, $shape_name) = @_;
+
+    my $shape = $service_ir->shape($shape_name)
+        // croak "type string: shape $shape_name missing";
+
+    if (my $prim = $PRIMITIVE_TO_TYPE_EXPR{ $shape->type }) {
+        return $prim;
+    }
+    if ($shape->is_structure) {
+        return 'Paws::' . $service_ir->name . '::' . $shape_name;
+    }
+    if ($shape->is_list) {
+        return 'ArrayRef[' . $self->_type_string($service_ir, $shape->list_member_shape) . ']';
+    }
+    if ($shape->is_map) {
+        return 'HashRef[' . $self->_type_string($service_ir, $shape->map_value_shape) . ']';
+    }
+    croak "type string: unknown shape=$shape_name type=" . $shape->type;
+}
+
+sub _q   { defined $_[0] ? "'" . _esc($_[0]) . "'" : 'undef' }
+sub _esc { my $s = $_[0] // ''; $s =~ s/(['\\])/\\$1/g; $s }
+
 1;
 
 __END__
@@ -406,7 +496,7 @@ t/model/fixtures/tinyservice through the wire layer.
 What's deferred to follow-up commits on this same PR:
 
   - Sereal-backed IR cache (Paws::Model::Materializer::Cache); first-touch
-    cost is bounded by the JSON parse + Moose construction.
+    cost is bounded by the JSON parse + Moo construction.
   - Per-shape lazy materialisation (today: eager when the service
     materialises). Eager is correct and easy to reason about; lazy
     will improve cold-start once benchmarks show it matters.

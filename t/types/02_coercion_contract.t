@@ -36,15 +36,13 @@ use URL::Encode qw(url_encode);
 # `method => '[% encoder.alias %]'`.
 
 package Paws::Test::Base64 {
-    use Moose;
+    use Moo;
+    use Types::Standard qw(Str);
     use Paws::API::Base64Attribute;
 
     has Body => (
         is     => 'ro',
-        isa    => 'Str',
-        traits => ['Base64Attribute'],
-        method => 'Body',
-        decode_as => 'Base64',
+        isa    => Str,
     );
 }
 
@@ -66,15 +64,13 @@ subtest 'Base64Attribute is consistent across calls' => sub {
 # --- JSONAttribute (JSON) ----------------------------------------------
 
 package Paws::Test::Json {
-    use Moose;
+    use Moo;
+    use Types::Standard qw(Str);
     use Paws::API::JSONAttribute;
 
     has Payload => (
         is     => 'ro',
-        isa    => 'Str',
-        traits => ['JSONAttribute'],
-        method => 'PayloadDecoded',
-        decode_as => 'JSON',
+        isa    => Str,
     );
 }
 
@@ -95,15 +91,13 @@ subtest 'JSONAttribute throws on invalid JSON' => sub {
 # --- JSONAttribute (URLJSON) -------------------------------------------
 
 package Paws::Test::UrlJson {
-    use Moose;
+    use Moo;
+    use Types::Standard qw(Str);
     use Paws::API::JSONAttribute;
 
     has Payload => (
         is     => 'ro',
-        isa    => 'Str',
-        traits => ['JSONAttribute'],
-        method => 'PayloadDecoded',
-        decode_as => 'URLJSON',
+        isa    => Str,
     );
 }
 
@@ -120,15 +114,13 @@ subtest 'JSONAttribute(URLJSON) url-decodes then JSON-decodes' => sub {
 subtest 'Unrecognized decode_as value is rejected' => sub {
     dies_ok {
         package Paws::Test::Bogus;
-        Moose->import;
+        Moo->import;
         eval q{
+            use Types::Standard qw(Str);
             use Paws::API::JSONAttribute;
             has X => (
                 is     => 'ro',
-                isa    => 'Str',
-                traits => ['JSONAttribute'],
-                method => 'XDec',
-                decode_as => 'NotARealEncoding',
+                isa    => Str,
             );
             __PACKAGE__->new(X => '"x"')->XDec;
         };

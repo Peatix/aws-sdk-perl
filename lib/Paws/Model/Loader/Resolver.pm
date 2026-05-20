@@ -32,7 +32,8 @@ use File::Spec;
 use Paws::Model::IR;
 use Paws::Model::Loader::Smithy;
 
-use Moose;
+use Moo;
+use Types::Standard qw(Str ArrayRef);
 
 # Forward-declare so the package-scoped hashes are visible to
 # load_service / _paws_to_smithy below; the actual entries are
@@ -71,7 +72,7 @@ sub _share_dir {
 # tree even when an installed Paws happens to be earlier in @INC.
 has smithy_search_paths => (
     is      => 'ro',
-    isa     => 'ArrayRef[Str]',
+    isa     => ArrayRef[Str],
     lazy    => 1,
     default => sub {
         my @paths;
@@ -568,7 +569,6 @@ sub _sdkid_to_paws_name {
     return undef;
 }
 
-__PACKAGE__->meta->make_immutable;
 1;
 
 __END__

@@ -27,36 +27,32 @@ use Test::More;
 use Test::Exception;
 
 package Paws::Test::Types {
-    use Moose;
-    has Str       => (is => 'ro', isa => 'Str');
-    has StrUndef  => (is => 'ro', isa => 'Str|Undef');
-    has Integer   => (is => 'ro', isa => 'Int');
-    has Number    => (is => 'ro', isa => 'Num');
-    has Boolean   => (is => 'ro', isa => 'Bool');
-    has ArrayStr  => (is => 'ro', isa => 'ArrayRef[Str]');
-    has ArrayInt  => (is => 'ro', isa => 'ArrayRef[Int]');
-    has Map       => (is => 'ro', isa => 'HashRef[Str]');
-    has MaybeStr  => (is => 'ro', isa => 'Maybe[Str]');
-    has Required  => (is => 'ro', isa => 'Str', required => 1);
-    has Default   => (is => 'ro', isa => 'Str', default => 'fallback');
+    use Moo;
+    use Types::Standard qw(Str Int Num Bool ArrayRef HashRef Maybe Undef);
+    has Str       => (is => 'ro', isa => Str);
+    has StrUndef  => (is => 'ro', isa => Str | Undef);
+    has Integer   => (is => 'ro', isa => Int);
+    has Number    => (is => 'ro', isa => Num);
+    has Boolean   => (is => 'ro', isa => Bool);
+    has ArrayStr  => (is => 'ro', isa => ArrayRef[Str]);
+    has ArrayInt  => (is => 'ro', isa => ArrayRef[Int]);
+    has Map       => (is => 'ro', isa => HashRef[Str]);
+    has MaybeStr  => (is => 'ro', isa => Maybe[Str]);
+    has Required  => (is => 'ro', isa => Str, required => 1);
+    has Default   => (is => 'ro', isa => Str, default => 'fallback');
 }
 
 package Paws::Test::Inner {
-    use Moose;
-    has value => (is => 'ro', isa => 'Str');
-    __PACKAGE__->meta->make_immutable;
+    use Moo;
+    use Types::Standard qw(Str);
+    has value => (is => 'ro', isa => Str);
 }
 
-# Register Paws::Test::Inner as a class type so Moose doesn't emit
-# "is this a class or a type?" diagnostics from the next class's
-# `isa => 'Paws::Test::Inner'`.
-Moose::Util::TypeConstraints::class_type('Paws::Test::Inner');
-
 package Paws::Test::Outer {
-    use Moose;
-    has inner => (is => 'ro', isa => 'Paws::Test::Inner');
-    has list  => (is => 'ro', isa => 'ArrayRef[Paws::Test::Inner]');
-    __PACKAGE__->meta->make_immutable;
+    use Moo;
+    use Types::Standard qw(ArrayRef InstanceOf);
+    has inner => (is => 'ro', isa => InstanceOf['Paws::Test::Inner']);
+    has list  => (is => 'ro', isa => ArrayRef[InstanceOf['Paws::Test::Inner']]);
 }
 
 package main;
