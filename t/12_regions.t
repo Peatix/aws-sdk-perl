@@ -296,6 +296,25 @@ $known_regions->{ 'ap-southeast-1' }->{ sts } = 'sts.ap-southeast-1.amazonaws.co
 $known_regions->{ 'ap-southeast-2' }->{ sts } = 'sts.ap-southeast-2.amazonaws.com';
 $known_regions->{ 'ap-northeast-1' }->{ sts } = 'sts.ap-northeast-1.amazonaws.com';
 $known_regions->{ 'sa-east-1' }->{ sts }      = 'sts.sa-east-1.amazonaws.com';
+# S3 uses dot-separated format (s3.region) in current endpoint rules
+$known_regions->{ 'us-west-1' }->{ s3 }        = 's3.us-west-1.amazonaws.com';
+$known_regions->{ 'us-west-2' }->{ s3 }        = 's3.us-west-2.amazonaws.com';
+$known_regions->{ 'eu-west-1' }->{ s3 }        = 's3.eu-west-1.amazonaws.com';
+$known_regions->{ 'ap-northeast-1' }->{ s3 }   = 's3.ap-northeast-1.amazonaws.com';
+$known_regions->{ 'ap-southeast-1' }->{ s3 }   = 's3.ap-southeast-1.amazonaws.com';
+$known_regions->{ 'ap-southeast-2' }->{ s3 }   = 's3.ap-southeast-2.amazonaws.com';
+$known_regions->{ 'sa-east-1' }->{ s3 }        = 's3.sa-east-1.amazonaws.com';
+$known_regions->{ 'us-gov-west-1' }->{ s3 }    = 's3.us-gov-west-1.amazonaws.com';
+$known_regions->{ 'fips-us-gov-west-1' }->{ s3 } = 's3.fips-us-gov-west-1.amazonaws.com';
+# EMR uses standard service.region format in current endpoint rules
+$known_regions->{ 'us-west-1' }->{ elasticmapreduce }        = 'elasticmapreduce.us-west-1.amazonaws.com';
+$known_regions->{ 'us-west-2' }->{ elasticmapreduce }        = 'elasticmapreduce.us-west-2.amazonaws.com';
+$known_regions->{ 'eu-west-1' }->{ elasticmapreduce }        = 'elasticmapreduce.eu-west-1.amazonaws.com';
+$known_regions->{ 'ap-northeast-1' }->{ elasticmapreduce }   = 'elasticmapreduce.ap-northeast-1.amazonaws.com';
+$known_regions->{ 'ap-southeast-1' }->{ elasticmapreduce }   = 'elasticmapreduce.ap-southeast-1.amazonaws.com';
+$known_regions->{ 'ap-southeast-2' }->{ elasticmapreduce }   = 'elasticmapreduce.ap-southeast-2.amazonaws.com';
+$known_regions->{ 'sa-east-1' }->{ elasticmapreduce }        = 'elasticmapreduce.sa-east-1.amazonaws.com';
+$known_regions->{ 'us-gov-west-1' }->{ elasticmapreduce }    = 'elasticmapreduce.us-gov-west-1.amazonaws.com';
 #Signin service is Paws only
 $known_regions->{ '[UNDEF]' }->{ signin }     = 'signin.aws.amazon.com';
 
