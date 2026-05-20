@@ -83,7 +83,42 @@ subtest 'previously-affected services resolve to valid regional endpoints' => su
     }
 };
 
-# ── Part 3: Verify compile script filters unresolvable variables ──
+# ── Part 3: Region substitution across multiple regions ───────────
+
+subtest 'region is substituted in endpoint URLs for affected services' => sub {
+    use Paws;
+    use Paws::Credential::Explicit;
+
+    my $paws = Paws->new(config => {
+        credentials => Paws::Credential::Explicit->new(
+            access_key => 'test', secret_key => 'test',
+        ),
+        caller => 'Paws::Net::Caller',
+    });
+
+    my %service_prefix = (
+        SESv2            => 'email',
+        CloudWatchEvents => 'events',
+        Kinesis          => 'kinesis',
+        S3Control        => 's3-outposts',
+    );
+
+    my @regions = qw(us-east-1 us-west-2 eu-west-1 ap-northeast-1);
+
+    for my $svc_name (sort keys %service_prefix) {
+        my $prefix = $service_prefix{$svc_name};
+        for my $region (@regions) {
+            my $svc  = $paws->service($svc_name, region => $region);
+            my $info = $svc->_construct_endpoint;
+            my $url  = $info->{url};
+
+            is($url, "https://$prefix.$region.amazonaws.com",
+                "$svc_name region=$region resolves with region substituted");
+        }
+    }
+};
+
+# ── Part 4: Verify compile script filters unresolvable variables ──
 
 subtest 'compile-endpoint-rules filters unresolvable template variables' => sub {
     my $script = "$repo_root/script/compile-endpoint-rules";
