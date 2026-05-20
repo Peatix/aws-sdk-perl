@@ -3401,6 +3401,9 @@
             },
             "localTimeZoneDetection" : {
                "target" : "com.amazonaws.connectcampaignsv2#LocalTimeZoneDetection"
+            },
+            "localTimeZoneDetectionScope" : {
+               "target" : "com.amazonaws.connectcampaignsv2#LocalTimeZoneDetectionScope"
             }
          },
          "traits" : {
@@ -3417,6 +3420,22 @@
             "smithy.api#uniqueItems" : {}
          },
          "type" : "list"
+      },
+      "com.amazonaws.connectcampaignsv2#LocalTimeZoneDetectionScope" : {
+         "traits" : {
+            "smithy.api#documentation" : "Local TimeZone Detection scope.",
+            "smithy.api#enum" : [
+               {
+                  "name" : "PRIMARY_ONLY",
+                  "value" : "PRIMARY_ONLY"
+               },
+               {
+                  "name" : "ALL_AVAILABLE",
+                  "value" : "ALL_AVAILABLE"
+               }
+            ]
+         },
+         "type" : "string"
       },
       "com.amazonaws.connectcampaignsv2#LocalTimeZoneDetectionType" : {
          "traits" : {
