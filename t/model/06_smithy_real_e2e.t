@@ -155,7 +155,7 @@ subtest 'health.smithy.json: awsJson1_1' => sub {
         my $svc_obj = _new_service($pkg);
 
         my $req = $svc_obj->DescribeAffectedAccountsForOrganization(
-            eventArn => 'arn:aws:health:us-east-1::event/AWS_EBS_VOLUME_LOST',
+            EventArn => 'arn:aws:health:us-east-1::event/AWS_EBS_VOLUME_LOST',
         );
         isa_ok $req, 'Paws::Net::APIRequest', 'request prepared';
         is $req->method, 'POST', 'POST';
@@ -190,10 +190,10 @@ subtest 'health.smithy.json: awsJson1_1' => sub {
         my $result = $svc_obj->response_to_object->process($op_pkg, $resp);
         isa_ok $result,
             'Paws::SmithyE2EHealth::DescribeAffectedAccountsForOrganizationResponse';
-        is_deeply [ sort @{ $result->affectedAccounts } ],
+        is_deeply [ sort @{ $result->AffectedAccounts } ],
             [ '123456789012', '210987654321' ],
-            'affectedAccounts list decoded';
-        is $result->nextToken, 'abc', 'nextToken decoded';
+            'AffectedAccounts list decoded';
+        is $result->NextToken, 'abc', 'NextToken decoded';
     };
 };
 
