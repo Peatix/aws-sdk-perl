@@ -1,5 +1,6 @@
 package Paws::Net::InterceptorContext;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int Bool Num HashRef);
 
   has service => (
     is       => 'ro',
@@ -21,19 +22,19 @@ package Paws::Net::InterceptorContext;
 
   has attempt => (
     is      => 'rw',
-    isa     => 'Int',
+    isa     => Int,
     default => 0,
   );
 
   has should_retry => (
     is      => 'rw',
-    isa     => 'Bool',
+    isa     => Bool,
     default => 0,
   );
 
   has retry_delay => (
     is      => 'rw',
-    isa     => 'Num',
+    isa     => Num,
     default => 0,
   );
 
@@ -41,7 +42,7 @@ package Paws::Net::InterceptorContext;
   # hook invocations without polluting the context namespace.
   has stash => (
     is      => 'rw',
-    isa     => 'HashRef',
+    isa     => HashRef,
     default => sub { {} },
   );
 
@@ -53,5 +54,4 @@ package Paws::Net::InterceptorContext;
     return 0;
   }
 
-  __PACKAGE__->meta->make_immutable;
 1;

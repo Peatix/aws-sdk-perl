@@ -19,6 +19,7 @@ use TestFromYaml;
 
 use Paws;
 use Paws::Crawler;
+use Paws::SerDes;
 
 my $debug = $ENV{DEBUG_TESTS} || 0;
 my $aws = Paws->new(config => { credentials => 'Test::CustomCredentials' });
@@ -89,35 +90,46 @@ sub _stub_type_name {
   return $name;
 }
 
+sub _stub_type_name_str {
+  my ($type_str) = @_;
+  return '' if !defined $type_str;
+  $type_str =~ s/InstanceOf\[\s*['"]?([^'"\]]+)['"]?\s*\]/$1/g;
+  return $type_str;
+}
+
 sub get_stub_call_args {
   my $call_class = shift;
 
   Paws->load_class($call_class);
   my %args = ();
 
-  foreach my $attribute ($call_class->meta->get_all_attributes) {
-    next if (not $attribute->is_required);
-    next if (not $attribute->has_type_constraint);
+  my $serdes = Paws::SerDes->for($call_class);
+  for my $att_name ($serdes->all_attribute_names) {
+    my $rec = $serdes->attributes->{$att_name};
+    next if (not $rec->{is_required});
 
-    my $att_type = _stub_type_name($attribute->type_constraint);
+    my $att_type = $rec->{type};
+    next if (!$att_type);
+
+    $att_type = _stub_type_name_str($att_type);
     if ($att_type =~ m/ArrayRef\[(.*)\]/){
       my $inner_class = $1;
       if (is_native($inner_class)){
-        $args{ $attribute->name } = [ get_value_for_type($inner_class) ];
+        $args{ $att_name } = [ get_value_for_type($inner_class) ];
       } else {
-        $args{ $attribute->name } = [ get_stub_call_args($inner_class) ];
+        $args{ $att_name } = [ get_stub_call_args($inner_class) ];
       }          
     } elsif ($att_type =~ m/HashRef\[(.*)\]/){
       my $inner_class = $1;
       if (is_native($inner_class)){
-        $args{ $attribute->name } = { 'k1' => get_value_for_type($inner_class) };
+        $args{ $att_name } = { 'k1' => get_value_for_type($inner_class) };
       } else {
-        $args{ $attribute->name } = { 'k1' => get_stub_call_args($inner_class) };
+        $args{ $att_name } = { 'k1' => get_stub_call_args($inner_class) };
       }          
     } elsif (is_native($att_type)){
-      $args{ $attribute->name } = get_value_for_type($att_type);
+      $args{ $att_name } = get_value_for_type($att_type);
     } else {
-      $args{ $attribute->name } = get_stub_call_args($att_type);
+      $args{ $att_name } = get_stub_call_args($att_type);
     }
   }
 
@@ -142,7 +154,7 @@ sub test_file {
     );
 
     my $call_method = $test->method;
-    my $call_class = $service->meta->name . '::' . $call_method;
+    my $call_class = ref($service) . '::' . $call_method;
     my $call_object = get_stub_call_args($call_class);
 
     my $res;

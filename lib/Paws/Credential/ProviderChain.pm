@@ -2,11 +2,13 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential::ProviderChain;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(ArrayRef Str);
+  use Scalar::Util qw(blessed);
 
   has providers => (
     is => 'ro', 
-    isa => 'ArrayRef[Str]', 
+    isa => ArrayRef[Str], 
     default => sub {
       [ 'Paws::Credential::Environment', 
         'Paws::Credential::File', 
@@ -19,7 +21,7 @@ package Paws::Credential::ProviderChain;
 
   has selected_provider => (
     is => 'rw',
-    does => 'Paws::Credential',
+    isa => sub { die "does not do Paws::Credential" unless Scalar::Util::blessed($_[0]) && $_[0]->does('Paws::Credential') },
     handles => [ 'refresh' ],
   );
 

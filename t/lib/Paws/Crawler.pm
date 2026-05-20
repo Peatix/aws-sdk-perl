@@ -3,7 +3,7 @@
 
 package Paws::Crawler;
 
-use Moose;
+use Moo;
 use Scalar::Util 'blessed';
 use JSON::MaybeXS;
 use URI::Escape qw(uri_unescape);

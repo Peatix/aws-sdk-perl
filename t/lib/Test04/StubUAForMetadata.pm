@@ -1,10 +1,15 @@
 package Test04::StubUAForMetadata;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int Bool);
 
-  has calls => (is => 'rw', isa => 'Int', default => 0, traits => ['Counter'],
-                handles => { increment_calls => 'inc' });
+  has calls => (is => 'rw', isa => Int, default => 0);
 
-  has check_headers => (is => 'ro', isa => 'Bool', default => 0);
+  sub increment_calls {
+    my ($self) = @_;
+    $self->calls($self->calls + 1);
+  }
+
+  has check_headers => (is => 'ro', isa => Bool, default => 0);
   use DateTime::Format::ISO8601;
 
   sub get {

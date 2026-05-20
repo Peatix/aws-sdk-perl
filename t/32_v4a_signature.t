@@ -153,18 +153,18 @@ subtest 'sign() emits a verifiable Authorization header' => sub {
   # endpoint-resolver dependencies sign() reaches for, so we can
   # exercise the full role rather than just the helpers.
   package Paws::Net::V4ASignature::TestService;
-    use Moose;
+    use Moo;
+    use Types::Standard qw(Str Object);
     use URI;
-    has region   => (is => 'ro', isa => 'Str',    default => sub { 'us-east-1' });
-    has endpoint => (is => 'ro', isa => 'Object', lazy => 1, default => sub {
+    has region   => (is => 'ro', isa => Str,    default => sub { 'us-east-1' });
+    has endpoint => (is => 'ro', isa => Object, lazy => 1, default => sub {
       URI->new('https://example.amazonaws.com/')
     });
     sub _region_for_signature { 'us-east-1' }
     sub service               { 'service' }
     sub signing_name          { 'service' }
-    has credentials => (is => 'ro', isa => 'Object');
+    has credentials => (is => 'ro', isa => Object);
     with 'Paws::Net::V4ASignature';
-    no Moose;
 
   package Paws::Net::V4ASignature::TestCreds;
     sub new { my ($c, %a) = @_; bless { %a }, $c }

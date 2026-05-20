@@ -7,22 +7,24 @@ use File::Temp qw(tempfile);
 
 BEGIN {
   package MockS3::Response;
-  use Moose;
-  has ETag           => (is => 'ro', isa => 'Str', default => '"abc123"');
-  has UploadId       => (is => 'ro', isa => 'Str', default => 'upload-id-1');
-  has ContentLength  => (is => 'ro', isa => 'Int', default => 0);
-  has Body           => (is => 'ro', isa => 'Str', default => '');
-  has Location       => (is => 'ro', isa => 'Str', default => '');
-  has _request_id    => (is => 'ro', isa => 'Str', default => 'req-1');
+  use Moo;
+  use Types::Standard qw(Str Int);
+  has ETag           => (is => 'ro', isa => Str, default => '"abc123"');
+  has UploadId       => (is => 'ro', isa => Str, default => 'upload-id-1');
+  has ContentLength  => (is => 'ro', isa => Int, default => 0);
+  has Body           => (is => 'ro', isa => Str, default => '');
+  has Location       => (is => 'ro', isa => Str, default => '');
+  has _request_id    => (is => 'ro', isa => Str, default => 'req-1');
 }
 
 {
   package MockS3Client;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(ArrayRef HashRef);
 
-  has calls => (is => 'rw', isa => 'ArrayRef', default => sub { [] });
-  has stored_parts => (is => 'rw', isa => 'HashRef', default => sub { {} });
-  has stored_objects => (is => 'rw', isa => 'HashRef', default => sub { {} });
+  has calls => (is => 'rw', isa => ArrayRef, default => sub { [] });
+  has stored_parts => (is => 'rw', isa => HashRef, default => sub { {} });
+  has stored_objects => (is => 'rw', isa => HashRef, default => sub { {} });
 
   sub _record {
     my ($self, $method, %args) = @_;
@@ -174,10 +176,11 @@ subtest 'progress callback is invoked' => sub {
 subtest 'abort on failure' => sub {
   {
     package FailingS3Client;
-    use Moose;
+    use Moo;
+    use Types::Standard qw(Int);
     extends 'MockS3Client';
 
-    has fail_on_part => (is => 'ro', isa => 'Int', default => 2);
+    has fail_on_part => (is => 'ro', isa => Int, default => 2);
 
     sub UploadPart {
       my ($self, %args) = @_;

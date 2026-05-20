@@ -12,49 +12,50 @@ use Paws::API::Paginator;
 
 {
   package MockResult;
-  use Moose;
-  has NextToken => (is => 'ro', isa => 'Maybe[Str]');
-  has Items     => (is => 'ro', isa => 'ArrayRef', default => sub { [] });
-  __PACKAGE__->meta->make_immutable;
+  use Moo;
+  use Types::Standard qw(Maybe Str ArrayRef);
+  has NextToken => (is => 'ro', isa => Maybe[Str]);
+  has Items     => (is => 'ro', isa => ArrayRef, default => sub { [] });
 }
 
 {
   package MockResultWithFlag;
-  use Moose;
-  has NextToken   => (is => 'ro', isa => 'Maybe[Str]');
-  has IsTruncated => (is => 'ro', isa => 'Bool', default => 0);
-  has Items       => (is => 'ro', isa => 'ArrayRef', default => sub { [] });
-  __PACKAGE__->meta->make_immutable;
+  use Moo;
+  use Types::Standard qw(Maybe Str Bool ArrayRef);
+  has NextToken   => (is => 'ro', isa => Maybe[Str]);
+  has IsTruncated => (is => 'ro', isa => Bool, default => 0);
+  has Items       => (is => 'ro', isa => ArrayRef, default => sub { [] });
 }
 
 {
   package MockS3Object;
-  use Moose;
-  has Key => (is => 'ro', isa => 'Str');
-  __PACKAGE__->meta->make_immutable;
+  use Moo;
+  use Types::Standard qw(Str);
+  has Key => (is => 'ro', isa => Str);
 }
 
 {
   package MockS3Result;
-  use Moose;
-  has NextMarker => (is => 'ro', isa => 'Maybe[Str]');
-  has Contents   => (is => 'ro', isa => 'Maybe[ArrayRef]');
-  __PACKAGE__->meta->make_immutable;
+  use Moo;
+  use Types::Standard qw(Maybe Str ArrayRef);
+  has NextMarker => (is => 'ro', isa => Maybe[Str]);
+  has Contents   => (is => 'ro', isa => Maybe[ArrayRef]);
 }
 
 {
   package MockService;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int ArrayRef);
 
-  has _responses => (is => 'ro', isa => 'ArrayRef', required => 1, init_arg => 'responses');
+  has _responses => (is => 'ro', isa => ArrayRef, required => 1, init_arg => 'responses');
   has _call_count => (
     is      => 'rw',
-    isa     => 'Int',
+    isa     => Int,
     default => 0,
-    traits  => ['Counter'],
-    handles => { _inc_call => 'inc' },
   );
-  has call_log => (is => 'ro', isa => 'ArrayRef', default => sub { [] });
+  has call_log => (is => 'ro', isa => ArrayRef, default => sub { [] });
+
+  sub _inc_call { $_[0]->_call_count($_[0]->_call_count + 1) }
 
   sub ListThings {
     my ($self, %args) = @_;
@@ -75,7 +76,6 @@ use Paws::API::Paginator;
   }
 
   sub call_count { $_[0]->_call_count }
-  __PACKAGE__->meta->make_immutable;
 }
 
 subtest 'single page - no next token' => sub {

@@ -3,7 +3,7 @@
 
 package Paws::Net::EC2Caller;
   use Paws;
-  use Moose::Role;
+  use Moo::Role;
   use HTTP::Request::Common;
   use POSIX qw(strftime); 
 

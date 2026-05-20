@@ -1,5 +1,5 @@
 package Paws::Net::Interceptor;
-  use Moose::Role;
+  use Moo::Role;
 
   # Called once before the first attempt. Receives and may modify the
   # InterceptorContext (e.g. to inspect or alter the request).

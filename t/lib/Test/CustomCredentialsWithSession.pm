@@ -4,7 +4,7 @@ package Test::CustomCredentialsWithSession;
 # token. Used by t/s3/signature.t to assert that V4-signed requests
 # pick up the `X-Amz-Security-Token` header.
 
-  use Moose;
+  use Moo;
   use Paws::Credential;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';

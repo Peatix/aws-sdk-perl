@@ -1,21 +1,22 @@
 package Test04::MockSTS::Credentials;
-  use Moose;
-  has AccessKeyId => (is => 'ro', isa => 'Str', required => 1);
-  has SecretAccessKey => (is => 'ro', isa => 'Str', required => 1);
-  has SessionToken => (is => 'ro', isa => 'Str', required => 1);
-  has Expiration => (is => 'ro', isa => 'Str', required => 1);
-  no Moose;
+  use Moo;
+  use Types::Standard qw(Str);
+  has AccessKeyId => (is => 'ro', isa => Str, required => 1);
+  has SecretAccessKey => (is => 'ro', isa => Str, required => 1);
+  has SessionToken => (is => 'ro', isa => Str, required => 1);
+  has Expiration => (is => 'ro', isa => Str, required => 1);
 
 package Test04::MockSTS::AssumeRoleWithWebIdentityResult;
-  use Moose;
-  has Credentials => (is => 'ro', isa => 'Test04::MockSTS::Credentials', required => 1);
-  no Moose;
+  use Moo;
+  use Types::Standard qw(InstanceOf);
+  has Credentials => (is => 'ro', isa => InstanceOf['Test04::MockSTS::Credentials'], required => 1);
 
 package Test04::MockSTS::WebIdentity;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int);
   use DateTime;
 
-  has call_count => (is => 'rw', isa => 'Int', default => 0);
+  has call_count => (is => 'rw', isa => Int, default => 0);
 
   sub AssumeRoleWithWebIdentity {
     my ($self, %args) = @_;
@@ -38,13 +39,12 @@ package Test04::MockSTS::WebIdentity;
     );
   }
 
-  no Moose;
-
 package Test04::MockSTS::WebIdentityExpiring;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Int);
   use DateTime;
 
-  has call_count => (is => 'rw', isa => 'Int', default => 0);
+  has call_count => (is => 'rw', isa => Int, default => 0);
 
   sub AssumeRoleWithWebIdentity {
     my ($self, %args) = @_;
@@ -63,5 +63,4 @@ package Test04::MockSTS::WebIdentityExpiring;
     );
   }
 
-  no Moose;
 1;

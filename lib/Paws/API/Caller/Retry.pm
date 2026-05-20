@@ -1,12 +1,16 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::API::Caller::Retry;
-  use Moose::Role;
+  use Moo::Role;
+  use Types::Standard qw(Int);
   
   requires 'do_call';
   
   has max_tries  => (is => 'ro', required => 1);
   has retry_type => (is => 'ro', required => 1);
   has retry_base    => (is => 'ro', required => 1);
-  has growth_factor => (is => 'ro', isa => 'Int', default => 2);
+  has growth_factor => (is => 'ro', isa => Int, default => 2);
 
   has tries => (is => 'rw', default => 1);
   

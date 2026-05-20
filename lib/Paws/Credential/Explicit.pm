@@ -2,19 +2,19 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential::Explicit;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Maybe);
   with 'Paws::Credential';
 
-  has access_key => (is => 'ro', isa => 'Str', required => 1);
-  has secret_key => (is => 'ro', isa => 'Str', required => 1);
-  has session_token => (is => 'ro', isa => 'Str|Undef');
+  has access_key => (is => 'ro', isa => Str, required => 1);
+  has secret_key => (is => 'ro', isa => Str, required => 1);
+  has session_token => (is => 'ro', isa => Maybe[Str]);
 
   sub refresh {
     my $self = shift;
     return $self;
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 
