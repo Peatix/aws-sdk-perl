@@ -350,6 +350,7 @@ sub _install_structure_members {
             location      => 'body',
             location_name => undef,
             traits        => {},
+            is_required   => ($required{$mname} ? 1 : 0),
             is_list       => ($type_string =~ /^ArrayRef\[/  ? 1 : 0),
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
             flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
