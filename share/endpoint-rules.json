@@ -1175,21 +1175,6 @@
          "uri" : "https://s3.amazonaws.com"
       },
       {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "cn-"
-            ]
-         ],
-         "properties" : {
-            "credentialScope" : {
-               "service" : "s3"
-            }
-         },
-         "uri" : "https://s3.{region}.amazonaws.com.cn"
-      },
-      {
          "properties" : {
             "credentialScope" : {
                "service" : "s3"
@@ -1293,7 +1278,7 @@
             [
                "region",
                "equals",
-               null
+               "ap-northeast-1"
             ]
          ],
          "properties" : {
@@ -1303,6 +1288,257 @@
             }
          },
          "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-south-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-southeast-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ap-southeast-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "aws-global"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "ca-central-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-central-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-north-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-west-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-west-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "eu-west-3"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "sa-east-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-east-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-west-1"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "equals",
+               "us-west-2"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "region" : "us-east-1",
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.amazonaws.com"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "sts"
+            }
+         },
+         "uri" : "https://sts.{region}.amazonaws.com"
+      },
+      {
+         "uri" : "https://sts.{region}.amazonaws.com"
       }
    ],
    "support" : [
