@@ -1,6 +1,10 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::MojoAsyncCaller;
-  use Moose;
+  use Moo;
   with 'Paws::Net::CallerRole';
+  use Types::Standard qw(InstanceOf);
   use Paws::Net::APIResponse;
 
   use Paws::API::Retry;
@@ -9,7 +13,7 @@ package Paws::Net::MojoAsyncCaller;
   use Future::Mojo;
   use Mojo::UserAgent;
 
-  has ua => (is => 'ro', isa => 'Mojo::UserAgent', default => sub {
+  has ua => (is => 'ro', isa => InstanceOf['Mojo::UserAgent'], default => sub {
     Mojo::UserAgent->new->connect_timeout(15)->inactivity_timeout(60);
   });
 

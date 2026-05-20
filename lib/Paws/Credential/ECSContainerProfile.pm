@@ -3,7 +3,8 @@
 
 package Paws::Credential::ECSContainerProfile;
   use JSON::MaybeXS;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Int Maybe InstanceOf);
   use DateTime::Format::ISO8601;
   use URI;
   use Paws::Credential::Explicit;
@@ -11,7 +12,7 @@ package Paws::Credential::ECSContainerProfile;
 
   has container_local_uri => (
     is => 'ro',
-    isa => 'Str|Undef',
+    isa => Maybe[Str],
     default => sub {
       $ENV{ AWS_CONTAINER_CREDENTIALS_RELATIVE_URI }
     }
@@ -19,7 +20,7 @@ package Paws::Credential::ECSContainerProfile;
 
   has container_full_uri => (
     is => 'ro',
-    isa => 'Str|Undef',
+    isa => Maybe[Str],
     default => sub {
       $ENV{ AWS_CONTAINER_CREDENTIALS_FULL_URI }
     }
@@ -27,7 +28,7 @@ package Paws::Credential::ECSContainerProfile;
 
   has authorization_token => (
     is => 'ro',
-    isa => 'Str|Undef',
+    isa => Maybe[Str],
     lazy => 1,
     default => sub {
       if (defined $ENV{ AWS_CONTAINER_AUTHORIZATION_TOKEN }) {
@@ -48,7 +49,7 @@ package Paws::Credential::ECSContainerProfile;
 
   has metadata_url => (
     is => 'ro',
-    isa => 'Str|Undef',
+    isa => Maybe[Str],
     lazy => 1,
     default => sub {
       my $self = shift;
@@ -68,7 +69,7 @@ package Paws::Credential::ECSContainerProfile;
     }
   );
 
-  has timeout => (is => 'ro', isa => 'Int', default => 1);
+  has timeout => (is => 'ro', isa => Int, default => 1);
 
   has ua => (
     is => 'ro',
@@ -83,11 +84,11 @@ package Paws::Credential::ECSContainerProfile;
     }
   );
 
-  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+  has credentials => (is => 'rw', isa => Maybe[InstanceOf['Paws::Credential::Explicit']]);
 
   has expiration => (
     is => 'rw',
-    isa => 'Int',
+    isa => Int,
     default => sub { 0 }
   );
 
@@ -156,7 +157,6 @@ package Paws::Credential::ECSContainerProfile;
     return $self->credentials;
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 

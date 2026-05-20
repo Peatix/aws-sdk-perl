@@ -1,5 +1,8 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 package Paws::Net::Caller;
-  use Moose;
+  use Moo;
   with 'Paws::Net::RetryCallerRole', 'Paws::Net::CallerRole';
   use Paws::Net::APIResponse;
 

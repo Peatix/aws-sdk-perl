@@ -19,36 +19,33 @@ use Test::More;
 use Test::Exception;
 
 package Paws::Test::Edge {
-    use Moose;
-    has S        => (is => 'ro', isa => 'Str');
-    has SU       => (is => 'ro', isa => 'Str|Undef');
-    has Maybe    => (is => 'ro', isa => 'Maybe[Str]');
-    has Predicate => (is => 'ro', isa => 'Str', predicate => 'has_predicate');
-    has List     => (is => 'ro', isa => 'ArrayRef[Str]');
+    use Moo;
+    use Types::Standard ();
+    has S        => (is => 'ro', isa => Types::Standard::Str);
+    has SU       => (is => 'ro', isa => Types::Standard::Str | Types::Standard::Undef);
+    has Maybe    => (is => 'ro', isa => Types::Standard::Maybe[Types::Standard::Str]);
+    has Predicate => (is => 'ro', isa => Types::Standard::Str, predicate => 'has_predicate');
+    has List     => (is => 'ro', isa => Types::Standard::ArrayRef[Types::Standard::Str]);
 }
 
 package Paws::Test::Inner {
-    use Moose;
-    has Name  => (is => 'ro', isa => 'Str');
-    has Value => (is => 'ro', isa => 'Int');
-    __PACKAGE__->meta->make_immutable;
+    use Moo;
+    use Types::Standard qw(Str Int);
+    has Name  => (is => 'ro', isa => Str);
+    has Value => (is => 'ro', isa => Int);
 }
-
-Moose::Util::TypeConstraints::class_type('Paws::Test::Inner');
 
 package Paws::Test::Mid {
-    use Moose;
-    has Inners => (is => 'ro', isa => 'ArrayRef[Paws::Test::Inner]');
-    has Solo   => (is => 'ro', isa => 'Paws::Test::Inner');
-    __PACKAGE__->meta->make_immutable;
+    use Moo;
+    use Types::Standard qw(ArrayRef InstanceOf);
+    has Inners => (is => 'ro', isa => ArrayRef[InstanceOf['Paws::Test::Inner']]);
+    has Solo   => (is => 'ro', isa => InstanceOf['Paws::Test::Inner']);
 }
 
-Moose::Util::TypeConstraints::class_type('Paws::Test::Mid');
-
 package Paws::Test::Outer {
-    use Moose;
-    has Mid => (is => 'ro', isa => 'Paws::Test::Mid');
-    __PACKAGE__->meta->make_immutable;
+    use Moo;
+    use Types::Standard qw(InstanceOf);
+    has Mid => (is => 'ro', isa => InstanceOf['Paws::Test::Mid']);
 }
 
 package main;

@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::ResponseRole;
-  use Moose::Role;
+  use Moo::Role;
 
 
   sub response_to_object {

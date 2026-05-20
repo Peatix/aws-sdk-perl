@@ -2,7 +2,8 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential::File;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(HashRef Maybe InstanceOf);
   use Config::AWS qw/read_file/;
   use File::HomeDir;
   use JSON::MaybeXS qw/decode_json/;
@@ -27,7 +28,7 @@ package Paws::Credential::File;
     return (File::HomeDir->my_home || '') . '/.aws/';
   });
 
-  has _ini_contents => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
+  has _ini_contents => (is => 'ro', isa => HashRef, lazy => 1, default => sub {
     my $self = shift;
     my $ini_file = $self->credentials_file;
     return {} if (not -e $ini_file);
@@ -35,14 +36,14 @@ package Paws::Credential::File;
     return $ini;
   });
 
-  has _profile => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
+  has _profile => (is => 'ro', isa => HashRef, lazy => 1, default => sub {
     my $self = shift;
 
     my $profile = $self->profile;
     return $self->_ini_contents->{ $profile } || {};
   });
 
-  has credential_process => (is => 'ro', isa => 'Paws::Credential::CredProcess|Undef', lazy => 1, default => sub {
+  has credential_process => (is => 'ro', isa => Maybe[InstanceOf['Paws::Credential::CredProcess']], lazy => 1, default => sub {
     my $self = shift;
 
     my $process = $self->_profile->{ credential_process };
@@ -72,7 +73,6 @@ package Paws::Credential::File;
     );
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 

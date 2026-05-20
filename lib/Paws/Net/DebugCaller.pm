@@ -35,7 +35,9 @@ package Paws::Net::DebugCaller;
   #   - On retry, send_request is invoked once per attempt and the YAML
   #     is overwritten each time; the file reflects the LAST attempt.
 
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Maybe Str Int ArrayRef);
+  use Scalar::Util;
   use Carp qw(croak);
   use Encode ();
   use MIME::Base64 qw(encode_base64);
@@ -49,7 +51,7 @@ package Paws::Net::DebugCaller;
 
   has wrapped => (
     is       => 'ro',
-    does     => 'Paws::Net::CallerRole',
+    isa      => sub { die "does not Paws::Net::CallerRole" unless Scalar::Util::blessed($_[0]) && $_[0]->does('Paws::Net::CallerRole') },
     required => 1,
   );
 
@@ -63,7 +65,7 @@ package Paws::Net::DebugCaller;
   # call time so a late-set env var still wins.
   has capture_path => (
     is      => 'ro',
-    isa     => 'Maybe[Str]',
+    isa     => Maybe[Str],
     lazy    => 1,
     default => sub { $ENV{PAWS_DEBUG_CAPTURE_PATH} },
   );
@@ -74,7 +76,7 @@ package Paws::Net::DebugCaller;
   # "enough to see the wire shape" and "the YAML stays readable".
   has body_byte_limit => (
     is      => 'ro',
-    isa     => 'Int',
+    isa     => Int,
     default => 1024,
   );
 
@@ -86,7 +88,7 @@ package Paws::Net::DebugCaller;
   # from AWS.
   has redacted_request_headers => (
     is      => 'ro',
-    isa     => 'ArrayRef[Str]',
+    isa     => ArrayRef[Str],
     default => sub { [ 'Authorization' ] },
   );
 
@@ -314,8 +316,6 @@ package Paws::Net::DebugCaller;
     return;
   }
 
-  no Moose;
-  __PACKAGE__->meta->make_immutable;
 1;
 
 =head1 NAME

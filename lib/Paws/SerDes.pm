@@ -40,13 +40,12 @@ use v5.10;
 use Carp qw(croak);
 use Scalar::Util qw(blessed);
 
-use Moose;
+use Moo;
+use Types::Standard qw(ArrayRef Bool HashRef Str);
 
-# Attribute records keyed by attribute name (excluding underscore-
-# prefixed internal attributes).
 has attributes => (
     is      => 'ro',
-    isa     => 'HashRef[HashRef]',
+    isa     => HashRef[HashRef],
     default => sub { {} },
 );
 
@@ -54,17 +53,17 @@ has attributes => (
 # wire layer doesn't have to re-sort per request.
 has serializable_names => (
     is      => 'ro',
-    isa     => 'ArrayRef[Str]',
+    isa     => ArrayRef[Str],
     default => sub { [] },
 );
 
 # Optional flags lifted from class-level roles, used by the wire layer
 # to short-circuit map handling (Paws::API::StrTo{Native,Obj}MapParser).
-has is_str_to_native_map => (is => 'ro', isa => 'Bool', default => 0);
-has is_str_to_obj_map    => (is => 'ro', isa => 'Bool', default => 0);
+has is_str_to_native_map => (is => 'ro', isa => Bool, default => 0);
+has is_str_to_obj_map    => (is => 'ro', isa => Bool, default => 0);
 
-# Original Moose class name, kept for diagnostics and as the cache key.
-has class => (is => 'ro', isa => 'Str', required => 1);
+# Original class name, kept for diagnostics and as the cache key.
+has class => (is => 'ro', isa => Str, required => 1);
 
 # Process-wide cache. Class -> Paws::SerDes instance.
 my %CACHE;
@@ -129,91 +128,46 @@ sub register {
     return $CACHE{$class};
 }
 
-# Build the SerDes for a Moose class by introspecting its meta-class.
+# Build the SerDes for a Moo class by introspecting its constructor maker.
 #
-# This is the *fallback* path that mirrors what the wire layer does
-# today on every request. The point of the side-table is to amortise
-# the cost: build once, read many.
-#
-# In a follow-up commit, Paws::Model::Materializer will install side-tables
-# directly via Paws::SerDes->register($class => \%data), avoiding the
-# meta-class round-trip entirely.
+# This is the *fallback* path for classes that haven't called
+# Paws::SerDes->register(). Under Moo, we access attribute specs via
+# Moo's internal constructor maker rather than Moose meta.
 sub _build_from_meta {
     my ($invocant, $class) = @_;
 
-    croak "Paws::SerDes->for: $class has no meta() (not a Moose class?)"
-        if !$class->can('meta');
+    my $con = Moo->_constructor_maker_for($class);
+    croak "Paws::SerDes->for: $class is not a Moo class" unless $con;
 
-    my $meta = $class->meta;
-
+    my %specs = %{ $con->all_attribute_specs };
     my %attrs;
     my @public;
-    for my $name (sort $meta->get_attribute_list) {
-        my $attr = $meta->get_attribute($name);
-        # Underscore-prefixed attributes (e.g. _request_id) live in
-        # the side-table so the response decoder can look them up by
-        # name, but they're excluded from `serializable_names` so the
-        # request-side wire layer doesn't try to serialise them.
+    for my $name (sort keys %specs) {
+        my $spec = $specs{$name};
         push @public, $name if $name !~ /^_/;
-        my $type = $attr->type_constraint;
-        my $type_name = defined $type ? $type->name : '';
+        my $type_obj = $spec->{isa};
+        my $type_name = defined $type_obj ? "$type_obj" : '';
 
         my %record = (
-            name           => $name,
-            type           => $type_name,
-            type_object    => $type,    # for the few callers that need
-                                        # ->isa('Moose::Meta::TypeConstraint::Enum')
-            is_list        => ($type_name =~ m/^ArrayRef\[/ ? 1 : 0),
-            is_map         => ($type_name =~ m/^HashRef\[/ ? 1 : 0),
-            is_required    => ($attr->is_required ? 1 : 0),
-            wire_key       => $name,    # default; overridden below
-            location       => 'body',   # default; overridden below
-            location_name  => undef,
-            traits         => {},
+            name        => $name,
+            type        => $type_name,
+            type_object => $type_obj,
+            is_list     => ($type_name =~ m/^ArrayRef\[/ ? 1 : 0),
+            is_map      => ($type_name =~ m/^HashRef\[/ ? 1 : 0),
+            is_required => ($spec->{required} ? 1 : 0),
+            wire_key    => $name,
+            location    => 'body',
+            location_name => undef,
+            traits      => {},
         );
-
-        # Lift trait info into plain data. Each trait the auto-generator
-        # emits has its own per-trait named argument (request_name,
-        # header_name, etc.); we lift those alongside.
-        my %trait_arg = (
-            'Paws::API::Attribute::Trait::NameInRequest'   => ['request_name', 'body'],
-            'Paws::API::Attribute::Trait::ParamInHeader'   => ['header_name',  'header'],
-            'Paws::API::Attribute::Trait::ParamInHeaders'  => ['header_prefix','headers'],
-            'Paws::API::Attribute::Trait::ParamInQuery'    => ['query_name',   'querystring'],
-            'Paws::API::Attribute::Trait::ParamInURI'      => ['uri_name',     'uri'],
-            'Paws::API::Attribute::Trait::ParamInBody'     => [undef,          'body'],
-            'Paws::API::Attribute::Trait::AutoInHeader'    => ['header_name',  'header'],
-        );
-
-        for my $trait_pkg (keys %trait_arg) {
-            next if !$attr->can('does') || !$attr->does($trait_pkg);
-            my $short = $trait_pkg;
-            $short =~ s/^Paws::API::Attribute::Trait:://;
-            $record{traits}{$short} = 1;
-
-            my ($arg_name, $location) = @{ $trait_arg{$trait_pkg} };
-            $record{location} = $location if $location;
-            if (defined $arg_name && $attr->can($arg_name)) {
-                my $value = $attr->$arg_name;
-                $record{location_name} = $value if defined $value;
-                $record{wire_key}      = $value if defined $value
-                    && ($trait_pkg eq 'Paws::API::Attribute::Trait::NameInRequest');
-            }
-        }
-
-        # AutoInHeader carries an extra 'auto' value (e.g. 'MD5') that
-        # tells the wire layer to compute the header automatically.
-        if ($record{traits}{AutoInHeader} && $attr->can('auto')) {
-            $record{auto} = $attr->auto;
-        }
 
         $attrs{$name} = \%record;
     }
 
     return $invocant->new(
-        class                => $class,
-        attributes           => \%attrs,
-        serializable_names   => \@public,
+        class              => $class,
+        attributes         => \%attrs,
+        serializable_names => [ sort @public ],
         is_str_to_native_map => ($class->can('does') && $class->does('Paws::API::StrToNativeMapParser') ? 1 : 0),
         is_str_to_obj_map    => ($class->can('does') && $class->does('Paws::API::StrToObjMapParser')    ? 1 : 0),
     );
@@ -288,7 +242,6 @@ sub _clear_cache {
     return;
 }
 
-__PACKAGE__->meta->make_immutable;
 1;
 
 __END__

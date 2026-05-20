@@ -17,7 +17,7 @@ use strict;
 use warnings;
 use v5.10;
 
-use Moose;
+use Moo;
 with 'Paws::Model::Loader';
 
 use JSON::MaybeXS qw();
@@ -480,7 +480,6 @@ sub _local_part {
     return $local;
 }
 
-__PACKAGE__->meta->make_immutable;
 1;
 
 __END__

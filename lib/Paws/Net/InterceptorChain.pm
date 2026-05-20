@@ -1,15 +1,17 @@
 package Paws::Net::InterceptorChain;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(ArrayRef);
 
   has interceptors => (
     is      => 'ro',
-    isa     => 'ArrayRef',
-    traits  => ['Array'],
+    isa     => ArrayRef,
     default => sub { [] },
-    handles => {
-      all_interceptors => 'elements',
-    },
   );
+
+  sub all_interceptors {
+    my ($self) = @_;
+    return @{ $self->interceptors };
+  }
 
   sub run_hook {
     my ($self, $hook, $context) = @_;
@@ -32,5 +34,4 @@ package Paws::Net::InterceptorChain;
     return 1;
   }
 
-  __PACKAGE__->meta->make_immutable;
 1;

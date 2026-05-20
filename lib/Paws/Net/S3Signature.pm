@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::S3Signature;
-  use Moose::Role;
+  use Moo::Role;
   requires 'service';
 
   sub BUILD {

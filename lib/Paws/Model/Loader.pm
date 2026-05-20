@@ -13,7 +13,7 @@ use strict;
 use warnings;
 use v5.10;
 
-use Moose::Role;
+use Moo::Role;
 
 requires 'load';
     # ($self, $path_or_id) -> Paws::Model::IR::Service

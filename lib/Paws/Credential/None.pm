@@ -2,10 +2,9 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential::None;
-  use Moose;
+  use Moo;
   with 'Paws::Credential';
 
   sub refresh { return undef; }
 
-  no Moose;
 1;

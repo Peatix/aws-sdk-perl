@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::SigninCaller;
-  use Moose::Role;
+  use Moo::Role;
   use JSON::MaybeXS;
   use URI::Template;
 

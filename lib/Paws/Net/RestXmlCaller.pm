@@ -3,12 +3,11 @@
 
 package Paws::Net::RestXmlCaller;
   use Paws;
-  use Moose::Role;
+  use Moo::Role;
   use HTTP::Request::Common;
   use POSIX qw(strftime);
   use URI::Template;
   use URI::Escape;
-  use Moose::Util;
   use Scalar::Util;
 
   use Paws::Net::RestXMLResponse;
@@ -163,12 +162,8 @@ package Paws::Net::RestXmlCaller;
   }
 
   # PR11: SerDes-driven; no per-attribute Moose meta lookups.
-  # The type_string -> "is a Paws structure class?" check still uses
-  # Moose::Util::find_meta because that is the same answer regardless
-  # of OO backend (Moo classes inflate on first MOP touch). The wire
-  # layer's hot path doesn't go through here for the protocols
-  # tested in PR4 (json/restjson/query); RestXML's xml-building is
-  # only exercised by S3, Route53, CloudFront, etc.
+  # The type_string -> "is a Paws structure class?" check uses
+  # $type->can('meta') which works for both Moose and Moo classes.
   #
   # Flattening: a list-typed attribute is rendered as
   # `<Wrapper><Elem>..</Elem></Wrapper>` if the model treats it as
@@ -186,6 +181,7 @@ package Paws::Net::RestXmlCaller;
   sub _attribute_to_xml {
     my ($self, $owner_serdes, $att_name, $value) = @_;
     my $type     = $owner_serdes->type_for($att_name);
+    $type = Paws::_unwrap_class_from_type_string($type);
     my $location = $owner_serdes->trait_for($att_name, 'NameInRequest')
                      ? $owner_serdes->wire_key_for($att_name)
                      : $att_name;
@@ -195,7 +191,7 @@ package Paws::Net::RestXmlCaller;
                     ? 1 : 0;
 
     my $xml;
-    if (Moose::Util::find_meta($type)) {
+    if ($type->can('meta')) {
       $xml = sprintf '<%s>%s</%s>', $location, $self->_to_xml($value), $location;
     }
     elsif ($type eq 'ArrayRef[Str|Undef]') {
@@ -273,7 +269,7 @@ package Paws::Net::RestXmlCaller;
       next if $serdes->trait_for($att, 'ParamInHeader');
       next if $serdes->trait_for($att, 'ParamInQuery');
       next if $serdes->trait_for($att, 'ParamInURI');
-      next if ($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
+      next if Paws::_unwrap_class_from_type_string($serdes->type_for($att) // '') eq 'Paws::S3::Metadata';
       $xml .= $self->_attribute_to_xml($serdes, $att, $v);
     }
 

@@ -261,6 +261,13 @@ sub convert_endpoint_leaf {
     return undef if $url =~ /\{PartitionResult/i;
     return undef if $url =~ /\{partitionResult/;
 
+    # Skip URLs with unresolvable template variables beyond {region},
+    # {service}, {scheme}. The EndpointResolver only passes those three to
+    # URI::Template->process(); anything else produces an invalid hostname.
+    my $check_url = $url;
+    $check_url =~ s/\{(?:region|service|scheme)\}//g;
+    return undef if $check_url =~ /\{[^}]+\}/;
+
     # Skip FIPS URLs that leaked through
     return undef if $url =~ /-fips[.\/]/;
 

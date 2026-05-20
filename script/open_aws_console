@@ -1,25 +1,24 @@
 #!perl
 
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
+
 use Paws;
 use v5.10;
 use Module::Runtime qw/require_module/;
+use Getopt::Long;
 
-package Opts {
-  use Moose;
-  with 'MooseX::Getopt';
-  has console => (is => 'rw', isa => 'Bool', default => 0);
-}
+my $console = 0;
+GetOptions('console' => \$console);
 
-my $opts = Opts->new_with_options;
 my $bo_loaded = 0;
 
-if (not $opts->console) {
-  # Try to load Browser::Open;
+if (not $console) {
   eval {
     require_module 'Browser::Open';
   };
   if ($@) {
-    $opts->console(1);
+    $console = 1;
   }
 }
 
@@ -43,7 +42,7 @@ my $url = Paws->service('Signin')->Login(
   SigninToken => $token->SigninToken
 );
 
-if ($opts->console){
+if ($console){
   say "Go to :";
   say $url->URL;
 } else {

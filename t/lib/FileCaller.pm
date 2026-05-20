@@ -24,7 +24,7 @@
 # 	- environment variable PAWS_RESPONSE_FILE
 
 package FileCaller;
-  use Moose;
+  use Moo;
   use Carp qw(croak);
   use YAML qw/LoadFile/;
 
@@ -64,5 +64,4 @@ package FileCaller;
     return $res;
   }
 
-  no Moose;
 1;

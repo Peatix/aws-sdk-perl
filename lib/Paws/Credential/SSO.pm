@@ -1,5 +1,6 @@
 package Paws::Credential::SSO;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Int HashRef Object Maybe InstanceOf);
   use Config::AWS qw/read_file/;
   use Digest::SHA qw/sha1_hex/;
   use File::HomeDir;
@@ -9,51 +10,51 @@ package Paws::Credential::SSO;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
-  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+  has credentials => (is => 'rw', isa => Maybe[InstanceOf['Paws::Credential::Explicit']]);
 
   has expiration => (
     is => 'rw',
-    isa => 'Int',
+    isa => Int,
     lazy => 1,
     default => sub { 0 }
   );
 
-  has profile => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+  has profile => (is => 'ro', isa => Str, lazy => 1, default => sub {
     $ENV{AWS_PROFILE} // $ENV{AWS_DEFAULT_PROFILE} // 'default';
   });
 
-  has config_file => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+  has config_file => (is => 'ro', isa => Str, lazy => 1, default => sub {
     $ENV{AWS_CONFIG_FILE} // ((File::HomeDir->my_home || '') . '/.aws/config');
   });
 
-  has sso_cache_dir => (is => 'ro', isa => 'Str', lazy => 1, default => sub {
+  has sso_cache_dir => (is => 'ro', isa => Str, lazy => 1, default => sub {
     (File::HomeDir->my_home || '') . '/.aws/sso/cache';
   });
 
-  has sso_start_url => (is => 'ro', isa => 'Str|Undef', lazy => 1, builder => '_build_from_config_sso_start_url');
-  has sso_account_id => (is => 'ro', isa => 'Str|Undef', lazy => 1, builder => '_build_from_config_sso_account_id');
-  has sso_role_name => (is => 'ro', isa => 'Str|Undef', lazy => 1, builder => '_build_from_config_sso_role_name');
-  has sso_region => (is => 'ro', isa => 'Str|Undef', lazy => 1, builder => '_build_from_config_sso_region');
+  has sso_start_url => (is => 'ro', isa => Maybe[Str], lazy => 1, builder => '_build_from_config_sso_start_url');
+  has sso_account_id => (is => 'ro', isa => Maybe[Str], lazy => 1, builder => '_build_from_config_sso_account_id');
+  has sso_role_name => (is => 'ro', isa => Maybe[Str], lazy => 1, builder => '_build_from_config_sso_role_name');
+  has sso_region => (is => 'ro', isa => Maybe[Str], lazy => 1, builder => '_build_from_config_sso_region');
 
-  has _config_contents => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
+  has _config_contents => (is => 'ro', isa => HashRef, lazy => 1, default => sub {
     my $self = shift;
     my $file = $self->config_file;
     return {} if not -e $file;
     return read_file($file);
   });
 
-  has _profile_config => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
+  has _profile_config => (is => 'ro', isa => HashRef, lazy => 1, default => sub {
     my $self = shift;
     my $profile = $self->profile;
     return $self->_config_contents->{$profile} || {};
   });
 
-  has _sso_session_name => (is => 'ro', isa => 'Str|Undef', lazy => 1, default => sub {
+  has _sso_session_name => (is => 'ro', isa => Maybe[Str], lazy => 1, default => sub {
     my $self = shift;
     return $self->_profile_config->{sso_session};
   });
 
-  has _sso_session_config => (is => 'ro', isa => 'HashRef', lazy => 1, default => sub {
+  has _sso_session_config => (is => 'ro', isa => HashRef, lazy => 1, default => sub {
     my $self = shift;
     my $session_name = $self->_sso_session_name;
     return {} unless defined $session_name;
@@ -82,7 +83,7 @@ package Paws::Credential::SSO;
         // $self->_sso_session_config->{sso_region};
   }
 
-  has sso => (is => 'ro', isa => 'Object', lazy => 1, default => sub {
+  has sso => (is => 'ro', isa => Object, lazy => 1, default => sub {
     my $self = shift;
     my $region = $self->sso_region // die "sso_region is required: configure it in ~/.aws/config or pass sso_region";
     Paws->service('SSO', region => $region, credentials => Paws::Credential::None->new);
@@ -164,7 +165,6 @@ package Paws::Credential::SSO;
     return $self->credentials;
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 
