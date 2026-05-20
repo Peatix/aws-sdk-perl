@@ -516,7 +516,10 @@ sub _materialise_shape_class {
         $_ =~ /^\s+has\s+(\w+)\s/ ? ($1) : ()
     } @attr_lines;
     my %attr_set = map { $_ => 1 } @attr_names;
-    my @reserved = grep { $attr_set{$_} } qw(before after around extends with has);
+    my @reserved = grep { $attr_set{$_} } qw(
+        before after around extends with has
+        Str Int Bool Num ArrayRef HashRef Maybe InstanceOf
+    );
     my @clear_lines;
     if (@reserved) {
         push @clear_lines, "        no strict 'refs';";

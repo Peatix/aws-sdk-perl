@@ -355,15 +355,18 @@ sub _build_shape {
     if ($type eq 'structure' || $type eq 'union') {
         my %members;
         for my $mname (sort keys %{ $shape->{members} // {} }) {
-            $members{$mname} = $self->_build_member(
-                $mname,
+            my $perl_name = ucfirst($mname);
+            my $wire_name = ($perl_name ne $mname) ? $mname : undef;
+            $members{$perl_name} = $self->_build_member(
+                $perl_name,
                 $shape->{members}{$mname},
+                $wire_name,
             );
         }
         my @required;
         for my $mname (keys %{ $shape->{members} // {} }) {
             my $m_traits = $shape->{members}{$mname}{traits} // {};
-            push @required, $mname if exists $m_traits->{'smithy.api#required'};
+            push @required, ucfirst($mname) if exists $m_traits->{'smithy.api#required'};
         }
         $args{members}          = \%members;
         $args{required_members} = [ sort @required ];
@@ -372,7 +375,7 @@ sub _build_shape {
         for my $mname (keys %{ $shape->{members} // {} }) {
             my $m_traits = $shape->{members}{$mname}{traits} // {};
             if (exists $m_traits->{'smithy.api#httpPayload'}) {
-                $args{payload} = $mname;
+                $args{payload} = ucfirst($mname);
                 last;
             }
         }
@@ -424,7 +427,7 @@ sub _build_shape {
 }
 
 sub _build_member {
-    my ($self, $name, $member) = @_;
+    my ($self, $name, $member, $wire_name) = @_;
 
     my $traits = $member->{traits} // {};
 
@@ -443,15 +446,22 @@ sub _build_member {
         $location_name = $traits->{'smithy.api#httpQuery'};
     } elsif (exists $traits->{'smithy.api#httpLabel'}) {
         $location      = 'uri';
-        # The label name is the structure member name in Smithy's URI
-        # template (e.g. `/things/{ThingId}`); IR carries it verbatim.
-        $location_name = $name;
+        # The label name must match the placeholder in the Smithy URI
+        # template (e.g. `/{thingId}`), so use the original Smithy
+        # member name, not the PascalCased Perl attribute name.
+        $location_name = $wire_name // $name;
     }
 
     # Fallback: jsonName / xmlName is the body-rename equivalent of
     # the IR's locationName.
     $location_name //= $traits->{'smithy.api#jsonName'};
     $location_name //= $traits->{'smithy.api#xmlName'};
+
+    # When the Perl attribute name was PascalCased from a camelCase
+    # Smithy member name, the original name is the wire key. Set it
+    # as locationName so the materialiser emits a NameInRequest trait
+    # and the wire layer serialises/deserialises with the correct key.
+    $location_name //= $wire_name;
 
     return Paws::Model::IR::Member->new(
         name          => $name,
