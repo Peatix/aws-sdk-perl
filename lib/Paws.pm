@@ -1,59 +1,38 @@
 package Paws::SDK::Config;
 
-use Moose;
-use Moose::Util::TypeConstraints;
+use Moo;
+use Scalar::Util qw(blessed);
+use Types::Standard qw(Bool Maybe Str);
 use Paws::Net::CallerRole;
 use Paws::Credential;
 use feature 'state';
 
-coerce 'Paws::Net::CallerRole',
-  from 'Str',
-   via {
-     my $class = $_; 
-     Paws->load_class($class);
-     return $class->new() 
-   };
-
-coerce 'Paws::Credential',
-  from 'Str',
-   via { 
-     my $class = $_;
-     Paws->load_class($class);
-     return $class->new();
-   };
-
 has region => (
   is => 'rw',
-  isa => 'Str|Undef',
+  isa => Maybe[Str],
   default => sub { undef }
 );
 
 has caller => (
   is => 'rw',
-  does => 'Paws::Net::CallerRole', 
+  isa => sub { die "caller must do Paws::Net::CallerRole" unless blessed($_[0]) && $_[0]->does('Paws::Net::CallerRole') },
   lazy => 1,
   default => sub { 
     Paws->load_class('Paws::Net::Caller');
     Paws::Net::Caller->new 
   },
-  coerce => 1
+  coerce => sub { my $v = shift; return $v if ref $v; Paws->load_class($v); $v->new() },
 ); 
 has credentials => (
   is => 'rw',
-  does => 'Paws::Credential',
+  isa => sub { die "credentials must do Paws::Credential" unless blessed($_[0]) && $_[0]->does('Paws::Credential') },
   lazy => 1,
   default => sub {
     Paws->load_class('Paws::Credential::ProviderChain'); 
     Paws::Credential::ProviderChain->new 
   },
-  coerce => 1
+  coerce => sub { my $v = shift; return $v if ref $v; Paws->load_class($v); $v->new() },
 );
-has immutable => (
-  is => 'rw',
-  isa => 'Bool',
-  default => 0,
-);
-__PACKAGE__->meta->make_immutable;
 1;
 
 package Paws;
@@ -62,31 +41,25 @@ our $VERSION = '1.0.0';
 
 use Carp;
 
-use Moose;
-use MooseX::ClassAttribute;
-use Moose::Util qw//;
+use Moo;
+use MooX::ClassAttribute;
 use Module::Runtime qw//;
+use Types::Standard qw(InstanceOf Str);
 
 use Paws::API::JSONAttribute;
 use Paws::API::Base64Attribute;
 
 use Paws::API;
-use Moose::Util::TypeConstraints;
 
-has _class_prefix => (isa => 'Str', is => 'ro', default => 'Paws::');
+has _class_prefix => (isa => Str, is => 'ro', default => 'Paws::');
 
-coerce 'Paws::SDK::Config',
-  from 'HashRef',
-   via {
-     Paws::SDK::Config->new($_);
-};
-has config => (isa => 'Paws::SDK::Config', is => 'rw', coerce => 1, default => sub { Paws->default_config });
+has config => (isa => InstanceOf['Paws::SDK::Config'], is => 'rw', coerce => sub { ref $_[0] eq 'HASH' ? Paws::SDK::Config->new(%{$_[0]}) : $_[0] }, default => sub { Paws->default_config });
 
 # Holds a fully constructed Paws instance so continuous calls to get_self are all done over the
 # same (implicit) object. This happens when the user calls Paws->service, as opposed to $instance->service
-class_has _default_object => (is => 'rw', isa => 'Paws');
+class_has _default_object => (is => 'rw', isa => InstanceOf['Paws']);
 
-class_has default_config => (is => 'rw', isa => 'Paws::SDK::Config', default => sub { Paws::SDK::Config->new });
+class_has default_config => (is => 'rw', isa => InstanceOf['Paws::SDK::Config'], default => sub { Paws::SDK::Config->new });
 
 sub load_class {
   my (undef, @classes) = @_;
@@ -94,12 +67,6 @@ sub load_class {
   foreach my $class (grep !$loaded{$_}, @classes) {
     Module::Runtime::require_module($class);
     $loaded{$class} = 1;
-    # immutability is a global setting that will affect all instances
-    if (Paws->default_config->immutable
-        && $class->can('meta')
-        && $class->meta->can('make_immutable')) {
-      $class->meta->make_immutable;
-    }
   }
 }
 
@@ -124,8 +91,8 @@ sub new_with_coercions {
   my %p;
 
   if (do { state %d; $d{$class} //= $class->does('Paws::API::StrToObjMapParser') }) {
-    my $map_tc = $class->meta->find_attribute_by_name('Map')->type_constraint;
-    my ($subtype) = ("$map_tc" =~ m/^HashRef\[(.*?)\]$/);
+    my $map_type_str = Paws::SerDes->for($class)->type_for('Map');
+    my ($subtype) = ("$map_type_str" =~ m/^HashRef\[(.*?)\]$/);
     if (my ($array_of) = ($subtype =~ m/^ArrayRef\[(.*?)\]$/)){
       $array_of = _unwrap_class_from_type_string($array_of);
       $p{ Map } = { map { $_ => [ map { Paws->new_with_coercions("$array_of", %$_) } @{ $params{ $_ } } ] } keys %params };
@@ -136,45 +103,32 @@ sub new_with_coercions {
   } elsif (do { state %d; $d{$class} //= $class->does('Paws::API::StrToNativeMapParser') }) {
     $p{ Map } = { %params };
   } else {
+    my $serdes = Paws::SerDes->for($class);
     foreach my $att (keys %params){
-      my $att_meta = $class->meta->find_attribute_by_name($att);
+      my $type_str = $serdes->type_for($att);
+      croak "$class doesn't have an $att" if !$type_str && !$class->can($att);
+      my $type_obj = $serdes->type_object_for($att);
 
-      croak "$class doesn't have an $att" if (not defined $att_meta);
-      my $type = $att_meta->type_constraint;
-
-      if ($type eq 'Bool') {
+      if ($type_str eq 'Bool') {
         $p{ $att } = ($params{ $att } == 1)?1:0;
-      } elsif ($type eq 'Str' or $type eq 'Num' or $type eq 'Int') {
+      } elsif ($type_str eq 'Str' or $type_str eq 'Num' or $type_str eq 'Int') {
         $p{ $att } = $params{ $att };
-      } elsif ("$type" =~ m/^ArrayRef\[(.*?)\]$/){
+      } elsif ("$type_str" =~ m/^ArrayRef\[(.*?)\]$/){
         my $subtype = "$1";
-        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
+        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Maybe\[Str\]' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
           $p{ $att } = $params{ $att };
         } else {
-          # Under Moose, $1 is the bare class name. Under Moo +
-          # Type::Tiny (stack13 backend), `ArrayRef[InstanceOf["X"]]`
-          # stringifies the inner type as `InstanceOf["X"]`; prefer
-          # the type-constraint object's parameter accessor, which
-          # both backends expose, to recover the bare class.
-          if ($type->can('type_parameter') && $type->type_parameter->can('class')) {
-            $subtype = $type->type_parameter->class;
+          if ($type_obj && $type_obj->can('type_parameter') && $type_obj->type_parameter->can('class')) {
+            $subtype = $type_obj->type_parameter->class;
           } else {
             $subtype = _unwrap_class_from_type_string($subtype);
           }
           $p{ $att } = [ map { Paws->new_with_coercions("$subtype", %{ $_ }) } @{ $params{ $att } } ];
         }
-      } elsif ($type->isa('Moose::Meta::TypeConstraint::Enum') || ($type->can('parent') && $type->can('values'))){
-        # Type::Tiny enums are Type::Tiny instances with a `values`
-        # accessor and a parent of `Str`; fall through to the
-        # native-string path the same way the Moose enum case does.
+      } elsif ($type_obj && ref($type_obj) && ($type_obj->isa('Type::Tiny::Enum') || ($type_obj->can('parent') && $type_obj->can('values')))){
         $p{ $att } = $params{ $att };
       } else {
-        # Recurse with the bare class name. Under Moose, $type is a
-        # Moose::Meta::TypeConstraint::Class whose ->class returns
-        # the bare class. Under Moo + Type::Tiny, Type::Tiny::Class
-        # also exposes ->class. Fall back to string-unwrapping for
-        # any other parameterised type-constraint object (defensive).
-        my $target = $type->can('class') ? $type->class : _unwrap_class_from_type_string("$type");
+        my $target = ($type_obj && $type_obj->can('class')) ? $type_obj->class : _unwrap_class_from_type_string("$type_str");
         $p{ $att } = Paws->new_with_coercions($target, %{ $params{ $att } });
       }
     }
@@ -197,10 +151,12 @@ sub to_hash {
     return { map { ($_ => Paws->to_hash($params->Map->{$_})) } keys %{ $params->Map } };
   }
 
-  foreach my $att (grep { $_ !~ m/^_/ } $params->meta->get_attribute_list) {
+  my $serdes = Paws::SerDes->for(ref $params);
+  foreach my $att ($serdes->serializable_attributes) {
     my $key = $att;
     if (defined $params->$att) {
-      my $att_type = $params->meta->get_attribute($att)->type_constraint;
+      my $att_type = $serdes->type_for($att);
+      my $type_obj = $serdes->type_object_for($att);
       if ($att_type eq 'Bool') {
         $refHash->{ $key } = ($params->$att)?1:0;
       } elsif (Paws->is_internal_type($att_type)) {
@@ -211,7 +167,7 @@ sub to_hash {
         } else {
           $refHash->{ $key } = [ map { Paws->to_hash($_) } @{ $params->$att } ];
         }
-      } elsif ($att_type->isa('Moose::Meta::TypeConstraint::Enum')) {
+      } elsif ($type_obj && ref($type_obj) && $type_obj->isa('Type::Tiny::Enum')) {
         $refHash->{ $key } = $params->$att;
       } else {
         $refHash->{ $key } = Paws->to_hash($params->$att);
@@ -348,22 +304,24 @@ sub _preload_scanclass {
   my ($class) = @_;
 
   # If the class is already loaded, we really don't want to be rescanning it
-  # this avoid infinite recursion on DynamoDB, for example
-  return if (Moose::Util::find_meta($class));
+  # this avoids infinite recursion on DynamoDB, for example
+  state %_scanned;
+  return if $_scanned{$class}++;
 
   Paws->load_class($class);
 
-  foreach my $att ($class->meta->get_all_attributes){
-    my $tconst = $att->type_constraint;
-
-    if ($tconst->isa('Moose::Meta::TypeConstraint::Class')) {
-      # Any attribute that isa class will need to be inspected
-      _preload_scanclass($tconst->class);
-    } elsif ($tconst->isa('Moose::Meta::TypeConstraint::Parameterized') and
-             $tconst->type_parameter->isa('Moose::Meta::TypeConstraint::Class')) {
-      # those attributes can also be found in parametrized 
-      # type constraints (ArrayRef[...], Hashref[...])
-      _preload_scanclass($tconst->type_parameter->class);
+  my $serdes = Paws::SerDes->for($class);
+  for my $att_name ($serdes->all_attribute_names) {
+    my $type_str = $serdes->type_for($att_name);
+    my $type_obj = $serdes->type_object_for($att_name);
+    if ($type_obj && $type_obj->can('class')) {
+      _preload_scanclass($type_obj->class);
+    } elsif ($type_str =~ /^(?:ArrayRef|HashRef)\[(.+)\]$/) {
+      my $inner = $1;
+      $inner = _unwrap_class_from_type_string($inner);
+      if ($inner !~ /^(?:Str|Int|Bool|Num|Maybe)/ && $inner =~ /^[A-Z]/) {
+        _preload_scanclass($inner);
+      }
     }
   }
 }

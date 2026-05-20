@@ -33,3 +33,4 @@ Paws-Core-*/
 Paws-Core-*.tar.gz
 aws-sdk-perl-streaming
 botocore
+tmp/

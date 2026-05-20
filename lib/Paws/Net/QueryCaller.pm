@@ -3,7 +3,7 @@
 
 package Paws::Net::QueryCaller;
   use Paws;
-  use Moose::Role;
+  use Moo::Role;
   use HTTP::Request::Common;
   use POSIX qw(strftime); 
 

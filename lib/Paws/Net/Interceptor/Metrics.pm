@@ -1,18 +1,19 @@
 package Paws::Net::Interceptor::Metrics;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(CodeRef Str);
   use Time::HiRes qw(gettimeofday tv_interval);
 
   with 'Paws::Net::Interceptor';
 
   has callback => (
     is      => 'ro',
-    isa     => 'CodeRef',
+    isa     => CodeRef,
     default => sub { sub {} },
   );
 
   has _stash_key => (
     is      => 'ro',
-    isa     => 'Str',
+    isa     => Str,
     default => '_interceptor_metrics',
   );
 
@@ -82,8 +83,6 @@ package Paws::Net::Interceptor::Metrics;
     return 0;
   }
 
-  no Moose;
-  __PACKAGE__->meta->make_immutable;
 1;
 
 =head1 NAME

@@ -3,7 +3,7 @@
 
 package Paws::Net::JsonCaller;
   use Paws;
-  use Moose::Role;
+  use Moo::Role;
   use JSON::MaybeXS;
   use POSIX qw(strftime);
   requires 'json_version';
@@ -69,7 +69,7 @@ package Paws::Net::JsonCaller;
           } else {
             $p{$key} = [ map { $self->_to_jsoncaller_params($_) } @$value ];
           }
-        } elsif (defined $type_object && $type_object->isa('Moose::Meta::TypeConstraint::Enum')) {
+        } elsif (defined $type_object && $type_object->isa('Type::Tiny::Enum')) {
           $p{$key} = $value;
         } else {
           # nested structure: recurse via SerDes

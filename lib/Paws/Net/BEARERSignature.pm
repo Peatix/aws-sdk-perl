@@ -4,7 +4,7 @@ package Paws::Net::BEARERSignature;
   # not implemented end-to-end; this role is sufficient to make the
   # service class load. Calls that actually need a bearer token will
   # have to provide an Authorization header out of band.
-  use Moose::Role;
+  use Moo::Role;
 
   sub sign {
   }

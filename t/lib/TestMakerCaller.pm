@@ -1,5 +1,5 @@
 package TestMakerCaller;
-  use Moose;
+  use Moo;
   extends 'Paws::Net::MockCaller';
   use YAML qw/DumpFile/;
   use DataStruct::Flat;

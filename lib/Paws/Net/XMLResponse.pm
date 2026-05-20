@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::XMLResponse;
-  use Moose;
+  use Moo;
   use XML::Simple qw//;
   use Carp qw(croak);
   use Paws::Exception;
@@ -140,6 +140,7 @@ package Paws::Net::XMLResponse;
         
     my $inner_class = Paws::SerDes->for($att_class)->type_for('Map');
     ($inner_class) = ($inner_class =~ m/\[(.*)\]$/);
+    $inner_class = Paws::_unwrap_class_from_type_string($inner_class);
     Paws->load_class("$inner_class");
 
     if ($value_ref eq 'ARRAY') {
@@ -169,6 +170,7 @@ package Paws::Net::XMLResponse;
               : $att;
 
       my $att_type = $serdes->type_for($att);
+      $att_type = Paws::_unwrap_class_from_type_string($att_type);
       my $att_is_required =
             ($serdes->attributes->{$att} // {})->{is_required} ? 1 : 0;
 
@@ -252,6 +254,7 @@ package Paws::Net::XMLResponse;
           }
         }
       } elsif (my ($type) = ($att_type =~ m/^ArrayRef\[(.*)\]$/)) {
+        $type = Paws::_unwrap_class_from_type_string($type);
         my $value = $result->{ $att };
         $value = $result->{ $key } if (not defined $value and $key ne $att);
         my $value_ref = ref($value);

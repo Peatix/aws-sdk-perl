@@ -1,16 +1,19 @@
+# This file has been modified from the original upstream distribution
+# by Peatix, Inc. See the git log for this file for details of changes.
 package Paws::Signin::GetSigninToken;
-  use Moose;
-  has SessionId => (is => 'ro', isa => 'Str', required => 1);
-  has SessionKey => (is => 'ro', isa => 'Str', required => 1);
-  has SessionToken => (is => 'ro', isa => 'Str', required => 1);
-  has SessionDuration => (is => 'ro', isa => 'Int');
+  use Moo;
+  use Types::Standard qw(Int Str);
+  has SessionId => (is => 'ro', isa => Str, required => 1);
+  has SessionKey => (is => 'ro', isa => Str, required => 1);
+  has SessionToken => (is => 'ro', isa => Str, required => 1);
+  has SessionDuration => (is => 'ro', isa => Int);
 
-  use MooseX::ClassAttribute;
+  use MooX::ClassAttribute;
 
-  class_has _api_uri  => (isa => 'Str', is => 'ro', default => '/federation');
-  class_has _api_call => (isa => 'Str', is => 'ro', default => 'getSigninToken');
-  class_has _returns => (isa => 'Str', is => 'ro', default => 'Paws::Signin::GetSigninTokenResponse');
-  class_has _result_key => (isa => 'Str', is => 'ro');
+  class_has _api_uri  => (isa => Str, is => 'ro', default => '/federation');
+  class_has _api_call => (isa => Str, is => 'ro', default => 'getSigninToken');
+  class_has _returns => (isa => Str, is => 'ro', default => 'Paws::Signin::GetSigninTokenResponse');
+  class_has _result_key => (isa => Str, is => 'ro');
 
 1;
 

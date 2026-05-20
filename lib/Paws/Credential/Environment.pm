@@ -2,7 +2,7 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Credential::Environment;
-  use Moose;
+  use Moo;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
@@ -24,7 +24,6 @@ package Paws::Credential::Environment;
     );
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 

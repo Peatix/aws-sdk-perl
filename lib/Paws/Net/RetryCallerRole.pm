@@ -2,7 +2,9 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 package Paws::Net::RetryCallerRole;
-  use Moose::Role;
+  use Moo::Role;
+  use Types::Standard qw(ArrayRef);
+  use Scalar::Util qw(blessed);
   use Time::HiRes 'sleep';
   use Paws::Net::InterceptorContext;
   use Paws::Net::InterceptorChain;
@@ -18,20 +20,17 @@ package Paws::Net::RetryCallerRole;
 
   has interceptors => (
     is      => 'rw',
-    isa     => 'ArrayRef',
-    traits  => ['Array'],
+    isa     => ArrayRef,
     default => sub { [] },
-    handles => {
-      all_interceptors    => 'elements',
-      add_interceptor     => 'push',
-      interceptor_count   => 'count',
-    },
   );
+
+  sub all_interceptors { @{ $_[0]->interceptors } }
+  sub add_interceptor  { push @{ $_[0]->interceptors }, @_[1..$#_] }
+  sub interceptor_count { scalar @{ $_[0]->interceptors } }
 
   sub register_interceptor {
     my ($self, $interceptor) = @_;
-    require Moose::Util;
-    Moose::Util::does_role($interceptor, 'Paws::Net::Interceptor')
+    (blessed($interceptor) && $interceptor->does('Paws::Net::Interceptor'))
       or die "Interceptor must consume the Paws::Net::Interceptor role";
     $self->add_interceptor($interceptor);
     return $self;

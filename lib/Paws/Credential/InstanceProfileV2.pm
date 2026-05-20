@@ -3,14 +3,15 @@
 
 package Paws::Credential::InstanceProfileV2;
   use JSON::MaybeXS;
-  use Moose;
+  use Moo;
+  use Types::Standard qw(Str Int Maybe InstanceOf);
   use DateTime::Format::ISO8601;
   use Paws::Credential::Explicit;
   with 'Paws::Credential';
 
   has endpoint_mode => (
     is => 'ro',
-    isa => 'Str',
+    isa => Str,
     default => sub {
       return $ENV{AWS_EC2_METADATA_SERVICE_ENDPOINT_MODE} || 'IPv4';
     }
@@ -18,7 +19,7 @@ package Paws::Credential::InstanceProfileV2;
 
   has endpoint => (
     is => 'ro',
-    isa => 'Str',
+    isa => Str,
     lazy => 1,
     default => sub {
       my $self = shift;
@@ -39,7 +40,7 @@ package Paws::Credential::InstanceProfileV2;
 
   has metadata_url => (
     is => 'ro',
-    isa => 'Str',
+    isa => Str,
     lazy => 1,
     default => sub {
       my $self = shift;
@@ -49,7 +50,7 @@ package Paws::Credential::InstanceProfileV2;
 
   has token_url => (
     is => 'ro',
-    isa => 'Str',
+    isa => Str,
     lazy => 1,
     default => sub {
       my $self = shift;
@@ -57,7 +58,7 @@ package Paws::Credential::InstanceProfileV2;
     }
   );
 
-  has timeout => (is => 'ro', isa => 'Int', default => 1);
+  has timeout => (is => 'ro', isa => Int, default => 1);
 
   has ua => (
     is => 'ro',
@@ -72,11 +73,11 @@ package Paws::Credential::InstanceProfileV2;
     }
   );
 
-  has credentials => (is => 'rw', isa => 'Paws::Credential::Explicit|Undef');
+  has credentials => (is => 'rw', isa => Maybe[InstanceOf['Paws::Credential::Explicit']]);
 
   has expiration => (
     is => 'rw',
-    isa => 'Int',
+    isa => Int,
     default => sub { 0 }
   );
 
@@ -116,7 +117,6 @@ package Paws::Credential::InstanceProfileV2;
     return $self->credentials;
   }
 
-  no Moose;
 1;
 ### main pod documentation begin ###
 

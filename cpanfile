@@ -2,13 +2,9 @@
 # by Peatix, Inc. See the git log for this file for details of changes.
 
 requires 'perl' => '5.012001';
-requires 'Moose';
-requires 'MooseX::ClassAttribute';
 
-# Moo + Type::Tiny stack: opt-in OO backend (PR12). Required because
-# the materialiser's Moo backend is shipped in lib/. Moose remains
-# the default backend; switch via PAWS_OO_BACKEND=Moo (PR13 will
-# flip the default).
+# Moo + Type::Tiny stack: the core runtime and all materialised
+# service classes use Moo exclusively.
 requires 'Moo';
 requires 'MooX::ClassAttribute';
 requires 'Type::Tiny';
@@ -46,7 +42,6 @@ requires 'Config::AWS';
 requires 'Digest::SHA';
 # For the paws CLI
 requires 'DataStruct::Flat';
-requires 'MooseX::Getopt';
 requires 'ARGV::Struct';
 requires 'Module::Find';
 requires 'Getopt::Long';

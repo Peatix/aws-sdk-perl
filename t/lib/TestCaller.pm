@@ -1,5 +1,5 @@
 package TestCaller;
-  use Moose::Role;
+  use Moo::Role;
   with 'Paws::Net::Caller';
   use File::Slurper 'write_text';
   use YAML qw/DumpFile/;
@@ -20,9 +20,7 @@ package TestCaller;
     my ($self, $data) = @_;
     my $service = $self->service;
 
-    # Derive the name of the class through introspection
-    my ($service_class) = $self->meta->superclasses;
-    ($service_class) = $service_class->meta->superclasses;
+    my $service_class = ref($self);
     $service_class =~ s/^Paws:://;
 
     my $call = $self->_doing_call->_api_call;

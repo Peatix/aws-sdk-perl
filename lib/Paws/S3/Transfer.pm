@@ -1,9 +1,10 @@
 package Paws::S3::Transfer;
-use Moose;
+use Moo;
 use Carp qw(croak);
 use Digest::MD5 qw(md5);
 use MIME::Base64 qw(encode_base64);
 use POSIX qw(ceil);
+use Types::Standard qw(CodeRef Int);
 
 has client => (
   is       => 'ro',
@@ -12,19 +13,19 @@ has client => (
 
 has part_size => (
   is      => 'ro',
-  isa     => 'Int',
+  isa     => Int,
   default => 8 * 1024 * 1024,
 );
 
 has concurrency => (
   is      => 'ro',
-  isa     => 'Int',
+  isa     => Int,
   default => 1,
 );
 
 has progress_callback => (
   is        => 'ro',
-  isa       => 'CodeRef',
+  isa       => CodeRef,
   predicate => 'has_progress_callback',
 );
 
@@ -237,5 +238,4 @@ sub _report_progress {
   );
 }
 
-__PACKAGE__->meta->make_immutable;
 1;

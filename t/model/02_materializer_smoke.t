@@ -3,7 +3,7 @@
 # Smoke test for Paws::Model::Materializer.
 #
 # Loads the synthetic tinyservice fixture via Paws::Model::Loader::Smithy
-# and asks Paws::Model::Materializer to build the corresponding Moose classes
+# and asks Paws::Model::Materializer to build the corresponding Moo classes
 # in memory. Verifies:
 #
 #   - the service class exists and responds to operations(),
@@ -26,6 +26,7 @@ use lib "$Bin/../../lib";
 
 use Paws::Model::Loader::Smithy;
 use Paws::Model::Materializer;
+use Paws::SerDes;
 
 my $fixture = "$Bin/fixtures/tinyservice/tinyservice.smithy.json";
 my $loader  = Paws::Model::Loader::Smithy->new;
@@ -78,46 +79,42 @@ subtest 'operation class metadata' => sub {
 
 subtest 'shape class with structure members' => sub {
     my $thing = 'Paws::T9SmokeService::Thing';
-    my $meta  = $thing->meta;
     can_ok($thing, qw(ThingId ThingName Status));
-    ok($meta->get_attribute('ThingId')->is_required,   'ThingId required');
-    ok($meta->get_attribute('ThingName')->is_required, 'ThingName required');
-    ok(!$meta->get_attribute('Status')->is_required,   'Status optional');
+    my $serdes = Paws::SerDes->for($thing);
+    ok($serdes->attributes->{ThingId}{is_required},   'ThingId required');
+    ok($serdes->attributes->{ThingName}{is_required}, 'ThingName required');
+    ok(!$serdes->attributes->{Status}{is_required},   'Status optional');
 };
 
 subtest 'member traits picked up from location' => sub {
-    my $del_pkg = 'Paws::T9SmokeService::DeleteThing';
-    my $etag    = $del_pkg->meta->get_attribute('ETag');
-    ok($etag->does('Paws::API::Attribute::Trait::ParamInHeader'),
+    my $del_serdes = Paws::SerDes->for('Paws::T9SmokeService::DeleteThing');
+    ok($del_serdes->trait_for('ETag', 'ParamInHeader'),
         'ETag has ParamInHeader trait');
-    is($etag->header_name, 'If-Match', 'header_name carried through');
+    is($del_serdes->location_name_for('ETag'), 'If-Match', 'header_name carried through');
 
-    my $get_pkg = 'Paws::T9SmokeService::GetThing';
-    my $tid     = $get_pkg->meta->get_attribute('ThingId');
-    ok($tid->does('Paws::API::Attribute::Trait::ParamInURI'),
+    my $get_serdes = Paws::SerDes->for('Paws::T9SmokeService::GetThing');
+    ok($get_serdes->trait_for('ThingId', 'ParamInURI'),
         'ThingId has ParamInURI trait');
-    is($tid->uri_name, 'ThingId', 'uri_name carried through');
+    is($get_serdes->location_name_for('ThingId'), 'ThingId', 'uri_name carried through');
 
-    my $list_pkg = 'Paws::T9SmokeService::ListThings';
-    my $filter   = $list_pkg->meta->get_attribute('Filter');
-    ok($filter->does('Paws::API::Attribute::Trait::ParamInQuery'),
+    my $list_serdes = Paws::SerDes->for('Paws::T9SmokeService::ListThings');
+    ok($list_serdes->trait_for('Filter', 'ParamInQuery'),
         'Filter has ParamInQuery trait');
-    is($filter->query_name, 'filter', 'query_name carried through');
+    is($list_serdes->location_name_for('Filter'), 'filter', 'query_name carried through');
 };
 
 subtest 'NameInRequest applied for renamed body fields' => sub {
-    my $thing = 'Paws::T9SmokeService::Thing';
-    my $name  = $thing->meta->get_attribute('ThingName');
-    ok($name->does('Paws::API::Attribute::Trait::NameInRequest'),
+    my $thing_serdes = Paws::SerDes->for('Paws::T9SmokeService::Thing');
+    ok($thing_serdes->trait_for('ThingName', 'NameInRequest'),
         'ThingName picked up NameInRequest because locationName="name"');
-    is($name->request_name, 'name', 'request_name carried through');
+    is($thing_serdes->wire_key_for('ThingName'), 'name', 'request_name carried through');
 };
 
 subtest 'list and map shapes typed inline' => sub {
-    my $list_resp = 'Paws::T9SmokeService::ListThingsResponse';
-    my $things    = $list_resp->meta->get_attribute('Things');
-    is($things->type_constraint->name,
-       'ArrayRef[Paws::T9SmokeService::Thing]',
+    my $list_serdes = Paws::SerDes->for('Paws::T9SmokeService::ListThingsResponse');
+    my $type_str = $list_serdes->type_for('Things');
+    like($type_str,
+       qr/ArrayRef\[.*Paws::T9SmokeService::Thing/,
        'list typed as ArrayRef[StructureClass]');
 };
 
