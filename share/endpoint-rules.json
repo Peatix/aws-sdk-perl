@@ -428,20 +428,6 @@
          "uri" : "https://dynamodb.{region}.amazonaws.com"
       }
    ],
-   "email" : [
-      {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "ses"
-            },
-            "signatureVersion" : "sigv4a"
-         },
-         "uri" : "https://{EndpointId}.endpoints.email.amazonaws.com"
-      },
-      {
-         "uri" : "https://email.{region}.amazonaws.com"
-      }
-   ],
    "entitlement.marketplace" : [
       {
          "constraints" : [
@@ -465,20 +451,6 @@
       },
       {
          "uri" : "https://entitlement.marketplace.{region}.amazonaws.com"
-      }
-   ],
-   "events" : [
-      {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "events"
-            },
-            "signatureVersion" : "sigv4a"
-         },
-         "uri" : "https://{EndpointId}.endpoint.events.amazonaws.com"
-      },
-      {
-         "uri" : "https://events.{region}.amazonaws.com"
       }
    ],
    "freetier" : [
@@ -752,14 +724,6 @@
             }
          },
          "uri" : "https://iam.amazonaws.com"
-      }
-   ],
-   "kinesis" : [
-      {
-         "uri" : "https://{StreamIdPrefixValue}.{StreamIdSuffixValue}.{OperationType}-kinesis.{region}.amazonaws.com"
-      },
-      {
-         "uri" : "https://kinesis.{region}.amazonaws.com"
       }
    ],
    "mediaconvert" : [
@@ -1227,14 +1191,6 @@
             }
          },
          "uri" : "https://s3-outposts.{region}.amazonaws.com"
-      },
-      {
-         "properties" : {
-            "credentialScope" : {
-               "service" : "s3-outposts"
-            }
-         },
-         "uri" : "https://s3-outposts.{accessPointArn#region}.{arnPartition#dnsSuffix}"
       },
       {
          "properties" : {
