@@ -2,6 +2,8 @@
 # the Glacier protocol caller. Glacier sits on top of RestJsonCaller
 # and adds the x-amz-glacier-version header.
 
+use Paws::SerDes;
+
 package Paws::GlacierParamsService::MethodReq;
   use Moo;
   use Types::Standard qw(Str);
@@ -18,4 +20,11 @@ package Paws::GlacierParamsService::MethodReq;
   class_has _api_method  => (isa => Str, is => 'ro', default => 'GET');
   class_has _returns     => (isa => Str, is => 'ro');
   class_has _result_key  => (isa => Str, is => 'ro');
+
+Paws::SerDes->register('Paws::GlacierParamsService::MethodReq', [
+  { name => 'AccountId', type => 'Str', wire_key => 'accountId', location => 'uri',
+    location_name => 'accountId', traits => { ParamInURI => 1 }, is_required => 1 },
+  { name => 'VaultName', type => 'Str', wire_key => 'vaultName', location => 'uri',
+    location_name => 'vaultName', traits => { ParamInURI => 1 }, is_required => 1 },
+]);
 1;
