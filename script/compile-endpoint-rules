@@ -244,7 +244,7 @@ sub convert_endpoint_leaf {
     return undef unless defined $url && !ref $url;
 
     # Skip URLs with unresolvable templates (bucket, ARN, S3Express, account, etc.)
-    return undef if $url =~ /\{Bucket|uri_encoded_bucket|s3express|accessPointName|bucketArn|ParsedArn|AccountId|AccountIdEndpointMode/i;
+    return undef if $url =~ /\{Bucket|uri_encoded_bucket|s3express|accessPointName|bucketArn|ParsedArn|AccountId|AccountIdEndpointMode|EndpointId/i;
 
     $url = resolve_url_template($url, $env);
 
