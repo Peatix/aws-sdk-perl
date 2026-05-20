@@ -422,6 +422,149 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.dsql#CreateStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.dsql#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.dsql#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.dsql#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.dsql#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.dsql#CreateStreamInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.dsql#CreateStreamOutput"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to create a new stream."
+            },
+            "smithy.api#documentation" : "<p>Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination.</p> <p> <b>Required permissions</b> </p> <dl> <dt>dsql:CreateStream</dt> <dd> <p>Permission to create a new stream.</p> <p>Resources: <code>arn:aws:dsql:region:account-id:cluster/cluster-id</code> </p> </dd> <dt>iam:PassRole</dt> <dd> <p>Permission to pass the IAM role specified in the target definition to the service.</p> <p>Resources: ARN of the IAM role specified in <code>targetDefinition.kinesis.roleArn</code> </p> </dd> <dt>kms:Decrypt</dt> <dd> <p>Required when the cluster uses a customer managed KMS key (CMK). Permission to decrypt data using the cluster's CMK.</p> <p>Resources: ARN of the KMS key used by the cluster</p> </dd> </dl>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/stream/{clusterIdentifier}"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.dsql#CreateStreamInput" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.dsql#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect.</p> <p>If you don't specify a client token, the Amazon Web Services SDK automatically generates one.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster for which to create the stream.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "format" : {
+               "target" : "com.amazonaws.dsql#StreamFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the stream records.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ordering" : {
+               "target" : "com.amazonaws.dsql#StreamOrdering",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordering mode for the stream. Determines how change events are ordered when delivered to the target.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.dsql#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of key and value pairs to use to tag your stream.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "targetDefinition" : {
+               "target" : "com.amazonaws.dsql#TargetDefinition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target destination configuration for the stream. Contains Kinesis stream configuration including stream ARN and IAM role ARN.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#CreateStreamOutput" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.dsql#StreamArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the created stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster for the created stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "creationTime" : {
+               "target" : "com.amazonaws.dsql#StreamCreationTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when created the stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "format" : {
+               "target" : "com.amazonaws.dsql#StreamFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the created stream records.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ordering" : {
+               "target" : "com.amazonaws.dsql#StreamOrdering",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordering mode of the created stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.dsql#StreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the created stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the created stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The output of a created stream.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.dsql#DSQL" : {
          "errors" : [
             {
@@ -451,6 +594,9 @@
          "resources" : [
             {
                "target" : "com.amazonaws.dsql#Cluster"
+            },
+            {
+               "target" : "com.amazonaws.dsql#Stream"
             }
          ],
          "traits" : {
@@ -880,6 +1026,111 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.dsql#DeleteStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.dsql#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.dsql#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.dsql#DeleteStreamInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.dsql#DeleteStreamOutput"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to delete a stream."
+            },
+            "smithy.api#documentation" : "<p>Deletes a stream from a cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/stream/{clusterIdentifier}/{streamIdentifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.dsql#DeleteStreamInput" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.dsql#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect.</p> <p>If you don't specify a client token, the Amazon Web Services SDK automatically generates one.</p>",
+                  "smithy.api#httpQuery" : "client-token",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster containing the stream to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the stream to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#DeleteStreamOutput" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.dsql#StreamArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the deleted stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster for the deleted stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "creationTime" : {
+               "target" : "com.amazonaws.dsql#StreamCreationTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the stream was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.dsql#StreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the deleted stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The output from a deleted stream.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.dsql#DeletionProtectionEnabled" : {
          "traits" : {
             "smithy.api#documentation" : "<p>Indicates whether deletion protection is enabled for a cluster.</p>"
@@ -1190,6 +1441,163 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.dsql#GetStream" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.dsql#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.dsql#GetStreamInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.dsql#GetStreamOutput"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to get information about a stream."
+            },
+            "smithy.api#documentation" : "<p>Retrieves information about a stream.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/stream/{clusterIdentifier}/{streamIdentifier}"
+            },
+            "smithy.api#readonly" : {},
+            "smithy.waiters#waitable" : {
+               "StreamActive" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "stringEquals",
+                              "expected" : "ACTIVE",
+                              "path" : "status"
+                           }
+                        },
+                        "state" : "success"
+                     }
+                  ],
+                  "documentation" : "Wait until a Stream is ACTIVE"
+               },
+               "StreamNotExists" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "errorType" : "ResourceNotFoundException"
+                        },
+                        "state" : "success"
+                     }
+                  ],
+                  "documentation" : "Wait until a Stream is gone"
+               }
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.dsql#GetStreamInput" : {
+         "members" : {
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster containing the stream to retrieve.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the stream to retrieve.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#GetStreamOutput" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.dsql#StreamArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the retrieved stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster for the retrieved stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "creationTime" : {
+               "target" : "com.amazonaws.dsql#StreamCreationTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time when the stream was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "format" : {
+               "target" : "com.amazonaws.dsql#StreamFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The format of the stream records.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ordering" : {
+               "target" : "com.amazonaws.dsql#StreamOrdering",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordering mode of the stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.dsql#StreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the retrieved stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "statusReason" : {
+               "target" : "com.amazonaws.dsql#StatusReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Stream status reason with error code and timestamp (if applicable).</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the retrieved stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.dsql#TagMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tags associated with the stream.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
+            "targetDefinition" : {
+               "target" : "com.amazonaws.dsql#TargetDefinition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The target definition for the stream destination.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The output of a retrieved stream.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.dsql#GetVpcEndpointServiceName" : {
          "errors" : [
             {
@@ -1305,6 +1713,39 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.dsql#KinesisStreamArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an Amazon Kinesis Data Stream.</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.dsql#KinesisTargetDefinition" : {
+         "members" : {
+            "roleArn" : {
+               "target" : "com.amazonaws.dsql#RoleArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (<code>arn:aws:iam::account-id:role/role-name</code>) or a role with a path prefix (<code>arn:aws:iam::account-id:role/service-role/role-name</code>), such as roles auto-created by the console.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "streamArn" : {
+               "target" : "com.amazonaws.dsql#KinesisStreamArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the Kinesis stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Kinesis stream target configuration.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.dsql#KmsEncryptionKey" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1404,6 +1845,90 @@
                "target" : "com.amazonaws.dsql#NextToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#ListStreams" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.dsql#ResourceNotFoundException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.dsql#ListStreamsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.dsql#ListStreamsOutput"
+         },
+         "traits" : {
+            "aws.iam#iamAction" : {
+               "documentation" : "Grants permission to list streams for a cluster."
+            },
+            "smithy.api#documentation" : "<p>Retrieves information about a list of streams for a cluster.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/stream/{clusterIdentifier}"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "streams",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.dsql#ListStreamsInput" : {
+         "members" : {
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster for which to list streams.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.dsql#MaxResults",
+               "traits" : {
+                  "smithy.api#default" : 10,
+                  "smithy.api#documentation" : "<p>An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results. Default: 10.</p>",
+                  "smithy.api#httpQuery" : "max-results"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.dsql#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If your initial ListStreams operation returns a nextToken, you can include the returned nextToken in following ListStreams operations, which returns results in the next page.</p>",
+                  "smithy.api#httpQuery" : "next-token"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#ListStreamsOutput" : {
+         "members" : {
+            "nextToken" : {
+               "target" : "com.amazonaws.dsql#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.</p>"
+               }
+            },
+            "streams" : {
+               "target" : "com.amazonaws.dsql#StreamList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An array of the returned streams.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -1644,6 +2169,17 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.dsql#RoleArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of an IAM role.</p>",
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 20
+            },
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.dsql#ServiceName" : {
          "traits" : {
             "smithy.api#documentation" : "<p>The name of the VPC endpoint service that provides access to your cluster. Use this endpoint to establish a private connection between your VPC and the cluster.</p>",
@@ -1697,6 +2233,278 @@
             "smithy.api#documentation" : "<p>The service limit was exceeded.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 402
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#StatusReason" : {
+         "members" : {
+            "error" : {
+               "target" : "com.amazonaws.dsql#StreamFailureErrorCode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error code for the stream failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the status was updated.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stream status reason with error and timestamp.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.dsql#Stream" : {
+         "create" : {
+            "target" : "com.amazonaws.dsql#CreateStream"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.dsql#DeleteStream"
+         },
+         "identifiers" : {
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId"
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.dsql#ListStreams"
+         },
+         "properties" : {
+            "arn" : {
+               "target" : "com.amazonaws.dsql#StreamArn"
+            },
+            "creationTime" : {
+               "target" : "com.amazonaws.dsql#StreamCreationTime"
+            },
+            "format" : {
+               "target" : "com.amazonaws.dsql#StreamFormat"
+            },
+            "ordering" : {
+               "target" : "com.amazonaws.dsql#StreamOrdering"
+            },
+            "status" : {
+               "target" : "com.amazonaws.dsql#StreamStatus"
+            },
+            "targetDefinition" : {
+               "target" : "com.amazonaws.dsql#TargetDefinition"
+            }
+         },
+         "read" : {
+            "target" : "com.amazonaws.dsql#GetStream"
+         },
+         "traits" : {
+            "aws.api#arn" : {
+               "template" : "cluster/{clusterIdentifier}/stream/{streamIdentifier}"
+            },
+            "smithy.api#documentation" : "<p>This is an interface reference for Amazon Aurora DSQL Streams. It contains documentation for the programming and command line interfaces you can use to manage change data capture (CDC) streams in Amazon Aurora DSQL.</p> <p>Amazon Aurora DSQL Streams enables you to capture and stream database changes to downstream targets such as Amazon Kinesis Data Streams. This allows you to build real-time data pipelines, maintain data synchronization, and implement event-driven architectures based on database changes.</p>"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.dsql#StreamArn" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the stream.</p>",
+            "smithy.api#pattern" : "^arn:aws(-[^:]+)?:dsql:[a-z0-9-]{1,20}:[0-9]{12}:cluster/[a-z0-9]{26}/stream/[a-z0-9]{26}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.dsql#StreamCreationTime" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The timestamp when the stream was created.</p>"
+         },
+         "type" : "timestamp"
+      },
+      "com.amazonaws.dsql#StreamFailureErrorCode" : {
+         "members" : {
+            "CLUSTER_CMK_INACCESSIBLE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CLUSTER_CMK_INACCESSIBLE"
+               }
+            },
+            "INTERNAL_ERROR" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "INTERNAL_ERROR"
+               }
+            },
+            "KINESIS_ACCESS_DENIED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KINESIS_ACCESS_DENIED"
+               }
+            },
+            "KINESIS_KMS_ACCESS_DENIED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KINESIS_KMS_ACCESS_DENIED"
+               }
+            },
+            "KINESIS_OVERSIZE_RECORD" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KINESIS_OVERSIZE_RECORD"
+               }
+            },
+            "KINESIS_STREAM_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KINESIS_STREAM_NOT_FOUND"
+               }
+            },
+            "KINESIS_THROUGHPUT_EXCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "KINESIS_THROUGHPUT_EXCEEDED"
+               }
+            },
+            "ROLE_ACCESS_DENIED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ROLE_ACCESS_DENIED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Error codes for stream failures.</p> <dl> <dt>KINESIS_THROUGHPUT_EXCEEDED</dt> <dd> <p>The Kinesis stream throughput limit was exceeded.</p> </dd> <dt>KINESIS_STREAM_NOT_FOUND</dt> <dd> <p>The specified Kinesis stream was not found.</p> </dd> <dt>ROLE_ACCESS_DENIED</dt> <dd> <p>Access was denied for the specified IAM role.</p> </dd> <dt>KINESIS_ACCESS_DENIED</dt> <dd> <p>Access to the Kinesis stream was denied.</p> </dd> <dt>KINESIS_KMS_ACCESS_DENIED</dt> <dd> <p>Access to the KMS key for the Kinesis stream was denied.</p> </dd> <dt>KINESIS_OVERSIZE_RECORD</dt> <dd> <p>A record exceeded the Kinesis stream size limit.</p> </dd> <dt>CLUSTER_CMK_INACCESSIBLE</dt> <dd> <p>The cluster's customer-managed key is inaccessible.</p> </dd> <dt>INTERNAL_ERROR</dt> <dd> <p>An internal error occurred.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.dsql#StreamFormat" : {
+         "members" : {
+            "JSON" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "JSON"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stream record format.</p> <dl> <dt>JSON</dt> <dd> <p>Stream records are formatted as JSON.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.dsql#StreamId" : {
+         "traits" : {
+            "smithy.api#documentation" : "<p>The ID of the stream.</p>",
+            "smithy.api#pattern" : "^[a-z0-9]{26}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.dsql#StreamList" : {
+         "member" : {
+            "target" : "com.amazonaws.dsql#StreamSummary"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A list of stream summaries.</p>",
+            "smithy.api#uniqueItems" : {}
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.dsql#StreamOrdering" : {
+         "members" : {
+            "UNORDERED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNORDERED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Stream ordering mode.</p> <dl> <dt>UNORDERED</dt> <dd> <p>Changes are streamed without ordering guarantees.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.dsql#StreamStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "CREATING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CREATING"
+               }
+            },
+            "DELETED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETED"
+               }
+            },
+            "DELETING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "DELETING"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IMPAIRED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "IMPAIRED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The current status of a stream.</p> <dl> <dt>CREATING</dt> <dd> <p>The stream is being created.</p> </dd> <dt>ACTIVE</dt> <dd> <p>The stream is active and processing changes.</p> </dd> <dt>DELETING</dt> <dd> <p>The stream is being deleted.</p> </dd> <dt>DELETED</dt> <dd> <p>The stream has been deleted.</p> </dd> <dt>FAILED</dt> <dd> <p>The stream has failed.</p> </dd> <dt>IMPAIRED</dt> <dd> <p>The stream is impaired and may not be processing changes correctly.</p> </dd> </dl>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.dsql#StreamSummary" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.dsql#StreamArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterIdentifier" : {
+               "target" : "com.amazonaws.dsql#ClusterId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "creationTime" : {
+               "target" : "com.amazonaws.dsql#StreamCreationTime",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the stream was created.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.dsql#StreamStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "streamIdentifier" : {
+               "target" : "com.amazonaws.dsql#StreamId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the stream.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a stream.</p>"
          },
          "type" : "structure"
       },
@@ -1801,6 +2609,20 @@
             "smithy.api#pattern" : "^[a-zA-Z0-9_.:/=+\\-@ ]*$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.dsql#TargetDefinition" : {
+         "members" : {
+            "kinesis" : {
+               "target" : "com.amazonaws.dsql#KinesisTargetDefinition",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Kinesis stream target configuration.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Target definition for stream destination.</p>"
+         },
+         "type" : "union"
       },
       "com.amazonaws.dsql#ThrottlingException" : {
          "members" : {

@@ -7007,6 +7007,12 @@
       },
       "com.amazonaws.quicksight#Capabilities" : {
          "members" : {
+            "AccessAppsNativeDataStore" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to access the native data store for new and existing apps.</p>"
+               }
+            },
             "Action" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -7053,6 +7059,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to review and approve sharing requests of Flows.</p>"
+               }
+            },
+            "Apps" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to perform apps-related actions.</p>"
                }
             },
             "AsanaAction" : {
@@ -7137,6 +7149,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to create and update Amazon S3 actions.</p>"
+               }
+            },
+            "CreateAndUpdateApps" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to create or update apps.</p>"
                }
             },
             "CreateAndUpdateAsanaAction" : {
@@ -7547,6 +7565,12 @@
                   "smithy.api#documentation" : "<p>The ability to perform actions using Intercom connectors.</p>"
                }
             },
+            "InvokeAppsAIInference" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to add and invoke AI inference in new and existing apps.</p>"
+               }
+            },
             "JiraAction" : {
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
@@ -7749,6 +7773,12 @@
                "target" : "com.amazonaws.quicksight#CapabilityState",
                "traits" : {
                   "smithy.api#documentation" : "<p>The ability to share analyses.</p>"
+               }
+            },
+            "ShareApps" : {
+               "target" : "com.amazonaws.quicksight#CapabilityState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ability to share apps with other users.</p>"
                }
             },
             "ShareAsanaAction" : {
