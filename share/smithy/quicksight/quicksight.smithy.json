@@ -785,6 +785,30 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.quicksight#AdditionalNotes" : {
+         "members" : {
+            "Text" : {
+               "target" : "com.amazonaws.quicksight#AdditionalNotesText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The additional notes text.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Additional notes that provide supplementary context for a column.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#AdditionalNotesText" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2000,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.quicksight#AggFunction" : {
          "members" : {
             "Aggregation" : {
@@ -9522,6 +9546,18 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.quicksight#ColumnNameList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#ColumnName"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2000,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.quicksight#ColumnOrderingType" : {
          "members" : {
             "GREATER_IS_BETTER" : {
@@ -9599,6 +9635,58 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.quicksight#ColumnSemanticProperty" : {
+         "members" : {
+            "AdditionalNotes" : {
+               "target" : "com.amazonaws.quicksight#AdditionalNotes",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Additional notes for the column.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.quicksight#ColumnDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the column.</p>"
+               }
+            },
+            "SemanticType" : {
+               "target" : "com.amazonaws.quicksight#ColumnSemanticType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The semantic type of the column.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A semantic property for a column.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#ColumnSemanticPropertyList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#ColumnSemanticProperty"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 3,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.quicksight#ColumnSemanticType" : {
+         "members" : {
+            "GeographicalRole" : {
+               "target" : "com.amazonaws.quicksight#GeoSpatialDataRole",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The geographical role of the column in the new data preparation experience.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The semantic type information for a column in the new data preparation experience.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.quicksight#ColumnSort" : {
          "members" : {
@@ -15059,6 +15147,32 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.quicksight#CustomInstruction" : {
+         "members" : {
+            "InlineCustomInstruction" : {
+               "target" : "com.amazonaws.quicksight#InlineCustomInstruction",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An inline custom instruction containing text and optional uploaded document metadata.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A custom instruction that provides guidance on how the dataset should be consumed.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#CustomInstructionList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#CustomInstruction"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.quicksight#CustomInstructions" : {
          "members" : {
             "CustomInstructionsString" : {
@@ -17190,6 +17304,16 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.quicksight#DataSetDescriptiveText" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 500,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.quicksight#DataSetEntityResourceId" : {
          "traits" : {
             "smithy.api#length" : {
@@ -17555,6 +17679,53 @@
       "com.amazonaws.quicksight#DataSetSearchFilterList" : {
          "member" : {
             "target" : "com.amazonaws.quicksight#DataSetSearchFilter"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.quicksight#DataSetSemanticDescription" : {
+         "members" : {
+            "Text" : {
+               "target" : "com.amazonaws.quicksight#DataSetDescriptiveText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The descriptive text for the dataset.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A description structure for dataset-level semantic metadata.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DataSetSemanticMetadata" : {
+         "members" : {
+            "CustomInstructions" : {
+               "target" : "com.amazonaws.quicksight#CustomInstructionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of custom instructions that guide how the dataset should be consumed.</p>"
+               }
+            },
+            "Description" : {
+               "target" : "com.amazonaws.quicksight#DataSetSemanticDescription",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the dataset.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Semantic metadata for a dataset, including a description and custom instructions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#DataSetSemanticMetadataList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#DataSetSemanticMetadata"
          },
          "traits" : {
             "smithy.api#length" : {
@@ -37924,6 +38095,37 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.quicksight#InlineCustomInstruction" : {
+         "members" : {
+            "InstructionText" : {
+               "target" : "com.amazonaws.quicksight#InlineCustomInstructionText",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The instruction text content.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "UploadedDocumentMetadata" : {
+               "target" : "com.amazonaws.quicksight#UploadedDocumentMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Metadata about an uploaded document associated with this instruction.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An inline custom instruction with text content and optional file upload metadata.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#InlineCustomInstructionText" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50000,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.quicksight#InnerFilter" : {
          "members" : {
             "CategoryInnerFilter" : {
@@ -50688,6 +50890,194 @@
             "aws.protocols#restJson1" : {},
             "smithy.api#documentation" : "<fullname>Amazon Quick API Reference</fullname>\n         <p>Amazon Quick Sight is a fully managed, serverless business intelligence service for the\n            Amazon Web Services Cloud that makes it easy to extend data and insights to every user in your\n            organization. This API reference contains documentation for a programming interface that\n            you can use to manage Amazon Quick Sight. </p>",
             "smithy.api#title" : "Amazon QuickSight",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://quicksight-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://quicksight-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://quicksight.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://quicksight.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -56474,6 +56864,12 @@
       },
       "com.amazonaws.quicksight#SemanticModelConfiguration" : {
          "members" : {
+            "SemanticMetadata" : {
+               "target" : "com.amazonaws.quicksight#DataSetSemanticMetadataList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The dataset-level semantic metadata, including a description and custom instructions.</p>"
+               }
+            },
             "TableMap" : {
                "target" : "com.amazonaws.quicksight#SemanticTableMap",
                "traits" : {
@@ -56506,6 +56902,12 @@
                "target" : "com.amazonaws.quicksight#RowLevelPermissionConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>Configuration for row level security that control data access for this semantic table.</p>"
+               }
+            },
+            "SemanticMetadata" : {
+               "target" : "com.amazonaws.quicksight#TableSemanticMetadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The column-level semantic metadata for this semantic table.</p>"
                }
             }
          },
@@ -56887,6 +57289,39 @@
             "smithy.api#documentation" : "<p>The shape conditional formatting of a filled map visual.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.quicksight#SharedColumnSemanticMetadata" : {
+         "members" : {
+            "ColumnNames" : {
+               "target" : "com.amazonaws.quicksight#ColumnNameList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The names of the columns this metadata applies to.</p>"
+               }
+            },
+            "ColumnProperties" : {
+               "target" : "com.amazonaws.quicksight#ColumnSemanticPropertyList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The semantic properties for the specified columns.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Semantic metadata shared across one or more columns.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#SharedColumnSemanticMetadataList" : {
+         "member" : {
+            "target" : "com.amazonaws.quicksight#SharedColumnSemanticMetadata"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2000,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.quicksight#SharedViewConfigurations" : {
          "members" : {
@@ -60854,6 +61289,20 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The conditional formatting of a table row.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#TableSemanticMetadata" : {
+         "members" : {
+            "ColumnMetadata" : {
+               "target" : "com.amazonaws.quicksight#SharedColumnSemanticMetadataList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of column semantic metadata entries.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Column-level semantic metadata for a semantic table.</p>"
          },
          "type" : "structure"
       },
@@ -71689,6 +72138,29 @@
             "smithy.api#documentation" : "<p>Information about the format for a source file or files.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.quicksight#UploadedDocumentMetadata" : {
+         "members" : {
+            "Name" : {
+               "target" : "com.amazonaws.quicksight#UploadedDocumentName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the uploaded document.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Metadata for an uploaded document associated with a custom instruction.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.quicksight#UploadedDocumentName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 127,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.quicksight#User" : {
          "members" : {

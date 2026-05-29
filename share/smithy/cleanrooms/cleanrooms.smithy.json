@@ -80,6 +80,194 @@
                "pageSize" : "maxResults"
             },
             "smithy.api#title" : "AWS Clean Rooms Service",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -2921,16 +3109,52 @@
                   "smithy.api#enumValue" : "ADD_MEMBER"
                }
             },
+            "ADD_PAYER_CANDIDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ADD_PAYER_CANDIDATE"
+               }
+            },
             "EDIT_AUTO_APPROVED_CHANGE_TYPES" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "EDIT_AUTO_APPROVED_CHANGE_TYPES"
                }
             },
+            "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT"
+               }
+            },
+            "GRANT_CAN_RECEIVE_MODEL_OUTPUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "GRANT_CAN_RECEIVE_MODEL_OUTPUT"
+               }
+            },
             "GRANT_RECEIVE_RESULTS_ABILITY" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "GRANT_RECEIVE_RESULTS_ABILITY"
+               }
+            },
+            "REMOVE_PAYER_CANDIDATE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REMOVE_PAYER_CANDIDATE"
+               }
+            },
+            "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
+               }
+            },
+            "REVOKE_CAN_RECEIVE_MODEL_OUTPUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REVOKE_CAN_RECEIVE_MODEL_OUTPUT"
                }
             },
             "REVOKE_RECEIVE_RESULTS_ABILITY" : {
@@ -12821,6 +13045,12 @@
                   "smithy.api#documentation" : "<p>The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration.</p> <note> <p>The following values are currently not supported: <code>CAN_QUERY</code> and <code>CAN_RUN_JOB</code>. </p> <p>Set the value of <code>memberAbilities</code> to <code>[]</code> to allow a member to contribute data.</p> <p>Set the value of <code>memberAbilities</code> to <code>[CAN_RECEIVE_RESULTS]</code> to allow a member to contribute data and receive results.</p> </note>",
                   "smithy.api#required" : {}
                }
+            },
+            "mlMemberAbilities" : {
+               "target" : "com.amazonaws.cleanrooms#MLMemberAbilities"
+            },
+            "paymentConfiguration" : {
+               "target" : "com.amazonaws.cleanrooms#PaymentConfiguration"
             }
          },
          "traits" : {
@@ -14459,6 +14689,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "jobComputePayerAccountId" : {
+               "target" : "com.amazonaws.cleanrooms#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that pays for the job compute costs.</p>"
+               }
+            },
             "jobParameters" : {
                "target" : "com.amazonaws.cleanrooms#ProtectedJobParameters",
                "traits" : {
@@ -14944,6 +15180,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "jobComputePayerAccountId" : {
+               "target" : "com.amazonaws.cleanrooms#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that pays for the job compute costs.</p>"
+               }
+            },
             "membershipArn" : {
                "target" : "com.amazonaws.cleanrooms#MembershipArn",
                "traits" : {
@@ -15093,6 +15335,12 @@
                   "smithy.api#documentation" : "<p>The identifier for the membership.</p>",
                   "smithy.api#required" : {},
                   "smithy.api#resourceIdentifier" : "MembershipId"
+               }
+            },
+            "queryComputePayerAccountId" : {
+               "target" : "com.amazonaws.cleanrooms#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that pays for the query compute costs.</p>"
                }
             },
             "result" : {
@@ -15505,6 +15753,12 @@
                   "smithy.api#documentation" : "<p>The unique ID for the membership that initiated the protected query.</p>",
                   "smithy.api#required" : {},
                   "smithy.api#resourceIdentifier" : "MembershipId"
+               }
+            },
+            "queryComputePayerAccountId" : {
+               "target" : "com.amazonaws.cleanrooms#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that pays for the query compute costs.</p>"
                }
             },
             "receiverConfigurations" : {
@@ -16651,6 +16905,12 @@
                   "smithy.api#documentation" : "<p>The compute configuration for the protected job.</p>"
                }
             },
+            "jobComputePayerAccountId" : {
+               "target" : "com.amazonaws.cleanrooms#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that pays for the job compute costs.</p>"
+               }
+            },
             "jobParameters" : {
                "target" : "com.amazonaws.cleanrooms#ProtectedJobParameters",
                "traits" : {
@@ -16754,6 +17014,12 @@
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {},
                   "smithy.api#resourceIdentifier" : "MembershipId"
+               }
+            },
+            "queryComputePayerAccountId" : {
+               "target" : "com.amazonaws.cleanrooms#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that pays for the query compute costs.</p>"
                }
             },
             "resultConfiguration" : {
@@ -18273,6 +18539,12 @@
                   "smithy.api#resourceIdentifier" : "MembershipId"
                }
             },
+            "membershipPaymentConfiguration" : {
+               "target" : "com.amazonaws.cleanrooms#UpdateMembershipPaymentConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payment configuration to update for the membership.</p>"
+               }
+            },
             "queryLogStatus" : {
                "target" : "com.amazonaws.cleanrooms#MembershipQueryLogStatus",
                "traits" : {
@@ -18290,6 +18562,23 @@
                   "smithy.api#required" : {}
                }
             }
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.cleanrooms#UpdateMembershipPaymentConfiguration" : {
+         "members" : {
+            "jobCompute" : {
+               "target" : "com.amazonaws.cleanrooms#MembershipJobComputePaymentConfig"
+            },
+            "machineLearning" : {
+               "target" : "com.amazonaws.cleanrooms#MembershipMLPaymentConfig"
+            },
+            "queryCompute" : {
+               "target" : "com.amazonaws.cleanrooms#MembershipQueryComputePaymentConfig"
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>An object representing the payment responsibilities to update for the membership.</p>"
          },
          "type" : "structure"
       },

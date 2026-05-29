@@ -429,6 +429,201 @@
             "smithy.api#documentation" : "<p>Amazon Application Recovery Controller (ARC) Region switch helps you to quickly and reliably shift traffic away from an impaired Amazon Web Services Region to a healthy Region. With Region switch, you can create plans that define the steps to shift traffic for your application from one Amazon Web Services Region to another.</p> <p>Region switch provides a structured approach to multi-Region failover, helping you to meet your recovery time objectives (RTOs) and maintain business continuity during regional disruptions.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/r53recovery/latest/dg/region-switch.html\">Region switch in ARC</a> in the <i>Amazon Application Recovery Controller User Guide</i>.</p>",
             "smithy.api#title" : "ARC - Region switch",
             "smithy.protocols#rpcv2Cbor" : {},
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "UseControlPlaneEndpoint"
+                              },
+                              false
+                           ],
+                           "fn" : "coalesce"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws-cn"
+                     ],
+                     "fn" : "stringEquals"
+                  }
+               ],
+               "nodeCount" : 10,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAoAAAADAAAAAQAAAAQF9eEJAAAAAgAAAAUF9eEJAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEIAAAABQX14QEF9eEEAAAABAAAAAkF9eEHAAAABQX14QIF9eEDAAAAAwX14QUF9eEG",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseControlPlaneEndpoint" : {
+                     "documentation" : "Whether the operation is a control plane operation. Control plane operations are routed to a centralized endpoint in the partition leader.",
+                     "required" : false,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "arc-region-switch",
+                                 "signingRegion" : "cn-north-1"
+                              }
+                           ]
+                        },
+                        "url" : "https://arc-region-switch-control-plane.cn-north-1.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS is not supported in this partition",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "arc-region-switch",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://arc-region-switch-control-plane-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "arc-region-switch",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://arc-region-switch-control-plane.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://arc-region-switch-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://arc-region-switch.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {

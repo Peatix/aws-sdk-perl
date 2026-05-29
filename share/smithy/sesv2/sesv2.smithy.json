@@ -12682,6 +12682,285 @@
             "aws.protocols#restJson1" : {},
             "smithy.api#documentation" : "<fullname>Amazon SES API v2</fullname>\n         <p>\n            <a href=\"http://aws.amazon.com/ses\">Amazon SES</a> is an Amazon Web Services service that\n            you can use to send email messages to your customers.</p>\n         <p>If you're new to Amazon SES API v2, you might find it helpful to review the <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/\">Amazon Simple Email Service Developer\n                Guide</a>. The <i>Amazon SES Developer Guide</i> provides information\n            and code samples that demonstrate how to use Amazon SES API v2 features programmatically.</p>",
             "smithy.api#title" : "Amazon Simple Email Service",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "EndpointId"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "EndpointId"
+                        },
+                        true
+                     ],
+                     "fn" : "isValidHostLabel"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 21,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAMAAAAEAAAAAQAAAAUAAAAEAAAABAAAAA4F9eEQAAAAAgAAABAAAAAGAAAABAAAAA4AAAAHAAAABQAAAAoAAAAIAAAABgAAAAkF9eEPAAAABwX14Q4F9eEDAAAABgAAAAwAAAALAAAACAX14QwF9eENAAAABwAAAA0F9eELAAAACAX14QoF9eELAAAABQX14QcAAAAPAAAABgX14QgF9eEJAAAAAwAAABEF9eEGAAAABAAAABUAAAASAAAABQX14QUAAAATAAAABgAAABQF9eEEAAAABwX14QIF9eEDAAAABQX14QUF9eEB",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "EndpointId" : {
+                     "documentation" : "Operation parameter for EndpointId",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4a",
+                                 "signingName" : "ses",
+                                 "signingRegionSet" : [
+                                    "*"
+                                 ]
+                              }
+                           ]
+                        },
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4a",
+                                 "signingName" : "ses",
+                                 "signingRegionSet" : [
+                                    "*"
+                                 ]
+                              }
+                           ]
+                        },
+                        "url" : "https://{EndpointId}.endpoints.email.global.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4a",
+                                 "signingName" : "ses",
+                                 "signingRegionSet" : [
+                                    "*"
+                                 ]
+                              }
+                           ]
+                        },
+                        "url" : "https://{EndpointId}.endpoints.email.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS is not supported with multi-region endpoints",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "EndpointId must be a valid host label",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://email-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://email-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://email.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://email.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {

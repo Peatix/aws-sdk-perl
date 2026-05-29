@@ -50,6 +50,9 @@
                "target" : "com.amazonaws.accessanalyzer#CreateAccessPreview"
             },
             {
+               "target" : "com.amazonaws.accessanalyzer#CreateServiceLinkedAnalyzer"
+            },
+            {
                "target" : "com.amazonaws.accessanalyzer#GenerateFindingRecommendation"
             },
             {
@@ -136,6 +139,218 @@
                "pageSize" : "maxResults"
             },
             "smithy.api#title" : "Access Analyzer",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws-us-gov"
+                     ],
+                     "fn" : "stringEquals"
+                  }
+               ],
+               "nodeCount" : 14,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAA0AAAADAAAAAQAAAAQF9eEMAAAAAgAAAAUF9eEMAAAAAwAAAAgAAAAGAAAABAAAAAcF9eELAAAABQX14QkF9eEKAAAABAAAAAsAAAAJAAAABgAAAAoF9eEIAAAABwX14QYF9eEHAAAABQAAAAwF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAAOAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://access-analyzer-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://access-analyzer.{Region}.amazonaws.com"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://access-analyzer-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://access-analyzer.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://access-analyzer.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -1792,12 +2007,17 @@
          },
          "identifiers" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name"
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName"
             }
          },
          "list" : {
             "target" : "com.amazonaws.accessanalyzer#ListAnalyzers"
          },
+         "operations" : [
+            {
+               "target" : "com.amazonaws.accessanalyzer#DeleteServiceLinkedAnalyzer"
+            }
+         ],
          "put" : {
             "target" : "com.amazonaws.accessanalyzer#CreateAnalyzer"
          },
@@ -1845,6 +2065,16 @@
             "smithy.api#documentation" : "<p>Contains information about the configuration of an analyzer for an Amazon Web Services organization or account.</p>"
          },
          "type" : "union"
+      },
+      "com.amazonaws.accessanalyzer#AnalyzerName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[A-Za-z_][A-Za-z0-9_.-]*$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.accessanalyzer#AnalyzerStatus" : {
          "traits" : {
@@ -1903,8 +2133,14 @@
                   "smithy.api#documentation" : "<p>The time at which the most recently analyzed resource was analyzed.</p>"
                }
             },
+            "managedBy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The service principal that manages this analyzer (for example, <code>securityhubv2.amazonaws.com</code>). This field is only present for service-linked analyzers and is not included for customer-managed analyzers.</p>"
+               }
+            },
             "name" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer.</p>",
                   "smithy.api#required" : {}
@@ -2018,7 +2254,7 @@
          },
          "identifiers" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name"
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName"
             },
             "ruleName" : {
                "target" : "com.amazonaws.accessanalyzer#Name"
@@ -2797,7 +3033,7 @@
       "com.amazonaws.accessanalyzer#CreateAnalyzerRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer to create.</p>",
                   "smithy.api#required" : {}
@@ -2899,7 +3135,7 @@
       "com.amazonaws.accessanalyzer#CreateArchiveRuleRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the created analyzer.</p>",
                   "smithy.api#httpLabel" : {},
@@ -2930,6 +3166,94 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Creates an archive rule.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accessanalyzer#CreateServiceLinkedAnalyzer" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.accessanalyzer#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.accessanalyzer#CreateServiceLinkedAnalyzerRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.accessanalyzer#CreateServiceLinkedAnalyzerResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a service-linked analyzer managed by an Amazon Web Services service. This operation can only be invoked by authorized Amazon Web Services services. Direct customer invocation returns <code>AccessDeniedException</code>.</p> <p>Service-linked analyzers enable Amazon Web Services services to create and manage analyzers on behalf of customers. The lifecycle of these analyzers is managed by the calling service.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PUT",
+               "uri" : "/service-linked-analyzer"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.accessanalyzer#CreateServiceLinkedAnalyzerRequest" : {
+         "members" : {
+            "archiveRules" : {
+               "target" : "com.amazonaws.accessanalyzer#InlineArchiveRulesList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the archive rules to add for the analyzer. Archive rules automatically archive findings that meet the criteria you define for the rule.</p>"
+               }
+            },
+            "clientToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A client token.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "configuration" : {
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the configuration of the analyzer. The specified scope of unused access is used for the configuration.</p>"
+               }
+            },
+            "type" : {
+               "target" : "com.amazonaws.accessanalyzer#Type",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of analyzer to create. Valid values are <code>ACCOUNT_UNUSED_ACCESS</code> and <code>ORGANIZATION_UNUSED_ACCESS</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a service-linked analyzer.</p>",
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accessanalyzer#CreateServiceLinkedAnalyzerResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the service-linked analyzer that was created by the request. The analyzer name follows the format <code>_AccessAnalyzerFor{ServiceName}-{Id}</code> where <code>Id</code> is a randomly generated identifier.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The response to the request to create a service-linked analyzer.</p>",
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -3003,7 +3327,7 @@
       "com.amazonaws.accessanalyzer#DeleteAnalyzerRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer to delete.</p>",
                   "smithy.api#httpLabel" : {},
@@ -3062,7 +3386,7 @@
       "com.amazonaws.accessanalyzer#DeleteArchiveRuleRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer that associated with the archive rule to delete.</p>",
                   "smithy.api#httpLabel" : {},
@@ -3088,6 +3412,69 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>Deletes an archive rule.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.accessanalyzer#DeleteServiceLinkedAnalyzer" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.accessanalyzer#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.accessanalyzer#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.accessanalyzer#DeleteServiceLinkedAnalyzerRequest"
+         },
+         "output" : {
+            "target" : "smithy.api#Unit"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a service-linked analyzer. This operation can be invoked by both authorized Amazon Web Services services and customers.</p> <p>When invoked by a customer, IAM Access Analyzer performs a callback to the managing service to verify whether the analyzer is still in use and can be deleted. If the service indicates the analyzer is still in use, the deletion is rejected with <code>ConflictException</code>.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/service-linked-analyzer/{analyzerName}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.accessanalyzer#DeleteServiceLinkedAnalyzerRequest" : {
+         "members" : {
+            "analyzerName" : {
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the service-linked analyzer to delete. Service-linked analyzer names follow the format <code>_AccessAnalyzerFor{ServiceName}-{Id}</code>.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "clientToken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A client token.</p>",
+                  "smithy.api#httpQuery" : "clientToken",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a service-linked analyzer.</p>",
+            "smithy.api#input" : {}
          },
          "type" : "structure"
       },
@@ -4178,7 +4565,7 @@
       "com.amazonaws.accessanalyzer#GetAnalyzerRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer retrieved.</p>",
                   "smithy.api#httpLabel" : {},
@@ -4244,7 +4631,7 @@
       "com.amazonaws.accessanalyzer#GetArchiveRuleRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer to retrieve rules from.</p>",
                   "smithy.api#httpLabel" : {},
@@ -5818,7 +6205,7 @@
       "com.amazonaws.accessanalyzer#ListArchiveRulesRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer to retrieve rules from.</p>",
                   "smithy.api#httpLabel" : {},
@@ -8057,7 +8444,7 @@
       "com.amazonaws.accessanalyzer#UpdateAnalyzerRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer to modify.</p>",
                   "smithy.api#httpLabel" : {},
@@ -8122,7 +8509,7 @@
       "com.amazonaws.accessanalyzer#UpdateArchiveRuleRequest" : {
          "members" : {
             "analyzerName" : {
-               "target" : "com.amazonaws.accessanalyzer#Name",
+               "target" : "com.amazonaws.accessanalyzer#AnalyzerName",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the analyzer to update the archive rules for.</p>",
                   "smithy.api#httpLabel" : {},

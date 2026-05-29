@@ -75,6 +75,243 @@
             "aws.protocols#restJson1" : {},
             "smithy.api#documentation" : "<p>Savings Plans are a pricing model that offer significant savings on Amazon Web Services usage (for example, on Amazon EC2 instances). You commit to a consistent\n         amount of usage per hour, in the specified currency, for a term of one or three years, and\n         receive a lower price for that usage. For more information, see the <a href=\"https://docs.aws.amazon.com/savingsplans/latest/userguide/\">Amazon Web Services\n            Savings Plans User Guide</a>.</p>",
             "smithy.api#title" : "AWS Savings Plans",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 17,
+               "nodes" : "/////wAAAAH/////AAAAAAAAABAAAAADAAAAAQAAAAYAAAAEAAAAAwX14Q0AAAAFAAAABQX14QEF9eENAAAAAgAAAAcF9eENAAAAAwAAAAwAAAAIAAAABAAAAAsAAAAJAAAABQAAAAoF9eEMAAAABwX14QIF9eEDAAAABQX14QEF9eEHAAAABQAAAA4AAAANAAAABgX14QoF9eELAAAABgAAAA8F9eEJAAAABwX14QgF9eEJAAAAAwX14QQAAAARAAAABQX14QUF9eEG",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "savingsplans",
+                                 "signingRegion" : "us-east-1"
+                              }
+                           ]
+                        },
+                        "url" : "https://savingsplans.global.api.aws"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://savingsplans.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "savingsplans",
+                                 "signingRegion" : "us-east-1"
+                              }
+                           ]
+                        },
+                        "url" : "https://savingsplans.amazonaws.com"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://savingsplans-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://savingsplans-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://savingsplans.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {

@@ -1402,6 +1402,16 @@
       },
       "com.amazonaws.pcs#ComputeNodeGroupSlurmConfiguration" : {
          "members" : {
+            "scaleDownIdleTimeInSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level <code>scaleDownIdleTimeInSeconds</code> setting. A value of <code>-1</code> removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.</p>",
+                  "smithy.api#range" : {
+                     "max" : 10000000,
+                     "min" : -1
+                  }
+               }
+            },
             "slurmCustomSettings" : {
                "target" : "com.amazonaws.pcs#SlurmCustomSettings",
                "traits" : {
@@ -1416,6 +1426,16 @@
       },
       "com.amazonaws.pcs#ComputeNodeGroupSlurmConfigurationRequest" : {
          "members" : {
+            "scaleDownIdleTimeInSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level <code>scaleDownIdleTimeInSeconds</code> setting. A value of <code>-1</code> removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.</p>",
+                  "smithy.api#range" : {
+                     "max" : 10000000,
+                     "min" : -1
+                  }
+               }
+            },
             "slurmCustomSettings" : {
                "target" : "com.amazonaws.pcs#SlurmCustomSettings",
                "traits" : {
@@ -4439,6 +4459,16 @@
       },
       "com.amazonaws.pcs#UpdateComputeNodeGroupSlurmConfigurationRequest" : {
          "members" : {
+            "scaleDownIdleTimeInSeconds" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level <code>scaleDownIdleTimeInSeconds</code> setting. A value of <code>-1</code> removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.</p>",
+                  "smithy.api#range" : {
+                     "max" : 10000000,
+                     "min" : -1
+                  }
+               }
+            },
             "slurmCustomSettings" : {
                "target" : "com.amazonaws.pcs#SlurmCustomSettings",
                "traits" : {

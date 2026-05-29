@@ -1330,6 +1330,12 @@
                   "smithy.api#documentation" : "<p>Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4).</p> <p>To get a list of supported versions, use the <code>ListVersions</code> operation.</p>"
                }
             },
+            "ipAddressType" : {
+               "target" : "com.amazonaws.grafana#IPAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are <code>IPv4</code> and <code>DualStack</code>. For more information about IP address types, see <a href=\"https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html\">Network access control</a>.</p>"
+               }
+            },
             "kmsKeyId" : {
                "target" : "com.amazonaws.grafana#KmsKeyId",
                "traits" : {
@@ -1698,6 +1704,15 @@
             "target" : "com.amazonaws.grafana#DataSourceType"
          },
          "type" : "list"
+      },
+      "com.amazonaws.grafana#DegradedWorkspaceReason" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.grafana#DeleteWorkspace" : {
          "errors" : [
@@ -2314,6 +2329,23 @@
             "target" : "com.amazonaws.grafana#GrafanaVersion"
          },
          "type" : "list"
+      },
+      "com.amazonaws.grafana#IPAddressType" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Indicates that connections to this workspace can only be made over IPv4.",
+                  "name" : "IPV4",
+                  "value" : "IPv4"
+               },
+               {
+                  "documentation" : "Indicates that connections to this workspace can be made over IPv4 or IPv6.",
+                  "name" : "DUAL_STACK",
+                  "value" : "DualStack"
+               }
+            ]
+         },
+         "type" : "string"
       },
       "com.amazonaws.grafana#IamRoleArn" : {
          "traits" : {
@@ -4180,6 +4212,12 @@
                   "smithy.api#documentation" : "<p>Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify <code>ORGANIZATION</code>, you must specify which organizational units the workspace can access in the <code>workspaceOrganizationalUnits</code> parameter.</p>"
                }
             },
+            "ipAddressType" : {
+               "target" : "com.amazonaws.grafana#IPAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are <code>IPv4</code> and <code>DualStack</code>. For more information about IP address types, see <a href=\"https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html\">Network access control</a>.</p>"
+               }
+            },
             "networkAccessControl" : {
                "target" : "com.amazonaws.grafana#NetworkAccessConfiguration",
                "traits" : {
@@ -4502,6 +4540,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "degradedWorkspaceReason" : {
+               "target" : "com.amazonaws.grafana#DegradedWorkspaceReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the workspace is in the <code>DEGRADED</code> status, this field describes the reason the workspace is degraded.</p>"
+               }
+            },
             "description" : {
                "target" : "com.amazonaws.grafana#Description",
                "traits" : {
@@ -4545,6 +4589,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique ID of this workspace.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "ipAddressType" : {
+               "target" : "com.amazonaws.grafana#IPAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of IP addresses supported for connection to the workspace. Valid values are <code>IPv4</code> and <code>DualStack</code>.</p>"
                }
             },
             "kmsKeyId" : {
@@ -4731,6 +4781,11 @@
                   "documentation" : "Workspace version update failed.",
                   "name" : "VERSION_UPDATE_FAILED",
                   "value" : "VERSION_UPDATE_FAILED"
+               },
+               {
+                  "documentation" : "Workspace is degraded.",
+                  "name" : "DEGRADED",
+                  "value" : "DEGRADED"
                }
             ]
          },

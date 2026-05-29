@@ -6361,6 +6361,34 @@
                "inputToken" : "Marker",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "ExtensionPackAssociated" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS extension pack is associated.",
+                  "minDelay" : 10
+               }
             }
          },
          "type" : "operation"
@@ -6864,6 +6892,34 @@
                "inputToken" : "Marker",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "MetadataModelAssessed" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model is assessed.",
+                  "minDelay" : 30
+               }
             }
          },
          "type" : "operation"
@@ -7026,6 +7082,60 @@
                "inputToken" : "Marker",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "MetadataModelConversionCancelled" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "CANCELED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model conversion is cancelled.",
+                  "minDelay" : 10
+               },
+               "MetadataModelConverted" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model is converted.",
+                  "minDelay" : 30
+               }
             }
          },
          "type" : "operation"
@@ -7105,6 +7215,60 @@
                "items" : "Requests",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "MetadataModelCreated" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model is created.",
+                  "minDelay" : 15
+               },
+               "MetadataModelCreationCancelled" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "CANCELED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model creation is cancelled.",
+                  "minDelay" : 10
+               }
             }
          },
          "type" : "operation"
@@ -7180,6 +7344,34 @@
                "inputToken" : "Marker",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "MetadataModelExportedAsScript" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model is exported as script.",
+                  "minDelay" : 20
+               }
             }
          },
          "type" : "operation"
@@ -7255,6 +7447,34 @@
                "inputToken" : "Marker",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "MetadataModelExportedToTarget" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model is exported to target.",
+                  "minDelay" : 20
+               }
             }
          },
          "type" : "operation"
@@ -7330,6 +7550,34 @@
                "inputToken" : "Marker",
                "outputToken" : "Marker",
                "pageSize" : "MaxRecords"
+            },
+            "smithy.waiters#waitable" : {
+               "MetadataModelImported" : {
+                  "acceptors" : [
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "allStringEquals",
+                              "expected" : "SUCCESS",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "success"
+                     },
+                     {
+                        "matcher" : {
+                           "output" : {
+                              "comparator" : "anyStringEquals",
+                              "expected" : "FAILED",
+                              "path" : "Requests[].Status"
+                           }
+                        },
+                        "state" : "failure"
+                     }
+                  ],
+                  "documentation" : "Wait until DMS metadata model is imported.",
+                  "minDelay" : 60
+               }
             }
          },
          "type" : "operation"
