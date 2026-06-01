@@ -96,6 +96,194 @@
             },
             "smithy.api#documentation" : "<p>Welcome to the <i>Amazon Web Services Clean Rooms ML API Reference</i>.</p> <p>Amazon Web Services Clean Rooms ML provides a privacy-enhancing method for two parties to identify similar users in their data without the need to share their data with each other. The first party brings the training data to Clean Rooms so that they can create and configure an audience model (lookalike model) and associate it with a collaboration. The second party then brings their seed data to Clean Rooms and generates an audience (lookalike segment) that resembles the training data.</p> <p>To learn more about Amazon Web Services Clean Rooms ML concepts, procedures, and best practices, see the <a href=\"https://docs.aws.amazon.com/clean-rooms/latest/userguide/machine-learning.html\">Clean Rooms User Guide</a>.</p> <p>To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the <a href=\"https://docs.aws.amazon.com/clean-rooms/latest/sql-reference/sql-reference.html\">Clean Rooms SQL Reference</a>.</p> <p/>",
             "smithy.api#title" : "AWS Clean Rooms ML",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms-ml-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms-ml-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms-ml.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://cleanrooms-ml.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -1811,6 +1999,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "payerConfiguration" : {
+               "target" : "com.amazonaws.cleanroomsml#PayerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payer configuration for the ML input channel.</p>"
+               }
+            },
             "status" : {
                "target" : "com.amazonaws.cleanroomsml#MLInputChannelStatus",
                "traits" : {
@@ -2004,6 +2198,12 @@
                   "smithy.api#documentation" : "<p>Details about the metrics status for trained model inference job.</p>"
                }
             },
+            "mlModelInferencePayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model inference costs.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.cleanroomsml#NameString",
                "traits" : {
@@ -2113,6 +2313,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The membership ID of the member that created the trained model.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "mlModelTrainingPayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model training costs.</p>"
                }
             },
             "name" : {
@@ -3255,6 +3461,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "payerConfiguration" : {
+               "target" : "com.amazonaws.cleanroomsml#PayerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payer configuration for the ML input channel. Determines which member account pays for compute and synthetic data costs.</p>"
+               }
+            },
             "retentionInDays" : {
                "target" : "smithy.api#Integer",
                "traits" : {
@@ -3386,6 +3598,12 @@
                   "smithy.api#documentation" : "<p>The membership ID of the member that is creating the trained model.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
+               }
+            },
+            "mlModelTrainingPayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model training costs.</p>"
                }
             },
             "name" : {
@@ -4815,6 +5033,12 @@
                   }
                }
             },
+            "payerConfiguration" : {
+               "target" : "com.amazonaws.cleanroomsml#PayerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payer configuration for the ML input channel.</p>"
+               }
+            },
             "privacyBudgets" : {
                "target" : "com.amazonaws.cleanroomsml#PrivacyBudgets",
                "traits" : {
@@ -4997,6 +5221,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Details about the status information for the model metrics.</p>"
+               }
+            },
+            "mlModelTrainingPayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model training costs.</p>"
                }
             },
             "name" : {
@@ -5765,6 +5995,12 @@
                   }
                }
             },
+            "payerConfiguration" : {
+               "target" : "com.amazonaws.cleanroomsml#PayerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payer configuration for the ML input channel.</p>"
+               }
+            },
             "privacyBudgets" : {
                "target" : "com.amazonaws.cleanroomsml#PrivacyBudgets",
                "traits" : {
@@ -6006,6 +6242,12 @@
                   "smithy.api#documentation" : "<p>Details about the metrics status for the trained model inference job.</p>"
                }
             },
+            "mlModelInferencePayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model inference costs.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.cleanroomsml#NameString",
                "traits" : {
@@ -6198,6 +6440,12 @@
                "target" : "smithy.api#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Details about the metrics status for the trained model.</p>"
+               }
+            },
+            "mlModelTrainingPayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model training costs.</p>"
                }
             },
             "name" : {
@@ -9905,6 +10153,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "payerConfiguration" : {
+               "target" : "com.amazonaws.cleanroomsml#PayerConfiguration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The payer configuration for the ML input channel.</p>"
+               }
+            },
             "protectedQueryIdentifier" : {
                "target" : "com.amazonaws.cleanroomsml#UUID",
                "traits" : {
@@ -10302,6 +10556,26 @@
             }
          },
          "type" : "string"
+      },
+      "com.amazonaws.cleanroomsml#PayerConfiguration" : {
+         "members" : {
+            "computePayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying compute costs.</p>"
+               }
+            },
+            "syntheticDataPayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying synthetic data generation costs.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Specifies which member accounts are responsible for paying for compute and synthetic data generation costs in a Clean Rooms ML collaboration.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.cleanroomsml#PolicyExistenceCondition" : {
          "members" : {
@@ -11161,6 +11435,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "mlModelInferencePayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model inference costs.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.cleanroomsml#NameString",
                "traits" : {
@@ -11950,6 +12230,12 @@
                   "smithy.api#documentation" : "<p>Details about the metrics status for the trained model inference job.</p>"
                }
             },
+            "mlModelInferencePayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model inference costs.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.cleanroomsml#NameString",
                "traits" : {
@@ -12185,6 +12471,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The membership ID of the member that created the trained model.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "mlModelTrainingPayerAccountId" : {
+               "target" : "com.amazonaws.cleanroomsml#AccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The account ID of the member that is responsible for paying for model training costs.</p>"
                }
             },
             "name" : {
