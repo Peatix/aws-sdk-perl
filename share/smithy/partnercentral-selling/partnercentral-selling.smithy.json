@@ -101,6 +101,110 @@
             "aws.protocols#awsJson1_0" : {},
             "smithy.api#documentation" : "<fullname>AWS Partner Central API for Selling</fullname> <p> <b>AWS Partner Central API for Selling Reference Guide</b> </p> <p>This Amazon Web Services (AWS) Partner Central API reference is designed to help <a href=\"http://aws.amazon.com/partners/programs/\">AWS Partners</a> integrate Customer Relationship Management (CRM) systems with AWS Partner Central. Partners can automate interactions with AWS Partner Central, which helps to ensure effective engagements in joint business activities.</p> <p>The API provides standard AWS API functionality. Access it by either using API <a href=\"https://docs.aws.amazon.com/partner-central/latest/selling-api/API_Operations.html\">Actions</a> or by using an AWS SDK that's tailored to your programming language or platform. For more information, see <a href=\"http://aws.amazon.com/getting-started\">Getting Started with AWS</a> and <a href=\"http://aws.amazon.com/developer/tools/\">Tools to Build on AWS</a>.</p> <p class=\"title\"> <b>Features offered by AWS Partner Central API</b> </p> <ol> <li> <p> <b>Opportunity management:</b> Manages coselling opportunities through API actions such as <code>CreateOpportunity</code>, <code>UpdateOpportunity</code>, <code>ListOpportunities</code>, <code>GetOpportunity</code>, and <code>AssignOpportunity</code>.</p> </li> <li> <p> <b>AWS referral management:</b> Manages referrals shared by AWS using actions such as <code>ListEngagementInvitations</code>, <code>GetEngagementInvitation</code>, <code>StartEngagementByAcceptingInvitation</code>, and <code>RejectEngagementInvitation</code>.</p> </li> <li> <p> <b>Entity association:</b> Associates related entities such as <i>AWS Products</i>, <i>Partner Solutions</i>, and <i>AWS Marketplace Private Offers</i> with opportunities using the actions <code>AssociateOpportunity</code>, and <code>DisassociateOpportunity</code>.</p> </li> <li> <p> <b>View AWS opportunity details:</b> Retrieves real-time summaries of AWS opportunities using the <code>GetAWSOpportunitySummary</code> action.</p> </li> <li> <p> <b>List solutions:</b> Provides list APIs for listing partner offers using <code>ListSolutions</code>.</p> </li> <li> <p> <b>Event subscription:</b> Subscribe to real-time opportunity updates through AWS EventBridge by using actions such as <i>Opportunity Created</i>, <i>Opportunity Updated</i>, <i>Engagement Invitation Accepted</i>, <i>Engagement Invitation Rejected</i>, and <i>Engagement Invitation Created</i>.</p> </li> </ol>",
             "smithy.api#title" : "Partner Central Selling API",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 6,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAYAAAADAAAAAQAAAAQF9eEFAAAAAgAAAAUF9eEFAAAAAwX14QMF9eEEAAAAAwX14QEF9eEC",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://partnercentral-selling-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://partnercentral-selling.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -6571,6 +6675,42 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.partnercentralselling#ExpectedContractDuration" : {
+         "members" : {
+            "Term" : {
+               "target" : "com.amazonaws.partnercentralselling#ExpectedContractDurationTerm",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unit of measurement for the contract duration value. Currently accepts only <code>Months</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Value" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A String representation of the contract duration as an integer, expressed in the unit defined by <code>Term</code>. Valid values range from <code>1</code> to <code>144</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The expected duration of a partner's contract with the customer. Used to convert Total Contract Value (TCV) to Monthly Recurring Revenue (MRR) for opportunity dealsizing calculations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.partnercentralselling#ExpectedContractDurationTerm" : {
+         "members" : {
+            "MONTHS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Months"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The unit of measurement for the contract duration value. Currently accepts only <code>Months</code>.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.partnercentralselling#ExpectedCustomerSpend" : {
          "members" : {
             "Amount" : {
@@ -6584,7 +6724,7 @@
             "CurrencyCode" : {
                "target" : "com.amazonaws.partnercentralselling#CurrencyCode",
                "traits" : {
-                  "smithy.api#documentation" : "Currency code for the expected customer spend. Supported currencies: USD, EUR",
+                  "smithy.api#documentation" : "<p>Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets. Accepted values are <code>USD</code> (US Dollars) and <code>EUR</code> (Euros). If the AWS Partition is <code>aws-eusc</code> (AWS European Sovereign Cloud), the currency code must be <code>EUR</code>.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -7612,7 +7752,7 @@
                "partnercentral:Catalog"
             ],
             "aws.iam#iamAction" : {
-               "documentation" : "Grants permission to retrieving system settings settings in AWS Partner Central"
+               "documentation" : "Grants permission to retrieving selling system settings in AWS Partner Central"
             },
             "smithy.api#documentation" : "<p>Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.</p>",
             "smithy.api#http" : {
@@ -10992,6 +11132,12 @@
                   "smithy.api#documentation" : "<p>Specifies the deployment or consumption model for your solution or service in the <code>Opportunity</code>'s context. You can select multiple options.</p> <p>Options' descriptions from the <code>Delivery Model</code> field are:</p> <ul> <li> <p>SaaS or PaaS: Your Amazon Web Services based solution deployed as SaaS or PaaS in your Amazon Web Services environment.</p> </li> <li> <p>BYOL or AMI: Your Amazon Web Services based solution deployed as BYOL or AMI in the end customer's Amazon Web Services environment.</p> </li> <li> <p>Managed Services: The end customer's Amazon Web Services business management (For example: Consulting, design, implementation, billing support, cost optimization, technical support).</p> </li> <li> <p>Professional Services: Offerings to help enterprise end customers achieve specific business outcomes for enterprise cloud adoption (For example: Advisory or transformation planning).</p> </li> <li> <p>Resell: Amazon Web Services accounts and billing management for your customers.</p> </li> <li> <p>Other: Delivery model not described above.</p> </li> </ul>"
                }
             },
+            "ExpectedContractDuration" : {
+               "target" : "com.amazonaws.partnercentralselling#ExpectedContractDuration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional. The expected duration of the contract associated with this opportunity. Partners use this value alongside expected customer spend to convert Total Contract Value (TCV) into Monthly Recurring Revenue (MRR).</p>"
+               }
+            },
             "ExpectedCustomerSpend" : {
                "target" : "com.amazonaws.partnercentralselling#ExpectedCustomerSpendList",
                "traits" : {
@@ -11082,6 +11228,12 @@
                   "smithy.api#documentation" : "<p>Specifies your solution or service's deployment or consumption model in the <code>Opportunity</code>'s context. You can select multiple options.</p> <p>Options' descriptions from the <code>Delivery Model</code> field are:</p> <ul> <li> <p>SaaS or PaaS: Your Amazon Web Services based solution deployed as SaaS or PaaS in your Amazon Web Services environment.</p> </li> <li> <p>BYOL or AMI: Your Amazon Web Services based solution deployed as BYOL or AMI in the end customer's Amazon Web Services environment.</p> </li> <li> <p>Managed Services: The end customer's Amazon Web Services business management (For example: Consulting, design, implementation, billing support, cost optimization, technical support).</p> </li> <li> <p>Professional Services: Offerings to help enterprise end customers achieve specific business outcomes for enterprise cloud adoption (For example: Advisory or transformation planning).</p> </li> <li> <p>Resell: Amazon Web Services accounts and billing management for your customers.</p> </li> <li> <p>Other: Delivery model not described above.</p> </li> </ul>"
                }
             },
+            "ExpectedContractDuration" : {
+               "target" : "com.amazonaws.partnercentralselling#ExpectedContractDuration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional. The expected contract duration for this opportunity, representing the anticipated length of the contract in the unit specified by <code>Term</code>.</p>"
+               }
+            },
             "ExpectedCustomerSpend" : {
                "target" : "com.amazonaws.partnercentralselling#ExpectedCustomerSpendList",
                "traits" : {
@@ -11106,6 +11258,12 @@
                "target" : "com.amazonaws.partnercentralselling#DeliveryModels",
                "traits" : {
                   "smithy.api#documentation" : "<p> Describes the deployment or consumption model for the partner solution or offering. This field indicates how the project's solution will be delivered or implemented for the customer. </p>"
+               }
+            },
+            "ExpectedContractDuration" : {
+               "target" : "com.amazonaws.partnercentralselling#ExpectedContractDuration",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional. The expected contract duration for this opportunity, representing the anticipated length of the contract in the unit specified by <code>Term</code>.</p>"
                }
             },
             "ExpectedCustomerSpend" : {
@@ -11158,8 +11316,11 @@
             "target" : "com.amazonaws.partnercentralselling#PutSellingSystemSettingsResponse"
          },
          "traits" : {
+            "aws.iam#conditionKeys" : [
+               "partnercentral:Catalog"
+            ],
             "aws.iam#iamAction" : {
-               "documentation" : "Grants permission to put system settings settings in AWS Partner Central"
+               "documentation" : "Grants permission to put selling system settings in AWS Partner Central"
             },
             "smithy.api#documentation" : "<p>Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.</p>",
             "smithy.api#http" : {
