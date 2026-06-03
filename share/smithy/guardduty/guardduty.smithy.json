@@ -1537,6 +1537,29 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.guardduty#ContinuousScanDetails" : {
+         "members" : {
+            "EndTime" : {
+               "target" : "com.amazonaws.guardduty#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp representing the end of the time range to scan.</p>",
+                  "smithy.api#jsonName" : "endTime",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartTime" : {
+               "target" : "com.amazonaws.guardduty#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp representing the start of the time range to scan. Reserved for internal use.</p>",
+                  "smithy.api#jsonName" : "startTime"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan for a point-in-time recovery resource.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.guardduty#CountByCoverageStatus" : {
          "key" : {
             "target" : "com.amazonaws.guardduty#CoverageStatus"
@@ -2779,7 +2802,7 @@
             "target" : "com.amazonaws.guardduty#CreateThreatEntitySetResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a new threat entity set. In a threat entity set, you can provide known malicious IP addresses and domains for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.</p>",
+            "smithy.api#documentation" : "<p>Creates a new threat entity set. In a threat entity set, you can provide known malicious threat entities for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "POST",
@@ -8973,6 +8996,218 @@
             "aws.protocols#restJson1" : {},
             "smithy.api#documentation" : "<p>Amazon GuardDuty is a continuous security monitoring service that analyzes and processes the following foundational data sources - VPC flow logs, Amazon Web Services CloudTrail management event logs, CloudTrail S3 data event logs, EKS audit logs, DNS logs, Amazon EBS volume data, runtime activity belonging to container workloads, such as Amazon EKS, Amazon ECS (including Amazon Web Services Fargate), and Amazon EC2 instances. It uses threat intelligence feeds, such as lists of malicious IPs and domains, and machine learning to identify unexpected, potentially unauthorized, and malicious activity within your Amazon Web Services environment. This can include issues like escalations of privileges, uses of exposed credentials, or communication with malicious IPs, domains, or presence of malware on your Amazon EC2 instances and container workloads. For example, GuardDuty can detect compromised EC2 instances and container workloads serving malware, or mining bitcoin. </p> <p>GuardDuty also monitors Amazon Web Services account access behavior for signs of compromise, such as unauthorized infrastructure deployments like EC2 instances deployed in a Region that has never been used, or unusual API calls like a password policy change to reduce password strength. </p> <p>GuardDuty informs you about the status of your Amazon Web Services environment by producing security findings that you can view in the GuardDuty console or through Amazon EventBridge. For more information, see the <i> <a href=\"https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html\">Amazon GuardDuty User Guide</a> </i>. </p>",
             "smithy.api#title" : "Amazon GuardDuty",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws-us-gov"
+                     ],
+                     "fn" : "stringEquals"
+                  }
+               ],
+               "nodeCount" : 14,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAA0AAAADAAAAAQAAAAQF9eEMAAAAAgAAAAUF9eEMAAAAAwAAAAgAAAAGAAAABAAAAAcF9eELAAAABQX14QkF9eEKAAAABAAAAAsAAAAJAAAABgAAAAoF9eEIAAAABwX14QYF9eEHAAAABQAAAAwF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAAOAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://guardduty-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://guardduty.{Region}.amazonaws.com"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://guardduty-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://guardduty.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://guardduty.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -10159,10 +10394,34 @@
                   "smithy.api#enumValue" : "MALICIOUS_IP"
                }
             },
+            "MALICIOUS_PACKAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MALICIOUS_PACKAGE"
+               }
+            },
             "MALICIOUS_PROCESS" : {
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "MALICIOUS_PROCESS"
+               }
+            },
+            "MISCONFIGURATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "MISCONFIGURATION"
+               }
+            },
+            "REACHABILITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "REACHABILITY"
+               }
+            },
+            "SENSITIVE_DATA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SENSITIVE_DATA"
                }
             },
             "SUSPICIOUS_NETWORK" : {
@@ -10205,6 +10464,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "UNUSUAL_ASN_FOR_USER"
+               }
+            },
+            "VULNERABILITY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VULNERABILITY"
                }
             }
          },
@@ -13065,6 +13330,12 @@
                   "smithy.api#enumValue" : "S3_BUCKET"
                }
             },
+            "S3_POINT_IN_TIME_RECOVERY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "S3_POINT_IN_TIME_RECOVERY"
+               }
+            },
             "S3_RECOVERY_POINT" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -15337,6 +15608,13 @@
                   "smithy.api#jsonName" : "backupVaultName",
                   "smithy.api#required" : {}
                }
+            },
+            "ContinuousScanDetails" : {
+               "target" : "com.amazonaws.guardduty#ContinuousScanDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan.</p>",
+                  "smithy.api#jsonName" : "continuousScanDetails"
+               }
             }
          },
          "traits" : {
@@ -15365,6 +15643,18 @@
             "smithy.api#documentation" : "<p>Contains details about the backup recovery point.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.guardduty#RelatedFilePathsList" : {
+         "member" : {
+            "target" : "com.amazonaws.guardduty#String"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 25,
+               "min" : 1
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.guardduty#RemoteAccountDetails" : {
          "members" : {
@@ -15931,6 +16221,20 @@
                   "smithy.api#jsonName" : "commandLineExample"
                }
             },
+            "FileOperation" : {
+               "target" : "com.amazonaws.guardduty#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Represents the type of file operation that triggered the finding, such as Write, Delete, Rename, Link, or Symlink.</p>",
+                  "smithy.api#jsonName" : "fileOperation"
+               }
+            },
+            "FilePath" : {
+               "target" : "com.amazonaws.guardduty#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The path of the sensitive file that was modified. Modification includes write, delete, rename, link, or symlink operations. This field is indexed for filtering.</p>",
+                  "smithy.api#jsonName" : "filePath"
+               }
+            },
             "FileSystemType" : {
                "target" : "com.amazonaws.guardduty#String",
                "traits" : {
@@ -16020,6 +16324,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The path in the container that is mapped to the host directory.</p>",
                   "smithy.api#jsonName" : "mountTarget"
+               }
+            },
+            "RelatedFilePaths" : {
+               "target" : "com.amazonaws.guardduty#RelatedFilePathsList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>All file paths modified by the same process that triggered the finding, up to a maximum of 25 paths.</p>",
+                  "smithy.api#jsonName" : "relatedFilePaths"
                }
             },
             "ReleaseAgentPath" : {
@@ -16629,6 +16940,29 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.guardduty#ScanConfigurationContinuousScanDetails" : {
+         "members" : {
+            "EndTime" : {
+               "target" : "com.amazonaws.guardduty#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp representing the end of the time range that was scanned.</p>",
+                  "smithy.api#jsonName" : "endTime",
+                  "smithy.api#required" : {}
+               }
+            },
+            "StartTime" : {
+               "target" : "com.amazonaws.guardduty#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp representing the start of the time range that was scanned.</p>",
+                  "smithy.api#jsonName" : "startTime"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains information about the time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.guardduty#ScanConfigurationRecoveryPoint" : {
          "members" : {
             "BackupVaultName" : {
@@ -16636,6 +16970,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the Amazon Web Services Backup vault that contains the recovery point for the scanned.</p>",
                   "smithy.api#jsonName" : "backupVaultName"
+               }
+            },
+            "ContinuousScanDetails" : {
+               "target" : "com.amazonaws.guardduty#ScanConfigurationContinuousScanDetails",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.</p>",
+                  "smithy.api#jsonName" : "continuousScanDetails"
                }
             }
          },

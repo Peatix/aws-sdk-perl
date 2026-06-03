@@ -519,24 +519,6 @@
          "uri" : "https://geo-places.{region}.amazonaws.com"
       }
    ],
-   "geo-routes" : [
-      {
-         "uri" : "https://routes.geo.{region}.amazonaws.com/v2"
-      },
-      {
-         "constraints" : [
-            [
-               "region",
-               "startsWith",
-               "us-gov-"
-            ]
-         ],
-         "uri" : "https://routes.geo.{region}.us-gov.amazonaws.com/v2"
-      },
-      {
-         "uri" : "https://geo-routes.{region}.amazonaws.com"
-      }
-   ],
    "greengrass" : [
       {
          "constraints" : [
