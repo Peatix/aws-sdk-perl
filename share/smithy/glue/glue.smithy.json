@@ -358,6 +358,9 @@
                "target" : "com.amazonaws.glue#GetCustomEntityType"
             },
             {
+               "target" : "com.amazonaws.glue#GetDashboardUrl"
+            },
+            {
                "target" : "com.amazonaws.glue#GetDatabase"
             },
             {
@@ -479,6 +482,9 @@
             },
             {
                "target" : "com.amazonaws.glue#GetSession"
+            },
+            {
+               "target" : "com.amazonaws.glue#GetSessionEndpoint"
             },
             {
                "target" : "com.amazonaws.glue#GetStatement"
@@ -840,6 +846,194 @@
             "aws.protocols#awsJson1_1" : {},
             "smithy.api#documentation" : "<fullname>Glue</fullname>\n         <p>Defines the public endpoint for the Glue service.</p>",
             "smithy.api#title" : "AWS Glue",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://glue-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://glue-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://glue.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://glue.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -12733,6 +12927,9 @@
                "target" : "com.amazonaws.glue#InvalidInputException"
             },
             {
+               "target" : "com.amazonaws.glue#OperationNotSupportedException"
+            },
+            {
                "target" : "com.amazonaws.glue#OperationTimeoutException"
             },
             {
@@ -12828,6 +13025,12 @@
                "target" : "com.amazonaws.glue#NameString",
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of the SecurityConfiguration structure to be used with the session </p>"
+               }
+            },
+            "SessionType" : {
+               "target" : "com.amazonaws.glue#SessionType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of session to create.</p>"
                }
             },
             "Tags" : {
@@ -20834,6 +21037,12 @@
       },
       "com.amazonaws.glue#GetCatalogsRequest" : {
          "members" : {
+            "HasDatabases" : {
+               "target" : "com.amazonaws.glue#NullableBoolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When <code>true</code>, the response only includes catalogs that can contain databases. Some catalogs are organizational containers that hold only other catalogs, not databases. When this parameter is set to <code>true</code>, those container-only catalogs are excluded, and only catalogs capable of containing databases are returned. Defaults to <code>false</code>.</p>"
+               }
+            },
             "IncludeRoot" : {
                "target" : "com.amazonaws.glue#NullableBoolean",
                "traits" : {
@@ -21808,6 +22017,79 @@
                "target" : "com.amazonaws.glue#NameString",
                "traits" : {
                   "smithy.api#documentation" : "<p>A regular expression string that is used for detecting sensitive data in a custom pattern.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#GetDashboardUrl" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.glue#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.glue#EntityNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InvalidInputException"
+            },
+            {
+               "target" : "com.amazonaws.glue#OperationNotSupportedException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.glue#GetDashboardUrlRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.glue#GetDashboardUrlResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the URL for the Spark monitoring dashboard for a Glue resource.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.glue#GetDashboardUrlRequest" : {
+         "members" : {
+            "RequestOrigin" : {
+               "target" : "com.amazonaws.glue#OrchestrationNameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The origin of the request. </p>"
+               }
+            },
+            "ResourceId" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the resource for which to retrieve the dashboard URL.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ResourceType" : {
+               "target" : "com.amazonaws.glue#GlueResourceType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the resource. Valid values are <code>SESSION</code> and <code>JOB</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#GetDashboardUrlResponse" : {
+         "members" : {
+            "Url" : {
+               "target" : "com.amazonaws.glue#SensitiveUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL for the Spark monitoring dashboard.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -25357,6 +25639,73 @@
          },
          "type" : "operation"
       },
+      "com.amazonaws.glue#GetSessionEndpoint" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.glue#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.glue#EntityNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.glue#IllegalSessionStateException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.glue#InvalidInputException"
+            },
+            {
+               "target" : "com.amazonaws.glue#OperationNotSupportedException"
+            },
+            {
+               "target" : "com.amazonaws.glue#OperationTimeoutException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.glue#GetSessionEndpointRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.glue#GetSessionEndpointResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the Spark Connect endpoint URL and authentication token for an interactive session.</p>",
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.glue#GetSessionEndpointRequest" : {
+         "members" : {
+            "SessionId" : {
+               "target" : "com.amazonaws.glue#NameString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the interactive session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#GetSessionEndpointResponse" : {
+         "members" : {
+            "SparkConnect" : {
+               "target" : "com.amazonaws.glue#SessionEndpoint",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Spark Connect endpoint details for the session.</p>",
+                  "smithy.api#jsonName" : "SPARK_CONNECT",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.glue#GetSessionRequest" : {
          "members" : {
             "Id" : {
@@ -27278,6 +27627,23 @@
             "smithy.api#pattern" : "^arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:"
          },
          "type" : "string"
+      },
+      "com.amazonaws.glue#GlueResourceType" : {
+         "members" : {
+            "JOB" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "JOB"
+               }
+            },
+            "SESSION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SESSION"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.glue#GlueSchema" : {
          "members" : {
@@ -36093,12 +36459,6 @@
          "member" : {
             "target" : "com.amazonaws.glue#PartitionIndex"
          },
-         "traits" : {
-            "smithy.api#length" : {
-               "max" : 3,
-               "min" : 0
-            }
-         },
          "type" : "list"
       },
       "com.amazonaws.glue#PartitionIndexStatus" : {
@@ -38769,10 +39129,16 @@
                "target" : "com.amazonaws.glue#InvalidInputException"
             },
             {
+               "target" : "com.amazonaws.glue#OperationNotSupportedException"
+            },
+            {
                "target" : "com.amazonaws.glue#OperationTimeoutException"
             },
             {
                "target" : "com.amazonaws.glue#ResourceNumberLimitExceededException"
+            },
+            {
+               "target" : "com.amazonaws.glue#SessionBusyException"
             },
             {
                "target" : "com.amazonaws.glue#ValidationException"
@@ -41029,6 +41395,26 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.glue#SensitiveString" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 16384,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.glue#SensitiveUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 40000,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
       "com.amazonaws.glue#Separator" : {
          "members" : {
             "COMMA" : {
@@ -41201,6 +41587,12 @@
                   "smithy.api#documentation" : "<p>The name of the SecurityConfiguration structure to be used with the session.</p>"
                }
             },
+            "SessionType" : {
+               "target" : "com.amazonaws.glue#SessionType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of the session.</p>"
+               }
+            },
             "Status" : {
                "target" : "com.amazonaws.glue#SessionStatus",
                "traits" : {
@@ -41216,6 +41608,21 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The period in which a remote Spark runtime environment is running.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#SessionBusyException" : {
+         "members" : {
+            "Message" : {
+               "target" : "com.amazonaws.glue#OrchestrationMessageString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the problem.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The session is currently busy processing another request and cannot accept new operations.</p>",
+            "smithy.api#error" : "client"
          },
          "type" : "structure"
       },
@@ -41236,6 +41643,35 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The <code>SessionCommand</code> that runs the job.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.glue#SessionEndpoint" : {
+         "members" : {
+            "AuthToken" : {
+               "target" : "com.amazonaws.glue#SensitiveString",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The authentication token to include in requests to the Spark Connect endpoint.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "AuthTokenExpirationTime" : {
+               "target" : "com.amazonaws.glue#TimestampValue",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time at which the authentication token expires.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "Url" : {
+               "target" : "com.amazonaws.glue#SparkConnectEndpointUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Spark Connect endpoint URL for the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the Spark Connect endpoint details for an interactive session, including the URL and authentication credentials.</p>"
          },
          "type" : "structure"
       },
@@ -41287,6 +41723,23 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "TIMEOUT"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.glue#SessionType" : {
+         "members" : {
+            "LIVY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LIVY"
+               }
+            },
+            "SPARK_CONNECT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SPARK_CONNECT"
                }
             }
          },
@@ -41784,6 +42237,16 @@
             "target" : "com.amazonaws.glue#String128"
          },
          "type" : "list"
+      },
+      "com.amazonaws.glue#SparkConnectEndpointUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^sc://.*$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.glue#SparkConnectorSource" : {
          "members" : {

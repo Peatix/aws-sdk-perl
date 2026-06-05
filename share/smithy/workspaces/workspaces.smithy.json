@@ -1676,7 +1676,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Describes an Amazon Connect client add-in.</p>"
+            "smithy.api#documentation" : "<p>Describes an Connect Customer client add-in.</p>"
          },
          "type" : "structure"
       },
@@ -2078,7 +2078,7 @@
             "target" : "com.amazonaws.workspaces#CreateConnectClientAddInResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Creates a client-add-in for Amazon Connect within a directory. You can create only\n         one Amazon Connect client add-in within a directory.</p>\n         <p>This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.</p>"
+            "smithy.api#documentation" : "<p>Creates a client-add-in for Connect Customer within a directory. You can create only\n         one Connect Customer client add-in within a directory.</p>\n         <p>This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer.</p>"
          },
          "type" : "operation"
       },
@@ -2101,7 +2101,7 @@
             "URL" : {
                "target" : "com.amazonaws.workspaces#AddInUrl",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The endpoint URL of the Amazon Connect client add-in.</p>",
+                  "smithy.api#documentation" : "<p>The endpoint URL of the Connect Customer client add-in.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -3424,7 +3424,7 @@
             "target" : "com.amazonaws.workspaces#DeleteConnectClientAddInResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Deletes a client-add-in for Amazon Connect that is configured within a\n         directory.</p>"
+            "smithy.api#documentation" : "<p>Deletes a client-add-in for Connect Customer that is configured within a\n         directory.</p>"
          },
          "type" : "operation"
       },
@@ -4326,7 +4326,7 @@
             "target" : "com.amazonaws.workspaces#DescribeConnectClientAddInsResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Retrieves a list of Amazon Connect client add-ins that have been created.</p>"
+            "smithy.api#documentation" : "<p>Retrieves a list of Connect Customer client add-ins that have been created.</p>"
          },
          "type" : "operation"
       },
@@ -10122,7 +10122,7 @@
             "target" : "com.amazonaws.workspaces#UpdateConnectClientAddInResult"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Updates a Amazon Connect client add-in. Use this action to update the name and\n         endpoint URL of a Amazon Connect client add-in.</p>"
+            "smithy.api#documentation" : "<p>Updates a Connect Customer client add-in. Use this action to update the name and\n         endpoint URL of a Connect Customer client add-in.</p>"
          },
          "type" : "operation"
       },
@@ -10151,7 +10151,7 @@
             "URL" : {
                "target" : "com.amazonaws.workspaces#AddInUrl",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The endpoint URL of the Amazon Connect client add-in.</p>"
+                  "smithy.api#documentation" : "<p>The endpoint URL of the Connect Customer client add-in.</p>"
                }
             }
          },
@@ -13276,6 +13276,194 @@
             "smithy.api#title" : "Amazon WorkSpaces",
             "smithy.api#xmlNamespace" : {
                "uri" : "http://workspaces.amazonaws.com/api/v1"
+            },
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://workspaces-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://workspaces-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://workspaces.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://workspaces.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
             },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
