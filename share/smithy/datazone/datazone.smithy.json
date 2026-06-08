@@ -3102,7 +3102,7 @@
       "com.amazonaws.datazone#CellInformation" : {
          "members" : {},
          "traits" : {
-            "smithy.api#documentation" : "<p>The information about a cell in a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The information about a cell in a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -3180,6 +3180,9 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.datazone#CompletedAt" : {
+         "type" : "timestamp"
+      },
       "com.amazonaws.datazone#ComputeConfig" : {
          "members" : {
             "environmentVersion" : {
@@ -3196,7 +3199,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The compute configuration for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The compute configuration for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -3234,6 +3237,14 @@
             }
          },
          "type" : "list"
+      },
+      "com.amazonaws.datazone#ComputeId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 64
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.datazone#ConfigurableActionParameter" : {
          "members" : {
@@ -3502,6 +3513,12 @@
                   "smithy.api#documentation" : "<p>The Spark Amazon Web Services Glue properties of a connection.</p>"
                }
             },
+            "vpcProperties" : {
+               "target" : "com.amazonaws.datazone#VpcPropertiesInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The VPC properties of a connection.</p>"
+               }
+            },
             "workflowsMwaaProperties" : {
                "target" : "com.amazonaws.datazone#WorkflowsMwaaPropertiesInput",
                "traits" : {
@@ -3588,6 +3605,12 @@
                   "smithy.api#documentation" : "<p>The Spark Amazon Web Services Glue properties of a connection.</p>"
                }
             },
+            "vpcProperties" : {
+               "target" : "com.amazonaws.datazone#VpcPropertiesOutput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The VPC properties of a connection.</p>"
+               }
+            },
             "workflowsMwaaProperties" : {
                "target" : "com.amazonaws.datazone#WorkflowsMwaaPropertiesOutput",
                "traits" : {
@@ -3660,6 +3683,12 @@
                "target" : "com.amazonaws.datazone#SparkEmrPropertiesPatch",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Spark EMR properties of a connection properties patch.</p>"
+               }
+            },
+            "vpcProperties" : {
+               "target" : "com.amazonaws.datazone#VpcPropertiesPatch",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The VPC properties of a connection properties patch.</p>"
                }
             }
          },
@@ -3950,6 +3979,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "VERTICA"
+               }
+            },
+            "VPC" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "VPC"
                }
             },
             "WORKFLOWS_MWAA" : {
@@ -7715,6 +7750,230 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#CreateNotebook" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#CreateNotebookInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#CreateNotebookOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook</a> in Amazon SageMaker Unified Studio. A notebook is a collaborative document within a project that contains code cells for interactive computing.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/v2/domains/{domainIdentifier}/notebooks"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#CreateNotebookInput" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.datazone#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the notebook.</p>"
+               }
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.datazone#Metadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the notebook. The name must be between 1 and 256 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#Parameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#CreateNotebookOutput" : {
+         "members" : {
+            "cellOrder" : {
+               "target" : "com.amazonaws.datazone#CellOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordered list of cells in the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "computeId" : {
+               "target" : "com.amazonaws.datazone#ComputeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the compute associated with the notebook.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was created.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who created the notebook.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the notebook.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "environmentConfiguration" : {
+               "target" : "com.amazonaws.datazone#EnvironmentConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment configuration of the notebook.</p>"
+               }
+            },
+            "error" : {
+               "target" : "com.amazonaws.datazone#NotebookError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error details if the notebook creation failed.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lockExpiresAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook lock expires.</p>"
+               }
+            },
+            "lockedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was locked.</p>"
+               }
+            },
+            "lockedBy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who locked the notebook.</p>"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.datazone#Metadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata of the notebook.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#Parameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive parameters of the notebook.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.datazone#UpdatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was last updated.</p>"
+               }
+            },
+            "updatedBy" : {
+               "target" : "com.amazonaws.datazone#UpdatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who last updated the notebook.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#CreateProject" : {
          "errors" : [
             {
@@ -10875,6 +11134,9 @@
                "target" : "com.amazonaws.datazone#SearchUserProfiles"
             },
             {
+               "target" : "com.amazonaws.datazone#StartNotebookImport"
+            },
+            {
                "target" : "com.amazonaws.datazone#TagResource"
             },
             {
@@ -10967,6 +11229,12 @@
                "target" : "com.amazonaws.datazone#MetadataGenerationRun"
             },
             {
+               "target" : "com.amazonaws.datazone#Notebook"
+            },
+            {
+               "target" : "com.amazonaws.datazone#NotebookExport"
+            },
+            {
                "target" : "com.amazonaws.datazone#NotebookRun"
             },
             {
@@ -11018,6 +11286,163 @@
                "pageSize" : "maxResults"
             },
             "smithy.api#title" : "Amazon DataZone",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 9,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAkAAAADAAAAAQAAAAQF9eEIAAAAAgAAAAUF9eEIAAAAAwAAAAcAAAAGAAAABQX14QUF9eEHAAAABAAAAAgF9eEEAAAABQX14QMF9eEGAAAAAwX14QEF9eEC",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://datazone-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://datazone.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://datazone-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://datazone.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -12869,6 +13294,72 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#DeleteNotebook" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#DeleteNotebookInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#DeleteNotebookOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook</a> in Amazon SageMaker Unified Studio.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/v2/domains/{domainIdentifier}/notebooks/{identifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#DeleteNotebookInput" : {
+         "members" : {
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook to delete.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#DeleteNotebookOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#DeleteProject" : {
          "errors" : [
             {
@@ -14611,6 +15102,9 @@
             "target" : "com.amazonaws.datazone#ListEnvironmentBlueprintConfigurations"
          },
          "properties" : {
+            "allowUserProvidedConfigurations" : {
+               "target" : "smithy.api#Boolean"
+            },
             "createdAt" : {
                "target" : "smithy.api#Timestamp"
             },
@@ -14649,6 +15143,12 @@
       },
       "com.amazonaws.datazone#EnvironmentBlueprintConfigurationItem" : {
          "members" : {
+            "allowUserProvidedConfigurations" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether user-provided resource configurations are allowed for the environment blueprint.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -14704,6 +15204,12 @@
                "target" : "com.amazonaws.datazone#RegionalParameterMap",
                "traits" : {
                   "smithy.api#documentation" : "<p>The regional parameters of the environment blueprint.</p>"
+               }
+            },
+            "resourceConfigurations" : {
+               "target" : "com.amazonaws.datazone#ResourceConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource configurations of the environment blueprint.</p>"
                }
             },
             "updatedAt" : {
@@ -14819,7 +15325,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The environment configuration for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The environment configuration for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -15485,6 +15991,12 @@
          },
          "type" : "union"
       },
+      "com.amazonaws.datazone#ExportId" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z0-9_-]{1,36}$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.datazone#ExternalIdentifier" : {
          "traits" : {
             "smithy.api#length" : {
@@ -15524,6 +16036,28 @@
             "target" : "com.amazonaws.datazone#ProjectDeletionError"
          },
          "type" : "list"
+      },
+      "com.amazonaws.datazone#FileFormat" : {
+         "members" : {
+            "IPYNB" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Export the notebook as a Jupyter notebook (.ipynb) file.</p>",
+                  "smithy.api#enumValue" : "IPYNB"
+               }
+            },
+            "PDF" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Export the notebook as a PDF file.</p>",
+                  "smithy.api#enumValue" : "PDF"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The file format for a notebook export in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "enum"
       },
       "com.amazonaws.datazone#Filter" : {
          "members" : {
@@ -18097,6 +18631,12 @@
       },
       "com.amazonaws.datazone#GetEnvironmentBlueprintConfigurationOutput" : {
          "members" : {
+            "allowUserProvidedConfigurations" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether user-provided resource configurations are allowed for the environment blueprint.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -18153,6 +18693,13 @@
                "target" : "com.amazonaws.datazone#RegionalParameterMap",
                "traits" : {
                   "smithy.api#documentation" : "<p>The regional parameters of the blueprint.</p>"
+               }
+            },
+            "resourceConfigurations" : {
+               "target" : "com.amazonaws.datazone#ResourceConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource configurations of the environment blueprint.</p>",
+                  "smithy.api#notProperty" : {}
                }
             },
             "updatedAt" : {
@@ -20007,6 +20554,332 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#GetNotebook" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#GetNotebookInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#GetNotebookOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets the details of a <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook</a> in Amazon SageMaker Unified Studio.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v2/domains/{domainIdentifier}/notebooks/{identifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#GetNotebookExport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#GetNotebookExportInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#GetNotebookExportOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Gets the details of a notebook export in Amazon SageMaker Unified Studio.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v2/domains/{domainIdentifier}/notebook-exports/{identifier}"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#GetNotebookExportInput" : {
+         "members" : {
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#ExportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook export.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#GetNotebookExportOutput" : {
+         "members" : {
+            "completedAt" : {
+               "target" : "com.amazonaws.datazone#CompletedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook export completed.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook export was started.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who started the notebook export.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "error" : {
+               "target" : "com.amazonaws.datazone#NotebookExportError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error details if the notebook export failed.</p>"
+               }
+            },
+            "fileFormat" : {
+               "target" : "com.amazonaws.datazone#FileFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file format of the notebook export.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#ExportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook export.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "notebookId" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "outputLocation" : {
+               "target" : "com.amazonaws.datazone#OutputLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The output location of the exported notebook in Amazon Simple Storage Service.</p>"
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookExportStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook export.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#GetNotebookInput" : {
+         "members" : {
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#GetNotebookOutput" : {
+         "members" : {
+            "cellOrder" : {
+               "target" : "com.amazonaws.datazone#CellOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordered list of cells in the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "computeId" : {
+               "target" : "com.amazonaws.datazone#ComputeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the compute associated with the notebook.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was created.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who created the notebook.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the notebook.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "environmentConfiguration" : {
+               "target" : "com.amazonaws.datazone#EnvironmentConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment configuration of the notebook.</p>"
+               }
+            },
+            "error" : {
+               "target" : "com.amazonaws.datazone#NotebookError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error details if the notebook is in a failed state.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lockExpiresAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook lock expires.</p>"
+               }
+            },
+            "lockedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was locked.</p>"
+               }
+            },
+            "lockedBy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who locked the notebook.</p>"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.datazone#Metadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata of the notebook.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#Parameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive parameters of the notebook.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.datazone#UpdatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was last updated.</p>"
+               }
+            },
+            "updatedBy" : {
+               "target" : "com.amazonaws.datazone#UpdatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who last updated the notebook.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#GetNotebookRun" : {
          "errors" : [
             {
@@ -20032,7 +20905,7 @@
             "target" : "com.amazonaws.datazone#GetNotebookRunOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Gets the details of a notebook run in an Amazon DataZone domain.</p>",
+            "smithy.api#documentation" : "<p>Gets the details of a <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook run</a> in Amazon SageMaker Unified Studio.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -20047,7 +20920,7 @@
             "domainIdentifier" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain in which the notebook run exists.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run exists.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -20101,7 +20974,7 @@
             "domainId" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -26457,7 +27330,7 @@
             "target" : "com.amazonaws.datazone#ListNotebookRunsOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists notebook runs in an Amazon DataZone domain.</p>",
+            "smithy.api#documentation" : "<p>Lists <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook runs</a> in Amazon SageMaker Unified Studio.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "GET",
@@ -26478,7 +27351,7 @@
             "domainIdentifier" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain in which to list notebook runs.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which to list notebook runs.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -26551,6 +27424,123 @@
                "target" : "com.amazonaws.datazone#PaginationToken",
                "traits" : {
                   "smithy.api#documentation" : "<p>When the number of notebook runs is greater than the default value for the <code>MaxResults</code> parameter, or if you explicitly specify a value for <code>MaxResults</code> that is less than the number of notebook runs, the response includes a pagination token named <code>NextToken</code>. You can specify this <code>NextToken</code> value in a subsequent call to <code>ListNotebookRuns</code> to list the next set of notebook runs.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#ListNotebooks" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#ListNotebooksInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#ListNotebooksOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebooks</a> in Amazon SageMaker Unified Studio.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v2/domains/{domainIdentifier}/notebooks"
+            },
+            "smithy.api#paginated" : {
+               "inputToken" : "nextToken",
+               "items" : "items",
+               "outputToken" : "nextToken",
+               "pageSize" : "maxResults"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#ListNotebooksInput" : {
+         "members" : {
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which to list notebooks.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.datazone#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of notebooks to return in a single call. When the number of notebooks exceeds the value of <code>MaxResults</code>, the response contains a <code>NextToken</code> value.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.datazone#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the number of notebooks is greater than the default value for the <code>MaxResults</code> parameter, or if you explicitly specify a value for <code>MaxResults</code> that is less than the number of notebooks, the response includes a pagination token named <code>NextToken</code>. You can specify this <code>NextToken</code> value in a subsequent call to <code>ListNotebooks</code> to list the next set of notebooks.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebooks.</p>",
+                  "smithy.api#httpQuery" : "owningProjectIdentifier",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sortBy" : {
+               "target" : "com.amazonaws.datazone#SortKey",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The field to sort the results by.</p>",
+                  "smithy.api#httpQuery" : "sortBy"
+               }
+            },
+            "sortOrder" : {
+               "target" : "com.amazonaws.datazone#SortOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sort order for the results.</p>",
+                  "smithy.api#httpQuery" : "sortOrder"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status to filter notebooks by.</p>",
+                  "smithy.api#httpQuery" : "status"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#ListNotebooksOutput" : {
+         "members" : {
+            "items" : {
+               "target" : "com.amazonaws.datazone#NotebookSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The results of the <code>ListNotebooks</code> action.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.datazone#PaginationToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>When the number of notebooks is greater than the default value for the <code>MaxResults</code> parameter, or if you explicitly specify a value for <code>MaxResults</code> that is less than the number of notebooks, the response includes a pagination token named <code>NextToken</code>. You can specify this <code>NextToken</code> value in a subsequent call to <code>ListNotebooks</code> to list the next set of notebooks.</p>"
                }
             }
          },
@@ -29103,7 +30093,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The network access type for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The network access type for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "enum"
       },
@@ -29136,7 +30126,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The network configuration for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The network configuration for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -29206,9 +30196,230 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#Notebook" : {
+         "create" : {
+            "target" : "com.amazonaws.datazone#CreateNotebook"
+         },
+         "delete" : {
+            "target" : "com.amazonaws.datazone#DeleteNotebook"
+         },
+         "identifiers" : {
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#NotebookId"
+            }
+         },
+         "list" : {
+            "target" : "com.amazonaws.datazone#ListNotebooks"
+         },
+         "properties" : {
+            "cellOrder" : {
+               "target" : "com.amazonaws.datazone#CellOrder"
+            },
+            "computeId" : {
+               "target" : "com.amazonaws.datazone#ComputeId"
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt"
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy"
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description"
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId"
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId"
+            },
+            "environmentConfiguration" : {
+               "target" : "com.amazonaws.datazone#EnvironmentConfig"
+            },
+            "error" : {
+               "target" : "com.amazonaws.datazone#NotebookError"
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#NotebookId"
+            },
+            "lockExpiresAt" : {
+               "target" : "smithy.api#Timestamp"
+            },
+            "lockedAt" : {
+               "target" : "smithy.api#Timestamp"
+            },
+            "lockedBy" : {
+               "target" : "smithy.api#String"
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.datazone#Metadata"
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName"
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId"
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId"
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#Parameters"
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus"
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.datazone#UpdatedAt"
+            },
+            "updatedBy" : {
+               "target" : "com.amazonaws.datazone#UpdatedBy"
+            }
+         },
+         "read" : {
+            "target" : "com.amazonaws.datazone#GetNotebook"
+         },
+         "type" : "resource",
+         "update" : {
+            "target" : "com.amazonaws.datazone#UpdateNotebook"
+         }
+      },
+      "com.amazonaws.datazone#NotebookError" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error message. The maximum length is 256 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The error details of a notebook in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#NotebookExport" : {
+         "create" : {
+            "target" : "com.amazonaws.datazone#StartNotebookExport"
+         },
+         "identifiers" : {
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#ExportId"
+            }
+         },
+         "properties" : {
+            "completedAt" : {
+               "target" : "com.amazonaws.datazone#CompletedAt"
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt"
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy"
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId"
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId"
+            },
+            "error" : {
+               "target" : "com.amazonaws.datazone#NotebookExportError"
+            },
+            "fileFormat" : {
+               "target" : "com.amazonaws.datazone#FileFormat"
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#ExportId"
+            },
+            "notebookId" : {
+               "target" : "com.amazonaws.datazone#NotebookId"
+            },
+            "notebookIdentifier" : {
+               "target" : "com.amazonaws.datazone#NotebookId"
+            },
+            "outputLocation" : {
+               "target" : "com.amazonaws.datazone#OutputLocation"
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId"
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId"
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookExportStatus"
+            }
+         },
+         "read" : {
+            "target" : "com.amazonaws.datazone#GetNotebookExport"
+         },
+         "type" : "resource"
+      },
+      "com.amazonaws.datazone#NotebookExportError" : {
+         "members" : {
+            "message" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error message. The maximum length is 256 characters.</p>",
+                  "smithy.api#length" : {
+                     "max" : 256
+                  },
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The error details of a failed notebook export in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#NotebookExportStatus" : {
+         "members" : {
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook export failed.</p>",
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "IN_PROGRESS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook export is in progress.</p>",
+                  "smithy.api#enumValue" : "IN_PROGRESS"
+               }
+            },
+            "SUCCEEDED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook export succeeded.</p>",
+                  "smithy.api#enumValue" : "SUCCEEDED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of a notebook export in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.datazone#NotebookId" : {
          "traits" : {
             "smithy.api#pattern" : "^[a-zA-Z0-9_-]{1,36}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.datazone#NotebookName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
+            "smithy.api#sensitive" : {}
          },
          "type" : "string"
       },
@@ -29328,7 +30539,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The error details of a failed notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The error details of a failed notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -29391,7 +30602,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The status of a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The status of a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "enum"
       },
@@ -29418,7 +30629,7 @@
             "domainId" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -29482,13 +30693,125 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The summary of a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The summary of a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
       "com.amazonaws.datazone#NotebookRunSummaryList" : {
          "member" : {
             "target" : "com.amazonaws.datazone#NotebookRunSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.datazone#NotebookS3Uri" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 6
+            },
+            "smithy.api#pattern" : "^s3://.+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.datazone#NotebookStatus" : {
+         "members" : {
+            "ACTIVE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook is active.</p>",
+                  "smithy.api#enumValue" : "ACTIVE"
+               }
+            },
+            "ARCHIVED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The notebook is archived.</p>",
+                  "smithy.api#enumValue" : "ARCHIVED"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The status of a notebook in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.datazone#NotebookSummary" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was created.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who created the notebook.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the notebook.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.datazone#UpdatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was last updated.</p>"
+               }
+            },
+            "updatedBy" : {
+               "target" : "com.amazonaws.datazone#UpdatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who last updated the notebook.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The summary of a notebook in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#NotebookSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.datazone#NotebookSummary"
          },
          "type" : "list"
       },
@@ -29856,6 +31179,20 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.datazone#OutputLocation" : {
+         "members" : {
+            "s3" : {
+               "target" : "com.amazonaws.datazone#S3Destination",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Simple Storage Service destination for the notebook export.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The output location for a notebook export in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "union"
+      },
       "com.amazonaws.datazone#OverallDeploymentStatus" : {
          "members" : {
             "FAILED_DEPLOYMENT" : {
@@ -30038,7 +31375,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The package configuration for a notebook run environment in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The package configuration for a notebook run environment in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -30053,7 +31390,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The package manager for a notebook run environment in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The package manager for a notebook run environment in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "enum"
       },
@@ -31280,6 +32617,12 @@
       },
       "com.amazonaws.datazone#PutEnvironmentBlueprintConfigurationInput" : {
          "members" : {
+            "allowUserProvidedConfigurations" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether user-provided resource configurations are allowed for the environment blueprint.</p>"
+               }
+            },
             "domainIdentifier" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
@@ -31340,6 +32683,13 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The regional parameters in the environment blueprint.</p>"
                }
+            },
+            "resourceConfigurations" : {
+               "target" : "com.amazonaws.datazone#PutResourceConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource configurations of the environment blueprint.</p>",
+                  "smithy.api#notProperty" : {}
+               }
             }
          },
          "traits" : {
@@ -31349,6 +32699,12 @@
       },
       "com.amazonaws.datazone#PutEnvironmentBlueprintConfigurationOutput" : {
          "members" : {
+            "allowUserProvidedConfigurations" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether user-provided resource configurations are allowed for the environment blueprint.</p>"
+               }
+            },
             "createdAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -31407,6 +32763,13 @@
                   "smithy.api#documentation" : "<p>The regional parameters in the environment blueprint.</p>"
                }
             },
+            "resourceConfigurations" : {
+               "target" : "com.amazonaws.datazone#ResourceConfigurations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The resource configurations of the environment blueprint.</p>",
+                  "smithy.api#notProperty" : {}
+               }
+            },
             "updatedAt" : {
                "target" : "smithy.api#Timestamp",
                "traits" : {
@@ -31419,6 +32782,57 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.datazone#PutResourceConfiguration" : {
+         "members" : {
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the resource configuration.</p>"
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resource configuration.</p>",
+                  "smithy.api#length" : {
+                     "max" : 64,
+                     "min" : 1
+                  },
+                  "smithy.api#required" : {}
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#ResourceConfigurationParameterMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters of the resource configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "region" : {
+               "target" : "com.amazonaws.datazone#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region of the resource configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The resource configuration that is used to configure the environment blueprint.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#PutResourceConfigurations" : {
+         "member" : {
+            "target" : "com.amazonaws.datazone#PutResourceConfiguration"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.datazone#QueryGraph" : {
          "errors" : [
@@ -32732,6 +34146,69 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#ResourceConfiguration" : {
+         "members" : {
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the resource configuration.</p>"
+               }
+            },
+            "identifier" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the resource configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the resource configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#ResourceConfigurationParameterMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The parameters of the resource configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "region" : {
+               "target" : "com.amazonaws.datazone#RegionName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region of the resource configuration.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The details of the resource configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#ResourceConfigurationParameterMap" : {
+         "key" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "smithy.api#String"
+         }
+      },
+      "com.amazonaws.datazone#ResourceConfigurations" : {
+         "member" : {
+            "target" : "com.amazonaws.datazone#ResourceConfiguration"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.datazone#ResourceList" : {
          "member" : {
             "target" : "com.amazonaws.datazone#Resource"
@@ -33524,6 +35001,20 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.datazone#S3Destination" : {
+         "members" : {
+            "uri" : {
+               "target" : "com.amazonaws.datazone#NotebookS3Uri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Simple Storage Service URI of the exported notebook.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The Amazon Simple Storage Service destination for a notebook export in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#S3Location" : {
          "traits" : {
             "smithy.api#length" : {
@@ -33674,6 +35165,17 @@
             "smithy.api#documentation" : "<p>The Amazon S3 properties patch of a connection.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.datazone#S3SourceLocation" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1024,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^s3://.+$",
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "string"
       },
       "com.amazonaws.datazone#S3Uri" : {
          "traits" : {
@@ -34564,6 +36066,15 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#SecurityGroupId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32
+            },
+            "smithy.api#pattern" : "^sg-[a-z0-9]+$"
+         },
+         "type" : "string"
+      },
       "com.amazonaws.datazone#SecurityGroupIdList" : {
          "member" : {
             "target" : "smithy.api#String",
@@ -34835,6 +36346,20 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.datazone#SourceLocation" : {
+         "members" : {
+            "s3" : {
+               "target" : "com.amazonaws.datazone#S3SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Simple Storage Service URI of the notebook source file.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The source location for a notebook import in Amazon SageMaker Unified Studio.</p>"
+         },
+         "type" : "union"
       },
       "com.amazonaws.datazone#SparkEmrPropertiesInput" : {
          "members" : {
@@ -35591,6 +37116,305 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#StartNotebookExport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#StartNotebookExportInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#StartNotebookExportOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/v2/domains/{domainIdentifier}/notebook-exports"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#StartNotebookExportInput" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.datazone#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "fileFormat" : {
+               "target" : "com.amazonaws.datazone#FileFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file format for the notebook export. Valid values are <code>PDF</code> and <code>IPYNB</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "notebookIdentifier" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook to export.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#StartNotebookExportOutput" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook export was started.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who started the notebook export.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fileFormat" : {
+               "target" : "com.amazonaws.datazone#FileFormat",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The file format of the notebook export.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#ExportId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook export.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "notebookId" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookExportStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook export.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#StartNotebookImport" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ServiceQuotaExceededException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#StartNotebookImportInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#StartNotebookImportOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project.</p>",
+            "smithy.api#http" : {
+               "code" : 201,
+               "method" : "POST",
+               "uri" : "/v2/domains/{domainIdentifier}/notebook-imports"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#StartNotebookImportInput" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.datazone#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the imported notebook.</p>"
+               }
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the imported notebook. The name must be between 1 and 256 characters.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectIdentifier" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that will own the imported notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sourceLocation" : {
+               "target" : "com.amazonaws.datazone#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#StartNotebookImportOutput" : {
+         "members" : {
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook import was started.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who started the notebook import.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the imported notebook.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the imported notebook.</p>"
+               }
+            },
+            "notebookId" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the imported notebook.</p>"
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the imported notebook.</p>"
+               }
+            },
+            "sourceLocation" : {
+               "target" : "com.amazonaws.datazone#SourceLocation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The source location from which the notebook was imported.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook import.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#StartNotebookRun" : {
          "errors" : [
             {
@@ -35622,7 +37446,7 @@
             "target" : "com.amazonaws.datazone#StartNotebookRunOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Starts a notebook run in an Amazon DataZone domain. A notebook run represents the execution of a Amazon DataZone notebook within a project. You can configure compute, network, timeout, and environment settings for the run.</p>",
+            "smithy.api#documentation" : "<p>Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">Amazon SageMaker notebook</a> within a project. You can configure compute, network, timeout, and environment settings for the run.</p>",
             "smithy.api#http" : {
                "code" : 201,
                "method" : "POST",
@@ -35650,7 +37474,7 @@
             "domainIdentifier" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain in which the notebook run is started.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -35746,7 +37570,7 @@
             "domainId" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -35901,7 +37725,7 @@
             "target" : "com.amazonaws.datazone#StopNotebookRunOutput"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Stops a running notebook run in an Amazon DataZone domain.</p>",
+            "smithy.api#documentation" : "<p>Stops a running <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook run</a> in Amazon SageMaker Unified Studio.</p>",
             "smithy.api#http" : {
                "code" : 200,
                "method" : "PUT",
@@ -35923,7 +37747,7 @@
             "domainIdentifier" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain in which the notebook run is stopped.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is stopped.</p>",
                   "smithy.api#httpLabel" : {},
                   "smithy.api#required" : {}
                }
@@ -35947,7 +37771,7 @@
             "domainId" : {
                "target" : "com.amazonaws.datazone#DomainId",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The identifier of the Amazon DataZone domain.</p>",
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -35994,7 +37818,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The storage configuration for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The storage configuration for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -37596,7 +39420,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The timeout configuration for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The timeout configuration for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -38090,7 +39914,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The source that triggered a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The source that triggered a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "structure"
       },
@@ -38119,7 +39943,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>The type of trigger source for a notebook run in Amazon DataZone.</p>"
+            "smithy.api#documentation" : "<p>The type of trigger source for a notebook run in Amazon SageMaker Unified Studio.</p>"
          },
          "type" : "enum"
       },
@@ -40465,6 +42289,245 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.datazone#UpdateNotebook" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#UpdateNotebookInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#UpdateNotebookOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates a <a href=\"https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/notebooks.html\">notebook</a> in Amazon SageMaker Unified Studio.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "PATCH",
+               "uri" : "/v2/domains/{domainIdentifier}/notebooks/{identifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#UpdateNotebookInput" : {
+         "members" : {
+            "cellOrder" : {
+               "target" : "com.amazonaws.datazone#CellOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated ordered list of cells in the notebook.</p>"
+               }
+            },
+            "clientToken" : {
+               "target" : "com.amazonaws.datazone#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated description of the notebook.</p>"
+               }
+            },
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "environmentConfiguration" : {
+               "target" : "com.amazonaws.datazone#EnvironmentConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated environment configuration for the notebook.</p>"
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook to update.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.datazone#Metadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated metadata for the notebook, specified as key-value pairs.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated name of the notebook.</p>"
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#Parameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated sensitive parameters for the notebook, specified as key-value pairs.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated status of the notebook.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#UpdateNotebookOutput" : {
+         "members" : {
+            "cellOrder" : {
+               "target" : "com.amazonaws.datazone#CellOrder",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ordered list of cells in the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "computeId" : {
+               "target" : "com.amazonaws.datazone#ComputeId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the compute associated with the notebook.</p>"
+               }
+            },
+            "createdAt" : {
+               "target" : "com.amazonaws.datazone#CreatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was created.</p>"
+               }
+            },
+            "createdBy" : {
+               "target" : "com.amazonaws.datazone#CreatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who created the notebook.</p>"
+               }
+            },
+            "description" : {
+               "target" : "com.amazonaws.datazone#Description",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The description of the notebook.</p>"
+               }
+            },
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the Amazon SageMaker Unified Studio domain.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "environmentConfiguration" : {
+               "target" : "com.amazonaws.datazone#EnvironmentConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The environment configuration of the notebook.</p>"
+               }
+            },
+            "error" : {
+               "target" : "com.amazonaws.datazone#NotebookError",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The error details if the notebook is in a failed state.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#NotebookId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "lockExpiresAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook lock expires.</p>"
+               }
+            },
+            "lockedAt" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was locked.</p>"
+               }
+            },
+            "lockedBy" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who locked the notebook.</p>"
+               }
+            },
+            "metadata" : {
+               "target" : "com.amazonaws.datazone#Metadata",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The metadata of the notebook.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.datazone#NotebookName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "owningProjectId" : {
+               "target" : "com.amazonaws.datazone#ProjectId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the project that owns the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "parameters" : {
+               "target" : "com.amazonaws.datazone#Parameters",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The sensitive parameters of the notebook.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#NotebookStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the notebook.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "updatedAt" : {
+               "target" : "com.amazonaws.datazone#UpdatedAt",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp of when the notebook was last updated.</p>"
+               }
+            },
+            "updatedBy" : {
+               "target" : "com.amazonaws.datazone#UpdatedBy",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the user who last updated the notebook.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.datazone#UpdateProject" : {
          "errors" : [
             {
@@ -42232,6 +44295,122 @@
             "smithy.api#documentation" : "<p>The input fails to satisfy the constraints specified by the Amazon Web Services service.</p>",
             "smithy.api#error" : "client",
             "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#VpcConnectionSubnetIdList" : {
+         "member" : {
+            "target" : "com.amazonaws.datazone#SubnetId"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 16,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.datazone#VpcId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 32
+            },
+            "smithy.api#pattern" : "^vpc-[a-z0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.datazone#VpcPropertiesInput" : {
+         "members" : {
+            "securityGroupId" : {
+               "target" : "com.amazonaws.datazone#SecurityGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The security group ID of the VPC connection. Must match the pattern <code>^sg-[a-z0-9]+$</code>. Maximum length of 32.</p>"
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.datazone#VpcConnectionSubnetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subnet IDs of the VPC connection. You can specify between 1 and 16 subnet IDs.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcId" : {
+               "target" : "com.amazonaws.datazone#VpcId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the VPC. Must match the pattern <code>^vpc-[a-z0-9]+$</code>. Maximum length of 32.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The VPC connection properties used when creating a connection.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#VpcPropertiesOutput" : {
+         "members" : {
+            "glueConnectionNames" : {
+               "target" : "com.amazonaws.datazone#GlueConnectionNames",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Glue connection names associated with the VPC connection.</p>"
+               }
+            },
+            "securityGroupId" : {
+               "target" : "com.amazonaws.datazone#SecurityGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The security group ID of the VPC connection.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.datazone#ConnectionStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the VPC connection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.datazone#VpcConnectionSubnetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subnet IDs of the VPC connection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "vpcId" : {
+               "target" : "com.amazonaws.datazone#VpcId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the VPC.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The VPC connection properties returned in responses.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#VpcPropertiesPatch" : {
+         "members" : {
+            "securityGroupId" : {
+               "target" : "com.amazonaws.datazone#SecurityGroupId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The security group ID of the VPC connection.</p>"
+               }
+            },
+            "subnetIds" : {
+               "target" : "com.amazonaws.datazone#VpcConnectionSubnetIdList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The subnet IDs of the VPC connection.</p>"
+               }
+            },
+            "vpcId" : {
+               "target" : "com.amazonaws.datazone#VpcId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of the VPC.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The VPC connection properties used when updating a connection.</p>"
          },
          "type" : "structure"
       },
