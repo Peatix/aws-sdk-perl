@@ -125,6 +125,23 @@ sub new_with_coercions {
           }
           $p{ $att } = [ map { Paws->new_with_coercions("$subtype", %{ $_ }) } @{ $params{ $att } } ];
         }
+      } elsif ("$type_str" =~ m/^HashRef\[(.*?)\]$/){
+        # Map-typed input member. The materialiser models maps as a
+        # plain HashRef[X] attribute (not a StrTo*MapParser class), so
+        # a map of objects (e.g. DynamoDB Item => HashRef[AttributeValue],
+        # SQS MessageAttributes) must coerce each value, while a map of
+        # natives (e.g. S3 Metadata => HashRef[Str]) passes through.
+        my $subtype = "$1";
+        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Maybe[Str]' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
+          $p{ $att } = $params{ $att };
+        } else {
+          if ($type_obj && $type_obj->can('type_parameter') && $type_obj->type_parameter->can('class')) {
+            $subtype = $type_obj->type_parameter->class;
+          } else {
+            $subtype = _unwrap_class_from_type_string($subtype);
+          }
+          $p{ $att } = { map { ($_ => Paws->new_with_coercions("$subtype", %{ $params{ $att }{ $_ } })) } keys %{ $params{ $att } } };
+        }
       } elsif ($type_obj && ref($type_obj) && ($type_obj->isa('Type::Tiny::Enum') || ($type_obj->can('parent') && $type_obj->can('values')))){
         $p{ $att } = $params{ $att };
       } else {

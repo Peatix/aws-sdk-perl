@@ -553,6 +553,32 @@ sub _materialise_shape_class {
         push @clear_lines, "        use strict 'refs';";
     }
 
+    # Streaming httpPayload member (e.g. S3 GetObject's output shape,
+    # whose `Body` is a streaming blob). Paws::Net::ResponseRole reads
+    # `_stream_param` to bind the raw response body to that member;
+    # without it the body is parsed as XML/JSON and the member comes
+    # back undef. Mirrors the request-side _stream_param the operation
+    # class emits, but for the response shape.
+    my $stream_method = '';
+    if (defined(my $payload_name = $shape->payload)) {
+        my $member    = $shape->members->{$payload_name};
+        my $ptarget   = $member ? $service_ir->shape($member->shape) : undef;
+        my $streaming = ($member && $member->streaming)
+                     || ($ptarget && $ptarget->streaming) ? 1 : 0;
+        # Only a raw-bytes payload (a streaming blob/string, e.g. S3
+        # GetObject's Body) is bound directly as the response body. A
+        # streaming *structure* payload is an event stream (e.g. S3
+        # SelectObjectContent's Payload, a SelectObjectContentEventStream)
+        # which is decoded, not handed the raw bytes - binding raw bytes
+        # to it fails its InstanceOf type constraint.
+        my $raw_payload = $ptarget
+                          && ($ptarget->type eq 'blob' || $ptarget->type eq 'string')
+                          ? 1 : 0;
+        if ($streaming && $raw_payload) {
+            $stream_method = "sub _stream_param { '" . _esc($payload_name) . "' }";
+        }
+    }
+
     # Side-table registration, emitted into the source so it survives
     # the dump-to-.pm (emit_callback) path as well as the eval path.
     my $serdes_src = $self->_serdes_register_src(\@serdes_records);
@@ -568,6 +594,8 @@ sub _materialise_shape_class {
 @{[ join("\n", @attr_lines) ]}
 
         has _request_id => (is => 'ro');
+
+        $stream_method
 
         $serdes_src
 
@@ -603,6 +631,11 @@ sub _install_structure_members {
         # the wire layer needs to know the member is a timestamp to
         # emit the protocol's timestamp format.
         my $is_timestamp   = $target_shape && $target_shape->type eq 'timestamp' ? 1 : 0;
+        # Blobs flatten to Str too; the wire layer base64-encodes them.
+        # Streaming payloads are raw bytes (bound directly by the
+        # caller) and must not be base64-encoded, so exclude them.
+        my $is_blob        = $target_shape && $target_shape->type eq 'blob'
+                             && !($target_shape->streaming || $m->streaming) ? 1 : 0;
 
         my %record = (
             name          => $mname,
@@ -616,6 +649,7 @@ sub _install_structure_members {
             is_required   => ($required{$mname} ? 1 : 0),
             flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
             is_timestamp  => $is_timestamp,
+            is_blob       => $is_blob,
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {

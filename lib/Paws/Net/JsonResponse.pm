@@ -199,15 +199,38 @@ package Paws::Net::JsonResponse;
               } else {
                 $args{ $att } = 0;
               }
+            } elsif ($serdes->is_blob($att)) {
+              # Blobs arrive base64-encoded in JSON; hand back raw bytes.
+              require MIME::Base64;
+              $args{ $att } = MIME::Base64::decode_base64($value);
             } else {
               $args{ $att } = $value;
             }
           }
         }
       } elsif (my ($type) = ($att_type =~ m/^ArrayRef\[(.*)\]$/)) {
-        $type = Paws::_unwrap_class_from_type_string($type);
         my $value = $result->{ $att };
         $value = $result->{ $key } if (not defined $value and $key ne $att);
+
+        if (my ($maptype) = ($type =~ m/^HashRef\[(.*)\]$/)) {
+          # ArrayRef[HashRef[X]]: a list of maps (e.g. DynamoDB
+          # Query/Scan Items, where each item is a map of
+          # AttributeValue). Decode each element as a map.
+          $maptype = Paws::_unwrap_class_from_type_string($maptype);
+          if (defined $value) {
+            if ($maptype =~ m/\:\:/) {
+              Paws->load_class($maptype);
+              $args{ $att } = [ map { my $m = $_;
+                +{ map { ($_ => $self->new_from_result_struct($maptype, $m->{ $_ })) } keys %$m }
+              } @$value ];
+            } else {
+              $args{ $att } = $value;
+            }
+          }
+          next;
+        }
+
+        $type = Paws::_unwrap_class_from_type_string($type);
         my $value_ref = ref($value);
 
         if ($type =~ m/\:\:/) {
@@ -225,6 +248,22 @@ package Paws::Net::JsonResponse;
           }
         } else {
           if (defined $value){
+            $args{ $att } = $value;
+          }
+        }
+      } elsif (my ($maptype) = ($att_type =~ m/^HashRef\[(.*)\]$/)) {
+        # Map member. The materialiser models maps as a plain
+        # HashRef[X] attribute, so without this branch map attributes
+        # in a JSON response were silently dropped (e.g. SQS
+        # GetQueueAttributes Attributes, DynamoDB GetItem Item).
+        $maptype = Paws::_unwrap_class_from_type_string($maptype);
+        my $value = $result->{ $att };
+        $value = $result->{ $key } if (not defined $value and $key ne $att);
+        if (defined $value) {
+          if ($maptype =~ m/\:\:/) {
+            Paws->load_class($maptype);
+            $args{ $att } = { map { ($_ => $self->new_from_result_struct($maptype, $value->{ $_ })) } keys %$value };
+          } else {
             $args{ $att } = $value;
           }
         }
