@@ -278,6 +278,13 @@ package Paws::Net::JsonResponse;
         }
       }
     }
+
+    # Surface the request id (set on the struct by response_to_object
+    # from the x-amzn-requestid header) on the result object. Without
+    # this, $result->_request_id was undef on success, so the request
+    # id never reached callers or the Log interceptor.
+    $args{_request_id} = $result->{_request_id} if exists $result->{_request_id};
+
     return $class->new(%args);
   }
 
