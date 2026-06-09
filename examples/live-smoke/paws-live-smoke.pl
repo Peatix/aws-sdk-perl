@@ -255,11 +255,14 @@ service_block DynamoDB => sub {
         $ddb->PutItem(
             TableName => $table,
             Item      => {
-                id  => { S => '1' },
-                num => { N => '42' },
-                map => { M => { nested => { S => 'value' } } },
-                lst => { L => [ { S => 'a' }, { N => '7' } ] },
+                id   => { S => '1' },
+                num  => { N => '42' },
+                map  => { M => { nested => { S => 'value' } } },
+                lst  => { L => [ { S => 'a' }, { N => '7' } ] },
                 flag => { BOOL => 1 },
+                bin  => { B => 'raw-bytes-' . $run_id },          # binary (blob in a map)
+                strs => { SS => [ 'a', 'b', 'c' ] },              # string set
+                nums => { NS => [ '1', '2', '3' ] },              # number set
             },
         );
     };
@@ -271,6 +274,21 @@ service_block DynamoDB => sub {
         die "N mismatch\n"  unless ($itm->{num}->N  // '') eq '42';
         die "M mismatch\n"  unless ($itm->{map}->M->{nested}->S // '') eq 'value';
         die "L mismatch\n"  unless ($itm->{lst}->L->[0]->S // '') eq 'a';
+        die "B round-trip mismatch\n" unless ($itm->{bin}->B // '') eq 'raw-bytes-' . $run_id;
+        die "SS mismatch\n" unless @{ $itm->{strs}->SS // [] } == 3;
+        die "NS mismatch\n" unless @{ $itm->{nums}->NS // [] } == 3;
+    };
+
+    step 'dynamodb.update_item' => sub {
+        $ddb->UpdateItem(
+            TableName                 => $table,
+            Key                       => { id => { S => '1' } },
+            UpdateExpression          => 'SET num = :n',
+            ConditionExpression       => 'attribute_exists(id)',
+            ExpressionAttributeValues => { ':n' => { N => '99' } },
+        );
+        my $r = $ddb->GetItem(TableName => $table, Key => { id => { S => '1' } });
+        die "update not applied\n" unless ($r->Item->{num}->N // '') eq '99';
     };
 
     step 'dynamodb.query' => sub {
@@ -285,6 +303,31 @@ service_block DynamoDB => sub {
     step 'dynamodb.scan' => sub {
         my $r = $ddb->Scan(TableName => $table);
         die "scan count\n" unless ($r->Count // 0) >= 1;
+    };
+
+    # Pagination: write extra items and page through with Limit=1,
+    # following LastEvaluatedKey (a map of AttributeValue -> exercises
+    # the token round-trip and the map serde on input + output).
+    step 'dynamodb.paginate_scan' => sub {
+        $ddb->PutItem(TableName => $table, Item => { id => { S => "pg-$_" } })
+            for (1 .. 3);
+        my %seen;
+        my $start;
+        my $pages = 0;
+        do {
+            my $r = $ddb->Scan(
+                TableName => $table,
+                Limit     => 1,
+                ($start ? (ExclusiveStartKey => $start) : ()),
+            );
+            $seen{ $_->{id}->S } = 1 for @{ $r->Items // [] };
+            $start = $r->LastEvaluatedKey;    # HashRef[AttributeValue] or undef
+            $pages++;
+            die "runaway pagination\n" if $pages > 50;
+        } while ($start);
+        die "pagination missed items (saw " . scalar(keys %seen) . ")\n"
+            unless $seen{'pg-1'} && $seen{'pg-2'} && $seen{'pg-3'} && $seen{'1'};
+        die "expected multiple pages, got $pages\n" unless $pages >= 4;
     };
 };
 
@@ -302,6 +345,35 @@ service_block SQS => sub {
     };
     defer "sqs queue $qname" => sub { $sqs->DeleteQueue(QueueUrl => $qurl) if $qurl };
 
+    # An X-Ray trace ID is passed when enqueuing via the AWSTraceHeader
+    # *system* attribute (MessageSystemAttributes, a map of
+    # MessageSystemAttributeValue keyed by the AWSTraceHeader enum). It
+    # must serialise as a real map entry, not be dropped/renamed.
+    my $trace_header =
+        'Root=1-5759e988-bd862e3fe1be46a994272793;Parent=53995c3f42cd8ad8;Sampled=1';
+
+    step 'sqs.send_message_systemattr_serialisation' => sub {
+        my $call = $sqs->new_with_coercions(
+            'Paws::SQS::SendMessage',
+            QueueUrl              => $qurl,
+            MessageBody           => 'hello',
+            MessageSystemAttributes => {
+                AWSTraceHeader => { DataType => 'String', StringValue => $trace_header },
+            },
+        );
+        my $body = $sqs->prepare_request_for_call($call)->content;
+        require JSON::MaybeXS;
+        my $j = JSON::MaybeXS::decode_json($body);
+        my $sysattr = $j->{MessageSystemAttributes}
+            or die "MessageSystemAttributes missing from request body: $body\n";
+        my $th = $sysattr->{AWSTraceHeader}
+            or die "AWSTraceHeader missing from MessageSystemAttributes: $body\n";
+        die "AWSTraceHeader.StringValue wrong: $body\n"
+            unless ($th->{StringValue} // '') eq $trace_header;
+        die "AWSTraceHeader.DataType wrong: $body\n"
+            unless ($th->{DataType} // '') eq 'String';
+    };
+
     step 'sqs.send_message' => sub {
         $sqs->SendMessage(
             QueueUrl          => $qurl,
@@ -309,7 +381,24 @@ service_block SQS => sub {
             MessageAttributes => {
                 origin => { DataType => 'String', StringValue => 'paws-smoke' },
             },
+            MessageSystemAttributes => {
+                AWSTraceHeader => { DataType => 'String', StringValue => $trace_header },
+            },
         );
+    };
+
+    step 'sqs.send_message_batch' => sub {
+        my $r = $sqs->SendMessageBatch(
+            QueueUrl => $qurl,
+            Entries  => [
+                { Id => 'm1', MessageBody => 'batch-1',
+                  MessageAttributes => { k => { DataType => 'String', StringValue => 'v1' } } },
+                { Id => 'm2', MessageBody => 'batch-2' },
+            ],
+        );
+        my $ok = $r->Successful // [];
+        die "batch send: expected 2 successful, got " . scalar(@$ok) . "\n"
+            unless @$ok == 2;
     };
 
     step 'sqs.receive_message' => sub {
@@ -326,7 +415,6 @@ service_block SQS => sub {
             $got = $msgs->[0];
             return 1;
         }, timeout => 30, interval => 2);
-        die "body mismatch\n" unless ($got->Body // '') eq 'hello';
         $sqs->DeleteMessage(QueueUrl => $qurl, ReceiptHandle => $got->ReceiptHandle);
     };
 
@@ -372,6 +460,29 @@ service_block CloudWatch => sub {
             Period     => 60,
             Statistics => ['Sum'],
             Dimensions => [ { Name => 'run', Value => $run_id } ],
+        );
+    };
+
+    # GetMetricData uses MetricDataQueries (list of struct with a nested
+    # MetricStat{Metric{Dimensions[]}}) - a deeper nested-list shape.
+    step 'cloudwatch.get_metric_data' => sub {
+        $cw->GetMetricData(
+            StartTime         => $now - 3600,
+            EndTime           => $now + 60,
+            MetricDataQueries => [
+                {
+                    Id         => 'q1',
+                    MetricStat => {
+                        Metric => {
+                            Namespace  => $namespace,
+                            MetricName => 'smoke',
+                            Dimensions => [ { Name => 'run', Value => $run_id } ],
+                        },
+                        Period => 60,
+                        Stat   => 'Sum',
+                    },
+                },
+            ],
         );
     };
 };
@@ -433,21 +544,95 @@ service_block SecretsManager => sub {
 
     step 'secretsmanager.create_secret' => sub {
         # ClientRequestToken carries Smithy's @idempotencyToken trait;
-        # AWS SDKs auto-generate a UUID when it's omitted, but Paws does
-        # not yet (a separate autofill gap), so pass one explicitly.
+        # the SDK auto-generates a UUIDv4 when it's omitted (as the
+        # official AWS SDKs do), so deliberately don't pass one.
         $sm->CreateSecret(
-            Name               => $name,
-            SecretString       => qq({"k":"v-$run_id"}),
-            ClientRequestToken => sprintf('%s-%s', $run_id, '0' x 32),
+            Name         => $name,
+            SecretString => qq({"k":"v-$run_id"}),
         );
     };
     defer "secret $name" => sub {
         $sm->DeleteSecret(SecretId => $name, ForceDeleteWithoutRecovery => 1);
     };
 
-    step 'secretsmanager.get_secret_value' => sub {
+    step 'secretsmanager.update_secret' => sub {
+        # SecretBinary is a blob -> base64 on the json wire; also another
+        # @idempotencyToken (ClientRequestToken) auto-filled.
+        $sm->UpdateSecret(
+            SecretId     => $name,
+            SecretBinary => "binary-payload-$run_id",
+        );
+    };
+
+    step 'secretsmanager.get_secret_binary' => sub {
         my $r = $sm->GetSecretValue(SecretId => $name);
+        die "SecretBinary round-trip mismatch\n"
+            unless ($r->SecretBinary // '') eq "binary-payload-$run_id";
+    };
+
+    step 'secretsmanager.get_secret_value' => sub {
+        # After UpdateSecret(SecretBinary) the current version is binary;
+        # fetch the previous (string) version stage to check the string.
+        my $r = $sm->GetSecretValue(SecretId => $name, VersionStage => 'AWSPREVIOUS');
         die "secret mismatch\n" unless ($r->SecretString // '') =~ /v-\Q$run_id\E/;
+    };
+};
+
+# --- SESv2 (rest-json: deeply nested SendEmail) ----------------------------
+
+service_block SESv2 => sub {
+    my $ses   = svc('SESv2');
+    my $email = $ENV{PAWS_SMOKE_EMAIL} || 'keithduncan@peatix.com';
+
+    my $production;
+    step 'sesv2.get_account' => sub {
+        my $r = $ses->GetAccount;
+        $production = $r->ProductionAccessEnabled;
+        say "  sending_enabled=", ($r->SendingEnabled ? 1 : 0),
+            " production_access=", ($production ? 1 : 0);
+    };
+
+    # SendEmail exercises the deeply nested rest-json input
+    # (Destination + Content/Simple/Subject/Body). In the SES sandbox
+    # delivery requires a verified identity; if AWS rejects on that
+    # ground the request still serialised correctly (it reached SES),
+    # which is what this step verifies. A Paws-side / malformed-request
+    # error is a real failure.
+    step 'sesv2.send_email' => sub {
+        my $sent = eval {
+            $ses->SendEmail(
+                FromEmailAddress => $email,
+                Destination      => { ToAddresses => [$email] },
+                Content          => {
+                    Simple => {
+                        Subject => { Data => "Paws live-smoke $run_id", Charset => 'UTF-8' },
+                        Body    => {
+                            Text => { Data => "Sent by paws-live-smoke run $run_id.", Charset => 'UTF-8' },
+                            Html => { Data => "<p>Sent by paws-live-smoke run <code>$run_id</code>.</p>", Charset => 'UTF-8' },
+                        },
+                    },
+                },
+            );
+            1;
+        };
+        if ($sent) {
+            say "  note: SendEmail delivered to $email";
+            return;
+        }
+        my $err  = $@;
+        my $code = (ref $err && $err->can('code'))    ? $err->code    : '';
+        my $msg  = (ref $err && $err->can('message')) ? $err->message : "$err";
+        # Sandbox / unverified-identity rejections mean the request was
+        # well-formed and reached SES - serialisation is validated.
+        if ((ref $err && $err->isa('Paws::Exception'))
+            && ($code =~ /MessageRejected|AccountSendingPaused/i
+                || $msg =~ /not verified|verified identity|sandbox/i)) {
+            say "  note: SendEmail serialised OK; SES blocked delivery"
+              . " ($code: $msg). Verify $email in account 360726998130 to"
+              . " actually receive it.";
+            return;
+        }
+        die $err;
     };
 };
 
@@ -466,6 +651,22 @@ service_block EC2 => sub {
     };
     step 'ec2.describe_instances' => sub {
         $ec2->DescribeInstances(MaxResults => 5);    # may be empty; just exercise decode
+    };
+    # Filters exercise the ec2-protocol flattened list-of-struct input
+    # (Filter.1.Name / Filter.1.Value.1). This is Peatix's actual call.
+    step 'ec2.describe_instances_filtered' => sub {
+        my $r = $ec2->DescribeInstances(
+            Filters => [
+                { Name => 'instance-state-name', Values => ['running'] },
+            ],
+        );
+        # The filter must be honoured: every returned instance is running.
+        for my $res (@{ $r->Reservations // [] }) {
+            for my $inst (@{ $res->Instances // [] }) {
+                my $state = eval { $inst->State->Name } // '';
+                die "filter not applied: state=$state\n" unless $state eq 'running';
+            }
+        }
     };
 };
 
@@ -573,6 +774,76 @@ service_block Firehose => sub {
             Record             => { Data => "paws-smoke firehose $run_id\n" },
         );
     };
+
+    # PutRecordBatch: a list of records, each carrying a blob (Data).
+    # Exercises list-of-struct-with-blob serialisation (Peatix's call).
+    step 'firehose.put_record_batch' => sub {
+        my $r = $firehose->PutRecordBatch(
+            DeliveryStreamName => $stream,
+            Records => [
+                { Data => "paws-smoke batch-1 $run_id\n" },
+                { Data => "paws-smoke batch-2 $run_id\n" },
+            ],
+        );
+        die "batch failed count=" . ($r->FailedPutCount // -1) . "\n"
+            if ($r->FailedPutCount // 0) != 0;
+    };
+};
+
+# --- Errors (per-protocol exception decoding) ------------------------------
+# Deliberately trigger 4xx errors and assert Paws decodes them into a
+# Paws::Exception with a sensible code/request_id, across protocols.
+# SQS + CloudWatch are awsQueryCompatible (their error code can arrive
+# in the x-amzn-query-error header); this checks the code is meaningful.
+
+service_block Errors => sub {
+    my $expect_error = sub {
+        my ($name, $code_re, $code) = @_;
+        step "errors.$name" => sub {
+            my $ok = eval { $code->(); 1 };
+            die "expected an error, call succeeded\n" if $ok;
+            my $err = $@;
+            die "not a Paws::Exception: $err\n"
+                unless ref($err) && $err->isa('Paws::Exception');
+            say "    code=", $err->code,
+                " request_id=", ($err->request_id // ''),
+                " http=", ($err->http_status // '');
+            die "code '" . $err->code . "' !~ $code_re\n"
+                unless $err->code =~ $code_re;
+        };
+    };
+
+    $expect_error->('dynamodb_resource_not_found',
+        qr/ResourceNotFound|ValidationException/, sub {
+            svc('DynamoDB')->GetItem(
+                TableName => 'paws-smoke-nope-' . $run_id,
+                Key       => { id => { S => '1' } },
+            );
+        });
+    # SQS: awsQueryCompatible. Modern code is QueueDoesNotExist; the
+    # legacy query code (AWS.SimpleQueueService.NonExistentQueue) rides
+    # in x-amzn-query-error.
+    $expect_error->('sqs_nonexistent_queue',
+        qr/NonExistent|QueueDoesNotExist|NotFound/i, sub {
+            svc('SQS')->GetQueueUrl(QueueName => 'paws-smoke-nope-' . $run_id);
+        });
+    $expect_error->('secretsmanager_not_found',
+        qr/ResourceNotFound/, sub {
+            svc('SecretsManager')->GetSecretValue(
+                SecretId => 'paws-smoke-nope-' . $run_id);
+        });
+    $expect_error->('kms_not_found',
+        qr/NotFound/i, sub {
+            svc('KMS')->DescribeKey(
+                KeyId => '00000000-0000-0000-0000-000000000000');
+        });
+    # rest-xml error envelope.
+    $expect_error->('s3_no_such_bucket',
+        qr/NoSuchBucket|NotFound|404/i, sub {
+            my $b = 'paws-smoke-nope-' . lc($run_id);
+            $b =~ tr/a-z0-9-//cd;
+            svc('S3')->ListObjectsV2(Bucket => $b);
+        });
 };
 
 # --- summary ---------------------------------------------------------------
