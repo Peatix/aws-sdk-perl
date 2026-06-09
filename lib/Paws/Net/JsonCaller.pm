@@ -6,6 +6,7 @@ package Paws::Net::JsonCaller;
   use Moo::Role;
   use JSON::MaybeXS;
   use POSIX qw(strftime);
+  use Scalar::Util qw(looks_like_number);
   requires 'json_version';
 
   use Paws::Net::JsonResponse;
@@ -57,6 +58,13 @@ package Paws::Net::JsonCaller;
           $p{$key} = $value ? \1 : \0;
         } elsif ($type eq 'Int') {
           $p{$key} = int($value);
+        } elsif ($serdes->is_timestamp($att) && looks_like_number($value)) {
+          # json/rest-json default timestamp format is `unixTimestamp`:
+          # epoch seconds as a JSON number. Timestamps flatten to the
+          # Str type, so without this they'd be quoted and AWS rejects
+          # them ("STRING_VALUE can not be converted to milliseconds
+          # since epoch"). Add 0 to force numeric encoding.
+          $p{$key} = 0 + $value;
         } elsif ($type eq 'Str') {
           # concatenate an empty string so numbers get transmitted as strings
           $p{$key} = "" . $value;

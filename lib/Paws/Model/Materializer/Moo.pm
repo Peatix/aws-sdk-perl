@@ -598,6 +598,11 @@ sub _install_structure_members {
         my $target_shape   = $service_ir->shape($m->shape);
         my $shape_flatten  = $target_shape && $target_shape->is_list && $target_shape->flattened ? 1 : 0;
         my $member_flatten = $m->flattened ? 1 : 0;
+        # Timestamps flatten to the Str type (see PRIMITIVE_TO_TYPE_EXPR)
+        # so callers accept either an epoch or a formatted string, but
+        # the wire layer needs to know the member is a timestamp to
+        # emit the protocol's timestamp format.
+        my $is_timestamp   = $target_shape && $target_shape->type eq 'timestamp' ? 1 : 0;
 
         my %record = (
             name          => $mname,
@@ -610,6 +615,7 @@ sub _install_structure_members {
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
             is_required   => ($required{$mname} ? 1 : 0),
             flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
+            is_timestamp  => $is_timestamp,
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {

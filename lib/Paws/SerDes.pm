@@ -104,6 +104,13 @@ sub register {
             type_object   => ($rec->{type_object}   // undef),
             is_list       => ($rec->{is_list}       ? 1 : 0),
             is_map        => ($rec->{is_map}        ? 1 : 0),
+            # Member's target shape is a Smithy `timestamp`. The IR
+            # flattens timestamps to the Str type so callers stay
+            # lenient about input, but the wire layer needs to know
+            # the member is a timestamp to serialise it in the
+            # protocol's timestamp format (a JSON number for the
+            # json / rest-json default `unixTimestamp`).
+            is_timestamp  => ($rec->{is_timestamp}  ? 1 : 0),
             # Per-attribute xmlFlattened, lifted by the materialiser
             # from the IR (either the list-shape's flattened flag or
             # the member-level xmlFlattened trait — both forms are
@@ -232,6 +239,14 @@ sub auto_for {
 sub is_flattened {
     my ($self, $name) = @_;
     return ($self->attributes->{$name} // {})->{flattened} ? 1 : 0;
+}
+
+# True if the attribute's target shape is a Smithy timestamp. The
+# wire layer uses this to serialise the value in the protocol's
+# timestamp format rather than as a plain string.
+sub is_timestamp {
+    my ($self, $name) = @_;
+    return ($self->attributes->{$name} // {})->{is_timestamp} ? 1 : 0;
 }
 
 # Test/maintenance helper: clear the cache. The wire layer never calls
