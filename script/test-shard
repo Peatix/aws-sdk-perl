@@ -37,8 +37,8 @@
 #                       handling, interceptor and retry framework, JSON
 #                       timestamp serialisation)
 #   subdirs     ~20s   t/02, t/27_paginator_iterator, t/32_v4a,
-#                       t/33_streaming, t/34_s3_transfer, t/model,
-#                       t/types, t/wire
+#                       t/33_streaming, t/34_s3_transfer,
+#                       t/36_signing_region, t/model, t/types, t/wire
 #   s3          ~20s   t/s3, t/route53/uri_generation.t
 #                       (real-service-shape tests for S3 + Route53
 #                       URI generation — presigning, URI encoding,
@@ -161,6 +161,7 @@ shard_files() {
            t/32_v4a_signature.t \
            t/33_streaming.t \
            t/34_s3_transfer.t \
+           t/36_signing_region.t \
            t/model \
            t/types \
            t/wire
