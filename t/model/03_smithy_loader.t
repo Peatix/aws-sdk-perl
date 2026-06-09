@@ -130,8 +130,14 @@ subtest 'member traits map to IR locations' => sub {
     my $list_resp = $svc->shape('ListThingsResponse');
     ok($list_resp->members->{Things}->flattened,
        'member-level smithy.api#xmlFlattened lifted to IR Member->flattened');
-    is($list_resp->members->{Things}->locationName, 'TinyThing',
-       'list member-level smithy.api#xmlName lifted to IR Member->locationName');
+    # smithy.api#xmlName is an XML/query wire-rename; it must NOT drive
+    # the wire key on a JSON-protocol service (TinyService is
+    # awsJson1_1). With no jsonName and the member name already matching
+    # the attribute, locationName stays undef and the wire layer uses
+    # the member name. (xmlName IS lifted for XML/query services; see
+    # _build_member's protocol branch.)
+    is($list_resp->members->{Things}->locationName, undef,
+       'list member-level smithy.api#xmlName not used as a JSON wire key');
     ok(!$list_resp->members->{Count}->flattened,
        'non-list member defaults to flattened=0');
 };
