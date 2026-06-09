@@ -25,7 +25,9 @@ repo_root=$(cd -- "$script_dir/../.." && pwd)
 cd -- "$repo_root"
 
 out_dir="$script_dir/local"
-services=(S3 DynamoDB SQS CloudWatch KMS SSM SecretsManager EC2 Route53 IAM Firehose)
+# STS is always needed: Paws::Credential::AssumeRole (PAWS_SMOKE_ROLE_ARN)
+# calls Paws->service('STS') to obtain the assumed credentials.
+services=(STS S3 DynamoDB SQS CloudWatch KMS SSM SecretsManager EC2 Route53 IAM Firehose)
 
 while [ "$#" -gt 0 ]
 do

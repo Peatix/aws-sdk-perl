@@ -223,7 +223,7 @@ service_block S3 => sub {
     # absence doesn't fail the block.
     if (Paws->class_for_service('S3')->can('presign') || $s3->can('presign')) {
         step 's3.presign_get' => sub {
-            my $url = $s3->presign('GetObject', Bucket => $bucket, Key => 'hello.txt');
+            my $url = $s3->presign('GetObject', { Bucket => $bucket, Key => 'hello.txt' });
             die "no url\n" unless $url && $url =~ m{^https?://};
         };
     }
@@ -343,6 +343,8 @@ service_block CloudWatch => sub {
     my $namespace = "PawsSmoke/$run_id";
     my $now       = time;
 
+    # CloudWatch is awsQueryCompatible: its canonical protocol is
+    # awsJson1_0, so timestamps go as unixTimestamp (epoch seconds).
     step 'cloudwatch.put_metric_data' => sub {
         $cw->PutMetricData(
             Namespace  => $namespace,
@@ -350,7 +352,7 @@ service_block CloudWatch => sub {
                 {
                     MetricName => 'smoke',
                     Value      => 1,
-                    Timestamp  => iso8601($now),
+                    Timestamp  => $now,
                     Dimensions => [ { Name => 'run', Value => $run_id } ],
                 },
             ],
@@ -361,14 +363,12 @@ service_block CloudWatch => sub {
         $cw->ListMetrics(Namespace => $namespace);    # eventually consistent; just exercise the call
     };
 
-    # StartTime/EndTime are query-protocol timestamps (iso8601). This
-    # exercises the query timestamp + flattened-Dimensions path.
     step 'cloudwatch.get_metric_statistics' => sub {
         $cw->GetMetricStatistics(
             Namespace  => $namespace,
             MetricName => 'smoke',
-            StartTime  => iso8601($now - 3600),
-            EndTime    => iso8601($now + 60),
+            StartTime  => $now - 3600,
+            EndTime    => $now + 60,
             Period     => 60,
             Statistics => ['Sum'],
             Dimensions => [ { Name => 'run', Value => $run_id } ],
@@ -432,7 +432,14 @@ service_block SecretsManager => sub {
     my $name = rname('sm');
 
     step 'secretsmanager.create_secret' => sub {
-        $sm->CreateSecret(Name => $name, SecretString => qq({"k":"v-$run_id"}));
+        # ClientRequestToken carries Smithy's @idempotencyToken trait;
+        # AWS SDKs auto-generate a UUID when it's omitted, but Paws does
+        # not yet (a separate autofill gap), so pass one explicitly.
+        $sm->CreateSecret(
+            Name               => $name,
+            SecretString       => qq({"k":"v-$run_id"}),
+            ClientRequestToken => sprintf('%s-%s', $run_id, '0' x 32),
+        );
     };
     defer "secret $name" => sub {
         $sm->DeleteSecret(SecretId => $name, ForceDeleteWithoutRecovery => 1);
