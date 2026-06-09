@@ -53,16 +53,31 @@ package Paws::Net::RestXMLResponse;
     my ($self, $call_object, $response) = @_;
 
     my $struct = eval { $self->unserialize_response( $response ) };
+    $struct = {} if (ref($struct) ne 'HASH');
 
     my ($message, $code, $request_id, $host_id);
 
-    $message = status_message($response->status);
-    $code = $response->status;
+    # rest-xml errors carry the AWS error code/message in the XML body,
+    # e.g. S3's <Error><Code>NoSuchBucket</Code><Message>..</Message>
+    # <RequestId>..</RequestId></Error>. XML::Simple drops the <Error>
+    # root, so Code/Message sit at the top level (some shapes nest them
+    # under {Error}). Without this the exception code was just the HTTP
+    # status (404/403), losing NoSuchBucket / AccessDenied / etc.
+    my $error = (ref($struct->{Error}) eq 'HASH') ? $struct->{Error} : $struct;
 
-    if (exists $struct->{RequestId}) {
+    $code = (defined $error->{Code})
+      ? $error->{Code}
+      : $response->status;
+    $message = (defined $error->{Message})
+      ? $error->{Message}
+      : status_message($response->status);
+
+    if (defined $struct->{RequestId}) {
       $request_id = $struct->{RequestId};
-    } elsif (exists $struct->{RequestID}){
+    } elsif (defined $struct->{RequestID}){
       $request_id = $struct->{RequestID};
+    } elsif (ref($error) eq 'HASH' && defined $error->{RequestId}) {
+      $request_id = $error->{RequestId};
     } elsif ($response->has_header('x-amzn-requestid')) {
       $request_id = $response->header('x-amzn-requestid');
     } else {
