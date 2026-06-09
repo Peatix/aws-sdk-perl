@@ -489,9 +489,13 @@ sub _build_member {
         # and must not leak into JSON keys.
         $location_name //= $traits->{'smithy.api#jsonName'};
     } else {
-        # XML/query protocols: unchanged precedence (jsonName then
-        # xmlName), so query/rest-xml wire keys are byte-for-byte as
-        # before this fix.
+        # XML/query/ec2 protocols: jsonName then xmlName. NB the EC2
+        # request query-param name is `aws.protocols#ec2QueryName`, but
+        # EC2 *responses* are XML keyed by `xmlName`; the IR carries a
+        # single locationName per member, so we use xmlName (which
+        # serves response decoding and, with EC2Caller's ucfirst, the
+        # request too) rather than ec2QueryName, which would break
+        # response decoding.
         $location_name //= $traits->{'smithy.api#jsonName'};
         $location_name //= $traits->{'smithy.api#xmlName'};
     }
@@ -519,7 +523,21 @@ sub _build_member {
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
         idempotency_token =>
             exists $traits->{'smithy.api#idempotencyToken'} ? 1 : 0,
+        has_default   => (exists $traits->{'smithy.api#default'} ? 1 : 0),
+        default_value => _normalise_default($traits->{'smithy.api#default'}),
     );
+}
+
+# Normalise a smithy.api#default value for the IR. JSON booleans decode
+# to blessed boolean objects (JSON::PP::Boolean / Types::Serialiser);
+# collapse those to 1/0 so the materialiser and wire layer see a plain
+# scalar. Other values (strings, numbers, [], {}) pass through.
+sub _normalise_default {
+    my ($v) = @_;
+    return undef if !defined $v;
+    my $ref = ref $v;
+    return ($v ? 1 : 0) if ($ref =~ /Boolean$/);
+    return $v;
 }
 
 # 'com.example#Foo' -> 'Foo'

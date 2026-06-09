@@ -159,6 +159,22 @@ sub new_with_coercions {
       next unless $serdes->is_idempotency_token($att);
       $p{ $att } = _idempotency_token();
     }
+
+    # Apply Smithy @default values the caller omitted. The default is the
+    # value the service assumes for an absent member, so sending it is
+    # behaviourally equivalent and gives the member the value Smithy says
+    # it always has. Restricted to scalar defaults (the common case:
+    # numbers, strings, bools); list/map/null defaults are left to the
+    # service's own defaulting. Only fills body members so it can't
+    # clobber a header/uri/query-located default unexpectedly.
+    for my $att ($serdes->serializable_attributes) {
+      next if exists $p{ $att };
+      next unless $serdes->has_default($att);
+      my $dv = $serdes->default_for($att);
+      next if !defined $dv || ref $dv;
+      next unless $serdes->location_for($att) eq 'body';
+      $p{ $att } = $dv;
+    }
   }
   return $class->new(%p);
 }

@@ -109,6 +109,12 @@ subtest 'member traits map to IR locations' => sub {
     is($filter->location,     'querystring', 'smithy.api#httpQuery -> querystring');
     is($filter->locationName, 'filter',      'querystring location_name');
 
+    # smithy.api#default on a member is lifted to the IR.
+    my $maxresults = $list_req->members->{MaxResults};
+    ok($maxresults->has_default, 'member smithy.api#default -> IR Member->has_default');
+    is($maxresults->default_value, 50, 'IR Member->default_value carries the default');
+    ok(!$filter->has_default, 'member without a default has has_default = 0');
+
     my $get_req = $svc->shape('GetThingRequest');
     my $id      = $get_req->members->{ThingId};
     is($id->location,     'uri',     'smithy.api#httpLabel -> uri');

@@ -651,6 +651,8 @@ sub _install_structure_members {
             is_timestamp  => $is_timestamp,
             is_blob       => $is_blob,
             is_idempotency_token => ($m->idempotency_token ? 1 : 0),
+            has_default   => ($m->has_default ? 1 : 0),
+            default_value => $m->default_value,
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
