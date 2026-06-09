@@ -231,25 +231,34 @@ package Paws::Net::JsonResponse;
         }
 
         $type = Paws::_unwrap_class_from_type_string($type);
-        my $value_ref = ref($value);
 
-        if ($type =~ m/\:\:/) {
-          Paws->load_class($type);
-          my $type_serdes = Paws::SerDes->for($type);
+        # An *optional* absent list member is left unset, NOT fabricated
+        # as []: the latter corrupts union-like shapes - a DynamoDB
+        # AttributeValue decoded with only S would also gain L => [],
+        # so sending it back (e.g. as ExclusiveStartKey) failed with
+        # "AttributeValue has more than one datatype set". A *required*
+        # absent list still defaults to [] so the Moo constructor
+        # doesn't die (e.g. SQS SendMessageBatch's required Failed list
+        # is omitted when every message succeeds).
+        if (defined $value) {
+          if ($type =~ m/\:\:/) {
+            Paws->load_class($type);
+            my $type_serdes = Paws::SerDes->for($type);
 
-          if ($type_serdes->is_str_to_obj_map) {
-            $args{ $att } = [ map { $self->handle_response_strtoobjmap($type, $_) } @$value ];
-          } elsif ($type_serdes->is_str_to_native_map) {
-            $args{ $att } = [ map { $self->handle_response_strtonativemap($type, $_) } @$value ];
-          } elsif ($type->can('does') && $type->does('Paws::API::MapParser')) {
-            die "MapParser Type in an Array. Please implement me";
+            if ($type_serdes->is_str_to_obj_map) {
+              $args{ $att } = [ map { $self->handle_response_strtoobjmap($type, $_) } @$value ];
+            } elsif ($type_serdes->is_str_to_native_map) {
+              $args{ $att } = [ map { $self->handle_response_strtonativemap($type, $_) } @$value ];
+            } elsif ($type->can('does') && $type->does('Paws::API::MapParser')) {
+              die "MapParser Type in an Array. Please implement me";
+            } else {
+              $args{ $att } = [ map { $self->new_from_result_struct($type, $_) } @$value ];
+            }
           } else {
-            $args{ $att } = [ map { $self->new_from_result_struct($type, $_) } @$value ];
-          }
-        } else {
-          if (defined $value){
             $args{ $att } = $value;
           }
+        } elsif (($serdes->attributes->{$att} // {})->{is_required}) {
+          $args{ $att } = [];
         }
       } elsif (my ($maptype) = ($att_type =~ m/^HashRef\[(.*)\]$/)) {
         # Map member. The materialiser models maps as a plain
