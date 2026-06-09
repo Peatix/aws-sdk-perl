@@ -513,6 +513,31 @@ service_block KMS => sub {
         my $out = $kms->Decrypt(CiphertextBlob => $ciphertext)->Plaintext;
         die "decrypt round-trip mismatch\n" unless ($out // '') eq $plaintext;
     };
+
+    # KMS Sign is what peatix/peatix actually calls (asymmetric ECC key,
+    # Message blob, SigningAlgorithm enum). Exercises the same shape.
+    my $sign_key;
+    step 'kms.create_signing_key' => sub {
+        $sign_key = $kms->CreateKey(
+            Description => "paws-smoke-sign $run_id",
+            KeySpec     => 'ECC_NIST_P256',
+            KeyUsage    => 'SIGN_VERIFY',
+        )->KeyMetadata->KeyId;
+        die "no signing key id\n" unless $sign_key;
+    };
+    defer "kms signing key $sign_key" => sub {
+        $kms->ScheduleKeyDeletion(KeyId => $sign_key, PendingWindowInDays => 7) if $sign_key;
+    };
+
+    step 'kms.sign' => sub {
+        my $r = $kms->Sign(
+            KeyId            => $sign_key,
+            Message          => "payload-to-sign-$run_id",
+            MessageType      => 'RAW',
+            SigningAlgorithm => 'ECDSA_SHA_256',
+        );
+        die "no signature\n" unless length($r->Signature // '') > 0;
+    };
 };
 
 # --- SSM (json: SecureString parameters) -----------------------------------
@@ -534,6 +559,34 @@ service_block SSM => sub {
         my $r = $ssm->GetParameter(Name => $name, WithDecryption => 1);
         die "value mismatch\n" unless ($r->Parameter->Value // '') eq "secret-$run_id";
     };
+
+    # Overwrite => 1 (Peatix passes this when updating). Matches the
+    # PutParameter(... Overwrite) shape.
+    step 'ssm.put_parameter_overwrite' => sub {
+        $ssm->PutParameter(
+            Name      => $name,
+            Type      => 'SecureString',
+            Value     => "secret-$run_id-v2",
+            Overwrite => 1,
+        );
+    };
+
+    # Tags => [{ Key, Value }] (Peatix tags parameters with
+    # Application / Environment). A separate parameter because AWS
+    # rejects Tags together with Overwrite.
+    my $tagged = '/' . rname('ssm-tagged');
+    step 'ssm.put_parameter_tagged' => sub {
+        $ssm->PutParameter(
+            Name  => $tagged,
+            Type  => 'String',
+            Value => "tagged-$run_id",
+            Tags  => [
+                { Key => 'Application', Value => 'peatix/peatix' },
+                { Key => 'Environment', Value => 'paws-smoke' },
+            ],
+        );
+    };
+    defer "ssm parameter $tagged" => sub { $ssm->DeleteParameter(Name => $tagged) };
 };
 
 # --- SecretsManager (json: string + binary blob) ---------------------------
@@ -555,6 +608,16 @@ service_block SecretsManager => sub {
         $sm->DeleteSecret(SecretId => $name, ForceDeleteWithoutRecovery => 1);
     };
 
+    # Peatix's UpdateSecret shape: SecretString + an explicit lowercase
+    # ClientRequestToken (rather than relying on autofill).
+    step 'secretsmanager.update_secret_string' => sub {
+        $sm->UpdateSecret(
+            SecretId           => $name,
+            SecretString       => qq({"k":"v2-$run_id"}),
+            ClientRequestToken => lc(Paws::_idempotency_token()),
+        );
+    };
+
     step 'secretsmanager.update_secret' => sub {
         # SecretBinary is a blob -> base64 on the json wire; also another
         # @idempotencyToken (ClientRequestToken) auto-filled.
@@ -574,7 +637,7 @@ service_block SecretsManager => sub {
         # After UpdateSecret(SecretBinary) the current version is binary;
         # fetch the previous (string) version stage to check the string.
         my $r = $sm->GetSecretValue(SecretId => $name, VersionStage => 'AWSPREVIOUS');
-        die "secret mismatch\n" unless ($r->SecretString // '') =~ /v-\Q$run_id\E/;
+        die "secret mismatch\n" unless ($r->SecretString // '') =~ /\Q$run_id\E/;
     };
 };
 
@@ -591,6 +654,32 @@ service_block SESv2 => sub {
         say "  sending_enabled=", ($r->SendingEnabled ? 1 : 0),
             " production_access=", ($production ? 1 : 0);
     };
+
+    # Peatix suppresses/unsuppresses recipients on complaint. In the
+    # sandbox these are blocked at the account level, but the request
+    # still serialises and reaches SES - so a Paws::Exception (an AWS
+    # rejection) validates the shape; only a Paws-side error fails.
+    my $serialises_ok = sub {
+        my ($name, $code) = @_;
+        step $name => sub {
+            my $ok = eval { $code->(); 1 };
+            return if $ok;
+            my $err = $@;
+            if (ref($err) && $err->isa('Paws::Exception')) {
+                say "  note: $name serialised OK; AWS rejected (",
+                    $err->code, ": ", $err->message, ")";
+                return;
+            }
+            die $err;
+        };
+    };
+    my $suppress = "paws-smoke-suppress-$run_id\@example.com";
+    $serialises_ok->('sesv2.put_suppressed_destination', sub {
+        $ses->PutSuppressedDestination(EmailAddress => $suppress, Reason => 'COMPLAINT');
+    });
+    $serialises_ok->('sesv2.delete_suppressed_destination', sub {
+        $ses->DeleteSuppressedDestination(EmailAddress => $suppress);
+    });
 
     # SendEmail exercises the deeply nested rest-json input
     # (Destination + Content/Simple/Subject/Body). In the SES sandbox
