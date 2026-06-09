@@ -3720,6 +3720,12 @@
                   "smithy.api#documentation" : "<p>Optional configuration name to use for the workflow run.</p>"
                }
             },
+            "engineSettings" : {
+               "target" : "com.amazonaws.omics#EngineSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).</p>"
+               }
+            },
             "logLevel" : {
                "target" : "com.amazonaws.omics#RunLogLevel",
                "traits" : {
@@ -5168,6 +5174,9 @@
             "smithy.api#pattern" : "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.omics#EngineSettings" : {
+         "type" : "document"
       },
       "com.amazonaws.omics#EngineVersion" : {
          "traits" : {
@@ -8519,6 +8528,12 @@
                   "smithy.api#documentation" : "<p>The run's digest.</p>"
                }
             },
+            "engineSettings" : {
+               "target" : "com.amazonaws.omics#EngineSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The engine-specific settings for the workflow run.</p>"
+               }
+            },
             "engineVersion" : {
                "target" : "com.amazonaws.omics#EngineVersion",
                "traits" : {
@@ -10006,6 +10021,18 @@
                   "smithy.api#documentation" : "<p>The workflow's parameter template.</p>"
                }
             },
+            "profileParameterTemplates" : {
+               "target" : "com.amazonaws.omics#WorkflowProfileParameterTemplates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A mapping of profile names to their parameter templates. Each profile defines its own set of parameters that you can use when starting a run with that profile.</p>"
+               }
+            },
+            "profiles" : {
+               "target" : "com.amazonaws.omics#WorkflowProfileList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Nextflow profiles that are available for this workflow. Profiles allow you to select predefined configuration settings at runtime.</p>"
+               }
+            },
             "readme" : {
                "target" : "com.amazonaws.omics#ReadmeS3PresignedUrl",
                "traits" : {
@@ -10288,6 +10315,18 @@
                "target" : "com.amazonaws.omics#WorkflowParameterTemplate",
                "traits" : {
                   "smithy.api#documentation" : "<p>The parameter template for the workflow version.</p>"
+               }
+            },
+            "profileParameterTemplates" : {
+               "target" : "com.amazonaws.omics#WorkflowProfileParameterTemplates",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A mapping of profile names to their parameter templates. Each profile defines its own set of parameters that you can use when starting a run with that profile.</p>"
+               }
+            },
+            "profiles" : {
+               "target" : "com.amazonaws.omics#WorkflowProfileList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of Nextflow profiles that are available for this workflow version. Profiles allow you to select predefined configuration settings at runtime.</p>"
                }
             },
             "readme" : {
@@ -10768,6 +10807,12 @@
       },
       "com.amazonaws.omics#InlineSetting" : {
          "members" : {
+            "engineSettings" : {
+               "target" : "com.amazonaws.omics#EngineSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Per-run engine-specific settings. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles). Overrides <code>defaultRunSetting.engineSettings</code> for this run.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.omics#RunName",
                "traits" : {
@@ -14075,6 +14120,194 @@
             "aws.protocols#restJson1" : {},
             "smithy.api#documentation" : "<p>Amazon Web Services HealthOmics is a service that helps users such as bioinformaticians, researchers, and scientists to store, query, analyze, and generate insights from genomics and other biological data. It simplifies and accelerates the process of storing and analyzing genomic information for Amazon Web Services.</p> <p>For an introduction to the service, see <a href=\"https://docs.aws.amazon.com/omics/latest/dev/what-is-healthomics.html\">What is Amazon Web Services HealthOmics?</a> in the <i>Amazon Web Services HealthOmics User Guide</i>.</p>",
             "smithy.api#title" : "Amazon Omics",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://omics-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://omics-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://omics.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://omics.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -18955,6 +19188,12 @@
                   "smithy.api#documentation" : "<p>Optional configuration name to use for the workflow run.</p>"
                }
             },
+            "engineSettings" : {
+               "target" : "com.amazonaws.omics#EngineSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).</p>"
+               }
+            },
             "logLevel" : {
                "target" : "com.amazonaws.omics#RunLogLevel",
                "traits" : {
@@ -21949,6 +22188,24 @@
          "type" : "map",
          "value" : {
             "target" : "com.amazonaws.omics#WorkflowParameter"
+         }
+      },
+      "com.amazonaws.omics#WorkflowProfileList" : {
+         "member" : {
+            "target" : "com.amazonaws.omics#WorkflowProfileName"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.omics#WorkflowProfileName" : {
+         "type" : "string"
+      },
+      "com.amazonaws.omics#WorkflowProfileParameterTemplates" : {
+         "key" : {
+            "target" : "com.amazonaws.omics#WorkflowProfileName"
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.omics#WorkflowParameterTemplate"
          }
       },
       "com.amazonaws.omics#WorkflowRequestId" : {
