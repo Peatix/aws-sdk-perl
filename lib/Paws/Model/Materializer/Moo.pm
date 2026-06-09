@@ -650,6 +650,7 @@ sub _install_structure_members {
             flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
             is_timestamp  => $is_timestamp,
             is_blob       => $is_blob,
+            is_idempotency_token => ($m->idempotency_token ? 1 : 0),
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {

@@ -149,8 +149,29 @@ sub new_with_coercions {
         $p{ $att } = Paws->new_with_coercions($target, %{ $params{ $att } });
       }
     }
+
+    # Autofill Smithy @idempotencyToken members the caller didn't
+    # supply, matching the official AWS SDKs (which generate a UUIDv4).
+    # Done here, once, so it's protocol-agnostic: the populated call
+    # object then serialises through any wire layer normally.
+    for my $att ($serdes->serializable_attributes) {
+      next if exists $p{ $att };
+      next unless $serdes->is_idempotency_token($att);
+      $p{ $att } = _idempotency_token();
+    }
   }
   return $class->new(%p);
+}
+
+# Generate a random (version 4) UUID for @idempotencyToken autofill,
+# using the CSPRNG from CryptX (already a runtime dependency).
+sub _idempotency_token {
+  require Crypt::PRNG;
+  my @b = unpack 'C16', Crypt::PRNG::random_bytes(16);
+  $b[6] = ($b[6] & 0x0f) | 0x40;    # version 4
+  $b[8] = ($b[8] & 0x3f) | 0x80;    # RFC 4122 variant
+  return sprintf
+    '%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x', @b;
 }
 
 sub is_internal_type {

@@ -200,6 +200,9 @@ package Paws::Model::IR::Member {
     has xml_namespace => (is => 'ro', isa => Maybe[Str]);
     has documentation => (is => 'ro', isa => Maybe[Str]);
     has deprecated   => (is => 'ro', isa => Bool, default => 0);
+    # Member carries `smithy.api#idempotencyToken`: the SDK fills it
+    # with a generated UUIDv4 when the caller doesn't supply one.
+    has idempotency_token => (is => 'ro', isa => Bool, default => 0);
 }
 
 1;

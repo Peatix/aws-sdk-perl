@@ -116,6 +116,9 @@ sub register {
             # wire (JSON/XML/query), so the wire layer base64-encodes on
             # send and decodes on receive.
             is_blob       => ($rec->{is_blob}       ? 1 : 0),
+            # Member carries `smithy.api#idempotencyToken`: filled with a
+            # generated UUIDv4 when the caller doesn't supply one.
+            is_idempotency_token => ($rec->{is_idempotency_token} ? 1 : 0),
             # Per-attribute xmlFlattened, lifted by the materialiser
             # from the IR (either the list-shape's flattened flag or
             # the member-level xmlFlattened trait — both forms are
@@ -259,6 +262,13 @@ sub is_timestamp {
 sub is_blob {
     my ($self, $name) = @_;
     return ($self->attributes->{$name} // {})->{is_blob} ? 1 : 0;
+}
+
+# True if the attribute carries `smithy.api#idempotencyToken`. The SDK
+# fills it with a generated UUIDv4 when the caller omits it.
+sub is_idempotency_token {
+    my ($self, $name) = @_;
+    return ($self->attributes->{$name} // {})->{is_idempotency_token} ? 1 : 0;
 }
 
 # Test/maintenance helper: clear the cache. The wire layer never calls

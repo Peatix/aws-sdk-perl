@@ -517,6 +517,8 @@ sub _build_member {
         xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
         documentation => $traits->{'smithy.api#documentation'},
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
+        idempotency_token =>
+            exists $traits->{'smithy.api#idempotencyToken'} ? 1 : 0,
     );
 }
 
