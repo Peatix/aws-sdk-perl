@@ -150,8 +150,116 @@
       "com.amazonaws.socialmessaging#CodeExpirationMinutes" : {
          "type" : "integer"
       },
+      "com.amazonaws.socialmessaging#CreateWhatsAppFlow" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#CreateWhatsAppFlowInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#CreateWhatsAppFlowOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences\n         that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If <code>publish</code>\n         is set to <code>true</code> and a valid <code>flowJson</code> is provided, the Flow is published immediately.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/whatsapp/flow/create"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#CreateWhatsAppFlowInput" : {
+         "members" : {
+            "categories" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowCategoryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The categories that classify the business purpose of the Flow. At least one category is required.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "cloneFlowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of an existing Flow within the same WhatsApp Business Account to clone.</p>"
+               }
+            },
+            "flowJson" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowJsonBlob",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.</p>"
+               }
+            },
+            "flowName" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Flow. Must be unique within the WhatsApp Business Account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account to associate with this Flow.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            },
+            "publish" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set to <code>true</code> to publish the Flow immediately after creation. Requires a valid <code>flowJson</code> that passes Meta's validation.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#CreateWhatsAppFlowOutput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier assigned to the Flow by Meta.</p>"
+               }
+            },
+            "validationErrors" : {
+               "target" : "com.amazonaws.socialmessaging#ValidationErrorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of validation errors returned by Meta, if any. Validation errors must be resolved before the Flow can be published.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.socialmessaging#CreateWhatsAppMessageTemplate" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -186,6 +294,9 @@
       },
       "com.amazonaws.socialmessaging#CreateWhatsAppMessageTemplateFromLibrary" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -293,6 +404,9 @@
       "com.amazonaws.socialmessaging#CreateWhatsAppMessageTemplateMedia" : {
          "errors" : [
             {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
             {
@@ -386,6 +500,76 @@
       "com.amazonaws.socialmessaging#DeleteAllLanguages" : {
          "type" : "boolean"
       },
+      "com.amazonaws.socialmessaging#DeleteWhatsAppFlow" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#DeleteWhatsAppFlowInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#DeleteWhatsAppFlowOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/v1/whatsapp/flow"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#DeleteWhatsAppFlowInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow to delete.</p>",
+                  "smithy.api#httpQuery" : "flowId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#httpQuery" : "id",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#DeleteWhatsAppFlowOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.socialmessaging#DeleteWhatsAppMessageMedia" : {
          "errors" : [
             {
@@ -465,6 +649,9 @@
       },
       "com.amazonaws.socialmessaging#DeleteWhatsAppMessageTemplate" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -555,6 +742,73 @@
             "smithy.api#error" : "server",
             "smithy.api#httpError" : 502,
             "smithy.api#retryable" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#DeprecateWhatsAppFlow" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#DeprecateWhatsAppFlowInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#DeprecateWhatsAppFlowOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/whatsapp/flow/deprecate"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#DeprecateWhatsAppFlowInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow to deprecate.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#DeprecateWhatsAppFlowOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
          },
          "type" : "structure"
       },
@@ -788,6 +1042,244 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.socialmessaging#GetWhatsAppFlow" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#GetWhatsAppFlowInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#GetWhatsAppFlowOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/whatsapp/flow"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#GetWhatsAppFlowInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow to retrieve.</p>",
+                  "smithy.api#httpQuery" : "flowId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#httpQuery" : "id",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#GetWhatsAppFlowOutput" : {
+         "members" : {
+            "application" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowApplicationInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Meta application information associated with this Flow.</p>"
+               }
+            },
+            "categories" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowCategoryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The categories that classify the business purpose of the Flow.</p>"
+               }
+            },
+            "dataApiVersion" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowDataApiVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The data API version for data exchange endpoint Flows.</p>"
+               }
+            },
+            "endpointUri" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowEndpointUri",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The endpoint URI for data exchange Flows, if configured.</p>"
+               }
+            },
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowName" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Flow.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowStatus" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle status of the Flow. Valid values are DRAFT, PUBLISHED, DEPRECATED, BLOCKED, and THROTTLED.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "healthStatus" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowHealthStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The health status information for this Flow from Meta.</p>"
+               }
+            },
+            "jsonVersion" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowJsonVersion",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The version of the Flow JSON schema used by this Flow (for example, 7.3).</p>"
+               }
+            },
+            "preview" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowPreviewInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preview URL and its expiration timestamp for testing the Flow.</p>"
+               }
+            },
+            "validationErrors" : {
+               "target" : "com.amazonaws.socialmessaging#ValidationErrorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of validation errors from Meta, if any.</p>"
+               }
+            },
+            "whatsAppBusinessAccount" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowWhatsAppBusinessAccountInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The WhatsApp Business Account information from Meta associated with this Flow.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#GetWhatsAppFlowPreview" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#GetWhatsAppFlowPreviewInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#GetWhatsAppFlowPreviewOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/whatsapp/flow/preview"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#GetWhatsAppFlowPreviewInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow to preview.</p>",
+                  "smithy.api#httpQuery" : "flowId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#httpQuery" : "id",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            },
+            "invalidate" : {
+               "target" : "smithy.api#Boolean",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Set to <code>true</code> to force generation of a new preview URL. Use this if the previous URL has been compromised or you want a fresh expiration period.</p>",
+                  "smithy.api#httpQuery" : "invalidate"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#GetWhatsAppFlowPreviewOutput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "preview" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowPreviewInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The preview URL and its expiration timestamp.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.socialmessaging#GetWhatsAppMessageMedia" : {
          "errors" : [
             {
@@ -888,6 +1380,9 @@
       },
       "com.amazonaws.socialmessaging#GetWhatsAppMessageTemplate" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -1307,6 +1802,9 @@
          },
          "operations" : [
             {
+               "target" : "com.amazonaws.socialmessaging#CreateWhatsAppFlow"
+            },
+            {
                "target" : "com.amazonaws.socialmessaging#CreateWhatsAppMessageTemplate"
             },
             {
@@ -1316,10 +1814,28 @@
                "target" : "com.amazonaws.socialmessaging#CreateWhatsAppMessageTemplateMedia"
             },
             {
+               "target" : "com.amazonaws.socialmessaging#DeleteWhatsAppFlow"
+            },
+            {
                "target" : "com.amazonaws.socialmessaging#DeleteWhatsAppMessageTemplate"
             },
             {
+               "target" : "com.amazonaws.socialmessaging#DeprecateWhatsAppFlow"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#GetWhatsAppFlow"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#GetWhatsAppFlowPreview"
+            },
+            {
                "target" : "com.amazonaws.socialmessaging#GetWhatsAppMessageTemplate"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ListWhatsAppFlowAssets"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ListWhatsAppFlows"
             },
             {
                "target" : "com.amazonaws.socialmessaging#ListWhatsAppMessageTemplates"
@@ -1328,7 +1844,16 @@
                "target" : "com.amazonaws.socialmessaging#ListWhatsAppTemplateLibrary"
             },
             {
+               "target" : "com.amazonaws.socialmessaging#PublishWhatsAppFlow"
+            },
+            {
                "target" : "com.amazonaws.socialmessaging#PutWhatsAppBusinessAccountEventDestinations"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppFlow"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppFlowAssets"
             },
             {
                "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppMessageTemplate"
@@ -1623,8 +2148,205 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.socialmessaging#ListWhatsAppFlowAssets" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#ListWhatsAppFlowAssetsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#ListWhatsAppFlowAssetsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/whatsapp/flow/assets"
+            },
+            "smithy.api#paginated" : {
+               "items" : "flowAssets"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#ListWhatsAppFlowAssetsInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow whose assets to list.</p>",
+                  "smithy.api#httpQuery" : "flowId",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#httpQuery" : "id",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.socialmessaging#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.socialmessaging#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#ListWhatsAppFlowAssetsOutput" : {
+         "members" : {
+            "flowAssets" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowAssetList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of Flow assets with download URLs.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.socialmessaging#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to retrieve the next page of results, if any.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#ListWhatsAppFlows" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#ListWhatsAppFlowsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#ListWhatsAppFlowsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/v1/whatsapp/flow/list"
+            },
+            "smithy.api#paginated" : {
+               "items" : "flows"
+            },
+            "smithy.api#readonly" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#ListWhatsAppFlowsInput" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account to list Flows for.</p>",
+                  "smithy.api#httpQuery" : "id",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.socialmessaging#MaxResults",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page.</p>",
+                  "smithy.api#httpQuery" : "maxResults"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.socialmessaging#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token for the next page of results.</p>",
+                  "smithy.api#httpQuery" : "nextToken"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#ListWhatsAppFlowsOutput" : {
+         "members" : {
+            "flows" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of Flow summaries.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.socialmessaging#NextToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The token to retrieve the next page of results, if any.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.socialmessaging#ListWhatsAppMessageTemplates" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -1714,6 +2436,9 @@
       },
       "com.amazonaws.socialmessaging#ListWhatsAppTemplateLibrary" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -1813,6 +2538,499 @@
             }
          },
          "type" : "integer"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowApplicationId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowApplicationInfo" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowApplicationId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Meta application.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "link" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowApplicationLink",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The URL link for the Meta application.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowApplicationName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Meta application.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the Meta application metadata associated with a WhatsApp Flow.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowApplicationLink" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowApplicationName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowAsset" : {
+         "members" : {
+            "assetType" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowAssetType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of asset. Currently the only supported value is FLOW_JSON.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "downloadUrl" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowAssetDownloadUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A presigned URL from Meta for downloading the asset. The URL expires after a short period.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowAssetName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The filename of the asset (for example, flow.json).</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a single asset file associated with a WhatsApp Flow, including a presigned download URL.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowAssetDownloadUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowAssetList" : {
+         "member" : {
+            "target" : "com.amazonaws.socialmessaging#MetaFlowAsset"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowAssetName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowAssetType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowCategory" : {
+         "members" : {
+            "APPOINTMENT_BOOKING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "APPOINTMENT_BOOKING"
+               }
+            },
+            "CONTACT_US" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CONTACT_US"
+               }
+            },
+            "CUSTOMER_SUPPORT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOMER_SUPPORT"
+               }
+            },
+            "LEAD_GENERATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "LEAD_GENERATION"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "OTHER"
+               }
+            },
+            "SHOPPING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SHOPPING"
+               }
+            },
+            "SIGN_IN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SIGN_IN"
+               }
+            },
+            "SIGN_UP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SIGN_UP"
+               }
+            },
+            "SURVEY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "SURVEY"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The category that classifies the business purpose of a WhatsApp Flow.</p>"
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowCategoryList" : {
+         "member" : {
+            "target" : "com.amazonaws.socialmessaging#MetaFlowCategory"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 9,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowDataApiVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowEndpointUri" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowHealthEntity" : {
+         "members" : {
+            "canSendMessage" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowHealthStatusAvailability",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The messaging availability status for this entity (for example, AVAILABLE, LIMITED, or BLOCKED).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "entityType" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowHealthEntityType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of entity (for example, FLOW, WABA, BUSINESS, or APP).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the entity.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Represents a single entity in the health status check for a WhatsApp Flow.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowHealthEntityList" : {
+         "member" : {
+            "target" : "com.amazonaws.socialmessaging#MetaFlowHealthEntity"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowHealthEntityType" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowHealthStatus" : {
+         "members" : {
+            "canSendMessage" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowHealthStatusAvailability",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The overall messaging availability status (for example, AVAILABLE, LIMITED, or BLOCKED).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "entities" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowHealthEntityList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of health status entities with per-entity availability information.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the overall health status and per-entity breakdown for a WhatsApp Flow.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowHealthStatusAvailability" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 100,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[0-9]+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowJsonBlob" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10485760,
+               "min" : 1
+            }
+         },
+         "type" : "blob"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowJsonVersion" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowName" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowPreviewInfo" : {
+         "members" : {
+            "expiresAt" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowTimestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timestamp when the preview URL expires.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "previewUrl" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowPreviewUrl",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The web URL for previewing the Flow. Can be shared with stakeholders for review.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains the preview URL for testing a WhatsApp Flow and its expiration timestamp.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowPreviewUrl" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowStatus" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowSummary" : {
+         "members" : {
+            "flowCategories" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowCategoryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The categories that classify the business purpose of the Flow.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow assigned by Meta.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowName" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the Flow.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowStatus" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The lifecycle status of the Flow (DRAFT, PUBLISHED, DEPRECATED, BLOCKED, or THROTTLED).</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "validationErrors" : {
+               "target" : "com.amazonaws.socialmessaging#ValidationErrorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of validation errors from Meta, if any.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains summary information about a WhatsApp Flow, including its ID, name, status, and categories.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.socialmessaging#MetaFlowSummary"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowTimestamp" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowValidationError" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 1048576
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowWabaCurrency" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowWabaTemplateNamespace" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 200,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowWabaTimezoneId" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 1
+            }
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.socialmessaging#MetaFlowWhatsAppBusinessAccountInfo" : {
+         "members" : {
+            "currency" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowWabaCurrency",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The currency code for the WhatsApp Business Account (for example, USD).</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#WhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The WhatsApp Business Account ID from Meta.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "messageTemplateNamespace" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowWabaTemplateNamespace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The message template namespace for the WhatsApp Business Account.</p>"
+               }
+            },
+            "name" : {
+               "target" : "com.amazonaws.socialmessaging#WhatsAppBusinessAccountName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the WhatsApp Business Account.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "timezoneId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowWabaTimezoneId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The timezone ID for the WhatsApp Business Account.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Contains WhatsApp Business Account metadata associated with a Flow, as returned by Meta.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.socialmessaging#MetaIndustries" : {
          "member" : {
@@ -2256,6 +3474,73 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.socialmessaging#PublishWhatsAppFlow" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#PublishWhatsAppFlowInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#PublishWhatsAppFlowOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/whatsapp/flow/publish"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#PublishWhatsAppFlowInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow to publish.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#PublishWhatsAppFlowOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.socialmessaging#PutWhatsAppBusinessAccountEventDestinations" : {
          "errors" : [
             {
@@ -2588,6 +3873,194 @@
                "pageSize" : "maxResults"
             },
             "smithy.api#title" : "AWS End User Messaging Social",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://social-messaging-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://social-messaging-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://social-messaging.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://social-messaging.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -3526,8 +4999,171 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.socialmessaging#UpdateWhatsAppFlow" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppFlowInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppFlowOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use <a href=\"https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_UpdateWhatsAppFlowAssets.html\">UpdateWhatsAppFlowAssets</a> to update the Flow JSON.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/whatsapp/flow/update"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#UpdateWhatsAppFlowAssets" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#DependencyException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InternalServiceException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#InvalidParametersException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.socialmessaging#ThrottledRequestException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppFlowAssetsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.socialmessaging#UpdateWhatsAppFlowAssetsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/v1/whatsapp/flow/assets/update"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.socialmessaging#UpdateWhatsAppFlowAssetsInput" : {
+         "members" : {
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow whose assets to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowJson" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowJsonBlob",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated Flow JSON definition. Maximum size is 10 MB.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#UpdateWhatsAppFlowAssetsOutput" : {
+         "members" : {
+            "validationErrors" : {
+               "target" : "com.amazonaws.socialmessaging#ValidationErrorList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of validation errors returned by Meta, if any. Validation errors must be resolved before the Flow can be published.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#UpdateWhatsAppFlowInput" : {
+         "members" : {
+            "categories" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowCategoryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated categories for the Flow.</p>"
+               }
+            },
+            "flowId" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the Flow to update.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "flowName" : {
+               "target" : "com.amazonaws.socialmessaging#MetaFlowName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated name for the Flow.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.socialmessaging#LinkedWhatsAppBusinessAccountId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the WhatsApp Business Account associated with this Flow.</p>",
+                  "smithy.api#required" : {},
+                  "smithy.api#resourceIdentifier" : "WabaId"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#UpdateWhatsAppFlowOutput" : {
+         "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.socialmessaging#UpdateWhatsAppMessageTemplate" : {
          "errors" : [
+            {
+               "target" : "com.amazonaws.socialmessaging#AccessDeniedByMetaException"
+            },
             {
                "target" : "com.amazonaws.socialmessaging#DependencyException"
             },
@@ -3624,6 +5260,12 @@
             "smithy.api#output" : {}
          },
          "type" : "structure"
+      },
+      "com.amazonaws.socialmessaging#ValidationErrorList" : {
+         "member" : {
+            "target" : "com.amazonaws.socialmessaging#MetaFlowValidationError"
+         },
+         "type" : "list"
       },
       "com.amazonaws.socialmessaging#ValidationException" : {
          "members" : {

@@ -4062,7 +4062,17 @@
             "inboundLinksCount" : {
                "target" : "smithy.api#Integer",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The count of inbound links for the responder gateway.</p>"
+                  "smithy.api#deprecated" : {
+                     "message" : "Use linksRequestedCount instead",
+                     "since" : "2026-05-11"
+                  },
+                  "smithy.api#documentation" : "<p>Deprecated. Use 'linksRequestedCount' instead.</p>"
+               }
+            },
+            "linksRequestedCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The count of requested links waiting for the responder gateway to accept or reject.</p>"
                }
             },
             "listenerConfig" : {
@@ -4584,7 +4594,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Summary of a routing rule for list responses"
+            "smithy.api#documentation" : "<p>A summary of a link routing rule.</p>"
          },
          "type" : "structure"
       },
@@ -5603,7 +5613,7 @@
             "key" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "RFC 3986 unreserved characters",
+                  "smithy.api#documentation" : "<p>The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters.</p>",
                   "smithy.api#length" : {
                      "max" : 128,
                      "min" : 1
@@ -5615,7 +5625,7 @@
             "value" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "RFC 3986 unreserved characters",
+                  "smithy.api#documentation" : "<p>The value of the query string parameter to match. Must contain only RFC 3986 unreserved characters.</p>",
                   "smithy.api#length" : {
                      "max" : 128,
                      "min" : 1
@@ -5626,7 +5636,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Key-value pair for query string matching"
+            "smithy.api#documentation" : "<p>A key-value pair for query string matching in a routing rule condition.</p>"
          },
          "type" : "structure"
       },
@@ -5688,6 +5698,194 @@
             },
             "smithy.api#documentation" : "<p>Amazon Web Services RTB Fabric provides secure, low-latency infrastructure for connecting real-time bidding (RTB) applications. Rather than hosting applications directly, RTB Fabric acts as the connecting fabric that enables your applications to communicate efficiently over private networks instead of the public internet. You maintain complete control over your applications, data, and bidding decisions, while RTB Fabric provides the underlying infrastructure for secure, reliable connectivity.</p> <p>You can use these APIs to complete RTB Fabric tasks, such as setting up audit log ingestions or viewing user access. For more information about RTB Fabric, including the required permissions to use the service, see the <a href=\"https://docs.aws.amazon.com/rtb-fabric/latest/userguide/\">Amazon Web Services RTB Fabric User Guide</a>.</p>",
             "smithy.api#title" : "RTBFabric",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://rtbfabric-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://rtbfabric-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://rtbfabric.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://rtbfabric.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -6874,7 +7072,7 @@
             "hostHeader" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "Exact host match — RFC 3986 unreserved characters",
+                  "smithy.api#documentation" : "<p>The exact host header value to match.</p>",
                   "smithy.api#length" : {
                      "max" : 255,
                      "min" : 1
@@ -6885,7 +7083,7 @@
             "hostHeaderWildcard" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "Wildcard host pattern (e.g., *.example.com) — RFC 3986 unreserved plus *",
+                  "smithy.api#documentation" : "<p>A wildcard pattern for host header matching (for example, <code>*.example.com</code>).</p>",
                   "smithy.api#length" : {
                      "max" : 255,
                      "min" : 3
@@ -6896,7 +7094,7 @@
             "pathExact" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "Exact path match — must start with /; RFC 3986 unreserved plus /",
+                  "smithy.api#documentation" : "<p>The exact path to match. Must start with <code>/</code>.</p>",
                   "smithy.api#length" : {
                      "max" : 128,
                      "min" : 1
@@ -6907,7 +7105,7 @@
             "pathPrefix" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "Path prefix matching — strict starts-with, no wildcard (preferred for new rules).\nMust start with /; RFC 3986 unreserved plus /",
+                  "smithy.api#documentation" : "<p>The path prefix to match. The request path must start with this value. Must start with <code>/</code>.</p>",
                   "smithy.api#length" : {
                      "max" : 128,
                      "min" : 1
@@ -6918,13 +7116,13 @@
             "queryStringEquals" : {
                "target" : "com.amazonaws.rtbfabric#QueryStringKeyValuePair",
                "traits" : {
-                  "smithy.api#documentation" : "Query string key=value pair match (single pair)"
+                  "smithy.api#documentation" : "<p>A query string key-value pair that must be present and match exactly.</p>"
                }
             },
             "queryStringExists" : {
                "target" : "smithy.api#String",
                "traits" : {
-                  "smithy.api#documentation" : "Query string key presence check (any value accepted) — RFC 3986 unreserved characters",
+                  "smithy.api#documentation" : "<p>A query string key that must be present in the request (any value is accepted).</p>",
                   "smithy.api#length" : {
                      "max" : 128,
                      "min" : 1
@@ -6934,7 +7132,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Conditions bag for a routing rule.\nAll non-null fields must match (AND logic). At least one field must be set (enforced by CP)."
+            "smithy.api#documentation" : "<p>The conditions for a routing rule. All specified fields must match for the rule to apply (AND logic). At least one condition field must be set.</p>"
          },
          "type" : "structure"
       },

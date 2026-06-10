@@ -335,12 +335,20 @@
             "target" : "com.amazonaws.invoicing#CreateInvoiceUnitResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This creates a new invoice unit with the provided definition.</p>"
+            "smithy.api#documentation" : "<p>This creates a new invoice unit with the provided definition.</p>",
+            "smithy.api#idempotent" : {}
          },
          "type" : "operation"
       },
       "com.amazonaws.invoicing#CreateInvoiceUnitRequest" : {
          "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.invoicing#BasicStringWithoutSpace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A unique, case-sensitive identifier that you provide to ensure idempotency of the request. </p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
             "Description" : {
                "target" : "com.amazonaws.invoicing#DescriptionString",
                "traits" : {
@@ -635,12 +643,20 @@
             "target" : "com.amazonaws.invoicing#DeleteInvoiceUnitResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>This deletes an invoice unit with the provided invoice unit ARN. </p>"
+            "smithy.api#documentation" : "<p>This deletes an invoice unit with the provided invoice unit ARN. </p>",
+            "smithy.api#idempotent" : {}
          },
          "type" : "operation"
       },
       "com.amazonaws.invoicing#DeleteInvoiceUnitRequest" : {
          "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.invoicing#BasicStringWithoutSpace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A unique, case-sensitive identifier that you provide to ensure idempotency of the request. </p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
             "InvoiceUnitArn" : {
                "target" : "com.amazonaws.invoicing#InvoiceUnitArnString",
                "traits" : {
@@ -696,12 +712,20 @@
             "target" : "com.amazonaws.invoicing#DeleteProcurementPortalPreferenceResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p> <i> <b>This feature API is subject to changing at any time. For more information, see the <a href=\"https://aws.amazon.com/service-terms/\">Amazon Web Services Service Terms</a> (Betas and Previews).</b> </i> </p> <p>Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.</p>"
+            "smithy.api#documentation" : "<p> <i> <b>This feature API is subject to changing at any time. For more information, see the <a href=\"https://aws.amazon.com/service-terms/\">Amazon Web Services Service Terms</a> (Betas and Previews).</b> </i> </p> <p>Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.</p>",
+            "smithy.api#idempotent" : {}
          },
          "type" : "operation"
       },
       "com.amazonaws.invoicing#DeleteProcurementPortalPreferenceRequest" : {
          "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.invoicing#BasicStringWithoutSpace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
             "ProcurementPortalPreferenceArn" : {
                "target" : "com.amazonaws.invoicing#ProcurementPortalPreferenceArnString",
                "traits" : {
@@ -1827,6 +1851,124 @@
             "aws.protocols#awsJson1_0" : {},
             "smithy.api#documentation" : "<p> <b>Amazon Web Services Invoice Configuration</b> </p> <p>You can use Amazon Web Services Invoice Configuration APIs to programmatically create, update, delete, get, and list invoice units. You can also programmatically fetch the information of the invoice receiver. For example, business legal name, address, and invoicing contacts. </p> <p>You can use Amazon Web Services Invoice Configuration to receive separate Amazon Web Services invoices based your organizational needs. By using Amazon Web Services Invoice Configuration, you can configure invoice units that are groups of Amazon Web Services accounts that represent your business entities, and receive separate invoices for each business entity. You can also assign a unique member or payer account as the invoice receiver for each invoice unit. As you create new accounts within your Organizations using Amazon Web Services Invoice Configuration APIs, you can automate the creation of new invoice units and subsequently automate the addition of new accounts to your invoice units.</p> <p> <b>Amazon Web Services Procurement Portal Preferences</b> </p> <p>You can use Amazon Web Services Procurement Portal Preferences APIs to programmatically create, update, delete, get, and list procurement portal connections and e-invoice delivery settings. You can also programmatically fetch and modify the status of procurement portal configurations. For example, SAP Business Network or Coupa connections, configure e-invoice delivery and purchase order retrieval features.</p> <p>You can use Amazon Web Services Procurement Portal Preferences to connect e-invoice delivery to your procurement portals based on your organizational needs. By using Amazon Web Services Procurement Portal Preferences, you can configure connections to SAP Business Network and Coupa procurement portals that retrieve purchase orders and deliver Amazon Web Services invoices on the same day they are generated. You can also set up testing environments to validate invoice delivery without affecting live transactions, and manage contact information for portal setup and support. </p> <p>Administrative users should understand that billing read-only policies will show all procurement portal connection details. Review your IAM policies to ensure appropriate access controls are in place for procurement portal preferences.</p> <p> <b>Amazon Web Services Invoice Management</b> </p> <p>You can use Amazon Web Services Invoice Management APIs to programmatically list invoice summaries and get invoice documents. You can also programmatically fetch invoice documents with S3 pre-signed URLs.</p> <p>You can use Amazon Web Services Invoice Management to access invoice information based on your organizational needs. By using Amazon Web Services Invoice Management, you can retrieve paginated lists of invoice summaries that include invoice metadata such as invoice IDs, amounts, and currencies without downloading documents. You can also download invoice documents in PDF format using S3 pre-signed URLs with built-in expiration. As you manage invoices across your organization using Amazon Web Services Invoice Management APIs, you can create invoice retrieval processes and integrate invoice data into your financial systems.</p> <p>Service endpoint</p> <p>You can use the following endpoints for Amazon Web Services Invoice Configuration, Amazon Web Services Procurement Portal Preferences, and Amazon Web Services Invoice Management:</p> <ul> <li> <p> <code>https://invoicing.us-east-1.api.aws</code> </p> </li> </ul>",
             "smithy.api#title" : "AWS Invoicing",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 6,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAYAAAADAAAAAQAAAAQF9eEFAAAAAgAAAAUF9eEFAAAAAwX14QMF9eEEAAAAAwX14QEF9eEC",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://invoicing-fips.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingRegion" : "{PartitionResult#implicitGlobalRegion}"
+                              }
+                           ]
+                        },
+                        "url" : "https://invoicing.{PartitionResult#implicitGlobalRegion}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -2190,7 +2332,7 @@
             "NextToken" : {
                "target" : "com.amazonaws.invoicing#NextTokenString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.</p>"
+                  "smithy.api#documentation" : "<p>The token for the next set of results. (You received this token from a previous call.)</p>"
                }
             },
             "Selector" : {
@@ -2235,7 +2377,7 @@
             "NextToken" : {
                "target" : "com.amazonaws.invoicing#NextTokenString",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.</p>"
+                  "smithy.api#documentation" : "<p>The token to use to retrieve the next set of results, or null if there are no more results.</p>"
                }
             }
          },
@@ -2978,12 +3120,20 @@
             "target" : "com.amazonaws.invoicing#PutProcurementPortalPreferenceResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p> <i> <b>This feature API is subject to changing at any time. For more information, see the <a href=\"https://aws.amazon.com/service-terms/\">Amazon Web Services Service Terms</a> (Betas and Previews).</b> </i> </p> <p>Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.</p>"
+            "smithy.api#documentation" : "<p> <i> <b>This feature API is subject to changing at any time. For more information, see the <a href=\"https://aws.amazon.com/service-terms/\">Amazon Web Services Service Terms</a> (Betas and Previews).</b> </i> </p> <p>Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.</p>",
+            "smithy.api#idempotent" : {}
          },
          "type" : "operation"
       },
       "com.amazonaws.invoicing#PutProcurementPortalPreferenceRequest" : {
          "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.invoicing#BasicStringWithoutSpace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
             "Contacts" : {
                "target" : "com.amazonaws.invoicing#Contacts",
                "traits" : {
@@ -3724,12 +3874,20 @@
             "target" : "com.amazonaws.invoicing#UpdateInvoiceUnitResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.</p>"
+            "smithy.api#documentation" : "<p>You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.</p>",
+            "smithy.api#idempotent" : {}
          },
          "type" : "operation"
       },
       "com.amazonaws.invoicing#UpdateInvoiceUnitRequest" : {
          "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.invoicing#BasicStringWithoutSpace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p> A unique, case-sensitive identifier that you provide to ensure idempotency of the request. </p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
             "Description" : {
                "target" : "com.amazonaws.invoicing#DescriptionString",
                "traits" : {
@@ -3807,12 +3965,20 @@
             "target" : "com.amazonaws.invoicing#UpdateProcurementPortalPreferenceStatusResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p> <i> <b>This feature API is subject to changing at any time. For more information, see the <a href=\"https://aws.amazon.com/service-terms/\">Amazon Web Services Service Terms</a> (Betas and Previews).</b> </i> </p> <p>Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.</p>"
+            "smithy.api#documentation" : "<p> <i> <b>This feature API is subject to changing at any time. For more information, see the <a href=\"https://aws.amazon.com/service-terms/\">Amazon Web Services Service Terms</a> (Betas and Previews).</b> </i> </p> <p>Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.</p>",
+            "smithy.api#idempotent" : {}
          },
          "type" : "operation"
       },
       "com.amazonaws.invoicing#UpdateProcurementPortalPreferenceStatusRequest" : {
          "members" : {
+            "ClientToken" : {
+               "target" : "com.amazonaws.invoicing#BasicStringWithoutSpace",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier that you provide to ensure idempotency of the request.</p>",
+                  "smithy.api#idempotencyToken" : {}
+               }
+            },
             "EinvoiceDeliveryPreferenceStatus" : {
                "target" : "com.amazonaws.invoicing#ProcurementPortalPreferenceStatus",
                "traits" : {

@@ -521,7 +521,7 @@
    ],
    "geo-routes" : [
       {
-         "uri" : "https://routes.geo.{region}.amazonaws.com/v2"
+         "uri" : "https://routes.geo.{region}.amazonaws.com"
       },
       {
          "constraints" : [
@@ -531,7 +531,7 @@
                "us-gov-"
             ]
          ],
-         "uri" : "https://routes.geo.{region}.us-gov.amazonaws.com/v2"
+         "uri" : "https://routes.geo.{region}.us-gov.amazonaws.com"
       },
       {
          "uri" : "https://geo-routes.{region}.amazonaws.com"
