@@ -88,6 +88,10 @@
         "Filter": {
           "target": "com.example.tiny#ThingName",
           "traits": {"smithy.api#httpQuery": "filter"}
+        },
+        "MaxResults": {
+          "target": "com.example.tiny#ThingCount",
+          "traits": {"smithy.api#default": 50}
         }
       }
     },

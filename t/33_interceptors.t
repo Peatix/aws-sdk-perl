@@ -477,6 +477,33 @@ subtest 'do_call with retry fires on_error and retries' => sub {
   is scalar(@before_attempt), 2, 'before_attempt fired twice (initial + retry)';
 };
 
+subtest 'do_call retries end-to-end under every retry mode' => sub {
+  # Drives the full RetryCallerRole::do_call loop (not just the tracker)
+  # for each AWS_RETRY_MODE, with a transient 503 then a 200. The
+  # adaptive branch additionally exercises the token-bucket gating.
+  for my $mode (qw(legacy standard adaptive)) {
+    local $ENV{AWS_RETRY_MODE} = $mode;
+    my $rec    = Test::Interceptor::Recorder->new;
+    my $caller = Test::MockCaller->new(
+      interceptors   => [$rec],
+      mock_responses => [
+        Paws::Net::APIResponse->new(status => 503, content => 'slow down', headers => {}),
+        Paws::Net::APIResponse->new(status => 200, content => '{"ok":true}', headers => {}),
+      ],
+    );
+    my $svc = Test::MockService->new(max_attempts => 3);
+
+    my $result = $caller->do_call($svc, 'FakeCall');
+    is ref($result), 'HASH', "$mode: succeeded after one retry";
+
+    my @before_attempt = grep { $_ eq 'before_attempt' } @{ $rec->log };
+    is scalar(@before_attempt), 2, "$mode: retried once (2 attempts)";
+
+    my @on_error = grep { $_ eq 'on_error' } @{ $rec->log };
+    is scalar(@on_error), 1, "$mode: on_error fired for the transient 503";
+  }
+};
+
 subtest 'do_call exhausts retries and throws' => sub {
   my $caller = Test::MockCaller->new(
     mock_responses => [

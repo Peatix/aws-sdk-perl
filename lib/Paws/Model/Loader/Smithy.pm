@@ -44,6 +44,23 @@ my %SMITHY_PROTOCOL_JSON_VERSION = (
     'aws.protocols#awsJson1_1'  => '1.1',
 );
 
+# Deterministic protocol-selection priority. A service can declare more
+# than one protocol trait: `awsQueryCompatible` services (CloudWatch,
+# SNS, ...) carry BOTH their modern protocol (awsJson1_0) and the legacy
+# awsQuery for old clients. Selecting via `keys %hash` picked one at
+# random per process (hash-order dependent), so the same model
+# materialised as json or query across builds. Pick the canonical
+# modern protocol deterministically, matching the official AWS SDKs;
+# awsQuery is the legacy compat fallback and comes last.
+my @SMITHY_PROTOCOL_PRIORITY = (
+    'aws.protocols#restJson1',
+    'aws.protocols#awsJson1_1',
+    'aws.protocols#awsJson1_0',
+    'aws.protocols#restXml',
+    'aws.protocols#ec2Query',
+    'aws.protocols#awsQuery',
+);
+
 # Public entry. Pass either a path to the .smithy.json file or a
 # hashref { ast => $path }.
 sub load {
@@ -82,7 +99,7 @@ sub _build_service {
     my $svc_traits = $svc_shape->{traits} // {};
     my $protocol;
     my $json_version;
-    for my $tid (keys %SMITHY_PROTOCOL_TRAIT) {
+    for my $tid (@SMITHY_PROTOCOL_PRIORITY) {
         if (exists $svc_traits->{$tid}) {
             $protocol     = $SMITHY_PROTOCOL_TRAIT{$tid};
             $json_version = $SMITHY_PROTOCOL_JSON_VERSION{$tid};
@@ -91,6 +108,11 @@ sub _build_service {
     }
     croak "Smithy AST: no recognised protocol trait on service $svc_id\n"
         if !defined $protocol;
+
+    # Stash the protocol for _build_member: body wire-key resolution is
+    # protocol-dependent (jsonName for JSON, xmlName for XML/query).
+    # Shapes/members are all built within this call, below.
+    $self->{_protocol} = $protocol;
 
     # @aws.api#service carries endpointPrefix / sdkId.
     my $api_service_trait = $svc_traits->{'aws.api#service'} // {};
@@ -452,10 +474,31 @@ sub _build_member {
         $location_name = $wire_name // $name;
     }
 
-    # Fallback: jsonName / xmlName is the body-rename equivalent of
-    # the IR's locationName.
-    $location_name //= $traits->{'smithy.api#jsonName'};
-    $location_name //= $traits->{'smithy.api#xmlName'};
+    # Body wire-rename. This is protocol-dependent: the JSON wire key
+    # is `jsonName` (JSON protocols), the XML/query wire element is
+    # `xmlName`. They must not cross over - a JSON-protocol service
+    # that inherited xmlName traits from a query-protocol past (SQS is
+    # the canonical case: member `AttributeNames` carries
+    # xmlName="AttributeName") would otherwise serialise with the
+    # singular XML name and AWS would ignore the parameter / drop the
+    # field. Pick the rename that matches the service protocol; never
+    # use xmlName as a JSON key.
+    my $is_json = (($self->{_protocol} // '') =~ /^(?:json|rest-json)$/);
+    if ($is_json) {
+        # JSON protocols: jsonName only. xmlName is an XML/query rename
+        # and must not leak into JSON keys.
+        $location_name //= $traits->{'smithy.api#jsonName'};
+    } else {
+        # XML/query/ec2 protocols: jsonName then xmlName. NB the EC2
+        # request query-param name is `aws.protocols#ec2QueryName`, but
+        # EC2 *responses* are XML keyed by `xmlName`; the IR carries a
+        # single locationName per member, so we use xmlName (which
+        # serves response decoding and, with EC2Caller's ucfirst, the
+        # request too) rather than ec2QueryName, which would break
+        # response decoding.
+        $location_name //= $traits->{'smithy.api#jsonName'};
+        $location_name //= $traits->{'smithy.api#xmlName'};
+    }
 
     # When the Perl attribute name was PascalCased from a camelCase
     # Smithy member name, the original name is the wire key. Set it
@@ -478,7 +521,23 @@ sub _build_member {
         xml_namespace => ($traits->{'smithy.api#xmlNamespace'} // {})->{uri},
         documentation => $traits->{'smithy.api#documentation'},
         deprecated    => exists $traits->{'smithy.api#deprecated'} ? 1 : 0,
+        idempotency_token =>
+            exists $traits->{'smithy.api#idempotencyToken'} ? 1 : 0,
+        has_default   => (exists $traits->{'smithy.api#default'} ? 1 : 0),
+        default_value => _normalise_default($traits->{'smithy.api#default'}),
     );
+}
+
+# Normalise a smithy.api#default value for the IR. JSON booleans decode
+# to blessed boolean objects (JSON::PP::Boolean / Types::Serialiser);
+# collapse those to 1/0 so the materialiser and wire layer see a plain
+# scalar. Other values (strings, numbers, [], {}) pass through.
+sub _normalise_default {
+    my ($v) = @_;
+    return undef if !defined $v;
+    my $ref = ref $v;
+    return ($v ? 1 : 0) if ($ref =~ /Boolean$/);
+    return $v;
 }
 
 # 'com.example#Foo' -> 'Foo'

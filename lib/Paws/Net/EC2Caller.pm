@@ -17,10 +17,12 @@ package Paws::Net::EC2Caller;
     }
   );
 
-  sub array_flatten_string {
-    my $self = shift;
-    return ($self->flattened_arrays)?'%s.%d':'%s.member.%d';
-  }
+  # The EC2 query protocol always flattens list members: the wire form
+  # is `Name.1`, `Name.2`, ... with no `.member.` infix (that infix is
+  # the awsQuery protocol's, in Paws::Net::QueryCaller). Emitting
+  # `Filter.member.1.Name` made EC2 ignore the parameter
+  # (e.g. DescribeInstances(Filters => [...]) returned unfiltered).
+  sub array_flatten_string { '%s.%d' }
 
   # PR11: routed through Paws::SerDes.
   sub _to_querycaller_params {

@@ -200,6 +200,15 @@ package Paws::Model::IR::Member {
     has xml_namespace => (is => 'ro', isa => Maybe[Str]);
     has documentation => (is => 'ro', isa => Maybe[Str]);
     has deprecated   => (is => 'ro', isa => Bool, default => 0);
+    # Member carries `smithy.api#idempotencyToken`: the SDK fills it
+    # with a generated UUIDv4 when the caller doesn't supply one.
+    has idempotency_token => (is => 'ro', isa => Bool, default => 0);
+    # `smithy.api#default`: the value the service assumes when the member
+    # is absent. has_default distinguishes "default is 0/''/false" from
+    # "no default"; default_value holds the (already bool-normalised)
+    # value (undef for an explicit null default).
+    has has_default   => (is => 'ro', isa => Bool, default => 0);
+    has default_value => (is => 'ro');
 }
 
 1;

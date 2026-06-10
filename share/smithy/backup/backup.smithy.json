@@ -3331,6 +3331,9 @@
                "target" : "com.amazonaws.backup#GetLegalHold"
             },
             {
+               "target" : "com.amazonaws.backup#GetPITRMalwareScanResults"
+            },
+            {
                "target" : "com.amazonaws.backup#GetRecoveryPointIndexDetails"
             },
             {
@@ -3525,6 +3528,194 @@
             "aws.protocols#restJson1" : {},
             "smithy.api#documentation" : "<fullname>Backup</fullname>\n         <p>Backup is a unified backup service designed to protect Amazon Web Services\n         services and their associated data. Backup simplifies the creation, migration,\n         restoration, and deletion of backups, while also providing reporting and\n         auditing.</p>",
             "smithy.api#title" : "AWS Backup",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://backup-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://backup-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://backup.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://backup.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -6539,6 +6730,18 @@
                   "smithy.api#documentation" : "<p>The date and time that a backup index finished creation, in Unix format and Coordinated\n         Universal Time (UTC). The value of <code>CompletionDate</code> is accurate to milliseconds.\n         For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087\n         AM.</p>"
                }
             },
+            "ContinuousScanEndTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time the scan job scanned up to for a continuous backup.</p>"
+               }
+            },
+            "ContinuousScanStartTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time the scan job started scan from for a continuous backup.</p>"
+               }
+            },
             "CreatedBy" : {
                "target" : "com.amazonaws.backup#ScanJobCreator",
                "traits" : {
@@ -7626,6 +7829,118 @@
                "target" : "com.amazonaws.backup#string",
                "traits" : {
                   "smithy.api#documentation" : "<p>The title of the legal hold.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.backup#GetPITRMalwareScanResults" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.backup#InvalidParameterValueException"
+            },
+            {
+               "target" : "com.amazonaws.backup#MissingParameterValueException"
+            },
+            {
+               "target" : "com.amazonaws.backup#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.backup#ServiceUnavailableException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.backup#GetPITRMalwareScanResultsInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.backup#GetPITRMalwareScanResultsOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the malware scan results for a specified point in time within a continuous (point-in-time recovery) backup.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "GET",
+               "uri" : "/scan/pitr-malware-scan-results"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.backup#GetPITRMalwareScanResultsInput" : {
+         "members" : {
+            "BackupVaultName" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of a logical container where backups are stored. Backup vaults are identified\n         by names that are unique to the account used to create them and the Amazon Web Services\n         Region where they are created.</p>",
+                  "smithy.api#httpQuery" : "BackupVaultName",
+                  "smithy.api#required" : {}
+               }
+            },
+            "MalwareScanner" : {
+               "target" : "com.amazonaws.backup#MalwareScanner",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scanning engine used for the corresponding scan job. Currently only <code>GUARDDUTY</code> is supported.</p>",
+                  "smithy.api#httpQuery" : "MalwareScanner",
+                  "smithy.api#required" : {}
+               }
+            },
+            "RecoveryPointArn" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An ARN that uniquely identifies the target recovery point for scanning; for example,\n         <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.</p>",
+                  "smithy.api#httpQuery" : "RecoveryPointArn",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScanEndTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time within the continuous backup to examine for malware scan results.</p>",
+                  "smithy.api#httpQuery" : "ScanEndTime",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.backup#GetPITRMalwareScanResultsOutput" : {
+         "members" : {
+            "LastScanJobTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The completion time of the most recent scan job that covered the specified point in time.</p>"
+               }
+            },
+            "ScanEndTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time that was queried. This echoes back the time specified in the request.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "ScanId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The scan ID generated by Amazon GuardDuty for the corresponding Scan Job ID request from Backup.</p>"
+               }
+            },
+            "ScanMode" : {
+               "target" : "com.amazonaws.backup#ScanMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies the scan type used for the scan job.</p>"
+               }
+            },
+            "ScanResult" : {
+               "target" : "com.amazonaws.backup#ScanResultInfo",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Contains the <code>ScanResultStatus</code> for the scan and returns <code>THREATS_FOUND</code>, <code>NO_THREATS_FOUND</code>, or <code>UNKNOWN</code>.</p>",
+                  "smithy.api#required" : {}
                }
             }
          },
@@ -14028,6 +14343,18 @@
                   "smithy.api#documentation" : "<p>The date and time that a scan job is completed, in Unix format and Coordinated\n         Universal Time (UTC). The value of <code>CompletionDate</code> is accurate to milliseconds.\n         For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087\n         AM.</p>"
                }
             },
+            "ContinuousScanEndTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time the scan job scanned up to for a continuous backup.</p>"
+               }
+            },
+            "ContinuousScanStartTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time the scan job started scan from for a continuous backup.</p>"
+               }
+            },
             "CreatedBy" : {
                "target" : "com.amazonaws.backup#ScanJobCreator",
                "traits" : {
@@ -14411,7 +14738,7 @@
             "ScanResultStatus" : {
                "target" : "com.amazonaws.backup#ScanResultStatus",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The status of the scan results.</p>\n         <p>Valid values: <code>THREATS_FOUND</code> | <code>NO_THREATS_FOUND</code>.</p>",
+                  "smithy.api#documentation" : "<p>The status of the scan results.</p>\n         <p>Valid values: <code>THREATS_FOUND</code> | <code>NO_THREATS_FOUND</code> | <code>UNKNOWN</code>.</p>",
                   "smithy.api#required" : {}
                }
             }
@@ -14433,6 +14760,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "THREATS_FOUND"
+               }
+            },
+            "UNKNOWN" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "UNKNOWN"
                }
             }
          },
@@ -15065,6 +15398,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The name of a logical container where backups are stored. Backup vaults are identified by names that \n          are unique to the account used to create them and the Amazon Web Services Region where they are created.</p>\n         <p>Pattern: <code>^[a-zA-Z0-9\\-\\_]{2,50}$</code>\n         </p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "ContinuousScanEndTime" : {
+               "target" : "smithy.api#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The point in time the scan job will scan up to for a continuous backup.</p>"
                }
             },
             "IamRoleArn" : {

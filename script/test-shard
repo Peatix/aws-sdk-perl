@@ -31,13 +31,15 @@
 #                       (credential providers + DNS / connect timeout
 #                       heavy; ~35s per file on the timeout-bound tests)
 #   mocked      ~40s   t/16, t/19, t/20-25, t/29-32, t/33_interceptors,
-#                       t/33_retry_modes, t/38_new_retries_2026
+#                       t/33_retry_modes, t/35_json_timestamp_serialization, t/38_new_retries_2026
 #                       (synthetic protocol + mocked responses; the
 #                       per-protocol synthetic-wire tests, error
-#                       handling, interceptor and retry framework)
+#                       handling, interceptor and retry framework, JSON
+#                       timestamp serialisation)
 #   subdirs     ~20s   t/02, t/27_paginator_iterator, t/32_v4a,
-#                       t/33_streaming, t/34_s3_transfer, t/model,
-#                       t/types, t/wire
+#                       t/33_streaming, t/34_s3_transfer,
+#                       t/36_signing_region, t/37_idempotency_token,
+#                       t/model, t/types, t/wire
 #   s3          ~20s   t/s3, t/route53/uri_generation.t
 #                       (real-service-shape tests for S3 + Route53
 #                       URI generation — presigning, URI encoding,
@@ -152,6 +154,7 @@ shard_files() {
            t/32_debug_caller.t \
            t/33_interceptors.t \
            t/33_retry_modes.t \
+           t/35_json_timestamp_serialization.t \
            t/38_new_retries_2026.t
       ;;
     subdirs)
@@ -160,6 +163,8 @@ shard_files() {
            t/32_v4a_signature.t \
            t/33_streaming.t \
            t/34_s3_transfer.t \
+           t/36_signing_region.t \
+           t/37_idempotency_token.t \
            t/model \
            t/types \
            t/wire

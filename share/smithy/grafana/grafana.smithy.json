@@ -74,6 +74,194 @@
             },
             "smithy.api#documentation" : "<p>Amazon Managed Grafana is a fully managed and secure data visualization service that you can use to instantly query, correlate, and visualize operational metrics, logs, and traces from multiple sources. Amazon Managed Grafana makes it easy to deploy, operate, and scale Grafana, a widely deployed data visualization tool that is popular for its extensible data support.</p> <p>With Amazon Managed Grafana, you create logically isolated Grafana servers called <i>workspaces</i>. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces without having to build, package, or deploy any hardware to run Grafana servers. </p>",
             "smithy.api#title" : "Amazon Managed Grafana",
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  }
+               ],
+               "nodeCount" : 13,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAwAAAADAAAAAQAAAAQF9eELAAAAAgAAAAUF9eELAAAAAwAAAAgAAAAGAAAABAAAAAcF9eEKAAAABQX14QgF9eEJAAAABAAAAAoAAAAJAAAABgX14QYF9eEHAAAABQAAAAsF9eEFAAAABgX14QQF9eEFAAAAAwX14QEAAAANAAAABAX14QIF9eED",
+               "parameters" : {
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : {
+                           "ref" : "Endpoint"
+                        }
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://grafana-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://grafana-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://grafana.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://grafana.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "Endpoint" : {
@@ -1330,6 +1518,12 @@
                   "smithy.api#documentation" : "<p>Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4).</p> <p>To get a list of supported versions, use the <code>ListVersions</code> operation.</p>"
                }
             },
+            "ipAddressType" : {
+               "target" : "com.amazonaws.grafana#IPAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are <code>IPv4</code> and <code>DualStack</code>. For more information about IP address types, see <a href=\"https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html\">Network access control</a>.</p>"
+               }
+            },
             "kmsKeyId" : {
                "target" : "com.amazonaws.grafana#KmsKeyId",
                "traits" : {
@@ -1698,6 +1892,15 @@
             "target" : "com.amazonaws.grafana#DataSourceType"
          },
          "type" : "list"
+      },
+      "com.amazonaws.grafana#DegradedWorkspaceReason" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 255,
+               "min" : 1
+            }
+         },
+         "type" : "string"
       },
       "com.amazonaws.grafana#DeleteWorkspace" : {
          "errors" : [
@@ -2314,6 +2517,23 @@
             "target" : "com.amazonaws.grafana#GrafanaVersion"
          },
          "type" : "list"
+      },
+      "com.amazonaws.grafana#IPAddressType" : {
+         "traits" : {
+            "smithy.api#enum" : [
+               {
+                  "documentation" : "Indicates that connections to this workspace can only be made over IPv4.",
+                  "name" : "IPV4",
+                  "value" : "IPv4"
+               },
+               {
+                  "documentation" : "Indicates that connections to this workspace can be made over IPv4 or IPv6.",
+                  "name" : "DUAL_STACK",
+                  "value" : "DualStack"
+               }
+            ]
+         },
+         "type" : "string"
       },
       "com.amazonaws.grafana#IamRoleArn" : {
          "traits" : {
@@ -4180,6 +4400,12 @@
                   "smithy.api#documentation" : "<p>Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify <code>ORGANIZATION</code>, you must specify which organizational units the workspace can access in the <code>workspaceOrganizationalUnits</code> parameter.</p>"
                }
             },
+            "ipAddressType" : {
+               "target" : "com.amazonaws.grafana#IPAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Specifies whether the workspace supports IPv4 only, or IPv4 and IPv6. Valid values are <code>IPv4</code> and <code>DualStack</code>. For more information about IP address types, see <a href=\"https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-nac.html\">Network access control</a>.</p>"
+               }
+            },
             "networkAccessControl" : {
                "target" : "com.amazonaws.grafana#NetworkAccessConfiguration",
                "traits" : {
@@ -4502,6 +4728,12 @@
                   "smithy.api#required" : {}
                }
             },
+            "degradedWorkspaceReason" : {
+               "target" : "com.amazonaws.grafana#DegradedWorkspaceReason",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the workspace is in the <code>DEGRADED</code> status, this field describes the reason the workspace is degraded.</p>"
+               }
+            },
             "description" : {
                "target" : "com.amazonaws.grafana#Description",
                "traits" : {
@@ -4545,6 +4777,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The unique ID of this workspace.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "ipAddressType" : {
+               "target" : "com.amazonaws.grafana#IPAddressType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of IP addresses supported for connection to the workspace. Valid values are <code>IPv4</code> and <code>DualStack</code>.</p>"
                }
             },
             "kmsKeyId" : {
@@ -4731,6 +4969,11 @@
                   "documentation" : "Workspace version update failed.",
                   "name" : "VERSION_UPDATE_FAILED",
                   "value" : "VERSION_UPDATE_FAILED"
+               },
+               {
+                  "documentation" : "Workspace is degraded.",
+                  "name" : "DEGRADED",
+                  "value" : "DEGRADED"
                }
             ]
          },

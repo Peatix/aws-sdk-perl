@@ -202,6 +202,11 @@ package Paws::Net::RestJsonResponse;
         }
       }
     }
+
+    # Surface the request id on the result object (set on the struct
+    # from the x-amzn-requestid header by response_to_object).
+    $args{_request_id} = $result->{_request_id} if exists $result->{_request_id};
+
     return $class->new(%args);
   }
 

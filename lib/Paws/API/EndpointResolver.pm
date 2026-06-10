@@ -26,13 +26,27 @@ package Paws::API::EndpointResolver;
     default => sub {
       my $self = shift;
       my $sig_region;
-   
-      # For global services:   don't specify region: we sign with the region in the credentialScope
-      #                        specify the region: we override the credentialScope (use the region specified)
-      # For regional services: use the region specified for signing
-      # If endpoint is specified: use the region specified (no _endpoint_info) 
-      if (defined $self->_endpoint_info->{ credentialScope } and not defined $self->region) {
-        $sig_region = $self->_endpoint_info->{ credentialScope }->{ region }
+
+      # The resolved endpoint dictates the signing region. When a
+      # matched endpoint rule carries a credentialScope, that scope is
+      # authoritative: the rule already took the client's configured
+      # region into account when it was selected, and the chosen host
+      # only accepts signatures scoped to credentialScope.region.
+      #
+      # STS is the motivating case. Its endpoint ruleset maps the
+      # legacy regions (ap-northeast-1, ap-south-1, eu-west-1, ...) to
+      # the global host sts.amazonaws.com with credentialScope
+      # us-east-1. Signing those with the *client* region produced
+      # "SignatureDoesNotMatch: Credential should be scoped to a valid
+      # region" because sts.amazonaws.com only accepts us-east-1. The
+      # same applies to global services (IAM, Route53, CloudFront, WAF)
+      # when a region is passed explicitly: the host is global and only
+      # the credentialScope region is valid.
+      #
+      # The client region is only the fallback, used for regional
+      # endpoints (and the _default_rules) that carry no credentialScope.
+      if (defined $self->_endpoint_info->{ credentialScope }) {
+        $sig_region = $self->_endpoint_info->{ credentialScope }->{ region };
       }
       $sig_region = $self->region if (not defined $sig_region);
 

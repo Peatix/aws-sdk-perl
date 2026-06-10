@@ -109,6 +109,12 @@ subtest 'member traits map to IR locations' => sub {
     is($filter->location,     'querystring', 'smithy.api#httpQuery -> querystring');
     is($filter->locationName, 'filter',      'querystring location_name');
 
+    # smithy.api#default on a member is lifted to the IR.
+    my $maxresults = $list_req->members->{MaxResults};
+    ok($maxresults->has_default, 'member smithy.api#default -> IR Member->has_default');
+    is($maxresults->default_value, 50, 'IR Member->default_value carries the default');
+    ok(!$filter->has_default, 'member without a default has has_default = 0');
+
     my $get_req = $svc->shape('GetThingRequest');
     my $id      = $get_req->members->{ThingId};
     is($id->location,     'uri',     'smithy.api#httpLabel -> uri');
@@ -130,8 +136,14 @@ subtest 'member traits map to IR locations' => sub {
     my $list_resp = $svc->shape('ListThingsResponse');
     ok($list_resp->members->{Things}->flattened,
        'member-level smithy.api#xmlFlattened lifted to IR Member->flattened');
-    is($list_resp->members->{Things}->locationName, 'TinyThing',
-       'list member-level smithy.api#xmlName lifted to IR Member->locationName');
+    # smithy.api#xmlName is an XML/query wire-rename; it must NOT drive
+    # the wire key on a JSON-protocol service (TinyService is
+    # awsJson1_1). With no jsonName and the member name already matching
+    # the attribute, locationName stays undef and the wire layer uses
+    # the member name. (xmlName IS lifted for XML/query services; see
+    # _build_member's protocol branch.)
+    is($list_resp->members->{Things}->locationName, undef,
+       'list member-level smithy.api#xmlName not used as a JSON wire key');
     ok(!$list_resp->members->{Count}->flattened,
        'non-list member defaults to flattened=0');
 };

@@ -199,37 +199,92 @@ package Paws::Net::JsonResponse;
               } else {
                 $args{ $att } = 0;
               }
+            } elsif ($serdes->is_blob($att)) {
+              # Blobs arrive base64-encoded in JSON; hand back raw bytes.
+              require MIME::Base64;
+              $args{ $att } = MIME::Base64::decode_base64($value);
             } else {
               $args{ $att } = $value;
             }
           }
         }
       } elsif (my ($type) = ($att_type =~ m/^ArrayRef\[(.*)\]$/)) {
-        $type = Paws::_unwrap_class_from_type_string($type);
         my $value = $result->{ $att };
         $value = $result->{ $key } if (not defined $value and $key ne $att);
-        my $value_ref = ref($value);
 
-        if ($type =~ m/\:\:/) {
-          Paws->load_class($type);
-          my $type_serdes = Paws::SerDes->for($type);
-
-          if ($type_serdes->is_str_to_obj_map) {
-            $args{ $att } = [ map { $self->handle_response_strtoobjmap($type, $_) } @$value ];
-          } elsif ($type_serdes->is_str_to_native_map) {
-            $args{ $att } = [ map { $self->handle_response_strtonativemap($type, $_) } @$value ];
-          } elsif ($type->can('does') && $type->does('Paws::API::MapParser')) {
-            die "MapParser Type in an Array. Please implement me";
-          } else {
-            $args{ $att } = [ map { $self->new_from_result_struct($type, $_) } @$value ];
+        if (my ($maptype) = ($type =~ m/^HashRef\[(.*)\]$/)) {
+          # ArrayRef[HashRef[X]]: a list of maps (e.g. DynamoDB
+          # Query/Scan Items, where each item is a map of
+          # AttributeValue). Decode each element as a map.
+          $maptype = Paws::_unwrap_class_from_type_string($maptype);
+          if (defined $value) {
+            if ($maptype =~ m/\:\:/) {
+              Paws->load_class($maptype);
+              $args{ $att } = [ map { my $m = $_;
+                +{ map { ($_ => $self->new_from_result_struct($maptype, $m->{ $_ })) } keys %$m }
+              } @$value ];
+            } else {
+              $args{ $att } = $value;
+            }
           }
-        } else {
-          if (defined $value){
+          next;
+        }
+
+        $type = Paws::_unwrap_class_from_type_string($type);
+
+        # An *optional* absent list member is left unset, NOT fabricated
+        # as []: the latter corrupts union-like shapes - a DynamoDB
+        # AttributeValue decoded with only S would also gain L => [],
+        # so sending it back (e.g. as ExclusiveStartKey) failed with
+        # "AttributeValue has more than one datatype set". A *required*
+        # absent list still defaults to [] so the Moo constructor
+        # doesn't die (e.g. SQS SendMessageBatch's required Failed list
+        # is omitted when every message succeeds).
+        if (defined $value) {
+          if ($type =~ m/\:\:/) {
+            Paws->load_class($type);
+            my $type_serdes = Paws::SerDes->for($type);
+
+            if ($type_serdes->is_str_to_obj_map) {
+              $args{ $att } = [ map { $self->handle_response_strtoobjmap($type, $_) } @$value ];
+            } elsif ($type_serdes->is_str_to_native_map) {
+              $args{ $att } = [ map { $self->handle_response_strtonativemap($type, $_) } @$value ];
+            } elsif ($type->can('does') && $type->does('Paws::API::MapParser')) {
+              die "MapParser Type in an Array. Please implement me";
+            } else {
+              $args{ $att } = [ map { $self->new_from_result_struct($type, $_) } @$value ];
+            }
+          } else {
+            $args{ $att } = $value;
+          }
+        } elsif (($serdes->attributes->{$att} // {})->{is_required}) {
+          $args{ $att } = [];
+        }
+      } elsif (my ($maptype) = ($att_type =~ m/^HashRef\[(.*)\]$/)) {
+        # Map member. The materialiser models maps as a plain
+        # HashRef[X] attribute, so without this branch map attributes
+        # in a JSON response were silently dropped (e.g. SQS
+        # GetQueueAttributes Attributes, DynamoDB GetItem Item).
+        $maptype = Paws::_unwrap_class_from_type_string($maptype);
+        my $value = $result->{ $att };
+        $value = $result->{ $key } if (not defined $value and $key ne $att);
+        if (defined $value) {
+          if ($maptype =~ m/\:\:/) {
+            Paws->load_class($maptype);
+            $args{ $att } = { map { ($_ => $self->new_from_result_struct($maptype, $value->{ $_ })) } keys %$value };
+          } else {
             $args{ $att } = $value;
           }
         }
       }
     }
+
+    # Surface the request id (set on the struct by response_to_object
+    # from the x-amzn-requestid header) on the result object. Without
+    # this, $result->_request_id was undef on success, so the request
+    # id never reached callers or the Log interceptor.
+    $args{_request_id} = $result->{_request_id} if exists $result->{_request_id};
+
     return $class->new(%args);
   }
 
