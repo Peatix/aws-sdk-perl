@@ -3962,6 +3962,603 @@
             "smithy.api#xmlNamespace" : {
                "uri" : "http://dynamodb.amazonaws.com/doc/2012-08-10/"
             },
+            "smithy.rules#endpointBdd" : {
+               "conditions" : [
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseFIPS"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "assign" : "PartitionResult",
+                     "fn" : "aws.partition"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "Region"
+                        },
+                        "local"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsFIPS"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "UseDualStack"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "supportsDualStack"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        true
+                     ],
+                     "fn" : "booleanEquals"
+                  },
+                  {
+                     "argv" : [
+                        "https://dynamodb.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                        {
+                           "ref" : "Endpoint"
+                        }
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "AccountIdEndpointMode"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "AccountIdEndpointMode"
+                        },
+                        "disabled"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "ResourceArn"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "ResourceArn"
+                        }
+                     ],
+                     "assign" : "ParsedArn_ssa_2",
+                     "fn" : "aws.parseArn"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_2"
+                              },
+                              "region"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_2"
+                              },
+                              "service"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "dynamodb"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_2"
+                              },
+                              "accountId"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        false
+                     ],
+                     "fn" : "isValidHostLabel"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_2"
+                              },
+                              "region"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        false
+                     ],
+                     "fn" : "isValidHostLabel"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "ResourceArnList"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "ResourceArnList"
+                        },
+                        "[0]"
+                     ],
+                     "assign" : "FirstArn",
+                     "fn" : "getAttr"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "FirstArn"
+                        }
+                     ],
+                     "assign" : "ParsedArn_ssa_1",
+                     "fn" : "aws.parseArn"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_1"
+                              },
+                              "region"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        {
+                           "ref" : "Region"
+                        }
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_1"
+                              },
+                              "service"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "dynamodb"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_1"
+                              },
+                              "accountId"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        false
+                     ],
+                     "fn" : "isValidHostLabel"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "ParsedArn_ssa_1"
+                              },
+                              "region"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        false
+                     ],
+                     "fn" : "isValidHostLabel"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "AccountId"
+                        }
+                     ],
+                     "fn" : "isSet"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "AccountIdEndpointMode"
+                        },
+                        "required"
+                     ],
+                     "fn" : "stringEquals"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "ref" : "AccountId"
+                        },
+                        false
+                     ],
+                     "fn" : "isValidHostLabel"
+                  },
+                  {
+                     "argv" : [
+                        {
+                           "argv" : [
+                              {
+                                 "ref" : "PartitionResult"
+                              },
+                              "name"
+                           ],
+                           "fn" : "getAttr"
+                        },
+                        "aws-us-gov"
+                     ],
+                     "fn" : "stringEquals"
+                  }
+               ],
+               "nodeCount" : 67,
+               "nodes" : "/////wAAAAH/////AAAAAAAAAAUAAAADAAAAAQAAAAQF9eEZAAAAAgX14QEAAABBAAAAAQAAAD8AAAAGAAAAAgAAADQAAAAHAAAAAwAAAAgF9eEZAAAABAAAADMAAAAJAAAABgAAAB4AAAAKAAAACQAAAAsF9eELAAAACgAAAA0AAAAMAAAAGgX14RMF9eELAAAACwAAAB0AAAAOAAAADAAAAA8AAAAUAAAADQAAABAAAAAUAAAADgAAABEAAAAUAAAADwAAABIAAAAUAAAAEAAAABMAAAAUAAAAEQX14RYAAAAUAAAAEgAAABUAAAAbAAAAEwAAABYAAAAbAAAAFAAAABcAAAAbAAAAFQAAABgAAAAbAAAAFgAAABkAAAAbAAAAFwAAABoAAAAbAAAAGAX14RcAAAAbAAAAGQAAABwAAAAdAAAAGwX14RgF9eERAAAAGgX14RIF9eELAAAABwAAAB8F9eEVAAAACQAAACAF9eEUAAAACgAAACIAAAAhAAAAGgX14RMF9eEUAAAACwAAADIAAAAjAAAADAAAACQAAAApAAAADQAAACUAAAApAAAADgAAACYAAAApAAAADwAAACcAAAApAAAAEAAAACgAAAApAAAAEQX14Q4AAAApAAAAEgAAACoAAAAwAAAAEwAAACsAAAAwAAAAFAAAACwAAAAwAAAAFQAAAC0AAAAwAAAAFgAAAC4AAAAwAAAAFwAAAC8AAAAwAAAAGAX14Q8AAAAwAAAAGQAAADEAAAAyAAAAGwX14RAF9eERAAAAGgX14RIF9eEUAAAABgX14QYF9eEHAAAAAwAAADUF9eEZAAAABAX14QUAAAA2AAAABQAAADgAAAA3AAAABgX14QoF9eENAAAABgAAADwAAAA5AAAACQAAADoAAAA7AAAAGgX14QgAAAA7AAAAHAX14QsF9eEMAAAABwAAAD0F9eEKAAAACQAAAD4F9eEJAAAAGgX14QgF9eEJAAAAAgX14QEAAABAAAAAAwAAAEIAAABBAAAABgX14QIF9eEEAAAABgX14QIAAABDAAAACAX14QMF9eEE",
+               "parameters" : {
+                  "AccountId" : {
+                     "builtIn" : "AWS::Auth::AccountId",
+                     "documentation" : "The AWS AccountId used for the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "AccountIdEndpointMode" : {
+                     "builtIn" : "AWS::Auth::AccountIdEndpointMode",
+                     "documentation" : "The AccountId Endpoint Mode.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Endpoint" : {
+                     "builtIn" : "SDK::Endpoint",
+                     "documentation" : "Override the endpoint used to send this request",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "Region" : {
+                     "builtIn" : "AWS::Region",
+                     "documentation" : "The AWS region used to dispatch the request.",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "ResourceArn" : {
+                     "documentation" : "ResourceArn containing arn of resource",
+                     "required" : false,
+                     "type" : "string"
+                  },
+                  "ResourceArnList" : {
+                     "documentation" : "ResourceArnList containing list of resource arns",
+                     "required" : false,
+                     "type" : "stringArray"
+                  },
+                  "UseDualStack" : {
+                     "builtIn" : "AWS::UseDualStack",
+                     "default" : false,
+                     "documentation" : "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  },
+                  "UseFIPS" : {
+                     "builtIn" : "AWS::UseFIPS",
+                     "default" : false,
+                     "documentation" : "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
+                     "required" : true,
+                     "type" : "boolean"
+                  }
+               },
+               "results" : [
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and custom endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "{Endpoint}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: FIPS and local endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Dualstack and local endpoint are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "authSchemes" : [
+                              {
+                                 "name" : "sigv4",
+                                 "signingName" : "dynamodb",
+                                 "signingRegion" : "us-east-1"
+                              }
+                           ]
+                        },
+                        "url" : "http://localhost:8000"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: AccountIdEndpointMode is required and FIPS is enabled, but FIPS account endpoints are not supported",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://dynamodb-fips.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS and DualStack are enabled, but this partition does not support one or both",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://dynamodb.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://dynamodb-fips.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "FIPS is enabled but this partition does not support FIPS",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "metricValues" : [
+                              "O"
+                           ]
+                        },
+                        "url" : "https://{ParsedArn_ssa_2#accountId}.ddb.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "metricValues" : [
+                              "O"
+                           ]
+                        },
+                        "url" : "https://{ParsedArn_ssa_1#accountId}.ddb.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "metricValues" : [
+                              "O"
+                           ]
+                        },
+                        "url" : "https://{AccountId}.ddb.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Credentials-sourced account ID parameter is invalid",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "AccountIdEndpointMode is required but no AccountID was provided or able to be loaded",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {},
+                        "url" : "https://dynamodb.{Region}.{PartitionResult#dualStackDnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "DualStack is enabled but this partition does not support DualStack",
+                     "type" : "error"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "metricValues" : [
+                              "O"
+                           ]
+                        },
+                        "url" : "https://{ParsedArn_ssa_2#accountId}.ddb.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "metricValues" : [
+                              "O"
+                           ]
+                        },
+                        "url" : "https://{ParsedArn_ssa_1#accountId}.ddb.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "endpoint" : {
+                        "headers" : {},
+                        "properties" : {
+                           "metricValues" : [
+                              "O"
+                           ]
+                        },
+                        "url" : "https://{AccountId}.ddb.{Region}.{PartitionResult#dnsSuffix}"
+                     },
+                     "type" : "endpoint"
+                  },
+                  {
+                     "conditions" : [],
+                     "error" : "Invalid Configuration: Missing Region",
+                     "type" : "error"
+                  }
+               ],
+               "root" : 2,
+               "version" : "1.1"
+            },
             "smithy.rules#endpointRuleSet" : {
                "parameters" : {
                   "AccountId" : {
