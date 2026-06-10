@@ -1,0 +1,9 @@
+[default]
+credential_process = t/04_credentials/test_cred_process
+
+[profile static]
+aws_access_key_id = configAK
+aws_secret_access_key = configSK
+
+[profile fail]
+credential_process = t/04_credentials/test_cred_process.fail

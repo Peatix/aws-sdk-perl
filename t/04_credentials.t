@@ -15,6 +15,7 @@ use Paws::Credential::InstanceProfileV2;
 use Paws::Credential::ECSContainerProfile;
 use Paws::Credential::ProviderChain;
 use Paws::Credential::File;
+use Paws::Credential::ConfigFile;
 use Test::More;
 use Test::Exception;
 use Test::Warnings;
@@ -30,6 +31,7 @@ delete @ENV{qw(
   AWS_ACCESS_KEY
   AWS_SECRET_KEY
   AWS_DEFAULT_PROFILE
+  AWS_PROFILE
   CONTAINER_CREDENTIALS_RELATIVE_URI
   AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
   AWS_CONTAINER_CREDENTIALS_FULL_URI
@@ -473,6 +475,84 @@ delete @ENV{qw(
   sleep 1;
   my $second_execution = $creds->refresh->access_key; # the test suite returns the timestamp of execution in the AK
   cmp_ok($first_execution, 'ne', $second_execution, 'Expiring credentials have been refreshed');
+}
+
+## ConfigFile provider testing
+## The shared *config* file (~/.aws/config) defaults to file_name 'config'
+## and uses the [profile NAME] section convention for non-default profiles.
+
+{
+  my $creds = Paws::Credential::ConfigFile->new(
+    path => 't/04_credentials/',
+  );
+  cmp_ok($creds->file_name, 'eq', 'config', 'ConfigFile: defaults to the config file');
+  ok($creds->are_set, 'ConfigFile: default profile credential_process is set');
+
+  my $a = $creds->refresh;
+  ok($a, 'Refresh returns a value');
+  cmp_ok($a->access_key, 'eq', 'PCAccessKey', 'ConfigFile: default profile credential_process Access Key');
+  cmp_ok($a->secret_key, 'eq', 'PCSecretKey', 'ConfigFile: default profile credential_process Secret Key');
+  cmp_ok($a->session_token, 'eq', 'PCSessionToken', 'ConfigFile: default profile credential_process Session Token');
+}
+
+{
+  # [profile static] in the config file is looked up as the 'static'
+  # profile: Config::AWS strips the 'profile ' prefix.
+  my $creds = Paws::Credential::ConfigFile->new(
+    path => 't/04_credentials/',
+    profile => 'static',
+  );
+  ok($creds->are_set, 'ConfigFile: [profile NAME] section resolves static keys');
+
+  my $a = $creds->refresh;
+  ok($a, 'Refresh returns a value');
+  cmp_ok($a->access_key, 'eq', 'configAK', 'ConfigFile: named profile Access Key from config file');
+  cmp_ok($a->secret_key, 'eq', 'configSK', 'ConfigFile: named profile Secret Key from config file');
+}
+
+{
+  local $ENV{AWS_PROFILE} = 'static';
+  my $creds = Paws::Credential::ConfigFile->new(
+    path => 't/04_credentials/',
+  );
+  cmp_ok($creds->profile, 'eq', 'static', 'ConfigFile: profile honours AWS_PROFILE');
+  my $a = $creds->refresh;
+  cmp_ok($a->access_key, 'eq', 'configAK', 'ConfigFile: AWS_PROFILE selects the config section');
+}
+
+{
+  local $ENV{AWS_CONFIG_FILE} = 't/04_credentials/config';
+  my $creds = Paws::Credential::ConfigFile->new;
+  cmp_ok($creds->credentials_file, 'eq', 't/04_credentials/config',
+    'ConfigFile: credentials_file honours AWS_CONFIG_FILE');
+  ok($creds->are_set, 'ConfigFile: resolves credentials from AWS_CONFIG_FILE path');
+}
+
+{
+  my $creds = Paws::Credential::ConfigFile->new(
+    path => 't/04_credentials/',
+    profile => 'fail',
+  );
+  throws_ok(sub { $creds->are_set }, 'Paws::Exception::CredentialProcess',
+    'ConfigFile: failing credential_process throws a Paws exception');
+}
+
+{
+  # ConfigFile is part of the default ProviderChain. With no env creds
+  # and no ~/.aws/credentials, the chain falls through to ConfigFile.
+  local $ENV{AWS_CONFIG_FILE} = 't/04_credentials/config';
+  # Point the credentials-file provider at an empty dir so it yields
+  # nothing and the chain advances to ConfigFile.
+  my $chain = Paws::Credential::ProviderChain->new(
+    providers => [
+      'Paws::Credential::Environment',
+      'Paws::Credential::ConfigFile',
+    ],
+  );
+  isa_ok($chain->selected_provider, 'Paws::Credential::ConfigFile',
+    'ProviderChain selects ConfigFile when only the config file has creds');
+  my $a = $chain->refresh;
+  cmp_ok($a->access_key, 'eq', 'PCAccessKey', 'ProviderChain via ConfigFile resolves credential_process');
 }
 
 done_testing;
