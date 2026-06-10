@@ -31,7 +31,7 @@
 #                       (credential providers + DNS / connect timeout
 #                       heavy; ~35s per file on the timeout-bound tests)
 #   mocked      ~40s   t/16, t/19, t/20-25, t/29-32, t/33_interceptors,
-#                       t/33_retry_modes
+#                       t/33_retry_modes, t/38_new_retries_2026
 #                       (synthetic protocol + mocked responses; the
 #                       per-protocol synthetic-wire tests, error
 #                       handling, interceptor and retry framework)
@@ -151,7 +151,8 @@ shard_files() {
            t/31_glacier_syntetic_responses.t \
            t/32_debug_caller.t \
            t/33_interceptors.t \
-           t/33_retry_modes.t
+           t/33_retry_modes.t \
+           t/38_new_retries_2026.t
       ;;
     subdirs)
       echo t/02_aws_object.t \

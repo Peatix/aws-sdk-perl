@@ -7,6 +7,11 @@ use Paws::API::Retry;
 use Paws::API::Retry::TokenBucket;
 use Paws::Exception;
 
+# These tests assert the default (non-opt-in) standard/adaptive behaviour, so
+# neutralise any ambient AWS_NEW_RETRIES_2026 opt-in. The opted-in behaviour is
+# covered by t/38_new_retries_2026.t.
+delete $ENV{AWS_NEW_RETRIES_2026};
+
 sub make_exception {
   my (%args) = @_;
   return Paws::Exception->new(
