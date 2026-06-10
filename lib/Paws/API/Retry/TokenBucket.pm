@@ -2,10 +2,15 @@ package Paws::API::Retry::TokenBucket;
   use Moo;
   use Types::Standard qw(Num);
   use List::Util qw(min);
+  use Paws::API::Retry ();
 
   use constant DEFAULT_CAPACITY          => 500;
   use constant RETRY_COST                => 5;
   use constant RETRY_COST_TIMEOUT        => 10;
+  # AWS_NEW_RETRIES_2026 raises the transient retry cost to 14 tokens so the
+  # quota engages sooner during sustained transient outages, letting the
+  # service recover faster. Throttling retries still cost RETRY_COST (5).
+  use constant RETRY_COST_TRANSIENT_2026 => 14;
   use constant SUCCESS_INCREMENT         => 1;
 
   has capacity => (
@@ -50,7 +55,11 @@ package Paws::API::Retry::TokenBucket;
 
   sub token_cost_for_error {
     my ($class_or_self, $error_type) = @_;
-    return RETRY_COST_TIMEOUT if defined $error_type && $error_type eq 'transient';
+    if (defined $error_type && $error_type eq 'transient') {
+      return Paws::API::Retry::new_retries_enabled()
+        ? RETRY_COST_TRANSIENT_2026
+        : RETRY_COST_TIMEOUT;
+    }
     return RETRY_COST;
   }
 

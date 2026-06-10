@@ -7,6 +7,10 @@ use Test::Exception;
 
 use lib 't/lib';
 
+# Assert default retry behaviour; the AWS_NEW_RETRIES_2026 opt-in is covered by
+# t/38_new_retries_2026.t.
+delete $ENV{AWS_NEW_RETRIES_2026};
+
 use Paws::Net::Interceptor;
 use Paws::Net::InterceptorContext;
 use Paws::Net::InterceptorChain;

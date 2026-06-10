@@ -18,6 +18,20 @@ package Paws::Net::RetryCallerRole;
     return "$region/$svc";
   }
 
+  # Long-polling operations: when the AWS_NEW_RETRIES_2026 retry quota is
+  # depleted these back off before surfacing the error, so polling loops don't
+  # tighten into a hot spin (spiking client CPU and service load).
+  my %LONG_POLLING_OPERATIONS = (
+    sqs => { ReceiveMessage => 1 },
+  );
+
+  sub _is_long_polling {
+    my ($service, $call_object) = @_;
+    my $svc = eval { lc($service->service) } // '';
+    my $op  = eval { $call_object->_api_call } // '';
+    return $LONG_POLLING_OPERATIONS{$svc}{$op} ? 1 : 0;
+  }
+
   has interceptors => (
     is      => 'rw',
     isa     => ArrayRef,
@@ -73,6 +87,12 @@ package Paws::Net::RetryCallerRole;
 
       if ($token_bucket) {
         unless ($token_bucket->acquire(1)) {
+          if ($context->stash->{new_retries}
+              && _is_long_polling($service, $context->call_object)) {
+            my $tracker = $context->stash->{retry_tracker};
+            my $delay = $tracker ? $tracker->sleep_time : 0;
+            sleep $delay if $delay > 0;
+          }
           last RETRY;
         }
       }
