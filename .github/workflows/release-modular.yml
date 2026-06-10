@@ -379,12 +379,15 @@ jobs:
             fi
           done
 
-          # Also verify core dist is present.
+          # Also verify core dist is present. The runtime dist is named
+          # `Paws-Core` (dist.ini), so the tarball is `Paws-Core-<version>.tar.gz`
+          # — not `Paws-<version>.tar.gz`. The `-[0-9]` guard keeps this from
+          # matching the `Paws-Core-Docs-*` companion.
           found_core=0
           for name in "${asset_names[@]}"
           do
             case "$name" in
-              Paws-[0-9]*.tar.gz) found_core=1 ;;
+              Paws-Core-[0-9]*.tar.gz) found_core=1 ;;
             esac
           done
           if [ "$found_core" -eq 0 ]
