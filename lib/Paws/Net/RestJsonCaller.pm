@@ -42,6 +42,13 @@ package Paws::Net::RestJsonCaller;
         $p{$key} = $value ? \1 : \0;
       } elsif ($type eq 'Int') {
         $p{$key} = int($value);
+      } elsif ($serdes->is_timestamp($att) && Scalar::Util::looks_like_number($value)) {
+        # json/rest-json default timestamp format is `unixTimestamp`:
+        # epoch seconds as a JSON number. Timestamps flatten to the Str
+        # type, so without this they'd be quoted and AWS rejects them
+        # ("STRING_VALUE can not be converted to milliseconds since
+        # epoch"). Add 0 to force numeric encoding.
+        $p{$key} = 0 + $value;
       } elsif ($type eq 'Str') {
         $p{$key} = "" . $value;
       } elsif (Paws->is_internal_type($type)) {

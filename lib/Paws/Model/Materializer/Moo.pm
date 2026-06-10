@@ -461,10 +461,15 @@ sub materialize_operation {
         }
     }
 
+    # Side-table registration, emitted into the source so it survives
+    # the dump-to-.pm (emit_callback) path as well as the eval path.
+    my $serdes_src = $self->_serdes_register_src(\@serdes_records);
+
     my $src = qq{
         package $op_pkg;
         use Moo;
         use Types::Standard qw(Str Int Bool Num ArrayRef HashRef Maybe InstanceOf);
+        use Paws::SerDes;
 
 @{[ join("\n", @attr_lines) ]}
 
@@ -478,15 +483,12 @@ sub materialize_operation {
 
 @{[ defined $stream_param ? "        sub _stream_param { '" . _esc($stream_param) . "' }" : '' ]}
 
+        $serdes_src
+
         1;
     };
 
     $self->_emit_or_eval($op_pkg, $src);
-
-    # Install the SerDes side-table directly. Mirrors what
-    # Paws::SerDes->_build_from_meta would have produced from the
-    # Moose backend's class.
-    Paws::SerDes->register($op_pkg, \@serdes_records);
 
     if ($op->output_shape) {
         $self->_materialise_shape_class($service_ir, $op->output_shape);
@@ -551,10 +553,15 @@ sub _materialise_shape_class {
         push @clear_lines, "        use strict 'refs';";
     }
 
+    # Side-table registration, emitted into the source so it survives
+    # the dump-to-.pm (emit_callback) path as well as the eval path.
+    my $serdes_src = $self->_serdes_register_src(\@serdes_records);
+
     my $src = qq{
         package $pkg;
         use Moo;
         use Types::Standard qw(Str Int Bool Num ArrayRef HashRef Maybe InstanceOf);
+        use Paws::SerDes;
 
 @{[ join("\n", @clear_lines) ]}
 
@@ -562,12 +569,12 @@ sub _materialise_shape_class {
 
         has _request_id => (is => 'ro');
 
+        $serdes_src
+
         1;
     };
 
     $self->_emit_or_eval($pkg, $src);
-
-    Paws::SerDes->register($pkg, \@serdes_records);
 
     $self->_materialised_classes->{$pkg} = 1;
     return $pkg;
@@ -591,6 +598,11 @@ sub _install_structure_members {
         my $target_shape   = $service_ir->shape($m->shape);
         my $shape_flatten  = $target_shape && $target_shape->is_list && $target_shape->flattened ? 1 : 0;
         my $member_flatten = $m->flattened ? 1 : 0;
+        # Timestamps flatten to the Str type (see PRIMITIVE_TO_TYPE_EXPR)
+        # so callers accept either an epoch or a formatted string, but
+        # the wire layer needs to know the member is a timestamp to
+        # emit the protocol's timestamp format.
+        my $is_timestamp   = $target_shape && $target_shape->type eq 'timestamp' ? 1 : 0;
 
         my %record = (
             name          => $mname,
@@ -603,6 +615,7 @@ sub _install_structure_members {
             is_map        => ($type_string =~ /^HashRef\[/   ? 1 : 0),
             is_required   => ($required{$mname} ? 1 : 0),
             flattened     => ($shape_flatten || $member_flatten ? 1 : 0),
+            is_timestamp  => $is_timestamp,
         );
         if (defined(my $loc = $m->location)) {
             if ($loc eq 'header') {
@@ -717,6 +730,58 @@ sub _type_string {
 # Quote a value for inlining as a Perl string literal.
 sub _q   { defined $_[0] ? "'" . _esc($_[0]) . "'" : 'undef' }
 sub _esc { my $s = $_[0] // ''; $s =~ s/(['\\])/\\$1/g; $s }
+
+# Render a Perl source statement that registers the Paws::SerDes
+# side-table for $pkg from @$records.
+#
+# The materialiser previously called Paws::SerDes->register directly,
+# which only populated the *build process's* in-memory cache. When the
+# emit_callback path (script/build-modular-dist) dumps the class source
+# to a .pm file, that registration was lost: the installed class had no
+# side-table, so Paws::SerDes->for fell back to _build_from_meta, which
+# can only see attribute *names* and defaults every wire_key to the
+# attribute name. That silently broke serialisation for every member
+# whose wire key differs from the Paws attribute name (the common JSON
+# case, e.g. `registries` vs `Registries`, `logGroupName` vs
+# `LogGroupName`): requests dropped the field and responses never
+# populated it.
+#
+# Emitting the registration *into the class source* fixes both the
+# emitted-dist and the eval'd (runtime materialiser) paths with one
+# code path: the source self-registers on load, exactly as the runtime
+# path did in-process.
+sub _serdes_register_src {
+    my ($self, $records) = @_;
+    return '' if !$records || !@$records;
+    my $literal = _perl_literal($records);
+    return "Paws::SerDes->register(__PACKAGE__, $literal);";
+}
+
+# Serialise a SerDes record structure (arrayref of hashrefs of
+# scalars / trait hashrefs / undef) to a deterministic Perl literal.
+# Determinism (sorted hash keys) keeps build-modular-dist output
+# byte-identical across runs, as asserted by t/build/01_determinism.t.
+# Scalars are quoted as strings; the only numeric fields are 0/1 flags
+# which Paws::SerDes->register normalises through a boolean test, so
+# string '0'/'1' behave identically. type_object is intentionally
+# omitted (it is a Type::Tiny object, not serialisable) — the runtime
+# register call never passed it either, and the wire layer derives the
+# class to coerce into from the type *string*.
+sub _perl_literal {
+    my ($val) = @_;
+    return 'undef' if !defined $val;
+    my $ref = ref $val;
+    if ($ref eq 'ARRAY') {
+        return '[' . join(',', map { _perl_literal($_) } @$val) . ']';
+    }
+    if ($ref eq 'HASH') {
+        return '{' . join(',',
+            map { _q($_) . '=>' . _perl_literal($val->{$_}) }
+            sort keys %$val
+        ) . '}';
+    }
+    return _q($val);
+}
 
 # ===========================================================================
 # POD emission (A4-B Phase 1.5: docs companion sub-dist generation)
