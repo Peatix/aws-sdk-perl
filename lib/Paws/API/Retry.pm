@@ -1,10 +1,22 @@
 package Paws::API::Retry;
   use Moo;
   use MooX::ClassAttribute;
-  use Types::Standard qw(Str ArrayRef);
+  use Types::Standard qw(Str ArrayRef Num Bool);
   use Paws::Exception;
   use POSIX qw(HUGE_VAL);
   use List::Util qw(min);
+
+  # AWS_NEW_RETRIES_2026 opt-in. When set to a truthy value, standard and
+  # adaptive modes adopt the updated retry behaviour announced in
+  # https://aws.amazon.com/blogs/developer/announcing-updated-retry-behavior-for-aws-sdks-and-tools/
+  # (error-type-specific backoff, higher transient retry-quota cost, DynamoDB
+  # tuning, and a long-polling backoff on quota depletion). This flag is the
+  # opt-in until the new behaviour becomes the default in November 2026.
+  sub new_retries_enabled {
+    my $v = $ENV{AWS_NEW_RETRIES_2026};
+    return 0 unless defined $v;
+    return $v =~ /\A(?:1|true|yes|on)\z/i ? 1 : 0;
+  }
 
   class_has default_rules => (is => 'ro', isa => ArrayRef, default => sub { [
     # bad_gateway
@@ -65,9 +77,24 @@ package Paws::API::Retry;
   use constant STANDARD_BASE_DELAY  => 1;
   use constant STANDARD_MAX_BACKOFF => 20;
 
+  # AWS_NEW_RETRIES_2026 per-error-type base backoff delays (seconds). Transient
+  # errors (connection resets, HTTP 500/502/503/504) are typically short-lived
+  # so they retry quickly; throttling errors wait longer to let the service
+  # recover capacity. DynamoDB overrides transient_base_delay to 0.025 via the
+  # retry interceptor to match its low-latency profile.
+  use constant NEW_TRANSIENT_BASE_DELAY  => 0.05;
+  use constant NEW_THROTTLING_BASE_DELAY => 1;
+
   has mode => (is => 'ro', isa => Str, default => 'legacy');
   has max_tries => (is => 'ro', required => 1);
   has type => (is => 'ro', default => 'exponential');
+
+  # When true, the non-legacy backoff generator selects the base delay by error
+  # type. Defaults from the AWS_NEW_RETRIES_2026 opt-in but may be set
+  # explicitly by the retry interceptor.
+  has new_retries => (is => 'ro', isa => Bool, default => sub { Paws::API::Retry::new_retries_enabled() });
+  has transient_base_delay  => (is => 'ro', isa => Num, default => NEW_TRANSIENT_BASE_DELAY);
+  has throttling_base_delay => (is => 'ro', isa => Num, default => NEW_THROTTLING_BASE_DELAY);
 
   has tries => (is => 'rw', default => 0);
 
@@ -97,7 +124,13 @@ package Paws::API::Retry;
       $args{ generator } = sub {
         my $self = shift;
         my $retry_count = $self->tries - 1;
-        my $max_delay = min(STANDARD_MAX_BACKOFF, STANDARD_BASE_DELAY * (2 ** $retry_count));
+        my $base = STANDARD_BASE_DELAY;
+        if ($self->new_retries) {
+          $base = $self->is_throttling_error
+            ? $self->throttling_base_delay
+            : $self->transient_base_delay;
+        }
+        my $max_delay = min(STANDARD_MAX_BACKOFF, $base * (2 ** $retry_count));
         return rand($max_delay);
       };
     }
