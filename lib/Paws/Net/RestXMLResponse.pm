@@ -53,16 +53,31 @@ package Paws::Net::RestXMLResponse;
     my ($self, $call_object, $response) = @_;
 
     my $struct = eval { $self->unserialize_response( $response ) };
+    $struct = {} if (ref($struct) ne 'HASH');
 
     my ($message, $code, $request_id, $host_id);
 
-    $message = status_message($response->status);
-    $code = $response->status;
+    # rest-xml errors carry the AWS error code/message in the XML body,
+    # e.g. S3's <Error><Code>NoSuchBucket</Code><Message>..</Message>
+    # <RequestId>..</RequestId></Error>. XML::Simple drops the <Error>
+    # root, so Code/Message sit at the top level (some shapes nest them
+    # under {Error}). Without this the exception code was just the HTTP
+    # status (404/403), losing NoSuchBucket / AccessDenied / etc.
+    my $error = (ref($struct->{Error}) eq 'HASH') ? $struct->{Error} : $struct;
 
-    if (exists $struct->{RequestId}) {
+    $code = (defined $error->{Code})
+      ? $error->{Code}
+      : $response->status;
+    $message = (defined $error->{Message})
+      ? $error->{Message}
+      : status_message($response->status);
+
+    if (defined $struct->{RequestId}) {
       $request_id = $struct->{RequestId};
-    } elsif (exists $struct->{RequestID}){
+    } elsif (defined $struct->{RequestID}){
       $request_id = $struct->{RequestID};
+    } elsif (ref($error) eq 'HASH' && defined $error->{RequestId}) {
+      $request_id = $error->{RequestId};
     } elsif ($response->has_header('x-amzn-requestid')) {
       $request_id = $response->header('x-amzn-requestid');
     } else {
@@ -169,11 +184,21 @@ package Paws::Net::RestXMLResponse;
 
       # Free-form parameters passed in the HTTP headers (S3 metadata).
       if ($serdes->trait_for($att, 'ParamInHeaders')) {
-        Paws->load_class($att_type);
-        my $att_class        = $att_type;
-        my $header_prefix    = $serdes->location_name_for($att);
+        my $header_prefix    = $serdes->location_name_for($att) // '';
         my @metadata_headers = map { my ($h, $nometa) = ($_, $_); $nometa =~ s/^$header_prefix//; [ $h, $nometa ] } grep /^$header_prefix/, keys %{$result};
-        $args{ $att }        = $att_class->new( Map => { map { $_->[1] => $result->{$_->[0]} } @metadata_headers } );
+        my %map              = map { $_->[1] => $result->{$_->[0]} } @metadata_headers;
+        # The materialiser models a free-form header map as a plain
+        # HashRef[X] attribute (e.g. S3 GetObject/HeadObject Metadata
+        # => HashRef[Str]); older hand-written classes used a
+        # StrTo*MapParser class with a Map attribute. Load-and-construct
+        # only the latter; the former takes a plain hashref (calling
+        # load_class on 'HashRef[Str]' dies "not a module name").
+        if ($att_type =~ m/^HashRef\[/) {
+          $args{ $att } = \%map;
+        } else {
+          Paws->load_class($att_type);
+          $args{ $att } = $att_type->new( Map => \%map );
+        }
       }
       # We'll consider that an attribute without brackets [] isn't an array type
       elsif ($att_type !~ m/\[.*\]$/) {
@@ -234,7 +259,15 @@ package Paws::Net::RestXMLResponse;
           # Mirror the empty-element handling in Paws::Net::XMLResponse so
           # that <Marker/> (or any other empty XML node) on a required
           # native attribute gets coerced to '' rather than undef.
-          if (not defined $value and $att_is_required and exists $result->{ $key }) {
+          #
+          # AWS also omits some response members its own model marks
+          # @required when they're not applicable (e.g. Route53
+          # ListHostedZones response Marker when the result isn't
+          # paginated). `required` is meaningful for request params, not
+          # for what a server chooses to return, so default a missing
+          # required native to '' rather than letting the Moo
+          # constructor die ("Missing required arguments: Marker").
+          if (not defined $value and $att_is_required) {
             $value = '';
           } elsif (defined $value and ref($value) eq 'HASH' and not %$value) {
             $value = '';

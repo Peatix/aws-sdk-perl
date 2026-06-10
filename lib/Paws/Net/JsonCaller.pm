@@ -7,6 +7,7 @@ package Paws::Net::JsonCaller;
   use JSON::MaybeXS;
   use POSIX qw(strftime);
   use Scalar::Util qw(looks_like_number);
+  use MIME::Base64 qw(encode_base64);
   requires 'json_version';
 
   use Paws::Net::JsonResponse;
@@ -65,6 +66,11 @@ package Paws::Net::JsonCaller;
           # them ("STRING_VALUE can not be converted to milliseconds
           # since epoch"). Add 0 to force numeric encoding.
           $p{$key} = 0 + $value;
+        } elsif ($serdes->is_blob($att)) {
+          # Blob bodies travel base64-encoded in JSON. Without this the
+          # raw bytes go out verbatim and AWS rejects them (e.g. KMS
+          # Encrypt Plaintext -> SerializationException).
+          $p{$key} = encode_base64("$value", '');
         } elsif ($type eq 'Str') {
           # concatenate an empty string so numbers get transmitted as strings
           $p{$key} = "" . $value;
@@ -76,6 +82,16 @@ package Paws::Net::JsonCaller;
             $p{$key} = $value;
           } else {
             $p{$key} = [ map { $self->_to_jsoncaller_params($_) } @$value ];
+          }
+        } elsif ($type =~ m/^HashRef\[(.*)\]/) {
+          # Map member: a map of natives passes through; a map of
+          # objects (e.g. DynamoDB Item => AttributeValue) has each
+          # value serialised recursively.
+          my $inner = $1;
+          if (Paws->is_internal_type($inner)) {
+            $p{$key} = $value;
+          } else {
+            $p{$key} = { map { ($_ => $self->_to_jsoncaller_params($value->{$_})) } keys %$value };
           }
         } elsif (defined $type_object && $type_object->isa('Type::Tiny::Enum')) {
           $p{$key} = $value;

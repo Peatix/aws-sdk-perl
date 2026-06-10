@@ -125,6 +125,23 @@ sub new_with_coercions {
           }
           $p{ $att } = [ map { Paws->new_with_coercions("$subtype", %{ $_ }) } @{ $params{ $att } } ];
         }
+      } elsif ("$type_str" =~ m/^HashRef\[(.*?)\]$/){
+        # Map-typed input member. The materialiser models maps as a
+        # plain HashRef[X] attribute (not a StrTo*MapParser class), so
+        # a map of objects (e.g. DynamoDB Item => HashRef[AttributeValue],
+        # SQS MessageAttributes) must coerce each value, while a map of
+        # natives (e.g. S3 Metadata => HashRef[Str]) passes through.
+        my $subtype = "$1";
+        if ($subtype eq 'Str' or $subtype eq 'Str|Undef' or $subtype eq 'Maybe[Str]' or $subtype eq 'Num' or $subtype eq 'Int' or $subtype eq 'Bool') {
+          $p{ $att } = $params{ $att };
+        } else {
+          if ($type_obj && $type_obj->can('type_parameter') && $type_obj->type_parameter->can('class')) {
+            $subtype = $type_obj->type_parameter->class;
+          } else {
+            $subtype = _unwrap_class_from_type_string($subtype);
+          }
+          $p{ $att } = { map { ($_ => Paws->new_with_coercions("$subtype", %{ $params{ $att }{ $_ } })) } keys %{ $params{ $att } } };
+        }
       } elsif ($type_obj && ref($type_obj) && ($type_obj->isa('Type::Tiny::Enum') || ($type_obj->can('parent') && $type_obj->can('values')))){
         $p{ $att } = $params{ $att };
       } else {
@@ -132,8 +149,45 @@ sub new_with_coercions {
         $p{ $att } = Paws->new_with_coercions($target, %{ $params{ $att } });
       }
     }
+
+    # Autofill Smithy @idempotencyToken members the caller didn't
+    # supply, matching the official AWS SDKs (which generate a UUIDv4).
+    # Done here, once, so it's protocol-agnostic: the populated call
+    # object then serialises through any wire layer normally.
+    for my $att ($serdes->serializable_attributes) {
+      next if exists $p{ $att };
+      next unless $serdes->is_idempotency_token($att);
+      $p{ $att } = _idempotency_token();
+    }
+
+    # Apply Smithy @default values the caller omitted. The default is the
+    # value the service assumes for an absent member, so sending it is
+    # behaviourally equivalent and gives the member the value Smithy says
+    # it always has. Restricted to scalar defaults (the common case:
+    # numbers, strings, bools); list/map/null defaults are left to the
+    # service's own defaulting. Only fills body members so it can't
+    # clobber a header/uri/query-located default unexpectedly.
+    for my $att ($serdes->serializable_attributes) {
+      next if exists $p{ $att };
+      next unless $serdes->has_default($att);
+      my $dv = $serdes->default_for($att);
+      next if !defined $dv || ref $dv;
+      next unless $serdes->location_for($att) eq 'body';
+      $p{ $att } = $dv;
+    }
   }
   return $class->new(%p);
+}
+
+# Generate a random (version 4) UUID for @idempotencyToken autofill,
+# using the CSPRNG from CryptX (already a runtime dependency).
+sub _idempotency_token {
+  require Crypt::PRNG;
+  my @b = unpack 'C16', Crypt::PRNG::random_bytes(16);
+  $b[6] = ($b[6] & 0x0f) | 0x40;    # version 4
+  $b[8] = ($b[8] & 0x3f) | 0x80;    # RFC 4122 variant
+  return sprintf
+    '%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x', @b;
 }
 
 sub is_internal_type {

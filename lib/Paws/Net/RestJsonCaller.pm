@@ -9,6 +9,7 @@ package Paws::Net::RestJsonCaller;
   use URI::Template;
   use JSON::MaybeXS;
   use Scalar::Util;
+  use MIME::Base64 qw(encode_base64);
 
   use Paws::Net::RestJsonResponse;
   use Paws::SerDes;
@@ -49,6 +50,9 @@ package Paws::Net::RestJsonCaller;
         # ("STRING_VALUE can not be converted to milliseconds since
         # epoch"). Add 0 to force numeric encoding.
         $p{$key} = 0 + $value;
+      } elsif ($serdes->is_blob($att)) {
+        # Blob bodies travel base64-encoded in JSON.
+        $p{$key} = encode_base64("$value", '');
       } elsif ($type eq 'Str') {
         $p{$key} = "" . $value;
       } elsif (Paws->is_internal_type($type)) {
@@ -59,6 +63,15 @@ package Paws::Net::RestJsonCaller;
           $p{$key} = $value;
         } else {
           $p{$key} = [ map { $self->_to_jsoncaller_params($_) } @$value ];
+        }
+      } elsif ($type =~ m/^HashRef\[(.*)\]/) {
+        # Map member: a map of natives passes through; a map of objects
+        # has each value serialised recursively.
+        my $inner = $1;
+        if (Paws->is_internal_type($inner)) {
+          $p{$key} = $value;
+        } else {
+          $p{$key} = { map { ($_ => $self->_to_jsoncaller_params($value->{$_})) } keys %$value };
         }
       } elsif (defined $type_object && $type_object->isa('Type::Tiny::Enum')) {
         $p{$key} = $value;
