@@ -5,12 +5,12 @@ name: refresh-source-deps
 # regenerated tree, and opens a draft PR with the new pin +
 # regenerated .smithy.json files if anything changed.
 #
-# Lifecycle: opens its PR as draft, waits for the standard
+# Lifecycle: opens its PR as draft, closes any stale auto-bump PRs
+# from previous runs that were never merged, waits for the standard
 # pull_request workflows (test, coverage, install-smoke)
 # via `gh pr checks --watch`, then on green flips the PR to ready and
 # squash-merges. On any check failure the PR stays draft for the
-# maintainer to investigate. The workflow does NOT close or supersede
-# stale auto-bump PRs from previous runs — let the maintainer decide.
+# maintainer to investigate.
 #
 # PAT requirement (PAWS_BUMP_PAT)
 # -------------------------------
@@ -298,6 +298,45 @@ jobs:
                 issue_number: pull.number,
                 labels:       LABELS.split(',').map(s => s.trim()).filter(Boolean),
               });
+            }
+
+            // Close stale auto-bump PRs from previous runs that were
+            // never merged. Match on the branch prefix used by this
+            // workflow; skip the PR we just created/reused.
+            const { data: staleCandidates } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              base:  BASE_BRANCH,
+              state: 'open',
+            });
+
+            for (const candidate of staleCandidates) {
+              if (candidate.number === pull.number) continue;
+              if (!candidate.head.ref.startsWith('automation/bump-smithy-vendor-')) continue;
+
+              core.notice(`Closing superseded auto-bump PR #${candidate.number} (${candidate.head.ref})`);
+              await github.rest.issues.createComment({
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                issue_number: candidate.number,
+                body:         `Superseded by #${pull.number} which targets a newer upstream commit.`,
+              });
+              await github.rest.pulls.update({
+                owner:    context.repo.owner,
+                repo:     context.repo.repo,
+                pull_number: candidate.number,
+                state:    'closed',
+              });
+              // Clean up the stale branch.
+              try {
+                await github.rest.git.deleteRef({
+                  owner: context.repo.owner,
+                  repo:  context.repo.repo,
+                  ref:   `heads/${candidate.head.ref}`,
+                });
+              } catch (e) {
+                core.warning(`Could not delete branch ${candidate.head.ref}: ${e.message}`);
+              }
             }
 
             core.setOutput('pull-request-number', pull.number);
