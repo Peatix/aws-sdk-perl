@@ -1199,6 +1199,18 @@
                "traits" : {
                   "smithy.api#enumValue" : "ITU_1770_2"
                }
+            },
+            "ITU_1770_3" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ITU_1770_3"
+               }
+            },
+            "ITU_1770_4" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ITU_1770_4"
+               }
             }
          },
          "traits" : {
@@ -1220,12 +1232,32 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.medialive#AudioNormalizationPeakCalculation" : {
+         "members" : {
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "NONE"
+               }
+            },
+            "TRUE_PEAK" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "TRUE_PEAK"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Audio Normalization Peak Calculation"
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.medialive#AudioNormalizationSettings" : {
          "members" : {
             "Algorithm" : {
                "target" : "com.amazonaws.medialive#AudioNormalizationAlgorithm",
                "traits" : {
-                  "smithy.api#documentation" : "Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.",
+                  "smithy.api#documentation" : "Choose one of the following audio normalization algorithms:\n\nITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content,\nsuitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels.\n\nITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of\nEBU-R128. Supports up to 5.1 audio channels.\n\nITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak\nmeasurement.\n\nITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including\nconfigurations such as 7.1.",
                   "smithy.api#jsonName" : "algorithm"
                }
             },
@@ -1234,6 +1266,20 @@
                "traits" : {
                   "smithy.api#documentation" : "When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.",
                   "smithy.api#jsonName" : "algorithmControl"
+               }
+            },
+            "PeakCalculation" : {
+               "target" : "com.amazonaws.medialive#AudioNormalizationPeakCalculation",
+               "traits" : {
+                  "smithy.api#documentation" : "If set to TRUE_PEAK, calculate the TruePeak for each output's audio track loudness.",
+                  "smithy.api#jsonName" : "peakCalculation"
+               }
+            },
+            "PeakLimiterThreshold" : {
+               "target" : "com.amazonaws.medialive#__doubleMinNegative8Max0",
+               "traits" : {
+                  "smithy.api#documentation" : "Peak limiter threshold in decibels relative to true peak (dBTP) if TRUE_PEAK is enabled.\nIf TRUE_PEAK is not enabled a full scale (dbFS) value is used.\nThe peak inter-audio sample loudness in your output will be limited to the value that you specify,\nwithout affecting the overall target LKFS. Leave blank to use the default value 0.",
+                  "smithy.api#jsonName" : "peakLimiterThreshold"
                }
             },
             "TargetLkfs" : {
@@ -1337,6 +1383,37 @@
          },
          "type" : "enum"
       },
+      "com.amazonaws.medialive#AudioPid" : {
+         "members" : {
+            "DolbyEDecode" : {
+               "target" : "com.amazonaws.medialive#AudioDolbyEDecode",
+               "traits" : {
+                  "smithy.api#documentation" : "Configure decoding options for Dolby E streams - these should be Dolby E frames carried in PCM streams tagged with SMPTE-337.\nWhen using the 'pids' array, if this field is not specified and Dolby E content is present,\nthe decoder will extract the specified program. To maintain legacy behavior (allPrograms),\nexplicitly set programSelection to \"allChannels\".",
+                  "smithy.api#jsonName" : "dolbyEDecode"
+               }
+            },
+            "Pid" : {
+               "target" : "com.amazonaws.medialive#__integerMin0Max8191",
+               "traits" : {
+                  "smithy.api#clientOptional" : {},
+                  "smithy.api#documentation" : "PID value from within a source.",
+                  "smithy.api#jsonName" : "pid",
+                  "smithy.api#required" : {}
+               }
+            },
+            "PremixSettings" : {
+               "target" : "com.amazonaws.medialive#AudioPreMixerSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "Optional audio pre-mixer settings for this PID.\nWhen specified, allows per-PID audio processing including channel remixing,\ngain adjustment, and loudness normalization before interleaving.",
+                  "smithy.api#jsonName" : "premixSettings"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Represents a single PID value for audio selection with optional pre-mixer settings"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.medialive#AudioPidSelection" : {
          "members" : {
             "Pid" : {
@@ -1347,10 +1424,53 @@
                   "smithy.api#jsonName" : "pid",
                   "smithy.api#required" : {}
                }
+            },
+            "Pids" : {
+               "target" : "com.amazonaws.medialive#__listOfAudioPid",
+               "traits" : {
+                  "smithy.api#documentation" : "Selects one or more unique PIDs from within a source.\nWhen using 'pids', you can specify per-PID audio pre-mixer settings.",
+                  "smithy.api#jsonName" : "pids"
+               }
             }
          },
          "traits" : {
             "smithy.api#documentation" : "Audio Pid Selection"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.medialive#AudioPreMixerSettings" : {
+         "members" : {
+            "AudioNormalizationSettings" : {
+               "target" : "com.amazonaws.medialive#AudioNormalizationSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "Audio normalization settings for loudness control.\nWhen specified, audio loudness will be normalized according to the chosen algorithm.",
+                  "smithy.api#jsonName" : "audioNormalizationSettings"
+               }
+            },
+            "Channels" : {
+               "target" : "com.amazonaws.medialive#__integerMin1Max16",
+               "traits" : {
+                  "smithy.api#documentation" : "Number of audio channels.\nIf specified, the audio will be remixed to match this channel count.\nIgnored if remixSettings is specified.",
+                  "smithy.api#jsonName" : "channels"
+               }
+            },
+            "GainDb" : {
+               "target" : "com.amazonaws.medialive#__doubleMinNegative60Max60",
+               "traits" : {
+                  "smithy.api#documentation" : "Gain adjustment in dB to apply.\nRange: -60 to +60 dB",
+                  "smithy.api#jsonName" : "gainDb"
+               }
+            },
+            "RemixSettings" : {
+               "target" : "com.amazonaws.medialive#RemixSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "Settings that control how input audio channels are remixed.\nWhen specified, allows fine-grained control over channel mapping and gain levels.\nTakes precedence over the 'channels' setting.",
+                  "smithy.api#jsonName" : "remixSettings"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Audio pre-mixer settings for normalizing audio before interleaving.\nThese settings can be applied to individual PIDs or tracks before they are combined."
          },
          "type" : "structure"
       },
@@ -1436,6 +1556,13 @@
       },
       "com.amazonaws.medialive#AudioTrack" : {
          "members" : {
+            "PremixSettings" : {
+               "target" : "com.amazonaws.medialive#AudioPreMixerSettings",
+               "traits" : {
+                  "smithy.api#documentation" : "Optional audio pre-mixer settings for this track.\nWhen specified, allows per-track audio processing including channel remixing,\ngain adjustment, and loudness normalization before interleaving.",
+                  "smithy.api#jsonName" : "premixSettings"
+               }
+            },
             "Track" : {
                "target" : "com.amazonaws.medialive#__integerMin1",
                "traits" : {
@@ -1447,7 +1574,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "Audio Track"
+            "smithy.api#documentation" : "Represents a single audio track for selection with optional pre-mixer settings"
          },
          "type" : "structure"
       },
@@ -40157,6 +40284,18 @@
          },
          "type" : "double"
       },
+      "com.amazonaws.medialive#__doubleMinNegative60Max60" : {
+         "traits" : {
+            "smithy.api#documentation" : "Placeholder documentation for __doubleMinNegative60Max60"
+         },
+         "type" : "double"
+      },
+      "com.amazonaws.medialive#__doubleMinNegative8Max0" : {
+         "traits" : {
+            "smithy.api#documentation" : "Placeholder documentation for __doubleMinNegative8Max0"
+         },
+         "type" : "double"
+      },
       "com.amazonaws.medialive#__integer" : {
          "traits" : {
             "smithy.api#documentation" : "Placeholder documentation for __integer"
@@ -40592,6 +40731,15 @@
          },
          "traits" : {
             "smithy.api#documentation" : "Placeholder documentation for __listOfAudioFeedInput"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.medialive#__listOfAudioPid" : {
+         "member" : {
+            "target" : "com.amazonaws.medialive#AudioPid"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Placeholder documentation for __listOfAudioPid"
          },
          "type" : "list"
       },

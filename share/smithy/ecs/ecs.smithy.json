@@ -5855,6 +5855,25 @@
          },
          "type" : "double"
       },
+      "com.amazonaws.ecs#DaemonIpcMode" : {
+         "members" : {
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daemon gets its own isolated IPC namespace.</p>",
+                  "smithy.api#enumValue" : "none"
+               }
+            },
+            "SHARED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daemon shares the IPC namespace with co-located tasks on the same container instance.</p>",
+                  "smithy.api#enumValue" : "shared"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.ecs#DaemonLinuxParameters" : {
          "members" : {
             "capabilities" : {
@@ -5916,6 +5935,25 @@
             "smithy.api#error" : "client"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.ecs#DaemonPidMode" : {
+         "members" : {
+            "NONE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daemon gets its own isolated PID namespace.</p>",
+                  "smithy.api#enumValue" : "none"
+               }
+            },
+            "SHARED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The daemon shares the PID namespace with co-located tasks on the same container instance.</p>",
+                  "smithy.api#enumValue" : "shared"
+               }
+            }
+         },
+         "type" : "enum"
       },
       "com.amazonaws.ecs#DaemonPropagateTags" : {
          "members" : {
@@ -6243,10 +6281,22 @@
                   "smithy.api#documentation" : "<p>The name of a family that this daemon task definition is registered to.</p>"
                }
             },
+            "ipcMode" : {
+               "target" : "com.amazonaws.ecs#DaemonIpcMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IPC namespace mode for the daemon. A value of <code>shared</code> means the daemon shares the IPC namespace with co-located tasks, allowing communication through POSIX shared memory, semaphores, and message queues. A value of <code>none</code> means the daemon has its own isolated IPC namespace.</p>"
+               }
+            },
             "memory" : {
                "target" : "com.amazonaws.ecs#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The amount of memory (in MiB) used by the daemon task.</p>"
+               }
+            },
+            "pidMode" : {
+               "target" : "com.amazonaws.ecs#DaemonPidMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The process namespace mode for the daemon. A value of <code>shared</code> means the daemon shares the PID namespace with co-located tasks, giving it visibility into application processes. A value of <code>none</code> means the daemon has its own isolated PID namespace.</p>"
                }
             },
             "registeredAt" : {
@@ -15619,10 +15669,22 @@
                   "smithy.api#required" : {}
                }
             },
+            "ipcMode" : {
+               "target" : "com.amazonaws.ecs#DaemonIpcMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The IPC namespace mode for the daemon. When set to <code>shared</code>, the daemon shares the IPC namespace with co-located tasks on the same container instance, allowing communication through POSIX shared memory, semaphores, and message queues. When set to <code>none</code>, the daemon gets its own isolated IPC namespace. The default is <code>none</code>.</p>"
+               }
+            },
             "memory" : {
                "target" : "com.amazonaws.ecs#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The amount of memory (in MiB) used by the daemon task. It can be expressed as an integer using MiB (for example, <code>1024</code>).</p>"
+               }
+            },
+            "pidMode" : {
+               "target" : "com.amazonaws.ecs#DaemonPidMode",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The process namespace mode for the daemon. When set to <code>shared</code>, the daemon shares the PID namespace with co-located tasks on the same container instance, giving the daemon visibility into application processes. When set to <code>none</code>, the daemon gets its own isolated PID namespace. The default is <code>none</code>.</p>"
                }
             },
             "tags" : {

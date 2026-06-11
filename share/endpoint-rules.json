@@ -1246,6 +1246,37 @@
    ],
    "signin" : [
       {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "signin"
+            }
+         },
+         "uri" : "https://signin.{region}.api.aws"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "cn-"
+            ]
+         ],
+         "properties" : {
+            "credentialScope" : {
+               "service" : "signin"
+            }
+         },
+         "uri" : "https://signin.{region}.api.amazonwebservices.com.cn"
+      },
+      {
+         "properties" : {
+            "credentialScope" : {
+               "service" : "signin"
+            }
+         },
+         "uri" : "https://signin.{region}.amazonaws.com"
+      },
+      {
          "uri" : "https://{region}.signin.aws.amazon.com"
       },
       {
@@ -1267,6 +1298,59 @@
             ]
          ],
          "uri" : "https://{region}.signin.amazonaws-us-gov.com"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-iso-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.c2shome.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isob-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.sc2shome.sgov.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isof-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.csphome.hci.ic.gov"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "us-isoe-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.csphome.adc-e.uk"
+      },
+      {
+         "constraints" : [
+            [
+               "region",
+               "startsWith",
+               "eusc-"
+            ]
+         ],
+         "uri" : "https://{region}.signin.amazonaws-eusc.eu"
+      },
+      {
+         "uri" : "https://{region}.signin.amazonaws.com"
       },
       {
          "uri" : "https://signin.{region}.amazonaws.com"
