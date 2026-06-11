@@ -20367,6 +20367,12 @@
       },
       "com.amazonaws.lightsail#RegionName" : {
          "members" : {
+            "AP_EAST_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ap-east-1"
+               }
+            },
             "AP_NORTHEAST_1" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -20427,6 +20433,12 @@
                   "smithy.api#enumValue" : "eu-north-1"
                }
             },
+            "EU_SOUTH_2" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "eu-south-2"
+               }
+            },
             "EU_WEST_1" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -20443,6 +20455,12 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "eu-west-3"
+               }
+            },
+            "SA_EAST_1" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "sa-east-1"
                }
             },
             "US_EAST_1" : {
