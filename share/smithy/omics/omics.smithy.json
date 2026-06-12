@@ -17108,6 +17108,12 @@
                   "smithy.api#documentation" : "<p>The run's workflow ID.</p>"
                }
             },
+            "workflowName" : {
+               "target" : "com.amazonaws.omics#WorkflowName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workflow.</p>"
+               }
+            },
             "workflowVersionName" : {
                "target" : "com.amazonaws.omics#WorkflowVersionName",
                "traits" : {

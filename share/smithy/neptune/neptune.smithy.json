@@ -1860,6 +1860,12 @@
                   "smithy.api#documentation" : "<p>The Provisioned IOPS (I/O operations per second) value. This setting is only for Multi-AZ DB clusters.</p>"
                }
             },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pending change in network type for the DB cluster.</p>\n         <p>Valid Values: <code>IPV4</code>, <code>DUAL</code>\n         </p>"
+               }
+            },
             "PendingCloudwatchLogsExports" : {
                "target" : "com.amazonaws.neptune#PendingCloudwatchLogsExports",
                "traits" : {
@@ -1907,7 +1913,7 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group.\n      For information about creating an ARN, see <a href=\"https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing\"> Constructing an\n      Amazon Resource Name (ARN)</a>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must specify a valid DB cluster parameter group.</p>\n            </li>\n            <li>\n               <p>If the source DB cluster parameter group is in the same Amazon Region as the copy,\n          specify a valid DB parameter group identifier, for example\n          <code>my-db-cluster-param-group</code>, or a valid ARN.</p>\n            </li>\n            <li>\n               <p>If the source DB parameter group is in a different Amazon Region than the copy, specify a\n          valid DB cluster parameter group ARN, for example\n          <code>arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1</code>.</p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group.\n      For information about creating an ARN, see <a href=\"https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing\"> Constructing an\n      Amazon Resource Name (ARN)</a>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must specify a valid DB cluster parameter group.</p>\n            </li>\n            <li>\n               <p>Must specify a valid DB cluster parameter group identifier, for example\n          <code>my-db-cluster-param-group</code>, or a valid ARN.</p>\n            </li>\n            <li>\n               <p>The source DB cluster parameter group must be in the same Amazon Region as the\n          copy. Neptune does not support cross-Region copying of parameter\n          groups.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -2070,7 +2076,7 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#clientOptional" : {},
-                  "smithy.api#documentation" : "<p>The identifier or ARN for the source DB parameter group. For information about creating\n      an ARN, see <a href=\"https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing\"> Constructing an\n      Amazon Resource Name (ARN)</a>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must specify a valid DB parameter group.</p>\n            </li>\n            <li>\n               <p>Must specify a valid DB parameter group identifier, for example\n        <code>my-db-param-group</code>, or a valid ARN.</p>\n            </li>\n         </ul>",
+                  "smithy.api#documentation" : "<p>The identifier or ARN for the source DB parameter group. For information about creating\n      an ARN, see <a href=\"https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing\"> Constructing an\n      Amazon Resource Name (ARN)</a>.</p>\n         <p>Constraints:</p>\n         <ul>\n            <li>\n               <p>Must specify a valid DB parameter group.</p>\n            </li>\n            <li>\n               <p>Must specify a valid DB parameter group identifier, for example\n        <code>my-db-param-group</code>, or a valid ARN.</p>\n            </li>\n            <li>\n               <p>The source DB parameter group must be in the same Amazon Region as the\n        copy. Neptune does not support cross-Region copying of parameter\n        groups.</p>\n            </li>\n         </ul>",
                   "smithy.api#required" : {}
                }
             },
@@ -2162,6 +2168,9 @@
             },
             {
                "target" : "com.amazonaws.neptune#KMSKeyNotAccessibleFault"
+            },
+            {
+               "target" : "com.amazonaws.neptune#NetworkTypeNotSupportedFault"
             },
             {
                "target" : "com.amazonaws.neptune#StorageQuotaExceededFault"
@@ -2378,7 +2387,7 @@
             "DatabaseName" : {
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name for your database of up to 64 alpha-numeric characters. If you do not provide a\n      name, Amazon Neptune will not create a database in the DB cluster you are creating.</p>"
+                  "smithy.api#documentation" : "<p>Not supported by Neptune.</p>"
                }
             },
             "DeletionProtection" : {
@@ -2435,6 +2444,12 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Not supported by Neptune.</p>"
+               }
+            },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network type of the DB cluster.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>\n                     <code>IPV4</code>\n                  </b>   –  \n        ( <i>the default</i> ) The DB cluster uses only IPv4 addresses for communication.</p>\n            </li>\n            <li>\n               <p>\n                  <b>\n                     <code>DUAL</code>\n                  </b>   –  \n          The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group\n          associated with the cluster must support IPv6.</p>\n            </li>\n         </ul>"
                }
             },
             "OptionGroupName" : {
@@ -3546,6 +3561,12 @@
                "target" : "com.amazonaws.neptune#Boolean",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies whether the DB cluster has instances in multiple Availability Zones.</p>"
+               }
+            },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network type of the DB cluster.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>\n                     <code>IPV4</code>\n                  </b>   –  \n        The DB cluster uses only IPv4 addresses for communication.</p>\n            </li>\n            <li>\n               <p>\n                  <b>\n                     <code>DUAL</code>\n                  </b>   –  \n          The DB cluster uses both IPv4 and IPv6 addresses for communication.</p>\n            </li>\n         </ul>"
                }
             },
             "PendingModifiedValues" : {
@@ -4731,6 +4752,12 @@
                   "smithy.api#documentation" : "<p>Specifies if the DB instance is a Multi-AZ deployment.</p>"
                }
             },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network type of the DB instance. Inherited from the DB cluster.</p>\n         <p>Valid Values: <code>IPV4</code>, <code>DUAL</code>\n         </p>"
+               }
+            },
             "OptionGroupMemberships" : {
                "target" : "com.amazonaws.neptune#OptionGroupMembershipList",
                "traits" : {
@@ -5261,6 +5288,12 @@
                "target" : "com.amazonaws.neptune#SubnetList",
                "traits" : {
                   "smithy.api#documentation" : "<p> Contains a list of <a>Subnet</a> elements.</p>"
+               }
+            },
+            "SupportedNetworkTypes" : {
+               "target" : "com.amazonaws.neptune#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network types supported by the DB subnet group.</p>\n         <p>Valid network types include <code>IPV4</code> and <code>DUAL</code>. A DB subnet group\n      supports <code>DUAL</code> if all subnets in the group have both IPv4 and IPv6 CIDRs.</p>"
                }
             },
             "VpcId" : {
@@ -8565,6 +8598,9 @@
                "target" : "com.amazonaws.neptune#InvalidVPCNetworkStateFault"
             },
             {
+               "target" : "com.amazonaws.neptune#NetworkTypeNotSupportedFault"
+            },
+            {
                "target" : "com.amazonaws.neptune#StorageQuotaExceededFault"
             },
             {
@@ -8788,6 +8824,12 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Not supported by Neptune.</p>"
+               }
+            },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network type of the DB cluster.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>\n                     <code>IPV4</code>\n                  </b>   –  \n        The DB cluster uses only IPv4 addresses for communication.</p>\n            </li>\n            <li>\n               <p>\n                  <b>\n                     <code>DUAL</code>\n                  </b>   –  \n          The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group\n          associated with the cluster must support IPv6.</p>\n            </li>\n         </ul>"
                }
             },
             "NewDBClusterIdentifier" : {
@@ -9551,6 +9593,26 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.neptune#NetworkTypeNotSupportedFault" : {
+         "members" : {
+            "message" : {
+               "target" : "com.amazonaws.neptune#ExceptionMessage",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A message describing the details of the problem.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "aws.protocols#awsQueryError" : {
+               "code" : "NetworkTypeNotSupported",
+               "httpResponseCode" : 400
+            },
+            "smithy.api#documentation" : "<p>The specified <i>NetworkType</i> is not supported for the DB cluster, DB subnet group, or orderable DB instance option.</p>",
+            "smithy.api#error" : "client",
+            "smithy.api#httpError" : 400
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.neptune#OptionGroupMembership" : {
          "members" : {
             "OptionGroupName" : {
@@ -9684,6 +9746,12 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>Not applicable. In Neptune the storage type is managed at the DB Cluster level.</p>"
+               }
+            },
+            "SupportedNetworkTypes" : {
+               "target" : "com.amazonaws.neptune#StringList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network types supported by the orderable DB instance option.</p>"
                }
             },
             "SupportsEnhancedMonitoring" : {
@@ -10616,6 +10684,9 @@
                "target" : "com.amazonaws.neptune#KMSKeyNotAccessibleFault"
             },
             {
+               "target" : "com.amazonaws.neptune#NetworkTypeNotSupportedFault"
+            },
+            {
                "target" : "com.amazonaws.neptune#OptionGroupNotFoundFault"
             },
             {
@@ -10709,6 +10780,12 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon KMS key identifier to use when restoring an encrypted DB cluster from a DB\n      snapshot or DB cluster snapshot.</p>\n         <p>The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If\n      you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used\n      to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the\n      KMS encryption key.</p>\n         <p>If you do not specify a value for the <code>KmsKeyId</code> parameter, then the following\n      will occur:</p>\n         <ul>\n            <li>\n               <p>If the DB snapshot or DB cluster snapshot in <code>SnapshotIdentifier</code> is\n          encrypted, then the restored DB cluster is encrypted using the KMS key that was used to\n          encrypt the DB snapshot or DB cluster snapshot.</p>\n            </li>\n            <li>\n               <p>If the DB snapshot or DB cluster snapshot in <code>SnapshotIdentifier</code> is not\n          encrypted, then the restored DB cluster is not encrypted.</p>\n            </li>\n         </ul>"
+               }
+            },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network type of the DB cluster.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>\n                     <code>IPV4</code>\n                  </b>   –  \n        ( <i>the default</i> ) The DB cluster uses only IPv4 addresses for communication.</p>\n            </li>\n            <li>\n               <p>\n                  <b>\n                     <code>DUAL</code>\n                  </b>   –  \n          The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group\n          associated with the cluster must support IPv6.</p>\n            </li>\n         </ul>"
                }
             },
             "OptionGroupName" : {
@@ -10820,6 +10897,9 @@
                "target" : "com.amazonaws.neptune#KMSKeyNotAccessibleFault"
             },
             {
+               "target" : "com.amazonaws.neptune#NetworkTypeNotSupportedFault"
+            },
+            {
                "target" : "com.amazonaws.neptune#OptionGroupNotFoundFault"
             },
             {
@@ -10881,6 +10961,12 @@
                "target" : "com.amazonaws.neptune#String",
                "traits" : {
                   "smithy.api#documentation" : "<p>The Amazon KMS key identifier to use when restoring an encrypted DB cluster from an encrypted\n      DB cluster.</p>\n         <p>The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If\n      you are restoring a DB cluster with the same Amazon account that owns the KMS encryption key used\n      to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the\n      KMS encryption key.</p>\n         <p>You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is\n      different than the KMS key used to encrypt the source DB cluster. The new DB cluster is\n      encrypted with the KMS key identified by the <code>KmsKeyId</code> parameter.</p>\n         <p>If you do not specify a value for the <code>KmsKeyId</code> parameter, then the following\n      will occur:</p>\n         <ul>\n            <li>\n               <p>If the DB cluster is encrypted, then the restored DB cluster is encrypted using the\n          KMS key that was used to encrypt the source DB cluster.</p>\n            </li>\n            <li>\n               <p>If the DB cluster is not encrypted, then the restored DB cluster is not\n          encrypted.</p>\n            </li>\n         </ul>\n         <p>If <code>DBClusterIdentifier</code> refers to a DB cluster that is not encrypted, then the\n      restore request is rejected.</p>"
+               }
+            },
+            "NetworkType" : {
+               "target" : "com.amazonaws.neptune#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The network type of the DB cluster.</p>\n         <p>Valid Values:</p>\n         <ul>\n            <li>\n               <p>\n                  <b>\n                     <code>IPV4</code>\n                  </b>   –  \n        ( <i>the default</i> ) The DB cluster uses only IPv4 addresses for communication.</p>\n            </li>\n            <li>\n               <p>\n                  <b>\n                     <code>DUAL</code>\n                  </b>   –  \n          The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group\n          associated with the cluster must support IPv6.</p>\n            </li>\n         </ul>"
                }
             },
             "OptionGroupName" : {
