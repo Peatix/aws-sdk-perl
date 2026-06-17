@@ -115,6 +115,17 @@ my $mat = Paws::Model::Materializer::Moo->new(
         make_path(dirname($abs));
         # Ensure trailing newline + leading shebang-free.
         $src =~ s/^\s*\n+//;
+        # Inject `our $VERSION` into the top-level service module so the
+        # installed .pm reports a version (#187). cpm/cpanm decide whether
+        # an installed module satisfies a requirement by scanning the .pm
+        # with Module::Metadata, not by reading META.yml; without this the
+        # installed Paws::<Service> reports undef and in-place upgrades are
+        # silently skipped (or reinstalled every run). Mirrors how
+        # Paws::Core ships `our $VERSION` in lib/Paws.pm.
+        if ($pkg eq $service_pkg) {
+            $src =~ s/^(\s*)(package \Q$service_pkg\E;[^\n]*\n)/$1$2$1our \$VERSION = '$version';\n/
+                or die "build-modular-dist: could not inject \$VERSION into $pkg source\n";
+        }
         write_text($abs, $src);
         push @emitted, [$pkg, $rel];
     },

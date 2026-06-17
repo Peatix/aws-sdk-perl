@@ -4,6 +4,13 @@
    `Paws-Core` runtime. See docs/distribution-plan-a4b.md and
    issue #87 for the design rationale.
 
+ - script/build-modular-dist now injects `our $VERSION` into the
+   generated top-level service module (lib/Paws/<Service>.pm). Without
+   it the installed module reported an undefined version, so cpm/cpanm
+   (which read the .pm via Module::Metadata, not META.yml) could not
+   detect that an installed sub-dist was out of date and silently
+   skipped in-place upgrades. Issue #187.
+
  - BREAKING CHANGE: the dist is now named `Paws-Core` (not `Paws`).
    Per-service modular sub-dists (`Paws-S3`, `Paws-EC2`, ...) ship as
    separate CPAN distributions that declare `requires Paws`.
