@@ -297,6 +297,60 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.bedrockagentcore#AffectedSession" : {
+         "members" : {
+            "explanation" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An explanation of how the failure manifested in this session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "failureSpans" : {
+               "target" : "com.amazonaws.bedrockagentcore#FailureSpanDetailList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of spans where failures were detected in this session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "fixType" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of fix recommended for this failure.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recommendation" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The specific fix recommendation for this session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the affected session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A session affected by a detected failure pattern, including root cause details.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#AffectedSessionList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#AffectedSession"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.bedrockagentcore#AgentCard" : {
          "type" : "document"
       },
@@ -343,6 +397,12 @@
       },
       "com.amazonaws.bedrockagentcore#AgentTracesConfig" : {
          "members" : {
+            "batchEvaluation" : {
+               "target" : "com.amazonaws.bedrockagentcore#BatchEvaluationTraceConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Use a completed batch evaluation as the source of agent traces.</p>"
+               }
+            },
             "cloudwatchLogs" : {
                "target" : "com.amazonaws.bedrockagentcore#CloudWatchLogsTraceConfig",
                "traits" : {
@@ -1734,6 +1794,18 @@
                   "smithy.api#documentation" : "<p>The list of evaluators applied during the batch evaluation.</p>"
                }
             },
+            "insights" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of insight analyses applied during the batch evaluation.</p>"
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key used to encrypt evaluation data.</p>"
+               }
+            },
             "status" : {
                "target" : "com.amazonaws.bedrockagentcore#BatchEvaluationStatus",
                "traits" : {
@@ -1759,6 +1831,21 @@
             "target" : "com.amazonaws.bedrockagentcore#BatchEvaluationSummary"
          },
          "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#BatchEvaluationTraceConfig" : {
+         "members" : {
+            "batchEvaluationArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#BatchEvaluationArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the completed batch evaluation to use as the trace source.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for using a batch evaluation as the source of agent traces for recommendations.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagentcore#BatchUpdateMemoryRecords" : {
          "errors" : [
@@ -2981,7 +3068,7 @@
       },
       "com.amazonaws.bedrockagentcore#ConfigurationBundleArn" : {
          "traits" : {
-            "smithy.api#pattern" : "^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:configuration-bundle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
+            "smithy.api#pattern" : "^arn:aws[a-zA-Z-]*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:configuration-bundle/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
          },
          "type" : "string"
       },
@@ -3380,6 +3467,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The IAM role ARN that grants permissions for the A/B test to access gateway and evaluation resources.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.bedrockagentcore#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys and values to associate with the A/B test.</p>"
                }
             },
             "variants" : {
@@ -3922,6 +4015,12 @@
                "target" : "com.amazonaws.bedrockagentcore#CloudWatchLogsSource",
                "traits" : {
                   "smithy.api#documentation" : "<p>Configuration for pulling agent session traces from CloudWatch Logs.</p>"
+               }
+            },
+            "onlineEvaluationConfigSource" : {
+               "target" : "com.amazonaws.bedrockagentcore#OnlineEvaluationConfigSource",
+               "traits" : {
+                  "smithy.api#documentation" : "Reference an existing OnlineEvaluationConfig as session source"
                }
             }
          },
@@ -5177,7 +5276,7 @@
             }
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>An evaluator to run against sessions.</p>"
+            "smithy.api#documentation" : "<p>An evaluator to run against sessions during batch evaluation.</p>"
          },
          "type" : "structure"
       },
@@ -5186,7 +5285,7 @@
             "aws.api#arnReference" : {
                "type" : "AWS::BedrockAgentCore::Evaluator"
             },
-            "smithy.api#pattern" : "^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:evaluator\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$|^arn:aws:bedrock-agentcore:::evaluator/Builtin.[a-zA-Z0-9_-]+$"
+            "smithy.api#pattern" : "^arn:aws[a-zA-Z-]*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:evaluator\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$|^arn:aws[a-zA-Z-]*:bedrock-agentcore:::evaluator/Builtin.[a-zA-Z0-9_-]+$"
          },
          "type" : "string"
       },
@@ -5423,6 +5522,115 @@
          },
          "type" : "list"
       },
+      "com.amazonaws.bedrockagentcore#ExecutionSummaryAffectedSession" : {
+         "members" : {
+            "approachTaken" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The approach taken by the agent during this session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "finalOutcome" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The final outcome of the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "sessionId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A session associated with an execution summary cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#ExecutionSummaryAffectedSessionList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#ExecutionSummaryAffectedSession"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#ExecutionSummaryCluster" : {
+         "members" : {
+            "affectedSessionCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of sessions with this execution pattern.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "affectedSessions" : {
+               "target" : "com.amazonaws.bedrockagentcore#ExecutionSummaryAffectedSessionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of sessions with this execution pattern.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterId" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the execution summary cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the execution pattern.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the execution pattern cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A cluster of similar execution patterns identified across sessions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#ExecutionSummaryClusterList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#ExecutionSummaryCluster"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#ExecutionSummaryClusteringResultContent" : {
+         "members" : {
+            "executionSummaries" : {
+               "target" : "com.amazonaws.bedrockagentcore#ExecutionSummaryClusterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of execution summary clusters identified across analyzed sessions.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The execution summary clustering result containing grouped execution patterns identified across evaluated sessions.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.bedrockagentcore#ExternalProxy" : {
          "members" : {
             "credentials" : {
@@ -5590,6 +5798,169 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentcore#FailureAnalysisResultContent" : {
+         "members" : {
+            "failures" : {
+               "target" : "com.amazonaws.bedrockagentcore#FailureCategoryClusterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of failure category clusters identified across analyzed sessions.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The failure analysis clustering result containing categorized failure clusters with root causes and remediation recommendations.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#FailureCategoryCluster" : {
+         "members" : {
+            "affectedSessionCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of sessions affected by this failure category.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterId" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the failure category cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the failure category pattern.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the failure category.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "subCategories" : {
+               "target" : "com.amazonaws.bedrockagentcore#FailureSubCategoryClusterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of failure subcategories within this category.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A top-level failure category identified by clustering similar failure patterns across sessions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#FailureCategoryClusterList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#FailureCategoryCluster"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#FailureSpanDetail" : {
+         "members" : {
+            "signals" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightsFailureSignalList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The failure signals detected in this span.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "spanId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the span where the failure occurred.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "traceId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The trace identifier associated with the failure span.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Details about a specific span where a failure was detected.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#FailureSpanDetailList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#FailureSpanDetail"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#FailureSubCategoryCluster" : {
+         "members" : {
+            "affectedSessionCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of sessions affected by this failure subcategory.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterId" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the failure subcategory cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the failure subcategory pattern.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the failure subcategory.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "rootCauses" : {
+               "target" : "com.amazonaws.bedrockagentcore#RootCauseClusterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of root cause clusters identified within this subcategory.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A subcategory of failures within a top-level failure category.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#FailureSubCategoryClusterList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#FailureSubCategoryCluster"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
       },
       "com.amazonaws.bedrockagentcore#FilterInput" : {
          "members" : {
@@ -6071,6 +6442,30 @@
                   "smithy.api#documentation" : "<p>The list of evaluators applied during the batch evaluation.</p>"
                }
             },
+            "executionSummaryResult" : {
+               "target" : "com.amazonaws.bedrockagentcore#ExecutionSummaryClusteringResultContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The execution summary clustering results from insights, containing grouped execution patterns across evaluated sessions.</p>"
+               }
+            },
+            "failureAnalysisResult" : {
+               "target" : "com.amazonaws.bedrockagentcore#FailureAnalysisResultContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The failure analysis results from insights, containing categorized failure clusters with root causes and recommendations.</p>"
+               }
+            },
+            "insights" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of insight analyses applied during the batch evaluation.</p>"
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key used to encrypt evaluation data.</p>"
+               }
+            },
             "outputConfig" : {
                "target" : "com.amazonaws.bedrockagentcore#OutputConfig",
                "traits" : {
@@ -6089,6 +6484,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The timestamp when the batch evaluation was last updated.</p>",
                   "smithy.api#timestampFormat" : "date-time"
+               }
+            },
+            "userIntentResult" : {
+               "target" : "com.amazonaws.bedrockagentcore#UserIntentClusteringResultContent",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user intent clustering results from insights, containing grouped user intents across evaluated sessions.</p>"
                }
             }
          },
@@ -6904,6 +7305,12 @@
                   "smithy.api#documentation" : "<p>The description of the recommendation.</p>"
                }
             },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key used to encrypt recommendation data.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.bedrockagentcore#RecommendationName",
                "traits" : {
@@ -7614,6 +8021,22 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.bedrockagentcore#HarnessAwsSkillPath" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4096,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^([^*?\\[\\]]|\\*)+$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#HarnessAwsSkillPaths" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#HarnessAwsSkillPath"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.bedrockagentcore#HarnessBedrockApiFormat" : {
          "members" : {
             "CHAT_COMPLETIONS" : {
@@ -7864,6 +8287,12 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentcore#HarnessEndpointName" : {
+         "traits" : {
+            "smithy.api#pattern" : "^[a-zA-Z][a-zA-Z0-9_]{0,47}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.bedrockagentcore#HarnessGatewayOutboundAuth" : {
          "members" : {
@@ -8316,6 +8745,12 @@
       },
       "com.amazonaws.bedrockagentcore#HarnessSkill" : {
          "members" : {
+            "awsSkills" : {
+               "target" : "com.amazonaws.bedrockagentcore#HarnessSkillAwsSkillsSource",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>AWS Skills baked into the Harness's underlying Runtime.</p>"
+               }
+            },
             "git" : {
                "target" : "com.amazonaws.bedrockagentcore#HarnessSkillGitSource",
                "traits" : {
@@ -8339,6 +8774,20 @@
             "smithy.api#documentation" : "<p>A skill available to the agent.</p>"
          },
          "type" : "union"
+      },
+      "com.amazonaws.bedrockagentcore#HarnessSkillAwsSkillsSource" : {
+         "members" : {
+            "paths" : {
+               "target" : "com.amazonaws.bedrockagentcore#HarnessAwsSkillPaths",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optionally filter allowed skills with glob syntax, e.g., ['core-skills/*'].</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Passed to show that AWS Skills should be included.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagentcore#HarnessSkillGitAuth" : {
          "members" : {
@@ -8393,7 +8842,7 @@
             "smithy.api#length" : {
                "min" : 8
             },
-            "smithy.api#pattern" : "^https://"
+            "smithy.api#pattern" : "^https://[^#@]+$"
          },
          "type" : "string"
       },
@@ -9112,6 +9561,287 @@
       "com.amazonaws.bedrockagentcore#InputContentBlockList" : {
          "member" : {
             "target" : "com.amazonaws.bedrockagentcore#InputContentBlock"
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#Insight" : {
+         "members" : {
+            "insightId" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the insight to run.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A reference to an insight analysis to run against sessions during batch evaluation. Insights provide deeper analysis beyond individual evaluator scores, including failure detection, user intent clustering, and execution summarization.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#InsightId" : {
+         "traits" : {
+            "smithy.api#documentation" : "Canonical insight identifiers using the Builtin.Insight.* naming convention.\nUsed by BatchEvaluate, InternalEvaluate, and ServiceEngineEvaluate flows.",
+            "smithy.api#pattern" : "^(Builtin\\.[a-zA-Z0-9._-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10})$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#InsightList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#Insight"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 10,
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#InsightsFailureCategory" : {
+         "members" : {
+            "CODING_DEPENDENCY_ISSUES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "coding-use-case-specific-failure-types-category-dependency-issues"
+               }
+            },
+            "CODING_EDGE_CASE_OVERSIGHTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "coding-use-case-specific-failure-types-category-edge-case-oversights"
+               }
+            },
+            "CONFIGURATION_MISMATCH_TOOL_DEFINITION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "configuration-mismatch-category-tool-definition"
+               }
+            },
+            "CONTEXT_HANDLING_FAILURES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "context-handling-error-category-context-handling-failures"
+               }
+            },
+            "EXECUTION_ERROR_AUTHENTICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-authentication"
+               }
+            },
+            "EXECUTION_ERROR_ENVIRONMENT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-environment"
+               }
+            },
+            "EXECUTION_ERROR_FORMATTING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-formatting"
+               }
+            },
+            "EXECUTION_ERROR_RATE_LIMITING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-rate-limiting"
+               }
+            },
+            "EXECUTION_ERROR_RESOURCE_EXHAUSTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-resource-exhaustion"
+               }
+            },
+            "EXECUTION_ERROR_RESOURCE_NOT_FOUND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-resource-not-found"
+               }
+            },
+            "EXECUTION_ERROR_SERVICE_ERRORS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-service-errors"
+               }
+            },
+            "EXECUTION_ERROR_TIMEOUT" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-timeout"
+               }
+            },
+            "EXECUTION_ERROR_TOOL_SCHEMA" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "execution-error-category-tool-schema"
+               }
+            },
+            "HALLUCINATION_CAPABILITIES" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hallucination-category-hall-capabilities"
+               }
+            },
+            "HALLUCINATION_FABRICATE_TOOL_OUTPUTS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hallucination-category-fabricate-tool-outputs"
+               }
+            },
+            "HALLUCINATION_HISTORY" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hallucination-category-hall-history"
+               }
+            },
+            "HALLUCINATION_MISUNDERSTAND" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hallucination-category-hall-misunderstand"
+               }
+            },
+            "HALLUCINATION_PARAMS" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hallucination-category-hall-params"
+               }
+            },
+            "HALLUCINATION_USAGE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "hallucination-category-hall-usage"
+               }
+            },
+            "INCORRECT_ACTIONS_CLARIFICATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "incorrect-actions-category-clarification"
+               }
+            },
+            "INCORRECT_ACTIONS_INAPPROPRIATE_INFO_REQUEST" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "incorrect-actions-category-inappropriate-info-request"
+               }
+            },
+            "INCORRECT_ACTIONS_POOR_INFORMATION_RETRIEVAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "incorrect-actions-category-poor-information-retrieval"
+               }
+            },
+            "INCORRECT_ACTIONS_TOOL_SELECTION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "incorrect-actions-category-tool-selection"
+               }
+            },
+            "LLM_OUTPUT_NONSENSICAL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "llm-output-category-nonsensical"
+               }
+            },
+            "ORCHESTRATION_GOAL_DEVIATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "orchestration-related-errors-category-goal-deviation"
+               }
+            },
+            "ORCHESTRATION_PREMATURE_TERMINATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "orchestration-related-errors-category-premature-termination"
+               }
+            },
+            "ORCHESTRATION_REASONING_MISMATCH" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "orchestration-related-errors-category-reasoning-mismatch"
+               }
+            },
+            "ORCHESTRATION_UNAWARE_TERMINATION" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "orchestration-related-errors-category-unaware-termination"
+               }
+            },
+            "OTHER" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "other"
+               }
+            },
+            "REPETITIVE_BEHAVIOR_INFO" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "repetitive-behavior-category-repetition-info"
+               }
+            },
+            "REPETITIVE_BEHAVIOR_STEP" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "repetitive-behavior-category-step-repetition"
+               }
+            },
+            "REPETITIVE_BEHAVIOR_TOOL" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "repetitive-behavior-category-repetition-tool"
+               }
+            },
+            "TASK_INSTRUCTION_NON_COMPLIANCE" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "task-instruction-category-non-compliance"
+               }
+            },
+            "TASK_INSTRUCTION_PROBLEM_ID" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "task-instruction-category-problem-id"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "Failure category taxonomy for agent session insights.\nValues must stay in sync with the category registry in AgentCoreLens\n(amzn_agentcore_lens.config.failure_detection.FAILURE_CATEGORIES)."
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.bedrockagentcore#InsightsFailureSignal" : {
+         "members" : {
+            "category" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightsFailureCategory",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The failure category classification for this signal.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "confidence" : {
+               "target" : "smithy.api#Double",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The confidence score of the failure detection.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "evidence" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The evidence supporting the failure detection.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A signal indicating a detected failure within a span.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#InsightsFailureSignalList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#InsightsFailureSignal"
          },
          "type" : "list"
       },
@@ -9916,6 +10646,9 @@
                "target" : "com.amazonaws.bedrockagentcore#RuntimeClientError"
             },
             {
+               "target" : "com.amazonaws.bedrockagentcore#ServiceQuotaExceededException"
+            },
+            {
                "target" : "com.amazonaws.bedrockagentcore#ThrottlingException"
             },
             {
@@ -9983,6 +10716,13 @@
                "target" : "com.amazonaws.bedrockagentcore#HarnessModelConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>The model configuration to use for this invocation. If specified, overrides the harness default.</p>"
+               }
+            },
+            "qualifier" : {
+               "target" : "com.amazonaws.bedrockagentcore#HarnessEndpointName",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The endpoint name to invoke. If omitted, the DEFAULT endpoint is used.</p>",
+                  "smithy.api#httpQuery" : "qualifier"
                }
             },
             "runtimeSessionId" : {
@@ -10251,6 +10991,16 @@
             "smithy.api#documentation" : "<p>The result of a key type action.</p>"
          },
          "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#KmsKeyArn" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 2048,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$"
+         },
+         "type" : "string"
       },
       "com.amazonaws.bedrockagentcore#LanguageRuntime" : {
          "members" : {
@@ -11734,7 +12484,7 @@
             "smithy.api#length" : {
                "min" : 12
             },
-            "smithy.api#pattern" : "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
+            "smithy.api#pattern" : "^(arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
          },
          "type" : "string"
       },
@@ -12901,9 +13651,30 @@
             "aws.api#arnReference" : {
                "type" : "AWS::BedrockAgentCore::OnlineEvaluationConfig"
             },
-            "smithy.api#pattern" : "^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:online-evaluation-config\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
+            "smithy.api#pattern" : "^arn:aws[a-zA-Z-]*:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:online-evaluation-config\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$"
          },
          "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#OnlineEvaluationConfigSource" : {
+         "members" : {
+            "onlineEvaluationConfigArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#OnlineEvaluationConfigArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Resource Name (ARN) of the online evaluation configuration to use as the session source.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "timeRange" : {
+               "target" : "com.amazonaws.bedrockagentcore#SessionFilterConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Optional session filter configuration to narrow down which sessions from the online evaluation configuration to include.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A reference to an existing online evaluation configuration to use as the data source for batch evaluation.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.bedrockagentcore#OperatorType" : {
          "members" : {
@@ -14025,6 +14796,14 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.bedrockagentcore#RecommendationExplanation" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 4096
+            }
+         },
+         "type" : "string"
+      },
       "com.amazonaws.bedrockagentcore#RecommendationId" : {
          "traits" : {
             "smithy.api#pattern" : "^[0-9a-zA-Z_-]{1,48}-[0-9A-Z]{10}$"
@@ -14768,6 +15547,67 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.bedrockagentcore#RootCauseCluster" : {
+         "members" : {
+            "affectedSessionCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of sessions affected by this root cause.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "affectedSessions" : {
+               "target" : "com.amazonaws.bedrockagentcore#AffectedSessionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of sessions affected by this root cause.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterId" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the root cause cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the root cause cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "recommendation" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The recommended fix for this root cause.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "rootCause" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The root cause explanation for this cluster of failures.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A cluster of similar root causes identified within a failure subcategory.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#RootCauseClusterList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#RootCauseCluster"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.bedrockagentcore#RuntimeClientError" : {
          "members" : {
             "message" : {
@@ -15255,6 +16095,10 @@
       },
       "com.amazonaws.bedrockagentcore#ServiceName" : {
          "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 1
+            },
             "smithy.api#pattern" : "^[a-zA-Z0-9._-]+$"
          },
          "type" : "string"
@@ -15632,6 +16476,27 @@
                      "max" : 10
                   }
                }
+            },
+            "insights" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of insight analyses to run against sessions during the batch evaluation. Maximum of 10 insights.</p>",
+                  "smithy.api#length" : {
+                     "max" : 10
+                  }
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key used to encrypt evaluation data. If provided, customer data is encrypted at rest with the specified key.</p>"
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.bedrockagentcore#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys and values to associate with the batch evaluation.</p>"
+               }
             }
          },
          "traits" : {
@@ -15682,6 +16547,18 @@
                   "smithy.api#documentation" : "<p>The list of evaluators applied during the batch evaluation.</p>"
                }
             },
+            "insights" : {
+               "target" : "com.amazonaws.bedrockagentcore#InsightList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of insight analyses applied during the batch evaluation.</p>"
+               }
+            },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key used to encrypt evaluation data.</p>"
+               }
+            },
             "outputConfig" : {
                "target" : "com.amazonaws.bedrockagentcore#OutputConfig",
                "traits" : {
@@ -15693,6 +16570,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The status of the batch evaluation.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.bedrockagentcore#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The tags associated with the batch evaluation.</p>"
                }
             }
          },
@@ -16139,6 +17022,12 @@
                   "smithy.api#documentation" : "<p>The description of the recommendation.</p>"
                }
             },
+            "kmsKeyArn" : {
+               "target" : "com.amazonaws.bedrockagentcore#KmsKeyArn",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ARN of the KMS key used to encrypt recommendation data. If provided, customer data is encrypted at rest with the specified key.</p>"
+               }
+            },
             "name" : {
                "target" : "com.amazonaws.bedrockagentcore#RecommendationName",
                "traits" : {
@@ -16151,6 +17040,12 @@
                "traits" : {
                   "smithy.api#documentation" : "<p>The configuration for the recommendation, including the input to optimize, agent traces to analyze, and evaluation settings.</p>",
                   "smithy.api#required" : {}
+               }
+            },
+            "tags" : {
+               "target" : "com.amazonaws.bedrockagentcore#TagsMap",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A map of tag keys and values to associate with the recommendation.</p>"
                }
             },
             "type" : {
@@ -16956,8 +17851,7 @@
             "evaluationConfig" : {
                "target" : "com.amazonaws.bedrockagentcore#RecommendationEvaluationConfig",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The evaluation configuration specifying which evaluator to use for assessing recommendation quality.</p>",
-                  "smithy.api#required" : {}
+                  "smithy.api#documentation" : "<p>The evaluation configuration specifying which evaluator to use for assessing recommendation quality.</p>"
                }
             },
             "systemPrompt" : {
@@ -16993,6 +17887,12 @@
                   "smithy.api#documentation" : "<p>The error message if the recommendation failed.</p>"
                }
             },
+            "explanation" : {
+               "target" : "com.amazonaws.bedrockagentcore#RecommendationExplanation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An explanation of why the recommendation was generated and what patterns were identified in the agent traces.</p>"
+               }
+            },
             "recommendedSystemPrompt" : {
                "target" : "com.amazonaws.bedrockagentcore#SystemPromptText",
                "traits" : {
@@ -17014,6 +17914,41 @@
             "smithy.api#sensitive" : {}
          },
          "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#TagKey" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\s._:/=+@-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#TagValue" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 256,
+               "min" : 0
+            },
+            "smithy.api#pattern" : "^[a-zA-Z0-9\\s._:/=+@-]*$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.bedrockagentcore#TagsMap" : {
+         "key" : {
+            "target" : "com.amazonaws.bedrockagentcore#TagKey"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 0
+            }
+         },
+         "type" : "map",
+         "value" : {
+            "target" : "com.amazonaws.bedrockagentcore#TagValue"
+         }
       },
       "com.amazonaws.bedrockagentcore#TargetName" : {
          "traits" : {
@@ -17334,6 +18269,12 @@
       },
       "com.amazonaws.bedrockagentcore#ToolDescriptionOutput" : {
          "members" : {
+            "explanation" : {
+               "target" : "com.amazonaws.bedrockagentcore#RecommendationExplanation",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>An explanation of why the recommendation was generated for this tool and what patterns were identified in the agent traces.</p>"
+               }
+            },
             "recommendedToolDescription" : {
                "target" : "com.amazonaws.bedrockagentcore#ToolDescriptionText",
                "traits" : {
@@ -17935,6 +18876,114 @@
             "smithy.api#documentation" : "<p>The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens.</p>"
          },
          "type" : "union"
+      },
+      "com.amazonaws.bedrockagentcore#UserIntentAffectedSession" : {
+         "members" : {
+            "sessionId" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the session.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "userMessages" : {
+               "target" : "com.amazonaws.bedrockagentcore#UserIntentList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The user messages from this session that contributed to the intent cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A session associated with a user intent cluster.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#UserIntentAffectedSessionList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#UserIntentAffectedSession"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#UserIntentCluster" : {
+         "members" : {
+            "affectedSessionCount" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The number of sessions with this user intent.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "affectedSessions" : {
+               "target" : "com.amazonaws.bedrockagentcore#UserIntentAffectedSessionList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of sessions with this user intent.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "clusterId" : {
+               "target" : "smithy.api#Integer",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the user intent cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "description" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description of the user intent pattern.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "name" : {
+               "target" : "smithy.api#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the user intent cluster.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A cluster of similar user intents identified across sessions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#UserIntentClusterList" : {
+         "member" : {
+            "target" : "com.amazonaws.bedrockagentcore#UserIntentCluster"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 0
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.bedrockagentcore#UserIntentClusteringResultContent" : {
+         "members" : {
+            "userIntents" : {
+               "target" : "com.amazonaws.bedrockagentcore#UserIntentClusterList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The list of user intent clusters identified across analyzed sessions.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>The user intent clustering result containing grouped user intents identified across evaluated sessions.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.bedrockagentcore#UserIntentList" : {
+         "member" : {
+            "target" : "smithy.api#String"
+         },
+         "type" : "list"
       },
       "com.amazonaws.bedrockagentcore#UserTokenType" : {
          "traits" : {

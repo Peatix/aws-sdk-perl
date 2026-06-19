@@ -1730,6 +1730,12 @@
                   "smithy.api#documentation" : "<p>Configuration for where to deliver query results. Currently supports Amazon S3 destinations for\n      storing query output.</p>"
                }
             },
+            "endTimeOffset" : {
+               "target" : "com.amazonaws.cloudwatchlogs#EndTimeOffset",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time offset in seconds that defines the end of the lookback period for the query.\n      Together with <code>startTimeOffset</code>, this determines the time window relative to the\n      execution time over which the query runs.</p>"
+               }
+            },
             "executionRoleArn" : {
                "target" : "com.amazonaws.cloudwatchlogs#RoleArn",
                "traits" : {
@@ -1746,7 +1752,7 @@
             "name" : {
                "target" : "com.amazonaws.cloudwatchlogs#ScheduledQueryName",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The name of the scheduled query. The name must be unique within your account and region.\n      Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must\n      be between 1 and 255 characters.</p>",
+                  "smithy.api#documentation" : "<p>The name of the scheduled query. The name must be unique within your account and region.\n      Length must be between 1 and 300 characters.</p>",
                   "smithy.api#required" : {}
                }
             },
@@ -5266,6 +5272,9 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.cloudwatchlogs#EndTimeOffset" : {
+         "type" : "long"
+      },
       "com.amazonaws.cloudwatchlogs#Entity" : {
          "members" : {
             "attributes" : {
@@ -5909,7 +5918,7 @@
             "target" : "com.amazonaws.cloudwatchlogs#FilterLogEventsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Lists log events from the specified log group. You can list all the log events or\n      filter the results using one or more of the following:</p>\n         <ul>\n            <li>\n               <p>A filter pattern</p>\n            </li>\n            <li>\n               <p>A time range</p>\n            </li>\n            <li>\n               <p>The log stream name, or a log stream name prefix that matches multiple log\n          streams</p>\n            </li>\n         </ul>\n         <p>You must have the <code>logs:FilterLogEvents</code> permission to perform this\n      operation.</p>\n         <p>You can specify the log group to search by using either <code>logGroupIdentifier</code> or\n        <code>logGroupName</code>. You must include one of these two parameters, but you can't\n      include both. </p>\n         <p>\n            <code>FilterLogEvents</code> is a paginated operation. Each page returned can contain up\n      to 1 MB of log events or up to 10,000 log events. A returned page might only be partially\n      full, or even empty. For example, if the result of a query would return 15,000 log events, the\n      first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB.</p>\n         <p>Partially full or empty pages don't necessarily mean that pagination is finished. If the\n      results include a <code>nextToken</code>, there might be more log events available. You can\n      return these additional log events by providing the nextToken in a subsequent\n        <code>FilterLogEvents</code> operation. If the results don't include a\n        <code>nextToken</code>, then pagination is finished. </p>\n         <p>Specifying the <code>limit</code> parameter only guarantees that a single page doesn't\n      return more log events than the specified limit, but it might return fewer events than the\n      limit. This is the expected API behavior.</p>\n         <p>The returned log events are sorted by event timestamp, the timestamp when the event was\n      ingested by CloudWatch Logs, and the ID of the <code>PutLogEvents</code> request.</p>\n         <p>If you are using CloudWatch cross-account observability, you can use this operation\n      in a monitoring account and view data from the linked source accounts. For more information,\n      see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html\">CloudWatch cross-account observability</a>.</p>\n         <note>\n            <p>If you are using <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html\">log\n          transformation</a>, the <code>FilterLogEvents</code> operation returns only the\n        original versions of log events, before they were transformed. To view the transformed\n        versions, you must use a <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html\">CloudWatch Logs\n        query.</a>\n            </p>\n         </note>",
+            "smithy.api#documentation" : "<p>Lists log events from the specified log group. You can list all the log events or\n      filter the results using one or more of the following:</p>\n         <ul>\n            <li>\n               <p>A filter pattern</p>\n            </li>\n            <li>\n               <p>A time range</p>\n            </li>\n            <li>\n               <p>The log stream name, or a log stream name prefix that matches multiple log\n          streams</p>\n            </li>\n         </ul>\n         <p>You must have the <code>logs:FilterLogEvents</code> permission to perform this\n      operation.</p>\n         <p>You can specify the log group to search by using either <code>logGroupIdentifier</code> or\n        <code>logGroupName</code>. You must include one of these two parameters, but you can't\n      include both. </p>\n         <p>\n            <code>FilterLogEvents</code> is a paginated operation. Each page returned can contain up\n      to 1 MB of log events or up to 10,000 log events. A returned page might only be partially\n      full, or even empty. For example, if the result of a query would return 15,000 log events, the\n      first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB.</p>\n         <p>Partially full or empty pages don't necessarily mean that pagination is finished. If the\n      results include a <code>nextToken</code>, there might be more log events available. You can\n      return these additional log events by providing the nextToken in a subsequent\n        <code>FilterLogEvents</code> operation. If the results don't include a\n        <code>nextToken</code>, then pagination is finished. </p>\n         <p>Specifying the <code>limit</code> parameter only guarantees that a single page doesn't\n      return more log events than the specified limit, but it might return fewer events than the\n      limit. This is the expected API behavior.</p>\n         <p>The returned log events are sorted by event timestamp, the timestamp when the event was\n      ingested by CloudWatch Logs, and the ID of the <code>PutLogEvents</code> request. By default,\n      the events are returned in ascending timestamp order (oldest first). To return events in\n      descending timestamp order (newest first), set the <code>startFromHead</code> parameter to\n        <code>false</code>.</p>\n         <p>If you are using CloudWatch cross-account observability, you can use this operation\n      in a monitoring account and view data from the linked source accounts. For more information,\n      see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html\">CloudWatch cross-account observability</a>.</p>\n         <note>\n            <p>If you are using <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html\">log\n          transformation</a>, the <code>FilterLogEvents</code> operation returns only the\n        original versions of log events, before they were transformed. To view the transformed\n        versions, you must use a <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html\">CloudWatch Logs\n        query.</a>\n            </p>\n         </note>",
             "smithy.api#paginated" : {
                "inputToken" : "nextToken",
                "outputToken" : "nextToken",
@@ -5977,6 +5986,12 @@
                   "smithy.api#documentation" : "<p>The token for the next set of events to return. (You received this token from a\n      previous call.)</p>"
                }
             },
+            "startFromHead" : {
+               "target" : "com.amazonaws.cloudwatchlogs#StartFromHead",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If the value is true, the earliest log events are returned first. If the value is\n      false, the latest log events are returned first. The default value is true.</p>\n         <p>The <code>startFromHead</code> parameter sets the sort direction on the first request.\n      On subsequent requests, the <code>nextToken</code> determines the sort direction. To continue\n      paginating in the same direction, provide the returned <code>nextToken</code>. If you provide\n      both <code>nextToken</code> and <code>startFromHead</code>, the direction of the\n        <code>nextToken</code> is used.</p>\n         <note>\n            <p>Setting <code>startFromHead</code> to <code>false</code> is supported only when\n          <code>startTime</code> is on or after <code>Jan 1, 2024 00:00:00 UTC</code>. A request with\n          <code>startFromHead</code> set to <code>false</code> and a <code>startTime</code> before\n        this date returns an <code>InvalidParameterException</code>.</p>\n         </note>"
+               }
+            },
             "startTime" : {
                "target" : "com.amazonaws.cloudwatchlogs#Timestamp",
                "traits" : {
@@ -6007,7 +6022,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.cloudwatchlogs#NextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The token to use when requesting the next set of items. The token expires after 24\n      hours.</p>\n         <p>If the results don't include a <code>nextToken</code>, then pagination is finished.\n    </p>"
+                  "smithy.api#documentation" : "<p>The token for the next set of items in the sorting direction specified by the\n        <code>startFromHead</code> parameter in the first request. The token expires after 24\n      hours.</p>\n         <p>If the results don't include a <code>nextToken</code>, then pagination is finished.\n    </p>"
                }
             },
             "searchedLogStreams" : {
@@ -7115,7 +7130,7 @@
             "target" : "com.amazonaws.cloudwatchlogs#GetQueryResultsResponse"
          },
          "traits" : {
-            "smithy.api#documentation" : "<p>Returns the results from the specified query.</p>\n         <p>Only the fields requested in the query are returned, along with a <code>@ptr</code> field,\n      which is the identifier for the log record. You can use the value of <code>@ptr</code> in a\n        <a href=\"https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html\">GetLogRecord</a>\n      operation to get the full log record.</p>\n         <p>\n            <code>GetQueryResults</code> does not start running a query. To run a query, use <a href=\"https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html\">StartQuery</a>. For more information about how long results of previous queries are\n      available, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html\">CloudWatch Logs\n        quotas</a>.</p>\n         <p>If the value of the <code>Status</code> field in the output is <code>Running</code>, this\n      operation returns only partial results. If you see a value of <code>Scheduled</code> or\n        <code>Running</code> for the status, you can retry the operation later to see the final\n      results. </p>\n         <p>This operation is used both for retrieving results from interactive queries and from\n      automated scheduled query executions. Scheduled queries use <code>GetQueryResults</code>\n      internally to retrieve query results for processing and delivery to configured\n      destinations.</p>\n         <p>You can retrieve up to 100,000 log event results from a query, if available, by using\n      pagination. Use the <code>nextToken</code> returned in the response to request additional\n      pages of results, with each page returning up to 10,000 log events.</p>\n         <p>If you are using CloudWatch cross-account observability, you can use this operation\n      in a monitoring account to start queries in linked source accounts. For more information, see\n        <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html\">CloudWatch cross-account observability</a>.</p>"
+            "smithy.api#documentation" : "<p>Returns the results from the specified query.</p>\n         <p>Only the fields requested in the query are returned, along with a <code>@ptr</code> field,\n      which is the identifier for the log record. You can use the value of <code>@ptr</code> in a\n        <a href=\"https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html\">GetLogRecord</a>\n      operation to get the full log record.</p>\n         <p>\n            <code>GetQueryResults</code> does not start running a query. To run a query, use <a href=\"https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html\">StartQuery</a>. For more information about how long results of previous queries are\n      available, see <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html\">CloudWatch Logs\n        quotas</a>.</p>\n         <p>If the value of the <code>Status</code> field in the output is <code>Running</code>, this\n      operation returns only partial results. If you see a value of <code>Scheduled</code> or\n        <code>Running</code> for the status, you can retry the operation later to see the final\n      results. </p>\n         <p>This operation is used both for retrieving results from interactive queries and from\n      automated scheduled query executions. Scheduled queries use <code>GetQueryResults</code>\n      internally to retrieve query results for processing and delivery to configured\n      destinations.</p>\n         <p>You can retrieve up to 100,000 log event results from a query, if available, by using\n      pagination. Use the <code>nextToken</code> returned in the response to request additional\n      pages of results, with each page returning up to 10,000 log events. This is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.</p>\n         <p>If you are using CloudWatch cross-account observability, you can use this operation\n      in a monitoring account to start queries in linked source accounts. For more information, see\n        <a href=\"https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html\">CloudWatch cross-account observability</a>.</p>"
          },
          "type" : "operation"
       },
@@ -7175,7 +7190,7 @@
             "nextToken" : {
                "target" : "com.amazonaws.cloudwatchlogs#GetQueryResultsNextToken",
                "traits" : {
-                  "smithy.api#documentation" : "<p>If there are more log events remaining in the results, the response includes a\n      <code>nextToken</code>. You can use this token in a subsequent <code>GetQueryResults</code>\n      request to get the next set of results. You can retrieve up to 100,000 log event results\n      from a query by paginating with this token.</p>"
+                  "smithy.api#documentation" : "<p>If there are more log events remaining in the results, the response includes a\n      <code>nextToken</code>. You can use this token in a subsequent <code>GetQueryResults</code>\n      request to get the next set of results. You can retrieve up to 100,000 log event results\n      from a query by paginating with this token. This is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.</p>"
                }
             },
             "queryLanguage" : {
@@ -7389,6 +7404,12 @@
                   "smithy.api#documentation" : "<p>Configuration for where query results are delivered.</p>"
                }
             },
+            "endTimeOffset" : {
+               "target" : "com.amazonaws.cloudwatchlogs#EndTimeOffset",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The time offset in seconds that defines the end of the lookback period for the\n      query.</p>"
+               }
+            },
             "executionRoleArn" : {
                "target" : "com.amazonaws.cloudwatchlogs#RoleArn",
                "traits" : {
@@ -7453,6 +7474,12 @@
                "target" : "com.amazonaws.cloudwatchlogs#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The start time for the scheduled query in Unix epoch format.</p>"
+               }
+            },
+            "scheduleType" : {
+               "target" : "com.amazonaws.cloudwatchlogs#ScheduleType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule type of the scheduled query. Valid values are\n      <code>CUSTOMER_MANAGED</code> and <code>AWS_MANAGED</code>.</p>"
                }
             },
             "scheduledQueryArn" : {
@@ -8789,6 +8816,12 @@
             },
             "nextToken" : {
                "target" : "com.amazonaws.cloudwatchlogs#NextToken"
+            },
+            "scheduleType" : {
+               "target" : "com.amazonaws.cloudwatchlogs#ScheduleType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Filter scheduled queries by schedule type. Valid values are\n      <code>CUSTOMER_MANAGED</code> and <code>AWS_MANAGED</code>. If not specified, scheduled\n      queries of all schedule types are returned.</p>"
+               }
             },
             "state" : {
                "target" : "com.amazonaws.cloudwatchlogs#ScheduledQueryState",
@@ -14913,6 +14946,23 @@
          },
          "type" : "string"
       },
+      "com.amazonaws.cloudwatchlogs#ScheduleType" : {
+         "members" : {
+            "AWS_MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "AWS_MANAGED"
+               }
+            },
+            "CUSTOMER_MANAGED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "CUSTOMER_MANAGED"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.cloudwatchlogs#ScheduledQueryDescription" : {
          "traits" : {
             "smithy.api#length" : {
@@ -14979,7 +15029,10 @@
       },
       "com.amazonaws.cloudwatchlogs#ScheduledQueryIdentifier" : {
          "traits" : {
-            "smithy.api#pattern" : "^[\\w#+=/:,.@-]*$"
+            "smithy.api#length" : {
+               "max" : 300,
+               "min" : 1
+            }
          },
          "type" : "string"
       },
@@ -14998,10 +15051,9 @@
       "com.amazonaws.cloudwatchlogs#ScheduledQueryName" : {
          "traits" : {
             "smithy.api#length" : {
-               "max" : 255,
+               "max" : 300,
                "min" : 1
-            },
-            "smithy.api#pattern" : "^[a-zA-Z0-9_\\-/.#]+$"
+            }
          },
          "type" : "string"
       },
@@ -15064,6 +15116,12 @@
                "target" : "com.amazonaws.cloudwatchlogs#ScheduleExpression",
                "traits" : {
                   "smithy.api#documentation" : "<p>The cron expression that defines when the scheduled query runs.</p>"
+               }
+            },
+            "scheduleType" : {
+               "target" : "com.amazonaws.cloudwatchlogs#ScheduleType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule type of the scheduled query. Valid values are\n      <code>CUSTOMER_MANAGED</code> and <code>AWS_MANAGED</code>.</p>"
                }
             },
             "scheduledQueryArn" : {
@@ -15621,7 +15679,7 @@
             "limit" : {
                "target" : "com.amazonaws.cloudwatchlogs#EventsLimitStartQuery",
                "traits" : {
-                  "smithy.api#documentation" : "<p>The maximum number of log events to return in the query. If the query string uses the\n        <code>fields</code> command, only the specified fields and their values are returned. The\n      default is 10,000.</p>\n         <p>The maximum value is 100,000.</p>"
+                  "smithy.api#documentation" : "<p>The maximum number of log events to return from the query. The maximum limit is 100,000. The maximum events returned in a single GetQueryResults API call is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the <code>nextToken</code>. 100,000 limit is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.</p>"
                }
             },
             "logGroupIdentifiers" : {
@@ -17050,6 +17108,9 @@
                "target" : "com.amazonaws.cloudwatchlogs#AccessDeniedException"
             },
             {
+               "target" : "com.amazonaws.cloudwatchlogs#ConflictException"
+            },
+            {
                "target" : "com.amazonaws.cloudwatchlogs#InternalServerException"
             },
             {
@@ -17085,6 +17146,12 @@
                "target" : "com.amazonaws.cloudwatchlogs#DestinationConfiguration",
                "traits" : {
                   "smithy.api#documentation" : "<p>The updated configuration for where to deliver query results.</p>"
+               }
+            },
+            "endTimeOffset" : {
+               "target" : "com.amazonaws.cloudwatchlogs#EndTimeOffset",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The updated time offset in seconds that defines the end of the lookback period for\n      the query.</p>"
                }
             },
             "executionRoleArn" : {
@@ -17184,6 +17251,12 @@
                   "smithy.api#documentation" : "<p>The destination configuration of the updated scheduled query.</p>"
                }
             },
+            "endTimeOffset" : {
+               "target" : "com.amazonaws.cloudwatchlogs#EndTimeOffset",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The end time offset in seconds of the updated scheduled query.</p>"
+               }
+            },
             "executionRoleArn" : {
                "target" : "com.amazonaws.cloudwatchlogs#RoleArn",
                "traits" : {
@@ -17248,6 +17321,12 @@
                "target" : "com.amazonaws.cloudwatchlogs#Timestamp",
                "traits" : {
                   "smithy.api#documentation" : "<p>The start time of the updated scheduled query.</p>"
+               }
+            },
+            "scheduleType" : {
+               "target" : "com.amazonaws.cloudwatchlogs#ScheduleType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The schedule type of the updated scheduled query.</p>"
                }
             },
             "scheduledQueryArn" : {
