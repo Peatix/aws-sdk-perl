@@ -1267,6 +1267,16 @@
          "type" : "service",
          "version" : "2017-05-13"
       },
+      "com.amazonaws.sagemakerruntime#AsyncBodyBlob" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 128000,
+               "min" : 0
+            },
+            "smithy.api#sensitive" : {}
+         },
+         "type" : "blob"
+      },
       "com.amazonaws.sagemakerruntime#BodyBlob" : {
          "traits" : {
             "smithy.api#length" : {
@@ -1482,6 +1492,13 @@
                   "smithy.api#httpHeader" : "X-Amzn-SageMaker-Accept"
                }
             },
+            "Body" : {
+               "target" : "com.amazonaws.sagemakerruntime#AsyncBodyBlob",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Provides inline input data for the inference request, in the format specified in the\n                <code>ContentType</code> request header. Use this parameter to send the request\n            payload directly in the API call instead of uploading it to Amazon S3 and\n            referencing it with <code>InputLocation</code>. The inline payload can be up to 128,000\n            bytes.</p>\n         <p>\n            <code>Body</code> and <code>InputLocation</code> are mutually exclusive. Provide\n            exactly one of them.</p>\n         <p>For information about the format of the request body, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html\">Common Data\n            Formats-Inference</a>.</p>",
+                  "smithy.api#httpPayload" : {}
+               }
+            },
             "ContentType" : {
                "target" : "com.amazonaws.sagemakerruntime#Header",
                "traits" : {
@@ -1521,10 +1538,8 @@
             "InputLocation" : {
                "target" : "com.amazonaws.sagemakerruntime#InputLocationHeader",
                "traits" : {
-                  "smithy.api#clientOptional" : {},
                   "smithy.api#documentation" : "<p>The Amazon S3 URI where the inference request payload is stored.</p>",
-                  "smithy.api#httpHeader" : "X-Amzn-SageMaker-InputLocation",
-                  "smithy.api#required" : {}
+                  "smithy.api#httpHeader" : "X-Amzn-SageMaker-InputLocation"
                }
             },
             "InvocationTimeoutSeconds" : {
