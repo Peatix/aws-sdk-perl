@@ -10921,6 +10921,9 @@
                "target" : "com.amazonaws.datazone#DeleteEnvironmentProfile"
             },
             {
+               "target" : "com.amazonaws.datazone#DeleteLineageEvent"
+            },
+            {
                "target" : "com.amazonaws.datazone#DeleteProject"
             },
             {
@@ -13220,6 +13223,91 @@
       },
       "com.amazonaws.datazone#DeleteGlossaryTermOutput" : {
          "members" : {},
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#DeleteLineageEvent" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.datazone#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#InternalServerException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ThrottlingException"
+            },
+            {
+               "target" : "com.amazonaws.datazone#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.datazone#DeleteLineageEventInput"
+         },
+         "output" : {
+            "target" : "com.amazonaws.datazone#DeleteLineageEventOutput"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Deletes the specified lineage event.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "DELETE",
+               "uri" : "/v2/domains/{domainIdentifier}/lineage/events/{identifier}"
+            },
+            "smithy.api#idempotent" : {}
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.datazone#DeleteLineageEventInput" : {
+         "members" : {
+            "domainIdentifier" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the domain.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "identifier" : {
+               "target" : "com.amazonaws.datazone#LineageEventIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the lineage event.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.datazone#DeleteLineageEventOutput" : {
+         "members" : {
+            "domainId" : {
+               "target" : "com.amazonaws.datazone#DomainId",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the domain.</p>"
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.datazone#LineageEventIdentifier",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The ID of the lineage event.</p>"
+               }
+            },
+            "processingStatus" : {
+               "target" : "com.amazonaws.datazone#LineageEventProcessingStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The progressing status of the lineage event.</p>"
+               }
+            }
+         },
          "traits" : {
             "smithy.api#output" : {}
          },

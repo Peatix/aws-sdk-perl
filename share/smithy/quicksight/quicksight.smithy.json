@@ -64054,12 +64054,6 @@
                   "smithy.api#enumValue" : "ACTION_CONNECTOR"
                }
             },
-            "ARTIFACT" : {
-               "target" : "smithy.api#Unit",
-               "traits" : {
-                  "smithy.api#enumValue" : "ARTIFACT"
-               }
-            },
             "DASHBOARD" : {
                "target" : "smithy.api#Unit",
                "traits" : {
@@ -64076,12 +64070,6 @@
                "target" : "smithy.api#Unit",
                "traits" : {
                   "smithy.api#enumValue" : "KNOWLEDGE_BASE"
-               }
-            },
-            "SPACE" : {
-               "target" : "smithy.api#Unit",
-               "traits" : {
-                  "smithy.api#enumValue" : "SPACE"
                }
             },
             "TOPIC" : {
