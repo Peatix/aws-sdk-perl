@@ -41,6 +41,39 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.synthetics#AddReplicaLocationInput" : {
+         "members" : {
+            "Location" : {
+               "target" : "com.amazonaws.synthetics#Location",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region where the canary replica should be created, for example <code>us-east-1</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "VpcConfig" : {
+               "target" : "com.amazonaws.synthetics#VpcConfigInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The VPC configuration to use for the canary replica in this location. If not specified, the replica runs without VPC connectivity.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A structure that specifies a replica location for a canary, including the Region and optional VPC configuration.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.synthetics#AddReplicaLocations" : {
+         "member" : {
+            "target" : "com.amazonaws.synthetics#AddReplicaLocationInput"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
       "com.amazonaws.synthetics#ArtifactConfigInput" : {
          "members" : {
             "S3Encryption" : {
@@ -336,6 +369,12 @@
                   "smithy.api#documentation" : "<p>The unique ID of this canary.</p>"
                }
             },
+            "MultiLocationConfig" : {
+               "target" : "com.amazonaws.synthetics#MultiLocationConfig",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>If this canary is part of a multi-location configuration, this structure contains information about the canary's location type, primary location, and replicas.</p>"
+               }
+            },
             "Name" : {
                "target" : "com.amazonaws.synthetics#CanaryName",
                "traits" : {
@@ -423,7 +462,7 @@
             "BlueprintTypes" : {
                "target" : "com.amazonaws.synthetics#BlueprintTypes",
                "traits" : {
-                  "smithy.api#documentation" : "<p>\n            <code>BlueprintTypes</code> is a list of templates that enable simplified canary creation. You can create canaries for common monitoring scenarios by providing only a JSON configuration file instead of writing custom scripts. The only supported value is <code>multi-checks</code>.</p>\n         <p>Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and assertion capabilities. When you specify <code>BlueprintTypes</code>, the Handler field cannot be specified since the blueprint provides a pre-defined entry point.</p>\n         <p>\n            <code>BlueprintTypes</code> is supported only on canaries for syn-nodejs-3.0 runtime or later.</p>"
+                  "smithy.api#documentation" : "<p>\n            <code>BlueprintTypes</code> is a list of templates that enable simplified canary creation. You can create canaries for common monitoring scenarios by providing only a JSON configuration file instead of writing custom scripts. The only supported value is <code>multi-checks</code>.</p>\n         <p>Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and assertion capabilities. When you specify <code>BlueprintTypes</code>, the <code>Handler</code> field cannot be specified since the blueprint provides a pre-defined entry point.</p>\n         <p>\n            <code>BlueprintTypes</code> is supported only on canaries for syn-nodejs-3.0 runtime or later.</p>"
                }
             },
             "Dependencies" : {
@@ -475,7 +514,7 @@
             "BlueprintTypes" : {
                "target" : "com.amazonaws.synthetics#BlueprintTypes",
                "traits" : {
-                  "smithy.api#documentation" : "<p>\n            <code>BlueprintTypes</code> is a list of templates that enable simplified canary creation. You can create canaries for common monitoring scenarios by providing only a JSON configuration file instead of writing custom scripts. The only supported value is <code>multi-checks</code>.</p>\n         <p>Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and assertion capabilities. When you specify <code>BlueprintTypes</code>, the Handler field cannot be specified since the blueprint provides a pre-defined entry point.</p>\n         <p>\n            <code>BlueprintTypes</code> is supported only on canaries for syn-nodejs-3.0 runtime or later.</p>"
+                  "smithy.api#documentation" : "<p>\n            <code>BlueprintTypes</code> is a list of templates that enable simplified canary creation. You can create canaries for common monitoring scenarios by providing only a JSON configuration file instead of writing custom scripts. The only supported value is <code>multi-checks</code>.</p>\n         <p>Multi-checks monitors HTTP/DNS/SSL/TCP endpoints with built-in authentication schemes (Basic, API Key, OAuth, SigV4) and assertion capabilities. When you specify <code>BlueprintTypes</code>, the <code>Handler</code> field cannot be specified since the blueprint provides a pre-defined entry point.</p>\n         <p>\n            <code>BlueprintTypes</code> is supported only on canaries for syn-nodejs-3.0 runtime or later.</p>"
                }
             },
             "Dependencies" : {
@@ -570,6 +609,12 @@
                "target" : "com.amazonaws.synthetics#UUID",
                "traits" : {
                   "smithy.api#documentation" : "<p>A unique ID that identifies this canary run.</p>"
+               }
+            },
+            "Location" : {
+               "target" : "com.amazonaws.synthetics#Location",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region where this canary run was executed.</p>"
                }
             },
             "Name" : {
@@ -1105,6 +1150,12 @@
       },
       "com.amazonaws.synthetics#CreateCanaryRequest" : {
          "members" : {
+            "AddReplicaLocations" : {
+               "target" : "com.amazonaws.synthetics#AddReplicaLocations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica. \n         You can add up to 50 replica locations.</p>"
+               }
+            },
             "ArtifactConfig" : {
                "target" : "com.amazonaws.synthetics#ArtifactConfigInput",
                "traits" : {
@@ -2518,6 +2569,33 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.synthetics#Location" : {
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 20,
+               "min" : 1
+            },
+            "smithy.api#pattern" : "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$"
+         },
+         "type" : "string"
+      },
+      "com.amazonaws.synthetics#LocationType" : {
+         "members" : {
+            "Primary" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Primary"
+               }
+            },
+            "Replica" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Replica"
+               }
+            }
+         },
+         "type" : "enum"
+      },
       "com.amazonaws.synthetics#MaxCanaryResults" : {
          "traits" : {
             "smithy.api#range" : {
@@ -2590,6 +2668,38 @@
          },
          "type" : "integer"
       },
+      "com.amazonaws.synthetics#MultiLocationConfig" : {
+         "members" : {
+            "LocationType" : {
+               "target" : "com.amazonaws.synthetics#LocationType",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Indicates whether this canary is the <code>Primary</code> or a <code>Replica</code> in the multi-location configuration.</p>"
+               }
+            },
+            "PrimaryLocation" : {
+               "target" : "com.amazonaws.synthetics#Location",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region where the primary canary is located.</p>"
+               }
+            },
+            "Replicas" : {
+               "target" : "com.amazonaws.synthetics#Replicas",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of replicas for this canary. This field is present only for the primary location canary.</p>"
+               }
+            },
+            "ReplicationState" : {
+               "target" : "com.amazonaws.synthetics#ReplicationState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The overall replication state of the canary across all replica locations. This field is present only for the primary location canary. Valid values are <code>InProgress</code>, <code>InSync</code>, and <code>Inconsistent</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A structure that contains information about the multi-location configuration of a canary, including whether it is a primary or replica, the primary location, and the list of replicas.</p>"
+         },
+         "type" : "structure"
+      },
       "com.amazonaws.synthetics#NotFoundException" : {
          "members" : {
             "Message" : {
@@ -2632,6 +2742,116 @@
             }
          },
          "type" : "enum"
+      },
+      "com.amazonaws.synthetics#RemoveReplicaLocations" : {
+         "member" : {
+            "target" : "com.amazonaws.synthetics#Location"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.synthetics#Replica" : {
+         "members" : {
+            "CanaryState" : {
+               "target" : "com.amazonaws.synthetics#CanaryState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current state of the canary in this replica location.</p>"
+               }
+            },
+            "LastModified" : {
+               "target" : "com.amazonaws.synthetics#Timestamp",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The date and time that the replica was last modified.</p>"
+               }
+            },
+            "Location" : {
+               "target" : "com.amazonaws.synthetics#Location",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The Amazon Web Services Region where this replica is located.</p>"
+               }
+            },
+            "ReplicationStatus" : {
+               "target" : "com.amazonaws.synthetics#ReplicationStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A structure that contains information about the replication status of this replica.</p>"
+               }
+            },
+            "VpcConfig" : {
+               "target" : "com.amazonaws.synthetics#VpcConfigOutput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The VPC configuration for the canary replica in this location.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A structure that contains information about a canary replica in a specific location.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.synthetics#Replicas" : {
+         "member" : {
+            "target" : "com.amazonaws.synthetics#Replica"
+         },
+         "traits" : {
+            "smithy.api#length" : {
+               "max" : 50,
+               "min" : 1
+            }
+         },
+         "type" : "list"
+      },
+      "com.amazonaws.synthetics#ReplicationState" : {
+         "members" : {
+            "InProgress" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "InProgress"
+               }
+            },
+            "InSync" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "InSync"
+               }
+            },
+            "Inconsistent" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "Inconsistent"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.synthetics#ReplicationStatus" : {
+         "members" : {
+            "State" : {
+               "target" : "com.amazonaws.synthetics#ReplicationState",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The replication state of the replica. Valid values are <code>InProgress</code>, <code>InSync</code>, and <code>Inconsistent</code>.</p>"
+               }
+            },
+            "StateReason" : {
+               "target" : "com.amazonaws.synthetics#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A description that provides more detail about the current replication state.</p>"
+               }
+            },
+            "StateReasonCode" : {
+               "target" : "com.amazonaws.synthetics#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A code that provides more detail about the current replication state.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>A structure that contains information about the replication status of a canary replica.</p>"
+         },
+         "type" : "structure"
       },
       "com.amazonaws.synthetics#RequestEntityTooLargeException" : {
          "members" : {
@@ -4563,6 +4783,12 @@
       },
       "com.amazonaws.synthetics#UpdateCanaryRequest" : {
          "members" : {
+            "AddReplicaLocations" : {
+               "target" : "com.amazonaws.synthetics#AddReplicaLocations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica. \n         You can add up to 50 replica locations.</p>"
+               }
+            },
             "ArtifactConfig" : {
                "target" : "com.amazonaws.synthetics#ArtifactConfigInput",
                "traits" : {
@@ -4617,6 +4843,12 @@
                "target" : "com.amazonaws.synthetics#ProvisionedResourceCleanupSetting",
                "traits" : {
                   "smithy.api#documentation" : "<p>Specifies whether to also delete the Lambda functions and layers used by this canary\n         when the canary is deleted.</p>\n         <p>If the value of this parameter is <code>OFF</code>, then the value of the <code>DeleteLambda</code> parameter\n         of the <a href=\"https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html\">DeleteCanary</a> operation\n         determines whether the Lambda functions and layers will be deleted.</p>"
+               }
+            },
+            "RemoveReplicaLocations" : {
+               "target" : "com.amazonaws.synthetics#RemoveReplicaLocations",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of locations (Amazon Web Services Regions) to remove as replicas for the canary. You must specify at least one location to remove. All replicas can be removed in a single API      \n call and you cannot remove the primary location.</p>"
                }
             },
             "RunConfig" : {

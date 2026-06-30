@@ -2920,7 +2920,7 @@
       },
       "com.amazonaws.connecthealth#SensitiveMarkdownString" : {
          "traits" : {
-            "smithy.api#pattern" : "^[a-zA-Z0-9\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~/]+$",
+            "smithy.api#pattern" : "^[\\p{L}\\p{N}\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~/|+=&%@\\\\{}^]+$",
             "smithy.api#sensitive" : {}
          },
          "type" : "string"

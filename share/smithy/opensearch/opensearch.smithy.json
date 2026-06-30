@@ -793,6 +793,9 @@
                "target" : "com.amazonaws.opensearch#AssociatePackages"
             },
             {
+               "target" : "com.amazonaws.opensearch#AttachDataSource"
+            },
+            {
                "target" : "com.amazonaws.opensearch#AuthorizeVpcEndpointAccess"
             },
             {
@@ -850,6 +853,9 @@
                "target" : "com.amazonaws.opensearch#DeregisterCapability"
             },
             {
+               "target" : "com.amazonaws.opensearch#DescribeDataSourceAttachment"
+            },
+            {
                "target" : "com.amazonaws.opensearch#DescribeDomain"
             },
             {
@@ -898,6 +904,9 @@
                "target" : "com.amazonaws.opensearch#DescribeVpcEndpoints"
             },
             {
+               "target" : "com.amazonaws.opensearch#DetachDataSource"
+            },
+            {
                "target" : "com.amazonaws.opensearch#DissociatePackage"
             },
             {
@@ -938,6 +947,9 @@
             },
             {
                "target" : "com.amazonaws.opensearch#ListApplications"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ListDataSourceAttachments"
             },
             {
                "target" : "com.amazonaws.opensearch#ListDataSources"
@@ -2655,6 +2667,115 @@
                "target" : "com.amazonaws.opensearch#DomainPackageDetailsList",
                "traits" : {
                   "smithy.api#documentation" : "<p>List of information about packages that are associated with a domain. </p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#AttachDataSource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#AttachDataSourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#AttachDataSourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Attaches a data source to an OpenSearch application. The data source can be an Amazon OpenSearch Service domain or an Amazon OpenSearch Serverless collection. If both the application and data source are in the <code>ACTIVE</code> state, the attachment completes immediately and returns a status of <code>ATTACHED</code>. If either resource is not yet active, the operation stores the request and returns a status of <code>PENDING</code>. A background process then completes the attachment when both resources become active. Pending attachments that are not completed within 24 hours are marked as <code>FAILED</code>. This operation is idempotent. If a data source is already attached or pending for the same application, the existing attachment is returned.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/application/{id}/attachDataSource"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#AttachDataSourceRequest" : {
+         "members" : {
+            "clientToken" : {
+               "target" : "com.amazonaws.opensearch#ClientToken",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A unique, case-sensitive identifier to ensure idempotency of the request. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions.</p>"
+               }
+            },
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with <code>UpdateApplication</code>, <code>GetApplication</code>, and <code>DeleteApplication</code>.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "workspaceConfiguration" : {
+               "target" : "com.amazonaws.opensearch#WorkspaceConfigurationInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source after the attachment completes. Mutually exclusive with <code>workspaceId</code>.</p>"
+               }
+            },
+            "workspaceId" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The identifier of an existing workspace to update with the new data source. Mutually exclusive with <code>workspaceConfiguration</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#AttachDataSourceResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "attachmentId" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier assigned to the data source attachment.</p>"
+               }
+            },
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the OpenSearch application.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearch#DataSourceAttachmentStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the data source attachment. Valid values are <code>PENDING</code> (waiting for resources to become active), <code>ATTACHED</code> (successfully attached), and <code>FAILED</code> (attachment timed out or encountered a non-retryable error).</p>"
                }
             }
          },
@@ -4949,6 +5070,58 @@
          },
          "type" : "structure"
       },
+      "com.amazonaws.opensearch#DataSourceAttachmentStatus" : {
+         "members" : {
+            "ATTACHED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "ATTACHED"
+               }
+            },
+            "FAILED" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "FAILED"
+               }
+            },
+            "PENDING" : {
+               "target" : "smithy.api#Unit",
+               "traits" : {
+                  "smithy.api#enumValue" : "PENDING"
+               }
+            }
+         },
+         "type" : "enum"
+      },
+      "com.amazonaws.opensearch#DataSourceAttachmentSummary" : {
+         "members" : {
+            "attachmentId" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier assigned to the data source attachment.</p>"
+               }
+            },
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearch#DataSourceAttachmentStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The current status of the data source attachment. Valid values are <code>PENDING</code>, <code>ATTACHED</code>, and <code>FAILED</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Summary information about a data source attachment, including its identifier, data source ARN, and current status.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DataSourceAttachmentSummaryList" : {
+         "member" : {
+            "target" : "com.amazonaws.opensearch#DataSourceAttachmentSummary"
+         },
+         "type" : "list"
+      },
       "com.amazonaws.opensearch#DataSourceDescription" : {
          "traits" : {
             "smithy.api#length" : {
@@ -5813,6 +5986,94 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The result of a <code>DeregisterCapability</code> request.</p>",
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DescribeDataSourceAttachment" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#DescribeDataSourceAttachmentRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#DescribeDataSourceAttachmentResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a <code>ResourceNotFoundException</code> if no attachment record exists for the specified application and data source combination.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/application/{id}/describeDataSourceAttachment"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#DescribeDataSourceAttachmentRequest" : {
+         "members" : {
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or name of the OpenSearch application.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DescribeDataSourceAttachmentResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "attachmentId" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier assigned to the data source attachment.</p>"
+               }
+            },
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the OpenSearch application.</p>"
+               }
+            },
+            "status" : {
+               "target" : "com.amazonaws.opensearch#DataSourceAttachmentStatus",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The status of the data source attachment. Valid values are <code>PENDING</code>, <code>ATTACHED</code>, and <code>FAILED</code>.</p>"
+               }
+            }
+         },
+         "traits" : {
             "smithy.api#output" : {}
          },
          "type" : "structure"
@@ -7206,6 +7467,85 @@
       },
       "com.amazonaws.opensearch#Description" : {
          "type" : "string"
+      },
+      "com.amazonaws.opensearch#DetachDataSource" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ConflictException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#DetachDataSourceRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#DetachDataSourceResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Removes a data source from an OpenSearch application. The application must be in the <code>ACTIVE</code> state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a <code>ConflictException</code> if the specified data source has a <code>PENDING</code> attachment, and a <code>ResourceNotFoundException</code> if the data source is not currently attached to the application.</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/application/{id}/detachDataSource"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#DetachDataSourceRequest" : {
+         "members" : {
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN",
+               "traits" : {
+                  "smithy.api#required" : {}
+               }
+            },
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or name of the OpenSearch application to detach the data source from.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#DetachDataSourceResponse" : {
+         "members" : {
+            "arn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "dataSourceArn" : {
+               "target" : "com.amazonaws.opensearch#ARN"
+            },
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier of the OpenSearch application.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
       },
       "com.amazonaws.opensearch#DirectQueryDataSource" : {
          "members" : {
@@ -10750,7 +11090,7 @@
                "max" : 2048,
                "min" : 0
             },
-            "smithy.api#pattern" : "^$|^https://(?!(?:10|127|169\\.254|192\\.168|172\\.(?:1[6-9]|2[0-9]|3[01]))\\.)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}(?::[0-9]{1,5})?(?:/[a-zA-Z0-9\\-._~%!$&'()*+,;=:'@]*(?:/[a-zA-Z0-9\\-._~%!$&'()*+,;=:'@]*)*)?(?:\\?[a-zA-Z0-9\\-._~%!$&'()*+,;=:'/@?]+)?$"
+            "smithy.api#pattern" : "^$|^https://(?!(?:10|127|169\\.254|192\\.168|172\\.(?:1[6-9]|2[0-9]|3[01]))\\.)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}(?::[0-9]{1,5})?(?:/[a-zA-Z0-9\\-._~%!$&'()*+,;=:']*)?$"
          },
          "type" : "string"
       },
@@ -10955,6 +11295,89 @@
             },
             "nextToken" : {
                "target" : "com.amazonaws.opensearch#NextToken"
+            }
+         },
+         "traits" : {
+            "smithy.api#output" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#ListDataSourceAttachments" : {
+         "errors" : [
+            {
+               "target" : "com.amazonaws.opensearch#AccessDeniedException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#DisabledOperationException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#InternalException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ResourceNotFoundException"
+            },
+            {
+               "target" : "com.amazonaws.opensearch#ValidationException"
+            }
+         ],
+         "input" : {
+            "target" : "com.amazonaws.opensearch#ListDataSourceAttachmentsRequest"
+         },
+         "output" : {
+            "target" : "com.amazonaws.opensearch#ListDataSourceAttachmentsResponse"
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (<code>PENDING</code>, <code>ATTACHED</code>, and <code>FAILED</code>).</p>",
+            "smithy.api#http" : {
+               "code" : 200,
+               "method" : "POST",
+               "uri" : "/2021-01-01/opensearch/application/{id}/listDataSourceAttachments"
+            }
+         },
+         "type" : "operation"
+      },
+      "com.amazonaws.opensearch#ListDataSourceAttachmentsRequest" : {
+         "members" : {
+            "id" : {
+               "target" : "com.amazonaws.opensearch#Id",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The unique identifier or name of the OpenSearch application to list attachments for.</p>",
+                  "smithy.api#httpLabel" : {},
+                  "smithy.api#required" : {}
+               }
+            },
+            "maxResults" : {
+               "target" : "com.amazonaws.opensearch#Integer",
+               "traits" : {
+                  "smithy.api#default" : 0,
+                  "smithy.api#documentation" : "<p>The maximum number of results to return per page. The default is 50.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token from a previous call to retrieve the next set of results.</p>"
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#input" : {}
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#ListDataSourceAttachmentsResponse" : {
+         "members" : {
+            "attachments" : {
+               "target" : "com.amazonaws.opensearch#DataSourceAttachmentSummaryList",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>A list of data source attachment summaries for the specified application.</p>"
+               }
+            },
+            "nextToken" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The pagination token to use in a subsequent call to retrieve the next set of results.</p>"
+               }
             }
          },
          "traits" : {
@@ -16242,6 +16665,12 @@
                   "smithy.api#documentation" : "<p>The data sources to associate with the OpenSearch application.</p>"
                }
             },
+            "iamIdentityCenterOptions" : {
+               "target" : "com.amazonaws.opensearch#IamIdentityCenterOptionsInput",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>Configuration settings for integrating IAM Identity Center with the OpenSearch\n            application.</p>"
+               }
+            },
             "id" : {
                "target" : "com.amazonaws.opensearch#Id",
                "traits" : {
@@ -17860,6 +18289,28 @@
          },
          "traits" : {
             "smithy.api#documentation" : "<p>The desired start time for an <a href=\"https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html\">off-peak\n                maintenance window</a>.</p>"
+         },
+         "type" : "structure"
+      },
+      "com.amazonaws.opensearch#WorkspaceConfigurationInput" : {
+         "members" : {
+            "name" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The name of the workspace to create. Must be between 1 and 40 characters and can contain alphanumeric characters, parentheses, brackets, hyphens, underscores, and spaces.</p>",
+                  "smithy.api#required" : {}
+               }
+            },
+            "workspaceType" : {
+               "target" : "com.amazonaws.opensearch#String",
+               "traits" : {
+                  "smithy.api#documentation" : "<p>The type of workspace to create, which determines the use-case features enabled for the workspace. Valid values are <code>OBSERVABILITY</code>, <code>SECURITY_ANALYTICS</code>, and <code>SEARCH</code>.</p>",
+                  "smithy.api#required" : {}
+               }
+            }
+         },
+         "traits" : {
+            "smithy.api#documentation" : "<p>Configuration for creating a new workspace when attaching a data source to an OpenSearch application. The workspace is created after the data source is successfully attached.</p>"
          },
          "type" : "structure"
       },
